@@ -96,7 +96,7 @@
       "reviewedSourceSha256": "535e00ab965aa6d6cdeb4e630cf9a013fee647b34824f9414e0f704fc7d1bd82",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "eb17e80e55d5b01d570210714f6b161833d90048",
-      "afterSha256": "d5a248d2cb52d654e553b9b7c08a539f6dc9547f1474c7a1835ba6b43a5e9520",
+      "afterSha256": "b266904b0eff6f6ed2ab3499c80ce58b52a51abd8d982d1c1784d6cac3059b30",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
         "implementationSha": "d5a248d2cb52d654e553b9b7c08a539f6dc9547f1474c7a1835ba6b43a5e9520",
@@ -173,7 +173,26 @@
           "C1b: HTML pre and lazy quote rejected",
           "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
         ]
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "d5a248d2cb52d654e553b9b7c08a539f6dc9547f1474c7a1835ba6b43a5e9520",
+          "afterSha256": "b266904b0eff6f6ed2ab3499c80ce58b52a51abd8d982d1c1784d6cac3059b30",
+          "scope": "Scoped technical acceptance/publication source maintenance only; preserve historical execution/source pins, current document status and all migration credit",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+            "index": 0,
+            "entryCanonicalSha256": "fbd48c5b5fe3a7e368523e1c31806baaafe18ec2ef574105dc145e09771f8770"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
@@ -268,7 +287,7 @@
       "reviewedSourceSha256": "66b5b45e5be33f476e5b14a503cca6852efa81f05fcaf3b22e63cb4fad2c6b8b",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "9056c86f9c02ea3069c12c9bb2038e232ded8322",
-      "afterSha256": "3c493312c5802ba649c5544b146c944d96b3f13400f5a01a35dcbdaa4a3097f4",
+      "afterSha256": "3be6125545291dca876c4c99ea6adee9572139097a0506f943e368a40ac51118",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
         "implementationSha": "3c493312c5802ba649c5544b146c944d96b3f13400f5a01a35dcbdaa4a3097f4",
@@ -825,6 +844,25 @@
             ]
           }
         }
+      ],
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "3c493312c5802ba649c5544b146c944d96b3f13400f5a01a35dcbdaa4a3097f4",
+          "afterSha256": "3be6125545291dca876c4c99ea6adee9572139097a0506f943e368a40ac51118",
+          "scope": "Scoped technical acceptance/publication source maintenance only; preserve historical execution/source pins, current document status and all migration credit",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+            "index": 1,
+            "entryCanonicalSha256": "40bab24d491c40b452ab9c6eec1c3ba699f5f4015e331122cb3f6b494d909c26"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
       ]
     },
     {
@@ -918,7 +956,7 @@
       "reviewedSourceSha256": "f575d7bc2d6b39abf988f00fd3cc69891efb7b336c05a9f14ff6b407179d8530",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "a71ea605a98f65f55ddfb213814130f54d504d92",
-      "afterSha256": "402f4656f07d5a9fc4d2e229cae5e28da98058b8cc5c321a3453da6ade05bda5",
+      "afterSha256": "9bbc1e99733a8eca9a6106688a8ec6bf9dfc4e8c1548088df53eae5e5e2bc068",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
         "implementationSha": "402f4656f07d5a9fc4d2e229cae5e28da98058b8cc5c321a3453da6ade05bda5",
@@ -995,7 +1033,26 @@
           "C1b: HTML pre and lazy quote rejected",
           "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
         ]
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "402f4656f07d5a9fc4d2e229cae5e28da98058b8cc5c321a3453da6ade05bda5",
+          "afterSha256": "9bbc1e99733a8eca9a6106688a8ec6bf9dfc4e8c1548088df53eae5e5e2bc068",
+          "scope": "Scoped technical acceptance/publication source maintenance only; preserve historical execution/source pins, current document status and all migration credit",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+            "index": 2,
+            "entryCanonicalSha256": "508fb01db048f8a7805e34fd8913fb4f1c48f3412470ffedcc5393fec8ef99f9"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
@@ -1088,7 +1145,7 @@
       "reviewedSourceSha256": "85faf60a64a36beb89e62b65c40a9a1433747998d2eeecba60a21e2642068d4d",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "aa2033e75e4b696b4ddae46cd3699d394b4e25de",
-      "afterSha256": "633bd701c18b3b9239e8df1247e9b40ff70f1ca64d559d64ff448eb66d2073b3",
+      "afterSha256": "025d59a1b1fc9a51193c6579997c6bce5a8972483a4c2bcdf42d8a56adc0285e",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
         "implementationSha": "633bd701c18b3b9239e8df1247e9b40ff70f1ca64d559d64ff448eb66d2073b3",
@@ -1640,6 +1697,25 @@
               "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
             ]
           }
+        }
+      ],
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "633bd701c18b3b9239e8df1247e9b40ff70f1ca64d559d64ff448eb66d2073b3",
+          "afterSha256": "025d59a1b1fc9a51193c6579997c6bce5a8972483a4c2bcdf42d8a56adc0285e",
+          "scope": "Scoped technical acceptance/publication source maintenance only; preserve historical execution/source pins, current document status and all migration credit",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+            "index": 3,
+            "entryCanonicalSha256": "51d2f77a09dbc6ca90aa3832849e28df6bd633d8d87bd0ef39b585f7e189ea62"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -2565,7 +2641,7 @@
       "reviewedSourceSha256": "821fc86bf6b1f137164326b28219656878dc38e2d830fc19a2b4cf201e686d86",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "28966a024b42c2838e0be1513b7597449e4c6ee8",
-      "afterSha256": "ecab8d3fcd8802ba8f504f44ca09729544d89e20f23d64a0e36f0b551606cb23",
+      "afterSha256": "4948f6bce39725624473e050e6e7778ee65c669808a1b00a3438562f59e3370a",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
         "implementationSha": "ecab8d3fcd8802ba8f504f44ca09729544d89e20f23d64a0e36f0b551606cb23",
@@ -2642,7 +2718,26 @@
           "C1b: HTML pre and lazy quote rejected",
           "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
         ]
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "ecab8d3fcd8802ba8f504f44ca09729544d89e20f23d64a0e36f0b551606cb23",
+          "afterSha256": "4948f6bce39725624473e050e6e7778ee65c669808a1b00a3438562f59e3370a",
+          "scope": "Scoped technical acceptance/publication source maintenance only; preserve historical execution/source pins, current document status and all migration credit",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+            "index": 6,
+            "entryCanonicalSha256": "380775e24335a7f9cb04ad76dcd2110f78975b3f43a4e7c062889ab5ef88d09e"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
@@ -2738,7 +2833,7 @@
       "reviewedSourceSha256": "984656901803ff010bb91da60cb41f68d4c0d5cd021e5bdbbdd45a779115f4ef",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "aaaf2adab425fc1bdfc2e3a3ae9ec1e41ed3646a",
-      "afterSha256": "dce75a48c24869a19d828b70e14e50cc89ada88b098cf74f4f69095a4c266610",
+      "afterSha256": "22dc0515fb21160029582b9c5ef74cbe97ae163bb4c18cab993d4dc28f3974a2",
       "revision": {
         "currentSha": "85a419afa17793e13b9700b7064bd8d818d57118",
         "implementationSha": "dce75a48c24869a19d828b70e14e50cc89ada88b098cf74f4f69095a4c266610",
@@ -3296,6 +3391,25 @@
               "C1c: indented Status and fake H1 rejected without trimming semantic indentation"
             ]
           }
+        }
+      ],
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "dce75a48c24869a19d828b70e14e50cc89ada88b098cf74f4f69095a4c266610",
+          "afterSha256": "22dc0515fb21160029582b9c5ef74cbe97ae163bb4c18cab993d4dc28f3974a2",
+          "scope": "Scoped technical acceptance/publication source maintenance only; preserve historical execution/source pins, current document status and all migration credit",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+            "index": 7,
+            "entryCanonicalSha256": "d57d52fec2f89ef9c96deb862f09ca1b88406cd0ed120345ddf7ed87ff55f5c8"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -6566,7 +6680,7 @@
       "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "0c2a24d1bda687916de1a5bded20a251cab9e5ba",
-      "afterSha256": "4f2a1639f8c608fd4e0a5fc5bf2e20609bcf391b90ee3dc0f1b4b256fe56c510",
+      "afterSha256": "ffa0e44ee239550b2ab9b76ae0b52756b1bff73db8f3cbb34ba25efe85f85675",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
         "implementationSha": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
@@ -6912,6 +7026,23 @@
           "afterSha256": "4f2a1639f8c608fd4e0a5fc5bf2e20609bcf391b90ee3dc0f1b4b256fe56c510",
           "method": "Actual scoped publication applicability review; proposal/lastVerified/revision/runtime fields and quote preserved. Exact publication-review record retained, no additional migrated count.",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "4f2a1639f8c608fd4e0a5fc5bf2e20609bcf391b90ee3dc0f1b4b256fe56c510",
+          "afterSha256": "ffa0e44ee239550b2ab9b76ae0b52756b1bff73db8f3cbb34ba25efe85f85675",
+          "scope": "Scoped technical acceptance/publication source maintenance only; preserve historical execution/source pins, current document status and all migration credit",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+            "index": 16,
+            "entryCanonicalSha256": "0e28f6865cc648318689dd403b79cb447f2608bafe6709cda59571ddbbb2c394"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

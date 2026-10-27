@@ -357,9 +357,9 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Bounded human visual-acceptance statement and exact candidate/clip binding only; no new runtime execution or whole-document semantic review.",
+      "readMethod": "Bounded006 technical acceptance and quality repair: independent fixed candidates, full-state raw reconsumption, source-slice audit and actual production preview; retained historical quote, no whole-document migration credit.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "User explicitly accepted the displayed006 visuals for fixedc32eccdb candidate and pinned clip; missing-bob visual counter is closed. Existing actual runtime/save/recovery evidence retained; no technical independent or global acceptance implied.",
+      "coreConclusion": "006 gameplay, terminal save/reopen, static preview and boat bob technical acceptance plus SaveAs safety/performance independently accepted. C1 repaired with full78field comparison and five raw-derived legal negatives; 500k build guard retained; no main/done/full-governance credit.",
       "truthAnchors": [
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:1",
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:23",
@@ -384,7 +384,7 @@
         "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
-      "afterSha256": "eafdb536aa22ac5d5df4320a5e0c6a44a15f695f99253379f2f918bee6010cd8",
+      "afterSha256": "ae924043a865499ccae3d2a378837cd396fa5f129128cc4cfa06b0dbfd3f7941",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -469,7 +469,7 @@
           "runtimeRevision": "0847b1a6e43fbd3cd189e9f3201ceb53e527d1bb",
           "author": "Codex",
           "nonAuthorReviewer": false,
-          "independentAcceptance": "pending",
+          "independentAcceptance": "accepted",
           "userVisualAcceptance": "accepted",
           "boatDrawRecords": 71,
           "bobFrameChanges": 6,
@@ -486,7 +486,45 @@
             "candidate": "c32eccdb544b5f01424e30725db7373e283b9343",
             "clipSha256": "5230f4d6522a266b4d928894f5b0904e06c5465a270ca17ed532a7ca435cfa63",
             "scope": "Displayed006 repaired boat/rowing/arrival visuals only; no technical or global waiver"
-          }
+          },
+          "technicalAcceptanceReference": "current006TechnicalAcceptance"
+        },
+        "current006TechnicalAcceptance": {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "codeCandidate": "68adf14a07bfac9f7871ffadb8848ff2e0aa66a9",
+          "nonAuthorReviewer": true,
+          "scope": "Fixed006 technical/preview/boat scope and editor SaveAs progress/performance/recovery; initialC1 closed by narrow acceptance, unrelated accepted scope retained.",
+          "verdict": "accept",
+          "countersOpen": 0,
+          "references": [
+            {
+              "id": "save",
+              "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-save-safety-independent-rik1vh41/verdict.json",
+              "sha256": "40bc36578cec46368b4af36a5500edb1f76b1a13559f04ed65e4b11c1e31649d",
+              "candidate": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+              "nonAuthorReviewer": true
+            },
+            {
+              "id": "006-initial",
+              "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-e2e006-independent-technical-5x3ikzus/verdict.json",
+              "sha256": "ea57fcabe9731183b6cc654ad3d01f7d160fa787cb893c09d52376f19c7c2400",
+              "candidate": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+              "nonAuthorReviewer": true
+            },
+            {
+              "id": "006-C1",
+              "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-e2e006-C1-independent-p_l38q0h/verdict.json",
+              "sha256": "af6358da320d74273c94bf4180901d3b21b0567dc9850c56a246c4e259f21140",
+              "candidate": "68adf14a07bfac9f7871ffadb8848ff2e0aa66a9",
+              "nonAuthorReviewer": true
+            }
+          ],
+          "userVisual": "accepted at fixedc32eccdb candidate, not repeated",
+          "unifiedGate": "blocked by1346 unrelated document-governance diagnostics; no waiver",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "newStoryExecutionCredit": 0
         }
       },
       "history": [
@@ -742,7 +780,7 @@
       ],
       "templateConformance": {
         "status": "needs-migration",
-        "scope": "User visual accepted; technical/template acceptance remains pending; prior conformance preserved by fixed record locator in maintenanceDeltas."
+        "scope": "Bounded technical/user acceptance only; global governance and original document migration status remain; exact prior record in maintenanceDeltas."
       },
       "currentAuthoredReview": {
         "protocol": "document-delivery-acceptance/1.0.0",
@@ -844,6 +882,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
             "index": 1,
             "entryCanonicalSha256": "50b32cf5a421e172b4121c81594d859659658964e6d5440b857b93a77664f3c7"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "eafdb536aa22ac5d5df4320a5e0c6a44a15f695f99253379f2f918bee6010cd8",
+          "afterSha256": "ae924043a865499ccae3d2a378837cd396fa5f129128cc4cfa06b0dbfd3f7941",
+          "scope": "Scoped technical acceptance/publication source maintenance only; preserve historical execution/source pins, current document status and all migration credit",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+            "index": 1,
+            "entryCanonicalSha256": "ee4de0f89e918d57b71fd24711620038b86345c584a3c56c75fbefbae59ab333"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

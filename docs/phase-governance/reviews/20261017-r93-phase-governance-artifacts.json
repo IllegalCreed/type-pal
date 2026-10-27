@@ -1251,7 +1251,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "323fce543c7153a6ae419874b60f3bbf68ee8be331b084c6a5614810d47199b5",
+      "afterSha256": "fae9656002ec706f4a3fc1015e7dfe2db3abeb840d821426fc9b6ca1c6e85624",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1989,6 +1989,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
             "index": 5,
             "entryCanonicalSha256": "29d1d95ee876ed2f86c7c799843ae94b22f294f577ce32cfc37dd388290845b5"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "323fce543c7153a6ae419874b60f3bbf68ee8be331b084c6a5614810d47199b5",
+          "afterSha256": "fae9656002ec706f4a3fc1015e7dfe2db3abeb840d821426fc9b6ca1c6e85624",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 5,
+            "entryCanonicalSha256": "6a1335e8c583cc65a7022fe31bea0e1bb967f98d4c24418c1be75cf9a5151ccf"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
@@ -3434,7 +3451,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "2293e83124378b8c979df3b2b97b756395dcc0f95a3c21918c9650f78a12966f",
+      "afterSha256": "42eb17f3cee87954f4056a7a1a252db21ecfba186fcc191c88265a76fc0d19aa",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3587,6 +3604,23 @@
           "beforeSha256": "0c4eef7c695df4e24828d1aa92113683c34239376cc94d2216302131fe2a1e09",
           "afterSha256": "2293e83124378b8c979df3b2b97b756395dcc0f95a3c21918c9650f78a12966f",
           "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "2293e83124378b8c979df3b2b97b756395dcc0f95a3c21918c9650f78a12966f",
+          "afterSha256": "42eb17f3cee87954f4056a7a1a252db21ecfba186fcc191c88265a76fc0d19aa",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 15,
+            "entryCanonicalSha256": "d6f41c6becd4099a8e3dd66787a91d13a8fa7513328a82b77e7d42ce91c52451"
+          },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
@@ -3777,7 +3811,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-      "afterSha256": "046b450382e162907490bf53c94b73b608eb89e6c345ee371d9fe8b6921cf60a",
+      "afterSha256": "7970cb4c46dfc3b20118d7ea082dfd652965c5dbd0b0ffacbcb0582831f4b870",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3911,6 +3945,23 @@
           "afterSha256": "046b450382e162907490bf53c94b73b608eb89e6c345ee371d9fe8b6921cf60a",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "046b450382e162907490bf53c94b73b608eb89e6c345ee371d9fe8b6921cf60a",
+          "afterSha256": "7970cb4c46dfc3b20118d7ea082dfd652965c5dbd0b0ffacbcb0582831f4b870",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 17,
+            "entryCanonicalSha256": "6754e5645d244d1975f14cf647de3168294d4275355fd938da03f945ce7635ff"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -6274,7 +6325,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4ba2dec97aa9b4dc4b05eabe599b900c8ca9d5418a938010bc5153825beda240",
-      "afterSha256": "a7f26744fa2a48b09a55f69446ee68a2b8332d4327cdac22b745c4509e1eb8ac",
+      "afterSha256": "687fe2fb00929c8de92cc773b2343c9e9173ef247e467ba1a5e95fbdcce792a8",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6460,6 +6511,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
             "index": 32,
             "entryCanonicalSha256": "c8ec4af69a727842b4f310adb2fa7cc0ac47a8b122aab966db7ef27e726ec416"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "a7f26744fa2a48b09a55f69446ee68a2b8332d4327cdac22b745c4509e1eb8ac",
+          "afterSha256": "687fe2fb00929c8de92cc773b2343c9e9173ef247e467ba1a5e95fbdcce792a8",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 32,
+            "entryCanonicalSha256": "7ce0e6cada505fe6aaf56032048be6b82ef6579ee96a2a7f3d05e2d5ab79d1d3"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
@@ -13926,7 +13994,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
-      "afterSha256": "36a2ce78f3e0c7e7160bed4d01fb86c91f2bc8afed7148470ebdd17aedf28d2f",
+      "afterSha256": "6ed74ed1dacc6d88c64863f57bef301a05ac629e4e976fc2e217525fcfd334ad",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14152,6 +14220,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
             "index": 75,
             "entryCanonicalSha256": "6393b751adee3186d8360ee3ef0ee9c0f4dec0cff21efbbc387baceacb6d3120"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "36a2ce78f3e0c7e7160bed4d01fb86c91f2bc8afed7148470ebdd17aedf28d2f",
+          "afterSha256": "6ed74ed1dacc6d88c64863f57bef301a05ac629e4e976fc2e217525fcfd334ad",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 75,
+            "entryCanonicalSha256": "0373726464f643a52f2465b624fb56870e57034fd6d0d309c98552b25d70c008"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

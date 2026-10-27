@@ -104,7 +104,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "d6e2bc4432e5c6904e935d0798c920140b0f66a4946bc813beaa44cd2bd33a95",
+      "afterSha256": "668b213bf3f280d5f8cefe555874988bfd83af82b93734f3d16d19198c2618aa",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -564,6 +564,23 @@
           "beforeSha256": "9bf9d76c09dafbf5776f856b9d9ed4d5deda08f0a15c0f2c8e26225b395a0082",
           "afterSha256": "d6e2bc4432e5c6904e935d0798c920140b0f66a4946bc813beaa44cd2bd33a95",
           "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "d6e2bc4432e5c6904e935d0798c920140b0f66a4946bc813beaa44cd2bd33a95",
+          "afterSha256": "668b213bf3f280d5f8cefe555874988bfd83af82b93734f3d16d19198c2618aa",
+          "scope": "Scoped technical acceptance/publication source maintenance only; preserve historical execution/source pins, current document status and all migration credit",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+            "index": 0,
+            "entryCanonicalSha256": "92650628042ac61aa46af7054709da44fa31f3d5bf51b688feeee7d819238cdc"
+          },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false

@@ -1905,7 +1905,7 @@
       ],
       "stopLine": "No bulk R60/1896 restoration, source→runtime credit, historical version/status renewal, or full hard/main/done credit.",
       "sourceSha256": "0a4c69cd404c5fd171fe9801080b18db3b17ed1ff00db49aa6cee10abd155376",
-      "afterSha256": "7a7b6a11f10f744a1480453bb01247b52c18ca8210a4d4173a81f63b91265224",
+      "afterSha256": "5a621685d27335fdcc12fc6ca9ee4e4a8196236145e76899af8446285fd9c865",
       "sourceGitRevision": "1f2749f31e28ce176bdddcd3c91ce3dba21c6180",
       "reviewedLines": "Non-author complete source1-174/before1-219/new1-274; dependency scopes explicitly bounded in primarySource and native original report.",
       "historyOverlay": false,
@@ -1988,6 +1988,23 @@
           "afterSha256": "7a7b6a11f10f744a1480453bb01247b52c18ca8210a4d4173a81f63b91265224",
           "method": "Actual scoped publication applicability review; proposal/lastVerified/revision/runtime fields and quote preserved. Exact publication-review record retained, no additional migrated count.",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "7a7b6a11f10f744a1480453bb01247b52c18ca8210a4d4173a81f63b91265224",
+          "afterSha256": "5a621685d27335fdcc12fc6ca9ee4e4a8196236145e76899af8446285fd9c865",
+          "scope": "Scoped technical acceptance/publication source maintenance only; preserve historical execution/source pins, current document status and all migration credit",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+            "index": 4,
+            "entryCanonicalSha256": "8d2e72ff1e15a194135ad8f24f90f9999450db8614f920b4bf2d5c4c63b754eb"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -9414,7 +9431,7 @@
       "reviewedSourceSha256": "7cee3ea800a1855eac9a0a8d256f3c20625a6ccf42f44f5070f680c60cab82d9",
       "sourceGitRevision": "f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
       "sourceGitObject": "1ccbcb397e147e1f84d7c88d34e64a38b564aee7",
-      "afterSha256": "7cee3ea800a1855eac9a0a8d256f3c20625a6ccf42f44f5070f680c60cab82d9",
+      "afterSha256": "e1d58f3c6388609baee4998ec1bc4463bc76b0767ef0b9e51f577b815b4f50c8",
       "reviewedLines": "Full newly authored native object and all bounded evidence references; no repeated historical full-source semantic claim",
       "historyOverlay": false,
       "templateConformance": {
@@ -9423,7 +9440,26 @@
         "templateVersion": "1.5.0",
         "variant": "execution",
         "independentAcceptance": false
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "7cee3ea800a1855eac9a0a8d256f3c20625a6ccf42f44f5070f680c60cab82d9",
+          "afterSha256": "e1d58f3c6388609baee4998ec1bc4463bc76b0767ef0b9e51f577b815b4f50c8",
+          "scope": "Scoped technical acceptance/publication source maintenance only; preserve historical execution/source pins, current document status and all migration credit",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+            "index": 27,
+            "entryCanonicalSha256": "47a416eaa5c92ad10d6eef1bb6280620b2f625e27d31cdb5b9a7a8f1f667f191"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     }
   ]
 }

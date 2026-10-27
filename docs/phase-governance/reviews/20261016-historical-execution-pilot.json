@@ -217,9 +217,9 @@
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-run-report.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Bounded human visual-acceptance statement and exact candidate/clip binding only; no new runtime execution or whole-document semantic review.",
+      "readMethod": "Bounded006 technical acceptance and quality repair: independent fixed candidates, full-state raw reconsumption, source-slice audit and actual production preview; retained historical quote, no whole-document migration credit.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "Records human acceptance of the fixed006 boat/rowing/arrival visuals, preserving original95row/formal-save/fresh-restore sources and all historical boundaries. No new execution, publication date or migration credit.",
+      "coreConclusion": "Separates original dual006 run, current repaired Reforge boat replay, user visual acceptance and scoped independent technical decisions. Existing Game raw proves78field persistence with only loader fade reset; no new story rerun/audio/coverage or migration credit.",
       "documentStatus": "rework (catalog publication)",
       "owner": "Codex（文档治理，不代签原执行）",
       "provenance": [
@@ -294,7 +294,7 @@
       "sourceGitRevision": "2522c4531d68f7fd43be72380059316672c681a3",
       "sourceGitObject": "bdec5b721d95aeed9532af501ff4b21460f17e57",
       "candidateSha256": "609ee30abeae691f90e4e17ce8da26c6929f950837f1d539c04fc047a85dcec2",
-      "afterSha256": "88a9ce82ac05dd812559080abcc1c0bdcabe06d7b68344905340e668adeb1c02",
+      "afterSha256": "225658317df3a4ef0c31750eb7029db7d9367e235a0d3633cbd63b0c41a39a98",
       "revision": {
         "currentSha": "2522c4531d68f7fd43be72380059316672c681a3",
         "implementationSha": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
@@ -332,7 +332,7 @@
           "runtimeRevision": "0847b1a6e43fbd3cd189e9f3201ceb53e527d1bb",
           "author": "Codex",
           "nonAuthorReviewer": false,
-          "independentAcceptance": "pending",
+          "independentAcceptance": "accepted",
           "userVisualAcceptance": "accepted",
           "boatDrawRecords": 71,
           "bobFrameChanges": 6,
@@ -349,7 +349,45 @@
             "candidate": "c32eccdb544b5f01424e30725db7373e283b9343",
             "clipSha256": "5230f4d6522a266b4d928894f5b0904e06c5465a270ca17ed532a7ca435cfa63",
             "scope": "Displayed006 repaired boat/rowing/arrival visuals only; no technical or global waiver"
-          }
+          },
+          "technicalAcceptanceReference": "current006TechnicalAcceptance"
+        },
+        "current006TechnicalAcceptance": {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "codeCandidate": "68adf14a07bfac9f7871ffadb8848ff2e0aa66a9",
+          "nonAuthorReviewer": true,
+          "scope": "Fixed006 technical/preview/boat scope and editor SaveAs progress/performance/recovery; initialC1 closed by narrow acceptance, unrelated accepted scope retained.",
+          "verdict": "accept",
+          "countersOpen": 0,
+          "references": [
+            {
+              "id": "save",
+              "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-save-safety-independent-rik1vh41/verdict.json",
+              "sha256": "40bc36578cec46368b4af36a5500edb1f76b1a13559f04ed65e4b11c1e31649d",
+              "candidate": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+              "nonAuthorReviewer": true
+            },
+            {
+              "id": "006-initial",
+              "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-e2e006-independent-technical-5x3ikzus/verdict.json",
+              "sha256": "ea57fcabe9731183b6cc654ad3d01f7d160fa787cb893c09d52376f19c7c2400",
+              "candidate": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+              "nonAuthorReviewer": true
+            },
+            {
+              "id": "006-C1",
+              "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-e2e006-C1-independent-p_l38q0h/verdict.json",
+              "sha256": "af6358da320d74273c94bf4180901d3b21b0567dc9850c56a246c4e259f21140",
+              "candidate": "68adf14a07bfac9f7871ffadb8848ff2e0aa66a9",
+              "nonAuthorReviewer": true
+            }
+          ],
+          "userVisual": "accepted at fixedc32eccdb candidate, not repeated",
+          "unifiedGate": "blocked by1346 unrelated document-governance diagnostics; no waiver",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "newStoryExecutionCredit": 0
         }
       },
       "history": [
@@ -467,6 +505,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
             "index": 1,
             "entryCanonicalSha256": "bb0ed6166bfe1a5291e23e6722478bc9aa714cdb83213561b592b66999ab5708"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/technical-closeout",
+          "revision": "fe8231881b90abfcb0dd68d6164f2dd82377a72d",
+          "beforeSha256": "88a9ce82ac05dd812559080abcc1c0bdcabe06d7b68344905340e668adeb1c02",
+          "afterSha256": "225658317df3a4ef0c31750eb7029db7d9367e235a0d3633cbd63b0c41a39a98",
+          "scope": "Scoped technical acceptance/publication source maintenance only; preserve historical execution/source pins, current document status and all migration credit",
+          "priorRecord": {
+            "revision": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "logicalPath": "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
+            "index": 1,
+            "entryCanonicalSha256": "0fccf98a642b8895b98e2ef1160bf6ebb925cf50aeab4e4185546ae73576752a"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
