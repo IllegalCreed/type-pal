@@ -1,0 +1,1140 @@
+{
+  "target": "72db417255d8ca4227522420e9185ef468462aa7",
+  "baseCI": {
+    "run": 40478991718,
+    "artifact": 12724545170,
+    "head": "72db417255d8ca4227522420e9185ef468462aa7",
+    "exactProtectedPackageMetrics": {
+      "shared": true,
+      "content": true,
+      "pal-extract": true,
+      "migrate": true,
+      "reforge": true,
+      "game": true,
+      "editor": true
+    },
+    "sourceFileCount": 812,
+    "testCount": 20203,
+    "summarySha256": "401d3e04cd00dc549f3436313eaf377a8364aa9d22abbe8b68fd6119655a80cc",
+    "method": "CRC-verified ZIP entries from authenticated GitHub HTTPS artifact ranges; signed URL not published"
+  },
+  "baselineSha256": "52373929d2909dad91434eed4f8ef04c1f6bca0f11a5c4e3c7a940278576d0ac",
+  "baselineStructuralDigest": "f569c4c715ad0031c70c9e6bf4f359d8460f423b588da0cb0fa72887d857ac1c",
+  "officialReportSha256": "8b702750780c2281850b43181dda48140aa2bca489d8ddeb614a2ad352d8e373",
+  "sourceSnapshotVerified": 909,
+  "sourceFileCount": 809,
+  "testCount": 20188,
+  "packages": {
+    "shared": {
+      "before": {
+        "statements": {
+          "covered": 468,
+          "total": 475
+        },
+        "branches": {
+          "covered": 218,
+          "total": 227
+        },
+        "functions": {
+          "covered": 31,
+          "total": 31
+        },
+        "lines": {
+          "covered": 419,
+          "total": 421
+        }
+      },
+      "current": {
+        "statements": {
+          "covered": 468,
+          "total": 475
+        },
+        "branches": {
+          "covered": 218,
+          "total": 227
+        },
+        "functions": {
+          "covered": 31,
+          "total": 31
+        },
+        "lines": {
+          "covered": 419,
+          "total": 421
+        }
+      },
+      "measuredDelta": {
+        "statements": {
+          "covered": 0,
+          "total": 0
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 0
+        },
+        "lines": {
+          "covered": 0,
+          "total": 0
+        }
+      }
+    },
+    "content": {
+      "before": {
+        "statements": {
+          "covered": 5668,
+          "total": 5878
+        },
+        "branches": {
+          "covered": 4827,
+          "total": 5129
+        },
+        "functions": {
+          "covered": 811,
+          "total": 827
+        },
+        "lines": {
+          "covered": 5061,
+          "total": 5199
+        }
+      },
+      "current": {
+        "statements": {
+          "covered": 5668,
+          "total": 5878
+        },
+        "branches": {
+          "covered": 4827,
+          "total": 5129
+        },
+        "functions": {
+          "covered": 811,
+          "total": 827
+        },
+        "lines": {
+          "covered": 5061,
+          "total": 5199
+        }
+      },
+      "measuredDelta": {
+        "statements": {
+          "covered": 0,
+          "total": 0
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 0
+        },
+        "lines": {
+          "covered": 0,
+          "total": 0
+        }
+      }
+    },
+    "pal-extract": {
+      "before": {
+        "statements": {
+          "covered": 1366,
+          "total": 1810
+        },
+        "branches": {
+          "covered": 673,
+          "total": 796
+        },
+        "functions": {
+          "covered": 134,
+          "total": 193
+        },
+        "lines": {
+          "covered": 1199,
+          "total": 1590
+        }
+      },
+      "current": {
+        "statements": {
+          "covered": 1366,
+          "total": 1786
+        },
+        "branches": {
+          "covered": 665,
+          "total": 790
+        },
+        "functions": {
+          "covered": 140,
+          "total": 188
+        },
+        "lines": {
+          "covered": 1199,
+          "total": 1567
+        }
+      },
+      "measuredDelta": {
+        "statements": {
+          "covered": 0,
+          "total": -24
+        },
+        "branches": {
+          "covered": -8,
+          "total": -6
+        },
+        "functions": {
+          "covered": 6,
+          "total": -5
+        },
+        "lines": {
+          "covered": 0,
+          "total": -23
+        }
+      }
+    },
+    "migrate": {
+      "before": {
+        "statements": {
+          "covered": 2338,
+          "total": 2584
+        },
+        "branches": {
+          "covered": 1617,
+          "total": 1781
+        },
+        "functions": {
+          "covered": 385,
+          "total": 410
+        },
+        "lines": {
+          "covered": 2050,
+          "total": 2258
+        }
+      },
+      "current": {
+        "statements": {
+          "covered": 2338,
+          "total": 2584
+        },
+        "branches": {
+          "covered": 1617,
+          "total": 1781
+        },
+        "functions": {
+          "covered": 385,
+          "total": 410
+        },
+        "lines": {
+          "covered": 2050,
+          "total": 2258
+        }
+      },
+      "measuredDelta": {
+        "statements": {
+          "covered": 0,
+          "total": 0
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 0
+        },
+        "lines": {
+          "covered": 0,
+          "total": 0
+        }
+      }
+    },
+    "reforge": {
+      "before": {
+        "statements": {
+          "covered": 17040,
+          "total": 18888
+        },
+        "branches": {
+          "covered": 10824,
+          "total": 13095
+        },
+        "functions": {
+          "covered": 2779,
+          "total": 3075
+        },
+        "lines": {
+          "covered": 15251,
+          "total": 16483
+        }
+      },
+      "current": {
+        "statements": {
+          "covered": 17040,
+          "total": 18888
+        },
+        "branches": {
+          "covered": 10824,
+          "total": 13095
+        },
+        "functions": {
+          "covered": 2779,
+          "total": 3075
+        },
+        "lines": {
+          "covered": 15251,
+          "total": 16483
+        }
+      },
+      "measuredDelta": {
+        "statements": {
+          "covered": 0,
+          "total": 0
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 0
+        },
+        "lines": {
+          "covered": 0,
+          "total": 0
+        }
+      }
+    },
+    "game": {
+      "before": {
+        "statements": {
+          "covered": 15463,
+          "total": 17134
+        },
+        "branches": {
+          "covered": 9921,
+          "total": 12237
+        },
+        "functions": {
+          "covered": 1872,
+          "total": 2154
+        },
+        "lines": {
+          "covered": 13797,
+          "total": 15030
+        }
+      },
+      "current": {
+        "statements": {
+          "covered": 15463,
+          "total": 17134
+        },
+        "branches": {
+          "covered": 9921,
+          "total": 12237
+        },
+        "functions": {
+          "covered": 1872,
+          "total": 2154
+        },
+        "lines": {
+          "covered": 13797,
+          "total": 15030
+        }
+      },
+      "measuredDelta": {
+        "statements": {
+          "covered": 0,
+          "total": 0
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 0
+        },
+        "lines": {
+          "covered": 0,
+          "total": 0
+        }
+      }
+    },
+    "editor": {
+      "before": {
+        "statements": {
+          "covered": 30537,
+          "total": 33847
+        },
+        "branches": {
+          "covered": 24578,
+          "total": 29435
+        },
+        "functions": {
+          "covered": 7772,
+          "total": 8665
+        },
+        "lines": {
+          "covered": 27319,
+          "total": 29570
+        }
+      },
+      "current": {
+        "statements": {
+          "covered": 30537,
+          "total": 33847
+        },
+        "branches": {
+          "covered": 24578,
+          "total": 29435
+        },
+        "functions": {
+          "covered": 7772,
+          "total": 8665
+        },
+        "lines": {
+          "covered": 27319,
+          "total": 29570
+        }
+      },
+      "measuredDelta": {
+        "statements": {
+          "covered": 0,
+          "total": 0
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 0
+        },
+        "lines": {
+          "covered": 0,
+          "total": 0
+        }
+      }
+    }
+  },
+  "perFile": [
+    {
+      "package": "pal-extract",
+      "path": "packages/pal-extract/src/io/read.ts",
+      "before": {
+        "statements": {
+          "covered": 0,
+          "total": 1
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 1
+        },
+        "lines": {
+          "covered": 0,
+          "total": 1
+        }
+      },
+      "after": {
+        "statements": {
+          "covered": 1,
+          "total": 1
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 1,
+          "total": 1
+        },
+        "lines": {
+          "covered": 1,
+          "total": 1
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": 1,
+          "total": 0
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 1,
+          "total": 0
+        },
+        "lines": {
+          "covered": 1,
+          "total": 0
+        }
+      },
+      "reason": "Real current animation writer, not a test-only adapter, now reads a finite actual temporary tree."
+    },
+    {
+      "package": "pal-extract",
+      "path": "packages/pal-extract/src/io/write.ts",
+      "before": {
+        "statements": {
+          "covered": 0,
+          "total": 4
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 2
+        },
+        "lines": {
+          "covered": 0,
+          "total": 4
+        }
+      },
+      "after": {
+        "statements": {
+          "covered": 4,
+          "total": 4
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 2,
+          "total": 2
+        },
+        "lines": {
+          "covered": 4,
+          "total": 4
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": 4,
+          "total": 0
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 2,
+          "total": 0
+        },
+        "lines": {
+          "covered": 4,
+          "total": 0
+        }
+      },
+      "reason": "Same real writer path now exercises unchanged write ownership."
+    },
+    {
+      "package": "pal-extract",
+      "path": "packages/pal-extract/src/resources/animation-assets.ts",
+      "before": {
+        "statements": {
+          "covered": 0,
+          "total": 40
+        },
+        "branches": {
+          "covered": 0,
+          "total": 4
+        },
+        "functions": {
+          "covered": 0,
+          "total": 7
+        },
+        "lines": {
+          "covered": 0,
+          "total": 35
+        }
+      },
+      "after": {
+        "statements": {
+          "covered": 38,
+          "total": 40
+        },
+        "branches": {
+          "covered": 4,
+          "total": 4
+        },
+        "functions": {
+          "covered": 7,
+          "total": 7
+        },
+        "lines": {
+          "covered": 33,
+          "total": 35
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": 38,
+          "total": 0
+        },
+        "branches": {
+          "covered": 4,
+          "total": 0
+        },
+        "functions": {
+          "covered": 7,
+          "total": 0
+        },
+        "lines": {
+          "covered": 33,
+          "total": 0
+        }
+      },
+      "reason": "Three preserved FIRE contracts and actual RNG writer byte conservation run at their current producer. Keep all 4 gained branches and other gains."
+    },
+    {
+      "package": "pal-extract",
+      "path": "packages/pal-extract/src/resources/battle-sprite.ts",
+      "before": {
+        "statements": {
+          "covered": 10,
+          "total": 10
+        },
+        "branches": {
+          "covered": 2,
+          "total": 2
+        },
+        "functions": {
+          "covered": 1,
+          "total": 1
+        },
+        "lines": {
+          "covered": 10,
+          "total": 10
+        }
+      },
+      "after": null,
+      "delta": {
+        "statements": {
+          "covered": -10,
+          "total": -10
+        },
+        "branches": {
+          "covered": -2,
+          "total": -2
+        },
+        "functions": {
+          "covered": -1,
+          "total": -1
+        },
+        "lines": {
+          "covered": -10,
+          "total": -10
+        }
+      },
+      "reason": "Explicitly approved zero-production-caller legacy adapter retirement; old Git blob/metrics pinned separately. No replacement dead code."
+    },
+    {
+      "package": "pal-extract",
+      "path": "packages/pal-extract/src/resources/map.ts",
+      "before": {
+        "statements": {
+          "covered": 21,
+          "total": 21
+        },
+        "branches": {
+          "covered": 2,
+          "total": 2
+        },
+        "functions": {
+          "covered": 1,
+          "total": 1
+        },
+        "lines": {
+          "covered": 19,
+          "total": 19
+        }
+      },
+      "after": {
+        "statements": {
+          "covered": 2,
+          "total": 21
+        },
+        "branches": {
+          "covered": 0,
+          "total": 2
+        },
+        "functions": {
+          "covered": 0,
+          "total": 1
+        },
+        "lines": {
+          "covered": 2,
+          "total": 19
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": -19,
+          "total": 0
+        },
+        "branches": {
+          "covered": -2,
+          "total": 0
+        },
+        "functions": {
+          "covered": -1,
+          "total": 0
+        },
+        "lines": {
+          "covered": -17,
+          "total": 0
+        }
+      },
+      "reason": "Duplicate all-zero map and 100B rejection transferred to stronger asymmetric/byteOffset/u32 map.test.ts. That existing file is excluded from fast by unchanged configuration, but full package check and directed tests actually run it. No new exclusion."
+    },
+    {
+      "package": "pal-extract",
+      "path": "packages/pal-extract/src/resources/scene.ts",
+      "before": {
+        "statements": {
+          "covered": 30,
+          "total": 31
+        },
+        "branches": {
+          "covered": 15,
+          "total": 16
+        },
+        "functions": {
+          "covered": 6,
+          "total": 6
+        },
+        "lines": {
+          "covered": 24,
+          "total": 24
+        }
+      },
+      "after": {
+        "statements": {
+          "covered": 29,
+          "total": 31
+        },
+        "branches": {
+          "covered": 14,
+          "total": 16
+        },
+        "functions": {
+          "covered": 6,
+          "total": 6
+        },
+        "lines": {
+          "covered": 24,
+          "total": 24
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": -1,
+          "total": 0
+        },
+        "branches": {
+          "covered": -1,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 0
+        },
+        "lines": {
+          "covered": 0,
+          "total": 0
+        }
+      },
+      "reason": "Dense real SSS parser inputs replace inconsistent manually built views. First scene index now valid0; old synthetic fallback branch no longer receives incidental credit. Complete field/ID/label assertions retained."
+    },
+    {
+      "package": "pal-extract",
+      "path": "packages/pal-extract/src/resources/parsers/data-misc.ts",
+      "before": {
+        "statements": {
+          "covered": 30,
+          "total": 30
+        },
+        "branches": {
+          "covered": 6,
+          "total": 6
+        },
+        "functions": {
+          "covered": 4,
+          "total": 4
+        },
+        "lines": {
+          "covered": 23,
+          "total": 23
+        }
+      },
+      "after": {
+        "statements": {
+          "covered": 28,
+          "total": 30
+        },
+        "branches": {
+          "covered": 4,
+          "total": 6
+        },
+        "functions": {
+          "covered": 4,
+          "total": 4
+        },
+        "lines": {
+          "covered": 23,
+          "total": 23
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": -2,
+          "total": 0
+        },
+        "branches": {
+          "covered": -2,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 0
+        },
+        "lines": {
+          "covered": 0,
+          "total": 0
+        }
+      },
+      "reason": "Negative cardinality and19B short-entry assertions moved from mixed guards to existing data-misc.test.ts beside the raw parser. Existing fast exclusion unchanged; full/directed check covers it. Zero cardinality already covered."
+    },
+    {
+      "package": "pal-extract",
+      "path": "packages/pal-extract/src/resources/parsers/fire.ts",
+      "before": {
+        "statements": {
+          "covered": 11,
+          "total": 11
+        },
+        "branches": {
+          "covered": 4,
+          "total": 4
+        },
+        "functions": {
+          "covered": 2,
+          "total": 2
+        },
+        "lines": {
+          "covered": 11,
+          "total": 11
+        }
+      },
+      "after": null,
+      "delta": {
+        "statements": {
+          "covered": -11,
+          "total": -11
+        },
+        "branches": {
+          "covered": -4,
+          "total": -4
+        },
+        "functions": {
+          "covered": -2,
+          "total": -2
+        },
+        "lines": {
+          "covered": -11,
+          "total": -11
+        }
+      },
+      "reason": "Explicitly approved unused PNG adapter retirement; three same-name pixel/golden contracts execute unchanged real animation writer instead."
+    },
+    {
+      "package": "pal-extract",
+      "path": "packages/pal-extract/src/resources/parsers/rng-frames.ts",
+      "before": {
+        "statements": {
+          "covered": 0,
+          "total": 3
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 2
+        },
+        "lines": {
+          "covered": 0,
+          "total": 2
+        }
+      },
+      "after": null,
+      "delta": {
+        "statements": {
+          "covered": 0,
+          "total": -3
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": -2
+        },
+        "lines": {
+          "covered": 0,
+          "total": -2
+        }
+      },
+      "reason": "Explicitly approved unused PNG adapter retirement; raw output exact-byte and independent native decoder contracts remain. Its3statements/2functions were uncovered before."
+    },
+    {
+      "package": "pal-extract",
+      "path": "packages/pal-extract/src/resources/parsers/spells.ts",
+      "before": {
+        "statements": {
+          "covered": 61,
+          "total": 61
+        },
+        "branches": {
+          "covered": 10,
+          "total": 10
+        },
+        "functions": {
+          "covered": 8,
+          "total": 8
+        },
+        "lines": {
+          "covered": 55,
+          "total": 55
+        }
+      },
+      "after": {
+        "statements": {
+          "covered": 61,
+          "total": 61
+        },
+        "branches": {
+          "covered": 9,
+          "total": 10
+        },
+        "functions": {
+          "covered": 8,
+          "total": 8
+        },
+        "lines": {
+          "covered": 55,
+          "total": 55
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": 0,
+          "total": 0
+        },
+        "branches": {
+          "covered": -1,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 0
+        },
+        "lines": {
+          "covered": 0,
+          "total": 0
+        }
+      },
+      "reason": "Weak nameless-spell subset merged into full literal raw-table oracle in existing tables.test.ts. Existing fast exclusion unchanged; no test deleted for coverage convenience."
+    }
+  ],
+  "comparison": {
+    "regressions": [
+      "pal-extract.branches: 84.18% (665/790) < 84.55% (673/796)",
+      "total.branches: 83.98% (52650/62694) < 83.98% (52658/62700)"
+    ],
+    "improvements": [
+      "pal-extract.statements",
+      "pal-extract.functions",
+      "pal-extract.lines",
+      "total.statements",
+      "total.functions",
+      "total.lines"
+    ]
+  },
+  "scope": {
+    "changes": [
+      "game: fast test files +0/-2，内容变化 4（3766 -> 3766 tests）",
+      "game: fast test execution config/digest 已变化",
+      "pal-extract: source +0/-3（55 -> 52）",
+      "pal-extract: coverage include/exclude/source digest 已变化",
+      "pal-extract: fast test files +2/-4，内容变化 22（372 -> 357 tests）",
+      "pal-extract: fast test execution config/digest 已变化"
+    ],
+    "removals": [
+      {
+        "kind": "test-count",
+        "value": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+        "previous": 4,
+        "current": 3
+      },
+      {
+        "kind": "test-count",
+        "value": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "previous": 10,
+        "current": 9
+      },
+      {
+        "kind": "test-file",
+        "value": "packages/game/src/assets/png.glm-phase1-leaves.test.ts"
+      },
+      {
+        "kind": "test-file",
+        "value": "packages/game/src/assets/png.test.ts"
+      },
+      {
+        "kind": "test-count",
+        "value": "packages/pal-extract/src/events/disasm.test.ts",
+        "previous": 14,
+        "current": 12
+      },
+      {
+        "kind": "test-count",
+        "value": "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
+        "previous": 2,
+        "current": 1
+      },
+      {
+        "kind": "test-count",
+        "value": "packages/pal-extract/src/io/rle.test.ts",
+        "previous": 3,
+        "current": 1
+      },
+      {
+        "kind": "test-count",
+        "value": "packages/pal-extract/src/resources/scene.test.ts",
+        "previous": 5,
+        "current": 3
+      },
+      {
+        "kind": "source",
+        "value": "packages/pal-extract/src/resources/battle-sprite.ts"
+      },
+      {
+        "kind": "source",
+        "value": "packages/pal-extract/src/resources/parsers/fire.ts"
+      },
+      {
+        "kind": "source",
+        "value": "packages/pal-extract/src/resources/parsers/rng-frames.ts"
+      },
+      {
+        "kind": "test-file",
+        "value": "packages/pal-extract/src/io/mkf.test.ts"
+      },
+      {
+        "kind": "test-file",
+        "value": "packages/pal-extract/src/resources/battle-sprite.test.ts"
+      },
+      {
+        "kind": "test-file",
+        "value": "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts"
+      },
+      {
+        "kind": "test-file",
+        "value": "packages/pal-extract/src/resources/parsers/fire.glm-runtime-resource.test.ts"
+      }
+    ]
+  },
+  "retirements": [
+    {
+      "file": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "previous": 4,
+      "current": 3,
+      "previousIdentityDigest": "16119a6654a2b67d2886ae0814162e008ca43071d4b243c61044345944ca3290",
+      "currentIdentityDigest": "c5a738582c4539f2af688ac597869c823f2b7533f8863f5ac1040cd17119b61d",
+      "fileSha256": "58fa7709e4a859fdc57ab5eae736806a392e8cfe668df1c06c88e1ad05d097b7"
+    },
+    {
+      "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "previous": 10,
+      "current": 9,
+      "previousIdentityDigest": "2c89a4bd5f39660f4ce2e3f5f787315dcf4d0b42316d2f19081cbb71b3e3644d",
+      "currentIdentityDigest": "2e552d12f8025046b8d606a859e535ac238490018c8bc7f1e774b01728be6ff9",
+      "fileSha256": "4ab6a1fa912fdfed0b961bf43b0734c7d69a41eb5e7b61eedc98d7da61e6dce0"
+    },
+    {
+      "file": "packages/pal-extract/src/events/disasm.test.ts",
+      "previous": 14,
+      "current": 12,
+      "previousIdentityDigest": "dca24c92e2400cf3ca1bb44e766a8dbe4d5973cbd7be7b72302f8295ce966231",
+      "currentIdentityDigest": "93ecb99064c0a8c6470bb4b1a04cecd461d812c7c4beeb49db35a83e57a2bd56",
+      "fileSha256": "eeb11963b6761c5ad16694df2046aab3e1a627161af891f2e1f613e8eef70df2"
+    },
+    {
+      "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
+      "previous": 2,
+      "current": 1,
+      "previousIdentityDigest": "6425f15ef52f6ae8b40a6a935b681135fd32f543868dbe503ff04246003f9db0",
+      "currentIdentityDigest": "7c43f1b9f85de76953cb3d5c5dcaec3deed77620c0c60fec69ce619797922e30",
+      "fileSha256": "cd19f360ffd314bf602920c5f5bfcc47e7d5ebe52db872300d56741742e2d4d6"
+    },
+    {
+      "file": "packages/pal-extract/src/io/rle.test.ts",
+      "previous": 3,
+      "current": 1,
+      "previousIdentityDigest": "89cb40d8b1829accec2a93a68df4cf412aed9e214614fa7a74476eb423140fad",
+      "currentIdentityDigest": "108ccdbbdb6ab7c57fe9093600aa6312f45519209ffa16350f20ad9c493b34a1",
+      "fileSha256": "16b2f6ab8b5cfe0a5b1aa2203aa45e16033085bf84cd7a79264289861f18b074"
+    },
+    {
+      "file": "packages/pal-extract/src/resources/scene.test.ts",
+      "previous": 5,
+      "current": 3,
+      "previousIdentityDigest": "e38950e400c0826b63c6586c882c6b8ce3d73422e4c194dce86ffe9db5f2037d",
+      "currentIdentityDigest": "d69654b5cc00e9cf804bbe545d9f496e25f9ba1f4b6f77ab1d835923a2822054",
+      "fileSha256": "bd602764b568f4a7610fd601d5dacca96abd3ab8dd9f55d1713489ef05851373"
+    }
+  ],
+  "finiteAdjustment": {
+    "package": "pal-extract",
+    "metric": "branches",
+    "before": {
+      "covered": 673,
+      "total": 796
+    },
+    "after": {
+      "covered": 661,
+      "total": 790
+    },
+    "removedCovered": 12,
+    "removedTotal": 6,
+    "preservedRealCoveredGain": 4,
+    "derivation": "2battle +4fire +2map +1scene +2dataMisc +1spell =12 removed covered branches; only 6total branches removed with retired files. New animation writer gains4 are excluded from the adjustment and remain improvements. Statements/functions/lines and other6package floors unchanged."
+  },
+  "adjustedComparison": {
+    "regressions": [],
+    "improvements": [
+      "pal-extract.statements",
+      "pal-extract.branches",
+      "pal-extract.functions",
+      "pal-extract.lines",
+      "total.statements",
+      "total.branches",
+      "total.functions",
+      "total.lines"
+    ]
+  },
+  "evidenceLimit": "Exact report identity/arithmetic, not new whole-file review credit. Semantics come from current100 A-H records and per-case migration maps. No new collection or source/config/comparator/predicate changes."
+}

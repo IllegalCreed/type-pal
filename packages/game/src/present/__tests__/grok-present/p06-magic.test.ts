@@ -67,8 +67,6 @@ function viewRuntime(
   mp: number,
 ): PlayerRoles {
   gs.PlayerRolesRuntime.rgwMP[roleId] = mp
-  if ((gs.PlayerRolesRuntime.rgwHP[4] ?? 0) <= 0) gs.PlayerRolesRuntime.rgwHP[4] = 20
-  if ((gs.PlayerRolesRuntime.rgwHP[1] ?? 0) <= 0) gs.PlayerRolesRuntime.rgwHP[1] = 20
   spellIds.forEach((id, slot) => {
     gs.PlayerRolesRuntime.rgwMagic[slot]![roleId] = id
   })

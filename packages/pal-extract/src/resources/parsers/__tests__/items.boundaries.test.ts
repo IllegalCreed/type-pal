@@ -1,11 +1,11 @@
 /**
  * TEST-PAL-TABLES-COVERAGE-1 P04：parseItems 边界（parsers/items.ts）。
- * 既有 tables.test 已覆盖 flags bit 顺序（usable+equipable、6 role 装备位）、截断 throw、
- * 真实数据规模/_name ——不重复。本文件：全 296×14B 表中七 WORD 每条各异（串位/字段别名即检出）、
- * 六基础 flag 与六装备位一热轴、id=wObjectID 与 295 梦蛇排除的邻位完整。
+ * 原盘全字段/名称接线由tables.test核；本文件：全296×14B的非对称七WORD、
+ * 六基础flag与六装备位一热、id/梦蛇排除邻位，以及100B截断的精确拒绝。
  */
 import { describe, expect, test } from 'vitest'
 import { expectedItemWords, itemsObjectBytes } from '../../../__tests__/glm-tb04-fixtures.js'
+import { withParserWarnings } from '../../../__tests__/parser-diagnostics.js'
 import { parseItems } from '../items.js'
 
 describe('P04 parseItems 全量七 WORD 字段保真', () => {
@@ -43,7 +43,13 @@ describe('P04 parseItems 全量七 WORD 字段保真', () => {
       expect(flags.applyToAll).toBe(bit === 4)
       expect(flags.sellable).toBe(bit === 5)
       // 六装备位只有第 bit role 真
-      for (let role = 0; role < 6; role++) expect(flags.equipableBy[role]).toBe(role === bit)
+      expect(flags.equipableBy).toEqual(Array.from({ length: 6 }, (_, role) => role === bit))
     }
   })
+})
+
+test('parseItems：截断精确拒绝（报实测与所需字节数）', () => {
+  expect(() => withParserWarnings([], () => parseItems(new Uint8Array(100)))).toThrow(
+    'parseItems: SSS.MKF chunk 2 truncated (got 100B, need ≥ 4144B for items 0..234)',
+  )
 })

@@ -40,11 +40,12 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // CODE3q: 32 cases relocate; 4 redundant cases transfer to stronger literal/matrix oracles.
   // CODE1: main26->19; GLM-o input-axis splits increase its current count.
   // CODE42: two test-only rectangle placeholders removed; native full identities pinned.
-  assert.equal(approvedTestRetirements.length, 74)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 74)
+  // Window100: five new exact snapshots; PNG replaces5→4 with4→3; nine current removals.
+  assert.equal(approvedTestRetirements.length, 79)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 79)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    224,
+    232,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {
@@ -76,7 +77,10 @@ const refusals = [
     '候选数量伪造',
     { ...exact, current: { ...exact.current, testCount: exact.current.testCount + 1 } },
   ],
-  ['旧数量伪造', { ...exact, previous: { ...exact.previous, testCount: 10 } }],
+  [
+    '旧数量伪造',
+    { ...exact, previous: { ...exact.previous, testCount: exact.previous.testCount + 1 } },
+  ],
   ['旧文件不相同', { ...exact, previous: { ...exact.previous, file: 'different.test.ts' } }],
   ['新文件不相同', { ...exact, current: { ...exact.current, file: 'different.test.ts' } }],
   ['文件字节漂移', { ...exact, fileSha256: 'different' }],

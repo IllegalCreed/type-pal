@@ -1,11 +1,12 @@
 /**
  * TEST-GLM-RUNTIME-RESOURCE-2 R03（pal-extract/resources/parsers/rgm.ts）。
- * 该文件此前无任何测试。合同：空槽 null、标记头剥离后 2×2 帧的 PNG 真解码
+ * 合同：空槽 null、标记头剥离后 2×2 帧的 PNG 真解码
  * （透明位 alpha 0 / opaque palette-0 alpha 255 / 实心位 RGB 复制）、chunkIndex 透传。
  * 与 ball.ts 为同构克隆函数，分别作为公开入口各自被测，不互相引用。
  */
 import { PNG } from 'pngjs'
-import { describe, expect, test } from 'vitest'
+import { assert, describe, expect, test } from 'vitest'
+import { withParserWarnings } from '../../__tests__/parser-diagnostics.js'
 import { decodeRgmPortrait } from './rgm.js'
 
 describe('R03 decodeRgmPortrait', () => {
@@ -31,10 +32,11 @@ describe('R03 decodeRgmPortrait', () => {
       0x81, // 跳 1 透明
     ])
     const portrait = decodeRgmPortrait(17, buf)
-    expect(portrait!.chunkIndex).toBe(17)
-    expect(portrait!.width).toBe(2)
-    expect(portrait!.height).toBe(2)
-    const png = PNG.sync.read(Buffer.from(portrait!.pngBytes))
+    assert(portrait !== null)
+    expect(portrait.chunkIndex).toBe(17)
+    expect(portrait.width).toBe(2)
+    expect(portrait.height).toBe(2)
+    const png = PNG.sync.read(Buffer.from(portrait.pngBytes))
     expect(png.width).toBe(2)
     expect(png.height).toBe(2)
     expect([...png.data]).toEqual([
@@ -57,11 +59,37 @@ describe('R03 decodeRgmPortrait', () => {
     ])
   })
 
-  test('非标记输入从 0 直解，不因缺 0x02000000 头报 null', () => {
+  test('非标记输入从 0 直解，不因缺 02 00 00 00 头报 null', () => {
     const portrait = decodeRgmPortrait(2, new Uint8Array([0x01, 0x00, 0x01, 0x00, 0x01, 0x5a]))
-    expect(portrait!.width).toBe(1)
-    expect(portrait!.height).toBe(1)
-    const png = PNG.sync.read(Buffer.from(portrait!.pngBytes))
+    assert(portrait !== null)
+    expect(portrait.width).toBe(1)
+    expect(portrait.height).toBe(1)
+    const png = PNG.sync.read(Buffer.from(portrait.pngBytes))
     expect([...png.data]).toEqual([0x5a, 0x5a, 0x5a, 255])
   })
+})
+
+test('decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）', () => {
+  // 零尺寸是坏RLE，不是原盘空槽；真实Error消息/来源及null输出都必须保持。
+  const errorFrom = {
+    functionName: 'decodeRgmPortrait',
+    moduleUrl: new URL('./rgm.ts', import.meta.url),
+  }
+  const result = withParserWarnings(
+    [
+      {
+        message: '[rgm] chunk 7 RLE decode fail, skip: Error: RLE: invalid frame dimensions 0x2',
+        errorFrom,
+      },
+      {
+        message: '[rgm] chunk 8 RLE decode fail, skip: Error: RLE: invalid frame dimensions 2x0',
+        errorFrom,
+      },
+    ],
+    () => [
+      decodeRgmPortrait(7, new Uint8Array([0x02, 0x00, 0x00, 0x00, 0, 0, 2, 0])),
+      decodeRgmPortrait(8, new Uint8Array([0x02, 0x00, 0x00, 0x00, 2, 0, 0, 0])),
+    ],
+  )
+  expect(result).toEqual([null, null])
 })

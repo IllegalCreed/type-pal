@@ -1,27 +1,7 @@
 import { describe, expect, it } from 'vitest'
+import { concat, instr } from './__tests__/bytecode-fixtures.js'
 import { disasm } from './disasm.js'
 import { recompile } from './recompile.js'
-
-function instr(op: number, o0 = 0, o1 = 0, o2 = 0): Uint8Array {
-  const buf = new Uint8Array(8)
-  const v = new DataView(buf.buffer)
-  v.setUint16(0, op, true)
-  v.setUint16(2, o0, true)
-  v.setUint16(4, o1, true)
-  v.setUint16(6, o2, true)
-  return buf
-}
-
-function concat(...arrs: Uint8Array[]): Uint8Array {
-  const total = arrs.reduce((s, a) => s + a.byteLength, 0)
-  const out = new Uint8Array(total)
-  let off = 0
-  for (const a of arrs) {
-    out.set(a, off)
-    off += a.byteLength
-  }
-  return out
-}
 
 describe('disasm', () => {
   it('end(0x0000)', () => {
@@ -109,12 +89,7 @@ describe('disasm entry-ip labeling', () => {
 describe('setDialogStyle round-trip', () => {
   // 映射参照 opcodes.ts(以 sdlpal script.c:3389-3426 为准);plan Task 3 模板里的初版猜测顺序已废弃,opcodes.ts 是权威。
   function buildBytecode(opcodes: number[]): Uint8Array {
-    const buf = new Uint8Array(opcodes.length * 8)
-    const view = new DataView(buf.buffer)
-    opcodes.forEach((op, i) => {
-      view.setUint16(i * 8, op, true)
-    })
-    return buf
+    return concat(...opcodes.map((opcode) => instr(opcode)))
   }
 
   it('四个 setDialogStyle 反汇编为具名 Command', () => {
@@ -128,13 +103,7 @@ describe('setDialogStyle round-trip', () => {
     expect(cmds[2]).toEqual({ op: 'setDialogStyleBottom' })
     expect(cmds[3]).toEqual({ op: 'setDialogStyleNarration' })
     expect(cmds[4]).toEqual({ op: 'end' })
-  })
-
-  it('round-trip 字节级一致', () => {
-    const bc = buildBytecode([0x003b, 0x003c, 0x003d, 0x003e, 0x0000])
-    const cmds = disasm(bc, [])
-    const back = recompile(cmds, [])
-    expect(back).toEqual(bc)
+    expect(recompile(cmds, [])).toEqual(bc)
   })
 
   it('非 0 operand 进 arg0/arg1/arg2 并 round-trip 一致', () => {
@@ -169,16 +138,7 @@ describe('loadScene round-trip(M3.5,opcode 0x0059)', () => {
     const cmds = disasm(bc, [])
     expect(cmds[0]).toEqual({ op: 'loadScene', sceneId: 12 })
     expect(cmds[1]).toEqual({ op: 'end' })
-  })
-
-  it('loadScene round-trip 字节级一致', () => {
-    const bc = new Uint8Array(16)
-    const view = new DataView(bc.buffer)
-    view.setUint16(0, 0x0059, true)
-    view.setUint16(2, 12, true)
-    const cmds = disasm(bc, [])
-    const back = recompile(cmds, [])
-    expect(back).toEqual(bc)
+    expect(recompile(cmds, [])).toEqual(bc)
   })
 })
 

@@ -1,0 +1,246 @@
+{
+  "authority": "User2026-10-27 explicitly approved three unused extractor APIs retirement and test migration; standing instructions permit justified exact baseline adjustment after code/test quality improvements, never dead code restoration or weak tests. Only pal-extract branch floor changes673/796→661/790:12 removed covered branches (6 from retired adapters,6 from stronger legally parsed inputs/test transfers into existing fast-excluded files),6total branches removed. Keep4 real animation-writer branch gains. Other metrics and six packages retain old floors. Ten per-file deltas and six exact test-retirement identities are independently pinned; one official collection reused. No runner, comparator, selection, predicate, threshold, timeout or ignore changes.",
+  "newEntries": 5,
+  "replacedSnapshots": [
+    {
+      "file": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "previous": 5,
+      "current": 4,
+      "previousIdentityDigest": "978aefb40b45b58a493b116319599673c4c3443a5efc0dedb7153100215f0e39",
+      "currentIdentityDigest": "16119a6654a2b67d2886ae0814162e008ca43071d4b243c61044345944ca3290",
+      "fileSha256": "f5f9376a910a8ca5942e6339f1a5037029d02e9a732be47e3429df6601e75c15"
+    }
+  ],
+  "retirements": [
+    {
+      "file": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "previous": 4,
+      "current": 3,
+      "previousIdentityDigest": "16119a6654a2b67d2886ae0814162e008ca43071d4b243c61044345944ca3290",
+      "currentIdentityDigest": "c5a738582c4539f2af688ac597869c823f2b7533f8863f5ac1040cd17119b61d",
+      "fileSha256": "58fa7709e4a859fdc57ab5eae736806a392e8cfe668df1c06c88e1ad05d097b7"
+    },
+    {
+      "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "previous": 10,
+      "current": 9,
+      "previousIdentityDigest": "2c89a4bd5f39660f4ce2e3f5f787315dcf4d0b42316d2f19081cbb71b3e3644d",
+      "currentIdentityDigest": "2e552d12f8025046b8d606a859e535ac238490018c8bc7f1e774b01728be6ff9",
+      "fileSha256": "4ab6a1fa912fdfed0b961bf43b0734c7d69a41eb5e7b61eedc98d7da61e6dce0"
+    },
+    {
+      "file": "packages/pal-extract/src/events/disasm.test.ts",
+      "previous": 14,
+      "current": 12,
+      "previousIdentityDigest": "dca24c92e2400cf3ca1bb44e766a8dbe4d5973cbd7be7b72302f8295ce966231",
+      "currentIdentityDigest": "93ecb99064c0a8c6470bb4b1a04cecd461d812c7c4beeb49db35a83e57a2bd56",
+      "fileSha256": "eeb11963b6761c5ad16694df2046aab3e1a627161af891f2e1f613e8eef70df2"
+    },
+    {
+      "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
+      "previous": 2,
+      "current": 1,
+      "previousIdentityDigest": "6425f15ef52f6ae8b40a6a935b681135fd32f543868dbe503ff04246003f9db0",
+      "currentIdentityDigest": "7c43f1b9f85de76953cb3d5c5dcaec3deed77620c0c60fec69ce619797922e30",
+      "fileSha256": "cd19f360ffd314bf602920c5f5bfcc47e7d5ebe52db872300d56741742e2d4d6"
+    },
+    {
+      "file": "packages/pal-extract/src/io/rle.test.ts",
+      "previous": 3,
+      "current": 1,
+      "previousIdentityDigest": "89cb40d8b1829accec2a93a68df4cf412aed9e214614fa7a74476eb423140fad",
+      "currentIdentityDigest": "108ccdbbdb6ab7c57fe9093600aa6312f45519209ffa16350f20ad9c493b34a1",
+      "fileSha256": "16b2f6ab8b5cfe0a5b1aa2203aa45e16033085bf84cd7a79264289861f18b074"
+    },
+    {
+      "file": "packages/pal-extract/src/resources/scene.test.ts",
+      "previous": 5,
+      "current": 3,
+      "previousIdentityDigest": "e38950e400c0826b63c6586c882c6b8ce3d73422e4c194dce86ffe9db5f2037d",
+      "currentIdentityDigest": "d69654b5cc00e9cf804bbe545d9f496e25f9ba1f4b6f77ab1d835923a2822054",
+      "fileSha256": "bd602764b568f4a7610fd601d5dacca96abd3ab8dd9f55d1713489ef05851373"
+    }
+  ],
+  "tableCount": 79,
+  "retiredNetCount": 232,
+  "predicatesUnchanged": true,
+  "sources": [
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "5a43a8cccde1289e24f5614ebb3b54af6a0b4f80d217d1c8cb9e67d92c738302"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "58f071ec5f2aa7a115178f8ca662e8596edf7f5508c9d65fb06ef0ca954e4d47"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "f505e2fbf909b4eb4d7e664ddf90b6bc6712cc5413ea6383b9fe6f5509156d43"
+    }
+  ],
+  "approval": {
+    "id": "quality-window100-exact-test-migration-20261027",
+    "authority": "User2026-10-27 explicitly approved three unused extractor APIs retirement and test migration; standing instructions permit justified exact baseline adjustment after code/test quality improvements, never dead code restoration or weak tests. Only pal-extract branch floor changes673/796→661/790:12 removed covered branches (6 from retired adapters,6 from stronger legally parsed inputs/test transfers into existing fast-excluded files),6total branches removed. Keep4 real animation-writer branch gains. Other metrics and six packages retain old floors. Ten per-file deltas and six exact test-retirement identities are independently pinned; one official collection reused. No runner, comparator, selection, predicate, threshold, timeout or ignore changes.",
+    "evidence": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/recount.json",
+    "baselineSha256": "f569c4c715ad0031c70c9e6bf4f359d8460f423b588da0cb0fa72887d857ac1c",
+    "sources": [
+      {
+        "path": "packages/pal-extract/src/io/read.ts",
+        "sha256": "2dcd57f6a51469b9ce5b50d50a817e0922295e3281ef895c8a03e66a42ce75e2"
+      },
+      {
+        "path": "packages/pal-extract/src/io/write.ts",
+        "sha256": "664539a20d5a23f296dcaeb08e54d32cba0a4789fc5fc8feb56b7de0bffbda77"
+      },
+      {
+        "path": "packages/pal-extract/src/resources/animation-assets.ts",
+        "sha256": "ba474bac4b6dc2dcb034f165a92d25186f2a29a6343bad835016ce04e58645b9"
+      },
+      {
+        "path": "packages/pal-extract/src/resources/map.ts",
+        "sha256": "081d8e15132b74ae2d41f7300147bf5966e4a187e5f72ca7b5bc833f892bae9c"
+      },
+      {
+        "path": "packages/pal-extract/src/resources/scene.ts",
+        "sha256": "2980e190a4133f2123cee42cab14b942e4ba7661932aa26170ba679cf8dfceee"
+      },
+      {
+        "path": "packages/pal-extract/src/resources/parsers/data-misc.ts",
+        "sha256": "bae489b9c04bc8a4ec85d82419b0b08694c25dfdfdb8a9afdd389a1de5bab5f2"
+      },
+      {
+        "path": "packages/pal-extract/src/resources/parsers/spells.ts",
+        "sha256": "3bf94340d337fb9fee0ca019ce3a9a66f52cf42d671b748e9dfd68868ed4815d"
+      },
+      {
+        "path": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+        "sha256": "58fa7709e4a859fdc57ab5eae736806a392e8cfe668df1c06c88e1ad05d097b7"
+      },
+      {
+        "path": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "sha256": "4ab6a1fa912fdfed0b961bf43b0734c7d69a41eb5e7b61eedc98d7da61e6dce0"
+      },
+      {
+        "path": "packages/pal-extract/src/events/disasm.test.ts",
+        "sha256": "eeb11963b6761c5ad16694df2046aab3e1a627161af891f2e1f613e8eef70df2"
+      },
+      {
+        "path": "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
+        "sha256": "cd19f360ffd314bf602920c5f5bfcc47e7d5ebe52db872300d56741742e2d4d6"
+      },
+      {
+        "path": "packages/pal-extract/src/io/rle.test.ts",
+        "sha256": "16b2f6ab8b5cfe0a5b1aa2203aa45e16033085bf84cd7a79264289861f18b074"
+      },
+      {
+        "path": "packages/pal-extract/src/resources/scene.test.ts",
+        "sha256": "bd602764b568f4a7610fd601d5dacca96abd3ab8dd9f55d1713489ef05851373"
+      },
+      {
+        "path": "packages/pal-extract/src/resources/animation-assets.fire.test.ts",
+        "sha256": "ba4cd460bd6947c7a8afe3f44e56610ea27036bf6b39eb96bf44a53fc3b8e3d2"
+      },
+      {
+        "path": "packages/pal-extract/src/resources/animation-assets.rng.test.ts",
+        "sha256": "54c93e4df0dc4db712b4a5ca6a622da31d4a87849afbf5d31d07870a04f747f3"
+      },
+      {
+        "path": "packages/pal-extract/src/resources/map.test.ts",
+        "sha256": "e12128fbee820a1b3b7f2f132af5ad8f5f9a60d3df5b12dba13b2dcad977bf5a"
+      },
+      {
+        "path": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
+        "sha256": "021124b1842f5f7ac94a497843a965e30ed095351e377d6fcfbe70260a3ab6cb"
+      },
+      {
+        "path": "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts",
+        "sha256": "831237c3fe3f42969c0f204ad686202ae170e544d475bdd87fb6d298ad35470f"
+      },
+      {
+        "path": "packages/pal-extract/src/resources/tables.test.ts",
+        "sha256": "f1977858301e9d01e609ba2f3a0a6d6ecb5a9b38f875d2f4f62cb5a71947ac28"
+      },
+      {
+        "path": "scripts/coverage/run.mjs",
+        "sha256": "87c5e8049444e8d5b6195b5d01ced2061420f04ed9a572a7e8f80f9b67a29d45"
+      },
+      {
+        "path": "scripts/coverage/config.mjs",
+        "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+      },
+      {
+        "path": "scripts/coverage/metrics.mjs",
+        "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+      },
+      {
+        "path": "scripts/coverage/inventory.mjs",
+        "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+      },
+      {
+        "path": "scripts/coverage/approved-test-retirements.mjs",
+        "sha256": "5a43a8cccde1289e24f5614ebb3b54af6a0b4f80d217d1c8cb9e67d92c738302"
+      }
+    ],
+    "packages": {
+      "pal-extract": {
+        "before": {
+          "statements": {
+            "covered": 1366,
+            "total": 1810
+          },
+          "branches": {
+            "covered": 673,
+            "total": 796
+          },
+          "functions": {
+            "covered": 134,
+            "total": 193
+          },
+          "lines": {
+            "covered": 1199,
+            "total": 1590
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 1366,
+            "total": 1810
+          },
+          "branches": {
+            "covered": 661,
+            "total": 790
+          },
+          "functions": {
+            "covered": 134,
+            "total": 193
+          },
+          "lines": {
+            "covered": 1199,
+            "total": 1590
+          }
+        }
+      }
+    }
+  },
+  "initialDataUpdateSources": [
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "5a43a8cccde1289e24f5614ebb3b54af6a0b4f80d217d1c8cb9e67d92c738302"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "a1e1719f1ed4b264e099cfd7261e063ac369db7eafcb5f0363a20d8c11e82510"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "f505e2fbf909b4eb4d7e664ddf90b6bc6712cc5413ea6383b9fe6f5509156d43"
+    }
+  ],
+  "fixtureErratum": {
+    "run": "window100-policy-tools",
+    "failed": 1,
+    "why": "Old forged-count literal10 equals new first approval previous10 after inserting exact current rows. Predicate unchanged.",
+    "fix": "Only the supposed-invalid fixture now uses exact.previous.testCount+1; all14 refusal identities and unchanged predicate retained.",
+    "recovery": "window100-policy-tools-r2:141pass/0fail/0skip/stderr0"
+  }
+}

@@ -31,7 +31,7 @@ export function cyanDigit(digit: number): number {
 /**
  * 右对齐数字字段里，从右数第 place 位（0 = 个位）的精灵左上角。
  * 只对实际画出来的位数成立；高位不足时该位置不会被数字覆盖。
- * 坐标来自 draw-number 对 sdlpal ui.c:705-731 的步进：起点 pos.x-6，右对齐再加 6*nLength，然后每位左移 6。
+ * 独立按 sdlpal ui.c::PAL_DrawNumber 的步进算坐标，不调用 TS 绘制函数生成预期。
  */
 export function rightDigitX(posX: number, nLength: number, placeFromRight: number): number {
   return posX - 6 + 6 * nLength - 6 * placeFromRight
@@ -40,17 +40,6 @@ export function rightDigitX(posX: number, nLength: number, placeFromRight: numbe
 /** 中对齐个位的左上角。actualLength 含 0 也至少画 1 位。 */
 export function midOnesX(posX: number, nLength: number, actualLength: number): number {
   return posX - 6 + 3 * (nLength + actualLength)
-}
-
-export function digitCount(num: number, nLength: number): number {
-  if (num <= 0) return 1
-  let n = 0
-  let value = num
-  while (value > 0 && n < nLength) {
-    value = Math.floor(value / 10)
-    n++
-  }
-  return n
 }
 
 export function solidImage(width: number, height: number, index: number): IndexedImage {

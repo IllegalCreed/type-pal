@@ -1,46 +1,21 @@
 /**
  * TEST-RESOURCE-TOOLS-COVERAGE-1 R08：BDF 解析完整字形（font/bdf-to-json.ts）。
- * 既有 bdf-to-json.test 已覆盖 8/16 宽片段与部分字节——不重复。本文件：两字形完整 bitmap
- * 手列、LF/CRLF/多余空白行等价、glyphsToJson 完整 count/字段/base64（手算 base64）。
+ * bdf-to-json.test 核非对称16位行字节；本文件核8→16宽多字形推进、EOL和完整JSON。
+ * ASCII原单字形用例由本文件完整合同承接，保留其全部16行输入与字段预期。
  */
 import { describe, expect, test } from 'vitest'
 import { glyphsToJson, parseBdf } from '../bdf-to-json.js'
 
-/** 8×16 ASCII 'A' 风格字形：首两行 3C 7E，余行 00。 */
-const asciiBitmap = (): Uint8Array => {
-  const out = new Uint8Array(16) // bytesPerRow=1 × height=16
-  out[0] = 0x3c
-  out[1] = 0x7e
-  return out
-}
-
-/** 16×16 CJK 风格字形：两字节/行 × 16 行手列（0x00,0xFF 交替模式）。 */
-const cjkBitmap = (): Uint8Array => {
-  const rows = [
-    '0000',
-    'FFFF',
-    '0000',
-    'FFFF',
-    '0000',
-    '0000',
-    '0000',
-    'FFFF',
-    '0000',
-    'FFFF',
-    '0000',
-    '0000',
-    '0000',
-    'FFFF',
-    '0000',
-    'FFFF',
-  ]
-  const out = new Uint8Array(32)
-  rows.forEach((row, index) => {
-    out[index * 2] = parseInt(row.slice(0, 2), 16)
-    out[index * 2 + 1] = parseInt(row.slice(2), 16)
-  })
-  return out
-}
+/** 独立手列字节；不再用与解析器相同的 hex 循环生成预期。 */
+const asciiBitmap = (): Uint8Array =>
+  Uint8Array.from([
+    0x00, 0x00, 0x00, 0x18, 0x24, 0x42, 0x42, 0x7e, 0x42, 0x42, 0x42, 0x42, 0x00, 0x00, 0x00, 0x00,
+  ])
+const cjkBitmap = (): Uint8Array =>
+  Uint8Array.from([
+    0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff,
+    0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0xff, 0xff,
+  ])
 
 function bdfText(lineEnding: '\n' | '\r\n', padding: '' | ' '): string {
   const eol = `${padding}${lineEnding}`
@@ -53,9 +28,22 @@ function bdfText(lineEnding: '\n' | '\r\n', padding: '' | ' '): string {
     'SWIDTH 500 0',
     'BBX 8 16 0 0',
     'BITMAP',
-    '3C',
+    '00',
+    '00',
+    '00',
+    '18',
+    '24',
+    '42',
+    '42',
     '7E',
-    ...Array.from({ length: 14 }, () => '00'),
+    '42',
+    '42',
+    '42',
+    '42',
+    '00',
+    '00',
+    '00',
+    '00',
     'ENDCHAR',
     'STARTCHAR CJK',
     'ENCODING 20013',
@@ -109,15 +97,17 @@ describe('R08 parseBdf 完整字形', () => {
   })
   test('glyphsToJson 完整 count/字段/base64（手算 base64 oracle）', () => {
     const json = glyphsToJson(parseBdf(bdfText('\n', '')))
-    expect(json.count).toBe(2)
-    expect(json.glyphs[0]).toEqual({
-      codepoint: 65,
-      width: 8,
-      height: 16,
-      // 3C 7E + 14×00 全 16 字节的 base64
-      bitmapBase64: 'PH4AAAAAAAAAAAAAAAAAAA==',
+    expect(json).toEqual({
+      count: 2,
+      glyphs: [
+        { codepoint: 65, width: 8, height: 16, bitmapBase64: 'AAAAGCRCQn5CQkJCAAAAAA==' },
+        {
+          codepoint: 20013,
+          width: 16,
+          height: 16,
+          bitmapBase64: 'AAD//wAA//8AAAAAAAD//wAA//8AAAAAAAD//wAA//8=',
+        },
+      ],
     })
-    expect(json.glyphs[1]!.bitmapBase64).toBe('AAD//wAA//8AAAAAAAD//wAA//8AAAAAAAD//wAA//8=')
-    expect(json.glyphs[1]!.codepoint).toBe(20013)
   })
 })

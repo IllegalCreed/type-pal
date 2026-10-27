@@ -1,8 +1,7 @@
 /**
  * TEST-GLM-RUNTIME-RESOURCE-2 R07（parsers/stores.ts）。
- * 去重账：tables.test 覆盖单条首 0 截断/满 9/非 18 整除；stores.boundaries（PAL-TABLES P05）
- * 覆盖三记录并存（空首槽/截断/满 9）互不串位。本文件只做未占用合同：
- * 相邻记录边界不串位（第 1 记录满 9 无 0、第 2 记录首槽即 0）、subarray byteOffset。
+ * tables.test核原盘完整列表；stores.boundaries核空首槽/截断/满9的完整三记录。
+ * 本文件保留紧邻满9与空记录、subarray偏移，以及7B非整除的精确拒绝。
  */
 import { describe, expect, test } from 'vitest'
 import { parseStores } from './stores.js'
@@ -37,4 +36,10 @@ describe('R07 parseStores 记录边界', () => {
     parent.set(bc, 5)
     expect(parseStores(parent.subarray(5))).toEqual(parseStores(bc))
   })
+})
+
+test('parseStores：尺寸不整除精确拒绝', () => {
+  expect(() => parseStores(new Uint8Array(7))).toThrow(
+    'parseStores: DATA.MKF chunk 0 size 7 不能被 STORE_RECORD_SIZE=18 整除',
+  )
 })

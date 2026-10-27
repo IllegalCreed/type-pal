@@ -38,11 +38,8 @@ function levelUp(): LevelUpScreenData {
 }
 
 describe('P08 结算呈现', () => {
-  it('P08 经验金钱、升级旧新值、隐藏涨点和练成名称可区分', () => {
+  it('P08 经验和金钱分别显示本场结果', () => {
     const frames = makeUiFrames()
-    const words = Array<string>(56).fill('')
-    words[51] = '武术'
-    setWordTable(words)
     const expFb = createFramebuffer()
     fillSentinel(expFb)
     const expScreen = { kind: 'exp-cash' as const, expGained: 12, cashGained: 34, isBoss: false }
@@ -60,7 +57,10 @@ describe('P08 结算呈现', () => {
     expect(pixel(expFb, rightDigitX(182, 5, 1), 74)).toBe(yellowDigit(1))
     expect(pixel(expFb, midOnesX(162, 5, 2), 119)).toBe(yellowDigit(4))
     expect(pixel(expFb, midOnesX(162, 5, 2) - 6, 119)).toBe(yellowDigit(3))
+  })
 
+  it('P08 升级画面保留旧新等级与武术', () => {
+    const frames = makeUiFrames()
     const data = levelUp()
     const levelScreen = { kind: 'level-up' as const, data }
     const levelFb = createFramebuffer()
@@ -81,7 +81,13 @@ describe('P08 结算呈现', () => {
     expect(pixel(levelFb, rightDigitX(195, 4, 0), 101)).toBe(yellowDigit(2))
     expect(pixel(levelFb, rightDigitX(133, 4, 1), 101)).toBe(yellowDigit(1))
     expect(pixel(levelFb, rightDigitX(195, 4, 1), 101)).toBe(yellowDigit(2))
+  })
 
+  it('P08 隐藏成长显示角色、词表属性和增量', () => {
+    const frames = makeUiFrames()
+    const words = Array<string>(56).fill('')
+    words[51] = '武术'
+    setWordTable(words)
     const hiddenFb = createFramebuffer()
     fillSentinel(hiddenFb)
     const hiddenScreen = {
@@ -99,7 +105,10 @@ describe('P08 结算呈现', () => {
     expect(pixel(hiddenFb, textDot('戊', 0, 90, 70).x, textDot('戊', 0, 90, 70).y)).toBe(0)
     expect(pixel(hiddenFb, textDot('武', 0, 106, 70).x, textDot('武', 0, 106, 70).y)).toBe(0)
     expect(pixel(hiddenFb, rightDigitX(175, 5, 0), 74)).toBe(yellowDigit(5))
+  })
 
+  it('P08 练成法术名称与角色颜色不同', () => {
+    const frames = makeUiFrames()
     const learnFb = createFramebuffer()
     fillSentinel(learnFb)
     const learnScreen = {

@@ -45,3 +45,21 @@ describe('buildManifest', () => {
     expect(m.version).toBe(clean.version)
   })
 })
+
+it('buildManifest：相同 path 的条目保留（不从相同条目推断稳定排序）且排除自身与 .DS_Store', () => {
+  const manifest = buildManifest([
+    { path: 'b/2.png', size: 2, sha256: '0'.repeat(64) },
+    { path: 'asset-manifest.json', size: 999, sha256: '0'.repeat(64) }, // SELF 排除
+    { path: 'a/.DS_Store', size: 5, sha256: '0'.repeat(64) }, // 排除
+    { path: 'a/1.png', size: 1, sha256: '0'.repeat(64) },
+    { path: 'b/2.png', size: 2, sha256: '0'.repeat(64) }, // 与首项同 path 同 size → sort 相等臂
+  ])
+  expect(manifest.files).toEqual([
+    { path: 'a/1.png', size: 1, sha256: '0'.repeat(64) },
+    { path: 'b/2.png', size: 2, sha256: '0'.repeat(64) },
+    { path: 'b/2.png', size: 2, sha256: '0'.repeat(64) },
+  ])
+  expect(manifest.version).toBe('0d861cd4e8faf2d3')
+  expect(manifest.fileCount).toBe(3)
+  expect(manifest.totalBytes).toBe(5)
+})

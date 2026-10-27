@@ -12,7 +12,7 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual owned delta; previous document/history unchanged",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
       "truthAnchors": [
@@ -38,7 +38,7 @@
         }
       ],
       "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
-      "afterSha256": "ed78af387de5511c52752520e8c5128947d67238903ecfbe202fef6ca3a4fc35",
+      "afterSha256": "161ab0d0fd82e8db36d990be4d1c4e73851a5106bcb96c929c564a29fe6fe433",
       "publicCallers": [
         "docs/ops/evidence/README.md → docs/ops/evidence/README.md navigation",
         "task card / evidence consumer references"
@@ -59,7 +59,7 @@
       },
       "revision": {
         "currentSha": "ed78af387de5511c52752520e8c5128947d67238903ecfbe202fef6ca3a4fc35",
-        "implementationSha": "ed78af387de5511c52752520e8c5128947d67238903ecfbe202fef6ca3a4fc35",
+        "implementationSha": "161ab0d0fd82e8db36d990be4d1c4e73851a5106bcb96c929c564a29fe6fe433",
         "history": [
           {
             "revision": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
@@ -141,9 +141,11 @@
         },
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained.",
         "currentMaintenance": {
-          "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "ed78af387de5511c52752520e8c5128947d67238903ecfbe202fef6ca3a4fc35",
-          "scope": "Owned52 delta; history retained."
+          "task": "QUALITY-PENDING-100-1",
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "ed78af387de5511c52752520e8c5128947d67238903ecfbe202fef6ca3a4fc35",
+          "afterSha256": "161ab0d0fd82e8db36d990be4d1c4e73851a5106bcb96c929c564a29fe6fe433",
+          "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
         }
       },
       "history": [

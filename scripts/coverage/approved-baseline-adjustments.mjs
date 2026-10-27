@@ -5,6 +5,131 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'quality-window100-exact-test-migration-20261027',
+    authority:
+      'User2026-10-27 explicitly approved three unused extractor APIs retirement and test migration; standing instructions permit justified exact baseline adjustment after code/test quality improvements, never dead code restoration or weak tests. Only pal-extract branch floor changes673/796→661/790:12 removed covered branches (6 from retired adapters,6 from stronger legally parsed inputs/test transfers into existing fast-excluded files),6total branches removed. Keep4 real animation-writer branch gains. Other metrics and six packages retain old floors. Ten per-file deltas and six exact test-retirement identities are independently pinned; one official collection reused. No runner, comparator, selection, predicate, threshold, timeout or ignore changes.',
+    evidence: 'docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/recount.json',
+    baselineSha256: 'f569c4c715ad0031c70c9e6bf4f359d8460f423b588da0cb0fa72887d857ac1c',
+    sources: [
+      {
+        path: 'packages/pal-extract/src/io/read.ts',
+        sha256: '2dcd57f6a51469b9ce5b50d50a817e0922295e3281ef895c8a03e66a42ce75e2',
+      },
+      {
+        path: 'packages/pal-extract/src/io/write.ts',
+        sha256: '664539a20d5a23f296dcaeb08e54d32cba0a4789fc5fc8feb56b7de0bffbda77',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/animation-assets.ts',
+        sha256: 'ba474bac4b6dc2dcb034f165a92d25186f2a29a6343bad835016ce04e58645b9',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/map.ts',
+        sha256: '081d8e15132b74ae2d41f7300147bf5966e4a187e5f72ca7b5bc833f892bae9c',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/scene.ts',
+        sha256: '2980e190a4133f2123cee42cab14b942e4ba7661932aa26170ba679cf8dfceee',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/data-misc.ts',
+        sha256: 'bae489b9c04bc8a4ec85d82419b0b08694c25dfdfdb8a9afdd389a1de5bab5f2',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/spells.ts',
+        sha256: '3bf94340d337fb9fee0ca019ce3a9a66f52cf42d671b748e9dfd68868ed4815d',
+      },
+      {
+        path: 'packages/game/src/assets/png-decode.grok-r1.test.ts',
+        sha256: '58fa7709e4a859fdc57ab5eae736806a392e8cfe668df1c06c88e1ad05d097b7',
+      },
+      {
+        path: 'packages/game/src/assets/scene-cache.grok-r1.test.ts',
+        sha256: '4ab6a1fa912fdfed0b961bf43b0734c7d69a41eb5e7b61eedc98d7da61e6dce0',
+      },
+      {
+        path: 'packages/pal-extract/src/events/disasm.test.ts',
+        sha256: 'eeb11963b6761c5ad16694df2046aab3e1a627161af891f2e1f613e8eef70df2',
+      },
+      {
+        path: 'packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts',
+        sha256: 'cd19f360ffd314bf602920c5f5bfcc47e7d5ebe52db872300d56741742e2d4d6',
+      },
+      {
+        path: 'packages/pal-extract/src/io/rle.test.ts',
+        sha256: '16b2f6ab8b5cfe0a5b1aa2203aa45e16033085bf84cd7a79264289861f18b074',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/scene.test.ts',
+        sha256: 'bd602764b568f4a7610fd601d5dacca96abd3ab8dd9f55d1713489ef05851373',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/animation-assets.fire.test.ts',
+        sha256: 'ba4cd460bd6947c7a8afe3f44e56610ea27036bf6b39eb96bf44a53fc3b8e3d2',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/animation-assets.rng.test.ts',
+        sha256: '50a55707f9ac594cf5c8bde3b60106f465b2d0736b337fcda015d7e72b36149c',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/map.test.ts',
+        sha256: 'e12128fbee820a1b3b7f2f132af5ad8f5f9a60d3df5b12dba13b2dcad977bf5a',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts',
+        sha256: '021124b1842f5f7ac94a497843a965e30ed095351e377d6fcfbe70260a3ab6cb',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts',
+        sha256: '831237c3fe3f42969c0f204ad686202ae170e544d475bdd87fb6d298ad35470f',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/tables.test.ts',
+        sha256: 'f1977858301e9d01e609ba2f3a0a6d6ecb5a9b38f875d2f4f62cb5a71947ac28',
+      },
+      {
+        path: 'scripts/coverage/run.mjs',
+        sha256: '87c5e8049444e8d5b6195b5d01ced2061420f04ed9a572a7e8f80f9b67a29d45',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: '9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35',
+      },
+      {
+        path: 'scripts/coverage/metrics.mjs',
+        sha256: '5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74',
+      },
+      {
+        path: 'scripts/coverage/inventory.mjs',
+        sha256: '8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.mjs',
+        sha256: '5a43a8cccde1289e24f5614ebb3b54af6a0b4f80d217d1c8cb9e67d92c738302',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/animation-assets.rng.pal.test.ts',
+        sha256: '54c93e4df0dc4db712b4a5ca6a622da31d4a87849afbf5d31d07870a04f747f3',
+      },
+    ],
+    packages: {
+      'pal-extract': {
+        before: {
+          statements: { covered: 1366, total: 1810 },
+          branches: { covered: 673, total: 796 },
+          functions: { covered: 134, total: 193 },
+          lines: { covered: 1199, total: 1590 },
+        },
+        after: {
+          statements: { covered: 1366, total: 1810 },
+          branches: { covered: 661, total: 790 },
+          functions: { covered: 134, total: 193 },
+          lines: { covered: 1199, total: 1590 },
+        },
+      },
+    },
+  },
+  {
     id: 'review52-approved-video-guards-and-sprite-retirement-20261026',
     authority:
       'User2026-10-26 explicitly approved output symlink rejection/atomic publish and zero-caller sprite-wrapper retirement; standing instruction permits justified exact baseline changes without dead-code restoration or weak tests. This finite adjustment includes behavioral CLI guards, not just pure restructuring: CLI subprocess byte/error regressions pass but the standalone script is outside in-process V8 execution. Its new uncovered denominators stay visible. Exactly two per-file deltas explain the pal-extract package change; other six packages and their real gains are not rebased. One official collection reused; no metric tolerance, exclusion, rule or predicate change.',

@@ -1,6 +1,6 @@
 /**
  * TEST-PAL-TABLES-COVERAGE-1 P05：parseStores 边界（parsers/stores.ts）。
- * 既有 tables.test 已覆盖单条 fake 首 0 截断/满 9/非 18 整除——不重复。
+ * tables.test核原盘完整列表；尺寸拒绝与偏移由stores.glm-runtime-resource.test负责。
  * 本文件：三记录并存（空首槽 / 截断 / 满 9），完整 id 与数组，证明记录互不串位。
  */
 import { describe, expect, test } from 'vitest'

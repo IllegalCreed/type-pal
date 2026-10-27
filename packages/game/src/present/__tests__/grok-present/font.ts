@@ -21,7 +21,7 @@ const ASCII_DOTS: Record<string, { col: number; row: number; mask: number }> = {
   p: { col: 6, row: 4, mask: 0x02 },
 }
 
-export interface GlyphDot {
+interface GlyphDot {
   col: number
   row: number
   width: number
@@ -51,7 +51,7 @@ function addAscii(ch: string, spec: { col: number; row: number; mask: number }):
 for (let i = 0; i < [...FULL_CHARS].length; i++) addFull([...FULL_CHARS][i]!, i)
 for (const [ch, spec] of Object.entries(ASCII_DOTS)) addAscii(ch, spec)
 
-export function glyphDot(ch: string): GlyphDot {
+function glyphDot(ch: string): GlyphDot {
   const dot = dots.get(ch)
   if (!dot) throw new Error(`glyph not in fixture: ${ch}`)
   return dot

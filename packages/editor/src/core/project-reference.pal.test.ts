@@ -267,9 +267,30 @@ describe('ED-3 PAL project reference index', () => {
       ),
     ).toHaveLength(2)
     expect(edges.filter((edge) => edge.relation.kind === 'battle-field-use')).toHaveLength(141)
-    // The s286/e4841 ordinary enemy becomes the missing palace exit; it now owns
-    // one load-scene entry and a page/behavior binding, no enemy team or sprite asset.
-    expect(edges.filter((edge) => edge.relation.kind === 'enemy-team-use')).toHaveLength(1_001)
+    // The independent exit preserves the original s286/e4841 enemy, including its
+    // team and world sprite. Pin the restored dependency as well as the census.
+    const enemyTeamEdges = edges.filter((edge) => edge.relation.kind === 'enemy-team-use')
+    expect(enemyTeamEdges).toHaveLength(1_002)
+    expect(
+      enemyTeamEdges
+        .filter(
+          (edge) =>
+            edge.source.owner.kind === 'scene-entity' &&
+            edge.source.owner.sceneId === 's286' &&
+            edge.source.owner.entityId === 'e4841',
+        )
+        .map((edge) => ({
+          target: edge.target,
+          owner: edge.source.owner,
+          relation: edge.relation,
+        })),
+    ).toEqual([
+      {
+        target: { kind: 'enemy-team', id: 'team-267' },
+        owner: { kind: 'scene-entity', sceneId: 's286', entityId: 'e4841' },
+        relation: { kind: 'enemy-team-use', use: 'hostile' },
+      },
+    ])
     expect(edges.filter((edge) => edge.relation.kind === 'ambience-use')).toHaveLength(42)
     expect(index.referencesTo({ kind: 'map', id: 'map-164' })).toMatchObject([
       {
@@ -541,7 +562,22 @@ describe('ED-3 PAL project reference index', () => {
       (edge) => edge.relation.kind === 'world-sprite-action-use',
     )
     const battleSpriteEdges = edges.filter((edge) => edge.relation.kind === 'battle-sprite-use')
-    expect(worldSpriteEdges).toHaveLength(3_834)
+    expect(worldSpriteEdges).toHaveLength(3_835)
+    expect(
+      worldSpriteEdges
+        .filter(
+          (edge) =>
+            edge.source.owner.kind === 'scene-entity' &&
+            edge.source.owner.sceneId === 's286' &&
+            edge.source.owner.entityId === 'e4841',
+        )
+        .map((edge) => ({ target: edge.target, owner: edge.source.owner })),
+    ).toEqual([
+      {
+        target: { kind: 'world-sprite', id: 'sprite-548' },
+        owner: { kind: 'scene-entity', sceneId: 's286', entityId: 'e4841' },
+      },
+    ])
     expect(index.referencesTo({ kind: 'world-sprite', id: 'sprite-208' })).toMatchObject([
       {
         source: {
@@ -685,7 +721,7 @@ describe('ED-3 PAL project reference index', () => {
         (sum, id) => sum + index.referencesTo({ kind: 'world-sprite', id }).length,
         0,
       ),
-    ).toBe(4_234)
+    ).toBe(4_235)
     expect(new Set(oldBattleSpriteReferences.map((reference) => reference.battleSprite)).size).toBe(
       171,
     )
@@ -988,8 +1024,8 @@ describe('ED-3 PAL project reference index', () => {
   test('transports the compact reference snapshot through a fresh worker runtime', () => {
     const { state, canonical, diagnostics } = referenceContext()
 
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_222)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_134)
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_224)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_136)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

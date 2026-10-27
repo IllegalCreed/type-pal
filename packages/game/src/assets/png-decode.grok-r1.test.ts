@@ -1,6 +1,6 @@
 /**
  * G02-A：R 通道、3×2 完整平面、缺上下文释放、错误上下文与原始 cause。
- * A04 的坏 Blob 摘要并入 A05；L23 保留 alpha 边界，P10 保留真实消费与释放。
+ * 通道、透明与高位索引合并到同一完整平面；P10 保留真实消费与释放。
  */
 import { describe, expect, it, vi } from 'vitest'
 import { encodeRgbaPng } from '../present/__tests__/grok-present/png-rgba.js'
@@ -12,23 +12,16 @@ function blobOf(rgba: readonly number[], width: number, height: number): Blob {
 }
 
 describe('G02-A decodePngToIndices 通道与上下文', () => {
-  it('G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R', async () => {
-    const image = await decodePngToIndices(blobOf([5, 9, 8, 255], 1, 1))
-    expect(image.width).toBe(1)
-    expect(image.height).toBe(1)
-    expect(Array.from(image.indices)).toEqual([5])
-    expect(Array.from(image.opaque)).toEqual([1])
-  })
-
-  it('G02-A02 3×2 完整下标与遮罩按行保存', async () => {
+  it('G02-A02 3×2 按行保留 R 索引、高位、透明孔与半透明调色板0', async () => {
     const rgba = [
-      1, 1, 1, 255, 2, 2, 2, 255, 3, 3, 3, 255, 4, 4, 4, 255, 5, 5, 5, 255, 9, 9, 9, 255,
+      42, 13, 14, 255, 200, 9, 8, 255, 0, 0, 0, 200, 9, 9, 9, 0, 5, 9, 8, 255, 9, 4, 3, 255,
     ]
     const image = await decodePngToIndices(blobOf(rgba, 3, 2))
     expect(image.width).toBe(3)
     expect(image.height).toBe(2)
-    expect(Array.from(image.indices)).toEqual([1, 2, 3, 4, 5, 9])
-    expect(Array.from(image.opaque)).toEqual([1, 1, 1, 1, 1, 1])
+    // Canvas 将 alpha=0 的 RGB 归零；非零 alpha 的调色板0仍须不透明。
+    expect(Array.from(image.indices)).toEqual([42, 200, 0, 0, 5, 9])
+    expect(Array.from(image.opaque)).toEqual([1, 1, 1, 0, 1, 1])
   })
 
   it('G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap', async () => {

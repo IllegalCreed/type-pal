@@ -215,10 +215,10 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "516-631",
+          "lines": "527-642",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "487c80f3a5777d9e24fc23c73a40e1e0919eac602c9947129343cba1959d3f31"
+          "sha256": "965892932b391417a20cc2162dabd3c0dc6266e009bbbbc06e5cde5aceb9a9d7"
         }
       ],
       "publicCallers": [
@@ -325,10 +325,10 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "516-631",
+          "lines": "527-642",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "487c80f3a5777d9e24fc23c73a40e1e0919eac602c9947129343cba1959d3f31"
+          "sha256": "965892932b391417a20cc2162dabd3c0dc6266e009bbbbc06e5cde5aceb9a9d7"
         }
       ],
       "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],

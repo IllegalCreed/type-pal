@@ -1,6 +1,6 @@
 /**
  * TEST-PAL-TABLES-COVERAGE-1 P06：parseBattleFields 边界（parsers/battle-fields.ts）。
- * 既有 tables.test 已覆盖真实规模/shape/单条 0xFFFF→-1/截断——不重复。
+ * tables.test核原盘完整字段；尺寸拒绝与偏移由battle-fields.glm-runtime-resource.test负责。
  * 本文件：两 12B 记录完整对象相等（五维不同正负值 + unsigned 高位 screenWave）。
  */
 import { describe, expect, test } from 'vitest'

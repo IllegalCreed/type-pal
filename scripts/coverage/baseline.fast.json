@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-27T07:08:54.379Z",
+  "generatedAt": "2026-10-27T15:48:39.188Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 812,
-  "testCount": 20203,
+  "sourceFileCount": 809,
+  "testCount": 20188,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1160,7 +1160,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 55,
+      "sourceFileCount": 52,
       "sourceFiles": [
         "packages/pal-extract/scripts/extract-videos.ts",
         "packages/pal-extract/src/cli.ts",
@@ -1187,7 +1187,6 @@
         "packages/pal-extract/src/output-boundary.ts",
         "packages/pal-extract/src/resources/animation-assets.ts",
         "packages/pal-extract/src/resources/asset-manifest.ts",
-        "packages/pal-extract/src/resources/battle-sprite.ts",
         "packages/pal-extract/src/resources/bitmap-assets.ts",
         "packages/pal-extract/src/resources/data-assets.ts",
         "packages/pal-extract/src/resources/enemy-pos.ts",
@@ -1201,12 +1200,10 @@
         "packages/pal-extract/src/resources/parsers/data-misc.ts",
         "packages/pal-extract/src/resources/parsers/enemies.ts",
         "packages/pal-extract/src/resources/parsers/enemy-teams.ts",
-        "packages/pal-extract/src/resources/parsers/fire.ts",
         "packages/pal-extract/src/resources/parsers/items.ts",
         "packages/pal-extract/src/resources/parsers/player-roles.ts",
         "packages/pal-extract/src/resources/parsers/rgm.ts",
         "packages/pal-extract/src/resources/parsers/rix.ts",
-        "packages/pal-extract/src/resources/parsers/rng-frames.ts",
         "packages/pal-extract/src/resources/parsers/sounds.ts",
         "packages/pal-extract/src/resources/parsers/spells.ts",
         "packages/pal-extract/src/resources/parsers/stores.ts",
@@ -1218,10 +1215,10 @@
         "packages/pal-extract/src/resources/world-assets.ts",
         "packages/pal-extract/src/utils/gbk.ts"
       ],
-      "scopeDigest": "92f3bde9954c0828d7a723924b714ac635425a1c2136a31c5107bcf7ab4739ee",
+      "scopeDigest": "96fef9f4f13a5146e0d9ddc5a9429c739f462502f444b7f7dabcf1dc80b95b02",
       "fastTests": {
-        "testCount": 372,
-        "testFileCount": 71,
+        "testCount": 357,
+        "testFileCount": 69,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
           "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
@@ -1254,7 +1251,6 @@
           "packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts",
           "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
           "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
-          "packages/pal-extract/src/io/mkf.test.ts",
           "packages/pal-extract/src/io/msg.boundaries.test.ts",
           "packages/pal-extract/src/io/rle.test.ts",
           "packages/pal-extract/src/io/slf.test.ts",
@@ -1262,10 +1258,10 @@
           "packages/pal-extract/src/io/word.boundaries.test.ts",
           "packages/pal-extract/src/localization/build-language-pack.test.ts",
           "packages/pal-extract/src/output-boundary.test.ts",
+          "packages/pal-extract/src/resources/animation-assets.fire.test.ts",
+          "packages/pal-extract/src/resources/animation-assets.rng.test.ts",
           "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
-          "packages/pal-extract/src/resources/battle-sprite.test.ts",
           "packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts",
-          "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts",
           "packages/pal-extract/src/resources/palette.boundaries.test.ts",
           "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/resources/palette.test.ts",
@@ -1283,7 +1279,6 @@
           "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
-          "packages/pal-extract/src/resources/parsers/fire.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
           "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
@@ -1303,8 +1298,8 @@
           },
           {
             "file": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
-            "testCount": 3,
-            "identityDigest": "705afc3b56efee29e2b13d84330155b8c5649cbe73223d006b659a6ddf9e6fda"
+            "testCount": 4,
+            "identityDigest": "e2b0a30df171a86c84eb1362f876e097e713265f8a2acbb9aa647aba25fc43af"
           },
           {
             "file": "packages/pal-extract/src/__tests__/cli-host.test.ts",
@@ -1374,12 +1369,12 @@
           {
             "file": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
             "testCount": 5,
-            "identityDigest": "43cea5dcba640d02cc77120bfb643130e6bc3d3f76f5d1772e09f16783e8104f"
+            "identityDigest": "83cb7685e0d64047689d59aab9dc1a84ca0d2c3bcd9bb224fa04d857e31c41dd"
           },
           {
             "file": "packages/pal-extract/src/events/disasm.test.ts",
-            "testCount": 14,
-            "identityDigest": "dca24c92e2400cf3ca1bb44e766a8dbe4d5973cbd7be7b72302f8295ce966231"
+            "testCount": 12,
+            "identityDigest": "93ecb99064c0a8c6470bb4b1a04cecd461d812c7c4beeb49db35a83e57a2bd56"
           },
           {
             "file": "packages/pal-extract/src/events/opcodes.test.ts",
@@ -1394,7 +1389,7 @@
           {
             "file": "packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts",
             "testCount": 4,
-            "identityDigest": "e5d44247fbdf0a8a519443897f5068c52dd38c2ce799c2f64600f1a11e1301dd"
+            "identityDigest": "41740ecdce4a753862d2fe5fe7ecd118d91c234e2ce7c7200327edda045bd3c5"
           },
           {
             "file": "packages/pal-extract/src/events/recompile.test.ts",
@@ -1404,7 +1399,7 @@
           {
             "file": "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
             "testCount": 2,
-            "identityDigest": "1c80c35d8c8fd4d251eb1eaaed2bd81cecade6a954bf79efcfa538a8ad789851"
+            "identityDigest": "c3c4b710d2e0e0ffc44846f02919209a4275e16e9f88d7f986a53139708b0e41"
           },
           {
             "file": "packages/pal-extract/src/events/script-corrections.test.ts",
@@ -1443,18 +1438,13 @@
           },
           {
             "file": "packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts",
-            "testCount": 2,
-            "identityDigest": "6425f15ef52f6ae8b40a6a935b681135fd32f543868dbe503ff04246003f9db0"
+            "testCount": 1,
+            "identityDigest": "7c43f1b9f85de76953cb3d5c5dcaec3deed77620c0c60fec69ce619797922e30"
           },
           {
             "file": "packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
-            "testCount": 5,
-            "identityDigest": "8ce9f1b14bce2a7629ea8c8a80cf9d07532fb32536f44ad0c8465e2f2bc6ebc5"
-          },
-          {
-            "file": "packages/pal-extract/src/io/mkf.test.ts",
-            "testCount": 3,
-            "identityDigest": "b6913e146f2e43b05c6ba7a41f0914f951f0b49d5880dc61afae52e9a7c6345a"
+            "testCount": 8,
+            "identityDigest": "7c7328840c64e2b2fa9969e3a5a89b357f9ab664140c4668d9d087b385eaade2"
           },
           {
             "file": "packages/pal-extract/src/io/msg.boundaries.test.ts",
@@ -1463,8 +1453,8 @@
           },
           {
             "file": "packages/pal-extract/src/io/rle.test.ts",
-            "testCount": 3,
-            "identityDigest": "89cb40d8b1829accec2a93a68df4cf412aed9e214614fa7a74476eb423140fad"
+            "testCount": 1,
+            "identityDigest": "108ccdbbdb6ab7c57fe9093600aa6312f45519209ffa16350f20ad9c493b34a1"
           },
           {
             "file": "packages/pal-extract/src/io/slf.test.ts",
@@ -1478,8 +1468,8 @@
           },
           {
             "file": "packages/pal-extract/src/io/word.boundaries.test.ts",
-            "testCount": 3,
-            "identityDigest": "163ead05fd56302597298443620467355ee3dd7195bc711322814766ea27523c"
+            "testCount": 4,
+            "identityDigest": "758b5a50e605e8ed81ad3fb49e1680c8f9c0e232150d41cf1cac4153f71c4b78"
           },
           {
             "file": "packages/pal-extract/src/localization/build-language-pack.test.ts",
@@ -1492,24 +1482,24 @@
             "identityDigest": "322ada50aa2427e219be045cb1234d1256962ebe4d7e29dcecc9960515422b84"
           },
           {
+            "file": "packages/pal-extract/src/resources/animation-assets.fire.test.ts",
+            "testCount": 3,
+            "identityDigest": "a7349436290168ee812b32de5378708cd5774c66f4e6f42109948176a3f743d8"
+          },
+          {
+            "file": "packages/pal-extract/src/resources/animation-assets.rng.test.ts",
+            "testCount": 1,
+            "identityDigest": "a403b41d0edc94ad6012c5a46793be3025ad807137c615fc4eaa84bd6938b491"
+          },
+          {
             "file": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
             "testCount": 2,
             "identityDigest": "8906c2a8757951e4896e860b5e1032db8a02089e66d918a5c18847205b5b8132"
           },
           {
-            "file": "packages/pal-extract/src/resources/battle-sprite.test.ts",
-            "testCount": 3,
-            "identityDigest": "69797829a04a1e71fef95128626776865a7156fa50a7230c29e0265982471162"
-          },
-          {
             "file": "packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts",
             "testCount": 2,
             "identityDigest": "be26652b52c8fd0619f7ea939d966673a9a797add7eafed186c61d6f36f7fdb0"
-          },
-          {
-            "file": "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts",
-            "testCount": 15,
-            "identityDigest": "3891ac1cd63e163a4ad2d00e5252529df678d763e79c34118d8ea5ec6b6cb504"
           },
           {
             "file": "packages/pal-extract/src/resources/palette.boundaries.test.ts",
@@ -1518,13 +1508,13 @@
           },
           {
             "file": "packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts",
-            "testCount": 3,
-            "identityDigest": "8c95a1656423f8495d01193738412a0e9d707c7771b9671821faf54ab4a71e14"
+            "testCount": 4,
+            "identityDigest": "b1342371da259851e9fc235f5e292d7ca75957387d0c43971b2374aad8830357"
           },
           {
             "file": "packages/pal-extract/src/resources/palette.test.ts",
             "testCount": 3,
-            "identityDigest": "75b4e5882ee05777ba3cdba7da7b992e6b80c58e5b2ba91378c21b353e838def"
+            "identityDigest": "48a374657e1b9aea7b235dd18d1bf51afd4f606c77cc39b5d889bcef44ace1e4"
           },
           {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts",
@@ -1538,8 +1528,8 @@
           },
           {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts",
-            "testCount": 5,
-            "identityDigest": "23ea8eeaf93d7ddf482821ec949874270a45a53691c83bc7a8dcd20db3b9d08f"
+            "testCount": 6,
+            "identityDigest": "a5d371231283a7bda47c8054ba3dfafb1adfde4bfa36d95cada462fe09c71fd0"
           },
           {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
@@ -1548,8 +1538,8 @@
           },
           {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
-            "testCount": 2,
-            "identityDigest": "039d0bce089198e7a8f5753e03dd28384b4c578e827a5236acc7f6a4ea545cec"
+            "testCount": 3,
+            "identityDigest": "aaa9a341b5f079b757a02fcd36ca2764cdf20ac480a3c27c82117b9d005f657e"
           },
           {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
@@ -1564,7 +1554,7 @@
           {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts",
             "testCount": 4,
-            "identityDigest": "caca06440521c0210544b8088f93e5f0d6747607dd9410d8c488c3524e535515"
+            "identityDigest": "b6e950f614fdf2e512d662c86ec2068df2ad1230ca0bb1fbbf26383c2bd2cb51"
           },
           {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts",
@@ -1574,7 +1564,7 @@
           {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts",
             "testCount": 10,
-            "identityDigest": "d2f643d7ba69ee768065b7775a21a9efe5b96fe4522a30348c946dcbadd56b9c"
+            "identityDigest": "39a16320f220c3f48967e1249f9928bbc4e6a642248dc5cab9e02de206b1a584"
           },
           {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts",
@@ -1584,22 +1574,17 @@
           {
             "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
             "testCount": 4,
-            "identityDigest": "2a3c1107905b8a668d0e63cb23d3cce8a8db28cab54c48637c4327e07dee7a7c"
+            "identityDigest": "75415a81b1218c7c79baf38f23aec2d94fdd4a858752e0999140a91a9d8eb299"
           },
           {
             "file": "packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts",
-            "testCount": 1,
-            "identityDigest": "cd9daac01385bfe2135d4ab1f4bf42425d53d2d77b465e59233ec1f192e2a06b"
+            "testCount": 2,
+            "identityDigest": "61ea664da3765fee21d424cd72e126185d9f283b9f5e1b7abf5e2475b0f6573f"
           },
           {
             "file": "packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts",
-            "testCount": 3,
-            "identityDigest": "81e5f111fc1acea27f2c184040fbe3ec0d5b99698dfe8264c74e64bda69d9ad6"
-          },
-          {
-            "file": "packages/pal-extract/src/resources/parsers/fire.glm-runtime-resource.test.ts",
-            "testCount": 4,
-            "identityDigest": "a1e118132de968369b3d8c2e5548ba044a817defde7c4fd1cf8a74b914700e13"
+            "testCount": 5,
+            "identityDigest": "19235fd08ce4b88c89de62bec8751088666bfd7adcc378c6b655093b274bebc4"
           },
           {
             "file": "packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts",
@@ -1608,13 +1593,13 @@
           },
           {
             "file": "packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts",
-            "testCount": 3,
-            "identityDigest": "e4d57047c5b8e09a1c3a45ac2333cfabb3158066dc5e68df786baefc11836456"
+            "testCount": 4,
+            "identityDigest": "dad43d8a42ad5a326532d5d25f10032baa8c06e0e1497a789cfcd0911052e491"
           },
           {
             "file": "packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts",
-            "testCount": 2,
-            "identityDigest": "26b8f4034559a82d853e93c95c2a2be99502809190edb197f87b9636aa58f3e3"
+            "testCount": 3,
+            "identityDigest": "212dc7b4d11fe7622b3c07f870d7702d75d8b876af47ab8d9c67ced5b0803cdb"
           },
           {
             "file": "packages/pal-extract/src/resources/scene-supplemental.test.ts",
@@ -1624,12 +1609,12 @@
           {
             "file": "packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts",
             "testCount": 5,
-            "identityDigest": "a91ccdec0efb216dc8b4f45ee051e26fbeb8e0b39c162c0c0bfc7cb7e45a6e18"
+            "identityDigest": "64d48abc640be7619c5576cee570204a946ec58c24b2eadf9bf713db616fc139"
           },
           {
             "file": "packages/pal-extract/src/resources/scene.test.ts",
-            "testCount": 5,
-            "identityDigest": "e38950e400c0826b63c6586c882c6b8ce3d73422e4c194dce86ffe9db5f2037d"
+            "testCount": 3,
+            "identityDigest": "d69654b5cc00e9cf804bbe545d9f496e25f9ba1f4b6f77ab1d835923a2822054"
           },
           {
             "file": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
@@ -1652,26 +1637,26 @@
             "identityDigest": "c2c81c7c43d5b81e2fa52cb616dadfe88c14e4d1c097e8348f0f28221faf66e3"
           }
         ],
-        "identityDigest": "538fa7ded11ec4320b2d2b1ee8b2c7747f0d656ffb2aa3ecf7d6d2cb168aa443",
-        "duplicateIdentityCount": 1,
-        "executionDigest": "959187cf2538cd60ccf029708d8ab432a32d392c8654bb8de9ddfb38a2ab958e"
+        "identityDigest": "1125c1f97454625b8d9ec674012d6e98ff36960e10eba8646f72f3a25114317e",
+        "duplicateIdentityCount": 0,
+        "executionDigest": "66c123cbd21b7a512a481310b4c94029d4bc2d69c15bf31afe070fbfb536bca2"
       },
       "metrics": {
         "statements": {
           "covered": 1366,
-          "total": 1810
+          "total": 1786
         },
         "branches": {
-          "covered": 673,
-          "total": 796
+          "covered": 665,
+          "total": 790
         },
         "functions": {
-          "covered": 134,
-          "total": 193
+          "covered": 140,
+          "total": 188
         },
         "lines": {
           "covered": 1199,
-          "total": 1590
+          "total": 1567
         }
       }
     },
@@ -4856,7 +4841,7 @@
       "scopeDigest": "66d64738395370ba000494810f47c2d6eca3de6cc10fec207f8a96af37b41c7f",
       "fastTests": {
         "testCount": 3766,
-        "testFileCount": 354,
+        "testFileCount": 352,
         "files": [
           "packages/game/src/__tests__/glm-next-wave/H/harness.test.ts",
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -4876,8 +4861,6 @@
           "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
           "packages/game/src/assets/loader.test.ts",
           "packages/game/src/assets/png-decode.grok-r1.test.ts",
-          "packages/game/src/assets/png.glm-phase1-leaves.test.ts",
-          "packages/game/src/assets/png.test.ts",
           "packages/game/src/assets/rle-decode.test.ts",
           "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
           "packages/game/src/assets/scene-cache.grok-r1.test.ts",
@@ -5301,18 +5284,8 @@
           },
           {
             "file": "packages/game/src/assets/png-decode.grok-r1.test.ts",
-            "testCount": 4,
-            "identityDigest": "16119a6654a2b67d2886ae0814162e008ca43071d4b243c61044345944ca3290"
-          },
-          {
-            "file": "packages/game/src/assets/png.glm-phase1-leaves.test.ts",
-            "testCount": 1,
-            "identityDigest": "d7224527d2ccf4893eefb5ec6fad84b84b1d11824e99ecd7b6e5092affd7bd86"
-          },
-          {
-            "file": "packages/game/src/assets/png.test.ts",
-            "testCount": 1,
-            "identityDigest": "f7c815653397c6fce0b1981e532ceca4c16ceb02d4eed240e15ed9c714422be0"
+            "testCount": 3,
+            "identityDigest": "c5a738582c4539f2af688ac597869c823f2b7533f8863f5ac1040cd17119b61d"
           },
           {
             "file": "packages/game/src/assets/rle-decode.test.ts",
@@ -5326,13 +5299,13 @@
           },
           {
             "file": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
-            "testCount": 10,
-            "identityDigest": "2c89a4bd5f39660f4ce2e3f5f787315dcf4d0b42316d2f19081cbb71b3e3644d"
+            "testCount": 9,
+            "identityDigest": "2e552d12f8025046b8d606a859e535ac238490018c8bc7f1e774b01728be6ff9"
           },
           {
             "file": "packages/game/src/assets/snapshot-input-boundaries.test.ts",
-            "testCount": 25,
-            "identityDigest": "3ca402c550aca1aca06b75a4dadea2cd85831e0a7ab42f31e3ea9861081210ae"
+            "testCount": 26,
+            "identityDigest": "67407b3a577a15e9f3e4195afc2f495a00959a6b3c1c32100f22583b19420633"
           },
           {
             "file": "packages/game/src/assets/tileset-blob.test.ts",
@@ -6181,8 +6154,8 @@
           },
           {
             "file": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
-            "testCount": 1,
-            "identityDigest": "94d7144d83eaf43c72475c678ca37f12f2bde9b39e57141a1394f4d5fb73941c"
+            "testCount": 4,
+            "identityDigest": "1d765bcc153ee30c65983746054d53ba7a0e3963459a781e605ed00daa206e82"
           },
           {
             "file": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
@@ -6985,9 +6958,9 @@
             "identityDigest": "b86986a2de3c86ddb7630a8ad3b68a2adf31c12094cff520150c69dc5a13e5e2"
           }
         ],
-        "identityDigest": "9c9909c5c3057fd3c4a7b2b02528ce81c65adf021604cf1a31a4b4adc3210245",
+        "identityDigest": "c1e302017538c0934d041012fca9ef59ff9b842878c98e1f3fcc5ab6cf403572",
         "duplicateIdentityCount": 0,
-        "executionDigest": "3dca575c7d4db3385e8a18dff2b198ca73390f35f15d16bb0b0ef47455f863d2"
+        "executionDigest": "cca893760377090ce3e605131a68d9361a82cf8df2366dd60b3f492ae8d7ccfd"
       },
       "metrics": {
         "statements": {
@@ -11030,19 +11003,19 @@
   "total": {
     "statements": {
       "covered": 72880,
-      "total": 80616
+      "total": 80592
     },
     "branches": {
-      "covered": 52658,
-      "total": 62700
+      "covered": 52650,
+      "total": 62694
     },
     "functions": {
-      "covered": 13784,
-      "total": 15355
+      "covered": 13790,
+      "total": 15350
     },
     "lines": {
       "covered": 65096,
-      "total": 70551
+      "total": 70528
     }
   }
 }

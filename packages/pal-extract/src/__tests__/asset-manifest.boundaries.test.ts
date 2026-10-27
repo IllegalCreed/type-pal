@@ -57,6 +57,8 @@ describe('R09 collectAssetEntries + buildManifest 真实树', () => {
       }, // collect 不过滤；剔除只发生在 buildManifest
     ])
 
+    // 倒序前像确保原地排序会被 ownership 断言捕获。
+    entries.reverse()
     const snapshot: AssetEntry[] = structuredClone(entries)
     const manifest = buildManifest(entries)
     expect(entries).toEqual(snapshot) // collect 结果不被 build 改写
@@ -79,10 +81,8 @@ describe('R09 collectAssetEntries + buildManifest 真实树', () => {
     ])
     expect(manifest.fileCount).toBe(3)
     expect(manifest.totalBytes).toBe(6)
-    // 独立 oracle：对排序后 path:size:sha256 序列做 sha256（version = 前 16 hex）
-    const expectedHash = createHash('sha256')
-    for (const f of manifest.files) expectedHash.update(`${f.path}:${f.size}:${f.sha256}\n`)
-    expect(manifest.version).toBe(expectedHash.digest('hex').slice(0, 16))
+    // 由上面三条固定记录独立计算，不能从被测输出再次推导预期。
+    expect(manifest.version).toBe('2fa510e09782e86c')
   })
 })
 

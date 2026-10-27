@@ -46,6 +46,7 @@ afterEach(() => {
 describe('P03 装备绘制', () => {
   it('P03 装备列表里不可装备项是暗色，可装备项保持可选色', () => {
     const gs = makeGs()
+    const roles = makeRoles()
     const sword = makeItem(41, '甲', { flags: { equipable: true, usable: true } })
     const herb = makeItem(42, '乙', { flags: { usable: true } })
     gs.inventory = [
@@ -57,14 +58,14 @@ describe('P03 装备绘制', () => {
     const frames = makeUiFrames()
     const fb = createFramebuffer()
     fillSentinel(fb)
-    const before = cloneInputs({ gs, menu, items, frames })
+    const before = cloneInputs({ gs, menu, items, roles, frames })
     const restore = freezeNow(0)
     try {
       drawEquipMenu({
         fb,
         state: menu,
         gs,
-        playerRoles: makeRoles(),
+        playerRoles: roles,
         items,
         uiSpriteFrames: frames,
         glyphs,
@@ -72,7 +73,7 @@ describe('P03 装备绘制', () => {
     } finally {
       restore()
     }
-    expect(cloneInputs({ gs, menu, items, frames })).toEqual(before)
+    expect(cloneInputs({ gs, menu, items, roles, frames })).toEqual(before)
     expect(pixel(fb, textDot('甲', 0, 15, 12).x, textDot('甲', 0, 15, 12).y)).toBe(
       MENUITEM_COLOR_SELECTED_FIRST,
     )

@@ -3153,7 +3153,7 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read actual owned delta and native receipts.",
+      "readMethod": "Owned delta; prior provenance retained",
       "coreConclusion": "Owned release-preparation delta; prior provenance retained.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
@@ -3307,10 +3307,10 @@
       "sourceSha256": "ebf04c215b7bb6a3feda0cb8b8676fed19b40057a4de5e311375a174139529f0",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "245392897ef1ecde0f8fcfd13b8dc76630089fe3af0070a43fff2633f03b30b2",
+      "afterSha256": "f1b25bb69304edc1369200eda54d2ee283f93d89872c41f6e33b6fd385e695c0",
       "revision": {
         "currentSha": "4fcd1122ca1951aafbd5033161e00ac34671911088b8129354a4bd50d8d3df5c",
-        "implementationSha": "245392897ef1ecde0f8fcfd13b8dc76630089fe3af0070a43fff2633f03b30b2",
+        "implementationSha": "f1b25bb69304edc1369200eda54d2ee283f93d89872c41f6e33b6fd385e695c0",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4172,7 +4172,14 @@
         "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
         "afterSha256": "245392897ef1ecde0f8fcfd13b8dc76630089fe3af0070a43fff2633f03b30b2",
         "scope": "Owned release-preparation delta.",
-        "lineCount": 1171
+        "lineCount": 1171,
+        "currentMaintenance": {
+          "task": "QUALITY-PENDING-100-1",
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "245392897ef1ecde0f8fcfd13b8dc76630089fe3af0070a43fff2633f03b30b2",
+          "afterSha256": "f1b25bb69304edc1369200eda54d2ee283f93d89872c41f6e33b6fd385e695c0",
+          "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
+        }
       },
       "history": [
         {

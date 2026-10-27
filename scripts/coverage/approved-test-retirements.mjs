@@ -7,6 +7,48 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-10-27: precise quality deduplication and current-producer transfers.
+    // Six exact main/current snapshots and case maps: QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/recount.json.
+    {
+      file: 'packages/game/src/assets/scene-cache.grok-r1.test.ts',
+      previous: 10,
+      current: 9,
+      previousIdentityDigest: '2c89a4bd5f39660f4ce2e3f5f787315dcf4d0b42316d2f19081cbb71b3e3644d',
+      currentIdentityDigest: '2e552d12f8025046b8d606a859e535ac238490018c8bc7f1e774b01728be6ff9',
+      fileSha256: '4ab6a1fa912fdfed0b961bf43b0734c7d69a41eb5e7b61eedc98d7da61e6dce0',
+    },
+    {
+      file: 'packages/pal-extract/src/events/disasm.test.ts',
+      previous: 14,
+      current: 12,
+      previousIdentityDigest: 'dca24c92e2400cf3ca1bb44e766a8dbe4d5973cbd7be7b72302f8295ce966231',
+      currentIdentityDigest: '93ecb99064c0a8c6470bb4b1a04cecd461d812c7c4beeb49db35a83e57a2bd56',
+      fileSha256: 'eeb11963b6761c5ad16694df2046aab3e1a627161af891f2e1f613e8eef70df2',
+    },
+    {
+      file: 'packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts',
+      previous: 2,
+      current: 1,
+      previousIdentityDigest: '6425f15ef52f6ae8b40a6a935b681135fd32f543868dbe503ff04246003f9db0',
+      currentIdentityDigest: '7c43f1b9f85de76953cb3d5c5dcaec3deed77620c0c60fec69ce619797922e30',
+      fileSha256: 'cd19f360ffd314bf602920c5f5bfcc47e7d5ebe52db872300d56741742e2d4d6',
+    },
+    {
+      file: 'packages/pal-extract/src/io/rle.test.ts',
+      previous: 3,
+      current: 1,
+      previousIdentityDigest: '89cb40d8b1829accec2a93a68df4cf412aed9e214614fa7a74476eb423140fad',
+      currentIdentityDigest: '108ccdbbdb6ab7c57fe9093600aa6312f45519209ffa16350f20ad9c493b34a1',
+      fileSha256: '16b2f6ab8b5cfe0a5b1aa2203aa45e16033085bf84cd7a79264289861f18b074',
+    },
+    {
+      file: 'packages/pal-extract/src/resources/scene.test.ts',
+      previous: 5,
+      current: 3,
+      previousIdentityDigest: 'e38950e400c0826b63c6586c882c6b8ce3d73422e4c194dce86ffe9db5f2037d',
+      currentIdentityDigest: 'd69654b5cc00e9cf804bbe545d9f496e25f9ba1f4b6f77ab1d835923a2822054',
+      fileSha256: 'bd602764b568f4a7610fd601d5dacca96abd3ab8dd9f55d1713489ef05851373',
+    },
     // User2026-10-26 explicit sprite-wrapper and bus-protocol retirement.
     // Exact protected old/new identities and kept contracts: review52 retirement-freeze.json.
     {
@@ -688,11 +730,11 @@ export const approvedTestRetirements = Object.freeze(
     // Codex CODE3h: A04 and L23 bad-Blob subsets move to the full native cause oracle.
     {
       file: 'packages/game/src/assets/png-decode.grok-r1.test.ts',
-      previous: 5,
-      current: 4,
-      previousIdentityDigest: '978aefb40b45b58a493b116319599673c4c3443a5efc0dedb7153100215f0e39',
-      currentIdentityDigest: '16119a6654a2b67d2886ae0814162e008ca43071d4b243c61044345944ca3290',
-      fileSha256: 'f5f9376a910a8ca5942e6339f1a5037029d02e9a732be47e3429df6601e75c15',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: '16119a6654a2b67d2886ae0814162e008ca43071d4b243c61044345944ca3290',
+      currentIdentityDigest: 'c5a738582c4539f2af688ac597869c823f2b7533f8863f5ac1040cd17119b61d',
+      fileSha256: '58fa7709e4a859fdc57ab5eae736806a392e8cfe668df1c06c88e1ad05d097b7',
     },
     {
       file: 'packages/game/src/assets/png.glm-phase1-leaves.test.ts',

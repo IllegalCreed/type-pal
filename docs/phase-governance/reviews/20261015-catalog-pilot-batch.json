@@ -11,7 +11,7 @@
       "templateVersion": "1.2.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read owned delta and release receipt.",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "Owned release bindings; historical scope retained.",
       "truthAnchors": [
@@ -100,7 +100,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "7b108b1e6bf766db1dd942e08e9be22edc02bdf9f21b88a63f08859f19841d36",
+      "afterSha256": "14f11b00daeb89a7f45306dc000985ee7db332adfb51a3db72a58ad87906b693",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -128,7 +128,7 @@
       },
       "revision": {
         "currentSha": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
-        "implementationSha": "7b108b1e6bf766db1dd942e08e9be22edc02bdf9f21b88a63f08859f19841d36",
+        "implementationSha": "14f11b00daeb89a7f45306dc000985ee7db332adfb51a3db72a58ad87906b693",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -197,7 +197,14 @@
         "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
         "afterSha256": "7b108b1e6bf766db1dd942e08e9be22edc02bdf9f21b88a63f08859f19841d36",
         "scope": "Release delta.",
-        "lineCount": 2818
+        "lineCount": 2818,
+        "currentMaintenance": {
+          "task": "QUALITY-PENDING-100-1",
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "7b108b1e6bf766db1dd942e08e9be22edc02bdf9f21b88a63f08859f19841d36",
+          "afterSha256": "14f11b00daeb89a7f45306dc000985ee7db332adfb51a3db72a58ad87906b693",
+          "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
+        }
       },
       "history": [
         {

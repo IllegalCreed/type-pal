@@ -30,8 +30,9 @@ vi.mock('node:fs', async (original) => {
   }
   // Same nonempty two-frame format as tileset-blob.test.ts: two 1x1 pixels, AA and BB.
   const sprite = Uint8Array.from([2, 0, 5, 0, 1, 0, 1, 0, 1, 0xaa, 1, 0, 1, 0, 1, 0xbb])
-  // A valid zero-length YJ2 payload yields one unchanged RNG surface frame, not zero frames.
-  const animation = mkf([Uint8Array.from([0, 0, 0, 0])])
+  // Empty YJ2 with an EOS token (7e 00 3f), independently checked by native YJ2.
+  // decodeRngFrames counts this as one unchanged surface; a bare length header is truncated.
+  const animation = mkf([Uint8Array.from([0, 0, 0, 0, 0x7e, 0, 0x3f])])
   const dataChunks = Array.from({ length: 11 }, () => new Uint8Array())
   dataChunks[10] = sprite
   const gopChunks = Array.from({ length: 201 }, () => new Uint8Array())
@@ -60,6 +61,11 @@ vi.mock('node:fs', async (original) => {
   ])
   if (mode === 'missing-effect') files.delete(`${ext}/magic/effect.rle`)
   if (mode === 'missing-rng-blob') files.delete(`${ext}/animation/rng-00.rle`)
+  if (mode === 'changed-rng-padding') {
+    const changed = animation.slice()
+    changed[changed.length - 1] = 0x7f
+    files.set(`${ext}/animation/rng-00.rle`, gzipSync(changed))
+  }
   if (mode === 'empty-rng-chunk') {
     files.set(`${raw}/RNG.MKF`, mkf([new Uint8Array()]))
     files.delete(`${ext}/animation/rng-00.rle`)
