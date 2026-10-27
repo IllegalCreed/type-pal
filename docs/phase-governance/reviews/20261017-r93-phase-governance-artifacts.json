@@ -1067,7 +1067,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read release binding.",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "structured-content",
       "coreConclusion": "Release binding; history retained.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "9c3e28630a348209042706545971d4598adb8a49e392a485a14c687ba2010716",
-      "afterSha256": "050ab95ff8f2d1ab123b4add64cec8d15d52605bda4a4b56adfb8cbc5bc1f9cd",
+      "afterSha256": "6919008388abee5921eefd7552dadc8297b64c1c46b9f2ce50a42311d143b2e2",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "7faa2bd7fe3dabf8a92b5f1455fa94e24c7c3d1af0f55cb0d2ad3e0cdeeb7e3a",
-        "implementationSha": "050ab95ff8f2d1ab123b4add64cec8d15d52605bda4a4b56adfb8cbc5bc1f9cd",
+        "implementationSha": "6919008388abee5921eefd7552dadc8297b64c1c46b9f2ce50a42311d143b2e2",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1816,10 +1816,9 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
-          "afterSha256": "050ab95ff8f2d1ab123b4add64cec8d15d52605bda4a4b56adfb8cbc5bc1f9cd",
-          "scope": "Release.",
-          "lineCount": 5565
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "050ab95ff8f2d1ab123b4add64cec8d15d52605bda4a4b56adfb8cbc5bc1f9cd",
+          "afterSha256": "6919008388abee5921eefd7552dadc8297b64c1c46b9f2ce50a42311d143b2e2"
         },
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained."
       },
@@ -5320,7 +5319,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read release binding.",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "structured-content",
       "coreConclusion": "Release binding; history retained.",
       "truthAnchors": ["docs/phase-governance/reviews/20261015-catalog-pilot-batch.json:1"],
@@ -5343,7 +5342,7 @@
         }
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "b2093290fb1a36ecbd246252b5c4019ad37e9c43f8ce7cc5492eb2bcf8cb8c8e",
+      "afterSha256": "e3a056a1f9d084b19e899ef499c6a9049c26c0c8d911c48463e9cd2fee14e4fd",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5367,7 +5366,7 @@
       },
       "revision": {
         "currentSha": "122630f065f6cd0e4c7dd69daf09492b3c176a37896b025fc522bc682d1a2c2c",
-        "implementationSha": "b2093290fb1a36ecbd246252b5c4019ad37e9c43f8ce7cc5492eb2bcf8cb8c8e",
+        "implementationSha": "e3a056a1f9d084b19e899ef499c6a9049c26c0c8d911c48463e9cd2fee14e4fd",
         "history": [
           {
             "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
@@ -5435,10 +5434,9 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
-          "afterSha256": "b2093290fb1a36ecbd246252b5c4019ad37e9c43f8ce7cc5492eb2bcf8cb8c8e",
-          "scope": "Release.",
-          "lineCount": 3513
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "b2093290fb1a36ecbd246252b5c4019ad37e9c43f8ce7cc5492eb2bcf8cb8c8e",
+          "afterSha256": "e3a056a1f9d084b19e899ef499c6a9049c26c0c8d911c48463e9cd2fee14e4fd"
         },
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained."
       },
@@ -5750,7 +5748,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual owned delta; previous document/history unchanged",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "structured-content",
       "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
       "truthAnchors": [
@@ -5775,7 +5773,7 @@
         }
       ],
       "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-      "afterSha256": "7a4964a4338ee6a5caab7187cace3da2f39f2aca9d9e8b173058e4577c5e2cd8",
+      "afterSha256": "a66b970cda03ec8701da2edf7083ebfc7031ad7a91c8fc91a05daad389d4f5e7",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5799,7 +5797,7 @@
       },
       "revision": {
         "currentSha": "7a4964a4338ee6a5caab7187cace3da2f39f2aca9d9e8b173058e4577c5e2cd8",
-        "implementationSha": "7a4964a4338ee6a5caab7187cace3da2f39f2aca9d9e8b173058e4577c5e2cd8",
+        "implementationSha": "a66b970cda03ec8701da2edf7083ebfc7031ad7a91c8fc91a05daad389d4f5e7",
         "history": [
           {
             "revision": "577e531ccd991707ef73a56426d46e915220fec6",
@@ -5898,9 +5896,9 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "7a4964a4338ee6a5caab7187cace3da2f39f2aca9d9e8b173058e4577c5e2cd8",
-          "scope": "Owned52 delta; history retained."
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "7a4964a4338ee6a5caab7187cace3da2f39f2aca9d9e8b173058e4577c5e2cd8",
+          "afterSha256": "a66b970cda03ec8701da2edf7083ebfc7031ad7a91c8fc91a05daad389d4f5e7"
         },
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained."
       },
@@ -6219,7 +6217,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3r scoped delta",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "structured-content",
       "coreConclusion": "3r scoped review; unified gates deferred.",
       "truthAnchors": [
@@ -6244,7 +6242,7 @@
         }
       ],
       "sourceSha256": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
-      "afterSha256": "ba441cf32f32373d20f225483e966d6f8f2015928f126571e95352831655f88c",
+      "afterSha256": "071a060daa5942405cfbb0e0a1d978a2b1fc681eaabd990803b5552032afa126",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6268,7 +6266,7 @@
       },
       "revision": {
         "currentSha": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
-        "implementationSha": "ba441cf32f32373d20f225483e966d6f8f2015928f126571e95352831655f88c",
+        "implementationSha": "071a060daa5942405cfbb0e0a1d978a2b1fc681eaabd990803b5552032afa126",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -7895,7 +7893,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual owned delta and native receipts.",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "structured-content",
       "coreConclusion": "Owned release-preparation delta; prior provenance retained.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
@@ -7918,7 +7916,7 @@
         }
       ],
       "sourceSha256": "a6034a8eee23aede7a0c85cc1bda433e850a4449cbc43cd73d7c46897f6d68e7",
-      "afterSha256": "887f3858847bb1982fab6d0e570bccccca12254cdbe07635d015241936047f97",
+      "afterSha256": "842a8f6c2da9ce2514dbf8e7adcecd8f4560083c0a4a9f86bdb4901b3130818a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7942,7 +7940,7 @@
       },
       "revision": {
         "currentSha": "441241b6fb48b9b96d99d3b3dc514c603fabed0320498ff2da12515ef64893f9",
-        "implementationSha": "887f3858847bb1982fab6d0e570bccccca12254cdbe07635d015241936047f97",
+        "implementationSha": "842a8f6c2da9ce2514dbf8e7adcecd8f4560083c0a4a9f86bdb4901b3130818a",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -8631,10 +8629,9 @@
           "byteStable": true
         },
         "currentMaintenance": {
-          "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
-          "afterSha256": "887f3858847bb1982fab6d0e570bccccca12254cdbe07635d015241936047f97",
-          "scope": "Owned release-preparation delta.",
-          "lineCount": 7116
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "887f3858847bb1982fab6d0e570bccccca12254cdbe07635d015241936047f97",
+          "afterSha256": "842a8f6c2da9ce2514dbf8e7adcecd8f4560083c0a4a9f86bdb4901b3130818a"
         },
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained."
       },
@@ -15396,7 +15393,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual owned delta; previous document/history unchanged",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "structured-content",
       "coreConclusion": "Fixed52 file quality closeout; 52/52 code accepted; CI test repair locally verified; publication pending",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json:1"],
@@ -15419,7 +15416,7 @@
         }
       ],
       "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-      "afterSha256": "77cff8288bab94695ee5d12a94b5476b34312cd1840b6035c00e880b46df54c0",
+      "afterSha256": "f378a1c81443f3c0fd16511a5a51ac88df4668f867d83cec30e3326355c03065",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15443,7 +15440,7 @@
       },
       "revision": {
         "currentSha": "77cff8288bab94695ee5d12a94b5476b34312cd1840b6035c00e880b46df54c0",
-        "implementationSha": "77cff8288bab94695ee5d12a94b5476b34312cd1840b6035c00e880b46df54c0",
+        "implementationSha": "f378a1c81443f3c0fd16511a5a51ac88df4668f867d83cec30e3326355c03065",
         "history": [
           {
             "revision": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
@@ -15522,9 +15519,9 @@
         },
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained.",
         "currentMaintenance": {
-          "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
-          "afterSha256": "77cff8288bab94695ee5d12a94b5476b34312cd1840b6035c00e880b46df54c0",
-          "scope": "Owned52 delta; history retained."
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "77cff8288bab94695ee5d12a94b5476b34312cd1840b6035c00e880b46df54c0",
+          "afterSha256": "f378a1c81443f3c0fd16511a5a51ac88df4668f867d83cec30e3326355c03065"
         }
       },
       "history": [
@@ -18412,7 +18409,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Owned3r scoped delta",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "structured-content",
       "coreConclusion": "3r scoped review; unified gates deferred.",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json:1"],
@@ -18435,7 +18432,7 @@
         }
       ],
       "sourceSha256": "7b7c026e81f1646ed4d910df1c34f7feea7690ae6511c913dac84b12ae971b6f",
-      "afterSha256": "be3dad96750e0ba6ec50b136dff5f1a6202af730fb97c161b53b857844e7edeb",
+      "afterSha256": "6093f1e637d8546c66e1fe204cd75de8bd1155fca7d9a365396e3d7a0b4e84ed",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -18459,7 +18456,7 @@
       },
       "revision": {
         "currentSha": "7b7c026e81f1646ed4d910df1c34f7feea7690ae6511c913dac84b12ae971b6f",
-        "implementationSha": "be3dad96750e0ba6ec50b136dff5f1a6202af730fb97c161b53b857844e7edeb",
+        "implementationSha": "6093f1e637d8546c66e1fe204cd75de8bd1155fca7d9a365396e3d7a0b4e84ed",
         "history": [
           {
             "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",

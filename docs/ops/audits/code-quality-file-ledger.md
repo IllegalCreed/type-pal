@@ -1,3 +1,19 @@
+2026-10-28 百文件窗口本地门收口：100实际主体逐文件A–H，20536包测试＋732工具绿、七TC与whole lint0；唯一official20188/809，经有限branch调整后同报ratchet/protected0。3465tracked／694closed／0review／2771pending不变；提交时远端PR/CI/合并尚待，不授其它pending信用。[原件与复验](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)。
+
+2026-10-27 百文件窗口末30主体代码接受，累计100；两PNG重复文件退役不计数。资产字节oracle、合法runtime与状态隔离、原子结算用例完成，137定向/相邻与12增量重叠不相加；3465tracked／694closed／0review／2771pending。全仓/official/受保护发布进入集中窗口，尚未宣布通过。[逐文件证据](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)。
+
+2026-10-27 安全同步main72db后本窗累计70主体：上游8新tracked只增pending，tables新增1接受；misc-guards迁移/排重后退役，不凑第71。当前3467／664closed／0review／2803pending；两声音变异旧89绿新唯一AssertionError，原盘独立物理oracle与104旧合同映射。未启动重门/official或提交。[当前窗口](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md)。
+
+2026-10-27 百文件窗口累计69主体：事件/二进制夹具与RLE接线专测新增14；MKF重复专测退役不计接受。3460tracked／663closed／0review／2797pending；59事件/接线、66表相邻及11shared各自原件，四业务单红与YJ2原生EOS已核。生产算法/接口不变，约100前继续延后重门/提交。[本窗逐文件证据](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md)。
+
+2026-10-27 百文件窗口累计55主体：字体/图片/场景与当前动画writer新增13接受；用户批准三旧适配器与两专属测试文件退役，移除三个旧closed而不计新关闭。3459tracked／649closed／0review／2810pending。全表RGBA常量保留、EOS坏夹具修正、四有效单红；52相邻/22shared与extract TC/局部静态0。约100前不启动全仓/official或提交。[本窗证据](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md)。
+
+2026-10-27 百文件窗口累计42主体代码接受：表解析/fixture21新增，角色完整tuple、MAGIC全字段与RIX单签名反例补强；66定向绿/空stderr，三个变异旧绿新唯一业务红。3462tracked／639closed／0review／2823pending。既有palette仅注释版本桥，0新增信用；重门/提交仍待约100冻结。[完整证据](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md)。
+
+2026-10-26 百文件窗口续至21主体：lint零诊断专测仅退役两个同JSON输入别名，资源清单三专测补倒序ownership及独立哈希oracle；质量工具45与manifest7绿，原地排序变异旧7绿/新单业务红。当前618closed／0review／2844pending，tracked3462；重门和提交仍未启动。[逐文件原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md)。
+
+2026-10-26 百文件窗口首17主体文件代码接受：工具专测/预检与九initializer fixture逐维核验；3计数/身份反控及1诊断反控为旧绿新唯一业务红，136工具相邻绿／0诊断。614closed／0review／2848pending，tracked3462；未启动全仓/官方采集、未提交或PR。用户明确约100主体文件后集中重门与提交，依赖补读不计数。[本次八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md)。
+
 2026-10-26 review52代码/本地门收口：固定52全部逐文件接受、四相邻专测另列；3462tracked／597closed／0review／2865pending。14旧接受路径仅协议实参版本桥，不新增关闭；其它pending不随包绿关闭。全仓20620＋721工具／七TC／lint0，唯一official20185／809及精确两文件计数调整后同报告ratchet/protected0，原失败原件保留。远端PR/main CI和合并另核。[逐文件与完整原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md)。
 
 2026-10-26 review52提取模块：固定23/52代码接受（新增10），29仍review；新增相邻CLI诊断专测1单列。3454tracked／555closed／29review／2870pending。已批准无用出口/四专属用例移除、诊断null打印与视频安全发布分别提交；110相关、27输出/诊断与TC0，七源码发射JS不变。全仓/official/protected继续等整个52稳定，未推送/合并。[本窗证据](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md)。
@@ -157,8 +173,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-27 输入与南诏出口窗口：新增7个tracked实现/测试路径，仅增加pending库存；597closed/0review保持，当前3469/597/0/2872。输入14文件与出口21文件按实际差异及贡献者A–H有限接收；已关闭的资源类型、装载与工具设置文件仅核本次增量，历史整文件结论不扩张为新版本全审。输入方向/偏好和旧档独立出口分别见[输入回执](../evidence/GAME-INPUT-ROTATION-1/review.json)、[出口回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json)；统一静态门另记，不增加整文件关闭数。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,470。
-当前已闭合核验：597；已读但待审：0；尚未逐文件核验：2873；合计未闭合：2873。
+起始基点机器清单：2,962。当前 tracked 清单：3,465。
+当前已闭合核验：694；已读但待审：0；尚未逐文件核验：2771；合计未闭合：2771。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -206,6 +222,85 @@ Template: governance-index-v1 / 1.0.0
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
+| `packages/game/src/assets/__tests__/snapshot-input.setup.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/assets/load-all-bounds.grok-r1.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/assets/png-decode.grok-r1.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/assets/rng-blob-snapshot.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/assets/scene-cache.grok-mid-1.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/assets/scene-cache.grok-r1.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/assets/snapshot-input-boundaries.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/assets/sprite-blob-snapshot.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-present/font.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-present/images.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-present/world.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-present/png-rgba.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-present/p03-equip.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-present/p06-magic.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-present/p07-status.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-present/p09-background.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-composition/fixtures/images.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-composition/fixtures/world.ts` | fixture | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts` | test | 已验证 | [资产/渲染逐文件八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/tables.test.ts` | test | 已验证 | [原盘表八维与逐例映射](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/events/disasm.test.ts` | test | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/events/disasm.boundaries.test.ts` | test | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts` | test | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/events/disasm.kimi-r1.test.ts` | test | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/events/recompile.test.ts` | test | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/events/recompile.boundaries.test.ts` | test | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts` | test | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/events/roundtrip.test.ts` | test | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts` | test | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/events/opcodes.test.ts` | test | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/events/__tests__/bytecode-fixtures.ts` | fixture | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/__tests__/binary-fixtures.ts` | fixture | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts` | fixture | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/io/rle.test.ts` | test | 已验证 | [事件/夹具八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/__tests__/glm-runtime-resource/yj2-sprite-chunk-vector.ts` | fixture | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/animation-assets.fire.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/animation-assets.rng.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/__tests__/scene-fixtures.ts` | fixture | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/scene.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/map.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/rgm.glm-runtime-resource.test.ts` | test | 已验证 | [百文件八维/迁移与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/__tests__/spells.boundaries.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts` | fixture | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts` | fixture | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/__tests__/battle-fields.boundaries.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/__tests__/stores.boundaries.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/__tests__/data-misc.boundaries.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/items.glm-runtime-resource.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/stores.glm-runtime-resource.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/battle-fields.glm-runtime-resource.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/palette.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/palette.boundaries.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/palette.glm-runtime-resource.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/enemy-pos.boundaries.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/__tests__/rix.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/__tests__/sounds.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/__tests__/indexed-frame-digest.ts` | fixture | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts` | test | 已验证 | [百文件窗口逐项八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
 | `packages/game/src/present/draw-number-nonfinite.test.ts` | test | 已验证 | [3k数字当前八维与完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md) | 当前逐文件合同、用户批准数值失败隔离与实际caller像素已核；自然剧情极值可达性未证，不外推Save或公式。 |
 | `packages/pal-extract/vitest.config.ts` | product | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
 | `packages/game/src/core/battle/action-availability.ts` | product | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
@@ -265,7 +360,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/shared/src/rle-encode.glm-runtime-resource.test.ts` | test | 已验证 | 真实 runtime resource encoder contract | caller oracle |
 | `packages/shared/src/rle-encode.test.ts` | test | 已验证 | [CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md) | 独立oracle／精确排重／八维与三有效反控有据；产品格式和全部pre94统一门另计，不授整卡完成 |
 | `packages/shared/src/rle.glm-o.test.ts` | test | 已验证 | [CODE1 RLE测试质量逐文件收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md) | 独立oracle／精确排重／八维与三有效反控有据；产品格式和全部pre94统一门另计，不授整卡完成 |
-| `packages/shared/src/rng.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
+| `packages/shared/src/rng.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller ；本窗仅[退役后注释版本桥](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json)，发射JS不变、0新信用 |
 | `packages/shared/src/yj2.boundaries.test.ts` | test | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/pal-extract/src/resources/sprite.ts` | product | 已验证 | [本窗逐文件八维/先红后修/退役映射](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；真实caller/输入/责任与八维补齐，原生110/27与必要TC0；重门及发布等固定52阶段稳定，不外推资产格式/相邻范围 |
 | `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | 已验证 | [当前逐文件A–H与四卡全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json) | 完整caller/输入/oracle/隔离与具体质量缺口成立；20390check及ratchet/protected各19992零诊断；不是包绿批量关闭或相邻广域信用 |
@@ -279,11 +374,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/resources/parsers/data-misc.ts` | product | 已验证 | level-up/effect table contracts、现有短输入宽容测试与 real DATA caller | 宽容截断合同有直接测试，未擅改 |
 | `packages/pal-extract/src/resources/parsers/enemies.ts` | product | 已验证 | [本窗八维、版本桥接与完整原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；注释窄修/旧反控有效、136相关与两TC零诊断；统一门及发布等固定52阶段收尾，不继承相邻文件信用 |
 | `packages/pal-extract/src/resources/parsers/enemy-teams.ts` | product | 已验证 | 10B team record、slot sentinel/translation/name map tests | 0/FFFF 语义保真 |
-| `packages/pal-extract/src/resources/parsers/fire.ts` | product | 已验证 | FIRE YJ2/raw fallback、empty/short group guard 与 callers/tests | 不改资源降级 |
 | `packages/pal-extract/src/resources/parsers/items.ts` | product | 已验证 | OBJECT item range/truncation guard、wObjectID/MengShe split 与 tests | 稳定全局 ID |
 | `packages/pal-extract/src/resources/parsers/player-roles.ts` | product | 已验证 | [本窗八维、版本桥接与完整原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；注释窄修/旧反控有效、136相关与两TC零诊断；统一门及发布等固定52阶段收尾，不继承相邻文件信用 |
 | `packages/pal-extract/src/resources/parsers/rgm.ts` | product | 已验证 | RGM header/RLE/PNG caller 与 tests | 空 chunk skip |
-| `packages/pal-extract/src/resources/parsers/rng-frames.ts` | product | 已验证 | shared RNG decoder + PNG adapter caller/fixtures | 不复制 codec |
 | `packages/pal-extract/src/resources/parsers/sounds.ts` | product | 已验证 | [本窗逐文件八维/先红后修/退役映射](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；真实caller/输入/责任与八维补齐，原生110/27与必要TC0；重门及发布等固定52阶段稳定，不外推资产格式/相邻范围 |
 | `packages/pal-extract/src/resources/parsers/spells.ts` | product | 已验证 | OBJECT magic/union fields、DATA magic callers/tests | 保持 scriptDesc offset contract |
 | `packages/pal-extract/src/resources/parsers/stores.ts` | product | 已验证 | 18B STORE guard、zero sentinel/real DATA tests | 不改 store IDs |
@@ -297,7 +390,6 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/io/word.ts` | product | 已验证 | [本窗八维、版本桥接与完整原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；注释窄修/旧反控有效、136相关与两TC零诊断；统一门及发布等固定52阶段收尾，不继承相邻文件信用 |
 | `packages/pal-extract/src/io/yj2.ts` | product | 已验证 | [CODE2/2b当前逐文件八维与全门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json) | 有效native/反控复用、归约独立单红及必要精简成立；不扩展RLE/任意外部输入安全或广域caller |
 | `packages/pal-extract/src/resources/asset-manifest.ts` | product | 已验证 | manifest determinism/DS_Store/self exclusion tests、CLI caller | path/version pure contract |
-| `packages/pal-extract/src/resources/battle-sprite.ts` | product | 已验证 | kind/id composite key、missing chunk skip、PNG callers/tests | 不混 enemy/player identity |
 | `packages/pal-extract/src/resources/enemy-pos.ts` | product | 已验证 | 100B fixed table/signed layout boundary tests、CLI caller | layout transpose explicit |
 | `packages/pal-extract/src/resources/map.ts` | product | 已验证 | 65536B map guard、real MAP/GOP decode、CLI caller | raw tilemap output |
 | `packages/pal-extract/src/resources/palette.ts` | product | 已验证 | VGA/night color pins、short-input宽容既有合同、CLI caller | 不改变 palette mapping |
@@ -803,6 +895,27 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/command-bus.test.ts` | test | 已验证 | [52剩余逐文件八维](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json) | 有限用户批准与实际caller/oracle；原红/当前回归保留；统一门另核 |
 | `packages/migrate/src/migration-project-io.test.ts` | test | 已验证 | [52剩余逐文件八维](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json) | 有限用户批准与实际caller/oracle；原红/当前回归保留；统一门另核 |
 | `packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx` | test | 已验证 | [52剩余逐文件八维](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json) | 有限用户批准与实际caller/oracle；原红/当前回归保留；统一门另核 |
+| `scripts/coverage/metrics.test.mjs` | test | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/inventory.test.mjs` | test | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/environment.test.mjs` | test | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/full-inputs.test.mjs` | test | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/full-inputs.mjs` | tool | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/config.test.mjs` | test | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/protected-baseline.test.mjs` | test | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/merge-initializers.test.mjs` | test | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/fixtures/initializers/capture.mjs` | fixture | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/fixtures/initializers/native-subject.mjs` | fixture | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/fixtures/initializers/subject.ts` | fixture | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/fixtures/initializers/call.test.ts` | fixture | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/fixtures/initializers/call.client.test.ts` | fixture | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/fixtures/initializers/import-one.test.ts` | fixture | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/fixtures/initializers/import-one.client.test.ts` | fixture | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/fixtures/initializers/import-two.test.ts` | fixture | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/coverage/fixtures/initializers/import-two.client.test.ts` | fixture | 已验证 | [百文件窗口首组八维](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `scripts/quality/lint-zero.test.mjs` | test | 已验证 | [百文件窗口八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/__tests__/asset-manifest.test.ts` | test | 已验证 | [百文件窗口八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts` | test | 已验证 | [百文件窗口八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts` | test | 已验证 | [百文件窗口八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

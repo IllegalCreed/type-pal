@@ -501,7 +501,7 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read owned delta and release receipt.",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "Owned release bindings; historical scope retained.",
       "truthAnchors": [
@@ -1722,7 +1722,14 @@
         "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
         "afterSha256": "ce5f6cc05f113054d748108ccc4f9ddb50f24a8d39184cf773fb627e20f48f11",
         "scope": "Release delta.",
-        "lineCount": 83
+        "lineCount": 83,
+        "currentMaintenance": {
+          "task": "QUALITY-PENDING-100-1",
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "ce5f6cc05f113054d748108ccc4f9ddb50f24a8d39184cf773fb627e20f48f11",
+          "afterSha256": "ce5f6cc05f113054d748108ccc4f9ddb50f24a8d39184cf773fb627e20f48f11",
+          "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
+        }
       },
       "history": [
         {
@@ -3369,7 +3376,7 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read owned delta and release receipt.",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "Owned release bindings; historical scope retained.",
       "truthAnchors": [
@@ -3388,7 +3395,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "c1df42497db373493f35f52056fc685ada73dc963edbf2af8f27a44ec0aad448",
-      "afterSha256": "dd0502a6be56b41a2fe1d1d448d4cb1fe0b0033f96d8e668f197b6b212aa68d1",
+      "afterSha256": "226d184f09e6468ca1d7c0edbeb3ecc0800110624170cb26ea52762ba0b03518",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3409,7 +3416,7 @@
       },
       "revision": {
         "currentSha": "7685e5fbde52aba8c34b18c116728f7d14c83da85f10fbf677c7ed413b024f41",
-        "implementationSha": "dd0502a6be56b41a2fe1d1d448d4cb1fe0b0033f96d8e668f197b6b212aa68d1",
+        "implementationSha": "226d184f09e6468ca1d7c0edbeb3ecc0800110624170cb26ea52762ba0b03518",
         "contentVersion": 33,
         "minimumSaveVersion": 12,
         "history": [
@@ -3775,7 +3782,14 @@
         "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
         "afterSha256": "dd0502a6be56b41a2fe1d1d448d4cb1fe0b0033f96d8e668f197b6b212aa68d1",
         "scope": "Release delta.",
-        "lineCount": 537
+        "lineCount": 537,
+        "currentMaintenance": {
+          "task": "QUALITY-PENDING-100-1",
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "dd0502a6be56b41a2fe1d1d448d4cb1fe0b0033f96d8e668f197b6b212aa68d1",
+          "afterSha256": "226d184f09e6468ca1d7c0edbeb3ecc0800110624170cb26ea52762ba0b03518",
+          "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
+        }
       },
       "history": [
         {
@@ -5416,7 +5430,7 @@
       "template": "docs/phase-governance/templates/guide-runbook.md",
       "templateVersion": "1.0.0",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual bounded menu or gate-diagnostic diff, paired evidence and original bytes; broad adjacent test-file full-read credit is explicitly not claimed. Author full-read and historical execution remain their original boundaries.",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "User permits one large delegated goal with internal2-4file/module slices and continuous progress, module/stage evidence handoffs and risk-local escalation. A-H requirements, zero diagnostics, authorization and evidence-first acceptance unchanged; no per-slice user relay gate. User2026-10-21 explicitly requires multiple related cards per expensive gate window;only new section5paragraph added,all eight-dimensional/evidence/zero-diagnostic requirements retained.",
       "truthAnchors": [
@@ -5440,7 +5454,7 @@
         "Existing workflow/test governance and direct route/template consumers"
       ],
       "sourceSha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
-      "afterSha256": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
+      "afterSha256": "e7fe01f7098438843e4a8d5dfd892d5f0ef3112edcaf44c829990e94783e0639",
       "publicCallers": [
         "AGENTS.md code operation route",
         "CLAUDE.md shared collaboration rules",
@@ -5470,7 +5484,7 @@
       },
       "revision": {
         "currentSha": "0bc82025928b4fe13dce0f34c3a8696507d04032",
-        "implementationSha": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
+        "implementationSha": "e7fe01f7098438843e4a8d5dfd892d5f0ef3112edcaf44c829990e94783e0639",
         "history": [
           {
             "revision": "c1464acde3cbff85c0a24afed343104a7a9f52d2",
@@ -5530,7 +5544,14 @@
         "kind": "finite-prose-acceptance-and-large-task-routing",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-final.json",
         "afterSha256": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
-        "lineCount": 159
+        "lineCount": 159,
+        "currentMaintenance": {
+          "task": "QUALITY-PENDING-100-1",
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
+          "afterSha256": "e7fe01f7098438843e4a8d5dfd892d5f0ef3112edcaf44c829990e94783e0639",
+          "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
+        }
       },
       "history": [
         {

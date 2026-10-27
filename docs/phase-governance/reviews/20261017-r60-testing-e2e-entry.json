@@ -296,7 +296,7 @@
       "templateId": "test-domain-report-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Scoped E2E unchanged oracle binding",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "Only current source binding; original publication/date/execution/quote retained.",
       "truthAnchors": ["docs/testing/e2e/cross-stage/common-issues.md:1"],
@@ -319,7 +319,7 @@
         }
       ],
       "sourceSha256": "6012299438bdebdfb0537ef01689b2445dba14047235e1b84788e2874bbee082",
-      "afterSha256": "ff461cd62686909db0b7cb5f4e69027413386a04d45d68c78b7df0da32731b1f",
+      "afterSha256": "6a93c96e31167ed838dbed424f24a18cd5b3e1d5d1ce9b64419c6adb7f2db297",
       "publicCallers": ["docs/testing/e2e/README.md", "docs/testing/e2e/cross-stage/README.md"],
       "legalInputs": [
         "current catalog",
@@ -345,7 +345,7 @@
       },
       "revision": {
         "currentSha": "cdb892e3f02f59c1044599a59bb2c430032cb76406df64022fe8d07123784aec",
-        "implementationSha": "ff461cd62686909db0b7cb5f4e69027413386a04d45d68c78b7df0da32731b1f",
+        "implementationSha": "6a93c96e31167ed838dbed424f24a18cd5b3e1d5d1ce9b64419c6adb7f2db297",
         "history": [
           {
             "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
@@ -377,6 +377,13 @@
           "sourceFinalNewline": true,
           "inverseSha256": "6012299438bdebdfb0537ef01689b2445dba14047235e1b84788e2874bbee082",
           "exactRoundTrip": true
+        },
+        "currentMaintenance": {
+          "task": "QUALITY-PENDING-100-1",
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "ff461cd62686909db0b7cb5f4e69027413386a04d45d68c78b7df0da32731b1f",
+          "afterSha256": "6a93c96e31167ed838dbed424f24a18cd5b3e1d5d1ce9b64419c6adb7f2db297",
+          "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
         }
       },
       "history": [

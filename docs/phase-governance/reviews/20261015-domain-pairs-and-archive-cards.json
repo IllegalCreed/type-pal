@@ -7104,7 +7104,7 @@
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Scoped E2E unchanged oracle binding",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "Only current source binding; original publication/date/execution/quote retained.",
       "documentStatus": "current / catalog-publication only",
@@ -7191,10 +7191,10 @@
       "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "4fe5e90eaaf347b7db1dc6db633ec9938fc60212",
-      "afterSha256": "fb5ac72880c5df94ce469b0998e7b033d9a7d52b2d760d5dcc31f6add12b7a5c",
+      "afterSha256": "75e0f415e7a1dd2a5d3655f28c6ddc23726038e4ec129e1100974958f936e2c3",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "fb5ac72880c5df94ce469b0998e7b033d9a7d52b2d760d5dcc31f6add12b7a5c",
+        "implementationSha": "75e0f415e7a1dd2a5d3655f28c6ddc23726038e4ec129e1100974958f936e2c3",
         "history": [
           {
             "date": "2026-10-15",
@@ -7215,7 +7215,14 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "cc74024fd0fc5358ae98d668e685eec713751e94ddb46ac2b8daa81a503887f7",
         "afterSha256": "fb5ac72880c5df94ce469b0998e7b033d9a7d52b2d760d5dcc31f6add12b7a5c",
-        "lineCount": 156
+        "lineCount": 156,
+        "currentMaintenance": {
+          "task": "QUALITY-PENDING-100-1",
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "fb5ac72880c5df94ce469b0998e7b033d9a7d52b2d760d5dcc31f6add12b7a5c",
+          "afterSha256": "75e0f415e7a1dd2a5d3655f28c6ddc23726038e4ec129e1100974958f936e2c3",
+          "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
+        }
       },
       "history": [
         {

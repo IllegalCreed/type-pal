@@ -392,7 +392,7 @@
       "templateVersion": "1.0.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-run-report.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Scoped E2E unchanged oracle binding",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "Only current source binding; original publication/date/execution/quote retained.",
       "truthAnchors": [
@@ -413,7 +413,7 @@
       "reviewedSourceSha256": "a2f890e62ce23ad2580345dd4a12178b2efb0e50c7a01371bf6aa4411c1231d3",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "present",
-      "afterSha256": "101638cb0ede46fc9774cf23d7db64d707d9b05ec46e675cf1793ce739cfba28",
+      "afterSha256": "c07ad48226497149971078cb2393f9c69c009cd8597d3f589b2b8934d2ab4e99",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -443,7 +443,7 @@
       },
       "revision": {
         "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "101638cb0ede46fc9774cf23d7db64d707d9b05ec46e675cf1793ce739cfba28",
+        "implementationSha": "c07ad48226497149971078cb2393f9c69c009cd8597d3f589b2b8934d2ab4e99",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
@@ -461,7 +461,14 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "a2f890e62ce23ad2580345dd4a12178b2efb0e50c7a01371bf6aa4411c1231d3",
         "afterSha256": "101638cb0ede46fc9774cf23d7db64d707d9b05ec46e675cf1793ce739cfba28",
-        "lineCount": 265
+        "lineCount": 265,
+        "currentMaintenance": {
+          "task": "QUALITY-PENDING-100-1",
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "101638cb0ede46fc9774cf23d7db64d707d9b05ec46e675cf1793ce739cfba28",
+          "afterSha256": "c07ad48226497149971078cb2393f9c69c009cd8597d3f589b2b8934d2ab4e99",
+          "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
+        }
       },
       "history": [
         {
@@ -486,7 +493,7 @@
       "templateVersion": "1.5.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Scoped E2E unchanged oracle binding",
+      "readMethod": "Owned delta; prior provenance retained",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "Only current source binding; original publication/date/execution/quote retained.",
       "truthAnchors": [
@@ -507,7 +514,7 @@
       "reviewedSourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "present",
-      "afterSha256": "2c54986888b508fa65d42ef77e2b8951318eb27af173f32054c9c7c4a66c1500",
+      "afterSha256": "77bd3722784b471c31787525b7e9b4473c29b31e49f633bdca7991b1dd9a00fb",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -537,7 +544,7 @@
       },
       "revision": {
         "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "2c54986888b508fa65d42ef77e2b8951318eb27af173f32054c9c7c4a66c1500",
+        "implementationSha": "77bd3722784b471c31787525b7e9b4473c29b31e49f633bdca7991b1dd9a00fb",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
@@ -562,7 +569,14 @@
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/review.json",
         "sourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
         "afterSha256": "2c54986888b508fa65d42ef77e2b8951318eb27af173f32054c9c7c4a66c1500",
-        "lineCount": 129
+        "lineCount": 129,
+        "currentMaintenance": {
+          "task": "QUALITY-PENDING-100-1",
+          "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+          "sourceBeforeSha256": "2c54986888b508fa65d42ef77e2b8951318eb27af173f32054c9c7c4a66c1500",
+          "afterSha256": "77bd3722784b471c31787525b7e9b4473c29b31e49f633bdca7991b1dd9a00fb",
+          "scope": "Owned100-window local gates verified; release pending at commit; prior provenance retained."
+        }
       },
       "history": [
         {

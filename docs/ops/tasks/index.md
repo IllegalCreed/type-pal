@@ -520,9 +520,22 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移](GAME-UI-ASSET-FRAME-IDENTITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围](MIGRATION-LEGACY-SCRIPT-DISCOVERY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权](QUALITY-BOOT-FAILURE-PROGRESS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-COVERAGE-PREFLIGHT-PROBES-1 — 工具预检与原生合并探针](QUALITY-COVERAGE-PREFLIGHT-PROBES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-EVENT-TESTS-1 — 事件编解码专测及原始夹具](QUALITY-EXTRACT-EVENT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-FONT-TESTS-1 — 字体专测合同与排重](QUALITY-EXTRACT-FONT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-MANIFEST-TESTS-1 — 资源清单三专测的oracle与ownership](QUALITY-EXTRACT-MANIFEST-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-RAW-TABLE-TESTS-1 — 原盘表专测与散落守卫归属](QUALITY-EXTRACT-RAW-TABLE-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-SCENE-IMAGE-TESTS-1 — 场景/地图与单帧图片专测](QUALITY-EXTRACT-SCENE-IMAGE-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-TABLE-TESTS-1 — 二进制表与调色/音频专测](QUALITY-EXTRACT-TABLE-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-UNUSED-ADAPTERS-1 — 提取器旧适配器退役候选](QUALITY-EXTRACT-UNUSED-ADAPTERS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-GAME-ASSET-RENDER-TESTS-1 — 资产读取与渲染专测的合同收口](QUALITY-GAME-ASSET-RENDER-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-INITIALIZER-FIXTURES-1 — 原生初始化器探针的九个 fixture](QUALITY-INITIALIZER-FIXTURES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-LEGACY-OGG-RETIREMENT-1 — 未接入的旧OGG后端退役](QUALITY-LEGACY-OGG-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-LINT-ZERO-TEST-CONTRACT-1 — 零诊断专测输入排重](QUALITY-LINT-ZERO-TEST-CONTRACT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-PENDING-100-1 — 约百文件代码治理窗口](QUALITY-PENDING-100-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审](QUALITY-PRE94-RETROSPECTIVE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口](QUALITY-REVIEW-52-CLOSEOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-TOOLS-CONTRACT-TESTS-1 — 覆盖率工具专测的合同与判别力](QUALITY-TOOLS-CONTRACT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 
 ## 已取消（superseded / historical）
 
