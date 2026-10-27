@@ -1,6 +1,12 @@
 // @vitest-environment node
 import { readFileSync } from 'node:fs'
-import type { Command, EventObjectsFile, SceneObjects, Tilemap } from '@type-pal/shared'
+import type {
+  Command,
+  EventObjectsFile,
+  PlayerRoles,
+  SceneObjects,
+  Tilemap,
+} from '@type-pal/shared'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { SceneAssetsCache } from '../assets/loader.js'
 import { parseImportedSave, serializeSave } from '../tools/save-io.js'
@@ -9,6 +15,7 @@ import { setSceneLoader, setStartBattleHandler, tickEventSystem } from './event-
 import {
   createInitialGameState,
   type GameState,
+  hydratePlayerRolesRuntime,
   npcFromEventObject,
   sliceSceneEventObjects,
 } from './game-state.js'
@@ -39,6 +46,8 @@ function finishScript(gs: GameState) {
 }
 function oldGame() {
   const gs = createInitialGameState({ x: 928, y: 816, facing: 'down' })
+  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, resource<PlayerRoles>('data/player-roles.json'))
+  gs.partyMembers = [1, 0, 4]
   gs.wNumScene = 287
   gs.allEventObjects = current.eventObjects
     .filter((object) => !object.supplemental)
