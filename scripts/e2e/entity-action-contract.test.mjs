@@ -123,6 +123,7 @@ test('real page action player proves every installed frame, canonical binding, p
     worldPresentation: { hasEntityFrame: (id) => fixed.has(id) },
     motion: { hasGait: () => false, hasExplicitAnimation: () => false },
     authority,
+    scriptMotionSlots: new Map(),
     project: { assetResolver: {} },
     spriteCache: { get: () => ({ frames: [{}, {}] }) },
     resolveSpriteActionBinding,
