@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "4542310e84341d19ae3a36ebd0c1b6c605755f0568ba9738431bee47ade0c7bf",
+  "generation": "fba7f0a1c0aefbebc314b9d2591636539dd84227c08ea28c5f908dc131e6b40f",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
   "entries": [
@@ -2384,7 +2384,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "7c829b4d97c56ec608f628f79cef5cac7df6c1d3026216af3c71f5b48972deb0",
+      "afterSha256": "f7d9fee01ee681fbf991a978e7c1a6439c4ed19812d2d4aba7761632f29c6e08",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -3317,6 +3317,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
             "index": 7,
             "entryCanonicalSha256": "84b773943dbd1820eda2eb8aecbb64d9df59937fabbee12bae9ebeba24785717"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/user-visual-acceptance",
+          "revision": "3caa59f78280d07fe400ce8ddbd5b1d6170d399c",
+          "beforeSha256": "7c829b4d97c56ec608f628f79cef5cac7df6c1d3026216af3c71f5b48972deb0",
+          "afterSha256": "f7d9fee01ee681fbf991a978e7c1a6439c4ed19812d2d4aba7761632f29c6e08",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "c32eccdb544b5f01424e30725db7373e283b9343",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 7,
+            "entryCanonicalSha256": "fcfd1dd10a63bb6de9214e123a996f0af3cf49b222d8697b4faa5975c77dcde8"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

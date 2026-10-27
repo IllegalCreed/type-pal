@@ -217,9 +217,9 @@
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-run-report.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Bounded boat-bob user counter/code/current native replay and preview retirement; frozen original quote/history retained; not a new whole-document semantic review.",
+      "readMethod": "Bounded human visual-acceptance statement and exact candidate/clip binding only; no new runtime execution or whole-document semantic review.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "Separates old525 dual comparison from current user counter and current Reforge-only0847 replay; source two frames differ and actual voyage alternates0/1 six times across71 draws,formal save/restore exact; no new Game/same-revision dual comparison/audio/coverage acceptance.",
+      "coreConclusion": "Records human acceptance of the fixed006 boat/rowing/arrival visuals, preserving original95row/formal-save/fresh-restore sources and all historical boundaries. No new execution, publication date or migration credit.",
       "documentStatus": "rework (catalog publication)",
       "owner": "Codex（文档治理，不代签原执行）",
       "provenance": [
@@ -294,7 +294,7 @@
       "sourceGitRevision": "2522c4531d68f7fd43be72380059316672c681a3",
       "sourceGitObject": "bdec5b721d95aeed9532af501ff4b21460f17e57",
       "candidateSha256": "609ee30abeae691f90e4e17ce8da26c6929f950837f1d539c04fc047a85dcec2",
-      "afterSha256": "bea8793eec4bfe7599821af7febefe53324f0a388c7563a0ec1164f95c4d3c03",
+      "afterSha256": "88a9ce82ac05dd812559080abcc1c0bdcabe06d7b68344905340e668adeb1c02",
       "revision": {
         "currentSha": "2522c4531d68f7fd43be72380059316672c681a3",
         "implementationSha": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
@@ -333,7 +333,7 @@
           "author": "Codex",
           "nonAuthorReviewer": false,
           "independentAcceptance": "pending",
-          "userVisualAcceptance": "pending",
+          "userVisualAcceptance": "accepted",
           "boatDrawRecords": 71,
           "bobFrameChanges": 6,
           "renderedFrames": [0, 1],
@@ -341,7 +341,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "newGameRuntimeCredit": 0,
-          "archive": "build/evidence-archive/e2e006-boat-bob-20261027/boat-bob.tar.gz"
+          "archive": "build/evidence-archive/e2e006-boat-bob-20261027/boat-bob.tar.gz",
+          "userVisualDecision": {
+            "reviewer": "user",
+            "date": "2026-10-27",
+            "statement": "没问题了都",
+            "candidate": "c32eccdb544b5f01424e30725db7373e283b9343",
+            "clipSha256": "5230f4d6522a266b4d928894f5b0904e06c5465a270ca17ed532a7ca435cfa63",
+            "scope": "Displayed006 repaired boat/rowing/arrival visuals only; no technical or global waiver"
+          }
         }
       },
       "history": [
@@ -442,6 +450,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
             "index": 1,
             "entryCanonicalSha256": "7516069d845d25a6219a761c1a084429a4196b9b56ca4c641ff34dc8469bc573"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/user-visual-acceptance",
+          "revision": "3caa59f78280d07fe400ce8ddbd5b1d6170d399c",
+          "beforeSha256": "bea8793eec4bfe7599821af7febefe53324f0a388c7563a0ec1164f95c4d3c03",
+          "afterSha256": "88a9ce82ac05dd812559080abcc1c0bdcabe06d7b68344905340e668adeb1c02",
+          "scope": "User visual acceptance only; no technical or migration grant, no independent acceptance",
+          "priorRecord": {
+            "revision": "c32eccdb544b5f01424e30725db7373e283b9343",
+            "logicalPath": "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
+            "index": 1,
+            "entryCanonicalSha256": "bb0ed6166bfe1a5291e23e6722478bc9aa714cdb83213561b592b66999ab5708"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

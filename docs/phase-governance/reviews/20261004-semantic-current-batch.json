@@ -407,9 +407,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Bounded boat-bob user counter/code/current native replay and preview retirement; frozen original quote/history retained; not a new whole-document semantic review.",
+      "readMethod": "Bounded human visual-acceptance statement and exact candidate/clip binding only; no new runtime execution or whole-document semantic review.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "Only E2E006 board row records the user missing-bob counter and current Reforge replay:71 rendered boat states/6 frame changes,95 dialogue rows,formal terminal save/fresh restore; user visual and independent/global acceptance remain open.",
+      "coreConclusion": "Only E2E006 row records the user accepting the repaired boat/rowing/arrival clip; technical nonauthor/global gates remain open, no main/done.",
       "truthAnchors": [
         "docs/ops/board.md",
         "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
@@ -433,7 +433,7 @@
         "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "636efce5e36cbd03129594ccb013170464f9d9990f9ff34e53f3d8ffe77975be",
+      "afterSha256": "173f5511ebf5408b5eef47fceb9d97324f7692cd948adcb8495a8cc42cd57c3f",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -859,7 +859,7 @@
           "author": "Codex",
           "nonAuthorReviewer": false,
           "independentAcceptance": "pending",
-          "userVisualAcceptance": "pending",
+          "userVisualAcceptance": "accepted",
           "boatDrawRecords": 71,
           "bobFrameChanges": 6,
           "renderedFrames": [0, 1],
@@ -867,7 +867,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "newGameRuntimeCredit": 0,
-          "archive": "build/evidence-archive/e2e006-boat-bob-20261027/boat-bob.tar.gz"
+          "archive": "build/evidence-archive/e2e006-boat-bob-20261027/boat-bob.tar.gz",
+          "userVisualDecision": {
+            "reviewer": "user",
+            "date": "2026-10-27",
+            "statement": "没问题了都",
+            "candidate": "c32eccdb544b5f01424e30725db7373e283b9343",
+            "clipSha256": "5230f4d6522a266b4d928894f5b0904e06c5465a270ca17ed532a7ca435cfa63",
+            "scope": "Displayed006 repaired boat/rowing/arrival visuals only; no technical or global waiver"
+          }
         }
       },
       "history": [
@@ -1555,6 +1563,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
             "index": 1,
             "entryCanonicalSha256": "b1226802cb32958514abd8f61e4a79ea4c2f04bfe3730b9f74c23fa69339369f"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/user-visual-acceptance",
+          "revision": "3caa59f78280d07fe400ce8ddbd5b1d6170d399c",
+          "beforeSha256": "636efce5e36cbd03129594ccb013170464f9d9990f9ff34e53f3d8ffe77975be",
+          "afterSha256": "173f5511ebf5408b5eef47fceb9d97324f7692cd948adcb8495a8cc42cd57c3f",
+          "scope": "User visual acceptance only; no technical or migration grant, no independent acceptance",
+          "priorRecord": {
+            "revision": "c32eccdb544b5f01424e30725db7373e283b9343",
+            "logicalPath": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+            "index": 1,
+            "entryCanonicalSha256": "a8a46e9553beebb82f842602828c27f9d95529020a4fd75bfe5eb7c3b04aaa81"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

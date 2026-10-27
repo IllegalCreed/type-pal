@@ -357,9 +357,9 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Bounded boat-bob user counter/code/current native replay and preview retirement; frozen original quote/history retained; not a new whole-document semantic review.",
+      "readMethod": "Bounded human visual-acceptance statement and exact candidate/clip binding only; no new runtime execution or whole-document semantic review.",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "Bounded carrier-animation rework admission and actual0847b1a6e replay; preserve transport appearance and explicit page pose,retire orphan auto preview,retain approved old-test adapters/earlier failures and all frozen525/save-performance evidence; no main/done or independent credit.",
+      "coreConclusion": "User explicitly accepted the displayed006 visuals for fixedc32eccdb candidate and pinned clip; missing-bob visual counter is closed. Existing actual runtime/save/recovery evidence retained; no technical independent or global acceptance implied.",
       "truthAnchors": [
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:1",
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:23",
@@ -384,7 +384,7 @@
         "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
-      "afterSha256": "3a0622d3451eaa76011044cb37775ad90d5d6a096f33220899ada873b04c9981",
+      "afterSha256": "eafdb536aa22ac5d5df4320a5e0c6a44a15f695f99253379f2f918bee6010cd8",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -470,7 +470,7 @@
           "author": "Codex",
           "nonAuthorReviewer": false,
           "independentAcceptance": "pending",
-          "userVisualAcceptance": "pending",
+          "userVisualAcceptance": "accepted",
           "boatDrawRecords": 71,
           "bobFrameChanges": 6,
           "renderedFrames": [0, 1],
@@ -478,7 +478,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "newGameRuntimeCredit": 0,
-          "archive": "build/evidence-archive/e2e006-boat-bob-20261027/boat-bob.tar.gz"
+          "archive": "build/evidence-archive/e2e006-boat-bob-20261027/boat-bob.tar.gz",
+          "userVisualDecision": {
+            "reviewer": "user",
+            "date": "2026-10-27",
+            "statement": "没问题了都",
+            "candidate": "c32eccdb544b5f01424e30725db7373e283b9343",
+            "clipSha256": "5230f4d6522a266b4d928894f5b0904e06c5465a270ca17ed532a7ca435cfa63",
+            "scope": "Displayed006 repaired boat/rowing/arrival visuals only; no technical or global waiver"
+          }
         }
       },
       "history": [
@@ -734,7 +742,7 @@
       ],
       "templateConformance": {
         "status": "needs-migration",
-        "scope": "New boat-bob author delta pending independent/user acceptance; prior conformance preserved by fixed record locator in maintenanceDeltas."
+        "scope": "User visual accepted; technical/template acceptance remains pending; prior conformance preserved by fixed record locator in maintenanceDeltas."
       },
       "currentAuthoredReview": {
         "protocol": "document-delivery-acceptance/1.0.0",
@@ -819,6 +827,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
             "index": 1,
             "entryCanonicalSha256": "ec4ae1476d7bb05bb7a2a32f17bd7f1425db268e9996e6dfeb24bb92aa905b6f"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1/user-visual-acceptance",
+          "revision": "3caa59f78280d07fe400ce8ddbd5b1d6170d399c",
+          "beforeSha256": "3a0622d3451eaa76011044cb37775ad90d5d6a096f33220899ada873b04c9981",
+          "afterSha256": "eafdb536aa22ac5d5df4320a5e0c6a44a15f695f99253379f2f918bee6010cd8",
+          "scope": "User visual acceptance only; no technical or migration grant, no independent acceptance",
+          "priorRecord": {
+            "revision": "c32eccdb544b5f01424e30725db7373e283b9343",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+            "index": 1,
+            "entryCanonicalSha256": "50b32cf5a421e172b4121c81594d859659658964e6d5440b857b93a77664f3c7"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
