@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "48c80ff69f26aff9bc8c067bcdf8db910543b56407a10627c991551d88bda431",
+  "generation": "cd8c701355c5f7bba96850e16c8777a98dc32e144e65c78c8f67a31ebe024344",
   "key": "part-002",
   "positions": [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -5264,7 +5264,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "9ddf0f6f80e6c4e47334165e1c8966860f4922f65b13842a8cedc17727241a96",
+      "afterSha256": "3b45e372aef3dd74f4e76a85a78b12c7d6af06873979bbe2cc842be466750616",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6280,6 +6280,23 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57/terminal-record",
+          "revision": "742440f7165d0168e597fdb7af39358d578d5038",
+          "beforeSha256": "9ddf0f6f80e6c4e47334165e1c8966860f4922f65b13842a8cedc17727241a96",
+          "afterSha256": "3b45e372aef3dd74f4e76a85a78b12c7d6af06873979bbe2cc842be466750616",
+          "scope": "Actual44 intake result and admitted S58 next scope; no additional content/state grants",
+          "priorRecord": {
+            "revision": "742440f7165d0168e597fdb7af39358d578d5038",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 33,
+            "entryCanonicalSha256": "c703fb190cc7d3896737243e012144f7a7588b8fd35872614854c1e6f798ed4c"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

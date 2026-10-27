@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "48c80ff69f26aff9bc8c067bcdf8db910543b56407a10627c991551d88bda431",
+  "generation": "cd8c701355c5f7bba96850e16c8777a98dc32e144e65c78c8f67a31ebe024344",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
   "entries": [
@@ -2396,7 +2396,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "3fe85104bc823803a7176651df79fcf9c24b6222198a44d045bfcc8a6fb9da45",
+      "afterSha256": "d9d041c7d79d8cd3e3d26547f472998395068b8555fcebe5f816e4658b34ffa9",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -3379,6 +3379,23 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57/terminal-record",
+          "revision": "742440f7165d0168e597fdb7af39358d578d5038",
+          "beforeSha256": "3fe85104bc823803a7176651df79fcf9c24b6222198a44d045bfcc8a6fb9da45",
+          "afterSha256": "d9d041c7d79d8cd3e3d26547f472998395068b8555fcebe5f816e4658b34ffa9",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "742440f7165d0168e597fdb7af39358d578d5038",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 7,
+            "entryCanonicalSha256": "0d01fee10c2e5d055d8aa1171253d55f08fb2fa2e9736380f17e4828aa32b6ef"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

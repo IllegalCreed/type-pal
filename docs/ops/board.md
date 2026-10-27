@@ -29,7 +29,7 @@ Template: governance-index-v1 / 1.0.0
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | DOCS-RECORD-INTEGRITY-1 | [R 波记录可信度撤回与补救](tasks/DOCS-RECORD-INTEGRITY-1.md) | rework | Codex / 扩大R23–R36撤信与验收锚点补救，待非作者验收 | 机械保真不授语义信用；原回执保全 |
-| DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex / S57接入 | S56非作者195/27/17全accept；44当前版本精确grant与路由/registry接入准备，保持原撤信与产品边界；扣减取最终门实测 |
+| DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex / S57接入；GLM后续142篇 | S56全accept后44已接入，strict1258/632当前待迁，实减88/44；后续127控制+15HTML终版内容一次交接，公共合同/中央发布归Owner |
 | DOCS-NATIVE-JSON-1 | [原生JSON历史证据逐篇治理](tasks/DOCS-NATIVE-JSON-1.md) | rework | Codex / S38发布/补线/封存已非作者接受 | 269已接入；212仍零迁移信用，逐篇晋升/路由后续单独裁定 |
 | DOCS-NATIVE-VITEST-269-1 | [269篇原生Vitest语义接入](tasks/DOCS-NATIVE-VITEST-269-1.md) | review | Codex / 269发布与夹具已独立接受 | 新增269文档迁移，严格实减538项；不授旧执行信用 |
 | DOCS-REGISTRY-SPLIT-1 | [文档 registry 存储拆分](tasks/DOCS-REGISTRY-SPLIT-1.md) | build | registry_storage_author / 隔离实现；root独立验收 | 2.0.2设计非作者限定接受；新增登记缺口显式保留 |
@@ -38,7 +38,7 @@ Template: governance-index-v1 / 1.0.0
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [战斗回合与结算边界测试](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | GLM / 补原始反控与合法输入；Codex复核 | 先前accept撤回；全绿与已合入不等于合同验收 |
 | E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |
 | E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 技术证据已核，等待用户观感验收 |
-| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 技术与用户视觉已接受 | 两路独立技术accept，Game完整78键校验C1关闭；实际起伏/终档/恢复与另存安全性能保留，构建warning和Testing来源门已修。全库1346治理诊断仍阻塞，不合main/推送/done，不交GLM做E2E |
+| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 技术与用户视觉已接受 | 两路独立技术accept，Game完整78键校验C1关闭；实际起伏/终档/恢复与另存安全性能保留，构建warning和Testing来源门已修。全库文档治理待办仍阻塞，不合main/推送/done，不交GLM做E2E |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
 
