@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
-  "generation": "64325e0a5b7512c8b0b5b654e5f68e3fbd9bc8bdcc74e4bf5e204a65507bfe37",
+  "generation": "636663171d6773875d2671ddc5654131ef6ebd37b2747aad08616b0d06d5185e",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   "entries": [
@@ -425,11 +425,11 @@
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r26-indoor-slices-review-20261017.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "本篇 native JSON 全文程序解析（全部顶层键与结构）+ 关键字段定向核读（kind/date/sourceRevision/scope 计数/counters 首条/entries 首条/勘误块）；manifest 身份元组与现行 review 绑定经准入 verify 机械核验；全仓 git grep 入站引用实测；同批三角色回执交叉引用核对",
       "reviewDepth": "structured-content",
       "coreConclusion": "R26只读审阅提案回执（id=type-pal-r26-indoor-slices-readonly-review-20261017）：实际清单4篇，verdict=accept-readonly-proposal；blockingCounters原值={\"sourceShaMismatch\":0,\"afterShaMismatch\":0,\"sourceAfterDrift\":0,\"sourceQuoteInverseFailure\":0,\"registryMismatch\":0,\"oldReviewDuplicate\":0,\"catalogShaMismatch\":0,\"routingContradiction\":0,\"templateProposalFailure\":0,\"semanticReadFailure\":0,\"issueCount\":0}；nonBlockingCounters原值={\"historicalArchiveBoundary\":4,\"htmlStaticMockup\":0,\"htmlCatalogGap\":0,\"archiveRoutingGap\":4,\"historicalWarningsOrUnresolvedSignals\":4,\"supersededOrRefocusedIndoorDocs\":3,\"htmlMigrationBlockedByTemplateContract\":0}。 原文为室内切片只读提案，不是候选树的命令接受。 counter对象中的历史信号不是新执行失败或当前接受；原声称full read/独立资格仍受canonical撤信与same-actor裁定约束，本稿不重跑下游、不重授旧信用。",
@@ -503,6 +503,12 @@
             "date": "2026-10-17",
             "action": "byte-stable historical machine artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-27",
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "action": "accept-current-document-version; no historical execution restoration",
+            "afterSha256": "8d1157e64940acbb142b91edfb695f6312cd159551fdf3028b6aa1c36d1f5bde"
           }
         ]
       },
@@ -711,6 +717,29 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "action": "accept-current-native-document-version-after-S56-non-author-review",
+          "priorRecord": {
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+            "index": 1,
+            "entryCanonicalSha256": "2d96f4e95aa2857155a353b258b1515382be45501de1a0f8e3f8efc4035992c3"
+          },
+          "acceptanceReportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+          "oldClaimRestored": false,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
         }
       ],
       "supersedes": [
@@ -757,16 +786,26 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-document-delivery-native-v1",
-      "historicalRole": "readonly-review-verdict"
+      "historicalRole": "readonly-review-verdict",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r26-indoor-slices-review-20261017.json",
+        "afterSha256": "8d1157e64940acbb142b91edfb695f6312cd159551fdf3028b6aa1c36d1f5bde",
+        "contentSha256": "b0d54d492bacc4bfa1ac39f36b19ccbf2a4c6fdf7f28be8767916559f88ee5e5",
+        "reportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r27-phase1-plans-candidate-acceptance-20261017.json",
@@ -1205,11 +1244,11 @@
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r27-phase1-plans-review-20261017.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "本篇 native JSON 全文程序解析（全部顶层键与结构）+ 关键字段定向核读（kind/date/sourceRevision/scope 计数/counters 首条/entries 首条/勘误块）；manifest 身份元组与现行 review 绑定经准入 verify 机械核验；全仓 git grep 入站引用实测；同批三角色回执交叉引用核对",
       "reviewDepth": "structured-content",
       "coreConclusion": "R27只读审阅提案回执（id=type-pal-r27-phase1-plans-readonly-review-20261017）：实际清单20篇，verdict=accept-readonly-proposal；blockingCounters原值={\"sourceShaMismatch\":0,\"afterShaMismatch\":0,\"registryMismatch\":0,\"reviewMissingOrDuplicate\":0,\"catalogShaMismatch\":0,\"routingContradiction\":0,\"fullReadFailure\":0,\"semanticReadFailure\":0,\"issueCount\":0}；nonBlockingCounters原值={\"historicalDocuments\":20,\"unresolvedHistoricalSignals\":194,\"archiveOnlyRouting\":20,\"catalogDraftStatus\":20,\"designSpecReclassifiedToArchivePlanStatus\":6,\"auditReport\":3}。 分类原声称为「17 proposed archive-plan-status; 3 proposed audit-report」。 counter对象中的历史信号不是新执行失败或当前接受；原声称full read/独立资格仍受canonical撤信与same-actor裁定约束，本稿不重跑下游、不重授旧信用。",
@@ -1283,6 +1322,12 @@
             "date": "2026-10-17",
             "action": "byte-stable historical machine artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-27",
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "action": "accept-current-document-version; no historical execution restoration",
+            "afterSha256": "1bd18ade60cad33b7a9299edb333372f4db9e82bb0ccf8beb1ffdaeb413987fb"
           }
         ]
       },
@@ -1509,6 +1554,29 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "action": "accept-current-native-document-version-after-S56-non-author-review",
+          "priorRecord": {
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+            "index": 3,
+            "entryCanonicalSha256": "058259f88e5a825e268396424b71588de7d7cafcc0a962260f066ff93cddf360"
+          },
+          "acceptanceReportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+          "oldClaimRestored": false,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
         }
       ],
       "supersedes": [
@@ -1555,16 +1623,26 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-document-delivery-native-v1",
-      "historicalRole": "readonly-review-verdict"
+      "historicalRole": "readonly-review-verdict",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r27-phase1-plans-review-20261017.json",
+        "afterSha256": "1bd18ade60cad33b7a9299edb333372f4db9e82bb0ccf8beb1ffdaeb413987fb",
+        "contentSha256": "449fdf8a185bdb0c6ef12288941bd903eac2c948b68c5ec270fba804bc4ddfc3",
+        "reportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r28-phase1-plans-candidate-acceptance-20261017.json",

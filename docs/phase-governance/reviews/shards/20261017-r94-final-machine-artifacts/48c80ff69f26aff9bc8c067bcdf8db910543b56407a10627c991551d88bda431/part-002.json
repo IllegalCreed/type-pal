@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "fb9b2c7057bea47c364e348b8b3328e5d7a3bde095460d8d8778e25d3336749a",
+  "generation": "48c80ff69f26aff9bc8c067bcdf8db910543b56407a10627c991551d88bda431",
   "key": "part-002",
   "positions": [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -920,11 +920,11 @@
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Reused source-specific S53 proposal + S54 typed native-field normalization and byte/source verification; no product execution.",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "残差卡相邻回归Vitest JSON原生输出:38/38 suites、171/171 tests全passed、success=true、snapshot零漂移、testResults 18文件、startTime 1791699110895(2026-10-11T06:11:50Z);counterproof.adjacent.totals旧标files=38而fileCount=18；38实际等于本件suite层级轴，testResults文件数为18，不能据totals.files互证文件数量。旧JSON原值不改。 本轮字段核对：原生计数total=171、passed=171、failed=0、pending=0；testResults实际18文件与numTotalTestSuites层级数分列。 旧稿关于判别力/执行有效性的说法仅作历史声称，本轮不复跑或恢复旧信用。",
@@ -1015,6 +1015,12 @@
             "date": "2026-10-26",
             "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
             "action": "accept-current-native-document-version; original execution remains unverified/withdrawn",
+            "afterSha256": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5"
+          },
+          {
+            "date": "2026-10-27",
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "action": "accept-current-document-version; no historical execution restoration",
             "afterSha256": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5"
           }
         ]
@@ -2096,6 +2102,29 @@
           "oldClaimRestored": false,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "action": "accept-current-native-document-version-after-S56-non-author-review",
+          "priorRecord": {
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 21,
+            "entryCanonicalSha256": "e823161816b0d25b7774dd36e657412625bf7883cc6f2680989979402dce61fc"
+          },
+          "acceptanceReportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+          "oldClaimRestored": false,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
         }
       ],
       "supersedes": [
@@ -2141,14 +2170,6 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "readDomain": {
         "actual": "S54: production reader全量解析、原生计数/身份与字段角色逐值核对；复用S53组合中的该篇具体内容及已披露旧读域，不声称本轮重新全文人工深审。",
         "reusedFrom": [
@@ -2197,7 +2218,25 @@
         ]
       },
       "historyBoundary": "旧R波语义/独立执行信用的撤回仍有效；载体提交不是执行来源认证。原缺字段、失败、提炼来源和旧矛盾按原件保留。当前只交文档候选，不授原运行、E2E、视觉或coverage通过。",
-      "templateVariant": "historical-vitest-native-v1"
+      "templateVariant": "historical-vitest-native-v1",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json",
+        "afterSha256": "9ca81bd7dc1dc2b4f600e08501e73f6d5d6ad2b3020374754815cfc23631e9f5",
+        "contentSha256": "feafbf431298d1c4ec21818681fcce9ba002854db7d715d6d7a614a83e5e9f27",
+        "reportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/counterproof.json",
@@ -2521,11 +2560,11 @@
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.green.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Reused source-specific S53 proposal + S54 typed native-field normalization and byte/source verification; no product execution.",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "N1针恢复绿相位原件:1/1 passed、success=true、startTime 1791699117693(06:11:57.693Z),紧随同针红相位(06:11:55.602Z)构成N1闭环后半。 本轮字段核对：原生计数total=1、passed=1、failed=0、pending=0；testResults实际1文件与numTotalTestSuites层级数分列。 旧稿关于判别力/执行有效性的说法仅作历史声称，本轮不复跑或恢复旧信用。",
@@ -2617,6 +2656,12 @@
             "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
             "action": "accept-current-native-document-version; original execution remains unverified/withdrawn",
             "afterSha256": "a57e813138e56bfae1791f035a7607246fc1d33dfbb03937bd113a2a3354ce17"
+          },
+          {
+            "date": "2026-10-27",
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "action": "accept-current-document-version; no historical execution restoration",
+            "afterSha256": "a57e813138e56bfae1791f035a7607246fc1d33dfbb03937bd113a2a3354ce17"
           }
         ]
       },
@@ -2677,6 +2722,29 @@
           "oldClaimRestored": false,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "action": "accept-current-native-document-version-after-S56-non-author-review",
+          "priorRecord": {
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 24,
+            "entryCanonicalSha256": "8caa03844dc4b7b9a872b445c1c4ccd12c0ae2d175fa8bcbc2574a50c5b759a9"
+          },
+          "acceptanceReportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+          "oldClaimRestored": false,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
         }
       ],
       "supersedes": [
@@ -2722,14 +2790,6 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "readDomain": {
         "actual": "S54: production reader全量解析、原生计数/身份与字段角色逐值核对；复用S53组合中的该篇具体内容及已披露旧读域，不声称本轮重新全文人工深审。",
         "reusedFrom": [
@@ -2778,15 +2838,33 @@
         ]
       },
       "historyBoundary": "旧R波语义/独立执行信用的撤回仍有效；载体提交不是执行来源认证。原缺字段、失败、提炼来源和旧矛盾按原件保留。当前只交文档候选，不授原运行、E2E、视觉或coverage通过。",
-      "templateVariant": "historical-vitest-native-v1"
+      "templateVariant": "historical-vitest-native-v1",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.green.json",
+        "afterSha256": "a57e813138e56bfae1791f035a7607246fc1d33dfbb03937bd113a2a3354ce17",
+        "contentSha256": "5006a2f3c71b2e640aa50196b49f7aa09e1da4bc22f09396c8e63e740a7298bf",
+        "reportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.red.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Reused source-specific S53 proposal + S54 typed native-field normalization and byte/source verification; no product execution.",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "N1针红相位原件:1/1 failed、success=false、startTime 1791699115602(06:11:55.602Z);唯一业务断言AssertionError: expected 'gone（缺失）' to contain 'gone（引用失效）'。 本轮字段核对：原生计数total=1、passed=0、failed=1、pending=0；testResults实际1文件与numTotalTestSuites层级数分列。 旧稿关于判别力/执行有效性的说法仅作历史声称，本轮不复跑或恢复旧信用。",
@@ -2878,6 +2956,12 @@
             "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
             "action": "accept-current-native-document-version; original execution remains unverified/withdrawn",
             "afterSha256": "437f431bbd2b0ee614ac94b0d2f32b5285a371249f5a66f1acd546b86b43e7d4"
+          },
+          {
+            "date": "2026-10-27",
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "action": "accept-current-document-version; no historical execution restoration",
+            "afterSha256": "437f431bbd2b0ee614ac94b0d2f32b5285a371249f5a66f1acd546b86b43e7d4"
           }
         ]
       },
@@ -2940,6 +3024,29 @@
           "oldClaimRestored": false,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "action": "accept-current-native-document-version-after-S56-non-author-review",
+          "priorRecord": {
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 25,
+            "entryCanonicalSha256": "4488d5f6817709a8cf785be597089dcece6f276b7f65ef4706c969e764583e99"
+          },
+          "acceptanceReportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+          "oldClaimRestored": false,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
         }
       ],
       "supersedes": [
@@ -2985,14 +3092,6 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "readDomain": {
         "actual": "S54: production reader全量解析、原生计数/身份与字段角色逐值核对；复用S53组合中的该篇具体内容及已披露旧读域，不声称本轮重新全文人工深审。",
         "reusedFrom": [
@@ -3041,15 +3140,33 @@
         ]
       },
       "historyBoundary": "旧R波语义/独立执行信用的撤回仍有效；载体提交不是执行来源认证。原缺字段、失败、提炼来源和旧矛盾按原件保留。当前只交文档候选，不授原运行、E2E、视觉或coverage通过。",
-      "templateVariant": "historical-vitest-native-v1"
+      "templateVariant": "historical-vitest-native-v1",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.red.json",
+        "afterSha256": "437f431bbd2b0ee614ac94b0d2f32b5285a371249f5a66f1acd546b86b43e7d4",
+        "contentSha256": "f3b400436ee92073dd5fba115236fb27e108be0bdb4f577e37a33afa8e309e56",
+        "reportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N2-reselect-rebinds-first-entity.green.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Reused source-specific S53 proposal + S54 typed native-field normalization and byte/source verification; no product execution.",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "N2针恢复绿相位原件:1/1 passed、success=true、startTime 1791699122056(06:12:02.056Z),接同针红相位(06:11:59.938Z)构成N2闭环后半。 本轮字段核对：原生计数total=1、passed=1、failed=0、pending=0；testResults实际1文件与numTotalTestSuites层级数分列。 旧稿关于判别力/执行有效性的说法仅作历史声称，本轮不复跑或恢复旧信用。",
@@ -3141,6 +3258,12 @@
             "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
             "action": "accept-current-native-document-version; original execution remains unverified/withdrawn",
             "afterSha256": "01acfdf7fa371628036ce0e70f34791dae4e86c7e335dcb17c7ec9f4e68e0fde"
+          },
+          {
+            "date": "2026-10-27",
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "action": "accept-current-document-version; no historical execution restoration",
+            "afterSha256": "01acfdf7fa371628036ce0e70f34791dae4e86c7e335dcb17c7ec9f4e68e0fde"
           }
         ]
       },
@@ -3201,6 +3324,29 @@
           "oldClaimRestored": false,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "action": "accept-current-native-document-version-after-S56-non-author-review",
+          "priorRecord": {
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 26,
+            "entryCanonicalSha256": "db782aafdf11abe75c9fe7d9d01b44ffffb3d2737b26231bac6f6800127ea417"
+          },
+          "acceptanceReportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+          "oldClaimRestored": false,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
         }
       ],
       "supersedes": [
@@ -3246,14 +3392,6 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "readDomain": {
         "actual": "S54: production reader全量解析、原生计数/身份与字段角色逐值核对；复用S53组合中的该篇具体内容及已披露旧读域，不声称本轮重新全文人工深审。",
         "reusedFrom": [
@@ -3302,15 +3440,33 @@
         ]
       },
       "historyBoundary": "旧R波语义/独立执行信用的撤回仍有效；载体提交不是执行来源认证。原缺字段、失败、提炼来源和旧矛盾按原件保留。当前只交文档候选，不授原运行、E2E、视觉或coverage通过。",
-      "templateVariant": "historical-vitest-native-v1"
+      "templateVariant": "historical-vitest-native-v1",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N2-reselect-rebinds-first-entity.green.json",
+        "afterSha256": "01acfdf7fa371628036ce0e70f34791dae4e86c7e335dcb17c7ec9f4e68e0fde",
+        "contentSha256": "07b146f7d2919aa8a5d4db3f0ce1ce2dc93d8165a27fd024c8475229e90ccacc",
+        "reportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N2-reselect-rebinds-first-entity.red.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Reused source-specific S53 proposal + S54 typed native-field normalization and byte/source verification; no product execution.",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "N2针红相位原件:1/1 failed、success=false、startTime 1791699119938(06:11:59.938Z);唯一业务断言为vi.fn called once with [{kind:'callScript',…}]改绑调用失败。 本轮字段核对：原生计数total=1、passed=0、failed=1、pending=0；testResults实际1文件与numTotalTestSuites层级数分列。 旧稿关于判别力/执行有效性的说法仅作历史声称，本轮不复跑或恢复旧信用。",
@@ -3402,6 +3558,12 @@
             "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
             "action": "accept-current-native-document-version; original execution remains unverified/withdrawn",
             "afterSha256": "47513b4ad076a24e944921222c81ad9078ee8d61103dcc1dd6659569c9c1011c"
+          },
+          {
+            "date": "2026-10-27",
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "action": "accept-current-document-version; no historical execution restoration",
+            "afterSha256": "47513b4ad076a24e944921222c81ad9078ee8d61103dcc1dd6659569c9c1011c"
           }
         ]
       },
@@ -3464,6 +3626,29 @@
           "oldClaimRestored": false,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "action": "accept-current-native-document-version-after-S56-non-author-review",
+          "priorRecord": {
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 27,
+            "entryCanonicalSha256": "7f32d2ed49f5aa66cbb75fe791a9a91e7343c20d3f133b34e895f0ca466afb7e"
+          },
+          "acceptanceReportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+          "oldClaimRestored": false,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
         }
       ],
       "supersedes": [
@@ -3509,14 +3694,6 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "readDomain": {
         "actual": "S54: production reader全量解析、原生计数/身份与字段角色逐值核对；复用S53组合中的该篇具体内容及已披露旧读域，不声称本轮重新全文人工深审。",
         "reusedFrom": [
@@ -3565,15 +3742,33 @@
         ]
       },
       "historyBoundary": "旧R波语义/独立执行信用的撤回仍有效；载体提交不是执行来源认证。原缺字段、失败、提炼来源和旧矛盾按原件保留。当前只交文档候选，不授原运行、E2E、视觉或coverage通过。",
-      "templateVariant": "historical-vitest-native-v1"
+      "templateVariant": "historical-vitest-native-v1",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N2-reselect-rebinds-first-entity.red.json",
+        "afterSha256": "47513b4ad076a24e944921222c81ad9078ee8d61103dcc1dd6659569c9c1011c",
+        "contentSha256": "e7ca081eb37215900f65007b19c90353c8cbc1aaeeee7eceef6bd23a6d589b2c",
+        "reportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/baseline.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Reused source-specific S53 proposal + S54 typed native-field normalization and byte/source verification; no product execution.",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "基线绿相位原件:1/1 passed、success=true、startTime 1791699108759(06:11:48.759Z),先于N1/N2红绿相位,三态链原始绿起点(同名单测)。 本轮字段核对：原生计数total=1、passed=1、failed=0、pending=0；testResults实际1文件与numTotalTestSuites层级数分列。 旧稿关于判别力/执行有效性的说法仅作历史声称，本轮不复跑或恢复旧信用。",
@@ -3665,6 +3860,12 @@
             "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
             "action": "accept-current-native-document-version; original execution remains unverified/withdrawn",
             "afterSha256": "18ca42e12a6fe4c4e6a686b22f575242f732e067bb9742cd1b3c65fa0be69986"
+          },
+          {
+            "date": "2026-10-27",
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "action": "accept-current-document-version; no historical execution restoration",
+            "afterSha256": "18ca42e12a6fe4c4e6a686b22f575242f732e067bb9742cd1b3c65fa0be69986"
           }
         ]
       },
@@ -3725,6 +3926,29 @@
           "oldClaimRestored": false,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "action": "accept-current-native-document-version-after-S56-non-author-review",
+          "priorRecord": {
+            "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 28,
+            "entryCanonicalSha256": "d93690c26ab354e3595c363b03d38099f0a947ec957c89d209988397a91e3aa4"
+          },
+          "acceptanceReportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+          "oldClaimRestored": false,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
         }
       ],
       "supersedes": [
@@ -3770,14 +3994,6 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "readDomain": {
         "actual": "S54: production reader全量解析、原生计数/身份与字段角色逐值核对；复用S53组合中的该篇具体内容及已披露旧读域，不声称本轮重新全文人工深审。",
         "reusedFrom": [
@@ -3826,7 +4042,25 @@
         ]
       },
       "historyBoundary": "旧R波语义/独立执行信用的撤回仍有效；载体提交不是执行来源认证。原缺字段、失败、提炼来源和旧矛盾按原件保留。当前只交文档候选，不授原运行、E2E、视觉或coverage通过。",
-      "templateVariant": "historical-vitest-native-v1"
+      "templateVariant": "historical-vitest-native-v1",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/baseline.json",
+        "afterSha256": "18ca42e12a6fe4c4e6a686b22f575242f732e067bb9742cd1b3c65fa0be69986",
+        "contentSha256": "de66d062d66d2ac430cb4e74b30a37277660e4d3e88a7ad56df95c63397e5864",
+        "reportSha256": "1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1/mutation-evidence.json",
@@ -5030,7 +5264,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "72034c94345eac9e5c479fdf347bc5963ecd140cfda71054b99dce9ef208e90b",
+      "afterSha256": "9ddf0f6f80e6c4e47334165e1c8966860f4922f65b13842a8cedc17727241a96",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6034,6 +6268,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "72034c94345eac9e5c479fdf347bc5963ecd140cfda71054b99dce9ef208e90b",
+          "afterSha256": "9ddf0f6f80e6c4e47334165e1c8966860f4922f65b13842a8cedc17727241a96",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -6315,7 +6561,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "3a9c60970cb877331e9efa9b3e08f6c89233d4980d5d0660640aa5af805d478b",
+      "afterSha256": "56794b8f5c98d7cb12c8128c6f463685b7a78a1d61341c79c8b84d2a21b3a702",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6804,6 +7050,18 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "3a9c60970cb877331e9efa9b3e08f6c89233d4980d5d0660640aa5af805d478b",
+          "afterSha256": "56794b8f5c98d7cb12c8128c6f463685b7a78a1d61341c79c8b84d2a21b3a702",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -6836,7 +7094,7 @@
         "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "285f755b61a457489c268d2ff943add6f4dfc24e2efa94f12d6b236b974e13de",
+      "afterSha256": "47b72a85e027fb0a8aa1a47ca551367b567da15ed6ce1ad93c43e22fccd43d35",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -7175,6 +7433,18 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "285f755b61a457489c268d2ff943add6f4dfc24e2efa94f12d6b236b974e13de",
+          "afterSha256": "47b72a85e027fb0a8aa1a47ca551367b567da15ed6ce1ad93c43e22fccd43d35",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."

@@ -3260,7 +3260,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "92c3f034d1654210796d3e877fe393d69b8a070e12fcca3cee492ae711f87f3f",
+      "afterSha256": "533cd26c2ee8f3f4d231002bd753fc98ae916ee74a4b38a179465897be7f3ef6",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3542,6 +3542,18 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "92c3f034d1654210796d3e877fe393d69b8a070e12fcca3cee492ae711f87f3f",
+          "afterSha256": "533cd26c2ee8f3f4d231002bd753fc98ae916ee74a4b38a179465897be7f3ef6",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -4346,7 +4358,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
-      "afterSha256": "758a0b502946dfcde27f6426d4f81b7f1ad9a37a48a453037c2d2842074061f1",
+      "afterSha256": "9585f3f95367750302add9a4e04ef53d27d12d9b1a9f0149ac1029ad9b0cc0fa",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -4524,6 +4536,18 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "758a0b502946dfcde27f6426d4f81b7f1ad9a37a48a453037c2d2842074061f1",
+          "afterSha256": "9585f3f95367750302add9a4e04ef53d27d12d9b1a9f0149ac1029ad9b0cc0fa",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },

@@ -1,19 +1,35 @@
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { checkMigratedDocument } from './document-model.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
-import { nativeFamilyExpansionContentAcceptance } from './historical-native-family-completion-admission.mjs'
 import { nativeFamilyExpansion } from './historical-native-family-expansion-admission.mjs'
-import { loadReviewRecords } from './review-record-storage.mjs'
+import { readReviewRecordObject } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const readBuffer = (p) => readFileSync(new URL(`../../${p}`, import.meta.url))
+// Preserve this regression's original partial/empty-admission input at the accepted S56 tree.
+// The current published acceptance and its negative cases are checked separately.
+const fixtureRevision = '14e0336fe045d038a29ab773acaa639696d31ea8'
+const readBuffer = (p) =>
+  execFileSync('git', ['show', `${fixtureRevision}:${p}`], {
+    cwd: root,
+    maxBuffer: 16 * 1024 * 1024,
+  })
+const { nativeFamilyExpansionContentAcceptance } = await import(
+  `data:text/javascript;base64,${readBuffer('scripts/docs/historical-native-family-completion-admission.mjs').toString('base64')}`
+)
 const templates = JSON.parse(readBuffer('docs/phase-governance/templates/registry.json'))
 
 test('27 corrected native metadata candidates remain partial and cannot borrow prior S54 content acceptance for promotion', () => {
-  const g = loadReviewRecords({ root })
+  const g = {
+    records: new Map(
+      [...new Set(nativeFamilyExpansion.map((t) => t.reviewRecord))].map((p) => [
+        p,
+        readReviewRecordObject(p, { readBuffer }),
+      ]),
+    ),
+  }
   assert.equal(Object.keys(nativeFamilyExpansionContentAcceptance.contentByPath).length, 0)
   assert.equal(nativeFamilyExpansionContentAcceptance.reportSha256, null)
   for (const t of nativeFamilyExpansion) {

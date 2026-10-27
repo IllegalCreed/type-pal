@@ -35,28 +35,28 @@
       "gitObject": "459bf05a94c8b2b71d57d7c6a83b906bfd44b3b6",
       "sha256": "31d980ff2dec1b95e7149d305f2da12bdedb560fc74ed4829cca9c073234e840"
     },
-    "logicalSha256": "3e84d8048bed8547247d0d3753145810c1690b0187600b6de933d78679f888b7",
+    "logicalSha256": "6dec39aa1040a22bdf71421818836bf410c4977313976f1536b8f52deef49a12",
     "totalEntries": 100,
     "entryOrderSha256": "e8f6411738f253ab08b4a12599141fca1f37b7928c59d9ed634b78eff779df36",
-    "orderedEntriesSha256": "4c7f0693e5887a49304d1f502b7a8d87eb35c498f9aa0db61bb9603fed3cba13",
+    "orderedEntriesSha256": "cc63d4c419677a35d3658d28321cccb080fc17cec036f9f2d3b7a74666b22cff",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261017-r86-ops-evidence-artifacts/3e84d8048bed8547247d0d3753145810c1690b0187600b6de933d78679f888b7/part-001.json",
-        "total": 33,
-        "sha256": "950fd59acf3ef15c5a3b972431db08f63f46cb616788446d6e5e6ab6dc88efdc"
+        "path": "shards/20261017-r86-ops-evidence-artifacts/6dec39aa1040a22bdf71421818836bf410c4977313976f1536b8f52deef49a12/part-001.json",
+        "total": 32,
+        "sha256": "0b9f6bddb34e82043370e1f97c4abfa123d2f8a00501736e93e93d0efbc1e9a6"
       },
       {
         "key": "part-002",
-        "path": "shards/20261017-r86-ops-evidence-artifacts/3e84d8048bed8547247d0d3753145810c1690b0187600b6de933d78679f888b7/part-002.json",
+        "path": "shards/20261017-r86-ops-evidence-artifacts/6dec39aa1040a22bdf71421818836bf410c4977313976f1536b8f52deef49a12/part-002.json",
         "total": 32,
-        "sha256": "8de8f37d0f0d346d566ffa7656aaa8ebb4f85ef9aa98f9d10808ab6f311c7736"
+        "sha256": "b6932020e9069b92c0019e96b4d1e94c418fdbcd920b1205e17aee95a211ec51"
       },
       {
         "key": "part-003",
-        "path": "shards/20261017-r86-ops-evidence-artifacts/3e84d8048bed8547247d0d3753145810c1690b0187600b6de933d78679f888b7/part-003.json",
-        "total": 35,
-        "sha256": "c9cff68217d405d3bdef230e9fb7be25f08de6b099982398d70730dbfe7c67a2"
+        "path": "shards/20261017-r86-ops-evidence-artifacts/6dec39aa1040a22bdf71421818836bf410c4977313976f1536b8f52deef49a12/part-003.json",
+        "total": 36,
+        "sha256": "14def3b423f6998c25be35f3e01eac05a978ab931e45dc362b7552bedaa656af"
       }
     ]
   }

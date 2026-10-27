@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "fb9b2c7057bea47c364e348b8b3328e5d7a3bde095460d8d8778e25d3336749a",
+  "generation": "48c80ff69f26aff9bc8c067bcdf8db910543b56407a10627c991551d88bda431",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
   "entries": [
@@ -2087,7 +2087,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "eb345ffc9b9b2e62d785613e5949ce71c3c94f830e6870e09a94e15811ce02d9",
+      "afterSha256": "3471ae128f150ba96cfbdcae2759151fd8f5bc7e5708bfd93ca795b8258ccca3",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -2352,6 +2352,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "eb345ffc9b9b2e62d785613e5949ce71c3c94f830e6870e09a94e15811ce02d9",
+          "afterSha256": "3471ae128f150ba96cfbdcae2759151fd8f5bc7e5708bfd93ca795b8258ccca3",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -2384,7 +2396,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "73b7b67f3c281d346d9aa559cb7d96b148adad06637fa96e3424c8aec4bedd1e",
+      "afterSha256": "3fe85104bc823803a7176651df79fcf9c24b6222198a44d045bfcc8a6fb9da45",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -3355,6 +3367,18 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "73b7b67f3c281d346d9aa559cb7d96b148adad06637fa96e3424c8aec4bedd1e",
+          "afterSha256": "3fe85104bc823803a7176651df79fcf9c24b6222198a44d045bfcc8a6fb9da45",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },

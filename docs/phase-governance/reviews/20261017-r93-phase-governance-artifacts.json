@@ -607,7 +607,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "d2da6c7651331b0d4eefb17a8e258d9748623c49297cf42b64b12d6a0a43a65a",
+      "afterSha256": "eee8adf30066ab2e3d42ef101dbe842115d60486af2ec9a945ccc6b1b8331ad0",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1068,6 +1068,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "d2da6c7651331b0d4eefb17a8e258d9748623c49297cf42b64b12d6a0a43a65a",
+          "afterSha256": "eee8adf30066ab2e3d42ef101dbe842115d60486af2ec9a945ccc6b1b8331ad0",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -1251,7 +1263,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "fae9656002ec706f4a3fc1015e7dfe2db3abeb840d821426fc9b6ca1c6e85624",
+      "afterSha256": "8d0eef56e355365a7e440fb439b89ae13a700a3c03db3f1ac90442f51a815a6b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -2010,6 +2022,18 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "fae9656002ec706f4a3fc1015e7dfe2db3abeb840d821426fc9b6ca1c6e85624",
+          "afterSha256": "8d0eef56e355365a7e440fb439b89ae13a700a3c03db3f1ac90442f51a815a6b",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },

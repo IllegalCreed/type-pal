@@ -9174,6 +9174,108 @@
       "path": "docs/testing/e2e/evidence/e2e-006-current.json",
       "templateId": "test-machine-evidence-v1",
       "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r39-ops-evidence-readmes-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r40-ops-machine-json-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r41-ops-archive-task-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r42-ops-archive-task-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r43-ops-archive-task-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r44-ops-archive-task-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r45-ops-archive-task-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r46-ops-archive-task-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r47-ops-archive-task-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r48-ops-archive-task-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r49-ops-archive-task-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r50-ops-archive-task-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r51-ops-archive-task-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r52-ops-archive-task-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r23-ops-audits-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r26-indoor-slices-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r27-phase1-plans-review-20261017.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-document-delivery-native-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

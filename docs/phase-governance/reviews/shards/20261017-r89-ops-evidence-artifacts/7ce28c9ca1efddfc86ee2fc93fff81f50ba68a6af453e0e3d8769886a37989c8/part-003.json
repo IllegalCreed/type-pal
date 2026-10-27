@@ -1,12 +1,332 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
-  "generation": "73c30d6b2790e720f3d3c31205aa86be2a9ce7d25e0c387f6345b783e50f75df",
+  "generation": "7ce28c9ca1efddfc86ee2fc93fff81f50ba68a6af453e0e3d8769886a37989c8",
   "key": "part-003",
   "positions": [
-    48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69
+    47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68
   ],
   "entries": [
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "本篇 native JSON 全文程序解析（全部顶层键与结构）+ 关键字段定向核读（kind/date/sourceRevision/scope 计数/counters 首条/entries 首条/勘误块）；manifest 身份元组与现行 review 绑定经准入 verify 机械核验；全仓 git grep 入站引用实测；同批三角色回执交叉引用核对",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "R56「R56 ops task machine evidence artifacts」作者贡献回执：迁移台账覆盖 6 篇目标（test-machine-evidence×6），逐条登记 path/sourceRevision/sourceSha256/afterSha256；自评 status=accepted-candidate，sourceRevision=c8854234deb6；同批只读审与候选接受指针（independentReadonlyReview=independent-r56-ops-machine-evidence-readonly-review-20261017.json，verdict=accept-readonly-proposal；independentCandidateAcceptance=n/a）。历史边界：scope.migrationCredit=6 为当时作者声明，2026-10-18 扩大审计未重授；本批不在 R22–R36 撤信窗口；其旧绑定撤信见 correction-scope 分片（1896 范围）与 2026-10-18 扩大审计。本稿仅审阅内容与保留价值，不重跑迁移、不重授信用。",
+      "truthAnchors": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json#/kind",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json#/date",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json#/sourceRevision",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json#/entries/0/path",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json#/scope",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json#/entries/0"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "待未参与者验收本批准入/正文映射与writer；正式中央接入另作受控发布。",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json machine artifact",
+      "owner": "Codex（S34准入与受控writer）；GLM（S30有限内容稿）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "e956a8da555779707926248824d59eff9aaa311bb72357e999be9f8bd07ebf46",
+      "afterSha256": "e956a8da555779707926248824d59eff9aaa311bb72357e999be9f8bd07ebf46",
+      "publicCallers": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+        "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json"
+      ],
+      "legalInputs": [
+        {
+          "kind": "native-carrier",
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json",
+          "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
+          "sha256": "e956a8da555779707926248824d59eff9aaa311bb72357e999be9f8bd07ebf46"
+        },
+        {
+          "kind": "historical-context",
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
+          "sha256": "d4186dd26528640f26408af58f3efe78c13001dc937fcc06a9dd547324ad2bc9"
+        }
+      ],
+      "businessOracle": {
+        "type": "historical-receipt-content",
+        "historicalOnly": true,
+        "assertions": [
+          "R56「R56 ops task machine evidence artifacts」作者贡献回执：迁移台账覆盖 6 篇目标（test-machine-evidence×6），逐条登记 path/sourceRevision/sourceSha256/afterSha256；自评 status=accepted-candidate，sourceRevision=c8854234deb6；同批只读审与候选接受指针（independentReadonlyReview=independent-r56-ops-machine-evidence-readonly-review-20261017.json，verdict=accept-readonly-proposal；independentCandidateAcceptance=n/a）。历史边界：scope.migrationCredit=6 为当时作者声明，2026-10-18 扩大审计未重授；本批不在 R22–R36 撤信窗口；其旧绑定撤信见 correction-scope 分片（1896 范围）与 2026-10-18 扩大审计。本稿仅审阅内容与保留价值，不重跑迁移、不重授信用。",
+          "原稿作者GLM与Owner有限勘误均nonAuthorReviewer=false；本原件顶层未声明nonAuthorReviewer，不能将缺失解释为历史false；历史独立性另按record-integrity同主体裁定；本稿 creditGranted=0、runtimeExecutionPerformed=false、historicClaimsReexecuted=false；无内嵌勘误块；其批次接受信用边界由同批 acceptance 回执的勘误块与 canonical 清单决定；本批不在 R22–R36 撤信窗口；其旧绑定撤信见 correction-scope 分片（1896 范围）与 2026-10-18 扩大审计；历史 accept/命令 exit0/lint 计数不构成当前语义、模板、迁移或运行信用；R39 后既有撤信、R65 改数字、R88–R91 隔离等裁定原样保持"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": [
+          "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json",
+          "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "e956a8da555779707926248824d59eff9aaa311bb72357e999be9f8bd07ebf46",
+        "implementationSha": "e956a8da555779707926248824d59eff9aaa311bb72357e999be9f8bd07ebf46",
+        "history": [
+          {
+            "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-26",
+            "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
+            "action": "accept-current-native-document-version; original execution remains unverified/withdrawn",
+            "afterSha256": "e956a8da555779707926248824d59eff9aaa311bb72357e999be9f8bd07ebf46"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-document-delivery-native-v1",
+        "metadataLocation": "existing-current-review",
+        "nativeWitnesses": [
+          {
+            "pointer": "/kind",
+            "representation": "parsed-string",
+            "quote": "R56 ops task machine evidence artifacts",
+            "meaning": "回执身份（kind）——区分迁移台账/接受/只读审三角色"
+          },
+          {
+            "pointer": "/date",
+            "representation": "parsed-string",
+            "quote": "2026-10-17",
+            "meaning": "制作日期（2026-10-17 历史时点）"
+          },
+          {
+            "pointer": "/sourceRevision",
+            "representation": "parsed-string",
+            "quote": "c8854234deb63c16669413e29335929e6fff5232",
+            "meaning": "迁移来源固定 revision（Git 载体身份，非执行认证）"
+          },
+          {
+            "pointer": "/entries/0/path",
+            "representation": "parsed-string",
+            "quote": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-cens",
+            "meaning": "台账首条目标 path（共 6 条 source/after 记录）"
+          },
+          {
+            "pointer": "/scope",
+            "representation": "json-stringify",
+            "quote": "\"documents\":6",
+            "meaning": "scope 关键计数（documents）与逐条台账交叉"
+          },
+          {
+            "pointer": "/entries/0",
+            "representation": "json-stringify",
+            "quote": "{\"path\":\"docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json\",\"docType\":\"test-machine-evidence\",\"templateId\":\"test-machine-evidence-v1\",\"templateVersion\":\"1.5.0\",\"artifactOnly\":true,\"sourceRevision\":\"c8854234deb63c16669413e29335929e6fff5232\",\"sourceSha256\":\"6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5\",\"afterSha256\":\"6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5\",\"sourceLines\":2743,\"afterLines\":2743,\"topLevelShape\":\"object\",\"topLevelFields\":[\"note\",\"total\",\"loclessTotal\",\"perFile\"],\"exactRoundTrip\":true,\"stopLine\":\"do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance; do not delete while task/consumer references remain\",\"runtimeExecutionPerformed\":false,\"e2eExecutionPerformed\":false,\"visualExecutionPerformed\":false,\"coverageExecutionPerformed\":false}",
+            "meaning": "固定原件中的角色/历史字段见证；仅历史记录内容，不认证旧执行。"
+          }
+        ],
+        "contextReferences": [
+          {
+            "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+            "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
+            "sha256": "d4186dd26528640f26408af58f3efe78c13001dc937fcc06a9dd547324ad2bc9",
+            "lineStart": 2464,
+            "lineEnd": 2464,
+            "quote": "    \"originalClaimRows\": ["
+          }
+        ],
+        "readDomain": {
+          "actualScope": "本篇 native JSON 全文程序解析（全部顶层键与结构）+ 关键字段定向核读（kind/date/sourceRevision/scope 计数/counters 首条/entries 首条/勘误块）；manifest 身份元组与现行 review 绑定经准入 verify 机械核验；全仓 git grep 入站引用实测；同批三角色回执交叉引用核对",
+          "notRead": [
+            "entries/documents 所引用的下游 Markdown/HTML 正文未逐篇重读（S19/record-integrity 既有裁定沿用）",
+            "DOCS-RECORD-INTEGRITY-1/raw/*.inputs.log 等原始命令日志未逐个展开复核",
+            "当时（2026-10-17）的命令执行输出原件未重放"
+          ]
+        },
+        "fieldRoles": {
+          "identity": [
+            "schemaVersion：见顶层键",
+            "id：见顶层键",
+            "kind：见顶层键",
+            "date：见顶层键",
+            "owner：见顶层键"
+          ],
+          "context": ["status：见顶层键"],
+          "inputs": ["sourceRevision：见顶层键", "scope：见顶层键"],
+          "results": ["independentReadonlyReview：见顶层键", "entries：见顶层键"],
+          "governance": [
+            "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json#entries/47"
+          ]
+        },
+        "retention": {
+          "recommendation": "retain-native",
+          "reason": "当前暂保留原生回执：现行review的afterSha256等于本次beforeSha256，registry index 1929是索引入口；basename文本匹配有38个不同引用文件，其中record-integrity raw副本30个。引用数不等于独立consumer数量，也不证明永久不可精简。",
+          "inboundReferences": [
+            "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+            "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+            "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r89-ops-evidence-artifacts-20261017.json",
+            "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r89-ops-evidence-artifacts-candidate-acceptance-20261017.json",
+            "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-5.json",
+            "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/09c01f13-24cb-460b-816b-061cdeac677f.inputs.log"
+          ],
+          "uniqueClaimBoundary": "本件保留作者贡献台账的原始字段、历史声称与纠错上下文。逐篇SHA元组与其他载体可重叠；尚未证明完整对象独有或完全可替代，不据此认证永久保留。",
+          "bytePinnedBy": [
+            "20261017-r89-ops-evidence-artifacts.json#entries/47.afterSha256=e956a8da555779707926248824d59eff9aaa311bb72357e999be9f8bd07ebf46：当前原生字节pin",
+            "同条sourceSha256=e956a8da555779707926248824d59eff9aaa311bb72357e999be9f8bd07ebf46：历史source pin，与当前after相等"
+          ],
+          "alternativeCarriers": "完整替代性尚未逐篇评估。已实测R22正式review22/22、R24配对acceptance21/21、R89作者/readonly100/100的source/after元组重叠；该事实仅说明元组可重复，不证明整件对象等价。",
+          "removalPrecondition": "Owner后续按独有字段、真实reader/字节pin、原始错误/纠错保全、引用迁移与consumer复验裁定；不以搜索无命中或当前过时直接删除，也不要求先证明无任何引用才可精简。本轮不删移，不新建归档原件副本。",
+          "permanentRetentionProven": false,
+          "completeSubstituteAssessment": "not-performed"
+        },
+        "historicalBoundary": {
+          "canonicalWithdrawnPaths152": [],
+          "historicalNonAuthorReviewer": {
+            "declared": false,
+            "value": null
+          },
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "newHistoricalExecutionCreditGranted": false,
+          "correctedCandidateHead": null,
+          "historicalCreditCorrection": null,
+          "sixCopiedCounterAdjudication": [],
+          "r65SummaryOnlyEdit": null,
+          "r88to91ExecutionIsolation": null
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0,
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json"
+      },
+      "history": [
+        {
+          "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R89 ops evidence historical artifact governance",
+          "reviewer": "r89_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S56",
+          "action": "accept-current-native-document-version",
+          "priorRecord": {
+            "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
+            "index": 47,
+            "entryCanonicalSha256": "790d46926ed6d55ab098287546a063b63151722cb31ca8916de143d33d9df30b"
+          },
+          "acceptanceReportSha256": "72f6d41da393e3a5725a36af3e88c6eb0d4961eed23e91274978bc75becc0383",
+          "oldClaimRestored": false,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "S34实施与临时树演练候选；非作者接受前不发布中央语义、不提升信用、不认证旧运行。",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": "沿用S30已接受的程序解析和关键字段定向核读；非下游全文重审",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+      "candidateSha256": "e956a8da555779707926248824d59eff9aaa311bb72357e999be9f8bd07ebf46",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json",
+          "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
+          "gitObject": "bb5fb867cb649fb0a9bbc175e1aa859cb76645fd",
+          "sha256": "e956a8da555779707926248824d59eff9aaa311bb72357e999be9f8bd07ebf46"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
+        "date": "2026-10-17",
+        "validity": "historical"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R89-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R89-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "templateVariant": "historical-document-delivery-native-v1",
+      "historicalRole": "author-contribution-ledger",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json",
+        "afterSha256": "e956a8da555779707926248824d59eff9aaa311bb72357e999be9f8bd07ebf46",
+        "contentSha256": "a35126bb289f749c239709782377ce31d45ded5c88a56f3fb6be05204f2d4643",
+        "reportSha256": "72f6d41da393e3a5725a36af3e88c6eb0d4961eed23e91274978bc75becc0383",
+        "ownerAcceptanceRecordSha256": "72f6d41da393e3a5725a36af3e88c6eb0d4961eed23e91274978bc75becc0383",
+        "contentScope": "Codex evidence acceptance of unchanged GLM original core and previously normalized historical receipt explanation.",
+        "inheritedAcceptances": [
+          {
+            "id": "S30-GLM-original",
+            "indexSha256": "b0a30314465441cd4d76fd6be94ef538d1426fdd3e203e06b3549aaed613b264",
+            "scope": "Original core exactly equals GLM authored row; Codex evidence acceptance of native role/counters/history with risk-targeted expansion. S34 normalized wrapper reused; no new execution trust."
+          }
+        ],
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S56",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
+    },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r57-current-task-cards-20261017.json",
       "contentReviewStatus": "content-reviewed",
@@ -6695,325 +7015,6 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r77-testing-archive-20261017.json",
         "afterSha256": "9de525027b2d2152160e6a98cd6c3308b2181f1adc32abedf2e8d038edfbf315",
         "contentSha256": "541810f078fdbcb01290c2edf0c14119d13c9bccebce883248a881bd113909d2",
-        "reportSha256": "72f6d41da393e3a5725a36af3e88c6eb0d4961eed23e91274978bc75becc0383",
-        "ownerAcceptanceRecordSha256": "72f6d41da393e3a5725a36af3e88c6eb0d4961eed23e91274978bc75becc0383",
-        "contentScope": "Codex evidence acceptance of unchanged GLM original core and previously normalized historical receipt explanation.",
-        "inheritedAcceptances": [
-          {
-            "id": "S30-GLM-original",
-            "indexSha256": "b0a30314465441cd4d76fd6be94ef538d1426fdd3e203e06b3549aaed613b264",
-            "scope": "Original core exactly equals GLM authored row; Codex evidence acceptance of native role/counters/history with risk-targeted expansion. S34 normalized wrapper reused; no new execution trust."
-          }
-        ],
-        "ownerDecision": {
-          "actor": "Codex",
-          "task": "DOCS-FULL-TEMPLATE-1/S56",
-          "currentBodyReview": true,
-          "currentTemplateMigration": true,
-          "oldClaimRestored": false,
-          "runtimeCredit": false
-        }
-      }
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "本篇 native JSON 全文程序解析（全部顶层键与结构）+ 关键字段定向核读（kind/date/sourceRevision/scope 计数/counters 首条/entries 首条/勘误块）；manifest 身份元组与现行 review 绑定经准入 verify 机械核验；全仓 git grep 入站引用实测；同批三角色回执交叉引用核对",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "R78「R78 testing archive migration」作者贡献回执：迁移台账覆盖 50 篇目标（archive-record×50），逐条登记 path/sourceRevision/sourceSha256/afterSha256；自评 status=accepted-candidate，sourceRevision=3dc90ad8f6dd；同批只读审与候选接受指针（independentReadonlyReview=n/a，verdict=n/a；independentCandidateAcceptance=n/a）。历史边界：scope.migrationCredit=n/a 为当时作者声明，2026-10-18 扩大审计未重授；本批不在 R22–R36 撤信窗口；其旧绑定撤信见 correction-scope 分片（1896 范围）与 2026-10-18 扩大审计。本稿仅审阅内容与保留价值，不重跑迁移、不重授信用。",
-      "truthAnchors": [
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json#/kind",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json#/date",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json#/sourceRevision",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json#/entries/0/path",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json#/scope",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json#/entries/0"
-      ],
-      "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "待未参与者验收本批准入/正文映射与writer；正式中央接入另作受控发布。",
-      "phase": "ops",
-      "module": "evidence-artifact",
-      "capability": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json machine artifact",
-      "owner": "Codex（S34准入与受控writer）；GLM（S30有限内容稿）",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "ad5cf73d7987e95b7c3346d8ce21f0ef598126f3ea9b1ddb2b9a7114912d89cf",
-      "afterSha256": "ad5cf73d7987e95b7c3346d8ce21f0ef598126f3ea9b1ddb2b9a7114912d89cf",
-      "publicCallers": [
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
-        "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json"
-      ],
-      "legalInputs": [
-        {
-          "kind": "native-carrier",
-          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-          "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
-          "sha256": "ad5cf73d7987e95b7c3346d8ce21f0ef598126f3ea9b1ddb2b9a7114912d89cf"
-        },
-        {
-          "kind": "historical-context",
-          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
-          "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
-          "sha256": "d4186dd26528640f26408af58f3efe78c13001dc937fcc06a9dd547324ad2bc9"
-        }
-      ],
-      "businessOracle": {
-        "type": "historical-receipt-content",
-        "historicalOnly": true,
-        "assertions": [
-          "R78「R78 testing archive migration」作者贡献回执：迁移台账覆盖 50 篇目标（archive-record×50），逐条登记 path/sourceRevision/sourceSha256/afterSha256；自评 status=accepted-candidate，sourceRevision=3dc90ad8f6dd；同批只读审与候选接受指针（independentReadonlyReview=n/a，verdict=n/a；independentCandidateAcceptance=n/a）。历史边界：scope.migrationCredit=n/a 为当时作者声明，2026-10-18 扩大审计未重授；本批不在 R22–R36 撤信窗口；其旧绑定撤信见 correction-scope 分片（1896 范围）与 2026-10-18 扩大审计。本稿仅审阅内容与保留价值，不重跑迁移、不重授信用。",
-          "原稿作者GLM与Owner有限勘误均nonAuthorReviewer=false；本原件顶层未声明nonAuthorReviewer，不能将缺失解释为历史false；历史独立性另按record-integrity同主体裁定；本稿 creditGranted=0、runtimeExecutionPerformed=false、historicClaimsReexecuted=false；无内嵌勘误块；其批次接受信用边界由同批 acceptance 回执的勘误块与 canonical 清单决定；本批不在 R22–R36 撤信窗口；其旧绑定撤信见 correction-scope 分片（1896 范围）与 2026-10-18 扩大审计；历史 accept/命令 exit0/lint 计数不构成当前语义、模板、迁移或运行信用；R39 后既有撤信、R65 改数字、R88–R91 隔离等裁定原样保持"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-          "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"
-        ]
-      },
-      "revision": {
-        "currentSha": "ad5cf73d7987e95b7c3346d8ce21f0ef598126f3ea9b1ddb2b9a7114912d89cf",
-        "implementationSha": "ad5cf73d7987e95b7c3346d8ce21f0ef598126f3ea9b1ddb2b9a7114912d89cf",
-        "history": [
-          {
-            "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
-            "date": "2026-10-17",
-            "action": "byte-stable historical machine artifact review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          },
-          {
-            "date": "2026-10-26",
-            "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
-            "action": "accept-current-native-document-version; original execution remains unverified/withdrawn",
-            "afterSha256": "ad5cf73d7987e95b7c3346d8ce21f0ef598126f3ea9b1ddb2b9a7114912d89cf"
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "historical-document-delivery-native-v1",
-        "metadataLocation": "existing-current-review",
-        "nativeWitnesses": [
-          {
-            "pointer": "/kind",
-            "representation": "parsed-string",
-            "quote": "R78 testing archive migration",
-            "meaning": "回执身份（kind）——区分迁移台账/接受/只读审三角色"
-          },
-          {
-            "pointer": "/date",
-            "representation": "parsed-string",
-            "quote": "2026-10-17",
-            "meaning": "制作日期（2026-10-17 历史时点）"
-          },
-          {
-            "pointer": "/sourceRevision",
-            "representation": "parsed-string",
-            "quote": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-            "meaning": "迁移来源固定 revision（Git 载体身份，非执行认证）"
-          },
-          {
-            "pointer": "/entries/0/path",
-            "representation": "parsed-string",
-            "quote": "docs/testing/archive/legacy/content/editor-workflows/item-lo",
-            "meaning": "台账首条目标 path（共 50 条 source/after 记录）"
-          },
-          {
-            "pointer": "/scope",
-            "representation": "json-stringify",
-            "quote": "\"documents\":50",
-            "meaning": "scope 关键计数（documents）与逐条台账交叉"
-          },
-          {
-            "pointer": "/entries/0",
-            "representation": "json-stringify",
-            "quote": "{\"path\":\"docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json\",\"sourceSha256\":\"7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff\",\"afterSha256\":\"7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff\",\"templateId\":\"archive-record-v1\",\"artifactOnly\":true,\"exactRoundTrip\":true}",
-            "meaning": "固定原件中的角色/历史字段见证；仅历史记录内容，不认证旧执行。"
-          }
-        ],
-        "contextReferences": [
-          {
-            "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
-            "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
-            "sha256": "d4186dd26528640f26408af58f3efe78c13001dc937fcc06a9dd547324ad2bc9",
-            "lineStart": 2464,
-            "lineEnd": 2464,
-            "quote": "    \"originalClaimRows\": ["
-          }
-        ],
-        "readDomain": {
-          "actualScope": "本篇 native JSON 全文程序解析（全部顶层键与结构）+ 关键字段定向核读（kind/date/sourceRevision/scope 计数/counters 首条/entries 首条/勘误块）；manifest 身份元组与现行 review 绑定经准入 verify 机械核验；全仓 git grep 入站引用实测；同批三角色回执交叉引用核对",
-          "notRead": [
-            "entries/documents 所引用的下游 Markdown/HTML 正文未逐篇重读（S19/record-integrity 既有裁定沿用）",
-            "DOCS-RECORD-INTEGRITY-1/raw/*.inputs.log 等原始命令日志未逐个展开复核",
-            "当时（2026-10-17）的命令执行输出原件未重放"
-          ]
-        },
-        "fieldRoles": {
-          "identity": [
-            "schemaVersion：见顶层键",
-            "id：见顶层键",
-            "kind：见顶层键",
-            "date：见顶层键",
-            "owner：见顶层键"
-          ],
-          "context": ["status：见顶层键"],
-          "inputs": ["sourceRevision：见顶层键", "scope：见顶层键"],
-          "results": ["entries：见顶层键"],
-          "governance": [
-            "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json#entries/69"
-          ]
-        },
-        "retention": {
-          "recommendation": "retain-native",
-          "reason": "当前暂保留原生回执：现行review的afterSha256等于本次beforeSha256，registry index 1951是索引入口；basename文本匹配有37个不同引用文件，其中record-integrity raw副本30个。引用数不等于独立consumer数量，也不证明永久不可精简。",
-          "inboundReferences": [
-            "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
-            "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r89-ops-evidence-artifacts-20261017.json",
-            "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r89-ops-evidence-artifacts-candidate-acceptance-20261017.json",
-            "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-5.json",
-            "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/09c01f13-24cb-460b-816b-061cdeac677f.inputs.log"
-          ],
-          "uniqueClaimBoundary": "本件保留作者贡献台账的原始字段、历史声称与纠错上下文。逐篇SHA元组与其他载体可重叠；尚未证明完整对象独有或完全可替代，不据此认证永久保留。",
-          "bytePinnedBy": [
-            "20261017-r89-ops-evidence-artifacts.json#entries/69.afterSha256=ad5cf73d7987e95b7c3346d8ce21f0ef598126f3ea9b1ddb2b9a7114912d89cf：当前原生字节pin",
-            "同条sourceSha256=ad5cf73d7987e95b7c3346d8ce21f0ef598126f3ea9b1ddb2b9a7114912d89cf：历史source pin，与当前after相等"
-          ],
-          "alternativeCarriers": "完整替代性尚未逐篇评估。已实测R22正式review22/22、R24配对acceptance21/21、R89作者/readonly100/100的source/after元组重叠；该事实仅说明元组可重复，不证明整件对象等价。",
-          "removalPrecondition": "Owner后续按独有字段、真实reader/字节pin、原始错误/纠错保全、引用迁移与consumer复验裁定；不以搜索无命中或当前过时直接删除，也不要求先证明无任何引用才可精简。本轮不删移，不新建归档原件副本。",
-          "permanentRetentionProven": false,
-          "completeSubstituteAssessment": "not-performed"
-        },
-        "historicalBoundary": {
-          "canonicalWithdrawnPaths152": [],
-          "historicalNonAuthorReviewer": {
-            "declared": false,
-            "value": null
-          },
-          "runtimeExecutionPerformed": false,
-          "historicClaimsReexecuted": false,
-          "newHistoricalExecutionCreditGranted": false,
-          "correctedCandidateHead": null,
-          "historicalCreditCorrection": null,
-          "sixCopiedCounterAdjudication": [],
-          "r65SummaryOnlyEdit": null,
-          "r88to91ExecutionIsolation": null
-        },
-        "runtimeExecutionPerformed": false,
-        "historicClaimsReexecuted": false,
-        "creditGranted": 0,
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json"
-      },
-      "history": [
-        {
-          "revision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R89 ops evidence historical artifact governance",
-          "reviewer": "r89_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        },
-        {
-          "date": "2026-10-26",
-          "task": "DOCS-FULL-TEMPLATE-1/S56",
-          "action": "accept-current-native-document-version",
-          "priorRecord": {
-            "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
-            "logicalPath": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
-            "index": 69,
-            "entryCanonicalSha256": "dd611635a44f479b0e99d17e482660f38104f3027dbdbf96878be2bd0723f2dd"
-          },
-          "acceptanceReportSha256": "72f6d41da393e3a5725a36af3e88c6eb0d4961eed23e91274978bc75becc0383",
-          "oldClaimRestored": false,
-          "runtimeExecutionPerformed": false,
-          "historicClaimsReexecuted": false,
-          "priorClaimCorrection": {
-            "date": "2026-10-18",
-            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-            "priorRecordPath": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
-            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-          }
-        }
-      ],
-      "supersedes": [
-        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
-      ],
-      "stopLine": "S34实施与临时树演练候选；非作者接受前不发布中央语义、不提升信用、不认证旧运行。",
-      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "沿用S30已接受的程序解析和关键字段定向核读；非下游全文重审",
-      "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "artifactOnly": false,
-      "artifactFormat": "json",
-      "documentStatus": "historical",
-      "sourceGitRevision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
-      "candidateSha256": "ad5cf73d7987e95b7c3346d8ce21f0ef598126f3ea9b1ddb2b9a7114912d89cf",
-      "primarySource": [
-        {
-          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-          "revision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
-          "gitObject": "8530a0f82800bc7d84b41cd82610e25a8e97cb08",
-          "sha256": "ad5cf73d7987e95b7c3346d8ce21f0ef598126f3ea9b1ddb2b9a7114912d89cf"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "ops",
-        "module": "evidence-artifact",
-        "currentBoundary": "current catalog/contract and fresh receipt own truth"
-      },
-      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "2dd1768c675dd7cd694a00d803dac0c7b1375071",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R89-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        },
-        {
-          "id": "R89-DELETE-GUARD",
-          "status": "open-for-cleanup-audit",
-          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
-        }
-      ],
-      "templateVariant": "historical-document-delivery-native-v1",
-      "historicalRole": "author-contribution-ledger",
-      "currentIndependentAcceptance": {
-        "protocol": "document-delivery-acceptance/1.0.0",
-        "reviewer": "Codex",
-        "nonAuthorReviewer": true,
-        "verdict": "accept",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "afterSha256": "ad5cf73d7987e95b7c3346d8ce21f0ef598126f3ea9b1ddb2b9a7114912d89cf",
-        "contentSha256": "39a02374b258d912457956711c5fc0fcf3df2daa146313bc9be748776b8ee071",
         "reportSha256": "72f6d41da393e3a5725a36af3e88c6eb0d4961eed23e91274978bc75becc0383",
         "ownerAcceptanceRecordSha256": "72f6d41da393e3a5725a36af3e88c6eb0d4961eed23e91274978bc75becc0383",
         "contentScope": "Codex evidence acceptance of unchanged GLM original core and previously normalized historical receipt explanation.",

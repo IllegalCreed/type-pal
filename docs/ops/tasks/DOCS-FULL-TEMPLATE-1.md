@@ -6,8 +6,8 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s56-owner-completion
-Last reviewed: 2026-10-25
+Branch: codex/docs-s57-final44-intake
+Last reviewed: 2026-10-27
 Template: task-card-v1 / 1.0.0
 
 > 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
@@ -2577,3 +2577,9 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 - 195实际接入先完整临时树，27仅元数据候选，再真实有界物化；复用现有唯一review，按新接受迁移旧claimCorrection到历史逐值保留，source/provenance/revision history前缀和所有原生字节保全。registry为195状态及27候选分类，routing按222已准入现有变体补齐缺失入口，矩阵仅当前接受边界、本卡/board及真实after级联、既有单份gzip。不堆复本或给review再造review。原sourcePins/1838分母固定，未通过完整硬门仍rework，不合main、不推送、不done。Owner仅签其非作者范围及据证继承的独立范围；待补17另列，不虚报239全过。
 
 - 首个临时树拦截了历史195缺正式路由/registry变体，以及27稿的通用reviewDepth/证据路径/公开caller元数据缺口；不加豁免，不授27新状态。Owner仅规范这27的审阅元数据并保留待非作者复核；其核心结论/nativeReading/oracle等原业务说明不改。S54旧报告只接受原稿，不冒称覆盖S56新元数据，未签发的completion接受表为空。
+
+## S57 S56非作者accept接收与44项当前版本接入准入（2026-10-27）
+
+- GLM只读非作者回执已实取：HANDBACK SHA `ac9526ef076b20f71a5265e85b73a2fb5ba7e601f5b60ca939a30b72b0a214d6`，verdict SHA `1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb`，候选`14e0336fe045d038a29ab773acaa639696d31ea8`；195接入、27元数据、17既有Owner结论及3代码全部accept/零counter。读域为贡献者披露的结构全量核验、风险样本和既有接受范围组合，不写成239篇新的全文重审。S55否决与原R波撤信不恢复。
+- Codex build allowed：从已技术接受且冻结的006后继`33cfb9ad89f8696802b7c2ec466fbc93cccf8149`在隔离分支`codex/docs-s57-final44-intake`接入44当前版本。仅激活既有completion-admission的精确27路径/内容digest/本次报告SHA数据，新增当前正反回归；17历史回执沿既有生产合同，正文/原生/source pin不改。逐项对照被接受S56物化行后晋升44条、原claimCorrection逐值入史；registry44状态、缺失17已冻结变体routing、矩阵当前边界、本卡/board/索引与精确after行政级联同步，必要证据沿既有单份gzip追加，不复制全稿/原生或新建canonical账本。
+- 旧测试`historical-native-family-completion.test.mjs`把真实27行永久当partial/空表，已备固定S56 Git夹具适配补丁；该指定旧测试适配已获用户2026-10-27明确授权并按补丁应用，全部原断言保留。原通用算法/旧S50接受表、产品、旧产品测试、coverage、规则和源码真值不变。先临时树演练及真实consumer/反例验证，接入后按实际门扣减；不合main、不推送、不标父子卡done，006已接受技术/视觉不重开。

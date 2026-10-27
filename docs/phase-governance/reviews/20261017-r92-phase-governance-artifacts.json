@@ -998,7 +998,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
-      "afterSha256": "bab3a8088c21078e2975273f5d0d6f69e6843abe303e93fe5de2923b1699cb46",
+      "afterSha256": "ad4ee902f8721043117a9b27b62a50908b14a6625c892051e3eb8c19b3f512ad",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1192,6 +1192,18 @@
           "beforeSha256": "d1d0c721a60228989d938bbffc6c474c17b367239eec0d00527248b0b0c0127c",
           "afterSha256": "bab3a8088c21078e2975273f5d0d6f69e6843abe303e93fe5de2923b1699cb46",
           "scope": "Bounded 222 current-native document acceptance metadata and dependency pin cascade;17 pending; source/native/runtime claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "bab3a8088c21078e2975273f5d0d6f69e6843abe303e93fe5de2923b1699cb46",
+          "afterSha256": "ad4ee902f8721043117a9b27b62a50908b14a6625c892051e3eb8c19b3f512ad",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -3411,7 +3423,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
-      "afterSha256": "6ca9226f947df2051d71fb721ad8bad26afd10d1df6e93865ebcb16e797a7609",
+      "afterSha256": "13d321a0f5d0d057f822a750a0c2259c674ab02ea94ad5828b62b9ac7f6f0eac",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3582,6 +3594,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "6ca9226f947df2051d71fb721ad8bad26afd10d1df6e93865ebcb16e797a7609",
+          "afterSha256": "13d321a0f5d0d057f822a750a0c2259c674ab02ea94ad5828b62b9ac7f6f0eac",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -3612,7 +3636,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
-      "afterSha256": "d80f527c37e84046ca339a0b458cb73656117e0bf5964d4f332f69f8812ae974",
+      "afterSha256": "cb0316e82a16c169804ef0563c4bd4fd6dbf984f99fb7c719798c9bd53333996",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3779,6 +3803,18 @@
           "beforeSha256": "c90e5600874542f34e715265715df3a4f27068400482c5b1c8947400f25392c8",
           "afterSha256": "d80f527c37e84046ca339a0b458cb73656117e0bf5964d4f332f69f8812ae974",
           "scope": "Bounded 222 current-native document acceptance metadata and dependency pin cascade;17 pending; source/native/runtime claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "d80f527c37e84046ca339a0b458cb73656117e0bf5964d4f332f69f8812ae974",
+          "afterSha256": "cb0316e82a16c169804ef0563c4bd4fd6dbf984f99fb7c719798c9bd53333996",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
@@ -3988,7 +4024,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
-      "afterSha256": "e5883c28aa6cc77bd3c1c3864384e154c255ff041f3d82d07cb4cdcf5d99d0a4",
+      "afterSha256": "825b3b6f953a94cc4f11567d9b600ef93b06daf01f0385beac82636e5e7e083c",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4188,6 +4224,18 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "e5883c28aa6cc77bd3c1c3864384e154c255ff041f3d82d07cb4cdcf5d99d0a4",
+          "afterSha256": "825b3b6f953a94cc4f11567d9b600ef93b06daf01f0385beac82636e5e7e083c",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ]
     },
@@ -4218,7 +4266,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
-      "afterSha256": "671907da4df44c2a1dd536f4d04a332241e30bd284bb52f85bdce0f474f85c39",
+      "afterSha256": "43d92125ad625419fc668bac775d0ea0454a4d555fb119a347b22b3f0e5ff0d4",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4414,6 +4462,18 @@
           "beforeSha256": "d4ed9d4d00bfd4620bae99d2d5830c8fad93333e351d621aaa59ea726e55fd8f",
           "afterSha256": "671907da4df44c2a1dd536f4d04a332241e30bd284bb52f85bdce0f474f85c39",
           "scope": "Bounded 222 current-native document acceptance metadata and dependency pin cascade;17 pending; source/native/runtime claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "671907da4df44c2a1dd536f4d04a332241e30bd284bb52f85bdce0f474f85c39",
+          "afterSha256": "43d92125ad625419fc668bac775d0ea0454a4d555fb119a347b22b3f0e5ff0d4",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
