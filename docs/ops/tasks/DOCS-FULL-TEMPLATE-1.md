@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s64-owner-intake
+Branch: codex/docs-s65-native473-intake
 Last reviewed: 2026-10-28
 Template: task-card-v1 / 1.0.0
 
@@ -2673,3 +2673,18 @@ Codex按document-delivery-acceptance/1.0.0审交付/逐篇记录与修正差异�
 用户已授权小修由Owner直接处理。Codex在codex/docs-s64-owner-intake从9c冻结候选追加十一条修正，039b1740a781db2914e74171e09312affbce7ca8仅改现有review与必要after级联；真实公共writer为11目标31写/23旧片退出，零原生/代码/旧测试修改。补齐准确七批与未证项、九针完整原名、混合scope、六条精确标记、两刷新任务分界、保全件七键，以及CS审计18/46件、6/17针、81/80多重集与异执行集反例；来源未知、旧撤信与完整历史前缀全部保留。作者自验不代签，这11条由GLM只读非作者复核增量；不要求重新治理其余462或整包473。
 
 所有473在当前canonical维持原partial/needs（DOC-IA三条既有content-reviewed除外），接受表仍空，0新review/迁移/runtime信用。此前作者check:docs原始结果为296工具通过、strict1231退出1，不能简写成整门通过或归为006日期错误；stderr恰1231严格待办，无其它诊断。617=473本包+135控制JSON+9MD，当前待办不预扣；212早已在S56/S57接入不重复计数。最终质量门以本次终态真实回执为准，完整结果与十一条before→after只封存到既有s22-validation.log.gz，不新增第二套canonical账本。全卡仍rework；不合main、不推送、不done。下一步仅复核Owner十一条增量，随后Owner一次统一授信/中央接入并据门实减。
+
+
+## S65 S64非作者接受与473原生文档正式接入（2026-10-28）
+
+S64 Owner十一条修正已获GLM只读非作者accept，候选c948bb0bd8916aeacec89b0e84c146e9c32ef435，报告HANDBACK f3233252fa680682288cbafab87a72bf263d1d8d8115bc6a43de8d0ffcbabc14 / verdict c3918fa0de5a34616016a6a65fda9373c753647f90cc493f8d330d8b4fc2f339。Codex核实真实身份、11条内容指纹与无counter后接收；原作者462条沿5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0裁定，11条Owner增量沿GLM报告，作者关系分开，不自签或复做473全文。
+
+本轮build allowed：沿S64已经批准的473精确范围，由Codex在codex/docs-s65-native473-intake填充现有接受接口、受控授信/中央接入、registry投影、矩阵与任务/看板/单份gzip封存。6个专用pilot保持原合同与原生字节；DOC-IA-2两项unverified原源不清除；135控制JSON+9MD仍为Owner剩余正文，不混入本包。停止线不变：不合main、不推送、不标父子卡done。
+
+正式接入体b0941c0370791ec579f4f1922744b42f959937b4：新增单一473条内容hash接受表，现有admission引用它，来源是Codex462/GLM11非作者裁定；不改guard或物理writer、不改旧测试。新增两条回归核真实473内容绑定，并拒绝语义漂移/借路径/恢复旧信用/runtime自授/残留当前撤信/作者代签；与既有七测共9/9、0fail/skip。完整公共model在写前逐篇验证467通用+6原合同，闭合接受/Owner决定后才允许发布。
+
+一次受控发布67写/37旧叶退出，最终114逻辑、156 review物理/42片，连三registry投影共159对象；12固定source pin保留、2435 after全部精确、302既有原生保护与473本包原件字节全等。398条claimCorrection完整移入历史，旧撤信与来源unknown不恢复，所有core/读域/oracle/原文等接受内容零改；27行政行仅after与维护history、1935其余行不变。routing与模板合同零改。六专用pilot的当前状态接受不改原载体或放宽原guard。
+
+实际新增473份template-compliant、470份content-reviewed（3份DOC-IA已有审阅，只补迁移，不重复计）。progress实跑1808/1838基线已迁、3显式退役+483增量、144当前待办、0完整性问题，较此前1478+340/617实减473；27基线与117增量仍待治理。静态严格待办预计由1231减943至288，最终数字只取本轮终态check:docs原件，必要门未清零前全卡保持rework。旧执行、产品/E2E/视觉/coverage信用均为0，不把历史failed/pending改绿，不重跑已接受006。
+
+本轮正文语义接受已经有独立证据；Owner状态/存储/注册投影与行政封存另提供可机械复现增量，不要求GLM重审473正文。后续推进Owner持有135控制JSON公共合同与9MD，不能用固定历史原生变体放行可变控制件。新记录复用唯一现有review位置和既有gzip，不另建parallel账本。门结果、封存身份和下一提示词见本轮证据包及最终提交。

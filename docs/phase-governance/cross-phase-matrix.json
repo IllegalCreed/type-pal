@@ -145,7 +145,10 @@
             "path": "docs/phase-governance/cross-phase-matrix.json",
             "gitObject": "e933f16d2bbb37df9d37500642d4d3ca4cdc7cd0",
             "fileSha256": "54663beb4f547bda782f4190ab5c81a1130170a4bcbd803490c4337f8f9dff05",
-            "selector": { "rows.id": "lore-canon-vs-phase2-content", "uniqueMatches": 1 },
+            "selector": {
+              "rows.id": "lore-canon-vs-phase2-content",
+              "uniqueMatches": 1
+            },
             "completePriorObjectRetrievedAndCompared": true
           },
           "previousCompleteRow": {
@@ -309,17 +312,24 @@
         }
       ],
       "currentAcceptedBoundary": {
-        "task": "DOCS-FULL-TEMPLATE-1/S61",
+        "task": "DOCS-FULL-TEMPLATE-1/S65",
         "date": "2026-10-28",
-        "bodyScope": "Prior S57 accepted195+44 retained. Additional15 historical HTML source documents accepted under two unchanged1.0.0 contracts; no host/browser/script execution certified.",
-        "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s61-s59接收与s60十五html统一接入准入2026-10-28",
-        "excluded": "Original R-wave/old execution claims stay withdrawn or unverified. 006 technical/user acceptance remains a separate fixed boundary; no new runtime/E2E/visual/coverage or overall completion/main grant.",
+        "bodyScope": "Current accepted content for473 immutable historical native source documents, with470 new review credits and473 template migrations;3 DOC-IA receipts already reviewed. Specific pilot guards retained;12 source pins and2435 after pins exact.",
+        "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s65-s64非作者接受与473原生文档正式接入2026-10-28",
+        "excluded": "Old R-wave and historical execution remain withdrawn or unverified; DOC-IA entries1/58 remain unverified. No new product/runtime/E2E/visual/coverage/main/done credit.135 controlJSON and9Markdown remain pending.",
         "priorBoundary": {
-          "task": "DOCS-FULL-TEMPLATE-1/S57",
-          "date": "2026-10-27",
-          "bodyScope": "S56 independent acceptance retained:195 integrated historical receipts plus27 corrected metadata and17 existing Owner conclusions. Exact44 current document versions promoted only; unchanged source/native/current semantic content reused.",
-          "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s57-s56非作者accept接收与44项当前版本接入准入2026-10-27",
-          "excluded": "Original R-wave/old execution claims stay withdrawn or unverified. 006 technical/user acceptance remains a separate fixed boundary; no new runtime/E2E/visual/coverage or overall completion/main grant."
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "date": "2026-10-28",
+          "bodyScope": "Prior S57 accepted195+44 retained. Additional15 historical HTML source documents accepted under two unchanged1.0.0 contracts; no host/browser/script execution certified.",
+          "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s61-s59接收与s60十五html统一接入准入2026-10-28",
+          "excluded": "Original R-wave/old execution claims stay withdrawn or unverified. 006 technical/user acceptance remains a separate fixed boundary; no new runtime/E2E/visual/coverage or overall completion/main grant.",
+          "priorBoundary": {
+            "task": "DOCS-FULL-TEMPLATE-1/S57",
+            "date": "2026-10-27",
+            "bodyScope": "S56 independent acceptance retained:195 integrated historical receipts plus27 corrected metadata and17 existing Owner conclusions. Exact44 current document versions promoted only; unchanged source/native/current semantic content reused.",
+            "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s57-s56非作者accept接收与44项当前版本接入准入2026-10-27",
+            "excluded": "Original R-wave/old execution claims stay withdrawn or unverified. 006 technical/user acceptance remains a separate fixed boundary; no new runtime/E2E/visual/coverage or overall completion/main grant."
+          }
         }
       }
     },

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "71fe2d37ac69e542318a854be437fd917396f522e3f6d287f26a6d04892dbf71",
+  "generation": "b51a83116f1bd90bc875860d29baae9ef3fa965febf62060edb5c77c209e7c22",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
   "entries": [
@@ -2423,7 +2423,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "f16a48255e8fa4cc8e7a68e9503e41ad7280963634fec6a42f6644d7cf024bd7",
+      "afterSha256": "4c84ad77f58c2db2d58c7183a5423bb2206bc41656ad9376aa4e3397f45e4e7d",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -3582,6 +3582,23 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65/central-intake-administration",
+          "revision": "b0941c0370791ec579f4f1922744b42f959937b4",
+          "beforeSha256": "f16a48255e8fa4cc8e7a68e9503e41ad7280963634fec6a42f6644d7cf024bd7",
+          "afterSha256": "4c84ad77f58c2db2d58c7183a5423bb2206bc41656ad9376aa4e3397f45e4e7d",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "b0941c0370791ec579f4f1922744b42f959937b4",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 7,
+            "entryCanonicalSha256": "1e446dff4fe04b41c6339aff4ce29bc680d50ae751f2818cd018fc8bd9f3641d"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

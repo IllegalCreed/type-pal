@@ -607,7 +607,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "2a7d270acf70b2301581ac975d5498bb041453ac910b2be3163d30b88d6e0193",
+      "afterSha256": "cd7976d84afecc2d23a97badb01d39d71f8f91cf086fa56527bdcbbd1cd5527d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1091,6 +1091,23 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65/central-intake-administration",
+          "revision": "b0941c0370791ec579f4f1922744b42f959937b4",
+          "beforeSha256": "2a7d270acf70b2301581ac975d5498bb041453ac910b2be3163d30b88d6e0193",
+          "afterSha256": "cd7976d84afecc2d23a97badb01d39d71f8f91cf086fa56527bdcbbd1cd5527d",
+          "scope": "S65 accepted473 document-state projection; this edge maintenance grants no additional source/runtime credit",
+          "priorRecord": {
+            "revision": "b0941c0370791ec579f4f1922744b42f959937b4",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 3,
+            "entryCanonicalSha256": "71977543d3836c65faab7628a62502b1d720c1b8dffdc6993d4fac31d4831e94"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -1274,7 +1291,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "c820017f6577de4d4a822e317eee957354c20a915766f0c7dea86647ac86bacf",
+      "afterSha256": "ed9cba9097f168c235512a099e8695572491a055c730e5c01547fa021f3f4d22",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -2188,6 +2205,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
             "index": 5,
             "entryCanonicalSha256": "f94c4ad265effe80a9c6736a1e3a5b21ed040061dd144a0f21c1bd987fb35707"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65/central-intake-administration",
+          "revision": "b0941c0370791ec579f4f1922744b42f959937b4",
+          "beforeSha256": "c820017f6577de4d4a822e317eee957354c20a915766f0c7dea86647ac86bacf",
+          "afterSha256": "ed9cba9097f168c235512a099e8695572491a055c730e5c01547fa021f3f4d22",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "b0941c0370791ec579f4f1922744b42f959937b4",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 5,
+            "entryCanonicalSha256": "9608024e69feb98d6c9cd675835342fddc63ff53bfcd94e7d9849d5817696914"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
