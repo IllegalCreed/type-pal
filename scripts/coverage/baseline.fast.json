@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-28T03:53:46.878Z",
+  "generatedAt": "2026-10-28T07:10:38.237Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 809,
-  "testCount": 20154,
+  "testCount": 20157,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -225,7 +225,7 @@
       ],
       "scopeDigest": "048275ba8e3020dd698db3c0f14f599e200ec84daad1c7f47aac0f15fa067971",
       "fastTests": {
-        "testCount": 1470,
+        "testCount": 1473,
         "testFileCount": 145,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
@@ -477,8 +477,8 @@
           },
           {
             "file": "packages/content/src/author-dialogue.test.ts",
-            "testCount": 5,
-            "identityDigest": "cecc1299125f200820dd91e0322abdc38767fd6916ad630aea7692d2ed84c7e2"
+            "testCount": 8,
+            "identityDigest": "2dc204616715018f39b4174645ca676ce4bbe859dd163529f66576d20db79d26"
           },
           {
             "file": "packages/content/src/author-flow.guard-residual.test.ts",
@@ -1101,26 +1101,26 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "8ce58fcba0e8bc15fcc5bb68830d36be01e8e5349d780cacc4d35ce436fa0c34",
+        "identityDigest": "057bc64efe6bf153419556b8b81b4c7a22b1a3d469ed66ad33b392dd83c43a71",
         "duplicateIdentityCount": 1,
-        "executionDigest": "7a3b44b1232089f00fdbbdab2a247f06a0a599c13fae6d50aa65b2d7ecad89b0"
+        "executionDigest": "f6a9bd646679ae485c13dedf2a4e9a8407dbbc6c96cef7a384daaf564245d340"
       },
       "metrics": {
         "statements": {
-          "covered": 5670,
-          "total": 5878
+          "covered": 5671,
+          "total": 5879
         },
         "branches": {
-          "covered": 4829,
-          "total": 5129
+          "covered": 4835,
+          "total": 5135
         },
         "functions": {
           "covered": 812,
           "total": 827
         },
         "lines": {
-          "covered": 5062,
-          "total": 5199
+          "covered": 5063,
+          "total": 5200
         }
       }
     },
@@ -10978,20 +10978,20 @@
   },
   "total": {
     "statements": {
-      "covered": 72889,
-      "total": 80592
+      "covered": 72890,
+      "total": 80593
     },
     "branches": {
-      "covered": 52658,
-      "total": 62694
+      "covered": 52664,
+      "total": 62700
     },
     "functions": {
       "covered": 13792,
       "total": 15350
     },
     "lines": {
-      "covered": 65101,
-      "total": 70528
+      "covered": 65102,
+      "total": 70529
     }
   }
 }

@@ -1,0 +1,33 @@
+{
+  "positive": "passed",
+  "results": [
+    {
+      "name": "missing actor constructor",
+      "shapeGuardPassed": true,
+      "expected": "actual reference guard rejects missing own definition",
+      "observed": {
+        "speaker": "Object",
+        "portraitAssetType": "undefined"
+      },
+      "businessAssertion": {
+        "name": "AssertionError",
+        "message": "Missing expected exception.",
+        "stack": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at <anonymous> (/Users/zhangxu/.codex/quality-evidence/type-pal/recent200-audit-20261028/dialogue-reference-probe.mts:21:14)\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)"
+      }
+    },
+    {
+      "name": "missing expression constructor",
+      "shapeGuardPassed": true,
+      "expected": "actual reference guard rejects missing own definition",
+      "observed": {
+        "speaker": "name.hero",
+        "portraitAssetType": "function"
+      },
+      "businessAssertion": {
+        "name": "AssertionError",
+        "message": "Missing expected exception.",
+        "stack": "AssertionError [ERR_ASSERTION]: Missing expected exception.\n    at <anonymous> (/Users/zhangxu/.codex/quality-evidence/type-pal/recent200-audit-20261028/dialogue-reference-probe.mts:21:14)\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)"
+      }
+    }
+  ]
+}

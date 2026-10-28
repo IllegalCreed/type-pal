@@ -2151,12 +2151,12 @@
       "axes": {
         "A": "Complete test/caller fixture reads: four cases: opaque0 cursor, 21-slot scroll/page, disabled/equipped virtual item colors; values flow through public production entry and legal normal fixture.",
         "B": "Layout/ownership comments checked against current caller and primary evidence; Remove snapshot-only roles never passed to draw; exact counts/name/order remain.",
-        "C": "Only owned framebuffer is written; selected real inputs snapshotted before/after; time/global reset stays local.",
-        "D": "Use common glyph/image/state fixtures; this caller layer remains distinct from lower-level geometry tests.",
-        "E": "Literal business pixels and negative spaces distinguish actual output; no clone-to-self oracle or mock-count substitute.",
-        "F": "Cases follow named input -> public transition -> draw -> expected pixels; independent failure axes separated where needed.",
-        "G": "Only actual draw arguments captured; no new ignore, timeout, cast or redundant shape-only type check.",
-        "H": "Real drawing, sparse hand masks and controlled time provide observable results; browser failure seams restore even on reject."
+        "C": "createInventoryMenu owns cursor/inventory construction; the four tests capture only actual draw arguments. Date.now is restored by finally and menu/word/event singletons by afterEach resetHostSingletons.",
+        "D": "labelOf shares the fixed 3-column text grid only; makeUiFrames supplies sparse masks. P01 tests list scroll/colors while P02 tests confirmed target/live inventory, so merging them would mix entry contracts.",
+        "E": "Four cases distinguish opaque-zero cursor from its transparent hole; empty list absence; right movement then page position; and disabled/equipped virtual item colors with quantity5. Snapshots supplement these literal output checks.",
+        "F": "labelOf and named SENTINEL/CURSOR_HOLE identify geometry and absence without reading renderer internals; beforeFirst/beforeMove/beforePage separate intentional menu mutations from draw-only observations.",
+        "G": "Each of four cases has a different boundary. labelOf is consumed repeatedly; imports are used. Repeated before/after snapshots remain local to each real draw, not an unused whole-world assertion layer.",
+        "H": "Actual drawInventoryMenu writes a fresh framebuffer; sparse independent glyphs distinguish wrong labels. freezeNow controls cursor flash without mocking the renderer; this is software pixel evidence, not browser visual acceptance."
       }
     },
     {
@@ -2169,17 +2169,17 @@
       "lines": 213,
       "readExtent": "full",
       "changed": false,
-      "caller": "confirmInventoryItem/move target -> drawInventoryMenu",
-      "oracle": "explicit role4/1 numbers, item icon and target arrow pixels",
+      "caller": "createInventoryMenu/confirmInventoryItem -> drawInventoryMenu; no target movement in this file",
+      "oracle": "live count7 versus snapshot4; party4/1 HP12 and effective attack23; noDesc preserves target layer",
       "axes": {
-        "A": "Complete test/caller fixture reads: three cases: live runtime roles, target move and item amount; values flow through public production entry and legal normal fixture.",
+        "A": "Three cases read in full: current inventory quantity versus menu snapshot; ordered role/runtime/equipment projection; noDesc omits description while target content remains. Target movement is not exercised here.",
         "B": "Layout/ownership comments checked against current caller and primary evidence; Normal max rows now hydrated; explicit current HP/MP overrides kept.",
-        "C": "Only owned framebuffer is written; selected real inputs snapshotted before/after; time/global reset stays local.",
-        "D": "Use common glyph/image/state fixtures; this caller layer remains distinct from lower-level geometry tests.",
-        "E": "Literal business pixels and negative spaces distinguish actual output; no clone-to-self oracle or mock-count substitute.",
-        "F": "Cases follow named input -> public transition -> draw -> expected pixels; independent failure axes separated where needed.",
-        "G": "Only actual draw arguments captured; no new ignore, timeout, cast or redundant shape-only type check.",
-        "H": "Real drawing, sparse hand masks and controlled time provide observable results; browser failure seams restore even on reject."
+        "C": "confirmInventoryItem enters use-target; gs owns live count/role values while menu retains its original count4. Per-draw snapshots include the actual gs/roles; global description script and remembered target are reset after each case.",
+        "D": "Three contracts are live quantity7 versus menu snapshot4, party order4/1 with effective attack23, and noDesc forwarding. Shared world/image fixtures have the same typed ownership; none of these cases exercises moving the target arrow.",
+        "E": "The live-count case checks both preserved source values and a cyan7 rather than4. Role case checks independent HP12/MP7/attack23 digits and reversed-name absence. noDesc checks description absence alongside a still-visible target name and HP.",
+        "F": "listed/targeted and beforeListed/before make the noDesc stage transition explicit. DESC_COLOR and EQUIPMENT_NAME_COLOR name distinct drawing contracts instead of a mode-driven omnibus helper.",
+        "G": "Keep all three cases: count freshness, role projection and noDesc are distinct. No target-movement credit is claimed; that old receipt wording is removed, rather than adding a duplicate test merely to make it true.",
+        "H": "Real menu confirmation and draw execute with a fixed clock. The literal selected-name/HP assertions distinguish a suppressed target layer from only a suppressed description; no host canvas or core renderer substitute is used."
       }
     },
     {
@@ -2197,12 +2197,12 @@
       "axes": {
         "A": "Complete test/caller fixture reads: two cases: list availability and six-slot target preview; values flow through public production entry and legal normal fixture.",
         "B": "Layout/ownership comments checked against current caller and primary evidence; Capture actual roles passed to first draw; no throwaway unobserved role object.",
-        "C": "Only owned framebuffer is written; selected real inputs snapshotted before/after; time/global reset stays local.",
-        "D": "Use common glyph/image/state fixtures; this caller layer remains distinct from lower-level geometry tests.",
-        "E": "Literal business pixels and negative spaces distinguish actual output; no clone-to-self oracle or mock-count substitute.",
-        "F": "Cases follow named input -> public transition -> draw -> expected pixels; independent failure axes separated where needed.",
-        "G": "Only actual draw arguments captured; no new ignore, timeout, cast or redundant shape-only type check.",
-        "H": "Real drawing, sparse hand masks and controlled time provide observable results; browser failure seams restore even on reject."
+        "C": "create/confirmEquipMenu owns the selection; draw must not equip or mutate roles. The second case snapshots actual roles, six equipment slots, icon map and optional background at each draw, including after equipMoveDown.",
+        "D": "SLOT_NAMES/SLOT_POS express this six-slot UI only; common item/image factories handle data, not expected layout. P01 list tests cannot replace the pick-role preview and role-specific equipability contract.",
+        "E": "Two cases check equipment-list availability and a coherent pick-role lifecycle: six names, icon0x86, amount3, effective attack20+3, background presence, then role1 attack5 and old-slot-name absence.",
+        "F": "plain/painted/movedInputs name three actual input sets. Fixed slot positions are readable independent expectations; the single longer case retains one selection lifecycle rather than hiding it in a parameterized test harness.",
+        "G": "Six-slot loop shares identical assertions over a fixed layout table; three initial draws cover missing background, present background and draw nonmutation. No new wrapper/export is needed for this one file.",
+        "H": "Fresh framebuffer and literal glyph/digit pixels observe real drawEquipMenu. Clock restoration is in finally; afterEach resets menu globals. The test can distinguish accidental equip mutation from a correct preview."
       }
     },
     {
@@ -2220,12 +2220,12 @@
       "axes": {
         "A": "Complete test/caller fixture reads: three forwarding cases and one snapshot-instrumentation control; values flow through public production entry and legal normal fixture.",
         "B": "Layout/ownership comments checked against current caller and primary evidence; Snapshot probe is test instrumentation, not gameplay coverage; no mock-call-only forwarding.",
-        "C": "Only owned framebuffer is written; selected real inputs snapshotted before/after; time/global reset stays local.",
-        "D": "Use common glyph/image/state fixtures; this caller layer remains distinct from lower-level geometry tests.",
-        "E": "Literal business pixels and negative spaces distinguish actual output; no clone-to-self oracle or mock-count substitute.",
-        "F": "Cases follow named input -> public transition -> draw -> expected pixels; independent failure axes separated where needed.",
-        "G": "Only actual draw arguments captured; no new ignore, timeout, cast or redundant shape-only type check.",
-        "H": "Real drawing, sparse hand masks and controlled time provide observable results; browser failure seams restore even on reject."
+        "C": "openMenu sets the stack, and drawMenuStack forwards optional assets to actual leaf renderers. Item, equipment and poison/word-table inputs are owned per case; word/event/menu singleton reset is explicit.",
+        "D": "Three paired missing/present-extra calls test stack wiring that direct leaf tests cannot establish. The fourth case belongs to cloneInputs instrumentation and is not counted as gameplay or forwarding coverage.",
+        "E": "Inventory name/icon, equipBg pixel0x55, and statusBg/poison glyph13 each have positive and negative output checks. The snapshot probe changes array membership/order rather than comparing an untouched clone with itself.",
+        "F": "bare/forwarded, without/withBg and plain/extra state the precise missing dependency. This repetition is short and exposes which forwarding field each case is intended to falsify.",
+        "G": "Retain three distinct extra-asset branches and the shared snapshot helper control; no generic callback table is introduced to conceal their differing state setup. No production API is exported just for these tests.",
+        "H": "Real drawMenuStack and leaves execute; absence of resources yields literal negative pixels, not mock call counts. The poison-data case is here, not in P07; clocks and singleton cleanup remain bounded to this fixture host."
       }
     },
     {
@@ -2239,16 +2239,16 @@
       "readExtent": "full",
       "changed": true,
       "caller": "runtime projection + create/confirm/move magic menu -> drawInGameMagicMenu",
-      "oracle": "MP8 vs static99; cost9/8 disabled colors; explicit target/page arrows",
+      "oracle": "runtime MP8 versus explicitly assigned static MP10; cost8/9 enabled/disabled colors; explicit page labels and moving target arrows",
       "axes": {
         "A": "Complete test/caller fixture reads: three production-menu cases and one input snapshot instrumentation probe; values flow through public production entry and legal normal fixture.",
         "B": "Layout/ownership comments checked against current caller and primary evidence; Remove helper implicit revival of zero HP; normal hydrated fixture supplies living roles.",
-        "C": "Only owned framebuffer is written; selected real inputs snapshotted before/after; time/global reset stays local.",
-        "D": "Use common glyph/image/state fixtures; this caller layer remains distinct from lower-level geometry tests.",
-        "E": "Literal business pixels and negative spaces distinguish actual output; no clone-to-self oracle or mock-count substitute.",
-        "F": "Cases follow named input -> public transition -> draw -> expected pixels; independent failure axes separated where needed.",
-        "G": "Only actual draw arguments captured; no new ignore, timeout, cast or redundant shape-only type check.",
-        "H": "Real drawing, sparse hand masks and controlled time provide observable results; browser failure seams restore even on reject."
+        "C": "viewRuntime sets selected runtime MP/magic before projectRuntimeToBattleRoles. Drawing consumes the projection without mutating either source; description events and remembered caster reset afterEach, and clock replacement uses finally.",
+        "D": "viewRuntime is local to the three magic-menu cases, not a generalized state hydrator. The fourth case probes cloneInputs bitmap/name/poison/exp sensitivity and does not claim product behavior or poison rendering coverage.",
+        "E": "The MP case sets static MP10 and runtime8, checks costs8/9 become enabled/disabled, then uses a separately built static menu as contrast. Other cases distinguish party4/1 HP12/34, page label and target-arrow movement; none derives expected pixels by re-running the renderer.",
+        "F": "The long paging case is one menu lifecycle: create, page, confirm, move target. beforeFirst/beforePage/moved label each ownership boundary; direct numeric and glyph expectations keep its purpose observable.",
+        "G": "Keep three menu contracts and one instrumentation probe; snapshot coverage supplements output checks. makeMagic/makeSpell/viewRuntime are private and actually used. No new production facade or duplicate runtime test is introduced.",
+        "H": "Actual menu transitions/projection/draw run with sparse frames and controlled Date.now. Static-versus-runtime contrast is supported by concrete MP10/8, not the fixture default99 named in the superseded receipt."
       }
     },
     {
@@ -2262,16 +2262,16 @@
       "readExtent": "full",
       "changed": false,
       "caller": "createPlayerStatus/move -> drawPlayerStatus",
-      "oracle": "role4/1 values, poison party-slot key, equip text/portrait and experience",
+      "oracle": "role4/1 runtime versus static values, equipment text/portrait, experience and role navigation; poison projection is not tested in this file",
       "axes": {
         "A": "Complete test/caller fixture reads: one cohesive status-page projection with navigation; values flow through public production entry and legal normal fixture.",
         "B": "Layout/ownership comments checked against current caller and primary evidence; Hydrated maxima legal; selected runtime values remain distinct from static baseline.",
-        "C": "Only owned framebuffer is written; selected real inputs snapshotted before/after; time/global reset stays local.",
-        "D": "Use common glyph/image/state fixtures; this caller layer remains distinct from lower-level geometry tests.",
-        "E": "Literal business pixels and negative spaces distinguish actual output; no clone-to-self oracle or mock-count substitute.",
-        "F": "Cases follow named input -> public transition -> draw -> expected pixels; independent failure axes separated where needed.",
-        "G": "Only actual draw arguments captured; no new ignore, timeout, cast or redundant shape-only type check.",
-        "H": "Real drawing, sparse hand masks and controlled time provide observable results; browser failure seams restore even on reject."
+        "C": "One actual createPlayerStatus→drawPlayerStatus→playerStatusNext lifecycle owns its menu locally. Runtime HP12/level6 are distinct from static HP99/level1; snapshots include portrait/icon maps and experience table actually supplied to draw.",
+        "D": "Reuse common glyph/frame factories, but retain this status-specific runtime/portrait/equipment/experience projection. P05 covers extra poison forwarding separately; this file does not construct poison state or certify party-slot poison keys.",
+        "E": "Explicit outputs cover portrait0x95→0x92, equipment-name appearance/removal, HP12→34, level6 versus1 and exp12/required40. Background presence is paired with absence, and every draw has a nonmutation snapshot.",
+        "F": "plain/painted/switchedInputs expose input ownership and the role-navigation sequence. Named CONFIRMED/EQUIPMENT constants distinguish label meaning; a single coherent page-navigation case avoids duplicate setup.",
+        "G": "No extra helper/export is introduced; all item/portrait/levelUpExp inputs reach the actual renderer. The role switch is retained because it detects stale selected-role output that a first-frame-only test would miss.",
+        "H": "All effects are directly observable in a fresh software framebuffer; no clock/mock is needed here. resetHostSingletons isolates the shared menu fixture environment; evidence is limited to selected output/argument fields."
       }
     },
     {
@@ -2284,17 +2284,17 @@
       "lines": 133,
       "readExtent": "full",
       "changed": true,
-      "caller": "BattlePresent.draw settlement.screen -> drawBattleSettlement",
+      "caller": "four direct drawBattleSettlement calls on typed screen variants; production BattlePresent caller evidence is reused separately, not executed by these tests",
       "oracle": "manual UI glyph masks/digits/arrow pixels, SDLPal number layout",
       "axes": {
         "A": "Complete test/caller fixture reads: four independent variants exp-cash/level-up/hidden-exp/learn-magic; values flow through public production entry and legal normal fixture.",
         "B": "Layout/ownership comments checked against current caller and primary evidence; Split former omnibus case into four; retain all old pixel and nonmutation assertions.",
-        "C": "Only owned framebuffer is written; selected real inputs snapshotted before/after; time/global reset stays local.",
-        "D": "Use common glyph/image/state fixtures; this caller layer remains distinct from lower-level geometry tests.",
-        "E": "Literal business pixels and negative spaces distinguish actual output; no clone-to-self oracle or mock-count substitute.",
-        "F": "Cases follow named input -> public transition -> draw -> expected pixels; independent failure axes separated where needed.",
-        "G": "Only actual draw arguments captured; no new ignore, timeout, cast or redundant shape-only type check.",
-        "H": "Real drawing, sparse hand masks and controlled time provide observable results; browser failure seams restore even on reject."
+        "C": "Each case owns an already-built settlement screen and fresh framebuffer. drawBattleSettlement is called directly; only hidden-exp installs a word table, reset afterEach. This file does not run BattlePresent or settlement progression.",
+        "D": "The local levelUp factory supplies one typed screen; shared frame/glyph fixtures supply independent masks. Four screen variants stay separate because exp/cash, old/new stats, hidden growth and learned spell have different visible contracts.",
+        "E": "Four literal contracts: exp12/cash34 digits; level2→3 and attack11→22 plus arrow; word51 with delta5; learned spell0x1b versus role0 and negative neighboring pixels. Input snapshots are supplementary, not the visual oracle.",
+        "F": "Separate named cases replaced the earlier combined case; levelUp values expose old/current fields. rightDigitX/midOnesX state alignment geometry without invoking production drawNumber as expected-output generation.",
+        "G": "Four variants are all dispatched by the leaf renderer; preserving distinct cases avoids a large switch in test expectations. No production caller-wiring or post-battle sequencing credit is inferred from them.",
+        "H": "Typed screen values and real leaf drawing make deterministic pixel checks possible without a battle engine mock. Word table reset isolates the one singleton dependency; no time, network or visual browser claim is needed."
       }
     },
     {
@@ -2307,17 +2307,17 @@
       "lines": 102,
       "readExtent": "full",
       "changed": false,
-      "caller": "BattlePresent background and framebuffer.toImageData",
+      "caller": "direct drawBattleBg -> framebuffer.toImageData; no BattlePresent instance in these cases",
       "oracle": "manual low-nibble arithmetic and hand RGB palette entries",
       "axes": {
         "A": "Complete test/caller fixture reads: two cases: positive/negative shifts and crop/index-to-RGBA boundary; values flow through public production entry and legal normal fixture.",
         "B": "Layout/ownership comments checked against current caller and primary evidence; Whole source and output planes have explicit dimensions; production algorithms unchanged.",
-        "C": "Only owned framebuffer is written; selected real inputs snapshotted before/after; time/global reset stays local.",
-        "D": "Use common glyph/image/state fixtures; this caller layer remains distinct from lower-level geometry tests.",
-        "E": "Literal business pixels and negative spaces distinguish actual output; no clone-to-self oracle or mock-count substitute.",
-        "F": "Cases follow named input -> public transition -> draw -> expected pixels; independent failure axes separated where needed.",
-        "G": "Only actual draw arguments captured; no new ignore, timeout, cast or redundant shape-only type check.",
-        "H": "Real drawing, sparse hand masks and controlled time provide observable results; browser failure seams restore even on reject."
+        "C": "Two cases call drawBattleBg directly and then framebuffer.toImageData; background inputs are cloned before draw. Palette and pixel planes are local; there is no BattlePresent instance or global lifetime to clean up.",
+        "D": "paletteWith/image are file-private construction helpers; expected nibble and RGB values are literal. This leaf color/crop contract differs from P14 assembler fade state and must not claim that caller wiring.",
+        "E": "Positive/negative shifts exercise 0xAF clamp, 0xA0 floor and high-nibble preservation; clipped column7 markers must remain absent. Small-image uncovered cells retain SENTINEL, then explicit RGBA tuples prove palette conversion.",
+        "F": "raised/lowered/smallBg and named dimensions separate three data domains. The paint callback only constructs inputs; expected output literals do not call the shift algorithm.",
+        "G": "Both cases retain unique scope: numeric/clipping boundary versus index-to-RGBA consumer. Private helpers each have real callers, no general palette generator or additional export is required.",
+        "H": "Pure typed arrays and real Framebuffer.toImageData expose output directly. No time/IO mock or comparison of two calls to the same codec is used; full background snapshots only check the selected input ownership."
       }
     },
     {
@@ -2335,12 +2335,12 @@
       "axes": {
         "A": "Complete test/caller fixture reads: three cases: normal consumer, drawImage failure, getImageData failure; values flow through public production entry and legal normal fixture.",
         "B": "Layout/ownership comments checked against current caller and primary evidence; Actual bitmap/context methods restore in finally; low-level PNG merge does not replace consumer credit.",
-        "C": "Only owned framebuffer is written; selected real inputs snapshotted before/after; time/global reset stays local.",
-        "D": "Use common glyph/image/state fixtures; this caller layer remains distinct from lower-level geometry tests.",
-        "E": "Literal business pixels and negative spaces distinguish actual output; no clone-to-self oracle or mock-count substitute.",
-        "F": "Cases follow named input -> public transition -> draw -> expected pixels; independent failure axes separated where needed.",
-        "G": "Only actual draw arguments captured; no new ignore, timeout, cast or redundant shape-only type check.",
-        "H": "Real drawing, sparse hand masks and controlled time provide observable results; browser failure seams restore even on reject."
+        "C": "withBitmapProbe owns the installed createImageBitmap wrapper and optional canvas spy; nested finally restores both on rejection. Each decode owns one bitmap and the probe observes its close without replacing decoding.",
+        "D": "Only the two canvas-failure seams share a helper because their restore/failure contracts match. The real decode→toSpriteImages→drawSprite consumer remains separate from lower PNG byte conversion tests.",
+        "E": "Normal case checks indices[0,0,12,7], opaque[1,0,1,1], borrowed array identity/anchor and four literal pixels. Failure cases pair the expected rejection with one created/closed bitmap; close counts are resource evidence, not a substitute for normal output.",
+        "F": "RGBA/pngBlob/installBitmapProbe/withBitmapProbe distinguish input construction, observation and cleanup. fault.method is a narrow two-method host seam, not a switch between unrelated business algorithms.",
+        "G": "Keep both failure points because they occur at different decode stages; the probe itself is private. The healthy consumer checks alpha-zero versus opaque-zero, so dropping it in favor of only error counts would lose a contract.",
+        "H": "Real browser canvas implementation in the test host performs normal decode/draw; only injected drawImage/getImageData throws are substituted. Restore order prevents poisoned host methods from leaking into the next case."
       }
     },
     {
@@ -2427,12 +2427,12 @@
       "axes": {
         "A": "Full file and actual assembler input/lifecycle reviewed: two scenes distinguish opaque0, transparent holes, party/NPC and layer-cover ordering.",
         "B": "Comments qualified to actual test/caller boundary; worldView/bitmap input views are specific nonmutation claims.",
-        "C": "Fresh framebuffer/context/assembler owns effects; snapshots cover selected world/battle fields, not unobserved entire graph.",
-        "D": "Fixture-only shared spatial primitives; this composition contract differs from isolated leaf/menu pixel cases.",
-        "E": "Literal foreground/background/negative-space outputs distinguish layer and state errors; ownership snapshots are supplementary.",
-        "F": "Phase/coordinate/color constants show expected sequence directly; related endpoints belong to the same lifecycle case.",
-        "G": "No dead arguments or zero-call product wrapper introduced; retained cases exercise distinct composition paths.",
-        "H": "Actual compositor executes with controlled time/buffers; no core renderer mock and global effects cleanup explicit."
+        "C": "Each case owns fresh exploreState/context/framebuffer; presentFrame may use its context caches but worldView/bitmapView only assert selected gameplay and bitmap nonmutation. Inputs explicitly own party/follower/NPC layers.",
+        "D": "stackSprites is specific to the three-overlapping-actors case; the cover case has separate geometry. Both reuse sparse sprite/emptyMap primitives, not a shared production sort function to produce expectations.",
+        "E": "First case flips NPC sLayer0→1 and observes 0x51/0x42/opaque0 versus0x61. Second distinguishes a rear sprite covered by tile7 from front holes and opaque0; merely asserting nonempty output would miss both ordering errors.",
+        "F": "Comments give world/screen coordinates and sort keys tied to explicit fixture values. Named rear/front/party/follower separate depth and opacity, while expected three adjacent pixels make the order visible.",
+        "G": "Two cases preserve distinct actor ordering and cover repaint responsibilities. No dead production wrapper or duplicate leaf pixel check is added; worldView is intentionally a bounded projection, not an all-state equality claim.",
+        "H": "Actual presentFrame integrates tile and sprite drawing with literal sparse colors. Fresh contexts contain caches; no clock or renderer mock is required, and snapshots do not claim to inspect every nested engine field."
       }
     },
     {
@@ -2450,12 +2450,12 @@
       "axes": {
         "A": "Full file and actual assembler input/lifecycle reviewed: four cases include advanceEffects false/true and event mode with retained menu.",
         "B": "Comments qualified to actual test/caller boundary; add afterEach resetScreenWavePhase to restore module singleton.",
-        "C": "Fresh framebuffer/context/assembler owns effects; snapshots cover selected world/battle fields, not unobserved entire graph.",
-        "D": "Fixture-only shared spatial primitives; this composition contract differs from isolated leaf/menu pixel cases.",
-        "E": "Literal foreground/background/negative-space outputs distinguish layer and state errors; ownership snapshots are supplementary.",
-        "F": "Phase/coordinate/color constants show expected sequence directly; related endpoints belong to the same lifecycle case.",
-        "G": "No dead arguments or zero-call product wrapper introduced; retained cases exercise distinct composition paths.",
-        "H": "Actual compositor executes with controlled time/buffers; no core renderer mock and global effects cleanup explicit."
+        "C": "presentFrame owns intentional wave/shake progression, so party/camera and immutable bitmaps are checked separately from counters. resetScreenWavePhase afterEach restores the actual module singleton; dialogs/menus/palette are case-local.",
+        "D": "layer0Tile shares one tightly controlled marked-row input for wave and remap cases. Four cases remain distinct: wave advancement, shake countdown, scene-only remap and menu/event overlay gating; lower geometry tests cannot prove this order.",
+        "E": "Wave rows distinguish amplitude128→120→112 and advancing phase; shake positions distinguish repeated hold from countdown; remap checks tile0x4E versus dialog0x4F; event mode keeps dialog/actor but removes menu pixels.",
+        "F": "advance booleans mirror the production API in local draw closures; explicit endpoint pixels and counter values show why each call differs. layer0Tile explains its single seam hole instead of relying on broad fill side effects.",
+        "G": "No generic rendering-mode table hides setup differences. Repeated false/true calls are required lifecycle evidence; the enormous fade duration keeps this case focused on remap ordering and does not claim fade timing precision.",
+        "H": "Real compositor executes with manually controlled advancement. performance.now is not mocked in the remap case, whose long duration avoids a timing-dependent endpoint oracle; wave global resets after failure as well as success."
       }
     },
     {
@@ -2472,13 +2472,13 @@
       "oracle": "message pixel/TTL, floating number and settlement/dialog layer pixels",
       "axes": {
         "A": "Full file and actual assembler input/lifecycle reviewed: two cases cover last-message wins, override positions, expiry and reset.",
-        "B": "Comments qualified to actual test/caller boundary; fresh BattlePresent owns cache; seeded clock restored afterEach.",
-        "C": "Fresh framebuffer/context/assembler owns effects; snapshots cover selected world/battle fields, not unobserved entire graph.",
-        "D": "Fixture-only shared spatial primitives; this composition contract differs from isolated leaf/menu pixel cases.",
-        "E": "Literal foreground/background/negative-space outputs distinguish layer and state errors; ownership snapshots are supplementary.",
-        "F": "Phase/coordinate/color constants show expected sequence directly; related endpoints belong to the same lifecycle case.",
-        "G": "No dead arguments or zero-call product wrapper introduced; retained cases exercise distinct composition paths.",
-        "H": "Actual compositor executes with controlled time/buffers; no core renderer mock and global effects cleanup explicit."
+        "B": "Fresh BattlePresent owns per-case caches; frame0/2 are explicit draw arguments. There is no seeded-clock spy or afterEach restoration in this file; TTL/reset comments match that direct-frame contract.",
+        "C": "Each case creates its own BattlePresent owning message/damage caches; reset is exercised explicitly. draw receives frame0/2 directly, while snapshots cover commands and selected state/bitmap fields; no Date.now spy or afterEach clock reset exists here.",
+        "D": "assets supplies this file’s message/settlement frame glyphs only. Two contracts are message replacement/expiry/damage motion and settlement-over-message layering; neither is duplicated by P08 direct settlement screen tests.",
+        "E": "First case observes old message absence, dialog occlusion, expiry at frame2, number y10→8 and reset removal. Second observes settlement frame0xB1 versus message15 before/after screen index change and after reset.",
+        "F": "frame/withDialog parameters in the local draw closure describe one shared message lifecycle. BG/DIALOG/MESSAGE and literal positions keep overwrite order readable without inspecting private caches.",
+        "G": "Keep explicit reset assertions because fresh construction alone cannot prove cache clearing. No extra lifecycle wrapper or mocked command-consumer count is added; selected snapshots do not overclaim the full state graph.",
+        "H": "Actual commands enter BattlePresent.draw; explicit frame numbers control TTL deterministically. No seeded clock restoration is claimed; the superseded B statement described a cleanup hook absent from this file."
       }
     },
     {
@@ -2496,12 +2496,12 @@
       "axes": {
         "A": "Full file and actual assembler input/lifecycle reviewed: three cases retain start/middle/end and repeated stable endpoint.",
         "B": "Comments qualified to actual test/caller boundary; add afterEach resetScreenWavePhase; battle input runtime valid.",
-        "C": "Fresh framebuffer/context/assembler owns effects; snapshots cover selected world/battle fields, not unobserved entire graph.",
-        "D": "Fixture-only shared spatial primitives; this composition contract differs from isolated leaf/menu pixel cases.",
-        "E": "Literal foreground/background/negative-space outputs distinguish layer and state errors; ownership snapshots are supplementary.",
-        "F": "Phase/coordinate/color constants show expected sequence directly; related endpoints belong to the same lifecycle case.",
-        "G": "No dead arguments or zero-call product wrapper introduced; retained cases exercise distinct composition paths.",
-        "H": "Actual compositor executes with controlled time/buffers; no core renderer mock and global effects cleanup explicit."
+        "C": "Fresh BattlePresent instances own intro/summon fade caches. Tests deliberately mutate public fade steps between calls and compare selected state before draw; afterEach resets wave phase for the advancing-wave case.",
+        "D": "summonAnim constructs only the summon state shape. Three contracts are intro reveal plus damage overlay, summon nibble transition and battle-world wave hold; keep separate from leaf background-shift tests and P12 explore composition.",
+        "E": "Intro step0/3/6 checks world/background pixels and surviving damage7; summon0/6/42 checks0x53/0x54/0x59 and repeated endpoint; held wave128 repeats before advance120 moves TILE210→218 without moving SPRITE240,169.",
+        "F": "Named WORLD/BG/SUMMON_TO and fixed steps document phases directly. Each draw closure captures only the resources used by its one effect, preserving sequence readability over a universal animation fixture.",
+        "G": "Repeated middle/end draws are idempotence observations, not redundant setup. Three local closures have different input state and should not be merged behind a mode boolean; no new product hook is required.",
+        "H": "Real BattlePresent and explicit steps make cached-image transitions observable. Software pixels and selected snapshots support composition/ownership only, not cinematic timing, actual hardware rendering or complete battle state immutability."
       }
     },
     {
@@ -2514,17 +2514,17 @@
       "lines": 206,
       "readExtent": "full",
       "changed": false,
-      "caller": "drawBattleUI direct caller + BattlePresent forwarding",
+      "caller": "direct drawBattleUI in all five cases; no BattlePresent forwarding in this file",
       "oracle": "manual HP digit anchors, sprite IDs, MP/disabled colors and amount threshold",
       "axes": {
         "A": "Full file and actual assembler input/lifecycle reviewed: five cases: 1/2/3 party, MP8/9, quantity1/2, missing role, coop availability.",
         "B": "Comments qualified to actual test/caller boundary; MP disabled table is explicitly prefilled UI input; core availability oracle separate.",
-        "C": "Fresh framebuffer/context/assembler owns effects; snapshots cover selected world/battle fields, not unobserved entire graph.",
-        "D": "Fixture-only shared spatial primitives; this composition contract differs from isolated leaf/menu pixel cases.",
-        "E": "Literal foreground/background/negative-space outputs distinguish layer and state errors; ownership snapshots are supplementary.",
-        "F": "Phase/coordinate/color constants show expected sequence directly; related endpoints belong to the same lifecycle case.",
-        "G": "No dead arguments or zero-call product wrapper introduced; retained cases exercise distinct composition paths.",
-        "H": "Actual compositor executes with controlled time/buffers; no core renderer mock and global effects cleanup explicit."
+        "C": "All five cases call drawBattleUI directly; battleState/role/menu inputs are local, Date.now is pinned beforeEach and restored afterEach. MP disabled fields are intentionally prefilled, and role99 is explicitly defensive missing data.",
+        "D": "uiFrames/paint share only the party-count layout fixture. Five independent scopes remain: party anchors, MP colors, amount1/2, missing role and coop icon availability. BattlePresent forwarding and core disabled-table construction are not exercised here.",
+        "E": "Anchors are literal arrays; MP8 contrasts static10 and requirements9/8; amount2 leaves cyan2 while1 leaves0; role0 is positive control beside absent99; single/dual coop uses0x12/0x02. Counts or snapshots alone are not the oracle.",
+        "F": "Named hpAt/arrows tables expose 1/2/3 layout changes; prefilled-menu and defensive-role comments state input scope. paint is local to party-count checks rather than a generalized battle builder.",
+        "G": "The five cases falsify different UI conditions; no new standalone case is added for a type-only contract. The old receipt’s BattlePresent forwarding claim is removed rather than manufacturing an extra overlapping caller test.",
+        "H": "Real drawBattleUI, deterministic Date.now and sparse frames produce direct output. This test controls UI inputs but cannot certify how battle-system builds disabled rows; that adjacent ownership is named explicitly in the test comment."
       }
     },
     {
@@ -2542,12 +2542,12 @@
       "axes": {
         "A": "Full file and actual assembler input/lifecycle reviewed: three cases cover narration fallback, missing portrait, and true world/dialog composite.",
         "B": "Comments qualified to actual test/caller boundary; no mock scene renderer or fake bitmap oracle; incomplete assets defensive cases explicit.",
-        "C": "Fresh framebuffer/context/assembler owns effects; snapshots cover selected world/battle fields, not unobserved entire graph.",
-        "D": "Fixture-only shared spatial primitives; this composition contract differs from isolated leaf/menu pixel cases.",
-        "E": "Literal foreground/background/negative-space outputs distinguish layer and state errors; ownership snapshots are supplementary.",
-        "F": "Phase/coordinate/color constants show expected sequence directly; related endpoints belong to the same lifecycle case.",
-        "G": "No dead arguments or zero-call product wrapper introduced; retained cases exercise distinct composition paths.",
-        "H": "Actual compositor executes with controlled time/buffers; no core renderer mock and global effects cleanup explicit."
+        "C": "Two cases call drawDialogBox directly and the third enters presentFrame with a real world context. Each owns dialog/portrait resources; charsRevealed and portrait ID changes are intentional caller inputs, not renderer mutation.",
+        "D": "narrationFrames and titled share the two precise input shapes. Leaf narration fallback, portrait transparency/missing asset and world-dialog composition remain distinct; P13 message layering is a separate caller contract.",
+        "E": "Literal pixels distinguish narration digit sprite y54 from fallback glyph y50; opaque0 from transparent holes; title0x8C from text0x4F; and missing portrait exposing actual tile0x41. Input snapshots supplement output assertions.",
+        "F": "Named titled/narrationFrames and beforePortrait/beforeDialog separate content creation from drawing. Coordinates beside the assertions state expected centering and title/body positions without calling layout functions as oracle.",
+        "G": "Three cases cover different call boundaries; missing portrait checks retain positive body/title controls. No new convenience export or duplicate state-only test is needed; world composition is not inferred from leaf rendering.",
+        "H": "Actual dialog parsing/append and rendering execute with hand glyphs and sparse images. Fixed reveal counts avoid timing dependence, and real presentFrame proves resource forwarding where this file explicitly claims it."
       }
     }
   ],
@@ -16116,5 +16116,201 @@
     "oldContractByteIdentical": true,
     "configurationChanged": false,
     "validation": "No-data1green; nativeEOS3; directed5; current extract83files/413/TC0; new official20188/809 ratchet0 and protected0; remote PR30 recheck pending."
+  },
+  "receiptAudit20261028": {
+    "trigger": "User questioned whether the two recent hundred-file windows retained per-file quality depth.",
+    "candidate": "b8b6989b952968ab60108ae45842ae5689822925",
+    "owner": "Codex, single agent",
+    "priorReceiptSha256": "17c2a05e6852ede4db321e1305edbcb47eba94c30e36c12cf402aceb366f3e61",
+    "scope": "Audit both window inventories and evidence structure; targeted full reread of these 15 test files and seven fixture dependencies because C-H text was repeated. Do not claim a fresh full audit of all 200.",
+    "composition": {
+      "test": 146,
+      "fixture/helper": 23,
+      "implementation/tool": 23,
+      "configuration/declaration": 8
+    },
+    "totalPrimaryLines": 19264,
+    "primaryAtMost50Lines": 64,
+    "fullReread": [
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+        "sha256": "6ad818d64316c447983a5e9a5615565e920bf73fd1d7894c2b3865473f1fa82f",
+        "lines": 192
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "sha256": "49abedabe81e7cb35703d7e4cedb355cd5d6295370a18c634a07227143fe569e",
+        "lines": 213
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+        "sha256": "e9191efb9fefdac8fb8bee091f4e4ab9363e23b7bddeb470044d5835ced40259",
+        "lines": 209
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+        "sha256": "11fcd1159850e7900e9dd3e4ff7eeef5076f9c97626deb1753227322586d75a7",
+        "lines": 174
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "sha256": "0c482d21a187011bb6265d21aed09cf49cbde5c2232c4f073e8867e48e3ff64c",
+        "lines": 343
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "sha256": "01518520443c966e47ded645245189ba834f7e422f57dae448fe41c49ab9c48d",
+        "lines": 109
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "sha256": "5cdcfa8baac98de16d32337767477d2ae6d79915ceb3795cc6b972705937b52e",
+        "lines": 133
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+        "sha256": "6922114384b0344f8ed710871edf9e21e9226db81d62ea4a8a34c14cb72f52f2",
+        "lines": 102
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+        "sha256": "86b33800ea983839dabdb49ed19d38518bed736c1aae7c8d807827c562296e35",
+        "lines": 129
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+        "sha256": "61705a1a3d9fe61ff5140a12847cc8c56d59d763a0dc2a971e69f401a6b08e79",
+        "lines": 140
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+        "sha256": "dc0e0fc8dcab93030d9ee08ae335804a34fc4a2c702b1d37bfa977109ac1cdec",
+        "lines": 213
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+        "sha256": "335fabb9c3e9f28657c6ea7edf6ce0adcda926a3eb108e029a7c9c7bf7f46aba",
+        "lines": 162
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+        "sha256": "91f643b92d235d87103d0efddc541539e3a9d44081bc618d8b71680fb81a5204",
+        "lines": 222
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "sha256": "bbe237b59ca12224e3a3ae290d0723e543e812b61ef4e6b850737fb3674fb429",
+        "lines": 206
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+        "sha256": "5d59b91b75769c369c9612d332b92abb2328b50473c83121fab6dbed68af49bf",
+        "lines": 156
+      }
+    ],
+    "fixtureReread": [
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/font.ts",
+        "sha256": "1567d2a51b92f839b9c8ca2006d935521502b4bc1328437e05ee9c0b05366516",
+        "lines": 81
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/images.ts",
+        "sha256": "85a3bf16fd33859a897ecf82d0c8a2f3c28b99eb03499e1f4d93d5cc4d792833",
+        "lines": 111
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+        "sha256": "79df71135f071a392f75fe1ebf22f2f57318a98e12164c458e00b59bcadf8192",
+        "lines": 201
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/png-rgba.ts",
+        "sha256": "2d560bc0abf7a40698e3aa532b54580492eab080abf60f389bfd8c00a65aa00a",
+        "lines": 34
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+        "sha256": "c8ea1ae59baf3bf5d942ae3cc5e1258430c2feaed6c7623ff92eee2bbd912038",
+        "lines": 203
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+        "sha256": "551bfb79ad15caf4de7ad4945336edd10ab626cef12d84475b782b392ef0683a",
+        "lines": 145
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+        "sha256": "7eedefb782fafaac9af4969e909e974a737ddb951d2a46735c3838970db8d7f8",
+        "lines": 64
+      }
+    ],
+    "priorEvidenceReuse": "asset-render/review.json: all30 primary and47 dependency fingerprints match the current candidate; original native executions/mapping retained. Production semantics/SDLPal sources are reused within that unchanged boundary, not newly re-proved.",
+    "correctedFields": [
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "field": "caller",
+        "before": "confirmInventoryItem/move target -> drawInventoryMenu",
+        "after": "createInventoryMenu/confirmInventoryItem -> drawInventoryMenu; no target movement in this file"
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "field": "oracle",
+        "before": "explicit role4/1 numbers, item icon and target arrow pixels",
+        "after": "live count7 versus snapshot4; party4/1 HP12 and effective attack23; noDesc preserves target layer"
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+        "field": "A",
+        "before": "Complete test/caller fixture reads: three cases: live runtime roles, target move and item amount; values flow through public production entry and legal normal fixture.",
+        "after": "Three cases read in full: current inventory quantity versus menu snapshot; ordered role/runtime/equipment projection; noDesc omits description while target content remains. Target movement is not exercised here."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+        "field": "oracle",
+        "before": "MP8 vs static99; cost9/8 disabled colors; explicit target/page arrows",
+        "after": "runtime MP8 versus explicitly assigned static MP10; cost8/9 enabled/disabled colors; explicit page labels and moving target arrows"
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+        "field": "oracle",
+        "before": "role4/1 values, poison party-slot key, equip text/portrait and experience",
+        "after": "role4/1 runtime versus static values, equipment text/portrait, experience and role navigation; poison projection is not tested in this file"
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+        "field": "caller",
+        "before": "BattlePresent.draw settlement.screen -> drawBattleSettlement",
+        "after": "four direct drawBattleSettlement calls on typed screen variants; production BattlePresent caller evidence is reused separately, not executed by these tests"
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+        "field": "caller",
+        "before": "BattlePresent background and framebuffer.toImageData",
+        "after": "direct drawBattleBg -> framebuffer.toImageData; no BattlePresent instance in these cases"
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+        "field": "B",
+        "before": "Comments qualified to actual test/caller boundary; fresh BattlePresent owns cache; seeded clock restored afterEach.",
+        "after": "Fresh BattlePresent owns per-case caches; frame0/2 are explicit draw arguments. There is no seeded-clock spy or afterEach restoration in this file; TTL/reset comments match that direct-frame contract."
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+        "field": "caller",
+        "before": "drawBattleUI direct caller + BattlePresent forwarding",
+        "after": "direct drawBattleUI in all five cases; no BattlePresent forwarding in this file"
+      }
+    ],
+    "judgment": "The original C-H wording was insufficiently file-specific and seven records misdescribed some caller/oracle/cleanup facts. Current per-file C-H and the enumerated fields are corrected from actual reads. No new direct source/test defect was established in this narrow audit; unchanged tests/evidence remain accepted within their explicit boundaries. This does not prove the original author read every line, nor guarantee all200 contain no omissions.",
+    "newPrimaryCredit": 0,
+    "ledgerDelta": 0,
+    "notRun": ["product tests", "full check", "coverage", "E2E", "visual or hardware acceptance"],
+    "futureReporting": "Separate implementation/tool, test, fixture and configuration counts, new full-review work versus reused evidence, concrete quality improvements, unchanged retained files and unresolved items. One hundred is a heavy-gate scheduling size, not a quota or proof of depth.",
+    "inventorySources": [
+      "files in this receipt at b8b6989b952968ab60108ae45842ae5689822925",
+      "docs/ops/evidence/QUALITY-PENDING-100-2/review.json files (98)",
+      "docs/ops/evidence/QUALITY-GAME-PRESENT-HOST-TESTS-1/review.json primaryFullReads (2)"
+    ]
   }
 }
