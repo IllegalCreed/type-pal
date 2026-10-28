@@ -140,7 +140,7 @@ function controls(root, changes, readBuffer) {
     demand(sha(before) === descriptor.sha256, 'registry source descriptor mismatch')
     for (const row of shard.entries) {
       const after = byPath.get(row.path)
-      if (after)
+      if (after && !nativeArtifactAdmission(row.path).existingVariant)
         for (const key of [
           'docType',
           'templateId',
@@ -151,7 +151,12 @@ function controls(root, changes, readBuffer) {
           'reviewDepth',
         ])
           row[key] = after[key]
-      if (after && Object.hasOwn(row, 'artifactEnvelope')) row.artifactEnvelope = false
+      if (
+        after &&
+        !nativeArtifactAdmission(row.path).existingVariant &&
+        Object.hasOwn(row, 'artifactEnvelope')
+      )
+        row.artifactEnvelope = false
       all.push(row)
     }
     const bytes = biomeFormat(shard, path, { repoRoot: root })
@@ -177,6 +182,14 @@ function controls(root, changes, readBuffer) {
   for (const c of changes) {
     const old = routing.migratedDocuments.filter((r) => r.path === c.path)
     demand(old.length <= 1, 'duplicate existing route')
+    const binding = nativeArtifactAdmission(c.path)
+    if (binding.existingVariant) {
+      demand(
+        old.length === 1 && old[0].variant === binding.existingVariant,
+        'specific original pilot route required',
+      )
+      continue
+    }
     const route = {
       path: c.path,
       templateId: c.after.templateId,
@@ -198,6 +211,7 @@ export function prepareNativeArtifactCandidate({ root, plan, planSha256 }) {
   demand(
     plan?.kind === 'native-artifact-candidate/1.0.0' &&
       plan.creditGranted === 0 &&
+      /^\d{4}-\d{2}-\d{2}$/u.test(plan.date ?? '') &&
       nativeArtifactEntryHash(plan) === planSha256,
     'exact zero-credit plan fingerprint required',
   )
