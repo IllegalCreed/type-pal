@@ -1,3 +1,5 @@
+import { additionalCurrentReviewLedgers } from './current-review-ledger-bindings.mjs'
+
 export const currentReviewLedgerContract = Object.freeze({
   templateId: 'evidence-receipt-v1',
   variant: 'current-review-ledger-native-v1',
@@ -46,3 +48,7 @@ export const currentReviewLedgerPilots = Object.freeze(
     },
   ].map(Object.freeze),
 )
+export const currentReviewLedgerAdmissions = Object.freeze([
+  ...currentReviewLedgerPilots,
+  ...additionalCurrentReviewLedgers,
+])

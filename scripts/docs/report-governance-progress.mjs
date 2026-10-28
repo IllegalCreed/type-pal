@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { currentReviewLedgerPilots } from './current-review-ledger-admission.mjs'
+import { currentReviewLedgerAdmissions } from './current-review-ledger-admission.mjs'
 import { checkDocumentModel, checkMigratedDocument } from './document-model.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
 import { readDocumentRetirements } from './document-retirements.mjs'
@@ -37,7 +37,7 @@ const reviewReader = (path) => {
   reviewGroup ??= loadReviewRecords({
     root,
     ...(routing.migratedDocuments.some((doc) =>
-      currentReviewLedgerPilots.some((p) => p.path === doc.path),
+      currentReviewLedgerAdmissions.some((p) => p.path === doc.path),
     )
       ? {}
       : { logicalPaths: [...requiredReviews] }),

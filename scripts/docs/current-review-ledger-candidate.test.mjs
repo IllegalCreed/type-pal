@@ -1,0 +1,147 @@
+import assert from 'node:assert/strict'
+import { test } from 'node:test'
+import { fileURLToPath } from 'node:url'
+import { ledgerIdentity } from './current-review-ledger.mjs'
+import {
+  currentReviewLedgerAdmissions,
+  currentReviewLedgerBaseline,
+  currentReviewLedgerPilots,
+} from './current-review-ledger-admission.mjs'
+import {
+  currentLedgerEntryHash,
+  validateCurrentLedgerChanges,
+  writeCurrentLedgerCandidate,
+} from './current-review-ledger-candidate.mjs'
+import { loadReviewRecordFromGit } from './review-record-storage.mjs'
+
+const root = fileURLToPath(new URL('../../', import.meta.url)),
+  cache = new Map(),
+  record = (logicalPath) => {
+    if (!cache.has(logicalPath))
+      cache.set(
+        logicalPath,
+        loadReviewRecordFromGit({
+          root,
+          logicalPath,
+          revision: currentReviewLedgerBaseline,
+        }).record,
+      )
+    return cache.get(logicalPath)
+  }
+
+test('111 exact ledger bindings preserve the accepted three and resolve original logical identities', () => {
+  assert.equal(currentReviewLedgerAdmissions.length, 111)
+  assert.equal(new Set(currentReviewLedgerAdmissions.map((b) => b.path)).size, 111)
+  for (const b of currentReviewLedgerAdmissions) {
+    const native = record(b.path)
+    assert.deepEqual(
+      ledgerIdentity(native),
+      {
+        headerSha256: b.headerSha256,
+        membershipSha256: b.membershipSha256,
+      },
+      b.path,
+    )
+    assert.equal(native.entries.length, b.entryCount)
+    assert.equal((native.currentRecordTransfers ?? []).length, b.transfers)
+    assert.equal(record(b.reviewRecord).entries[b.index].path, b.path)
+  }
+  for (const b of currentReviewLedgerPilots)
+    assert.strictEqual(
+      currentReviewLedgerAdmissions.find((v) => v.path === b.path),
+      b,
+    )
+})
+
+function fixture() {
+  const b = currentReviewLedgerAdmissions.find((v) => !currentReviewLedgerPilots.includes(v)),
+    before = record(b.reviewRecord).entries[b.index],
+    after = structuredClone(before),
+    records = new Map([[b.reviewRecord, record(b.reviewRecord)]]),
+    change = {
+      path: b.path,
+      reviewRecord: b.reviewRecord,
+      index: b.index,
+      beforeEntrySha256: currentLedgerEntryHash(before),
+      after,
+    }
+  after.coreConclusion =
+    'Isolated proposal: current ownership and historical member claims remain separate.'
+  after.history ??= []
+  after.history.push({
+    kind: 'current-ledger-candidate',
+    priorEntrySha256: change.beforeEntrySha256,
+  })
+  return { change, records }
+}
+
+test('author metadata can change with a prior locator while credit, source and correction fields cannot', () => {
+  const f = fixture()
+  assert.deepEqual(validateCurrentLedgerChanges([f.change], f.records), {
+    targets: 1,
+    creditGranted: 0,
+  })
+  for (const mutate of [
+    (c) => {
+      c.after.contentReviewStatus = 'content-reviewed'
+    },
+    (c) => {
+      c.after.templateCompliance = 'template-compliant'
+    },
+    (c) => {
+      c.after.afterSha256 = '0'.repeat(64)
+    },
+    (c) => {
+      c.after.sourceSha256 = '0'.repeat(64)
+    },
+    (c) => {
+      c.after.currentIndependentAcceptance = { reviewer: 'self' }
+    },
+    (c) => {
+      delete c.after.claimCorrection
+    },
+    (c) => {
+      c.after.revision.currentSha = '0'.repeat(64)
+    },
+    (c) => {
+      c.after.history[0] = { replaced: true }
+    },
+  ]) {
+    const x = fixture()
+    mutate(x.change)
+    assert.throws(
+      () => validateCurrentLedgerChanges([x.change], x.records),
+      /immutable field|prefix changed/u,
+    )
+  }
+})
+
+test('candidate plans reject stale before rows, borrowed positions, duplicates and missing prior locators', () => {
+  for (const mutate of [
+    (f) => {
+      f.change.beforeEntrySha256 = '0'.repeat(64)
+    },
+    (f) => {
+      f.change.index++
+    },
+    (f) => {
+      f.change.path = 'docs/phase-governance/routing.json'
+    },
+    (f) => {
+      f.change.after.history.pop()
+    },
+  ]) {
+    const f = fixture()
+    mutate(f)
+    assert.throws(() => validateCurrentLedgerChanges([f.change], f.records))
+  }
+  const f = fixture()
+  assert.throws(() => validateCurrentLedgerChanges([f.change, f.change], f.records), /duplicate/u)
+})
+
+test('serializable plans are not write capabilities', () => {
+  assert.throws(
+    () => writeCurrentLedgerCandidate({ kind: 'current-ledger-candidate/1.0.0' }),
+    /unmodified in-process prepare capability/u,
+  )
+})

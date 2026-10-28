@@ -1,9 +1,9 @@
 import { createHash } from 'node:crypto'
 import { isDeepStrictEqual } from 'node:util'
 import {
+  currentReviewLedgerAdmissions,
   currentReviewLedgerBaseline,
   currentReviewLedgerContract,
-  currentReviewLedgerPilots,
 } from './current-review-ledger-admission.mjs'
 import {
   assertReviewRecordSourceUnchanged,
@@ -33,7 +33,7 @@ export function ledgerIdentity(record) {
 
 /** Validates ledger ownership and history; never accepts its child document claims. */
 export function currentReviewLedgerIssues(doc, template, contract, read, options = {}) {
-  const binding = currentReviewLedgerPilots.find((entry) => entry.path === doc.path)
+  const binding = currentReviewLedgerAdmissions.find((entry) => entry.path === doc.path)
   if (!binding && doc.variant !== currentReviewLedgerContract.variant) return undefined
   if (
     !binding ||

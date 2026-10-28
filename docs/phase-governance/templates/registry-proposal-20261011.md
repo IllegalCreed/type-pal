@@ -606,3 +606,10 @@ S63冻结补充：native witness的op默认为equals，另支持array-length/obj
 新合同不能用immutable carrier SHA概念跳过可变控制面；当前after pin是当次raw观测，与初始逻辑身份/原storage source/正文语义/子文档信用分轴。当前仅partial-review-unknown/needs-migration，正式接受尚未签发，任意换标/自行晋升/派生child信用拒绝。flat与真实manifest由同一protected group校验，绑定原source pin不变；不新增_governance、payload、sidecar或无限review自环。
 
 生产model与progress接入同一guard，含control路由时显式加载完整保护组；无新路由时原caller加载方式不变。临时隔离树验证三条具体正文+真实公共consumer；源树三条路由/registry/review状态保持，测试与pilot不授当前完成。原17父类型、旧variant、source pins、旧测试与产品/006/coverage保持；其余135控制JSON+9MD仍待逐篇迁移。
+
+
+### S67 同合同111路径准入与候选写入（2026-10-29）
+
+S66公共合同与三类真实pilot已获GLM非作者accept（43cfa8aca67a1cfae6589b89c613369535053a3001cd066bb1381a3f485a9473）。current-review-ledger-native-v1保持1.0.0、自有json-native/existing-current-review/current；17父类型与registry合同形状不变。本次只在代码白名单补108条真实Git9d逻辑header/有序成员-source绑定，与原3合为111；没有状态接受表或新执行信用。全部111是逻辑账本，不是物理片；原3边界/声明逐值保留，剩余24 JSON不套本合同。
+
+候选工具先验证精确before/白名单/历史前缀和不许写的source/status/correction，再做route+registry投影与完整依赖DAG。受保护全组+真实Git+计划输出materializer共同核验，继承已接受的锁/staging/原子组/失败保留/公开读回。先完整临时树演练，再一次交贡献者111最终候选；3已接受终稿复用、108逐篇治理。新正文采用现有唯一review行，无新增原生字段或sidecar。结构/存储/正文接受/Owner grant/当前执行严格分开，严格待办仅正式grant后按实扣减。

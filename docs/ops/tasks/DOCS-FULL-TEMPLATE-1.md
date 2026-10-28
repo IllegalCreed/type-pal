@@ -6,8 +6,8 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s66-current-ledger-contract
-Last reviewed: 2026-10-28
+Branch: codex/docs-s67-current-ledger-bulk
+Last reviewed: 2026-10-29
 Template: task-card-v1 / 1.0.0
 
 > 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
@@ -2699,3 +2699,16 @@ S65中央接入候选9d3e6834e9f41475a5802f37db4f898aa42179ba获GLM五轴accept�
 先冻结本轮有界设计再实施：母类型evidence-receipt、自有1.0.0的json-native变体；必填具体职责、authority/callers、合法组输入、成员与空/转移规则、状态/历史界线、更新及信用失效、stopLine/nextStep。header/有序path+原source轴改变需重审，不靠刷新after洗白；既有成员内容/状态、after维护与maintenanceHistory可按各自授权变更，child语义/状态有效性仍由child合同和全局门独立验证。flat与manifest可按同逻辑值合法重包，必须经原loader；旧source pin不能变。可变after是行政观测，不作为永久immutable真值。
 
 本轮只在临时组注入三条具体partial/needs稿，注册variant与public model/progress接线后真实验证；生产三route/registry/review语义状态不改，正式接受表不启用，不授新迁移。负例覆盖错误header/成员/借位置、坏after、删除或伪造历史转移、非保护reader、重复归属、假晋升以及flat/manifest一致性；空账本不得强加entries/0、不得顺手退役。旧测试只读，产品/006/E2E/coverage不改；父卡/提案/看板和必要after行政级联按唯一gzip封存。合同/三pilot完成后交一次非作者实施验收，Owner同时继续其余可变控制面；不合main、不推送、不done。
+
+
+## S67 S66独立接受与111现行账本完整执行准入（2026-10-29）
+
+S66公共合同源5fb140552e26e2f4dbe36b9d8cc64d6f4cd69fee、三篇临时候选4768219ea979ed8981fa86377d2c540cec1de467已获GLM只读非作者accept、零counter。Codex核两原件完整SHA：HANDBACK 5c1f86864d18c8c28ded01604f96f0c4b8bef7a16abfb210bf6cd9d4e8fb691b；verdict 43cfa8aca67a1cfae6589b89c613369535053a3001cd066bb1381a3f485a9473，并定向回放原verify-final，源0正文/7行政、pilot3正文/5行政、2435 pins、473原生保全、144/288和0信用逐项相符。验收覆盖公共代码和三份具体正文，不复读S65/473，不给成员正文或旧执行授信。非阻断字段说明：原pilot-final-identity.proposalVsFoundationDiffSha256记录0962..4768全程差异，正确含义foundationToFinalCandidateDiffSha256；0962..1d6初提案差异另见原pilot-identity，1d6..4768=653dd9cf绑定双CLI回执不变。冻结原包不改，澄清和新原件仅封入既有gzip。
+
+本轮Codex build allowed从5fb隔离后继codex/docs-s67-current-ledger-bulk完成同类111逻辑账本的精确准入及受控候选工具、完整临时树演练和一次可执行交接。111为S62清单中真实逻辑owner，不含物理分片；3篇已接受正文复用，另108篇由GLM正式治理。沿S66同一current-review-ledger-native-v1/1.0.0：9d真实Git的稳定header、有序成员path/source身份和原source pin冻结；after/status维护及物理世代按受保护loader分轴，不冻结活字节、不套历史载体合同。空账本显式转移保留，不由空数组自动退役。
+
+候选writer只改111现有review位置的解释字段与其route/registry机械投影、必要after/世代级联。完整before行hash、白名单位置、原source/after/status/claimCorrection/revision和历史前缀先验；每次先在内存用公开model和真实Git/materializer核新正文与依赖，后复用已接受的活锁/staging/退出/读回事务。R92/R93自身也是正文目标，其控制字节随成员解释更新的after只作为有界行政边，不得误写成原生不可变或child接受。无sidecar/第二套账本；候选保持partial/needs与0信用，Owner接受与正式grant另行执行。其余24 JSON、9 MD、产品/006/coverage/旧测试不在GLM写权限。
+
+GLM下一委托先只读非作者复核Owner公共增量及完整演练；通过后同一委托直接在隔离worktree执行108篇（合并复用3篇，交111全包），不中途回交设计/只读/content-ready小包。逐篇核逻辑header、政策/纠错历史、真实成员职责/来源身份、transfer、具体字段角色、入口/合法输入/oracle和未读域；不要求重新审阅2435成员正文，不将解析或全字节扫描说成人工全文深审。可复用S58内容，但计数/首末成员/状态/物理形态须以本候选重算，过期事实改正文。内部自主分段，遇单篇真实语义冲突精确blocked并继续其它。终交必须是实际提交候选、完整全包保全/模型/进度/非strict/索引/Testing/lint/diff原件和一个只读快检，不以计划稿替代实施。
+
+已接受三正文只复用S66终稿，允许明确追加S66接受范围说明，不恢复旧撤信。Owner持有所有grant/正式中央接入和24 JSON+9 MD；作者自验不代签。144 pending/288严格项不预扣；全卡rework，不合main、不推送、不标done。旧测试未获新授权不得修改。

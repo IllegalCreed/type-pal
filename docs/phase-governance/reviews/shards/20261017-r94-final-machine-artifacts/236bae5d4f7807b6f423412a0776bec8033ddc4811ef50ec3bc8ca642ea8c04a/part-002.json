@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "5f0c31507d46c743141418b95a14c384be7fd693a4006683cafc274ad45c1f14",
+  "generation": "236bae5d4f7807b6f423412a0776bec8033ddc4811ef50ec3bc8ca642ea8c04a",
   "key": "part-002",
   "positions": [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
   "entries": [
@@ -5815,7 +5815,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "ae906344fbf1251d95cf7ad89428b24d37bf49e642c43a4791d34ccc815731e6",
+      "afterSha256": "a44b6b32867f35a5ff853ddae179d2af2ed92d1041f80d7c0d88760f69a995c0",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -7019,6 +7019,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
             "index": 33,
             "entryCanonicalSha256": "0a807eacabb900b6c639ca4696f02357c2e40b262745f47f130da921227bea43"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S67/current-ledger-bulk-foundation",
+          "revision": "5fb140552e26e2f4dbe36b9d8cc64d6f4cd69fee",
+          "beforeSha256": "ae906344fbf1251d95cf7ad89428b24d37bf49e642c43a4791d34ccc815731e6",
+          "afterSha256": "a44b6b32867f35a5ff853ddae179d2af2ed92d1041f80d7c0d88760f69a995c0",
+          "scope": "S67 bounded ledger writer foundations and S66 non-author intake; no new source/document/runtime credit",
+          "priorRecord": {
+            "revision": "5fb140552e26e2f4dbe36b9d8cc64d6f4cd69fee",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 33,
+            "entryCanonicalSha256": "5f97b1bac2d1db5aed6dec1c9c5d9882c3ffc2ce69fc913a6da80d42c2a0d599"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

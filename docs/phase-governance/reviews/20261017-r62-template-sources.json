@@ -3414,7 +3414,7 @@
         }
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "0ec70abbbef433888446c306d2c37c856aff2424217b454a329c7f143db38085",
+      "afterSha256": "e2af0f6287d437c065c78bfaa8d48141a3bc50ad2e587757990fbf10d1d3ea4c",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3838,6 +3838,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
             "index": 9,
             "entryCanonicalSha256": "935875a6361c01c041ece1ea52b56134dc5cb6ab68a923a134543574b825d557"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S67/current-ledger-bulk-foundation",
+          "revision": "5fb140552e26e2f4dbe36b9d8cc64d6f4cd69fee",
+          "beforeSha256": "0ec70abbbef433888446c306d2c37c856aff2424217b454a329c7f143db38085",
+          "afterSha256": "e2af0f6287d437c065c78bfaa8d48141a3bc50ad2e587757990fbf10d1d3ea4c",
+          "scope": "S67 bounded ledger writer foundations and S66 non-author intake; no new source/document/runtime credit",
+          "priorRecord": {
+            "revision": "5fb140552e26e2f4dbe36b9d8cc64d6f4cd69fee",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+            "index": 9,
+            "entryCanonicalSha256": "08dfafadd048b611c47335f9a4db2d7f50993948c34006a804cced5689ac89dc"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

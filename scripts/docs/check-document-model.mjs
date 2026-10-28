@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { currentReviewLedgerPilots } from './current-review-ledger-admission.mjs'
+import { currentReviewLedgerAdmissions } from './current-review-ledger-admission.mjs'
 import { checkDocumentModel } from './document-model.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
@@ -38,7 +38,7 @@ const reviewReader = (logicalPath) => {
   reviewGroup ??= loadReviewRecords({
     root,
     ...(config.migratedDocuments.some((doc) =>
-      currentReviewLedgerPilots.some((p) => p.path === doc.path),
+      currentReviewLedgerAdmissions.some((p) => p.path === doc.path),
     )
       ? {}
       : { logicalPaths: [...new Set([logicalPath, ...pilotReviews])] }),
