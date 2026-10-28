@@ -4,10 +4,10 @@ import { disasm } from './disasm.js'
 import { recompile } from './recompile.js'
 
 describe('recompile + round-trip', () => {
-  it('end / goto / showDialog / giveItem / raw 单条往返', () => {
+  it('end / goto / showDialog / giveItem / raw 混合字节码往返', () => {
     const bc = concat(
       instr(0x0000), // end
-      instr(0x0003, 5, 0), // goto 5, delay 0
+      instr(0x0003, 5, 0), // goto 5，计数操作数0（现有字段名frameDelay）
       instr(0x0000), // filler
       instr(0x0000), // filler
       instr(0x0000), // filler

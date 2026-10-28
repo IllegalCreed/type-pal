@@ -117,7 +117,7 @@ export function itemsObjectBytes(): Uint8Array {
   const view = new DataView(out.buffer)
   for (let id = 0; id < 61 + 235; id++) {
     const base = id * 14
-    // 七 WORD 互异且随 id 变化；flags 轴在 61..294 内轮流点亮六基础位与六装备位之一
+    // 七 WORD 互异且随 id 变化；flags 轴轮流点亮六基础位与六角色装备许可位之一。
     view.setUint16(base + 0, (id * 7 + 1) & 0xffff, true) // bitmap
     view.setUint16(base + 2, (id * 11 + 2) & 0xffff, true) // price
     view.setUint16(base + 4, (id * 13 + 3) & 0xffff, true) // scriptOnUse
@@ -128,7 +128,7 @@ export function itemsObjectBytes(): Uint8Array {
     let flags = 0
     if (local >= 0 && local < 234) {
       flags = 1 << (local % 6) // 六基础 flag 一热
-      flags |= 1 << (6 + (local % 6)) // 六装备位一热（同一 role 号）
+      flags |= 1 << (6 + (local % 6)) // 六角色装备许可位一热（同一 role 号）
     } else {
       flags = 0x2a // 295（梦蛇）非物品段位形，不参与断言
     }

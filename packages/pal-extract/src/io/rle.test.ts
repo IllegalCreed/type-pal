@@ -7,6 +7,5 @@ it('extractor RLE入口绑定PAL来源，高位literal不当skip', () => {
   const pixels = Uint8Array.from({ length: 130 }, (_, index) => index)
   const bytes = new Uint8Array([1, 0, 130, 0, 0x82, ...pixels])
   const expected = { width: 1, height: 130, pixels, opaque: new Uint8Array(130).fill(1) }
-  expect(() => decodeRle(bytes)).not.toThrow()
   expect(decodeRle(bytes)).toEqual(expected)
 })

@@ -12,22 +12,26 @@ describe('validateShops current table', () => {
     ]
     expect(validateShops(table)).toEqual(table)
   })
-  test.each([
-    null,
-    {},
-    [{ id: -1, items: [] }],
-    [{ id: 0.5, items: [] }],
-    [{ id: Number.MAX_SAFE_INTEGER + 1, items: [] }],
-    [{ id: '0', items: [] }],
+  test.each<[unknown, string]>([
+    [null, 'shops 期望数组'],
+    [{}, 'shops 期望数组'],
+    [[null], 'shops[0] 期望商店对象'],
+    [[{ id: -1, items: [] }], 'shops[0].id 必须为非负安全整数'],
+    [[{ id: 0.5, items: [] }], 'shops[0].id 必须为非负安全整数'],
+    [[{ id: Number.MAX_SAFE_INTEGER + 1, items: [] }], 'shops[0].id 必须为非负安全整数'],
+    [[{ id: '0', items: [] }], 'shops[0].id 必须为非负安全整数'],
     [
-      { id: 0, items: [] },
-      { id: 0, items: [] },
+      [
+        { id: 0, items: [] },
+        { id: 0, items: [] },
+      ],
+      'shops 重复 id 0',
     ],
-    [{ id: 0, items: [''] }],
-    [{ id: 0, items: [1] }],
-    [{ id: 0, items: null }],
-  ])('rejects malformed current tables %j', (value) => {
-    expect(() => validateShops(value)).toThrow()
+    [[{ id: 0, items: [''] }], 'shops[0].items 必须为物品 id 数组（非空字符串）'],
+    [[{ id: 0, items: [1] }], 'shops[0].items 必须为物品 id 数组（非空字符串）'],
+    [[{ id: 0, items: null }], 'shops[0].items 必须为物品 id 数组（非空字符串）'],
+  ])('rejects malformed current tables %j', (value, message) => {
+    expect(() => validateShops(value)).toThrow(message)
   })
 })
 
@@ -63,6 +67,31 @@ function world(money: number, inv: { itemId: string; count: number }[]): WorldSt
 }
 
 describe('shopBuy(每次 1 个;钱不够 null)', () => {
+  test('继承属性不算物品定义，购买未知 constructor 不改变世界', () => {
+    const before = world(100, [])
+    expect(shopBuy(before, 'constructor', {})).toBeNull()
+    expect(before).toEqual({ party: [], money: 100, learnedSkills: {}, inventory: [] })
+  })
+
+  test('工程真正定义的 constructor 物品正常扣钱入包', () => {
+    const items: ItemDataMap = {
+      constructor: {
+        id: 'constructor',
+        name: '同名物品',
+        desc: [],
+        buyPrice: 50,
+        sellPrice: 25,
+        sellable: true,
+      },
+    }
+    expect(shopBuy(world(100, []), 'constructor', items)).toEqual({
+      party: [],
+      money: 50,
+      learnedSkills: {},
+      inventory: [{ itemId: 'constructor', count: 1 }],
+    })
+  })
+
   test('钱够:扣 buyPrice + 入包(已有叠加/新条目);源不变', () => {
     const w0 = world(100, [{ itemId: '166', count: 1 }])
     const w1 = shopBuy(w0, '166', ITEMS)!

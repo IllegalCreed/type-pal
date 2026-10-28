@@ -30,7 +30,6 @@ describe('C4 tileset 剩余合同', () => {
     expect(tilesets).toEqual(tilesetSnap)
     expect(catalog).toEqual(catalogSnap)
     expect(resolveTilesetAsset('grass', tilesets)).toBe('tileset.grass')
-    expect(catalog.assets['sprite.unused']?.kind).toBe('sprite')
   })
 
   test('catalog 缺 AssetId 与 kind 不符各自精确拒绝，输入不变', () => {

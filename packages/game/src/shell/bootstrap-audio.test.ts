@@ -26,7 +26,7 @@ function makeAudioSpy(): AudioManager & { calls: string[] } {
 }
 
 describe('syncShellAudio', () => {
-  it('suspendRaf/modal CG 期间仍同步 BGM/SFX,不等画面 present 恢复后才 flush', () => {
+  it('suspendRaf=true 的世界仍把当前 BGM 和 SFX 交给 AudioManager', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.suspendRaf = true
     gs.wNumMusic = 16

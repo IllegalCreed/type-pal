@@ -29,13 +29,13 @@ test.each([
 })
 
 test.each([
-  'https:remote.json',
-  'C:local.json',
-  'folder\\home.json',
-  ' ',
-  'folder/home.png',
-])('scene path rejects non-project JSON path %s', (path) => {
-  expect(() => normalizeSceneAssetPath(path)).toThrow(/期望工程相对路径|必须指向 .json/)
+  ['https:remote.json', '期望工程相对路径'],
+  ['C:local.json', '期望工程相对路径'],
+  ['folder\\home.json', '期望工程相对路径'],
+  [' ', '期望工程相对路径'],
+  ['folder/home.png', '必须指向 .json'],
+])('scene path rejects non-project JSON path %s', (path, message) => {
+  expect(() => normalizeSceneAssetPath(path)).toThrow(message)
   expect(normalizeSceneAssetPath(' ./folder//home.json ')).toBe('folder/home.json')
 })
 

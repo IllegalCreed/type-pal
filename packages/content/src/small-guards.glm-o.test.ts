@@ -1,80 +1,12 @@
-/** TEST-GLM-WAVE-O-1 O08/O09：商店/奖励/精灵/敌队/敌脚本/运行时校验/对话身份小 guard 残余。
- *  旧证：shop.test.ts / rewards.test.ts / sprite / enemy-team / author-dialogue /
- *  validate-runtime 各自覆盖主干；本卡按 gap-map 直击未覆盖臂。
- */
-
-import type { ActorDef, Command, ItemData, ShopDef, WorldState } from '@type-pal/content'
+import type { ActorDef, Command } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { resolveDialogueIdentity } from './author-dialogue.js'
 import { buildWorld, instantiate } from './character.js'
 import { collectCommandTargetReferences } from './command-target-reference.js'
 import { validateEnemyTeamStructure } from './enemy-team.js'
-import { sellableItems, shopBuy, shopSell, validateShops } from './shop.js'
 import { spriteDefinitionFrameDemand, spriteDefinitionFrameIndices } from './sprite.js'
 import { checkThrowSpec } from './validate.js'
 import { validateRuntimeScenes } from './validate-runtime.js'
-
-const world = (over: Partial<WorldState> = {}): WorldState =>
-  ({
-    party: [],
-    learnedSkills: {},
-    inventory: [{ itemId: 'i1', count: 2 }],
-    money: 100,
-    ...over,
-  }) as WorldState
-
-const item = (id: string, over: Partial<ItemData> = {}): ItemData =>
-  ({
-    id,
-    name: id,
-    desc: [],
-    buyPrice: 10,
-    sellPrice: 5,
-    sellable: true,
-    ...over,
-  }) as ItemData
-
-describe('O09 validateShops / shopBuy / shopSell / sellableItems', () => {
-  const shop: ShopDef = { id: 1, items: ['i1'] }
-
-  test('非数组 / 非对象条目 / 负 id / 重复 id / 非法 items 逐轴拒绝', () => {
-    expect(() => validateShops('x')).toThrow('shops 期望数组')
-    expect(() => validateShops([null])).toThrow('shops[0] 期望商店对象')
-    expect(() => validateShops([{ id: -1, items: [] }])).toThrow('shops[0].id 必须为非负安全整数')
-    expect(() => validateShops([shop, { ...shop, id: 1 }])).toThrow('shops 重复 id 1')
-    expect(() => validateShops([{ id: 1, items: [''] }])).toThrow(/items 必须为物品 id 数组/)
-  })
-
-  test('shopBuy：钱不够 null；成功扣钱入包', () => {
-    const items = { i1: item('i1', { buyPrice: 50 }) }
-    expect(shopBuy(world({ money: 10 }), 'i1', items)).toBeNull()
-    const after = shopBuy(world(), 'i1', items)!
-    expect(after.money).toBe(50)
-    expect(after.inventory).toEqual([{ itemId: 'i1', count: 3 }])
-  })
-
-  test('shopSell：不可卖 / 背包没有 → null；成功出包得款并清零条目', () => {
-    const items = { i1: item('i1', { sellable: false }) }
-    expect(shopSell(world(), 'i1', items)).toBeNull()
-    const empty = world({ inventory: [] })
-    expect(shopSell(empty, 'i1', { i1: item('i1') })).toBeNull()
-    const after = shopSell(world(), 'i1', { i1: item('i1', { sellPrice: 7 }) })!
-    expect(after.money).toBe(107)
-    // count 2 → 卖 1 剩 1（不清零整条）。
-    expect(after.inventory).toEqual([{ itemId: 'i1', count: 1 }])
-  })
-
-  test('sellableItems 过滤 count=0 与不可卖', () => {
-    const items = { i1: item('i1'), i2: item('i2', { sellable: false }) }
-    const w = world({
-      inventory: [
-        { itemId: 'i1', count: 1 },
-        { itemId: 'i2', count: 3 },
-      ],
-    })
-    expect(sellableItems(w, items)).toEqual(['i1'])
-  })
-})
 
 describe('O09 spriteDefinitionFrameDemand / FrameIndices', () => {
   test('directional 帧需求 = framesPerDir*4 + poses 绝对帧', () => {

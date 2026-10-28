@@ -1,16 +1,14 @@
 /**
- * TEST-CONTENT-CONTRACTS-1 B1/B5/B6：map-index 规范化/冲突/身份与 tileset 注册表（map-index.ts、tileset.ts）。
+ * TEST-CONTENT-CONTRACTS-1 B1/B5：map-index 规范化、查找与身份派生。
  * 与 asset 路径 API 的「拒绝不规范化」相对：本 API 先 trim 再逐段规范化（合同分栏）。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
 import {
   mapAssetById,
   nextMapAssetId,
   normalizeMapAssetPath,
   validateMapIndex,
 } from './map-index.js'
-import { resolveTilesetAsset, validateTilesets } from './tileset.js'
 
 describe('B1 normalizeMapAssetPath · trim + 规范化（与 asset 路径合同不同）', () => {
   test('空白被 trim、点段被消除、保留原值语义', () => {
@@ -45,22 +43,5 @@ describe('B1 validateMapIndex · 稳定 ID/名称规范化与查找', () => {
     expect(nextMapAssetId(validated, 'map-new')).toBe('map-new') // 不冲突时原样
     expect(mapAssetById(validated, 'map-a')).toBe(validated.maps[0])
     expect(mapAssetById(validated, 'ghost')).toBeUndefined()
-  })
-})
-
-describe('B6 validateTilesets · 注册表守卫与资产解析', () => {
-  const tilesetDef = { id: 'tiles-main', name: '主瓦片集', category: 'outdoor', asset: 'tileset.x' }
-  test('合法定义通过且输入不变；resolveTilesetAsset 精确解析', () => {
-    const raw = [tilesetDef]
-    const before = deepSnapshot(raw)
-    const validated = validateTilesets(raw)
-    expect(validated).toEqual([tilesetDef])
-    expect(raw).toEqual(before)
-    expect(resolveTilesetAsset('tiles-main', validated)).toBe('tileset.x')
-  })
-  test.each([
-    ['缺 asset', [{ id: 't2', name: 'X', category: 'c' }], /asset/],
-  ])('%s 拒绝', (_name, defs, pattern) => {
-    expect(() => validateTilesets(defs)).toThrow(pattern)
   })
 })

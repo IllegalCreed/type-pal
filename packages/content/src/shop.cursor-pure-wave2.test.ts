@@ -12,12 +12,14 @@ function purse(money: number, inventory: WorldState['inventory']): WorldState {
 }
 
 describe('C3 shop 剩余合同', () => {
-  test('钱够但未知物买为 null；卖 2 件剩 1，源世界不动', () => {
+  test('钱够但未知物买为 null，源世界不动', () => {
     const rich = purse(999, [])
     const richSnap = inputSnap(rich)
     expect(shopBuy(rich, 'item.ghost', WAVE2_SHOP_ITEMS)).toBeNull()
     expect(rich).toEqual(richSnap)
+  })
 
+  test('卖 2 件剩 1，保留其它物品且源世界不动', () => {
     const packed = purse(0, [
       { itemId: 'item.sword', count: 2 },
       { itemId: 'item.charm', count: 1 },

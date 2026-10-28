@@ -3,8 +3,8 @@
  * 去重账：disasm.test 覆盖具名命令/goto 标签/showDialog/giveItem/raw/L29 13 跳/8 倍数校验/
  * 入口 ip/四 setDialogStyle/loadScene；disasm.boundaries（RESOURCE-TOOLS-COVERAGE-1 R03）覆盖
  * u16 无符号/messageIndex 轴/raw 全位型/同目标单标/输入保真。本文件只做未占用合同：
- * 0xA2 随机跳相对目标收集（含 op0=0）、0x04/0x24 脚本入口 raw 目标收集、具名未处理 op 的
- * raw fallback（opcode 保号）、标签越界丢弃、subarray byteOffset。
+ * 0xA2 随机跳相对目标收集（含 op0=0）、0x04/0x24 脚本入口 raw 目标收集、
+ * 标签越界丢弃、subarray byteOffset。startBattle具名raw回退由kimi-r1的完整命令及字节例承接。
  */
 import { describe, expect, test } from 'vitest'
 import { concat, instr } from './__tests__/bytecode-fixtures.js'
@@ -45,13 +45,6 @@ describe('R05 disasm 脚本入口类 raw 目标收集', () => {
     expect(cmds[3]).toEqual({ label: 'L_3', op: 'end' })
     expect(cmds[4]).toEqual({ label: 'L_4', op: 'end' })
     expect(cmds[2]).toEqual({ op: 'end' })
-  })
-})
-
-describe('R05 disasm 具名未处理 op 的 raw fallback', () => {
-  test('startBattle(0x0007, named) 无专用 emit：保号落 raw，operand 原样', () => {
-    const cmds = disasm(instr(0x0007, 0x0101, 5, 9), [])
-    expect(cmds).toEqual([{ op: 'raw', opcode: 0x0007, operands: [0x0101, 5, 9] }])
   })
 })
 

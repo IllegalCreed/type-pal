@@ -51,9 +51,9 @@ describe('KIMI-R1 disasm setPalette case 与具名 raw 回退', () => {
     expect([...recompile(commands, [])]).toEqual([...bytecode])
   })
 
-  test('JUMP_TARGET_OPERAND raw 条件跳目标入 BFS 标签集；0xA2 随机跳收 i+1..i+op0', () => {
-    // 0x0058 ifItemLess fields[2]=to(label)：具名未结构化 → raw，但目标仍打标签（:63-65）。
-    // 0x00A2 随机跳：目标 = 相对 i+1..i+op0（:66-68）。
+  test('raw 条件跳和非零指令位置的随机跳均给目标打标签', () => {
+    // 0x0058 ifItemLess fields[2]=to(label)：具名未结构化 → raw，但目标仍打标签。
+    // disasm只收集标签；slice才遍历图。此处随机跳位于i=1，核相对目标2/3。
     const bytecode = concat(
       instr(0x0058, 61, 1, 4), // ifItemLess item 61 <1 → L_4
       instr(0x00a2, 2), // random jump → 2..3

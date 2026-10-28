@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-28T07:10:38.237Z",
+  "generatedAt": "2026-10-28T13:24:12.813Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 809,
+  "sourceFileCount": 810,
   "testCount": 20157,
   "packages": {
     "shared": {
@@ -164,7 +164,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 56,
+      "sourceFileCount": 57,
       "sourceFiles": [
         "packages/content/src/actor-condition.ts",
         "packages/content/src/actor-reference.ts",
@@ -203,6 +203,7 @@
         "packages/content/src/map-index.ts",
         "packages/content/src/migration-diagnostic.ts",
         "packages/content/src/poison.ts",
+        "packages/content/src/project-json-path.ts",
         "packages/content/src/project-map.ts",
         "packages/content/src/rewards.ts",
         "packages/content/src/rich-text.ts",
@@ -223,7 +224,7 @@
         "packages/content/src/validate.ts",
         "packages/content/src/world-variable.ts"
       ],
-      "scopeDigest": "048275ba8e3020dd698db3c0f14f599e200ec84daad1c7f47aac0f15fa067971",
+      "scopeDigest": "9ee027f331c4496a8268826e5cd150defee5b2f491f1fc68b0add69fe7be1e3d",
       "fastTests": {
         "testCount": 1473,
         "testFileCount": 145,
@@ -413,7 +414,7 @@
           {
             "file": "packages/content/src/ambience-skill.glm-o.test.ts",
             "testCount": 5,
-            "identityDigest": "dafb6b115066c4d4525ae928157a70a5887e6d9ccd6c0c4cb75eed6f4c4835f6"
+            "identityDigest": "12e4a1d91901f0d603f6a163e68a13ce4ffd0898d8869d5640c939c47fe8a569"
           },
           {
             "file": "packages/content/src/ambience.test.ts",
@@ -792,13 +793,13 @@
           },
           {
             "file": "packages/content/src/locale.test.ts",
-            "testCount": 2,
-            "identityDigest": "4a135998e553b612295508a1641255db270154ee4566653b4d297371a754238b"
+            "testCount": 4,
+            "identityDigest": "bd4ad4f08b3882e2f71f6e08664decf2d0d3738e2f4e6b7af09ff4c853508520"
           },
           {
             "file": "packages/content/src/map-index.contracts.test.ts",
-            "testCount": 8,
-            "identityDigest": "4a91bda677af06f5dd5754baa005b4dc555fce8247bf290b4f2016a7d0e26092"
+            "testCount": 6,
+            "identityDigest": "f078f7801ad6378be7561b8bac461fe9e4bb15053aa5ece0b3a506ecaff718a4"
           },
           {
             "file": "packages/content/src/map-index.residual.test.ts",
@@ -972,18 +973,18 @@
           },
           {
             "file": "packages/content/src/shop.cursor-pure-wave2.test.ts",
-            "testCount": 1,
-            "identityDigest": "b8ffae233c463d89071fba9d71aa6e02abbf54138c75689274d3ef030bfc97af"
+            "testCount": 2,
+            "identityDigest": "6d65bd2833255456721e28107d7ccf8f063772a42af3c4b2261e60e41e39fb23"
           },
           {
             "file": "packages/content/src/shop.test.ts",
-            "testCount": 16,
-            "identityDigest": "67920e8d6a36dfad5fa734c2e1f5e82c71d1b096b99b0591991bd80a8143e4a8"
+            "testCount": 19,
+            "identityDigest": "7d62c93a53110ff4a2fd5b8c1052238648bcbd80cbfd39c110e7e0d55eaa8a73"
           },
           {
             "file": "packages/content/src/small-guards.glm-o.test.ts",
-            "testCount": 14,
-            "identityDigest": "68e8c56944d37d059494514cd15dc07de4f3805c16cc665312dc6e0b2a2fc367"
+            "testCount": 10,
+            "identityDigest": "27b134b1bfa277e3e92022c145b9bde90bb7813d8d2fc79f7b28d79e6347ac5d"
           },
           {
             "file": "packages/content/src/sprite-frame-demand.contracts.test.ts",
@@ -1101,26 +1102,26 @@
             "identityDigest": "6bd136e3dc31faf579c7b78a5dd284c6a1fd1a58ee6d3fa624ccee6e21be9a3c"
           }
         ],
-        "identityDigest": "057bc64efe6bf153419556b8b81b4c7a22b1a3d469ed66ad33b392dd83c43a71",
+        "identityDigest": "c29af4ca627d44617172d8861a92a9a83eb907db0c3d4186a80499de986abe35",
         "duplicateIdentityCount": 1,
-        "executionDigest": "f6a9bd646679ae485c13dedf2a4e9a8407dbbc6c96cef7a384daaf564245d340"
+        "executionDigest": "766b07cf4c2d441788bf2067b72f22c3ea378926257bc22c2436f21358532327"
       },
       "metrics": {
         "statements": {
-          "covered": 5671,
-          "total": 5879
+          "covered": 5661,
+          "total": 5869
         },
         "branches": {
-          "covered": 4835,
-          "total": 5135
+          "covered": 4824,
+          "total": 5125
         },
         "functions": {
-          "covered": 812,
-          "total": 827
+          "covered": 813,
+          "total": 828
         },
         "lines": {
-          "covered": 5063,
-          "total": 5200
+          "covered": 5055,
+          "total": 5192
         }
       }
     },
@@ -1193,7 +1194,7 @@
       ],
       "scopeDigest": "96fef9f4f13a5146e0d9ddc5a9429c739f462502f444b7f7dabcf1dc80b95b02",
       "fastTests": {
-        "testCount": 357,
+        "testCount": 356,
         "testFileCount": 69,
         "files": [
           "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
@@ -1339,13 +1340,13 @@
           },
           {
             "file": "packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts",
-            "testCount": 6,
-            "identityDigest": "b1d7fda90c903b5b8440c70629e695c67f71f06a03c2e0bc8b80880d9b263c28"
+            "testCount": 5,
+            "identityDigest": "a48af0663a3832eb57dceca95c8d5a0d05e5379f841ca97473a9dc7553fd9445"
           },
           {
             "file": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
             "testCount": 5,
-            "identityDigest": "83cb7685e0d64047689d59aab9dc1a84ca0d2c3bcd9bb224fa04d857e31c41dd"
+            "identityDigest": "3eed5129991edf62651b733fe99c781f5601b16b2eddf63261dfee300191d727"
           },
           {
             "file": "packages/pal-extract/src/events/disasm.test.ts",
@@ -1370,7 +1371,7 @@
           {
             "file": "packages/pal-extract/src/events/recompile.test.ts",
             "testCount": 3,
-            "identityDigest": "030c81eb6e62846945f5ef2cdcacd17d7aa14143f9405a9f797b6827e159b066"
+            "identityDigest": "57fd133f8a47797074908f2c4df3f6e14624a4a938e806f1643a9437a847261c"
           },
           {
             "file": "packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts",
@@ -1515,7 +1516,7 @@
           {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/items.boundaries.test.ts",
             "testCount": 3,
-            "identityDigest": "aaa9a341b5f079b757a02fcd36ca2764cdf20ac480a3c27c82117b9d005f657e"
+            "identityDigest": "5b553b86039359a300aad544607b7d867f57f03a2afd3b28e00560ceb04bdcc5"
           },
           {
             "file": "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
@@ -1613,9 +1614,9 @@
             "identityDigest": "c2c81c7c43d5b81e2fa52cb616dadfe88c14e4d1c097e8348f0f28221faf66e3"
           }
         ],
-        "identityDigest": "1125c1f97454625b8d9ec674012d6e98ff36960e10eba8646f72f3a25114317e",
+        "identityDigest": "8921586763813195696060828d0d186c381292b2a0d4bfe36206324e427d70fc",
         "duplicateIdentityCount": 0,
-        "executionDigest": "66c123cbd21b7a512a481310b4c94029d4bc2d69c15bf31afe070fbfb536bca2"
+        "executionDigest": "fa020c6f855befe151b65a79ae4d380a345c15b2ed90ea7c2b1343a1b3005163"
       },
       "metrics": {
         "statements": {
@@ -2375,7 +2376,7 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 8994,
+        "testCount": 8995,
         "testFileCount": 366,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -3768,8 +3769,8 @@
           },
           {
             "file": "packages/reforge/src/menu/shop-box.test.ts",
-            "testCount": 6,
-            "identityDigest": "79779c6f097c8669a6542d9f51435e59e41b9d8449f26b9223b1f7ad86afa201"
+            "testCount": 7,
+            "identityDigest": "f2c4a671e04c1bb74b36c1136226207817b8b9c6d5408a2366121ef3a33a908c"
           },
           {
             "file": "packages/reforge/src/menu/system-box.glm-runtime-resource.test.ts",
@@ -4577,17 +4578,17 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "904ed81499317eb87e1a33b3c42b16d38d4d796ff8713911e23a589aad3f3a2c",
+        "identityDigest": "38f76033cd132540ae5f9c6f8ff692324c409a8ef771f2ff7af6dbc77033a2c9",
         "duplicateIdentityCount": 3,
-        "executionDigest": "3d84cf643ed1667988d1c11417900a1ca18cefee23b0ba4b172c27257631f259"
+        "executionDigest": "32ce357e166b1153f925dfbb8063e8ddc74ba82cc038ae7e0df6007c2d9c08e6"
       },
       "metrics": {
         "statements": {
-          "covered": 17040,
+          "covered": 17041,
           "total": 18888
         },
         "branches": {
-          "covered": 10824,
+          "covered": 10825,
           "total": 13095
         },
         "functions": {
@@ -6546,7 +6547,7 @@
           {
             "file": "packages/game/src/shell/bootstrap-audio.test.ts",
             "testCount": 1,
-            "identityDigest": "0faf6814b4d115d1a745cf4dcfac45d0e64f118d9e776cc510ae27fabf8e1c14"
+            "identityDigest": "e8bcec403170f46f8442a385b2d27f415dea5ee89c9f25e10700219f3d001524"
           },
           {
             "file": "packages/game/src/shell/bootstrap-load.test.ts",
@@ -6801,7 +6802,7 @@
           {
             "file": "packages/game/src/tools/mobile-presentation.test.ts",
             "testCount": 2,
-            "identityDigest": "a733a3fac5205fa3fa6efa58fa500f8929ec9694d90b88fe5db419eb02515294"
+            "identityDigest": "07c229e3c2de2ffe9ee78a60bb9361ee0b7b9ad36e38dcf17c02983e33e6b22e"
           },
           {
             "file": "packages/game/src/tools/quick-save.test.ts",
@@ -6934,26 +6935,26 @@
             "identityDigest": "b86986a2de3c86ddb7630a8ad3b68a2adf31c12094cff520150c69dc5a13e5e2"
           }
         ],
-        "identityDigest": "4c5bc623fb921d481a2357a8651351f76949b8da11ed87923e8eb0218f5c5378",
+        "identityDigest": "3a79317ae9f6076b290d22830f9e2f5e7d765f517ba0e0bc029954360b8f950e",
         "duplicateIdentityCount": 0,
-        "executionDigest": "117a5e5a2a4feca077209348c5a7dde665cc37713a9b24a7dfa46131fe9e57c4"
+        "executionDigest": "8be4f6b3d1e9aa522a3ea2521de44bf366bc8fa7cd4d06b8d140b3bb38138c73"
       },
       "metrics": {
         "statements": {
-          "covered": 15470,
-          "total": 17134
+          "covered": 15469,
+          "total": 17123
         },
         "branches": {
           "covered": 9927,
-          "total": 12237
+          "total": 12233
         },
         "functions": {
           "covered": 1873,
-          "total": 2154
+          "total": 2153
         },
         "lines": {
-          "covered": 13801,
-          "total": 15030
+          "covered": 13800,
+          "total": 15021
         }
       }
     },
@@ -10978,20 +10979,20 @@
   },
   "total": {
     "statements": {
-      "covered": 72890,
-      "total": 80593
+      "covered": 72880,
+      "total": 80572
     },
     "branches": {
-      "covered": 52664,
-      "total": 62700
+      "covered": 52654,
+      "total": 62686
     },
     "functions": {
-      "covered": 13792,
+      "covered": 13793,
       "total": 15350
     },
     "lines": {
-      "covered": 65102,
-      "total": 70529
+      "covered": 65093,
+      "total": 70512
     }
   }
 }

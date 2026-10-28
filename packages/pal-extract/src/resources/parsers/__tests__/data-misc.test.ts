@@ -13,6 +13,7 @@
 import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { PNG } from 'pngjs'
 import { describe, expect, it } from 'vitest'
 import { openMkf, readChunk } from '../../../io/mkf.js'
 import { framesToOut, parseSpriteChunk } from '../../sprite.js'
@@ -144,13 +145,17 @@ describe('chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut', () 
     expect(frames[0]!.height).toBe(1)
   })
 
-  it('framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)', () => {
+  it('framesToOut 保留三个槽号，并编码为完整1×1不透明索引PNG', () => {
     const buf = makeFakeSpriteChunk(3)
     const out = framesToOut(parseSpriteChunk(buf))
     expect(out).toHaveLength(3)
-    expect(out[0]!.index).toBe(0)
-    expect(out[2]!.index).toBe(2)
-    expect(out[0]!.pngBytes[0]).toBe(0x89) // PNG magic
+    expect(out.map((frame) => frame.index)).toEqual([0, 1, 2])
+    for (const frame of out) {
+      expect([frame.width, frame.height]).toEqual([1, 1])
+      const png = PNG.sync.read(Buffer.from(frame.pngBytes))
+      expect([png.width, png.height]).toEqual([1, 1])
+      expect([...png.data]).toEqual([0xaa, 0xaa, 0xaa, 255])
+    }
   })
 
   it('real DATA.MKF chunk 9 — 71有效帧与SDLPal全部RGBA', () => {
