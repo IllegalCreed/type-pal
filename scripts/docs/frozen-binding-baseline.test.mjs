@@ -16,6 +16,7 @@ import {
   readFrozenBaselineRoot,
 } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
+import { nativeArtifactContracts } from './historical-native-artifact-admission.mjs'
 import { nativeFamilyContracts } from './historical-native-family-admission.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
@@ -206,6 +207,9 @@ test('catalog default1.2 preserves actual complete18-entry old contract and both
     assert.deepEqual(currentMachine.variants[definition.variant], definition)
     delete currentMachine.variants[definition.variant]
   }
+  const artifact = nativeArtifactContracts['test-machine-evidence-v1']
+  assert.deepEqual(currentMachine.variants[artifact.variant], artifact)
+  delete currentMachine.variants[artifact.variant]
   assert.deepEqual(
     currentMachine,
     beforeRegistry.types.find((entry) => entry.templateId === 'test-machine-evidence-v1'),

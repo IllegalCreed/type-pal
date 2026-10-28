@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s62-bulk-dispatch
+Branch: codex/docs-s63-native-bulk-foundation
 Last reviewed: 2026-10-27
 Template: task-card-v1 / 1.0.0
 
@@ -2638,3 +2638,12 @@ Owner6代码差异（两精确准入/接受数据、资格选择与定位字段�
 - GLM下一次授权必须覆盖完整473路径到隔离提交候选及自验，不只交design/content-ready/只读建议。内部批次自主连续，不逐批申请；普通小错误包内修复，真实单篇阻塞精确列出并继续其它。需新公共合同的未知由Owner补前提，不把“等Owner”伪写贡献者完成，也不反复让用户中转。
 - 准入三轴分开：用户范围已批准；公共合同/API/pilot目前未ready；GLM包尚未发出、buildAllowed=false。这个状态来自真实技术前提未齐，不是等待用户许可。Owner先交能直接调用的公共层和就绪指纹后，一次发473最终执行包；届时继承本范围授权，不再逐批问用户。
 - 总包终件需包含473精确完成/blocked集合、固定候选/原生保全、真实model/progress/中央审阅/索引/Testing/lint/diff证据和可只读快检；当前正式接受/Owner grant/真实中央发布仍归Codex。源稿、作者自验、独立接受、实际迁移四阶段分列，进度只按实际接入与严格待办扣减；本S62不减1231/617。全卡rework，不合main、不推送、不done，006不交GLM。
+
+
+## S63 公共原生合同与473执行就绪（2026-10-28）
+
+用户已授权Codex完成公共合同、受控候选writer及完整临时树pilot，然后一次交473份GLM执行包；本轮build allowed。Coding Owner Codex，基点7ffb2b83e；复用S62精确473/135/9清单及S53内容组合。仅scripts/docs工具/新增回归、模板原生变体及设计、父卡/看板/必要行政after级联和既有单份gzip。原生源、135控制语义、9MD正文和已接受迁移不在本轮正文写权限内；旧测试改动须原授权或另行精确许可。
+
+合同先冻结：沿现有template体系，以精确path/carrier字节/Git对象/唯一现有review位置限定历史原生artifact；字段角色和指针见证可复算，原结论、来源unknown/撤信/停止线保留。模型结构通过不授语义；作者候选保持partial/needs，显式Owner接受后才可晋升。GLM可在隔离候选域整包更新473已有review正文及相应route/registry投影，经公共API写入；真实中央发布、grant和135+9由Owner持有。
+
+writer须先验证全量白名单与before，再生成完整组/行政pin依赖闭包，使用活锁、staging、公开loader读回、失败保留和原生字节保护；不新增sidecar/平行账本，不导入带顶层写副作用的生成器。临时完整树验证model/progress/非strict/索引/Testing/lint及定点反例；公共层就绪前不发GLM设计或只读小包。就绪后一个执行提示词覆盖473最终候选，内部批次自主，真实单篇阻塞列明继续其他，不逐批问用户。1231/617以实际门记录，不预扣；不合main、不推送、不标done。

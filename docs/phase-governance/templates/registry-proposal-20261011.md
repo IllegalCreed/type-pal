@@ -582,3 +582,14 @@ S59两1.0.0合同及三pilot已获GLM非作者限定接受；本轮只将原15HT
 接受表按两组精确path/native SHA/内容digest/报告与Owner决定分轴；更改正文自刷digest、借别组报告、残留active claimCorrection均拒。旧撤信逐值入史，不恢复旧执行。正式15路由/registry/现有review的变更由Owner成组试验后写入；不引入sidecar、原生wrapper或重复账本。127控制JSON仍draft；任一全仓必要硬门未过不合main、不推送、不done。
 
 S61中央接线补充：evidence.path是公共review检查必填的行政来源定位，必须严格等于固定HTML path；它不产生新正文语义，不并入已有接受语义digest。原3pilot digest保持字节相同，其余12使用现行partial-semantic深度词表示据证审阅。任意改指向，即使自刷hash也由guard拒绝；新增反例校准。原始DOM/引用、core/oracle/历史及非执行边界继续参与原语义digest。首轮27条元数据错误留原件，补齐字段后复跑，不降词表/门规则。
+
+
+## S63 历史原生artifact通用合同冻结（2026-10-28，Owner Codex）
+
+本补充沿17父类型，增加evidence-receipt/test-machine-evidence/archive-record三个历史artifact-native变体，各自1.0.0；父默认、全部旧变体与historicalSourcePins不改。三种角色不因相同JSON格式合并；贡献者须按内容说明角色，历史原文不可因换模板升格。目的为解释已固定载体并保留其历史结论/机器字段，治理正文复用现有唯一review，不包payload、不新建sidecar。现有DOC-IA-2三件保持原两个合同、原正文接受与两项unverified，不借本合同清除。
+
+必需内容：具体coreConclusion；逐篇来源/真实读域及未读；原生字段角色与可解析指针见证；唯一carrier Git revision/OID/SHA和已有历史source分轴；合法输入仅固定载体；business oracle为历史文档事实且currentExecution=false；依赖/版本/caller/排重；历史/撤信/unknown；停止线与下一步。evidence须保留family、完整根键类型/数组长度形状及原见证，新增见证逐值等于原生指针。Guard拒坏UTF8/重复键、错Git对象、载体改字节、跨path/错唯一review、坏指针/改值、角色与variant不符、运行信用和自行晋升；哈希/形状不证明人工读过或语义充分。
+
+状态：作者候选保持原partial-review-unknown/needs-migration，已有三件已接受内容原样复用；新独立接受、正式grant和实际迁移另轴。不删除原claimCorrection、历史、provenance或source未知，不重认证旧命令与数字。版本/owner/来源/证据/停止线和后继均在唯一review中，原生字段与日期不改。473路径来源与family/shape/见证由精确代码准入冻结，原135控制JSON和9MD不进入贡献者变更域。
+
+writer先验完整before/白名单/不可变字段，允许473内部不重叠批次；同一组锁内staging保护原件及全部引用，route/registry投影与after依赖闭包一起写、公开loader读回后退旧世代并解锁，失败保留锁/backup/staging。公共model、progress、中央非strict和完整临时树pilot为整包派发前提；schema绿不授全文或runtime/E2E/视觉/coverage信用。

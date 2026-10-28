@@ -242,6 +242,14 @@
           "metadataLocation": "existing-current-review",
           "sourceCarrierRevision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
           "lifecycle": "historical"
+        },
+        "historical-evidence-receipt-artifact-native-v1": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "historical-evidence-receipt-artifact-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "purpose": "Explain a fixed historical native artifact without rewriting its machine fields or granting execution credit."
         }
       }
     },
@@ -364,7 +372,17 @@
         "nextStep"
       ],
       "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
-      "format": "markdown"
+      "format": "markdown",
+      "variants": {
+        "historical-archive-record-artifact-native-v1": {
+          "templateId": "archive-record-v1",
+          "variant": "historical-archive-record-artifact-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "purpose": "Explain a fixed historical native artifact without rewriting its machine fields or granting execution credit."
+        }
+      }
     },
     {
       "docType": "test-catalog",
@@ -906,6 +924,14 @@
           "templateVersion": "1.0.0",
           "metadataLocation": "existing-current-review",
           "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
+        },
+        "historical-test-machine-evidence-artifact-native-v1": {
+          "templateId": "test-machine-evidence-v1",
+          "variant": "historical-test-machine-evidence-artifact-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "purpose": "Explain a fixed historical native artifact without rewriting its machine fields or granting execution credit."
         }
       },
       "statusPolicy": {

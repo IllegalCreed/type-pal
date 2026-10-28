@@ -57,7 +57,7 @@ function assertRecordSet(actual, expected, label) {
   for (const [path, record] of expected) equal(actual.get(path), record, `${label}: ${path}`)
 }
 
-function assertAllPins(records, readBuffer) {
+function assertAllPins(records, readBuffer, expectedPins = 2434) {
   let count = 0
   for (const [owner, record] of records)
     for (const row of record.entries) {
@@ -68,7 +68,7 @@ function assertAllPins(records, readBuffer) {
       )
       count++
     }
-  demand(count === 2434, `unexpected after-pin count: ${count}`)
+  demand(count === expectedPins, `unexpected after-pin count: ${count}`)
 }
 
 function assertTopLevelOwners(root, expected) {
@@ -110,7 +110,7 @@ function publicReadback(root, plan) {
   assertRecordSet(group.records, plan.records, 'public staged readback')
   equal(
     group.loadedSource.files.map((x) => x.path).sort(),
-    [...plan.expected.keys()].sort(),
+    [...plan.expected.keys()].filter((p) => p.startsWith(`${reviewDirRelative}/`)).sort(),
     'public physical set',
   )
   for (const [path, pin] of plan.sourcePins)
@@ -118,7 +118,7 @@ function publicReadback(root, plan) {
   const readBuffer = (path) => fileState(root, path, undefined, 'docs/').buffer
   for (const [path, output] of plan.expected)
     demand(readBuffer(path)?.equals(output.bytes), `staged physical bytes differ: ${path}`)
-  assertAllPins(group.records, readBuffer)
+  assertAllPins(group.records, readBuffer, plan.expectedPins)
   assertProtectedNative(readBuffer)
   inspectShardInventory(root, plan.expected)
   assertReviewRecordSourceUnchanged(group.loadedSource)
@@ -132,7 +132,7 @@ function pureReadback(root, plan, inventory) {
   assertRecordSet(records, plan.records, 'locked pure readback')
   for (const [path, output] of plan.expected)
     demand(readBuffer(path)?.equals(output.bytes), `live physical bytes differ: ${path}`)
-  assertAllPins(records, readBuffer)
+  assertAllPins(records, readBuffer, plan.expectedPins)
   assertTopLevelOwners(root, plan.expected)
   assertProtectedNative(readBuffer)
   inspectShardInventory(root, inventory)
@@ -146,15 +146,21 @@ export function prepareCurrentReviewTransaction({
   records,
   outputs,
   retired,
+  sourceProfile = 'legacy-current',
 }) {
   const base = resolve(root)
   demand(/^[a-f\d]{40}$/.test(baseRevision ?? ''), 'full base commit required')
   demand(!process.env.BIOME_BINARY, 'custom formatter not admitted')
+  demand(['legacy-current', 'native-artifact-v1'].includes(sourceProfile), 'unknown source profile')
+  const nativeProfile = sourceProfile === 'native-artifact-v1'
+  const expectedPins = nativeProfile ? 2435 : 2434
   demand(
     group.records.size === 114 &&
       records.size === 114 &&
-      group.loadedSource.files.length === 144 &&
-      group.loadedSource.artifactSet.length === 30,
+      (nativeProfile
+        ? [...group.storages.values()].filter(Boolean).length === 12 &&
+          group.loadedSource.files.length === 114 + group.loadedSource.artifactSet.length
+        : group.loadedSource.files.length === 144 && group.loadedSource.artifactSet.length === 30),
     'exact current group required',
   )
   equal([...records.keys()].sort(), [...group.records.keys()].sort(), 'logical owner set')
@@ -192,7 +198,7 @@ export function prepareCurrentReviewTransaction({
     referenced.add(entry.path)
     readBuffer(entry.path)
   }
-  assertAllPins(group.records, readBuffer)
+  assertAllPins(group.records, readBuffer, expectedPins)
   assertProtectedNative(readBuffer)
   const seen = new Set()
   demand(
@@ -206,9 +212,22 @@ export function prepareCurrentReviewTransaction({
     demand(!seen.has(output.path) && Buffer.isBuffer(output.bytes), 'duplicate/bad output')
     seen.add(output.path)
     demand(
-      output.path.startsWith(`${reviewDirRelative}/`) && output.path.endsWith('.json'),
-      'review-only output required',
+      (output.path.startsWith(`${reviewDirRelative}/`) && output.path.endsWith('.json')) ||
+        (nativeProfile &&
+          output.kind === 'control' &&
+          /^docs\/phase-governance\/(routing|document-registry(?:\.(?:ops|lore|phase1|phase2|phase3|testing|phase-governance))?)\.json$/u.test(
+            output.path,
+          )),
+      'review or exact native-candidate control output required',
     )
+    if (output.kind === 'control') {
+      const before = readBuffer(output.path)
+      const fixed = readGitDocumentSnapshot(base, { revision: baseRevision, path: output.path })
+      demand(
+        fixed?.mode === '100644' && before.equals(fixed.buffer),
+        'control input differs from base',
+      )
+    }
     const old = states.get(output.path) ?? fileState(base, output.path, parents)
     demand(
       output.kind === 'shard' ? !old.buffer : old.buffer,
@@ -230,7 +249,7 @@ export function prepareCurrentReviewTransaction({
   const recordsCopy = new Map([...records].map(([p, v]) => [p, structuredClone(v)]))
   const outputsCopy = outputs.map((o) => ({ ...o, bytes: Buffer.from(o.bytes) }))
   const afterReader = (path) => expected.get(path)?.bytes ?? readBuffer(path)
-  assertAllPins(recordsCopy, afterReader)
+  assertAllPins(recordsCopy, afterReader, expectedPins)
   assertProtectedNative(afterReader)
   assertReviewRecordSourceUnchanged(group.loadedSource)
   assertStates(base, states, parents)
@@ -249,6 +268,7 @@ export function prepareCurrentReviewTransaction({
   }
   capabilities.set(handle, {
     root: base,
+    expectedPins,
     states,
     parents,
     expected,
@@ -339,11 +359,11 @@ export function publishCurrentReviewTransaction(handle, { allowWrite = false } =
       const dest = join(stage, 'install', output.path)
       mkdirSync(dirname(dest), { recursive: true })
       writeFileSync(dest, output.bytes, { flag: 'wx' })
-      checkOrdinaryPath(root, dirname(output.path), 'directory', parents)
+      checkOrdinaryPath(root, dirname(output.path), 'directory', parents, 'docs/')
       mkdirSync(dirname(join(root, output.path)), { recursive: true })
-      checkOrdinaryPath(root, dirname(output.path), 'directory', parents)
+      checkOrdinaryPath(root, dirname(output.path), 'directory', parents, 'docs/')
       renameSync(dest, join(root, output.path))
-      states.set(output.path, fileState(root, output.path, parents))
+      states.set(output.path, fileState(root, output.path, parents, 'docs/'))
       if (output.kind === 'shard') liveInventory.set(output.path, output)
       recovery.written.push(output.path)
       save()
@@ -404,7 +424,7 @@ export function publishCurrentReviewTransaction(handle, { allowWrite = false } =
     finalPhysicalFiles: expected.size,
     finalManifests: plan.sourcePins.size,
     finalShards: [...expected.values()].filter((o) => o.kind === 'shard').length,
-    allAfterPinsExact: 2434,
+    allAfterPinsExact: plan.expectedPins,
     protectedNative: 302,
     creditGranted: 0,
     lockReleased: true,

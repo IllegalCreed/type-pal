@@ -23,7 +23,7 @@ const demand = (condition, message) => {
   if (!condition) throw new Error(`review-record-storage-packing: ${message}`)
 }
 export const biomeFormat = (value, path, context) => {
-  const input = `${JSON.stringify(value, null, 2)}\n`
+  const input = `${JSON.stringify(value, null, 2).replaceAll('\u26a0', '\\u26a0')}\n`
   demand(Buffer.byteLength(input) < reviewStorageFlatCap, `unformatted file reaches 1 MiB: ${path}`)
   if (context.format) return Buffer.from(context.format(input, path), 'utf8')
   // A regular-file stdin gives the nested Biome launcher an unambiguous EOF;

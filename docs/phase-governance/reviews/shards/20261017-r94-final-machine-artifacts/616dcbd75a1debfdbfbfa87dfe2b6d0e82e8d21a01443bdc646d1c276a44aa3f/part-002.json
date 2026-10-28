@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "66def1a42dbccc616a95ee5d990f73b72aff88efae66dce0ccb2714dfea41f5d",
+  "generation": "616dcbd75a1debfdbfbfa87dfe2b6d0e82e8d21a01443bdc646d1c276a44aa3f",
   "key": "part-002",
   "positions": [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -5264,7 +5264,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "f543589a69491ec089c4b91e15c6739784fab0d0cab22455d23c2216904def2a",
+      "afterSha256": "1c21a3616ed1d3c4a2d488e9283193ccb91445ec04e3f2e85023a37fde3f60e3",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6383,6 +6383,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
             "index": 33,
             "entryCanonicalSha256": "2d925d778db0ce2a18ad10cd5ae57e7de1f39c5ea2bf2e756958ede237a51a4e"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S63/foundation",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "beforeSha256": "f543589a69491ec089c4b91e15c6739784fab0d0cab22455d23c2216904def2a",
+          "afterSha256": "1c21a3616ed1d3c4a2d488e9283193ccb91445ec04e3f2e85023a37fde3f60e3",
+          "scope": "S63 frozen common contracts, writer and author pilot foundations only; no source/status grants",
+          "priorRecord": {
+            "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 33,
+            "entryCanonicalSha256": "998564be119faa24a80e5fa15d13101dafaddea20bc4fa12eae79c5c00dd06c3"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
