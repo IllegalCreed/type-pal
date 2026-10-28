@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "9a0b099df26478097130f17a4b593e4a17fc170dadb48bfe141dd88336d8f05d",
+  "generation": "f09188b6066196f2b13d3b545e812fd0977e681e14a5f379e64ba800954fb773",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
   "entries": [
@@ -2414,7 +2414,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "ee11efe75cf2ecf865a017884e33a226d9942beff2034b4350a39214baa1f79e",
+      "afterSha256": "dd3173ff8ef52a3861732228da980a7d4cc46e68e5e5f4f1cac613034dd6493a",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -3547,6 +3547,23 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S64/evidence-acceptance-and-owner-corrections",
+          "revision": "039b1740a781db2914e74171e09312affbce7ca8",
+          "beforeSha256": "ee11efe75cf2ecf865a017884e33a226d9942beff2034b4350a39214baa1f79e",
+          "afterSha256": "dd3173ff8ef52a3861732228da980a7d4cc46e68e5e5f4f1cac613034dd6493a",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "039b1740a781db2914e74171e09312affbce7ca8",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 7,
+            "entryCanonicalSha256": "a7da2dcf0d876c33b5e9b0da60c5cd4c1eff3758a46f85b115635ec328f68e7a"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

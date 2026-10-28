@@ -6,8 +6,8 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s63-native-bulk-foundation
-Last reviewed: 2026-10-27
+Branch: codex/docs-s64-owner-intake
+Last reviewed: 2026-10-28
 Template: task-card-v1 / 1.0.0
 
 > 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
@@ -2662,3 +2662,14 @@ writer须先验证全量白名单与before，再生成完整组/行政pin依赖�
 S64 build allowed一次覆盖473最终隔离提交候选。GLM在同一委托先非作者定向复核S63公共层，accept后直接继续473作者实施，不中途回交只读/设计/content-ready。具体正确稿复用，逐篇核core/数值/失败与pending集合/类型/字段角色/真实读域并补可解析见证；六pilot复用不重复授信。内部自主分批、自验提交后连续做；真实单篇事实或活控制权冲突精准blocked并继续其余，不因旧needs-design标签停止整包。
 
 授权GLM仅在专属worktree经公共API生成现有review、routing/registry机械投影及after闭包；135控制件权威语义、9MD、代码/接受表/模板/原生/产品/旧测试/coverage只读，真实中央/grant仍Codex持有。终件包含实际base/candidate、473完成/blocked集合、S63非作者报告与S64作者交付分列、真实完整回执及只读快检。partial/needs与1231只在Owner真实接受后扣；七退役提案保留不删。公共层技术就绪，新ADMISSION派发，S62未派出原件不覆盖。
+
+
+## S64 473作者候选据证裁定与Owner十一条定点纠错（2026-10-28）
+
+原作者GLM候选9c751652b3a3269e5c90e6d2490ed48d8e6073ec（基点4b4a8f62）经真实Git身份、固定源字节、原生合同、现有review位置与全量after闭包核验：473=467正文变化+6专用pilot原样复用，114逻辑/155物理/41片/12源pin/2435 after全部精确，27行政行、1935其余行保全。三份作者语义原件恰160+160+153、443 match/30 mismatch；这只记录作者逐篇核对，不冒充Codex再次全文审阅。
+
+Codex按document-delivery-acceptance/1.0.0审交付/逐篇记录与修正差异，并对12个不同族条目定向核具体原生字段、失败身份、计数和历史边界。其余462条证据接收，11条需要当前结论纠错：A-G资源波仍留错误unproven范围；TB-05九针被换成另一组虚构简称；两个CI scope把数值/布尔混称；BHTR引文双单引号；CDN同任务错句与追加勘误并存；pilot保全件仍错借protocol字段；四条CS结论被截断而错误标match。只关闭有依据的claim，不因包绿整批恢复信用。
+
+用户已授权小修由Owner直接处理。Codex在codex/docs-s64-owner-intake从9c冻结候选追加十一条修正，039b1740a781db2914e74171e09312affbce7ca8仅改现有review与必要after级联；真实公共writer为11目标31写/23旧片退出，零原生/代码/旧测试修改。补齐准确七批与未证项、九针完整原名、混合scope、六条精确标记、两刷新任务分界、保全件七键，以及CS审计18/46件、6/17针、81/80多重集与异执行集反例；来源未知、旧撤信与完整历史前缀全部保留。作者自验不代签，这11条由GLM只读非作者复核增量；不要求重新治理其余462或整包473。
+
+所有473在当前canonical维持原partial/needs（DOC-IA三条既有content-reviewed除外），接受表仍空，0新review/迁移/runtime信用。此前作者check:docs原始结果为296工具通过、strict1231退出1，不能简写成整门通过或归为006日期错误；stderr恰1231严格待办，无其它诊断。617=473本包+135控制JSON+9MD，当前待办不预扣；212早已在S56/S57接入不重复计数。最终质量门以本次终态真实回执为准，完整结果与十一条before→after只封存到既有s22-validation.log.gz，不新增第二套canonical账本。全卡仍rework；不合main、不推送、不done。下一步仅复核Owner十一条增量，随后Owner一次统一授信/中央接入并据门实减。
