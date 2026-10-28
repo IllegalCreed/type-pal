@@ -7,6 +7,24 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-10-28 remaining200 recheck + standing precise-dedup authority.
+    // Exact snapshots/contracts: QUALITY-RECENT-200-CONTENT-AUDIT-2/retirement-recount.json.
+    {
+      file: 'packages/content/src/small-guards.glm-o.test.ts',
+      previous: 14,
+      current: 10,
+      previousIdentityDigest: '68e8c56944d37d059494514cd15dc07de4f3805c16cc665312dc6e0b2a2fc367',
+      currentIdentityDigest: '27b134b1bfa277e3e92022c145b9bde90bb7813d8d2fc79f7b28d79e6347ac5d',
+      fileSha256: '5e48a098a1e2e62b10f1a7346e64ee0ea40ba05c9c30869bd6aca4c2cf40d8a8',
+    },
+    {
+      file: 'packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts',
+      previous: 6,
+      current: 5,
+      previousIdentityDigest: 'b1d7fda90c903b5b8440c70629e695c67f71f06a03c2e0bc8b80880d9b263c28',
+      currentIdentityDigest: 'a48af0663a3832eb57dceca95c8d5a0d05e5379f841ca97473a9dc7553fd9445',
+      fileSha256: '4645cfabba700611e2c481e03ebdbefc5e02e1b64657ba8013a70e5fa994559d',
+    },
     // User2026-10-28: second 100-file quality window; exact deduplication snapshots.
     // Contracts and native identity provenance: QUALITY-PENDING-100-2/uniform/recount.json.
     {
@@ -27,11 +45,11 @@ export const approvedTestRetirements = Object.freeze(
     },
     {
       file: 'packages/content/src/map-index.contracts.test.ts',
-      previous: 15,
-      current: 8,
-      previousIdentityDigest: 'b7aaaaa3ecb035608746e763deb4c5a8e6da486309c9d283b012a264e4d7b90b',
-      currentIdentityDigest: '4a91bda677af06f5dd5754baa005b4dc555fce8247bf290b4f2016a7d0e26092',
-      fileSha256: '953969b3d583d0a433d686b3f126193de404a18698ba5a7640dbbcdae927d624',
+      previous: 8,
+      current: 6,
+      previousIdentityDigest: '4a91bda677af06f5dd5754baa005b4dc555fce8247bf290b4f2016a7d0e26092',
+      currentIdentityDigest: 'f078f7801ad6378be7561b8bac461fe9e4bb15053aa5ece0b3a506ecaff718a4',
+      fileSha256: '56b758fc152ac41c936fd09db89e90532067e83d644f2c0f9b08635cf9605891',
     },
     {
       file: 'packages/content/src/map-index.residual.test.ts',

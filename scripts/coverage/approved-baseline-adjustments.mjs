@@ -5,6 +5,119 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'recent200-owned-definitions-path-extraction-20261028',
+    authority:
+      'User2026-10-28 requests full remaining200 recheck; standing explicit authorization permits justified exact baseline adjustments after quality refactors, never weak tests/dead code restoration. Content-only recount: two fully covered duplicate path policies share one internal14-branch policy; preserve public wrappers/errors. Statement -10/-10, branch -11/-10, line -8/-8. Added shop guard is fully covered; locale own-key guard adds2 branches, with3/4 covered: inner nullish fallback for an owned undefined value is outside legal Locale string inputs; do not fabricate an invalid typed fixture. Retain old function floor812/827 so the actual813/828 gain stays real. Other six package floors remain unchanged. Full main artifact member versus current per-file report has exactly five deltas, archived untrimmed with pinned CI artifact source. No runner/comparator/selection/threshold/deadline/ignore changes.',
+    evidence: 'docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/coverage-recount.json',
+    baselineSha256: '6fe5297747ce54c3902809f704c03d5f1044c510bc30ab9949692feaa74b4f8c',
+    sources: [
+      {
+        path: 'packages/content/src/locale.ts',
+        sha256: '16aa937f2dece69d1fd7d58a5c738ce9a360f1e7529154629d45903426d62275',
+      },
+      {
+        path: 'packages/content/src/map-index.ts',
+        sha256: '565841f541e3e7cb9f4424622835c813024337aa53e31e7ca69f0a73c9510f4c',
+      },
+      {
+        path: 'packages/content/src/project-json-path.ts',
+        sha256: 'ff6ab6db271e923d87071a7929afba2997d3ec329fa026da042c0b52b40e22f1',
+      },
+      {
+        path: 'packages/content/src/scene-index.ts',
+        sha256: '0c02defd836dc8e6fc37ab9fae73e6b66cf061b7805477359257166468d05ee9',
+      },
+      {
+        path: 'packages/content/src/shop.ts',
+        sha256: '01ba2f28e378b10b00e35a12e48509dab8f292a67c637fd70b5617063dd11121',
+      },
+      {
+        path: 'packages/content/src/locale.test.ts',
+        sha256: 'afd2d9c36d4b7b4f8ef10b09ae59f4a3413a0906e8260c7d48d1391db37799c7',
+      },
+      {
+        path: 'packages/content/src/shop.test.ts',
+        sha256: '1fe3e993e5dce21fbeda7c8521641cb800bcee802f790e46b9af3b5834fc543b',
+      },
+      {
+        path: 'packages/content/src/map-index.contracts.test.ts',
+        sha256: '56b758fc152ac41c936fd09db89e90532067e83d644f2c0f9b08635cf9605891',
+      },
+      {
+        path: 'packages/content/src/scene-index.boundaries.test.ts',
+        sha256: '5224a6f1a468b8bf7740c692f106730b74c73062432f8d0c57c0b3a9bc6438d3',
+      },
+      {
+        path: 'packages/content/src/tileset.test.ts',
+        sha256: 'a6c691b0f9fcbad80683c344319ee0cf0a724f858cd8056208204541abc41e6f',
+      },
+      {
+        path: 'scripts/coverage/run.mjs',
+        sha256: '87c5e8049444e8d5b6195b5d01ced2061420f04ed9a572a7e8f80f9b67a29d45',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: '9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35',
+      },
+      {
+        path: 'scripts/coverage/metrics.mjs',
+        sha256: '5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74',
+      },
+      {
+        path: 'scripts/coverage/inventory.mjs',
+        sha256: '8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2',
+      },
+      {
+        path: 'scripts/coverage/protected-baseline.mjs',
+        sha256: 'a36a3150baa4350fa5ce48d5b676071a1543aa85b32748ef7760b0522ca2f3c2',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.mjs',
+        sha256: '49b54478478b0ca1f1af953b0572d7086be8ec40932df1b1290bfbb254bd5a41',
+      },
+    ],
+    packages: {
+      content: {
+        before: {
+          statements: {
+            covered: 5671,
+            total: 5879,
+          },
+          branches: {
+            covered: 4835,
+            total: 5135,
+          },
+          functions: {
+            covered: 812,
+            total: 827,
+          },
+          lines: {
+            covered: 5063,
+            total: 5200,
+          },
+        },
+        after: {
+          statements: {
+            covered: 5661,
+            total: 5869,
+          },
+          branches: {
+            covered: 4824,
+            total: 5125,
+          },
+          functions: {
+            covered: 812,
+            total: 827,
+          },
+          lines: {
+            covered: 5055,
+            total: 5192,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'quality-window100-exact-test-migration-20261027',
     authority:
       'User2026-10-27 explicitly approved three unused extractor APIs retirement and test migration; standing instructions permit justified exact baseline adjustment after code/test quality improvements, never dead code restoration or weak tests. Only pal-extract branch floor changes673/796→661/790:12 removed covered branches (6 from retired adapters,6 from stronger legally parsed inputs/test transfers into existing fast-excluded files),6total branches removed. Keep4 real animation-writer branch gains. Other metrics and six packages retain old floors. Ten per-file deltas and six exact test-retirement identities are independently pinned; one official collection reused. No runner, comparator, selection, predicate, threshold, timeout or ignore changes.',
