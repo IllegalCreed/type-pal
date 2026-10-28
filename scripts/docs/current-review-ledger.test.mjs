@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -6,6 +7,7 @@ import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import {
+  currentReviewLedgerBaseline,
   currentReviewLedgerContract,
   currentReviewLedgerPilots,
 } from './current-review-ledger-admission.mjs'
@@ -36,8 +38,17 @@ function fixture(t) {
       Buffer.isBuffer(value) ? value : `${JSON.stringify(value, null, 2)}\n`,
     )
   }
-  for (const item of initial.loadedSource.files)
-    write(item.path, readFileSync(join(root, item.path)))
+  // Isolate the original partial/flat test input from legitimate future publication.
+  const fixturePaths = execFileSync(
+    'git',
+    ['ls-tree', '-r', '--name-only', currentReviewLedgerBaseline, 'docs/phase-governance/reviews'],
+    { cwd: root, encoding: 'utf8' },
+  )
+    .trim()
+    .split('\n')
+    .filter((p) => p.endsWith('.json'))
+  for (const path of fixturePaths)
+    write(path, source({ path, revision: currentReviewLedgerBaseline }).buffer)
   const readBuffer = (p) => readFileSync(join(directory, p))
   const rows = new Map()
   for (const binding of currentReviewLedgerPilots) {

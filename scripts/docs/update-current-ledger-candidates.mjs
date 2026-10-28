@@ -43,8 +43,8 @@ export function runCurrentLedgerCandidate(argv) {
           mode: 'dry-run',
           targets: handle.targets,
           creditGranted: 0,
-          plannedWrites: handle.transaction.writes,
-          plannedRetirements: handle.transaction.retirements,
+          plannedWrites: handle.transaction.outputs.length,
+          plannedRetirements: handle.transaction.retired.length,
         }
   console.log(JSON.stringify(result))
   return result

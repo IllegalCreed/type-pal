@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { ledgerIdentity } from './current-review-ledger.mjs'
+import { currentLedgerTransfers, ledgerIdentity } from './current-review-ledger.mjs'
 import {
   currentReviewLedgerAdmissions,
   currentReviewLedgerBaseline,
@@ -168,4 +168,34 @@ test('the single R93 storage upgrade resolves its exact pre-upgrade flat Git sou
     headerSha256: binding.headerSha256,
     membershipSha256: binding.membershipSha256,
   })
+})
+
+test('all20 transfer subjects resolve exact old Git members and unique current destinations', () => {
+  let subjects = 0
+  for (const b of currentReviewLedgerAdmissions) {
+    const native = record(b.path)
+    for (const transfer of currentLedgerTransfers(native)) {
+      const pin = transfer.completePrior,
+        source = readGitDocumentSnapshot(root, pin)
+      assert.equal(source.gitObject, pin.gitObject)
+      assert.equal(createHash('sha256').update(source.buffer).digest('hex'), pin.fileSha256)
+      assert.equal(
+        JSON.parse(source.buffer).entries.filter((e) => e.path === transfer.path).length,
+        1,
+      )
+      assert.equal(pin.selector['entries.path'], transfer.path)
+      assert.equal(pin.selector.uniqueMatches, 1)
+      assert.equal(
+        record(transfer.destination).entries.filter((e) => e.path === transfer.path).length,
+        1,
+      )
+      assert.equal(native.entries.filter((e) => e.path === transfer.path).length, 0)
+      subjects++
+    }
+  }
+  assert.equal(subjects, 20)
+  assert.throws(
+    () => currentLedgerTransfers({ currentRecordTransfers: [{ subjects: [], path: 'mixed' }] }),
+    /ambiguous/u,
+  )
 })

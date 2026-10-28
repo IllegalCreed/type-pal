@@ -32,6 +32,25 @@ export function ledgerIdentity(record) {
   }
 }
 
+/** Existing grouped lore transfers and single-subject phase transfers have the same identity proof. */
+export function currentLedgerTransfers(record) {
+  return (record.currentRecordTransfers ?? []).flatMap((transfer) => {
+    if (transfer.subjects === undefined) return [transfer]
+    if (
+      !Array.isArray(transfer.subjects) ||
+      transfer.subjects.length === 0 ||
+      transfer.path !== undefined ||
+      transfer.completePrior !== undefined
+    )
+      throw new Error('ambiguous grouped historical transfer')
+    return transfer.subjects.map((subject) => ({
+      path: subject.path,
+      destination: transfer.destination,
+      completePrior: subject.completeOriginalCurrent,
+    }))
+  })
+}
+
 /** Validates ledger ownership and history; never accepts its child document claims. */
 export function currentReviewLedgerIssues(doc, template, contract, read, options = {}) {
   const binding = currentReviewLedgerAdmissions.find((entry) => entry.path === doc.path)
@@ -154,7 +173,7 @@ export function currentReviewLedgerIssues(doc, template, contract, read, options
       row.evidence.childSemanticAcceptanceGranted !== false
     )
       throw new Error('current ledger integrity must not grant child semantics or execution credit')
-    for (const transfer of live.currentRecordTransfers ?? []) {
+    for (const transfer of currentLedgerTransfers(live)) {
       const prior = transfer.completePrior
       const source = options.readSourceBuffer({ path: prior?.path, revision: prior?.revision })
       if (
