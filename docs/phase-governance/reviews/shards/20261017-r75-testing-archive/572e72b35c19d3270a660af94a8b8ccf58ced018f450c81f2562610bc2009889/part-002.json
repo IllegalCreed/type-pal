@@ -1,0 +1,2872 @@
+{
+  "schemaVersion": 1,
+  "logicalPath": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+  "generation": "572e72b35c19d3270a660af94a8b8ccf58ced018f450c81f2562610bc2009889",
+  "key": "part-002",
+  "positions": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49],
+  "entries": [
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-I/evidence/vitest-new-tests.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/test-machine-evidence.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Accepted S26 reused: 本篇原生字节逐字段+逐断言程序核读（9 文件/40 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行; S29 additional domain: none; declared program/family composition only; Codex independent evidence/risk acceptance plus GLM-accepted Owner corrections. Qualified document review; no manual269deep review or historical rerun.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "legacy batches 历史测试记录（导航壳 README：目录内容 historical，不授当前执行信用；源 SHA/caller/oracle/排重登记于 legacy-full-closeout-plan.json 收口账）；登记账：legacy-full-closeout-plan.json（../../../migrations/ 收口账）。本篇为 green-run 相位：40 断言全绿（success=True）；相位由断言身份与同卡 producer 链共同定位。本篇差异：40 断言全绿对照；分轴：passed=40/failed=0/pending=0；numTotalTestSuites=27 为 Vitest 层级计数非文件数。本稿仅治理该历史文档的内容与适用范围：固定原生字节零改写、不重跑原执行、不认证原针/产品质量。\nS29逐篇补充（已接受Owner勘误后）：vitest-new-tests.json 的独有观察：9 文件/40 断言全绿（passed=40/failed=0/pending+skipped+todo=0），在本族中承担对照锚角色；相位差异：green-run——绿运行为常规对照/回放：断言全绿且 success=true，但 Vitest success 聚合不等于 exit0/零诊断（fieldRoles.identity 已登记该边界）。；本篇 counter 特异：numTotalTestSuites=27 为 Vitest 套件层级计数，≠文件数 9，不得互替。\n历史边界：族边界：legacy batches 导航壳 README 声明目录内容 historical，不授当前执行信用；源 SHA/caller/oracle/排重登记于 legacy-full-closeout-plan.json 收口账。旧结论适用面：仅按本篇冻结相位和本族实际裁决解释历史记录；不恢复现行合同或授当前runtime/E2E/coverage/迁移信用。B5/B10撤回仅适用于TEST-EDITOR-ALCHEMY-BOUNDARIES-1，不能归到其他卡族；本篇精确相位见runPhase。排重边界：同目录载体计数比较不证明执行互斥或测试排重，跨目录未审=unknown（Owner 补丁后的 dedupe.result 已按此口径）。字段复用：S26 修正稿（含 Owner 207 项计数补丁与 B5/B10 两项 README:29 裁决锚追加）的 coreConclusion/readDomain/nativeWitnesses/businessOracle/dedupe/contextReferences/phaseBasis 原样复用；本轮新增：nativeResults 机器集合按固定算法重取、fieldRoles.governance 由硬编码 r85 改为本篇实际 review 行显式绑定、本条 assessment；无新增人工读域（supplementedReadDomain 为空）。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-I/evidence/vitest-new-tests.json (33cc frozen native bytes)",
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-I/evidence/README.md:8-8"
+      ],
+      "unresolved": [
+        "Historical runtime and original producer execution are not rerun/authenticated; product/counterproof validity follows cited family decisions. Cross-family unknown dedupe remains unknown."
+      ],
+      "nextStep": "Controlled central publication; non-author result review remains required. Keep native bytes, withdrawal boundaries and existing current review location; subsequent content/context changes invalidate affected claims.",
+      "phase": "testing",
+      "module": "archive",
+      "capability": "docs/testing/archive/legacy/batches/glm-new-waves/wave-I/evidence/vitest-new-tests.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        "S29 accepted S26/S29 GLM source/delta reused; Codex independently risk-reviewed content and GLM independently accepted Codex bounded corrections; publication authored by Codex awaiting result review."
+      ],
+      "sourceSha256": "a3ba9b05b152b4d1d299cf10e71ca987cda8337505297d8474cac3a44b92b34b",
+      "afterSha256": "a3ba9b05b152b4d1d299cf10e71ca987cda8337505297d8474cac3a44b92b34b",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-new-waves/wave-I/evidence/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json",
+        "scripts/docs/check-document-model.mjs",
+        "scripts/docs/check-content-review.mjs",
+        "scripts/docs/report-governance-progress.mjs"
+      ],
+      "legalInputs": [
+        "固定原生字节（清单 pin）",
+        "原始测试合法输入未载于报告=未载/未重验，不作本轮 oracle"
+      ],
+      "businessOracle": {
+        "type": "historical-vitest-native-preservation",
+        "assertions": [
+          "分轴：passed=40/failed=0/pending=0；逐断言重算与 num* 一致",
+          "零失败零跳过：40 断言全部 passed",
+          "numTotalTestSuites=27 层级计数原值保留（≠文件数 9）",
+          "before=after=清单 SHA：原生字节零改写"
+        ]
+      },
+      "dedupe": {
+        "result": "同目录载体计数比较：c2-baseline.json（4断言/0红/0pending）；counter-bogus.json（2断言/0红/2pending）；counter1-mixed.json（4断言/1红/0pending）。这些计数不证明重复或执行互斥；跨目录比较未审，排重结论unknown。",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-new-waves/wave-I/evidence/c2-baseline.json",
+          "docs/testing/archive/legacy/batches/glm-new-waves/wave-I/evidence/counter-bogus.json",
+          "docs/testing/archive/legacy/batches/glm-new-waves/wave-I/evidence/counter1-mixed.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "a3ba9b05b152b4d1d299cf10e71ca987cda8337505297d8474cac3a44b92b34b",
+        "implementationSha": "a3ba9b05b152b4d1d299cf10e71ca987cda8337505297d8474cac3a44b92b34b",
+        "history": [
+          {
+            "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "record": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+            "index": 36,
+            "beforeEntrySha256": "aed0e3f168f6d40818b484c361e049782316637fe226729cb1fb408c81b62177",
+            "previousCurrentSha": "a3ba9b05b152b4d1d299cf10e71ca987cda8337505297d8474cac3a44b92b34b",
+            "previousSourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+            "action": "Qualified S29 native document migration; original source/current pins explicitly reconciled to fixed33cc bytes. Old record remains in fixedGit."
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-vitest-cohort",
+        "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-I/evidence/vitest-new-tests.json",
+        "byteStable": true,
+        "nativeResults": {
+          "files": 9,
+          "counters": {
+            "numTotalTestSuites": 27,
+            "numPassedTestSuites": 27,
+            "numFailedTestSuites": 0,
+            "numPendingTestSuites": 0,
+            "numTotalTests": 40,
+            "numPassedTests": 40,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0
+          },
+          "assertionStatuses": {
+            "passed": 40
+          },
+          "failedAssertions": [],
+          "pendingAssertions": []
+        },
+        "currentAudit": {
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        "qualification": "Qualified historical-document acceptance; no historical/current execution authentication.",
+        "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+        "ownerCorrectionsSha256": "78fb0b7320152a45d9a7d89f95fe9658bda50f5b657585c951a15f8c6a3ed73f"
+      },
+      "history": [
+        {
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R75 testing archive governance",
+          "reviewer": "r75_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "New per-document S29 evidence acceptance, not restoration of unsupported oldreview.",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "priorEvidenceKind": "machine-artifact-envelope",
+          "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+          "contentReviewStatus": "content-reviewed",
+          "templateCompliance": "template-compliant",
+          "notRun": ["historical tests", "runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy testing archive presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "本次仅授历史文档内容审阅与原生模板迁移；不认证原测试/反控/fixture/候选执行，不恢复B5/B10或其它后继撤回信用，不授runtime/E2E/视觉/coverage。来源稿停止线（S26时点）：不把历史运行结果当合法输入；不重跑原测试/原针；不授当前 runtime/E2E/视觉/coverage 或迁移完成信用；撤回针的历史边界不因本稿恢复。",
+      "userVisibleBeforeAfter": "原生JSON字节保持；旧机械撤信条目改为既有唯一review内的具体字段/结果全集/相位/来源/限制；新增文档信用不恢复历史执行信用。",
+      "reviewedLines": "本篇原生字节逐字段+逐断言程序核读（9 文件/40 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json-native",
+      "documentStatus": "historical",
+      "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "candidateSha256": "a3ba9b05b152b4d1d299cf10e71ca987cda8337505297d8474cac3a44b92b34b",
+      "primarySource": [
+        {
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-I/evidence/vitest-new-tests.json",
+          "gitObject": "f154315689c924b3eb40ad8b77b91bfce9593b0f",
+          "sha256": "a3ba9b05b152b4d1d299cf10e71ca987cda8337505297d8474cac3a44b92b34b"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+        "date": "2026-10-17",
+        "validity": "historical",
+        "runPhase": "green-run",
+        "documentReviewDate": "2026-10-23",
+        "historicalExecutionReexecuted": false
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R75-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R75-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "templateVariant": "historical-vitest-native-v1",
+      "readDomain": {
+        "actual": "本篇原生字节逐字段+逐断言程序核读（9 文件/40 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
+        "reusedFrom": [],
+        "s29Supplement": [],
+        "ownerAcceptance": "Evidence/risk review of accepted seed and family-specific delta; not repeat full manual reading."
+      },
+      "nativeWitnesses": [
+        {
+          "pointer": "#/testResults/0/assertionResults/0/fullName",
+          "quote": "setupDevPanel 显式控制与释放(DEV-only debug overlay) B(explore)开 pi",
+          "meaning": "首断言身份锚（套件：setupDevPanel 显式控制与释放(DEV-only debug overlay)）——锚定实际断言集"
+        },
+        {
+          "pointer": "#/numTotalTests",
+          "quote": "40",
+          "meaning": "总断言计数 40 与逐断言枚举 40 交叉"
+        },
+        {
+          "pointer": "#/startTime",
+          "quote": "1790648274027",
+          "meaning": "运行时间身份锚"
+        }
+      ],
+      "contextReferences": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-I/evidence/README.md",
+          "sha256": "ccee56fdd71fbae641f258c16bdf3d085f91b80d0bd678df50209d0479cc145a",
+          "role": "卡族上下文锚（LEGACY）：支撑本篇相位/producer/边界判断的 README 实文行",
+          "quote": "本页是 legacy `batches/glm-new-waves/wave-I/evidence` 目录的当前导航壳：目录内材料为历史测试记录，不提供当前 runtime、E2E 或 coverage 结论；各文件源 SHA、caller、oracle、排重与停止线登记于[全量收口决策账](../../../../../migrations/legacy-full-closeout-plan.json)。",
+          "lines": [8, 8]
+        }
+      ],
+      "fieldRoles": {
+        "identity": [
+          "snapshot：运行快照身份",
+          "startTime：启动时间",
+          "success：聚合布尔（≠exit0/零诊断）"
+        ],
+        "inputs": [
+          "testResults[].name：9 个受测文件（该次运行输入域）",
+          "assertionResults[].fullName/ancestorTitles：断言/套件身份"
+        ],
+        "results": [
+          "num* 八计数（分轴：p40/f0/pend0/todo0）",
+          "assertionResults[].status：逐断言结果"
+        ],
+        "diagnostics": ["零失败零跳过：诊断空集为该相位事实"],
+        "governance": [
+          "current-review: docs/phase-governance/reviews/20261017-r75-testing-archive.json, index=36; no payload/sidecar or native byte changes.",
+          "卡族裁决/撤回边界：legacy-full-closeout-plan.json（../../../migrations/ 收口账）"
+        ]
+      },
+      "currentQualification": {
+        "date": "2026-10-23",
+        "reviewer": "Codex (independent GLM document evidence); GLM (independent Codex corrections)",
+        "nonAuthorReviewer": true,
+        "decision": "accept",
+        "grantsNewSemanticAcceptance": true,
+        "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-I/evidence/vitest-new-tests.json",
+        "evidenceSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+        "sourceCandidate": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
+        "correctionVerdictSha256": "58d4c64442b1c8b4a07da24bd7bc4a9d6bb4fb39a4895a013c07db3ec16a21ed",
+        "scope": "New historical-document review only; not oldR-wave credit restoration, not publication self-acceptance or runtime credit."
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-J/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM per-document full-reading claims in original batches and r0, supported by specific source conclusions; author per-row timestamps/placeholder commits are not authenticated; Codex evidence-led identity/preservation/diff audit, concentrated template/r0/navigation risk checks. Codex did not repeat full365 source reading.",
+      "coreConclusion": "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账（原文无条目链接，条目由实际目录清点补入可见层）；无执行结论本体",
+      "truthAnchors": [
+        "sourceRevision 64bd3b936eb8",
+        "sourceSha256 ee927467d45ba016…",
+        "条目 0 个全部实存"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "testing",
+      "owner": "GLM S17 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-J/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "ee927467d45ba0168b51d6bc4d3482d893ff8a67c39f8f022710a9c20dca7cf6",
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-J/README.md",
+          "revision": "c45c31dccbc70afcd43180b2b7d84a72e2a11407",
+          "sha256": "8dbf8b630254a96db6e6d9ea7d5dbea5cbedb51b3616dd84f57fafddc3447fce",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
+      },
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "versionScope": {
+        "candidateCommit": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "sourceRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "current",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-J/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "ee927467d45ba0168b51d6bc4d3482d893ff8a67c39f8f022710a9c20dca7cf6",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账（原文无条目链接，条目由实际目录清点补入可见层）；无执行结论本体",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r75-testing-archive.json", "DOCS-FULL-TEMPLATE-1 prior S17 counters"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S17 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
+      "revision": {
+        "currentSha": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S17 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+            "beforeSha256": "8dbf8b630254a96db6e6d9ea7d5dbea5cbedb51b3616dd84f57fafddc3447fce",
+            "afterSha256": "5bebc9239617c3a2e47d9292288703cd5b4300976cefdcfa4cebb3187a574ecc"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S17-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+          "encoding": "gzip",
+          "payloadSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+          "payloadBytes": 1373338,
+          "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+          "storedBytes": 196296,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S17-manual-delivery",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "241 fixed individual S17 body/template decisions, including62 explicitly recorded Owner minor repairs;124 author-body counters remain; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S17 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with original failures, metadata caveats, concrete counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S17-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "5bebc9239617c3a2e47d9292288703cd5b4300976cefdcfa4cebb3187a574ecc",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S17 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r75-testing-archive.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-J/README.md",
+          "reviewRecord": "20261017-r75-testing-archive.json",
+          "revision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "ee927467d45ba0168b51d6bc4d3482d893ff8a67c39f8f022710a9c20dca7cf6",
+      "afterSha256": "5bebc9239617c3a2e47d9292288703cd5b4300976cefdcfa4cebb3187a574ecc",
+      "sourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
+      "beforeAfter": {
+        "beforeSha256": "8dbf8b630254a96db6e6d9ea7d5dbea5cbedb51b3616dd84f57fafddc3447fce",
+        "afterSha256": "5bebc9239617c3a2e47d9292288703cd5b4300976cefdcfa4cebb3187a574ecc",
+        "summary": "Specific S17 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 272,
+        "inverseBytes": 273,
+        "scope": "Only one exact unquoted separator LF excluded; direct inverse is not source equal. No trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All365 fixed scope/source/before/after/quote/inverse machine checks; all per-path identity/conclusion/intended-template mappings checked mechanically, representative concrete conclusions read; all153 navigation entry sets checked (legacy directory→README normalized). Ten focused head/quote/source/domain checks: archive root, one stub, Cursor final review, state-commands integration, D2 owners/r0 witness, runtime shell/r0 witness, large-domain plan, frame-animation design, simulator r2 design, coverage gate historical stats. No Owner full365 source reread.",
+      "authorActualReadRecord": {
+        "readDomain": "源全文逐行实读（272B，导航模板正文：标题+固定声明句+收口账链接）；3 组批量 cat 实读+逐字节模板校验",
+        "anchors": [
+          "sourceRevision 64bd3b936eb8",
+          "sourceSha256 ee927467d45ba016…",
+          "条目 0 个全部实存"
+        ],
+        "authorReportedTimestamp": "2026-10-20T12:30:00.000Z",
+        "timestampAuthenticated": false,
+        "authorReportedCommit": "06237e449",
+        "semanticReadClaim": "Contributor full read claim; original specific conclusion/read domain kept. Owner source/diff/evidence risk verification is separate."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-next-triple/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM per-document full-reading claims in original batches and r0, supported by specific source conclusions; author per-row timestamps/placeholder commits are not authenticated; Codex evidence-led identity/preservation/diff audit, concentrated template/r0/navigation risk checks. Codex did not repeat full365 source reading.",
+      "coreConclusion": "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账，列 1 个条目链接；无执行结论本体",
+      "truthAnchors": [
+        "sourceRevision 64bd3b936eb8",
+        "sourceSha256 7935f69075ba6638…",
+        "条目 1 个全部实存"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "testing",
+      "owner": "GLM S17 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-next-triple/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "7935f69075ba663883e094d407fb4b245410b43dc2d513bfe3e8c766a3e2fd5d",
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-next-triple/README.md",
+          "revision": "c45c31dccbc70afcd43180b2b7d84a72e2a11407",
+          "sha256": "cb584fc5e6bbaf4611685dce0e3d13cda2e6ad97cbab8bfa75d3ea46f9ddc97f",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
+      },
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "versionScope": {
+        "candidateCommit": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "sourceRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "current",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-next-triple/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "7935f69075ba663883e094d407fb4b245410b43dc2d513bfe3e8c766a3e2fd5d",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账，列 1 个条目链接；无执行结论本体",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r75-testing-archive.json", "DOCS-FULL-TEMPLATE-1 prior S17 counters"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S17 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
+      "revision": {
+        "currentSha": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S17 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+            "beforeSha256": "cb584fc5e6bbaf4611685dce0e3d13cda2e6ad97cbab8bfa75d3ea46f9ddc97f",
+            "afterSha256": "f32a0b7e74463dc5328ad4e3c69993306d6a78dc367dea158ffae41d40b8d131"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S17-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+          "encoding": "gzip",
+          "payloadSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+          "payloadBytes": 1373338,
+          "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+          "storedBytes": 196296,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S17-manual-delivery",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "241 fixed individual S17 body/template decisions, including62 explicitly recorded Owner minor repairs;124 author-body counters remain; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S17 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with original failures, metadata caveats, concrete counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S17-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "f32a0b7e74463dc5328ad4e3c69993306d6a78dc367dea158ffae41d40b8d131",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S17 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r75-testing-archive.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-next-triple/README.md",
+          "reviewRecord": "20261017-r75-testing-archive.json",
+          "revision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "7935f69075ba663883e094d407fb4b245410b43dc2d513bfe3e8c766a3e2fd5d",
+      "afterSha256": "f32a0b7e74463dc5328ad4e3c69993306d6a78dc367dea158ffae41d40b8d131",
+      "sourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
+      "beforeAfter": {
+        "beforeSha256": "cb584fc5e6bbaf4611685dce0e3d13cda2e6ad97cbab8bfa75d3ea46f9ddc97f",
+        "afterSha256": "f32a0b7e74463dc5328ad4e3c69993306d6a78dc367dea158ffae41d40b8d131",
+        "summary": "Specific S17 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 319,
+        "inverseBytes": 320,
+        "scope": "Only one exact unquoted separator LF excluded; direct inverse is not source equal. No trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All365 fixed scope/source/before/after/quote/inverse machine checks; all per-path identity/conclusion/intended-template mappings checked mechanically, representative concrete conclusions read; all153 navigation entry sets checked (legacy directory→README normalized). Ten focused head/quote/source/domain checks: archive root, one stub, Cursor final review, state-commands integration, D2 owners/r0 witness, runtime shell/r0 witness, large-domain plan, frame-animation design, simulator r2 design, coverage gate historical stats. No Owner full365 source reread.",
+      "authorActualReadRecord": {
+        "readDomain": "源全文逐行实读（319B，导航模板正文：标题+固定声明句+收口账链接+条目链接）；3 组批量 cat 实读+逐字节模板校验",
+        "anchors": [
+          "sourceRevision 64bd3b936eb8",
+          "sourceSha256 7935f69075ba6638…",
+          "条目 1 个全部实存"
+        ],
+        "authorReportedTimestamp": "2026-10-20T12:30:00.000Z",
+        "timestampAuthenticated": false,
+        "authorReportedCommit": "06237e449",
+        "semanticReadClaim": "Contributor full read claim; original specific conclusion/read domain kept. Owner source/diff/evidence risk verification is separate."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-next-triple/codex-lm-union-review.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM per-document full-reading claims in original batches and r0, supported by specific source conclusions; author per-row timestamps/placeholder commits are not authenticated; Codex evidence-led identity/preservation/diff audit, concentrated template/r0/navigation risk checks. Codex did not repeat full365 source reading.",
+      "coreConclusion": "L/M 代码 accept 但 ratchet migrate 比率门 exit1 阻塞；N r2 counter",
+      "truthAnchors": ["migrate statements 77.25%→71.85%；并集 10715 例；候选 78.76% 非正式结算"],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "testing",
+      "owner": "GLM S17 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-next-triple/codex-lm-union-review.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "da57d359f93e7e6ddc69f8682b87839e048169a84185d78f115f411728d9ddf3",
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-next-triple/codex-lm-union-review.md",
+          "revision": "c45c31dccbc70afcd43180b2b7d84a72e2a11407",
+          "sha256": "c286f7090f3b1a49c6d1bce7c5f211f5cf1f0b241c599fa36b6a20dc723eb736",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
+      },
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "versionScope": {
+        "candidateCommit": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "sourceRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-next-triple/codex-lm-union-review.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "da57d359f93e7e6ddc69f8682b87839e048169a84185d78f115f411728d9ddf3",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "L/M 代码 accept 但 ratchet migrate 比率门 exit1 阻塞；N r2 counter",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r75-testing-archive.json", "DOCS-FULL-TEMPLATE-1 prior S17 counters"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S17 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
+      "revision": {
+        "currentSha": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S17 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+            "beforeSha256": "c286f7090f3b1a49c6d1bce7c5f211f5cf1f0b241c599fa36b6a20dc723eb736",
+            "afterSha256": "99c2bd76201ef5903dfe3c5ff5d6bdae29f1432d9a69d522b29fe54e6105c28e"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S17-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+          "encoding": "gzip",
+          "payloadSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+          "payloadBytes": 1373338,
+          "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+          "storedBytes": 196296,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S17-manual-delivery",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "241 fixed individual S17 body/template decisions, including62 explicitly recorded Owner minor repairs;124 author-body counters remain; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S17 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with original failures, metadata caveats, concrete counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S17-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "99c2bd76201ef5903dfe3c5ff5d6bdae29f1432d9a69d522b29fe54e6105c28e",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S17 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r75-testing-archive.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-next-triple/codex-lm-union-review.md",
+          "reviewRecord": "20261017-r75-testing-archive.json",
+          "revision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "da57d359f93e7e6ddc69f8682b87839e048169a84185d78f115f411728d9ddf3",
+      "afterSha256": "99c2bd76201ef5903dfe3c5ff5d6bdae29f1432d9a69d522b29fe54e6105c28e",
+      "sourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
+      "beforeAfter": {
+        "beforeSha256": "c286f7090f3b1a49c6d1bce7c5f211f5cf1f0b241c599fa36b6a20dc723eb736",
+        "afterSha256": "99c2bd76201ef5903dfe3c5ff5d6bdae29f1432d9a69d522b29fe54e6105c28e",
+        "summary": "Specific S17 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "test-run-report-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 3666,
+        "inverseBytes": 3667,
+        "scope": "Only one exact unquoted separator LF excluded; direct inverse is not source equal. No trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All365 fixed scope/source/before/after/quote/inverse machine checks; all per-path identity/conclusion/intended-template mappings checked mechanically, representative concrete conclusions read; all153 navigation entry sets checked (legacy directory→README normalized). Ten focused head/quote/source/domain checks: archive root, one stub, Cursor final review, state-commands integration, D2 owners/r0 witness, runtime shell/r0 witness, large-domain plan, frame-animation design, simulator r2 design, coverage gate historical stats. No Owner full365 source reread.",
+      "authorActualReadRecord": {
+        "readDomain": "全文 1-末行（3666B）",
+        "anchors": "migrate statements 77.25%→71.85%；并集 10715 例；候选 78.76% 非正式结算",
+        "authorReportedTimestamp": "2026-10-20T00:00:00Z",
+        "timestampAuthenticated": false,
+        "authorReportedCommit": "2ced49afa",
+        "semanticReadClaim": "Contributor full read claim; original specific conclusion/read domain kept. Owner source/diff/evidence risk verification is separate."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [
+        {
+          "kind": "results-explicit",
+          "from": "Generic see-table placeholder",
+          "to": "Copy exactly the same head original conclusion, with historical/no-rerun label; no new factual assertion."
+        }
+      ],
+      "authorOriginalTimestampAuthenticated": false,
+      "truthAnchorNormalization": "Preserve exact contributor anchor text; normalize nonempty scalar to one-item array required by current review schema. No new source/conclusion or full-read claim."
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-next-triple/targets.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "GLM LMN 三波选题回执（campaign TEST-GLM-LMN-20260930，冻结 f70db722，官方基线 branches 49584/63398）：L=Editor map/scene/sprite 作者面 6 组、M=授权数据资产与设计控件 7 组、N=Reforge 非剧情运行宿主与资源生命周期 5 组；selectionCaveat 明示排除 A-K 历史目标源、2026-09-29 本地 fast 报告缺口只是线索。recorded historical fact（2026-09-30 分派），not current execution。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-next-triple/targets.json: semantic identity field \"schemaVersion\" actual value (family role anchor)"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "Owner risk-sampling then central admission",
+      "phase": "testing",
+      "module": "archive",
+      "capability": "docs/testing/archive/legacy/batches/glm-next-triple/targets.json machine artifact",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "20c93b687f4ddf78671210160218f3fca15ef034697b5d745f61ef008336756d",
+      "afterSha256": "20c93b687f4ddf78671210160218f3fca15ef034697b5d745f61ef008336756d",
+      "publicCallers": [
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
+      ],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/batches/glm-next-triple/targets.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "c96c2c87584ec590312ae010a2dcf30d05001a54",
+          "sha256": "20c93b687f4ddf78671210160218f3fca15ef034697b5d745f61ef008336756d"
+        }
+      ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": [
+          "waves 恰 3 波且组数={6,7,5}",
+          "officialBranches==={covered:49584,total:63398}"
+        ]
+      },
+      "dedupe": {
+        "result": "unique path in manifest",
+        "against": []
+      },
+      "revision": {
+        "currentSha": "20c93b687f4ddf78671210160218f3fca15ef034697b5d745f61ef008336756d",
+        "implementationSha": "20c93b687f4ddf78671210160218f3fca15ef034697b5d745f61ef008336756d",
+        "history": [
+          {
+            "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/batches/glm-next-triple/targets.json",
+        "family": "test-target-plan",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["schemaVersion", "number"],
+            ["campaign", "string"],
+            ["productionFreeze", "string"],
+            ["officialBaselineSha256", "string"],
+            ["officialBranches", "object"],
+            ["selectionCaveat", "string"],
+            ["waves", "array"]
+          ]
+        },
+        "witnesses": [
+          {
+            "claim": "semantic identity field \"schemaVersion\" actual value (family role anchor)",
+            "pointer": "/schemaVersion",
+            "value": 1
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "history": [
+        {
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R75 testing archive governance",
+          "reviewer": "r75_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+          "priorReviewIndex": 40,
+          "priorEntrySha256": "c5a1d2ee36e4a9057246697bbc19d7414a0efd523da3d54e1ca4ea10f84a24e0",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        }
+      ],
+      "supersedes": [
+        "governed-legacy testing archive presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+      "candidateSha256": "20c93b687f4ddf78671210160218f3fca15ef034697b5d745f61ef008336756d",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-next-triple/targets.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "c96c2c87584ec590312ae010a2dcf30d05001a54",
+          "sha256": "20c93b687f4ddf78671210160218f3fca15ef034697b5d745f61ef008336756d"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
+      "versionScope": "current tracked revision 83743275",
+      "counterReworkBlocked": [
+        {
+          "id": "R75-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R75-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":2,\"canonicalSha256\":\"03e7e4c645c9c552897bf54356cc8ea8c288b2df6f671a627832b5997f13370c\"}"
+        ],
+        "priorReadDomainSha256": "2ec94cde9dc6bce762b495b81328aa558a7cceb367c8f36d6c7047680b276c7a",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/schemaVersion"],
+        "governance": ["docs/phase-governance/reviews/20261017-r75-testing-archive.json#entries/40"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM per-document full-reading claims in original batches and r0, supported by specific source conclusions; author per-row timestamps/placeholder commits are not authenticated; Codex evidence-led identity/preservation/diff audit, concentrated template/r0/navigation risk checks. Codex did not repeat full365 source reading.",
+      "coreConclusion": "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账，列 4 个条目链接；无执行结论本体",
+      "truthAnchors": [
+        "sourceRevision 64bd3b936eb8",
+        "sourceSha256 594d43f4660f15e6…",
+        "条目 4 个全部实存"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "testing",
+      "owner": "GLM S17 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "594d43f4660f15e62d7a17ae28ab0bb917c85b29094c7ae4bede1bac07019ef1",
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/README.md",
+          "revision": "c45c31dccbc70afcd43180b2b7d84a72e2a11407",
+          "sha256": "94dabd2e69c276818c7d094cea903adf994a6c6e8a3ad7c566e228b7d8f74493",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
+      },
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "versionScope": {
+        "candidateCommit": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "sourceRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "current",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "594d43f4660f15e62d7a17ae28ab0bb917c85b29094c7ae4bede1bac07019ef1",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账，列 4 个条目链接；无执行结论本体",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r75-testing-archive.json", "DOCS-FULL-TEMPLATE-1 prior S17 counters"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S17 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
+      "revision": {
+        "currentSha": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S17 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+            "beforeSha256": "94dabd2e69c276818c7d094cea903adf994a6c6e8a3ad7c566e228b7d8f74493",
+            "afterSha256": "8eda0ada5903da158ad7c93a2e89881575ee5030e532d58ab966481221f1a449"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S17-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+          "encoding": "gzip",
+          "payloadSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+          "payloadBytes": 1373338,
+          "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+          "storedBytes": 196296,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S17-manual-delivery",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "241 fixed individual S17 body/template decisions, including62 explicitly recorded Owner minor repairs;124 author-body counters remain; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S17 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with original failures, metadata caveats, concrete counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S17-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "8eda0ada5903da158ad7c93a2e89881575ee5030e532d58ab966481221f1a449",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S17 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r75-testing-archive.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/README.md",
+          "reviewRecord": "20261017-r75-testing-archive.json",
+          "revision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "594d43f4660f15e62d7a17ae28ab0bb917c85b29094c7ae4bede1bac07019ef1",
+      "afterSha256": "8eda0ada5903da158ad7c93a2e89881575ee5030e532d58ab966481221f1a449",
+      "sourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
+      "beforeAfter": {
+        "beforeSha256": "94dabd2e69c276818c7d094cea903adf994a6c6e8a3ad7c566e228b7d8f74493",
+        "afterSha256": "8eda0ada5903da158ad7c93a2e89881575ee5030e532d58ab966481221f1a449",
+        "summary": "Specific S17 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 397,
+        "inverseBytes": 398,
+        "scope": "Only one exact unquoted separator LF excluded; direct inverse is not source equal. No trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All365 fixed scope/source/before/after/quote/inverse machine checks; all per-path identity/conclusion/intended-template mappings checked mechanically, representative concrete conclusions read; all153 navigation entry sets checked (legacy directory→README normalized). Ten focused head/quote/source/domain checks: archive root, one stub, Cursor final review, state-commands integration, D2 owners/r0 witness, runtime shell/r0 witness, large-domain plan, frame-animation design, simulator r2 design, coverage gate historical stats. No Owner full365 source reread.",
+      "authorActualReadRecord": {
+        "readDomain": "源全文逐行实读（397B，导航模板正文：标题+固定声明句+收口账链接+条目链接）；3 组批量 cat 实读+逐字节模板校验",
+        "anchors": [
+          "sourceRevision 64bd3b936eb8",
+          "sourceSha256 594d43f4660f15e6…",
+          "条目 4 个全部实存"
+        ],
+        "authorReportedTimestamp": "2026-10-20T12:30:00.000Z",
+        "timestampAuthenticated": false,
+        "authorReportedCommit": "06237e449",
+        "semanticReadClaim": "Contributor full read claim; original specific conclusion/read domain kept. Owner source/diff/evidence risk verification is separate."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM per-document full-reading claims in original batches and r0, supported by specific source conclusions; author per-row timestamps/placeholder commits are not authenticated; Codex evidence-led identity/preservation/diff audit, concentrated template/r0/navigation risk checks. Codex did not repeat full365 source reading.",
+      "coreConclusion": "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账，列 1 个条目链接；无执行结论本体",
+      "truthAnchors": [
+        "sourceRevision 64bd3b936eb8",
+        "sourceSha256 6c5216370c62e043…",
+        "条目 1 个全部实存"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "testing",
+      "owner": "GLM S17 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "6c5216370c62e043a177d1b2e0de14aab5e8106b984421ada923f8bb6c05ac4a",
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/README.md",
+          "revision": "c45c31dccbc70afcd43180b2b7d84a72e2a11407",
+          "sha256": "4d71770a91ce0e42c106ed2dff5be6472e66c080c7817e1dd152ca5f557be0be",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
+      },
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "versionScope": {
+        "candidateCommit": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "sourceRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "current",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "6c5216370c62e043a177d1b2e0de14aab5e8106b984421ada923f8bb6c05ac4a",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账，列 1 个条目链接；无执行结论本体",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r75-testing-archive.json", "DOCS-FULL-TEMPLATE-1 prior S17 counters"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S17 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
+      "revision": {
+        "currentSha": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S17 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+            "beforeSha256": "4d71770a91ce0e42c106ed2dff5be6472e66c080c7817e1dd152ca5f557be0be",
+            "afterSha256": "f9dcd4ad2844b21666fd48014b37e7fad0ea88c7977d77a421af8c3fd61ff784"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S17-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+          "encoding": "gzip",
+          "payloadSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+          "payloadBytes": 1373338,
+          "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+          "storedBytes": 196296,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S17-manual-delivery",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "241 fixed individual S17 body/template decisions, including62 explicitly recorded Owner minor repairs;124 author-body counters remain; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S17 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with original failures, metadata caveats, concrete counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S17-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "f9dcd4ad2844b21666fd48014b37e7fad0ea88c7977d77a421af8c3fd61ff784",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S17 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r75-testing-archive.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/README.md",
+          "reviewRecord": "20261017-r75-testing-archive.json",
+          "revision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "6c5216370c62e043a177d1b2e0de14aab5e8106b984421ada923f8bb6c05ac4a",
+      "afterSha256": "f9dcd4ad2844b21666fd48014b37e7fad0ea88c7977d77a421af8c3fd61ff784",
+      "sourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
+      "beforeAfter": {
+        "beforeSha256": "4d71770a91ce0e42c106ed2dff5be6472e66c080c7817e1dd152ca5f557be0be",
+        "afterSha256": "f9dcd4ad2844b21666fd48014b37e7fad0ea88c7977d77a421af8c3fd61ff784",
+        "summary": "Specific S17 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 311,
+        "inverseBytes": 312,
+        "scope": "Only one exact unquoted separator LF excluded; direct inverse is not source equal. No trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All365 fixed scope/source/before/after/quote/inverse machine checks; all per-path identity/conclusion/intended-template mappings checked mechanically, representative concrete conclusions read; all153 navigation entry sets checked (legacy directory→README normalized). Ten focused head/quote/source/domain checks: archive root, one stub, Cursor final review, state-commands integration, D2 owners/r0 witness, runtime shell/r0 witness, large-domain plan, frame-animation design, simulator r2 design, coverage gate historical stats. No Owner full365 source reread.",
+      "authorActualReadRecord": {
+        "readDomain": "源全文逐行实读（311B，导航模板正文：标题+固定声明句+收口账链接+条目链接）；3 组批量 cat 实读+逐字节模板校验",
+        "anchors": [
+          "sourceRevision 64bd3b936eb8",
+          "sourceSha256 6c5216370c62e043…",
+          "条目 1 个全部实存"
+        ],
+        "authorReportedTimestamp": "2026-10-20T12:30:00.000Z",
+        "timestampAuthenticated": false,
+        "authorReportedCommit": "06237e449",
+        "semanticReadClaim": "Contributor full read claim; original specific conclusion/read domain kept. Owner source/diff/evidence risk verification is separate."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/evidence.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "historical",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM per-document full-reading claims in original batches and r0, supported by specific source conclusions; author per-row timestamps/placeholder commits are not authenticated; Codex evidence-led identity/preservation/diff audit, concentrated template/r0/navigation risk checks. Codex did not repeat full365 source reading.",
+      "coreConclusion": "LV1-LV4 四组作者自验视觉样本：真产 UI 函数+真资源；底图/SW/听感/整局未证",
+      "truthAnchors": [
+        "LV1 三态/LV2 四态/LV3 面板+回调/LV4 overlay+倒计时；截图 SHA256 全量；端口 6082"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "testing",
+      "owner": "GLM S17 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/evidence.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "60fe1c2ce4b7103ef7bff1a15e3516b4659987c2f9c4a50c6fddae7d1dbec58e",
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/evidence.md",
+          "revision": "c45c31dccbc70afcd43180b2b7d84a72e2a11407",
+          "sha256": "f5d6b9969174f4458584c1f0bcfcc06e94cf3f8b38d5ac0870431822f1f5d7a4",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
+      },
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "versionScope": {
+        "candidateCommit": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "sourceRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/evidence.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "60fe1c2ce4b7103ef7bff1a15e3516b4659987c2f9c4a50c6fddae7d1dbec58e",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "LV1-LV4 四组作者自验视觉样本：真产 UI 函数+真资源；底图/SW/听感/整局未证",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r75-testing-archive.json", "DOCS-FULL-TEMPLATE-1 prior S17 counters"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S17 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
+      "revision": {
+        "currentSha": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S17 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+            "beforeSha256": "f5d6b9969174f4458584c1f0bcfcc06e94cf3f8b38d5ac0870431822f1f5d7a4",
+            "afterSha256": "0b6e831456980d90f58abcf9ae0466febd79e98ae8d933aad48b2387ed7daf0d"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S17-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+          "encoding": "gzip",
+          "payloadSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+          "payloadBytes": 1373338,
+          "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+          "storedBytes": 196296,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S17-manual-delivery",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "241 fixed individual S17 body/template decisions, including62 explicitly recorded Owner minor repairs;124 author-body counters remain; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S17 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with original failures, metadata caveats, concrete counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S17-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "0b6e831456980d90f58abcf9ae0466febd79e98ae8d933aad48b2387ed7daf0d",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S17 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r75-testing-archive.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/evidence.md",
+          "reviewRecord": "20261017-r75-testing-archive.json",
+          "revision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "60fe1c2ce4b7103ef7bff1a15e3516b4659987c2f9c4a50c6fddae7d1dbec58e",
+      "afterSha256": "0b6e831456980d90f58abcf9ae0466febd79e98ae8d933aad48b2387ed7daf0d",
+      "sourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
+      "beforeAfter": {
+        "beforeSha256": "f5d6b9969174f4458584c1f0bcfcc06e94cf3f8b38d5ac0870431822f1f5d7a4",
+        "afterSha256": "0b6e831456980d90f58abcf9ae0466febd79e98ae8d933aad48b2387ed7daf0d",
+        "summary": "Specific S17 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "test-run-report-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 5206,
+        "inverseBytes": 5207,
+        "scope": "Only one exact unquoted separator LF excluded; direct inverse is not source equal. No trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All365 fixed scope/source/before/after/quote/inverse machine checks; all per-path identity/conclusion/intended-template mappings checked mechanically, representative concrete conclusions read; all153 navigation entry sets checked (legacy directory→README normalized). Ten focused head/quote/source/domain checks: archive root, one stub, Cursor final review, state-commands integration, D2 owners/r0 witness, runtime shell/r0 witness, large-domain plan, frame-animation design, simulator r2 design, coverage gate historical stats. No Owner full365 source reread.",
+      "authorActualReadRecord": {
+        "readDomain": "全文 1-末行（5206B）",
+        "anchors": "LV1 三态/LV2 四态/LV3 面板+回调/LV4 overlay+倒计时；截图 SHA256 全量；端口 6082",
+        "authorReportedTimestamp": "2026-10-20T00:00:00Z",
+        "timestampAuthenticated": false,
+        "authorReportedCommit": "2ced49afa",
+        "semanticReadClaim": "Contributor full read claim; original specific conclusion/read domain kept. Owner source/diff/evidence risk verification is separate."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [
+        {
+          "kind": "results-explicit",
+          "from": "Generic see-table placeholder",
+          "to": "Copy exactly the same head original conclusion, with historical/no-rerun label; no new factual assertion."
+        }
+      ],
+      "authorOriginalTimestampAuthenticated": false,
+      "truthAnchorNormalization": "Preserve exact contributor anchor text; normalize nonempty scalar to one-item array required by current review schema. No new source/conclusion or full-read claim."
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM per-document full-reading claims in original batches and r0, supported by specific source conclusions; author per-row timestamps/placeholder commits are not authenticated; Codex evidence-led identity/preservation/diff audit, concentrated template/r0/navigation risk checks. Codex did not repeat full365 source reading.",
+      "coreConclusion": "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账，列 6 个条目链接；无执行结论本体",
+      "truthAnchors": [
+        "sourceRevision 64bd3b936eb8",
+        "sourceSha256 079d3f12a168f404…",
+        "条目 6 个全部实存"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "testing",
+      "owner": "GLM S17 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "079d3f12a168f4045c93fc4c559d55819d16c63e439cbf53808b58247c42a81b",
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/README.md",
+          "revision": "c45c31dccbc70afcd43180b2b7d84a72e2a11407",
+          "sha256": "9d2359f8a965ded63c2c2334e1c215b76b02af92b8e418c7ee7f394b429a6ea2",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
+      },
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "versionScope": {
+        "candidateCommit": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "sourceRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "current",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "079d3f12a168f4045c93fc4c559d55819d16c63e439cbf53808b58247c42a81b",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账，列 6 个条目链接；无执行结论本体",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r75-testing-archive.json", "DOCS-FULL-TEMPLATE-1 prior S17 counters"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S17 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
+      "revision": {
+        "currentSha": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S17 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+            "beforeSha256": "9d2359f8a965ded63c2c2334e1c215b76b02af92b8e418c7ee7f394b429a6ea2",
+            "afterSha256": "c0c22dd094e8e25c794cea7ad1177cf8d46fab71c8ad21c06f078c42dba4da73"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S17-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+          "encoding": "gzip",
+          "payloadSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+          "payloadBytes": 1373338,
+          "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+          "storedBytes": 196296,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S17-manual-delivery",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "241 fixed individual S17 body/template decisions, including62 explicitly recorded Owner minor repairs;124 author-body counters remain; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S17 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with original failures, metadata caveats, concrete counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S17-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "c0c22dd094e8e25c794cea7ad1177cf8d46fab71c8ad21c06f078c42dba4da73",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S17 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r75-testing-archive.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/README.md",
+          "reviewRecord": "20261017-r75-testing-archive.json",
+          "revision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "079d3f12a168f4045c93fc4c559d55819d16c63e439cbf53808b58247c42a81b",
+      "afterSha256": "c0c22dd094e8e25c794cea7ad1177cf8d46fab71c8ad21c06f078c42dba4da73",
+      "sourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
+      "beforeAfter": {
+        "beforeSha256": "9d2359f8a965ded63c2c2334e1c215b76b02af92b8e418c7ee7f394b429a6ea2",
+        "afterSha256": "c0c22dd094e8e25c794cea7ad1177cf8d46fab71c8ad21c06f078c42dba4da73",
+        "summary": "Specific S17 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 470,
+        "inverseBytes": 471,
+        "scope": "Only one exact unquoted separator LF excluded; direct inverse is not source equal. No trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All365 fixed scope/source/before/after/quote/inverse machine checks; all per-path identity/conclusion/intended-template mappings checked mechanically, representative concrete conclusions read; all153 navigation entry sets checked (legacy directory→README normalized). Ten focused head/quote/source/domain checks: archive root, one stub, Cursor final review, state-commands integration, D2 owners/r0 witness, runtime shell/r0 witness, large-domain plan, frame-animation design, simulator r2 design, coverage gate historical stats. No Owner full365 source reread.",
+      "authorActualReadRecord": {
+        "readDomain": "源全文逐行实读（470B，导航模板正文：标题+固定声明句+收口账链接+条目链接）；3 组批量 cat 实读+逐字节模板校验",
+        "anchors": [
+          "sourceRevision 64bd3b936eb8",
+          "sourceSha256 079d3f12a168f404…",
+          "条目 6 个全部实存"
+        ],
+        "authorReportedTimestamp": "2026-10-20T12:30:00.000Z",
+        "timestampAuthenticated": false,
+        "authorReportedCommit": "508648865",
+        "semanticReadClaim": "Contributor full read claim; original specific conclusion/read domain kept. Owner source/diff/evidence risk verification is separate."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM per-document full-reading claims in original batches and r0, supported by specific source conclusions; author per-row timestamps/placeholder commits are not authenticated; Codex evidence-led identity/preservation/diff audit, concentrated template/r0/navigation risk checks. Codex did not repeat full365 source reading.",
+      "coreConclusion": "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账，列 3 个条目链接；无执行结论本体",
+      "truthAnchors": [
+        "sourceRevision 64bd3b936eb8",
+        "sourceSha256 87165fc76818904e…",
+        "条目 3 个全部实存"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "testing",
+      "owner": "GLM S17 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "87165fc76818904e872e0e8bd07c0a881cdd8ad2830b16d9f85e8e83fb9bb59f",
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/README.md",
+          "revision": "c45c31dccbc70afcd43180b2b7d84a72e2a11407",
+          "sha256": "65367ff276a11499a91237855eaeeaf6b9f75387c6d5793676e7d2d3fb2e509d",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
+      },
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "versionScope": {
+        "candidateCommit": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "sourceRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "current",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "87165fc76818904e872e0e8bd07c0a881cdd8ad2830b16d9f85e8e83fb9bb59f",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账，列 3 个条目链接；无执行结论本体",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r75-testing-archive.json", "DOCS-FULL-TEMPLATE-1 prior S17 counters"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S17 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
+      "revision": {
+        "currentSha": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S17 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+            "beforeSha256": "65367ff276a11499a91237855eaeeaf6b9f75387c6d5793676e7d2d3fb2e509d",
+            "afterSha256": "a2ff9faa5d57b90c14a4a7ec5966c9141f1d2cf653e4558966f4983282df3ee9"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S17-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+          "encoding": "gzip",
+          "payloadSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+          "payloadBytes": 1373338,
+          "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+          "storedBytes": 196296,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S17-manual-delivery",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "241 fixed individual S17 body/template decisions, including62 explicitly recorded Owner minor repairs;124 author-body counters remain; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S17 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with original failures, metadata caveats, concrete counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S17-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "a2ff9faa5d57b90c14a4a7ec5966c9141f1d2cf653e4558966f4983282df3ee9",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S17 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r75-testing-archive.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/README.md",
+          "reviewRecord": "20261017-r75-testing-archive.json",
+          "revision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "87165fc76818904e872e0e8bd07c0a881cdd8ad2830b16d9f85e8e83fb9bb59f",
+      "afterSha256": "a2ff9faa5d57b90c14a4a7ec5966c9141f1d2cf653e4558966f4983282df3ee9",
+      "sourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
+      "beforeAfter": {
+        "beforeSha256": "65367ff276a11499a91237855eaeeaf6b9f75387c6d5793676e7d2d3fb2e509d",
+        "afterSha256": "a2ff9faa5d57b90c14a4a7ec5966c9141f1d2cf653e4558966f4983282df3ee9",
+        "summary": "Specific S17 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 289,
+        "inverseBytes": 290,
+        "scope": "Only one exact unquoted separator LF excluded; direct inverse is not source equal. No trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All365 fixed scope/source/before/after/quote/inverse machine checks; all per-path identity/conclusion/intended-template mappings checked mechanically, representative concrete conclusions read; all153 navigation entry sets checked (legacy directory→README normalized). Ten focused head/quote/source/domain checks: archive root, one stub, Cursor final review, state-commands integration, D2 owners/r0 witness, runtime shell/r0 witness, large-domain plan, frame-animation design, simulator r2 design, coverage gate historical stats. No Owner full365 source reread.",
+      "authorActualReadRecord": {
+        "readDomain": "源全文逐行实读（289B，导航模板正文：标题+固定声明句+收口账链接+条目链接）；3 组批量 cat 实读+逐字节模板校验",
+        "anchors": [
+          "sourceRevision 64bd3b936eb8",
+          "sourceSha256 87165fc76818904e…",
+          "条目 3 个全部实存"
+        ],
+        "authorReportedTimestamp": "2026-10-20T12:30:00.000Z",
+        "timestampAuthenticated": false,
+        "authorReportedCommit": "508648865",
+        "semanticReadClaim": "Contributor full read claim; original specific conclusion/read domain kept. Owner source/diff/evidence risk verification is separate."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/needles-summary.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "glm-phase1-leaves batch-A 针控总回执：judge 自测 10 例全按预期（有效红接受；混错/超时/多红/错 fullName/异根文件/exit2/exit null/零执行均被拒）；control 绿相 exit0/tests=50 零失败；两针各 exit1 恰一红——inv-menu-icur-clamp（注入 inventory-menu.ts）红在「L03 createInventoryMenu 起始光标与快照默认 …」，magic-caster-cursor-memory（in-game-magic-menu.ts）红在「L02 DL22 施法人光标跨开启记忆（uigame.c…」；两份产品源 sha256 已钉。证明该批新叶测试对变异有真实判别力。recorded historical fact（worktree glm-phase1-leaves），not current execution。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/needles-summary.json: top-level scalar field \"batch\" (structural anchor)"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "Owner risk-sampling then central admission",
+      "phase": "testing",
+      "module": "archive",
+      "capability": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/needles-summary.json machine artifact",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "0fecc2f59029f0ac63cdfac52f445d5be925af7d57eff8eded6d3df7509553bf",
+      "afterSha256": "0fecc2f59029f0ac63cdfac52f445d5be925af7d57eff8eded6d3df7509553bf",
+      "publicCallers": [
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
+      ],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/needles-summary.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "b8c8b2b9d1f8d558021fb90ceb9dec0b050af438",
+          "sha256": "0fecc2f59029f0ac63cdfac52f445d5be925af7d57eff8eded6d3df7509553bf"
+        }
+      ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": [
+          "control.exitCode===0 && control.tests===50 && failed 为空",
+          "evidence 恰 3 条；两条注入运行 exitCode===1 且 failed 各恰 1 条 fullName（inv-menu-icur-clamp/magic-caster-cursor-memory）",
+          "selfTest 10 例 rejected===expectReject 全成立（含 zero-execution 拒绝 numTotalTests=0）",
+          "hashes 钉 inventory-menu.ts 与 in-game-magic-menu.ts 两份源的 sha256"
+        ]
+      },
+      "dedupe": {
+        "result": "unique path in manifest",
+        "against": []
+      },
+      "revision": {
+        "currentSha": "0fecc2f59029f0ac63cdfac52f445d5be925af7d57eff8eded6d3df7509553bf",
+        "implementationSha": "0fecc2f59029f0ac63cdfac52f445d5be925af7d57eff8eded6d3df7509553bf",
+        "history": [
+          {
+            "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/needles-summary.json",
+        "family": "needle-verdict-summary",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["batch", "string"],
+            ["hashes", "object"],
+            ["selfTest", "array"],
+            ["evidence", "array"]
+          ]
+        },
+        "witnesses": [
+          {
+            "claim": "top-level scalar field \"batch\" (structural anchor)",
+            "pointer": "/batch",
+            "value": "a"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "history": [
+        {
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R75 testing archive governance",
+          "reviewer": "r75_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+          "priorReviewIndex": 46,
+          "priorEntrySha256": "f9b7439de983b3705f0517cf163e90ce4608d7f019cab09dbab3cbb57c3c3352",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        }
+      ],
+      "supersedes": [
+        "governed-legacy testing archive presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+      "candidateSha256": "0fecc2f59029f0ac63cdfac52f445d5be925af7d57eff8eded6d3df7509553bf",
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/needles-summary.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "b8c8b2b9d1f8d558021fb90ceb9dec0b050af438",
+          "sha256": "0fecc2f59029f0ac63cdfac52f445d5be925af7d57eff8eded6d3df7509553bf"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
+      "versionScope": "current tracked revision 83743275",
+      "counterReworkBlocked": [
+        {
+          "id": "R75-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R75-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":3,\"canonicalSha256\":\"ab391c8dde5a23a6abef4a578d9a625fbb7536e2785175610762b9cbb35aa02f\"}"
+        ],
+        "priorReadDomainSha256": "34e5521c00ff00c480c4c651ff65b8edb50680cef72365845596becb1a9043d0",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/batch"],
+        "governance": ["docs/phase-governance/reviews/20261017-r75-testing-archive.json#entries/46"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-adjacent.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/test-machine-evidence.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Accepted S26 reused: 本篇原生字节逐字段+逐断言程序核读（33 文件/308 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行; S29 additional domain: none; declared program/family composition only; Codex independent evidence/risk acceptance plus GLM-accepted Owner corrections. Qualified document review; no manual269deep review or historical rerun.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "legacy batches 历史测试记录（导航壳 README：目录内容 historical，不授当前执行信用；源 SHA/caller/oracle/排重登记于 legacy-full-closeout-plan.json 收口账）；登记账：legacy-full-closeout-plan.json（../../../migrations/ 收口账）。本篇为 green-run 相位：308 断言全绿（success=True）；相位由断言身份与同卡 producer 链共同定位。本篇差异：308 断言全绿对照；分轴：passed=308/failed=0/pending=0；numTotalTestSuites=120 为 Vitest 层级计数非文件数。本稿仅治理该历史文档的内容与适用范围：固定原生字节零改写、不重跑原执行、不认证原针/产品质量。\nS29逐篇补充（已接受Owner勘误后）：vitest-adjacent.json 的独有观察：33 文件/308 断言全绿（passed=308/failed=0/pending+skipped+todo=0），在本族中承担对照锚角色；相位差异：green-run——绿运行为常规对照/回放：断言全绿且 success=true，但 Vitest success 聚合不等于 exit0/零诊断（fieldRoles.identity 已登记该边界）。；本篇 counter 特异：numTotalTestSuites=120 为 Vitest 套件层级计数，≠文件数 33，不得互替。\n历史边界：族边界：legacy batches 导航壳 README 声明目录内容 historical，不授当前执行信用；源 SHA/caller/oracle/排重登记于 legacy-full-closeout-plan.json 收口账。旧结论适用面：仅按本篇冻结相位和本族实际裁决解释历史记录；不恢复现行合同或授当前runtime/E2E/coverage/迁移信用。B5/B10撤回仅适用于TEST-EDITOR-ALCHEMY-BOUNDARIES-1，不能归到其他卡族；本篇精确相位见runPhase。排重边界：同目录载体计数比较不证明执行互斥或测试排重，跨目录未审=unknown（Owner 补丁后的 dedupe.result 已按此口径）。字段复用：S26 修正稿（含 Owner 207 项计数补丁与 B5/B10 两项 README:29 裁决锚追加）的 coreConclusion/readDomain/nativeWitnesses/businessOracle/dedupe/contextReferences/phaseBasis 原样复用；本轮新增：nativeResults 机器集合按固定算法重取、fieldRoles.governance 由硬编码 r85 改为本篇实际 review 行显式绑定、本条 assessment；无新增人工读域（supplementedReadDomain 为空）。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-adjacent.json (33cc frozen native bytes)",
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/README.md:8-8"
+      ],
+      "unresolved": [
+        "Historical runtime and original producer execution are not rerun/authenticated; product/counterproof validity follows cited family decisions. Cross-family unknown dedupe remains unknown."
+      ],
+      "nextStep": "Controlled central publication; non-author result review remains required. Keep native bytes, withdrawal boundaries and existing current review location; subsequent content/context changes invalidate affected claims.",
+      "phase": "testing",
+      "module": "archive",
+      "capability": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-adjacent.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        "S29 accepted S26/S29 GLM source/delta reused; Codex independently risk-reviewed content and GLM independently accepted Codex bounded corrections; publication authored by Codex awaiting result review."
+      ],
+      "sourceSha256": "eec52c56a10b56a410f8dd7815355abe0c8eb0c803b03defec3ecc12a3c0c769",
+      "afterSha256": "eec52c56a10b56a410f8dd7815355abe0c8eb0c803b03defec3ecc12a3c0c769",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json",
+        "scripts/docs/check-document-model.mjs",
+        "scripts/docs/check-content-review.mjs",
+        "scripts/docs/report-governance-progress.mjs"
+      ],
+      "legalInputs": [
+        "固定原生字节（清单 pin）",
+        "原始测试合法输入未载于报告=未载/未重验，不作本轮 oracle"
+      ],
+      "businessOracle": {
+        "type": "historical-vitest-native-preservation",
+        "assertions": [
+          "分轴：passed=308/failed=0/pending=0；逐断言重算与 num* 一致",
+          "零失败零跳过：308 断言全部 passed",
+          "numTotalTestSuites=120 层级计数原值保留（≠文件数 33）",
+          "before=after=清单 SHA：原生字节零改写"
+        ]
+      },
+      "dedupe": {
+        "result": "同目录载体计数比较：vitest-new.json（50断言/0红/0pending）。这些计数不证明重复或执行互斥；跨目录比较未审，排重结论unknown。",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-new.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "eec52c56a10b56a410f8dd7815355abe0c8eb0c803b03defec3ecc12a3c0c769",
+        "implementationSha": "eec52c56a10b56a410f8dd7815355abe0c8eb0c803b03defec3ecc12a3c0c769",
+        "history": [
+          {
+            "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "record": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+            "index": 47,
+            "beforeEntrySha256": "33382c852465b2f58d97f51bd2c7a9b75c6a5c750157f4b29693b355086ff32a",
+            "previousCurrentSha": "eec52c56a10b56a410f8dd7815355abe0c8eb0c803b03defec3ecc12a3c0c769",
+            "previousSourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+            "action": "Qualified S29 native document migration; original source/current pins explicitly reconciled to fixed33cc bytes. Old record remains in fixedGit."
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-vitest-cohort",
+        "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-adjacent.json",
+        "byteStable": true,
+        "nativeResults": {
+          "files": 33,
+          "counters": {
+            "numTotalTestSuites": 120,
+            "numPassedTestSuites": 120,
+            "numFailedTestSuites": 0,
+            "numPendingTestSuites": 0,
+            "numTotalTests": 308,
+            "numPassedTests": 308,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0
+          },
+          "assertionStatuses": {
+            "passed": 308
+          },
+          "failedAssertions": [],
+          "pendingAssertions": []
+        },
+        "currentAudit": {
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        "qualification": "Qualified historical-document acceptance; no historical/current execution authentication.",
+        "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+        "ownerCorrectionsSha256": "78fb0b7320152a45d9a7d89f95fe9658bda50f5b657585c951a15f8c6a3ed73f"
+      },
+      "history": [
+        {
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R75 testing archive governance",
+          "reviewer": "r75_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "New per-document S29 evidence acceptance, not restoration of unsupported oldreview.",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "priorEvidenceKind": "machine-artifact-envelope",
+          "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+          "contentReviewStatus": "content-reviewed",
+          "templateCompliance": "template-compliant",
+          "notRun": ["historical tests", "runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy testing archive presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "本次仅授历史文档内容审阅与原生模板迁移；不认证原测试/反控/fixture/候选执行，不恢复B5/B10或其它后继撤回信用，不授runtime/E2E/视觉/coverage。来源稿停止线（S26时点）：不把历史运行结果当合法输入；不重跑原测试/原针；不授当前 runtime/E2E/视觉/coverage 或迁移完成信用；撤回针的历史边界不因本稿恢复。",
+      "userVisibleBeforeAfter": "原生JSON字节保持；旧机械撤信条目改为既有唯一review内的具体字段/结果全集/相位/来源/限制；新增文档信用不恢复历史执行信用。",
+      "reviewedLines": "本篇原生字节逐字段+逐断言程序核读（33 文件/308 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json-native",
+      "documentStatus": "historical",
+      "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "candidateSha256": "eec52c56a10b56a410f8dd7815355abe0c8eb0c803b03defec3ecc12a3c0c769",
+      "primarySource": [
+        {
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-adjacent.json",
+          "gitObject": "4b94bf27f553ecf77c3eb982af12c062dfd403ac",
+          "sha256": "eec52c56a10b56a410f8dd7815355abe0c8eb0c803b03defec3ecc12a3c0c769"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+        "date": "2026-10-17",
+        "validity": "historical",
+        "runPhase": "green-run",
+        "documentReviewDate": "2026-10-23",
+        "historicalExecutionReexecuted": false
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R75-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R75-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "templateVariant": "historical-vitest-native-v1",
+      "readDomain": {
+        "actual": "本篇原生字节逐字段+逐断言程序核读（33 文件/308 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
+        "reusedFrom": [],
+        "s29Supplement": [],
+        "ownerAcceptance": "Evidence/risk review of accepted seed and family-specific delta; not repeat full manual reading."
+      },
+      "nativeWitnesses": [
+        {
+          "pointer": "#/testResults/0/assertionResults/0/fullName",
+          "quote": "G08 confirmEquipItem/Role 意图合同 inUse 耗尽拒绝；party[2,0] 返回 role",
+          "meaning": "首断言身份锚（套件：G08 confirmEquipItem/Role 意图合同）——锚定实际断言集"
+        },
+        {
+          "pointer": "#/numTotalTests",
+          "quote": "308",
+          "meaning": "总断言计数 308 与逐断言枚举 308 交叉"
+        },
+        {
+          "pointer": "#/startTime",
+          "quote": "1790604139674",
+          "meaning": "运行时间身份锚"
+        }
+      ],
+      "contextReferences": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/README.md",
+          "sha256": "a2ff9faa5d57b90c14a4a7ec5966c9141f1d2cf653e4558966f4983282df3ee9",
+          "role": "卡族上下文锚（LEGACY）：支撑本篇相位/producer/边界判断的 README 实文行",
+          "quote": "本页是 legacy `batches/glm-phase1-leaves/evidence/batch-A` 目录的当前导航壳：目录内材料为历史测试记录，不提供当前 runtime、E2E 或 coverage 结论；各文件源 SHA、caller、oracle、排重与停止线登记于[全量收口决策账](../../../../../migrations/legacy-full-closeout-plan.json)。",
+          "lines": [8, 8]
+        }
+      ],
+      "fieldRoles": {
+        "identity": [
+          "snapshot：运行快照身份",
+          "startTime：启动时间",
+          "success：聚合布尔（≠exit0/零诊断）"
+        ],
+        "inputs": [
+          "testResults[].name：33 个受测文件（该次运行输入域）",
+          "assertionResults[].fullName/ancestorTitles：断言/套件身份"
+        ],
+        "results": [
+          "num* 八计数（分轴：p308/f0/pend0/todo0）",
+          "assertionResults[].status：逐断言结果"
+        ],
+        "diagnostics": ["零失败零跳过：诊断空集为该相位事实"],
+        "governance": [
+          "current-review: docs/phase-governance/reviews/20261017-r75-testing-archive.json, index=47; no payload/sidecar or native byte changes.",
+          "卡族裁决/撤回边界：legacy-full-closeout-plan.json（../../../migrations/ 收口账）"
+        ]
+      },
+      "currentQualification": {
+        "date": "2026-10-23",
+        "reviewer": "Codex (independent GLM document evidence); GLM (independent Codex corrections)",
+        "nonAuthorReviewer": true,
+        "decision": "accept",
+        "grantsNewSemanticAcceptance": true,
+        "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-adjacent.json",
+        "evidenceSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+        "sourceCandidate": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
+        "correctionVerdictSha256": "58d4c64442b1c8b4a07da24bd7bc4a9d6bb4fb39a4895a013c07db3ec16a21ed",
+        "scope": "New historical-document review only; not oldR-wave credit restoration, not publication self-acceptance or runtime credit."
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-new.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/test-machine-evidence.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Accepted S26 reused: 本篇原生字节逐字段+逐断言程序核读（8 文件/50 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行; S29 additional domain: none; declared program/family composition only; Codex independent evidence/risk acceptance plus GLM-accepted Owner corrections. Qualified document review; no manual269deep review or historical rerun.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "legacy batches 历史测试记录（导航壳 README：目录内容 historical，不授当前执行信用；源 SHA/caller/oracle/排重登记于 legacy-full-closeout-plan.json 收口账）；登记账：legacy-full-closeout-plan.json（../../../migrations/ 收口账）。本篇为 green-run 相位：50 断言全绿（success=True）；相位由断言身份与同卡 producer 链共同定位。本篇差异：50 断言全绿对照；分轴：passed=50/failed=0/pending=0；numTotalTestSuites=25 为 Vitest 层级计数非文件数。本稿仅治理该历史文档的内容与适用范围：固定原生字节零改写、不重跑原执行、不认证原针/产品质量。\nS29逐篇补充（已接受Owner勘误后）：vitest-new.json 的独有观察：8 文件/50 断言全绿（passed=50/failed=0/pending+skipped+todo=0），在本族中承担对照锚角色；相位差异：green-run——绿运行为常规对照/回放：断言全绿且 success=true，但 Vitest success 聚合不等于 exit0/零诊断（fieldRoles.identity 已登记该边界）。；本篇 counter 特异：numTotalTestSuites=25 为 Vitest 套件层级计数，≠文件数 8，不得互替。\n历史边界：族边界：legacy batches 导航壳 README 声明目录内容 historical，不授当前执行信用；源 SHA/caller/oracle/排重登记于 legacy-full-closeout-plan.json 收口账。旧结论适用面：仅按本篇冻结相位和本族实际裁决解释历史记录；不恢复现行合同或授当前runtime/E2E/coverage/迁移信用。B5/B10撤回仅适用于TEST-EDITOR-ALCHEMY-BOUNDARIES-1，不能归到其他卡族；本篇精确相位见runPhase。排重边界：同目录载体计数比较不证明执行互斥或测试排重，跨目录未审=unknown（Owner 补丁后的 dedupe.result 已按此口径）。字段复用：S26 修正稿（含 Owner 207 项计数补丁与 B5/B10 两项 README:29 裁决锚追加）的 coreConclusion/readDomain/nativeWitnesses/businessOracle/dedupe/contextReferences/phaseBasis 原样复用；本轮新增：nativeResults 机器集合按固定算法重取、fieldRoles.governance 由硬编码 r85 改为本篇实际 review 行显式绑定、本条 assessment；无新增人工读域（supplementedReadDomain 为空）。",
+      "truthAnchors": [
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-new.json (33cc frozen native bytes)",
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/README.md:8-8"
+      ],
+      "unresolved": [
+        "Historical runtime and original producer execution are not rerun/authenticated; product/counterproof validity follows cited family decisions. Cross-family unknown dedupe remains unknown."
+      ],
+      "nextStep": "Controlled central publication; non-author result review remains required. Keep native bytes, withdrawal boundaries and existing current review location; subsequent content/context changes invalidate affected claims.",
+      "phase": "testing",
+      "module": "archive",
+      "capability": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-new.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        "S29 accepted S26/S29 GLM source/delta reused; Codex independently risk-reviewed content and GLM independently accepted Codex bounded corrections; publication authored by Codex awaiting result review."
+      ],
+      "sourceSha256": "cf214db53cc9ddbea359e120d00dd7b193fa279b361dde801fdfd6979f30235c",
+      "afterSha256": "cf214db53cc9ddbea359e120d00dd7b193fa279b361dde801fdfd6979f30235c",
+      "publicCallers": [
+        "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/README.md",
+        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json",
+        "scripts/docs/check-document-model.mjs",
+        "scripts/docs/check-content-review.mjs",
+        "scripts/docs/report-governance-progress.mjs"
+      ],
+      "legalInputs": [
+        "固定原生字节（清单 pin）",
+        "原始测试合法输入未载于报告=未载/未重验，不作本轮 oracle"
+      ],
+      "businessOracle": {
+        "type": "historical-vitest-native-preservation",
+        "assertions": [
+          "分轴：passed=50/failed=0/pending=0；逐断言重算与 num* 一致",
+          "零失败零跳过：50 断言全部 passed",
+          "numTotalTestSuites=25 层级计数原值保留（≠文件数 8）",
+          "before=after=清单 SHA：原生字节零改写"
+        ]
+      },
+      "dedupe": {
+        "result": "同目录载体计数比较：vitest-adjacent.json（308断言/0红/0pending）。这些计数不证明重复或执行互斥；跨目录比较未审，排重结论unknown。",
+        "against": [
+          "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-adjacent.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "cf214db53cc9ddbea359e120d00dd7b193fa279b361dde801fdfd6979f30235c",
+        "implementationSha": "cf214db53cc9ddbea359e120d00dd7b193fa279b361dde801fdfd6979f30235c",
+        "history": [
+          {
+            "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "record": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+            "index": 48,
+            "beforeEntrySha256": "48bcc2db479692c8a80fae407275d17efdcae057d9fa480adc3a96cdbef7df33",
+            "previousCurrentSha": "cf214db53cc9ddbea359e120d00dd7b193fa279b361dde801fdfd6979f30235c",
+            "previousSourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+            "action": "Qualified S29 native document migration; original source/current pins explicitly reconciled to fixed33cc bytes. Old record remains in fixedGit."
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-vitest-cohort",
+        "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-new.json",
+        "byteStable": true,
+        "nativeResults": {
+          "files": 8,
+          "counters": {
+            "numTotalTestSuites": 25,
+            "numPassedTestSuites": 25,
+            "numFailedTestSuites": 0,
+            "numPendingTestSuites": 0,
+            "numTotalTests": 50,
+            "numPassedTests": 50,
+            "numFailedTests": 0,
+            "numPendingTests": 0,
+            "numTodoTests": 0
+          },
+          "assertionStatuses": {
+            "passed": 50
+          },
+          "failedAssertions": [],
+          "pendingAssertions": []
+        },
+        "currentAudit": {
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        "qualification": "Qualified historical-document acceptance; no historical/current execution authentication.",
+        "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+        "ownerCorrectionsSha256": "78fb0b7320152a45d9a7d89f95fe9658bda50f5b657585c951a15f8c6a3ed73f"
+      },
+      "history": [
+        {
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R75 testing archive governance",
+          "reviewer": "r75_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "New per-document S29 evidence acceptance, not restoration of unsupported oldreview.",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "priorEvidenceKind": "machine-artifact-envelope",
+          "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+          "contentReviewStatus": "content-reviewed",
+          "templateCompliance": "template-compliant",
+          "notRun": ["historical tests", "runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy testing archive presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "本次仅授历史文档内容审阅与原生模板迁移；不认证原测试/反控/fixture/候选执行，不恢复B5/B10或其它后继撤回信用，不授runtime/E2E/视觉/coverage。来源稿停止线（S26时点）：不把历史运行结果当合法输入；不重跑原测试/原针；不授当前 runtime/E2E/视觉/coverage 或迁移完成信用；撤回针的历史边界不因本稿恢复。",
+      "userVisibleBeforeAfter": "原生JSON字节保持；旧机械撤信条目改为既有唯一review内的具体字段/结果全集/相位/来源/限制；新增文档信用不恢复历史执行信用。",
+      "reviewedLines": "本篇原生字节逐字段+逐断言程序核读（8 文件/50 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json-native",
+      "documentStatus": "historical",
+      "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "candidateSha256": "cf214db53cc9ddbea359e120d00dd7b193fa279b361dde801fdfd6979f30235c",
+      "primarySource": [
+        {
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-new.json",
+          "gitObject": "799c8907f724bfb22921aa0b94551b440416c3cf",
+          "sha256": "cf214db53cc9ddbea359e120d00dd7b193fa279b361dde801fdfd6979f30235c"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "module": "archive",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+        "date": "2026-10-17",
+        "validity": "historical",
+        "runPhase": "green-run",
+        "documentReviewDate": "2026-10-23",
+        "historicalExecutionReexecuted": false
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R75-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R75-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "templateVariant": "historical-vitest-native-v1",
+      "readDomain": {
+        "actual": "本篇原生字节逐字段+逐断言程序核读（8 文件/50 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
+        "reusedFrom": [],
+        "s29Supplement": [],
+        "ownerAcceptance": "Evidence/risk review of accepted seed and family-specific delta; not repeat full manual reading."
+      },
+      "nativeWitnesses": [
+        {
+          "pointer": "#/testResults/0/assertionResults/0/fullName",
+          "quote": "L04 equip-menu 剩余合同 createEquipMenu 的 list 固定 filter=equip（e",
+          "meaning": "首断言身份锚（套件：L04 equip-menu 剩余合同）——锚定实际断言集"
+        },
+        {
+          "pointer": "#/numTotalTests",
+          "quote": "50",
+          "meaning": "总断言计数 50 与逐断言枚举 50 交叉"
+        },
+        {
+          "pointer": "#/startTime",
+          "quote": "1790604190678",
+          "meaning": "运行时间身份锚"
+        }
+      ],
+      "contextReferences": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/README.md",
+          "sha256": "a2ff9faa5d57b90c14a4a7ec5966c9141f1d2cf653e4558966f4983282df3ee9",
+          "role": "卡族上下文锚（LEGACY）：支撑本篇相位/producer/边界判断的 README 实文行",
+          "quote": "本页是 legacy `batches/glm-phase1-leaves/evidence/batch-A` 目录的当前导航壳：目录内材料为历史测试记录，不提供当前 runtime、E2E 或 coverage 结论；各文件源 SHA、caller、oracle、排重与停止线登记于[全量收口决策账](../../../../../migrations/legacy-full-closeout-plan.json)。",
+          "lines": [8, 8]
+        }
+      ],
+      "fieldRoles": {
+        "identity": [
+          "snapshot：运行快照身份",
+          "startTime：启动时间",
+          "success：聚合布尔（≠exit0/零诊断）"
+        ],
+        "inputs": [
+          "testResults[].name：8 个受测文件（该次运行输入域）",
+          "assertionResults[].fullName/ancestorTitles：断言/套件身份"
+        ],
+        "results": [
+          "num* 八计数（分轴：p50/f0/pend0/todo0）",
+          "assertionResults[].status：逐断言结果"
+        ],
+        "diagnostics": ["零失败零跳过：诊断空集为该相位事实"],
+        "governance": [
+          "current-review: docs/phase-governance/reviews/20261017-r75-testing-archive.json, index=48; no payload/sidecar or native byte changes.",
+          "卡族裁决/撤回边界：legacy-full-closeout-plan.json（../../../migrations/ 收口账）"
+        ]
+      },
+      "currentQualification": {
+        "date": "2026-10-23",
+        "reviewer": "Codex (independent GLM document evidence); GLM (independent Codex corrections)",
+        "nonAuthorReviewer": true,
+        "decision": "accept",
+        "grantsNewSemanticAcceptance": true,
+        "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-new.json",
+        "evidenceSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+        "sourceCandidate": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
+        "correctionVerdictSha256": "58d4c64442b1c8b4a07da24bd7bc4a9d6bb4fb39a4895a013c07db3ec16a21ed",
+        "scope": "New historical-document review only; not oldR-wave credit restoration, not publication self-acceptance or runtime credit."
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-B/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM per-document full-reading claims in original batches and r0, supported by specific source conclusions; author per-row timestamps/placeholder commits are not authenticated; Codex evidence-led identity/preservation/diff audit, concentrated template/r0/navigation risk checks. Codex did not repeat full365 source reading.",
+      "coreConclusion": "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账，列 3 个条目链接；无执行结论本体",
+      "truthAnchors": [
+        "sourceRevision 64bd3b936eb8",
+        "sourceSha256 f35776789814c1a9…",
+        "条目 3 个全部实存"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "testing",
+      "owner": "GLM S17 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-B/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "f35776789814c1a92f53a8415ff9e5555c3065c43f19bf13ceca643ea54a9e6f",
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-B/README.md",
+          "revision": "c45c31dccbc70afcd43180b2b7d84a72e2a11407",
+          "sha256": "592fd64d9985729113651e9fd5f255dd9e9eef2d554d9aa8910a6c4332c96454",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing",
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
+      },
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
+      "versionScope": {
+        "candidateCommit": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "sourceRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "current",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-B/README.md",
+          "revision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+          "sha256": "f35776789814c1a92f53a8415ff9e5555c3065c43f19bf13ceca643ea54a9e6f",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "目录导航壳：原文仅声明本目录存历史记录并链接全量收口决策账，列 3 个条目链接；无执行结论本体",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r75-testing-archive.json", "DOCS-FULL-TEMPLATE-1 prior S17 counters"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "closed-fixed-document-only",
+          "statement": "S17 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
+        }
+      ],
+      "revision": {
+        "currentSha": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S17 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+            "beforeSha256": "592fd64d9985729113651e9fd5f255dd9e9eef2d554d9aa8910a6c4332c96454",
+            "afterSha256": "f6e308bc68a8a0c7da8d81b96ec56a6cd331708e70ce82244ebb0ee2ee1182a2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S17-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+          "encoding": "gzip",
+          "payloadSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+          "payloadBytes": 1373338,
+          "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+          "storedBytes": 196296,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S17-manual-delivery",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "241 fixed individual S17 body/template decisions, including62 explicitly recorded Owner minor repairs;124 author-body counters remain; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S17 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with original failures, metadata caveats, concrete counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299",
+        "storedSha256": "b260a040f29b145c55d0af5e7f1976ecfa9903770efce535d23c43c4fe9707f3",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S17-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "f6e308bc68a8a0c7da8d81b96ec56a6cd331708e70ce82244ebb0ee2ee1182a2",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S17 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r75-testing-archive.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-B/README.md",
+          "reviewRecord": "20261017-r75-testing-archive.json",
+          "revision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "f35776789814c1a92f53a8415ff9e5555c3065c43f19bf13ceca643ea54a9e6f",
+      "afterSha256": "f6e308bc68a8a0c7da8d81b96ec56a6cd331708e70ce82244ebb0ee2ee1182a2",
+      "sourceGitRevision": "64bd3b936eb8fdd0943deba5e476d032a30c1830",
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
+      "beforeAfter": {
+        "beforeSha256": "592fd64d9985729113651e9fd5f255dd9e9eef2d554d9aa8910a6c4332c96454",
+        "afterSha256": "f6e308bc68a8a0c7da8d81b96ec56a6cd331708e70ce82244ebb0ee2ee1182a2",
+        "summary": "Specific S17 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 289,
+        "inverseBytes": 290,
+        "scope": "Only one exact unquoted separator LF excluded; direct inverse is not source equal. No trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All365 fixed scope/source/before/after/quote/inverse machine checks; all per-path identity/conclusion/intended-template mappings checked mechanically, representative concrete conclusions read; all153 navigation entry sets checked (legacy directory→README normalized). Ten focused head/quote/source/domain checks: archive root, one stub, Cursor final review, state-commands integration, D2 owners/r0 witness, runtime shell/r0 witness, large-domain plan, frame-animation design, simulator r2 design, coverage gate historical stats. No Owner full365 source reread.",
+      "authorActualReadRecord": {
+        "readDomain": "源全文逐行实读（289B，导航模板正文：标题+固定声明句+收口账链接+条目链接）；3 组批量 cat 实读+逐字节模板校验",
+        "anchors": [
+          "sourceRevision 64bd3b936eb8",
+          "sourceSha256 f35776789814c1a9…",
+          "条目 3 个全部实存"
+        ],
+        "authorReportedTimestamp": "2026-10-20T12:30:00.000Z",
+        "timestampAuthenticated": false,
+        "authorReportedCommit": "508648865",
+        "semanticReadClaim": "Contributor full read claim; original specific conclusion/read domain kept. Owner source/diff/evidence risk verification is separate."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false
+    }
+  ]
+}

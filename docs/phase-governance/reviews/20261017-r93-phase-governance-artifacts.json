@@ -11134,7 +11134,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b8c1f5685137c99c6863ad12de658fa39f354f0d9cbd7cd1df9a72f759cdb94f",
-      "afterSha256": "da2dea73072838d75b0d75878ae2a5c6975c7426682ff7e23fdbd0dbc196a7f3",
+      "afterSha256": "ce29227970fd061cea47fe4ad2192a952abb4a29a31e90241dc3f8bf2591686b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -11279,6 +11279,15 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/native-artifact-candidate",
+          "beforeSha256": "da2dea73072838d75b0d75878ae2a5c6975c7426682ff7e23fdbd0dbc196a7f3",
+          "afterSha256": "ce29227970fd061cea47fe4ad2192a952abb4a29a31e90241dc3f8bf2591686b",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },
@@ -14048,7 +14057,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4f25448c2ea9a3f5024da4dc75235dd07ac10fbf64048adb503b96739ff5be5d",
-      "afterSha256": "9034578630d6c3c97922c9fd2be06c25f353d552e86894ed3a126d26e4bcd83a",
+      "afterSha256": "5e0058a9317e5bd9b6a79f4ae1bf66d03c2009c33ae36540289083b315a7d8da",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14180,7 +14189,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/native-artifact-candidate",
+          "beforeSha256": "9034578630d6c3c97922c9fd2be06c25f353d552e86894ed3a126d26e4bcd83a",
+          "afterSha256": "5e0058a9317e5bd9b6a79f4ae1bf66d03c2009c33ae36540289083b315a7d8da",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
@@ -15105,7 +15125,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9dee852490730da010832b1f66bcc0e203859addcfd54dce88b3eb1468b9d4b0",
-      "afterSha256": "25cacd0c8fac3ab5197ae95bbf9a61dfecdd04ba958988a9ef71de436c34fc25",
+      "afterSha256": "dd23d6ee112f9d358d85f3cb688c5ca0e36034ce48c0309b9f38852a9e506179",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15259,6 +15279,15 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/native-artifact-candidate",
+          "beforeSha256": "25cacd0c8fac3ab5197ae95bbf9a61dfecdd04ba958988a9ef71de436c34fc25",
+          "afterSha256": "dd23d6ee112f9d358d85f3cb688c5ca0e36034ce48c0309b9f38852a9e506179",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },

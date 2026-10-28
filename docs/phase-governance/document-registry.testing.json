@@ -1559,7 +1559,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r61-testing-domain-history.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/evidence.json",
@@ -1569,7 +1573,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r61-testing-domain-history.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/evidence.json",
@@ -1579,7 +1587,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r61-testing-domain-history.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/history/evidence.json",
@@ -1589,7 +1601,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r61-testing-domain-history.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/evidence.json",
@@ -1599,7 +1615,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r61-testing-domain-history.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/history/evidence.json",
@@ -1609,7 +1629,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r61-testing-domain-history.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/history/evidence.json",
@@ -1619,7 +1643,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r61-testing-domain-history.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/history/evidence.json",
@@ -1629,7 +1657,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r61-testing-domain-history.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
@@ -1996,10 +2028,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/codex-command-forms/README.md",
@@ -2020,10 +2055,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/codex-content-resources/README.md",
@@ -2044,10 +2082,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/codex-debug-tools/README.md",
@@ -2068,10 +2109,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/codex-enemy-hooks/README.md",
@@ -2092,10 +2136,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/codex-frame-editor/README.md",
@@ -2160,10 +2207,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/codex-playback/README.md",
@@ -2184,10 +2234,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/codex-plus2-runtime-wave4/README.md",
@@ -2296,10 +2349,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/coverage-plus5/README.md",
@@ -2331,10 +2387,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c01-mutant.json",
@@ -2344,10 +2403,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c02-mutant.json",
@@ -2357,10 +2419,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c03-mutant.json",
@@ -2370,10 +2435,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c04-mutant.json",
@@ -2383,10 +2451,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c05-mutant.json",
@@ -2396,10 +2467,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c06-mutant.json",
@@ -2409,10 +2483,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c07-mutant.json",
@@ -2422,10 +2499,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c08-mutant.json",
@@ -2435,10 +2515,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c09-mutant.json",
@@ -2448,10 +2531,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c10-mutant.json",
@@ -2461,10 +2547,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/evidence.json",
@@ -2474,10 +2563,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u00-mutant.json",
@@ -2487,10 +2579,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u01-mutant.json",
@@ -2500,10 +2595,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u02-mutant.json",
@@ -2513,10 +2611,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u03-mutant.json",
@@ -2526,10 +2627,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u04-mutant.json",
@@ -2539,10 +2643,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r71-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u05-mutant.json",
@@ -2552,10 +2659,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u06-mutant.json",
@@ -2565,10 +2675,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u07-mutant.json",
@@ -2578,10 +2691,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u08-mutant.json",
@@ -2591,10 +2707,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u09-mutant.json",
@@ -2604,10 +2723,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u10-mutant.json",
@@ -2617,10 +2739,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u11-mutant.json",
@@ -2630,10 +2755,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u12-mutant.json",
@@ -2643,10 +2771,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/README.md",
@@ -2667,10 +2798,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c2-mutant.json",
@@ -2680,10 +2814,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c3-mutant.json",
@@ -2693,10 +2830,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c4-mutant.json",
@@ -2706,10 +2846,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c5-mutant.json",
@@ -2719,10 +2862,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/evidence.json",
@@ -2732,10 +2878,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/receipt.md",
@@ -2767,10 +2916,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c3-mutant.json",
@@ -2780,10 +2932,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c5-mutant.json",
@@ -2793,10 +2948,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c6-mutant.json",
@@ -2806,10 +2964,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c8-mutant.json",
@@ -2819,10 +2980,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/evidence.json",
@@ -2832,10 +2996,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/receipt.md",
@@ -2900,10 +3067,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m1-mutant.json",
@@ -2913,10 +3083,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m2-mutant.json",
@@ -2926,10 +3099,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m3-mutant.json",
@@ -2939,10 +3115,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m4-mutant.json",
@@ -2952,10 +3131,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m5-mutant.json",
@@ -2965,10 +3147,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m6-mutant.json",
@@ -2978,10 +3163,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/receipt.md",
@@ -3145,10 +3333,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/README.md",
@@ -3268,10 +3459,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/README.md",
@@ -3359,10 +3553,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/diagnostics/README.md",
@@ -3427,10 +3624,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/tools/README.md",
@@ -3484,10 +3684,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-intake-review.md",
@@ -3508,10 +3711,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r2-review.md",
@@ -3532,10 +3738,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r3-review.md",
@@ -3556,10 +3765,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/p1-app.md",
@@ -3690,10 +3902,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave2/receipt.md",
@@ -3725,10 +3940,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/frozen-evidence.json",
@@ -3738,10 +3956,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/receipt.md",
@@ -3839,10 +4060,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/evidence.md",
@@ -3863,10 +4087,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/vitest-directed.json",
@@ -3899,10 +4126,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-item-logic/receipt.md",
@@ -4006,10 +4236,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-b.json",
@@ -4019,10 +4252,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-c.json",
@@ -4032,10 +4268,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/codex-accept-r3-4e200099.md",
@@ -4155,10 +4394,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/README.md",
@@ -4179,10 +4421,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-AH-coverage-delta.json",
@@ -4192,10 +4437,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-directed.json",
@@ -4218,10 +4466,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-directed.json",
@@ -4247,10 +4498,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-c-directed.json",
@@ -4276,10 +4530,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/README.md",
@@ -4333,10 +4590,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/README.md",
@@ -4489,10 +4749,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/README.md",
@@ -4524,10 +4787,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/evidence/README.md",
@@ -4593,10 +4859,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/visual-evidence.json",
@@ -4606,10 +4875,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/vitest-results.json",
@@ -4642,10 +4914,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-H/receipt.json",
@@ -4655,10 +4930,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-H/vitest.json",
@@ -4668,10 +4946,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-I/README.md",
@@ -4796,10 +5077,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/README.md",
@@ -4864,10 +5148,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/vitest-adjacent.json",
@@ -4912,10 +5199,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-B/vitest-adjacent.json",
@@ -4960,10 +5250,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-C/vitest-adjacent.json",
@@ -5008,10 +5301,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-D/vitest-adjacent.json",
@@ -5056,10 +5352,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-E/vitest-adjacent.json",
@@ -5104,10 +5403,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-F/vitest-adjacent.json",
@@ -5152,10 +5454,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/tools/README.md",
@@ -5187,10 +5492,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/README.md",
@@ -5222,10 +5530,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/README.md",
@@ -5268,10 +5579,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/tools/README.md",
@@ -5369,10 +5683,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-state-commands/tools/README.md",
@@ -5426,10 +5743,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G05-A11.readback.json",
@@ -5439,10 +5759,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G06-A12.readback.json",
@@ -5452,10 +5775,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G07-B13.readback.json",
@@ -5465,10 +5791,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G08-D07.readback.json",
@@ -5478,10 +5807,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-C01.readback.json",
@@ -5491,10 +5823,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-C04.readback.json",
@@ -5504,10 +5839,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-C11.readback.json",
@@ -5517,10 +5855,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-D01.readback.json",
@@ -5530,10 +5871,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-D08.readback.json",
@@ -5543,10 +5887,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-D20.readback.json",
@@ -5556,10 +5903,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G10-B01-fade.readback.json",
@@ -5569,10 +5919,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G10-B01-final.readback.json",
@@ -5582,10 +5935,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G10-B02-final.readback.json",
@@ -5595,10 +5951,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/README.md",
@@ -5674,10 +6033,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/receipt.md",
@@ -5698,10 +6060,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/quality-zero/README.md",
@@ -5766,10 +6131,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/script-governance/install-census.json",
@@ -5779,10 +6147,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/script-governance/install-census.md",
@@ -5803,10 +6174,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/script-governance/payment-repairs.json",
@@ -5816,10 +6190,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/script-governance/residual-cross-family-premise.md",
@@ -5873,10 +6250,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/batches/script-governance/unified-steps-evidence.md",
@@ -5974,10 +6354,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-map-integration.md",
@@ -6042,10 +6425,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/glm-content-residual-evidence.json",
@@ -6055,10 +6441,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/glm-content-residual.md",
@@ -6090,10 +6479,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
@@ -6103,10 +6495,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review.md",
@@ -6127,10 +6522,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review.md",
@@ -6151,10 +6549,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
@@ -6164,10 +6565,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review.md",
@@ -6199,10 +6603,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/content/quality-gates/README.md",
@@ -6234,10 +6641,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json",
@@ -6247,10 +6657,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review.md",
@@ -6293,10 +6706,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md",
@@ -6394,10 +6810,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json",
@@ -6407,10 +6826,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/glm-content-contracts.md",
@@ -6530,10 +6952,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review.md",
@@ -6554,10 +6979,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor.md",
@@ -6578,10 +7006,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md",
@@ -6657,10 +7088,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data.md",
@@ -6681,10 +7115,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-script-helpers.md",
@@ -6727,10 +7164,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/item-authoring-glm-audit.md",
@@ -6795,10 +7235,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/item-logic-r6-review.md",
@@ -6973,10 +7416,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/supply-and-import/import-codec-r4-evidence.json",
@@ -6986,10 +7432,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/supply-and-import/import-codec-r4-review.md",
@@ -7021,10 +7470,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/testing-records/glm-nine-final-evidence.json",
@@ -7034,10 +7486,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/testing-records/glm-nine-final-review.md",
@@ -7058,10 +7513,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/testing-records/glm-nine-rework-evidence.json",
@@ -7071,10 +7529,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/testing-records/grok-arch-ds-overflow-mutant.json",
@@ -7084,10 +7545,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/editor/testing-records/pal-simulator-presets.md",
@@ -7185,10 +7649,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/migration/supply-and-import/glm-migration-boundaries-evidence.json",
@@ -7198,10 +7665,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/migration/supply-and-import/glm-migration-boundaries.md",
@@ -7222,10 +7692,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/migration/supply-and-import/image-import-cleanup.md",
@@ -7257,10 +7730,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/migration/supply-and-import/migration-phase-owners-refactor.md",
@@ -7435,10 +7911,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/glm-nine-intake-review.md",
@@ -7470,10 +7949,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/glm-wave-union-20260929.md",
@@ -7527,10 +8009,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md",
@@ -7661,10 +8146,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/phase1-runtime/testing-records/README.md",
@@ -7751,10 +8239,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-large-domain-evidence.json",
@@ -7764,10 +8255,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-large-domain-plan.md",
@@ -7788,10 +8282,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/coverage.md",
@@ -7878,10 +8375,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md",
@@ -7902,10 +8402,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2.md",
@@ -7926,10 +8429,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-work-queue.md",
@@ -8005,10 +8511,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/guard-wave3-integration.md",
@@ -8051,10 +8560,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/stability-fire-closeout-evidence.json",
@@ -8064,10 +8576,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/README.md",
@@ -8143,10 +8658,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-integration.md",
@@ -8167,10 +8685,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r2-review.md",
@@ -8191,10 +8712,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r3-review.md",
@@ -8215,10 +8739,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r4-review.md",
@@ -8239,10 +8766,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r5-review.md",
@@ -8263,10 +8793,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-review.md",
@@ -8287,10 +8820,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/battle/glm-battle-workflows.md",
@@ -8322,10 +8858,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2-evidence.json",
@@ -8335,10 +8874,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2.md",
@@ -8370,10 +8912,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-asset-io.md",
@@ -8394,10 +8939,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts.md",
@@ -8429,10 +8977,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/grok-phase1-composition-integration.md",
@@ -8486,10 +9037,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md",
@@ -8543,10 +9097,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/testing-records/README.md",
@@ -8600,10 +9157,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-01.json",
@@ -8613,10 +9173,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-02.json",
@@ -8626,10 +9189,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-03.json",
@@ -8639,10 +9205,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-04.json",
@@ -8652,10 +9221,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-05.json",
@@ -8665,10 +9237,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-06.json",
@@ -8678,10 +9253,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-07.json",
@@ -8691,10 +9269,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/legacy-full-closeout-plan.json",
@@ -8704,10 +9285,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
@@ -8717,10 +9301,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/testing-domains-20261004-wave2-tool-audit.json",
@@ -8730,10 +9317,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/testing-domains-20261004-wave2.json",
@@ -8743,10 +9333,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/testing-domains-20261004.json",
@@ -8756,10 +9349,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json",
@@ -8769,10 +9365,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/archive/migrations/testing-layout-unresolved-tools-20261004.json",
@@ -8782,10 +9381,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/testing/README.md",

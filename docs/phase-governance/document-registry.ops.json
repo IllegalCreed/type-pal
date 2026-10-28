@@ -1229,7 +1229,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r56-ops-machine-evidence.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json",
@@ -1239,7 +1243,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r56-ops-machine-evidence.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json",
@@ -1249,7 +1257,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r56-ops-machine-evidence.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json",
@@ -1259,7 +1271,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r56-ops-machine-evidence.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
@@ -1269,7 +1285,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r56-ops-machine-evidence.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json",
@@ -1279,7 +1299,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r56-ops-machine-evidence.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/tasks/index.md",
@@ -1827,26 +1851,32 @@
       "phase": "ops",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.5.0",
+      "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r40-ops-machine-json.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutation-receipt.json",
       "phase": "ops",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.5.0",
+      "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r40-ops-machine-json.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-points.json",
@@ -1866,104 +1896,128 @@
       "phase": "ops",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.5.0",
+      "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r40-ops-machine-json.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/uncovered-ledger-r1.json",
       "phase": "ops",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.5.0",
+      "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r40-ops-machine-json.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/uncovered-ledger-summary.json",
       "phase": "ops",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.5.0",
+      "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r40-ops-machine-json.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/vitest-final-compact.json",
       "phase": "ops",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.5.0",
+      "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r40-ops-machine-json.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/directed-vitest.json",
       "phase": "ops",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.5.0",
+      "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r40-ops-machine-json.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/mutation-points.json",
       "phase": "ops",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.5.0",
+      "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r40-ops-machine-json.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/mutation-results.json",
       "phase": "ops",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.5.0",
+      "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r40-ops-machine-json.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/identity.json",
       "phase": "ops",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.5.0",
+      "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r40-ops-machine-json.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-logs/SHARED-original.json",
@@ -1983,13 +2037,16 @@
       "phase": "ops",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateVersion": "1.5.0",
+      "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r40-ops-machine-json.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/archive/tasks/done/README.md",
@@ -5827,10 +5884,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/receipt.json",
@@ -5840,10 +5900,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-alchemy-originals/acceptance.json",
@@ -5853,10 +5916,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-alchemy-originals/alchemy/receipt.json",
@@ -5866,10 +5932,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-editor-gates.json",
@@ -5879,10 +5948,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-followup-gates.json",
@@ -5892,10 +5964,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-integration-gates.json",
@@ -5905,10 +5980,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-needles.json",
@@ -5918,10 +5996,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-originals/acceptance.json",
@@ -5931,10 +6012,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-originals/alchemy/receipt.json",
@@ -5944,10 +6028,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-originals/loader/receipt.json",
@@ -5957,10 +6044,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-originals/script/receipt.json",
@@ -5970,10 +6060,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/targets.json",
@@ -5983,10 +6076,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/adjacent.json",
@@ -6008,10 +6104,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof-runs/N-B10-open-item-degradation.json",
@@ -6189,10 +6288,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/directed.json",
@@ -6214,10 +6316,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/receipt.json",
@@ -6227,10 +6332,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof-receipt.json",
@@ -6240,10 +6348,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof/E4-openShop-degraded-mode-pollution.green-original.json",
@@ -6493,10 +6604,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/counter-receipt.json",
@@ -6506,10 +6620,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/counters/A2-stale-raf-guard/green.json",
@@ -6819,10 +6936,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/directed.json",
@@ -6844,10 +6964,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/receipt.json",
@@ -6857,10 +6980,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/counterproof.json",
@@ -6870,10 +6996,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/identity.json",
@@ -6883,10 +7012,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r85-testing-archive.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs/N-M1-late-reject-rebuilds-overlay.green.json",
@@ -7172,10 +7304,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/counterproof.json",
@@ -7185,10 +7320,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/counterproof-receipt.json",
@@ -7198,10 +7336,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/green0.json",
@@ -7319,10 +7460,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/coverage-family.json",
@@ -7332,10 +7476,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/coverage-fullsuite.json",
@@ -7345,10 +7492,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/directed-fresh.json",
@@ -7358,10 +7508,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/identity.json",
@@ -7371,10 +7524,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-points.json",
@@ -7384,10 +7540,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-results.json",
@@ -7397,10 +7556,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/identity.json",
@@ -7410,10 +7572,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/mutation-results.json",
@@ -7423,10 +7588,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/coverage-probe/statement-hits.json",
@@ -7436,10 +7604,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/directed-vitest.json",
@@ -7449,10 +7620,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-points.json",
@@ -7462,10 +7636,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-results.json",
@@ -7475,10 +7652,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/selftest-results.json",
@@ -7488,10 +7668,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/coverage-probe/statement-hits.json",
@@ -7501,10 +7684,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/directed-vitest.json",
@@ -7514,10 +7700,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/mutation-points.json",
@@ -7527,10 +7716,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/mutation-results.json",
@@ -7540,10 +7732,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/selftest-results.json",
@@ -7553,10 +7748,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/identity.json",
@@ -7566,10 +7764,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/mutation-logs/msio-MUT-01-red.json",
@@ -7783,10 +7984,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/directed-vitest.json",
@@ -7796,10 +8000,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/mutation-points.json",
@@ -7809,10 +8016,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/mutation-results.json",
@@ -7822,10 +8032,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/identity.json",
@@ -7835,10 +8048,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/mutation-results.json",
@@ -7848,10 +8064,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/counterproof.json",
@@ -7861,10 +8080,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/counterproof.json",
@@ -7874,10 +8096,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/counterproof.json",
@@ -7887,10 +8112,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/identity.json",
@@ -7900,10 +8128,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs/N1-name-pointer-clamped.green.json",
@@ -7985,10 +8216,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-01-red.json",
@@ -7998,10 +8232,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-01-restored.json",
@@ -8011,10 +8248,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-02-red.json",
@@ -8024,10 +8264,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-02-restored.json",
@@ -8037,10 +8280,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-03-red.json",
@@ -8050,10 +8296,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-03-restored.json",
@@ -8063,10 +8312,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-04-red.json",
@@ -8076,10 +8328,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-04-restored.json",
@@ -8089,10 +8344,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-05-red.json",
@@ -8102,10 +8360,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-05-restored.json",
@@ -8115,10 +8376,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-06-red.json",
@@ -8128,10 +8392,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-06-restored.json",
@@ -8141,10 +8408,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-07-red.json",
@@ -8154,10 +8424,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-07-restored.json",
@@ -8167,10 +8440,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-SHARED-original.json",
@@ -8180,10 +8456,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-results.json",
@@ -8193,10 +8472,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/counterproof.json",
@@ -8206,10 +8488,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/identity.json",
@@ -8219,10 +8504,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
@@ -8232,10 +8520,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/identity.json",
@@ -8245,10 +8536,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/counterproof.json",
@@ -8258,10 +8552,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/identity.json",
@@ -8271,10 +8568,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
@@ -8284,10 +8584,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/counterproof.json",
@@ -8297,10 +8600,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r86-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
@@ -8480,10 +8786,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/counterproof.json",
@@ -8493,10 +8802,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/identity.json",
@@ -8506,10 +8818,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/adjacent.json",
@@ -8531,10 +8846,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/instrumentation.json",
@@ -8596,10 +8914,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/ci-frame-delayed-fixed.json",
@@ -8693,10 +9014,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/codex-integration-gates.json",
@@ -8706,10 +9030,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof-markers.json",
@@ -8719,10 +9046,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/counterproof.json",
@@ -8732,10 +9062,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs/N1-BF08-defeat-still-restores-music.red.json",
@@ -9082,10 +9415,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/d1-pollution.vitest.json",
@@ -9107,10 +9443,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/d1-repro.vitest.json",
@@ -9144,10 +9483,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/ci-tracked-inventory-refresh.json",
@@ -9157,10 +9499,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-B-loss-battleSprite.json",
@@ -9230,10 +9575,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r2-artifact-audit.json",
@@ -9243,10 +9591,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r2-loss/extraStatuses-hole-candidate.json",
@@ -9328,10 +9679,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r3-artifact-audit.json",
@@ -9341,10 +9695,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs/NR1-gridpos-height-wiring.json",
@@ -9462,10 +9819,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r87-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N01-empty-actor-id.json",
@@ -9751,10 +10111,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-runs/N01-empty-actor-id.json",
@@ -10004,10 +10367,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw/N2-exit-raf-not-cancelled.baseline.json",
@@ -10173,10 +10539,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw/R1-listMeta-reject-dangling.json",
@@ -10282,10 +10651,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/contract-ledger.json",
@@ -10295,10 +10667,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counter-receipt.json",
@@ -10308,10 +10683,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters/N-C10-poisons-field.json",
@@ -10525,10 +10903,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/receipt.json",
@@ -10538,10 +10919,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/all-tracks-recheck.json",
@@ -10551,10 +10935,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/all-tracks.json",
@@ -10564,10 +10951,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/branch-cleanup.json",
@@ -10577,10 +10967,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/browser-smoke.json",
@@ -10590,10 +10983,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/ci-checks.json",
@@ -10603,10 +10999,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/ci-jobs.json",
@@ -10616,10 +11015,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/coverage-baseline.json",
@@ -10629,10 +11031,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/issue-closure.json",
@@ -10642,10 +11047,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/production-browser.json",
@@ -10655,10 +11063,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/production-cdn-wasm-refresh.json",
@@ -10668,10 +11079,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/production-release.json",
@@ -10681,10 +11095,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/production-verification.json",
@@ -10694,10 +11111,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/reference-golden.json",
@@ -10707,10 +11127,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/release-inventory-delta.json",
@@ -10720,10 +11143,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/release-preflight.json",
@@ -10733,10 +11159,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/release-verification.json",
@@ -10746,10 +11175,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/tools-style-desktop.json",
@@ -10759,10 +11191,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/tools-style-focus.json",
@@ -10772,10 +11207,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/tools-style-mobile.json",
@@ -10785,10 +11223,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/verification-manifest.json",
@@ -10798,10 +11239,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r88-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/c2-historical-execution-pilot-20261016.json",
@@ -10811,10 +11255,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
@@ -10824,10 +11271,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json",
@@ -10837,10 +11287,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json",
@@ -10850,10 +11303,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
@@ -10863,10 +11319,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json",
@@ -10876,10 +11335,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-c-20261016.json",
@@ -10889,10 +11351,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-d-20261016.json",
@@ -10902,10 +11367,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-f-20261016.json",
@@ -10915,10 +11383,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-h-20261016.json",
@@ -10928,10 +11399,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-reference-n-20261016.json",
@@ -10941,10 +11415,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json",
@@ -10954,10 +11431,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-ops-audits-r23-20261017.json",
@@ -11015,10 +11495,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json",
@@ -11028,10 +11511,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-plans-r25-20261017.json",
@@ -12033,10 +12519,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-lab-history-i-20261016.json",
@@ -12046,10 +12535,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-lab-json-i-20261016.json",
@@ -12059,10 +12551,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/delta-inventory-20261015.json",
@@ -12072,10 +12567,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
@@ -12085,10 +12583,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/e2e-report-preservation-20261015.json",
@@ -12098,10 +12599,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json",
@@ -12111,10 +12615,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r22-candidate-acceptance-20261017.json",
@@ -12124,10 +12631,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r22-candidate-acceptance-20261017.md",
@@ -12148,10 +12658,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r23-ops-audits-candidate-acceptance-20261017.json",
@@ -12242,10 +12755,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r24-phase2-designs-review-20261017.md",
@@ -12293,10 +12809,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r89-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r25-phase2-plans-review-20261017.md",
@@ -14863,10 +15382,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-01.json",
@@ -14876,10 +15398,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-02.json",
@@ -14889,10 +15414,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-03.json",
@@ -14902,10 +15430,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-04.json",
@@ -14915,10 +15446,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-05.json",
@@ -14928,10 +15462,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-06.json",
@@ -14941,10 +15478,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-07.json",
@@ -14954,10 +15494,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-08.json",
@@ -14967,10 +15510,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-09.json",
@@ -14980,10 +15526,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/machine-pilot-consumer-20261015.json",
@@ -14993,10 +15542,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json",
@@ -15006,10 +15558,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-assessment-20261015.json",
@@ -15019,10 +15574,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-03.json",
@@ -15032,10 +15590,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json",
@@ -15045,10 +15606,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-candidates.json",
@@ -15058,10 +15622,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots.json",
@@ -15071,10 +15638,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-catalog-v1/candidate.json",
@@ -15084,10 +15654,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-machine-evidence-v1/candidate.json",
@@ -15097,10 +15670,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protection.json",
@@ -15110,10 +15686,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protocol-preservation-20261015.json",
@@ -15123,10 +15702,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/readonly-phase2-audits-r22-20261016.json",
@@ -15136,10 +15718,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r91-ops-evidence-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r92-phase-governance-artifacts-20261017.json",
@@ -15437,10 +16022,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r94-final-machine-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/adjacent.json",
@@ -15466,10 +16054,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r94-final-machine-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/fullsuite.json",
@@ -15479,10 +16070,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r94-final-machine-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/mutation-logs/N1-dangling-scene-explicit-option.green.json",
@@ -15572,10 +16166,13 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r94-final-machine-artifacts.json",
-      "historyOverlay": true,
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
@@ -15653,8 +16250,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-2.json",
@@ -15665,8 +16265,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-3.json",
@@ -15677,8 +16280,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-4.json",
@@ -15689,8 +16295,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-5.json",
@@ -15701,8 +16310,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-6.json",
@@ -15713,8 +16325,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
@@ -15725,8 +16340,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
@@ -15737,8 +16355,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-history-scan.json",
@@ -15749,8 +16370,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun.json",
@@ -15761,8 +16385,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
@@ -15783,8 +16410,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-baac39b4-8b40-4c0f-88b3-f09acf03372c.json",
@@ -15795,8 +16425,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-5924dca5-da86-45dc-a6a7-397e9a1759de.json",
@@ -15807,8 +16440,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-byte-count-counters-20261018.json",
@@ -15819,8 +16455,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md",
@@ -15842,8 +16481,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-fd83a69c-01ee-4c5f-b773-a181419a4979.json",
@@ -15854,8 +16496,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-58e899bf-20261018.json",
@@ -15866,8 +16511,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-58e899bf-20261018.json",
@@ -15878,8 +16526,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.json",
@@ -15890,8 +16541,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-09c01f13-24cb-460b-816b-061cdeac677f.json",
@@ -15902,8 +16556,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-6325bba0-f6ec-47b4-950f-b735c305a288.json",
@@ -15914,8 +16571,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S01-8ef07ca7.json",
@@ -15926,8 +16586,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S01-8ef07ca7.json",
@@ -15938,8 +16601,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.json",
@@ -15950,8 +16616,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S02-fe546c7e.json",
@@ -15962,8 +16631,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S02-fe546c7e.json",
@@ -15974,8 +16646,11 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json",
-      "artifactOnly": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
@@ -16005,7 +16680,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-storage-37adc410.json",
@@ -16015,7 +16694,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-unicode-95def601.json",
@@ -16025,7 +16708,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/canonical-intake-b7534fc5.json",
@@ -16035,7 +16722,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/design-intake-38f18ff9.json",
@@ -16045,7 +16736,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/implementation-output-counter.json",
@@ -16055,7 +16750,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-followup-34462316.json",
@@ -16065,7 +16764,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-review-v1.json",
@@ -16075,7 +16778,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-design-review-38f18ff9.json",
@@ -16085,7 +16792,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-implementation-review-37adc410-rework.json",
@@ -16095,7 +16806,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-s04-guard-addendum-34462316.json",
@@ -16105,7 +16820,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-path-review-db814e3c-rework.json",
@@ -16115,7 +16834,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-review-95def601-scoped-accept.json",
@@ -16125,7 +16848,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-37-late-snapshot.json",
@@ -16135,7 +16862,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-native-path-db814e3c.json",
@@ -16145,7 +16876,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-unicode-95def601.json",
@@ -16155,7 +16890,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-s04-subset.json",
@@ -16165,7 +16904,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v1-rework.json",
@@ -16175,7 +16918,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v2-followup.json",
@@ -16185,7 +16932,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-37-rework.json",
@@ -16195,7 +16946,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-95-scoped-accept.json",
@@ -16205,7 +16960,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-db-rework.json",
@@ -16215,7 +16974,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-root-canonical-b7534fc5.json",
@@ -16225,7 +16988,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S03-cafe0578.json",
@@ -16235,7 +17002,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-addendum-S03-f9fbf0c7.json",
@@ -16245,7 +17016,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S03-f9fbf0c7.json",
@@ -16255,7 +17030,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S03-f9fbf0c7.json",
@@ -16265,7 +17044,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S04-c8715c2c.json",
@@ -16275,7 +17058,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json",
@@ -16285,7 +17072,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S04-c8715c2c.json",
@@ -16295,7 +17086,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-intake-review-c4d00d3e.json",
@@ -16305,7 +17100,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-central-c4d.json",
@@ -16315,7 +17114,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S03-S04-central-review-65ee30ad.json",
@@ -16325,7 +17128,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-central-65ee.json",
@@ -16335,7 +17142,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/harvest-S05-b87a2397.json",
@@ -16345,7 +17156,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S05-b87a2397.json",
@@ -16355,7 +17170,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
@@ -16365,7 +17184,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S05-b87a2397.json",
@@ -16375,7 +17198,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-private-runner-v3-review-76509484.json",
@@ -16385,7 +17212,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-runner-v3-76509484.json",
@@ -16395,7 +17226,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S05-central-review-4ddd17e4.json",
@@ -16405,7 +17240,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-central-s05-4ddd.json",
@@ -16415,7 +17254,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-governance-receipt-design-review-4ddd17e4.json",
@@ -16425,7 +17268,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-receipt-design-4ddd.json",
@@ -16435,7 +17282,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S06-71d74b4d.json",
@@ -16445,7 +17296,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S06-71d74b4d.json",
@@ -16455,7 +17310,11 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261018-record-integrity-rework.json"
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "reviewDepth": "partial-semantic"
     },
     {
       "path": "docs/ops/document-quality.md",

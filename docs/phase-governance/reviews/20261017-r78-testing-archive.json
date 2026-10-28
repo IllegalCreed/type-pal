@@ -12,21 +12,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Codex 对 GLM 物品逻辑 r1 的反证回执（candidate 705eb161，verdict=counter，2026-09-27）：candidateControl 45、原始六变异、judge 自测 10、content 98 文件 1177/1177；fixture 纠偏实证——heroActor 工厂被 validateActors 接受但实例 hp/maxHP 为未设值，saveGuard 实测抛「存档 载荷.world.party[0].hp 必须为有限数」（scope: fixture correction only; no product change）；changedBiomeExit=1（item-logic-mutants.mjs:27 多一空行）与既有 runtime-script.ts:146 noUnusedVariables warning 均如实保留。recorded historical fact（counter r1），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json:1"
+        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json: semantic identity field \"candidate\" actual value (family role anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -36,33 +36,25 @@
       "sourceSha256": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff",
       "afterSha256": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff",
       "publicCallers": [
-        "docs/testing/archive/legacy/content/editor-workflows/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/README.md",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "b09498c1384d7ad69cd653661a234a0fddcb388a",
+          "sha256": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
-        "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
-        ]
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": ["verdict 起始==='counter'（候选 705eb161…）"]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json",
-          "docs/testing/archive/legacy/content/editor-workflows/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff",
@@ -77,40 +69,34 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff",
-        "candidateSha256": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff",
-        "afterSha256": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff",
-        "lineCount": 282,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 8333,
-          "sourceLines": 282,
-          "sourceFinalNewline": true,
-          "inverseSha256": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json",
+        "family": "review-verdict-record",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "candidate",
-            "reviewer",
-            "verdict",
-            "sourceRoot",
-            "rawEvidenceDirectory",
-            "checks",
-            "fixture",
-            "hashes",
-            "runs",
-            "notRun"
-          ],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["candidate", "string"],
+            ["reviewer", "string"],
+            ["verdict", "string"],
+            ["sourceRoot", "string"],
+            ["rawEvidenceDirectory", "string"],
+            ["checks", "object"],
+            ["fixture", "object"],
+            ["hashes", "object"],
+            ["runs", "array"],
+            ["notRun", "array"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "semantic identity field \"candidate\" actual value (family role anchor)",
+            "pointer": "/candidate",
+            "value": "705eb16151796f4baa8a44a5ed9206337e37a632"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -132,17 +118,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 0,
+          "priorEntrySha256": "81c1be7b261f6f45e66b0587e5dbcfa7e22ba838f7eb0becbbfee688f2a90d7f",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -150,9 +145,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "b09498c1384d7ad69cd653661a234a0fddcb388a",
+          "sha256": "7e90e743496eda05f7b62f4839b7770e325fadd70f3b0eeb80d9394061bbc5ff"
         }
       ],
       "phaseAnchors": {
@@ -161,11 +156,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -185,7 +176,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":38,\"canonicalSha256\":\"fa22d9bb818f9680e6701b59d9beeefbe580e99d48eab080102a7241a6eaf398\"}"
+        ],
+        "priorReadDomainSha256": "1822049b50edb6ef59aba2c716decf91ad245bc702db7c52e90a4b32e6bce0b2",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/candidate"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/0"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
@@ -194,21 +201,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Codex 物品逻辑 r2 反证回执（candidate 1c8b57cb，verdict=counter，closed 3/remaining 3）：复核新测 46、content 1178/1178、旧 item 套件 51、typecheck 0、biome 零诊断；oracleAdaptation 如实钉住——r2 把 fixture maxHP/maxMP 从 150/100 改为 100/50，仅 oracle 期望值跟随（非语义漂移）；zeroDiffFiles 2 条列出；wholeRepositoryQuality 显式声明全仓质量另行跟踪、本审不免除。recorded historical fact（counter r2），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json:1"
+        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json: semantic identity field \"candidate\" actual value (family role anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -218,33 +225,25 @@
       "sourceSha256": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac",
       "afterSha256": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac",
       "publicCallers": [
-        "docs/testing/archive/legacy/content/editor-workflows/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/README.md",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "9dbd08320106bb25f84d7c288ce69d5488853a1b",
+          "sha256": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
-        "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
-        ]
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": ["verdict 起始==='counter'（候选 1c8b57cb…）"]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
-          "docs/testing/archive/legacy/content/editor-workflows/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac",
@@ -259,42 +258,36 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac",
-        "candidateSha256": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac",
-        "afterSha256": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac",
-        "lineCount": 285,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 9253,
-          "sourceLines": 285,
-          "sourceFinalNewline": true,
-          "inverseSha256": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
+        "family": "review-verdict-record",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "candidate",
-            "verdict",
-            "closed",
-            "remaining",
-            "checks",
-            "zeroDiffFiles",
-            "oracleAdaptation",
-            "hashes",
-            "runs",
-            "evidenceDirectory",
-            "wholeRepositoryQuality",
-            "notRun"
-          ],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["candidate", "string"],
+            ["verdict", "string"],
+            ["closed", "array"],
+            ["remaining", "array"],
+            ["checks", "object"],
+            ["zeroDiffFiles", "array"],
+            ["oracleAdaptation", "string"],
+            ["hashes", "object"],
+            ["runs", "array"],
+            ["evidenceDirectory", "string"],
+            ["wholeRepositoryQuality", "string"],
+            ["notRun", "array"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "semantic identity field \"candidate\" actual value (family role anchor)",
+            "pointer": "/candidate",
+            "value": "1c8b57cb508c2e0363c46d2aa842aa4eed50082a"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -316,17 +309,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 1,
+          "priorEntrySha256": "3f0092881578606bf37c392c3da3df2ebe1ff2d8a62abe877c96c2ba6633e9b0",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -334,9 +336,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "9dbd08320106bb25f84d7c288ce69d5488853a1b",
+          "sha256": "fee7eb0beb19c50e4d54d2d4566815338d20743d79c69edb0bd1c56d1625f7ac"
         }
       ],
       "phaseAnchors": {
@@ -345,11 +347,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -369,7 +367,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":39,\"canonicalSha256\":\"f231e1217699effe8f42df6c607c13303c82dc2eb42fb6d4fa14e0d00307ae43\"}"
+        ],
+        "priorReadDomainSha256": "145421c54779b4aaf87a38a39aa840e59087ea171689976004ad44ed1acd6d07",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/candidate"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/1"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review.md",
@@ -567,21 +581,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Codex 物品逻辑 r3 反证回执（candidate 598777cf，reviewBase 2bd2a9c3，verdict=counter，merged=false，productionUnchanged=true）：gates——定向 46/46、content 1178/1178、executor 17/17、typecheck 0、docs 0；biome errors=2（两处诊断列出）；作者变异自测 10/46 控制/6 中；originalWitnesses 24 + residualWitnesses 8；范围限六新测+fixture+自有证据。recorded historical fact（counter r3），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json:1"
+        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json: semantic identity field \"candidate\" actual value (family role anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -591,33 +605,29 @@
       "sourceSha256": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7",
       "afterSha256": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7",
       "publicCallers": [
-        "docs/testing/archive/legacy/content/editor-workflows/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/README.md",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "7ad9a813399137d05a664637cb85c2701056a0af",
+          "sha256": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "verdict==='counter' && merged===false && productionUnchanged===true",
+          "gates.biome.summary.errors===2 如实保留",
+          "authorMutants==={selfTests:10,controlTests:46,detected:6}"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json",
-          "docs/testing/archive/legacy/content/editor-workflows/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7",
@@ -632,45 +642,39 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7",
-        "candidateSha256": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7",
-        "afterSha256": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7",
-        "lineCount": 460,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 14453,
-          "sourceLines": 460,
-          "sourceFinalNewline": true,
-          "inverseSha256": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json",
+        "family": "review-verdict-record",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "task",
-            "date",
-            "reviewer",
-            "candidate",
-            "reviewBase",
-            "verdict",
-            "merged",
-            "productionUnchanged",
-            "scope",
-            "gates",
-            "originalWitnesses",
-            "residualWitnesses",
-            "sourceHashes",
-            "evidenceDirectories",
-            "notRun"
-          ],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["task", "string"],
+            ["date", "string"],
+            ["reviewer", "string"],
+            ["candidate", "string"],
+            ["reviewBase", "string"],
+            ["verdict", "string"],
+            ["merged", "boolean"],
+            ["productionUnchanged", "boolean"],
+            ["scope", "string"],
+            ["gates", "object"],
+            ["originalWitnesses", "array"],
+            ["residualWitnesses", "array"],
+            ["sourceHashes", "object"],
+            ["evidenceDirectories", "array"],
+            ["notRun", "array"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "semantic identity field \"candidate\" actual value (family role anchor)",
+            "pointer": "/candidate",
+            "value": "598777cf30bc9c7537995ba042d341ce5de27a55"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -692,17 +696,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 3,
+          "priorEntrySha256": "0c5c86eea149f31aaf682b0880f62ca5254d8a0faed78d82342dcb9a428e9193",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -710,9 +723,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "7ad9a813399137d05a664637cb85c2701056a0af",
+          "sha256": "34756d72e6c909206cdc69301eb54275b2c758b451bb85655ecc21f09b6cccf7"
         }
       ],
       "phaseAnchors": {
@@ -721,11 +734,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -745,7 +754,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":40,\"canonicalSha256\":\"3d818fd7b27845bdbb07be03ef2c59ededf523759068e2271244c7d39a73eaee\"}"
+        ],
+        "priorReadDomainSha256": "b6b819af79045379b209cb29bfce9bc6075b5c30b2043bea79a68966838555dd",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/candidate"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/3"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review.md",
@@ -943,21 +968,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Codex 物品逻辑 r4 反证回执（candidate 3ac52586，verdict=counter: R3/R4 plus restore removed assertion）：requiredCandidateMutants 候选变异门未过——candidateMutationGate=false、missed 2 条列出、exit1（此前 r1-r3 均未设该门）；acceptedThisRound 4 条；gates 其余全绿（46/1178/17、typecheck 0、biome 0）；originalWitnesses 24 + residualWitnesses 8。recorded historical fact（counter r4），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json:1"
+        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json: semantic identity field \"candidate\" actual value (family role anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -967,33 +992,28 @@
       "sourceSha256": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b",
       "afterSha256": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b",
       "publicCallers": [
-        "docs/testing/archive/legacy/content/editor-workflows/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/README.md",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "71a1a7d75334f2b3210661609556990e2d179994",
+          "sha256": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "requiredCandidateMutants.candidateMutationGate===false && missed 长度===2",
+          "verdict 含 restore removed assertion"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json",
-          "docs/testing/archive/legacy/content/editor-workflows/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b",
@@ -1008,43 +1028,37 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b",
-        "candidateSha256": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b",
-        "afterSha256": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b",
-        "lineCount": 447,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 14781,
-          "sourceLines": 447,
-          "sourceFinalNewline": true,
-          "inverseSha256": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json",
+        "family": "review-verdict-record",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "task",
-            "date",
-            "reviewer",
-            "candidate",
-            "reviewBase",
-            "verdict",
-            "productionUnchanged",
-            "merged",
-            "acceptedThisRound",
-            "gates",
-            "originalWitnesses",
-            "residualWitnesses",
-            "notRun"
-          ],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["task", "string"],
+            ["date", "string"],
+            ["reviewer", "string"],
+            ["candidate", "string"],
+            ["reviewBase", "string"],
+            ["verdict", "string"],
+            ["productionUnchanged", "boolean"],
+            ["merged", "boolean"],
+            ["acceptedThisRound", "array"],
+            ["gates", "object"],
+            ["originalWitnesses", "array"],
+            ["residualWitnesses", "array"],
+            ["notRun", "array"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "semantic identity field \"candidate\" actual value (family role anchor)",
+            "pointer": "/candidate",
+            "value": "3ac525860d769893304c504e9c469bb48afe2aef"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -1066,17 +1080,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 5,
+          "priorEntrySha256": "acbebca87a75592a3b53f7044f9f65142849993fd2a443ff035220fe9a89b337",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -1084,9 +1107,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "71a1a7d75334f2b3210661609556990e2d179994",
+          "sha256": "dfb8127d3464c574d6c93661ce0aa481710ac1a5fd2a930cc42652106532fe4b"
         }
       ],
       "phaseAnchors": {
@@ -1095,11 +1118,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -1119,7 +1138,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":41,\"canonicalSha256\":\"8305ed01edb6b87b521daf59b01ec34c62fae7c7919ad3604ea720e25af8d630\"}"
+        ],
+        "priorReadDomainSha256": "26a25bdf35b2f3e31366fade1838259ff5d25ac57d5f9540954ff5a675f3374a",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/candidate"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/5"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
@@ -1128,21 +1163,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Codex 物品逻辑 r5 反证回执（candidate 2796124b，verdict=counter: existing R3 checklist, restore assertion, R4 and static diagnostics）：requiredWitnessGate 本轮已过（candidateMutationGate=true、missed=[]、exit0）——r4 缺口闭合；candidateMutants 8 条；gates content 1178/1178、executor 17/17、typecheck 0、docs 0；biome errors=2 仍存（静态诊断项未清）。recorded historical fact（counter r5），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json:1"
+        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json: semantic identity field \"candidate\" actual value (family role anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -1152,33 +1187,28 @@
       "sourceSha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
       "afterSha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
       "publicCallers": [
-        "docs/testing/archive/legacy/content/editor-workflows/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/README.md",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "b598f8990ad86193db4b60974839d4271e28c149",
+          "sha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "requiredWitnessGate.candidateMutationGate===true && missed===[] && exit===0",
+          "gates.biome.summary.errors===2 仍存（返工未清项如实）"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
-          "docs/testing/archive/legacy/content/editor-workflows/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
@@ -1193,42 +1223,36 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
-        "candidateSha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
-        "afterSha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
-        "lineCount": 155,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 4477,
-          "sourceLines": 155,
-          "sourceFinalNewline": true,
-          "inverseSha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
+        "family": "review-verdict-record",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "task",
-            "reviewer",
-            "date",
-            "candidate",
-            "reviewBase",
-            "verdict",
-            "productionUnchanged",
-            "merged",
-            "requiredWitnessGate",
-            "candidateMutants",
-            "gates",
-            "notRun"
-          ],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["task", "string"],
+            ["reviewer", "string"],
+            ["date", "string"],
+            ["candidate", "string"],
+            ["reviewBase", "string"],
+            ["verdict", "string"],
+            ["productionUnchanged", "boolean"],
+            ["merged", "boolean"],
+            ["requiredWitnessGate", "object"],
+            ["candidateMutants", "array"],
+            ["gates", "object"],
+            ["notRun", "array"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "semantic identity field \"candidate\" actual value (family role anchor)",
+            "pointer": "/candidate",
+            "value": "2796124bb7d582e9eb0016fb33ab5501691d3e70"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -1250,17 +1274,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 6,
+          "priorEntrySha256": "9b8fc57f85d53b9c4da7f04c1dd637eecff77e00ca2fcfe6342f8b07609e2199",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -1268,9 +1301,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "b598f8990ad86193db4b60974839d4271e28c149",
+          "sha256": "c36d8972361f57d243295c1203b2e6a465aee7080179f5afc027fd75c48bcbc2"
         }
       ],
       "phaseAnchors": {
@@ -1279,11 +1312,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -1303,7 +1332,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":42,\"canonicalSha256\":\"26cbdc26638c8d3284cc2ce69dc2152c79e97eb778079e0bc662fa4687e42de9\"}"
+        ],
+        "priorReadDomainSha256": "b6b819af79045379b209cb29bfce9bc6075b5c30b2043bea79a68966838555dd",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/candidate"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/6"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review.md",
@@ -1690,21 +1735,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Codex 并行守卫命令 r2 双候选复核回执（2026-09-26，glm 候选 16e647a1 + cursor 候选 a732f7d2）：Cursor 侧集成——base 449adb54、merge cf40748a 后 check 9,602 测/964 文件 exit0、ratchet 9,110、strict 9,110（strictMatchesRatchetBaseline 视图一致性真），覆盖净增 branches+48/lines+39 等，glmIncluded=false、frameEditorWipIncluded=false、fullE2eQ1Q2Verified=false 三条边界如实；GLM 侧未集成本轮只留 16 条结果记录；cursor 10 条结果记录；原始证据在临时目录。recorded historical fact（2026-09-26 复核），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json:1"
+        "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json: top-level scalar field \"date\" (structural anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -1714,33 +1759,29 @@
       "sourceSha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
       "afterSha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
       "publicCallers": [
-        "docs/testing/archive/legacy/content/editor-workflows/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/README.md",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json",
-        "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "d27f8f57f7a5b573753cd5007f53660b9951175d",
+          "sha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "cursorIntegration.check/ratchet/strict 三门 exit===0 且 tests==={9602,9110,9110}",
+          "glmIncluded===false && fullE2eQ1Q2Verified===false 如实",
+          "results.glm 长度===16 && results.cursor 长度===10"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json",
-          "docs/testing/archive/legacy/content/editor-workflows/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
@@ -1755,29 +1796,30 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
-        "candidateSha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
-        "afterSha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
-        "lineCount": 375,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 16865,
-          "sourceLines": 375,
-          "sourceFinalNewline": true,
-          "inverseSha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json",
+        "family": "review-verdict-record",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": ["date", "candidates", "reviewer", "cursorIntegration", "raw", "results"],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["date", "string"],
+            ["candidates", "object"],
+            ["reviewer", "string"],
+            ["cursorIntegration", "object"],
+            ["raw", "object"],
+            ["results", "object"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "top-level scalar field \"date\" (structural anchor)",
+            "pointer": "/date",
+            "value": "2026-09-26"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -1799,17 +1841,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 9,
+          "priorEntrySha256": "1536ebef671da97a37784ee96ec305ccaa99b8541adc95a6b29d36de688dd528",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -1817,9 +1868,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "d27f8f57f7a5b573753cd5007f53660b9951175d",
+          "sha256": "6e7df69965409903b8682e2a0af66bf8035c263758d2e6da60000bd9fde8fc37"
         }
       ],
       "phaseAnchors": {
@@ -1828,11 +1879,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -1852,7 +1899,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":43,\"canonicalSha256\":\"1268b1bf4b0618e111be5629e5590d1fe257f442da1d1ac2f62fae51c7253cbe\"}"
+        ],
+        "priorReadDomainSha256": "ba31aea86ef308b626e691f875fa5f1f4f01ad8be7d6dc907a43218b5ed14867",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/date"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/9"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/content/quality-gates/README.md",
@@ -2238,21 +2301,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Codex 对 GLM 守卫叶波 r2 的反证回执（candidate 99113d22，reviewMain cc59a2fa，verdict=counter，remaining 2）：original 四条裁决状态——R1 三见证 detected 但其余实际输入快照不符、R2 wait/rows/playSound/middle hook 已修但嵌套 turn controls 未解、R3 closed、R4 JSON 格式与百分比分类 closed；checks：content 79 文件 957 exit0、typecheck 0、作者变异 1 control+6 mutants+judge 自测 10 exit0、biome 7 文件 4 warnings（exit0）、baseline tests=8248 未动；witnesses 7 条与 criterion 8 条；fullCheck/ratchet/strict 明示 not run（实现验收被 counter 阻断）。recorded historical fact（2026-09-26 counter），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/content/quality-gates/guard-leaf-r2-evidence.json:1"
+        "docs/testing/archive/legacy/content/quality-gates/guard-leaf-r2-evidence.json: semantic identity field \"candidate\" actual value (family role anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/content/quality-gates/guard-leaf-r2-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -2262,29 +2325,29 @@
       "sourceSha256": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6",
       "afterSha256": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6",
       "publicCallers": [
-        "docs/testing/archive/legacy/content/quality-gates/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/content/quality-gates/guard-leaf-r2-evidence.json",
-        "docs/testing/archive/legacy/content/quality-gates/README.md",
-        "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/content/quality-gates/guard-leaf-r2-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "286ccdacc195074f408bc45c79bdbc0ae14b26bc",
+          "sha256": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "verdict==='counter' && remaining 长度===2",
+          "checks.authorMutants==={controls:1,mutants:6,judgeSelfTests:10,exit:0}",
+          "fullCheckRatchetStrict 显式 not run"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/content/quality-gates/guard-leaf-r2-evidence.json",
-          "docs/testing/archive/legacy/content/quality-gates/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6",
@@ -2299,43 +2362,37 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6",
-        "candidateSha256": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6",
-        "afterSha256": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6",
-        "lineCount": 165,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 4669,
-          "sourceLines": 165,
-          "sourceFinalNewline": true,
-          "inverseSha256": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/content/quality-gates/guard-leaf-r2-evidence.json",
+        "family": "review-verdict-record",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "candidate",
-            "reviewMain",
-            "verdict",
-            "remaining",
-            "original",
-            "criterion",
-            "hashes",
-            "witnesses",
-            "rawEvidence",
-            "checks",
-            "baseline",
-            "visual",
-            "fullCheckRatchetStrict"
-          ],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["candidate", "string"],
+            ["reviewMain", "string"],
+            ["verdict", "string"],
+            ["remaining", "array"],
+            ["original", "object"],
+            ["criterion", "array"],
+            ["hashes", "object"],
+            ["witnesses", "array"],
+            ["rawEvidence", "string"],
+            ["checks", "object"],
+            ["baseline", "object"],
+            ["visual", "string"],
+            ["fullCheckRatchetStrict", "string"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "semantic identity field \"candidate\" actual value (family role anchor)",
+            "pointer": "/candidate",
+            "value": "99113d225fe2322395238a7b60fdb4a06e72d69c"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -2357,17 +2414,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 12,
+          "priorEntrySha256": "1911fa6d50dd7088b5205d7a51a9b434a6272cdfaac1efef508445c3f90ab0d7",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -2375,9 +2441,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/content/quality-gates/guard-leaf-r2-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "286ccdacc195074f408bc45c79bdbc0ae14b26bc",
+          "sha256": "5b6e135cd11ac64b85ece3536f15e69577647cc2844972a87760e604d3fee9c6"
         }
       ],
       "phaseAnchors": {
@@ -2386,11 +2452,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -2410,7 +2472,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":44,\"canonicalSha256\":\"ce0e1e6b5076d62bf00b7b6a6062ce17b098e5e58b49d0c0d012d3f766a719bb\"}"
+        ],
+        "priorReadDomainSha256": "71f850ca507299661efd565ee4b4d67d85b46f41aa73d0a8c12aa5d6e2fea7bf",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/candidate"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/12"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json",
@@ -2419,21 +2497,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Codex 对 GLM 守卫波 wave3 r3 的反证回执（candidate 6b371144，decision=counter，remaining='R2 anonymous onDefeated object input immutability only'）：closed 3 条；gates——新测 110、content 1132/92 文件、typecheck 0、biome exit0（3 warnings）、docs 0、原始 control 110/needle 8/judge 自测 10、globalCoverageRun=false；literalRejectCensus：directRejectCalls 63 中匿名对象/数组输入仅 1 处（计数证据钉住返工面）；runs 8 条。recorded historical fact（2026-09-26 counter），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json:1"
+        "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json: semantic identity field \"candidate\" actual value (family role anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -2443,29 +2521,29 @@
       "sourceSha256": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510",
       "afterSha256": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510",
       "publicCallers": [
-        "docs/testing/archive/legacy/content/quality-gates/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json",
-        "docs/testing/archive/legacy/content/quality-gates/README.md",
-        "docs/testing/archive/legacy/content/quality-gates/guard-leaf-r2-evidence.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "7c7df75fe8aae558640985790501294bd06d68ef",
+          "sha256": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "decision==='counter' && remaining 收窄为单条",
+          "literalRejectCensus.directRejectCalls===63 && anonymousObjectOrArrayInputs 长度===1",
+          "gates.globalCoverageRun===false 如实"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json",
-          "docs/testing/archive/legacy/content/quality-gates/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510",
@@ -2480,39 +2558,33 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510",
-        "candidateSha256": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510",
-        "afterSha256": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510",
-        "lineCount": 149,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 10950,
-          "sourceLines": 149,
-          "sourceFinalNewline": true,
-          "inverseSha256": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json",
+        "family": "review-verdict-record",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "candidate",
-            "reviewer",
-            "decision",
-            "remaining",
-            "closed",
-            "gates",
-            "literalRejectCensus",
-            "raw",
-            "runs"
-          ],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["candidate", "string"],
+            ["reviewer", "string"],
+            ["decision", "string"],
+            ["remaining", "string"],
+            ["closed", "array"],
+            ["gates", "object"],
+            ["literalRejectCensus", "object"],
+            ["raw", "string"],
+            ["runs", "array"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "semantic identity field \"candidate\" actual value (family role anchor)",
+            "pointer": "/candidate",
+            "value": "6b371144e5a96a2996c73932d04f664ebbb8a8b7"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -2534,17 +2606,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 13,
+          "priorEntrySha256": "5e26382c15a7f205cb59ba989457799b3ababb9fa16687ecd2b6c68326777a3e",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -2552,9 +2633,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "7c7df75fe8aae558640985790501294bd06d68ef",
+          "sha256": "ca5de2c53f721188a8dd206c83e256100f70bd0557357bd28f210ec9704d2510"
         }
       ],
       "phaseAnchors": {
@@ -2563,11 +2644,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -2587,7 +2664,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":45,\"canonicalSha256\":\"012733d7146a43659bf507d0fb5e20c23dd4b0f11ed8f82086f267e39a4f1946\"}"
+        ],
+        "priorReadDomainSha256": "d1fdf8a42e23700f7cc73454f8ff7a634aec86fb2463eab401e29439209f8c1f",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/candidate"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/13"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review.md",
@@ -3161,21 +3254,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "pre-E2E 边界批 2 总回执（package=pre-e2e-boundary-batch-2，revision=r1-Codex-takeover，2026-09-14，frozenProduct=70e3f627）：执行账——caseExecutions 121、oracleExecutions 13、总 134；tally covered 34/reproduced 23/risk 15；8 份探针工具逐文件钉 sha256；oracles：13 条隔离断言/结果（scope 明示非实现验收、不改产品文件），日志钉 sha256；rows 72 条逐案结果。属 E2E 前置边界调查回执而非产品验收。recorded historical fact（2026-09-14），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json:1"
+        "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json: nested scalar \"meta.package\" (structural anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -3185,28 +3278,29 @@
       "sourceSha256": "30ad508937e4c26c8f391d90cf555ca8d00850190ef80ba855bf9dae8d927b7c",
       "afterSha256": "30ad508937e4c26c8f391d90cf555ca8d00850190ef80ba855bf9dae8d927b7c",
       "publicCallers": [
-        "docs/testing/archive/legacy/e2e/route-and-checkpoint/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json",
-        "docs/testing/archive/legacy/e2e/route-and-checkpoint/README.md"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "74cd39b7c470d8c552a59715311b10dd497fae97",
+          "sha256": "30ad508937e4c26c8f391d90cf555ca8d00850190ef80ba855bf9dae8d927b7c"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "meta.executions===caseExecutions+oracleExecutions（134）",
+          "tally 三类和===72===rows 长度",
+          "codeHashes 恰 8 个探针文件且 sha256 非空"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json",
-          "docs/testing/archive/legacy/e2e/route-and-checkpoint/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "30ad508937e4c26c8f391d90cf555ca8d00850190ef80ba855bf9dae8d927b7c",
@@ -3221,29 +3315,23 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "30ad508937e4c26c8f391d90cf555ca8d00850190ef80ba855bf9dae8d927b7c",
-        "candidateSha256": "30ad508937e4c26c8f391d90cf555ca8d00850190ef80ba855bf9dae8d927b7c",
-        "afterSha256": "30ad508937e4c26c8f391d90cf555ca8d00850190ef80ba855bf9dae8d927b7c",
-        "lineCount": 4582,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 239880,
-          "sourceLines": 4582,
-          "sourceFinalNewline": true,
-          "inverseSha256": "30ad508937e4c26c8f391d90cf555ca8d00850190ef80ba855bf9dae8d927b7c",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json",
+        "family": "e2e-checkpoint-inventory",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": ["meta", "rows"],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [["meta", "object"], ["rows", "array"]]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "nested scalar \"meta.package\" (structural anchor)",
+            "pointer": "/meta/package",
+            "value": "pre-e2e-boundary-batch-2"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -3265,17 +3353,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 17,
+          "priorEntrySha256": "b9ffe1d96e1ab45a9bfb2d63460ba675a51a412c3e2c2840d9aa86443faaf039",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -3283,9 +3380,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "30ad508937e4c26c8f391d90cf555ca8d00850190ef80ba855bf9dae8d927b7c",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "74cd39b7c470d8c552a59715311b10dd497fae97",
+          "sha256": "30ad508937e4c26c8f391d90cf555ca8d00850190ef80ba855bf9dae8d927b7c"
         }
       ],
       "phaseAnchors": {
@@ -3294,11 +3391,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -3318,7 +3411,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":46,\"canonicalSha256\":\"a44285ad31be3d0bd24f5821ef8514bca7edd88ce538b0722fd1db2f2031ff6a\"}"
+        ],
+        "priorReadDomainSha256": "b3b89b381a84f06233bb41344a0be9ae7c4660f9466871fa160232f357eeb802",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/meta/package"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/17"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md",
@@ -4829,21 +4938,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Codex 对 Cursor 地图逻辑 r1 的反证回执（candidate 070d3bf3，verdict=counter）：定向 17 文件 105/105、editor 359 文件 3049/3049、typecheck 0、biome 15 文件 exit0、docs/diff 0；作者侧 6 control + 6 mutants + judge 自测 15；fixture 拒绝实证——manifest 缺键 id 时实测拒绝消息「manifest: 缺键 \"id\"」；judge 3 条与 witness 12 条；reviewToolFirstAttempt 如实记录首轮 tsx 探针 import.meta.glob TypeError 后换 runner。recorded historical fact（counter r1），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json:1"
+        "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json: semantic identity field \"candidate\" actual value (family role anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -4853,31 +4962,28 @@
       "sourceSha256": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114",
       "afterSha256": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114",
       "publicCallers": [
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json",
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/README.md",
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/content-contracts-review.md",
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json",
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/glm-content-contracts.md"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "8af8dc744fdd67331f7d7dc783692456d313fcd4",
+          "sha256": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "verdict==='counter' && directed 105/105 && editor 3049/3049",
+          "authorControls==={controls:6,mutants:6,selfTests:15}"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json",
-          "docs/testing/archive/legacy/editor/authoring-and-runtime/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114",
@@ -4892,42 +4998,36 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114",
-        "candidateSha256": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114",
-        "afterSha256": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114",
-        "lineCount": 203,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 6435,
-          "sourceLines": 203,
-          "sourceFinalNewline": true,
-          "inverseSha256": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json",
+        "family": "review-verdict-record",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "task",
-            "candidate",
-            "reviewer",
-            "verdict",
-            "checks",
-            "fixture",
-            "judge",
-            "hashes",
-            "witnesses",
-            "raw",
-            "reviewToolFirstAttempt",
-            "notRun"
-          ],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["task", "string"],
+            ["candidate", "string"],
+            ["reviewer", "string"],
+            ["verdict", "string"],
+            ["checks", "object"],
+            ["fixture", "object"],
+            ["judge", "array"],
+            ["hashes", "object"],
+            ["witnesses", "array"],
+            ["raw", "object"],
+            ["reviewToolFirstAttempt", "string"],
+            ["notRun", "array"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "semantic identity field \"candidate\" actual value (family role anchor)",
+            "pointer": "/candidate",
+            "value": "070d3bf3173024ea0dd79369cb34f02afb7484e5"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -4949,17 +5049,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 26,
+          "priorEntrySha256": "01cc825375626870bccedf31caf39058be7c76276eb1da7febdc3d77ad17e83c",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -4967,9 +5076,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "8af8dc744fdd67331f7d7dc783692456d313fcd4",
+          "sha256": "0b716d01cc8f2ef8d8cc85ea10828aad7f7117c0cc578a568246e1d8e798b114"
         }
       ],
       "phaseAnchors": {
@@ -4978,11 +5087,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -5002,7 +5107,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":47,\"canonicalSha256\":\"c9d1ce0b0bc15b25b77e16b30cef35a0439e8e6022f691e65f491435322ef2ae\"}"
+        ],
+        "priorReadDomainSha256": "0dc7d2904ecd3b5d19d1959c72ff17a7ca6b135b551a84091eb9fe9066a5e82c",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/candidate"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/26"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json",
@@ -5011,21 +5132,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Codex 对 Cursor 地图逻辑 r2 的反证回执（candidate 4dc8fb75，reviewBase d502daf4，verdict=counter: CM1 plan-input retention only——收窄为单条）：accepted 4 条；directed 19 文件 117/117（含 background 29）、editor 3048/3048、typecheck 0 诊断、biome 全零、docs 0；作者反控 6/6 + 自测 17；sourceUnchanged=true；originalWitnesses 12 + residualWitnesses 8 + actualCandidateJudge 3；fixture 复核用与交付同构 manifest。recorded historical fact（counter r2），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json:1"
+        "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json: semantic identity field \"candidate\" actual value (family role anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -5035,31 +5156,29 @@
       "sourceSha256": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a",
       "afterSha256": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a",
       "publicCallers": [
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json",
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/README.md",
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/content-contracts-review.md",
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json",
-        "docs/testing/archive/legacy/editor/authoring-and-runtime/glm-content-contracts.md"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "7fb9fa791a10676146239ba774296dd3b3e7712d",
+          "sha256": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "verdict==='counter: CM1 plan-input retention only'（单条收窄）",
+          "sourceUnchanged===true",
+          "accepted 长度===4"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json",
-          "docs/testing/archive/legacy/editor/authoring-and-runtime/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a",
@@ -5074,45 +5193,39 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a",
-        "candidateSha256": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a",
-        "afterSha256": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a",
-        "lineCount": 384,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 12556,
-          "sourceLines": 384,
-          "sourceFinalNewline": true,
-          "inverseSha256": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json",
+        "family": "review-verdict-record",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "task",
-            "date",
-            "reviewer",
-            "candidate",
-            "reviewBase",
-            "verdict",
-            "accepted",
-            "sourceUnchanged",
-            "scope",
-            "gates",
-            "originalWitnesses",
-            "residualWitnesses",
-            "actualCandidateJudge",
-            "actualFixture",
-            "notRun"
-          ],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["task", "string"],
+            ["date", "string"],
+            ["reviewer", "string"],
+            ["candidate", "string"],
+            ["reviewBase", "string"],
+            ["verdict", "string"],
+            ["accepted", "array"],
+            ["sourceUnchanged", "boolean"],
+            ["scope", "string"],
+            ["gates", "object"],
+            ["originalWitnesses", "array"],
+            ["residualWitnesses", "array"],
+            ["actualCandidateJudge", "array"],
+            ["actualFixture", "object"],
+            ["notRun", "array"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "semantic identity field \"candidate\" actual value (family role anchor)",
+            "pointer": "/candidate",
+            "value": "4dc8fb758f46de5c291fc45397d74255972e4a5c"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -5134,17 +5247,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 27,
+          "priorEntrySha256": "0a6e011bdaf86b3a32f1008dc6858e8934fdeefa3a3d9d994807c487261e50d2",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -5152,9 +5274,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "7fb9fa791a10676146239ba774296dd3b3e7712d",
+          "sha256": "c5f30da0ff04e4559505a4a41c590a8345360a015cddb3bfcbccd775fabb675a"
         }
       ],
       "phaseAnchors": {
@@ -5163,11 +5285,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -5187,7 +5305,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":48,\"canonicalSha256\":\"1afc6c3bb6e2f9dd29d130fb83931266254192b5c5ac19e50fa75fc7e7a5e244\"}"
+        ],
+        "priorReadDomainSha256": "b6b819af79045379b209cb29bfce9bc6075b5c30b2043bea79a68966838555dd",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/candidate"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/27"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/glm-content-contracts.md",
@@ -7048,21 +7182,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "Codex 对 Cursor 命令波 2 的反证回执（ARCH-F2-CURSOR-BATCH-2，candidate b2e8d712，base ef19ae7e，freeze 51048353，verdict=counter: R1-R3 only；产品抽取已 accept 不重做）：机械账——声明 90/export 119/import 绑定 62，图 274 文件无分量（无循环）；范围 14 产品文件/13 新模块/11 新测文件/16 新测，旧测零改动；mutants 绿 5 红 5 且每例恰一目标失败（独立严格检查）；docs 门 exit1 如实（根回执在白名单外且缺父索引）；negativeEvidence 在 /tmp 留档；merged=false、done=false。recorded historical fact（2026-09 counter），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json:1"
+        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json: semantic identity field \"candidate\" actual value (family role anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -7072,35 +7206,29 @@
       "sourceSha256": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80",
       "afterSha256": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80",
       "publicCallers": [
-        "docs/testing/archive/legacy/editor/editor-workflows/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/README.md",
-        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-history-workflows-receipt.md",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-script-helpers-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-game-menu-boundaries-evidence.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "291d2560d5996b9ac70fe8a113a41878a9a3d461",
+          "sha256": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "verdict==='counter: R1-R3 only' && productExtraction==='accepted'",
+          "mutants==={green:5,red:5,exactlyOneTargetFailureEach:true}",
+          "checks.docs.exit===1 且 reason 如实记录"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json",
-          "docs/testing/archive/legacy/editor/editor-workflows/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80",
@@ -7115,50 +7243,44 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80",
-        "candidateSha256": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80",
-        "afterSha256": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80",
-        "lineCount": 87,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 1980,
-          "sourceLines": 87,
-          "sourceFinalNewline": true,
-          "inverseSha256": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json",
+        "family": "review-verdict-record",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "task",
-            "candidate",
-            "base",
-            "productionFreeze",
-            "reviewer",
-            "verdict",
-            "productExtraction",
-            "declarationCount",
-            "exportCount",
-            "importBindingCount",
-            "graph",
-            "criterion",
-            "checks",
-            "scope",
-            "candidateWorkingTreeChanged",
-            "officialCoverageRun",
-            "merged",
-            "done",
-            "logs",
-            "negativeEvidence"
-          ],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["task", "string"],
+            ["candidate", "string"],
+            ["base", "string"],
+            ["productionFreeze", "string"],
+            ["reviewer", "string"],
+            ["verdict", "string"],
+            ["productExtraction", "string"],
+            ["declarationCount", "number"],
+            ["exportCount", "number"],
+            ["importBindingCount", "number"],
+            ["graph", "object"],
+            ["criterion", "array"],
+            ["checks", "object"],
+            ["scope", "object"],
+            ["candidateWorkingTreeChanged", "boolean"],
+            ["officialCoverageRun", "boolean"],
+            ["merged", "boolean"],
+            ["done", "boolean"],
+            ["logs", "array"],
+            ["negativeEvidence", "string"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "semantic identity field \"candidate\" actual value (family role anchor)",
+            "pointer": "/candidate",
+            "value": "b2e8d712cacad8253fbbe9aaf2225753d6d9de80"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -7180,17 +7302,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 38,
+          "priorEntrySha256": "086cdf6db5c3339f798ccb3f96c300efa79b43ffbc43c31b4d542ec7e394c18b",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -7198,9 +7329,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "291d2560d5996b9ac70fe8a113a41878a9a3d461",
+          "sha256": "de2ff29c1120f699dc9bb48fc477c92d957ce2a16d87befb33f5ed4a1ba16b80"
         }
       ],
       "phaseAnchors": {
@@ -7209,11 +7340,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -7233,7 +7360,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":49,\"canonicalSha256\":\"8baf510ed12c36611daa02901d694ca6b3b731c9a68962382ca083b805fa7091\"}"
+        ],
+        "priorReadDomainSha256": "58c986e16ed77029875d142881bb7932669c852ef808f644f50599137c7c1513",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/candidate"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/38"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review.md",
@@ -7435,21 +7578,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "设计系统审计工具分层重构候选回执（integrationReceipt 另档，evidenceScope=candidate snapshot，2026-09）：五层拆分——facade design-system-audit.mjs 6428→4669 行、ast 1215、css 463、rules 68、report 110，反向 import 到 facade=0、既有公开名全保留；性能实证 coldValidateAdoption 5637.4ms→2407.3ms、cached 240.2ms（原因：原 switch 对连续相同 fall-through 体重复分析；修复=按首个可执行子句合并标签）；测试：新层合同 6 测、并行既有门 29 测（含原 15s 超时）、designSystemGate 100 生产文件 exit0、editorCheck 2885 测；负控 10 控 6 中。status=candidate; not merged。recorded historical fact，not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json:1"
+        "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json: semantic identity field \"schemaVersion\" actual value (family role anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -7459,35 +7602,29 @@
       "sourceSha256": "70f6633e9f06311eecd13fe5b5f5a60674be88d5e1473270adfb78e062ee1a50",
       "afterSha256": "70f6633e9f06311eecd13fe5b5f5a60674be88d5e1473270adfb78e062ee1a50",
       "publicCallers": [
-        "docs/testing/archive/legacy/editor/editor-workflows/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/README.md",
-        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-history-workflows-receipt.md",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-script-helpers-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-game-menu-boundaries-evidence.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "5164cb6f76f18998716a17f462e9634c0f43bc21",
+          "sha256": "70f6633e9f06311eecd13fe5b5f5a60674be88d5e1473270adfb78e062ee1a50"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "layers.facade.linesBefore===6428 && linesAfter===4669",
+          "performance.coldValidateAdoptionMsBefore===5637.4 && After===2407.3",
+          "status 以 candidate 开头且显式 not merged"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json",
-          "docs/testing/archive/legacy/editor/editor-workflows/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "70f6633e9f06311eecd13fe5b5f5a60674be88d5e1473270adfb78e062ee1a50",
@@ -7502,46 +7639,40 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "70f6633e9f06311eecd13fe5b5f5a60674be88d5e1473270adfb78e062ee1a50",
-        "candidateSha256": "70f6633e9f06311eecd13fe5b5f5a60674be88d5e1473270adfb78e062ee1a50",
-        "afterSha256": "70f6633e9f06311eecd13fe5b5f5a60674be88d5e1473270adfb78e062ee1a50",
-        "lineCount": 129,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 4274,
-          "sourceLines": 129,
-          "sourceFinalNewline": true,
-          "inverseSha256": "70f6633e9f06311eecd13fe5b5f5a60674be88d5e1473270adfb78e062ee1a50",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json",
+        "family": "integration-receipt-record",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "schemaVersion",
-            "integrationReceipt",
-            "evidenceScope",
-            "owner",
-            "base",
-            "syncedMainBase",
-            "originMainObservedAfterImplementation",
-            "scope",
-            "status",
-            "implementations",
-            "layers",
-            "performance",
-            "tests",
-            "negativeControls",
-            "unchangedContracts",
-            "notRun"
-          ],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["schemaVersion", "number"],
+            ["integrationReceipt", "string"],
+            ["evidenceScope", "string"],
+            ["owner", "string"],
+            ["base", "string"],
+            ["syncedMainBase", "string"],
+            ["originMainObservedAfterImplementation", "string"],
+            ["scope", "string"],
+            ["status", "string"],
+            ["implementations", "object"],
+            ["layers", "object"],
+            ["performance", "object"],
+            ["tests", "object"],
+            ["negativeControls", "object"],
+            ["unchangedContracts", "array"],
+            ["notRun", "array"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "semantic identity field \"schemaVersion\" actual value (family role anchor)",
+            "pointer": "/schemaVersion",
+            "value": 1
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -7563,17 +7694,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 40,
+          "priorEntrySha256": "032c3b3a1ff098d5d8776d7d946ef3e700630f72231bd42dfb612891bde45d7b",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -7581,9 +7721,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "70f6633e9f06311eecd13fe5b5f5a60674be88d5e1473270adfb78e062ee1a50",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "5164cb6f76f18998716a17f462e9634c0f43bc21",
+          "sha256": "70f6633e9f06311eecd13fe5b5f5a60674be88d5e1473270adfb78e062ee1a50"
         }
       ],
       "phaseAnchors": {
@@ -7592,11 +7732,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -7616,7 +7752,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":50,\"canonicalSha256\":\"5b25e5df34d81372e3cf7342bdd0ccae80bc88e05ddc76c528886fafacde64a3\"}"
+        ],
+        "priorReadDomainSha256": "ae1f1bbf22ac64a22cca7d02329601308bf1dbff450e817023350f4e411e59f3",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/schemaVersion"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/40"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor.md",
@@ -7805,21 +7957,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "编辑器壳会话所有权重构候选回执（B1 slice，candidateMerge f7f46c32，2026-09）：四个会话 owner 拆出——navigation 183 行/use-scene-workspace 128/use-battle-trial 148/use-editor-project 368（保留既有 owner 列出），壳 5170→4688 行；新测 18（navigation5/sceneWorkspace7/battleTrial3/ownershipAndResourceProtocols3）、定向 54、作者存档冲突链 37 测全绿、editorAfterMainSync 2847 测、typecheck 0、build 0（既有大 chunk 警告如实）；负控 50 控 20 中（judge 正例 1/拒 9）；functional 一节记录 6054 端口临时页观察（用户 6010 编辑器未动、临时页已关、服务器已停）。recorded historical fact，not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json:1"
+        "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json: semantic identity field \"schemaVersion\" actual value (family role anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -7829,35 +7981,29 @@
       "sourceSha256": "d4a36d3f1f5a3264b2ff23de8856aaf6d1be8a45a62b53f207e2d6ad5847bb23",
       "afterSha256": "d4a36d3f1f5a3264b2ff23de8856aaf6d1be8a45a62b53f207e2d6ad5847bb23",
       "publicCallers": [
-        "docs/testing/archive/legacy/editor/editor-workflows/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/README.md",
-        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-history-workflows-receipt.md",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-script-helpers-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-game-menu-boundaries-evidence.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "5dc461aaca075ab37e4cdc7de23d49278d7d143f",
+          "sha256": "d4a36d3f1f5a3264b2ff23de8856aaf6d1be8a45a62b53f207e2d6ad5847bb23"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "ownership 四键齐全且 shellLines.before===5170 && after===4688",
+          "tests.new.total===18===四组和",
+          "functional.userEditor6010Touched===false && temporaryTabClosed===true"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json",
-          "docs/testing/archive/legacy/editor/editor-workflows/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "d4a36d3f1f5a3264b2ff23de8856aaf6d1be8a45a62b53f207e2d6ad5847bb23",
@@ -7872,46 +8018,40 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "d4a36d3f1f5a3264b2ff23de8856aaf6d1be8a45a62b53f207e2d6ad5847bb23",
-        "candidateSha256": "d4a36d3f1f5a3264b2ff23de8856aaf6d1be8a45a62b53f207e2d6ad5847bb23",
-        "afterSha256": "d4a36d3f1f5a3264b2ff23de8856aaf6d1be8a45a62b53f207e2d6ad5847bb23",
-        "lineCount": 127,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 4585,
-          "sourceLines": 127,
-          "sourceFinalNewline": true,
-          "inverseSha256": "d4a36d3f1f5a3264b2ff23de8856aaf6d1be8a45a62b53f207e2d6ad5847bb23",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json",
+        "family": "integration-receipt-record",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "schemaVersion",
-            "integrationReceipt",
-            "evidenceScope",
-            "owner",
-            "sliceBase",
-            "syncedMain",
-            "candidateMerge",
-            "implementations",
-            "scope",
-            "status",
-            "ownership",
-            "tests",
-            "negativeControls",
-            "functional",
-            "unchangedContracts",
-            "notRun"
-          ],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["schemaVersion", "number"],
+            ["integrationReceipt", "string"],
+            ["evidenceScope", "string"],
+            ["owner", "string"],
+            ["sliceBase", "string"],
+            ["syncedMain", "string"],
+            ["candidateMerge", "string"],
+            ["implementations", "object"],
+            ["scope", "string"],
+            ["status", "string"],
+            ["ownership", "object"],
+            ["tests", "object"],
+            ["negativeControls", "object"],
+            ["functional", "object"],
+            ["unchangedContracts", "array"],
+            ["notRun", "array"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "semantic identity field \"schemaVersion\" actual value (family role anchor)",
+            "pointer": "/schemaVersion",
+            "value": 1
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -7933,17 +8073,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 42,
+          "priorEntrySha256": "3647318fe8ee165c848dd5d2c6f6bac8591f2602015630ca8318af358a03b4c9",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -7951,9 +8100,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "d4a36d3f1f5a3264b2ff23de8856aaf6d1be8a45a62b53f207e2d6ad5847bb23",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "5dc461aaca075ab37e4cdc7de23d49278d7d143f",
+          "sha256": "d4a36d3f1f5a3264b2ff23de8856aaf6d1be8a45a62b53f207e2d6ad5847bb23"
         }
       ],
       "phaseAnchors": {
@@ -7962,11 +8111,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -7986,7 +8131,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":51,\"canonicalSha256\":\"25b1dbac9950ca1075ec1190022fdf7d073ffe09bb664e7503d787901db85ad2\"}"
+        ],
+        "priorReadDomainSha256": "fc514589b328b903d99d0a7cfd54345213c6c1b4d26174d222d91446da60954c",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/schemaVersion"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/42"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md",
@@ -9133,21 +9294,21 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "GLM 编辑器地图数据批回执（TEST-EDITOR-MAP-DATA-1/TB-06，2026-09-19，freeze e58834f6）：7 文件 18 新测（map-selection 3/map-transform 3/map-patch 2/stamp-draft 4/stamp-template 3/stamp-placement 1/stamp-group-transform 2）；familyLedger M01-M08 逐条（M06 登记已有防御不虚增）；包全量 248 文件/2536 测（2 项预存 world-sprite PAL ENOENT 与基线相同如实保留）；officialFastSelection 2359→2377（+18）双侧 exit0；变异：判据自测 goodAccepted/poisonedRejected/pinnedVerdictFourWay 全真 + 3 control + 8 针 + 产品哈希内置断言；覆盖逐模块（map-patch 等）。recorded historical fact（2026-09-19 TB-06），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json:1"
+        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json: top-level scalar field \"task\" (structural anchor)"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
         "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "nextStep": "Owner risk-sampling then central admission",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json machine artifact",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
         "source-document",
         "repository-history",
@@ -9157,35 +9318,29 @@
       "sourceSha256": "b7eac429641be97751a5e4d33e1b1eda6deb61d4b3297c4c856efbd80847303b",
       "afterSha256": "b7eac429641be97751a5e4d33e1b1eda6deb61d4b3297c4c856efbd80847303b",
       "publicCallers": [
-        "docs/testing/archive/legacy/editor/editor-workflows/README.md",
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json"
+        "git grep -F 全路径 @83743275：≥12 处命中（cap 12），逐类归因均为治理钉/迁移清单——DOCS-RECORD-INTEGRITY-1（correction-scope-2.json+raw inputs 盘点日志）、DOCS-FULL-TEMPLATE-1 回执、phase-governance reviews、testing-layout-closeout-20261004.json from/to 条目、legacy-flat*.json 索引；未发现产品代码或活动测试 consumer"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/README.md",
-        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-history-workflows-receipt.md",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-script-helpers-evidence.json",
-        "docs/testing/archive/legacy/editor/editor-workflows/glm-game-menu-boundaries-evidence.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "dac5ac354af8f77f27a10f7565b90a8154a941cc",
+          "sha256": "b7eac429641be97751a5e4d33e1b1eda6deb61d4b3297c4c856efbd80847303b"
+        }
       ],
       "businessOracle": {
-        "type": "historical-machine-artifact",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original content remains traceable",
-          "historical status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
+          "tests.newTotal===18 且 familyLedger M06 登记已有不虚增",
+          "officialFastSelection before 2359/after 2377 双侧 exit0",
+          "mutants.criterionSelfTest 三布尔全真"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-retained",
-        "against": [
-          "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json",
-          "docs/testing/archive/legacy/editor/editor-workflows/README.md"
-        ]
+        "result": "unique path in manifest",
+        "against": []
       },
       "revision": {
         "currentSha": "b7eac429641be97751a5e4d33e1b1eda6deb61d4b3297c4c856efbd80847303b",
@@ -9200,44 +9355,38 @@
         ]
       },
       "evidence": {
-        "kind": "machine-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r78-testing-archive-20261017.json",
-        "sourceSha256": "b7eac429641be97751a5e4d33e1b1eda6deb61d4b3297c4c856efbd80847303b",
-        "candidateSha256": "b7eac429641be97751a5e4d33e1b1eda6deb61d4b3297c4c856efbd80847303b",
-        "afterSha256": "b7eac429641be97751a5e4d33e1b1eda6deb61d4b3297c4c856efbd80847303b",
-        "lineCount": 218,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 11401,
-          "sourceLines": 218,
-          "sourceFinalNewline": true,
-          "inverseSha256": "b7eac429641be97751a5e4d33e1b1eda6deb61d4b3297c4c856efbd80847303b",
-          "exactRoundTrip": true
-        },
+        "kind": "historical-native-artifact",
+        "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json",
+        "family": "contributor-handoff-evidence",
         "nativeShape": {
-          "format": "json",
-          "topLevelType": "object",
-          "topLevelKeys": [
-            "task",
-            "generatedAt",
-            "branch",
-            "worktree",
-            "freeze",
-            "base",
-            "productDriftVsFreeze",
-            "tests",
-            "mutants",
-            "coverage",
-            "knownBoundaries",
-            "codexReception",
-            "rework",
-            "rework2"
-          ],
-          "entryCount": null,
-          "byteStable": true
+          "type": "object",
+          "fields": [
+            ["task", "string"],
+            ["generatedAt", "string"],
+            ["branch", "string"],
+            ["worktree", "string"],
+            ["freeze", "string"],
+            ["base", "string"],
+            ["productDriftVsFreeze", "string"],
+            ["tests", "object"],
+            ["mutants", "object"],
+            ["coverage", "object"],
+            ["knownBoundaries", "array"],
+            ["codexReception", "object"],
+            ["rework", "object"],
+            ["rework2", "object"]
+          ]
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "witnesses": [
+          {
+            "claim": "top-level scalar field \"task\" (structural anchor)",
+            "pointer": "/task",
+            "value": "TEST-EDITOR-MAP-DATA-1 r1 (TB-06)"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -9259,17 +9408,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "priorReviewIndex": 49,
+          "priorEntrySha256": "d64b7f4a84190c69ebf5b49afb2edf7381d89e93257ab7bfe4335cbf0d7e42fc",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy testing archive presentation; original facts remain date-scoped"
       ],
-      "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
+      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "artifactOnly": true,
+      "historyOverlay": false,
+      "artifactOnly": false,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
@@ -9277,9 +9435,9 @@
       "primarySource": [
         {
           "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json",
-          "revision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-          "sha256": "b7eac429641be97751a5e4d33e1b1eda6deb61d4b3297c4c856efbd80847303b",
-          "scope": "full JSON UTF-8 artifact bytes"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "dac5ac354af8f77f27a10f7565b90a8154a941cc",
+          "sha256": "b7eac429641be97751a5e4d33e1b1eda6deb61d4b3297c4c856efbd80847303b"
         }
       ],
       "phaseAnchors": {
@@ -9288,11 +9446,7 @@
         "currentBoundary": "current catalog/contract and fresh receipt own truth"
       },
       "dependencies": "Current testing catalog/domain report, test contract, paired machine evidence and fresh receipt.",
-      "versionScope": {
-        "sourceRevision": "3dc90ad8f6dde5a7ddcafc6b749b61dd53152751",
-        "date": "2026-10-17",
-        "validity": "historical"
-      },
+      "versionScope": "current tracked revision 83743275",
       "counterReworkBlocked": [
         {
           "id": "R78-NO-EXECUTION-CREDIT",
@@ -9312,7 +9466,23 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":52,\"canonicalSha256\":\"bb60317cc47c4e757b1ab17502a9c9bda978babd209decd0907edd4b40200a59\"}"
+        ],
+        "priorReadDomainSha256": "46dac28b0e61ef1ac861a8e431c93669dd77f0091c8dec754d25ffdd44203bc3",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/task"],
+        "governance": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json#entries/49"]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
     }
   ],
   "currentCorrection": {

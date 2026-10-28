@@ -20,7 +20,10 @@
       "operation": "第一阶段机制或缺陷",
       "required": ["CLAUDE.md", "docs/phase1/game-mechanics.md"]
     },
-    { "operation": "第二阶段引擎、编辑器或内容", "required": ["docs/phase2/READ-FIRST.md"] },
+    {
+      "operation": "第二阶段引擎、编辑器或内容",
+      "required": ["docs/phase2/READ-FIRST.md"]
+    },
     {
       "operation": "E2E、剧情回写或编辑器预览起点",
       "required": ["docs/testing/e2e/contract.md", "docs/lore/timeline.md"]
@@ -31,15 +34,42 @@
     }
   ],
   "migratedDocuments": [
-    { "path": "docs/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase-governance/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase-governance/templates/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/ops/guides/documentation-model.md", "templateId": "guide-runbook-v1" },
-    { "path": "docs/ops/agent-workflow.md", "templateId": "guide-runbook-v1" },
-    { "path": "docs/ops/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/ops/templates/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/ops/tasks/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/ops/archive/protocols/README.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase-governance/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase-governance/templates/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/ops/guides/documentation-model.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/ops/agent-workflow.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/ops/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/ops/templates/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/ops/tasks/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/ops/archive/protocols/README.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/ops/archive/protocols/three-sages-20261015.md",
       "templateId": "archive-record-v1"
@@ -48,14 +78,23 @@
       "path": "docs/ops/archive/protocols/workflow-snapshot-20261015.md",
       "templateId": "archive-record-v1"
     },
-    { "path": "docs/testing/e2e/stages/001-opening/README.md", "templateId": "test-e2e-stage-v1" },
-    { "path": "docs/testing/e2e/stages/001-opening/report.md", "templateId": "test-run-report-v1" },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/README.md",
+      "templateId": "test-e2e-stage-v1"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/report.md",
+      "templateId": "test-run-report-v1"
+    },
     {
       "path": "docs/testing/e2e/evidence/e2e-001.json",
       "templateId": "test-machine-evidence-v1",
       "variant": "document-audit-v2"
     },
-    { "path": "docs/ops/archive/README.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/ops/archive/README.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/ops/archive/tasks/done/E2-patrol-templates.md",
       "templateId": "task-card-v1",
@@ -75,26 +114,44 @@
       "templateId": "plan-status-v1",
       "historyOverlay": true
     },
-    { "path": "docs/phase2/specs/save-system.md", "templateId": "design-spec-v1" },
+    {
+      "path": "docs/phase2/specs/save-system.md",
+      "templateId": "design-spec-v1"
+    },
     {
       "path": "docs/phase3/reference/art-pipeline.md",
       "templateId": "reference-canon-v1",
       "historyOverlay": true
     },
-    { "path": "docs/lore/dlc-ideas.md", "templateId": "narrative-idea-v1" },
+    {
+      "path": "docs/lore/dlc-ideas.md",
+      "templateId": "narrative-idea-v1"
+    },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/report.md",
       "templateId": "test-domain-report-v1"
     },
-    { "path": "docs/phase-governance/cross-phase-matrix.md", "templateId": "governance-index-v1" },
-    { "path": "docs/testing/e2e/contract.md", "templateId": "test-contract-v1" },
+    {
+      "path": "docs/phase-governance/cross-phase-matrix.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/e2e/contract.md",
+      "templateId": "test-contract-v1"
+    },
     {
       "path": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
       "templateId": "quality-gate-v1",
       "historyOverlay": true
     },
-    { "path": "docs/testing/catalog.json", "templateId": "test-catalog-v1" },
-    { "path": "docs/testing/_templates/README.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/testing/catalog.json",
+      "templateId": "test-catalog-v1"
+    },
+    {
+      "path": "docs/testing/_templates/README.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/testing/domains/editor/commands/command-form-families/report.md",
       "templateId": "test-domain-report-v1"
@@ -302,10 +359,22 @@
       "templateId": "task-card-v1",
       "historyOverlay": true
     },
-    { "path": "docs/phase3/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase3/reference/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase3/backlog.md", "templateId": "narrative-idea-v1" },
-    { "path": "docs/phase3/map-reconstruction.md", "templateId": "design-spec-v1" },
+    {
+      "path": "docs/phase3/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase3/reference/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase3/backlog.md",
+      "templateId": "narrative-idea-v1"
+    },
+    {
+      "path": "docs/phase3/map-reconstruction.md",
+      "templateId": "design-spec-v1"
+    },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
       "templateId": "evidence-receipt-v1",
@@ -694,7 +763,10 @@
       "templateId": "test-machine-evidence-v1",
       "variant": "historical-command-integration-v1"
     },
-    { "path": "docs/testing/domains/README.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/testing/domains/README.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/testing/domains/content/authoring-and-runtime/tools/README.md",
       "templateId": "governance-index-v1",
@@ -715,7 +787,10 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    { "path": "docs/testing/domains/editor/README.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/testing/domains/editor/README.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/testing/domains/editor/authoring-and-runtime/tools/README.md",
       "templateId": "governance-index-v1",
@@ -745,7 +820,10 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    { "path": "docs/testing/domains/editor/map/README.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/testing/domains/editor/map/README.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/testing/domains/editor/map/map-workspace-sessions/README.md",
       "templateId": "governance-index-v1",
@@ -771,7 +849,10 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    { "path": "docs/testing/domains/ops/README.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/testing/domains/ops/README.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/testing/domains/ops/testing-governance/README.md",
       "templateId": "governance-index-v1"
@@ -814,7 +895,10 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    { "path": "docs/testing/domains/runtime/README.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/testing/domains/runtime/README.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/testing/domains/runtime/battle/README.md",
       "templateId": "governance-index-v1"
@@ -854,7 +938,10 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    { "path": "docs/testing/domains/runtime/menu/README.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/testing/domains/runtime/menu/README.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/README.md",
       "templateId": "governance-index-v1",
@@ -870,7 +957,10 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    { "path": "docs/testing/domains/runtime/scene/README.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/testing/domains/runtime/scene/README.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/README.md",
       "templateId": "governance-index-v1",
@@ -891,7 +981,10 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    { "path": "docs/testing/domains/runtime/world/README.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/testing/domains/runtime/world/README.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/README.md",
       "templateId": "governance-index-v1",
@@ -917,16 +1010,46 @@
       "templateId": "evidence-receipt-v1",
       "historyOverlay": true
     },
-    { "path": "docs/testing/indexes/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/testing/indexes/by-domain.md", "templateId": "governance-index-v1" },
-    { "path": "docs/testing/indexes/by-engine.md", "templateId": "governance-index-v1" },
-    { "path": "docs/testing/indexes/by-module.md", "templateId": "governance-index-v1" },
-    { "path": "docs/testing/indexes/by-owner.md", "templateId": "governance-index-v1" },
-    { "path": "docs/testing/indexes/by-phase.md", "templateId": "governance-index-v1" },
-    { "path": "docs/testing/indexes/by-stage.md", "templateId": "governance-index-v1" },
-    { "path": "docs/testing/indexes/by-status.md", "templateId": "governance-index-v1" },
-    { "path": "docs/testing/indexes/by-tag.md", "templateId": "governance-index-v1" },
-    { "path": "docs/testing/indexes/legacy-by-domain.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/testing/indexes/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-domain.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-engine.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-module.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-owner.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-phase.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-stage.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-status.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/by-tag.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/indexes/legacy-by-domain.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
       "templateId": "test-e2e-stage-v1"
@@ -941,42 +1064,138 @@
       "variant": "frozen-document-binding-baseline-v1",
       "historyOverlay": false
     },
-    { "path": "docs/lore/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/lore/narrative-workflow.md", "templateId": "guide-runbook-v1" },
-    { "path": "docs/lore/taboos.md", "templateId": "reference-canon-v1" },
-    { "path": "docs/testing/e2e/stages/003-kitchen/README.md", "templateId": "test-e2e-stage-v1" },
-    { "path": "docs/testing/e2e/stages/003-kitchen/report.md", "templateId": "test-run-report-v1" },
-    { "path": "docs/testing/e2e/stages/004-meal/README.md", "templateId": "test-e2e-stage-v1" },
-    { "path": "docs/testing/e2e/stages/004-meal/report.md", "templateId": "test-run-report-v1" },
-    { "path": "docs/testing/e2e/stages/005-shrimp/README.md", "templateId": "test-e2e-stage-v1" },
-    { "path": "docs/testing/e2e/stages/005-shrimp/report.md", "templateId": "test-run-report-v1" },
-    { "path": "docs/phase2/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase2/guides/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase2/specs/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase2/reference/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase2/archive/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase2/archive/slices/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase2/archive/mockups/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase2/archive/slices/indoor/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase2/archive/designs/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase2/archive/plans/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase2/archive/audits/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/lore/versions.md", "templateId": "reference-canon-v1" },
-    { "path": "docs/lore/world-rules.md", "templateId": "reference-canon-v1" },
-    { "path": "docs/lore/world-rules-ghost-realm.md", "templateId": "reference-canon-v1" },
-    { "path": "docs/lore/factions.md", "templateId": "reference-canon-v1" },
-    { "path": "docs/lore/ideas/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/lore/ideas/guijie/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/phase2/guides/content-publication.md", "templateId": "guide-runbook-v1" },
-    { "path": "docs/phase2/guides/actor-presets.md", "templateId": "guide-runbook-v1" },
-    { "path": "docs/phase2/guides/battlefield-authoring.md", "templateId": "guide-runbook-v1" },
-    { "path": "docs/phase2/guides/debug-tools.md", "templateId": "guide-runbook-v1" },
-    { "path": "docs/phase2/guides/scene-entry-authoring.md", "templateId": "guide-runbook-v1" },
+    {
+      "path": "docs/lore/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/lore/narrative-workflow.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/lore/taboos.md",
+      "templateId": "reference-canon-v1"
+    },
+    {
+      "path": "docs/testing/e2e/stages/003-kitchen/README.md",
+      "templateId": "test-e2e-stage-v1"
+    },
+    {
+      "path": "docs/testing/e2e/stages/003-kitchen/report.md",
+      "templateId": "test-run-report-v1"
+    },
+    {
+      "path": "docs/testing/e2e/stages/004-meal/README.md",
+      "templateId": "test-e2e-stage-v1"
+    },
+    {
+      "path": "docs/testing/e2e/stages/004-meal/report.md",
+      "templateId": "test-run-report-v1"
+    },
+    {
+      "path": "docs/testing/e2e/stages/005-shrimp/README.md",
+      "templateId": "test-e2e-stage-v1"
+    },
+    {
+      "path": "docs/testing/e2e/stages/005-shrimp/report.md",
+      "templateId": "test-run-report-v1"
+    },
+    {
+      "path": "docs/phase2/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/guides/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/specs/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/reference/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/slices/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/mockups/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/designs/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/plans/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/archive/audits/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/lore/versions.md",
+      "templateId": "reference-canon-v1"
+    },
+    {
+      "path": "docs/lore/world-rules.md",
+      "templateId": "reference-canon-v1"
+    },
+    {
+      "path": "docs/lore/world-rules-ghost-realm.md",
+      "templateId": "reference-canon-v1"
+    },
+    {
+      "path": "docs/lore/factions.md",
+      "templateId": "reference-canon-v1"
+    },
+    {
+      "path": "docs/lore/ideas/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/lore/ideas/guijie/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/phase2/guides/content-publication.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/phase2/guides/actor-presets.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/phase2/guides/battlefield-authoring.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/phase2/guides/debug-tools.md",
+      "templateId": "guide-runbook-v1"
+    },
+    {
+      "path": "docs/phase2/guides/scene-entry-authoring.md",
+      "templateId": "guide-runbook-v1"
+    },
     {
       "path": "docs/phase2/guides/shared-script-author-guide.md",
       "templateId": "guide-runbook-v1"
     },
-    { "path": "docs/lore/characters.md", "templateId": "reference-canon-v1" },
+    {
+      "path": "docs/lore/characters.md",
+      "templateId": "reference-canon-v1"
+    },
     {
       "path": "docs/phase2/archive/audits/am-asset-migrate-audit.md",
       "templateId": "audit-report-v1",
@@ -1737,7 +1956,11 @@
       "templateId": "reference-canon-v1",
       "historyOverlay": true
     },
-    { "path": "docs/lore/timeline.md", "templateId": "plan-status-v1", "historyOverlay": true },
+    {
+      "path": "docs/lore/timeline.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
     {
       "path": "docs/phase2/READ-FIRST.md",
       "templateId": "governance-index-v1",
@@ -1768,7 +1991,11 @@
       "templateId": "reference-canon-v1",
       "historyOverlay": true
     },
-    { "path": "docs/phase2/roadmap.md", "templateId": "plan-status-v1", "historyOverlay": true },
+    {
+      "path": "docs/phase2/roadmap.md",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true
+    },
     {
       "path": "docs/phase2/specs/content-schema.md",
       "templateId": "design-spec-v1",
@@ -3179,8 +3406,14 @@
       "templateId": "task-card-v1",
       "historyOverlay": true
     },
-    { "path": "docs/ops/audits/architecture-debt.md", "templateId": "audit-report-v1" },
-    { "path": "docs/ops/audits/README.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/ops/audits/architecture-debt.md",
+      "templateId": "audit-report-v1"
+    },
+    {
+      "path": "docs/ops/audits/README.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
       "templateId": "evidence-receipt-v1",
@@ -3203,12 +3436,18 @@
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "templateId": "task-card-v1"
     },
-    { "path": "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md", "templateId": "task-card-v1" },
+    {
+      "path": "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
+      "templateId": "task-card-v1"
+    },
     {
       "path": "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
       "templateId": "task-card-v1"
     },
-    { "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md", "templateId": "task-card-v1" },
+    {
+      "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
+      "templateId": "task-card-v1"
+    },
     {
       "path": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
       "templateId": "task-card-v1",
@@ -3389,13 +3628,22 @@
       "templateId": "task-card-v1",
       "historyOverlay": true
     },
-    { "path": "docs/testing/e2e/README.md", "templateId": "governance-index-v1" },
-    { "path": "docs/testing/e2e/cross-stage/README.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/testing/e2e/README.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/README.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/testing/e2e/cross-stage/common-issues.md",
       "templateId": "test-domain-report-v1"
     },
-    { "path": "docs/testing/e2e/route-proposal.md", "templateId": "design-spec-v1" },
+    {
+      "path": "docs/testing/e2e/route-proposal.md",
+      "templateId": "design-spec-v1"
+    },
     {
       "path": "docs/testing/e2e/evidence/e2e-002.json",
       "templateId": "test-machine-evidence-v1",
@@ -5973,9 +6221,18 @@
       "templateId": "governance-index-v1",
       "historyOverlay": true
     },
-    { "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md", "templateId": "task-card-v1" },
-    { "path": "docs/ops/board.md", "templateId": "governance-index-v1" },
-    { "path": "docs/ops/tasks/index.md", "templateId": "governance-index-v1" },
+    {
+      "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+      "templateId": "task-card-v1"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/ops/tasks/index.md",
+      "templateId": "governance-index-v1"
+    },
     {
       "path": "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md",
       "templateId": "design-spec-v1"
@@ -9365,6 +9622,2808 @@
       "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html",
       "templateId": "evidence-receipt-v1",
       "variant": "historical-browser-host-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutation-receipt.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-results.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/uncovered-ledger-r1.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/uncovered-ledger-summary.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/vitest-final-compact.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/directed-vitest.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/mutation-points.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/mutation-results.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/identity.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/mutation-results.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/history/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/history/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/history/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/history/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/history/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "variant": "historical-test-machine-evidence-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/background-tests-20260927/targets.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-command-forms/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-content-resources/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-debug-tools/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-enemy-hooks/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-pal-assets/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-playback/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/codex-translate-events/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c00-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c01-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c02-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c03-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c04-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c05-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c06-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c07-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c08-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c09-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/c10-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u00-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u01-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u02-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u03-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u04-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u05-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u06-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u07-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u08-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u09-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u10-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u11-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u12-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c1-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c2-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c3-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c4-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c5-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c2-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c3-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c5-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c6-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c8-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m1-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m2-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m3-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m4-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m5-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m6-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-summary.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/intake.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/tsconfig.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/results.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-intake-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r2-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r3-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-support/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave2/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/frozen-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/counter-control/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/targets.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-item-logic/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-a.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-b.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/evidence-browser-c.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/targets.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-AD-coverage-delta.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-AH-coverage-delta.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-a-mutant-summary.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-b-mutant-summary.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/batch-c-mutant-summary.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/targets.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/targets.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/evidence-browser-f.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/needle-verdicts.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/visual-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-H/counter-controls.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-H/receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-H/vitest.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-next-triple/targets.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A/needles-summary.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-B/needles-summary.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-C/needles-summary.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-D/needles-summary.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-E/needles-summary.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-F/needles-summary.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/targets.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/artifact.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/targets.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-state-commands/targets.freeze.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G04-D08.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G05-A11.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G06-A12.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G07-B13.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G08-D07.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-C01.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-C04.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-C11.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-D01.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-D08.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G09-D20.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G10-B01-fade.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G10-B01-final.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels/G10-B02-final.readback.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/targets.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/independent-review.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/install-census.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/machine-census.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/payment-repairs.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/script-governance/successor-repairs.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-map-integration-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/glm-content-contracts-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/glm-content-residual-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r1-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r2-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r3-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r4-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/item-logic-r5-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/editor-workflows/parallel-guard-command-r2-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/quality-gates/guard-leaf-r2-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/quality-gates/guard-wave3-r3-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r1-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/authoring-and-runtime/cursor-map-logic-r2-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-script-helpers-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-game-menu-boundaries-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/item-logic-r6-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/supply-and-import/import-codec-acceptance-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/supply-and-import/import-codec-r4-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/cursor-architecture-batch-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/glm-nine-final-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/glm-nine-intake-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/glm-nine-rework-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/grok-arch-ds-overflow-mutant.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/migration/supply-and-import/glm-import-codec-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/migration/supply-and-import/glm-migration-boundaries-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/migration/supply-and-import/migration-phase-owners-refactor-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/glm-game-host-boundaries-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/glm-pal-tables-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/tb00-tb01-completion-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/phase1-runtime/engine-boundaries/phase1-main-owners-refactor-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-initializer-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-large-domain-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-parallel-wave3-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-results.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-work-queue.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/guard-leaf-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/quality-zero-inventory.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/quality/quality-gates/stability-fire-closeout-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-integration-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r2-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r3-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r4-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r5-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-review-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/battle/glm-battle-workflows-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-asset-io-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/scene/scene-preparation-refactor-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/e2e-20261004.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-01.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-02.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-03.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-04.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-05.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-06.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/legacy-full-closeout-plan-07.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/legacy-full-closeout-plan.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/legacy-full-closeout-relocation.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/testing-domains-20261004-wave2-tool-audit.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/testing-domains-20261004-wave2.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/testing-domains-20261004.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/testing-layout-closeout-20261004.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/migrations/testing-layout-unresolved-tools-20261004.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-alchemy-originals/acceptance.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-alchemy-originals/alchemy/receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-editor-gates.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-followup-gates.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-integration-gates.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-needles.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-originals/acceptance.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-originals/alchemy/receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-originals/loader/receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-originals/script/receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/targets.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/contract-ledger.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/gates.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/counterproof-receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/contract-ledger.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/counter-receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/directed-summary.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/gates.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/identity.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/repro-m3.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts/counterproof-receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/branch-inventory.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/coverage-family.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/coverage-fullsuite.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1/directed-fresh.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/identity.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-points.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/mutation-results.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/identity.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/mutation-results.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/coverage-probe/statement-hits.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/directed-vitest.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-points.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/mutation-results.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/selftest-results.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/coverage-probe/statement-hits.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/directed-vitest.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/mutation-points.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/mutation-results.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/selftest-results.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/identity.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/mutation-results.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/directed-vitest.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/mutation-points.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/mutation-results.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/identity.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/mutation-results.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/identity.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/identity.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-01-red.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-01-restored.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-02-red.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-02-restored.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-03-red.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-03-restored.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-04-red.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-04-restored.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-05-red.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-05-restored.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-06-red.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-06-restored.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-07-red.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-MUT-07-restored.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs/identity-SHARED-original.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-results.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/identity.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/identity.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/identity.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1/identity.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/fullsuite-ci-exact.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/ci-frame-animation-io-sync.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/ci-map-menu-focus-sync.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/codex-integration-gates.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof-markers.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/identity.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/d1-repro.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/baseline-inventory.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/ci-tracked-inventory-refresh.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-integration-gates.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r2-artifact-audit.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r2-loss/receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r3-artifact-audit.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repros.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/contract-ledger.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counter-receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/gates.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/receipt.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/all-tracks-recheck.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/all-tracks.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/branch-cleanup.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/browser-smoke.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/ci-checks.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/ci-jobs.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/coverage-baseline.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/issue-closure.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/production-browser.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/production-cdn-wasm-refresh.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/production-release.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/production-verification.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/reference-golden.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/release-inventory-delta.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/release-preflight.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/release-verification.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/tools-style-desktop.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/tools-style-focus.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/tools-style-mobile.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/verification-manifest.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/c2-historical-execution-pilot-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-a-20261015.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-b-20261015.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-c-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-d-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-f-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-history-cards-h-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-reference-n-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-lore-remaining-l4-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-guides-q-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-index-l-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-lab-history-i-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-lab-json-i-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/delta-inventory-20261015.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/e2e-report-preservation-20261015.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r22-candidate-acceptance-20261017.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r22-review-20261017.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r24-phase2-designs-review-20261017.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r25-phase2-plans-review-20261017.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-01.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-02.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-03.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-04.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-05.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-06.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-07.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-08.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory/files-09.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/machine-pilot-consumer-20261015.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/phase3-migration-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-assessment-20261015.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-03.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-candidates.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-catalog-v1/candidate.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-machine-evidence-v1/candidate.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protection.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protocol-preservation-20261015.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/readonly-phase2-audits-r22-20261016.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUDIO-OWNERSHIP-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/counterproof.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/fullsuite.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-DATA-BATTLE-AUTHORING-1/mutation-evidence.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-1.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-2.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-3.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-4.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-5.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-6.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-history-scan.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-a1622b45-a149-4288-9f17-7799d1236ed9.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-baac39b4-8b40-4c0f-88b3-f09acf03372c.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-5924dca5-da86-45dc-a6a7-397e9a1759de.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-byte-count-counters-20261018.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-observations-20261018.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-fd83a69c-01ee-4c5f-b773-a181419a4979.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-58e899bf-20261018.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-58e899bf-20261018.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-09c01f13-24cb-460b-816b-061cdeac677f.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-6325bba0-f6ec-47b4-950f-b735c305a288.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S01-8ef07ca7.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S01-8ef07ca7.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.json",
+      "templateId": "archive-record-v1",
+      "variant": "historical-archive-record-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S02-fe546c7e.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S02-fe546c7e.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-native-path-db814e3c.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-storage-37adc410.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-unicode-95def601.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/canonical-intake-b7534fc5.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/design-intake-38f18ff9.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/implementation-output-counter.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-followup-34462316.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-review-v1.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-design-review-38f18ff9.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-implementation-review-37adc410-rework.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-s04-guard-addendum-34462316.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-path-review-db814e3c-rework.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-review-95def601-scoped-accept.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-37-late-snapshot.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-native-path-db814e3c.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-unicode-95def601.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-s04-subset.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v1-rework.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v2-followup.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-37-rework.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-95-scoped-accept.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-db-rework.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-root-canonical-b7534fc5.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S03-cafe0578.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-addendum-S03-f9fbf0c7.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S03-f9fbf0c7.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S03-f9fbf0c7.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S04-c8715c2c.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S04-c8715c2c.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-intake-review-c4d00d3e.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-central-c4d.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S03-S04-central-review-65ee30ad.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-central-65ee.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/harvest-S05-b87a2397.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S05-b87a2397.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S05-b87a2397.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-private-runner-v3-review-76509484.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-runner-v3-76509484.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S05-central-review-4ddd17e4.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-central-s05-4ddd.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-governance-receipt-design-review-4ddd17e4.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-receipt-design-4ddd.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S06-71d74b4d.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S06-71d74b4d.json",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-evidence-receipt-artifact-native-v1",
       "historyOverlay": false
     }
   ],

@@ -53,13 +53,13 @@
       "quality-gate": 3,
       "test-machine-evidence": 352,
       "reference-canon": 38,
-      "narrative-idea": 2,
       "plan-status": 74,
-      "test-e2e-stage": 6,
+      "test-catalog": 11,
       "test-run-report": 210,
+      "narrative-idea": 2,
+      "test-e2e-stage": 6,
       "test-domain-report": 10,
-      "test-contract": 1,
-      "test-catalog": 11
+      "test-contract": 1
     },
     "reviewStatus": {
       "content-reviewed": 1821,
@@ -85,7 +85,7 @@
       "phase": "ops",
       "path": "document-registry.ops.json",
       "total": 1331,
-      "sha256": "533cd26c2ee8f3f4d231002bd753fc98ae916ee74a4b38a179465897be7f3ef6"
+      "sha256": "76d793cb5edb83a7ebf6a8552fb2003384c4107a3238b1f05441bceb1977a67c"
     },
     {
       "key": "lore",
@@ -127,7 +127,7 @@
       "phase": "testing",
       "path": "document-registry.testing.json",
       "total": 760,
-      "sha256": "17e5eed56ef72337b9cbb1643bcbfd5f9b9ceb4e2ba6402a0ce26ff5432784dc"
+      "sha256": "ef86a9138116ea4fb10218ff45610fe01cd83f973c8ff2e6769712398c07e6a2"
     }
   ],
   "documentRetirements": {
