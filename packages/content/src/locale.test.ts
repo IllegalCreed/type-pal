@@ -12,4 +12,12 @@ describe('lookupText', () => {
   test('未命中 → 回退返回 id 本身(开发期可见)', () => {
     expect(lookupText('dlg.missing', L)).toBe('dlg.missing')
   })
+
+  test('未定义的 constructor 回退文本 ID，不返回继承函数', () => {
+    expect(lookupText('constructor', {})).toBe('constructor')
+  })
+
+  test('工程真正定义的 constructor 空译文保持为空串', () => {
+    expect(lookupText('constructor', { constructor: '' })).toBe('')
+  })
 })
