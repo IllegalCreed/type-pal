@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "93231973c780978981bf629e48495f75000703da474551422d6f8e36ca2c72ab",
+  "generation": "66def1a42dbccc616a95ee5d990f73b72aff88efae66dce0ccb2714dfea41f5d",
   "key": "part-002",
   "positions": [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -5264,7 +5264,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "9ca5b18b6a2554f7ae14ed914c2f9274eeee50764331d1c4c049d0813b96e35e",
+      "afterSha256": "f543589a69491ec089c4b91e15c6739784fab0d0cab22455d23c2216904def2a",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6366,6 +6366,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
             "index": 33,
             "entryCanonicalSha256": "20f85b9c142f5e8f188de5347734842561b83093a73181ad937fcf4bae3b95ca"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S62/dispatch-intake",
+          "revision": "793c9e165d702f3f6442f2f32b3b9243e8d44f50",
+          "beforeSha256": "9ca5b18b6a2554f7ae14ed914c2f9274eeee50764331d1c4c049d0813b96e35e",
+          "afterSha256": "f543589a69491ec089c4b91e15c6739784fab0d0cab22455d23c2216904def2a",
+          "scope": "Receive S61 acceptance and truthful473/135/9 work split; no new migration; no additional content/state grants",
+          "priorRecord": {
+            "revision": "793c9e165d702f3f6442f2f32b3b9243e8d44f50",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 33,
+            "entryCanonicalSha256": "2d925d778db0ce2a18ad10cd5ae57e7de1f39c5ea2bf2e756958ede237a51a4e"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

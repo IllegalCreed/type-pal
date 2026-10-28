@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s61-html-intake
+Branch: codex/docs-s62-bulk-dispatch
 Last reviewed: 2026-10-27
 Template: task-card-v1 / 1.0.0
 
@@ -2628,3 +2628,13 @@ S58的142源/5件清单与S57非作者回执已固定核验；111逻辑review的
 修复候选adbe0f886：完整check:docs实跑289工具/0fail，model1834/0issue、链接/索引/Testing/phase-lore均过，中央非strict审阅0issue；lint4622文件0E/W/I。整体check:docs exit1仅strict1231=614审阅+617迁移、交集614、617 distinct（608JSON+9MD），较S59实减27/15；基线1478/1838+3退役+340增量，0完整性。首次288/0加27元数据错误的1258原件保留，未追改成1231。
 
 Owner6代码差异（两精确准入/接受数据、资格选择与定位字段约束、两caller集合、新5项当前回归）及15发布/行政封存留下一次集中非作者复验；原S59/142全文不重做。127可变控制JSON仍draft，006既有技术/视觉接受不重开。全卡未完成，不合main、不推送、不标done；不新增canonical账本/sidecar，原单份gzip只追加必要原件与来源绑定。
+
+## S62 S61非作者接收与整包派发重排（2026-10-28）
+
+- S61九轴accept原件已核：HANDBACK 044a35d5e05440f1f7dc758082e77dd95c06dde7b8e3b086c38221ecea4ba7ee；verdict b1222adf5df8594ef0b68dfb3a752a6f44a1cbbb3430cd9128e3c6dc5259e15f，候选793c9e165。接收6代码/13测试/15HTML与三阶段行政封存，不重做142全文、不重复扣迁移。报告末尾把319613c5（S53）写作S59接受的旁述不作来源，原件保留；S59实际基点cf71157cf及其精确报告沿既有固定记录。
+- 用户要求改变实际派发边界。当前617=608JSON+9MD；原“481份全部历史JSON”口径撤回。473份可复用历史源文档拟由GLM整包实施；127可变控制JSON、现行Testing catalog、两006证据、三JSON模板、两现行legacy索引共135JSON及9MD由Owner持有。三集合逐路径排重、并集617，不删除、换分母或自动批准退役。
+- 473条原生SHA全部匹配S53组合器的固定来源；已独立接受范围仅为23增量与组合规则，不等于473逐篇迁移信用。组合器505/23/482及canonical SHA 3f16b3a7599e96f428cbb9df49373812a0a3b4b716435f2b447f5163faafcc8c复用，不要求重写内容或再全文核读。沿原可解析出处与后继撤信，旧source/运行未知仍未知；7个既有retire-proposed仅保留原件，正式退役不由贡献者顺手执行。
+- 本轮Codex build allowed限定：接收S61、冻结473/135/9完整职责清单和候选完成定义，父卡/看板/必要after行政级联及原单份gzip；不改生产代码/旧测试/原生/模板注册/已接受语义状态，不授新迁移。下一阶段公共原生合同、保护reader/writer API及完整临时树model/progress/中央非strict联合pilot由Codex先完成，不再把缺少Owner前提交给GLM反复盘点。
+- GLM下一次授权必须覆盖完整473路径到隔离提交候选及自验，不只交design/content-ready/只读建议。内部批次自主连续，不逐批申请；普通小错误包内修复，真实单篇阻塞精确列出并继续其它。需新公共合同的未知由Owner补前提，不把“等Owner”伪写贡献者完成，也不反复让用户中转。
+- 准入三轴分开：用户范围已批准；公共合同/API/pilot目前未ready；GLM包尚未发出、buildAllowed=false。这个状态来自真实技术前提未齐，不是等待用户许可。Owner先交能直接调用的公共层和就绪指纹后，一次发473最终执行包；届时继承本范围授权，不再逐批问用户。
+- 总包终件需包含473精确完成/blocked集合、固定候选/原生保全、真实model/progress/中央审阅/索引/Testing/lint/diff证据和可只读快检；当前正式接受/Owner grant/真实中央发布仍归Codex。源稿、作者自验、独立接受、实际迁移四阶段分列，进度只按实际接入与严格待办扣减；本S62不减1231/617。全卡rework，不合main、不推送、不done，006不交GLM。
