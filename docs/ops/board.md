@@ -28,6 +28,7 @@ Template: governance-index-v1 / 1.0.0
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1 | [战斗精灵帧需求边界](tasks/QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md) | draft | Codex / 只读复现，资产合同待核 | 源保持pending、不计百文件；声明200000帧触发RangeError，未改产品。 |
 | GAME-VIDEO-PUBLISH-BOUNDARY-1 | [视频子路径所有权与失败发布](tasks/GAME-VIDEO-PUBLISH-BOUNDARY-1.md) | build | Codex / 用户已批准，先红后修 | 三正式字节反例已红；仅输出后代链接/失败发布，编码参数与raw链接保持。 |
 | ED-ENTITY-STATE-PLAN-1 | [实体状态方案、脚本组合与编辑器预览](tasks/ED-ENTITY-STATE-PLAN-1.md) | review | Codex / 完整现场与E2E采集待续 | 首批UI用户验收通过；临时方案丢弃，正式状态须经E2E核对 |
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [战斗回合与结算边界测试](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | GLM / 补原始反控与合法输入；Codex复核 | 先前accept撤回；全绿与已合入不等于合同验收 |

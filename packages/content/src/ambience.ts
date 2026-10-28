@@ -21,7 +21,10 @@ export function isIdentityTint(tint: readonly [number, number, number]): boolean
   return tint[0] >= 254 && tint[1] >= 254 && tint[2] >= 254
 }
 
-/** 解析氛围 id → 乘色。缺 id / 表里没有 / 'day' 兜底 → 恒等(工程没带氛围表时零影响)。 */
+/**
+ * 解析氛围 id → 乘色；缺 id / 未知 id 回恒等，day 可由工程覆写。
+ * 返回定义或恒等常量的借用数组，呈现 caller 只读；新过渡色由 lerpTint 独立构造。
+ */
 export function resolveAmbienceTint(
   id: string | undefined,
   ambiences: readonly AmbienceDef[],

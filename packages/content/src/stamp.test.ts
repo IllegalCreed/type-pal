@@ -60,7 +60,13 @@ describe('StampTemplate shared isometric content', () => {
     const templates = validateStampTemplates(fixture())
     expect(templates[0]?.layers).toHaveLength(2)
     expect(templates[0]?.collision[0]).toEqual([1, 0])
+    expect(templates[0]?.category).toBe('vegetation')
+    expect(templates[0]?.layers[1]?.heights).toEqual([
+      [0, 5],
+      [0, 0],
+    ])
     const first = formatStampTemplates(templates)
+    expect(first.endsWith('\n')).toBe(true)
     expect(parseStampTemplates(first)).toEqual(templates)
     expect(formatStampTemplates(parseStampTemplates(first))).toBe(first)
   })
@@ -78,6 +84,10 @@ describe('StampTemplate shared isometric content', () => {
 
   test('拒绝重复 id、无视觉实例和来源 lockstep 破坏', () => {
     expect(() => validateStampTemplates([...fixture(), ...fixture()])).toThrow('重复 id')
+    expect(() => validateStampTemplates([{ ...fixture()[0], id: 'a/b' }])).toThrow("不得含 '/'")
+    expect(() => validateStampTemplates([{ ...fixture()[0], origin: 'legacy' }])).toThrow(
+      '期望 authored 或 migrated',
+    )
     const empty = fixture()
     for (const layer of empty[0]!.layers) {
       layer.tiles = layer.tiles.map((row) => row.map(() => null))

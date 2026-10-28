@@ -68,7 +68,12 @@ describe('shopBuy(每次 1 个;钱不够 null)', () => {
     const w1 = shopBuy(w0, '166', ITEMS)!
     expect(w1.money).toBe(50)
     expect(w1.inventory).toEqual([{ itemId: '166', count: 2 }])
-    expect(w0.money).toBe(100) // 源不变
+    expect(w0).toEqual({
+      party: [],
+      money: 100,
+      learnedSkills: {},
+      inventory: [{ itemId: '166', count: 1 }],
+    }) // Source world and inventory remain unchanged
     const w2 = shopBuy(w1, '61', ITEMS)
     expect(w2).toBeNull() // 50 < 150 钱不够
   })
@@ -85,6 +90,12 @@ describe('shopSell(按 sellPrice;不可卖/没货 null)', () => {
     const w1 = shopSell(w0, '166', ITEMS)!
     expect(w1.money).toBe(25)
     expect(w1.inventory).toEqual([])
+    expect(w0).toEqual({
+      party: [],
+      money: 0,
+      learnedSkills: {},
+      inventory: [{ itemId: '166', count: 1 }],
+    })
   })
   test('不可卖(sellable=false)/背包没有 → null', () => {
     expect(shopSell(world(0, [{ itemId: '267', count: 1 }]), '267', ITEMS)).toBeNull()

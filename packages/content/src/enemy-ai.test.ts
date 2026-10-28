@@ -1,5 +1,5 @@
 /** 敌人 AI 规则求值器(M4c-1)—— 设计:enemy-ai-design.md §1/§2。 */
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import type { AiBattleView, AiRule } from './enemy-ai.js'
 import { decideByRules, evalAiCond, pickAiTarget } from './enemy-ai.js'
 
@@ -25,6 +25,8 @@ describe('evalAiCond', () => {
       evalAiCond({ kind: 'hpBelow', percent: 30 }, view({ self: { hpPercent: 20 } }), r0),
     ).toBe(true)
     expect(evalAiCond({ kind: 'hpAbove', percent: 50 }, view(), r0)).toBe(true)
+    expect(evalAiCond({ kind: 'hpBelow', percent: 100 }, view(), r0)).toBe(false)
+    expect(evalAiCond({ kind: 'hpAbove', percent: 100 }, view(), r0)).toBe(false)
     expect(evalAiCond({ kind: 'turn', op: '>=', value: 3 }, view({ turn: 3 }), r0)).toBe(true)
     expect(evalAiCond({ kind: 'turn', op: '==', value: 3 }, view({ turn: 4 }), r0)).toBe(false)
     expect(evalAiCond({ kind: 'aloneAlive' }, view({ allyCount: 1 }), r0)).toBe(true)
@@ -54,6 +56,36 @@ describe('evalAiCond', () => {
       ],
     }
     expect(evalAiCond(c, view(), r0)).toBe(true)
+    const random = vi.fn(() => 0.25)
+    expect(evalAiCond({ kind: 'any', of: [] }, view(), random)).toBe(false)
+    expect(
+      evalAiCond(
+        {
+          kind: 'any',
+          of: [
+            { kind: 'turn', op: '>=', value: 1 },
+            { kind: 'chance', percent: 50 },
+          ],
+        },
+        view(),
+        random,
+      ),
+    ).toBe(true)
+    expect(
+      evalAiCond(
+        {
+          kind: 'all',
+          of: [
+            { kind: 'hpBelow', percent: 10 },
+            { kind: 'chance', percent: 50 },
+          ],
+        },
+        view(),
+        random,
+      ),
+    ).toBe(false)
+    // Short-circuiting is observable RNG ownership, not merely an optimization.
+    expect(random).not.toHaveBeenCalled()
   })
 })
 
@@ -77,8 +109,14 @@ describe('decideByRules(首条命中 / once / 沉默跳 cast)', () => {
   })
   test('低血优先变身;once 已触发则跳过', () => {
     const v = view({ self: { hpPercent: 10 } })
-    expect(decideByRules(rules, v, r0, new Set())?.action.kind).toBe('transform')
-    expect(decideByRules(rules, v, r0, new Set([1]))?.action.kind).toBe('cast')
+    expect(decideByRules(rules, v, r0, new Set())).toEqual({
+      action: { kind: 'transform', enemyId: 'enemy-2' },
+      ruleIdx: 1,
+    })
+    expect(decideByRules(rules, v, r0, new Set([1]))).toEqual({
+      action: { kind: 'cast', skillId: '339' },
+      ruleIdx: 2,
+    })
   })
   test('沉默:cast 跳过继续匹配 → 普攻兜底', () => {
     expect(

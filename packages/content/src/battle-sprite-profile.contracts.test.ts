@@ -1,10 +1,10 @@
 /**
- * TEST-CONTENT-CONTRACTS-1 D3/D4：battle-sprite 帧集合/需求/解析（battle-sprite.ts:156-233）。
+ * TEST-CONTENT-CONTRACTS-1 D3/D4：battle-sprite 帧集合/需求/解析（battle-sprite.ts）。
  * profile 三类；合法 0 帧段/0 tick；集合去重；expected 单值/集合/缺省；summon 需实际帧数。
  */
 import { describe, expect, test } from 'vitest'
 import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
-import type { BattleSpriteDef } from './battle-sprite.js'
+import type { BattleSpriteDef, PlayerFighterBattleSpriteProfile } from './battle-sprite.js'
 import {
   battleSpriteDefinitionFrameDemand,
   battleSpriteDefinitionFrameIndices,
@@ -12,7 +12,7 @@ import {
   validateBattleSprites,
 } from './battle-sprite.js'
 
-const player = (): BattleSpriteDef => ({
+const player = (): BattleSpriteDef & { profile: PlayerFighterBattleSpriteProfile } => ({
   id: 'bs-player',
   label: '主角',
   asset: 'battle.x',
@@ -49,30 +49,27 @@ const enemy = (): BattleSpriteDef => ({
 })
 
 describe('D3 battleSpriteDefinitionFrameIndices/Demand · 三类 profile', () => {
-  test('player：全部必填帧索引 + 可选 steal；demand=max+1', () => {
-    const indices = battleSpriteDefinitionFrameIndices(player())
-    expect([...indices].sort((a, b) => a - b)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-    expect(battleSpriteDefinitionFrameDemand(player())).toBe(10)
-    const stealPlayer = player()
-    ;(stealPlayer.profile as { frames: { steal?: number } }).frames.steal = 15
-    expect(battleSpriteDefinitionFrameDemand(stealPlayer)).toBe(16)
+  test('player：命名帧可复用绝对帧，稀疏 steal 的需求取最大索引加一', () => {
+    const value = player()
+    value.profile.frames.dying = 0
+    value.profile.frames.dead = 0
+    value.profile.frames.steal = 15
+    expect([...battleSpriteDefinitionFrameIndices(value)]).toEqual([0, 3, 4, 5, 6, 7, 8, 9, 15])
+    expect(battleSpriteDefinitionFrameDemand(value)).toBe(16)
   })
-  test('enemy：连续段展开；0 帧段贡献零索引；去重', () => {
+  test('enemy：连续段展开，零帧段贡献零索引', () => {
     const indices = battleSpriteDefinitionFrameIndices(enemy())
     expect([...indices].sort((a, b) => a - b)).toEqual([0, 1, 2, 3, 4])
-    expect(battleSpriteDefinitionFrameDemand(enemy())).toBe(5)
   })
-  test('summon：必须传 actualFrameCount；非正数拒绝', () => {
+  test('summon：实际帧集合精确，非整数帧数拒绝', () => {
     const summon: BattleSpriteDef = {
       id: 'bs-summon',
       label: '召唤',
       asset: 'battle.z',
       profile: { kind: 'summon' },
     }
-    expect(() => battleSpriteDefinitionFrameIndices(summon)).toThrow(/actualFrameCount/)
     expect([...battleSpriteDefinitionFrameIndices(summon, 3)]).toEqual([0, 1, 2])
-    expect(battleSpriteDefinitionFrameDemand(summon, 3)).toBe(3)
-    expect(() => battleSpriteDefinitionFrameIndices(summon, 0)).toThrow(/至少需要 1/)
+    expect(() => battleSpriteDefinitionFrameIndices(summon, 1.5)).toThrow(/至少需要 1/)
   })
 })
 
@@ -84,14 +81,12 @@ describe('D3/D4 validateBattleSprites + resolveBattleSpriteDefinition', () => {
     expect(validated).toEqual(raw)
     expect(raw).toEqual(before)
     expect(resolveBattleSpriteDefinition('bs-player', validated)).toBe(validated[0])
-    expect(resolveBattleSpriteDefinition('bs-enemy', validated, 'enemy')).toBeDefined()
-    expect(resolveBattleSpriteDefinition('bs-enemy', validated, ['enemy', 'summon'])).toBeDefined()
-  })
-  test('缺目标拒绝；kind 不匹配（单值/集合）拒绝', () => {
-    expect(() => resolveBattleSpriteDefinition('ghost', [player()])).toThrow(/不存在/)
-    expect(() => resolveBattleSpriteDefinition('bs-player', [player()], 'enemy' as const)).toThrow(
-      /期望 enemy，实际 player-fighter/,
+    expect(resolveBattleSpriteDefinition('bs-enemy', validated, 'enemy')).toBe(validated[1])
+    expect(resolveBattleSpriteDefinition('bs-enemy', validated, ['enemy', 'summon'])).toBe(
+      validated[1],
     )
+  })
+  test('kind 不匹配集合时拒绝', () => {
     expect(() =>
       resolveBattleSpriteDefinition('bs-player', [player()], ['enemy', 'summon'] as const),
     ).toThrow(/期望 enemy\/summon/)

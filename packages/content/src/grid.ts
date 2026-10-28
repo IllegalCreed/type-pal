@@ -38,7 +38,7 @@ export function gridToPixel(p: GridPos): { x: number; y: number } {
   return { x: HALF_W * (p.col - p.row), y: HALF_H * (p.col + p.row) }
 }
 
-/** 像素 → 菱形轴格:唯一反解(a=col−row=x/16, b=col+row=y/8)。站位像素必得整数。 */
+/** 像素 → 菱形轴格:反解后各轴取整(a=col−row=x/16, b=col+row=y/8)。格点像素精确还原。 */
 export function pixelToGrid(x: number, y: number): { col: number; row: number } {
   const a = x / HALF_W // col − row
   const b = y / HALF_H // col + row

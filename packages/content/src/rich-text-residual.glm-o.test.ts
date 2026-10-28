@@ -1,5 +1,5 @@
-/** TEST-GLM-WAVE-O-1 O09：parseRichText 残余合同（新文件，不触碰已有反控执行集）。
- *  旧证（existing-proof，不计净新）：rich-text.test.ts:5-39 已覆盖纯文本/空串/
+/** TEST-GLM-WAVE-O-1 O09：parseRichText 标记边界。
+ *  相邻 rich-text.test.ts 已覆盖纯文本/空串/
  *  句中标记三段/行首两段/多标记夹文本/未闭合按纯文本。
  *  本文件按源码逐臂补未覆盖轴：未知色名、错配闭合、空内容、相邻无间隔、
  *  同名嵌套首闭合语义、redAlt 与 red 的交替区分、大小写敏感、孤儿闭合、内容含 '<'。
@@ -37,8 +37,10 @@ describe('O09 parseRichText：标记识别残余轴', () => {
   })
 
   test('redAlt 与 red 交替序区分（redAlt 不被截成 red）', () => {
-    expect(parseRichText('<redAlt>x</redAlt>')).toEqual([{ text: 'x', color: 'redAlt' }])
-    expect(parseRichText('<red>y</red>')).toEqual([{ text: 'y', color: 'red' }])
+    expect(parseRichText('<redAlt>x</redAlt><red>y</red>')).toEqual([
+      { text: 'x', color: 'redAlt' },
+      { text: 'y', color: 'red' },
+    ])
   })
 
   test('大小写敏感：<CYAN> 不识别 → 纯文本', () => {

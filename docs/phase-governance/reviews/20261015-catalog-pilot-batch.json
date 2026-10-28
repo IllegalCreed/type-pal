@@ -100,7 +100,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "14f11b00daeb89a7f45306dc000985ee7db332adfb51a3db72a58ad87906b693",
+      "afterSha256": "ca4b5f0542ad0a6591fe3c18d3d8096ffcd1837ad14e609436deca102d471a86",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -128,7 +128,7 @@
       },
       "revision": {
         "currentSha": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
-        "implementationSha": "14f11b00daeb89a7f45306dc000985ee7db332adfb51a3db72a58ad87906b693",
+        "implementationSha": "ca4b5f0542ad0a6591fe3c18d3d8096ffcd1837ad14e609436deca102d471a86",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
         "history": [
@@ -189,13 +189,23 @@
               "full story/visual/editor preview E2E",
               "deployment"
             ]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-28",
+            "action": "window2-reviewed-delta",
+            "previousAfterSha256": "14f11b00daeb89a7f45306dc000985ee7db332adfb51a3db72a58ad87906b693",
+            "afterSha256": "ca4b5f0542ad0a6591fe3c18d3d8096ffcd1837ad14e609436deca102d471a86",
+            "scope": "Rotation sourceRef line143 to157/SHA only: referenced test bytes equal; no new runtime/visual/deploy claims.",
+            "evidence": "docs/ops/evidence/QUALITY-PENDING-100-2/README.md",
+            "notRun": ["new runtime or E2E or visual or coverage by this documentation bridge"]
           }
         ]
       },
       "evidence": {
         "kind": "owned-release-preparation",
-        "path": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
-        "afterSha256": "7b108b1e6bf766db1dd942e08e9be22edc02bdf9f21b88a63f08859f19841d36",
+        "path": "docs/testing/catalog.json",
+        "afterSha256": "ca4b5f0542ad0a6591fe3c18d3d8096ffcd1837ad14e609436deca102d471a86",
         "scope": "Release delta.",
         "lineCount": 2818,
         "currentMaintenance": {
@@ -480,7 +490,7 @@
         "after": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
         "semanticChange": "Fixed e136/dd377 acceptances recorded with exact scopes, later root delta separately reviewed; no publication/runtime/old-code/whole-goal acceptance."
       },
-      "reviewedLines": "Owned delta only.",
+      "reviewedLines": "1-2831",
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.2.0",

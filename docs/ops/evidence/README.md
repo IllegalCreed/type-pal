@@ -170,3 +170,6 @@ current（仅指导航索引）。历史交付不得外推为当前 runtime/E2E/
 
 - [固定52个review文件收口](QUALITY-REVIEW-52-CLOSEOUT-1/README.md)：当前准入、逐文件八维、有效旧证据版本桥接与集中门。
 - [百文件窗口：工具专测与原生探针](QUALITY-TOOLS-CONTRACT-TESTS-1/README.md)：当前100主体文件八维、反控与原件；统一门和提交留约100文件窗口。
+- [第二窗口：present 主测与冻屏合同](QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md)：两个主体八维、原始身份映射和有效反控；统一门等约100文件冻结。
+
+- [第二百文件窗口统一证据](QUALITY-PENDING-100-2/README.md)：100主体八维与完整原件，新增宿主叶/退役不凑数；统一门与发布单列。

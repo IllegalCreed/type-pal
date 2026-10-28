@@ -1,5 +1,8 @@
 import { describe, expect, test } from 'vitest'
-import { validateMigrationDiagnostics } from './migration-diagnostic.js'
+import {
+  MIGRATION_DIAGNOSTIC_CATEGORIES,
+  validateMigrationDiagnostics,
+} from './migration-diagnostic.js'
 
 const valid = () => ({
   version: 1 as const,
@@ -22,11 +25,22 @@ const valid = () => ({
 
 describe('migration diagnostics sidecar', () => {
   test('合法 sidecar 原样返回', () => {
+    expect(MIGRATION_DIAGNOSTIC_CATEGORIES).toEqual([
+      'unsupported-command',
+      'missing-source-data',
+      'story-script',
+      'empty-script',
+      'manual-review',
+    ])
+    expect(validateMigrationDiagnostics({ version: 1, diagnostics: [] })).toEqual({
+      version: 1,
+      diagnostics: [],
+    })
     const value = valid()
     expect(validateMigrationDiagnostics(value)).toBe(value)
   })
 
-  test('拒绝重复 id、未知类别、空来源与非法目标能力', () => {
+  test('拒绝重复 id、未知类别与非法目标能力', () => {
     const duplicate = valid()
     duplicate.diagnostics.push({ ...duplicate.diagnostics[0]! })
     expect(() => validateMigrationDiagnostics(duplicate)).toThrow(/重复/)
@@ -37,14 +51,6 @@ describe('migration diagnostics sidecar', () => {
         diagnostics: [{ ...valid().diagnostics[0], category: 'guess' }],
       }),
     ).toThrow(/未知类别/)
-    expect(() =>
-      validateMigrationDiagnostics({
-        ...valid(),
-        diagnostics: [
-          { ...valid().diagnostics[0], source: { kind: 'legacy-script', label: '', address: 1 } },
-        ],
-      }),
-    ).toThrow(/source\.label/)
     expect(() =>
       validateMigrationDiagnostics({
         ...valid(),

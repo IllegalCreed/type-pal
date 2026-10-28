@@ -41,11 +41,12 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // CODE1: main26->19; GLM-o input-axis splits increase its current count.
   // CODE42: two test-only rectangle placeholders removed; native full identities pinned.
   // Window100: five new exact snapshots; PNG replaces5→4 with4→3; nine current removals.
-  assert.equal(approvedTestRetirements.length, 79)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 79)
+  // Window2: eight exact snapshots, 23 case retirements; four deleted files stay separately audited.
+  assert.equal(approvedTestRetirements.length, 87)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 87)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    232,
+    255,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

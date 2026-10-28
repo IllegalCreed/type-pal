@@ -1,6 +1,6 @@
 /**
  * TEST-RUNTIME-STATE-BOUNDARIES-1 A5-A7：迁移诊断边界（migration-diagnostic.ts）。
- * migration-diagnostic.test.ts:24/29 已覆盖合法 sidecar 原样返回与重复 id/未知类别/空来源/非法能力；
+ * migration-diagnostic.test.ts 承担合法 sidecar、空表、类别集与重复 id/未知类别/非法能力；
  * 本文件补容器错型路径、target/source 各字段轴与 category×capability 支持域矩阵。
  */
 import { describe, expect, test } from 'vitest'
@@ -113,11 +113,11 @@ describe('A7 category×capability 支持域与同对象返回', () => {
     const result = validateMigrationDiagnostics(input)
     expect(result).toBe(input) // 返回同一输入对象（现行合同）
     expect(result.diagnostics).toHaveLength(15)
-    // 无 exactKeys 政策：诊断对象带额外字段仍被接受（现行宽容合同，不发明拒绝）
+    // 当前 sidecar 保留未知元信息；这不代表旧格式升级或新版本兼容能力
     const extra = diagnosticAt(0)
     const withExtra = {
       version: 1,
-      diagnostics: [{ ...extra, id: 'diag-extra', futureField: { note: '前向兼容' } }],
+      diagnostics: [{ ...extra, id: 'diag-extra', extraMetadata: { note: '当前版本未知元信息' } }],
     }
     expect(() => validateMigrationDiagnostics(withExtra)).not.toThrow()
   })

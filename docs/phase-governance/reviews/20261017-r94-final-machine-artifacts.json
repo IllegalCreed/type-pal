@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "ee1ed15adabeeff9552d1f62f9bf957509ef0c2508b07790db79273d266acb12",
-      "afterSha256": "c2b9850fba5020a8b381ba803d537ee6419ff9f37632b2b853b3119c58b3fe0a",
+      "afterSha256": "be1e263ac9f3783e489fce4489ba90155db9cf9826cc94baaff760518a1bcf6b",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "c4124ceed30546ed749a6b6b4d7212bbdd41050f69bc5805c9b817713ad33788",
-        "implementationSha": "c2b9850fba5020a8b381ba803d537ee6419ff9f37632b2b853b3119c58b3fe0a",
+        "implementationSha": "be1e263ac9f3783e489fce4489ba90155db9cf9826cc94baaff760518a1bcf6b",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1824,15 +1824,24 @@
             "date": "2026-10-25",
             "previousAfterSha256": "ee1ed15adabeeff9552d1f62f9bf957509ef0c2508b07790db79273d266acb12",
             "scope": "Current owned document delta; no product/whole-gate acceptance."
+          },
+          {
+            "date": "2026-10-28",
+            "revision": "working-tree",
+            "action": "window2-final-envelope",
+            "previousAfterSha256": "c2b9850fba5020a8b381ba803d537ee6419ff9f37632b2b853b3119c58b3fe0a",
+            "scope": "Only four owned review-envelope bindings/history for window2 documents. Other JSON entries byte-preserved; no new product/semantic acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PENDING-100-2/README.md",
+            "afterSha256": "be1e263ac9f3783e489fce4489ba90155db9cf9826cc94baaff760518a1bcf6b"
           }
         ]
       },
       "evidence": {
         "kind": "owned-review52-closeout",
-        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
+        "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "c4124ceed30546ed749a6b6b4d7212bbdd41050f69bc5805c9b817713ad33788",
+        "afterSha256": "be1e263ac9f3783e489fce4489ba90155db9cf9826cc94baaff760518a1bcf6b",
         "lineCount": 20226,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -4876,7 +4885,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Owned delta only.",
+      "reviewedLines": "1-20087",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

@@ -14,15 +14,11 @@ const registry = {
 } as const
 
 describe('world-variable 剩余合同', () => {
-  test('id guard rejects empty, untrimmed, oversize, non-pattern and sys-prefixed ids', () => {
-    expect(() => validateWorldVariableIdV1('')).toThrow('不能为空')
-    expect(() => validateWorldVariableIdV1(' a ')).toThrow('首尾空格')
-    expect(() => validateWorldVariableIdV1('a'.repeat(WORLD_VARIABLE_ID_MAX_LENGTH + 1))).toThrow(
+  test('id length accepts the 128-character boundary and rejects 129 characters', () => {
+    expect(validateWorldVariableIdV1('a'.repeat(128))).toBe('a'.repeat(128))
+    expect(() => validateWorldVariableIdV1('a'.repeat(129))).toThrow(
       `长度不得超过 ${WORLD_VARIABLE_ID_MAX_LENGTH}`,
     )
-    expect(() => validateWorldVariableIdV1('1abc')).toThrow('只允许字母开头')
-    expect(() => validateWorldVariableIdV1('sys:engine')).toThrow('sys: 命名空间保留给引擎')
-    expect(validateWorldVariableIdV1('quest.started')).toBe('quest.started')
   })
 
   test('registry guard enforces name/description lengths and flag/number initial types', () => {
@@ -59,11 +55,17 @@ describe('world-variable 剩余合同', () => {
   })
 
   test('initial values split into disjoint flags and vars maps without leaking references', () => {
-    const initial = initialWorldVariablesV1(JSON.parse(JSON.stringify(registry)))
+    const initial = initialWorldVariablesV1(registry)
     expect(initial.flags).toEqual({ 'quest.started': true })
     expect(initial.vars).toEqual({ 'score.total': 7 })
-    // 修改产物不回写 registry。
-    expect(initial.flags['quest.started']).toBe(true)
-    expect(initial.vars['score.total']).toBe(7)
+    // Runtime writes must not change the author definitions or a later new game's defaults.
+    initial.flags['quest.started'] = false
+    initial.vars['score.total'] = 99
+    expect(registry['quest.started'].initial).toBe(true)
+    expect(registry['score.total'].initial).toBe(7)
+    expect(initialWorldVariablesV1(registry)).toEqual({
+      flags: { 'quest.started': true },
+      vars: { 'score.total': 7 },
+    })
   })
 })

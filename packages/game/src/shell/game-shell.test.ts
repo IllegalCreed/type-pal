@@ -1,12 +1,26 @@
-import { afterEach, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, expect, it, vi } from 'vitest'
+import { getLanguage, useFallbackLanguage } from '../localization/language.js'
 import { createGameShell } from './game-shell.js'
 import { KeyboardInputSource } from './input.js'
 import { setInputRotated } from './input-rotation.js'
 import { setTouchControlsVisible } from './touch-preference.js'
 
+let previousLanguage = getLanguage()
+let previousDocumentLanguage: string | null
+beforeEach(() => {
+  previousLanguage = getLanguage()
+  previousDocumentLanguage = document.documentElement.getAttribute('lang')
+})
+
 afterEach(() => {
   delete document.documentElement.dataset.tpLayout
   document.body.replaceChildren()
+  // A production shell lives for the page. After removing our temporary page, a real
+  // language notification lets its subscriber observe disconnection and unsubscribe.
+  useFallbackLanguage(getLanguage() === 'en' ? 'zh-CN' : 'en')
+  useFallbackLanguage(previousLanguage)
+  if (previousDocumentLanguage === null) document.documentElement.removeAttribute('lang')
+  else document.documentElement.setAttribute('lang', previousDocumentLanguage)
   vi.restoreAllMocks()
   vi.unstubAllGlobals()
 })

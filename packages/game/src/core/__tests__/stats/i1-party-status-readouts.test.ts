@@ -32,13 +32,13 @@ describe('I1: 队伍状态投影 collectPartyStatusReadouts', () => {
     expect(readouts[0]!.slot).toBe(0)
     expect(readouts[0]!.roleId).toBe(2)
     expect(readouts[0]!.roleName).toBe('林月如')
-    expect(readouts[0]!.hp).toBe(gs.PlayerRolesRuntime.rgwHP[2])
+    expect(readouts[0]!.hp).toBe(150)
 
     // 检查 slot 1
     expect(readouts[1]!.slot).toBe(1)
     expect(readouts[1]!.roleId).toBe(0)
     expect(readouts[1]!.roleName).toBe('李逍遥')
-    expect(readouts[1]!.hp).toBe(gs.PlayerRolesRuntime.rgwHP[0])
+    expect(readouts[1]!.hp).toBe(100)
   })
 
   it('I1-02 persistent 来源正确读取大世界 rgPlayerStatus 状态', () => {
@@ -87,17 +87,20 @@ describe('I1: 队伍状态投影 collectPartyStatusReadouts', () => {
 
   it('I1-04 结构化中毒 entries 与 statuses 标签解析', () => {
     const gs = makeFreshGameState()
-    const roleId = 0
-    gs.partyMembers = [roleId]
+    const partySlot = 0
+    gs.partyMembers = [2, 0, 1]
 
     // 注入毒槽数据
-    gs.rgPoisonStatus[`0_${roleId}`] = { wPoisonID: 555, wPoisonScript: 1001 }
+    gs.rgPoisonStatus[`0_${partySlot}`] = { wPoisonID: 555, wPoisonScript: 1001 }
 
     const poisons: ObjectPoisonView[] = [makeObjectPoison({ id: 555, level: 2 })]
     const items: Item[] = [makeItem({ id: 555, _name: '断肠草' })]
 
     const readouts = collectPartyStatusReadouts(gs, makePlayerRoles(), poisons, items)
-    expect(readouts[0]!.statuses).toContainEqual({ name: '断肠草', kind: 'poison' })
+    expect(readouts[0]!.roleId).toBe(2)
+    expect(readouts[0]!.statuses).toEqual([{ name: '断肠草', kind: 'poison' }])
+    expect(readouts[1]!.statuses).toEqual([])
+    expect(readouts[2]!.statuses).toEqual([])
     expect(readouts[0]!.entries.some((e) => e.includes('断肠草#555 L2 script:1001'))).toBe(true)
   })
 })

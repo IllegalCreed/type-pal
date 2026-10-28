@@ -7,8 +7,10 @@ describe('validateTilesets(W7B)', () => {
       { id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.grass' },
       { id: 'pal-20', name: '原版·仙灵岛', category: 'builtin', asset: 'tileset.pal.020' },
     ])
-    expect(v.length).toBe(2)
-    expect(v[1]!.asset).toBe('tileset.pal.020')
+    expect(v).toEqual([
+      { id: 'grass', name: '草地', category: 'outdoor', asset: 'tileset.grass' },
+      { id: 'pal-20', name: '原版·仙灵岛', category: 'builtin', asset: 'tileset.pal.020' },
+    ])
   })
   test('重复 id / id 含斜杠 / 空字段 / 退役 tiles 字段 → 各自报错', () => {
     const base = { name: 'n', category: 'c', asset: 'tileset.test' }
@@ -35,6 +37,6 @@ describe('resolveTilesetAsset', () => {
   test('注册表 id → AssetId；路径直通与未知 id 均报错', () => {
     expect(resolveTilesetAsset('grass', reg)).toBe('tileset.grass')
     expect(() => resolveTilesetAsset('tileset/20.rle', reg)).toThrow('不在注册表')
-    expect(() => resolveTilesetAsset('nope', reg)).toThrow('不在注册表')
+    expect(() => resolveTilesetAsset('nope', reg)).toThrow('tileset "nope" 不在注册表')
   })
 })

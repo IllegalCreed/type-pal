@@ -1,6 +1,29 @@
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createAudioManager, type MusicBackend } from './audio.js'
-import { createMusicSourceController, MUSIC_SOURCE_KEY, readMusicSource } from './music-source.js'
+import {
+  createMusicSourceController as createSource,
+  MUSIC_SOURCE_KEY,
+  readMusicSource,
+} from './music-source.js'
+
+const sources: ReturnType<typeof createSource>[] = []
+let previousSource: string | null
+beforeEach(() => {
+  previousSource = localStorage.getItem(MUSIC_SOURCE_KEY)
+})
+afterEach(() => {
+  try {
+    for (const source of sources.splice(0)) source.dispose?.()
+  } finally {
+    if (previousSource === null) localStorage.removeItem(MUSIC_SOURCE_KEY)
+    else localStorage.setItem(MUSIC_SOURCE_KEY, previousSource)
+  }
+})
+function createMusicSourceController(...args: Parameters<typeof createSource>) {
+  const source = createSource(...args)
+  sources.push(source)
+  return source
+}
 
 function deferred() {
   let resolve!: () => void

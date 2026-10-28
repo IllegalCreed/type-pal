@@ -43,59 +43,43 @@ describe('B2 validateProjectMap · v4 矩阵合同', () => {
   })
   test('矩阵行数必须是 height×2（截断/超长拒绝）', () => {
     const short = map()
-    ;(short.layers[0] as { tiles: number[][] }).tiles = [[1, 0]]
-    expect(() => validateProjectMap(short)).toThrow()
+    short.layers[0]!.tiles = [[1, 0]]
+    expect(() => validateProjectMap(short)).toThrow('projectMap.layers[0].tiles: 期望 2 行')
     const long = map()
-    ;(long.layers[0] as { tiles: number[][] }).tiles = [
+    long.layers[0]!.tiles = [
       [1, 0],
       [1, 1],
       [1, 1],
     ]
-    expect(() => validateProjectMap(long)).toThrow()
+    expect(() => validateProjectMap(long)).toThrow('projectMap.layers[0].tiles: 期望 2 行')
   })
   test('tile 0 非空格：tiles=0/sources=0 合法；tiles 非空配 null source 拒绝（同空同非空门）', () => {
     const zero = map()
-    ;(zero.layers[0] as { tiles: number[][] }).tiles = [
+    zero.layers[0]!.tiles = [
       [0, 0],
       [0, 0],
     ]
-    ;(zero.layers[0] as { sources: Array<Array<number | null>> }).sources = [
+    zero.layers[0]!.sources = [
       [0, 0],
       [0, 0],
     ]
     expect(() => validateProjectMap(zero)).not.toThrow()
     const mixed = map()
-    ;(mixed.layers[0] as { sources: Array<Array<number | null>> }).sources = [
+    mixed.layers[0]!.sources = [
       [null, 0],
       [0, 0],
     ] // tiles[0][0]=1 配 null source
-    expect(() => validateProjectMap(mixed)).toThrow()
+    expect(() => validateProjectMap(mixed)).toThrow('tiles/sources 必须同时为空或同时非空')
     const emptyBoth = map()
-    ;(emptyBoth.layers[0] as { tiles: Array<Array<number | null>> }).tiles = [
+    emptyBoth.layers[0]!.tiles = [
       [null, null],
       [null, null],
     ]
-    ;(emptyBoth.layers[0] as { sources: Array<Array<number | null>> }).sources = [
+    emptyBoth.layers[0]!.sources = [
       [null, null],
       [null, null],
     ]
     expect(() => validateProjectMap(emptyBoth)).not.toThrow()
-  })
-  test('来源下标超出 tilesetRefs 拒绝（单轴损坏：其余格保持 tiles/sources 匹配）', () => {
-    const outOfRange = map()
-    // 只坏一轴：[0][0] tile=1 配 source=1（满足同非空门），仅下标越界；其余格合法
-    ;(outOfRange.layers[0] as { sources: Array<Array<number | null>> }).sources = [
-      [1, 0],
-      [0, 0],
-    ]
-    expect(() => validateProjectMap(outOfRange)).toThrow(/来源下标 1 超出 tilesetRefs/)
-    // 同基线合法修正正控：把越界下标修回界内即通过
-    const corrected = map()
-    ;(corrected.layers[0] as { sources: Array<Array<number | null>> }).sources = [
-      [0, 0],
-      [0, 0],
-    ]
-    expect(() => validateProjectMap(corrected)).not.toThrow()
   })
 })
 

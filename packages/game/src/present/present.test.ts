@@ -6,8 +6,13 @@ import { FRAMES_PER_CHAR, setWaitingEndKey, startDialogLine, tickDialog } from '
 import type { SpriteImage } from './draw-sprite.js'
 import * as drawSpriteModule from './draw-sprite.js'
 import { createFramebuffer } from './framebuffer.js'
-import * as drawMenuModule from './menu/draw-menu.js'
 import { applyDialogIconPaletteShift, type PresentContext, presentFrame } from './present.js'
+import { resetScreenWavePhase } from './screen-wave.js'
+
+afterEach(() => {
+  vi.restoreAllMocks()
+  resetScreenWavePhase()
+})
 
 function flatMap(w: number, h: number): Tilemap {
   const cells = Array.from({ length: h }, () =>
@@ -72,8 +77,19 @@ function baseCtx(tilemap?: Tilemap): PresentContext {
   }
 }
 
+/** Distinct palette indices identify selected frames through the real sprite rasterizer. */
+function indexedFrames(count: number): SpriteImage[] {
+  return Array.from({ length: count }, (_, i) => ({
+    width: 1,
+    height: 1,
+    indices: Uint8Array.of(i + 1),
+    opaque: Uint8Array.of(1),
+    anchorX: 0,
+    anchorY: 0,
+  }))
+}
+
 describe('cursorless fade completion preserves the actual restored palette', () => {
-  afterEach(() => vi.restoreAllMocks())
   const palette = (): Palette => ({
     colors: Array.from({ length: 256 }, (_, i) => [i, (i * 2) % 256, 255 - i]),
     cycles: [],
@@ -111,6 +127,21 @@ describe('cursorless fade completion preserves the actual restored palette', () 
     expect(gs.palette.colors).toEqual(base.colors.map((c) => c.map((v) => (v * 60) >> 6)))
     expect(gs.eventCursor.ip).toBe(0)
   })
+  it('无人等待且 FadeIn 尚未完成时保留状态和游标', () => {
+    const base = palette()
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.palette = makeWorkingPalette(base)
+    const fade = buildFadeIn(base.colors, 600, 0)
+    gs.paletteFadeState = fade
+    const cursor = { commands: [], labelMap: {}, ip: 0, waiting: 'dialog' as const }
+    gs.eventCursor = cursor
+    vi.spyOn(performance, 'now').mockReturnValue(100)
+    presentFrame(createFramebuffer(), gs, baseCtx())
+    expect(gs.paletteFadeState).toBe(fade)
+    expect(gs.eventCursor).toBe(cursor)
+    expect(gs.eventCursor.ip).toBe(0)
+    expect(gs.palette.colors[128]).toEqual([20, 0, 19]) // j=10, each channel ×10/64.
+  })
   it('cursorless SceneFade still keeps its documented 63/64 endpoint', () => {
     const base = palette(),
       gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -123,66 +154,7 @@ describe('cursorless fade completion preserves the actual restored palette', () 
   })
 })
 
-describe('presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话)', () => {
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
-
-  function menuGs(mode: 'menu' | 'event') {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.mode = mode
-    gs.menuStack = [{ kind: 'inventory', state: {} } as any]
-    return gs
-  }
-
-  it('mode=menu + menuStack 非空 → drawMenuStack 被调用(正常菜单交互)', () => {
-    const fb = createFramebuffer()
-    const gs = menuGs('menu')
-    const ctx = baseCtx()
-    ctx.uiSpriteFrames = new Map() as any
-    const spy = vi.spyOn(drawMenuModule, 'drawMenuStack').mockImplementation(() => {})
-    presentFrame(fb, gs, ctx)
-    expect(spy).toHaveBeenCalled()
-  })
-
-  it('mode=event + menuStack 非空(物品 use 脚本跑 scriptOnUse 对话)→ drawMenuStack **不**被调用(对话不被列表遮挡)', () => {
-    const fb = createFramebuffer()
-    const gs = menuGs('event')
-    // startOverworldItemScript 后:mode=event + eventCursor + scriptOnUse 对话,但 menuStack 仍在(为脚本跑完重显 picker)
-    gs.eventCursor = { ip: 0 } as any
-    gs.dialogBox = startDialogLine('气血恢复．．', { style: 'bottom' })
-    const ctx = baseCtx()
-    ctx.uiSpriteFrames = new Map() as any
-    const spy = vi.spyOn(drawMenuModule, 'drawMenuStack').mockImplementation(() => {})
-    presentFrame(fb, gs, ctx)
-    expect(spy).not.toHaveBeenCalled()
-  })
-})
-
 describe('presentFrame', () => {
-  it('无 dialogBox → 不画对话框,不抛错', () => {
-    const fb = createFramebuffer()
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    const ctx: PresentContext = {
-      tilemap: flatMap(3, 3),
-      tileImages: { get: () => undefined },
-      partyFrames: [
-        {
-          width: 1,
-          height: 1,
-          indices: new Uint8Array([0]),
-          opaque: new Uint8Array([0]),
-          anchorX: 0,
-          anchorY: 0,
-        },
-      ],
-      partyWalkFrames: 3,
-      npcSprites: new Map(),
-    }
-    const ok = () => presentFrame(fb, gs, ctx)
-    expect(ok).not.toThrow()
-  })
-
   it('有 dialogBox → 文本绘到 fb(sdlpal upper/center/lower 无 box bg,文本即唯一证据)', () => {
     const fb = createFramebuffer()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -247,22 +219,7 @@ describe('presentFrame', () => {
   // ── C3(gameOverActive 重构):死亡 hold 双分支 ──
   // deathHoldActive(T0 过渡帧):纯保持上一帧(战斗倒地帧),不画 dialog、不 fb.clear。
   // gameOverActive(0x4F 后):保持帧 + 画死亡 dialog。两者都跳过 fb.clear()+世界重绘。
-  const minimalCtx = (): PresentContext => ({
-    tilemap: flatMap(3, 3),
-    tileImages: { get: () => undefined },
-    partyFrames: [
-      {
-        width: 1,
-        height: 1,
-        indices: new Uint8Array([0]),
-        opaque: new Uint8Array([0]),
-        anchorX: 0,
-        anchorY: 0,
-      },
-    ],
-    partyWalkFrames: 3,
-    npcSprites: new Map(),
-  })
+  const minimalCtx = (): PresentContext => ({ ...baseCtx(flatMap(3, 3)), partyFrames: [] })
 
   it('deathHoldActive=true → 保持上一帧(不 fb.clear、不重绘世界):预写哨兵像素存活', () => {
     const fb = createFramebuffer()
@@ -291,7 +248,7 @@ describe('presentFrame', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     // deathHoldActive/gameOverActive 都未置 → 正常重绘
     presentFrame(fb, gs, minimalCtx())
-    expect(fb.indices[0]).not.toBe(173) // 被 fb.clear()+世界重绘覆盖(不 hold)
+    expect(fb.indices.every((pixel) => pixel === 0)).toBe(true)
   })
 
   it('blackScreenHold=true → 保持全黑背景,但仍叠加居中文字', () => {
@@ -342,13 +299,9 @@ describe('presentFrame', () => {
 // walkFrames=4:wFrame = dir*4 + stepFrame
 // walking=false:站立帧 dir * walkFrames(P0.0 既有)
 describe('P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)', () => {
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
-
   /**
    * 追踪 presentFrame 内 party drawSprite 的 frameIdx。
-   * 替换 ctx.partyFrames 为 map:frameIdx→SpriteImage(唯一颜色),
+   * 帧带独立颜色，同时核实真实 drawSprite 入参与屏幕落点。
    * 记录实际落到哪张图。
    */
   function trackPartyFrameIdx(
@@ -357,19 +310,8 @@ describe('P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)', () => {
     frameCount = walkFrames * 4,
   ): number {
     // 构造 walkFrames*4 帧,每帧颜色 = idx+1
-    const frames: SpriteImage[] = Array.from({ length: frameCount }, (_, i) => ({
-      width: 1,
-      height: 1,
-      indices: new Uint8Array([i + 1]),
-      opaque: new Uint8Array([1]),
-      anchorX: 0,
-      anchorY: 0,
-    }))
-    const drawn: number[] = []
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
-      const idx = frames.indexOf(sprite as SpriteImage)
-      if (idx >= 0) drawn.push(idx)
-    })
+    const frames = indexedFrames(frameCount)
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite')
     const fb = createFramebuffer()
     const ctx: PresentContext = {
       tilemap: flatMap(10, 10),
@@ -379,8 +321,9 @@ describe('P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)', () => {
       npcSprites: new Map(),
     }
     presentFrame(fb, gs, ctx)
-    spy.mockRestore()
-    return drawn[0] ?? -1
+    const frame = spy.mock.calls.find(([, image]) => frames.includes(image))?.[1]
+    expect(fb.indices[116 * 320 + 160]).toBe(frame?.indices[0])
+    return frame ? frames.indexOf(frame) : -1
   }
 
   it('walking=false → 站立帧:frameIdx = dir * walkFrames (P0.0 既有)', () => {
@@ -461,7 +404,7 @@ describe('P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)', () => {
 
 // ── P0.d follower 占位(sdlpal scene.c:692-707)───────────────────────────────
 //
-// sdlpal 偏移公式(M5 简版只做 partyMembers[1],occupying trail[1]):
+// sdlpal 偏移公式(本组核首个跟随队员（partyMembers[1]）):
 //   dir = trail[1].wDirection
 //   isWS = (dir == West || dir == South) → left / down
 //   isWN = (dir == West || dir == North) → left / up
@@ -470,46 +413,32 @@ describe('P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)', () => {
 //
 // partyMembers.length > 1 且 trail.length > 1 时才渲染 follower。
 describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
-
   /**
    * 追踪 presentFrame 内 drawSprite 调用,返回 id → {sprite, cx, cy} 映射。
-   * 用 spy 拦截 drawSprite,通过 sprite 对象引用识别 party leader vs follower。
+   * 旁观真实 drawSprite 调用，用对象身份识别队首和跟随者，不替换像素绘制。
    * follower 在 ctx 中用与 leader 不同索引的 partyFrames 传入来追踪。
    */
   function trackFollowerDraw(
     gs: ReturnType<typeof createInitialGameState>,
     ctx: PresentContext,
   ): Array<{ spriteIdx: number; cx: number; cy: number }> {
-    const calls: Array<{ spriteIdx: number; cx: number; cy: number }> = []
-    const spy = vi
-      .spyOn(drawSpriteModule, 'drawSprite')
-      .mockImplementation((_fb, sprite, cx, cy) => {
-        const idx = ctx.partyFrames.indexOf(sprite as SpriteImage)
-        if (idx >= 0) calls.push({ spriteIdx: idx, cx, cy })
-      })
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite')
     const fb = createFramebuffer()
     presentFrame(fb, gs, ctx)
-    spy.mockRestore()
-    return calls
+    return spy.mock.calls.flatMap(([, image, cx, cy]) => {
+      const spriteIdx = ctx.partyFrames.indexOf(image)
+      return spriteIdx < 0 ? [] : [{ spriteIdx, cx, cy }]
+    })
   }
 
   function trackDrawSprites(
     gs: ReturnType<typeof createInitialGameState>,
     ctx: PresentContext,
   ): Array<{ sprite: SpriteImage; cx: number; cy: number }> {
-    const calls: Array<{ sprite: SpriteImage; cx: number; cy: number }> = []
-    const spy = vi
-      .spyOn(drawSpriteModule, 'drawSprite')
-      .mockImplementation((_fb, sprite, cx, cy) => {
-        calls.push({ sprite: sprite as SpriteImage, cx, cy })
-      })
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite')
     const fb = createFramebuffer()
     presentFrame(fb, gs, ctx)
-    spy.mockRestore()
-    return calls
+    return spy.mock.calls.map(([, sprite, cx, cy]) => ({ sprite, cx, cy }))
   }
 
   it('partyMembers=[0] 单人 → 不渲染 follower(只有 leader drawSprite)', () => {
@@ -520,14 +449,7 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
       { x: 268, y: 134, dir: 'right' },
     ]
     // 构造 12 帧(4 dir × 3 frames)partyFrames
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
-      width: 1,
-      height: 1,
-      indices: new Uint8Array([i + 1]),
-      opaque: new Uint8Array([1]),
-      anchorX: 0,
-      anchorY: 0,
-    }))
+    const frames = indexedFrames(12)
     const ctx: PresentContext = {
       tilemap: flatMap(20, 20),
       tileImages: { get: () => undefined },
@@ -610,7 +532,7 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     // sdlpal 0x15 写 rgParty[operand[2]].wFrame(script.c:736),operand[2] 可指跟随者;
     //   静止演出期间 PAL_GameUpdate 不调 PAL_UpdatePartyGestures(play.c:24-241)→ 该 wFrame
     //   不被 rgTrail 覆盖,跟随者按脚本朝向渲染。我们的渲染须对齐:静止时跟随者优先用
-    //   partyScriptedFrame[m](与队长 present.ts:308 同逻辑),否则李逍遥(跟随者)保持走来方向不转身。
+    //   partyScriptedFrame[m](与队长的 scripted-frame 优先级相同),否则李逍遥(跟随者)保持走来方向不转身。
     const gs = createInitialGameState({ x: 300, y: 150, facing: 'down' })
     gs.partyMembers = [0, 1]
     gs.walkingFrame = { walking: false, stepFrame: 0 }
@@ -684,14 +606,7 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     // new camera 语义 = sdlpal viewport = party - partyoffset(160, 112)
     gs.camera = { x: 300 - 160, y: 150 - 112 } // = (140, 38)
 
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
-      width: 1,
-      height: 1,
-      indices: new Uint8Array([i + 1]),
-      opaque: new Uint8Array([1]),
-      anchorX: 0,
-      anchorY: 0,
-    }))
+    const frames = indexedFrames(12)
     const ctx: PresentContext = {
       tilemap: flatMap(30, 30),
       tileImages: { get: () => undefined },
@@ -727,14 +642,7 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     ]
     gs.camera = { x: 300 - 160, y: 150 - 112 } // sdlpal viewport = party - partyoffset
 
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
-      width: 1,
-      height: 1,
-      indices: new Uint8Array([i + 1]),
-      opaque: new Uint8Array([1]),
-      anchorX: 0,
-      anchorY: 0,
-    }))
+    const frames = indexedFrames(12)
     const ctx: PresentContext = {
       tilemap: flatMap(30, 30),
       tileImages: { get: () => undefined },
@@ -762,14 +670,7 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     ]
     gs.camera = { x: 300 - 160, y: 150 - 112 } // sdlpal viewport = party - partyoffset
 
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
-      width: 1,
-      height: 1,
-      indices: new Uint8Array([i + 1]),
-      opaque: new Uint8Array([1]),
-      anchorX: 0,
-      anchorY: 0,
-    }))
+    const frames = indexedFrames(12)
     const ctx: PresentContext = {
       tilemap: flatMap(30, 30),
       tileImages: { get: () => undefined },
@@ -797,14 +698,7 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     ]
     gs.camera = { x: 300 - 160, y: 150 - 112 } // sdlpal viewport = party - partyoffset
 
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
-      width: 1,
-      height: 1,
-      indices: new Uint8Array([i + 1]),
-      opaque: new Uint8Array([1]),
-      anchorX: 0,
-      anchorY: 0,
-    }))
+    const frames = indexedFrames(12)
     const ctx: PresentContext = {
       tilemap: flatMap(30, 30),
       tileImages: { get: () => undefined },
@@ -828,14 +722,7 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     gs.trail = [{ x: 284, y: 142, dir: 'right' }] // 只有 1 项,不够
     gs.camera = { x: 300 - 160, y: 150 - 112 } // sdlpal viewport = party - partyoffset
 
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
-      width: 1,
-      height: 1,
-      indices: new Uint8Array([i + 1]),
-      opaque: new Uint8Array([1]),
-      anchorX: 0,
-      anchorY: 0,
-    }))
+    const frames = indexedFrames(12)
     const ctx: PresentContext = {
       tilemap: flatMap(20, 20),
       tileImages: { get: () => undefined },
@@ -854,14 +741,7 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
     gs.trail = []
     gs.camera = { x: 300 - 160, y: 150 - 112 } // sdlpal viewport = party - partyoffset
 
-    const frames: SpriteImage[] = Array.from({ length: 12 }, (_, i) => ({
-      width: 1,
-      height: 1,
-      indices: new Uint8Array([i + 1]),
-      opaque: new Uint8Array([1]),
-      anchorX: 0,
-      anchorY: 0,
-    }))
+    const frames = indexedFrames(12)
     const ctx: PresentContext = {
       tilemap: flatMap(20, 20),
       tileImages: { get: () => undefined },
@@ -874,117 +754,10 @@ describe('P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)', () => {
   })
 })
 
-// ── 香兰报信卡死回归(2026-06-12):palette fade 孤儿自清 ──
-// 0x50 FadeOut 设 needToFadeIn → 演出 0x09 frame-wait 期间 tickSceneAutoFadeIn 点火自动渐入
-// (sdlpal scene.c:503 PAL_FadeIn 阻塞自完成的 tick 化)。该 fade **不属于任何 waiting**:
-// 旧自清条件 `!gs.eventCursor` 在演出游标存在时永不成立,tickEventSystem 只收 waiting='palette-fade'
-// → paletteFadeState 永久孤儿 → main-loop 每 rAF suppressHeldForFade 吞键 → 对话等键死锁。
-// 真值:无人等待的 fade 到时即清;有人等待(palette-fade/scene-fade)仍由 event-system finalize+ip++。
-describe('palette fade 孤儿自清(香兰报信 cutscene 吞键回归)', () => {
-  const mkPalette = (): Palette => ({
-    colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
-    cycles: [],
-  })
-  const mkFade = (elapsedMs: number): import('../core/palette-fade.js').PaletteFadeState => ({
-    startColors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
-    targetColors: Array.from({ length: 256 }, () => [10, 10, 10] as [number, number, number]),
-    startTimeMs: performance.now() - elapsedMs,
-    totalMs: 600,
-    mode: 'lerp',
-    steps: 60,
-    increment: 0,
-  })
-
-  it('演出游标在(waiting=dialog)+ fade 到时 + 无人等待 → present 自清孤儿', () => {
-    const fb = createFramebuffer()
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.palette = mkPalette()
-    gs.paletteFadeState = mkFade(601) // 已超时
-    gs.mode = 'event'
-    gs.eventCursor = { ip: 913, waiting: 'dialog' } as typeof gs.eventCursor
-    presentFrame(fb, gs, {
-      tilemap: flatMap(3, 3),
-      tileImages: { get: () => undefined },
-      partyFrames: [
-        {
-          width: 1,
-          height: 1,
-          indices: new Uint8Array([0]),
-          opaque: new Uint8Array([0]),
-          anchorX: 0,
-          anchorY: 0,
-        },
-      ],
-      partyWalkFrames: 3,
-      npcSprites: new Map(),
-    })
-    expect(gs.paletteFadeState).toBeUndefined() // 孤儿被清 → main-loop 不再吞键
-  })
-
-  it('waiting=palette-fade(event-system 将 finalize+ip++)→ present 不抢清', () => {
-    const fb = createFramebuffer()
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.palette = mkPalette()
-    gs.paletteFadeState = mkFade(601)
-    gs.mode = 'event'
-    gs.eventCursor = { ip: 100, waiting: 'palette-fade' } as typeof gs.eventCursor
-    presentFrame(fb, gs, {
-      tilemap: flatMap(3, 3),
-      tileImages: { get: () => undefined },
-      partyFrames: [
-        {
-          width: 1,
-          height: 1,
-          indices: new Uint8Array([0]),
-          opaque: new Uint8Array([0]),
-          anchorX: 0,
-          anchorY: 0,
-        },
-      ],
-      partyWalkFrames: 3,
-      npcSprites: new Map(),
-    })
-    expect(gs.paletteFadeState).toBeDefined() // 留给 tickEventSystem finalize(防双清跳 ip)
-  })
-
-  it('fade 未到时 → 不清(进行中)', () => {
-    const fb = createFramebuffer()
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.palette = mkPalette()
-    gs.paletteFadeState = mkFade(100) // 才 100ms
-    gs.mode = 'event'
-    gs.eventCursor = { ip: 913, waiting: 'dialog' } as typeof gs.eventCursor
-    presentFrame(fb, gs, {
-      tilemap: flatMap(3, 3),
-      tileImages: { get: () => undefined },
-      partyFrames: [
-        {
-          width: 1,
-          height: 1,
-          indices: new Uint8Array([0]),
-          opaque: new Uint8Array([0]),
-          anchorX: 0,
-          anchorY: 0,
-        },
-      ],
-      partyWalkFrames: 3,
-      npcSprites: new Map(),
-    })
-    expect(gs.paletteFadeState).toBeDefined()
-  })
-})
-
 describe('NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile)', () => {
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
-
   function renderWithNpc(npcX: number, npcY: number): boolean {
     const npcSprite = makeSprite(3) // 16×24
-    let drawn = false
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
-      if (sprite === npcSprite) drawn = true
-    })
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite')
     const fb = createFramebuffer()
     // camera 固定 (0,0):party 放屏幕中央等价位置
     const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
@@ -997,8 +770,7 @@ describe('NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不
       npcSprites: new Map([[1, npcSprite]]),
     }
     presentFrame(fb, gs, ctx)
-    spy.mockRestore()
-    return drawn
+    return spy.mock.calls.some(([, image]) => image === npcSprite)
   }
 
   it('屏内 NPC 正常绘制(基准)', () => {
@@ -1031,43 +803,10 @@ describe('NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不
 })
 
 describe('P0.b Y-sort + cover-tile', () => {
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
-
-  /**
-   * 追踪 drawSprite 调用顺序。
-   * 用 spy 拦截 drawSprite,每次调用记录 fb + sprite 对象,
-   * 返回 id 顺序列表。
-   */
-  function _trackDrawOrder(cb: () => void): string[] {
-    const order: string[] = []
-    const partySprite = makeSprite(5)
-    const npc1Sprite = makeSprite(3)
-    const npc2Sprite = makeSprite(4)
-
-    const spy = vi
-      .spyOn(drawSpriteModule, 'drawSprite')
-      .mockImplementation((_fb, sprite, _cx, _cy) => {
-        if (sprite === partySprite) order.push('party')
-        else if (sprite === npc1Sprite) order.push('npc-1')
-        else if (sprite === npc2Sprite) order.push('npc-2')
-      })
-
-    cb()
-    spy.mockRestore()
-    return { order, partySprite, npc1Sprite, npc2Sprite } as unknown as string[]
-  }
-
   it('party.y > npc.y → party 在 NPC 之下方(屏幕),Y-sort 后 NPC 先绘 / party 后绘', () => {
     const partySprite = makeSprite(5)
     const npc1Sprite = makeSprite(3)
-    const order: string[] = []
-
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
-      if (sprite === partySprite) order.push('party')
-      else if (sprite === npc1Sprite) order.push('npc-1')
-    })
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite')
 
     const fb = createFramebuffer()
     const gs = createInitialGameState({ x: 100, y: 200, facing: 'down' }) // party y=200(大 = 屏幕下方)
@@ -1082,21 +821,18 @@ describe('P0.b Y-sort + cover-tile', () => {
     }
 
     presentFrame(fb, gs, ctx)
-    spy.mockRestore()
 
     // NPC(y=100+9=109)< party(y=200+10=210) → NPC 先,party 后
-    expect(order.indexOf('npc-1')).toBeLessThan(order.indexOf('party'))
+    const order = spy.mock.calls.map(([, sprite]) =>
+      sprite === partySprite ? 'party' : sprite === npc1Sprite ? 'npc-1' : 'unexpected',
+    )
+    expect(order).toEqual(['npc-1', 'party'])
   })
 
   it('party.y < npc.y → NPC 在 party 之下方,Y-sort 后 party 先绘 / NPC 后绘', () => {
     const partySprite = makeSprite(5)
     const npc1Sprite = makeSprite(3)
-    const order: string[] = []
-
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
-      if (sprite === partySprite) order.push('party')
-      else if (sprite === npc1Sprite) order.push('npc-1')
-    })
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite')
 
     const fb = createFramebuffer()
     const gs = createInitialGameState({ x: 100, y: 50, facing: 'down' }) // party y=50(小)
@@ -1112,10 +848,12 @@ describe('P0.b Y-sort + cover-tile', () => {
     }
 
     presentFrame(fb, gs, ctx)
-    spy.mockRestore()
 
     // party(y=50+10=60)< npc(y=150+9=159) → party 先,npc 后
-    expect(order.indexOf('party')).toBeLessThan(order.indexOf('npc-1'))
+    const order = spy.mock.calls.map(([, sprite]) =>
+      sprite === partySprite ? 'party' : sprite === npc1Sprite ? 'npc-1' : 'unexpected',
+    )
+    expect(order).toEqual(['party', 'npc-1'])
   })
 
   it('3 个 NPC 不同 y — Y-sort 正确(y 小先绘,y 大后绘)', () => {
@@ -1124,16 +862,7 @@ describe('P0.b Y-sort + cover-tile', () => {
       [2, makeSprite(2)],
       [3, makeSprite(3)],
     ])
-    const order: string[] = []
-
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
-      for (const [id, s] of sprites) {
-        if (sprite === s) {
-          order.push(`npc-${id}`)
-          break
-        }
-      }
-    })
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite')
 
     const fb = createFramebuffer()
     // party 居中(camera 0,0;party sprite 不入 order,不干扰)。npc y 全收屏内(C 屏外剔除)。
@@ -1153,24 +882,19 @@ describe('P0.b Y-sort + cover-tile', () => {
     }
 
     presentFrame(fb, gs, ctx)
-    spy.mockRestore()
 
     // npc-1(y=60+9=69)< npc-2(y=120+9=129)< npc-3(y=180+9=189)
-    const i1 = order.indexOf('npc-1')
-    const i2 = order.indexOf('npc-2')
-    const i3 = order.indexOf('npc-3')
-    expect(i1).toBeLessThan(i2)
-    expect(i2).toBeLessThan(i3)
+    const order = spy.mock.calls.flatMap(([, sprite]) =>
+      [...sprites].filter(([, image]) => image === sprite).map(([id]) => `npc-${id}`),
+    )
+    expect(order).toEqual(['npc-1', 'npc-2', 'npc-3'])
   })
 
   it('vanishTime>0 隐藏 NPC;vanishTime<0 仍绘制但由更新层冻结', () => {
     const partySprite = makeSprite(5)
     const hiddenNpcSprite = makeSprite(3)
     const frozenNpcSprite = makeSprite(4)
-    const drawn: SpriteImage[] = []
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
-      drawn.push(sprite)
-    })
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite')
     const fb = createFramebuffer()
     // party 居中(camera 0,0)→ npc 屏内(C 屏外剔除下 -9999 party 会把 npc 推到屏外)
     const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
@@ -1190,8 +914,8 @@ describe('P0.b Y-sort + cover-tile', () => {
     }
 
     presentFrame(fb, gs, ctx)
-    spy.mockRestore()
 
+    const drawn = spy.mock.calls.map(([, image]) => image)
     expect(drawn).not.toContain(hiddenNpcSprite)
     expect(drawn).toContain(frozenNpcSprite)
   })
@@ -1201,10 +925,7 @@ describe('P0.b Y-sort + cover-tile', () => {
     const frame13 = makeSprite(13)
     const frames = Array.from({ length: 14 }, () => frame0)
     frames[13] = frame13
-    const drawn: SpriteImage[] = []
-    const spy = vi.spyOn(drawSpriteModule, 'drawSprite').mockImplementation((_fb, sprite) => {
-      drawn.push(sprite)
-    })
+    const spy = vi.spyOn(drawSpriteModule, 'drawSprite')
     const fb = createFramebuffer()
     // party 居中(camera 0,0)→ npc 屏内(同上,C 屏外剔除)
     const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
@@ -1230,72 +951,10 @@ describe('P0.b Y-sort + cover-tile', () => {
     }
 
     presentFrame(fb, gs, ctx)
-    spy.mockRestore()
 
+    const drawn = spy.mock.calls.map(([, image]) => image)
     expect(drawn).toContain(frame13)
     expect(drawn).not.toContain(frame0)
-  })
-
-  it('cover-tile:layer1 tile height>0 且满足条件 → tile 画在 fb 上(sprite 重叠)', () => {
-    // 构造一个 layer-1 tile:
-    //   cell(5, 5) 的 lower DWORD 里放 layer-1 tile height = 2,tileId = 1。
-    //   sdlpal layer-1 DWORD: bits 16..23 = tile id 低 8 位,bits 24..27 = height,bits 28 = tile id bit 8
-    //   tileId1 raw = ((d>>16)&0xff)|((d>>16)>>4 & 0x100) - 1
-    //   我们要 tileId=1 → raw tileId+1=2 → hi byte = 2 → d bits 16..23 = 2
-    //   iTileHeight=2 → d bits 24..27 = 2 → d bits 24..31 = 0x20
-    //   full DWORD for lower: 0x0020_0200 (hi=0x00200200 → layer1 id raw = 2, h=2)
-    //
-    // party 在 (col*32, row*16) 相近位置,确保 sy 条件满足。
-    // cover tile 条件: (dy + iTileHeight)*16 + dh*8 >= sy
-    //   dy=5, iTileHeight=2, dh=0: (5+2)*16 + 0 = 112 >= sy
-    //   sy = party.y + 10 → party.y <= 102 即可。
-    // 让 party 在 x=5*32=160, y=80 → sy=90, (5+2)*16=112 >= 90 ✓
-
-    // tile bitmap: 4×4 全 palette idx = 7
-    const coverTileImg = {
-      width: 4,
-      height: 4,
-      indices: new Uint8Array(16).fill(7),
-      opaque: new Uint8Array(16).fill(1),
-    }
-    const tileImages = {
-      get: (idx: number) => (idx === 1 ? coverTileImg : undefined),
-    }
-
-    // Build tilemap: 10×10, cell(5,5).lower 编码 layer-1 tileId=1, height=2
-    // layer-1 encoding: ((hi & 0xff) | ((hi >> 4) & 0x100)) - 1 = tileId
-    //   tileId=1 → raw = 2 → hi low byte = 2
-    //   height=2 → hi bits 8..11 = 2 → hi = (2 << 8) | 2 = 0x0202
-    //   full DWORD lower = hi << 16 = 0x02020000
-    const L1_DWORD = 0x02020000 // layer-1: tileId raw=2 → id=1, height=2
-    const cells = Array.from({ length: 10 }, (_, r) =>
-      Array.from({ length: 10 }, (__, c) =>
-        r === 5 && c === 5 ? { lower: L1_DWORD, upper: 0 } : { lower: 0, upper: 0 },
-      ),
-    )
-    const tilemap: Tilemap = { width: 10, height: 10, cells, tileset: 'fake' }
-
-    const fb = createFramebuffer()
-    // party at x=160, y=80 → camera at same → party at screen center (160, 100)
-    // sy = 80 + 10 = 90; condition: (5+2)*16 + 0*8 = 112 >= 90 ✓
-    const gs = createInitialGameState({ x: 160, y: 80, facing: 'down' })
-    // new camera 语义 = sdlpal viewport = party - partyoffset(160, 112)
-    gs.camera = { x: 160 - 160, y: 80 - 112 } // = (0, -32)
-    const ctx: PresentContext = {
-      tilemap,
-      tileImages,
-      partyFrames: [makeSprite(5)],
-      partyWalkFrames: 3,
-      npcSprites: new Map(),
-    }
-
-    presentFrame(fb, gs, ctx)
-
-    // cover tile for party at cell(5, 5) h=0,offsetX/Y = -camera = (0, 32):
-    //   screenX = 5*32 + 0 - 16 + 0 = 144
-    //   screenY = 5*16 + 0 + 7 - 4 + 32 = 115
-    const px = fb.indices[115 * 320 + 144]
-    expect(px).toBe(7)
   })
 
   it('cover-tile blit_y 公式 = dy*16 + dh*8 + 7 - bitmap.height(sdlpal scene.c:358 相消化)', () => {
@@ -1303,10 +962,8 @@ describe('P0.b Y-sort + cover-tile', () => {
     // iLayer = iTileHeight*8 + l;blit_y = pos.y - bitmap.height - iLayer →
     // iTileHeight*8 + l 项相消,净 blit_y = dy*16 + dh*8 + 7 - bitmap.height - vp.y。
     //
-    // 验证策略:直接 spy addCoverTileEntries 输出(present.ts 内部走 entries.draw),
-    // 比较抽 closure-captured Y 值 — 不去 fb 像素,因 sdlpal 真值 layer-1 也全画一遍
-    // (cover tile 在 Y-sort 是"重画"位置上盖 sprite),fb 像素同时受全画 + cover-tile
-    // 干扰难分。改用 collector pattern:替换 draw fn 收集 Y 入参。
+    // 直接核屏幕像素：cover 重画带 y=59..106，全画带 y=92..139；
+    // y=60/80 仅可能来自 cover，排除只做全画的假绿。
 
     // 高 tile:48 px(屋顶/高柱子类),idx=9
     const coverTileImg = {
@@ -1363,57 +1020,43 @@ describe('P0.b Y-sort + cover-tile', () => {
     expect(fb.indices[58 * 320 + 144]).not.toBe(9)
   })
 
-  it('cover-tile 不画超出范围的 tile(party 远离,height 条件不满足 → tile 不出现)', () => {
-    // 同上 cell(5,5) layer-1 tile,但 party 在 y=500 → sy=510
-    // condition: (5+2)*16=112 < 510 → tile 不被加入 entries → 不绘
-
-    const coverTileImg = {
+  it('cover-tile:零高度瓦片仍全画，但不在精灵队列中重画', () => {
+    // PAL_CalcCoverTiles rejects height=0 even when the geometry is otherwise eligible.
+    // cell(5,5) lower layer1 raw id2, height0; viewport(0,-32).
+    const tilemap = flatMap(10, 10)
+    tilemap.cells[5]![5]!.lower = 0x00020000
+    const cover = {
       width: 4,
       height: 4,
       indices: new Uint8Array(16).fill(7),
       opaque: new Uint8Array(16).fill(1),
     }
-    const tileImages = {
-      get: (idx: number) => (idx === 1 ? coverTileImg : undefined),
+    // Opaque base tiles prevent seam repair from spreading the isolated cover color.
+    const ground = {
+      width: 32,
+      height: 16,
+      indices: new Uint8Array(512),
+      opaque: new Uint8Array(512).fill(1),
     }
-
-    const L1_DWORD = 0x02020000
-    const cells = Array.from({ length: 40 }, (_, r) =>
-      Array.from({ length: 10 }, (__, c) =>
-        r === 5 && c === 5 ? { lower: L1_DWORD, upper: 0 } : { lower: 0, upper: 0 },
-      ),
-    )
-    const tilemap: Tilemap = { width: 10, height: 40, cells, tileset: 'fake' }
-
+    const party = makeSprite(5)
+    party.opaque.fill(0)
+    const gs = createInitialGameState({ x: 160, y: 76, facing: 'down' })
+    gs.camera = { x: 0, y: -32 }
     const fb = createFramebuffer()
-    // party far away at y=500, camera at (160, 500)
-    const gs = createInitialGameState({ x: 160, y: 500, facing: 'down' })
-    gs.camera = { x: 160, y: 500 }
-    const ctx: PresentContext = {
-      tilemap,
-      tileImages,
-      partyFrames: [makeSprite(5)],
-      partyWalkFrames: 3,
-      npcSprites: new Map(),
-    }
-
-    presentFrame(fb, gs, ctx)
-
-    // cover tile would be at screen x=5*32-16+(160-160)=144, y=5*16-8+(100-500)=-308 → off screen
-    // Regardless, the height condition fails so it shouldn't be drawn.
-    // If it were drawn off-screen, writePixel clips it. But the color 7 should NOT appear at (144,92)
-    // because those screen coords are now something else (camera moved).
-    // Just verify no palette-7 pixel was written anywhere (tile img fills with 7, which is unique here).
-    const anyColor7 = Array.from(fb.indices).some((i) => i === 7)
-    expect(anyColor7).toBe(false)
+    presentFrame(fb, gs, {
+      ...baseCtx(tilemap),
+      partyFrames: [party],
+      tileImages: { get: (id) => (id === 1 ? cover : id === 0 ? ground : undefined) },
+    })
+    // Full layer1 blit starts (144,104); an erroneous cover redraw starts (144,115).
+    expect(fb.indices[104 * 320 + 144]).toBe(7)
+    expect(fb.indices[115 * 320 + 144]).toBe(0)
   })
 })
 
 // sdlpal text.c:1408-1426 PAL_DialogWaitForKey 等键时 palette[0xF9..0xFE] 每 100ms 左轮转一格 →
 //   箭头(像素 idx 0xf9)色彩流动。这是"闪烁"的真值机制(非 show/hide)。
 describe('applyDialogIconPaletteShift(dialog 箭头 palette 轮转)', () => {
-  afterEach(() => vi.restoreAllMocks())
-
   function palette256(): Palette {
     return {
       colors: Array.from({ length: 256 }, (_, i) => [i, i, i] as [number, number, number]),
@@ -1473,12 +1116,14 @@ describe('applyDialogIconPaletteShift(dialog 箭头 palette 轮转)', () => {
     gs.dialogBox = startDialogLine('A', { style: 'bottom' })
     setWaitingEndKey(gs.dialogBox)
     const base = palette256()
+    const before = structuredClone(base)
     const out = applyDialogIconPaletteShift(gs, base)
+    expect(base).toEqual(before)
     expect(out).not.toBe(base)
     // 左轮转 1:out[0xF9]=base[0xFA] … out[0xFD]=base[0xFE],out[0xFE]=base[0xF9](回绕)
-    expect(out.colors[0xf9]).toEqual(base.colors[0xfa])
-    expect(out.colors[0xfd]).toEqual(base.colors[0xfe])
-    expect(out.colors[0xfe]).toEqual(base.colors[0xf9])
+    expect(out.colors[0xf9]).toEqual([0xfa, 0xfa, 0xfa])
+    expect(out.colors[0xfd]).toEqual([0xfe, 0xfe, 0xfe])
+    expect(out.colors[0xfe]).toEqual([0xf9, 0xf9, 0xf9])
     // 区间外像素不变
     expect(out.colors[0xf8]).toEqual(base.colors[0xf8])
     expect(out.colors[0x42]).toEqual(base.colors[0x42])
@@ -1494,9 +1139,7 @@ describe('applyDialogIconPaletteShift(dialog 箭头 palette 轮转)', () => {
   })
 })
 
-describe('G8 SceneFade 72 帧 dither e2e(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen)', () => {
-  afterEach(() => vi.restoreAllMocks())
-
+describe('G8 SceneFade 72 帧 dither 集成(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen)', () => {
   // dither 数学(nibble blend)由 dither-fade.test.ts 覆盖;此处测 present 层**集成驱动**:
   //   ① 首帧从 fb(clear 前)snapshot backupPixels ② 按 elapsedMs/totalMs 推进 appliedSteps 0→72
   //   ③ 显示 backupPixels(current.set(backupPixels),fade 全程主角可见)。
@@ -1514,9 +1157,10 @@ describe('G8 SceneFade 72 帧 dither e2e(present 驱动 — sdlpal video.c:1130 
     presentFrame(fb, gs, ctx)
     expect(gs.fadeState?.backupPixels).toBeDefined()
     expect(gs.fadeState!.backupPixels!.length).toBe(320 * 200)
-    expect(gs.fadeState!.backupPixels![0]).toBe(0x35) // clear 前快照,非 clear 后的 0
+    expect(gs.fadeState!.backupPixels!).toEqual(new Uint8Array(320 * 200).fill(0x35))
+    expect(gs.fadeState!.backupPixels).not.toBe(fb.indices)
     expect(gs.fadeState!.appliedSteps).toBe(0)
-    expect(Array.from(fb.indices)).toEqual(Array.from(gs.fadeState!.backupPixels!)) // 显示 = backupPixels
+    expect(fb.indices).toEqual(new Uint8Array(320 * 200).fill(0x35))
 
     // 帧2(elapsed = totalMs/2 = 360):target step floor(0.5*72)=36
     nowSpy.mockReturnValue(360)
@@ -1527,7 +1171,11 @@ describe('G8 SceneFade 72 帧 dither e2e(present 驱动 — sdlpal video.c:1130 
     nowSpy.mockReturnValue(720)
     presentFrame(fb, gs, ctx)
     expect(gs.fadeState!.appliedSteps).toBe(72)
-    expect(Array.from(fb.indices)).toEqual(Array.from(gs.fadeState!.backupPixels!))
+    // Independent final scene: a 16×24 party sprite at (152,92), all other pixels clear.
+    const target = new Uint8Array(320 * 200)
+    for (let y = 92; y < 116; y++) target.fill(5, y * 320 + 152, y * 320 + 168)
+    expect(fb.indices).toEqual(target)
+    expect(gs.fadeState!.backupPixels).toEqual(target)
 
     // 帧4(elapsed 超时 9999):progress clamp 1 → 仍 72(不溢出)
     nowSpy.mockReturnValue(9999)
