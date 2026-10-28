@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { currentReviewLedgerPilots } from './current-review-ledger-admission.mjs'
 import { checkDocumentModel } from './document-model.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
@@ -36,9 +37,17 @@ let reviewGroup
 const reviewReader = (logicalPath) => {
   reviewGroup ??= loadReviewRecords({
     root,
-    logicalPaths: [...new Set([logicalPath, ...pilotReviews])],
+    ...(config.migratedDocuments.some((doc) =>
+      currentReviewLedgerPilots.some((p) => p.path === doc.path),
+    )
+      ? {}
+      : { logicalPaths: [...new Set([logicalPath, ...pilotReviews])] }),
   })
   return reviewGroup.records.get(logicalPath)
+}
+const reviewGroupReader = () => {
+  reviewGroup ??= loadReviewRecords({ root })
+  return reviewGroup
 }
 const issues = checkDocumentModel(config, registry, read, {
   readSource: (pin) => readGitDocumentSource(root, pin),
@@ -46,6 +55,7 @@ const issues = checkDocumentModel(config, registry, read, {
   readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),
   readHtmlSourceBuffer: (pin) => readGitHtmlSnapshot(root, pin),
   reviewReader,
+  reviewGroupReader,
 })
 if (reviewGroup) assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
 for (const issue of issues) console.error(`- ${issue}`)

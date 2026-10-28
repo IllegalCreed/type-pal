@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s65-native473-intake
+Branch: codex/docs-s66-current-ledger-contract
 Last reviewed: 2026-10-28
 Template: task-card-v1 / 1.0.0
 
@@ -2688,3 +2688,14 @@ S64 Owner十一条修正已获GLM只读非作者accept，候选c948bb0bd8916aeac
 实际新增473份template-compliant、470份content-reviewed（3份DOC-IA已有审阅，只补迁移，不重复计）。progress实跑1808/1838基线已迁、3显式退役+483增量、144当前待办、0完整性问题，较此前1478+340/617实减473；27基线与117增量仍待治理。静态严格待办预计由1231减943至288，最终数字只取本轮终态check:docs原件，必要门未清零前全卡保持rework。旧执行、产品/E2E/视觉/coverage信用均为0，不把历史failed/pending改绿，不重跑已接受006。
 
 本轮正文语义接受已经有独立证据；Owner状态/存储/注册投影与行政封存另提供可机械复现增量，不要求GLM重审473正文。后续推进Owner持有135控制JSON公共合同与9MD，不能用固定历史原生变体放行可变控制件。新记录复用唯一现有review位置和既有gzip，不另建parallel账本。门结果、封存身份和下一提示词见本轮证据包及最终提交。
+
+
+## S66 S65非作者接受与现行review账本公共合同pilot（2026-10-28）
+
+S65中央接入候选9d3e6834e9f41475a5802f37db4f898aa42179ba获GLM五轴accept、零counter；HAND-BACK 2cd9f03177b3646479aac23dadad9f9a6137212147e1beb2cf66c8acd5b93a6c / verdict 5dc90a9df88e8ca5ca9ae0c3d4d12e09fd497fccb39b228843cc67b0eb35345f。Owner核实身份和报告后接收，不重复授473迁移或470审阅。实际strict288/144待办、1808基线+3退役+483增量保持；全量硬门仍未过。
+
+本轮Owner build allowed限定公共current-review-ledger-native-v1合同及临时树pilot：ops-03单条、phase2-01空entries且五转移、r85真实manifest+分片。固定9d源Git只钉合同初始身份/逻辑头/有序membership，不冻结现行原生全字节或下游条目状态；使用已接受保护loader解析当前组，核唯一归属、完整旧转移Git锚、原source pin、descriptor/孤片/活锁/字节快照。原review政策和撤信属于各自历史范围，不从control完整性给成员恢复语义/独立/运行信用。控制件metadata复用现有唯一review，不新增sidecar、自SHA或第二套账本。
+
+先冻结本轮有界设计再实施：母类型evidence-receipt、自有1.0.0的json-native变体；必填具体职责、authority/callers、合法组输入、成员与空/转移规则、状态/历史界线、更新及信用失效、stopLine/nextStep。header/有序path+原source轴改变需重审，不靠刷新after洗白；既有成员内容/状态、after维护与maintenanceHistory可按各自授权变更，child语义/状态有效性仍由child合同和全局门独立验证。flat与manifest可按同逻辑值合法重包，必须经原loader；旧source pin不能变。可变after是行政观测，不作为永久immutable真值。
+
+本轮只在临时组注入三条具体partial/needs稿，注册variant与public model/progress接线后真实验证；生产三route/registry/review语义状态不改，正式接受表不启用，不授新迁移。负例覆盖错误header/成员/借位置、坏after、删除或伪造历史转移、非保护reader、重复归属、假晋升以及flat/manifest一致性；空账本不得强加entries/0、不得顺手退役。旧测试只读，产品/006/E2E/coverage不改；父卡/提案/看板和必要after行政级联按唯一gzip封存。合同/三pilot完成后交一次非作者实施验收，Owner同时继续其余可变控制面；不合main、不推送、不done。

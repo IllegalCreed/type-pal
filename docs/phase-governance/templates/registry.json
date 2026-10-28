@@ -250,6 +250,15 @@
           "templateVersion": "1.0.0",
           "metadataLocation": "existing-current-review",
           "purpose": "Explain a fixed historical native artifact without rewriting its machine fields or granting execution credit."
+        },
+        "current-review-ledger-native-v1": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "current-review-ledger-native-v1",
+          "templateVersion": "1.0.0",
+          "format": "json-native",
+          "metadataLocation": "existing-current-review",
+          "lifecycle": "current",
+          "purpose": "Explain a live review ledger and its ownership, history and safe storage without accepting child document semantics or old execution."
         }
       }
     },

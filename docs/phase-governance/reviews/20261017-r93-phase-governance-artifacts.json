@@ -1291,7 +1291,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "ed9cba9097f168c235512a099e8695572491a055c730e5c01547fa021f3f4d22",
+      "afterSha256": "128eec77d7767b4c3b3451d695112b193262484022562649a280af70c05637c3",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -2222,6 +2222,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
             "index": 5,
             "entryCanonicalSha256": "9608024e69feb98d6c9cd675835342fddc63ff53bfcd94e7d9849d5817696914"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S66/current-ledger-foundation",
+          "revision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "beforeSha256": "ed9cba9097f168c235512a099e8695572491a055c730e5c01547fa021f3f4d22",
+          "afterSha256": "128eec77d7767b4c3b3451d695112b193262484022562649a280af70c05637c3",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 5,
+            "entryCanonicalSha256": "7d8e2c03c9f38302044658488fedf63770ba46bfada22081be2ab5bf1308bb5d"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
@@ -15407,7 +15424,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "0b752d714b7be16c1544f2a035b0905467b7ded0994bd6b3bdf0f661f4b0674a",
+      "afterSha256": "44b2ff66b721f41aac70608e69fabf8ea17af9f66dc08c84172af1930269d4af",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15792,6 +15809,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
             "index": 80,
             "entryCanonicalSha256": "0a8d36c40c7ade06e667dcba7b376d857ce0aa03c71859c11e11258bbf698320"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S66/current-ledger-foundation",
+          "revision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "beforeSha256": "0b752d714b7be16c1544f2a035b0905467b7ded0994bd6b3bdf0f661f4b0674a",
+          "afterSha256": "44b2ff66b721f41aac70608e69fabf8ea17af9f66dc08c84172af1930269d4af",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 80,
+            "entryCanonicalSha256": "ff434ddfb411897d30dd081a9c357fc4fa6e383415f723ebde784135661a66e3"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

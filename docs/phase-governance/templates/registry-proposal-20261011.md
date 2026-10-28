@@ -595,3 +595,14 @@ S61中央接线补充：evidence.path是公共review检查必填的行政来源�
 writer先验完整before/白名单/不可变字段，允许473内部不重叠批次；同一组锁内staging保护原件及全部引用，route/registry投影与after依赖闭包一起写、公开loader读回后退旧世代并解锁，失败保留锁/backup/staging。公共model、progress、中央非strict和完整临时树pilot为整包派发前提；schema绿不授全文或runtime/E2E/视觉/coverage信用。
 
 S63冻结补充：native witness的op默认为equals，另支持array-length/object-keys/object-key-count/string-contains；后者仅证明解码字段的具体子串。原required pointer/value见证须equals保留；不支持任意代码或hash-only oracle，value至多4096 UTF-8B，不复制完整raw。六既有pilot保持原guard和两项unverified。完整临时树/故障反例/42文件296工具已实跑，正式接受表为空，0新增迁移。
+
+
+## S66 现行review账本原生合同1.0.0（2026-10-28）
+
+设计冻结用于受控pilot，不授迁移：current-review-ledger-native-v1复用evidence-receipt父类，自有json-native/1.0.0，元数据复用existing-current-review。生命周期current仅指账本控制责任，不把子entry或历史policy升格当前事实。初始精确pilot为ops-03一成员、phase2-01零成员五转移、r85真实manifest物化100成员；9d Git基点固定逻辑头/有序成员原source身份，不冻结后续合法维护的全文件字节。
+
+必填具体职责、原policy/撤信界线、合法完整组及Git来源、当前唯一review位置、来源/结构/转移oracle、caller、实际读域、未读下游与未跑执行、停止线/下一步。保护loader先验source pin/descriptor/positions/孤片/锁与普通文件，再校当前raw与逻辑视图；表头和有序成员source身份变化须重新审阅，不允许只刷新after洗白。maintenanceHistory只追加保留前缀；成员内容/状态的合法变更由各自任务/child合同和全局门裁定，本control不重新认证子文档语义或执行。空账本五条转移必须逐条真实Git旧blob+旧唯一成员+当前唯一destination，声明true不能代替解析。
+
+新合同不能用immutable carrier SHA概念跳过可变控制面；当前after pin是当次raw观测，与初始逻辑身份/原storage source/正文语义/子文档信用分轴。当前仅partial-review-unknown/needs-migration，正式接受尚未签发，任意换标/自行晋升/派生child信用拒绝。flat与真实manifest由同一protected group校验，绑定原source pin不变；不新增_governance、payload、sidecar或无限review自环。
+
+生产model与progress接入同一guard，含control路由时显式加载完整保护组；无新路由时原caller加载方式不变。临时隔离树验证三条具体正文+真实公共consumer；源树三条路由/registry/review状态保持，测试与pilot不授当前完成。原17父类型、旧variant、source pins、旧测试与产品/006/coverage保持；其余135控制JSON+9MD仍待逐篇迁移。

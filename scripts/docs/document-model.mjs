@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { dirname, posix } from 'node:path'
 import { isDeepStrictEqual } from 'node:util'
 import { parseTestingFrontMatter } from './check-testing.mjs'
+import { currentReviewLedgerIssues } from './current-review-ledger.mjs'
 import {
   frozenBindingTemplate,
   frozenDocumentBaseline,
@@ -321,6 +322,8 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
   const template = registry.types.find((type) => type.templateId === doc.templateId)
   if (text === undefined) return ['migrated document missing']
   const contract = doc.variant ? template?.variants?.[doc.variant] : template
+  const controlIssues = currentReviewLedgerIssues(doc, template, contract, read, options)
+  if (controlIssues !== undefined) return controlIssues
   const artifactIssues = historicalNativeArtifactIssues(doc, template, contract, read, options)
   if (artifactIssues !== undefined) return artifactIssues
   const htmlIssues = historicalHtmlIssues(doc, template, contract, read, options)

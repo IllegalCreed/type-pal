@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { currentReviewLedgerPilots } from './current-review-ledger-admission.mjs'
 import { checkDocumentModel, checkMigratedDocument } from './document-model.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
 import { readDocumentRetirements } from './document-retirements.mjs'
@@ -33,10 +34,21 @@ const json = (path) => JSON.parse(read(path))
 const digest = (text) => createHash('sha256').update(text).digest('hex')
 let reviewGroup
 const reviewReader = (path) => {
-  reviewGroup ??= loadReviewRecords({ root, logicalPaths: [...requiredReviews] })
+  reviewGroup ??= loadReviewRecords({
+    root,
+    ...(routing.migratedDocuments.some((doc) =>
+      currentReviewLedgerPilots.some((p) => p.path === doc.path),
+    )
+      ? {}
+      : { logicalPaths: [...requiredReviews] }),
+  })
   return reviewGroup.records.get(path)
 }
 const sourceOptions = {
+  reviewGroupReader: () => {
+    reviewGroup ??= loadReviewRecords({ root })
+    return reviewGroup
+  },
   reviewReader,
   readSource: (pin) => readGitDocumentSource(root, pin),
   readBuffer,
