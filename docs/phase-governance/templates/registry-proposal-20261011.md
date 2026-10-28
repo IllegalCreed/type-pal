@@ -580,3 +580,5 @@ S59两1.0.0合同及三pilot已获GLM非作者限定接受；本轮只将原15HT
 原3pilot十九内容字段精确绑定S59 GLM接受，原pilot停线文字保留为来源时点说明，当前生命周期由本轮显式接受覆盖；其余12复用GLM具体正文、S59已非作者接受的机械规范化规则，由Codex据证裁定。RV1的2522为字符数/2707为UTF-8字节数，生成器相对路径为../../tools，单位/路径勘误留原稿。原S60陈旧清单不倒改，当前实际23855B/a73b648d另固定。不用正则摘要冒充完整parse5读取对象。
 
 接受表按两组精确path/native SHA/内容digest/报告与Owner决定分轴；更改正文自刷digest、借别组报告、残留active claimCorrection均拒。旧撤信逐值入史，不恢复旧执行。正式15路由/registry/现有review的变更由Owner成组试验后写入；不引入sidecar、原生wrapper或重复账本。127控制JSON仍draft；任一全仓必要硬门未过不合main、不推送、不done。
+
+S61中央接线补充：evidence.path是公共review检查必填的行政来源定位，必须严格等于固定HTML path；它不产生新正文语义，不并入已有接受语义digest。原3pilot digest保持字节相同，其余12使用现行partial-semantic深度词表示据证审阅。任意改指向，即使自刷hash也由guard拒绝；新增反例校准。原始DOM/引用、core/oracle/历史及非执行边界继续参与原语义digest。首轮27条元数据错误留原件，补齐字段后复跑，不降词表/门规则。

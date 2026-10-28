@@ -3414,7 +3414,7 @@
         }
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "fbea064fe18142021dac1cb50e558a5825d13d05845ff07013f12bd51ea0a801",
+      "afterSha256": "3a23d9e0c33d9baaedf00010c431e6099b70accf0f6f69f0801c751c382cbc2e",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3776,6 +3776,17 @@
           "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
           "beforeSha256": "e11c4047a3b811d35b745b080393a06102b7772b94d03e2a370501954aee7e13",
           "afterSha256": "fbea064fe18142021dac1cb50e558a5825d13d05845ff07013f12bd51ea0a801",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "8923f36f3410023f81f3de12dccfbe86b927ae60",
+          "beforeSha256": "fbea064fe18142021dac1cb50e558a5825d13d05845ff07013f12bd51ea0a801",
+          "afterSha256": "3a23d9e0c33d9baaedf00010c431e6099b70accf0f6f69f0801c751c382cbc2e",
           "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

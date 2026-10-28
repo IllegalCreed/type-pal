@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { checkMigratedDocument } from './document-model.mjs'
 import { readGitHtmlSnapshot } from './git-html-snapshot.mjs'
 import { historicalHtmlAdmissions } from './historical-html-admission.mjs'
-import { nativeFamilyContentSha256 } from './historical-native-family-qualification.mjs'
+import { historicalHtmlContentSha256 } from './historical-html-native.mjs'
 import { loadReviewRecordFromGit, loadReviewRecords } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
@@ -57,6 +57,7 @@ test('all fifteen admitted HTML versions have one matching route and pass the ac
     assert.equal(row.contentReviewStatus, 'content-reviewed')
     assert.equal(row.templateCompliance, 'template-compliant')
     assert.equal(row.evidence.runtimeExecutionPerformed, false)
+    assert.equal(row.evidence.path, source.path)
     assert.equal(routing.migratedDocuments.filter((doc) => doc.path === source.path).length, 1)
     assert.deepEqual(check(source), [], source.path)
   }
@@ -68,7 +69,7 @@ test('current accepted HTML content cannot be replaced by refreshing its self-re
   )
   const row = structuredClone(rowFor(source))
   row.coreConclusion += ' A new unreviewed claim.'
-  row.currentIndependentAcceptance.contentSha256 = nativeFamilyContentSha256(row)
+  row.currentIndependentAcceptance.contentSha256 = historicalHtmlContentSha256(row)
   assert(
     check(source, row).includes(
       'HTML native promotion requires its exact external content acceptance',
@@ -113,6 +114,18 @@ test('withdrawn claims stay in history and cannot remain active beside a fresh H
   assert(
     check(source, row).includes(
       'HTML native promotion requires its exact external content acceptance',
+    ),
+  )
+})
+
+test('an administrative evidence locator cannot redirect accepted HTML evidence', () => {
+  const source = historicalHtmlAdmissions[0]
+  const row = structuredClone(rowFor(source))
+  row.evidence.path = 'docs/README.md'
+  row.currentIndependentAcceptance.contentSha256 = historicalHtmlContentSha256(row)
+  assert(
+    check(source, row).includes(
+      'HTML native actual DOM/resources/witnesses or execution boundary mismatch',
     ),
   )
 })

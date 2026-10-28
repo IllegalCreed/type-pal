@@ -2618,3 +2618,5 @@ S58的142源/5件清单与S57非作者回执已固定核验；111逻辑review的
 - Codex build allowed从cf71157cf隔离后继统一处理15HTML，复用已冻结两1.0.0合同/已验字节provider、保护loader/组事务。原3pilot绑定S59 GLM精确接受，其余12绑定Codex非作者证据裁定（原稿GLM，Owner机械应用既已非作者接受的字段归一；有限计量勘误另标来源，不倒签GLM）。仅扩12精确来源准入及两组接受数据、不扩父模板/格式/通配路由；新增当前接入正反回归，旧测试不改。
 - 复用现有唯一review位置，原生15及717JSON/source pins/撤信保全；旧artifactOnly/historyOverlay显式纠正，原claimCorrection逐值入史。实际route/registry15投影、矩阵当前边界、父卡/board/索引及after pin级联与单份gzip同步。先owned完整临时树实际model/progress/借签与摘要变更拒绝，再真实接入。源中绝对dev-root、缺main.js、旧归档根路径保持历史未执行边界。
 - 原15含3已content-reviewed但全needs，预计只减15迁移+12审阅=27严格项，不按30预扣；扣减以真实终态门为准。127可变控制JSON合同继续draft；Owner增量候选留后续集中复验，必要硬门全零前不合main、不推送、不标父子卡done，不改产品/旧测试/coverage或门规则。
+
+- S61完整门首轮288工具全绿但另拦27条中央review形状问题（15缺evidence.path、12深度词不在既有枚举），实际diagnostics仍1258，未写成严格1231或全门通过。中间8923f36f保持隔离候选，后续追加修复不改首红原件。补齐evidence.path为唯一固定HTML自身、深度用既有partial-semantic；明确其是据证静态审阅，不借该词声称全文重跑。路径是行政定位字段，由guard额外强制等于源path；不进入源语义digest，原3pilot接受digest不变，改路径仍被拒。源/正文/旧source pin不改，修复后重跑全链再记实际扣减。

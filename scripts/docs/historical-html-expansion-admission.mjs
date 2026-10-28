@@ -171,28 +171,28 @@ export const historicalHtmlExpansionContentAcceptance = Object.freeze({
   reportSha256: 'b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac',
   contentByPath: {
     'docs/phase2/archive/mockups/actor-mode-v1.html':
-      '3d638a8ff1c3b784fa07fd2dd5edaa6594801d7c861e3deefca2ba7ac3e73186',
+      'f2d17fce6cdf8e8c19b60e1e36c311b1a4a6a0146e6802676903d09a3f7b2e17',
     'docs/phase2/archive/mockups/place-mode.html':
-      'f3a28a0fab6bda79fbe72d2d6ec1fd4e55970cb730edaa6424b240da65ea9d63',
+      '1cb6705e22098aa420b0b7d0703fc5e0137e2f381736353eef21d6834759b9a3',
     'docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html':
-      '7d91d874adb0d176bc9237de81661174f8791542f04c3143d52543abbeb19034',
+      '57eaf8ed42742fa08410aecaa0990ee8defb41f3a3659f1ddf76466ea5bd87f0',
     'docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html':
-      'f7bec798819bb8dc34092a09c11ec75fada9e73a81686753882ac705ab5f3e9d',
+      'c186b93fa89e3056ea62a972de061e7a3576cb6dc11fcaa31ab2dc8525216c0f',
     'docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html':
-      '78e7061be5335b35bdfbf79f7d78ab19b21378dc926ee8d2a51f9495519972b5',
+      '7a15685f2f2edc356430715316c440cb74e7f975c5755da07930e232afc49afe',
     'docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html':
-      '08240a5bef32d2fa08e9eeea432bf63cddeec0ee2f8311eab511b3adef1a5f50',
+      '498e3b34ea5c6224fba0dd545de3212f13e46eac4173d1b1757fbf4d96b9335c',
     'docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html':
-      '309c4a3347f0e9a0399195fa4c132f22a000d6c50f23d0264aa522dd2fc76f84',
+      'f0c0f74ab4007b99221a8813cd89685ef75170c3bcb666d89c63061afff5b4f5',
     'docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html':
-      '112ad5bfd1c2757f79db667cb39ad94509d9458c6f80954fe8332b653b5ec19a',
+      '5ea45bb27475455de1b09f3fe9b2968469a4cc1f876527ee78c0071d7e36d565',
     'docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html':
-      '5741dca33401e4e1459ce823baad1c53b145d595acaf24078680e30e4679a0b7',
+      '3ba015962de589d0a213b6e5d3c6ba72c46f8198381376877b1e65f9b63bbbb5',
     'docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html':
-      'a2b43097ce3cb244e8edd425eade43518fddb23e552a17d91cbe09cfd063c199',
+      'bb37d49a44b8f4a3ebf1e04686f0e1adf6bc5aa90350edb2f0ae2280ed3e32fc',
     'docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html':
-      '770dff6ef5e5c7f44a07fef2b0e148f863c18ac55f3dba71fd9473b816132481',
+      'dcbb22df82ed96e6c438f1ed8219f6711cd1ba038f5d39785bc4ca4e8bcdf62f',
     'docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html':
-      '0fe7ac5995cc02f5d372879de489da254b3a6efd131d13eb1436f07650c186e2',
+      '56b1e309b74b71fc9f192f4c2f3b0aad83dade58a25be82cdb01b0417f4a310e',
   },
 })

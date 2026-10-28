@@ -689,7 +689,7 @@
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
       "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
-      "reviewDepth": "source-specific-evidence-review",
+      "reviewDepth": "partial-semantic",
       "coreConclusion": "静态\"角色模式\" mockup v1（17110B）：零 script/零 canvas/零外部引用/零 id，纯 CSS+DOM 草案（topbar/rail/actors 等约 68 类、11 button）。复用 S51/S58：与 v2 同构的纯静态设计稿，无可执行行为；README 标为草案非生产合同。",
       "truthAnchors": [
         "docs/phase2/archive/mockups/actor-mode-v1.html (fixed source HTML, not a current execution)"
@@ -786,7 +786,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/phase2/archive/mockups/actor-mode-v1.html"
       },
       "history": [
         {
@@ -814,6 +815,15 @@
           "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "3d638a8ff1c3b784fa07fd2dd5edaa6594801d7c861e3deefca2ba7ac3e73186",
+          "contentSha256": "f2d17fce6cdf8e8c19b60e1e36c311b1a4a6a0146e6802676903d09a3f7b2e17",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -904,7 +914,7 @@
         "verdict": "accept",
         "path": "docs/phase2/archive/mockups/actor-mode-v1.html",
         "afterSha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f",
-        "contentSha256": "3d638a8ff1c3b784fa07fd2dd5edaa6594801d7c861e3deefca2ba7ac3e73186",
+        "contentSha256": "f2d17fce6cdf8e8c19b60e1e36c311b1a4a6a0146e6802676903d09a3f7b2e17",
         "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
         "ownerDecision": {
           "actor": "Codex",
@@ -1020,7 +1030,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/phase2/archive/mockups/actor-mode-v2.html"
       },
       "history": [
         {
@@ -1048,6 +1059,15 @@
           "reportSha256": "332beaede073aa9075c9492d3e485c1ea117b1cf0b3459bb117e11610c04f08d",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "8cb644cea455be564e7c20cb78fdbc5a8ecb2e119bb57f5d65647ee3d861bb54",
+          "contentSha256": "8cb644cea455be564e7c20cb78fdbc5a8ecb2e119bb57f5d65647ee3d861bb54",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1158,7 +1178,7 @@
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
       "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
-      "reviewDepth": "source-specific-evidence-review",
+      "reviewDepth": "partial-semantic",
       "coreConclusion": "静态\"布置模式\" mockup（14856B）：零 script/零 canvas/零外部引用/零 id；outliner/tree/layers 布局草案（约 61 类、7 button）。title 自述 v3 而文件名无版本号。复用 S51：纯静态设计稿，无可执行行为，非生产合同。",
       "truthAnchors": [
         "docs/phase2/archive/mockups/place-mode.html (fixed source HTML, not a current execution)"
@@ -1255,7 +1275,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/phase2/archive/mockups/place-mode.html"
       },
       "history": [
         {
@@ -1283,6 +1304,15 @@
           "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "f3a28a0fab6bda79fbe72d2d6ec1fd4e55970cb730edaa6424b240da65ea9d63",
+          "contentSha256": "1cb6705e22098aa420b0b7d0703fc5e0137e2f381736353eef21d6834759b9a3",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1373,7 +1403,7 @@
         "verdict": "accept",
         "path": "docs/phase2/archive/mockups/place-mode.html",
         "afterSha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d",
-        "contentSha256": "f3a28a0fab6bda79fbe72d2d6ec1fd4e55970cb730edaa6424b240da65ea9d63",
+        "contentSha256": "1cb6705e22098aa420b0b7d0703fc5e0137e2f381736353eef21d6834759b9a3",
         "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
         "ownerDecision": {
           "actor": "Codex",

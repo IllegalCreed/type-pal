@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "727f7e4a80ccc3e95d172cef6b669d45c62f51feb0c8ccb0b4870aa9dc28aa20",
+  "generation": "0f17453010fb4d589df48fbf0a142ee4a9285171cd5ffe85103f28608ad7eb6c",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
   "entries": [
@@ -2396,7 +2396,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "32c54b3e55692791c5d861ade1a99be0727c720605a861d8d40dce32bf1484df",
+      "afterSha256": "03be78bb029ae563dfae38b93b2f33236cd6bb67e8a4a82f81c8d22bb532a0c2",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -3437,6 +3437,17 @@
           "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
           "beforeSha256": "8d3328143af0cb2730c217211e6cd4c4abfb430c4accabca89e6cc89f3f5c76f",
           "afterSha256": "32c54b3e55692791c5d861ade1a99be0727c720605a861d8d40dce32bf1484df",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "8923f36f3410023f81f3de12dccfbe86b927ae60",
+          "beforeSha256": "32c54b3e55692791c5d861ade1a99be0727c720605a861d8d40dce32bf1484df",
+          "afterSha256": "03be78bb029ae563dfae38b93b2f33236cd6bb67e8a4a82f81c8d22bb532a0c2",
           "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

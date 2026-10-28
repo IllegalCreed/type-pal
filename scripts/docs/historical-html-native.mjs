@@ -39,6 +39,15 @@ export function htmlSourceWitnesses(reading) {
   ]
 }
 
+// The central evidence locator is administrative and must equal the fixed document path.
+// It is not new semantic content and cannot redirect the independently accepted source.
+export function historicalHtmlContentSha256(row) {
+  if (!row.evidence || typeof row.evidence !== 'object') return undefined
+  const evidence = { ...row.evidence }
+  delete evidence.path
+  return nativeFamilyContentSha256({ ...row, evidence })
+}
+
 /** Immutable source and static explanation only; no HTML script is ever executed. */
 export function historicalHtmlIssues(doc, template, contract, read, options = {}) {
   const pilot = historicalHtmlAdmissions.find((entry) => entry.path === doc.path)
@@ -147,6 +156,8 @@ export function historicalHtmlIssues(doc, template, contract, read, options = {}
     issues.push('HTML native dependency presence or archived build boundary changed')
   if (
     evidence?.kind !== 'historical-html-native' ||
+    (evidence.path !== undefined && evidence.path !== doc.path) ||
+    (row.contentReviewStatus === 'content-reviewed' && evidence.path !== doc.path) ||
     evidence.metadataLocation !== 'existing-current-review' ||
     evidence.runtimeExecutionPerformed !== false ||
     evidence.historicClaimsReexecuted !== false ||
@@ -181,7 +192,7 @@ export function historicalHtmlIssues(doc, template, contract, read, options = {}
     if (
       !/^[a-f\d]{64}$/u.test(contentSha256 ?? '') ||
       !/^[a-f\d]{64}$/u.test(accepted.reportSha256 ?? '') ||
-      nativeFamilyContentSha256(row) !== contentSha256 ||
+      historicalHtmlContentSha256(row) !== contentSha256 ||
       !same(row.currentIndependentAcceptance, {
         protocol: 'document-delivery-acceptance/1.0.0',
         reviewer: accepted.reviewer,

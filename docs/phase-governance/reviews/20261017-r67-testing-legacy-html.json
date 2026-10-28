@@ -13,7 +13,7 @@
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
       "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
-      "reviewDepth": "source-specific-evidence-review",
+      "reviewDepth": "partial-semantic",
       "coreConclusion": "B 批宿主壳（243B）：div#root+单 module script ./host-b.tsx（在档；B 批 6087，直挂真实 ScriptEditSession+CanonicalScriptBodyEditor 选择→修改→undo 闭环）。零 canvas：div#root-only React 宿主；同目录 vite.config.b.mts/drive-b.mjs/evidence-browser-b.json 在档。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html (fixed source HTML, not a current execution)",
@@ -140,7 +140,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html"
       },
       "history": [
         {
@@ -189,6 +190,15 @@
           "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "7d91d874adb0d176bc9237de81661174f8791542f04c3143d52543abbeb19034",
+          "contentSha256": "57eaf8ed42742fa08410aecaa0990ee8defb41f3a3659f1ddf76466ea5bd87f0",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
@@ -265,7 +275,7 @@
         "verdict": "accept",
         "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html",
         "afterSha256": "14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24",
-        "contentSha256": "7d91d874adb0d176bc9237de81661174f8791542f04c3143d52543abbeb19034",
+        "contentSha256": "57eaf8ed42742fa08410aecaa0990ee8defb41f3a3659f1ddf76466ea5bd87f0",
         "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
         "ownerDecision": {
           "actor": "Codex",
@@ -285,7 +295,7 @@
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
       "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
-      "reviewDepth": "source-specific-evidence-review",
+      "reviewDepth": "partial-semantic",
       "coreConclusion": "C 批宿主壳（243B）：div#root+单 module script ./host-c.tsx（在档；C 批 6088，直挂真实 DialogBox 槽位模型 bottom→top 异槽共存，字形为 8×8 点阵替身不证字体渲染）。零 canvas：div#root-only React 宿主；同目录 vite.config.c.mts/drive-c.mjs/evidence-browser-c.json 在档。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html (fixed source HTML, not a current execution)",
@@ -412,7 +422,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html"
       },
       "history": [
         {
@@ -461,6 +472,15 @@
           "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "f7bec798819bb8dc34092a09c11ec75fada9e73a81686753882ac705ab5f3e9d",
+          "contentSha256": "c186b93fa89e3056ea62a972de061e7a3576cb6dc11fcaa31ab2dc8525216c0f",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
@@ -537,7 +557,7 @@
         "verdict": "accept",
         "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html",
         "afterSha256": "e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251",
-        "contentSha256": "f7bec798819bb8dc34092a09c11ec75fada9e73a81686753882ac705ab5f3e9d",
+        "contentSha256": "c186b93fa89e3056ea62a972de061e7a3576cb6dc11fcaa31ab2dc8525216c0f",
         "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
         "ownerDecision": {
           "actor": "Codex",
@@ -557,7 +577,7 @@
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
       "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
-      "reviewDepth": "source-specific-evidence-review",
+      "reviewDepth": "partial-semantic",
       "coreConclusion": "A 批宿主壳（241B）：div#root+单 module script ./host.tsx（在档；LARGE-WAVE-4 A 批 6086，直挂 CommandForm setVar 草稿清除/取消与 SoundPicker 缺失资产恢复）。零 canvas：div#root-only React 宿主合法形态；同目录 vite/drive-a.mjs/evidence-browser-a.json 在档。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html (fixed source HTML, not a current execution)",
@@ -684,7 +704,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html"
       },
       "history": [
         {
@@ -733,6 +754,15 @@
           "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "78e7061be5335b35bdfbf79f7d78ab19b21378dc926ee8d2a51f9495519972b5",
+          "contentSha256": "7a15685f2f2edc356430715316c440cb74e7f975c5755da07930e232afc49afe",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
@@ -809,7 +839,7 @@
         "verdict": "accept",
         "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html",
         "afterSha256": "fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be",
-        "contentSha256": "78e7061be5335b35bdfbf79f7d78ab19b21378dc926ee8d2a51f9495519972b5",
+        "contentSha256": "7a15685f2f2edc356430715316c440cb74e7f975c5755da07930e232afc49afe",
         "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
         "ownerDecision": {
           "actor": "Codex",
@@ -829,7 +859,7 @@
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
       "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
-      "reviewDepth": "source-specific-evidence-review",
+      "reviewDepth": "partial-semantic",
       "coreConclusion": "叶子工作流 D 宿主壳（280B）：双挂载点 div#root+div#overlay-panel，单 module script ./host.tsx（在档：真实 CasualtyEditor+合法项目会话 loadLegalUiProject+真实 UpdateActorCommand）。零 canvas：div 挂载 React 宿主；同目录 vite.config.mts 在档。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html (fixed source HTML, not a current execution)",
@@ -962,7 +992,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html"
       },
       "history": [
         {
@@ -1011,6 +1042,15 @@
           "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "08240a5bef32d2fa08e9eeea432bf63cddeec0ee2f8311eab511b3adef1a5f50",
+          "contentSha256": "498e3b34ea5c6224fba0dd545de3212f13e46eac4173d1b1757fbf4d96b9335c",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
@@ -1087,7 +1127,7 @@
         "verdict": "accept",
         "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html",
         "afterSha256": "46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf",
-        "contentSha256": "08240a5bef32d2fa08e9eeea432bf63cddeec0ee2f8311eab511b3adef1a5f50",
+        "contentSha256": "498e3b34ea5c6224fba0dd545de3212f13e46eac4173d1b1757fbf4d96b9335c",
         "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
         "ownerDecision": {
           "actor": "Codex",
@@ -1107,7 +1147,7 @@
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
       "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
-      "reviewDepth": "source-specific-evidence-review",
+      "reviewDepth": "partial-semantic",
       "coreConclusion": "叶子工作流 C 宿主壳（245B）：div#root+单 module script ./host.tsx（在档，导入 ImageAssetPicker 等真实组件）。零 canvas：div#root-only React 宿主；同目录 vite.config.mts 与 assets/leaf-item-icon.png 在档；同目录 README 为导航壳仅链 assets/，caller 为上级 README 目录导航。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html (fixed source HTML, not a current execution)",
@@ -1234,7 +1274,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html"
       },
       "history": [
         {
@@ -1283,6 +1324,15 @@
           "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "309c4a3347f0e9a0399195fa4c132f22a000d6c50f23d0264aa522dd2fc76f84",
+          "contentSha256": "f0c0f74ab4007b99221a8813cd89685ef75170c3bcb666d89c63061afff5b4f5",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
@@ -1359,7 +1409,7 @@
         "verdict": "accept",
         "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html",
         "afterSha256": "6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336",
-        "contentSha256": "309c4a3347f0e9a0399195fa4c132f22a000d6c50f23d0264aa522dd2fc76f84",
+        "contentSha256": "f0c0f74ab4007b99221a8813cd89685ef75170c3bcb666d89c63061afff5b4f5",
         "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
         "ownerDecision": {
           "actor": "Codex",
@@ -1508,7 +1558,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html"
       },
       "history": [
         {
@@ -1557,6 +1608,15 @@
           "reportSha256": "332beaede073aa9075c9492d3e485c1ea117b1cf0b3459bb117e11610c04f08d",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "14519a2b7c9b527bf28d14605c5fe023d5efd67e6be30a91b90728a4cde15af3",
+          "contentSha256": "14519a2b7c9b527bf28d14605c5fe023d5efd67e6be30a91b90728a4cde15af3",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
@@ -1653,7 +1713,7 @@
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
       "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
-      "reviewDepth": "source-specific-evidence-review",
+      "reviewDepth": "partial-semantic",
       "coreConclusion": "Wave G battle trial 视觉宿主（567B）：p#page-status+canvas#screen+module script ./main.ts（在档：真实 runBattleTrial+pal 工程 HTTP source，从 packages/reforge 导入 battle-trial-config/host/prepare、httpSource 等）。无 div#root：canvas 宿主合法形态；同目录 vite/drive.mjs 在档。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html (fixed source HTML, not a current execution)",
@@ -1805,7 +1865,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html"
       },
       "history": [
         {
@@ -1854,6 +1915,15 @@
           "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "112ad5bfd1c2757f79db667cb39ad94509d9458c6f80954fe8332b653b5ec19a",
+          "contentSha256": "5ea45bb27475455de1b09f3fe9b2968469a4cc1f876527ee78c0071d7e36d565",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
@@ -1930,7 +2000,7 @@
         "verdict": "accept",
         "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html",
         "afterSha256": "1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6",
-        "contentSha256": "112ad5bfd1c2757f79db667cb39ad94509d9458c6f80954fe8332b653b5ec19a",
+        "contentSha256": "5ea45bb27475455de1b09f3fe9b2968469a4cc1f876527ee78c0071d7e36d565",
         "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
         "ownerDecision": {
           "actor": "Codex",
@@ -1950,7 +2020,7 @@
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
       "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
-      "reviewDepth": "source-specific-evidence-review",
+      "reviewDepth": "partial-semantic",
       "coreConclusion": "LV1-LV4 隔离短视觉宿主（3035B）：三 canvas+div 挂载点+#log。script src=归档前根绝对路径 main.mjs，悬空；main.mjs 实体与 vite 配置同目录在档（只导生产函数）。evidence.md:64-65 引用。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html (fixed source HTML, not a current execution)",
@@ -2159,7 +2229,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html"
       },
       "history": [
         {
@@ -2208,6 +2279,15 @@
           "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "5741dca33401e4e1459ce823baad1c53b145d595acaf24078680e30e4679a0b7",
+          "contentSha256": "3ba015962de589d0a213b6e5d3c6ba72c46f8198381376877b1e65f9b63bbbb5",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
@@ -2284,7 +2364,7 @@
         "verdict": "accept",
         "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html",
         "afterSha256": "9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9",
-        "contentSha256": "5741dca33401e4e1459ce823baad1c53b145d595acaf24078680e30e4679a0b7",
+        "contentSha256": "3ba015962de589d0a213b6e5d3c6ba72c46f8198381376877b1e65f9b63bbbb5",
         "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
         "ownerDecision": {
           "actor": "Codex",
@@ -2304,7 +2384,7 @@
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
       "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
-      "reviewDepth": "source-specific-evidence-review",
+      "reviewDepth": "partial-semantic",
       "coreConclusion": "RV1 取证宿主（4671B）：4 canvas+#errors，2522 characters (2707 UTF-8 bytes) 内嵌 module 脚本——fetch artifact.json（在档）后 createImageBitmap 真实 PNG 解码/量化上屏，逐格像素断言（RGBA/盘色），错误回写 PASS/FAIL。无外部 src/div#root；生成器 ../../tools/rv1-artifact.ts 在档。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html (fixed source HTML, not a current execution)"
@@ -2457,7 +2537,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html"
       },
       "history": [
         {
@@ -2506,6 +2587,15 @@
           "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "a2b43097ce3cb244e8edd425eade43518fddb23e552a17d91cbe09cfd063c199",
+          "contentSha256": "bb37d49a44b8f4a3ebf1e04686f0e1adf6bc5aa90350edb2f0ae2280ed3e32fc",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
@@ -2582,7 +2672,7 @@
         "verdict": "accept",
         "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html",
         "afterSha256": "7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d",
-        "contentSha256": "a2b43097ce3cb244e8edd425eade43518fddb23e552a17d91cbe09cfd063c199",
+        "contentSha256": "bb37d49a44b8f4a3ebf1e04686f0e1adf6bc5aa90350edb2f0ae2280ed3e32fc",
         "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
         "ownerDecision": {
           "actor": "Codex",
@@ -2742,7 +2832,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html"
       },
       "history": [
         {
@@ -2791,6 +2882,15 @@
           "reportSha256": "332beaede073aa9075c9492d3e485c1ea117b1cf0b3459bb117e11610c04f08d",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "1f1a45badc9ec403645da1f39925eaa2319ae82031ec57ea4b6c76d215b8c69f",
+          "contentSha256": "1f1a45badc9ec403645da1f39925eaa2319ae82031ec57ea4b6c76d215b8c69f",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
@@ -2887,7 +2987,7 @@
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
       "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
-      "reviewDepth": "source-specific-evidence-review",
+      "reviewDepth": "partial-semantic",
       "coreConclusion": "RV3/RV4 宿主（1003B）：canvas#stage+canvas#settle+div#result(\"running…\")，script src=./main.js 未入库，同目录 entry.ts 在档（真实 battle-ui/settlement 函数）。缺产物如实登记、不装成可运行；自述快照取证非战斗执行。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html (fixed source HTML, not a current execution)",
@@ -3050,7 +3150,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html"
       },
       "history": [
         {
@@ -3099,6 +3200,15 @@
           "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "770dff6ef5e5c7f44a07fef2b0e148f863c18ac55f3dba71fd9473b816132481",
+          "contentSha256": "dcbb22df82ed96e6c438f1ed8219f6711cd1ba038f5d39785bc4ca4e8bcdf62f",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
@@ -3175,7 +3285,7 @@
         "verdict": "accept",
         "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html",
         "afterSha256": "946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8",
-        "contentSha256": "770dff6ef5e5c7f44a07fef2b0e148f863c18ac55f3dba71fd9473b816132481",
+        "contentSha256": "dcbb22df82ed96e6c438f1ed8219f6711cd1ba038f5d39785bc4ca4e8bcdf62f",
         "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
         "ownerDecision": {
           "actor": "Codex",
@@ -3195,7 +3305,7 @@
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
       "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
-      "reviewDepth": "source-specific-evidence-review",
+      "reviewDepth": "partial-semantic",
       "coreConclusion": "kimi 编辑器工作流隔离宿主（1107B）：div#root+module script src=/main.tsx（根绝对；实体同目录，vite root=本目录时可解析）。CSS 预置 kimi-host-*。main.tsx：KIMI-EDITOR-WORKFLOWS-1 最小宿主，真实组件+EditSession/命令/serializeProject+FSA 双写盘+loader 重读链，磁盘为 memoryAuthorDirectory 替身；零 canvas 合法形态。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html (fixed source HTML, not a current execution)",
@@ -3337,7 +3447,8 @@
         },
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "creditGranted": 0
+        "creditGranted": 0,
+        "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html"
       },
       "history": [
         {
@@ -3386,6 +3497,15 @@
           "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
           "oldClaimRestored": false,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/metadata-repair",
+          "action": "Restore required same-source evidence locator and existing review-depth enum; no source semantic change",
+          "priorContentSha256": "0fe7ac5995cc02f5d372879de489da254b3a6efd131d13eb1436f07650c186e2",
+          "contentSha256": "56b1e309b74b71fc9f192f4c2f3b0aad83dade58a25be82cdb01b0417f4a310e",
+          "oldClaimRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy HTML presentation; historical claims remain date-scoped"],
@@ -3462,7 +3582,7 @@
         "verdict": "accept",
         "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html",
         "afterSha256": "73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7",
-        "contentSha256": "0fe7ac5995cc02f5d372879de489da254b3a6efd131d13eb1436f07650c186e2",
+        "contentSha256": "56b1e309b74b71fc9f192f4c2f3b0aad83dade58a25be82cdb01b0417f4a310e",
         "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
         "ownerDecision": {
           "actor": "Codex",
