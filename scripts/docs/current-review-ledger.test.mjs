@@ -61,6 +61,15 @@ function fixture(t) {
       },
       legalInputs: ['Actual complete protected current group and original Git source'],
       publicCallers: ['checkMigratedDocument through protected full-group reader'],
+      fieldRoles: {
+        logical: ['header and ordered membership'],
+        physical: [
+          binding.initialStorage === 'flat'
+            ? 'flat JSON without own shards'
+            : 'manifest with owned shards and original source pin',
+        ],
+        governance: [`${binding.reviewRecord}#entries/${binding.index}`],
+      },
       historyBoundary: 'Original history remains scoped; integrity does not restore child credit.',
       stopLine: 'Identity, source or storage drift rejects.',
       nextStep: 'Independent content acceptance is still required.',
@@ -149,6 +158,12 @@ test('unique review ownership, observed bytes and pilot partial status are indep
     },
     (r) => {
       r.evidence.childSemanticAcceptanceGranted = true
+    },
+    (r) => {
+      r.fieldRoles.governance = ['borrowed-review#entries/0']
+    },
+    (r) => {
+      r.fieldRoles.physical = []
     },
   ]) {
     const f = fixture(t),

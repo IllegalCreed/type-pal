@@ -122,6 +122,11 @@ export function currentReviewLedgerIssues(doc, template, contract, read, options
       !text(row.readDomain?.actual) ||
       !texts(row.readDomain?.notRead) ||
       !texts(row.publicCallers) ||
+      !texts(row.fieldRoles?.logical) ||
+      !texts(row.fieldRoles?.physical) ||
+      !isDeepStrictEqual(row.fieldRoles?.governance, [
+        `${binding.reviewRecord}#entries/${binding.index}`,
+      ]) ||
       !texts(row.legalInputs) ||
       !text(row.historyBoundary) ||
       !text(row.stopLine) ||
