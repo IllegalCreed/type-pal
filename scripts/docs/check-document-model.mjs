@@ -27,7 +27,7 @@ const registry = JSON.parse(read('docs/phase-governance/templates/registry.json'
 const pilotReviews = [
   ...nativeFamilyAdmissions,
   ...historicalHtmlAdmissions,
-  ...nativeArtifactBindings,
+  ...nativeArtifactBindings.filter((entry) => !entry.existingVariant),
 ]
   .filter((pilot) => config.migratedDocuments.some((doc) => doc.path === pilot.path))
   .map((pilot) => pilot.reviewRecord)

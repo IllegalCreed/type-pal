@@ -68,7 +68,7 @@ if (routing.migratedDocuments.some((doc) => doc.variant === historicalVitestCont
 for (const pilot of [
   ...nativeFamilyAdmissions,
   ...historicalHtmlAdmissions,
-  ...nativeArtifactBindings,
+  ...nativeArtifactBindings.filter((entry) => !entry.existingVariant),
 ])
   if (routing.migratedDocuments.some((doc) => doc.path === pilot.path))
     requiredReviews.add(pilot.reviewRecord)
