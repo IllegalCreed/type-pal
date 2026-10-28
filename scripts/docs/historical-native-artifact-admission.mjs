@@ -1,3 +1,4 @@
+import { nativeArtifactAcceptedContent } from './historical-native-artifact-acceptance.mjs'
 import { nativeArtifactBindings } from './historical-native-artifact-bindings.mjs'
 
 function freeze(value) {
@@ -26,6 +27,6 @@ freeze(nativeArtifactBindings)
 const byPath = new Map(nativeArtifactBindings.map((entry) => [entry.path, entry]))
 if (byPath.size !== 473) throw new Error('native artifact admission requires exact473 paths')
 export const nativeArtifactAdmission = (path) => byPath.get(path)
-// Owner fills this only after external, path/content-bound acceptance. Author packages cannot.
-export const nativeArtifactContentAcceptance = Object.freeze({})
+// Exact path/content-bound non-author acceptance. Candidate writers cannot change it.
+export const nativeArtifactContentAcceptance = nativeArtifactAcceptedContent
 export { nativeArtifactBindings }

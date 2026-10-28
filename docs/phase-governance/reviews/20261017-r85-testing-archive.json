@@ -123,34 +123,34 @@
       "gitObject": "0e24bb9ba4bdefd44a7b3ab898ff14eaaf11203a",
       "sha256": "9194cd1de7b07d27172f0e7947b2f2fd78cf5ff1b05902e2bcc65fe70acf6b4f"
     },
-    "logicalSha256": "1ff60324fcd957b04aedd746283044d6dd7b95dac4f8279ceb65e3063b1096e8",
+    "logicalSha256": "a8cc91acee72258d814d5a34137cbd8aff01a8bc830497e910c6a57a6ac31916",
     "totalEntries": 100,
     "entryOrderSha256": "cad52b299207f5ac79af929583972d61ea5e2515cb480e921c44cf59d9a606d1",
-    "orderedEntriesSha256": "04dd1aef1b2026d6122669bf2739cedcf2cd7fb682e99de31aa71deacf79f328",
+    "orderedEntriesSha256": "051bc6cc702d25f1b48b6dacb908844b2152d3ce1dcbf89d44a592c65cdd4547",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261017-r85-testing-archive/1ff60324fcd957b04aedd746283044d6dd7b95dac4f8279ceb65e3063b1096e8/part-001.json",
-        "total": 31,
-        "sha256": "26cc1d35085ecda253518767e31b46409e7cdfd4082ee6dcd6f49a23d6c54089"
+        "path": "shards/20261017-r85-testing-archive/a8cc91acee72258d814d5a34137cbd8aff01a8bc830497e910c6a57a6ac31916/part-001.json",
+        "total": 29,
+        "sha256": "55c686feb7022a570e7f2bcff03476abb1fd5bd74d83e7c9e4861b12a622daed"
       },
       {
         "key": "part-002",
-        "path": "shards/20261017-r85-testing-archive/1ff60324fcd957b04aedd746283044d6dd7b95dac4f8279ceb65e3063b1096e8/part-002.json",
+        "path": "shards/20261017-r85-testing-archive/a8cc91acee72258d814d5a34137cbd8aff01a8bc830497e910c6a57a6ac31916/part-002.json",
         "total": 26,
-        "sha256": "81307c0cd7b68bb9f388b8ba01c9060b8bdb3bba763f585786818fa6017ec7be"
+        "sha256": "401fa660aa75fd649add75cf1cb37a3415bc46fd42c4279e75de624e3c99e2b1"
       },
       {
         "key": "part-003",
-        "path": "shards/20261017-r85-testing-archive/1ff60324fcd957b04aedd746283044d6dd7b95dac4f8279ceb65e3063b1096e8/part-003.json",
+        "path": "shards/20261017-r85-testing-archive/a8cc91acee72258d814d5a34137cbd8aff01a8bc830497e910c6a57a6ac31916/part-003.json",
         "total": 24,
-        "sha256": "08f424a68c1d7b887fc19551dc4aefff779897480559b8525bcf07cbc1f1e184"
+        "sha256": "5ce93c9540b45a5866058022574c0d8f85a039d5f25535cd22e1e95b10049a3c"
       },
       {
         "key": "part-004",
-        "path": "shards/20261017-r85-testing-archive/1ff60324fcd957b04aedd746283044d6dd7b95dac4f8279ceb65e3063b1096e8/part-004.json",
-        "total": 19,
-        "sha256": "f6d3ee028fd35ba06419efd3c7e38faafe3dfdcf44fcce070772c60ece975f54"
+        "path": "shards/20261017-r85-testing-archive/a8cc91acee72258d814d5a34137cbd8aff01a8bc830497e910c6a57a6ac31916/part-004.json",
+        "total": 21,
+        "sha256": "8f6d1d6110c0002833f194de33bf1952f278fe57dd74a2c24651a162bf4f028a"
       }
     ]
   }

@@ -7,11 +7,11 @@
   "entries": [
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u05-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-architecture-batch 单变异击杀回执：隔离 worktree type-pal-cursor-architecture-batch 内对 field-layout.tsx 注入变异 u05-field-inline（变异源摘要 sha256 前8=e8f3a51d），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「U05 field layout keeps field-group, field, and control-group identity with inline layout and required asterisk」，断言首行「expected 'ds-field ds-field--row' to be 'ds-field ds-field--inline'」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（kind=cursor-architecture-batch-module-mutants，round=r2-rework，count=24）cases 表含本键且全 allOk。recorded historical fact（2026-09 波次），not current execution。",
@@ -137,6 +137,30 @@
           "priorEntrySha256": "b7fce46efaef3b22b194b60bfae49e99ce26c80b37010c833743fde4f4dd13e9",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 0,
+            "entryCanonicalSha256": "4170cdc15306e9eb15c041c373f6f19b7af43093d179b163e92ef33714862669"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -179,14 +203,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -202,15 +218,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/0"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u05-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "f23da81c84d488a9b6e5adb0d41b970694e8b7a8968153bb5f399fb02dbaeb2c",
+        "contentSha256": "bb4e8ac7d088dafa0c7bc4ba3715bb8eb4409f6185be698799f98c8bee60dcb2",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u06-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-architecture-batch 单变异击杀回执：隔离 worktree type-pal-cursor-architecture-batch 内对 draft-input-state.ts 注入变异 u06-escape-cancel（变异源摘要 sha256 前8=b8b9e063），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「U06 draft text inputs keeps draft text input identity with Enter commit and Escape cancel」，断言首行「expected \"vi.fn()\" to be called at least once（Escape 取消回调未被调）」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（kind=cursor-architecture-batch-module-mutants，round=r2-rework，count=24）cases 表含本键且全 allOk。recorded historical fact（2026-09 波次），not current execution。",
@@ -336,6 +370,30 @@
           "priorEntrySha256": "ad8184f7366de52c87860365a81a469fd363af85c871f9b98ff901959be88c5e",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 1,
+            "entryCanonicalSha256": "7be9e00512d04124b856577b635f76f59f63f718a6cb558438c1cea780494f13"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -378,14 +436,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -401,15 +451,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/1"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u06-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "c65f52c5df0aae774a4f5e3541394121102fa1b6c35b5f5a030b7d765bfe2207",
+        "contentSha256": "76a53900ff92e94d3b462f9f0a1549bd7a20b595f96294eda1f0f934e0b6d1cb",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u07-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-architecture-batch 单变异击杀回执：隔离 worktree type-pal-cursor-architecture-batch 内对 number-inputs.tsx 注入变异 u07-number-step（变异源摘要 sha256 前8=8e6b01f8），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「U07 number inputs keeps number input identity with stepped parse validation string」，断言首行「expected 'any' to be '1'（step 校验串漂移）」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（kind=cursor-architecture-batch-module-mutants，round=r2-rework，count=24）cases 表含本键且全 allOk。recorded historical fact（2026-09 波次），not current execution。",
@@ -535,6 +603,30 @@
           "priorEntrySha256": "f6affcf7730211b175b22d83f142dbef2fa3fb75fbae660d5d54141477c8b002",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 2,
+            "entryCanonicalSha256": "be58f65dfe1c46e1f3ea6bb650c4ff19b86966ea64c38e8dc4003332cd0f9ae2"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -577,14 +669,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -600,15 +684,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/2"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u07-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "dbbf43e70a2e3c611adf2f17b779fdaad630e88b302002613d0e9af4e06563fc",
+        "contentSha256": "c34ac614a9f6b5cc43ad6b96ae18b3f5d8f1d9f322f5355d2428ebf513e48c4d",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u08-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-architecture-batch 单变异击杀回执：隔离 worktree type-pal-cursor-architecture-batch 内对 field-controls.tsx 注入变异 u08-text-field-id（变异源摘要 sha256 前8=2bb4d7c1），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「U08 field controls keeps text field shell identity with label association」，断言首行「expected 'title-input' to be 'title'（label 关联 id 漂移）」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（kind=cursor-architecture-batch-module-mutants，round=r2-rework，count=24）cases 表含本键且全 allOk。recorded historical fact（2026-09 波次），not current execution。",
@@ -734,6 +836,30 @@
           "priorEntrySha256": "76836ead86684dc01fc6eba8bcf1eb56d841cafb5d97ad36c34fe414fa4d37da",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 3,
+            "entryCanonicalSha256": "d39549075320832e09277b296914575a078ac23d9460f17304a20cb029c7c0aa"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -776,14 +902,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -799,15 +917,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/3"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u08-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "5c1edf887d79306f9b5d5f0a677586f175d33ed991945dd9f2fd16161790cd67",
+        "contentSha256": "fc0ddb76b4945501856ebbe8e1686e7f3dc662e05bc8a2d0649dd5188abf0d16",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u09-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-architecture-batch 单变异击杀回执：隔离 worktree type-pal-cursor-architecture-batch 内对 select.tsx 注入变异 u09-select-combobox（变异源摘要 sha256 前8=47d56c4e），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「U09 select keeps select identity with combobox listbox semantics」，断言首行「expected 'button' to be 'combobox'（role 漂移）」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（kind=cursor-architecture-batch-module-mutants，round=r2-rework，count=24）cases 表含本键且全 allOk。recorded historical fact（2026-09 波次），not current execution。",
@@ -934,6 +1070,30 @@
           "priorEntrySha256": "8217a1d332fa8c20a811c8d112017edea3d38a112fba3c8c40fa0bed8f144178",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 4,
+            "entryCanonicalSha256": "eb784a9b3778e1dfaf419e825de79c6958327b3748069d40395e8ad158dec21d"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -976,14 +1136,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -999,15 +1151,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/4"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u09-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "362a578631b0da47395854122915cf701fd366b8f406cf3e7b5bc9732fa1d8ea",
+        "contentSha256": "95c682d5c214532028146c69dcd7a2b06e156faa1c411ca16ae7d22525614731",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u10-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-architecture-batch 单变异击杀回执：隔离 worktree type-pal-cursor-architecture-batch 内对 choice-controls.tsx 注入变异 u10-switch-role（变异源摘要 sha256 前8=12831dd1），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「U10 choice controls keeps checkbox and switch identity with aria semantics」，断言首行「expected 'checkbox' to be 'switch'（role 漂移）」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（kind=cursor-architecture-batch-module-mutants，round=r2-rework，count=24）cases 表含本键且全 allOk。recorded historical fact（2026-09 波次），not current execution。",
@@ -1133,6 +1303,30 @@
           "priorEntrySha256": "c086b4d2191aff7ec2ac86435f6b181cf4cbc022f557aef4ab7c81dbb2f73484",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 5,
+            "entryCanonicalSha256": "b17d79b9a7c55dd3bffcd070136f87578c399f753d11b5ad32a18039a40c16ff"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -1175,14 +1369,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -1198,15 +1384,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/5"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u10-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "18f23352ca015282147f2f1722e034d18ecd8e0b10b55544d9f561df9a03ef71",
+        "contentSha256": "5fe34f9125f90c318f3fdd323ebfce2550198b302c7ef77fdac73ba3452be43c",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u11-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-architecture-batch 单变异击杀回执：隔离 worktree type-pal-cursor-architecture-batch 内对 list-header.tsx 注入变异 u11-list-header-count（变异源摘要 sha256 前8=f91ec840），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「U11 list header keeps list header identity with title and count chrome」，断言首行「计数徽标值缺失而期望 '12 项'（Object.is 全等失败）」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（kind=cursor-architecture-batch-module-mutants，round=r2-rework，count=24）cases 表含本键且全 allOk。recorded historical fact（2026-09 波次），not current execution。",
@@ -1332,6 +1536,30 @@
           "priorEntrySha256": "cda6060bfff2dda3522c6021bfa6cb194dce85bc846ee575620a4036952c4502",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 6,
+            "entryCanonicalSha256": "9f910f300becbe377f344fbbb89dd8759c23e8b4d1d0f90cc1b0a94a95325adc"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -1374,14 +1602,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -1397,15 +1617,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/6"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u11-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "31a1e433a76e482618164a7444a02ea1764f84c9bd786cca0fcb30b12fd70373",
+        "contentSha256": "ee6fee6bf037ab89f8c7b97a24ba25f75463b0015219f5625f4087ca4e874b2b",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u12-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-architecture-batch 单变异击杀回执：隔离 worktree type-pal-cursor-architecture-batch 内对 feedback.tsx 注入变异 u12-status-alert（变异源摘要 sha256 前8=e8ed75ac），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「U12 tabs card feedback keeps tabs, card, and status identity with tablist and alert roles」，断言首行「expected '<div class=\"ds-status ds-status--erro…' to contain 'role=\"alert\"'」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（kind=cursor-architecture-batch-module-mutants，round=r2-rework，count=24）cases 表含本键且全 allOk。recorded historical fact（2026-09 波次），not current execution。",
@@ -1531,6 +1769,30 @@
           "priorEntrySha256": "fc0267a2aa9f18948e4710f3854345c6924a8aae0b8928e211c4364cc9d88168",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 7,
+            "entryCanonicalSha256": "2bd2de0f30760ab233ddf8f7979238f09261b0b58ebd16a4eb0c8e29c857aacd"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -1573,14 +1835,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -1596,7 +1850,25 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/7"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-architecture-batch/u12-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "e5bff938707a611467ad8eedd83c6dc1e74178acf4bd7718645c61552b296a28",
+        "contentSha256": "3acee294e947b9d56f7a8a1e4c929b34e58f057c4651e3f7441d7827326ebb97",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/README.md",
@@ -1788,11 +2060,11 @@
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c1-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-command-boundaries-r3 单变异击杀回执：隔离 worktree type-pal-cursor-command-boundaries-r3 内对 actor-commands.ts 注入变异 c1-actor-covered-by（变异源摘要 sha256 前8=41bf9d85），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「人物命令残项 UpdateActor 只改 coveredBy 为不存在人物 → 援护者不存在」，断言首行「expected [Function] to throw an error」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=5，selfTest 15 例全过）含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -1918,6 +2190,30 @@
           "priorEntrySha256": "fdf52146607733ac94d9b0a03a0c2cdb47cb3f80663fced22cca6b211e47be0a",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 9,
+            "entryCanonicalSha256": "afc7ceaad2aece76bb6ec3b074b962cc7a4be3687a209ff3806ec85b8b958d27"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -1960,14 +2256,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -1983,15 +2271,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/9"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c1-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "0415d215344703931019eb718950187d252f3dec89d4bcf1dbce40ff598b60ba",
+        "contentSha256": "833890a100b0f2ecdb8ff08997ce7ce3eaf44a17f217e12d9129846ad270a9c3",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c2-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-command-boundaries-r3 单变异击杀回执：隔离 worktree type-pal-cursor-command-boundaries-r3 内对 entity-commands.ts 注入变异 c2-zone-facing（变异源摘要 sha256 前8=4cb1055f），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「实体命令残项 UpdateEntity facing 对触发区抛无朝向，输入态不变」，断言首行「expected [Function] to throw an error」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=5，selfTest 15 例全过）含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -2118,6 +2424,30 @@
           "priorEntrySha256": "37d6a55103c216274b0972da3b382951909ffdbd4cf7aa6333985976f945720d",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 10,
+            "entryCanonicalSha256": "7ae500368dc62a5c7692af0180eb82569966faf846618163abe95d9fe943f377"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -2160,14 +2490,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -2183,15 +2505,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/10"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c2-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "096f8c9fdbe00b3c74afa67dad14ef96eb83bbb2318be0239bcafb66253a61f9",
+        "contentSha256": "03cad3d41f504825ea91f777802b316daee18f67a0e892004aafe648683b2e8f",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c3-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-command-boundaries-r3 单变异击杀回执：隔离 worktree type-pal-cursor-command-boundaries-r3 内对 tileset-commands.ts 注入变异 c3-tileset-empty-name（变异源摘要 sha256 前8=1d43a0b7），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「瓦片集命令残项 UpdateTilesetMetadata name 空白 → 瓦片集名称不能为空」，断言首行「expected [Function] to throw an error」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=5，selfTest 15 例全过）含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -2318,6 +2658,30 @@
           "priorEntrySha256": "27795f3cbb82419a8fcf256130a21ef7ca160eb6f686e3aa8c4fdbb9f206f977",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 11,
+            "entryCanonicalSha256": "f9d89b95537f2838785d09357b3b361836196678d6f16e0a034004385b68a11b"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -2360,14 +2724,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -2383,15 +2739,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/11"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c3-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "480bf585a4532772f98c0123dfb067248055e636bc6bd2a28452a6097ea3db52",
+        "contentSha256": "13a159c5909b647197e6c0ee1d7488d62b64ccf79787ccdbf8e56ae4d2c9029b",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c4-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-command-boundaries-r3 单变异击杀回执：隔离 worktree type-pal-cursor-command-boundaries-r3 内对 sprite-commands.ts 注入变异 c4-sprite-asset-in-use（变异源摘要 sha256 前8=2b6f3a35），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「精灵命令残项 DeleteUnusedSpriteAssetCommand 删除 hero 资产 → 精灵资产仍被定义引用」，断言首行「expected [Function] to throw error matching /精灵资产 .* 仍被定义引用/ but got '资源 sprite.generated.starter 仍被 1 处引用，…'」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=5，selfTest 15 例全过）含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -2517,6 +2891,30 @@
           "priorEntrySha256": "ee4af182f405bbd2286c2bd3158853d384a61763d4859116bde07222355a5bbe",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 12,
+            "entryCanonicalSha256": "89a8626c5f52d19fe685ce7cdb72c72b1061487a50bc32f63f5b3c347d584fb9"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -2559,14 +2957,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -2582,15 +2972,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/12"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c4-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "3b5ad77cf14a5e23d2668c3e3b5f22f5de7ab841599bbf61fc9fda5c31d6db61",
+        "contentSha256": "c5eca790810fb378d9a60137fb8919e901b7135f5722bcbe436b57c6acfce057",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c5-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-command-boundaries-r3 单变异击杀回执：隔离 worktree type-pal-cursor-command-boundaries-r3 内对 battle-sprite-commands.ts 注入变异 c5-enemy-profile（变异源摘要 sha256 前8=16041546），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「战斗精灵命令残项 AddEnemy 后 SetEnemyBattleSprite(starter-fighter) → 敌人只能引用 enemy profile」，断言首行「expected [Function] to throw an error」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=5，selfTest 15 例全过）含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -2716,6 +3124,30 @@
           "priorEntrySha256": "1dfc93b7ea7fa71b68528a7238dfa2089a14f1606b27e0769db77630b479b831",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 13,
+            "entryCanonicalSha256": "03dd27cfa601d9fb1dc510090bc73e5d490ac113ddb7aa6836c8333e18e32f47"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -2758,14 +3190,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -2781,15 +3205,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/13"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/c5-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "ef6fb9cd0cc5513cfe806576f9259253b19e5c0ffd24236155e67c06d1bdab1f",
+        "contentSha256": "4fde0833f2cf1043c951b777ab6d9a9f1859dc3c672c39e8bf1c18989ec296b8",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/evidence.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-command-boundaries-r3 模块变异批总回执：count=5，allOk/allRedExit1/allHashUnchanged/allHit 全真；judge 自测扩到 15 例（新增 legal-green/legal-red/assertion-then-typeerror/assertion-timed-out/extra-failure/suite-error/stack-runWithTimeout-kept）全按预期；cases c1-c5（actor coveredBy/entity facing/tileset 空名/sprite 引用守卫/battle-sprite profile）与 5 份单例一致。第三轮残项命令边界变异全被击杀。recorded historical fact，not current execution。",
@@ -2907,6 +3349,30 @@
           "priorEntrySha256": "00b632c4b9c056dfccd5b981370fb5ec44ae943166fac2df76f5fc58ccaae628",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 14,
+            "entryCanonicalSha256": "28ebd99fce7f095f3a0cedc3f2ce058fe9879a1d246ca917408b24dd96fe214a"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -2949,14 +3415,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -2972,7 +3430,25 @@
         "nativePointers": ["/kind"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/14"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/evidence.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "5ef7cd656eb89b7d26461c0442f8f15584754a16bf389c0fa8b456ccf6d5c68e",
+        "contentSha256": "bfcc2c40df5d0da94039c1181658fe0f0533344e75dccf26e7a16d772d6f41bd",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-command-boundaries-r3/receipt.md",
@@ -3351,11 +3827,11 @@
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c2-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-commands-wave2 单变异击杀回执：隔离 worktree type-pal-cursor-commands-wave2 内对 entity-commands.ts 注入变异 c2-entity-delete-guard（变异源摘要 sha256 前8=4cb1055f），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「current entity address editor closure delete is fail-loud while lifecycle references exist…」，断言首行「expected [Function] to throw an error」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=5，selfTest 8 例全过）cases 表含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -3482,6 +3958,30 @@
           "priorEntrySha256": "79a1b76e66541559519bec6c84a9e5a2e24389f3dc315f7ff5d2c22b6aa46716",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 17,
+            "entryCanonicalSha256": "7d241c0f94a252a090a4348e29e0629f310a0968eb813430705db01dc214cdb2"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -3524,14 +4024,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -3547,15 +4039,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/17"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c2-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "1ab5d1e6e9e95ab7b49ae5cc52a6b7f8da1fad518b0641e0c7df3f755a0d775a",
+        "contentSha256": "520dffacda2d7ea1943654cc17864b6047c7196fa285778cbbacc8e3d6f44c42",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c3-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-commands-wave2 单变异击杀回执：隔离 worktree type-pal-cursor-commands-wave2 内对 scene-commands.ts 注入变异 c3-scene-entry-guard（变异源摘要 sha256 前8=ea0e58b7），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「W4-1 改名/移动不改变两处引用的稳定 id；引用落点禁止删除」，断言首行「expected [Function] to throw an error」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=5，selfTest 8 例全过）cases 表含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -3681,6 +4191,30 @@
           "priorEntrySha256": "c9ad8da38333b02f834ac3978ba447706631b238a7ac9ca0b178cdbdc8444812",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 18,
+            "entryCanonicalSha256": "da158d1e527e877c5a6412bd1c94e83407a4992bda9488e33f93c6285a65b78d"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -3723,14 +4257,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -3746,15 +4272,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/18"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c3-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "a07269df13c974b367420a7fb98ccc660c352567d1fe6bdab5a782fbaec3cd65",
+        "contentSha256": "e1c21d1fd5202e8bc0af71f96da998049990f6c2b3bc4fe4b3497c1870fb0236",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c5-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-commands-wave2 单变异击杀回执：隔离 worktree type-pal-cursor-commands-wave2 内对 map-edit-commands.ts 注入变异 c5-map-edit（变异源摘要 sha256 前8=16eec202），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「ProjectMap 绘制与图层命令 画瓦按稳定 layer.id 写入；invert 还原，源 state 不动」，断言首行「expected null to be 5 // Object.is equality（稳定 id 写入被绕过）」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=5，selfTest 8 例全过）cases 表含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -3880,6 +4424,30 @@
           "priorEntrySha256": "88440149683cba92a7a2f7f08c901c836561cf95cd0b0760f3067ebe97a48012",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 19,
+            "entryCanonicalSha256": "7e9b8176d698c829098297193dfc4c54fa61adf5c966a5a8937527e276f1de10"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -3922,14 +4490,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -3945,15 +4505,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/19"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c5-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "da63d6ac47a33237b40ee726de4bfc8942354173200e39cf8e322e75cf6ac692",
+        "contentSha256": "5f4b0073a268bd5ef94fdbeaa57b7b95d4a6782d30016e30d20bff0deed9a9ed",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c6-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-commands-wave2 单变异击杀回执：隔离 worktree type-pal-cursor-commands-wave2 内对 tileset-commands.ts 注入变异 c6-tileset-or-c7-sprite（变异源摘要 sha256 前8=1d43a0b7），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「A7-3T 瓦片集命令事务 导入拒绝二进制长度不符与其它 AssetId 的路径碰撞」，断言首行「expected [Function] to throw an error」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=5，selfTest 8 例全过）cases 表含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -4080,6 +4658,30 @@
           "priorEntrySha256": "1fa085900252ccc4894b15c7658585cec3e07a6033b0057905dc1110660d1e9a",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 20,
+            "entryCanonicalSha256": "72b6555b74f50cc6677a7aeb35bf5bbb2db16c6434d56e5541c5c224ab07a491"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -4122,14 +4724,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -4145,15 +4739,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/20"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c6-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "fc7e8590df9115d1ccd2e0f4639bc594d9690e8931ec974370652edd972c8dc8",
+        "contentSha256": "cb01a2314ba70f2d1a0cd3cc315545474fb4faa8ca8d51bcbe566aa7753a4410",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c8-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-commands-wave2 单变异击杀回执：隔离 worktree type-pal-cursor-commands-wave2 内对 actor-commands.ts 注入变异 c8-actor-in-use（变异源摘要 sha256 前8=41bf9d85），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「人物 CRUD 与解除关联 coveredBy 自引用与 levelUp 伴随边随人物删除，外部 coveredBy 仍阻断」，断言首行「expected function to throw an error, but it didn't（外部引用守卫失效）」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=5，selfTest 8 例全过）cases 表含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -4280,6 +4892,30 @@
           "priorEntrySha256": "fc8728752cc23a1dabb90e5169b7fa9ee77cbb65379d6570b3232b0ae27fc2fa",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 21,
+            "entryCanonicalSha256": "86c7bce2564156b0804c4ff0ad01c1c7174c8e6ac96bbc36ba2ead4e014aec34"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -4322,14 +4958,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -4345,15 +4973,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/21"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/c8-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "a386e3a823d335c5ad25a13d44ec034f7b012afa29b69bd5b2b6174246016df2",
+        "contentSha256": "32c79f9f12ea6859a8c6ca6825ae2d983c4a18786b0c425a63d17bbbf7bc541a",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/evidence.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-commands-wave2 模块变异批总回执：count=5，四 all* 布尔全真；judge 自测 8 例全按预期；cases c2/c3/c5/c6/c8（entity 删除 fail-loud、scene 引用落点、map 稳定 layer.id、tileset 导入碰撞、actor 外部引用阻断）与 5 份单例一致，其中 c6 与 r3/c3 共享同一 tileset-commands.ts 变异字节摘要。recorded historical fact（2026-09 wave2），not current execution。",
@@ -4471,6 +5117,30 @@
           "priorEntrySha256": "6c633a071f2fb9fe0efad24e320cc37c7e5e0b3847a3a36ddb1338a1f3e17b8d",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 22,
+            "entryCanonicalSha256": "cb89a11533486e62010eabff9bd8cc1fd200d0b27b938cde036c12364acb6851"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -4513,14 +5183,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -4536,7 +5198,25 @@
         "nativePointers": ["/kind"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/22"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/evidence.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "38f7b85553685dced7837039f326bd190aff6942be98762b4f0e7fec1f617f34",
+        "contentSha256": "9ee0242a0cb7623ad36d03ba69d9bf1314a60e95ceec881c5f4a828840fab165",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-commands-wave2/receipt.md",
@@ -5485,11 +6165,11 @@
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/evidence.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-map-logic-r2 模块变异批总回执：count=6，四 all* 布尔全真；judge 自测 17 例（在 15 例基础上再加 assertion-then-indented-typeerror/assertion-then-tab-error）全按预期；cases m1-m6（stamp-draft 越界/map-selection 已删层/map-transform 越界空 patch/stamp-group 碰撞/stamp-placement 三通道/stamp-ownership 属主）与 6 份单例一致。recorded historical fact（2026-09-27 r2 批），not current execution。",
@@ -5603,6 +6283,30 @@
           "priorEntrySha256": "75142710a2a91ba1a9c050dfed05421e7f845ab0707f2fc6aac0d865f3b23abb",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 28,
+            "entryCanonicalSha256": "dabc0fd84aa5ad0f6af76260191713e3a0bdc603c52caf719ab725880005e2bb"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -5645,14 +6349,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -5668,15 +6364,33 @@
         "nativePointers": ["/kind"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/28"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/evidence.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "532a9be6a699aea45a5e80e919e376bfd468473840bf755b746bd20760242273",
+        "contentSha256": "29ed0f51b641813d9a0e0d237ea0e485d5b5fd183abf9e034542263e5625379a",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m1-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-map-logic-r2 单变异击杀回执：隔离 worktree type-pal-cursor-map-logic-r2 内对 stamp-draft.ts 注入变异 m1-draft-move-oob（变异源摘要 sha256 前8=6f2c03c4），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「M1 stamp-draft 剩余合同 moveStampDraftSelection：空点同引用；占用目标拒绝；两点重叠平移保双方值」，断言首行「expected [Function] to throw error including '移动目标超出组合边界。' but got '移动目标在当前视觉层已有成员，请先清理目标位置。'」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=6，selfTest 17 例含 assertion-then-tab-error/indented-typeerror 全过）cases 表含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -5802,6 +6516,30 @@
           "priorEntrySha256": "9d41bd859b742e431a3d7241f2744c25e677628abf2c309444d3ebd0352bfa24",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 29,
+            "entryCanonicalSha256": "ac0aa4f612213e82f7b7287486f8a31eeb4f8338d1a5f77db6bc9fc876426956"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -5844,14 +6582,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -5867,15 +6597,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/29"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m1-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "114f62dcf207cb20327a8fc50dc2c812de35a35ea9d583a663c6e4944deaec1e",
+        "contentSha256": "f83cd4bb3ab323486f845912d4efdab44a4b70774cdd7ab3e14e1b438ba0cb20",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m2-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-map-logic-r2 单变异击杀回执：隔离 worktree type-pal-cursor-map-logic-r2 内对 map-selection.ts 注入变异 m2-clip-hidden-layer（变异源摘要 sha256 前8=65644e11），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「M2 map-selection 剩余合同 clip-map 精确保留现存 placementId，并丢掉已删层 hidden/locked」，断言首行「expected [ 'gone' ] to deeply equal []（已删层残留未清）」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=6，selfTest 17 例含 assertion-then-tab-error/indented-typeerror 全过）cases 表含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -6001,6 +6749,30 @@
           "priorEntrySha256": "2d83b9d94bb959990580c39224f56bd0a12f36b296da602467ed1dbf47227ae9",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 30,
+            "entryCanonicalSha256": "75d9f993731dcbfa63d51497bb50ec67be463f7a97f33052f64f0759dd34305c"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -6043,14 +6815,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -6066,15 +6830,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/30"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m2-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "413ee402bab3fdd448003dc2d55b12cd2294b9f173723f8e0686a5b2f55e0c46",
+        "contentSha256": "642d5f5aeff10231f0ee5891cd091cca77ec2952d2db567680ae70ed23c067a9",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m3-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-map-logic-r2 单变异击杀回执：隔离 worktree type-pal-cursor-map-logic-r2 内对 map-transform.ts 注入变异 m3-move-empty-patch（变异源摘要 sha256 前8=142e3dd3），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「M3 map-transform 剩余合同 planMapMove 越界：空 patch、issues 含 out-of-bounds，map/selection 输入不变」，断言首行「expected { visual: [ { …(3) }, …(5) ], …(1) } to deeply equal { visual: [], collision: [] }（越界仍产出 patch）」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=6，selfTest 17 例含 assertion-then-tab-error/indented-typeerror 全过）cases 表含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -6200,6 +6982,30 @@
           "priorEntrySha256": "36c25967d072593f5bfecd606e27294c4bd06883d58dbdad12c1a8b7962b7771",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 31,
+            "entryCanonicalSha256": "ce6770301d290f6fa4c743612cc263af461f7505ba69332c6414a3a2365706f0"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -6242,14 +7048,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -6265,15 +7063,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/31"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m3-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "d5a0cd6d35ea843b8424faca4bd03d57ebb0274afaed437d6bb0653f8160771f",
+        "contentSha256": "353a775a3ceaa12a465960513d41e2b76c7f141027b4d91c306344e2ac8e858e",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m4-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-map-logic-r2 单变异击杀回执：隔离 worktree type-pal-cursor-map-logic-r2 内对 stamp-group-transform.ts 注入变异 m4-group-empty-patch（变异源摘要 sha256 前8=7957b457），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「M4 stamp-group-transform 剩余合同 planStampGroupMove 撞到未选中组：空 patch，tree-a 原位，tree-b 组员与 id 不变」，断言首行「expected { visual: [ { …(3) }, …(11) ], …(1) } to deeply equal { visual: [], collision: [] }」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=6，selfTest 17 例含 assertion-then-tab-error/indented-typeerror 全过）cases 表含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -6399,6 +7215,30 @@
           "priorEntrySha256": "98b260857304668857fbf499105b4109dac8ee723c8145d5fff9ab91e16f5ba5",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 32,
+            "entryCanonicalSha256": "475c68402bd0842cffe376a8f184fc4c821c5bcf4cb5bfbc3e4df57406238731"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -6441,14 +7281,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -6464,15 +7296,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/32"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m4-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "277db558883ed63e63bd8ed16d08cd0650d4a7cb4cd6fed37a1cfa96383c83b0",
+        "contentSha256": "32ce85f42cecc68df201822b4a4a2ebc8dda9a0453bd7874c7e452944da0f4f3",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m5-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-map-logic-r2 单变异击杀回执：隔离 worktree type-pal-cursor-map-logic-r2 内对 stamp-placement.ts 注入变异 m5-actual-height（变异源摘要 sha256 前8=e021499c），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「M5 stamp-placement 剩余合同 合法 draft→canonicalize 后 planStampPlacement 给出完整三通道 patch 并应用」，断言首行「expected { visual: [ …(3+2) ], …(1) } to deeply equal { … }（三通道 patch 内容漂移）」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=6，selfTest 17 例含 assertion-then-tab-error/indented-typeerror 全过）cases 表含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -6598,6 +7448,30 @@
           "priorEntrySha256": "fcb6d809bc8ce93fb4c347ae884b8283d46d9d3431ee9328555e654c177ea41e",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 33,
+            "entryCanonicalSha256": "c41ff47d7f56d8c57ef9d829714504f2e587654c737cb1f0fe1df83a41d4cc21"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -6640,14 +7514,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -6663,15 +7529,33 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/33"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m5-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "6bc66fa9beb31681b0ae2a6a8cbacf14bed0365e663082765afd59f739c25b16",
+        "contentSha256": "c8ed4a8ad9c1445dbf72e9662fb4d76fc2f174c7bf6688027071c5fbf621670b",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m6-mutant.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "cursor-map-logic-r2 单变异击杀回执：隔离 worktree type-pal-cursor-map-logic-r2 内对 stamp-ownership.ts 注入变异 m6-visual-owner（变异源摘要 sha256 前8=0d0a98e8），绿相基线 exit0/greenPassed=1，变异红相 exit1，唯一失败 fullName 锚「M6 stamp-ownership 剩余合同 stampVisualOwner/stampCollisionOwner 在真实放置图上精确返回 id，普通邻格不作返回」，断言首行「属主返回值缺失而期望 'tree-a'（Object.is 全等失败）」。hit/ok/hashUnchanged 均 true：该合同测试确实击杀此变异。同批 evidence.json（count=6，selfTest 17 例含 assertion-then-tab-error/indented-typeerror 全过）cases 表含本键。recorded historical fact（2026-09 波次），not current execution。",
@@ -6797,6 +7681,30 @@
           "priorEntrySha256": "2dc00228e13a70ab74bddf978cadd48ac38f81cee5550bfdbc614029bf8f095f",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 34,
+            "entryCanonicalSha256": "28d18d128e4f20662eef953a8ea795755d167d8e1ead5da9141ae6913b65b11c"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -6839,14 +7747,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -6862,7 +7762,25 @@
         "nativePointers": ["/id"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/34"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/m6-mutant.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "504422ac6c6aada62c2712553371093388ce77db37404f32e7a40f93c988f1d2",
+        "contentSha256": "aa43e2460280d3fca6b5c5a5657104c1494576fe2406e0b1fdb84b55413dc0be",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-map-logic-r2/receipt.md",
@@ -9493,11 +10411,11 @@
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-summary.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
       "coreConclusion": "有限测试整备审计汇总（2026-10-03，policy=few-high-signal-atomic-contracts/no coverage-padding）：静态清点 1701 测试文件/11873 定义，命中 37 组逐字重复体、173 弱匹配候选、458 无可见匹配器、232 双重断言旗、147 never 断言旗、24 ts 抑制、2 conditional skip、36 IO 隔离候选；全量跑审计前 18684 → 审计集 19204（failed/pending/todo 全 0）；负控处置：9 条 ? 历史无效断言类撤回、Kimi 2 条与 Cursor 6 条当前针保留、OPQ 旧反证移出活树不再计信；最新 fast 基线 18795 身份/726 源文件（statements 87.87%/branches 81.14%）。recorded historical fact（2026-10-03），not current execution。",
@@ -9618,6 +10536,30 @@
           "priorEntrySha256": "35e5ad3be4994da7fd3b2dc1fb39ef3e4775e8eb8f643c48e07f01c86e752b40",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "index": 49,
+            "entryCanonicalSha256": "06e94478bae7149f5ee03443d53aec29df7302f143ccd9dc1a8ad00476419e2e"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -9660,14 +10602,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
         "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
@@ -9683,7 +10617,25 @@
         "nativePointers": ["/status"],
         "governance": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json#entries/49"]
       },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored."
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-summary.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "0eb60aca6005a616820973f71b4524759f8b33855f467cc36c4aa0618f079e94",
+        "contentSha256": "6b25f13dbd15ee02e9a3caa4808e714c985dffd67f704ac33556807df069f4c1",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     }
   ],
   "currentCorrection": {

@@ -1,0 +1,2397 @@
+{
+  "schemaVersion": 1,
+  "logicalPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+  "generation": "02268a45f8b71216cfd3259be6d404a129c0c495c1a160b54b2d5b0a3addedec",
+  "key": "part-004",
+  "positions": [92, 93, 94, 95, 96, 97, 98, 99],
+  "entries": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "BCS1 全量反控主账（1039217B/sha a429ba83 核验，r86#92）：全量基线 8773/8773 exit0（packages/reforge 全量 vitest run，无 -t）。6 针全 pass：N1-enemy-heal-disabled 红 8772/8773 exit1 唯一失败 fullName=『BCS-1 敌方回复术：applyEnemySkill healHp 按量回复并钳满血上限，战斗日志留痕』；N2『BCS-2 敌方 HP 阈值门：门判玩家当前血，过门即死、超线截断为无任何效果』；N3『BCS-3 敌方状态术：applyEnemySkill applyStatus 对玩家写入 sleep 回合并留痕』；N4『BCS-4 复活无保底：极端小档复活到 0 依旧倒地（trunc 语义，无 floor 1）』；N5『BCS-5 先杀后逃的战果会计：先死之敌照计战果，逃跑之敌一律不计』；N6『BCS-6 AI 规则敌逃终局：会话 done 精确兑现 enemyFled，零结算零战果』；各针还原绿与 finalReplay 均 8773/8773 exit0；selfTest 11 例全 ok；generatedAt=2026-10-05T15:04:26Z。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json: top-level scalar field \"generatedAt\" (structural anchor)"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "Owner按tsv sha抽核",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json machine artifact",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "a429ba830afb5512fb0237f53765ce81f6fafe04af042d63a6a919f024bc1d6c",
+      "afterSha256": "a429ba830afb5512fb0237f53765ce81f6fafe04af042d63a6a919f024bc1d6c",
+      "publicCallers": ["done卡"],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "563a163559f5867f040089e60859997b955fd151",
+          "sha256": "a429ba830afb5512fb0237f53765ce81f6fafe04af042d63a6a919f024bc1d6c"
+        }
+      ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": [
+          "∀注入: mutant numFailedTests===1 且 numTotalTests===8773 且 唯一失败 fullName===expectedFullName",
+          "restored/finalReplay 8773/8773 exit0",
+          "selfTest 11 例 ok 全真、allPass===true"
+        ]
+      },
+      "dedupe": {
+        "result": "无重复",
+        "against": ["identity.j"]
+      },
+      "revision": {
+        "currentSha": "a429ba830afb5512fb0237f53765ce81f6fafe04af042d63a6a919f024bc1d6c",
+        "implementationSha": "a429ba830afb5512fb0237f53765ce81f6fafe04af042d63a6a919f024bc1d6c",
+        "history": [
+          {
+            "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-artifact",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+        "family": "injection-probe-results",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["generatedAt", "string"],
+            ["nodeVersion", "string"],
+            ["executionSet", "string"],
+            ["selfTest", "object"],
+            ["baseline", "object"],
+            ["injections", "array"],
+            ["finalReplay", "object"],
+            ["allPass", "boolean"],
+            ["ownNewPathsExcluded", "array"],
+            ["tmpTree", "object"]
+          ]
+        },
+        "witnesses": [
+          {
+            "claim": "top-level scalar field \"generatedAt\" (structural anchor)",
+            "pointer": "/generatedAt",
+            "value": "2026-10-05T15:04:26.256Z"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "history": [
+        {
+          "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R86 ops evidence historical artifact governance",
+          "reviewer": "r86_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+          "priorReviewIndex": 92,
+          "priorEntrySha256": "ed3b44c0ad57ade63c81b1cba5222814c542ae7b75381845b3365fc397be9ff9",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+            "index": 92,
+            "entryCanonicalSha256": "9f7f256d0ba614f74014314e5fbb5cf25674448f45228cb77ce02fbdef90d143"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "固定时点；零字节",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+      "candidateSha256": "a429ba830afb5512fb0237f53765ce81f6fafe04af042d63a6a919f024bc1d6c",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "563a163559f5867f040089e60859997b955fd151",
+          "sha256": "a429ba830afb5512fb0237f53765ce81f6fafe04af042d63a6a919f024bc1d6c"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": "单时点",
+      "counterReworkBlocked": [
+        {
+          "id": "R86-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R86-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-05.json\",\"index\":37,\"canonicalSha256\":\"f049103df653f4a00c54e36f3b114df491f01a10e9949ebbf4fa99437b31dc63\"}"
+        ],
+        "priorReadDomainSha256": "bbe579725cdfcbf9ef892032c3e970a4bd813a03daa18e723316ce238ec402e5",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/generatedAt"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json#entries/92"
+        ]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "a429ba830afb5512fb0237f53765ce81f6fafe04af042d63a6a919f024bc1d6c",
+        "contentSha256": "ec4f083d4678dcccff786ead8da0eb54e4eec07da632d74745a7a60b0220044a",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/identity.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "BCS1 定向身份件：2 文件 6 测试（fullNames BCS-1 敌方回复术…BCS-6）+相邻 24 文件 327 行全绿；counts.directedPassed=6/counts.adjacentPassed=327。（C02 返工 2026-10-24：原稿末尾 adjacentPassed=3 为截断错误，按原生 counts.adjacentPassed=327 单字段补正；前句 327 与其余事实不动）",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/identity.json: top-level scalar field \"card\" (structural anchor)"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "Owner抽核",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/identity.json machine artifact",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "7acb22a229a614619df836b065ccd67853936392e78890fef7693608e2e3c7cf",
+      "afterSha256": "7acb22a229a614619df836b065ccd67853936392e78890fef7693608e2e3c7cf",
+      "publicCallers": ["done卡"],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/identity.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "bf0fbaa14806a73ee8500c1738d086045a3fd7f3",
+          "sha256": "7acb22a229a614619df836b065ccd67853936392e78890fef7693608e2e3c7cf"
+        }
+      ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": ["6+327全绿"]
+      },
+      "dedupe": {
+        "result": "定向vs全量分工",
+        "against": ["counterpro"]
+      },
+      "revision": {
+        "currentSha": "7acb22a229a614619df836b065ccd67853936392e78890fef7693608e2e3c7cf",
+        "implementationSha": "7acb22a229a614619df836b065ccd67853936392e78890fef7693608e2e3c7cf",
+        "history": [
+          {
+            "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-artifact",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/identity.json",
+        "family": "suite-fullnames-record",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["card", "string"],
+            ["suite", "string"],
+            ["files", "array"],
+            ["fullNames", "array"],
+            ["adjacent", "object"],
+            ["counts", "object"]
+          ]
+        },
+        "witnesses": [
+          {
+            "claim": "top-level scalar field \"card\" (structural anchor)",
+            "pointer": "/card",
+            "value": "TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "history": [
+        {
+          "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R86 ops evidence historical artifact governance",
+          "reviewer": "r86_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+          "priorReviewIndex": 93,
+          "priorEntrySha256": "ae595cb2243f4e9528b00bdb59c0edbd9b512829a76dc7accc5e57601d2cafbd",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+            "index": 93,
+            "entryCanonicalSha256": "1bac2e62e154276f34c1ae7748fe7e2d54f0794a1307e8ae0c25a37d03b0eb86"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "固定时点；零字节",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+      "candidateSha256": "7acb22a229a614619df836b065ccd67853936392e78890fef7693608e2e3c7cf",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/identity.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "bf0fbaa14806a73ee8500c1738d086045a3fd7f3",
+          "sha256": "7acb22a229a614619df836b065ccd67853936392e78890fef7693608e2e3c7cf"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": "单时点",
+      "counterReworkBlocked": [
+        {
+          "id": "R86-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R86-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-05.json\",\"index\":38,\"canonicalSha256\":\"2653c3d14c71f800fd3db84c99ad96a2cf54d0a0629d19c379d2cadd5e763b26\"}"
+        ],
+        "priorReadDomainSha256": "7c4cba606de05f33efbf092ec7e7d8c0fd5e1d33d036d5d4d836f9bd38a371e9",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/card"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json#entries/93"
+        ]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/identity.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "7acb22a229a614619df836b065ccd67853936392e78890fef7693608e2e3c7cf",
+        "contentSha256": "b5bccbb17e3dcc6e2dc9df829b57bda9471c3c142e61cadffecef2ec0fef5c09",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/counterproof.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "BF 四态反控：baseline 12/12（raw sha e0ab841b…）；12 针 N1-victory-cash-sign（现金 += 翻 →，红 expected 43 to be 57）…N12-flee-always-succeeds 每针",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/counterproof.json: top-level scalar field \"card\" (structural anchor)"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "Owner抽核raw",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/counterproof.json machine artifact",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "132ffb09a32afe6d0e0f8a1fc069ad34f2aa4554eff7ee2f928f3309941f3243",
+      "afterSha256": "132ffb09a32afe6d0e0f8a1fc069ad34f2aa4554eff7ee2f928f3309941f3243",
+      "publicCallers": ["done卡"],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/counterproof.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "2d43e068b511d02440515218887ebbb60a733949",
+          "sha256": "132ffb09a32afe6d0e0f8a1fc069ad34f2aa4554eff7ee2f928f3309941f3243"
+        }
+      ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": ["12针各恰1红"]
+      },
+      "dedupe": {
+        "result": "无重复",
+        "against": ["identity.j"]
+      },
+      "revision": {
+        "currentSha": "132ffb09a32afe6d0e0f8a1fc069ad34f2aa4554eff7ee2f928f3309941f3243",
+        "implementationSha": "132ffb09a32afe6d0e0f8a1fc069ad34f2aa4554eff7ee2f928f3309941f3243",
+        "history": [
+          {
+            "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-artifact",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/counterproof.json",
+        "family": "counterproof-run-bundle",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["card", "string"],
+            ["suite", "string"],
+            ["replay", "string"],
+            ["command", "string"],
+            ["cwd", "string"],
+            ["node", "string"],
+            ["pnpm", "string"],
+            ["tmpUsage", "string"],
+            ["baseline", "object"],
+            ["needles", "array"],
+            ["finalState", "object"],
+            ["cleanTree", "string"]
+          ]
+        },
+        "witnesses": [
+          {
+            "claim": "top-level scalar field \"card\" (structural anchor)",
+            "pointer": "/card",
+            "value": "TEST-GLM-REFORGE-BATTLE-FLOW-1"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "history": [
+        {
+          "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R86 ops evidence historical artifact governance",
+          "reviewer": "r86_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+          "priorReviewIndex": 94,
+          "priorEntrySha256": "bb172208a6ad37ffc8ade812a164494ca59f037487666eedc7f452468df2149c",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+            "index": 94,
+            "entryCanonicalSha256": "84dff51c6c48c5eaf0be5e99c2fe4d2c53606704b641b66374d1f7b86864a767"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "固定时点；零字节",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+      "candidateSha256": "132ffb09a32afe6d0e0f8a1fc069ad34f2aa4554eff7ee2f928f3309941f3243",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/counterproof.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "2d43e068b511d02440515218887ebbb60a733949",
+          "sha256": "132ffb09a32afe6d0e0f8a1fc069ad34f2aa4554eff7ee2f928f3309941f3243"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": "单时点",
+      "counterReworkBlocked": [
+        {
+          "id": "R86-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R86-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-05.json\",\"index\":39,\"canonicalSha256\":\"5148d6d9d01cef86e698fc0776e3aeaf01e7a83b4b1512b2a49cde0685de4d81\"}"
+        ],
+        "priorReadDomainSha256": "ea55b28a73d2e4bedad47a14313a66daf9497e18a2129e783b794370a7aac56b",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/card"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json#entries/94"
+        ]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/counterproof.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "132ffb09a32afe6d0e0f8a1fc069ad34f2aa4554eff7ee2f928f3309941f3243",
+        "contentSha256": "5a0e91d924e9f520b56c614d0fb1c3e083625a32cb00d9d76d164ec83a69fb06",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/identity.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "BF历史身份清单列3个文件及12条BF-01..BF-12 fullNames，覆盖胜败结算、逃跑、收妖、宿主终局与毒回合续战。suite文字声称定向12测全绿，但载体无独立逐断言status或执行进程信息；本轮保留完整身份列表，不从该句重授运行通过。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/identity.json: top-level scalar field \"card\" (structural anchor)"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "Owner抽核",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/identity.json machine artifact",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "c1f3f2e072754c28ffb35f496e4078d9af9e200207a9a3c1a02402336fbb10fc",
+      "afterSha256": "c1f3f2e072754c28ffb35f496e4078d9af9e200207a9a3c1a02402336fbb10fc",
+      "publicCallers": ["done卡"],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/identity.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "27092a2038eaa7af45a09f468dcfd0beea522455",
+          "sha256": "c1f3f2e072754c28ffb35f496e4078d9af9e200207a9a3c1a02402336fbb10fc"
+        }
+      ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": ["12全绿"]
+      },
+      "dedupe": {
+        "result": "行级vs相位分工",
+        "against": ["counterpro"]
+      },
+      "revision": {
+        "currentSha": "c1f3f2e072754c28ffb35f496e4078d9af9e200207a9a3c1a02402336fbb10fc",
+        "implementationSha": "c1f3f2e072754c28ffb35f496e4078d9af9e200207a9a3c1a02402336fbb10fc",
+        "history": [
+          {
+            "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-artifact",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/identity.json",
+        "family": "suite-fullnames-record",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["card", "string"],
+            ["suite", "string"],
+            ["files", "array"],
+            ["fullNames", "array"]
+          ]
+        },
+        "witnesses": [
+          {
+            "claim": "top-level scalar field \"card\" (structural anchor)",
+            "pointer": "/card",
+            "value": "TEST-GLM-REFORGE-BATTLE-FLOW-1"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "history": [
+        {
+          "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R86 ops evidence historical artifact governance",
+          "reviewer": "r86_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+          "priorReviewIndex": 95,
+          "priorEntrySha256": "6ecf1ea5b1f6ea5a83af54d9c366bd6afe2994ed29bc3cc8be1fe95c22ae60e6",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+            "index": 95,
+            "entryCanonicalSha256": "9efb04cbcc2929f3eab6f096789c587336300b242b6fa1a9342af39899207d31"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "固定时点；零字节",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+      "candidateSha256": "c1f3f2e072754c28ffb35f496e4078d9af9e200207a9a3c1a02402336fbb10fc",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/identity.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "27092a2038eaa7af45a09f468dcfd0beea522455",
+          "sha256": "c1f3f2e072754c28ffb35f496e4078d9af9e200207a9a3c1a02402336fbb10fc"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": "单时点",
+      "counterReworkBlocked": [
+        {
+          "id": "R86-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R86-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-05.json\",\"index\":40,\"canonicalSha256\":\"0f4c841f5bfd40c847a417439644055c8ab9b634aed72ef0a448d7a2742964ba\"}"
+        ],
+        "priorReadDomainSha256": "a96f5ffdabf245d296774623eeec353da3bf2b972b3ac286998fbe3b32483dac",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/card"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json#entries/95"
+        ]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/identity.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "c1f3f2e072754c28ffb35f496e4078d9af9e200207a9a3c1a02402336fbb10fc",
+        "contentSha256": "74dd02f16b84c2cad6cb44d236bb79081decd6659d29b1fd4928c4a6fd00c871",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "MHB 全量反控主账（893686B/sha 911cb840 核验，r86#96）：全量基线 8778/8778 exit0。5 针全 pass：MHB-ENTRY-REVEAL 红 8777/8778 exit1 唯一失败 fullName=『MHB-ENTRY-REVEAL-1 脚本切场景进入带 fade 入场契约的目标：入场事务显式 fade 揭幕后才执行 onEnter 正文』；MHB-SCRIPT-ERR『…公开脚本错误回执、runner 槽释放、世界保持原状，修复后同一公开入口重试成功』；MHB-TRIAL-DONE『?battle= 试打开场：跳过入口演出，真实战斗经公开宿主启动，终局试打结束回执且战果入账』；MHB-TRIAL-ERROR『?battle= 非法敌队：试打失败公开回执、零战斗会话、宿主保持可操作』；MHB-SAVE-FAIL『F5 缩略图外部 IO 失败：存档失败公开回执、savedTimes 不消费、写队列不毒化，重试成功得首号』；还原绿与 finalReplay 均 8778/8778 exit0；selfTest 11 例全 ok；generatedAt=2026-10-05T18:04:06Z。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json: top-level scalar field \"generatedAt\" (structural anchor)"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "Owner按tsv sha抽核",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json machine artifact",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "911cb840e7a95dc194c54660977814f41b8131b97e3ebdbbad773afdf777face",
+      "afterSha256": "911cb840e7a95dc194c54660977814f41b8131b97e3ebdbbad773afdf777face",
+      "publicCallers": ["done卡"],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "1d1285fd8d2f8a2b8d3aab0136448cfe4da9d466",
+          "sha256": "911cb840e7a95dc194c54660977814f41b8131b97e3ebdbbad773afdf777face"
+        }
+      ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": [
+          "∀注入: mutant numFailedTests===1 且 numTotalTests===8778 且 唯一失败 fullName===expectedFullName",
+          "restored/finalReplay 8778/8778 exit0",
+          "selfTest 11 例 ok 全真、allPass===true"
+        ]
+      },
+      "dedupe": {
+        "result": "无重复",
+        "against": ["BATTLE-PRE"]
+      },
+      "revision": {
+        "currentSha": "911cb840e7a95dc194c54660977814f41b8131b97e3ebdbbad773afdf777face",
+        "implementationSha": "911cb840e7a95dc194c54660977814f41b8131b97e3ebdbbad773afdf777face",
+        "history": [
+          {
+            "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-artifact",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+        "family": "injection-probe-results",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["generatedAt", "string"],
+            ["nodeVersion", "string"],
+            ["executionSet", "string"],
+            ["selfTest", "object"],
+            ["baseline", "object"],
+            ["injections", "array"],
+            ["finalReplay", "object"],
+            ["allPass", "boolean"],
+            ["ownNewPathsExcluded", "array"],
+            ["tmpTree", "object"]
+          ]
+        },
+        "witnesses": [
+          {
+            "claim": "top-level scalar field \"generatedAt\" (structural anchor)",
+            "pointer": "/generatedAt",
+            "value": "2026-10-05T18:04:06.267Z"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "history": [
+        {
+          "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R86 ops evidence historical artifact governance",
+          "reviewer": "r86_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+          "priorReviewIndex": 96,
+          "priorEntrySha256": "af3aa350b073d13e3817371a920a85784b6473d024c8fadefdc7ebf93dae0cd3",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+            "index": 96,
+            "entryCanonicalSha256": "13897787411a32d8fef706e77bc1a1feab012becba914940b589f00d200ea312"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "固定时点；零字节",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+      "candidateSha256": "911cb840e7a95dc194c54660977814f41b8131b97e3ebdbbad773afdf777face",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "1d1285fd8d2f8a2b8d3aab0136448cfe4da9d466",
+          "sha256": "911cb840e7a95dc194c54660977814f41b8131b97e3ebdbbad773afdf777face"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": "单时点",
+      "counterReworkBlocked": [
+        {
+          "id": "R86-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R86-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-05.json\",\"index\":41,\"canonicalSha256\":\"d37e1269035dd245a970822bf1b523ec42f9cc9b145ec64a5dc7ed0a5d159337\"}"
+        ],
+        "priorReadDomainSha256": "2c8bd59618c2275b96d477aeb08d65a4a74fb65eb1b555f9fa8d5c89efe0c8f5",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/generatedAt"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json#entries/96"
+        ]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "911cb840e7a95dc194c54660977814f41b8131b97e3ebdbbad773afdf777face",
+        "contentSha256": "5cab7bf02884a533276db1a839db087eff3bbcb33150243b39752d2e83d6c8dc",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/counterproof.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "MB 反控主账（20432B/sha 82d66154 核验，r86#97）：家族 25 总/24 绿/1 红。绿基线 25/25 exit0（五文件执行集=residual.glm 新增+residual/glm-runtime-resource/glm-n/status-residual）；五针独立新树红相位均 exit1 且 25/24/1、唯一失败 fullName=该针指定合同：K1 CASCADE_DX 27→28『级联两级框几何与金钱条』、K2 now/100→200『级联选中颜色残余臂』、K3 STAT_LINE_H 20→21『属性九行数据驱动布局』、K4 NAME_Y 30→31『中栏名字金黄居中』、K5 !equippedId→false『装备格空槽只留格』（全名见各 red 条目）；还原绿均 25/25、menu-box.ts 回 sha 9c7c7b56；judgeSelfTest 20 例全过；productResidue=clean；5 红树删除取证；createdAt=2026-10-11T06:09:20Z。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/counterproof.json: top-level scalar field \"card\" (structural anchor)"
+      ],
+      "unresolved": [
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "Owner抽核logs pin",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/counterproof.json machine artifact",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "82d66154798e5833dd765baaa900313ee4360896f763cebf3c5452fc31872932",
+      "afterSha256": "82d66154798e5833dd765baaa900313ee4360896f763cebf3c5452fc31872932",
+      "publicCallers": ["done卡"],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/counterproof.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "8d276ae813e71f11c2021e654db8de2bceba9908",
+          "sha256": "82d66154798e5833dd765baaa900313ee4360896f763cebf3c5452fc31872932"
+        }
+      ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": [
+          "每针 red.numFailedTests===1 且 failedFullName 精确=该针指定合同（单针红相位）",
+          "每针 restoredGreen 25/25 exit0 且 baseline 25/25",
+          "judgeSelfTest 20 例全过、productResidue==='clean'"
+        ]
+      },
+      "dedupe": {
+        "result": "主账vs逐相位jso",
+        "against": ["mutation-l"]
+      },
+      "revision": {
+        "currentSha": "82d66154798e5833dd765baaa900313ee4360896f763cebf3c5452fc31872932",
+        "implementationSha": "82d66154798e5833dd765baaa900313ee4360896f763cebf3c5452fc31872932",
+        "history": [
+          {
+            "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-artifact",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/counterproof.json",
+        "family": "counterproof-phase-receipt",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["card", "string"],
+            ["protocol", "string"],
+            ["createdAt", "string"],
+            ["judgeCriteria", "string"],
+            ["sourceFreeze", "string"],
+            ["executionSet", "string"],
+            ["judgeSelfTest", "array"],
+            ["frozenSources", "object"],
+            ["baseline", "object"],
+            ["needles", "array"],
+            ["productResidue", "string"]
+          ]
+        },
+        "witnesses": [
+          {
+            "claim": "top-level scalar field \"card\" (structural anchor)",
+            "pointer": "/card",
+            "value": "TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "history": [
+        {
+          "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R86 ops evidence historical artifact governance",
+          "reviewer": "r86_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+          "priorReviewIndex": 97,
+          "priorEntrySha256": "6d15908663bf41d65c63565dd30933d7eaa966f17ed5d326e73d76a6e6b282c0",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+            "index": 97,
+            "entryCanonicalSha256": "9f0a931130745e33d1209dfc0065afff7a15e665aed4a6610dd56748b9e1c4a5"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "固定时点；零字节",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+      "candidateSha256": "82d66154798e5833dd765baaa900313ee4360896f763cebf3c5452fc31872932",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/counterproof.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "8d276ae813e71f11c2021e654db8de2bceba9908",
+          "sha256": "82d66154798e5833dd765baaa900313ee4360896f763cebf3c5452fc31872932"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": "单时点",
+      "counterReworkBlocked": [
+        {
+          "id": "R86-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R86-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "templateVariant": "historical-archive-record-artifact-native-v1",
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-05.json\",\"index\":42,\"canonicalSha256\":\"43fefc634ec0d208a34804d367b4e757c3a495994005b2460846fca2fb052fa4\"}"
+        ],
+        "priorReadDomainSha256": "c540aeee7d950b400b205f97dac36bb4f712f132f79925453bf7a38ba105a9a8",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/card"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json#entries/97"
+        ]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/counterproof.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "82d66154798e5833dd765baaa900313ee4360896f763cebf3c5452fc31872932",
+        "contentSha256": "02f20dc0f0227eba311dbfde2bbfe3d89c8532fdcadef99a22b1286b678ff399",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "原生载体字段逐项语义核读+固定Git字节复算+已有内容稿/历史边界对照；非关联产品源码全文重审",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "K1 级联层偏移的历史绿相位载体记录 5 个文件、25 条断言全部 passed，failed/pending 均 0、success=true；与红相位对应的“级联两级框几何与金钱条”在此为 passed，其余 24 项身份也逐项对应。五文件断言分布为 5/4/5/3/8，numTotalTestSuites=12 是报告层级计数。该载体可保存还原绿的历史结果形状，但没有新执行、零诊断或全部 MenuBox 质量证明。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json#/numTotalTests",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json#/numPassedTests",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json#/numFailedTests",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json#/numPendingTests",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json#/success",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json#/numTotalTestSuites",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json#/testResults/2/assertionResults/0/fullName",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json#/testResults/2/assertionResults/0/status"
+      ],
+      "unresolved": [
+        "未重建隔离树或复核恢复源码 hash/清理流程，不能新认证 mutation cleanup 或当前产品通过。"
+      ],
+      "nextStep": "由未参与本稿的审者按固定载体与19键内容摘要独立复核；由Owner受控合成与状态裁定，本作者不发布、不自签接受。",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json machine artifact",
+      "owner": "Codex（S50 原生文档内容稿；不代签历史执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex contributor /root/s50_native_review_author",
+          "scope": "native carrier content proposal and declared reused evidence",
+          "contentSha256": "9597b285912aaeb4f1d2c0d1d97280f0e5e38b6dfc23669ff581dc8ef71168b1"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex independent reviewer /root/s50_admission_review",
+          "nonAuthorReviewer": true,
+          "decision": "accept",
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "contentSha256": "9597b285912aaeb4f1d2c0d1d97280f0e5e38b6dfc23669ff581dc8ef71168b1"
+        }
+      ],
+      "sourceSha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b",
+      "afterSha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b",
+      "publicCallers": [
+        "scripts/docs/historical-native-family.mjs#historicalNativeFamilyIssues（当前受控文档合同reader；固定路径准入，不是产品runtime caller）",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md（已读目录/父任务历史导航上下文；仅 D-map 为该 JSON 显式实链，其余不声称直接机器消费）"
+      ],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "e88e8b058288762193f749f97799651d9905c366",
+          "sha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b"
+        }
+      ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": [
+          "25 个保留身份均 passed，five file records 的断言分布 5/4/5/3/8。",
+          "numTotalTestSuites=12 不替代 fileRecords=5；success=true 不推导零 warning/info。",
+          "K1 red/green 对应身份无新增删除，唯一状态差异在级联两级框几何合同。"
+        ]
+      },
+      "dedupe": {
+        "result": "paired-native-identity-compared",
+        "against": [
+          "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json"
+        ],
+        "notes": "仅比较本轮同K1两载体的文件basename/fullName全25身份及状态；不替代产品用例排重或反控验收。"
+      },
+      "revision": {
+        "currentSha": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b",
+        "implementationSha": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b",
+        "history": [
+          {
+            "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-family",
+        "family": "raw-reporter",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
+        "nativeReading": {
+          "family": "raw-reporter",
+          "counts": {
+            "total": 25,
+            "passed": 25,
+            "failed": 0,
+            "pending": 0
+          },
+          "suiteHierarchy": 12,
+          "fileRecords": 5,
+          "success": true,
+          "assertions": [
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.glm-n.test.ts",
+              "fullName": "N03 九宫格退化尺寸与零输入 框尺寸小于边框合计：tileFill 全部早退，仅阴影 + 四角",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.glm-n.test.ts",
+              "fullName": "N03 九宫格退化尺寸与零输入 drawScroll 空 tiles 零绘制；显式 shadow:false 不创建阴影画布",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.glm-n.test.ts",
+              "fullName": "N03 九宫格退化尺寸与零输入 阴影离屏画布缺 2d 上下文：静默跳过阴影且不阻止本体绘制",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.glm-n.test.ts",
+              "fullName": "N03 数字绘制的缺字形臂 部分字形缺失：存在的数字照排、缺失位跳过但右缘推进",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.glm-n.test.ts",
+              "fullName": "N03 MenuBox 无 imageCache 的状态板渲染 extras 缺 imageCache：appearance.portrait 存在也不崩、不发起读取、回落模板立绘",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+              "fullName": "R11 drawSlicedBox 平铺与阴影 中心 tileFill 15 块（3 列 × 5 行）逐块坐标 + 裁剪矩形；四角锚位",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+              "fullName": "R11 drawSlicedBox 平铺与阴影 缺角块（pop 移除 br）：跳过对应 drawImage 不崩",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+              "fullName": "R11 drawSlicedBox 平铺与阴影 默认阴影：离屏画布按框宽高+16 建、source-in 染黑、(x+6,y+6) α0.35 贴回",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+              "fullName": "R11 drawSlicedBox 平铺与阴影 drawScroll 零尺寸（空 tiles）早退：零绘制",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+              "fullName": "当前 MenuBox 级联与面板公开布局残余 级联两级框几何与金钱条：卷轴(0,0)五段带影、金额右对齐(85,14)、框(3+27d,37+23d,61,22+18n)、项字随层偏移",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+              "fullName": "当前 MenuBox 级联与面板公开布局残余 级联选中颜色残余臂：最深层随 now 闪烁并整表回绕、系统面板期最深层转静态、禁用选中显红、未选中米白",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+              "fullName": "当前 MenuBox 级联与面板公开布局残余 属性九行数据驱动布局：行序与 label(8,10+20i)、值右对齐(70,14+20i)、HP·MP 斜杠+蓝max、exp 青max、攻击值走装备加成",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+              "fullName": "当前 MenuBox 级联与面板公开布局残余 中栏名字金黄居中于158、回落立绘按宽居中于(142,50)",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+              "fullName": "当前 MenuBox 级联与面板公开布局残余 装备格2×3网格六格全画(56×56,列距62行距60)、空槽只留格、已装备图标内缩居中、物名0xBE格底居中",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.residual.test.ts",
+              "fullName": "当前菜单九宫格与数字绘制边界 数字右对齐与左对齐各按实际字形宽排，负数钳零且缺失字形零绘制",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.residual.test.ts",
+              "fullName": "当前菜单九宫格与数字绘制边界 单行卷轴按中段数量算自然宽高；宽右角从中段右列向外探出",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.residual.test.ts",
+              "fullName": "当前菜单九宫格与数字绘制边界 确认框固定两卷轴位置，左右选中互斥且第二拍只改变高亮色",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 状态板按 live 等级阈值、可解毒名与装备效果画数值，不显示不可解毒",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 状态页无队员只画底；成员索引越界分别钳到队首与队尾",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 立绘异步加载时先回落默认图；同 AssetId 就绪后替换且不重复读取",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 立绘读取失败被记录为当前 AssetId 的稳定错误，不吞掉后续状态页异常",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 当前外观立绘覆写模板图；非 Error 的读失败也稳定转为带原因的异常",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 毒名过宽另起一行；未知毒与未提供调色板不绘制额外字色",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 装备图标按槽内框等比缩放；目录缺席的已装备 ID 仍留可定位的名称",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-green.Hc3xLJ/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 两级级联把父项留静态高亮，子级选中继续闪烁，禁用项保留红色区分",
+              "status": "passed",
+              "failureMessages": []
+            }
+          ]
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "history": [
+        {
+          "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R86 ops evidence historical artifact governance",
+          "reviewer": "r86_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "action": "new native-document content acceptance; old withdrawn claims remain historical",
+          "sourceRevision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "previousCurrentFields": {
+            "owner": "Codex（文档治理；不代签原执行）",
+            "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+            "truthAnchors": [
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json:1"
+            ],
+            "primarySource": [
+              {
+                "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
+                "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+                "sha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b",
+                "scope": "full JSON UTF-8 artifact bytes"
+              }
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.raw",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.raw",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.green.json",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.green.raw",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.red.json",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.red.raw",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K3-stat-row-pitch.green.json"
+            ],
+            "businessOracle": {
+              "type": "historical-machine-artifact",
+              "assertions": [
+                "original content remains traceable",
+                "historical status remains date-scoped",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "evidence": {
+              "kind": "machine-artifact-envelope",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r86-ops-evidence-artifacts-20261017.json",
+              "sourceSha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b",
+              "candidateSha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b",
+              "afterSha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b",
+              "lineCount": 326,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable JSON artifact",
+                "sourceBytes": 15098,
+                "sourceLines": 326,
+                "sourceFinalNewline": true,
+                "inverseSha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b",
+                "exactRoundTrip": true
+              },
+              "nativeShape": {
+                "format": "json",
+                "topLevelType": "object",
+                "topLevelKeys": [
+                  "numTotalTestSuites",
+                  "numPassedTestSuites",
+                  "numFailedTestSuites",
+                  "numPendingTestSuites",
+                  "numTotalTests",
+                  "numPassedTests",
+                  "numFailedTests",
+                  "numPendingTests",
+                  "numTodoTests",
+                  "snapshot",
+                  "startTime",
+                  "success",
+                  "testResults"
+                ],
+                "entryCount": null,
+                "byteStable": true
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            },
+            "versionScope": {
+              "sourceRevision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+              "date": "2026-10-17",
+              "validity": "historical"
+            },
+            "publicCallers": [
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/README.md",
+              "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json"
+            ],
+            "dedupe": {
+              "result": "reviewed-and-retained",
+              "against": [
+                "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
+                "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/README.md"
+              ]
+            },
+            "unresolved": [
+              "Historical material requires current catalog/contract and fresh receipt before reuse.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "stopLine": "do not promote historical ops evidence historical artifact to current runtime/E2E/visual/coverage acceptance",
+            "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+            "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+            "reviewDepth": "structured-content",
+            "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "docType": "archive-record",
+            "templateId": "archive-record-v1",
+            "template": "docs/phase-governance/templates/archive-record.md",
+            "templateVersion": "1.0.0",
+            "historyOverlay": true,
+            "artifactOnly": true,
+            "documentStatus": "historical",
+            "claimCorrection": {
+              "date": "2026-10-18",
+              "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+              "priorRecordPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+              "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+              "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+              "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+            }
+          },
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "固定载体/Git来源/受保护review位置有任何漂移即停；不得改原生机器字段、补造缺失值、刷新历史SHA洗白或据本稿授runtime/迁移信用。",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": 326,
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+      "candidateSha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
+          "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+          "sha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b",
+          "scope": "full JSON UTF-8 artifact bytes"
+        },
+        {
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "e88e8b058288762193f749f97799651d9905c366",
+          "sha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": {
+        "contract": {
+          "templateId": "test-machine-evidence-v1",
+          "variant": "historical-vitest-native-v1",
+          "templateVersion": "1.0.0"
+        },
+        "carrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+        "scope": "仅上述固定原生载体与既有current review内容稿；准入/晋升由Owner另判；非当前运行结论"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R86-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R86-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "readDomain": {
+        "actual": "逐项阅读 5 文件全部 25 条 fullName/status/failureMessages、报告计数/快照/起始时间，并与 K1 red 对照全部身份与状态。机械解析与 Git 字节验证覆盖完整载体；不把 duration 字段作性能结论。README 仅读交付/历史范围片段。",
+        "reusedFrom": [
+          "S42 completion: /tmp/s42-glm-remaining-683-completion/shard-05.json#/entries/43; shardSHA256=5d9591137acdb649859df253a8bcef8d59b8fef0292079dcd9c3316dc9e2998c; entryCanonicalSHA256=140408a7d61e30d774520649b575d209a855708b7ce60bba1c0426ffc1a274ae; reused as draft/design only, facts rechecked on fixed carrier",
+          "S46 design: /tmp/s46-glm-native-family-design/shard-02.json#/entries/80; shardSHA256=30b00a2ab4b33553d7eb4b0c56867941689d61852a87f8e8cd44fb425724cca9; entryCanonicalSHA256=3e665acd08267dd7a7fb7da5afc2a0d9261ef0b1a20e5a803be0f60c0fe804c3; reused as draft/design only, facts rechecked on fixed carrier",
+          "S49冻结准入与纯投影定义@52cc1bd530998990dbfeff18b347b854a37796ae: scripts/docs/historical-native-family-admission.mjs、historical-native-family-reading.mjs；当前protected review docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json#entries/98 的撤信/历史字段已核读"
+        ],
+        "notRead": [
+          "未逐篇重读关联产品源码、旧测试或历史 raw stdout/stderr；未重新执行历史测试/变异/coverage/E2E。",
+          "旧S42/S46稿仅为线索，不能由其旧全文/consumer声明推定本轮读域。"
+        ]
+      },
+      "fieldRoles": {
+        "identity": [
+          "/startTime",
+          "/testResults/2/name",
+          "/testResults/2/assertionResults/0/fullName"
+        ],
+        "results": [
+          "/numTotalTests",
+          "/numPassedTests",
+          "/numFailedTests",
+          "/numPendingTests",
+          "/success",
+          "/testResults/2/assertionResults/0/status"
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json#entries/98"
+        ]
+      },
+      "historyBoundary": "仅描述载体所记绿态；原任务恢复/击杀流程与后继验收保持原时点边界。 既有2026-10-18撤信、source/sourceGitRevision、claimCorrection与历史记录保持，不以本稿复活原deep-semantic或独立验收声明。",
+      "templateVariant": "historical-vitest-native-v1",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex independent reviewer /root/s50_admission_review",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
+        "afterSha256": "d139e484b9b82e60f24a64043cbd4bf9be8f8f8bca92d034745215c6be9f309b",
+        "contentSha256": "9597b285912aaeb4f1d2c0d1d97280f0e5e38b6dfc23669ff581dc8ef71168b1",
+        "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Exact native variant plus accepted existing-review companion; original native bytes unchanged; no historical execution reauthentication."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "../../testing/_templates/test-machine-evidence.json",
+      "templateCompliance": "template-compliant",
+      "readMethod": "原生载体字段逐项语义核读+固定Git字节复算+已有内容稿/历史边界对照；非关联产品源码全文重审",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "K1 级联层偏移的历史红相位载体记录 25 条断言中 24 passed、1 failed、pending 0、success=false；失败唯一落在 menu-box.residual.glm.test.ts 的“级联两级框几何与金钱条”合同，failureMessages 为 deep-equal AssertionError，栈定位该历史隔离树测试第 241 行。testResults 是 5 个文件记录，numTotalTestSuites=12/numFailedTestSuites=2 是另一层级，不能写成 12 文件或 2 条失败。其余 24 条 passed 也不解除这一次红态；没有据此重授 K1 击杀或当前 MenuBox 通过。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json#/numTotalTests",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json#/numPassedTests",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json#/numFailedTests",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json#/numPendingTests",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json#/success",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json#/numTotalTestSuites",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json#/numFailedTestSuites",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json#/testResults/2/assertionResults/0/fullName",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json#/testResults/2/assertionResults/0/failureMessages/0"
+      ],
+      "unresolved": [
+        "本轮未复跑历史 mutant、未核 mutation 原始源码与 raw 进程输出；deep-equal 签名本身不证明变异具体表达式。"
+      ],
+      "nextStep": "由未参与本稿的审者按固定载体与19键内容摘要独立复核；由Owner受控合成与状态裁定，本作者不发布、不自签接受。",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json machine artifact",
+      "owner": "Codex（S50 原生文档内容稿；不代签历史执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex contributor /root/s50_native_review_author",
+          "scope": "native carrier content proposal and declared reused evidence",
+          "contentSha256": "07f309d99f4b5a1b49ade1bdf31dcc24e4b4a32c0605a7dc63ce8a865c18e0c9"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex independent reviewer /root/s50_admission_review",
+          "nonAuthorReviewer": true,
+          "decision": "accept",
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "contentSha256": "07f309d99f4b5a1b49ade1bdf31dcc24e4b4a32c0605a7dc63ce8a865c18e0c9"
+        }
+      ],
+      "sourceSha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592",
+      "afterSha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592",
+      "publicCallers": [
+        "scripts/docs/historical-native-family.mjs#historicalNativeFamilyIssues（当前受控文档合同reader；固定路径准入，不是产品runtime caller）",
+        "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/README.md（已读目录/父任务历史导航上下文；仅 D-map 为该 JSON 显式实链，其余不声称直接机器消费）"
+      ],
+      "legalInputs": [
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "ed699c58ae8430f7812da5eb3a5b3e0d81003a5d",
+          "sha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592"
+        }
+      ],
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": [
+          "25 = 24 passed + 1 failed，pending=0；唯一 failed 身份与其完整 failureMessages 保留。",
+          "fileRecords=5 与 suiteHierarchy=12 分轴，failedSuites=2 不等于 failedAssertions=1。",
+          "同 K1 green 比较文件 basename+fullName 25 项相等、状态有一项差异；不以相位配对替代击杀流程验收。"
+        ]
+      },
+      "dedupe": {
+        "result": "paired-native-identity-compared",
+        "against": [
+          "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json"
+        ],
+        "notes": "仅比较本轮同K1两载体的文件basename/fullName全25身份及状态；不替代产品用例排重或反控验收。"
+      },
+      "revision": {
+        "currentSha": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592",
+        "implementationSha": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592",
+        "history": [
+          {
+            "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-family",
+        "family": "raw-reporter",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json",
+        "nativeReading": {
+          "family": "raw-reporter",
+          "counts": {
+            "total": 25,
+            "passed": 24,
+            "failed": 1,
+            "pending": 0
+          },
+          "suiteHierarchy": 12,
+          "fileRecords": 5,
+          "success": false,
+          "assertions": [
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.glm-n.test.ts",
+              "fullName": "N03 九宫格退化尺寸与零输入 框尺寸小于边框合计：tileFill 全部早退，仅阴影 + 四角",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.glm-n.test.ts",
+              "fullName": "N03 九宫格退化尺寸与零输入 drawScroll 空 tiles 零绘制；显式 shadow:false 不创建阴影画布",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.glm-n.test.ts",
+              "fullName": "N03 九宫格退化尺寸与零输入 阴影离屏画布缺 2d 上下文：静默跳过阴影且不阻止本体绘制",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.glm-n.test.ts",
+              "fullName": "N03 数字绘制的缺字形臂 部分字形缺失：存在的数字照排、缺失位跳过但右缘推进",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.glm-n.test.ts",
+              "fullName": "N03 MenuBox 无 imageCache 的状态板渲染 extras 缺 imageCache：appearance.portrait 存在也不崩、不发起读取、回落模板立绘",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+              "fullName": "R11 drawSlicedBox 平铺与阴影 中心 tileFill 15 块（3 列 × 5 行）逐块坐标 + 裁剪矩形；四角锚位",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+              "fullName": "R11 drawSlicedBox 平铺与阴影 缺角块（pop 移除 br）：跳过对应 drawImage 不崩",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+              "fullName": "R11 drawSlicedBox 平铺与阴影 默认阴影：离屏画布按框宽高+16 建、source-in 染黑、(x+6,y+6) α0.35 贴回",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.glm-runtime-resource.test.ts",
+              "fullName": "R11 drawSlicedBox 平铺与阴影 drawScroll 零尺寸（空 tiles）早退：零绘制",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+              "fullName": "当前 MenuBox 级联与面板公开布局残余 级联两级框几何与金钱条：卷轴(0,0)五段带影、金额右对齐(85,14)、框(3+27d,37+23d,61,22+18n)、项字随层偏移",
+              "status": "failed",
+              "failureMessages": [
+                "AssertionError: expected [ …(2) ] to deeply equal [ …(2) ]\n    at /private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.residual.glm.test.ts:241:39\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+              "fullName": "当前 MenuBox 级联与面板公开布局残余 级联选中颜色残余臂：最深层随 now 闪烁并整表回绕、系统面板期最深层转静态、禁用选中显红、未选中米白",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+              "fullName": "当前 MenuBox 级联与面板公开布局残余 属性九行数据驱动布局：行序与 label(8,10+20i)、值右对齐(70,14+20i)、HP·MP 斜杠+蓝max、exp 青max、攻击值走装备加成",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+              "fullName": "当前 MenuBox 级联与面板公开布局残余 中栏名字金黄居中于158、回落立绘按宽居中于(142,50)",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+              "fullName": "当前 MenuBox 级联与面板公开布局残余 装备格2×3网格六格全画(56×56,列距62行距60)、空槽只留格、已装备图标内缩居中、物名0xBE格底居中",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.residual.test.ts",
+              "fullName": "当前菜单九宫格与数字绘制边界 数字右对齐与左对齐各按实际字形宽排，负数钳零且缺失字形零绘制",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.residual.test.ts",
+              "fullName": "当前菜单九宫格与数字绘制边界 单行卷轴按中段数量算自然宽高；宽右角从中段右列向外探出",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.residual.test.ts",
+              "fullName": "当前菜单九宫格与数字绘制边界 确认框固定两卷轴位置，左右选中互斥且第二拍只改变高亮色",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 状态板按 live 等级阈值、可解毒名与装备效果画数值，不显示不可解毒",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 状态页无队员只画底；成员索引越界分别钳到队首与队尾",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 立绘异步加载时先回落默认图；同 AssetId 就绪后替换且不重复读取",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 立绘读取失败被记录为当前 AssetId 的稳定错误，不吞掉后续状态页异常",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 当前外观立绘覆写模板图；非 Error 的读失败也稳定转为带原因的异常",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 毒名过宽另起一行；未知毒与未提供调色板不绘制额外字色",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 装备图标按槽内框等比缩放；目录缺席的已装备 ID 仍留可定位的名称",
+              "status": "passed",
+              "failureMessages": []
+            },
+            {
+              "file": "/private/tmp/tp-menubox-residual-K1-cascade-layer-offset-red.00nyUs/packages/reforge/src/menu/menu-box.status-residual.test.ts",
+              "fullName": "当前状态板与级联菜单画面所有权 两级级联把父项留静态高亮，子级选中继续闪烁，禁用项保留红色区分",
+              "status": "passed",
+              "failureMessages": []
+            }
+          ]
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "history": [
+        {
+          "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R86 ops evidence historical artifact governance",
+          "reviewer": "r86_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "action": "new native-document content acceptance; old withdrawn claims remain historical",
+          "sourceRevision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "previousCurrentFields": {
+            "owner": "Codex（文档治理；不代签原执行）",
+            "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+            "truthAnchors": [
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json:1"
+            ],
+            "primarySource": [
+              {
+                "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json",
+                "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+                "sha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592",
+                "scope": "full JSON UTF-8 artifact bytes"
+              }
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.json",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.green.raw",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.raw",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.green.json",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.green.raw",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.red.json",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K2-blink-phase-wrap.red.raw",
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K3-stat-row-pitch.green.json"
+            ],
+            "businessOracle": {
+              "type": "historical-machine-artifact",
+              "assertions": [
+                "original content remains traceable",
+                "historical status remains date-scoped",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "evidence": {
+              "kind": "machine-artifact-envelope",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r86-ops-evidence-artifacts-20261017.json",
+              "sourceSha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592",
+              "candidateSha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592",
+              "afterSha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592",
+              "lineCount": 328,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable JSON artifact",
+                "sourceBytes": 16447,
+                "sourceLines": 328,
+                "sourceFinalNewline": true,
+                "inverseSha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592",
+                "exactRoundTrip": true
+              },
+              "nativeShape": {
+                "format": "json",
+                "topLevelType": "object",
+                "topLevelKeys": [
+                  "numTotalTestSuites",
+                  "numPassedTestSuites",
+                  "numFailedTestSuites",
+                  "numPendingTestSuites",
+                  "numTotalTests",
+                  "numPassedTests",
+                  "numFailedTests",
+                  "numPendingTests",
+                  "numTodoTests",
+                  "snapshot",
+                  "startTime",
+                  "success",
+                  "testResults"
+                ],
+                "entryCount": null,
+                "byteStable": true
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            },
+            "versionScope": {
+              "sourceRevision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+              "date": "2026-10-17",
+              "validity": "historical"
+            },
+            "publicCallers": [
+              "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/README.md",
+              "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json"
+            ],
+            "dedupe": {
+              "result": "reviewed-and-retained",
+              "against": [
+                "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json",
+                "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/README.md"
+              ]
+            },
+            "unresolved": [
+              "Historical material requires current catalog/contract and fresh receipt before reuse.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "stopLine": "do not promote historical ops evidence historical artifact to current runtime/E2E/visual/coverage acceptance",
+            "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+            "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+            "reviewDepth": "structured-content",
+            "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "docType": "archive-record",
+            "templateId": "archive-record-v1",
+            "template": "docs/phase-governance/templates/archive-record.md",
+            "templateVersion": "1.0.0",
+            "historyOverlay": true,
+            "artifactOnly": true,
+            "documentStatus": "historical",
+            "claimCorrection": {
+              "date": "2026-10-18",
+              "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+              "priorRecordPath": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+              "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+              "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+              "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+            }
+          },
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "固定载体/Git来源/受保护review位置有任何漂移即停；不得改原生机器字段、补造缺失值、刷新历史SHA洗白或据本稿授runtime/迁移信用。",
+      "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
+      "reviewedLines": 328,
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json",
+      "documentStatus": "historical",
+      "sourceGitRevision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+      "candidateSha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592",
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json",
+          "revision": "664b35ad204ebb1fad93bb72a8cc29cb88ab412e",
+          "sha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592",
+          "scope": "full JSON UTF-8 artifact bytes"
+        },
+        {
+          "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "ed699c58ae8430f7812da5eb3a5b3e0d81003a5d",
+          "sha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": {
+        "contract": {
+          "templateId": "test-machine-evidence-v1",
+          "variant": "historical-vitest-native-v1",
+          "templateVersion": "1.0.0"
+        },
+        "carrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+        "scope": "仅上述固定原生载体与既有current review内容稿；准入/晋升由Owner另判；非当前运行结论"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R86-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R86-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "readDomain": {
+        "actual": "逐项阅读 5 个文件的 25 条 fullName/status/failureMessages、报告计数/快照/起始时间；完整保留失败字符串与栈。比较 K1 green 的同名断言集合；解析全 JSON 与固定 Git 字节对账。时长字段仅作为原生值保全，不推导性能；README 只读交付/历史范围片段。",
+        "reusedFrom": [
+          "S42 completion: /tmp/s42-glm-remaining-683-completion/shard-05.json#/entries/44; shardSHA256=5d9591137acdb649859df253a8bcef8d59b8fef0292079dcd9c3316dc9e2998c; entryCanonicalSHA256=36f26fdfbbc66db77abf9c1a065e3127abb6a8f0ae0eb0d5af61a8db942e16e6; reused as draft/design only, facts rechecked on fixed carrier",
+          "S46 design: /tmp/s46-glm-native-family-design/shard-02.json#/entries/81; shardSHA256=30b00a2ab4b33553d7eb4b0c56867941689d61852a87f8e8cd44fb425724cca9; entryCanonicalSHA256=f40096ef99decd6cebb79e390f094afe0ade3a246bd1fcf07f7064fe8e5970bf; reused as draft/design only, facts rechecked on fixed carrier",
+          "S49冻结准入与纯投影定义@52cc1bd530998990dbfeff18b347b854a37796ae: scripts/docs/historical-native-family-admission.mjs、historical-native-family-reading.mjs；当前protected review docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json#entries/99 的撤信/历史字段已核读"
+        ],
+        "notRead": [
+          "未逐篇重读关联产品源码、旧测试或历史 raw stdout/stderr；未重新执行历史测试/变异/coverage/E2E。",
+          "旧S42/S46稿仅为线索，不能由其旧全文/consumer声明推定本轮读域。"
+        ]
+      },
+      "fieldRoles": {
+        "identity": [
+          "/startTime",
+          "/testResults/2/name",
+          "/testResults/2/assertionResults/0/fullName"
+        ],
+        "results": [
+          "/numTotalTests",
+          "/numPassedTests",
+          "/numFailedTests",
+          "/numPendingTests",
+          "/success",
+          "/testResults/2/assertionResults/0/failureMessages"
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json#entries/99"
+        ]
+      },
+      "historyBoundary": "保留 red 原始失败，不把配对 green 或 README 历史 5/5 声称覆盖本红相位。 既有2026-10-18撤信、source/sourceGitRevision、claimCorrection与历史记录保持，不以本稿复活原deep-semantic或独立验收声明。",
+      "templateVariant": "historical-vitest-native-v1",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex independent reviewer /root/s50_admission_review",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs/K1-cascade-layer-offset.red.json",
+        "afterSha256": "669a6cfe04675a85682ab6d9157b06c9650d8d9167eaa2cccabe7e67cea21592",
+        "contentSha256": "07f309d99f4b5a1b49ade1bdf31dcc24e4b4a32c0605a7dc63ce8a865c18e0c9",
+        "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Exact native variant plus accepted existing-review companion; original native bytes unchanged; no historical execution reauthentication."
+      }
+    }
+  ]
+}

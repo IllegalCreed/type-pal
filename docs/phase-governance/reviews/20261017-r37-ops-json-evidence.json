@@ -11,7 +11,7 @@
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Parsed complete 2-entry native object; checked corresponding retired rows, original task cleanup section, actual absence and fixed Git recovery bytes. No new runtime or template acceptance. S24: actual native-format model/progress and preservation author pilot; no new full-semantic acceptance.",
       "reviewDepth": "structured-content",
       "coreConclusion": "两条attachment记录分别计划将pal0-dialog.png和pal2-dialog.png从foundation/verify-dialog移到archive/evidence/dialogue；保全回执随后将两图列入九张退役图片，当前源与计划目标均缺失符合原卡追加清理，不能据计划重新恢复截图。",
@@ -105,6 +105,22 @@
           "action": "R37 JSON artifact envelope",
           "reviewer": "r37_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
+            "index": 0,
+            "entryCanonicalSha256": "edc844b544db29be02f505bb5c2e54df64aa7df6dec1a3a17901ca5b70f562d6"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "needs-migration",
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy presentation; original machine fields retained"],
@@ -158,7 +174,25 @@
         "previousRecord": "ccb48be40:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
         "scope": "Codex author qualification of three fixed-source native pilots; GLM evidence acceptance recorded separately at s24NonAuthorEvidenceAcceptance. Existing semantic status and needs-migration unchanged."
       },
-      "templateVariant": "historical-document-relocation-v1"
+      "templateVariant": "historical-document-relocation-v1",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "963e32f0c90cae70cd6d5d974e4be8939b2b2273f4a6c33b1e198a473471b618",
+        "contentSha256": "6cf03b879bc23e4cd1de99041cec1dd19d008ffd8a217e7726cfb7f20cda2399",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
@@ -166,7 +200,7 @@
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Read complete native report and 9 retirement records; verified 9 fixed Git recoveries and task cleanup boundary. Did not rerun historic preservation/consumer/game-mechanics claims. S24: actual native-format model/progress and preservation author pilot; no new full-semantic acceptance.",
       "reviewDepth": "structured-content",
       "coreConclusion": "原时点回执分别声明419计划、261保留/重定位、134任务、89历史、9媒体、24源码消费者及九图退役；这些是不同轴的旧计数，不能相加。九个recoveryRef现可读取且SHA全部匹配；旧failures=[]、机制保全与消费者纯路径替换声明没有在本轮重跑认证。",
@@ -260,6 +294,22 @@
           "action": "R37 JSON artifact envelope",
           "reviewer": "r37_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
+            "index": 1,
+            "entryCanonicalSha256": "7110cdb8f0685d2d12051d0b15deae8491d681617b753fcc319303d4572ed530"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "needs-migration",
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy presentation; original machine fields retained"],
@@ -313,7 +363,25 @@
         "previousRecord": "ccb48be40:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
         "scope": "Codex author qualification of three fixed-source native pilots; GLM evidence acceptance recorded separately at s24NonAuthorEvidenceAcceptance. Existing semantic status and needs-migration unchanged."
       },
-      "templateVariant": "historical-document-preservation-v1"
+      "templateVariant": "historical-document-preservation-v1",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "d56917857204519b22f0ee7bd841b0d7eb863a5e9e73b912d204aed941674ada",
+        "contentSha256": "c5f15842795396d532952b81c35fc7fa0d00203d535ff1618b594fb96e686d5d",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/archive/evidence/DOC-IA-2/relocation.json",
@@ -321,7 +389,7 @@
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Parsed all 419 rows and verified source identity across declared baseline and exact historical path rewrites. Reviewed field roles and exceptions; not a fresh full-semantic acceptance of all 419 historical operations. S24: actual native-format model/progress and preservation author pilot; no new full-semantic acceptance.",
       "reviewDepth": "structured-content",
       "coreConclusion": "419条唯一from/to及9组目录映射描述历史角色/迁移分类，8种kind不能当作搬迁动作。398条当前from直接匹配04fb基点，19条工具路径沿6a653之前路径回查匹配；另有原看板SHA不符、自身任务在baseline缺失两项未证。三件原生文件均与33cc冻结字节相同，不表示旧419条来源全部认证。",
@@ -416,6 +484,22 @@
           "action": "R37 JSON artifact envelope",
           "reviewer": "r37_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
+            "index": 2,
+            "entryCanonicalSha256": "d2e26fd5c4432f3d25e5806cef769440d801eb797907a243fec12af5c656e112"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "needs-migration",
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": ["governed-legacy presentation; original machine fields retained"],
@@ -474,7 +558,25 @@
         "previousRecord": "ccb48be40:docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
         "scope": "Codex author qualification of three fixed-source native pilots; GLM evidence acceptance recorded separately at s24NonAuthorEvidenceAcceptance. Existing semantic status and needs-migration unchanged."
       },
-      "templateVariant": "historical-document-relocation-v1"
+      "templateVariant": "historical-document-relocation-v1",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/archive/evidence/DOC-IA-2/relocation.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "66d48b666250907c4dc244459a2ce8953802445b2f9354361a11a27cb31c6660",
+        "contentSha256": "b989477a7309dfce9f07b68980bae84b9c23c32d5a42743ec1cf6d3b5608ee19",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     }
   ],
   "independentReadOnlyReceipt": {

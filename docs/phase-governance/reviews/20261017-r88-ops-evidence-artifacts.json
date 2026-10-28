@@ -35,34 +35,34 @@
       "gitObject": "8a546d4166d63e0f2907872e8d402bd31b37f76a",
       "sha256": "abc51c664cbf2db32056e5ae6b52764a19772d09bcb10beb2db8c54885d477c7"
     },
-    "logicalSha256": "45c7cf4a2690248570938416fe09f25faa9987af57eb4f1c701bd7a4c0c8a029",
+    "logicalSha256": "4ad2a4b25491c0dc60256d32160e6d150ee013cc3af15f46a4ff4ddb80c64f3c",
     "totalEntries": 99,
     "entryOrderSha256": "0388fe38028542322bd367f00f86f6cf9fb51684725e3751a799b2eba6d4fb8d",
-    "orderedEntriesSha256": "f59389b5d2b5f987bd54eadf43e9f6579801544bdb61210696aa3a4126e08805",
+    "orderedEntriesSha256": "e33e08c2557e1bf0b10d137b9cf857d01ee10c0e80867a27a51b857f826d0f96",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261017-r88-ops-evidence-artifacts/45c7cf4a2690248570938416fe09f25faa9987af57eb4f1c701bd7a4c0c8a029/part-001.json",
+        "path": "shards/20261017-r88-ops-evidence-artifacts/4ad2a4b25491c0dc60256d32160e6d150ee013cc3af15f46a4ff4ddb80c64f3c/part-001.json",
         "total": 22,
-        "sha256": "02f21f6f414013bd8390605a4ccabb44457975a5ea8c75232c0e41cf9bab8aec"
+        "sha256": "70140c062b603e7b3157babe787cef27c55f15b9fcd8f88bc420225d217548e6"
       },
       {
         "key": "part-002",
-        "path": "shards/20261017-r88-ops-evidence-artifacts/45c7cf4a2690248570938416fe09f25faa9987af57eb4f1c701bd7a4c0c8a029/part-002.json",
+        "path": "shards/20261017-r88-ops-evidence-artifacts/4ad2a4b25491c0dc60256d32160e6d150ee013cc3af15f46a4ff4ddb80c64f3c/part-002.json",
         "total": 24,
-        "sha256": "e38004c106ef0c70c026e5be3e66a8a4d5e1f0e9a779707c305a2de2b1937ba7"
+        "sha256": "86dd2d636b53872bbc043e10fc20e696e39a9c18333e72502b96e8aafd4d644d"
       },
       {
         "key": "part-003",
-        "path": "shards/20261017-r88-ops-evidence-artifacts/45c7cf4a2690248570938416fe09f25faa9987af57eb4f1c701bd7a4c0c8a029/part-003.json",
-        "total": 25,
-        "sha256": "5e4d17d16f17e4b33d66cac6a7f75d850a690b12883c984769865e9ad4d07c28"
+        "path": "shards/20261017-r88-ops-evidence-artifacts/4ad2a4b25491c0dc60256d32160e6d150ee013cc3af15f46a4ff4ddb80c64f3c/part-003.json",
+        "total": 24,
+        "sha256": "36459b3545299629e9ee76500066899328b74610f38c4e05e34535906e93dd32"
       },
       {
         "key": "part-004",
-        "path": "shards/20261017-r88-ops-evidence-artifacts/45c7cf4a2690248570938416fe09f25faa9987af57eb4f1c701bd7a4c0c8a029/part-004.json",
-        "total": 28,
-        "sha256": "a9370c6c9e075b14984fc8b419da36f5d8ea3342aec1af3c27934a1e134c5cd3"
+        "path": "shards/20261017-r88-ops-evidence-artifacts/4ad2a4b25491c0dc60256d32160e6d150ee013cc3af15f46a4ff4ddb80c64f3c/part-004.json",
+        "total": 29,
+        "sha256": "f49e14a12ed643dbdcfa54e2adc8081b4db1370da87bb10ec169ba24ae79c44b"
       }
     ]
   }
