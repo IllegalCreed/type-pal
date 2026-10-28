@@ -4,8 +4,12 @@ import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { checkMigratedDocument } from './document-model.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
-import { nativeArtifactReviewIssues } from './historical-native-artifact.mjs'
+import {
+  nativeArtifactReviewIssues,
+  nativeArtifactWitnessMatches,
+} from './historical-native-artifact.mjs'
 import { nativeArtifactBindings } from './historical-native-artifact-admission.mjs'
+import { nativeArtifactCarrierRevision } from './historical-native-artifact-bindings.mjs'
 import {
   nativeArtifactContentSha256,
   nativeArtifactQualificationIssues,
@@ -16,13 +20,22 @@ import {
   validateNativeArtifactChanges,
   writeNativeArtifactCandidate,
 } from './native-artifact-candidate.mjs'
-import { loadReviewRecords } from './review-record-storage.mjs'
+import { loadReviewRecordFromGit } from './review-record-storage.mjs'
 import { biomeFormat } from './review-record-storage-packing.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const readBuffer = (p) => readFileSync(new URL(`../../${p}`, import.meta.url))
-const group = loadReviewRecords({ root })
+// Legitimate future publication cannot mutate this isolated partial-input fixture.
+const group = {
+  records: new Map(
+    [...new Set(nativeArtifactBindings.map((b) => b.reviewRecord))].map((logicalPath) => [
+      logicalPath,
+      loadReviewRecordFromGit({ root, revision: nativeArtifactCarrierRevision, logicalPath })
+        .record,
+    ]),
+  ),
+}
 const templates = parseTerminalJson(readBuffer('docs/phase-governance/templates/registry.json'))
 const cache = new Map()
 const source = (pin) => {
@@ -219,6 +232,51 @@ test('formatting preserves warning-symbol value and is idempotent without weaken
   const bytes = biomeFormat(value, 'fixture.json', { repoRoot: root })
   assert.deepEqual(parseTerminalJson(bytes), value)
   assert(bytes.equals(biomeFormat(parseTerminalJson(bytes), 'fixture.json', { repoRoot: root })))
+})
+
+test('compact witnesses distinguish native counts, keys and message fragments without copying raw subtrees', () => {
+  const native = {
+    phases: [{ id: 'green' }, { id: 'red' }],
+    result: { passed: 3, failed: 1 },
+    message: 'expected ghost-b4,ghost-b4 to be ghost-b4',
+  }
+  for (const witness of [
+    { pointer: '/phases', op: 'array-length', value: 2 },
+    { pointer: '/result', op: 'object-keys', value: ['passed', 'failed'] },
+    { pointer: '/result', op: 'object-key-count', value: 2 },
+    { pointer: '/message', op: 'string-contains', value: 'ghost-b4,ghost-b4' },
+    { pointer: '/result/failed', value: 1 },
+  ])
+    assert(nativeArtifactWitnessMatches(native, witness))
+  assert.equal(
+    nativeArtifactWitnessMatches(native, { pointer: '/phases', op: 'array-length', value: 3 }),
+    false,
+  )
+  assert.equal(
+    nativeArtifactWitnessMatches(native, {
+      pointer: '/message',
+      op: 'string-contains',
+      value: 'all passed',
+    }),
+    false,
+  )
+  assert.throws(
+    () =>
+      nativeArtifactWitnessMatches(native, {
+        pointer: '/result',
+        op: 'hash-only',
+        value: '0'.repeat(64),
+      }),
+    /unsupported/u,
+  )
+  assert.throws(
+    () =>
+      nativeArtifactWitnessMatches(
+        { payload: 'x'.repeat(5000) },
+        { pointer: '/payload', value: 'x'.repeat(5000) },
+      ),
+    /4096/u,
+  )
 })
 
 test('the Owner qualification seam binds exact external content while the public dormant table refuses self-signing', () => {

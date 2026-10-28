@@ -37,6 +37,35 @@ export function nativeArtifactShape(value) {
     : { type: 'object', fields: Object.entries(value).map(([k, v]) => [k, type(v)]) }
 }
 
+/** Compact factual witnesses avoid copying whole native reports merely to prove counts. */
+export function nativeArtifactWitnessMatches(native, witness) {
+  const value = nativeArtifactPointer(native, witness.pointer)
+  if (Buffer.byteLength(JSON.stringify(witness.value)) > 4096)
+    throw new Error('native witness exceeds4096 bytes; cite a specific field/count/substring')
+  switch (witness.op ?? 'equals') {
+    case 'equals':
+      return same(value, witness.value)
+    case 'array-length':
+      return (
+        Array.isArray(value) &&
+        Number.isSafeInteger(witness.value) &&
+        value.length === witness.value
+      )
+    case 'object-keys':
+      return type(value) === 'object' && same(Object.keys(value), witness.value)
+    case 'object-key-count':
+      return (
+        type(value) === 'object' &&
+        Number.isSafeInteger(witness.value) &&
+        Object.keys(value).length === witness.value
+      )
+    case 'string-contains':
+      return typeof value === 'string' && text(witness.value) && value.includes(witness.value)
+    default:
+      throw new Error(`unsupported native witness operation: ${witness.op}`)
+  }
+}
+
 /** Checks a historical explanation. It deliberately does not certify human reading or old execution. */
 export function nativeArtifactReviewIssues(row, binding, native) {
   const issues = []
@@ -113,11 +142,18 @@ export function nativeArtifactReviewIssues(row, binding, native) {
     if (!Array.isArray(e?.witnesses) || e.witnesses.length < binding.requiredWitnesses.length)
       throw new Error('missing source witnesses')
     for (const w of e.witnesses) {
-      if (!text(w.claim) || !same(nativeArtifactPointer(native, w.pointer), w.value))
+      if (!text(w.claim) || !nativeArtifactWitnessMatches(native, w))
         throw new Error(`native claim witness mismatch: ${w.pointer}`)
     }
     for (const required of binding.requiredWitnesses)
-      if (!e.witnesses.some((w) => w.pointer === required.pointer && same(w.value, required.value)))
+      if (
+        !e.witnesses.some(
+          (w) =>
+            w.pointer === required.pointer &&
+            (w.op ?? 'equals') === 'equals' &&
+            same(w.value, required.value),
+        )
+      )
         throw new Error('original claim witness removed')
   } catch (error) {
     issues.push(error.message)
