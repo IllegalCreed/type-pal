@@ -572,3 +572,11 @@ S49/S52已准入的21 raw reporter、1 distilled、2 summary及3 identity数组�
 - 拟分current-review-ledger与current-governance-control，两者均live控制面，不允许绑定一次原生SHA后永远当immutable历史。当前原生字节/逻辑物化/原source pin/语义接受/例行after边必须分轴；不把entries中的content-reviewed视为该ledger自身已完整受审，不借一个control接受给下游恢复信用。
 - 单一现有review位置，禁止self hash与为review无限生成review。结构根、权威清册、派生manifest/shard与控制对象的语义分别定义；写入沿已接受组事务、源快照/锁/staging/readback、DAG/清理退出，不在新合同绕开。
 - Owner已按明确读域补核matrix65条关系声明和17父模板合同；未重读全部下游证据/旧变体，不恢复历史真值。版本/状态词、必填目的/政策/事实权/caller/oracle、历史/撤信保留和行政可变字段仍待当前变动/信用失效规则及真实pilot闭合。当前只冻结HTML设计，control保持draft/contract-pending，不注册正式variant，不减632/1258。
+
+## S61 HTML现有合同的精确扩展与当前接受（2026-10-28）
+
+S59两1.0.0合同及三pilot已获GLM非作者限定接受；本轮只将原15HTML中剩12个固定路径追加准入，不改父模板、变体定义/版本或JSON-only来源reader。carrier c801、原历史revision/OID/SHA和唯一review位置逐篇实取，3静态mockup/12宿主分开，root-only合法；rv2/rv3-rv4缺main.js、phase1归档前根路径和kimi dev-root路径原样留历史边界。
+
+原3pilot十九内容字段精确绑定S59 GLM接受，原pilot停线文字保留为来源时点说明，当前生命周期由本轮显式接受覆盖；其余12复用GLM具体正文、S59已非作者接受的机械规范化规则，由Codex据证裁定。RV1的2522为字符数/2707为UTF-8字节数，生成器相对路径为../../tools，单位/路径勘误留原稿。原S60陈旧清单不倒改，当前实际23855B/a73b648d另固定。不用正则摘要冒充完整parse5读取对象。
+
+接受表按两组精确path/native SHA/内容digest/报告与Owner决定分轴；更改正文自刷digest、借别组报告、残留active claimCorrection均拒。旧撤信逐值入史，不恢复旧执行。正式15路由/registry/现有review的变更由Owner成组试验后写入；不引入sidecar、原生wrapper或重复账本。127控制JSON仍draft；任一全仓必要硬门未过不合main、不推送、不done。

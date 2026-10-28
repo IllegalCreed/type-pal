@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s59-native-contract-pilots
+Branch: codex/docs-s61-html-intake
 Last reviewed: 2026-10-27
 Template: task-card-v1 / 1.0.0
 
@@ -2610,3 +2610,11 @@ S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path�
 S58的142源/5件清单与S57非作者回执已固定核验；111逻辑review的集合/状态说明、16控制结构和15HTML静态用途据证保留。Owner仅补142条来源/真实pointer/字段归属/consumer/排重与下一步，另补matrix关系声明和17父模板合同的实际读域，不重做下游全文。phase2 registry109与catalog105的差额恰为一张Ops任务卡和三HTML，不作漏项或删除；7空账本保留其合法空集合。原包不改、不复制全量源、不建新canonical账本。
 
 实现候选33076986c：两HTML变体1.0.0、3精确owned pilot与8项真实正反测试；公开model拟路由1822/0issue，progress0完整性，移除HTML provider两caller均恰3issue、恢复转绿。修正提前加载parse5导致旧隔离夹具59红，原失败留存；实际解析才加载真实parser，旧测试零改。完整文档工具284/0、lint4620文件0E/W/I；真实check:docs只余strict1258=626审阅+632迁移、交集626，非全门通过。2435 after pin/12 source pin精确；717原生JSON和15HTML零字节变动，registry/routing/语义状态不改，0迁移/runtime信用。行政事务先镜像后真实7写/2旧片退出、9边，后续仅本段/看板终态行政封存。新Owner字段/两声明补读与HTML合同/pilot留非作者按增量复核，不借S57接受代签。原单份gzip追加原件，父子卡rework，不合main、不推送、不done；006验收保持原范围，不交GLM重审。
+
+## S61 S59接收与S60十五HTML统一接入准入（2026-10-28）
+
+- S59 GLM非作者verdict接受8代码/3pilot/142机械归一/保全；仅接收其实际有据范围。报告把首红225/59误称测试分类并归006过期，与冻结原件不符，该旁述撤出接受依据，旧原件不改；正确终件为284/0且仅strict1258。006技术/视觉既有接受不重开。
+- S60剩12原生HTML结构/来源/正文事实据证复用。旧manifest记录27929B/34046c6e，而实际终稿23855B/a73b648d、12条；Owner冻结实际字节绑定，旧manifest不刷新、不称旧清单已过。作者用正则概要标成static-html-reading的形状及缺失完整字段由Owner按S59已接受算法补齐；不重新治理全包。RV1把2522字符写成B，实际2707UTF-8B，作明确单位勘误；不动原文/脚本。
+- Codex build allowed从cf71157cf隔离后继统一处理15HTML，复用已冻结两1.0.0合同/已验字节provider、保护loader/组事务。原3pilot绑定S59 GLM精确接受，其余12绑定Codex非作者证据裁定（原稿GLM，Owner机械应用既已非作者接受的字段归一；有限计量勘误另标来源，不倒签GLM）。仅扩12精确来源准入及两组接受数据、不扩父模板/格式/通配路由；新增当前接入正反回归，旧测试不改。
+- 复用现有唯一review位置，原生15及717JSON/source pins/撤信保全；旧artifactOnly/historyOverlay显式纠正，原claimCorrection逐值入史。实际route/registry15投影、矩阵当前边界、父卡/board/索引及after pin级联与单份gzip同步。先owned完整临时树实际model/progress/借签与摘要变更拒绝，再真实接入。源中绝对dev-root、缺main.js、旧归档根路径保持历史未执行边界。
+- 原15含3已content-reviewed但全needs，预计只减15迁移+12审阅=27严格项，不按30预扣；扣减以真实终态门为准。127可变控制JSON合同继续draft；Owner增量候选留后续集中复验，必要硬门全零前不合main、不推送、不标父子卡done，不改产品/旧测试/coverage或门规则。

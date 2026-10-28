@@ -1,3 +1,4 @@
+import { historicalHtmlExpansionAdmissions } from './historical-html-expansion-admission.mjs'
 // Three owned pilots only. Format and content acceptance remain distinct.
 export const historicalHtmlCarrierRevision = 'c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff'
 export const historicalHtmlContracts = Object.freeze({
@@ -63,7 +64,18 @@ export const historicalHtmlPilots = Object.freeze([
   },
 ])
 export const historicalHtmlContentAcceptance = Object.freeze({
-  reviewer: null,
-  reportSha256: null,
-  contentByPath: Object.freeze({}),
+  reviewer: 'GLM',
+  reportSha256: '332beaede073aa9075c9492d3e485c1ea117b1cf0b3459bb117e11610c04f08d',
+  contentByPath: {
+    'docs/phase2/archive/mockups/actor-mode-v2.html':
+      '8cb644cea455be564e7c20cb78fdbc5a8ecb2e119bb57f5d65647ee3d861bb54',
+    'docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html':
+      '14519a2b7c9b527bf28d14605c5fe023d5efd67e6be30a91b90728a4cde15af3',
+    'docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html':
+      '1f1a45badc9ec403645da1f39925eaa2319ae82031ec57ea4b6c76d215b8c69f',
+  },
 })
+export const historicalHtmlAdmissions = Object.freeze([
+  ...historicalHtmlPilots,
+  ...historicalHtmlExpansionAdmissions,
+])

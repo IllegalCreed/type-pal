@@ -316,7 +316,7 @@
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "b5650b150fad2ae8b303d1c1ca95a50a4021f03b",
       "sourceState": "present",
-      "afterSha256": "a7d58b3224a5536b6b9f7f7eef0bce48f7931f4ee77d185f8d2ab781169751b4",
+      "afterSha256": "051a36c87d824f15f9496295317ee74bef6b5a7aa9dafe2993e6d877ddd32090",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -2973,6 +2973,17 @@
             "index": 2,
             "entryCanonicalSha256": "dc13267ddbb057e32339ecc4d9be59d034bdf5e0ba588f21160377ebf2f9830b"
           },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+          "beforeSha256": "a7d58b3224a5536b6b9f7f7eef0bce48f7931f4ee77d185f8d2ab781169751b4",
+          "afterSha256": "051a36c87d824f15f9496295317ee74bef6b5a7aa9dafe2993e6d877ddd32090",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false

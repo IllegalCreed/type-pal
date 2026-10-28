@@ -3887,7 +3887,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
-      "afterSha256": "4c890371f02b07fd3f3376abb9558a06a588b05847065045d6f02aab59c8693c",
+      "afterSha256": "17d833900a96029b8b36f2c9e66cb2dd8ba975a03aead5ff9c6c667a048b7775",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3952,6 +3952,17 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+          "beforeSha256": "4c890371f02b07fd3f3376abb9558a06a588b05847065045d6f02aab59c8693c",
+          "afterSha256": "17d833900a96029b8b36f2c9e66cb2dd8ba975a03aead5ff9c6c667a048b7775",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -4358,7 +4369,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
-      "afterSha256": "9585f3f95367750302add9a4e04ef53d27d12d9b1a9f0149ac1029ad9b0cc0fa",
+      "afterSha256": "61ba77594e7a1587054ee1f8eba978841e9f83c09b69d10dc8d02abd3cd192d2",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -4548,6 +4559,17 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+          "beforeSha256": "9585f3f95367750302add9a4e04ef53d27d12d9b1a9f0149ac1029ad9b0cc0fa",
+          "afterSha256": "61ba77594e7a1587054ee1f8eba978841e9f83c09b69d10dc8d02abd3cd192d2",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

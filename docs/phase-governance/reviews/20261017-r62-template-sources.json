@@ -3414,7 +3414,7 @@
         }
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "e11c4047a3b811d35b745b080393a06102b7772b94d03e2a370501954aee7e13",
+      "afterSha256": "fbea064fe18142021dac1cb50e558a5825d13d05845ff07013f12bd51ea0a801",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3766,6 +3766,17 @@
             "index": 9,
             "entryCanonicalSha256": "0569852cbb3dbf50a6a57388fb147d78d2c1d8af296d68f6aaddf19c4920b26a"
           },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+          "beforeSha256": "e11c4047a3b811d35b745b080393a06102b7772b94d03e2a370501954aee7e13",
+          "afterSha256": "fbea064fe18142021dac1cb50e558a5825d13d05845ff07013f12bd51ea0a801",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false

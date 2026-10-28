@@ -1,11 +1,12 @@
 import { createHash } from 'node:crypto'
 import { isDeepStrictEqual } from 'node:util'
 import {
+  historicalHtmlAdmissions,
   historicalHtmlCarrierRevision,
   historicalHtmlContentAcceptance,
   historicalHtmlContracts,
-  historicalHtmlPilots,
 } from './historical-html-admission.mjs'
+import { historicalHtmlExpansionContentAcceptance } from './historical-html-expansion-admission.mjs'
 import { readHistoricalHtml, readHtmlResources } from './historical-html-reading.mjs'
 import { nativeFamilyContentSha256 } from './historical-native-family-qualification.mjs'
 
@@ -40,7 +41,7 @@ export function htmlSourceWitnesses(reading) {
 
 /** Immutable source and static explanation only; no HTML script is ever executed. */
 export function historicalHtmlIssues(doc, template, contract, read, options = {}) {
-  const pilot = historicalHtmlPilots.find((entry) => entry.path === doc.path)
+  const pilot = historicalHtmlAdmissions.find((entry) => entry.path === doc.path)
   if (!pilot && !variants.has(doc.variant)) return undefined
   const definition = pilot && historicalHtmlContracts[pilot.family]
   if (
@@ -173,7 +174,9 @@ export function historicalHtmlIssues(doc, template, contract, read, options = {}
     row.templateCompliance === 'needs-migration' &&
     row.currentIndependentAcceptance === undefined
   if (!partial) {
-    const accepted = historicalHtmlContentAcceptance
+    const accepted = Object.hasOwn(historicalHtmlContentAcceptance.contentByPath, doc.path)
+      ? historicalHtmlContentAcceptance
+      : historicalHtmlExpansionContentAcceptance
     const contentSha256 = accepted.contentByPath[doc.path]
     if (
       !/^[a-f\d]{64}$/u.test(contentSha256 ?? '') ||
@@ -190,7 +193,7 @@ export function historicalHtmlIssues(doc, template, contract, read, options = {}
         reportSha256: accepted.reportSha256,
         ownerDecision: {
           actor: 'Codex',
-          task: 'DOCS-FULL-TEMPLATE-1/S59',
+          task: accepted.task ?? 'DOCS-FULL-TEMPLATE-1/S59',
           currentBodyReview: true,
           currentTemplateMigration: true,
           oldClaimRestored: false,
@@ -198,7 +201,8 @@ export function historicalHtmlIssues(doc, template, contract, read, options = {}
         },
       }) ||
       row.contentReviewStatus !== 'content-reviewed' ||
-      row.templateCompliance !== 'template-compliant'
+      row.templateCompliance !== 'template-compliant' ||
+      row.claimCorrection !== undefined
     )
       issues.push('HTML native promotion requires its exact external content acceptance')
   }

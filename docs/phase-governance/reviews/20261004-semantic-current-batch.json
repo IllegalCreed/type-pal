@@ -433,7 +433,7 @@
         "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "ca4a4c04271ac99f6906c4cee7a88e50541ad822cd3a601429e68da51cb30fae",
+      "afterSha256": "5743155b9ab23d47d32c5cc3d8ca2bf83d8545f2b3a185a10d2fa9b2e75d7882",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -1699,6 +1699,17 @@
             "index": 1,
             "entryCanonicalSha256": "f94e9eac42a871492b684a823ed4cb09c3874c9f02c51165142dc117c89a3fdd"
           },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+          "beforeSha256": "ca4a4c04271ac99f6906c4cee7a88e50541ad822cd3a601429e68da51cb30fae",
+          "afterSha256": "5743155b9ab23d47d32c5cc3d8ca2bf83d8545f2b3a185a10d2fa9b2e75d7882",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false

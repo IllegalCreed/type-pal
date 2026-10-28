@@ -5,7 +5,7 @@ import { checkDocumentModel } from './document-model.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
 import { readGitHtmlSnapshot } from './git-html-snapshot.mjs'
-import { historicalHtmlPilots } from './historical-html-admission.mjs'
+import { historicalHtmlAdmissions } from './historical-html-admission.mjs'
 import { nativeFamilyAdmissions } from './historical-native-family-admission.mjs'
 import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
@@ -23,7 +23,7 @@ const read = (path) => {
 }
 const config = JSON.parse(read('docs/phase-governance/routing.json'))
 const registry = JSON.parse(read('docs/phase-governance/templates/registry.json'))
-const pilotReviews = [...nativeFamilyAdmissions, ...historicalHtmlPilots]
+const pilotReviews = [...nativeFamilyAdmissions, ...historicalHtmlAdmissions]
   .filter((pilot) => config.migratedDocuments.some((doc) => doc.path === pilot.path))
   .map((pilot) => pilot.reviewRecord)
 // C04: protected review reader — materializes flat or sharded reviews through the safe loader

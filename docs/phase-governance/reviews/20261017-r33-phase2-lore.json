@@ -684,26 +684,22 @@
     {
       "path": "docs/phase2/archive/mockups/actor-mode-v1.html",
       "contentReviewStatus": "content-reviewed",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "full HTML bytes and artifact envelope",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "actor-mode-v1.html：这是 archive-record，当前文档状态为 historical。全文 267 行、0 个标题；摘要/首段为「<!doctype html>」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": ["docs/phase2/archive/mockups/actor-mode-v1.html:1"],
-      "unresolved": [
-        "正文信号 260:<span class=\"warn\">\u26a0 8 问题</span>",
-        "正文信号 10:    --warn: #e2b340; --err: #e05b5b; --ok: #58b37a;",
-        "正文信号 33:  .valbar .warn { color: var(--warn); } .valbar .msg { color: var(--dim); font-family: var(--mono); font-size: 11px; }",
-        "正文信号 260:    <span class=\"warn\">\u26a0 8 问题</span>",
-        "Native-format template/consumer contract pending; artifactOnly does not establish completed migration."
+      "templateCompliance": "template-compliant",
+      "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
+      "reviewDepth": "source-specific-evidence-review",
+      "coreConclusion": "静态\"角色模式\" mockup v1（17110B）：零 script/零 canvas/零外部引用/零 id，纯 CSS+DOM 草案（topbar/rail/actors 等约 68 类、11 button）。复用 S51/S58：与 v2 同构的纯静态设计稿，无可执行行为；README 标为草案非生产合同。",
+      "truthAnchors": [
+        "docs/phase2/archive/mockups/actor-mode-v1.html (fixed source HTML, not a current execution)"
       ],
-      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "unresolved": [],
+      "nextStep": "Keep historical missing-build/root-path boundaries. Recheck affected claims if HTML, source, dependencies, consumer or contract changes.",
       "phase": "phase2",
       "module": "archive",
       "capability": "phase2-archive-mockups-actor-mode-v1",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM (HTML source explanation); Codex (accepted S59 mechanical projection)",
       "provenance": [
         "source-document",
         "full-text-structured-review",
@@ -716,21 +712,27 @@
       ],
       "sourceSha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f",
       "afterSha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f",
-      "publicCallers": ["docs navigation / repository reference"],
+      "publicCallers": ["docs/phase2/archive/mockups/README.md"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/mockups/actor-mode-v1.html"
+        {
+          "kind": "fixed-html-source",
+          "path": "docs/phase2/archive/mockups/actor-mode-v1.html",
+          "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "gitObject": "120a0d32a0074992d28878f6acba730d57712589",
+          "sha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f"
+        }
       ],
       "businessOracle": {
-        "type": "html-artifact-envelope",
+        "type": "historical-html-document",
+        "currentExecution": false,
         "assertions": [
-          "original bytes remain hashable",
-          "historical boundary explicit",
-          "no runtime/E2E/visual/coverage credit"
+          "title=编辑器 · 角色模式 mockup v1",
+          "scripts=0:零脚本 mockup",
+          "canvas 不存在；div#root 不存在"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
+        "result": "Existing unique native HTML/review identity retained; no runtime-report substitution or new sidecar.",
         "against": ["docs/phase2/archive/mockups/actor-mode-v1.html"]
       },
       "revision": {
@@ -748,29 +750,43 @@
             "date": "2026-10-17",
             "action": "R33 phase2/lore migration or HTML artifact envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-28",
+            "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+            "action": "static HTML current-document migration only",
+            "afterSha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f"
           }
         ]
       },
       "evidence": {
-        "kind": "html-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r33-phase2-lore-20261017.json",
-        "sourceSha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f",
-        "candidateSha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f",
-        "afterSha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f",
-        "lineCount": 266,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable HTML artifact",
-          "sourceBytes": 17110,
-          "sourceLines": 266,
-          "sourceFinalNewline": true,
-          "inverseSha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f",
-          "exactRoundTrip": true,
-          "trailingWhitespaceEncoding": {
-            "space": "␠",
-            "tab": "⇥"
+        "kind": "historical-html-native",
+        "metadataLocation": "existing-current-review",
+        "htmlReading": {
+          "format": "static-html-reading/1",
+          "title": "编辑器 · 角色模式 mockup v1",
+          "titleSource": "编辑器 · 角色模式 mockup v1",
+          "ids": [],
+          "canvases": [],
+          "scripts": [],
+          "references": [],
+          "parseErrors": []
+        },
+        "resourceReading": [],
+        "nativeWitnesses": [
+          {
+            "selector": "title",
+            "quote": "编辑器 · 角色模式 mockup v1",
+            "representation": "source-substring"
           }
-        }
+        ],
+        "callerBoundary": {
+          "activeExecutionVerified": false,
+          "scope": "Existing archived source-navigation reference only. Neighboring host imports/comments describe intended wiring and do not certify execution."
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -784,23 +800,37 @@
           "action": "R33 readonly proposal accepted then migration/envelope",
           "reviewer": "r33_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "action": "accept-current-static-HTML-document; source and historical execution remain separate",
+          "priorRecord": {
+            "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
+            "index": 3,
+            "entryCanonicalSha256": "d71f52e3731310b948f20bbec73d1a892c903e777ebc8d000c601aea792dc102"
+          },
+          "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
+          "oldClaimRestored": false,
+          "runtimeAcceptanceGranted": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "stopLine": "No semantic/template/runtime promotion while current control contract/pilot/independent prerequisites remain unmet. Underlying review states are data, not new independent credit.",
       "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
-      "reviewedLines": "1-266",
+      "reviewedLines": "GLM disclosed original HTML source read; Codex fixed-byte/DOM and source risk-slice evidence review only.",
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
+      "historyOverlay": false,
       "documentStatus": "historical",
       "sourceGitRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
       "candidateSha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f",
       "primarySource": [
         {
           "path": "docs/phase2/archive/mockups/actor-mode-v1.html",
-          "revision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
-          "sha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f",
-          "scope": "full artifact bytes"
+          "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "gitObject": "120a0d32a0074992d28878f6acba730d57712589",
+          "sha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f"
         }
       ],
       "phaseAnchors": {
@@ -809,11 +839,7 @@
         "currentBoundary": "current phase2/lore docs/code/tests own truth"
       },
       "dependencies": "Current phase2/lore canonical docs, code, tests and fresh primary-source review.",
-      "versionScope": {
-        "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
-        "date": "undated",
-        "validity": "historical"
-      },
+      "versionScope": "Static original HTML at fixedc801; historical UI design or browser-host source, not a current Game/SAVE/content checkpoint.",
       "counterReworkBlocked": [
         {
           "id": "R33-1",
@@ -842,31 +868,73 @@
         "scope": "template-completion only; accepted R33/R37 semantic conclusions retained",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+      },
+      "templateVariant": "historical-ui-mockup-native-v1",
+      "artifactOnly": false,
+      "readDomain": {
+        "actual": "GLM reports complete original HTML and selected neighboring source reading (regex extraction); Codex independently validates exact source/Git axes and parse5 DOM/resources, and checks source-specific risk slices. No new browser or downstream full-text review claimed.",
+        "reusedFrom": [
+          {
+            "path": "/tmp/s60-glm-html12-final/entries.ndjson",
+            "sha256": "a73b648d8a1f4d94a3480440c5fb9f2f25bb9b5ed72515ca13cfe30ae8e9a32d",
+            "entryPath": "docs/phase2/archive/mockups/actor-mode-v1.html"
+          },
+          {
+            "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-S59-native-contract-pilots-hcice_cs/owner-normalization.json",
+            "sha256": "0a9c7691e3df0d604cf033ed9cd079e80dd5e865daa04ebb8c2bbbd5ddf16005",
+            "entryPath": "docs/phase2/archive/mockups/actor-mode-v1.html"
+          }
+        ],
+        "notRead": [
+          "No browser/script/visual execution",
+          "Linked historical runtime receipts and full downstream component behavior not reaudited"
+        ]
+      },
+      "fieldRoles": {
+        "representation": "derived-static-html/1",
+        "identity": ["/title"],
+        "results": ["/canvases", "/scripts", "/references"],
+        "governance": ["docs/phase-governance/reviews/20261017-r33-phase2-lore.json#entries/3"]
+      },
+      "historyBoundary": "原生 HTML 保全；不认证 runtime/Canvas/产品功能；旧 S51/S58 结论复用",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/phase2/archive/mockups/actor-mode-v1.html",
+        "afterSha256": "0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f",
+        "contentSha256": "3d638a8ff1c3b784fa07fd2dd5edaa6594801d7c861e3deefca2ba7ac3e73186",
+        "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
       }
     },
     {
       "path": "docs/phase2/archive/mockups/actor-mode-v2.html",
       "contentReviewStatus": "content-reviewed",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "full HTML bytes and artifact envelope",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "actor-mode-v2.html：这是 archive-record，当前文档状态为 historical。全文 292 行、0 个标题；摘要/首段为「<!doctype html>」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": ["docs/phase2/archive/mockups/actor-mode-v2.html:1"],
-      "unresolved": [
-        "正文信号 285:<span class=\"warn\">\u26a0 8 问题</span>",
-        "正文信号 10:    --warn: #e2b340; --err: #e05b5b; --ok: #58b37a;",
-        "正文信号 33:  .valbar .warn { color: var(--warn); } .valbar .msg { color: var(--dim); font-family: var(--mono); font-size: 11px; }",
-        "正文信号 285:    <span class=\"warn\">\u26a0 8 问题</span>",
-        "Native-format template/consumer contract pending; artifactOnly does not establish completed migration."
+      "templateCompliance": "template-compliant",
+      "readMethod": "Source-specific S58 GLM HTML reading reused; Owner bounded source/DOM and contract pilot validation only.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "静态'角色模式' mockup v2（19978B）：与 v1 diff 确认差异仅两处——title 改 v2、样式块新增'特殊动作·命名姿势'posegroup/posecard/uf/portraits/pcard 等 CSS（13 处出现全部在 style 块）；正文 DOM 与 v1 完全相同，新增类未被静态 DOM 使用。零 script 零 canvas。确认 S51 mockup 结论，v2 是样式层预置的迭代稿。",
+      "truthAnchors": [
+        "docs/phase2/archive/mockups/actor-mode-v2.html (fixed original HTML source, not execution)"
       ],
-      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "unresolved": [],
+      "nextStep": "Review the exact native HTML contract/pilot evidence; other15 path expansion and live-control contracts stay separately gated.",
       "phase": "phase2",
       "module": "archive",
       "capability": "phase2-archive-mockups-actor-mode-v2",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM (HTML body) / Codex (contract/static normalization)",
       "provenance": [
         "source-document",
         "full-text-structured-review",
@@ -879,21 +947,26 @@
       ],
       "sourceSha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60",
       "afterSha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60",
-      "publicCallers": ["docs navigation / repository reference"],
+      "publicCallers": ["docs/phase2/archive/mockups/README.md"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/mockups/actor-mode-v2.html"
+        {
+          "kind": "fixed-html-source",
+          "path": "docs/phase2/archive/mockups/actor-mode-v2.html",
+          "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "gitObject": "38182d2e8757b046b987a9fe3ce214e61e8ed3ec",
+          "sha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60"
+        }
       ],
       "businessOracle": {
-        "type": "html-artifact-envelope",
+        "type": "historical-html-document",
+        "currentExecution": false,
         "assertions": [
-          "original bytes remain hashable",
-          "historical boundary explicit",
-          "no runtime/E2E/visual/coverage credit"
+          "title 存在（编辑器 · 角色模式 mockup v2）",
+          "零脚本零 canvas；与 v1 结构同构，新增 CSS 无对应 DOM 节点（结构性事实，非缺陷裁决）"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
+        "result": "Reuse this existing unique HTML carrier/review position; do not duplicate a runtime report or create a sidecar.",
         "against": ["docs/phase2/archive/mockups/actor-mode-v2.html"]
       },
       "revision": {
@@ -911,29 +984,43 @@
             "date": "2026-10-17",
             "action": "R33 phase2/lore migration or HTML artifact envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-28",
+            "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+            "action": "static HTML current-document migration only",
+            "afterSha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60"
           }
         ]
       },
       "evidence": {
-        "kind": "html-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r33-phase2-lore-20261017.json",
-        "sourceSha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60",
-        "candidateSha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60",
-        "afterSha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60",
-        "lineCount": 291,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable HTML artifact",
-          "sourceBytes": 19978,
-          "sourceLines": 291,
-          "sourceFinalNewline": true,
-          "inverseSha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60",
-          "exactRoundTrip": true,
-          "trailingWhitespaceEncoding": {
-            "space": "␠",
-            "tab": "⇥"
+        "kind": "historical-html-native",
+        "metadataLocation": "existing-current-review",
+        "htmlReading": {
+          "format": "static-html-reading/1",
+          "title": "编辑器 · 角色模式 mockup v2",
+          "titleSource": "编辑器 · 角色模式 mockup v2",
+          "ids": [],
+          "canvases": [],
+          "scripts": [],
+          "references": [],
+          "parseErrors": []
+        },
+        "resourceReading": [],
+        "nativeWitnesses": [
+          {
+            "selector": "title",
+            "quote": "编辑器 · 角色模式 mockup v2",
+            "representation": "source-substring"
           }
-        }
+        ],
+        "callerBoundary": {
+          "activeExecutionVerified": false,
+          "scope": "Existing neighboring navigation/configuration files are historical source references only; existence does not authenticate execution."
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -947,23 +1034,37 @@
           "action": "R33 readonly proposal accepted then migration/envelope",
           "reviewer": "r33_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "action": "accept-current-static-HTML-document; source and historical execution remain separate",
+          "priorRecord": {
+            "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
+            "index": 4,
+            "entryCanonicalSha256": "05ce7658dbf35ec958d8405f51f1b357a1261cce516e056f59f12c99048ac005"
+          },
+          "reportSha256": "332beaede073aa9075c9492d3e485c1ea117b1cf0b3459bb117e11610c04f08d",
+          "oldClaimRestored": false,
+          "runtimeAcceptanceGranted": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "stopLine": "Pilot metadata is partial/needs and cannot authorize migration/runtime/visual credit. Independent contract and concrete content acceptance required before exact path admission/promotion.",
       "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
-      "reviewedLines": "1-291",
+      "reviewedLines": "GLM reports whole source HTML; Owner selected risk source and mechanical DOM/source/dependency checks, not full downstream host execution.",
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
+      "historyOverlay": false,
       "documentStatus": "historical",
       "sourceGitRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
       "candidateSha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60",
       "primarySource": [
         {
           "path": "docs/phase2/archive/mockups/actor-mode-v2.html",
-          "revision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
-          "sha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60",
-          "scope": "full artifact bytes"
+          "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "gitObject": "38182d2e8757b046b987a9fe3ce214e61e8ed3ec",
+          "sha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60"
         }
       ],
       "phaseAnchors": {
@@ -972,11 +1073,7 @@
         "currentBoundary": "current phase2/lore docs/code/tests own truth"
       },
       "dependencies": "Current phase2/lore canonical docs, code, tests and fresh primary-source review.",
-      "versionScope": {
-        "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
-        "date": "undated",
-        "validity": "historical"
-      },
+      "versionScope": "Static HTML at fixedc801f5fd source; historical UI/host source, not a Game/SAVE/content-version checkpoint.",
       "counterReworkBlocked": [
         {
           "id": "R33-1",
@@ -1005,31 +1102,73 @@
         "scope": "template-completion only; accepted R33/R37 semantic conclusions retained",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+      },
+      "templateVariant": "historical-ui-mockup-native-v1",
+      "artifactOnly": false,
+      "readDomain": {
+        "actual": "GLM reports complete HTML source reading; Codex independently checks fixed source bytes/static DOM/title/dependencies and selected source risk claims, not a second full-text/read-or-runtime claim.",
+        "reusedFrom": [
+          {
+            "path": "/tmp/s58-glm-controls-html142/shard-01.json",
+            "sha256": "52bfa3b0cfc7703f8f4ffa6a0564f71019f1d3559009cdfeb0ef0490b3b66b27",
+            "entryPath": "docs/phase2/archive/mockups/actor-mode-v2.html"
+          }
+        ],
+        "notRead": [
+          "No browser/script/visual execution",
+          "Referenced TypeScript host behavior is not revalidated as working by static HTML inspection"
+        ]
+      },
+      "fieldRoles": {
+        "representation": "derived-static-html/1",
+        "identity": ["/title"],
+        "results": ["/canvases", "/scripts", "/references"],
+        "governance": ["docs/phase-governance/reviews/20261017-r33-phase2-lore.json#entries/4"]
+      },
+      "historyBoundary": "原生HTML保全，不认证runtime/Canvas/产品；未使用样式是迭代痕迹事实，不由本读判定取舍。",
+      "publicationBoundary": {
+        "originalPilotTextIsHistorical": true,
+        "currentAuthority": "currentIndependentAcceptance",
+        "scope": "The S59 partial/needs stopLine/nextStep text records the admitted pilot origin. Actual current lifecycle is the exact currentIndependentAcceptance plus Owner decision; runtime remains unaccepted."
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/phase2/archive/mockups/actor-mode-v2.html",
+        "afterSha256": "688008dcc0c1db9d478a15f375ce60bbbf139ed8910e0667aa78dc7de367ba60",
+        "contentSha256": "8cb644cea455be564e7c20cb78fdbc5a8ecb2e119bb57f5d65647ee3d861bb54",
+        "reportSha256": "332beaede073aa9075c9492d3e485c1ea117b1cf0b3459bb117e11610c04f08d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S59",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
       }
     },
     {
       "path": "docs/phase2/archive/mockups/place-mode.html",
       "contentReviewStatus": "content-reviewed",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "full HTML bytes and artifact envelope",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "place-mode.html：这是 archive-record，当前文档状态为 historical。全文 255 行、0 个标题；摘要/首段为「<!doctype html>」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": ["docs/phase2/archive/mockups/place-mode.html:1"],
-      "unresolved": [
-        "正文信号 247:<span class=\"pill warn\">\u26a0 2 警告</span>",
-        "正文信号 10:    --warn: #e2b340; --err: #e05b5b; --ok: #58b37a;",
-        "正文信号 137:  .valbar .warn { color: var(--warn); }",
-        "正文信号 247:    <span class=\"pill warn\">\u26a0 2 警告</span>",
-        "Native-format template/consumer contract pending; artifactOnly does not establish completed migration."
+      "templateCompliance": "template-compliant",
+      "readMethod": "Reuse actual disclosed S58 scope. Owner adds strict fixed-Git parsing, exact source pointers and field roles; no extra whole downstream document or runtime review claimed.",
+      "reviewDepth": "source-specific-evidence-review",
+      "coreConclusion": "静态\"布置模式\" mockup（14856B）：零 script/零 canvas/零外部引用/零 id；outliner/tree/layers 布局草案（约 61 类、7 button）。title 自述 v3 而文件名无版本号。复用 S51：纯静态设计稿，无可执行行为，非生产合同。",
+      "truthAnchors": [
+        "docs/phase2/archive/mockups/place-mode.html (fixed source HTML, not a current execution)"
       ],
-      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "unresolved": [],
+      "nextStep": "Keep historical missing-build/root-path boundaries. Recheck affected claims if HTML, source, dependencies, consumer or contract changes.",
       "phase": "phase2",
       "module": "archive",
       "capability": "phase2-archive-mockups-place-mode",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM (HTML source explanation); Codex (accepted S59 mechanical projection)",
       "provenance": [
         "source-document",
         "full-text-structured-review",
@@ -1042,21 +1181,27 @@
       ],
       "sourceSha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d",
       "afterSha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d",
-      "publicCallers": ["docs navigation / repository reference"],
+      "publicCallers": ["docs/phase2/archive/mockups/README.md"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/mockups/place-mode.html"
+        {
+          "kind": "fixed-html-source",
+          "path": "docs/phase2/archive/mockups/place-mode.html",
+          "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "gitObject": "f176cc3fdfe30b8eb3d01d929262f3ced186b4ee",
+          "sha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d"
+        }
       ],
       "businessOracle": {
-        "type": "html-artifact-envelope",
+        "type": "historical-html-document",
+        "currentExecution": false,
         "assertions": [
-          "original bytes remain hashable",
-          "historical boundary explicit",
-          "no runtime/E2E/visual/coverage credit"
+          "title=编辑器 · 布置模式 mockup v3",
+          "scripts=0:零脚本 mockup",
+          "canvas 不存在；div#root 不存在"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
+        "result": "Existing unique native HTML/review identity retained; no runtime-report substitution or new sidecar.",
         "against": ["docs/phase2/archive/mockups/place-mode.html"]
       },
       "revision": {
@@ -1074,29 +1219,43 @@
             "date": "2026-10-17",
             "action": "R33 phase2/lore migration or HTML artifact envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-28",
+            "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+            "action": "static HTML current-document migration only",
+            "afterSha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d"
           }
         ]
       },
       "evidence": {
-        "kind": "html-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r33-phase2-lore-20261017.json",
-        "sourceSha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d",
-        "candidateSha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d",
-        "afterSha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d",
-        "lineCount": 254,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable HTML artifact",
-          "sourceBytes": 14856,
-          "sourceLines": 254,
-          "sourceFinalNewline": true,
-          "inverseSha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d",
-          "exactRoundTrip": true,
-          "trailingWhitespaceEncoding": {
-            "space": "␠",
-            "tab": "⇥"
+        "kind": "historical-html-native",
+        "metadataLocation": "existing-current-review",
+        "htmlReading": {
+          "format": "static-html-reading/1",
+          "title": "编辑器 · 布置模式 mockup v3",
+          "titleSource": "编辑器 · 布置模式 mockup v3",
+          "ids": [],
+          "canvases": [],
+          "scripts": [],
+          "references": [],
+          "parseErrors": []
+        },
+        "resourceReading": [],
+        "nativeWitnesses": [
+          {
+            "selector": "title",
+            "quote": "编辑器 · 布置模式 mockup v3",
+            "representation": "source-substring"
           }
-        }
+        ],
+        "callerBoundary": {
+          "activeExecutionVerified": false,
+          "scope": "Existing archived source-navigation reference only. Neighboring host imports/comments describe intended wiring and do not certify execution."
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -1110,23 +1269,37 @@
           "action": "R33 readonly proposal accepted then migration/envelope",
           "reviewer": "r33_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "action": "accept-current-static-HTML-document; source and historical execution remain separate",
+          "priorRecord": {
+            "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
+            "index": 5,
+            "entryCanonicalSha256": "3e507b288acfd2f4aa08eb1de1592d27e04331e91e5af4301a16194760a28569"
+          },
+          "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
+          "oldClaimRestored": false,
+          "runtimeAcceptanceGranted": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
+      "stopLine": "No semantic/template/runtime promotion while current control contract/pilot/independent prerequisites remain unmet. Underlying review states are data, not new independent credit.",
       "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
-      "reviewedLines": "1-254",
+      "reviewedLines": "GLM disclosed original HTML source read; Codex fixed-byte/DOM and source risk-slice evidence review only.",
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
+      "historyOverlay": false,
       "documentStatus": "historical",
       "sourceGitRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
       "candidateSha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d",
       "primarySource": [
         {
           "path": "docs/phase2/archive/mockups/place-mode.html",
-          "revision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
-          "sha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d",
-          "scope": "full artifact bytes"
+          "revision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "gitObject": "f176cc3fdfe30b8eb3d01d929262f3ced186b4ee",
+          "sha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d"
         }
       ],
       "phaseAnchors": {
@@ -1135,11 +1308,7 @@
         "currentBoundary": "current phase2/lore docs/code/tests own truth"
       },
       "dependencies": "Current phase2/lore canonical docs, code, tests and fresh primary-source review.",
-      "versionScope": {
-        "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
-        "date": "undated",
-        "validity": "historical"
-      },
+      "versionScope": "Static original HTML at fixedc801; historical UI design or browser-host source, not a current Game/SAVE/content checkpoint.",
       "counterReworkBlocked": [
         {
           "id": "R33-1",
@@ -1168,6 +1337,52 @@
         "scope": "template-completion only; accepted R33/R37 semantic conclusions retained",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+      },
+      "templateVariant": "historical-ui-mockup-native-v1",
+      "artifactOnly": false,
+      "readDomain": {
+        "actual": "GLM reports complete original HTML and selected neighboring source reading (regex extraction); Codex independently validates exact source/Git axes and parse5 DOM/resources, and checks source-specific risk slices. No new browser or downstream full-text review claimed.",
+        "reusedFrom": [
+          {
+            "path": "/tmp/s60-glm-html12-final/entries.ndjson",
+            "sha256": "a73b648d8a1f4d94a3480440c5fb9f2f25bb9b5ed72515ca13cfe30ae8e9a32d",
+            "entryPath": "docs/phase2/archive/mockups/place-mode.html"
+          },
+          {
+            "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-S59-native-contract-pilots-hcice_cs/owner-normalization.json",
+            "sha256": "0a9c7691e3df0d604cf033ed9cd079e80dd5e865daa04ebb8c2bbbd5ddf16005",
+            "entryPath": "docs/phase2/archive/mockups/place-mode.html"
+          }
+        ],
+        "notRead": [
+          "No browser/script/visual execution",
+          "Linked historical runtime receipts and full downstream component behavior not reaudited"
+        ]
+      },
+      "fieldRoles": {
+        "representation": "derived-static-html/1",
+        "identity": ["/title"],
+        "results": ["/canvases", "/scripts", "/references"],
+        "governance": ["docs/phase-governance/reviews/20261017-r33-phase2-lore.json#entries/5"]
+      },
+      "historyBoundary": "原生 HTML 保全；不认证 runtime/Canvas/产品功能；旧 S51/S58 结论复用",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/phase2/archive/mockups/place-mode.html",
+        "afterSha256": "aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d",
+        "contentSha256": "f3a28a0fab6bda79fbe72d2d6ec1fd4e55970cb730edaa6424b240da65ea9d63",
+        "reportSha256": "b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
       }
     },
     {

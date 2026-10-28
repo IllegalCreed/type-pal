@@ -9276,6 +9276,96 @@
       "templateId": "evidence-receipt-v1",
       "variant": "historical-document-delivery-native-v1",
       "historyOverlay": false
+    },
+    {
+      "path": "docs/phase2/archive/mockups/actor-mode-v1.html",
+      "templateId": "design-spec-v1",
+      "variant": "historical-ui-mockup-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase2/archive/mockups/actor-mode-v2.html",
+      "templateId": "design-spec-v1",
+      "variant": "historical-ui-mockup-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase2/archive/mockups/place-mode.html",
+      "templateId": "design-spec-v1",
+      "variant": "historical-ui-mockup-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-browser-host-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-browser-host-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-browser-host-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-browser-host-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-browser-host-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-browser-host-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-browser-host-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-browser-host-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-browser-host-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-browser-host-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-browser-host-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html",
+      "templateId": "evidence-receipt-v1",
+      "variant": "historical-browser-host-native-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

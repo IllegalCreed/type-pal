@@ -309,11 +309,18 @@
         }
       ],
       "currentAcceptedBoundary": {
-        "task": "DOCS-FULL-TEMPLATE-1/S57",
-        "date": "2026-10-27",
-        "bodyScope": "S56 independent acceptance retained:195 integrated historical receipts plus27 corrected metadata and17 existing Owner conclusions. Exact44 current document versions promoted only; unchanged source/native/current semantic content reused.",
-        "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s57-s56非作者accept接收与44项当前版本接入准入2026-10-27",
-        "excluded": "Original R-wave/old execution claims stay withdrawn or unverified. 006 technical/user acceptance remains a separate fixed boundary; no new runtime/E2E/visual/coverage or overall completion/main grant."
+        "task": "DOCS-FULL-TEMPLATE-1/S61",
+        "date": "2026-10-28",
+        "bodyScope": "Prior S57 accepted195+44 retained. Additional15 historical HTML source documents accepted under two unchanged1.0.0 contracts; no host/browser/script execution certified.",
+        "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s61-s59接收与s60十五html统一接入准入2026-10-28",
+        "excluded": "Original R-wave/old execution claims stay withdrawn or unverified. 006 technical/user acceptance remains a separate fixed boundary; no new runtime/E2E/visual/coverage or overall completion/main grant.",
+        "priorBoundary": {
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "date": "2026-10-27",
+          "bodyScope": "S56 independent acceptance retained:195 integrated historical receipts plus27 corrected metadata and17 existing Owner conclusions. Exact44 current document versions promoted only; unchanged source/native/current semantic content reused.",
+          "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s57-s56非作者accept接收与44项当前版本接入准入2026-10-27",
+          "excluded": "Original R-wave/old execution claims stay withdrawn or unverified. 006 technical/user acceptance remains a separate fixed boundary; no new runtime/E2E/visual/coverage or overall completion/main grant."
+        }
       }
     },
     {

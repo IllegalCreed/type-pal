@@ -62,3 +62,5 @@ catalog 父版本1.2保持默认publication catalog全部旧字段/有序16项�
 - 每类至少一篇实际迁移、逐篇审查与 consumer 验证通过后，才能推进同类批次。静态门不证明 runtime/E2E/视觉/coverage。
 
 2026-10-27 S59新增HTML-native设计变体：design-spec的historical-ui-mockup-native-v1与evidence-receipt的historical-browser-host-native-v1，各自1.0.0、元数据复用唯一现有review，原HTML/资源/脚本字节保全。当前仅三个owned pilot，合同/内容接受分轴且迁移接受表为空；root-only宿主合法，缺构建main.js明确记录而不认证运行。当前控制JSON仍draft，不沿历史immutable合同放行。见[提案S59](registry-proposal-20261011.md#2026-10-27-s59原生html合同冻结与当前控制json设计边界)。
+
+2026-10-28 S61沿用上述两HTML变体1.0.0，扩展剩12个固定载体，15全量HTML接入按[父卡S61](../../ops/tasks/DOCS-FULL-TEMPLATE-1.md#s61-s59接收与s60十五html统一接入准入2026-10-28)实际质量门和接受记录判定。三原pilot的partial文字为来源阶段说明，不覆盖当前精确接受；缺构建产物/归档根路径不因文档迁移变成已运行。当前控制JSON合同仍draft。

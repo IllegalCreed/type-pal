@@ -607,7 +607,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "eee8adf30066ab2e3d42ef101dbe842115d60486af2ec9a945ccc6b1b8331ad0",
+      "afterSha256": "2a7d270acf70b2301581ac975d5498bb041453ac910b2be3163d30b88d6e0193",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1080,6 +1080,17 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+          "beforeSha256": "eee8adf30066ab2e3d42ef101dbe842115d60486af2ec9a945ccc6b1b8331ad0",
+          "afterSha256": "2a7d270acf70b2301581ac975d5498bb041453ac910b2be3163d30b88d6e0193",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -1263,7 +1274,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "bb372a440eccc699acadeb1bce3b8c2a15e76068acfd0840d73a43e57b830b4a",
+      "afterSha256": "7e20de8f17d47e66cb11af1b765af902492b56bfa772a57c6e5a2b1efb12bb59",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -2082,6 +2093,17 @@
             "index": 5,
             "entryCanonicalSha256": "02659fe266aad62fb40214f7e98ab87b1b440bb682763e914eaa06234c69cbdd"
           },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+          "beforeSha256": "bb372a440eccc699acadeb1bce3b8c2a15e76068acfd0840d73a43e57b830b4a",
+          "afterSha256": "7e20de8f17d47e66cb11af1b765af902492b56bfa772a57c6e5a2b1efb12bb59",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
@@ -3345,7 +3367,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4c7c6feed74bc80d2e4441c186eba6fadfa057ac53cdd6f1639544803e12cc4a",
-      "afterSha256": "6015c8acd04dfef2666466e717782d134f5cc048ba9ae1762a8edccdc29c5f92",
+      "afterSha256": "a71fcef222b752924f9453d30c7d4f61b0d3f0ebec7061d523076d4cf78036f6",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3510,6 +3532,17 @@
             "index": 14,
             "entryCanonicalSha256": "20ba289b35f1f5751373507810f938764477fee0c4f3dd3acb1a4ee80404255f"
           },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+          "beforeSha256": "6015c8acd04dfef2666466e717782d134f5cc048ba9ae1762a8edccdc29c5f92",
+          "afterSha256": "a71fcef222b752924f9453d30c7d4f61b0d3f0ebec7061d523076d4cf78036f6",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
@@ -9821,7 +9854,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "455bfd6b68ad459ee5081eb3c89e0fb61d207c04df0d02c879ddc910b1a22e5f",
-      "afterSha256": "f7dab46b70f1c0083cbd5cbe56a543d9bb518c240b7fde2177a021abb517d55a",
+      "afterSha256": "4947e627c040ff206024af2f0b031a9fc8c5de409d1aae54279469e0086d1b2e",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10054,6 +10087,17 @@
           "beforeSha256": "bdb89a40301c8b494a705e4663e4e5b788b91c61ac36f521b35f4053bc204dfa",
           "afterSha256": "f7dab46b70f1c0083cbd5cbe56a543d9bb518c240b7fde2177a021abb517d55a",
           "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+          "beforeSha256": "f7dab46b70f1c0083cbd5cbe56a543d9bb518c240b7fde2177a021abb517d55a",
+          "afterSha256": "4947e627c040ff206024af2f0b031a9fc8c5de409d1aae54279469e0086d1b2e",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
@@ -15166,7 +15210,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "ba1a07fc5ac99878c2c65ba9a6069e7dce20b5b23917bbee6c546f19e29ca2d2",
+      "afterSha256": "84afef20a7a8f3a7dcc3ed8b84797118fbd6f915b1135c40afdebe9d7294c042",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15496,6 +15540,17 @@
             "index": 80,
             "entryCanonicalSha256": "137694755a49ebdce3707f99dfa2f43c283b3529fe0d2f49c01799ce6a5dbb84"
           },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+          "beforeSha256": "ba1a07fc5ac99878c2c65ba9a6069e7dce20b5b23917bbee6c546f19e29ca2d2",
+          "afterSha256": "84afef20a7a8f3a7dcc3ed8b84797118fbd6f915b1135c40afdebe9d7294c042",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
@@ -16217,7 +16272,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "887a12c18104adfc57376bae26d4e6c96bacd8fdf72e89e3b1c30e56b4413d1b",
-      "afterSha256": "a9700d5f7e1d26cbcb6884f689f3e154616192376952cde02728fa00756e851e",
+      "afterSha256": "0ccc6c4c0a4888f62913c4dbde9aec2c729d9821df3cafce97fd597350a76ab9",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -16349,7 +16404,20 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+          "beforeSha256": "a9700d5f7e1d26cbcb6884f689f3e154616192376952cde02728fa00756e851e",
+          "afterSha256": "0ccc6c4c0a4888f62913c4dbde9aec2c729d9821df3cafce97fd597350a76ab9",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r68-ops-evidence-readmes.json",
