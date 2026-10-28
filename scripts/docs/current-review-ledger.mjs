@@ -5,6 +5,7 @@ import {
   currentReviewLedgerBaseline,
   currentReviewLedgerContract,
 } from './current-review-ledger-admission.mjs'
+import { currentLedgerStorageUpgrade } from './current-review-ledger-storage-admission.mjs'
 import {
   assertReviewRecordSourceUnchanged,
   readReviewRecordObject,
@@ -87,6 +88,13 @@ export function currentReviewLedgerIssues(doc, template, contract, read, options
     const currentStorage = group.storages.get(doc.path)
     if (beforeStorage && !isDeepStrictEqual(currentStorage?.source, beforeStorage.source))
       throw new Error('original storage source pin changed')
+    if (
+      !beforeStorage &&
+      currentStorage &&
+      (doc.path !== currentLedgerStorageUpgrade.path ||
+        !isDeepStrictEqual(currentStorage.source, currentLedgerStorageUpgrade))
+    )
+      throw new Error('unadmitted current ledger storage upgrade')
     const memberPaths = new Set(live.entries.map((entry) => entry.path))
     if (memberPaths.size !== live.entries.length) throw new Error('duplicate current member path')
     const owners = [...group.records].flatMap(([owner, record]) =>

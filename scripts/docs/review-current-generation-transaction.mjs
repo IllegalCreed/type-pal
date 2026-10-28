@@ -11,6 +11,7 @@ import {
 } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { isDeepStrictEqual } from 'node:util'
+import { currentLedgerStorageUpgrade } from './current-review-ledger-storage-admission.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { historicalVitestCohort } from './historical-vitest-cohort.mjs'
 import {
@@ -158,7 +159,13 @@ export function prepareCurrentReviewTransaction({
     group.records.size === 114 &&
       records.size === 114 &&
       (nativeProfile
-        ? [...group.storages.values()].filter(Boolean).length === 12 &&
+        ? [...group.storages.values()].filter(Boolean).length ===
+            (group.storages.get(currentLedgerStorageUpgrade.path) ? 13 : 12) &&
+          (!group.storages.get(currentLedgerStorageUpgrade.path) ||
+            isDeepStrictEqual(
+              group.storages.get(currentLedgerStorageUpgrade.path).source,
+              currentLedgerStorageUpgrade,
+            )) &&
           group.loadedSource.files.length === 114 + group.loadedSource.artifactSet.length
         : group.loadedSource.files.length === 144 && group.loadedSource.artifactSet.length === 30),
     'exact current group required',
@@ -246,6 +253,24 @@ export function prepareCurrentReviewTransaction({
   const sourcePins = new Map(
     [...group.storages].filter(([, v]) => v).map(([p, v]) => [p, structuredClone(v.source)]),
   )
+  const upgradeOutput = outputs.find(
+    (o) => o.path === currentLedgerStorageUpgrade.path && o.kind === 'manifest',
+  )
+  if (!group.storages.get(currentLedgerStorageUpgrade.path) && upgradeOutput) {
+    equal(
+      JSON.parse(upgradeOutput.bytes)._reviewStorage.source,
+      currentLedgerStorageUpgrade,
+      'one exact admitted new ledger source pin',
+    )
+    const source = readGitDocumentSnapshot(base, currentLedgerStorageUpgrade)
+    demand(
+      source?.mode === '100644' &&
+        source.gitObject === currentLedgerStorageUpgrade.gitObject &&
+        sha(source.buffer) === currentLedgerStorageUpgrade.sha256,
+      'new ledger source must resolve in real Git',
+    )
+    sourcePins.set(currentLedgerStorageUpgrade.path, structuredClone(currentLedgerStorageUpgrade))
+  }
   const recordsCopy = new Map([...records].map(([p, v]) => [p, structuredClone(v)]))
   const outputsCopy = outputs.map((o) => ({ ...o, bytes: Buffer.from(o.bytes) }))
   const afterReader = (path) => expected.get(path)?.bytes ?? readBuffer(path)

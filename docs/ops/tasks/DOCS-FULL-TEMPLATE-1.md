@@ -2712,3 +2712,5 @@ S66公共合同源5fb140552e26e2f4dbe36b9d8cc64d6f4cd69fee、三篇临时候选4
 GLM下一委托先只读非作者复核Owner公共增量及完整演练；通过后同一委托直接在隔离worktree执行108篇（合并复用3篇，交111全包），不中途回交设计/只读/content-ready小包。逐篇核逻辑header、政策/纠错历史、真实成员职责/来源身份、transfer、具体字段角色、入口/合法输入/oracle和未读域；不要求重新审阅2435成员正文，不将解析或全字节扫描说成人工全文深审。可复用S58内容，但计数/首末成员/状态/物理形态须以本候选重算，过期事实改正文。内部自主分段，遇单篇真实语义冲突精确blocked并继续其它。终交必须是实际提交候选、完整全包保全/模型/进度/非strict/索引/Testing/lint/diff原件和一个只读快检，不以计划稿替代实施。
 
 已接受三正文只复用S66终稿，允许明确追加S66接受范围说明，不恢复旧撤信。Owner持有所有grant/正式中央接入和24 JSON+9 MD；作者自验不代签。144 pending/288严格项不预扣；全卡rework，不合main、不推送、不标done。旧测试未获新授权不得修改。
+
+S67完整组首轮演练在落盘前拒绝：R93新增解释后格式化输入将达1,075,985B，超过1MiB；没有压缩结论、放宽maxSize或继续写半树。Owner据此明确准入R93唯一flat→manifest升级，固定10ae2c1447f7f5583bc1407024a506e174d2d914真实flat Git原件（OID eba5c8346cad3c5d39ed863ccdc223e9daedddf9、SHA c6abadaa7f66a7c51882396f6363c3eb32282d9deac75e1adb1c0b257099ae3e），91成员及旧源字段原样保全。原12 source pins不改；current事务只允许无R93时12或持此精确R93 pin时13，新增source也须真实Git解析、staging/读回共同核验。新manifest/每片仍≤512KiB；新物理载体本身不产生新正文分母。现行合同拒绝其它flat→manifest升级或更换R93 source，数据与授信仍分轴。原S66“本轮不准入新source”维持其时点；本S67是显式新增唯一存储准入，不追溯改写S66。旧current-review-ledger测试夹具从live改为固定9d复制的最小补丁已备，单独等用户既定旧测试许可；未获许可前不编辑该旧文件。

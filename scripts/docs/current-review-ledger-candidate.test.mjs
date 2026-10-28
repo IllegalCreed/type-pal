@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { ledgerIdentity } from './current-review-ledger.mjs'
@@ -12,6 +13,8 @@ import {
   validateCurrentLedgerChanges,
   writeCurrentLedgerCandidate,
 } from './current-review-ledger-candidate.mjs'
+import { currentLedgerStorageUpgrade } from './current-review-ledger-storage-admission.mjs'
+import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { loadReviewRecordFromGit } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url)),
@@ -144,4 +147,25 @@ test('serializable plans are not write capabilities', () => {
     () => writeCurrentLedgerCandidate({ kind: 'current-ledger-candidate/1.0.0' }),
     /unmodified in-process prepare capability/u,
   )
+})
+
+test('the single R93 storage upgrade resolves its exact pre-upgrade flat Git source', () => {
+  const source = readGitDocumentSnapshot(root, currentLedgerStorageUpgrade)
+  assert.equal(source.mode, '100644')
+  assert.equal(source.gitObject, currentLedgerStorageUpgrade.gitObject)
+  assert.equal(
+    createHash('sha256').update(source.buffer).digest('hex'),
+    currentLedgerStorageUpgrade.sha256,
+  )
+  const flat = JSON.parse(source.buffer)
+  assert.equal(Object.hasOwn(flat, '_reviewStorage'), false)
+  assert.equal(flat.entries.length, 91)
+  const binding = currentReviewLedgerAdmissions.find(
+    (b) => b.path === currentLedgerStorageUpgrade.path,
+  )
+  assert.equal(binding.initialStorage, 'flat')
+  assert.deepEqual(ledgerIdentity(flat), {
+    headerSha256: binding.headerSha256,
+    membershipSha256: binding.membershipSha256,
+  })
 })

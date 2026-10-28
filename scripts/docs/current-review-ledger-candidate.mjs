@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { isDeepStrictEqual as same } from 'node:util'
 import { currentReviewLedgerAdmissions } from './current-review-ledger-admission.mjs'
+import { currentLedgerStorageUpgrade } from './current-review-ledger-storage-admission.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { summarizeDocumentRegistry } from './document-registry.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
@@ -225,17 +226,19 @@ export function prepareCurrentLedgerCandidate({ root, plan, planSha256 }) {
         afterSha256,
       })
     }
-    const storage = group.storages.get(owner)
-    if (storage) {
+    const storage = group.storages.get(owner),
+      upgrade = !storage && owner === currentLedgerStorageUpgrade.path
+    if (storage || upgrade) {
       outputs.push(
         ...packReviewStorageRecord({
           logicalPath: owner,
           record,
-          sourcePin: storage.source,
+          sourcePin: storage?.source ?? currentLedgerStorageUpgrade,
           context: { repoRoot: root },
         }).outputs,
       )
-      retired.push(...storage.shards.map((s) => `docs/phase-governance/reviews/${s.path}`))
+      if (storage)
+        retired.push(...storage.shards.map((s) => `docs/phase-governance/reviews/${s.path}`))
     } else {
       const bytes = biomeFormat(record, owner, { repoRoot: root })
       demand(same(parseTerminalJson(bytes), record), 'review formatter changed value')
