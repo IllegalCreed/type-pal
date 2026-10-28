@@ -313,7 +313,15 @@ export function prepareNativeArtifactCandidate({ root, plan, planSha256 }) {
       },
       templateRegistry,
       (p) => readBuffer(p).toString('utf8'),
-      { readBuffer, readSourceBuffer: source, reviewReader: (p) => records.get(p) },
+      {
+        readBuffer,
+        readSourceBuffer: source,
+        readSource: (pin) => {
+          const value = source(pin)
+          return value ? { ...value, text: value.buffer.toString('utf8') } : undefined
+        },
+        reviewReader: (p) => records.get(p),
+      },
     )
     demand(issues.length === 0, `${c.path}: ${issues.join('; ')}`)
   }
@@ -380,7 +388,8 @@ export function composeNativeArtifactRow(before, binding, seed, { baseRevision, 
     readDomain: {
       actual:
         'Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.',
-      reusedFrom: [JSON.stringify(seed.contentSource), JSON.stringify(seed.readDomain)],
+      reusedFrom: [JSON.stringify(seed.contentSource)],
+      priorReadDomainSha256: nativeArtifactEntryHash(seed.readDomain),
       notRead: [
         'Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits.',
       ],
