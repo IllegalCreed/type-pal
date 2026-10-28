@@ -4,11 +4,7 @@
  * 默认端口两例走真实 fetch Response，不替换 loadAll；所有受控请求在 teardown 结局。
  */
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import {
-  bytesToBase64,
-  legalLoadedAssets,
-  twoFrameChunk,
-} from '../__tests__/grok-boot-mid-1/legal.js'
+import { bytesToBase64, legalLoadedAssets, twoFrameChunk } from '../__tests__/asset-fixtures.js'
 import type { DialogAssets } from '../assets/dialog-assets.js'
 import type { LoadedAssets } from '../assets/loader.js'
 import type { Glyph, GlyphTable } from '../present/font.js'

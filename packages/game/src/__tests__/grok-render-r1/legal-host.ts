@@ -13,35 +13,13 @@ import type {
   ObjectPlayerView,
   Palette,
   PlayerRole,
-  SceneEventObject,
   SceneObjects,
   Store,
-  Tilemap,
 } from '@type-pal/shared'
 import { vi } from 'vitest'
-import type { SceneAssets } from '../../assets/loader.js'
+import { legalEventObject, legalPalette, legalTilemap, twoFrameChunk } from '../asset-fixtures.js'
 
-export function legalPalette(paint?: (colors: Array<[number, number, number]>) => void): Palette {
-  const colors: Palette['colors'] = Array.from({ length: 256 }, (_, index) => [index, 20, 40])
-  paint?.(colors)
-  return {
-    colors,
-    cycles: [{ start: 10, length: 4, step: 1, frameInterval: 3 }],
-  }
-}
-
-export function legalTilemap(tileset = 'tileset/1.rle'): Tilemap {
-  return {
-    width: 1,
-    height: 1,
-    cells: [[{ lower: 1, upper: 0 }]],
-    tileset,
-  }
-}
-
-function legalEventObject(id: number, spriteNum: number): SceneEventObject {
-  return { id, x: 16, y: 32, spriteNum, triggerMode: 1, sState: 1, direction: 0 }
-}
+export { legalPalette, legalSceneAssets, legalTilemap, twoFrameChunk } from '../asset-fixtures.js'
 
 export function legalRole(id: number, spriteNum: number): PlayerRole {
   return {
@@ -94,37 +72,6 @@ function legalMagic(id: number, effect: number): Magic {
     elemental: 0,
     sound: 0,
   }
-}
-
-export function legalSceneAssets(sceneId: number, mapNum = sceneId): SceneAssets {
-  return {
-    sceneId,
-    mapNum,
-    tilemap: legalTilemap(`tileset/${mapNum}.rle`),
-    palette: legalPalette(),
-    eventObjects: [legalEventObject(1, 4)],
-    npcSprites: new Map(),
-    eventCommands: [],
-    labelMap: { L_enter: 0 },
-    onEnterLabel: 'L_enter',
-  }
-}
-
-/** 两帧 1×1。word0 同时是帧数和 frame0 的 word offset。 */
-export function twoFrameChunk(first = 0xaa, second = 0xbb): Uint8Array {
-  const buf = new Uint8Array(16)
-  const view = new DataView(buf.buffer)
-  view.setUint16(0, 2, true)
-  view.setUint16(2, 5, true)
-  view.setUint16(4, 1, true)
-  view.setUint16(6, 1, true)
-  buf[8] = 0x01
-  buf[9] = first
-  view.setUint16(10, 1, true)
-  view.setUint16(12, 1, true)
-  buf[14] = 0x01
-  buf[15] = second
-  return buf
 }
 
 /** 单帧 5×3，首像素固定，供 loadAll 锚点合同使用。 */

@@ -211,9 +211,13 @@ describe('presentFrame', () => {
 
     presentFrame(fb, gs, ctx)
 
-    const pixels = Array.from(fb.indices)
-    expect(pixels.some((i) => i === 200)).toBe(true)
-    expect(pixels.some((i) => i === 201)).toBe(true)
+    // The two lines must stay on their configured sides, not merely both appear somewhere.
+    const top = fb.indices.subarray(0, fb.width * 100)
+    const bottom = fb.indices.subarray(fb.width * 100)
+    expect(top.includes(201)).toBe(true)
+    expect(top.includes(200)).toBe(false)
+    expect(bottom.includes(200)).toBe(true)
+    expect(bottom.includes(201)).toBe(false)
   })
 
   // ── C3(gameOverActive 重构):死亡 hold 双分支 ──

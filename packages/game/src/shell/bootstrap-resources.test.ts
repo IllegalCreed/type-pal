@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { legalLoadedAssets } from '../__tests__/grok-boot-mid-1/legal.js'
+import { legalLoadedAssets } from '../__tests__/asset-fixtures.js'
 import type { DialogAssets } from '../assets/dialog-assets.js'
 import type { LoadedAssets } from '../assets/loader.js'
 import type { GlyphTable } from '../present/font.js'

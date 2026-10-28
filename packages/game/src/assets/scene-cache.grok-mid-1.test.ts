@@ -5,7 +5,7 @@
  * 只通过 loadScene 的返回值、fetcher 调用次数和 onEvict 参数观察，不读私有 Map。
  */
 import { describe, expect, it } from 'vitest'
-import { legalSceneAssets } from '../__tests__/grok-boot-mid-1/legal.js'
+import { legalSceneAssets } from '../__tests__/asset-fixtures.js'
 import { type SceneAssets, SceneAssetsCache } from './loader.js'
 
 function countingFetcher(rejectId?: number, message = 'scene down') {
