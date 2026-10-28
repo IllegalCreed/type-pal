@@ -1,0 +1,615 @@
+{
+  "base": "f47f052fa1e732f7e574e70b268790d301dada3d",
+  "before": 67,
+  "currentPrimary": 61,
+  "currentAdjacent": 41,
+  "mapping": [
+    {
+      "oldFile": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "oldFullName": "G04-D present 冻屏归属与调色板 G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+      "action": "retained",
+      "currentFullNames": [
+        "G04-D present 冻屏归属与调色板 G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "oldFullName": "G04-D present 冻屏归属与调色板 G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
+      "action": "retained",
+      "currentFullNames": [
+        "G04-D present 冻屏归属与调色板 G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "oldFullName": "G04-D present 冻屏归属与调色板 G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
+      "action": "retained",
+      "currentFullNames": [
+        "G04-D present 冻屏归属与调色板 G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "oldFullName": "G04-D present 冻屏归属与调色板 G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵",
+      "action": "mapped-or-replaced",
+      "currentFullNames": [
+        "G04-D present 冻屏归属与调色板 G04-D04 战中菜单持有 battleState 时返回 false 且不清除帧"
+      ],
+      "reason": "修正原 case 的前提：旧例无 battleState，只命中缺状态早退；现用 createBattleState/hydrate 后的战中菜单，核真正 mode guard 与整帧保持。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "oldFullName": "G04-D present 冻屏归属与调色板 G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
+      "action": "retained",
+      "currentFullNames": [
+        "G04-D present 冻屏归属与调色板 G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "oldFullName": "G04-D present 冻屏归属与调色板 G04-D06 center 等键在 step 1 仍返回同一调色板引用",
+      "action": "retained",
+      "currentFullNames": [
+        "G04-D present 冻屏归属与调色板 G04-D06 center 等键在 step 1 仍返回同一调色板引用"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "oldFullName": "G04-D present 冻屏归属与调色板 G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
+      "action": "retained",
+      "currentFullNames": [
+        "G04-D present 冻屏归属与调色板 G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "oldFullName": "G04-D present 冻屏归属与调色板 G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9",
+      "action": "mapped-or-replaced",
+      "currentFullNames": [
+        "G04-D present 冻屏归属与调色板 G04-D08 flushToCanvas 按原点写入完整异色 RGBA，保留边界和索引缓冲"
+      ],
+      "reason": "真实 Canvas 保留；从单点索引9改为3×2异色完整RGBA、原点/边界和全索引不变。PNG写回读同一像素为重复中间层，移除该测试对dump工具与临时文件副作用的依赖；不删除共享工具。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "oldFullName": "G04-D present 冻屏归属与调色板 G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
+      "action": "retained",
+      "currentFullNames": [
+        "G04-D present 冻屏归属与调色板 G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (undefined) restores all target colors",
+      "action": "retained",
+      "currentFullNames": [
+        "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (undefined) restores all target colors"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (dialog) restores all target colors",
+      "action": "retained",
+      "currentFullNames": [
+        "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (dialog) restores all target colors"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (frame-wait) restores all target colors",
+      "action": "retained",
+      "currentFullNames": [
+        "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (frame-wait) restores all target colors"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "cursorless fade completion preserves the actual restored palette palette-fade remains owned by the event system",
+      "action": "retained",
+      "currentFullNames": [
+        "cursorless fade completion preserves the actual restored palette palette-fade remains owned by the event system"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "cursorless fade completion preserves the actual restored palette scene-fade remains owned by the event system",
+      "action": "retained",
+      "currentFullNames": [
+        "cursorless fade completion preserves the actual restored palette scene-fade remains owned by the event system"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "cursorless fade completion preserves the actual restored palette cursorless SceneFade still keeps its documented 63/64 endpoint",
+      "action": "retained",
+      "currentFullNames": [
+        "cursorless fade completion preserves the actual restored palette cursorless SceneFade still keeps its documented 63/64 endpoint"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话) mode=menu + menuStack 非空 → drawMenuStack 被调用(正常菜单交互)",
+      "action": "mapped-or-replaced",
+      "currentFullNames": [
+        "P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "reason": "同一 mode/menuStack 门由已有真实 inventory factory/openMenu→presentFrame 的 P12 整合像素覆盖；旧 any/Map伪ui数组与核心mock次数没有残差合同。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话) mode=event + menuStack 非空(物品 use 脚本跑 scriptOnUse 对话)→ drawMenuStack **不**被调用(对话不被列表遮挡)",
+      "action": "mapped-or-replaced",
+      "currentFullNames": [
+        "P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在"
+      ],
+      "reason": "同一 mode/menuStack 门由已有真实 inventory factory/openMenu→presentFrame 的 P12 整合像素覆盖；旧 any/Map伪ui数组与核心mock次数没有残差合同。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "presentFrame 无 dialogBox → 不画对话框,不抛错",
+      "action": "mapped-or-replaced",
+      "currentFullNames": [
+        "presentFrame 两者都 false(普通 explore)→ fb.clear()+正常重绘世界:哨兵被清"
+      ],
+      "reason": "普通 explore 无对话的真实绘制已执行；现完整透明缓冲全0，比仅不抛错更强。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "presentFrame 有 dialogBox → 文本绘到 fb(sdlpal upper/center/lower 无 box bg,文本即唯一证据)",
+      "action": "retained",
+      "currentFullNames": [
+        "presentFrame 有 dialogBox → 文本绘到 fb(sdlpal upper/center/lower 无 box bg,文本即唯一证据)"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "presentFrame dialogBoxKept + dialogBox → 上下两侧对话同屏绘制",
+      "action": "retained",
+      "currentFullNames": ["presentFrame dialogBoxKept + dialogBox → 上下两侧对话同屏绘制"],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "presentFrame deathHoldActive=true → 保持上一帧(不 fb.clear、不重绘世界):预写哨兵像素存活",
+      "action": "retained",
+      "currentFullNames": [
+        "presentFrame deathHoldActive=true → 保持上一帧(不 fb.clear、不重绘世界):预写哨兵像素存活"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "presentFrame gameOverActive=true + dialogBox → 保持上一帧 + 画死亡对话",
+      "action": "retained",
+      "currentFullNames": [
+        "presentFrame gameOverActive=true + dialogBox → 保持上一帧 + 画死亡对话"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "presentFrame 两者都 false(普通 explore)→ fb.clear()+正常重绘世界:哨兵被清",
+      "action": "retained",
+      "currentFullNames": [
+        "presentFrame 两者都 false(普通 explore)→ fb.clear()+正常重绘世界:哨兵被清"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "presentFrame blackScreenHold=true → 保持全黑背景,但仍叠加居中文字",
+      "action": "retained",
+      "currentFullNames": ["presentFrame blackScreenHold=true → 保持全黑背景,但仍叠加居中文字"],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "presentFrame dialogPlayingRNG=true + rngDialogBackup → 恢复 RNG 动画画面(不重绘世界)+ 叠对话",
+      "action": "retained",
+      "currentFullNames": [
+        "presentFrame dialogPlayingRNG=true + rngDialogBackup → 恢复 RNG 动画画面(不重绘世界)+ 叠对话"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "presentFrame dialogPlayingRNG=true 但无 rngDialogBackup → 退化为正常重绘(防御,不抛错)",
+      "action": "retained",
+      "currentFullNames": [
+        "presentFrame dialogPlayingRNG=true 但无 rngDialogBackup → 退化为正常重绘(防御,不抛错)"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=false → 站立帧:frameIdx = dir * walkFrames (P0.0 既有)",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=false → 站立帧:frameIdx = dir * walkFrames (P0.0 既有)"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=0 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=0 → iStepFrameLeader=0 → frameIdx=dir*3+0"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=1 → iStepFrameLeader=1 → frameIdx=dir*3+1",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=1 → iStepFrameLeader=1 → frameIdx=dir*3+1"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=2 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=2 → iStepFrameLeader=0 → frameIdx=dir*3+0"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=3 → iStepFrameLeader=2 → frameIdx=dir*3+2",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=3 → iStepFrameLeader=2 → frameIdx=dir*3+2"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=4 → frameIdx=dir*4+stepFrame",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=4 → frameIdx=dir*4+stepFrame"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) M2:队首 walkFrames 读 PlayerRolesRuntime.rgwWalkFrames,不再固定 ctx.partyWalkFrames=3",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) M2:队首 walkFrames 读 PlayerRolesRuntime.rgwWalkFrames,不再固定 ctx.partyWalkFrames=3"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) 4 方向 facing 映射:down=0/left=1/up=2/right=3(站立帧验证)",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) 4 方向 facing 映射:down=0/left=1/up=2/right=3(站立帧验证)"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers=[0] 单人 → 不渲染 follower(只有 leader drawSprite)",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers=[0] 单人 → 不渲染 follower(只有 leader drawSprite)"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 队首/跟随者按各自 rgwSpriteNum 渲染,不回退 role0 partyFrames",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 队首/跟随者按各自 rgwSpriteNum 渲染,不回退 role0 partyFrames"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) M2:跟随队员按自己的 runtime walkFrames 取帧",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) M2:跟随队员按自己的 runtime walkFrames 取帧"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 0x15 给跟随者设 partyScriptedFrame(静止演出)→ 跟随者按脚本帧转身,不用 trail 朝向(刘兄「等一下」bug)",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 0x15 给跟随者设 partyScriptedFrame(静止演出)→ 跟随者按脚本帧转身,不用 trail 朝向(刘兄「等一下」bug)"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 已知队员 spriteNum 但资源未加载时,不把 follower 画成 role0",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 已知队员 spriteNum 但资源未加载时,不把 follower 画成 role0"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) walking 时渲染 follower 在 trail[1] + 偏移(scene.c:692-707 扇形布局)",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) walking 时渲染 follower 在 trail[1] + 偏移(scene.c:692-707 扇形布局)"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=left(West) walking: isWS=true→offsetX=+16; isWN=true→offsetY=+8",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=left(West) walking: isWS=true→offsetX=+16; isWN=true→offsetY=+8"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=down(South) walking: isWS=true→offsetX=+16; isWN=false→offsetY=-8",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=down(South) walking: isWS=true→offsetX=+16; isWN=false→offsetY=-8"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=up(North) walking: isWS=false→offsetX=-16; isWN=true→offsetY=+8",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=up(North) walking: isWS=false→offsetX=-16; isWN=true→offsetY=+8"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers.length > 1 但 trail.length <= 1 → 不渲染 follower(避免 crash)",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers.length > 1 但 trail.length <= 1 → 不渲染 follower(避免 crash)"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers=[0, 1] 且 trail 为空 → 不渲染 follower",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers=[0, 1] 且 trail 为空 → 不渲染 follower"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "palette fade 孤儿自清(香兰报信 cutscene 吞键回归) 演出游标在(waiting=dialog)+ fade 到时 + 无人等待 → present 自清孤儿",
+      "action": "mapped-or-replaced",
+      "currentFullNames": [
+        "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (dialog) restores all target colors"
+      ],
+      "reason": "同一无人等待自清guard；既有正式builder表已核完整终值、无静态源变异，覆盖旧不必要强转游标的undefined断言；不冒称剧情输入链实跑。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "palette fade 孤儿自清(香兰报信 cutscene 吞键回归) waiting=palette-fade(event-system 将 finalize+ip++)→ present 不抢清",
+      "action": "mapped-or-replaced",
+      "currentFullNames": [
+        "cursorless fade completion preserves the actual restored palette palette-fade remains owned by the event system"
+      ],
+      "reason": "同一 awaited owner guard；既有正式 FadeIn 表已断言同一fade对象、完整量化色表与ip0，覆盖旧手搭lerp单个defined断言。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "palette fade 孤儿自清(香兰报信 cutscene 吞键回归) fade 未到时 → 不清(进行中)",
+      "action": "mapped-or-replaced",
+      "currentFullNames": [
+        "cursorless fade completion preserves the actual restored palette 无人等待且 FadeIn 尚未完成时保留状态和游标"
+      ],
+      "reason": "保留未完成状态合同；改真实 buildFadeIn、完整typed cursor、确定时钟并核颜色/游标。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 屏内 NPC 正常绘制(基准)",
+      "action": "retained",
+      "currentFullNames": [
+        "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 屏内 NPC 正常绘制(基准)"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 右侧屏外(left = sx-w/2 ≥ 320)→ 跳过",
+      "action": "retained",
+      "currentFullNames": [
+        "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 右侧屏外(left = sx-w/2 ≥ 320)→ 跳过"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 左侧完全屏外(left < -width)→ 跳过;部分可见仍绘制",
+      "action": "retained",
+      "currentFullNames": [
+        "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 左侧完全屏外(left < -width)→ 跳过;部分可见仍绘制"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 下方屏外(vy ≥ 200)→ 跳过;贴底仍绘制",
+      "action": "retained",
+      "currentFullNames": [
+        "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 下方屏外(vy ≥ 200)→ 跳过;贴底仍绘制"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 上方完全屏外(vy < -height)→ 跳过",
+      "action": "retained",
+      "currentFullNames": [
+        "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 上方完全屏外(vy < -height)→ 跳过"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.b Y-sort + cover-tile party.y > npc.y → party 在 NPC 之下方(屏幕),Y-sort 后 NPC 先绘 / party 后绘",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.b Y-sort + cover-tile party.y > npc.y → party 在 NPC 之下方(屏幕),Y-sort 后 NPC 先绘 / party 后绘"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.b Y-sort + cover-tile party.y < npc.y → NPC 在 party 之下方,Y-sort 后 party 先绘 / NPC 后绘",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.b Y-sort + cover-tile party.y < npc.y → NPC 在 party 之下方,Y-sort 后 party 先绘 / NPC 后绘"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.b Y-sort + cover-tile 3 个 NPC 不同 y — Y-sort 正确(y 小先绘,y 大后绘)",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.b Y-sort + cover-tile 3 个 NPC 不同 y — Y-sort 正确(y 小先绘,y 大后绘)"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.b Y-sort + cover-tile vanishTime>0 隐藏 NPC;vanishTime<0 仍绘制但由更新层冻结",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.b Y-sort + cover-tile vanishTime>0 隐藏 NPC;vanishTime<0 仍绘制但由更新层冻结"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.b Y-sort + cover-tile 非方向性姿势对象 nSpriteFrames=0 + scriptedFrame=13 → 实际绘制 frame 13",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.b Y-sort + cover-tile 非方向性姿势对象 nSpriteFrames=0 + scriptedFrame=13 → 实际绘制 frame 13"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.b Y-sort + cover-tile cover-tile:layer1 tile height>0 且满足条件 → tile 画在 fb 上(sprite 重叠)",
+      "action": "mapped-or-replaced",
+      "currentFullNames": [
+        "P11 大世界分层 P11 前景cover盖住后排NPC，前排透明孔见cover色而不见后排"
+      ],
+      "reason": "相同cell(5,5)、0x02020000/4×4和(144,115)合同已在P11核前后NPC/孔/不透明0；旧单像素无额外合同，且含两条互相矛盾的DWORD注释。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.b Y-sort + cover-tile cover-tile blit_y 公式 = dy*16 + dh*8 + 7 - bitmap.height(sdlpal scene.c:358 相消化)",
+      "action": "retained",
+      "currentFullNames": [
+        "P0.b Y-sort + cover-tile cover-tile blit_y 公式 = dy*16 + dh*8 + 7 - bitmap.height(sdlpal scene.c:358 相消化)"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "P0.b Y-sort + cover-tile cover-tile 不画超出范围的 tile(party 远离,height 条件不满足 → tile 不出现)",
+      "action": "mapped-or-replaced",
+      "currentFullNames": [
+        "P0.b Y-sort + cover-tile cover-tile:零高度瓦片仍全画，但不在精灵队列中重画"
+      ],
+      "reason": "旧case所有可能绘制在屏外，颜色缺失不能证明height gate；撤回该未经判别支撑的说法。换为可见且几何可达的height0拒绝边界，独立height guard反控证明。并不冒称两种输入业务等价。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 非等键 phase(typing)→ 原样返回 base 同引用",
+      "action": "retained",
+      "currentFullNames": [
+        "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 非等键 phase(typing)→ 原样返回 base 同引用"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) blackScreenHold + dialog → 保持背景黑色,恢复对话文字色槽",
+      "action": "retained",
+      "currentFullNames": [
+        "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) blackScreenHold + dialog → 保持背景黑色,恢复对话文字色槽"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) blackScreenHold 文字色不受 nightPalette/nightColors 影响",
+      "action": "retained",
+      "currentFullNames": [
+        "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) blackScreenHold 文字色不受 nightPalette/nightColors 影响"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动",
+      "action": "retained",
+      "currentFullNames": [
+        "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=0(整圈起点 t=600ms)→ 原样返回 base",
+      "action": "retained",
+      "currentFullNames": [
+        "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=0(整圈起点 t=600ms)→ 原样返回 base"
+      ],
+      "reason": "原业务身份保留；具体补强与oracle见本文件八维和合同族。"
+    },
+    {
+      "oldFile": "packages/game/src/present/present.test.ts",
+      "oldFullName": "G8 SceneFade 72 帧 dither e2e(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen) snapshot backupPixels(clear 前)+ 按 elapsed 推进 0→36→72 + 显示 backupPixels",
+      "action": "mapped-or-replaced",
+      "currentFullNames": [
+        "G8 SceneFade 72 帧 dither 集成(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen) snapshot backupPixels(clear 前)+ 按 elapsed 推进 0→36→72 + 显示 backupPixels"
+      ],
+      "reason": "仅e2e→集成身份勘误；同一四步时间序列保留，补全初帧快照/非alias及独立最终16×24矩形oracle，避免backup和fb一起错仍自比通过。"
+    }
+  ],
+  "newIdentityNames": [
+    "cursorless fade completion preserves the actual restored palette 无人等待且 FadeIn 尚未完成时保留状态和游标",
+    "G8 SceneFade 72 帧 dither 集成(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen) snapshot backupPixels(clear 前)+ 按 elapsed 推进 0→36→72 + 显示 backupPixels",
+    "P0.b Y-sort + cover-tile cover-tile:零高度瓦片仍全画，但不在精灵队列中重画",
+    "G04-D present 冻屏归属与调色板 G04-D04 战中菜单持有 battleState 时返回 false 且不清除帧",
+    "G04-D present 冻屏归属与调色板 G04-D08 flushToCanvas 按原点写入完整异色 RGBA，保留边界和索引缓冲"
+  ],
+  "officialRecount": "present.test.ts 58→52；精确retirement/baseline数据留约100主体冻结时按最终候选追加，判据未改。当前未运行全仓/coverage/protected。"
+}

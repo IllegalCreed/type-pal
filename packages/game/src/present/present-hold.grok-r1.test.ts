@@ -5,10 +5,11 @@
  */
 import type { PlayerRoles } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { dumpFramebuffer } from '../__tests__/grok-render-r1/dump-evidence.js'
 import { legalPalette, legalRole } from '../__tests__/grok-render-r1/legal-host.js'
-import { createInitialGameState } from '../core/game-state.js'
+import { createBattleState } from '../core/battle/battle-state.js'
+import { createInitialGameState, hydratePlayerRolesRuntime } from '../core/game-state.js'
 import { buildFadeOut } from '../core/palette-fade.js'
+import { createSeedableRng } from '../core/rng.js'
 import { type BattleAssets, BattlePresent } from './battle/present-battle.js'
 import { setWaitingEndKey, startDialogLine } from './dialog-box.js'
 import type { SpriteImage } from './draw-sprite.js'
@@ -20,6 +21,7 @@ import {
   presentBattleFrame,
   presentFrame,
 } from './present.js'
+import { resetScreenWavePhase } from './screen-wave.js'
 
 function sprite(): SpriteImage {
   return {
@@ -43,7 +45,7 @@ function ctx(): PresentContext {
 }
 
 function assets(): BattleAssets {
-  const roles: PlayerRoles = { roles: [legalRole(0, 1)] }
+  const roles: PlayerRoles = { roles: Array.from({ length: 6 }, (_, id) => legalRole(id, 1)) }
   return {
     battleSprites: new Map(),
     battleBgs: new Map(),
@@ -65,16 +67,19 @@ function ramp(channel: 0 | 1): { colors: Array<[number, number, number]>; cycles
 }
 
 describe('G04-D present 冻屏归属与调色板', () => {
-  afterEach(() => vi.restoreAllMocks())
+  afterEach(() => {
+    vi.restoreAllMocks()
+    resetScreenWavePhase()
+  })
 
   it('G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.suspendRaf = true
     gs.blackScreenHold = true
     const fb = createFramebuffer()
-    fb.indices[0] = 173
+    fb.indices.fill(173)
     presentFrame(fb, gs, ctx())
-    expect(fb.indices[0]).toBe(173)
+    expect(fb.indices.every((pixel) => pixel === 173)).toBe(true)
   })
 
   it('G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression', () => {
@@ -83,43 +88,62 @@ describe('G04-D present 冻屏归属与调色板', () => {
     gs.wScreenWave = 40
     gs.sWaveProgression = -8
     const fb = createFramebuffer()
-    fb.indices[0] = 173
+    fb.indices.fill(173)
     presentFrame(fb, gs, ctx())
-    expect(fb.indices[0]).toBe(173)
+    expect(fb.indices.every((pixel) => pixel === 173)).toBe(true)
     expect(gs.wScreenWave).toBe(40)
     expect(gs.sWaveProgression).toBe(-8)
   })
 
   it('G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    vi.spyOn(performance, 'now').mockReturnValue(100)
     const palette = legalPalette()
     gs.palette = palette
-    gs.paletteFadeState = buildFadeOut(palette.colors, 10_000_000, performance.now())
+    gs.paletteFadeState = buildFadeOut(palette.colors, 600, 0)
     gs.shakeTime = 5
     gs.shakeLevel = 4
     const fb = createFramebuffer()
-    fb.indices[0] = 173
+    fb.indices.fill(173)
     presentFrame(fb, gs, ctx())
-    expect(fb.indices[0]).toBe(173)
+    expect(fb.indices.every((pixel) => pixel === 173)).toBe(true)
     expect(gs.shakeTime).toBe(5)
     expect(gs.paletteFadeState?.freeze).toBe(true)
+    expect(gs.palette.colors[100]).toEqual([78, 15, 31])
   })
 
-  it('G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵', () => {
+  it('G04-D04 战中菜单持有 battleState 时返回 false 且不清除帧', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const battleAssets = assets()
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, battleAssets.playerRoles)
+    gs.battleState = createBattleState({
+      gs,
+      playerRoles: battleAssets.playerRoles,
+      enemies: [null],
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+      isBoss: false,
+      rng: createSeedableRng(1),
+    })
+    const activeBattle = gs.battleState
+    gs.mode = 'menu'
     const fb = createFramebuffer()
-    fb.indices[0] = 173
-    expect(presentBattleFrame(fb, gs, new BattlePresent(), assets(), [])).toBe(false)
-    expect(fb.indices[0]).toBe(173)
+    fb.indices.fill(173)
+    expect(presentBattleFrame(fb, gs, new BattlePresent(), battleAssets, [])).toBe(false)
+    expect(fb.indices.every((pixel) => pixel === 173)).toBe(true)
+    expect(gs.battleState).toBe(activeBattle)
   })
 
   it('G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'battle'
     const fb = createFramebuffer()
-    fb.indices[0] = 173
+    fb.indices.fill(173)
     expect(presentBattleFrame(fb, gs, new BattlePresent(), assets(), [])).toBe(false)
-    expect(fb.indices[0]).toBe(173)
+    expect(fb.indices.every((pixel) => pixel === 173)).toBe(true)
   })
 
   it('G04-D06 center 等键在 step 1 仍返回同一调色板引用', () => {
@@ -144,22 +168,29 @@ describe('G04-D present 冻屏归属与调色板', () => {
     expect(out.colors[0xfe]).toEqual([0, 0xfe, 0])
   })
 
-  it('G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9', async () => {
-    const fb = createFramebuffer()
-    fb.writePixel(4, 6, 9)
+  it('G04-D08 flushToCanvas 按原点写入完整异色 RGBA，保留边界和索引缓冲', () => {
+    const fb = createFramebuffer(3, 2)
+    fb.indices.set([0, 9, 2, 3, 0, 4])
     const palette = legalPalette((colors) => {
+      colors[0] = [1, 2, 3]
       colors[9] = [10, 20, 30]
+      colors[2] = [40, 50, 60]
+      colors[3] = [70, 80, 90]
+      colors[4] = [100, 110, 120]
     })
     const canvas = document.createElement('canvas')
-    canvas.width = 320
-    canvas.height = 200
+    canvas.width = 4
+    canvas.height = 3
     const ctx2d = canvas.getContext('2d')
     if (!ctx2d) throw new Error('2d context unavailable')
     flushToCanvas(fb, ctx2d, palette)
-    expect(Array.from(ctx2d.getImageData(4, 6, 1, 1).data)).toEqual([10, 20, 30, 255])
-    expect(fb.indices[6 * 320 + 4]).toBe(9)
-    const snap = ctx2d.getImageData(0, 0, 320, 200)
-    await dumpFramebuffer('G04-D08', 320, 200, snap.data, [{ x: 4, y: 6, rgba: [10, 20, 30, 255] }])
+    expect(Array.from(ctx2d.getImageData(0, 0, 3, 2).data)).toEqual([
+      1, 2, 3, 255, 10, 20, 30, 255, 40, 50, 60, 255, 70, 80, 90, 255, 1, 2, 3, 255, 100, 110, 120,
+      255,
+    ])
+    expect(Array.from(ctx2d.getImageData(3, 0, 1, 1).data)).toEqual([0, 0, 0, 0])
+    expect(Array.from(ctx2d.getImageData(0, 2, 1, 1).data)).toEqual([0, 0, 0, 0])
+    expect(Array.from(fb.indices)).toEqual([0, 9, 2, 3, 0, 4])
   })
 
   it('G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色', () => {

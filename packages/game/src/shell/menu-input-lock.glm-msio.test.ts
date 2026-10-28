@@ -3,8 +3,8 @@
 // 合同:菜单打开期间方向输入只驱动菜单、不移动 party(世界冻结);菜单关闭后下一 tick
 // 方向输入恢复驱动 party(锁释放)。caller 是 main-loop 的 headless 公开入口 tickN
 // (singleTick → tickByMode → case 'menu' → tickMenu),与浏览器 startRafLoop 共用 singleTick。
-// 旳 main-loop.test.ts 只证 explore 行走与 interval/present 门控;menu-mode.test.ts 只经
-// tickMenu 证栈语义 —— 「菜单期间世界冻结 + 关闭后恢复行走」的整链未在任何旧测证明。
+// 相邻 main-loop.test.ts 核行走与 interval/present 门控,menu-mode.test.ts 核 tickMenu 栈语义。
+// 本文件在 tickN caller 层核菜单冻结与恢复行走,不宣称全仓旧测不存在其它相关覆盖。
 import type { AbstractKey, InputSnapshot, Tilemap } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createCommandBus } from '../core/command-bus.js'
@@ -29,7 +29,7 @@ function mkCtx(input: ReplayInputSource): {
   ctx: LoopContext
   gs: ReturnType<typeof createInitialGameState>
 } {
-  // 起点 col16/row16 合法区(main-loop.test.ts:41 已证可走),flat 全通 tilemap。
+  // 与 main-loop 行走用例使用相同合法起点,flat 全通 tilemap。
   const gs = createInitialGameState({ x: 16 * 16, y: 16 * 8, facing: 'down' })
   const ctx: LoopContext = {
     gs,

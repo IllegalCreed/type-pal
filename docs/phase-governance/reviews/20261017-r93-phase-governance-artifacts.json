@@ -1090,7 +1090,7 @@
         }
       ],
       "sourceSha256": "9c3e28630a348209042706545971d4598adb8a49e392a485a14c687ba2010716",
-      "afterSha256": "6919008388abee5921eefd7552dadc8297b64c1c46b9f2ce50a42311d143b2e2",
+      "afterSha256": "272c0cd5a87a20b2bdb135b7c576c9e8415359a7b070c8837c099c894a80d972",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1114,7 +1114,7 @@
       },
       "revision": {
         "currentSha": "7faa2bd7fe3dabf8a92b5f1455fa94e24c7c3d1af0f55cb0d2ad3e0cdeeb7e3a",
-        "implementationSha": "6919008388abee5921eefd7552dadc8297b64c1c46b9f2ce50a42311d143b2e2",
+        "implementationSha": "272c0cd5a87a20b2bdb135b7c576c9e8415359a7b070c8837c099c894a80d972",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1141,10 +1141,7 @@
                 "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
                 "exactRoundTrip": true
               },
-              "nativeShape": {
-                "format": "json",
-                "byteStable": true
-              }
+              "nativeShape": { "format": "json", "byteStable": true }
             }
           },
           {
@@ -1792,15 +1789,25 @@
             "date": "2026-10-25",
             "previousAfterSha256": "9c3e28630a348209042706545971d4598adb8a49e392a485a14c687ba2010716",
             "scope": "Current owned document delta; no product/whole-gate acceptance."
+          },
+          {
+            "date": "2026-10-28",
+            "revision": "working-tree",
+            "action": "window2-owned-review-envelope",
+            "previousAfterSha256": "6919008388abee5921eefd7552dadc8297b64c1c46b9f2ce50a42311d143b2e2",
+            "afterSha256": "272c0cd5a87a20b2bdb135b7c576c9e8415359a7b070c8837c099c894a80d972",
+            "scope": "Only five reviewed document deltas and their explicit history/after bindings; other entries and historical verdicts remain unchanged. No semantic credit from hash refresh.",
+            "evidence": "docs/ops/evidence/QUALITY-PENDING-100-2/README.md",
+            "notRun": ["runtime", "E2E", "visual", "coverage by this envelope"]
           }
         ]
       },
       "evidence": {
         "kind": "owned-review52-closeout",
-        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
+        "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "7faa2bd7fe3dabf8a92b5f1455fa94e24c7c3d1af0f55cb0d2ad3e0cdeeb7e3a",
+        "afterSha256": "272c0cd5a87a20b2bdb135b7c576c9e8415359a7b070c8837c099c894a80d972",
         "lineCount": 5540,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1811,10 +1818,7 @@
           "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
           "exactRoundTrip": true
         },
-        "nativeShape": {
-          "format": "json",
-          "byteStable": true
-        },
+        "nativeShape": { "format": "json", "byteStable": true },
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
           "sourceBeforeSha256": "050ab95ff8f2d1ab123b4add64cec8d15d52605bda4a4b56adfb8cbc5bc1f9cd",
@@ -1869,10 +1873,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           }
         },
         {
@@ -2262,10 +2263,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
           "previousReadMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused"
@@ -2293,10 +2291,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
           "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
@@ -2324,10 +2319,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
           "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
@@ -2355,10 +2347,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only the mobile task and generated status rows; user accepts software delivery without hardware, integration gates still pending.",
           "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
@@ -2386,10 +2375,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only mobile task status, 14 new tracked inventory counts and exact document dependencies; no new code-quality closure, hardware or deployment claim.",
           "previousReadMethod": "Read only the mobile task row, 14-new-path inventory summary or named dependency delta; preserve unrelated entries and historical evidence."
@@ -2437,10 +2423,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current CLI/event window main7663 mobile source integrated;0closures; merged gates pending;ledger 355/129/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
           "previousAfterSha256": "686f8286e49e978c4875b458486937734a91fb5bf31ba3c29a042896cf55ab0c",
@@ -2467,10 +2450,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current CLI/event window six named IO file scopes accepted after merged unified gates; CODE3/3g partial, P3 still awaiting decision;ledger 361/123/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
           "previousAfterSha256": "fcfdcb5b085dae85f2757f082b1fb79e7728d96dc78e26e324683dc8e2164b07",
@@ -2497,10 +2477,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current battle-quality window build; pure structure local proof40/TC0; H02/Extra/WORD and unified window remain open;ledger 361/124/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
           "previousAfterSha256": "975d4fff472e0ca6a6d237d1de9605c81e07953e38d7ef6b2355614dab6c4112",
@@ -2527,10 +2504,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current battle-quality window accept CODE3u original state/resource/position contract and10 explicit files; 3w/3x remain partial; remote integration pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
           "previousAfterSha256": "79d5762b497062ad43e5c6a299e744a7437f213f484502b2b98eac56c924802b",
@@ -2559,10 +2533,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "scope": "Read actual diff: only board and generated-index records, preserving all unrelated entries and original history. No product or broad governance reacceptance.",
           "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
@@ -2632,10 +2603,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current battle-quality window CODE3u and10 explicit scopes accepted unchanged; cb67a6a0e merged, actual main CI failedM05; narrow test repair locally accepted, new remote CI pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
           "previousAfterSha256": "8be5064e0a2d5fc55bf448e7aa2528bc1bdbc45b57e4e07a8aea05945bd4ce06",
@@ -2662,10 +2630,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
           "previousAfterSha256": "7cce2d3ae74174dc69450e1ce69f922838399f93c8b6bc7f45e3ab4a93d1b025",
@@ -2692,10 +2657,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
           "previousAfterSha256": "680f3fcb4e0bcb423bf2c09530dce6b84c28cdf72df7938cc1d05a00d2efb328",
@@ -2722,10 +2684,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
           "previousAfterSha256": "6676f0c6f560df2901a8839b1aebc11e6873711e28e38d3153c3f7927160c692",
@@ -2752,10 +2711,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
           "previousAfterSha256": "ee0776cd126d3118286096c93c40fd7fe87176d802ab94e2ab09fe1588497f4b",
@@ -2782,10 +2738,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
           "previousAfterSha256": "3d3b64b64c8b7d08953aa4b9a6af30ad3e29f123836ab56e55d01403cfc40e33",
@@ -2812,10 +2765,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only owned experience-input/progression window rows. Formal28green/1business red then66 adjacent green; user WORD input policy and private caller/JS proof;57accept26partial while grouped gates pending. Grouped gates/acceptance remain according to game-progression-input/review.json; no unrelated entry reacceptance.",
           "previousAfterSha256": "377be8394f7dcfb69796b0fcf36adc09cc44bb2a08c1a4655410e0dd3e00504e",
@@ -2842,10 +2792,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only owned experience-input/progression window rows. Formal28green/1business red then66 adjacent green; user WORD input policy and private caller/JS proof;59accept24partial;20434 wholecheck plus3724 affected-game refresh;one20040 official and strict/protected0diagnostics. Grouped gates/acceptance remain according to game-progression-input/review.json; no unrelated entry reacceptance.",
           "previousAfterSha256": "99d8e07361486a40185e5a992acdd47c172665141b2f34af48ca5986cbb5d2e7",
@@ -2872,10 +2819,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Owned3c/92 original contracts accepted with per-fileA-H,same-byte native controls/current execution and30freshGitcomparisons8same22changed. Workbench prior review lost in89bf merge restored; dedicated test accepted separately.61accept22partial,373closed113review2869pending. Interpreter header-only parsed/emitted identity permits reuse of20434check/finalgame3724/one20040official/protected;no new collection or rule/source30 closure. Final document statics/integration follow actual receipts.",
           "previousAfterSha256": "7dc3a74b0f4fc5af9672f15ab8ca2840891a2fc3c39997bc0c2f695f55290cc8",
@@ -2902,10 +2846,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Owned3c/92 original contracts accepted with per-fileA-H,same-byte native controls/current execution and30freshGitcomparisons8same22changed. Workbench prior review lost in89bf merge restored; dedicated test accepted separately.61accept22partial,373closed113review2869pending. Interpreter header-only parsed/emitted identity permits reuse of20434check/finalgame3724/one20040official/protected;no new collection or rule/source30 closure. Final document statics/integration follow actual receipts.",
           "previousAfterSha256": "ccb26ee3afef55c8b6b99da7b2c95df6ce37fd463951493f4c8122a3ce3d8e53",
@@ -2932,10 +2873,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Accepted modifiedV1 import -> original setParty -> old fighter target garlic -> actual flee -> getter/export residual30 proven by two isolated core runs,not canonical story/UI/nativeSDL. New all-role temporary Extra cleanup policy pending;product unchanged.61accept22partial and373closed113review2869pending unchanged. Current document statics separate;no new coverage collection.",
           "previousAfterSha256": "7e7fcbb69d535b1a4652593074cadb8d6404205581d490e066eab78ee359b31b",
@@ -2962,10 +2900,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "User approved all-role temporary Extra cleanup;formal old single business AssertionError ->28direct/39+169adjacent andgame typecheck0. Actual weapon8attack/32760DualAttack preserved. Source andnewtest remainreview;3356/373closed114review2869pending,61accept22partial. Fullcheck/official/protected after product change deferred to3w module;no main merge or inherited current gate claim.",
           "previousAfterSha256": "119ead3d991811bb4609ec77c072b101279da157d245e433c50a630e80ee0b4c",
@@ -2992,10 +2927,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "User approved preserving post-battle HP/MP before current half-recovery;two formal business reds then238 local direct/adjacent green and game TC0. Original accepted V1 actual190tick combat394->500;raw writes and battle heals share runtime only in PhaseE. Source/test remainreview;3356/372closed115review2869pending,61accept22partial. Current wholecheck/official/protected deferred to related3w module window;no main merge or file acceptance.",
           "previousAfterSha256": "63d2626da54e8f27a1b9ed89fbec2c2136443b2a97d592f3122e7720a2264d78",
@@ -3022,10 +2954,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
           "previousAfterSha256": "5593ad2e03c623c28b08bd4387098cc56a6f61f06b722f5011011369a4474653",
@@ -3052,10 +2981,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;formal16/1red then4files27green/currentTC0. Private per-settlement WeakMap avoids V1/public-field change;actual originalteam46 first1/final2 and existing V1 guard pass. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
           "previousAfterSha256": "034f60668c4cee7ce459add6002c70235886889554af7946d89b030cdeca2387",
@@ -3082,10 +3008,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;formal16/1red then4files27green/currentTC0. Private per-settlement WeakMap avoids V1/public-field change;actual originalteam46 first1/final2 and existing V1 guard pass. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
           "previousAfterSha256": "5838390e80b2d92212b74aa02321a375f32bd408f54ad68b584aa72867efa80a",
@@ -3137,10 +3060,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
           "previousAfterSha256": "98e4003df53e3ad0016875d893c56204622dadb8d318f126f90b1b2c3d42a19c",
@@ -3167,10 +3087,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            },
+            "nativeShape": { "format": "json", "byteStable": true },
             "currentMaintenance": {
               "kind": "script-corrections-main-sync-publication",
               "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
@@ -3206,10 +3123,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            },
+            "nativeShape": { "format": "json", "byteStable": true },
             "currentMaintenance": {
               "kind": "script-corrections-main-sync-publication",
               "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
@@ -3252,10 +3166,7 @@
                 "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
                 "exactRoundTrip": true
               },
-              "nativeShape": {
-                "format": "json",
-                "byteStable": true
-              },
+              "nativeShape": { "format": "json", "byteStable": true },
               "currentMaintenance": {
                 "kind": "english-feature-incoming-review-binding",
                 "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
@@ -3332,10 +3243,7 @@
                 "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
                 "exactRoundTrip": true
               },
-              "nativeShape": {
-                "format": "json",
-                "byteStable": true
-              },
+              "nativeShape": { "format": "json", "byteStable": true },
               "currentMaintenance": {
                 "kind": "script-corrections-main-sync-publication",
                 "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
@@ -3415,10 +3323,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            },
+            "nativeShape": { "format": "json", "byteStable": true },
             "currentMaintenance": {
               "kind": "script-corrections-main-sync-publication",
               "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
@@ -3454,10 +3359,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            },
+            "nativeShape": { "format": "json", "byteStable": true },
             "currentMaintenance": {
               "kind": "script-corrections-main-sync-publication",
               "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
@@ -3500,10 +3402,7 @@
                 "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
                 "exactRoundTrip": true
               },
-              "nativeShape": {
-                "format": "json",
-                "byteStable": true
-              },
+              "nativeShape": { "format": "json", "byteStable": true },
               "currentMaintenance": {
                 "kind": "english-release-main-sync-documentation",
                 "path": "docs/ops/evidence/GAME-ENGLISH-1/release-preflight.json",
@@ -3547,10 +3446,7 @@
                 "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
                 "exactRoundTrip": true
               },
-              "nativeShape": {
-                "format": "json",
-                "byteStable": true
-              },
+              "nativeShape": { "format": "json", "byteStable": true },
               "currentMaintenance": {
                 "kind": "script-corrections-main-sync-publication",
                 "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
@@ -3622,10 +3518,7 @@
                 "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
                 "exactRoundTrip": true
               },
-              "nativeShape": {
-                "format": "json",
-                "byteStable": true
-              },
+              "nativeShape": { "format": "json", "byteStable": true },
               "currentMaintenance": {
                 "kind": "english-release-second-main-sync",
                 "path": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json",
@@ -3704,10 +3597,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            },
+            "nativeShape": { "format": "json", "byteStable": true },
             "currentMaintenance": {
               "kind": "script-corrections-main-sync-publication",
               "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/main-sync.json",
@@ -3743,10 +3633,7 @@
               "inverseSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            },
+            "nativeShape": { "format": "json", "byteStable": true },
             "currentMaintenance": {
               "kind": "user-authorized-main-branch-protection-protocol",
               "path": "docs/ops/evidence/GAME-ENGLISH-1/branch-protection.json",
@@ -3813,10 +3700,7 @@
             "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
           }
         },
-        {
-          "action": "3l-20261023",
-          "previousCommit": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b"
-        },
+        { "action": "3l-20261023", "previousCommit": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b" },
         {
           "date": "2026-10-25",
           "previousAfterSha256": "9c3e28630a348209042706545971d4598adb8a49e392a485a14c687ba2010716",
@@ -3824,11 +3708,7 @@
           "scope": "Owned94–102 review delta; prior full record remains in base8eb Git. No other entry refreshed.",
           "evidence": "docs/ops/evidence/CODE-QUALITY-94/current-review/review.json"
         },
-        {
-          "date": "2026-10-25",
-          "revision": "b8b2ffaf4",
-          "action": "94–102 approved closeout"
-        },
+        { "date": "2026-10-25", "revision": "b8b2ffaf4", "action": "94–102 approved closeout" },
         {
           "date": "2026-10-25",
           "revision": "0e14c184eed91841ee0f48323b98c98b734a3129",
@@ -3856,7 +3736,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Owned delta only.",
+      "reviewedLines": "1-5607",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5342,7 +5222,7 @@
         }
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "e3a056a1f9d084b19e899ef499c6a9049c26c0c8d911c48463e9cd2fee14e4fd",
+      "afterSha256": "1a27b50972e408e40b87a0a1adf3c28a015212b7b06902e6d8e68876dc0f19cb",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5366,7 +5246,7 @@
       },
       "revision": {
         "currentSha": "122630f065f6cd0e4c7dd69daf09492b3c176a37896b025fc522bc682d1a2c2c",
-        "implementationSha": "e3a056a1f9d084b19e899ef499c6a9049c26c0c8d911c48463e9cd2fee14e4fd",
+        "implementationSha": "1a27b50972e408e40b87a0a1adf3c28a015212b7b06902e6d8e68876dc0f19cb",
         "history": [
           {
             "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
@@ -5410,15 +5290,25 @@
               "full story/visual/editor preview E2E",
               "deployment"
             ]
+          },
+          {
+            "date": "2026-10-28",
+            "revision": "working-tree",
+            "action": "window2-owned-review-envelope",
+            "previousAfterSha256": "e3a056a1f9d084b19e899ef499c6a9049c26c0c8d911c48463e9cd2fee14e4fd",
+            "afterSha256": "1a27b50972e408e40b87a0a1adf3c28a015212b7b06902e6d8e68876dc0f19cb",
+            "scope": "Only five reviewed document deltas and their explicit history/after bindings; other entries and historical verdicts remain unchanged. No semantic credit from hash refresh.",
+            "evidence": "docs/ops/evidence/QUALITY-PENDING-100-2/README.md",
+            "notRun": ["runtime", "E2E", "visual", "coverage by this envelope"]
           }
         ]
       },
       "evidence": {
         "kind": "owned-review52-closeout",
-        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
+        "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
         "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
         "candidateSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-        "afterSha256": "122630f065f6cd0e4c7dd69daf09492b3c176a37896b025fc522bc682d1a2c2c",
+        "afterSha256": "1a27b50972e408e40b87a0a1adf3c28a015212b7b06902e6d8e68876dc0f19cb",
         "lineCount": 3504,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5429,10 +5319,7 @@
           "inverseSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
           "exactRoundTrip": true
         },
-        "nativeShape": {
-          "format": "json",
-          "byteStable": true
-        },
+        "nativeShape": { "format": "json", "byteStable": true },
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
           "sourceBeforeSha256": "b2093290fb1a36ecbd246252b5c4019ad37e9c43f8ce7cc5492eb2bcf8cb8c8e",
@@ -5556,7 +5443,7 @@
       ],
       "stopLine": "This scoped document maintenance does not grant complete story/runtime/visual/deployment acceptance or refresh unrelated historical evidence.",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Owned delta only.",
+      "reviewedLines": "1-3531",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -7916,7 +7803,7 @@
         }
       ],
       "sourceSha256": "a6034a8eee23aede7a0c85cc1bda433e850a4449cbc43cd73d7c46897f6d68e7",
-      "afterSha256": "57dc5f9b16ec86a6a0f1c13ad3ea424f252fa48a731825089b40071279b3f6ab",
+      "afterSha256": "0091f2de3e27316d991d6693bea4e6facca84faa24a5896a74b9e99053d3e38b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7940,7 +7827,7 @@
       },
       "revision": {
         "currentSha": "441241b6fb48b9b96d99d3b3dc514c603fabed0320498ff2da12515ef64893f9",
-        "implementationSha": "57dc5f9b16ec86a6a0f1c13ad3ea424f252fa48a731825089b40071279b3f6ab",
+        "implementationSha": "0091f2de3e27316d991d6693bea4e6facca84faa24a5896a74b9e99053d3e38b",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -7967,10 +7854,7 @@
                 "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
                 "exactRoundTrip": true
               },
-              "nativeShape": {
-                "format": "json",
-                "byteStable": true
-              }
+              "nativeShape": { "format": "json", "byteStable": true }
             }
           },
           {
@@ -7998,10 +7882,7 @@
                 "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
                 "exactRoundTrip": true
               },
-              "nativeShape": {
-                "format": "json",
-                "byteStable": true
-              }
+              "nativeShape": { "format": "json", "byteStable": true }
             }
           },
           {
@@ -8605,15 +8486,25 @@
             "date": "2026-10-25",
             "previousAfterSha256": "a6034a8eee23aede7a0c85cc1bda433e850a4449cbc43cd73d7c46897f6d68e7",
             "scope": "Current owned document delta; no product/whole-gate acceptance."
+          },
+          {
+            "date": "2026-10-28",
+            "revision": "working-tree",
+            "action": "window2-owned-review-envelope",
+            "previousAfterSha256": "57dc5f9b16ec86a6a0f1c13ad3ea424f252fa48a731825089b40071279b3f6ab",
+            "afterSha256": "0091f2de3e27316d991d6693bea4e6facca84faa24a5896a74b9e99053d3e38b",
+            "scope": "Only five reviewed document deltas and their explicit history/after bindings; other entries and historical verdicts remain unchanged. No semantic credit from hash refresh.",
+            "evidence": "docs/ops/evidence/QUALITY-PENDING-100-2/README.md",
+            "notRun": ["runtime", "E2E", "visual", "coverage by this envelope"]
           }
         ]
       },
       "evidence": {
         "kind": "owned-review52-closeout",
-        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "441241b6fb48b9b96d99d3b3dc514c603fabed0320498ff2da12515ef64893f9",
+        "afterSha256": "0091f2de3e27316d991d6693bea4e6facca84faa24a5896a74b9e99053d3e38b",
         "lineCount": 7102,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -8624,10 +8515,7 @@
           "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
           "exactRoundTrip": true
         },
-        "nativeShape": {
-          "format": "json",
-          "byteStable": true
-        },
+        "nativeShape": { "format": "json", "byteStable": true },
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
           "sourceBeforeSha256": "887f3858847bb1982fab6d0e570bccccca12254cdbe07635d015241936047f97",
@@ -8682,10 +8570,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           }
         },
         {
@@ -8713,10 +8598,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           }
         },
         {
@@ -9121,10 +9003,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current CLI/event window accepted five bounded file scopes; CODE3/3g remain partial;ledger 356/126/2856;CODE3/3g remainpartial,no94-102. Exact scope at cli-slice-closeout/review.json.",
           "previousReadMethod": "Read only owned current CLI/event window row and exact descendant binding; original unrelated review reused"
@@ -9152,10 +9031,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only mobile task/status and 14 new tracked inventory counts; no new code-quality closure; integration gates pending.",
           "previousReadMethod": "Read the exact owned row/dependency delta against latest main; preserve all unrelated entries and historical evidence."
@@ -9211,10 +9087,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current CLI/event window main7663 mobile source integrated;0closures; merged gates pending;ledger 355/129/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
           "previousAfterSha256": "d0c7c55414bc41cf2e1a47e6c443c5a7fccc204316766d2c97511ff56dd6d1de",
@@ -9241,10 +9114,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current CLI/event window six named IO file scopes accepted after merged unified gates; CODE3/3g partial, P3 still awaiting decision;ledger 361/123/2870;CODE3/3g remainpartial,no94-102. Exact scope at event-slice-approved/review.json.",
           "previousAfterSha256": "7fc95ddb7dd0fa50492dd51d69933c732cb8e28ff0cbc5d8c0aa641bb7c1492c",
@@ -9271,10 +9141,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current battle-quality window build; pure structure local proof40/TC0; H02/Extra/WORD and unified window remain open;ledger 361/124/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
           "previousAfterSha256": "c56caebee946ae61868210c191496079db8e281b1fdc8c4485e101d205be3eb0",
@@ -9301,10 +9168,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current battle-quality window build; structural53fe25e pushed; H02 seven-pool discrimination established, CODE3u current contract prepared; unified gates not run;ledger 361/124/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
           "previousAfterSha256": "4366d0fd222c94f69d118a8a06ebf77b8a35c3a2670944c73a8dacf4109b8f53",
@@ -9331,10 +9195,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current battle-quality window accept CODE3u original state/resource/position contract and10 explicit files; 3w/3x remain partial; remote integration pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
           "previousAfterSha256": "3cb02392857b1811675cf90e6e474098ec98d77c9cbf14b5f9249e845fd62e3d",
@@ -9361,10 +9222,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current battle-quality window accept CODE3u original state/resource/position contract and10 explicit files; 3w/3x remain partial; remote integration pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
           "previousAfterSha256": "10a1d32c2a8b6aa198421ac33bea3d3c7e3cf7968d8627be2b9dd15e39c537f9",
@@ -9391,10 +9249,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current battle-quality window CODE3u and10 explicit scopes accepted unchanged; cb67a6a0e merged, actual main CI failedM05; narrow test repair locally accepted, new remote CI pending;ledger 371/114/2870;CODE3w/3x remainpartial,no94-102. Exact scope at battle-quality/review.json.",
           "previousAfterSha256": "4171cbb6c7d24c1ce73f717418625a76a20c9cf95df17335a65bb90caa2e4ce4",
@@ -9421,10 +9276,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only current owned delta: user-approved phase1 hidden growth continues past65535, historical quote preserved;385 actual main Coverage failedmeal, fresh official Reforge8965/six package reuse has unchanged metrics. No full-file acceptance/new closures;57accept/26partial;ledger371/114/2870. Exact evidence at battle-quality/meal-ci/review.json.",
           "previousAfterSha256": "b1296c94b523450b0759fcb455865d3d8281b4506b2ba89314fae63349c51fca",
@@ -9451,10 +9303,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
           "previousAfterSha256": "8995ed5711ea56ca74bb3fd4f426c6dace92a4b03d4aab4b6c084e2ab53824eb",
@@ -9481,10 +9330,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only owned current game actions/mobile delta. Formal AVI two red then61 adjacent green;3v structure/test evidence and source pins. Grouped gates/acceptance remain according to game-actions-mobile/review.json; no unrelated entry reacceptance.",
           "previousAfterSha256": "182c68514023e242746a383cf38b7db46354b97f6eaf044e498b559c166845ec",
@@ -9511,10 +9357,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only owned experience-input/progression window rows. Formal28green/1business red then66 adjacent green; user WORD input policy and private caller/JS proof;57accept26partial while grouped gates pending. Grouped gates/acceptance remain according to game-progression-input/review.json; no unrelated entry reacceptance.",
           "previousAfterSha256": "13f965be908c4bd98fbb7cb6f248cdc5ee9f49797abc7714a941f7af10c167be",
@@ -9541,10 +9384,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Only owned experience-input/progression window rows. Formal28green/1business red then66 adjacent green; user WORD input policy and private caller/JS proof;59accept24partial;20434 wholecheck plus3724 affected-game refresh;one20040 official and strict/protected0diagnostics. Grouped gates/acceptance remain according to game-progression-input/review.json; no unrelated entry reacceptance.",
           "previousAfterSha256": "42cf860cf8df4711fc1e935bd3ea07abf9914467322d2893952f4bfaf70669c8",
@@ -9571,10 +9411,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Owned3c/92 original contracts accepted with per-fileA-H,same-byte native controls/current execution and30freshGitcomparisons8same22changed. Workbench prior review lost in89bf merge restored; dedicated test accepted separately.61accept22partial,373closed113review2869pending. Interpreter header-only parsed/emitted identity permits reuse of20434check/finalgame3724/one20040official/protected;no new collection or rule/source30 closure. Final document statics/integration follow actual receipts.",
           "previousAfterSha256": "d8c0019b549a2433d749df8642660e204e8b9562c8a4ecf1685a9fea675f11d2",
@@ -9601,10 +9438,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Accepted modifiedV1 import -> original setParty -> old fighter target garlic -> actual flee -> getter/export residual30 proven by two isolated core runs,not canonical story/UI/nativeSDL. New all-role temporary Extra cleanup policy pending;product unchanged.61accept22partial and373closed113review2869pending unchanged. Current document statics separate;no new coverage collection.",
           "previousAfterSha256": "fe31cfee059dc5e15f71337292095b7ad02df2d1da64173c494842ed2362e78c",
@@ -9631,10 +9465,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "User approved all-role temporary Extra cleanup;formal old single business AssertionError ->28direct/39+169adjacent andgame typecheck0. Actual weapon8attack/32760DualAttack preserved. Source andnewtest remainreview;3356/373closed114review2869pending,61accept22partial. Fullcheck/official/protected after product change deferred to3w module;no main merge or inherited current gate claim.",
           "previousAfterSha256": "add06a1b0fb0e1882ef3fb77d3866741d6cb8a405515ab1711e88ddb2c8b151c",
@@ -9661,10 +9492,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "User approved all-role temporary Extra cleanup;formal old single business AssertionError ->28direct/39+169adjacent andgame typecheck0. Actual weapon8attack/32760DualAttack preserved. Source andnewtest remainreview;3356/373closed114review2869pending,61accept22partial. Fullcheck/official/protected after product change deferred to3w module;no main merge or inherited current gate claim.",
           "previousAfterSha256": "277c404cf8a05646f8d64a90206b4796a6605ab83cdb15cbe45735d06ab378c9",
@@ -9691,10 +9519,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "User approved preserving post-battle HP/MP before current half-recovery;two formal business reds then238 local direct/adjacent green and game TC0. Original accepted V1 actual190tick combat394->500;raw writes and battle heals share runtime only in PhaseE. Source/test remainreview;3356/372closed115review2869pending,61accept22partial. Current wholecheck/official/protected deferred to related3w module window;no main merge or file acceptance.",
           "previousAfterSha256": "3f33687c50d723e844305a61a09bb431629073bbf0f73a7b68ee9b57bea09204",
@@ -9721,10 +9546,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
           "previousAfterSha256": "fd927a4e53e2b8384b979f8732c2bd55265dfab77e82043afafd60dad0c2b008",
@@ -9751,10 +9573,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;build only,not yet implemented. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
           "previousAfterSha256": "e00b4ed835ad59bbfb25408a34d5384bc4be96c2fb552239650c909098bb4f38",
@@ -9781,10 +9600,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;formal16/1red then4files27green/currentTC0. Private per-settlement WeakMap avoids V1/public-field change;actual originalteam46 first1/final2 and existing V1 guard pass. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
           "previousAfterSha256": "92f4ad04e9b8804c9cc8642cb3f8b56abd8694031a2a5e4251e865bf6bd268ca",
@@ -9811,10 +9627,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Approved HP/MP context follow-up:existing eventObjectId carries SDL enemy slot i;valid-input15/1red then26direct/61adjacent and current game TC0. Prior extra/HP fixes retained at frozen versions;current source/test stayreview,3356/372closed115review2869pending,61accept22partial. User separately approved per-enemy dialog wait;formal16/1red then4files27green/currentTC0. Private per-settlement WeakMap avoids V1/public-field change;actual originalteam46 first1/final2 and existing V1 guard pass. Wholecheck/official/protected deferred to stable module window;no file ormain acceptance.",
           "previousAfterSha256": "b6407dcaa4cd208be3ae727d1a1934a56774d9f2b97b045f42686863b87dbfd0",
@@ -9841,10 +9654,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
           "previousAfterSha256": "4135ddf0cb0edad162126e5ae0743668745252997de36a9e4526c04fa4e9c889",
@@ -9896,10 +9706,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "CODE3w original state/settlement/cleanup contract accepted after approved Extra/HPMP/defaultrole/order fixes. Five filesA-H accepted;62accept21partial and3356/377closed110review2869pending. Complete check20443+684tools,seven package TC,official20045/758sources and same-report protected comparison all zero diagnostics. Initial12pal-extract5s timeouts retained;bounded workers rerun without timeout/rule changes. Full battle-system/event-system and visualE2E not promoted;94-102 excluded.",
           "previousAfterSha256": "3c4a13d8d852868e8d4fe5de9070c84e3e10d151ff35779bfe0b7804f1860179",
@@ -9926,10 +9733,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            }
+            "nativeShape": { "format": "json", "byteStable": true }
           },
           "previousCoreConclusion": "Current pre94 fixed83 remains62accept21partial;3357/377closed113review2867pending. CODE3h quality snapshot and approved UI original-index fix have complete finite A-H evidence, old1green2businessred then27files216green/TC0. Published c427 Coverage succeeds20045; platform6deprecations+1annotation disclosed. Full current module gates pending, no new file/card acceptance;94-102 excluded.",
           "previousAfterSha256": "03b314bceeb0e400bfeef6aa2d1323b2f8499d684c320c3e628f38afb996bca8",
@@ -9956,10 +9760,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            },
+            "nativeShape": { "format": "json", "byteStable": true },
             "currentMaintenance": {
               "kind": "script-corrections-main-sync-publication",
               "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
@@ -9995,10 +9796,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            },
+            "nativeShape": { "format": "json", "byteStable": true },
             "currentMaintenance": {
               "kind": "script-corrections-main-sync-publication",
               "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
@@ -10041,10 +9839,7 @@
                 "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
                 "exactRoundTrip": true
               },
-              "nativeShape": {
-                "format": "json",
-                "byteStable": true
-              },
+              "nativeShape": { "format": "json", "byteStable": true },
               "currentMaintenance": {
                 "kind": "english-feature-incoming-review-binding",
                 "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
@@ -10102,10 +9897,7 @@
                 "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
                 "exactRoundTrip": true
               },
-              "nativeShape": {
-                "format": "json",
-                "byteStable": true
-              },
+              "nativeShape": { "format": "json", "byteStable": true },
               "currentMaintenance": {
                 "kind": "script-corrections-main-sync-publication",
                 "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
@@ -10166,10 +9958,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            },
+            "nativeShape": { "format": "json", "byteStable": true },
             "currentMaintenance": {
               "kind": "script-corrections-main-sync-publication",
               "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
@@ -10205,10 +9994,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            },
+            "nativeShape": { "format": "json", "byteStable": true },
             "currentMaintenance": {
               "kind": "script-corrections-main-sync-publication",
               "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
@@ -10251,10 +10037,7 @@
                 "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
                 "exactRoundTrip": true
               },
-              "nativeShape": {
-                "format": "json",
-                "byteStable": true
-              },
+              "nativeShape": { "format": "json", "byteStable": true },
               "currentMaintenance": {
                 "kind": "english-release-main-sync-documentation",
                 "path": "docs/ops/evidence/GAME-ENGLISH-1/release-preflight.json",
@@ -10298,10 +10081,7 @@
                 "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
                 "exactRoundTrip": true
               },
-              "nativeShape": {
-                "format": "json",
-                "byteStable": true
-              },
+              "nativeShape": { "format": "json", "byteStable": true },
               "currentMaintenance": {
                 "kind": "script-corrections-main-sync-publication",
                 "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
@@ -10351,10 +10131,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            },
+            "nativeShape": { "format": "json", "byteStable": true },
             "currentMaintenance": {
               "kind": "script-corrections-main-sync-publication",
               "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/ci-inventory-fix.json",
@@ -10390,10 +10167,7 @@
               "inverseSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
               "exactRoundTrip": true
             },
-            "nativeShape": {
-              "format": "json",
-              "byteStable": true
-            },
+            "nativeShape": { "format": "json", "byteStable": true },
             "currentMaintenance": {
               "kind": "english-release-second-main-sync",
               "path": "docs/ops/evidence/GAME-ENGLISH-1/main-sync-2.json",
@@ -10462,10 +10236,7 @@
             "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
           }
         },
-        {
-          "action": "3l-20261023",
-          "previousCommit": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b"
-        },
+        { "action": "3l-20261023", "previousCommit": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b" },
         {
           "date": "2026-10-25",
           "previousAfterSha256": "a6034a8eee23aede7a0c85cc1bda433e850a4449cbc43cd73d7c46897f6d68e7",
@@ -10473,11 +10244,7 @@
           "scope": "Owned94–102 review delta; prior full record remains in base8eb Git. No other entry refreshed.",
           "evidence": "docs/ops/evidence/CODE-QUALITY-94/current-review/review.json"
         },
-        {
-          "date": "2026-10-25",
-          "revision": "b8b2ffaf4",
-          "action": "94–102 approved closeout"
-        },
+        { "date": "2026-10-25", "revision": "b8b2ffaf4", "action": "94–102 approved closeout" },
         {
           "date": "2026-10-25",
           "revision": "0e14c184eed91841ee0f48323b98c98b734a3129",
@@ -10500,7 +10267,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Owned delta only.",
+      "reviewedLines": "1-7134",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -15416,7 +15183,7 @@
         }
       ],
       "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-      "afterSha256": "f378a1c81443f3c0fd16511a5a51ac88df4668f867d83cec30e3326355c03065",
+      "afterSha256": "8934a014f822cf4925386fbfdd4f25c13afef46e39967344d7aa0fe40918a33d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15440,7 +15207,7 @@
       },
       "revision": {
         "currentSha": "77cff8288bab94695ee5d12a94b5476b34312cd1840b6035c00e880b46df54c0",
-        "implementationSha": "f378a1c81443f3c0fd16511a5a51ac88df4668f867d83cec30e3326355c03065",
+        "implementationSha": "8934a014f822cf4925386fbfdd4f25c13afef46e39967344d7aa0fe40918a33d",
         "history": [
           {
             "revision": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
@@ -15494,15 +15261,25 @@
             "date": "2026-10-17",
             "action": "byte-stable phase-governance artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-28",
+            "revision": "working-tree",
+            "action": "window2-owned-review-envelope",
+            "previousAfterSha256": "f378a1c81443f3c0fd16511a5a51ac88df4668f867d83cec30e3326355c03065",
+            "afterSha256": "8934a014f822cf4925386fbfdd4f25c13afef46e39967344d7aa0fe40918a33d",
+            "scope": "Only five reviewed document deltas and their explicit history/after bindings; other entries and historical verdicts remain unchanged. No semantic credit from hash refresh.",
+            "evidence": "docs/ops/evidence/QUALITY-PENDING-100-2/README.md",
+            "notRun": ["runtime", "E2E", "visual", "coverage by this envelope"]
           }
         ]
       },
       "evidence": {
         "kind": "owned-review52-closeout",
-        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json",
+        "path": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
         "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
         "candidateSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-        "afterSha256": "77cff8288bab94695ee5d12a94b5476b34312cd1840b6035c00e880b46df54c0",
+        "afterSha256": "8934a014f822cf4925386fbfdd4f25c13afef46e39967344d7aa0fe40918a33d",
         "lineCount": 1060,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -15513,10 +15290,7 @@
           "inverseSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
           "exactRoundTrip": true
         },
-        "nativeShape": {
-          "format": "json",
-          "byteStable": true
-        },
+        "nativeShape": { "format": "json", "byteStable": true },
         "scope": "Owned52 metadata only; prior provenance and runtime limits retained.",
         "currentMaintenance": {
           "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
@@ -15548,7 +15322,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "Owned current source/binding delta",
+      "reviewedLines": "1-1073",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

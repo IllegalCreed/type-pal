@@ -16,6 +16,7 @@ const scene = (mapId: unknown): unknown => ({
 
 describe('MapIndexV1', () => {
   test('规范化安全相对路径，并保持 id/name/path', () => {
+    expect(normalizeMapAssetPath('content/maps//a.json')).toBe('content/maps/a.json')
     expect(
       validateMapIndex({
         version: 1,
@@ -58,6 +59,7 @@ describe('MapIndexV1', () => {
   })
 
   test('文件名可稳定派生 id stem', () => {
+    expect(mapIdStem('content/maps/nested/map-9.json')).toBe('map-9')
     expect(mapIdStem('content/maps/Home Room.json')).toBe('home-room')
     expect(mapIdStem('content/maps/legacy-home.json')).toBe('legacy-home')
   })

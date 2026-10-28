@@ -1,5 +1,5 @@
 /**
- * TEST-CONTENT-CONTRACTS-1 E1/E2：author-dialogue 身份/cue/resolver（author-dialogue.ts:93-202）。
+ * TEST-CONTENT-CONTRACTS-1 E1/E2：author-dialogue 身份/cue/resolver（author-dialogue.ts）。
  * narration/actor/unbound 合法联合与非法半状态；portrait.side/rows 对象；resolver fail-loud 无 fallback。
  */
 import { describe, expect, test } from 'vitest'
@@ -15,7 +15,8 @@ const actorCue = (): AuthorDialogueCue => ({
     portrait: { kind: 'expression', expression: 'angry', side: 'left' },
   },
   slot: 'bottom',
-  rows: [{ text: '你好' }],
+  autoAdvance: 0,
+  rows: [{ text: '你好', speed: 0 }],
 })
 const unboundCue = () => ({
   identity: { kind: 'unbound', portrait: { asset: 'portrait.hero', side: 'left' } },
@@ -31,7 +32,7 @@ describe('E1 checkAuthorDialogueCue · 合法联合与非法半状态', () => {
     ).not.toThrow()
     expect(() =>
       checkAuthorDialogueCue({ identity: { kind: 'half' }, rows: [{ text: 'x' }] }, 'c'),
-    ).toThrow()
+    ).toThrow('c.identity.kind: 期望 narration|actor|unbound')
   })
   test.each([
     [
@@ -42,8 +43,6 @@ describe('E1 checkAuthorDialogueCue · 合法联合与非法半状态', () => {
       },
       /side/,
     ],
-    ['rows 字符串数组', { ...unboundCue(), rows: ['text'] }, /rows\[0\]: 期望对象/],
-    ['rows 空数组', { ...unboundCue(), rows: [] }, /rows: 期望非空数组/],
     [
       '非法 side 值',
       {
@@ -57,7 +56,7 @@ describe('E1 checkAuthorDialogueCue · 合法联合与非法半状态', () => {
   })
 })
 
-describe('E2 resolveAuthorDialogueCue · fail-loud 无 fallback', () => {
+describe('E2 resolveAuthorDialogueCue · 完整值与输入归属', () => {
   const actors = (): ActorDef[] => [
     {
       id: 'hero',
@@ -70,57 +69,19 @@ describe('E2 resolveAuthorDialogueCue · fail-loud 无 fallback', () => {
     const cue = actorCue()
     const cueBefore = deepSnapshot(cue)
     // 快照真正传入 resolver 的 actor 表（同一对象），不是另一次 factory 调用
-    const actorTable = Object.fromEntries(actors().map((a) => [a.id, a])) as Parameters<
-      typeof resolveAuthorDialogueCue
-    >[1]
+    const actorTable = Object.fromEntries(actors().map((a) => [a.id, a]))
     const actorsBefore = deepSnapshot(actorTable)
     const resolved = resolveAuthorDialogueCue(cue, actorTable)
-    expect(resolved.speaker).toBe('name.hero')
-    expect(resolved.portrait).toEqual({ asset: 'p.angry', side: 'left' })
-    expect(resolved.rows).toEqual([{ text: '你好' }])
+    expect(resolved).toEqual({
+      speaker: 'name.hero',
+      portrait: { asset: 'p.angry', side: 'left' },
+      slot: 'bottom',
+      autoAdvance: 0,
+      rows: [{ text: '你好', speed: 0 }],
+    })
+    expect(resolved.rows).not.toBe(cue.rows)
+    expect(resolved.rows[0]).not.toBe(cue.rows[0])
     expect(cue).toEqual(cueBefore)
     expect(actorTable).toEqual(actorsBefore)
-  })
-  test('缺 Actor/缺主立绘/缺命名表情 fail-loud 不回退全局资源', () => {
-    expect(() =>
-      resolveAuthorDialogueCue(
-        actorCue(),
-        Object.fromEntries(
-          actors()
-            .filter((a) => a.id !== 'hero')
-            .map((a) => [a.id, a]),
-        ) as Parameters<typeof resolveAuthorDialogueCue>[1],
-      ),
-    ).toThrow()
-    // 缺主立绘：改用 default portrait 的 cue 才会消费 portraits.default（expression cue 不需要）
-    const noDefault = actors()
-    ;(noDefault[0] as unknown as { portraits: Record<string, unknown> }).portraits = {
-      expressions: { angry: 'p.angry' },
-    }
-    const defaultCue: AuthorDialogueCue = {
-      identity: { kind: 'actor', actor: 'hero', portrait: { kind: 'default', side: 'left' } },
-      rows: [{ text: 'x' }],
-    }
-    expect(() =>
-      resolveAuthorDialogueCue(
-        defaultCue,
-        Object.fromEntries(noDefault.map((a) => [a.id, a])) as Parameters<
-          typeof resolveAuthorDialogueCue
-        >[1],
-      ),
-    ).toThrow()
-    const noAngry = actors()
-    ;(noAngry[0] as unknown as { portraits: Record<string, unknown> }).portraits = {
-      default: 'p.default',
-      expressions: { calm: 'p.calm' },
-    }
-    expect(() =>
-      resolveAuthorDialogueCue(
-        actorCue(),
-        Object.fromEntries(noAngry.map((a) => [a.id, a])) as Parameters<
-          typeof resolveAuthorDialogueCue
-        >[1],
-      ),
-    ).toThrow()
   })
 })

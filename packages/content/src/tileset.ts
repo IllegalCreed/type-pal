@@ -6,7 +6,7 @@ import type { AssetCatalogV1, AssetId } from './asset.js'
  * 帧几何由 RLE 帧组自描述,无帧表；地图实例高度不属于 tileset。
  */
 export interface TilesetDef {
-  /** 稳定身份(库 UI/绑定键);kebab-case,不含 '/'。 */
+  /** 稳定身份(库 UI/绑定键);不含 '/'。 */
   id: string
   name: string
   /** 环境分类(outdoor/indoor/dungeon/builtin…惯例字符串,不设枚举)。 */

@@ -3,10 +3,9 @@
  * 只放数据/薄构造器，不复制生产算法/walker；不被生产导入。
  * 受测值先过对应现行守卫（validateAssetCatalog/validateProjectMap 等）再进入断言。
  */
-import { expect } from 'vitest'
-
-/** 独立保真深快照：structuredClone 保留 undefined/typed array；改返回值不影响原输入。 */
-/** 保真深拷贝（content 测试宿主无 structuredClone；手写递归保 undefined/typed array）。 */
+/** 深快照供 plain records/arrays、Date、Uint8Array 夹具；保留 undefined，不经 JSON 往返。
+ * 不承诺任意对象原型/Map/Set 的克隆；其它宿主若需要这些类型须选对应的夹具工具。
+ */
 export function deepSnapshot<T>(value: T): T {
   return clone(value) as T
 }
@@ -19,36 +18,6 @@ function clone(node: unknown): unknown {
   const out: Record<string, unknown> = {}
   for (const [key, value] of Object.entries(node)) out[key] = clone(value)
   return out
-}
-
-/** 断言执行前后原输入全状态不变（含 undefined/NaN 域，不经 JSON 往返）。 */
-export function expectInputUnchanged<T>(before: T, after: T, label: string): void {
-  expect(after).toEqual(before)
-  // 保真自证：反向改快照不影响原对象（别名检测）
-  const probe = deepSnapshot(before)
-  mutateFirstNumber(probe)
-  expect(before).toEqual(after === before ? before : deepSnapshot(before))
-  expect(probe).not.toEqual(before)
-  void label
-}
-
-function mutateFirstNumber(node: unknown): boolean {
-  if (Array.isArray(node)) {
-    for (const entry of node) if (mutateFirstNumber(entry)) return true
-    return false
-  }
-  if (node && typeof node === 'object') {
-    for (const value of Object.values(node)) {
-      if (typeof value === 'number') {
-        const record = node as Record<string, unknown>
-        const key = Object.keys(node).find((candidate) => record[candidate] === value)
-        if (key !== undefined) record[key] = -99999
-        return true
-      }
-      if (mutateFirstNumber(value)) return true
-    }
-  }
-  return false
 }
 
 /** 最小合法 sprite 资产 catalog 记录（kind 域见 content/src/asset.ts AssetKind）。 */

@@ -1,14 +1,7 @@
-/**
- * TEST-GLM-CONTENT-GUARDS-2 G1：enemy-validation-shapes 六函数直接叶合同。
- * 去重：既有证据全部经父入口（enemy-script.wave2 经 checkEnemyAi 的 rules.when、
- * author-battle-dialogue-boundary 经作者递归、validate-enemy-crosscalls 经
- * validateEnemies 三路），六个导出函数自身此前无任何直接测试；本文件补对象身份、
- * 精确未知键路径、trim、有限数/百分比闭区间/正整数叶轴，各拒绝前放同型合法对照，
- * 不复制父入口已证边界，也不新发更严政策。
- * R1：错误路径用完整 message 全等比较（toThrow(string) 是子串匹配）；对象输入
- * 调用前后对独立快照比较，原始值直接做值断言不做空快照。
- * C1：expectAcceptsUnchanged 的闭包必须消费第二参数这一份实际输入（生产看到哪个
- * 对象就比较哪个）；对象坏输入（record 数组、exactKeys 未知键对象）同样补快照。
+/** Direct contracts for the six enemy schema guard leaves.
+ * Unknown inputs intentionally enter these unknown-typed boundaries; accepted objects are
+ * compared with snapshots of the actual input. Exact errors pin both field path and reason.
+ * Parent validators exercise composition; these cases isolate leaf identity and boundaries.
  */
 import { describe, expect, test } from 'vitest'
 import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
@@ -39,7 +32,7 @@ describe('G1 record', () => {
     const control = { kind: 'wait', ms: 0 }
     expectAcceptsUnchanged((value) => record(value, 'v'), control)
     if (typeof bad === 'object' && bad !== null) {
-      const badBefore = deepSnapshot(bad as object)
+      const badBefore = deepSnapshot(bad)
       expectExactError(() => record(bad, 'v'), 'v: 期望对象')
       expect(bad).toEqual(badBefore)
     } else {

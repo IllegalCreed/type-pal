@@ -16,12 +16,8 @@ const base = (): AuthorDialogueCue => ({
 describe('A6 rows 守卫轴（现行合同：非空数组，无长度上限——不发明 >4 拒绝）', () => {
   test('空数组拒绝；元素缺 text/非对象拒绝；多行合法', () => {
     expect(() => checkAuthorDialogueCue({ ...base(), rows: [] }, 'c')).toThrow(/rows/)
-    expect(() => checkAuthorDialogueCue({ ...base(), rows: [{ speed: 1 } as never] }, 'c')).toThrow(
-      /text/,
-    )
-    expect(() => checkAuthorDialogueCue({ ...base(), rows: ['plain'] as never }, 'c')).toThrow(
-      /rows\[0\]/,
-    )
+    expect(() => checkAuthorDialogueCue({ ...base(), rows: [{ speed: 1 }] }, 'c')).toThrow(/text/)
+    expect(() => checkAuthorDialogueCue({ ...base(), rows: ['plain'] }, 'c')).toThrow(/rows\[0\]/)
     const many = Array.from({ length: 6 }, (_, i) => ({ text: `行${i}` }))
     expect(() => checkAuthorDialogueCue({ ...base(), rows: many }, 'c')).not.toThrow()
   })
@@ -53,7 +49,7 @@ describe('A8 autoAdvance 守卫轴', () => {
     expect(() => checkAuthorDialogueCue(withAdvance(250.5), 'c')).not.toThrow()
     expect(() => checkAuthorDialogueCue(withAdvance(-1), 'c')).toThrow(/autoAdvance/)
     expect(() => checkAuthorDialogueCue(withAdvance(Number.NaN), 'c')).toThrow(/autoAdvance/)
-    expect(() => checkAuthorDialogueCue({ ...base(), autoAdvance: 'fast' as never }, 'c')).toThrow(
+    expect(() => checkAuthorDialogueCue({ ...base(), autoAdvance: 'fast' }, 'c')).toThrow(
       /autoAdvance/,
     )
     expect(cue).toEqual(snapshot)
@@ -62,7 +58,7 @@ describe('A8 autoAdvance 守卫轴', () => {
 
 describe('A9 slot 守卫轴', () => {
   test('非法 slot 拒绝；四个合法值逐一通过', () => {
-    const withSlot = (slot: string): AuthorDialogueCue => ({ ...base(), slot: slot as never })
+    const withSlot = (slot: string) => ({ ...base(), slot })
     for (const slot of ['bottom', 'top', 'narration', 'center'])
       expect(() => checkAuthorDialogueCue(withSlot(slot), 'c')).not.toThrow()
     expect(() => checkAuthorDialogueCue(withSlot('left'), 'c')).toThrow(/slot/)
@@ -72,9 +68,9 @@ describe('A9 slot 守卫轴', () => {
 
 describe('A10 cursorFrame 守卫轴', () => {
   test('非法 cursorFrame 拒绝（超 0..2/非整数）；0/1/2 合法', () => {
-    const withCursor = (cursorFrame: number): AuthorDialogueCue => ({
+    const withCursor = (cursorFrame: number) => ({
       ...base(),
-      cursorFrame: cursorFrame as never,
+      cursorFrame,
     })
     for (const frame of [0, 1, 2])
       expect(() => checkAuthorDialogueCue(withCursor(frame), 'c')).not.toThrow()

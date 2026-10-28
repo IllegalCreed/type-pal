@@ -45,9 +45,10 @@ describe('author dialogue identity', () => {
         },
         { [actor.id]: actor },
       ),
-    ).toMatchObject({
+    ).toEqual({
       speaker: 'title.hero',
       portrait: { asset: 'portrait.li.angry', side: 'left' },
+      rows: [{ text: 'line' }],
     })
   })
 

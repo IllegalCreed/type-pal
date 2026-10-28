@@ -1,15 +1,11 @@
-/** GLM Wave I / I06 — splash-fallback.ts 标题渐显逐帧推进未证公开合同(生产冻结 ced193f4)。
- *
- * 旧证去重:splash-fallback.test.ts 已证三跳过键 / 自定义键表 / 滚动 bitmap blit /
- * L44 早跳过标题补满 / L42 退出淡黑;不含「未跳过时标题每帧 +1 行渐显」的前半段行为。
- * 本文件用 fake timers 精确停在第 3 帧后(sdlpal main.c:378-389:titleVisibleHeight 每帧 +1):
- *  - 第 3 帧后:title dy=0..2 已画(fb 行 10..12),dy=5(fb 行 15)未画;
- *  - 仙鹤帧全透明替换,保证 title 区像素只可能来自 title blit(锚定断言)。
- * nowFn 传 Date.now(被 fake Date 驱动)使跳过补完渐变 + 600ms 淡出在 fake 时钟下可终止。
+/** Title reveal before skipping: three 85ms steps expose rows 0..2, not row 5.
+ * Transparent cranes isolate this pixel oracle from the separately tested bitmap/skip paths.
+ * This is a software pixel test, not full opening-sequence visual acceptance.
  */
 
 import type { Palette } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { realCanvasContext } from '../__tests__/canvas-host.js'
 import type { IndexedImage } from '../assets/png.js'
 import { createFramebuffer } from '../present/framebuffer.js'
 import { playSplashFallback } from './splash-fallback.js'
@@ -28,15 +24,10 @@ function bitmap(w: number, h: number, fill: number, opaque = 1): IndexedImage {
   }
 }
 
-/** DOM 替身:原型链正确的 2D 上下文,只实现 flushToCanvas 声明的 putImageData 端口。 */
-/** DOM 替身:原型取自环境自身 2D 上下文,只实现 flushToCanvas 声明的 putImageData 端口。 */
-function ctxSpy(): CanvasRenderingContext2D {
-  const probe = document.createElement('canvas').getContext('2d')
-  const proto = probe ? Object.getPrototypeOf(probe) : Object.prototype
-  return Object.assign(Object.create(proto), { putImageData: vi.fn() })
-}
-
-afterEach(() => {
+afterEach(async () => {
+  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
+  await vi.advanceTimersByTimeAsync(2500)
+  vi.clearAllTimers()
   vi.useRealTimers()
   vi.restoreAllMocks()
 })
@@ -49,7 +40,7 @@ describe('playSplashFallback 标题渐显(sdlpal main.c:378-389 每帧 +1 行)',
     const fb = createFramebuffer()
     const p = playSplashFallback({
       fb,
-      canvasCtx: ctxSpy(),
+      canvasCtx: realCanvasContext(),
       palette,
       bitmapUp: bitmap(320, 200, 0x11),
       bitmapDown: bitmap(320, 200, 0x22),
@@ -66,13 +57,13 @@ describe('playSplashFallback 标题渐显(sdlpal main.c:378-389 每帧 +1 行)',
     // 3 × 85ms 帧间隔 → 恰完成 3 个循环体,停在第 4 帧 sleep。
     await vi.advanceTimersByTimeAsync(3 * 85)
     const at = (row: number, x: number): number => fb.indices[row * 320 + x]!
-    expect(at(10, 255)).toBe(0x44) // dy=0(第 1 帧起)
-    expect(at(12, 255)).toBe(0x44) // dy=2(第 3 帧新画)
-    expect(at(15, 255)).not.toBe(0x44) // dy=5 未画
+    const revealed = [at(10, 255), at(12, 255), at(15, 255)]
 
     // 收尾:真实释放 fake 时钟前先让挂起的 sleep 在 fake 时钟内自然走完跳过路径。
     window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
-    await vi.runAllTimersAsync()
+    await vi.advanceTimersByTimeAsync(2500)
     await p
-  }, 10_000)
+    expect(revealed.slice(0, 2)).toEqual([0x44, 0x44])
+    expect(revealed[2]).not.toBe(0x44)
+  })
 })

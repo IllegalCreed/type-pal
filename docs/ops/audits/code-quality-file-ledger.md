@@ -1,3 +1,7 @@
+2026-10-28 第二百文件窗口本地收口：100实际主体＋1新增Canvas宿主分别逐文件接受，四重复专测退役不计主体。全仓七包20503测试、typecheck和lint0；official20154/809，无指标下降，同报ratchet/protected0。3463tracked／796closed／0review／2667pending；提交前fetch恢复且0behind；远端推送/PR/合并待，未授其它pending信用。[完整原件](../evidence/QUALITY-PENDING-100-2/uniform/README.md)。
+
+2026-10-28 第二百文件窗口首片：present主测/hold两主体全文A–H与必要返工接受，暂review等窗口统一门，3466tracked／695closed／2review／2769pending。原67→61合同映射，102定向/相邻、TC/局部静态0，两旧绿新唯一业务红；无产品改动，不将依赖/搬移计入2。重门/官方覆盖率/发布等约100冻结。[本片八维与原件](../evidence/QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md)。
+
 2026-10-28 PR30必要CI返工：RNG原盘测试回既有full/raw通道，fast使用无data可运行的真实writer夹具；原断言逐字节保留，新单点业务反控成立。100主体不变，新增相邻原盘伴随测试1条closed；3466tracked／695closed／0review／2771pending。当前extract413/TC0、新official20188/809及protected0；七包逐文件覆盖计数与首候选完全相同。远端重验/合并待，不把原全仓结果改写成新的整仓运行。[当前增量](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/ci-rng/README.md)。
 
 2026-10-28 百文件窗口本地门收口：100实际主体逐文件A–H，20536包测试＋732工具绿、七TC与whole lint0；唯一official20188/809，经有限branch调整后同报ratchet/protected0。3465tracked／694closed／0review／2771pending不变；提交时远端PR/CI/合并尚待，不授其它pending信用。[原件与复验](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)。
@@ -175,8 +179,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-10-27 输入与南诏出口窗口：新增7个tracked实现/测试路径，仅增加pending库存；597closed/0review保持，当前3469/597/0/2872。输入14文件与出口21文件按实际差异及贡献者A–H有限接收；已关闭的资源类型、装载与工具设置文件仅核本次增量，历史整文件结论不扩张为新版本全审。输入方向/偏好和旧档独立出口分别见[输入回执](../evidence/GAME-INPUT-ROTATION-1/review.json)、[出口回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json)；统一静态门另记，不增加整文件关闭数。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,466。
-当前已闭合核验：695；已读但待审：0；尚未逐文件核验：2771；合计未闭合：2771。
+起始基点机器清单：2,962。当前 tracked 清单：3463。
+当前已闭合核验：796；已读但待审：0；尚未逐文件核验：2667；合计未闭合：2667。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -919,6 +923,107 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/__tests__/asset-manifest.test.ts` | test | 已验证 | [百文件窗口八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
 | `packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts` | test | 已验证 | [百文件窗口八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
 | `packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts` | test | 已验证 | [百文件窗口八维与原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json) | 全文八维/caller/oracle及必要返工已核；本窗口统一门0诊断，发布另据受保护PR实际状态。 |
+| `packages/content/package.json` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；configuration-fixtures |
+| `packages/content/src/__tests__/glm-content-contract-fixtures.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；configuration-fixtures |
+| `packages/content/src/ambience-skill.glm-o.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-values |
+| `packages/content/src/ambience.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-values |
+| `packages/content/src/ambience.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-values |
+| `packages/content/src/author-dialogue.contracts.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；author-dialogue |
+| `packages/content/src/author-dialogue.cursor-pure-wave2.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；author-dialogue |
+| `packages/content/src/author-dialogue.field-guards.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；author-dialogue |
+| `packages/content/src/author-dialogue.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；author-dialogue |
+| `packages/content/src/author-dialogue.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；author-dialogue |
+| `packages/content/src/battle-sprite-profile.contracts.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；battle-sprite-tests |
+| `packages/content/src/battle-sprite.boundaries.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；battle-sprite-tests |
+| `packages/content/src/battle-sprite.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；battle-sprite-tests |
+| `packages/content/src/enemy-ai.cursor-pure-wave2.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；enemy-ai |
+| `packages/content/src/enemy-ai.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；enemy-ai |
+| `packages/content/src/enemy-ai.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；enemy-ai |
+| `packages/content/src/enemy-validation-shapes.leaf.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；enemy-ai |
+| `packages/content/src/enemy-validation-shapes.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；enemy-ai |
+| `packages/content/src/frame-sequence.contracts.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；frame-map-tests |
+| `packages/content/src/frame-sequence.glm-leaf-wave.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；frame-map-tests |
+| `packages/content/src/frame-sequence.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；frame-map-tests |
+| `packages/content/src/grid.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/grid.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/locale.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-index-diagnostics |
+| `packages/content/src/locale.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-index-diagnostics |
+| `packages/content/src/map-index.contracts.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/map-index.residual.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/map-index.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/migration-diagnostic.boundaries.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-index-diagnostics |
+| `packages/content/src/migration-diagnostic.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-index-diagnostics |
+| `packages/content/src/project-map.contracts.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；frame-map-tests |
+| `packages/content/src/project-map.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；frame-map-tests |
+| `packages/content/src/rich-text-residual.glm-o.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/rich-text.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/rich-text.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/scene-index.boundaries.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-index-diagnostics |
+| `packages/content/src/scene-index.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-index-diagnostics |
+| `packages/content/src/shop.cursor-pure-wave2.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-values |
+| `packages/content/src/shop.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-values |
+| `packages/content/src/shop.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-values |
+| `packages/content/src/stamp.cursor-boundaries.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/stamp.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/stamp.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/tileset-stamp.contracts.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/tileset.cursor-pure-wave2.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/tileset.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/tileset.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-surfaces |
+| `packages/content/src/world-variable.glm-leaf-wave.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-values |
+| `packages/content/src/world-variable.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-values |
+| `packages/content/src/world-variable.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；content-values |
+| `packages/content/tsconfig.json` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；configuration-fixtures |
+| `packages/game/package.json` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；configuration-fixtures |
+| `packages/game/src/__tests__/canvas-host.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；新增测试宿主叶不计101主体 |
+| `packages/game/src/__tests__/grok-boot-mid-1/legal.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；cutscene-tests |
+| `packages/game/src/__tests__/rix-fixture.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；rix |
+| `packages/game/src/core/__tests__/stats/e1-effective-stats.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；stats |
+| `packages/game/src/core/__tests__/stats/e3-player-stat-rows.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；stats |
+| `packages/game/src/core/__tests__/stats/e5-update-all-equipments.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；stats |
+| `packages/game/src/core/__tests__/stats/e6-resync-battle-role-stats.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；stats |
+| `packages/game/src/core/__tests__/stats/i1-party-status-readouts.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；stats |
+| `packages/game/src/core/__tests__/stats/i2-enemy-field-readouts.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；stats |
+| `packages/game/src/core/__tests__/stats/stats-test-fixtures.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；stats |
+| `packages/game/src/present/present-hold.grok-r1.test.ts` | test | 已验证 | [present两文件八维与原件](../evidence/QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md) | 全文A–H/合法fixture/caller/oracle/排重与必要返工接受；102相邻及局部静态零诊断，统一门等百文件窗口。 |
+| `packages/game/src/present/present.test.ts` | test | 已验证 | [present两文件八维与原件](../evidence/QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md) | 全文A–H/合法fixture/caller/oracle/排重与必要返工接受；102相邻及局部静态零诊断，统一门等百文件窗口。 |
+| `packages/game/src/shell/audio-rix.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；rix |
+| `packages/game/src/shell/audio-rix.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；rix |
+| `packages/game/src/shell/bootstrap-audio.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；rix |
+| `packages/game/src/shell/ending-player.glm-next-wave.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；cutscene-tests |
+| `packages/game/src/shell/ending-player.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；cutscene-tests |
+| `packages/game/src/shell/fbp-player.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；cutscene-tests |
+| `packages/game/src/shell/fbp-scroll.grok-r1.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；cutscene-tests |
+| `packages/game/src/shell/game-shell.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/game-shell.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/gamepad-host.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/gamepad-input.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/gamepad-input.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/input-direction.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/input-rotation.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/input-rotation.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/menu-input-lock.glm-msio.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/modal-input.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/music-source.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；rix |
+| `packages/game/src/shell/music-source.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；rix |
+| `packages/game/src/shell/presentation.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/rix-worklet.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；rix |
+| `packages/game/src/shell/rix-worklet.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；rix |
+| `packages/game/src/shell/rix/kernel.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；rix |
+| `packages/game/src/shell/rix/kernel.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；rix |
+| `packages/game/src/shell/splash-fallback.glm-next-wave.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；cutscene-tests |
+| `packages/game/src/shell/splash-fallback.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；cutscene-tests |
+| `packages/game/src/shell/touch-controls.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/touch-controls.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/touch-preference.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/shell/touch-preference.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/styles.d.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；configuration-fixtures |
+| `packages/game/src/tools/mobile-presentation.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/tools/tools-panel.mobile.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；controls |
+| `packages/game/src/worker-url.d.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；configuration-fixtures |
+| `packages/game/tsconfig.json` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；configuration-fixtures |
+| `packages/game/vitest.config.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；configuration-fixtures |
+| `packages/game/vitest.setup.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；configuration-fixtures |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |
@@ -1007,8 +1112,8 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 
 2026-10-27 输入与南诏出口窗口：新增7个tracked实现/测试路径，仅增加pending库存；597closed/0review保持，当前3469/597/0/2872。输入14文件与出口21文件按实际差异及贡献者A–H有限接收；已关闭的资源类型、装载与工具设置文件仅核本次增量，历史整文件结论不扩张为新版本全审。输入方向/偏好和旧档独立出口分别见[输入回执](../evidence/GAME-INPUT-ROTATION-1/review.json)、[出口回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json)；统一静态门另记，不增加整文件关闭数。
 
-起始基点机器清单：2,962。当前 tracked 清单（含预览、RNG 回归及第一阶段音乐音源）：3,283。
-当前已闭合核验：229；已读但待审：5；尚未逐文件核验：3,049；合计未闭合：3,054。
+起始基点机器清单：2,962。当前 tracked 清单（含预览、RNG 回归及第一阶段音乐音源）：3463。
+当前已闭合核验：796；已读但待审：0；尚未逐文件核验：2667；合计未闭合：2667。
 `待核` 不等于“没有问题”，也不等于允许跳过；只有补齐职责、调用方、风险判断、证据和验证后才可改为 `已验证`、`保留`、`blocked` 或 `rework`。
 
 2026-10-07存档测试有限集成新增`current-codec.contracts.test.ts`，仅同步tracked机器清单及待核数；本专项已审/待审状态不变。测试合同验收见[存档三审](../evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-review-r3.md)，不以测试通过替代本专项逐文件语义审核。

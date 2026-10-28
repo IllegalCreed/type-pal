@@ -1,5 +1,5 @@
 /**
- * TEST-CONTENT-CONTRACTS-1 B7/B8：stamp nullable 碰撞矩阵与 format/parse 往返（stamp.ts）。
+ * TEST-CONTENT-CONTRACTS-1 B7/B8：stamp nullable 碰撞矩阵与 migrated/authored 多条目往返（stamp.ts）。
  * 与地图 dense collision 分栏：stamp 碰撞是 number|null（nullable）。
  */
 import { describe, expect, test } from 'vitest'
@@ -35,24 +35,23 @@ const stamp = (): StampTemplate => ({
   ],
 })
 
-describe('B7 validateStampTemplates · nullable 碰撞与 anchor 边界', () => {
+describe('B7 validateStampTemplates · nullable 碰撞与值对象归属', () => {
   test('合法模板通过且返回新数组；输入不变', () => {
     const raw = [stamp()]
     const before = deepSnapshot(raw)
     const validated = validateStampTemplates(raw)
+    expect(validated).not.toBe(raw)
     expect(validated).toEqual([stamp()])
     expect(raw).toEqual(before)
   })
-  test('碰撞矩阵为 nullable：null=无碰撞、数字=碰撞；行数=height×2', () => {
-    expect(stamp().collision).toHaveLength(2) // height 1 × 2
+  test('nullable 碰撞矩阵保持 null/1，拒绝行数不足', () => {
+    expect(validateStampTemplates([stamp()])[0]!.collision).toEqual([
+      [null, 1],
+      [null, null],
+    ]) // null 不参与放置；0 才表示显式可通行
     const badRows = stamp()
-    ;(badRows as { collision: number[][] }).collision = [[1, 1]]
-    expect(() => validateStampTemplates([badRows])).toThrow()
-  })
-  test('anchor 越界拒绝（超出 height×width）', () => {
-    const badAnchor = stamp()
-    ;(badAnchor as { anchor: { row: number; col: number } }).anchor = { row: 5, col: 5 }
-    expect(() => validateStampTemplates([badAnchor])).toThrow()
+    badRows.collision = [[1, 1]]
+    expect(() => validateStampTemplates([badRows])).toThrow('stamps[0].collision: 期望 2 行')
   })
 })
 

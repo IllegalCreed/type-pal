@@ -8,7 +8,7 @@ function makeAudioSpy(): AudioManager & { calls: string[] } {
   return {
     calls,
     sync(pendingSounds, music) {
-      calls.push(`sync ${music.track} ${music.loop}`)
+      calls.push(`sync ${music.track} ${music.loop} sounds ${JSON.stringify(pendingSounds)}`)
       if (pendingSounds) pendingSounds.length = 0
     },
     playSound(soundId) {
@@ -36,7 +36,7 @@ describe('syncShellAudio', () => {
 
     syncShellAudio(audio, gs, [], { roles: [] })
 
-    expect(audio.calls).toEqual(['music true', 'sfx true', 'sync 16 true'])
+    expect(audio.calls).toEqual(['music true', 'sfx true', 'sync 16 true sounds [47]'])
     expect(gs.pendingSounds).toEqual([])
   })
 })

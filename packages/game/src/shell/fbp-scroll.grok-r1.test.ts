@@ -3,6 +3,7 @@
  * DOS/WIN95 的 HACKHACK 块号、speed 0、上滚中途、短缓冲和 fade 步进。
  */
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { realCanvasContext } from '../__tests__/canvas-host.js'
 import { legalPalette } from '../__tests__/grok-render-r1/legal-host.js'
 import { createFramebuffer } from '../present/framebuffer.js'
 import { scrollFbp, showFbp } from './fbp-player.js'
@@ -13,16 +14,8 @@ function screen(fill: number): Uint8Array {
   return new Uint8Array(N).fill(fill)
 }
 
-function realCtx(): CanvasRenderingContext2D {
-  const canvas = document.createElement('canvas')
-  canvas.width = 320
-  canvas.height = 200
-  const ctx = canvas.getContext('2d')
-  if (!ctx) throw new Error('2d context unavailable')
-  return ctx
-}
-
-afterEach(() => {
+afterEach(async () => {
+  if (vi.isFakeTimers()) await vi.runAllTimersAsync()
   vi.restoreAllMocks()
   vi.useRealTimers()
 })
@@ -37,10 +30,10 @@ describe('G10-C FBP 块号滚动与步进', () => {
       chunkNum: 49,
       isWin95: false,
       fb,
-      canvasCtx: realCtx(),
+      canvasCtx: realCanvasContext(),
       palette: legalPalette(),
     })
-    expect(fb.indices[0]).toBe(99)
+    expect(fb.indices).toEqual(screen(99))
   })
 
   it('G10-C02 WIN95 下块 49 仍整屏写入', async () => {
@@ -52,11 +45,10 @@ describe('G10-C FBP 块号滚动与步进', () => {
       chunkNum: 49,
       isWin95: true,
       fb,
-      canvasCtx: realCtx(),
+      canvasCtx: realCanvasContext(),
       palette: legalPalette(),
     })
-    expect(fb.indices[0]).toBe(0x3c)
-    expect(fb.indices[N - 1]).toBe(0x3c)
+    expect(fb.indices).toEqual(screen(0x3c))
   })
 
   it('G10-C03 speed 0 的步进等待是 800 毫秒', async () => {
@@ -68,7 +60,7 @@ describe('G10-C FBP 块号滚动与步进', () => {
       speed: 0,
       fScrollDown: true,
       fb,
-      canvasCtx: realCtx(),
+      canvasCtx: realCanvasContext(),
       palette: legalPalette(),
     })
     const firstDelay = spy.mock.calls[0]?.[1]
@@ -86,14 +78,16 @@ describe('G10-C FBP 块号滚动与步进', () => {
       speed: 100,
       fScrollDown: false,
       fb,
-      canvasCtx: realCtx(),
+      canvasCtx: realCanvasContext(),
       palette: legalPalette(),
     })
     await vi.advanceTimersByTimeAsync(8 * 110)
-    expect(fb.indices[0]).toBe(100)
-    expect(fb.indices[199 * 320]).toBe(200)
+    const top = fb.indices[0]
+    const bottom = fb.indices[199 * 320]
     await vi.runAllTimersAsync()
     await pending
+    expect(top).toBe(100)
+    expect(bottom).toBe(200)
   })
 
   it('G10-C05 长度不足的滚动不改 framebuffer', async () => {
@@ -104,11 +98,10 @@ describe('G10-C FBP 块号滚动与步进', () => {
       speed: 1,
       fScrollDown: true,
       fb,
-      canvasCtx: realCtx(),
+      canvasCtx: realCanvasContext(),
       palette: legalPalette(),
     })
-    expect(fb.indices[0]).toBe(77)
-    expect(fb.indices[N - 1]).toBe(77)
+    expect(fb.indices).toEqual(screen(77))
   })
 
   it('G10-C06 fade 1 的每步等待是 20 毫秒', async () => {
@@ -122,7 +115,7 @@ describe('G10-C FBP 块号滚动与步进', () => {
       chunkNum: 68,
       isWin95: true,
       fb,
-      canvasCtx: realCtx(),
+      canvasCtx: realCanvasContext(),
       palette: legalPalette(),
     })
     const firstDelay = spy.mock.calls[0]?.[1]

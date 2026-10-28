@@ -7,6 +7,72 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-10-28: second 100-file quality window; exact deduplication snapshots.
+    // Contracts and native identity provenance: QUALITY-PENDING-100-2/uniform/recount.json.
+    {
+      file: 'packages/content/src/author-dialogue.contracts.test.ts',
+      previous: 7,
+      current: 4,
+      previousIdentityDigest: '7f0b2bf107da8cb5fc9d59035dbf65ca6820c539475779a92ea8d47e0ae54a0d',
+      currentIdentityDigest: 'a5d8a0cda3706538e9df26259d7fab7823767422b0f5a35052086d68b08e9c12',
+      fileSha256: '71df64259e2a54b0abdfa3b7ad76b9a8428bc1150a4f0b81e3a0079936bbea51',
+    },
+    {
+      file: 'packages/content/src/frame-sequence.glm-leaf-wave.test.ts',
+      previous: 5,
+      current: 2,
+      previousIdentityDigest: '5c53f92cf7921e343d7d1a97ac7c985c8a6ed52df940e6748addb1d972507a41',
+      currentIdentityDigest: '5b9800e174038632c1a91c2333f98e65cd63ab68773ebc6132a61b03f0f8cb95',
+      fileSha256: '7fbb21fc16a6c88dd43bdc3ff3363488efe724c82cee0328dbd591f72d8fb675',
+    },
+    {
+      file: 'packages/content/src/map-index.contracts.test.ts',
+      previous: 15,
+      current: 8,
+      previousIdentityDigest: 'b7aaaaa3ecb035608746e763deb4c5a8e6da486309c9d283b012a264e4d7b90b',
+      currentIdentityDigest: '4a91bda677af06f5dd5754baa005b4dc555fce8247bf290b4f2016a7d0e26092',
+      fileSha256: '953969b3d583d0a433d686b3f126193de404a18698ba5a7640dbbcdae927d624',
+    },
+    {
+      file: 'packages/content/src/map-index.residual.test.ts',
+      previous: 8,
+      current: 7,
+      previousIdentityDigest: '5db05ca42c095f7cf73311ecac725cd5f69878ac21cd5a46bd311fa3795bcbc8',
+      currentIdentityDigest: '10911bc6b9ccfa5456a59d6227847b763e18b2c0e4f4850ba55246f110e906e4',
+      fileSha256: '72dea3d5e5dd5a1a81ac510aa807e50578716bd3bc8677a872c111e0832b0dd4',
+    },
+    {
+      file: 'packages/content/src/project-map.contracts.test.ts',
+      previous: 5,
+      current: 4,
+      previousIdentityDigest: '96ac92c8f9b870ad27e5dda0172703b86bef48d555beed9d3917d15265d86ced',
+      currentIdentityDigest: '6ca3530f03f93769e6c34fc3a3ad7fa8f3e8f831cd6620b8ab9a0bf859819a1f',
+      fileSha256: '21cf589fe97b64bb94ba0766fb9d9b1fce1ec2333ac8a8004f7149c24dbeaa71',
+    },
+    {
+      file: 'packages/content/src/tileset-stamp.contracts.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: '6c36033e381396720c5af700e12a2ca28e4c2b08c284ce90490cf05c7b6626bd',
+      currentIdentityDigest: '409023099b0db69014dfce795633f21893f50850102105f102dc76c9ba0a135d',
+      fileSha256: 'cc4383d7c4f8597597be632c28374dc27dbbba77a8c85725fe63c80007aa406e',
+    },
+    {
+      file: 'packages/game/src/present/present.test.ts',
+      previous: 58,
+      current: 52,
+      previousIdentityDigest: '992b2a82b701ccf6f7af575f20895d0b6f701ed4d91aed9c13fbca814c1c1b95',
+      currentIdentityDigest: '8c37c01f705877b4c9c704de9db7cf35a3260f8b6fbdecabe3c2a748f4b881f3',
+      fileSha256: 'f325c8bfee7477442989bf5a7e71761cff7010cfeefe0fec8d2879b5325a18a8',
+    },
+    {
+      file: 'packages/game/src/shell/splash-fallback.test.ts',
+      previous: 6,
+      current: 5,
+      previousIdentityDigest: 'e6c04c686f97ae13acd7a01054509b1f4a042801b09c293cc524f94e68c40fe1',
+      currentIdentityDigest: 'ad0afe6d97b95331eaae517cdb2e5ce193e26fbcd51f169f8650fc9d4dac7dc7',
+      fileSha256: '8724a235a2b6ed1268ddd4d4fd68db1b6b6164758fcef896334d4ca607266753',
+    },
     // User2026-10-27: precise quality deduplication and current-producer transfers.
     // Six exact main/current snapshots and case maps: QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/recount.json.
     {

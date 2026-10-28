@@ -1,0 +1,18 @@
+{
+  "tool": "TypeScript AST 6.0.3",
+  "method": "1 + branch/loop/case/catch/ternary/logical short-circuit; nested functions excluded. Reading cue only, not quality acceptance.",
+  "files": [
+    {
+      "path": "packages/game/src/present/present.test.ts",
+      "functions": 148,
+      "maximum": 3,
+      "over10": []
+    },
+    {
+      "path": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "functions": 25,
+      "maximum": 2,
+      "over10": []
+    }
+  ]
+}

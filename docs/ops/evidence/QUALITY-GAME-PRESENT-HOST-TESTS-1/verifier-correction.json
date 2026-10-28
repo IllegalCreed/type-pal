@@ -1,0 +1,20 @@
+{
+  "kind": "same-candidate replay of verifier bookkeeping failure; original first observation in tool output only",
+  "execution": {
+    "id": "verifier-r1-replay",
+    "command": "node",
+    "args": ["docs/ops/evidence/QUALITY-GAME-PRESENT-HOST-TESTS-1/verify.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-94-102/type-pal",
+    "start": "2026-10-28T01:45:09.648Z",
+    "end": "2026-10-28T01:45:09.686Z",
+    "exit": 1,
+    "signal": null,
+    "spawnError": null,
+    "head": "f47f052fa1e732f7e574e70b268790d301dada3d",
+    "observerTimeout": false,
+    "stdoutBytes": 0,
+    "stderrBytes": 674
+  },
+  "stdout": "",
+  "stderr": "node:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n2 !== 1\n\n    at file:///Users/zhangxu/.codex/worktrees/quality-94-102/type-pal/docs/ops/evidence/QUALITY-GAME-PRESENT-HOST-TESTS-1/verify.mjs:93:14\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: 2,\n  expected: 1,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+}

@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, expect, it } from 'vitest'
+import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import {
   areTouchControlsVisible,
   setTouchControlsVisible,
@@ -31,5 +31,26 @@ it('defaults visible and persists explicit hide/show choices, notifying the moun
     expect(observed).toEqual([false, true])
   } finally {
     window.removeEventListener(TOUCH_VISIBILITY_CHANGE, listener)
+  }
+})
+
+it('keeps the current choice in memory when browser storage is blocked', () => {
+  const get = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+    throw new DOMException('Blocked', 'SecurityError')
+  })
+  const set = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+    throw new DOMException('Blocked', 'SecurityError')
+  })
+  try {
+    expect(areTouchControlsVisible()).toBe(true)
+    setTouchControlsVisible(false)
+    expect(areTouchControlsVisible()).toBe(false)
+    setTouchControlsVisible(true)
+    expect(areTouchControlsVisible()).toBe(true)
+  } finally {
+    get.mockRestore()
+    set.mockRestore()
+    // Successful persistence releases the module-owned transient choice.
+    setTouchControlsVisible(true)
   }
 })

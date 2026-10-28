@@ -1,10 +1,10 @@
 /**
  * TEST-CONTENT-CONTRACTS-1 C1-C7：TPFS 帧容器与纯数据时序（frame-sequence.ts）。
- * 极小确定性数据 + 独立 deflate/inflate 桥；header/index/像素/播放全合同。
+ * 极小确定性数据 + 独立 zlib deflate/inflate 桥；所列 header/像素/播放合同，不宣称格式全部拒绝分支。
  * 既有 35 帧跨块测试见旧测试；本文件补 header 各轴、index 校验、全像素 oracle、
  * playback 边界、byteOffset 视图与输入不变。
  */
-// @ts-expect-error Node-only test host; content production type environment is DOM-only.
+// @ts-expect-error Node-only test host; content type environment has no Node ambient declarations.
 import { deflateSync, inflateSync } from 'node:zlib'
 import { describe, expect, test } from 'vitest'
 import { deepSnapshot } from './__tests__/glm-content-contract-fixtures.js'
@@ -201,7 +201,7 @@ describe('C6 playback 纯计算', () => {
     ['NaN 帧率', { frameRate: Number.NaN }],
   ])('%s 拒绝', (_name, options) => {
     const parsed = parse(encode(input(3)))
-    expect(() => resolveFrameSequencePlayback(parsed.index, options as never)).toThrow()
+    expect(() => resolveFrameSequencePlayback(parsed.index, options)).toThrow()
   })
   test('帧时长优先级：显式 durationMs > defaultFrameMs', () => {
     const parsed = parse(encode(input(3, 250))) // 每帧 250ms

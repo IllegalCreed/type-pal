@@ -137,7 +137,7 @@ export function decideByRules(
   return null
 }
 
-/** 目标选择。random 用 rng;并列取槽序靠前(稳定)。players 须非空。 */
+/** 目标选择。random 用 rng；并列取输入数组先出现者(runtime 按战斗槽序提供)。players 须非空。 */
 export function pickAiTarget(
   strategy: AiTarget | undefined,
   players: AiBattleView['players'],
