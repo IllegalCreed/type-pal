@@ -7,6 +7,10 @@ import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { nativeArtifactReviewIssues } from './historical-native-artifact.mjs'
 import { nativeArtifactBindings } from './historical-native-artifact-admission.mjs'
 import {
+  nativeArtifactContentSha256,
+  nativeArtifactQualificationIssues,
+} from './historical-native-artifact-qualification.mjs'
+import {
   composeNativeArtifactRow,
   nativeArtifactEntryHash,
   validateNativeArtifactChanges,
@@ -212,4 +216,40 @@ test('formatting preserves warning-symbol value and is idempotent without weaken
   const bytes = biomeFormat(value, 'fixture.json', { repoRoot: root })
   assert.deepEqual(parseTerminalJson(bytes), value)
   assert(bytes.equals(biomeFormat(parseTerminalJson(bytes), 'fixture.json', { repoRoot: root })))
+})
+
+test('the Owner qualification seam binds exact external content while the public dormant table refuses self-signing', () => {
+  const f = fixture()
+  f.row.contentReviewStatus = 'content-reviewed'
+  f.row.templateCompliance = 'template-compliant'
+  delete f.row.claimCorrection
+  const grant = {
+    reviewer: 'isolated non-author fixture',
+    nonAuthorReviewer: true,
+    task: 'fixture-only',
+    reportSha256: 'a'.repeat(64),
+    contentSha256: nativeArtifactContentSha256(f.row),
+  }
+  f.row.currentIndependentAcceptance = {
+    protocol: 'document-delivery-acceptance/1.0.0',
+    path: f.binding.path,
+    reviewer: grant.reviewer,
+    nonAuthorReviewer: true,
+    verdict: 'accept',
+    afterSha256: f.binding.carrierSha256,
+    contentSha256: grant.contentSha256,
+    reportSha256: grant.reportSha256,
+    ownerDecision: {
+      actor: 'Codex',
+      task: grant.task,
+      currentBodyReview: true,
+      currentTemplateMigration: true,
+      oldClaimRestored: false,
+      runtimeCredit: false,
+    },
+  }
+  assert.deepEqual(nativeArtifactQualificationIssues(f.row, f.binding, grant), [])
+  assert(f.check().some((issue) => issue.includes('external content acceptance')))
+  f.row.coreConclusion += ' A new unaccepted fact.'
+  assert(nativeArtifactQualificationIssues(f.row, f.binding, grant).length > 0)
 })

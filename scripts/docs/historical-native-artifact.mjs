@@ -5,6 +5,7 @@ import {
   nativeArtifactContracts,
 } from './historical-native-artifact-admission.mjs'
 import { nativeArtifactCarrierRevision } from './historical-native-artifact-bindings.mjs'
+import { nativeArtifactQualificationIssues } from './historical-native-artifact-qualification.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
 export const nativeArtifactHash = (bytes) => createHash('sha256').update(bytes).digest('hex')
@@ -55,12 +56,7 @@ export function nativeArtifactReviewIssues(row, binding, native) {
     (row.sourceGitRevision ?? null) !== binding.historicalSource.sourceGitRevision
   )
     issues.push('native artifact identity/type/source axes mismatch')
-  if (
-    row.contentReviewStatus !== 'partial-review-unknown' ||
-    row.templateCompliance !== 'needs-migration' ||
-    row.currentIndependentAcceptance !== undefined
-  )
-    issues.push('native artifact candidate cannot grant review/migration acceptance')
+  issues.push(...nativeArtifactQualificationIssues(row, binding))
   if (
     !text(row.coreConclusion) ||
     /^(Status|Owner|Template)\b/u.test(row.coreConclusion) ||
