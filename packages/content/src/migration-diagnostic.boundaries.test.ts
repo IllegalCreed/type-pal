@@ -51,7 +51,9 @@ describe('A5 容器错型（主 fixture 先过现行守卫）', () => {
   test('验证拒绝不修改原输入（深快照同一对象）', () => {
     const bad = { version: 1, diagnostics: [{ ...diagnosticAt(0), category: 'nope' }] }
     const snapshot = deepSnapshot(bad)
-    expect(() => validateMigrationDiagnostics(bad)).toThrow()
+    expect(() => validateMigrationDiagnostics(bad)).toThrow(
+      'migrationDiagnostics.diagnostics[0].category: 未知类别 nope',
+    )
     expect(bad).toEqual(snapshot)
   })
 })

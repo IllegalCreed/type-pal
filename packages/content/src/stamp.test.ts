@@ -58,6 +58,7 @@ function fixture(): StampTemplate[] {
 describe('StampTemplate shared isometric content', () => {
   test('多层、多来源、相对高度与 nullable collision 确定性往返', () => {
     const templates = validateStampTemplates(fixture())
+    expect(templates).toEqual(fixture())
     expect(templates[0]?.layers).toHaveLength(2)
     expect(templates[0]?.collision[0]).toEqual([1, 0])
     expect(templates[0]?.category).toBe('vegetation')

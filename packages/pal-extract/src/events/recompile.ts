@@ -2,8 +2,9 @@ import type { Command } from '@type-pal/shared'
 import { lookupOpcode } from './opcodes.js'
 
 /**
- * 命令清单 → 字节码。disasm 的逆操作,严格对偶。
- * round-trip 关键不变量:disasm(bc, msgs) → recompile(_, msgs) 必须字节相等。
+ * 当前可逆命令子集 → 字节码；不支持authored结构化命令。
+ * 原盘round-trip须逐字节相等。具名命令未保存的非零尾操作数会造成差异，
+ * 由roundtripCheck报告，不能将此函数视为任意8B记录的无损编码器。
  *
  * messages 参数保留以维持接口对称,recompile 不再使用它
  * (showDialog 直接写回 messageIndex,不做 text→index 映射)。

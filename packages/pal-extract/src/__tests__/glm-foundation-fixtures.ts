@@ -4,21 +4,8 @@
  * 原盘结构为准（enemies.ts、player-roles.ts 的75行×12B SoA、spells.ts记录布局）。
  */
 
-/** 构造 MKF 容器：N 个 chunk → 头 N+1 个 u32 LE 偏移 + chunk 顺序拼接。 */
-export function mkMkf(chunks: ReadonlyArray<Uint8Array>): Uint8Array {
-  const headerBytes = (chunks.length + 1) * 4
-  const total = chunks.reduce((sum, c) => sum + c.byteLength, 0)
-  const out = new Uint8Array(headerBytes + total)
-  const view = new DataView(out.buffer)
-  let cursor = headerBytes
-  chunks.forEach((chunk, i) => {
-    view.setUint32(i * 4, cursor, true)
-    out.set(chunk, cursor)
-    cursor += chunk.byteLength
-  })
-  view.setUint32(chunks.length * 4, cursor, true)
-  return out
-}
+/** 共用二进制夹具的合法MKF布局，保留本组既有调用名。 */
+export { mkfContainer as mkMkf } from './binary-fixtures.js'
 
 /** 全零表 + 指定 u16 LE 写入点（offset 单位=字节）。 */
 export function mkTable(totalBytes: number, writes: ReadonlyArray<[number, number]>): Uint8Array {

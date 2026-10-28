@@ -9,7 +9,7 @@
  *
  * 数据源:FBP.MKF chunk 已提取为 BattleBgAsset(320×200 indexed);caller 传 fbpIndices。
  * 无图(in-game 0xFFFF / decompress fail)→ 传全黑(sdlpal memset 0 / WIN95 SDL_FillRect)。
- * MGO effect sprite overlay(g_wCurEffectSprite)留 Phase 3(0x76 默认不叠)。
+ * 可选 MGO effect sprite 逐步叠加；DOS结局编排会传入，0x76 handler 当前不传。
  */
 import type { Palette } from '@type-pal/shared'
 import type { IndexedImage } from '../assets/png.js'

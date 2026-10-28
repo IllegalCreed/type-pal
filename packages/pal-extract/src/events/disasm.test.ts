@@ -10,7 +10,7 @@ describe('disasm', () => {
 
   it('goto(0x0003) 跳到指令 5,产 label "L_5"', () => {
     const bc = concat(
-      instr(0x0003, 5, 0), // goto 5, delay 0
+      instr(0x0003, 5, 0), // goto 5，计数操作数0（现有字段名frameDelay）
       instr(0x0000), // i=1: end (filler)
       instr(0x0000), // i=2
       instr(0x0000), // i=3

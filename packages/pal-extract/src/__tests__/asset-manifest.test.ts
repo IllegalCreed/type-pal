@@ -10,7 +10,7 @@ describe('buildManifest', () => {
     expect(a.fileCount).toBe(2)
     expect(a.totalBytes).toBe(150)
     expect(a.files[0]).toEqual({ path: 'data/items.json', size: 100, sha256: '0'.repeat(64) })
-    // 同输入(乱序)→ 同 version(内部排序);路径或大小变 → version 变
+    // 同输入(乱序)→ 同 version(内部排序);这里另核大小变化。
     const b = buildManifest([
       { path: 'images/world/0.png', size: 50, sha256: '0'.repeat(64) },
       { path: 'data/items.json', size: 100, sha256: '0'.repeat(64) },

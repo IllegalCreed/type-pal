@@ -1,3 +1,5 @@
+import { normalizeProjectJsonPath } from './project-json-path.js'
+
 /** 工程地图库索引。地图稳定身份与 JSON 存储路径严格分离。 */
 export interface MapAssetDefV1 {
   id: string
@@ -23,18 +25,7 @@ export function isMapAssetId(value: unknown): value is string {
 
 /** 工程相对 JSON 路径规范化；绝对路径、反斜杠和 `..` 一律 fail-loud。 */
 export function normalizeMapAssetPath(value: string): string {
-  const input = value.trim()
-  if (!input || input.startsWith('/') || input.includes('\\') || /^[a-zA-Z]+:/.test(input))
-    throw new Error(`map path: 期望工程相对路径，收到 "${value}"`)
-  const parts: string[] = []
-  for (const part of input.split('/')) {
-    if (!part || part === '.') continue
-    if (part === '..') throw new Error(`map path: 禁止 ".."（${value}）`)
-    parts.push(part)
-  }
-  const normalized = parts.join('/')
-  if (!normalized.endsWith('.json')) throw new Error(`map path: 必须指向 .json（${value}）`)
-  return normalized
+  return normalizeProjectJsonPath(value, 'map')
 }
 
 export function validateMapIndex(value: unknown): MapIndexV1 {

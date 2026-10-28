@@ -9,7 +9,7 @@ import { lerpTint } from './ambience.js'
 import { resolveDialogueIdentity } from './author-dialogue.js'
 import { authoredSkillExecutionLayers, resolveSkillExecution } from './skill.js'
 
-describe('O09 lerpTint：t 夹取与分量四舍五入', () => {
+describe('O09 lerpTint：分量四舍五入', () => {
   test('非整数结果按分量四舍五入（旧中点全整数的真实新轴）', () => {
     expect(lerpTint([0, 0, 0], [101, 103, 105], 0.5)).toEqual([51, 52, 53])
     expect(lerpTint([10, 10, 10], [15, 15, 15], 0.5)).toEqual([13, 13, 13])

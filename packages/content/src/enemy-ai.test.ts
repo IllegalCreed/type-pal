@@ -119,12 +119,16 @@ describe('decideByRules(首条命中 / once / 沉默跳 cast)', () => {
     })
   })
   test('沉默:cast 跳过继续匹配 → 普攻兜底', () => {
-    expect(
-      decideByRules(rules, view({ self: { silenced: true } }), r0, new Set())?.action.kind,
-    ).toBe('attack')
+    expect(decideByRules(rules, view({ self: { silenced: true } }), r0, new Set())).toEqual({
+      action: { kind: 'attack' },
+      ruleIdx: 3,
+    })
   })
   test('概率不中落到兜底;无命中返回 null', () => {
-    expect(decideByRules(rules, view(), r9, new Set())?.action.kind).toBe('attack')
+    expect(decideByRules(rules, view(), r9, new Set())).toEqual({
+      action: { kind: 'attack' },
+      ruleIdx: 3,
+    })
     expect(decideByRules([rules[2]!], view(), r9, new Set())).toBeNull()
   })
 })

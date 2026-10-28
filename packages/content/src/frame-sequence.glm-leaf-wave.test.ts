@@ -1,21 +1,15 @@
 import { describe, expect, test } from 'vitest'
-import {
-  FRAME_SEQUENCE_BLOCK_FRAMES,
-  FRAME_SEQUENCE_CODEC,
-  FRAME_SEQUENCE_VERSION,
-  type FrameSequenceIndexV1,
-  validateFrameSequenceIndex,
-} from './frame-sequence.js'
+import { type FrameSequenceIndexV1, validateFrameSequenceIndex } from './frame-sequence.js'
 
 function index(overrides: Partial<FrameSequenceIndexV1> = {}): FrameSequenceIndexV1 {
   return {
-    version: FRAME_SEQUENCE_VERSION,
-    codec: FRAME_SEQUENCE_CODEC,
+    version: 1,
+    codec: 'deflate-rgba8-xor-v1',
     pixelFormat: 'rgba8',
     width: 8,
     height: 8,
     defaultFrameMs: 100,
-    blockFrames: FRAME_SEQUENCE_BLOCK_FRAMES,
+    blockFrames: 32,
     blocks: [{ firstFrame: 0, frameCount: 3, offset: 0, bytes: 768, rawBytes: 768 }],
     frames: [{ durationMs: 50 }, { durationMs: 200 }, {}],
     ...overrides,

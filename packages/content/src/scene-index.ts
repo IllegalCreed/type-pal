@@ -1,3 +1,5 @@
+import { normalizeProjectJsonPath } from './project-json-path.js'
+
 /** 工程场景目录。场景稳定身份、作者显示名与 JSON 路径严格分离。 */
 export interface SceneAssetDefV1 {
   id: string
@@ -23,18 +25,7 @@ export function isSceneId(value: unknown): value is string {
 
 /** 工程相对场景 JSON 路径；绝对路径、反斜杠和 `..` 一律 fail-loud。 */
 export function normalizeSceneAssetPath(value: string): string {
-  const input = value.trim()
-  if (!input || input.startsWith('/') || input.includes('\\') || /^[a-zA-Z]+:/.test(input))
-    throw new Error(`scene path: 期望工程相对路径，收到 "${value}"`)
-  const parts: string[] = []
-  for (const part of input.split('/')) {
-    if (!part || part === '.') continue
-    if (part === '..') throw new Error(`scene path: 禁止 ".."（${value}）`)
-    parts.push(part)
-  }
-  const normalized = parts.join('/')
-  if (!normalized.endsWith('.json')) throw new Error(`scene path: 必须指向 .json（${value}）`)
-  return normalized
+  return normalizeProjectJsonPath(value, 'scene')
 }
 
 export function validateSceneIndex(value: unknown, indexPath = SCENE_INDEX_PATH): SceneIndexV1 {
