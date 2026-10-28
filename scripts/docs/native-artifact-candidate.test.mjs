@@ -150,6 +150,9 @@ test('wrong native witness, erased source witness, stale input and self-granted 
       f.row.evidence.witnesses = []
     },
     (f) => {
+      f.row.publicCallers = []
+    },
+    (f) => {
       f.row.evidence.runtimeExecutionPerformed = true
     },
     (f) => {

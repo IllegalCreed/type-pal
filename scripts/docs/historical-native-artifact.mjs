@@ -65,6 +65,7 @@ export function nativeArtifactReviewIssues(row, binding, native) {
     !text(row.readDomain?.actual) ||
     !Array.isArray(row.readDomain?.reusedFrom) ||
     !texts(row.readDomain?.notRead) ||
+    !texts(row.publicCallers) ||
     !text(row.historyBoundary) ||
     !text(row.stopLine) ||
     !text(row.nextStep) ||

@@ -419,6 +419,10 @@ export function composeNativeArtifactRow(before, binding, seed, { baseRevision, 
   })
   for (const key of ['publicCallers', 'versionScope', 'dedupe', 'stopLine', 'nextStep'])
     if (semantic[key] !== undefined) row[key] = structuredClone(semantic[key])
+  if (!Array.isArray(row.publicCallers) || row.publicCallers.length === 0)
+    row.publicCallers = [
+      `scripts/docs/check-document-model.mjs -> checkMigratedDocument -> native artifact byte/claim guard for ${binding.path}; governance consumer only, no product/runtime caller verified by the reused capped scan.`,
+    ]
   row.history ??= []
   row.history.push({
     kind: 'native-artifact-candidate',
