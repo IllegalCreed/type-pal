@@ -45,3 +45,9 @@ Codex build allowed：以上测试/fixture有限整改；单一Owner，不委派
 ## 本窗口本地验收收口
 
 2026-10-28（JST）：100主体八维及本地统一门接受；本次提交时远端PR/CI/合并尚待，发布以受保护PR实际结果为准。 20536包测试＋732工具测试全部通过、七包typecheck和whole lint error/warning/info为0；唯一official20,188fast/809src，有限计数调整后原报告ratchet/protected0。文件关闭只来自本卡既有逐文件证据，未扩大到其它pending。见[统一原件与只读复验](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)。本卡done指本地审查/整改/验收，远端发布不是预先完成声明。
+
+## 2026-10-28 用户质疑后的证据返工
+
+Codex在同一治理分支按具体缺口定向补核，未开新文件窗口。15份P01–P03/P05–P16测试的C–H通用句不能充分支持低成本独立复验；全文重读这15文件与7共享夹具后，逐文件改为实际Owner、复用取舍、断言和隔离依据，并纠正7份记录内的caller/oracle/时钟事实。详见[补核范围与限制](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md#2026-10-28-回执质量定向复核)。
+
+无源码、测试、规则或原始执行附件变更；未重跑重型门，也不重复计入完成数。本卡既有代码接受保持，不能将这次15文件补核说成重新认证整个200文件。后续回执区分实现、测试、夹具、配置及证据复用，而不单报文件数量。

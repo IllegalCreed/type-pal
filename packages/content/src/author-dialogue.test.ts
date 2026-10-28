@@ -1,7 +1,10 @@
 import { describe, expect, test } from 'vitest'
 import type { ActorDef } from './actor.js'
+import type { AuthorDialogueCue, DialogueIdentity } from './author-dialogue.js'
 import { checkAuthorDialogueCue, resolveAuthorDialogueCue } from './author-dialogue.js'
 import { checkAuthorCommands, resolveAuthorDialogueTree } from './author-script.js'
+import { validateActors } from './validate.js'
+import { validateAuthorDialogueReferences, validateAuthorSharedScripts } from './validate-author.js'
 
 const actor: ActorDef = {
   id: 'actor.li',
@@ -152,6 +155,85 @@ describe('author dialogue identity', () => {
         portrait: { asset: 'portrait.li.angry', side: 'left' },
         rows: [{ text: 'line' }],
       },
+    })
+  })
+
+  test.each([
+    {
+      name: '未定义角色不借用对象原型中的同名键',
+      identity: { kind: 'actor', actor: 'constructor' } satisfies DialogueIdentity,
+      message: '未知 Actor "constructor"',
+    },
+    {
+      name: '未定义表情不借用对象原型中的同名键',
+      identity: {
+        kind: 'actor',
+        actor: actor.id,
+        portrait: { kind: 'expression', expression: 'constructor', side: 'left' },
+      } satisfies DialogueIdentity,
+      message: '缺表情 "constructor"',
+    },
+  ])('$name', ({ identity, message }) => {
+    const sharedScripts = validateAuthorSharedScripts({
+      probe: {
+        name: 'probe',
+        self: 'none',
+        body: [{ kind: 'dialog', cue: { identity, rows: [{ text: 'line' }] } }],
+      },
+    })
+    expect(() =>
+      validateAuthorDialogueReferences({
+        scenes: [],
+        items: [],
+        enemies: [],
+        sharedScripts,
+        actors: validateActors([actor]),
+      }),
+    ).toThrow(message)
+  })
+
+  test('实际定义的同名角色与表情仍按自己的定义解析', () => {
+    const actors = validateActors([
+      {
+        ...actor,
+        id: 'constructor',
+        name: 'name.defined',
+        portraits: {
+          default: 'portrait.defined',
+          expressions: { constructor: 'portrait.expression.defined' },
+        },
+      },
+    ])
+    const cue: AuthorDialogueCue = {
+      identity: {
+        kind: 'actor',
+        actor: 'constructor',
+        portrait: {
+          kind: 'expression',
+          expression: 'constructor',
+          side: 'right',
+        },
+      },
+      rows: [{ text: 'line' }],
+    }
+    const sharedScripts = validateAuthorSharedScripts({
+      probe: { name: 'probe', self: 'none', body: [{ kind: 'dialog', cue }] },
+    })
+    expect(() =>
+      validateAuthorDialogueReferences({
+        scenes: [],
+        items: [],
+        enemies: [],
+        sharedScripts,
+        actors,
+      }),
+    ).not.toThrow()
+    expect(
+      resolveAuthorDialogueCue(cue, Object.fromEntries(actors.map((entry) => [entry.id, entry]))),
+    ).toEqual({
+      speaker: 'name.defined',
+      portrait: { asset: 'portrait.expression.defined', side: 'right' },
+      rows: [{ text: 'line' }],
     })
   })
 })

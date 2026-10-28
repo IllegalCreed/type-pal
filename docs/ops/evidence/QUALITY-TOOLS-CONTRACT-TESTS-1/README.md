@@ -1,5 +1,7 @@
 # 工具专测合同：计数、范围、环境与输入
 
+当前版本提示：本页原始命令、校验和与raw证明原冻结候选。2026-10-28后的夹具移动、证据勘误和获批修复，改用[两百文件抽核](../QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md)复验；旧raw不回填成当前结果。
+
 ## 证据身份
 
 id：QUALITY-TOOLS-CONTRACT-TESTS-1；Owner：Codex，单 Agent。基点 `123595ac3a651957b36061eacced329369c495e5`；证据候选来自本窗冻结工作树，按文件指纹定位，发布以受保护PR实际状态为准。[百文件窗口](../../tasks/QUALITY-PENDING-100-1.md)内首三子批分别为[计数/范围/环境/输入专测4](../../tasks/QUALITY-TOOLS-CONTRACT-TESTS-1.md)、[预检/探针4](../../tasks/QUALITY-COVERAGE-PREFLIGHT-PROBES-1.md)、[初始化器fixture9](../../tasks/QUALITY-INITIALIZER-FIXTURES-1.md)。代码接受100，本地统一门已通过、发布单列；前70与末30的时点分别保留。

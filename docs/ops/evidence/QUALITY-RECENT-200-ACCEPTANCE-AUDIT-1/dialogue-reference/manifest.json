@@ -1,0 +1,35 @@
+{
+  "base": "b8b6989b952968ab60108ae45842ae5689822925",
+  "actual": "absolute-path original-producer.mts.raw; raw bytes kept",
+  "replay": "node --import tsx docs/ops/evidence/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/dialogue-reference/probe.mts",
+  "expectedBefore": "exit1, positive passed; two specified Missing expected exception AssertionErrors; stderr0",
+  "limits": "public production reference guard and shape guards, not full project/browser execution",
+  "files": [
+    {
+      "path": "before.execution.json",
+      "bytes": 535,
+      "sha256": "112283cb9c58943713d3a19c2a012e743e9d3649e73f77c6096a1193428a079a"
+    },
+    {
+      "path": "before.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "before.stdout.raw",
+      "bytes": 1719,
+      "sha256": "1376126601df9721ff1f750720a246f1683edc28f2b0106aaf154b605b60c42b"
+    },
+    {
+      "path": "original-producer.mts.raw",
+      "bytes": 2423,
+      "sha256": "4ee1c8266d05633b1306337420e92995fccedc448f2fef3f84dd696965d8ca8b"
+    },
+    {
+      "path": "probe.mts",
+      "bytes": 2468,
+      "sha256": "5717bf97226bdb4215151ed3dd574a7f5f6d4e368fb6819c741a949978697089"
+    }
+  ],
+  "after": "Portable replay removes the unconditional bad resolver call used to observe before output: after fix it correctly throws. Actual before producer preserved raw. Portable script now checks positive and two public-guard rejection assertions; captured exit0. This is a replay tool repair, not another product fix."
+}

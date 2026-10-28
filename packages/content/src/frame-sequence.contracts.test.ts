@@ -136,8 +136,7 @@ describe('C4/C5 provider 入口与视图', () => {
     const view = padded.subarray(16)
     expect(view.byteOffset).toBe(16)
     expect(view).toEqual(bytes)
-    // 对该视图完整解码（parse + 全部 block + 全部帧像素）。解码失败本身也是合同违规，
-    // 统一落成值断言：decodeError 必须为 undefined、frames 必须逐像素等于输入。
+    // 对该视图完整解码（parse + 全部 block + 全部帧像素）；拒绝或像素不一致均失败。
     const decodeAll = async (): Promise<number[][]> => {
       const parsed = parse(view)
       const out: Uint8Array[] = []
@@ -145,18 +144,7 @@ describe('C4/C5 provider 入口与视图', () => {
         out.push(...(await decodeFrameSequenceBlock(parsed, b, (raw) => inflateSync(raw))))
       return out.map((f) => [...f])
     }
-    let frames: number[][] | undefined
-    let decodeError: unknown
-    await decodeAll().then(
-      (out) => {
-        frames = out
-      },
-      (error: unknown) => {
-        decodeError = error
-      },
-    )
-    expect(decodeError).toBeUndefined()
-    expect(frames).toEqual([
+    await expect(decodeAll()).resolves.toEqual([
       [...value.frames[0]!.rgba],
       [...value.frames[1]!.rgba],
       [...value.frames[2]!.rgba],

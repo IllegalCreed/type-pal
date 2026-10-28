@@ -1,0 +1,1872 @@
+{
+  "task": "QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1",
+  "base": "b8b6989b952968ab60108ae45842ae5689822925",
+  "candidate": "source commit 73a7e8afcf4c2e076fee73cbdaac6427fea5839b; current source pins equal tested working tree; evidence packaging separate",
+  "owner": "Codex single agent",
+  "purpose": "Repair first-window evidence defects and risk-sample the recent200. Purposive selection is not a statistical guarantee or new acceptance credit.",
+  "incomingCorrection": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json receiptAudit20261028",
+  "module30": [
+    "packages/game/src/assets/__tests__/snapshot-input.setup.ts",
+    "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+    "packages/game/src/assets/png-decode.grok-r1.test.ts",
+    "packages/game/src/assets/rng-blob-snapshot.test.ts",
+    "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+    "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+    "packages/game/src/assets/snapshot-input-boundaries.test.ts",
+    "packages/game/src/assets/sprite-blob-snapshot.test.ts",
+    "packages/game/src/present/__tests__/grok-present/font.ts",
+    "packages/game/src/present/__tests__/grok-present/images.ts",
+    "packages/game/src/present/__tests__/grok-present/world.ts",
+    "packages/game/src/present/__tests__/grok-present/png-rgba.ts",
+    "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+    "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+    "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+    "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+    "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+    "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+    "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+    "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+    "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+    "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+    "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts"
+  ],
+  "additional24": [
+    "packages/game/src/assets/__tests__/snapshot-input.setup.ts",
+    "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+    "packages/game/src/assets/png-decode.grok-r1.test.ts",
+    "packages/game/src/assets/rng-blob-snapshot.test.ts",
+    "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+    "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+    "packages/game/src/assets/snapshot-input-boundaries.test.ts",
+    "packages/game/src/assets/sprite-blob-snapshot.test.ts",
+    "scripts/coverage/merge-initializers.test.mjs",
+    "scripts/coverage/full-inputs.mjs",
+    "packages/pal-extract/src/resources/tables.test.ts",
+    "packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts",
+    "packages/game/src/shell/music-source.ts",
+    "packages/game/src/shell/rix/kernel.ts",
+    "packages/game/src/shell/gamepad-input.ts",
+    "packages/game/src/shell/touch-controls.ts",
+    "packages/game/src/shell/game-shell.test.ts",
+    "packages/content/src/author-dialogue.ts",
+    "packages/content/src/author-dialogue.test.ts",
+    "packages/content/src/enemy-ai.ts",
+    "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+    "packages/content/src/frame-sequence.contracts.test.ts",
+    "packages/game/src/shell/ending-player.glm-next-wave.test.ts",
+    "packages/game/src/present/present.test.ts"
+  ],
+  "uniqueReviewedTarget": 47,
+  "newClosedCredit": 0,
+  "planReasons": {
+    "assetRender": "Seven inaccurate records plus15 generic C-H entries trigger review of the entire30-file slice, reusing unchanged15-test and7-fixture reads only within their hashes.",
+    "firstWindowOutsideModule": "Coverage worker lifecycle/IO boundary and binary raw-data/encoder oracles.",
+    "secondWindow": "Six production modules with ownership/async/input/validation boundaries, long tests and independent oracle claims."
+  },
+  "expansionRule": "A concrete contradiction or significant unproved claim expands the related module/case mapping; no blanket all200 acceptance from a sample. Significant unresolved files return review.",
+  "files": [
+    {
+      "path": "packages/game/src/assets/__tests__/snapshot-input.setup.ts",
+      "atBaseSha256": "10f6ed771ecabc5f21428dcf4d0882602a14cb94123d2caf30a26e4abeaecfb4",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Own synthetic paths only; fs outside data forwarded; permission/missing/empty inputs explicit. Replace truncated four-byte YJ2 with independently verified EOS.",
+        "B": "Correct zero-length payload claim; distinguish one unchanged RNG frame from zero subchunks.",
+        "C": "Hoisted FS host owns maps per child; never writes raw/extracted; afterEach observes assertionCalls without adding one.",
+        "D": "Local MKF maker represents this host input, not an output oracle; no production codec mock.",
+        "E": "21 child scenarios include equal-length changed padding, missing assets, permissions and absent-group policies; native results retained.",
+        "F": "Named mode and exact path show each disturbance; EOS token documented with its actual bytes.",
+        "G": "No fallback outside owned synthetic data; existing optional-group policy preserved, no new skip.",
+        "H": "Actual resource suites and codecs execute; injected fs boundaries, not fabricated passed reports."
+      },
+      "previousCaller": "snapshot-input-boundaries child config; real RNG/sprite/tileset snapshot modules",
+      "previousOracle": "bounded native SDLPal YJ2 empty EOS proof; hand MKF offsets and shared-format RLE",
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "Own synthetic paths only; fs outside data forwarded; permission/missing/empty inputs explicit. Replace truncated four-byte YJ2 with independently verified EOS.",
+        "B": "Correct zero-length payload claim; distinguish one unchanged RNG frame from zero subchunks.",
+        "C": "Hoisted FS host owns maps per child; never writes raw/extracted; afterEach observes assertionCalls without adding one.",
+        "D": "Local MKF maker represents this host input, not an output oracle; no production codec mock.",
+        "E": "21 child scenarios include equal-length changed padding, missing assets, permissions and absent-group policies; native results retained.",
+        "F": "Named mode and exact path show each disturbance; EOS token documented with its actual bytes.",
+        "G": "No fallback outside owned synthetic data; existing optional-group policy preserved, no new skip.",
+        "H": "Actual resource suites and codecs execute; injected fs boundaries, not fabricated passed reports."
+      },
+      "currentSha256": "10f6ed771ecabc5f21428dcf4d0882602a14cb94123d2caf30a26e4abeaecfb4",
+      "currentLines": 124,
+      "auditDiscussion": "完整124行。fs只对精确synthetic路径生效，真实其它路径透传；mode map每child新建；不将短YJ2依赖TS提前退出自证，保留native EOS证据。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "atBaseSha256": "8224427cc2efa1bc017d02b03e1e456934e4741e66da931fab2cd6ca6b9ec142",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Ten cases read actual loader: scene/map indirection, zero IDs, missing roles, empty manifests and fail-fast dependencies.",
+        "B": "Boundary purpose and URL expectations match current caller; no claim of a playable host.",
+        "C": "fetch host installed per case and unstubbed afterEach; Bitmap lifecycle remains actual decoder.",
+        "D": "Uses established legal-host instead of copying routing or codecs; normal/failed responses distinct.",
+        "E": "Exact URL, no-follow-up request and returned asset values support business assertions; empty-role is explicitly invalid input.",
+        "F": "Each case names the precise boundary; expected URL literals do not invoke loader to generate expectations.",
+        "G": "No dead imports/exports or redundant success-only type assertions found in ten cases.",
+        "H": "Real loadAll executes; fetch is the IO seam, real PNG and gzip remain below it."
+      },
+      "previousCaller": "shell/bootstrap loadAll and fetchPalette; legal-host real PNG/gzip IO responses",
+      "previousOracle": "explicit URL/status/key sets and palette entries",
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "Ten cases read actual loader: scene/map indirection, zero IDs, missing roles, empty manifests and fail-fast dependencies.",
+        "B": "Boundary purpose and URL expectations match current caller; no claim of a playable host.",
+        "C": "fetch host installed per case and unstubbed afterEach; Bitmap lifecycle remains actual decoder.",
+        "D": "Uses established legal-host instead of copying routing or codecs; normal/failed responses distinct.",
+        "E": "Exact URL, no-follow-up request and returned asset values support business assertions; empty-role is explicitly invalid input.",
+        "F": "Each case names the precise boundary; expected URL literals do not invoke loader to generate expectations.",
+        "G": "No dead imports/exports or redundant success-only type assertions found in ten cases.",
+        "H": "Real loadAll executes; fetch is the IO seam, real PNG and gzip remain below it."
+      },
+      "currentSha256": "8224427cc2efa1bc017d02b03e1e456934e4741e66da931fab2cd6ca6b9ec142",
+      "currentLines": 152,
+      "auditDiscussion": "完整152行。真实loader按header阈值、resource arrays与并发上界断言；host负责HTTP输入，核心decode未stub。移动host构造后169消费者回归承接，fixture数量不作覆盖率证据。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "atBaseSha256": "58fa7709e4a859fdc57ab5eae736806a392e8cfe668df1c06c88e1ad05d097b7",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Complete 3x2 plane now includes high R=200, non-R channels, alpha zero and nonzero alpha palette zero; failures retain close and cause checks.",
+        "B": "Clarify transferred alpha contracts and Canvas zero-alpha RGB normalization; no unsupported claim about pixels under alpha zero.",
+        "C": "PNG encoder is input-only; created bitmap belongs to decoder and spies/prototype changes restore in finally.",
+        "D": "Two one-case suites and A01 merge into the stronger plane; P10 retains consumer/IO failure contracts.",
+        "E": "Explicit six indices and masks; context failure checks exact error/one close, bad Blob verifies actual rejected promise as cause.",
+        "F": "Three atomic cases separate pixel semantics, resource acquisition cleanup and decode error provenance.",
+        "G": "Retired files not counted as accepted; all former assertions mapped, no duplicate basic R-only case.",
+        "H": "Native PNG bytes and real canvas execute; only context/spy seam used to exercise actual failure."
+      },
+      "previousCaller": "loadAll.fetchPng; P10 decoder-to-sprite consumer",
+      "previousOracle": "hand RGBA bytes -> complete R/mask arrays; actual browser bitmap Error.cause/close",
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "Complete 3x2 plane now includes high R=200, non-R channels, alpha zero and nonzero alpha palette zero; failures retain close and cause checks.",
+        "B": "Clarify transferred alpha contracts and Canvas zero-alpha RGB normalization; no unsupported claim about pixels under alpha zero.",
+        "C": "PNG encoder is input-only; created bitmap belongs to decoder and spies/prototype changes restore in finally.",
+        "D": "Two one-case suites and A01 merge into the stronger plane; P10 retains consumer/IO failure contracts.",
+        "E": "Explicit six indices and masks; context failure checks exact error/one close, bad Blob verifies actual rejected promise as cause.",
+        "F": "Three atomic cases separate pixel semantics, resource acquisition cleanup and decode error provenance.",
+        "G": "Retired files not counted as accepted; all former assertions mapped, no duplicate basic R-only case.",
+        "H": "Native PNG bytes and real canvas execute; only context/spy seam used to exercise actual failure."
+      },
+      "currentSha256": "58fa7709e4a859fdc57ab5eae736806a392e8cfe668df1c06c88e1ad05d097b7",
+      "currentLines": 81,
+      "auditDiscussion": "完整81行。手工PNG由Node zlib/CRC构造，像素与错误分开；尺寸和RGBA是独立字节oracle，不从被测decoder生成expected。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/assets/rng-blob-snapshot.test.ts",
+      "atBaseSha256": "7bd1c50a2a7f914a128225e329e36093bf181aa4ff0c8ea7227ef3d3f8610fab",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Require exact decompressed bytes including padding; raw frame count only decides whether missing blob is legitimate.",
+        "B": "Replace unsupported independent-pixel-truth claim; same codec twice is not an independent oracle.",
+        "C": "Disk roots are read-only; one decompression per member; remove duplicate 1464-frame second decode.",
+        "D": "Shared codec correctness stays in codec tests; this suite owns writer-to-runtime transport preservation.",
+        "E": "Equal-length padding corruption passes old suite and fails exactly current chunk0 byte assertion; actual raw12 chunk outputs retained.",
+        "F": "Buffer.compare names complete byte equality without elementwise matcher overhead.",
+        "G": "Remove length-only plus same-codec comparison; exact bytes strictly preserve its deterministic output equality contract.",
+        "H": "Real gzip decoder and actual disk data; no production monkeypatch; optional-group input policy separately exercised by child runner."
+      },
+      "previousCaller": "animation-assets writer gzip output; runtime decompressGzip/decodeRngFrames",
+      "previousOracle": "read-only original RNG.MKF chunks; existing independent offset census",
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "Require exact decompressed bytes including padding; raw frame count only decides whether missing blob is legitimate.",
+        "B": "Replace unsupported independent-pixel-truth claim; same codec twice is not an independent oracle.",
+        "C": "Disk roots are read-only; one decompression per member; remove duplicate 1464-frame second decode.",
+        "D": "Shared codec correctness stays in codec tests; this suite owns writer-to-runtime transport preservation.",
+        "E": "Equal-length padding corruption passes old suite and fails exactly current chunk0 byte assertion; actual raw12 chunk outputs retained.",
+        "F": "Buffer.compare names complete byte equality without elementwise matcher overhead.",
+        "G": "Remove length-only plus same-codec comparison; exact bytes strictly preserve its deterministic output equality contract.",
+        "H": "Real gzip decoder and actual disk data; no production monkeypatch; optional-group input policy separately exercised by child runner."
+      },
+      "currentSha256": "7bd1c50a2a7f914a128225e329e36093bf181aa4ff0c8ea7227ef3d3f8610fab",
+      "currentLines": 62,
+      "auditDiscussion": "完整62行。full资源快照的原盘/目录前提显式；可选资源缺失warn/skip不等于本机覆盖全部资源，child adversarial合同单列。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "atBaseSha256": "e9fe9e4a87d062c3c56efb0471f7ef14f08a5d8d3fb745622bb6bc3e4db53f09",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Six cases cover switching protect, synchronous callback reentry, zero cap, fetch rejection and throwing eviction callback.",
+        "B": "Header scope matches six distinct lifecycle cases; no blanket concurrency guarantee.",
+        "C": "Private Map never read; public callback owns observation, cache objects local per case.",
+        "D": "Reuses typed scene fixture; cross-instance case verifies isolation instead of adding global reset machinery.",
+        "E": "Eviction sequences plus cache hits/refetch results distinguish ownership/reentry; no mock count alone claim.",
+        "F": "Named first/second/other and expected victim arrays make temporal order explicit.",
+        "G": "Zero capacity differs from cap1; reentry differs from ordinary LRU; no duplicate contract removed blindly.",
+        "H": "Injected fetcher is public dependency; real cache operations and Promise boundaries execute."
+      },
+      "previousCaller": "bootstrap scene cache onEvict clears parallel tileImages cache",
+      "previousOracle": "ordered evictions, returned SceneAssets identity and fetch count",
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "Six cases cover switching protect, synchronous callback reentry, zero cap, fetch rejection and throwing eviction callback.",
+        "B": "Header scope matches six distinct lifecycle cases; no blanket concurrency guarantee.",
+        "C": "Private Map never read; public callback owns observation, cache objects local per case.",
+        "D": "Reuses typed scene fixture; cross-instance case verifies isolation instead of adding global reset machinery.",
+        "E": "Eviction sequences plus cache hits/refetch results distinguish ownership/reentry; no mock count alone claim.",
+        "F": "Named first/second/other and expected victim arrays make temporal order explicit.",
+        "G": "Zero capacity differs from cap1; reentry differs from ordinary LRU; no duplicate contract removed blindly.",
+        "H": "Injected fetcher is public dependency; real cache operations and Promise boundaries execute."
+      },
+      "currentSha256": "1002504cda3af553c56e48dab05c9200a350d847aa28e3fc8f8c4ed4f861d4b3",
+      "currentLines": 169,
+      "auditDiscussion": "完整169行。protect切换、重入callback、zero cap、加载失败及onEvict抛错分属不同生命周期；reload时实际对象/fetch序列证明victim。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "atBaseSha256": "4ab6a1fa912fdfed0b961bf43b0734c7d69a41eb5e7b61eedc98d7da61e6dce0",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Nine retained cases cover returned references, failed fetch retry, concurrency writes, protect absent/undefined, cap boundary and detached objects.",
+        "B": "Source header does not claim to test ordinary LRU again; D09 removed and mapped to loader.test stronger sequence.",
+        "C": "Each test owns fresh cache/fetcher; pending resolvers explicitly completed; no hanging promise.",
+        "D": "legalSceneAssets reused; no private-state hooks or universal cache harness.",
+        "E": "Native D09 identity maps to existing first LRU case; retained concurrency cases distinguish cached winner and returned loser.",
+        "F": "MapNum 1/2 and 11/22 make last completion visible without inspecting implementation.",
+        "G": "One proven consecutive-eviction duplicate removed; reference and distinct-ID concurrency not conflated.",
+        "H": "Observable return values and ordered callback effects; explicit async resolvers instead of sleeps."
+      },
+      "previousCaller": "bootstrap SceneAssetsCache owner; loader.test LRU adjacent",
+      "previousOracle": "public identity/failure/last-completion contracts and distinct mapNum values",
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "Nine retained cases cover returned references, failed fetch retry, concurrency writes, protect absent/undefined, cap boundary and detached objects.",
+        "B": "Source header does not claim to test ordinary LRU again; D09 removed and mapped to loader.test stronger sequence.",
+        "C": "Each test owns fresh cache/fetcher; pending resolvers explicitly completed; no hanging promise.",
+        "D": "legalSceneAssets reused; no private-state hooks or universal cache harness.",
+        "E": "Native D09 identity maps to existing first LRU case; retained concurrency cases distinguish cached winner and returned loser.",
+        "F": "MapNum 1/2 and 11/22 make last completion visible without inspecting implementation.",
+        "G": "One proven consecutive-eviction duplicate removed; reference and distinct-ID concurrency not conflated.",
+        "H": "Observable return values and ordered callback effects; explicit async resolvers instead of sleeps."
+      },
+      "currentSha256": "4ab6a1fa912fdfed0b961bf43b0734c7d69a41eb5e7b61eedc98d7da61e6dce0",
+      "currentLines": 167,
+      "auditDiscussion": "完整167行。D01从fetcher拿到对象后核首次返回身份，主测只保留首次返回引用，clone-on-first-return是判别区别；保留。并发same ID各自输出不等于只fetch一次。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/assets/snapshot-input-boundaries.test.ts",
+      "atBaseSha256": "5300a49bdc66f1fb5d59d5391df587a3b70fa89c8fe91b1f51c6bf98fa54964a",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "21 child modes and five parser controls; spawn error/signal guarded; private temp tree always removed in afterAll.",
+        "B": "Raw parsing view strips ANSI only; saved stdout/stderr stay untouched; optional explicit evidence destination is disclosed.",
+        "C": "Child config owns fs setup; no shared input writes; optional copy then finally rm avoids temp leaks on failed copy.",
+        "D": "One runner handles identical process lifecycle; per-scenario business results remain explicit rather than blanket pass.",
+        "E": "Failure requires exactly one failed assertion and actual AssertionError; selected title verified; denied collection and skip are separate statuses.",
+        "F": "Mode/result table and separate raw streams clarify expected negative children versus successful parent gate.",
+        "G": "No timeout, skip or reporter suppression added; original 20s/30s deadlines stay.",
+        "H": "Actual Vitest and resource tests spawn; native JSON not fabricated; raw artifacts copied for explicit review runs."
+      },
+      "previousCaller": "test-runner child suite orchestration with snapshot-input.setup",
+      "previousOracle": "native child JSON identities/exit/signal + actual assertionCalls observation",
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "21 child modes and five parser controls; spawn error/signal guarded; private temp tree always removed in afterAll.",
+        "B": "Raw parsing view strips ANSI only; saved stdout/stderr stay untouched; optional explicit evidence destination is disclosed.",
+        "C": "Child config owns fs setup; no shared input writes; optional copy then finally rm avoids temp leaks on failed copy.",
+        "D": "One runner handles identical process lifecycle; per-scenario business results remain explicit rather than blanket pass.",
+        "E": "Failure requires exactly one failed assertion and actual AssertionError; selected title verified; denied collection and skip are separate statuses.",
+        "F": "Mode/result table and separate raw streams clarify expected negative children versus successful parent gate.",
+        "G": "No timeout, skip or reporter suppression added; original 20s/30s deadlines stay.",
+        "H": "Actual Vitest and resource tests spawn; native JSON not fabricated; raw artifacts copied for explicit review runs."
+      },
+      "currentSha256": "5300a49bdc66f1fb5d59d5391df587a3b70fa89c8fe91b1f51c6bf98fa54964a",
+      "currentLines": 170,
+      "auditDiscussion": "完整170行。child实际运行原snapshot测试与codecs，permission/missing/empty/changed-padding各有真实fixture；afterEach检查有效assertion calls，非计数绿即语义绿。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/assets/sprite-blob-snapshot.test.ts",
+      "atBaseSha256": "f944679735878bbd007426cd3ec2ab7c5331e4b6205e114c7903420c5af79a93",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Five sampled transport groups require actual nonempty samples and exact byte equality; failed IO propagates.",
+        "B": "Correct four-to-five count and PAL codec naming; do not claim same-parser self-comparison proves decoder correctness.",
+        "C": "Read-only sample roots; local buffers and real decompression; no resource state mutation.",
+        "D": "Private sampleBlobs and assertBlobBytes share identical transport semantics only; tryYj2 mirrors registered raw policy.",
+        "E": "Buffer.compare covers length and every byte; sample nonempty asserted once at owner; parser tests retain format semantics.",
+        "F": "Each namespace maps explicit path to raw owner rather than implicit generic resource grouping.",
+        "G": "Delete duplicate npc nonempty assertion and deterministic same-parser frame-count self-check.",
+        "H": "Real FS/gzip runs; codecs not mocked and partial inputs fail rather than silently skip."
+      },
+      "previousCaller": "sprite-assets/animation-assets writer -> runtime sprite gzip transport",
+      "previousOracle": "original MGO/ABC/F/DATA/FIRE chunk bytes, including YJ2/plain source policy",
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "Five sampled transport groups require actual nonempty samples and exact byte equality; failed IO propagates.",
+        "B": "Correct four-to-five count and PAL codec naming; do not claim same-parser self-comparison proves decoder correctness.",
+        "C": "Read-only sample roots; local buffers and real decompression; no resource state mutation.",
+        "D": "Private sampleBlobs and assertBlobBytes share identical transport semantics only; tryYj2 mirrors registered raw policy.",
+        "E": "Buffer.compare covers length and every byte; sample nonempty asserted once at owner; parser tests retain format semantics.",
+        "F": "Each namespace maps explicit path to raw owner rather than implicit generic resource grouping.",
+        "G": "Delete duplicate npc nonempty assertion and deterministic same-parser frame-count self-check.",
+        "H": "Real FS/gzip runs; codecs not mocked and partial inputs fail rather than silently skip."
+      },
+      "currentSha256": "f944679735878bbd007426cd3ec2ab7c5331e4b6205e114c7903420c5af79a93",
+      "currentLines": 112,
+      "auditDiscussion": "完整112行。透明像素按alpha域核，raw/extracted路径清楚；无资源不授额外格式信用，实际sample成员与原件指纹限制复用。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/font.ts",
+      "atBaseSha256": "1567d2a51b92f839b9c8ca2006d935521502b4bc1328437e05ee9c0b05366516",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Full/ASCII glyph dimensions and width advances explicit; missing/duplicate glyph fails loudly.",
+        "B": "Comments accurately distinguish mask positions from renderer-generated expectations.",
+        "C": "Module maps are initialized once and only read by consumers; no global product font mutation.",
+        "D": "Shared hand glyph input and coordinate locator used across nine menu slices, separate from composition one-dot glyph contract.",
+        "E": "Pixel claims read manual mask location; clone checks elsewhere only cover ownership, never output oracle.",
+        "F": "Named columns/rows/masks and full character corpus reveal representation.",
+        "G": "GlyphDot/glyphDot made private after repository-wide no external caller search; all live public helpers remain.",
+        "H": "No canvas or core mock; pure bitmap input lets actual font renderer be observed deterministically."
+      },
+      "previousCaller": "P01-P08 menu/settlement pixel tests via fixtureGlyphs/textDot",
+      "previousOracle": "hand bit masks FULL_COLS/ASCII_DOTS, independent of renderText",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Full/ASCII glyph dimensions and width advances explicit; missing/duplicate glyph fails loudly.",
+        "B": "Comments accurately distinguish mask positions from renderer-generated expectations.",
+        "C": "Module maps are initialized once and only read by consumers; no global product font mutation.",
+        "D": "Shared hand glyph input and coordinate locator used across nine menu slices, separate from composition one-dot glyph contract.",
+        "E": "Pixel claims read manual mask location; clone checks elsewhere only cover ownership, never output oracle.",
+        "F": "Named columns/rows/masks and full character corpus reveal representation.",
+        "G": "GlyphDot/glyphDot made private after repository-wide no external caller search; all live public helpers remain.",
+        "H": "No canvas or core mock; pure bitmap input lets actual font renderer be observed deterministically."
+      },
+      "currentSha256": "1567d2a51b92f839b9c8ca2006d935521502b4bc1328437e05ee9c0b05366516",
+      "currentLines": 81,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "atBaseSha256": "85a3bf16fd33859a897ecf82d0c8a2f3c28b99eb03499e1f4d93d5cc4d792833",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Fixed frame IDs, high palette-zero opacity, image shape and range-checked pixel lookup agree with public draw inputs.",
+        "B": "Explain direct C coordinate oracle; missing frame policy reflects actual sparse fixture.",
+        "C": "Helpers own fresh image buffers; no production state access or mutable singleton imagery.",
+        "D": "Color/frame geometry shared across menu callers; composition fixture kept separate for different image density/anchors.",
+        "E": "Expected positions derive primary C formulas, not executing TS drawNumber as oracle.",
+        "F": "Named frame roles and sparse pixel markers make overlap failures readable.",
+        "G": "Unused digitCount removed after all-repo search; no consumer or contract lost.",
+        "H": "Pure input builders permit exact framebuffer assertions; no exposed private production API."
+      },
+      "previousCaller": "P01-P08 sparse menu pixel fixtures and P04 adjacent",
+      "previousOracle": "SDLPal ui.c PAL_DrawNumber 640-732 spacing; manual frame IDs/masks",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Fixed frame IDs, high palette-zero opacity, image shape and range-checked pixel lookup agree with public draw inputs.",
+        "B": "Explain direct C coordinate oracle; missing frame policy reflects actual sparse fixture.",
+        "C": "Helpers own fresh image buffers; no production state access or mutable singleton imagery.",
+        "D": "Color/frame geometry shared across menu callers; composition fixture kept separate for different image density/anchors.",
+        "E": "Expected positions derive primary C formulas, not executing TS drawNumber as oracle.",
+        "F": "Named frame roles and sparse pixel markers make overlap failures readable.",
+        "G": "Unused digitCount removed after all-repo search; no consumer or contract lost.",
+        "H": "Pure input builders permit exact framebuffer assertions; no exposed private production API."
+      },
+      "currentSha256": "85a3bf16fd33859a897ecf82d0c8a2f3c28b99eb03499e1f4d93d5cc4d792833",
+      "currentLines": 111,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "atBaseSha256": "79df71135f071a392f75fe1ebf22f2f57318a98e12164c458e00b59bcadf8192",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Normal role maxMP100 now contains mp99; makeGs hydrates six roles; per-test missing/dead values explicit.",
+        "B": "Normal-menu hydration and module cursor ownership accurately documented.",
+        "C": "Each item now owns equipableBy array; public host reset clears words/events/cursors, no private-field mutation.",
+        "D": "Typed roles/items and selected-input snapshots shared locally; no generic product fixture or broader dependency injection.",
+        "E": "P05/P06 snapshot helper probes detect actual input mutations; output assertions remain independent pixel checks.",
+        "F": "Role names and explicit normal scene helpers communicate fixture intent.",
+        "G": "resetInventoryTargetSlot private after no external imports; removed shared NO_ROLE alias and redundant makeLiveScene maxMP loop.",
+        "H": "Time freeze returns restoration; typed overrides remain local; initialization follows production hydration seam."
+      },
+      "previousCaller": "P01-P08/P04 menu state fixture callers",
+      "previousOracle": "hydratePlayerRolesRuntime actual rows; public confirm/cancel resets",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Normal role maxMP100 now contains mp99; makeGs hydrates six roles; per-test missing/dead values explicit.",
+        "B": "Normal-menu hydration and module cursor ownership accurately documented.",
+        "C": "Each item now owns equipableBy array; public host reset clears words/events/cursors, no private-field mutation.",
+        "D": "Typed roles/items and selected-input snapshots shared locally; no generic product fixture or broader dependency injection.",
+        "E": "P05/P06 snapshot helper probes detect actual input mutations; output assertions remain independent pixel checks.",
+        "F": "Role names and explicit normal scene helpers communicate fixture intent.",
+        "G": "resetInventoryTargetSlot private after no external imports; removed shared NO_ROLE alias and redundant makeLiveScene maxMP loop.",
+        "H": "Time freeze returns restoration; typed overrides remain local; initialization follows production hydration seam."
+      },
+      "currentSha256": "79df71135f071a392f75fe1ebf22f2f57318a98e12164c458e00b59bcadf8192",
+      "currentLines": 201,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/png-rgba.ts",
+      "atBaseSha256": "2d560bc0abf7a40698e3aa532b54580492eab080abf60f389bfd8c00a65aa00a",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "All callers supply matching small positive dimensions and exact RGBA lengths; PNG bytes use actual CRC/deflate.",
+        "B": "Header states input construction only, never independent decode-result claim.",
+        "C": "Node PNG writer belongs to test input layer; product module never imports this helper.",
+        "D": "Shared encodeRgbaPng prevents canvas preprocessing of arbitrary test pixels; no generalized image API.",
+        "E": "Complete decoded indices/masks and P10 rendering discriminate input byte layout.",
+        "F": "Chunk length/type/data/CRC assembly follows container order directly.",
+        "G": "Only chunk private helper and one live export; no unused variant or optional modes.",
+        "H": "Independent hand encoding isolates decoder from same-codec roundtrips; no product core replacement."
+      },
+      "previousCaller": "PNG decode and P10 real indexed image consumer tests",
+      "previousOracle": "PNG signature/IHDR CRC32/row filter0 and caller RGBA bytes",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "All callers supply matching small positive dimensions and exact RGBA lengths; PNG bytes use actual CRC/deflate.",
+        "B": "Header states input construction only, never independent decode-result claim.",
+        "C": "Node PNG writer belongs to test input layer; product module never imports this helper.",
+        "D": "Shared encodeRgbaPng prevents canvas preprocessing of arbitrary test pixels; no generalized image API.",
+        "E": "Complete decoded indices/masks and P10 rendering discriminate input byte layout.",
+        "F": "Chunk length/type/data/CRC assembly follows container order directly.",
+        "G": "Only chunk private helper and one live export; no unused variant or optional modes.",
+        "H": "Independent hand encoding isolates decoder from same-codec roundtrips; no product core replacement."
+      },
+      "currentSha256": "2d560bc0abf7a40698e3aa532b54580492eab080abf60f389bfd8c00a65aa00a",
+      "currentLines": 34,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+      "atBaseSha256": "6ad818d64316c447983a5e9a5615565e920bf73fd1d7894c2b3865473f1fa82f",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Complete test/caller fixture reads: four cases: opaque0 cursor, 21-slot scroll/page, disabled/equipped virtual item colors; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Remove snapshot-only roles never passed to draw; exact counts/name/order remain.",
+        "C": "createInventoryMenu owns cursor/inventory construction; the four tests capture only actual draw arguments. Date.now is restored by finally and menu/word/event singletons by afterEach resetHostSingletons.",
+        "D": "labelOf shares the fixed 3-column text grid only; makeUiFrames supplies sparse masks. P01 tests list scroll/colors while P02 tests confirmed target/live inventory, so merging them would mix entry contracts.",
+        "E": "Four cases distinguish opaque-zero cursor from its transparent hole; empty list absence; right movement then page position; and disabled/equipped virtual item colors with quantity5. Snapshots supplement these literal output checks.",
+        "F": "labelOf and named SENTINEL/CURSOR_HOLE identify geometry and absence without reading renderer internals; beforeFirst/beforeMove/beforePage separate intentional menu mutations from draw-only observations.",
+        "G": "Each of four cases has a different boundary. labelOf is consumed repeatedly; imports are used. Repeated before/after snapshots remain local to each real draw, not an unused whole-world assertion layer.",
+        "H": "Actual drawInventoryMenu writes a fresh framebuffer; sparse independent glyphs distinguish wrong labels. freezeNow controls cursor flash without mocking the renderer; this is software pixel evidence, not browser visual acceptance."
+      },
+      "previousCaller": "Inventory create/move/page -> drawInventoryMenu",
+      "previousOracle": "manual item name grid coordinates, cursor mask and quantity digit colors",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Complete test/caller fixture reads: four cases: opaque0 cursor, 21-slot scroll/page, disabled/equipped virtual item colors; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Remove snapshot-only roles never passed to draw; exact counts/name/order remain.",
+        "C": "createInventoryMenu owns cursor/inventory construction; the four tests capture only actual draw arguments. Date.now is restored by finally and menu/word/event singletons by afterEach resetHostSingletons.",
+        "D": "labelOf shares the fixed 3-column text grid only; makeUiFrames supplies sparse masks. P01 tests list scroll/colors while P02 tests confirmed target/live inventory, so merging them would mix entry contracts.",
+        "E": "Four cases distinguish opaque-zero cursor from its transparent hole; empty list absence; right movement then page position; and disabled/equipped virtual item colors with quantity5. Snapshots supplement these literal output checks.",
+        "F": "labelOf and named SENTINEL/CURSOR_HOLE identify geometry and absence without reading renderer internals; beforeFirst/beforeMove/beforePage separate intentional menu mutations from draw-only observations.",
+        "G": "Each of four cases has a different boundary. labelOf is consumed repeatedly; imports are used. Repeated before/after snapshots remain local to each real draw, not an unused whole-world assertion layer.",
+        "H": "Actual drawInventoryMenu writes a fresh framebuffer; sparse independent glyphs distinguish wrong labels. freezeNow controls cursor flash without mocking the renderer; this is software pixel evidence, not browser visual acceptance."
+      },
+      "currentSha256": "6ad818d64316c447983a5e9a5615565e920bf73fd1d7894c2b3865473f1fa82f",
+      "currentLines": 192,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+      "atBaseSha256": "49abedabe81e7cb35703d7e4cedb355cd5d6295370a18c634a07227143fe569e",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Three cases read in full: current inventory quantity versus menu snapshot; ordered role/runtime/equipment projection; noDesc omits description while target content remains. Target movement is not exercised here.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Normal max rows now hydrated; explicit current HP/MP overrides kept.",
+        "C": "confirmInventoryItem enters use-target; gs owns live count/role values while menu retains its original count4. Per-draw snapshots include the actual gs/roles; global description script and remembered target are reset after each case.",
+        "D": "Three contracts are live quantity7 versus menu snapshot4, party order4/1 with effective attack23, and noDesc forwarding. Shared world/image fixtures have the same typed ownership; none of these cases exercises moving the target arrow.",
+        "E": "The live-count case checks both preserved source values and a cyan7 rather than4. Role case checks independent HP12/MP7/attack23 digits and reversed-name absence. noDesc checks description absence alongside a still-visible target name and HP.",
+        "F": "listed/targeted and beforeListed/before make the noDesc stage transition explicit. DESC_COLOR and EQUIPMENT_NAME_COLOR name distinct drawing contracts instead of a mode-driven omnibus helper.",
+        "G": "Keep all three cases: count freshness, role projection and noDesc are distinct. No target-movement credit is claimed; that old receipt wording is removed, rather than adding a duplicate test merely to make it true.",
+        "H": "Real menu confirmation and draw execute with a fixed clock. The literal selected-name/HP assertions distinguish a suppressed target layer from only a suppressed description; no host canvas or core renderer substitute is used."
+      },
+      "previousCaller": "createInventoryMenu/confirmInventoryItem -> drawInventoryMenu; no target movement in this file",
+      "previousOracle": "live count7 versus snapshot4; party4/1 HP12 and effective attack23; noDesc preserves target layer",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Three cases read in full: current inventory quantity versus menu snapshot; ordered role/runtime/equipment projection; noDesc omits description while target content remains. Target movement is not exercised here.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Normal max rows now hydrated; explicit current HP/MP overrides kept.",
+        "C": "confirmInventoryItem enters use-target; gs owns live count/role values while menu retains its original count4. Per-draw snapshots include the actual gs/roles; global description script and remembered target are reset after each case.",
+        "D": "Three contracts are live quantity7 versus menu snapshot4, party order4/1 with effective attack23, and noDesc forwarding. Shared world/image fixtures have the same typed ownership; none of these cases exercises moving the target arrow.",
+        "E": "The live-count case checks both preserved source values and a cyan7 rather than4. Role case checks independent HP12/MP7/attack23 digits and reversed-name absence. noDesc checks description absence alongside a still-visible target name and HP.",
+        "F": "listed/targeted and beforeListed/before make the noDesc stage transition explicit. DESC_COLOR and EQUIPMENT_NAME_COLOR name distinct drawing contracts instead of a mode-driven omnibus helper.",
+        "G": "Keep all three cases: count freshness, role projection and noDesc are distinct. No target-movement credit is claimed; that old receipt wording is removed, rather than adding a duplicate test merely to make it true.",
+        "H": "Real menu confirmation and draw execute with a fixed clock. The literal selected-name/HP assertions distinguish a suppressed target layer from only a suppressed description; no host canvas or core renderer substitute is used."
+      },
+      "currentSha256": "49abedabe81e7cb35703d7e4cedb355cd5d6295370a18c634a07227143fe569e",
+      "currentLines": 213,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+      "atBaseSha256": "e9191efb9fefdac8fb8bee091f4e4ab9363e23b7bddeb470044d5835ced40259",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Complete test/caller fixture reads: two cases: list availability and six-slot target preview; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Capture actual roles passed to first draw; no throwaway unobserved role object.",
+        "C": "create/confirmEquipMenu owns the selection; draw must not equip or mutate roles. The second case snapshots actual roles, six equipment slots, icon map and optional background at each draw, including after equipMoveDown.",
+        "D": "SLOT_NAMES/SLOT_POS express this six-slot UI only; common item/image factories handle data, not expected layout. P01 list tests cannot replace the pick-role preview and role-specific equipability contract.",
+        "E": "Two cases check equipment-list availability and a coherent pick-role lifecycle: six names, icon0x86, amount3, effective attack20+3, background presence, then role1 attack5 and old-slot-name absence.",
+        "F": "plain/painted/movedInputs name three actual input sets. Fixed slot positions are readable independent expectations; the single longer case retains one selection lifecycle rather than hiding it in a parameterized test harness.",
+        "G": "Six-slot loop shares identical assertions over a fixed layout table; three initial draws cover missing background, present background and draw nonmutation. No new wrapper/export is needed for this one file.",
+        "H": "Fresh framebuffer and literal glyph/digit pixels observe real drawEquipMenu. Clock restoration is in finally; afterEach resets menu globals. The test can distinguish accidental equip mutation from a correct preview."
+      },
+      "previousCaller": "createEquipMenu/confirmEquipItem/equipMoveDown -> drawEquipMenu",
+      "previousOracle": "slot names/locations, preview attack20+3 and disjoint icon colors",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Complete test/caller fixture reads: two cases: list availability and six-slot target preview; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Capture actual roles passed to first draw; no throwaway unobserved role object.",
+        "C": "create/confirmEquipMenu owns the selection; draw must not equip or mutate roles. The second case snapshots actual roles, six equipment slots, icon map and optional background at each draw, including after equipMoveDown.",
+        "D": "SLOT_NAMES/SLOT_POS express this six-slot UI only; common item/image factories handle data, not expected layout. P01 list tests cannot replace the pick-role preview and role-specific equipability contract.",
+        "E": "Two cases check equipment-list availability and a coherent pick-role lifecycle: six names, icon0x86, amount3, effective attack20+3, background presence, then role1 attack5 and old-slot-name absence.",
+        "F": "plain/painted/movedInputs name three actual input sets. Fixed slot positions are readable independent expectations; the single longer case retains one selection lifecycle rather than hiding it in a parameterized test harness.",
+        "G": "Six-slot loop shares identical assertions over a fixed layout table; three initial draws cover missing background, present background and draw nonmutation. No new wrapper/export is needed for this one file.",
+        "H": "Fresh framebuffer and literal glyph/digit pixels observe real drawEquipMenu. Clock restoration is in finally; afterEach resets menu globals. The test can distinguish accidental equip mutation from a correct preview."
+      },
+      "currentSha256": "e9191efb9fefdac8fb8bee091f4e4ab9363e23b7bddeb470044d5835ced40259",
+      "currentLines": 209,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+      "atBaseSha256": "11fcd1159850e7900e9dd3e4ff7eeef5076f9c97626deb1753227322586d75a7",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Complete test/caller fixture reads: three forwarding cases and one snapshot-instrumentation control; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Snapshot probe is test instrumentation, not gameplay coverage; no mock-call-only forwarding.",
+        "C": "openMenu sets the stack, and drawMenuStack forwards optional assets to actual leaf renderers. Item, equipment and poison/word-table inputs are owned per case; word/event/menu singleton reset is explicit.",
+        "D": "Three paired missing/present-extra calls test stack wiring that direct leaf tests cannot establish. The fourth case belongs to cloneInputs instrumentation and is not counted as gameplay or forwarding coverage.",
+        "E": "Inventory name/icon, equipBg pixel0x55, and statusBg/poison glyph13 each have positive and negative output checks. The snapshot probe changes array membership/order rather than comparing an untouched clone with itself.",
+        "F": "bare/forwarded, without/withBg and plain/extra state the precise missing dependency. This repetition is short and exposes which forwarding field each case is intended to falsify.",
+        "G": "Retain three distinct extra-asset branches and the shared snapshot helper control; no generic callback table is introduced to conceal their differing state setup. No production API is exported just for these tests.",
+        "H": "Real drawMenuStack and leaves execute; absence of resources yields literal negative pixels, not mock call counts. The poison-data case is here, not in P07; clocks and singleton cleanup remain bounded to this fixture host."
+      },
+      "previousCaller": "openMenu -> drawMenuStack -> real inventory/equip/status draws",
+      "previousOracle": "with/without extra assets produce distinct explicit pixels",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Complete test/caller fixture reads: three forwarding cases and one snapshot-instrumentation control; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Snapshot probe is test instrumentation, not gameplay coverage; no mock-call-only forwarding.",
+        "C": "openMenu sets the stack, and drawMenuStack forwards optional assets to actual leaf renderers. Item, equipment and poison/word-table inputs are owned per case; word/event/menu singleton reset is explicit.",
+        "D": "Three paired missing/present-extra calls test stack wiring that direct leaf tests cannot establish. The fourth case belongs to cloneInputs instrumentation and is not counted as gameplay or forwarding coverage.",
+        "E": "Inventory name/icon, equipBg pixel0x55, and statusBg/poison glyph13 each have positive and negative output checks. The snapshot probe changes array membership/order rather than comparing an untouched clone with itself.",
+        "F": "bare/forwarded, without/withBg and plain/extra state the precise missing dependency. This repetition is short and exposes which forwarding field each case is intended to falsify.",
+        "G": "Retain three distinct extra-asset branches and the shared snapshot helper control; no generic callback table is introduced to conceal their differing state setup. No production API is exported just for these tests.",
+        "H": "Real drawMenuStack and leaves execute; absence of resources yields literal negative pixels, not mock call counts. The poison-data case is here, not in P07; clocks and singleton cleanup remain bounded to this fixture host."
+      },
+      "currentSha256": "11fcd1159850e7900e9dd3e4ff7eeef5076f9c97626deb1753227322586d75a7",
+      "currentLines": 174,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+      "atBaseSha256": "0c482d21a187011bb6265d21aed09cf49cbde5c2232c4f073e8867e48e3ff64c",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Complete test/caller fixture reads: three production-menu cases and one input snapshot instrumentation probe; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Remove helper implicit revival of zero HP; normal hydrated fixture supplies living roles.",
+        "C": "viewRuntime sets selected runtime MP/magic before projectRuntimeToBattleRoles. Drawing consumes the projection without mutating either source; description events and remembered caster reset afterEach, and clock replacement uses finally.",
+        "D": "viewRuntime is local to the three magic-menu cases, not a generalized state hydrator. The fourth case probes cloneInputs bitmap/name/poison/exp sensitivity and does not claim product behavior or poison rendering coverage.",
+        "E": "The MP case sets static MP10 and runtime8, checks costs8/9 become enabled/disabled, then uses a separately built static menu as contrast. Other cases distinguish party4/1 HP12/34, page label and target-arrow movement; none derives expected pixels by re-running the renderer.",
+        "F": "The long paging case is one menu lifecycle: create, page, confirm, move target. beforeFirst/beforePage/moved label each ownership boundary; direct numeric and glyph expectations keep its purpose observable.",
+        "G": "Keep three menu contracts and one instrumentation probe; snapshot coverage supplements output checks. makeMagic/makeSpell/viewRuntime are private and actually used. No new production facade or duplicate runtime test is introduced.",
+        "H": "Actual menu transitions/projection/draw run with sparse frames and controlled Date.now. Static-versus-runtime contrast is supported by concrete MP10/8, not the fixture default99 named in the superseded receipt."
+      },
+      "previousCaller": "runtime projection + create/confirm/move magic menu -> drawInGameMagicMenu",
+      "previousOracle": "runtime MP8 versus explicitly assigned static MP10; cost8/9 enabled/disabled colors; explicit page labels and moving target arrows",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Complete test/caller fixture reads: three production-menu cases and one input snapshot instrumentation probe; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Remove helper implicit revival of zero HP; normal hydrated fixture supplies living roles.",
+        "C": "viewRuntime sets selected runtime MP/magic before projectRuntimeToBattleRoles. Drawing consumes the projection without mutating either source; description events and remembered caster reset afterEach, and clock replacement uses finally.",
+        "D": "viewRuntime is local to the three magic-menu cases, not a generalized state hydrator. The fourth case probes cloneInputs bitmap/name/poison/exp sensitivity and does not claim product behavior or poison rendering coverage.",
+        "E": "The MP case sets static MP10 and runtime8, checks costs8/9 become enabled/disabled, then uses a separately built static menu as contrast. Other cases distinguish party4/1 HP12/34, page label and target-arrow movement; none derives expected pixels by re-running the renderer.",
+        "F": "The long paging case is one menu lifecycle: create, page, confirm, move target. beforeFirst/beforePage/moved label each ownership boundary; direct numeric and glyph expectations keep its purpose observable.",
+        "G": "Keep three menu contracts and one instrumentation probe; snapshot coverage supplements output checks. makeMagic/makeSpell/viewRuntime are private and actually used. No new production facade or duplicate runtime test is introduced.",
+        "H": "Actual menu transitions/projection/draw run with sparse frames and controlled Date.now. Static-versus-runtime contrast is supported by concrete MP10/8, not the fixture default99 named in the superseded receipt."
+      },
+      "currentSha256": "0c482d21a187011bb6265d21aed09cf49cbde5c2232c4f073e8867e48e3ff64c",
+      "currentLines": 343,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p07-status.test.ts",
+      "atBaseSha256": "01518520443c966e47ded645245189ba834f7e422f57dae448fe41c49ab9c48d",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Complete test/caller fixture reads: one cohesive status-page projection with navigation; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Hydrated maxima legal; selected runtime values remain distinct from static baseline.",
+        "C": "One actual createPlayerStatus→drawPlayerStatus→playerStatusNext lifecycle owns its menu locally. Runtime HP12/level6 are distinct from static HP99/level1; snapshots include portrait/icon maps and experience table actually supplied to draw.",
+        "D": "Reuse common glyph/frame factories, but retain this status-specific runtime/portrait/equipment/experience projection. P05 covers extra poison forwarding separately; this file does not construct poison state or certify party-slot poison keys.",
+        "E": "Explicit outputs cover portrait0x95→0x92, equipment-name appearance/removal, HP12→34, level6 versus1 and exp12/required40. Background presence is paired with absence, and every draw has a nonmutation snapshot.",
+        "F": "plain/painted/switchedInputs expose input ownership and the role-navigation sequence. Named CONFIRMED/EQUIPMENT constants distinguish label meaning; a single coherent page-navigation case avoids duplicate setup.",
+        "G": "No extra helper/export is introduced; all item/portrait/levelUpExp inputs reach the actual renderer. The role switch is retained because it detects stale selected-role output that a first-frame-only test would miss.",
+        "H": "All effects are directly observable in a fresh software framebuffer; no clock/mock is needed here. resetHostSingletons isolates the shared menu fixture environment; evidence is limited to selected output/argument fields."
+      },
+      "previousCaller": "createPlayerStatus/move -> drawPlayerStatus",
+      "previousOracle": "role4/1 runtime versus static values, equipment text/portrait, experience and role navigation; poison projection is not tested in this file",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Complete test/caller fixture reads: one cohesive status-page projection with navigation; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Hydrated maxima legal; selected runtime values remain distinct from static baseline.",
+        "C": "One actual createPlayerStatus→drawPlayerStatus→playerStatusNext lifecycle owns its menu locally. Runtime HP12/level6 are distinct from static HP99/level1; snapshots include portrait/icon maps and experience table actually supplied to draw.",
+        "D": "Reuse common glyph/frame factories, but retain this status-specific runtime/portrait/equipment/experience projection. P05 covers extra poison forwarding separately; this file does not construct poison state or certify party-slot poison keys.",
+        "E": "Explicit outputs cover portrait0x95→0x92, equipment-name appearance/removal, HP12→34, level6 versus1 and exp12/required40. Background presence is paired with absence, and every draw has a nonmutation snapshot.",
+        "F": "plain/painted/switchedInputs expose input ownership and the role-navigation sequence. Named CONFIRMED/EQUIPMENT constants distinguish label meaning; a single coherent page-navigation case avoids duplicate setup.",
+        "G": "No extra helper/export is introduced; all item/portrait/levelUpExp inputs reach the actual renderer. The role switch is retained because it detects stale selected-role output that a first-frame-only test would miss.",
+        "H": "All effects are directly observable in a fresh software framebuffer; no clock/mock is needed here. resetHostSingletons isolates the shared menu fixture environment; evidence is limited to selected output/argument fields."
+      },
+      "currentSha256": "01518520443c966e47ded645245189ba834f7e422f57dae448fe41c49ab9c48d",
+      "currentLines": 109,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p08-settlement.test.ts",
+      "atBaseSha256": "5cdcfa8baac98de16d32337767477d2ae6d79915ceb3795cc6b972705937b52e",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Complete test/caller fixture reads: four independent variants exp-cash/level-up/hidden-exp/learn-magic; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Split former omnibus case into four; retain all old pixel and nonmutation assertions.",
+        "C": "Each case owns an already-built settlement screen and fresh framebuffer. drawBattleSettlement is called directly; only hidden-exp installs a word table, reset afterEach. This file does not run BattlePresent or settlement progression.",
+        "D": "The local levelUp factory supplies one typed screen; shared frame/glyph fixtures supply independent masks. Four screen variants stay separate because exp/cash, old/new stats, hidden growth and learned spell have different visible contracts.",
+        "E": "Four literal contracts: exp12/cash34 digits; level2→3 and attack11→22 plus arrow; word51 with delta5; learned spell0x1b versus role0 and negative neighboring pixels. Input snapshots are supplementary, not the visual oracle.",
+        "F": "Separate named cases replaced the earlier combined case; levelUp values expose old/current fields. rightDigitX/midOnesX state alignment geometry without invoking production drawNumber as expected-output generation.",
+        "G": "Four variants are all dispatched by the leaf renderer; preserving distinct cases avoids a large switch in test expectations. No production caller-wiring or post-battle sequencing credit is inferred from them.",
+        "H": "Typed screen values and real leaf drawing make deterministic pixel checks possible without a battle engine mock. Word table reset isolates the one singleton dependency; no time, network or visual browser claim is needed."
+      },
+      "previousCaller": "four direct drawBattleSettlement calls on typed screen variants; production BattlePresent caller evidence is reused separately, not executed by these tests",
+      "previousOracle": "manual UI glyph masks/digits/arrow pixels, SDLPal number layout",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Complete test/caller fixture reads: four independent variants exp-cash/level-up/hidden-exp/learn-magic; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Split former omnibus case into four; retain all old pixel and nonmutation assertions.",
+        "C": "Each case owns an already-built settlement screen and fresh framebuffer. drawBattleSettlement is called directly; only hidden-exp installs a word table, reset afterEach. This file does not run BattlePresent or settlement progression.",
+        "D": "The local levelUp factory supplies one typed screen; shared frame/glyph fixtures supply independent masks. Four screen variants stay separate because exp/cash, old/new stats, hidden growth and learned spell have different visible contracts.",
+        "E": "Four literal contracts: exp12/cash34 digits; level2→3 and attack11→22 plus arrow; word51 with delta5; learned spell0x1b versus role0 and negative neighboring pixels. Input snapshots are supplementary, not the visual oracle.",
+        "F": "Separate named cases replaced the earlier combined case; levelUp values expose old/current fields. rightDigitX/midOnesX state alignment geometry without invoking production drawNumber as expected-output generation.",
+        "G": "Four variants are all dispatched by the leaf renderer; preserving distinct cases avoids a large switch in test expectations. No production caller-wiring or post-battle sequencing credit is inferred from them.",
+        "H": "Typed screen values and real leaf drawing make deterministic pixel checks possible without a battle engine mock. Word table reset isolates the one singleton dependency; no time, network or visual browser claim is needed."
+      },
+      "currentSha256": "5cdcfa8baac98de16d32337767477d2ae6d79915ceb3795cc6b972705937b52e",
+      "currentLines": 133,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p09-background.test.ts",
+      "atBaseSha256": "6922114384b0344f8ed710871edf9e21e9226db81d62ea4a8a34c14cb72f52f2",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Complete test/caller fixture reads: two cases: positive/negative shifts and crop/index-to-RGBA boundary; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Whole source and output planes have explicit dimensions; production algorithms unchanged.",
+        "C": "Two cases call drawBattleBg directly and then framebuffer.toImageData; background inputs are cloned before draw. Palette and pixel planes are local; there is no BattlePresent instance or global lifetime to clean up.",
+        "D": "paletteWith/image are file-private construction helpers; expected nibble and RGB values are literal. This leaf color/crop contract differs from P14 assembler fade state and must not claim that caller wiring.",
+        "E": "Positive/negative shifts exercise 0xAF clamp, 0xA0 floor and high-nibble preservation; clipped column7 markers must remain absent. Small-image uncovered cells retain SENTINEL, then explicit RGBA tuples prove palette conversion.",
+        "F": "raised/lowered/smallBg and named dimensions separate three data domains. The paint callback only constructs inputs; expected output literals do not call the shift algorithm.",
+        "G": "Both cases retain unique scope: numeric/clipping boundary versus index-to-RGBA consumer. Private helpers each have real callers, no general palette generator or additional export is required.",
+        "H": "Pure typed arrays and real Framebuffer.toImageData expose output directly. No time/IO mock or comparison of two calls to the same codec is used; full background snapshots only check the selected input ownership."
+      },
+      "previousCaller": "direct drawBattleBg -> framebuffer.toImageData; no BattlePresent instance in these cases",
+      "previousOracle": "manual low-nibble arithmetic and hand RGB palette entries",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Complete test/caller fixture reads: two cases: positive/negative shifts and crop/index-to-RGBA boundary; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Whole source and output planes have explicit dimensions; production algorithms unchanged.",
+        "C": "Two cases call drawBattleBg directly and then framebuffer.toImageData; background inputs are cloned before draw. Palette and pixel planes are local; there is no BattlePresent instance or global lifetime to clean up.",
+        "D": "paletteWith/image are file-private construction helpers; expected nibble and RGB values are literal. This leaf color/crop contract differs from P14 assembler fade state and must not claim that caller wiring.",
+        "E": "Positive/negative shifts exercise 0xAF clamp, 0xA0 floor and high-nibble preservation; clipped column7 markers must remain absent. Small-image uncovered cells retain SENTINEL, then explicit RGBA tuples prove palette conversion.",
+        "F": "raised/lowered/smallBg and named dimensions separate three data domains. The paint callback only constructs inputs; expected output literals do not call the shift algorithm.",
+        "G": "Both cases retain unique scope: numeric/clipping boundary versus index-to-RGBA consumer. Private helpers each have real callers, no general palette generator or additional export is required.",
+        "H": "Pure typed arrays and real Framebuffer.toImageData expose output directly. No time/IO mock or comparison of two calls to the same codec is used; full background snapshots only check the selected input ownership."
+      },
+      "currentSha256": "6922114384b0344f8ed710871edf9e21e9226db81d62ea4a8a34c14cb72f52f2",
+      "currentLines": 102,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+      "atBaseSha256": "86b33800ea983839dabdb49ed19d38518bed736c1aae7c8d807827c562296e35",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Complete test/caller fixture reads: three cases: normal consumer, drawImage failure, getImageData failure; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Actual bitmap/context methods restore in finally; low-level PNG merge does not replace consumer credit.",
+        "C": "withBitmapProbe owns the installed createImageBitmap wrapper and optional canvas spy; nested finally restores both on rejection. Each decode owns one bitmap and the probe observes its close without replacing decoding.",
+        "D": "Only the two canvas-failure seams share a helper because their restore/failure contracts match. The real decode→toSpriteImages→drawSprite consumer remains separate from lower PNG byte conversion tests.",
+        "E": "Normal case checks indices[0,0,12,7], opaque[1,0,1,1], borrowed array identity/anchor and four literal pixels. Failure cases pair the expected rejection with one created/closed bitmap; close counts are resource evidence, not a substitute for normal output.",
+        "F": "RGBA/pngBlob/installBitmapProbe/withBitmapProbe distinguish input construction, observation and cleanup. fault.method is a narrow two-method host seam, not a switch between unrelated business algorithms.",
+        "G": "Keep both failure points because they occur at different decode stages; the probe itself is private. The healthy consumer checks alpha-zero versus opaque-zero, so dropping it in favor of only error counts would lose a contract.",
+        "H": "Real browser canvas implementation in the test host performs normal decode/draw; only injected drawImage/getImageData throws are substituted. Restore order prevents poisoned host methods from leaking into the next case."
+      },
+      "previousCaller": "decodePngToIndices -> drawSprite actual indexed consumer",
+      "previousOracle": "hand 2x2 PNG R/A bytes, literal framebuffer pixels and one bitmap close",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Complete test/caller fixture reads: three cases: normal consumer, drawImage failure, getImageData failure; values flow through public production entry and legal normal fixture.",
+        "B": "Layout/ownership comments checked against current caller and primary evidence; Actual bitmap/context methods restore in finally; low-level PNG merge does not replace consumer credit.",
+        "C": "withBitmapProbe owns the installed createImageBitmap wrapper and optional canvas spy; nested finally restores both on rejection. Each decode owns one bitmap and the probe observes its close without replacing decoding.",
+        "D": "Only the two canvas-failure seams share a helper because their restore/failure contracts match. The real decode→toSpriteImages→drawSprite consumer remains separate from lower PNG byte conversion tests.",
+        "E": "Normal case checks indices[0,0,12,7], opaque[1,0,1,1], borrowed array identity/anchor and four literal pixels. Failure cases pair the expected rejection with one created/closed bitmap; close counts are resource evidence, not a substitute for normal output.",
+        "F": "RGBA/pngBlob/installBitmapProbe/withBitmapProbe distinguish input construction, observation and cleanup. fault.method is a narrow two-method host seam, not a switch between unrelated business algorithms.",
+        "G": "Keep both failure points because they occur at different decode stages; the probe itself is private. The healthy consumer checks alpha-zero versus opaque-zero, so dropping it in favor of only error counts would lose a contract.",
+        "H": "Real browser canvas implementation in the test host performs normal decode/draw; only injected drawImage/getImageData throws are substituted. Restore order prevents poisoned host methods from leaking into the next case."
+      },
+      "currentSha256": "86b33800ea983839dabdb49ed19d38518bed736c1aae7c8d807827c562296e35",
+      "currentLines": 129,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "atBaseSha256": "c8ea1ae59baf3bf5d942ae3cc5e1258430c2feaed6c7623ff92eee2bbd912038",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Normal battleGs now hydrates six valid roles before patch; explicit malformed role99 remains defensive case.",
+        "B": "Public battleView explicitly snapshots selected fields, not an entire-state immutability guarantee.",
+        "C": "Fresh state/role/buffer ownership per caller; seeded RNG local; no production imports back into test helpers.",
+        "D": "Battle-only types/builders avoid extending menu fixture with battle switches.",
+        "E": "Callers assert actual pixels/TTL/phase and selected state nonmutation; builder is input only.",
+        "F": "role/enemy/player/state defaults are explicit typed shapes; patch highlights boundary override.",
+        "G": "Every retained helper/type has actual consumers; no universal context or production test API.",
+        "H": "Public dependency shapes, deterministic RNG/clock allow direct real assembler tests."
+      },
+      "previousCaller": "P13/P14/P15 BattlePresent/drawBattleUI callers",
+      "previousOracle": "typed battle roles/states and real runtime hydrate rows",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Normal battleGs now hydrates six valid roles before patch; explicit malformed role99 remains defensive case.",
+        "B": "Public battleView explicitly snapshots selected fields, not an entire-state immutability guarantee.",
+        "C": "Fresh state/role/buffer ownership per caller; seeded RNG local; no production imports back into test helpers.",
+        "D": "Battle-only types/builders avoid extending menu fixture with battle switches.",
+        "E": "Callers assert actual pixels/TTL/phase and selected state nonmutation; builder is input only.",
+        "F": "role/enemy/player/state defaults are explicit typed shapes; patch highlights boundary override.",
+        "G": "Every retained helper/type has actual consumers; no universal context or production test API.",
+        "H": "Public dependency shapes, deterministic RNG/clock allow direct real assembler tests."
+      },
+      "currentSha256": "c8ea1ae59baf3bf5d942ae3cc5e1258430c2feaed6c7623ff92eee2bbd912038",
+      "currentLines": 203,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "atBaseSha256": "551bfb79ad15caf4de7ad4945336edd10ab626cef12d84475b782b392ef0683a",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "at now rejects noninteger/out-of-bounds coordinates instead of silently returning zero; all current callers valid.",
+        "B": "One-dot glyph width/stride and anchor comments match bitmap shapes.",
+        "C": "Every image owns arrays; snapBitmap projects input fields without touching product state.",
+        "D": "Composition-specific sparse anchors/dense frames retained; not merged with menu frame vocabulary.",
+        "E": "Direct pixel reads now cannot pass a black expectation by reading outside framebuffer.",
+        "F": "Names encode layer/color roles; sprite constructor shows bottom-center default anchor.",
+        "G": "No dead exports found; removed implicit undefined-to-black fallback.",
+        "H": "Independent literal images/glyph masks make layer order and transparency deterministic."
+      },
+      "previousCaller": "P11-P16 framebuffer and image fixtures",
+      "previousOracle": "manual palette constants and sparse pixel masks",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "at now rejects noninteger/out-of-bounds coordinates instead of silently returning zero; all current callers valid.",
+        "B": "One-dot glyph width/stride and anchor comments match bitmap shapes.",
+        "C": "Every image owns arrays; snapBitmap projects input fields without touching product state.",
+        "D": "Composition-specific sparse anchors/dense frames retained; not merged with menu frame vocabulary.",
+        "E": "Direct pixel reads now cannot pass a black expectation by reading outside framebuffer.",
+        "F": "Names encode layer/color roles; sprite constructor shows bottom-center default anchor.",
+        "G": "No dead exports found; removed implicit undefined-to-black fallback.",
+        "H": "Independent literal images/glyph masks make layer order and transparency deterministic."
+      },
+      "currentSha256": "551bfb79ad15caf4de7ad4945336edd10ab626cef12d84475b782b392ef0683a",
+      "currentLines": 145,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/world.ts",
+      "atBaseSha256": "7eedefb782fafaac9af4969e909e974a737ddb951d2a46735c3838970db8d7f8",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Cells individually allocated; role runtime intentionally unused in world-only layer fixtures; no fake playable host claim.",
+        "B": "worldView comment limits nonmutation to named world fields; wave/shake advancement asserted separately.",
+        "C": "Fresh world/map/context per test; snapshots observe fields rather than mutate internal renderer state.",
+        "D": "Common spatial input/context reused for actual world compositions only; battle state stays separate.",
+        "E": "Manual camera/pixel coordinates feed real presentFrame; snapshot alone is not output evidence.",
+        "F": "emptyMap/exploreState/baseContext names and explicit patch communicate minimal layer host.",
+        "G": "All five exports used; no unused generic business state or extra IO.",
+        "H": "No IO/core mock; pure buffers and explicit camera allow actual tile/sprite/overlay ordering checks."
+      },
+      "previousCaller": "P11/P12/P16 presentFrame world composition callers",
+      "previousOracle": "explicit map cell arrays/camera positions and selected world view",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Cells individually allocated; role runtime intentionally unused in world-only layer fixtures; no fake playable host claim.",
+        "B": "worldView comment limits nonmutation to named world fields; wave/shake advancement asserted separately.",
+        "C": "Fresh world/map/context per test; snapshots observe fields rather than mutate internal renderer state.",
+        "D": "Common spatial input/context reused for actual world compositions only; battle state stays separate.",
+        "E": "Manual camera/pixel coordinates feed real presentFrame; snapshot alone is not output evidence.",
+        "F": "emptyMap/exploreState/baseContext names and explicit patch communicate minimal layer host.",
+        "G": "All five exports used; no unused generic business state or extra IO.",
+        "H": "No IO/core mock; pure buffers and explicit camera allow actual tile/sprite/overlay ordering checks."
+      },
+      "currentSha256": "7eedefb782fafaac9af4969e909e974a737ddb951d2a46735c3838970db8d7f8",
+      "currentLines": 64,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+      "atBaseSha256": "61705a1a3d9fe61ff5140a12847cc8c56d59d763a0dc2a971e69f401a6b08e79",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Full file and actual assembler input/lifecycle reviewed: two scenes distinguish opaque0, transparent holes, party/NPC and layer-cover ordering.",
+        "B": "Comments qualified to actual test/caller boundary; worldView/bitmap input views are specific nonmutation claims.",
+        "C": "Each case owns fresh exploreState/context/framebuffer; presentFrame may use its context caches but worldView/bitmapView only assert selected gameplay and bitmap nonmutation. Inputs explicitly own party/follower/NPC layers.",
+        "D": "stackSprites is specific to the three-overlapping-actors case; the cover case has separate geometry. Both reuse sparse sprite/emptyMap primitives, not a shared production sort function to produce expectations.",
+        "E": "First case flips NPC sLayer0→1 and observes 0x51/0x42/opaque0 versus0x61. Second distinguishes a rear sprite covered by tile7 from front holes and opaque0; merely asserting nonempty output would miss both ordering errors.",
+        "F": "Comments give world/screen coordinates and sort keys tied to explicit fixture values. Named rear/front/party/follower separate depth and opacity, while expected three adjacent pixels make the order visible.",
+        "G": "Two cases preserve distinct actor ordering and cover repaint responsibilities. No dead production wrapper or duplicate leaf pixel check is added; worldView is intentionally a bounded projection, not an all-state equality claim.",
+        "H": "Actual presentFrame integrates tile and sprite drawing with literal sparse colors. Fresh contexts contain caches; no clock or renderer mock is required, and snapshots do not claim to inspect every nested engine field."
+      },
+      "previousCaller": "presentFrame tile/party/NPC layering",
+      "previousOracle": "manual index colors/holes/depth positions",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Full file and actual assembler input/lifecycle reviewed: two scenes distinguish opaque0, transparent holes, party/NPC and layer-cover ordering.",
+        "B": "Comments qualified to actual test/caller boundary; worldView/bitmap input views are specific nonmutation claims.",
+        "C": "Each case owns fresh exploreState/context/framebuffer; presentFrame may use its context caches but worldView/bitmapView only assert selected gameplay and bitmap nonmutation. Inputs explicitly own party/follower/NPC layers.",
+        "D": "stackSprites is specific to the three-overlapping-actors case; the cover case has separate geometry. Both reuse sparse sprite/emptyMap primitives, not a shared production sort function to produce expectations.",
+        "E": "First case flips NPC sLayer0→1 and observes 0x51/0x42/opaque0 versus0x61. Second distinguishes a rear sprite covered by tile7 from front holes and opaque0; merely asserting nonempty output would miss both ordering errors.",
+        "F": "Comments give world/screen coordinates and sort keys tied to explicit fixture values. Named rear/front/party/follower separate depth and opacity, while expected three adjacent pixels make the order visible.",
+        "G": "Two cases preserve distinct actor ordering and cover repaint responsibilities. No dead production wrapper or duplicate leaf pixel check is added; worldView is intentionally a bounded projection, not an all-state equality claim.",
+        "H": "Actual presentFrame integrates tile and sprite drawing with literal sparse colors. Fresh contexts contain caches; no clock or renderer mock is required, and snapshots do not claim to inspect every nested engine field."
+      },
+      "currentSha256": "61705a1a3d9fe61ff5140a12847cc8c56d59d763a0dc2a971e69f401a6b08e79",
+      "currentLines": 140,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+      "atBaseSha256": "dc0e0fc8dcab93030d9ee08ae335804a34fc4a2c702b1d37bfa977109ac1cdec",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Full file and actual assembler input/lifecycle reviewed: four cases include advanceEffects false/true and event mode with retained menu.",
+        "B": "Comments qualified to actual test/caller boundary; add afterEach resetScreenWavePhase to restore module singleton.",
+        "C": "presentFrame owns intentional wave/shake progression, so party/camera and immutable bitmaps are checked separately from counters. resetScreenWavePhase afterEach restores the actual module singleton; dialogs/menus/palette are case-local.",
+        "D": "layer0Tile shares one tightly controlled marked-row input for wave and remap cases. Four cases remain distinct: wave advancement, shake countdown, scene-only remap and menu/event overlay gating; lower geometry tests cannot prove this order.",
+        "E": "Wave rows distinguish amplitude128→120→112 and advancing phase; shake positions distinguish repeated hold from countdown; remap checks tile0x4E versus dialog0x4F; event mode keeps dialog/actor but removes menu pixels.",
+        "F": "advance booleans mirror the production API in local draw closures; explicit endpoint pixels and counter values show why each call differs. layer0Tile explains its single seam hole instead of relying on broad fill side effects.",
+        "G": "No generic rendering-mode table hides setup differences. Repeated false/true calls are required lifecycle evidence; the enormous fade duration keeps this case focused on remap ordering and does not claim fade timing precision.",
+        "H": "Real compositor executes with manually controlled advancement. performance.now is not mocked in the remap case, whose long duration avoids a timing-dependent endpoint oracle; wave global resets after failure as well as success."
+      },
+      "previousCaller": "presentFrame wave/shake/remap/menu/dialog composition",
+      "previousOracle": "explicit neighbor pixels and palette rows, independent of rendering calls",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Full file and actual assembler input/lifecycle reviewed: four cases include advanceEffects false/true and event mode with retained menu.",
+        "B": "Comments qualified to actual test/caller boundary; add afterEach resetScreenWavePhase to restore module singleton.",
+        "C": "presentFrame owns intentional wave/shake progression, so party/camera and immutable bitmaps are checked separately from counters. resetScreenWavePhase afterEach restores the actual module singleton; dialogs/menus/palette are case-local.",
+        "D": "layer0Tile shares one tightly controlled marked-row input for wave and remap cases. Four cases remain distinct: wave advancement, shake countdown, scene-only remap and menu/event overlay gating; lower geometry tests cannot prove this order.",
+        "E": "Wave rows distinguish amplitude128→120→112 and advancing phase; shake positions distinguish repeated hold from countdown; remap checks tile0x4E versus dialog0x4F; event mode keeps dialog/actor but removes menu pixels.",
+        "F": "advance booleans mirror the production API in local draw closures; explicit endpoint pixels and counter values show why each call differs. layer0Tile explains its single seam hole instead of relying on broad fill side effects.",
+        "G": "No generic rendering-mode table hides setup differences. Repeated false/true calls are required lifecycle evidence; the enormous fade duration keeps this case focused on remap ordering and does not claim fade timing precision.",
+        "H": "Real compositor executes with manually controlled advancement. performance.now is not mocked in the remap case, whose long duration avoids a timing-dependent endpoint oracle; wave global resets after failure as well as success."
+      },
+      "currentSha256": "dc0e0fc8dcab93030d9ee08ae335804a34fc4a2c702b1d37bfa977109ac1cdec",
+      "currentLines": 213,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+      "atBaseSha256": "335fabb9c3e9f28657c6ea7edf6ce0adcda926a3eb108e029a7c9c7bf7f46aba",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Full file and actual assembler input/lifecycle reviewed: two cases cover last-message wins, override positions, expiry and reset.",
+        "B": "Fresh BattlePresent owns per-case caches; frame0/2 are explicit draw arguments. There is no seeded-clock spy or afterEach restoration in this file; TTL/reset comments match that direct-frame contract.",
+        "C": "Each case creates its own BattlePresent owning message/damage caches; reset is exercised explicitly. draw receives frame0/2 directly, while snapshots cover commands and selected state/bitmap fields; no Date.now spy or afterEach clock reset exists here.",
+        "D": "assets supplies this file’s message/settlement frame glyphs only. Two contracts are message replacement/expiry/damage motion and settlement-over-message layering; neither is duplicated by P08 direct settlement screen tests.",
+        "E": "First case observes old message absence, dialog occlusion, expiry at frame2, number y10→8 and reset removal. Second observes settlement frame0xB1 versus message15 before/after screen index change and after reset.",
+        "F": "frame/withDialog parameters in the local draw closure describe one shared message lifecycle. BG/DIALOG/MESSAGE and literal positions keep overwrite order readable without inspecting private caches.",
+        "G": "Keep explicit reset assertions because fresh construction alone cannot prove cache clearing. No extra lifecycle wrapper or mocked command-consumer count is added; selected snapshots do not overclaim the full state graph.",
+        "H": "Actual commands enter BattlePresent.draw; explicit frame numbers control TTL deterministically. No seeded clock restoration is claimed; the superseded B statement described a cleanup hook absent from this file."
+      },
+      "previousCaller": "BattlePresent.consume/draw/reset with actual command input",
+      "previousOracle": "message pixel/TTL, floating number and settlement/dialog layer pixels",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Full file and actual assembler input/lifecycle reviewed: two cases cover last-message wins, override positions, expiry and reset.",
+        "B": "Fresh BattlePresent owns per-case caches; frame0/2 are explicit draw arguments. There is no seeded-clock spy or afterEach restoration in this file; TTL/reset comments match that direct-frame contract.",
+        "C": "Each case creates its own BattlePresent owning message/damage caches; reset is exercised explicitly. draw receives frame0/2 directly, while snapshots cover commands and selected state/bitmap fields; no Date.now spy or afterEach clock reset exists here.",
+        "D": "assets supplies this file’s message/settlement frame glyphs only. Two contracts are message replacement/expiry/damage motion and settlement-over-message layering; neither is duplicated by P08 direct settlement screen tests.",
+        "E": "First case observes old message absence, dialog occlusion, expiry at frame2, number y10→8 and reset removal. Second observes settlement frame0xB1 versus message15 before/after screen index change and after reset.",
+        "F": "frame/withDialog parameters in the local draw closure describe one shared message lifecycle. BG/DIALOG/MESSAGE and literal positions keep overwrite order readable without inspecting private caches.",
+        "G": "Keep explicit reset assertions because fresh construction alone cannot prove cache clearing. No extra lifecycle wrapper or mocked command-consumer count is added; selected snapshots do not overclaim the full state graph.",
+        "H": "Actual commands enter BattlePresent.draw; explicit frame numbers control TTL deterministically. No seeded clock restoration is claimed; the superseded B statement described a cleanup hook absent from this file."
+      },
+      "currentSha256": "335fabb9c3e9f28657c6ea7edf6ce0adcda926a3eb108e029a7c9c7bf7f46aba",
+      "currentLines": 162,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+      "atBaseSha256": "91f643b92d235d87103d0efddc541539e3a9d44081bc618d8b71680fb81a5204",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Full file and actual assembler input/lifecycle reviewed: three cases retain start/middle/end and repeated stable endpoint.",
+        "B": "Comments qualified to actual test/caller boundary; add afterEach resetScreenWavePhase; battle input runtime valid.",
+        "C": "Fresh BattlePresent instances own intro/summon fade caches. Tests deliberately mutate public fade steps between calls and compare selected state before draw; afterEach resets wave phase for the advancing-wave case.",
+        "D": "summonAnim constructs only the summon state shape. Three contracts are intro reveal plus damage overlay, summon nibble transition and battle-world wave hold; keep separate from leaf background-shift tests and P12 explore composition.",
+        "E": "Intro step0/3/6 checks world/background pixels and surviving damage7; summon0/6/42 checks0x53/0x54/0x59 and repeated endpoint; held wave128 repeats before advance120 moves TILE210→218 without moving SPRITE240,169.",
+        "F": "Named WORLD/BG/SUMMON_TO and fixed steps document phases directly. Each draw closure captures only the resources used by its one effect, preserving sequence readability over a universal animation fixture.",
+        "G": "Repeated middle/end draws are idempotence observations, not redundant setup. Three local closures have different input state and should not be merged behind a mode boolean; no new product hook is required.",
+        "H": "Real BattlePresent and explicit steps make cached-image transitions observable. Software pixels and selected snapshots support composition/ownership only, not cinematic timing, actual hardware rendering or complete battle state immutability."
+      },
+      "previousCaller": "BattlePresent intro/summon/world-wave draw",
+      "previousOracle": "manual six-stride reveal and nibble transition pixel tables",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Full file and actual assembler input/lifecycle reviewed: three cases retain start/middle/end and repeated stable endpoint.",
+        "B": "Comments qualified to actual test/caller boundary; add afterEach resetScreenWavePhase; battle input runtime valid.",
+        "C": "Fresh BattlePresent instances own intro/summon fade caches. Tests deliberately mutate public fade steps between calls and compare selected state before draw; afterEach resets wave phase for the advancing-wave case.",
+        "D": "summonAnim constructs only the summon state shape. Three contracts are intro reveal plus damage overlay, summon nibble transition and battle-world wave hold; keep separate from leaf background-shift tests and P12 explore composition.",
+        "E": "Intro step0/3/6 checks world/background pixels and surviving damage7; summon0/6/42 checks0x53/0x54/0x59 and repeated endpoint; held wave128 repeats before advance120 moves TILE210→218 without moving SPRITE240,169.",
+        "F": "Named WORLD/BG/SUMMON_TO and fixed steps document phases directly. Each draw closure captures only the resources used by its one effect, preserving sequence readability over a universal animation fixture.",
+        "G": "Repeated middle/end draws are idempotence observations, not redundant setup. Three local closures have different input state and should not be merged behind a mode boolean; no new product hook is required.",
+        "H": "Real BattlePresent and explicit steps make cached-image transitions observable. Software pixels and selected snapshots support composition/ownership only, not cinematic timing, actual hardware rendering or complete battle state immutability."
+      },
+      "currentSha256": "91f643b92d235d87103d0efddc541539e3a9d44081bc618d8b71680fb81a5204",
+      "currentLines": 222,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+      "atBaseSha256": "bbe237b59ca12224e3a3ae290d0723e543e812b61ef4e6b850737fb3674fb429",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Full file and actual assembler input/lifecycle reviewed: five cases: 1/2/3 party, MP8/9, quantity1/2, missing role, coop availability.",
+        "B": "Comments qualified to actual test/caller boundary; MP disabled table is explicitly prefilled UI input; core availability oracle separate.",
+        "C": "All five cases call drawBattleUI directly; battleState/role/menu inputs are local, Date.now is pinned beforeEach and restored afterEach. MP disabled fields are intentionally prefilled, and role99 is explicitly defensive missing data.",
+        "D": "uiFrames/paint share only the party-count layout fixture. Five independent scopes remain: party anchors, MP colors, amount1/2, missing role and coop icon availability. BattlePresent forwarding and core disabled-table construction are not exercised here.",
+        "E": "Anchors are literal arrays; MP8 contrasts static10 and requirements9/8; amount2 leaves cyan2 while1 leaves0; role0 is positive control beside absent99; single/dual coop uses0x12/0x02. Counts or snapshots alone are not the oracle.",
+        "F": "Named hpAt/arrows tables expose 1/2/3 layout changes; prefilled-menu and defensive-role comments state input scope. paint is local to party-count checks rather than a generalized battle builder.",
+        "G": "The five cases falsify different UI conditions; no new standalone case is added for a type-only contract. The old receipt’s BattlePresent forwarding claim is removed rather than manufacturing an extra overlapping caller test.",
+        "H": "Real drawBattleUI, deterministic Date.now and sparse frames produce direct output. This test controls UI inputs but cannot certify how battle-system builds disabled rows; that adjacent ownership is named explicitly in the test comment."
+      },
+      "previousCaller": "direct drawBattleUI in all five cases; no BattlePresent forwarding in this file",
+      "previousOracle": "manual HP digit anchors, sprite IDs, MP/disabled colors and amount threshold",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Full file and actual assembler input/lifecycle reviewed: five cases: 1/2/3 party, MP8/9, quantity1/2, missing role, coop availability.",
+        "B": "Comments qualified to actual test/caller boundary; MP disabled table is explicitly prefilled UI input; core availability oracle separate.",
+        "C": "All five cases call drawBattleUI directly; battleState/role/menu inputs are local, Date.now is pinned beforeEach and restored afterEach. MP disabled fields are intentionally prefilled, and role99 is explicitly defensive missing data.",
+        "D": "uiFrames/paint share only the party-count layout fixture. Five independent scopes remain: party anchors, MP colors, amount1/2, missing role and coop icon availability. BattlePresent forwarding and core disabled-table construction are not exercised here.",
+        "E": "Anchors are literal arrays; MP8 contrasts static10 and requirements9/8; amount2 leaves cyan2 while1 leaves0; role0 is positive control beside absent99; single/dual coop uses0x12/0x02. Counts or snapshots alone are not the oracle.",
+        "F": "Named hpAt/arrows tables expose 1/2/3 layout changes; prefilled-menu and defensive-role comments state input scope. paint is local to party-count checks rather than a generalized battle builder.",
+        "G": "The five cases falsify different UI conditions; no new standalone case is added for a type-only contract. The old receipt’s BattlePresent forwarding claim is removed rather than manufacturing an extra overlapping caller test.",
+        "H": "Real drawBattleUI, deterministic Date.now and sparse frames produce direct output. This test controls UI inputs but cannot certify how battle-system builds disabled rows; that adjacent ownership is named explicitly in the test comment."
+      },
+      "currentSha256": "bbe237b59ca12224e3a3ae290d0723e543e812b61ef4e6b850737fb3674fb429",
+      "currentLines": 206,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts",
+      "atBaseSha256": "5d59b91b75769c369c9612d332b92abb2328b50473c83121fab6dbed68af49bf",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "Full file and actual assembler input/lifecycle reviewed: three cases cover narration fallback, missing portrait, and true world/dialog composite.",
+        "B": "Comments qualified to actual test/caller boundary; no mock scene renderer or fake bitmap oracle; incomplete assets defensive cases explicit.",
+        "C": "Two cases call drawDialogBox directly and the third enters presentFrame with a real world context. Each owns dialog/portrait resources; charsRevealed and portrait ID changes are intentional caller inputs, not renderer mutation.",
+        "D": "narrationFrames and titled share the two precise input shapes. Leaf narration fallback, portrait transparency/missing asset and world-dialog composition remain distinct; P13 message layering is a separate caller contract.",
+        "E": "Literal pixels distinguish narration digit sprite y54 from fallback glyph y50; opaque0 from transparent holes; title0x8C from text0x4F; and missing portrait exposing actual tile0x41. Input snapshots supplement output assertions.",
+        "F": "Named titled/narrationFrames and beforePortrait/beforeDialog separate content creation from drawing. Coordinates beside the assertions state expected centering and title/body positions without calling layout functions as oracle.",
+        "G": "Three cases cover different call boundaries; missing portrait checks retain positive body/title controls. No new convenience export or duplicate state-only test is needed; world composition is not inferred from leaf rendering.",
+        "H": "Actual dialog parsing/append and rendering execute with hand glyphs and sparse images. Fixed reveal counts avoid timing dependence, and real presentFrame proves resource forwarding where this file explicitly claims it."
+      },
+      "previousCaller": "startDialogLine/appendDialogLine -> drawDialogBox/presentFrame",
+      "previousOracle": "hand glyph/digit/portrait holes and literal world pixels",
+      "readMode": "version-limited reuse of immediately preceding full read; specific corrected claims rechecked",
+      "axes": {
+        "A": "Full file and actual assembler input/lifecycle reviewed: three cases cover narration fallback, missing portrait, and true world/dialog composite.",
+        "B": "Comments qualified to actual test/caller boundary; no mock scene renderer or fake bitmap oracle; incomplete assets defensive cases explicit.",
+        "C": "Two cases call drawDialogBox directly and the third enters presentFrame with a real world context. Each owns dialog/portrait resources; charsRevealed and portrait ID changes are intentional caller inputs, not renderer mutation.",
+        "D": "narrationFrames and titled share the two precise input shapes. Leaf narration fallback, portrait transparency/missing asset and world-dialog composition remain distinct; P13 message layering is a separate caller contract.",
+        "E": "Literal pixels distinguish narration digit sprite y54 from fallback glyph y50; opaque0 from transparent holes; title0x8C from text0x4F; and missing portrait exposing actual tile0x41. Input snapshots supplement output assertions.",
+        "F": "Named titled/narrationFrames and beforePortrait/beforeDialog separate content creation from drawing. Coordinates beside the assertions state expected centering and title/body positions without calling layout functions as oracle.",
+        "G": "Three cases cover different call boundaries; missing portrait checks retain positive body/title controls. No new convenience export or duplicate state-only test is needed; world composition is not inferred from leaf rendering.",
+        "H": "Actual dialog parsing/append and rendering execute with hand glyphs and sparse images. Fixed reveal counts avoid timing dependence, and real presentFrame proves resource forwarding where this file explicitly claims it."
+      },
+      "currentSha256": "5d59b91b75769c369c9612d332b92abb2328b50473c83121fab6dbed68af49bf",
+      "currentLines": 156,
+      "auditDiscussion": "复用本轮紧邻全文读域；此文件的具体A–H与caller/oracle逐项回核，首窗口before/after勘误保留，不由相同模板或指纹获得结论。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "scripts/coverage/merge-initializers.test.mjs",
+      "atBaseSha256": "6fd1a0e6c2c3597c0730b579e8d9c091ddd88a8e49c98cc6ce8f272cf0cea71d",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "完整210行宿主、九fixture、锁定补丁/安装路径已核；真实inspector/method ledger与provider结果对照，不用覆盖率自证调用。",
+        "B": "同range初始化器与普通函数命名规则均准确；新helper只声称成功进程状态/诊断，未声称产品机制修复。",
+        "C": "work/captures/provider为单文件宿主所有；子进程计数隔离，after移除自有树；缓存键固定四mode，最多12native snapshot，无无界增长。",
+        "D": "私有assertSuccessfulChild统一两种spawn返回合同；Node与jsdom、import与call、native与transformed保持不同探针，不按文本重复合并。",
+        "E": "原十identity不变；新增stderr/signal/error所有权与default+JSON可见性。诊断注入旧选中例绿、新恰一AssertionError；这不是产品红例先行。",
+        "F": "方法名→计数键映射清楚；完整输出转发使原件可见，不只读JSON绿数；临时子JSON读取后删除，未冒称单独附件留存。",
+        "G": "保留两/三路与顺序组合因merge缺陷依赖worker合并；普通函数range-only仍独立；无放宽timeout、排除、版本或规则。",
+        "H": "installed provider+patch真实执行，真实child/fixture IO；不修改console或核心算法，native/SSR/client边界可低成本重放。"
+      },
+      "previousCaller": "root test:coverage-tools与CI quality-tools前置；fixtures/initializers九文件",
+      "previousOracle": "Node inspector原始ranges、独立hit/calls计数与实际Vitest coverage-final method计数",
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "完整218行当前宿主、九fixture、锁定补丁/安装路径已核；真实inspector/method ledger与provider结果对照，不用覆盖率自证调用。",
+        "B": "同range初始化器与普通函数命名规则均准确；新helper只声称成功进程状态/诊断，未声称产品机制修复。",
+        "C": "work/captures/provider为单文件宿主所有；子进程计数隔离，after移除自有树；缓存键固定四mode，最多12native snapshot，无无界增长。",
+        "D": "私有assertSuccessfulChild统一两种spawn返回合同；Node与jsdom、import与call、native与transformed保持不同探针，不按文本重复合并。",
+        "E": "原十identity不变；新增stderr/signal/error所有权与default+JSON可见性。诊断注入旧选中例绿、新恰一AssertionError；这不是产品红例先行。",
+        "F": "方法名→计数键映射清楚；完整输出转发使原件可见，不只读JSON绿数；临时子JSON读取后删除，未冒称单独附件留存。",
+        "G": "保留两/三路与顺序组合因merge缺陷依赖worker合并；普通函数range-only仍独立；无放宽timeout、排除、版本或规则。",
+        "H": "installed provider+patch真实执行，真实child/fixture IO；不修改console或核心算法，native/SSR/client边界可低成本重放。"
+      },
+      "currentSha256": "6fd1a0e6c2c3597c0730b579e8d9c091ddd88a8e49c98cc6ce8f272cf0cea71d",
+      "currentLines": 218,
+      "auditDiscussion": "完整218行，inspector/native与transformed/browser workers的counter闭包不同，保留；四mode cache有限。child诊断/信号/错误需传播，已有单红在冻结原件中，不重复变异。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "scripts/coverage/full-inputs.mjs",
+      "atBaseSha256": "ca07d82ee1ecfcc503d5733c56c462241606ff8735e725ea558a86acc36b1bdf",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "完整读取四guard与caller；固定config输入只读，不接用户任意写路径。stat/readdir缺失精确报错、非ENOENT重抛；浅JSON闭包不替代发布schema校验。",
+        "B": "错误带relativePath与阈值；readRequiredJson将读失败也包装JSON无法解析，原因仍保留，登记为非阻断诊断措辞候选。",
+        "C": "预检IO及必要字段核验同属启动前full输入前提，唯一正式runner；无cache/定时器/全局状态。",
+        "D": "文件非空检查复用于JSON读取；不引入完整validator或path sandbox，因caller是固定只读本仓路径。",
+        "E": "对应full-inputs四真实IO专测与current常量核定；不声称所有JSON字段/权限失败/原盘深语义均有动态覆盖。",
+        "F": "按文件、JSON、目录、闭包分函数；JSON实体顺序与config一致，明确路径错误可定位。",
+        "G": "四出口均有runner caller；检查没有死参数；固定六角色和四scene范围是既有预检合同，不为了指标拆散。",
+        "H": "root/path/requirement显式输入，纯Map守卫可直调，IO可用真实临时树；无重依赖注入。"
+      },
+      "previousCaller": "run.mjs assertFullInputs；config.mjs fullRequiredBinaryFiles/JsonFiles/Directories",
+      "previousOracle": "正式固定输入清单、content22/SAVE12常量、真实Node stat/readdir与配对专测",
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "完整读取四guard与caller；固定config输入只读，不接用户任意写路径。stat/readdir缺失精确报错、非ENOENT重抛；浅JSON闭包不替代发布schema校验。",
+        "B": "错误带relativePath与阈值；readRequiredJson将读失败也包装JSON无法解析，原因仍保留，登记为非阻断诊断措辞候选。",
+        "C": "预检IO及必要字段核验同属启动前full输入前提，唯一正式runner；无cache/定时器/全局状态。",
+        "D": "文件非空检查复用于JSON读取；不引入完整validator或path sandbox，因caller是固定只读本仓路径。",
+        "E": "对应full-inputs四真实IO专测与current常量核定；不声称所有JSON字段/权限失败/原盘深语义均有动态覆盖。",
+        "F": "按文件、JSON、目录、闭包分函数；JSON实体顺序与config一致，明确路径错误可定位。",
+        "G": "四出口均有runner caller；检查没有死参数；固定六角色和四scene范围是既有预检合同，不为了指标拆散。",
+        "H": "root/path/requirement显式输入，纯Map守卫可直调，IO可用真实临时树；无重依赖注入。"
+      },
+      "currentSha256": "ca07d82ee1ecfcc503d5733c56c462241606ff8735e725ea558a86acc36b1bdf",
+      "currentLines": 91,
+      "auditDiscussion": "完整91行及四guard实际caller/测试。只固定仓库full前提浅检，非完整schema。readRequiredJson读失败也称JSON无法解析的措辞候选继续登记，不改行为。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/pal-extract/src/resources/tables.test.ts",
+      "atBaseSha256": "f1977858301e9d01e609ba2f3a0a6d6ecb5a9b38f875d2f4f62cb5a71947ac28",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "全文原851行与当前13例、barrel及真实CLI/table writers已核；原盘全部领域字段由Python物理LE/SoA独立oracle。角色signed与scriptDesc@10是既有TS合同，未将WORD声明冒称SHORT。",
+        "B": "移除旧行号/全字段但只抽查键/合理初值等过时陈词；明确原盘、C结构与TS投影区别。原始表大小/字节/重建脚本可查。",
+        "C": "本文件只持原盘/跨表接线及两未被替代的signed/fallback合同；其它纯合成边界归各parser。IO原盘只读，记录每例独占；不混入游戏状态/资产写出。",
+        "D": "canonical digest仅局部JSON对象，排序键不改数组；不推广成通用helper。纯binary fixture沿用，未增加万能上下文/模式布尔值。",
+        "E": "89→13，104旧身份(含guards15)逐条映射；全字段金标防存在/typeof/some弱断言；两个单点漏测声音变异旧89绿、新唯一业务AssertionError。named/core比较有独立plain金标，不克隆自比。",
+        "F": "每case对应一个parser/一个真实跨表关系，OBJECT三视图与战场/商店已拆成独立例；完整dump金标比几十条抽查字段更可核。",
+        "G": "删除已证重复合成与弱存在例，保留未覆盖的三未知type、负声音边界；不为coverage回滚弱断言。私有digest和withoutName均有当前实际caller。",
+        "H": "真实原盘/真实纯函数，无coremock和强转；Python不读TS/提取产物，物理值全存便于定位hash mismatch。输入/期望变化均有精确版本失效边界。"
+      },
+      "previousCaller": "CLI parse shared OBJECT roots; write table assets uses public resources/tables barrel; actual raw SSS/DATA/WORD IO",
+      "previousOracle": "rawtables-oracle.py direct original MKF/struct global.h; canonical complete domain records in rawtables-physical-values.json, hashes/sources in rawtables-physical-oracle.json; no TS snapshot",
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "全文原851行与当前13例、barrel及真实CLI/table writers已核；原盘全部领域字段由Python物理LE/SoA独立oracle。角色signed与scriptDesc@10是既有TS合同，未将WORD声明冒称SHORT。",
+        "B": "移除旧行号/全字段但只抽查键/合理初值等过时陈词；明确原盘、C结构与TS投影区别。原始表大小/字节/重建脚本可查。",
+        "C": "本文件只持原盘/跨表接线及两未被替代的signed/fallback合同；其它纯合成边界归各parser。IO原盘只读，记录每例独占；不混入游戏状态/资产写出。",
+        "D": "canonical digest仅局部JSON对象，排序键不改数组；不推广成通用helper。纯binary fixture沿用，未增加万能上下文/模式布尔值。",
+        "E": "89→13，104旧身份(含guards15)逐条映射；全字段金标防存在/typeof/some弱断言；两个单点漏测声音变异旧89绿、新唯一业务AssertionError。named/core比较有独立plain金标，不克隆自比。",
+        "F": "每case对应一个parser/一个真实跨表关系，OBJECT三视图与战场/商店已拆成独立例；完整dump金标比几十条抽查字段更可核。",
+        "G": "删除已证重复合成与弱存在例，保留未覆盖的三未知type、负声音边界；不为coverage回滚弱断言。私有digest和withoutName均有当前实际caller。",
+        "H": "真实原盘/真实纯函数，无coremock和强转；Python不读TS/提取产物，物理值全存便于定位hash mismatch。输入/期望变化均有精确版本失效边界。"
+      },
+      "currentSha256": "f1977858301e9d01e609ba2f3a0a6d6ecb5a9b38f875d2f4f62cb5a71947ac28",
+      "currentLines": 178,
+      "auditDiscussion": "完整178行；复读冻结Python原盘LE/SoA producer与manifest，直接核物理role row17/18/68。完整domain摘要来自独立Python，不来自TS；signed投影与C WORD真值继续区分。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts",
+      "atBaseSha256": "02b53ec4dc6a937bb20a9689a050407b16f01694c193f40d9327cd88b365b565",
+      "originalReceipt": "QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "完整Huffman初始化/交换/归约与EOS位长已核；caller小有限testdata，本地state每次新建。",
+        "B": "修正终止符算式；TS声明长度提前返回不足以证明EOS，明确native边界。",
+        "C": "测试专用literal编码无FS/设备/全局；各调用独占tree/bits，不导出未用回引接口。",
+        "D": "保留窄literal策略，不复制生产支持面或引入通用LZSS；与原盘golden独立。",
+        "E": "C实际输出逐字节等于Python0/1/65536pattern且核EOS；不靠镜像TS自洽宣称合法。",
+        "F": "保留必要树不变量/位长注释，数值与原式可手核；无逐行重复新注释。",
+        "G": "接口无死backref；本次仅注释，去注释发射JS相等；未恢复历史失败编码器。",
+        "H": "输入固定可重放Base64/原生C工具，跨0x8000归约验证；不声称任意超大不可信域。"
+      },
+      "previousCaller": "cli-pipeline-inputs → real CLI isolated tests compressed inputs",
+      "previousOracle": "bounded SDLPal C through EOS for0/1/65536B; Python fullpattern",
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "完整Huffman初始化/交换/归约与EOS位长已核；caller小有限testdata，本地state每次新建。",
+        "B": "修正终止符算式；TS声明长度提前返回不足以证明EOS，明确native边界。",
+        "C": "测试专用literal编码无FS/设备/全局；各调用独占tree/bits，不导出未用回引接口。",
+        "D": "保留窄literal策略，不复制生产支持面或引入通用LZSS；与原盘golden独立。",
+        "E": "C实际输出逐字节等于Python0/1/65536pattern且核EOS；不靠镜像TS自洽宣称合法。",
+        "F": "保留必要树不变量/位长注释，数值与原式可手核；无逐行重复新注释。",
+        "G": "接口无死backref；本次仅注释，去注释发射JS相等；未恢复历史失败编码器。",
+        "H": "输入固定可重放Base64/原生C工具，跨0x8000归约验证；不声称任意超大不可信域。"
+      },
+      "currentSha256": "02b53ec4dc6a937bb20a9689a050407b16f01694c193f40d9327cd88b365b565",
+      "currentLines": 153,
+      "auditDiscussion": "完整153行。小有限test literal/EOS encoder，每call独占Huffman树与bits；冻结native 0/1/65536及EOS边界可复用，未授任意恶意输入压缩器信用。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/shell/music-source.ts",
+      "atBaseSha256": "5ec5f2a68a4214cda4ba75b585d704ef8a32deb5fa26e01b97ac7c9028cfff4e",
+      "originalReceipt": "QUALITY-PENDING-100-2/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "全文115行与真实bootstrap/tools-panel caller；source异步代次guard、error后释放与retry、stop/loop/gain意图隔离有证据。",
+        "B": "注释仅说明browser preference及effective intention，不把偏好并入save；source state error字段与实际发布一致。",
+        "C": "单一controller拥有backend/代次，生产subscribe只更新UI；listeners副本不暴露state。未知通用回调重入不作本次已验证承诺。",
+        "D": "抽象只覆盖现用MIDI/RIX协议；factory注入是实际替换点，无第三种未来后端或兼容fallback。",
+        "E": "8例通过real AudioManager核静音/停止/loop/胜利曲/迟到ready与error、失败重试/偏好；不声称覆盖通用observer重入。",
+        "F": "select/fail与状态代次关系可读，接口和返回getState副本明确；当前调用域内没有无关上下文。",
+        "G": "source/key/listeners/last均有真实caller，不退役当前意图或error通道；新扩展重入支持需单独归因。",
+        "H": "factory/storage注入真实边界，ready用Promise驱动，无Wallclock依赖；无需为测试扩大公开API。"
+      },
+      "previousCaller": null,
+      "previousOracle": null,
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "全文115行与真实bootstrap/tools-panel caller；source异步代次guard、error后释放与retry、stop/loop/gain意图隔离有证据。",
+        "B": "注释仅说明browser preference及effective intention，不把偏好并入save；source state error字段与实际发布一致。",
+        "C": "单一controller拥有backend/代次，生产subscribe只更新UI；listeners副本不暴露state。未知通用回调重入不作本次已验证承诺。",
+        "D": "抽象只覆盖现用MIDI/RIX协议；factory注入是实际替换点，无第三种未来后端或兼容fallback。",
+        "E": "8例通过real AudioManager核静音/停止/loop/胜利曲/迟到ready与error、失败重试/偏好；不声称覆盖通用observer重入。",
+        "F": "select/fail与状态代次关系可读，接口和返回getState副本明确；当前调用域内没有无关上下文。",
+        "G": "source/key/listeners/last均有真实caller，不退役当前意图或error通道；新扩展重入支持需单独归因。",
+        "H": "factory/storage注入真实边界，ready用Promise驱动，无Wallclock依赖；无需为测试扩大公开API。"
+      },
+      "currentSha256": "5ec5f2a68a4214cda4ba75b585d704ef8a32deb5fa26e01b97ac7c9028cfff4e",
+      "currentLines": 115,
+      "auditDiscussion": "完整115行，8个实际manager相邻case；代次隔离和error dispose核ready/retry；外部listener任意重入并非生产caller合同，不冒称通用重入安全。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/shell/rix/kernel.ts",
+      "atBaseSha256": "ef7c3965bf799df826900c13cee9444aae9d60b9a70f5e7dc82eb7ad8705d908",
+      "originalReceipt": "QUALITY-PENDING-100-2/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "全文51行及bridge全读；compiled exports/零imports实际验证。固定8MiB且禁止growth支撑借用Float32Array；archive由bridge复制后free，output由dispose释放。",
+        "B": "唯一注释same compiled kernel与测试/生产worklet实际一致，不把author fixture当原盘。",
+        "C": "每instance拥有独立WASM memory/engine/output，PCM返回借用subarray；caller跨render保留时显式slice。dispose幂等，4096上界与分配匹配。",
+        "D": "浏览器与Node共用合成核，bridge处理FM/70Hz，TS只处理ABI与ownership，不重复实现OPL。",
+        "E": "六现行例含四独立native黄金摘要/两率两loop，稀疏ID/坏archive/stop/dispose；source和wasm摘要匹配旧固定candidate。",
+        "F": "data/engine/output/pcm的用途与分配流程清楚，保持返回借用语义，不无故引入对象层。",
+        "G": "每个export消费已由actual module枚举，trusted RixExports cast由本仓固定ABI支撑，不新增cast或容错路径。",
+        "H": "Node可直接实例化同一WASM并观察PCM；不需假合成器或修改算法，既有golden原件可复用。"
+      },
+      "previousCaller": null,
+      "previousOracle": null,
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "全文51行及bridge全读；compiled exports/零imports实际验证。固定8MiB且禁止growth支撑借用Float32Array；archive由bridge复制后free，output由dispose释放。",
+        "B": "唯一注释same compiled kernel与测试/生产worklet实际一致，不把author fixture当原盘。",
+        "C": "每instance拥有独立WASM memory/engine/output，PCM返回借用subarray；caller跨render保留时显式slice。dispose幂等，4096上界与分配匹配。",
+        "D": "浏览器与Node共用合成核，bridge处理FM/70Hz，TS只处理ABI与ownership，不重复实现OPL。",
+        "E": "六现行例含四独立native黄金摘要/两率两loop，稀疏ID/坏archive/stop/dispose；source和wasm摘要匹配旧固定candidate。",
+        "F": "data/engine/output/pcm的用途与分配流程清楚，保持返回借用语义，不无故引入对象层。",
+        "G": "每个export消费已由actual module枚举，trusted RixExports cast由本仓固定ABI支撑，不新增cast或容错路径。",
+        "H": "Node可直接实例化同一WASM并观察PCM；不需假合成器或修改算法，既有golden原件可复用。"
+      },
+      "currentSha256": "ef7c3965bf799df826900c13cee9444aae9d60b9a70f5e7dc82eb7ad8705d908",
+      "currentLines": 51,
+      "auditDiscussion": "完整51行与实际vendor/rix/bridge.cpp全文；bridge复制archive，dispose归还engine/output；PCM为借用subarray，跨render保留须slice。固定WASM ABI/内存证据复用，不假称硬件听验。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/shell/gamepad-input.ts",
+      "atBaseSha256": "d8bfd6ce3cc90fb3942a3ecf12035ca6bcb2b79a9908f9fcca5f96c2a7d9a2ce",
+      "originalReceipt": "QUALITY-PENDING-100-2/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "稀疏设备、非standard、断开/失焦/隐藏/工具锁释放；0.35入0.2持有迟滞；旋转等回中后重开。",
+        "B": "contacts归属/迟滞说明与实现一致，硬件未实测边界保留。",
+        "C": "pure controller与浏览器rAF adapter分离；Map只存自己source联系，stop对称解绑。",
+        "D": "复用direction叶；gamepad与keyboard同键用不同source ownership不互删。",
+        "E": "真实KeyboardInputSource+合成Gamepad结构验证边沿和held；浏览器边界另测。",
+        "F": "begin/update/end式按设备联系映射可追踪；neutral等待显式集合。",
+        "G": "每分支对应当前断开/权限/切设置等输入域，不为未来设备加抽象。",
+        "H": "poll/update可直接驱动，getGamepads/rAF是可控宿主，生产无测试出口。"
+      },
+      "previousCaller": null,
+      "previousOracle": null,
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "稀疏设备、非standard、断开/失焦/隐藏/工具锁释放；0.35入0.2持有迟滞；旋转等回中后重开。",
+        "B": "contacts归属/迟滞说明与实现一致，硬件未实测边界保留。",
+        "C": "pure controller与浏览器rAF adapter分离；Map只存自己source联系，stop对称解绑。",
+        "D": "复用direction叶；gamepad与keyboard同键用不同source ownership不互删。",
+        "E": "真实KeyboardInputSource+合成Gamepad结构验证边沿和held；浏览器边界另测。",
+        "F": "begin/update/end式按设备联系映射可追踪；neutral等待显式集合。",
+        "G": "每分支对应当前断开/权限/切设置等输入域，不为未来设备加抽象。",
+        "H": "poll/update可直接驱动，getGamepads/rAF是可控宿主，生产无测试出口。"
+      },
+      "currentSha256": "d8bfd6ce3cc90fb3942a3ecf12035ca6bcb2b79a9908f9fcca5f96c2a7d9a2ce",
+      "currentLines": 127,
+      "auditDiscussion": "完整127行，再核KeyboardInputSource contact sink与game-shell.connect。disconnect/blur/hidden/blocked释放和neutral等待；stop对称取消rAF/监听；实际物理手柄未实测。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/shell/touch-controls.ts",
+      "atBaseSha256": "025ba5a83f315f0ec97f2161cbf9f6fe083f3aaddec16c5e184f31f51d6f9b56",
+      "originalReceipt": "QUALITY-PENDING-100-2/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "WeakMap验证自建键；左键/捕获pointer身份/死区/assistive点击与键盘repeat，cancel/blur/隐藏/切旋转释放。",
+        "B": "说明命中圆盘/旋转与source身份，未把DOM click当物理手指。",
+        "C": "bind返回解绑，contact Map owned by binder；偏好和input分别外置。",
+        "D": "button与pad共享source管理但保留不同几何/边沿合同；direction叶复用。",
+        "E": "真实KeyboardInputSource测试多指/keyboard共持/取消/滑动/旋转，回收后无输入。",
+        "F": "contact类型区分pad/button，分支职责可跟踪，无巨型ctx。",
+        "G": "辅助技术键分支有真实button caller，不能以pointer测试替代删除。",
+        "H": "DOM geometry/capture可在IO边界控制；抽象键结果直接可见。"
+      },
+      "previousCaller": null,
+      "previousOracle": null,
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "WeakMap验证自建键；左键/捕获pointer身份/死区/assistive点击与键盘repeat，cancel/blur/隐藏/切旋转释放。",
+        "B": "说明命中圆盘/旋转与source身份，未把DOM click当物理手指。",
+        "C": "bind返回解绑，contact Map owned by binder；偏好和input分别外置。",
+        "D": "button与pad共享source管理但保留不同几何/边沿合同；direction叶复用。",
+        "E": "真实KeyboardInputSource测试多指/keyboard共持/取消/滑动/旋转，回收后无输入。",
+        "F": "contact类型区分pad/button，分支职责可跟踪，无巨型ctx。",
+        "G": "辅助技术键分支有真实button caller，不能以pointer测试替代删除。",
+        "H": "DOM geometry/capture可在IO边界控制；抽象键结果直接可见。"
+      },
+      "currentSha256": "025ba5a83f315f0ec97f2161cbf9f6fe083f3aaddec16c5e184f31f51d6f9b56",
+      "currentLines": 148,
+      "auditDiscussion": "完整148行，再核sink多contact聚合。capture/cancel/lostcapture/blur/hidden/旋转释放；键盘辅助click有独立分支，保留；不因pointer覆盖而删除可访问路径。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/shell/game-shell.test.ts",
+      "atBaseSha256": "0794a3cea59a2f5bdc89bfa38e1903f164a64dd0b8bfc201e550456692fa003b",
+      "originalReceipt": "QUALITY-PENDING-100-2/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "三实际factory测试支持页面寿命合同；改cleanup触发真实language通知让已断开壳unsubscribe。",
+        "B": "补清理说明与产品self-unsubscribe一致，未冒称ResizeObserver真实浏览器。",
+        "C": "temporary page移除后通知/恢复语言及lang属性；既有window/document listener归属照旧对称。",
+        "D": "不mock language核心，也不为测试新增dispose产品出口。",
+        "E": "三例分别几何resize、visible/tools锁、旋转真实触点；按DOM+held结果判断。",
+        "F": "before/after显式记录语言快照，测试主体不混cleanup。",
+        "G": "只补隔离，不新增重复测试；未改三case身份和断言。",
+        "H": "宿主RAF/media/observer模拟，实际factory/touch/偏好路由执行。"
+      },
+      "previousCaller": null,
+      "previousOracle": null,
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "三实际factory测试支持页面寿命合同；改cleanup触发真实language通知让已断开壳unsubscribe。",
+        "B": "补清理说明与产品self-unsubscribe一致，未冒称ResizeObserver真实浏览器。",
+        "C": "temporary page移除后通知/恢复语言及lang属性；既有window/document listener归属照旧对称。",
+        "D": "不mock language核心，也不为测试新增dispose产品出口。",
+        "E": "三例分别几何resize、visible/tools锁、旋转真实触点；按DOM+held结果判断。",
+        "F": "before/after显式记录语言快照，测试主体不混cleanup。",
+        "G": "只补隔离，不新增重复测试；未改三case身份和断言。",
+        "H": "宿主RAF/media/observer模拟，实际factory/touch/偏好路由执行。"
+      },
+      "currentSha256": "0794a3cea59a2f5bdc89bfa38e1903f164a64dd0b8bfc201e550456692fa003b",
+      "currentLines": 224,
+      "auditDiscussion": "完整224行。page寿命factory，language callback在断开shell后通知自退订；测试cleanup恢复语言/DOM/host。非真实ResizeObserver布局验收。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/content/src/author-dialogue.ts",
+      "atBaseSha256": "d42cc16c8ab1ab46fb6b6f97ba00c85bf39d891f2898cb29190e1513dedda456",
+      "originalReceipt": "QUALITY-PENDING-100-2/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "full216行形状guard+actor/unbound/narration resolver；当前loader通过author-script树投影，asset/演员默认/表情缺失fail-loud。",
+        "B": "unbound是正式非人物表达而非兼容fallback；slot不参与身份，行speed/autoAdvance单位由邻接types约束。",
+        "C": "定义/守卫/纯投影同一领域，actors显式传入，无locale/文件/DOM全局。",
+        "D": "runtime/tree/editor共享一个resolver；不与一期in-band对话结构合并。",
+        "E": "当前四套18→15 identity映射核未知输入、零值复制和rows引用；业务结果真实。",
+        "F": "辅助guard名字对应窄职责，错误带path，联合case易定位。",
+        "G": "三个identity case是当前canonical，无历史upgrader；所有公共出口有生产caller。",
+        "H": "unknown边界与纯输出易测，IO分离，无专用测试接口。"
+      },
+      "previousCaller": null,
+      "previousOracle": null,
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "原型继承键不是工程定义；actor和expression查找均只读自有键。用户已批准修复，两条正式引用入口红例与真实同名定义正控区分缺失/存在；其余identity分支保持。",
+        "B": "unbound是正式非人物表达而非兼容fallback；slot不参与身份，行speed/autoAdvance单位由邻接types约束。",
+        "C": "定义/守卫/纯投影同一领域，actors显式传入，无locale/文件/DOM全局。",
+        "D": "runtime/tree/editor共享一个resolver；不与一期in-band对话结构合并。",
+        "E": "两条正式业务AssertionError先红，修复后五相邻文件18例通过；真实定义constructor正控完整核speaker/asset，不用保留名黑名单遮漏。",
+        "F": "辅助guard名字对应窄职责，错误带path，联合case易定位。",
+        "G": "三个identity case是当前canonical，无历史upgrader；所有公共出口有生产caller。",
+        "H": "unknown边界与纯输出易测，IO分离，无专用测试接口。"
+      },
+      "currentSha256": "c8251cb2e81aa7f9d62b897d660db001e1c7c681847389feede65851445667ab",
+      "currentLines": 221,
+      "auditDiscussion": "完整216行基点与获批增量；旧A声称缺资源fail-loud漏掉原型继承键，结论撤回后修复。actor/expressions均hasOwn而不禁用名称，真实validateAuthorDialogueReferences两正式红例后8/8，五文件18/18。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/content/src/author-dialogue.test.ts",
+      "atBaseSha256": "574137c07c391986f2f8f2e81e18211979a3ea7874761c7a84195dca33a5b757",
+      "originalReceipt": "QUALITY-PENDING-100-2/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "五例实际actor默认/覆盖/表情、资源缺失、旧形状拒绝、树投影，ActorDef为合法完整/无portrait配置。",
+        "B": "未声称完整renderer/E2E；标题与实际未知引用错误一致。",
+        "C": "本地immutable演员对象，无全局registry或状态污染。",
+        "D": "资源三拒绝精确主测取代contracts重复弱case；树caller保留独有执行层。",
+        "E": "表达式输出从partial增强full对象+rows；负用例精确Actor/default/expression错误。",
+        "F": "身份与captionoverride明确，输入/期待语义独立。",
+        "G": "5例无减；不再由旁弱fixture强转case撑重复信用。",
+        "H": "纯guard/projection执行，不mock递归/actor解析。"
+      },
+      "previousCaller": null,
+      "previousOracle": null,
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "五例实际actor默认/覆盖/表情、资源缺失、旧形状拒绝、树投影，ActorDef为合法完整/无portrait配置。",
+        "B": "未声称完整renderer/E2E；标题与实际未知引用错误一致。",
+        "C": "本地immutable演员对象，无全局registry或状态污染。",
+        "D": "资源三拒绝精确主测取代contracts重复弱case；树caller保留独有执行层。",
+        "E": "原五例保留，新增缺失Actor、缺失命名表情两拒绝，以及真实定义同名内容正控；均先过正式形状校验再到生产引用guard，非非法fixture拒绝。",
+        "F": "身份与captionoverride明确，输入/期待语义独立。",
+        "G": "5例无减；不再由旁弱fixture强转case撑重复信用。",
+        "H": "纯guard/projection执行，不mock递归/actor解析。"
+      },
+      "currentSha256": "1fa2e0e48395b97c6dc58f2d52e80416efd9b7726cc4241cbb384051ac4cc245",
+      "currentLines": 239,
+      "auditDiscussion": "完整157行基点及三个新增case。两条合法形状但缺真实定义的引用应throw；真实constructor角色+表情正控须完整解析。原五case不删除，测试数量不能掩盖先前漏轴。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/content/src/enemy-ai.ts",
+      "atBaseSha256": "63c34d82705805c20eaa016eecf42790b236d7407dc082909613879c32b0c9c2",
+      "originalReceipt": "QUALITY-PENDING-100-2/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "typed AiCond经enemy-script guard，BattleView由真实battle-core构造；rng有限[0,1)，players为活槽；once indices仅当前def数组并transform清空。",
+        "B": "更正tie取输入先出现，不承诺任意数组自动按slot排序；runtime恰按槽提供。",
+        "C": "纯策略与battle/session动作/IO分离，rng和fired显式输入，返回不写世界。",
+        "D": "hook/session共享eval；AI策略不混剧情演出词汇，未抽万能walker。",
+        "E": "9主测+tie残差/guard叶，强化strict threshold、any与短路/完整ruleIdx，实际runtime相邻回归。",
+        "F": "分支直接依cond.kind；局部规则序与first-match含义可读。",
+        "G": "所有exports有生产caller；short-circuit保持随机序，不把优化改成总遍历。",
+        "H": "纯view/rng可注入，no核心mock，必要反控仅验证新增any断言判别力。"
+      },
+      "previousCaller": null,
+      "previousOracle": null,
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "typed AiCond经enemy-script guard，BattleView由真实battle-core构造；rng有限[0,1)，players为活槽；once indices仅当前def数组并transform清空。",
+        "B": "更正tie取输入先出现，不承诺任意数组自动按slot排序；runtime恰按槽提供。",
+        "C": "纯策略与battle/session动作/IO分离，rng和fired显式输入，返回不写世界。",
+        "D": "hook/session共享eval；AI策略不混剧情演出词汇，未抽万能walker。",
+        "E": "9主测+tie残差/guard叶，强化strict threshold、any与短路/完整ruleIdx，实际runtime相邻回归。",
+        "F": "分支直接依cond.kind；局部规则序与first-match含义可读。",
+        "G": "所有exports有生产caller；short-circuit保持随机序，不把优化改成总遍历。",
+        "H": "纯view/rng可注入，no核心mock，必要反控仅验证新增any断言判别力。"
+      },
+      "currentSha256": "63c34d82705805c20eaa016eecf42790b236d7407dc082909613879c32b0c9c2",
+      "currentLines": 160,
+      "auditDiscussion": "完整160行，复核短路保随机序与输入活槽契约；once索引属def数组、transform清空由既有caller证据限定。无状态推进写入，保持窄纯策略。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/content/src/world-variable.glm-leaf-wave.test.ts",
+      "atBaseSha256": "72b2d2760a847509cc755012683c23b7847103fe746c2f60bb0c655304e4f103",
+      "originalReceipt": "QUALITY-PENDING-100-2/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "3例长度/字段类型与初始化隔离；非法值经unknownguard无压类型。",
+        "B": "“修改产物”原注释现在真正执行修改，未再声称恒真读值算隔离。",
+        "C": "去无谓JSONclone，直接传作者registry后改runtime产物并复核作者/后来新档。",
+        "D": "删id空白/sys/模式重复断言留主测；leaf只128/129长度与类型/隔离。",
+        "E": "128/129用独立合同数字，flags false与vars99变异后作者true/7和later defaults固定预期。",
+        "F": "三case标题与实际行为一致，强断言因果清楚。",
+        "G": "case数仍3，不为填覆盖率堆assertions；重复域已精简。",
+        "H": "公开纯入口可测，registry const不被变异；无IO/随机/mocks。"
+      },
+      "previousCaller": null,
+      "previousOracle": null,
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "3例长度/字段类型与初始化隔离；非法值经unknownguard无压类型。",
+        "B": "“修改产物”原注释现在真正执行修改，未再声称恒真读值算隔离。",
+        "C": "去无谓JSONclone，直接传作者registry后改runtime产物并复核作者/后来新档。",
+        "D": "删id空白/sys/模式重复断言留主测；leaf只128/129长度与类型/隔离。",
+        "E": "128/129用独立合同数字，flags false与vars99变异后作者true/7和later defaults固定预期。",
+        "F": "三case标题与实际行为一致，强断言因果清楚。",
+        "G": "case数仍3，不为填覆盖率堆assertions；重复域已精简。",
+        "H": "公开纯入口可测，registry const不被变异；无IO/随机/mocks。"
+      },
+      "currentSha256": "72b2d2760a847509cc755012683c23b7847103fe746c2f60bb0c655304e4f103",
+      "currentLines": 71,
+      "auditDiscussion": "完整71行及main/source全文。长名/描述/flag/number虽同case但同registry拒绝合同，四个精准错误仍有判别力，不为细拆增加用例。独立128/129与runtime变异后作者/新档不变保留。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/content/src/frame-sequence.contracts.test.ts",
+      "atBaseSha256": "97d294d9471462c24608ef28c3a58e126e4152743395f4a8166c8040fa0da55e",
+      "originalReceipt": "QUALITY-PENDING-100-2/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "头签名、版本、index/payload边界、frame元数据、真实zlib压缩/解压与borrow/owned字节域逐条核。",
+        "B": "移除全合同/仅DOM错误宣称；说明content无Node ambient并非代码不能被Node消费。",
+        "C": "bytes构造/deflate端口与纯容器判断分开，输入副本隔离被修改的byte数组。",
+        "D": "同schema不同负边界保留；纯playback常态在main，不再leaf重复。",
+        "E": "去options as never后真实合法类型仍通过；手写错误bytes与固定rgba对照不只roundtrip自比。",
+        "F": "命名与字段偏移可追踪；factory不隐藏非法版本输入。",
+        "G": "没有新skip/强转/timeout，源格式未改；拆分仅测试责任合理。",
+        "H": "实际runtime FrameSequenceReader与editor codec消费相同parse/decode，纯测试可重放，UI不授信用。"
+      },
+      "previousCaller": null,
+      "previousOracle": null,
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "头签名、版本、index/payload边界、frame元数据、真实zlib压缩/解压与borrow/owned字节域逐条核。",
+        "B": "移除全合同/仅DOM错误宣称；说明content无Node ambient并非代码不能被Node消费。",
+        "C": "bytes构造/deflate端口与纯容器判断分开，输入副本隔离被修改的byte数组。",
+        "D": "同schema不同负边界保留；纯playback常态在main，不再leaf重复。",
+        "E": "去options as never后真实合法类型仍通过；手写错误bytes与固定rgba对照不只roundtrip自比。",
+        "F": "C5直接await resolves.toEqual；拒绝和像素不等都会失败，删除两个无用暂存值与then错误回调；其余头/元数据/借用/压缩边界保持。",
+        "G": "没有新skip/强转/timeout，源格式未改；拆分仅测试责任合理。",
+        "H": "实际runtime FrameSequenceReader与editor codec消费相同parse/decode，纯测试可重放，UI不授信用。"
+      },
+      "currentSha256": "d2a03185a6acd2f236fc444369c934782118fdee7af11945ff0f5a90f4eebf63",
+      "currentLines": 201,
+      "auditDiscussion": "完整213行。C5先then捕获再值断言并非产品缺陷，但临时frames/error增加无用控制流；改await resolves.toEqual，仍同时拒绝异常/逐像素不等。45相邻用例前后不变。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.glm-next-wave.test.ts",
+      "atBaseSha256": "ea18fa44d067a776a54e8c191a4d0ce18fe8305082d3a30d298c5f53cf75cb7c",
+      "originalReceipt": "QUALITY-PENDING-100-2/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "waitForKey默认/自定义、explicit skip终止和背景长度fallback；生产默认skip边界与直接可选输入分开。",
+        "B": "caller修为dos-cutscenes；无全原版视觉保证，索引0不误称彩色palette下黑像素。",
+        "C": "teardown释放Enter/KeyQ等待并排空有限动画，实际监听移除由再次event证明。",
+        "D": "共享真Canvas不重复原型fake；与main女角色/渐变合同不重叠。",
+        "E": "skip前两帧且RGBA正确、之后仍两帧；fallback顶行0/其余50与合法对照60精确完整分区。",
+        "F": "事件命中/未命中与promise时点清楚，记录原生preventDefault语义。",
+        "G": "四例不同生命周期，不按mock次数称业务accept；完全删除prototype伪context。",
+        "H": "真实DOM键与Canvas+fakeclock确定复演，少量spy透传实际绘制而不stub业务。"
+      },
+      "previousCaller": null,
+      "previousOracle": null,
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "waitForKey默认/自定义、explicit skip终止和背景长度fallback；生产默认skip边界与直接可选输入分开。",
+        "B": "caller修为dos-cutscenes；无全原版视觉保证，索引0不误称彩色palette下黑像素。",
+        "C": "teardown释放Enter/KeyQ等待并排空有限动画，实际监听移除由再次event证明。",
+        "D": "共享真Canvas不重复原型fake；与main女角色/渐变合同不重叠。",
+        "E": "skip前两帧且RGBA正确、之后仍两帧；fallback顶行0/其余50与合法对照60精确完整分区。",
+        "F": "事件命中/未命中与promise时点清楚，记录原生preventDefault语义。",
+        "G": "四例不同生命周期，不按mock次数称业务accept；完全删除prototype伪context。",
+        "H": "真实DOM键与Canvas+fakeclock确定复演，少量spy透传实际绘制而不stub业务。"
+      },
+      "currentSha256": "ea18fa44d067a776a54e8c191a4d0ce18fe8305082d3a30d298c5f53cf75cb7c",
+      "currentLines": 140,
+      "auditDiscussion": "完整140行。4例default/custom wait、skip止绘和background fallback；realCanvas按行分区，不把palette索引0称RGB黑，不冒称实际DOS视觉验收。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    },
+    {
+      "path": "packages/game/src/present/present.test.ts",
+      "atBaseSha256": "f325c8bfee7477442989bf5a7e71761cff7010cfeefe0fec8d2879b5325a18a8",
+      "originalReceipt": "QUALITY-GAME-PRESENT-HOST-TESTS-1/review.json",
+      "status": "audit accepted; uniform gates separate",
+      "previousAxes": {
+        "A": "全文1537行原版及1185行候选实际核读；真实入口为bootstrap.onPresent→presentFrame，帧选择/图层/hold/调色板借用关系核当前810行present。删非法菜单 fixture 与游标的不必要强转；合法typed状态/地图/遮罩通过公开factory构建。未改变产品行为，未发现需升级的直接产品缺陷。",
+        "B": "删互相矛盾DWORD与弃用collector说明；首个follower范围不再冒称产品只支持一个；去失效present行号，SceneFade单元集成不称e2e；保留SDLPal函数/公式、单位、所有权与取舍理由。",
+        "C": "file只验证present公开编排，不渗入IO/业务状态推进；时间、世界、资源每例独立，wave全局phase与spy统一afterEach清理。core rasterizer不替换；删除无调用且假类型的_trackDrawOrder。大文件按公开编排合同describe分区，未为行数强拆并制造跨文件fixture出口。",
+        "D": "8份同义1×1帧数组收为局部indexedFrames，map/ctx只构造typed输入；菜单与4×4cover复用已接受P12/P11的真像素合同，无泛化模式布尔。选帧与绘制顺序观察器各返回不同合同，不硬合并。",
+        "E": "逐例核58旧身份、caller/oracle/合法输入/反例与排重；52存续身份和6净减少的去向完整。排序要求完整对象序列，不能让indexOf(-1)假绿；零高度cover用完整地面阻断seam扩散且真精灵进入收集，旧67全绿/新61唯一业务红；SceneFade使用独立旧色/最终矩形而非两个产物自比。",
+        "F": "帧选择由有色位图+真实像素揭示意图，删除废弃collector计划；sort直接期望完整顺序，避免多组临时index变量。长场景用明确state/context和局部注释解释坐标，不增加万能宿主。",
+        "G": "删除死helper、旧fade手搭夹具/2个重复完成例、两条核心mock菜单、noThrow和重复4×4cover；保留未到时fade、4方向、runtime优先级、脚本姿势/缺资源、NPC视野、height48/camera等独立输入轴。不删除未知候选。",
+        "H": "公开入口直接驱动，唯一替身为performance时钟；drawSprite spy保留真实实现，最终frame/cover/dither可从Framebuffer读取；不暴露生产私有状态或引入产品测试接缝。"
+      },
+      "previousCaller": null,
+      "previousOracle": null,
+      "readMode": "full current file read plus targeted real caller/oracle follow-up",
+      "axes": {
+        "A": "全文1537行原版及1185行基点实际核读；本轮区域断言增量另核；真实入口为bootstrap.onPresent→presentFrame，帧选择/图层/hold/调色板借用关系核当前810行present。删非法菜单 fixture 与游标的不必要强转；合法typed状态/地图/遮罩通过公开factory构建。未改变产品行为，未发现需升级的直接产品缺陷。",
+        "B": "删互相矛盾DWORD与弃用collector说明；首个follower范围不再冒称产品只支持一个；去失效present行号，SceneFade单元集成不称e2e；保留SDLPal函数/公式、单位、所有权与取舍理由。",
+        "C": "file只验证present公开编排，不渗入IO/业务状态推进；时间、世界、资源每例独立，wave全局phase与spy统一afterEach清理。core rasterizer不替换；删除无调用且假类型的_trackDrawOrder。大文件按公开编排合同describe分区，未为行数强拆并制造跨文件fixture出口。",
+        "D": "8份同义1×1帧数组收为局部indexedFrames，map/ctx只构造typed输入；菜单与4×4cover复用已接受P12/P11的真像素合同，无泛化模式布尔。选帧与绘制顺序观察器各返回不同合同，不硬合并。",
+        "E": "逐例核58旧身份、caller/oracle/合法输入/反例与排重；52存续身份和6净减少的去向完整。排序要求完整对象序列，不能让indexOf(-1)假绿；零高度cover用完整地面阻断seam扩散且真精灵进入收集，旧67全绿/新61唯一业务红；SceneFade使用独立旧色/最终矩形而非两个产物自比。 本轮补上下半区颜色正/反断言，位置颠倒反控旧绿新单红；测试数量不增。",
+        "F": "帧选择由有色位图+真实像素揭示意图，删除废弃collector计划；sort直接期望完整顺序，避免多组临时index变量。长场景用明确state/context和局部注释解释坐标，不增加万能宿主。",
+        "G": "删除死helper、旧fade手搭夹具/2个重复完成例、两条核心mock菜单、noThrow和重复4×4cover；保留未到时fade、4方向、runtime优先级、脚本姿势/缺资源、NPC视野、height48/camera等独立输入轴。不删除未知候选。",
+        "H": "公开入口直接驱动，唯一替身为performance时钟；drawSprite spy保留真实实现，最终frame/cover/dither可从Framebuffer读取；不暴露生产私有状态或引入产品测试接缝。"
+      },
+      "currentSha256": "530b64cfb9f080bcc1132f75f7cb7b6f97d7da773e9086f02a409dc0a33c4e07",
+      "currentLines": 1189,
+      "auditDiscussion": "1185行全文分段核。上下对话原2种颜色全屏some不能区别位置颠倒，改上下半区正/反断言；同一target生产位置反控旧绿新唯一业务红。其它52身份不变；core真实像素、drawSprite spy透传。",
+      "unresolved": "No new blocking issue in the stated caller domain; limitations in auditDiscussion/axes retained."
+    }
+  ],
+  "expansions": [
+    {
+      "trigger": "Same SceneAssets/Palette/Tilemap/EventObject/two-frame construction semantics and current consumers are independently verified in two helper modules.",
+      "paths": [
+        "packages/game/src/__tests__/grok-boot-mid-1/legal.ts",
+        "packages/game/src/__tests__/grok-render-r1/legal-host.ts"
+      ],
+      "plan": "Consolidate duplicated construction in semantic asset-fixtures.ts by moving the boot fixture and importing shared constructors from the loader IO host; preserve all22 actual test-consumer contracts and count. No production change or new primary credit."
+    }
+  ],
+  "dedupeFinding": {
+    "candidate": "scene-cache.grok-r1.test.ts G01-D01",
+    "result": "retain",
+    "reason": "loader.test.ts tracks identity from the first load result; it cannot detect a clone introduced before that first return. D01 separately holds the fetcher-supplied object and asserts first-return identity. Not a proven duplicate.",
+    "execution": "Logical distinction from actual source and assertions; no mutation run claimed."
+  },
+  "findings": [
+    {
+      "id": "first-receipt",
+      "kind": "proven evidence defects",
+      "resolution": "15 C-H rewritten specifically; nine factual fields across seven records corrected in original receiptAudit20261028; no new acceptance credit"
+    },
+    {
+      "id": "fixture-cohesion",
+      "kind": "improvable structure, repaired",
+      "resolution": "semantic asset-fixtures move + five same-contract constructors shared; proof and169 actual consumers before/after"
+    },
+    {
+      "id": "dialogue-own-lookup",
+      "kind": "proven product defect, user approved and repaired",
+      "resolution": "two formal red cases; own-key lookup; valid names preserved; green18/18; final gates separate"
+    },
+    {
+      "id": "present-location",
+      "kind": "test discrimination gap, strengthened",
+      "resolution": "same colors anywhere could accept reversed locations; independent upper/lower region positive/negative assertions; exact counter receipts"
+    },
+    {
+      "id": "frame-async",
+      "kind": "improvable simplicity, repaired",
+      "resolution": "replace manual then/error storage by resolves + complete pixel assertion; no case removed"
+    }
+  ],
+  "expandedRecent200Primary": {
+    "oldPath": "packages/game/src/__tests__/grok-boot-mid-1/legal.ts",
+    "currentPath": "packages/game/src/__tests__/asset-fixtures.ts",
+    "readMode": "full old163-line fixture and full moved candidate",
+    "currentSha256": "cf3eae0a807ce26983299ee72ff140b7035cd64121a4547b6f145076547c12fc",
+    "reason": "proved duplicate constructors with loader host; semantic relocation and shared construction; no new closure credit",
+    "axes": {
+      "A": "十个默认/边界构造向量及paint callback等价；其它移动function ESM AST相同，22实际消费者169/169前后通过。",
+      "B": "模块头明确资源/启动合法输入与新容器所有权，不再以boot批次命名共享职责。",
+      "C": "pure输入构造移出HTTP/vi宿主；每次新Map/array，宿主仍拥有IO/failure策略。",
+      "D": "五同合同构造统一；不同PNG错误消息的宿主实现不强合、不加模式开关。",
+      "E": "四消费者仅路径变更发射JS守恒；默认值/新容器/host paint和实际消费者验证，不从测试数量自证。",
+      "F": "asset-fixtures揭示实际职责，导入不再依赖旧批次命名。",
+      "G": "无旧路径compat wrapper；原方法均有实际caller；净移动不算新增关闭。",
+      "H": "pure构造可直接驱动，HTTP替身仍独立，production无测试出口。"
+    },
+    "currentLines": 163,
+    "baseLines": 163
+  },
+  "adjacentHost": {
+    "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+    "currentSha256": "1383f22448f951984fb35769fa300026520f3499ed6748a08181416c3db95bdb",
+    "readMode": "full ~480-line host and current candidate",
+    "axes": {
+      "A": "除五共享构造移出，剩余function AST一致；默认palette值等价，paint callback保留。",
+      "B": "保留路由/故障宿主注释；不存在共用即全场景合法的宣称。",
+      "C": "HTTP路由与fail/recover属于host，共用pure输入属于asset-fixtures。",
+      "D": "重导出四真实消费方法，内部event factory直接导入；不保留无caller wrapper。",
+      "E": "169消费者前后相等；构造守恒工具先有CJS改写比较误报，修为ESM函数AST后绿，非产品红例。",
+      "F": "imports/reexports明确宿主依赖，不再一文件混持五份重复实现。",
+      "G": "删除duplicate bodies和三个unused type imports，不按文本相同合并PNG错误策略。",
+      "H": "真实loader继续在注入fetch环境执行，没有新增核心decoder mocks。"
+    },
+    "currentLines": 426,
+    "baseLines": 479
+  },
+  "adjacentFullReadsNotCounted": 1,
+  "coverageOf200": {
+    "firstAndSecondDisjoint": true,
+    "originalUniqueFiles": 200,
+    "selectedOriginalFiles": 47,
+    "adjacentHost": 1,
+    "unselected": 153,
+    "claim": "Purposive risk audit, not certification of all unselected files. No blanket reset or blanket reaccept."
+  },
+  "frozenReceipts": [
+    {
+      "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json",
+      "atBaseSha256": "17c2a05e6852ede4db321e1305edbcb47eba94c30e36c12cf402aceb366f3e61",
+      "policy": "Original frozen candidate; later source changes audited here, not silently repinned."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-2/review.json",
+      "atBaseSha256": "7ad883697799d0ab3c182dddd9dec5433b3d0009a7d1aa39c6b46435bb41d8b9",
+      "policy": "Original frozen candidate; later source changes audited here, not silently repinned."
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f",
+      "readExtent": "full501 lines"
+    },
+    {
+      "path": "packages/game/src/assets/loader.test.ts",
+      "sha256": "9bfb8abd59603935e60ce8ee2baa2e9510b18a336244dc788bf272e12c01b437",
+      "readExtent": "full"
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+      "readExtent": "full"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "20a8afc7754a956b2b3dd1b395466e39377f51c4aa096ae937765c63baebd517",
+      "readExtent": "full"
+    },
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "sha256": "271b6afdb6ff191939562da3cbb06e2f1eb4aab455aee381eb75f2705b078d09",
+      "readExtent": "lines85-230 contact sink; not full new review"
+    },
+    {
+      "path": "packages/game/src/shell/game-shell.ts",
+      "sha256": "84c8ecd98ca521888703ba6bc281eba312bceeed7393125c4a78caa7b43c07bb",
+      "readExtent": "full"
+    },
+    {
+      "path": "packages/game/vendor/rix/bridge.cpp",
+      "sha256": "c425456b23d32bb22a88563c01a3cb4f3e927fe510d0ebdca2ecbf55854e8cd2",
+      "readExtent": "full"
+    },
+    {
+      "path": "packages/game/src/shell/rix/kernel.test.ts",
+      "sha256": "731b88e52d6a5dda118b5d563f66fc932358da16638465460f2b6520ca899080",
+      "readExtent": "full"
+    },
+    {
+      "path": "packages/game/src/shell/rix-worklet.ts",
+      "sha256": "01ddea4525762fac2bf220e77ae82cabb1ba5accf655ea638a7def3542669f0f",
+      "readExtent": "full"
+    },
+    {
+      "path": "packages/game/src/shell/music-source.test.ts",
+      "sha256": "af65e78150ff248a4096f8f85301fa9316707dac56d6834f2fbb9158d3967470",
+      "readExtent": "full"
+    },
+    {
+      "path": "packages/content/src/author-script.ts",
+      "sha256": "d0c73ae340b2a7796d9ef453a1504b46d780d3df506d5818540d96109f3e288e",
+      "readExtent": "full"
+    },
+    {
+      "path": "packages/content/src/validate-author.ts",
+      "sha256": "730a39f70230d2bed359a0c3f7d32e2abe4de277593b17658f7e781d0d74f3c2",
+      "readExtent": "full"
+    },
+    {
+      "path": "packages/content/src/world-variable.ts",
+      "sha256": "ff1c655944da906e1eda84346bda1fde59cafa64af56683fbc09971f234fc198",
+      "readExtent": "full"
+    },
+    {
+      "path": "packages/content/src/world-variable.test.ts",
+      "sha256": "7f5ba6130eb80dca82c362d7b2d555cb9ccb9f50452173e2fbc10a3ea26eb7ec",
+      "readExtent": "full"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9",
+      "readExtent": "prior version full read; dialog overlay targeted now"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060",
+      "readExtent": "framebuffer ownership relevant region"
+    }
+  ],
+  "nextSamplingDecision": {
+    "reason": "One proven product defect plus test/fixture and evidence gaps justify a second targeted audit; purposive findings are not a population defect-rate estimate.",
+    "recommendedAdditionalFiles": 20,
+    "priorities": [
+      "remaining production content reference/record lookups",
+      "shared test fixture ownership and hidden side effects",
+      "presence-only and self-derived expected assertions",
+      "largest/most generic evidence records among remaining153"
+    ],
+    "systematicScreen": "Check all200 receipts for source/caller/oracle and repeated unsupported claims; mechanical screen gives leads, not acceptance.",
+    "expansionThreshold": "Another important same-family defect expands the related module; multiple independent modules with unsupported A-H require withdrawal of affected records and wider review.",
+    "status": "Recommendation recorded; these further20 are not read/accepted in this receipt."
+  },
+  "processDisclosures": [
+    "Local first evidence packaging Python command had a SyntaxError before writes; next dependency assembly stopped at wrong rix-worklet path. Only tool outputs, no fabricated raw receipts. Actual shell/rix-worklet.ts path and dependency pins corrected.",
+    "Intermediate docs/lint/ledger tool calls failed on missing navigation, SHA drift, unformatted replay producer/imports and unstaged rename/old summary. Tool outputs only. Corrections restricted to owned navigation/projection/format; original producer kept raw, no rules lowered.",
+    "Historical checksum source pins intentionally stay frozen; moved dependencies are bridged here, not globally refreshed.",
+    "Portable before probe initially called bad resolver unconditionally to record observed leak; after product fix that diagnostic call threw. Portable replay removed only that call; actual before producer remains unchanged as raw. Recorded after replay exit0, two formal business red cases remain original."
+  ],
+  "consumerImportOnlyDeltas": [
+    {
+      "path": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "currentSha256": "9f2fb22b4bf8abbe2778962050ec5f5a5e9eebda1ed5b65488e0af0fb9192dcc",
+      "readExtent": "Import path delta; previous accepted full read reused by exact no-other-JS-change proof. Not a new full re-audit.",
+      "oracle": "fixture-conservation.mjs compares normalized relocated import + emitted body;22 consumers169 before/after"
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "currentSha256": "1002504cda3af553c56e48dab05c9200a350d847aa28e3fc8f8c4ed4f861d4b3",
+      "readExtent": "Import path delta; previous accepted full read reused by exact no-other-JS-change proof. Not a new full re-audit.",
+      "oracle": "fixture-conservation.mjs compares normalized relocated import + emitted body;22 consumers169 before/after"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "currentSha256": "9467ece07babd3f5d1125ff7d0091815540d0d2adb4998611be223239dea103f",
+      "readExtent": "Import path delta; previous accepted full read reused by exact no-other-JS-change proof. Not a new full re-audit.",
+      "oracle": "fixture-conservation.mjs compares normalized relocated import + emitted body;22 consumers169 before/after"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "currentSha256": "971310bd28a2a95009cd5221b76bab186e18d74bff841eadcd81ee166f1ee3de",
+      "readExtent": "Import path delta; previous accepted full read reused by exact no-other-JS-change proof. Not a new full re-audit.",
+      "oracle": "fixture-conservation.mjs compares normalized relocated import + emitted body;22 consumers169 before/after"
+    }
+  ],
+  "documentBridges": [
+    {
+      "document": "docs/ops/tasks/index.md",
+      "record": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "previousSha256": "31b6446459c2075b196e98653981da7a537c5ba4b41848b3a9314a863f254551",
+      "currentSha256": "d6be8c856a4452a466a9f71de02e274482a1bc8aec2f7185d4f1ae4dc66286d4",
+      "reason": "Known owned navigation, task-index/status, ledger rename/closure restoration or evidence correction; only afterSha256 changed in prior structured review, not new full-document semantic credit."
+    },
+    {
+      "document": "docs/ops/audits/code-quality-file-ledger.md",
+      "record": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "previousSha256": "366861cb8704560e6339cb4581f1bff6813fbf63ce7ed2138bef9c56d829878f",
+      "currentSha256": "653478f76d804ff9932af13961fcdb267bbef8887842b1011d6f18d25fb7e45c",
+      "reason": "Known owned navigation, task-index/status, ledger rename/closure restoration or evidence correction; only afterSha256 changed in prior structured review, not new full-document semantic credit."
+    },
+    {
+      "document": "docs/ops/evidence/README.md",
+      "record": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+      "previousSha256": "fd38bf5d30593dce1e40a827d86658cf9d309b5a7d63312bd1665037dc629983",
+      "currentSha256": "f13b9c7a6649c7cb16d20e7e4706d627df151017a25fc0d08bcec08faf4a1279",
+      "reason": "Known owned navigation, task-index/status, ledger rename/closure restoration or evidence correction; only afterSha256 changed in prior structured review, not new full-document semantic credit."
+    },
+    {
+      "document": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "record": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "previousSha256": "be1e263ac9f3783e489fce4489ba90155db9cf9826cc94baaff760518a1bcf6b",
+      "currentSha256": "3ec98b83f62b87732261d6ce13e450792b4ad25ed9ec090d72359e5ee62069a0",
+      "reason": "Known owned navigation, task-index/status, ledger rename/closure restoration or evidence correction; only afterSha256 changed in prior structured review, not new full-document semantic credit."
+    },
+    {
+      "document": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "record": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "previousSha256": "272c0cd5a87a20b2bdb135b7c576c9e8415359a7b070c8837c099c894a80d972",
+      "currentSha256": "75b49e2a181ec8dd95728d236b1dd6705935b11f1031e95564e55a70ac371555",
+      "reason": "Known owned navigation, task-index/status, ledger rename/closure restoration or evidence correction; only afterSha256 changed in prior structured review, not new full-document semantic credit."
+    },
+    {
+      "document": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "record": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "previousSha256": "0091f2de3e27316d991d6693bea4e6facca84faa24a5896a74b9e99053d3e38b",
+      "currentSha256": "ea3798d8ef3cca4580476aedb7ce5203a9211fba15a27b1964b48c884d0f9470",
+      "reason": "Known owned navigation, task-index/status, ledger rename/closure restoration or evidence correction; only afterSha256 changed in prior structured review, not new full-document semantic credit."
+    },
+    {
+      "document": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+      "record": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "previousSha256": "8934a014f822cf4925386fbfdd4f25c13afef46e39967344d7aa0fe40918a33d",
+      "currentSha256": "bc7607759cb56423d499babae5b115ad3065a7364e52bec382e004f8448804b6",
+      "reason": "Known owned navigation, task-index/status, ledger rename/closure restoration or evidence correction; only afterSha256 changed in prior structured review, not new full-document semantic credit."
+    }
+  ]
+}

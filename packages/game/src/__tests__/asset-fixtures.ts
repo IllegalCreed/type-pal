@@ -1,16 +1,16 @@
 /**
- * 本波专属合法输入。屏障测试只比较引用；场景缓存与对话图标走完整公开类型。
- * 不从原 400 legal-host 导入。
+ * 资源与启动测试的合法输入。场景构造集中在此，HTTP装配宿主另行管理。
+ * 每次调用拥有新的容器；屏障测试只比较引用，不代表完整可玩宿主。
  */
 import type { EventFile, Palette, SceneEventObject, Tilemap } from '@type-pal/shared'
-import type { LoadedAssets, SceneAssets } from '../../assets/loader.js'
-import type { IndexedImage } from '../../assets/png.js'
-import type { BattleBgAsset } from '../../present/battle/draw-battle-bg.js'
-import type { SpriteAsset } from '../../present/battle/draw-battle-sprites.js'
+import type { LoadedAssets, SceneAssets } from '../assets/loader.js'
+import type { IndexedImage } from '../assets/png.js'
+import type { BattleBgAsset } from '../present/battle/draw-battle-bg.js'
+import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 
-export function legalPalette(): Palette {
-  const colors: [number, number, number][] = []
-  for (let index = 0; index < 256; index++) colors.push([index, 20, 40])
+export function legalPalette(paint?: (colors: Array<[number, number, number]>) => void): Palette {
+  const colors: Palette['colors'] = Array.from({ length: 256 }, (_, index) => [index, 20, 40])
+  paint?.(colors)
   return {
     colors,
     cycles: [{ start: 10, length: 4, step: 1, frameInterval: 3 }],

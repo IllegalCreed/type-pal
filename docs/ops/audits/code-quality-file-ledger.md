@@ -932,7 +932,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/content/src/author-dialogue.cursor-pure-wave2.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；author-dialogue |
 | `packages/content/src/author-dialogue.field-guards.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；author-dialogue |
 | `packages/content/src/author-dialogue.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；author-dialogue |
-| `packages/content/src/author-dialogue.ts` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；author-dialogue |
+| `packages/content/src/author-dialogue.ts` | product | 已验证 | [对话引用归属反例](../tasks/QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1.md) | 两个正式引用守卫业务反例：未定义constructor冒充Actor/表情；2026-10-28撤回关闭，用户已批，正式两红后修；18相邻、20506全仓、official20157/809及同报protected均通过；仅恢复原关闭，新增信用0。 |
 | `packages/content/src/battle-sprite-profile.contracts.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；battle-sprite-tests |
 | `packages/content/src/battle-sprite.boundaries.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；battle-sprite-tests |
 | `packages/content/src/battle-sprite.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；battle-sprite-tests |
@@ -976,7 +976,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/content/tsconfig.json` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；configuration-fixtures |
 | `packages/game/package.json` | product | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；configuration-fixtures |
 | `packages/game/src/__tests__/canvas-host.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；新增测试宿主叶不计101主体 |
-| `packages/game/src/__tests__/grok-boot-mid-1/legal.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；cutscene-tests |
+| `packages/game/src/__tests__/asset-fixtures.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；cutscene-tests |
 | `packages/game/src/__tests__/rix-fixture.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；rix |
 | `packages/game/src/core/__tests__/stats/e1-effective-stats.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；stats |
 | `packages/game/src/core/__tests__/stats/e3-player-stat-rows.test.ts` | test | 已验证 | [QUALITY-PENDING-100-2](../evidence/QUALITY-PENDING-100-2/README.md) | 八维代码接受；本地统一门零诊断；stats |

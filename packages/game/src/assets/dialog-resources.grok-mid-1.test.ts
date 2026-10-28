@@ -2,7 +2,7 @@
  * 正常导出清单的业务真值与这些刻意异常输入分开；不据例数声称无重复。
  */
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { bytesToBase64, indexedPng, twoFrameChunk } from '../__tests__/grok-boot-mid-1/legal.js'
+import { bytesToBase64, indexedPng, twoFrameChunk } from '../__tests__/asset-fixtures.js'
 import { loadDialogAssets } from './dialog-assets.js'
 
 const PORTRAITS = '/extracted/data/portraits.json'

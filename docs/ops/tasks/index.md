@@ -522,6 +522,7 @@ Template: governance-index-v1 / 1.0.0
 | [MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围](MIGRATION-LEGACY-SCRIPT-DISCOVERY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权](QUALITY-BOOT-FAILURE-PROGRESS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-COVERAGE-PREFLIGHT-PROBES-1 — 工具预检与原生合并探针](QUALITY-COVERAGE-PREFLIGHT-PROBES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1 — 二阶段对话引用的定义归属](QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EXTRACT-EVENT-TESTS-1 — 事件编解码专测及原始夹具](QUALITY-EXTRACT-EVENT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EXTRACT-FONT-TESTS-1 — 字体专测合同与排重](QUALITY-EXTRACT-FONT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EXTRACT-MANIFEST-TESTS-1 — 资源清单三专测的oracle与ownership](QUALITY-EXTRACT-MANIFEST-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -537,6 +538,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-PENDING-100-1 — 约百文件代码治理窗口](QUALITY-PENDING-100-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PENDING-100-2 — 第二个百文件代码治理窗口](QUALITY-PENDING-100-2.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审](QUALITY-PRE94-RETROSPECTIVE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1 — 两百文件回执返工与风险抽核](QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口](QUALITY-REVIEW-52-CLOSEOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-TOOLS-CONTRACT-TESTS-1 — 覆盖率工具专测的合同与判别力](QUALITY-TOOLS-CONTRACT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 

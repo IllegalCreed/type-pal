@@ -1,0 +1,59 @@
+{
+  "base": "b8b6989b952968ab60108ae45842ae5689822925",
+  "fullCheck": {
+    "packageCounts": [1473, 118, 3815, 413, 8994, 4953, 740],
+    "packageTests": 20506,
+    "exit": 0,
+    "stderrBytes": 0,
+    "types": "all seven package typechecks including editor scripts",
+    "lint": "complete0 errors/0 warnings/0 infos"
+  },
+  "official": {
+    "testCount": 20157,
+    "sourceFileCount": 809,
+    "total": {
+      "statements": {
+        "covered": 72890,
+        "total": 80593
+      },
+      "branches": {
+        "covered": 52664,
+        "total": 62700
+      },
+      "functions": {
+        "covered": 13792,
+        "total": 15350
+      },
+      "lines": {
+        "covered": 65102,
+        "total": 70529
+      }
+    },
+    "ratchetExit": 0,
+    "protectedSameReportExit": 0,
+    "collections": 1,
+    "baseline": "increases only, six metric improvements, two test-inventory changes; no scope removal"
+  },
+  "finalStatic": {
+    "passed": ["final-docs-r3", "final-lint-r2", "final-ledger", "final-diff", "final-proof"],
+    "diagnostics": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "stderrBlocks": 0,
+      "reactAct": 0,
+      "unhandledSummary": 0
+    },
+    "retainedFailures": "final-docs: terminal cards still on active board; final-lint: gates.json formatting; final-docs-r2: reverted board body needed its old afterSHA restored. All raw retained. Only static/document follow-up, no whole/coverage rerun."
+  },
+  "publication": "Local accepted; commit/push/PR/main CI separately verified, not asserted by this receipt.",
+  "archive": "gates-native.json.gz",
+  "archiveIndex": "gates-native-index.json",
+  "ledger": {
+    "tracked": 3463,
+    "closed": 796,
+    "review": 0,
+    "pending": 2667,
+    "newClosureCredit": 0
+  }
+}
