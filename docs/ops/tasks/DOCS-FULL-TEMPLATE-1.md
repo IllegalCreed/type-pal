@@ -2714,3 +2714,14 @@ GLM下一委托先只读非作者复核Owner公共增量及完整演练；通过
 已接受三正文只复用S66终稿，允许明确追加S66接受范围说明，不恢复旧撤信。Owner持有所有grant/正式中央接入和24 JSON+9 MD；作者自验不代签。144 pending/288严格项不预扣；全卡rework，不合main、不推送、不标done。旧测试未获新授权不得修改。
 
 S67完整组首轮演练在落盘前拒绝：R93新增解释后格式化输入将达1,075,985B，超过1MiB；没有压缩结论、放宽maxSize或继续写半树。Owner据此明确准入R93唯一flat→manifest升级，固定10ae2c1447f7f5583bc1407024a506e174d2d914真实flat Git原件（OID eba5c8346cad3c5d39ed863ccdc223e9daedddf9、SHA c6abadaa7f66a7c51882396f6363c3eb32282d9deac75e1adb1c0b257099ae3e），91成员及旧源字段原样保全。原12 source pins不改；current事务只允许无R93时12或持此精确R93 pin时13，新增source也须真实Git解析、staging/读回共同核验。新manifest/每片仍≤512KiB；新物理载体本身不产生新正文分母。现行合同拒绝其它flat→manifest升级或更换R93 source，数据与授信仍分轴。原S66“本轮不准入新source”维持其时点；本S67是显式新增唯一存储准入，不追溯改写S66。旧current-review-ledger测试夹具从live改为固定9d复制的最小补丁已备，单独等用户既定旧测试许可；未获许可前不编辑该旧文件。
+
+
+### S67 实际就绪与S68一次性111作者候选（2026-10-29）
+
+公共增量实施10ae2c1447f7f5583bc1407024a506e174d2d914→d9088a81e262b3babf1de6cbf3d1ca06ac24d5b8→70d770f477628d6ba7ec3a2d51c2329269c5162a。111精确逻辑绑定=原3不变+108新增；真实Git9d header/成员-source身份逐项一致。原3正文仅在临时树复用S66终稿，其余108为显式结构演练稿，不伪称语义完成。分组lore转移及单条phase转移共20 subjects由真实Git/当前唯一去向逐一核验；不改原转移格式。用户已明确授权current-review-ledger.test.mjs该一处固定9d夹具适配，原断言全部保留；旧许可pending文字保留为前一时点。
+
+真实完整演练候选121df7694c12ecc3bf59231f8338c3b06dc6bb2c，111解释写入13物理输出、3旧片退出，114逻辑/159 review物理/45片/13 source pins（原12逐值保全+R93唯一固定10ae），2435 after精确、锁释放、0信用。3篇已有接受语义复用，108篇结构起稿尚待GLM实际作者治理。R93被显式拆成manifest+3片，均受既有≤512KiB cap；完整当前组不改1838分母、无新增旁账。当前公共publish函数锁/staging/备份/rename/退出/读回/失败保留代码对S66逐字节相同；本轮增加的是准备期准入与完整13-manifest实跑，不冒称复跑过新的故障注入。
+
+源与临时树完整310/0fail/0skip，源model2301/0、临时2412/0；lint源4644/临时4647均0E/W/I，scope证明源0正文/6行政、临时111正文/3行政、473旧原生/原12source/旧status与claimCorrection全保全。临时首全门在Testing报8个新工作树缺失的006旧build产物；8原SHA只读引用补齐后仅重跑受影响下游：链接/索引/Testing/phase-lore/progress均0，strict恰144文档/288诊断。310同候选工具结果复用，不刷新006日期、不重跑runtime。并发改卡导致首read-only envelope失败、1MiB首红、未变incoming误列、旧分组转移不适配、缺忽略产物五类原件完整留痕，不修改旧执行输出。
+
+S68 GLM build allowed在本S67最终候选的新隔离worktree一次覆盖111最终候选：先非作者只读接受本公共增量与演练，accept后同委托直接继续108篇逐篇语义作者实施+3篇终稿复用，不中途回交只读/设计稿。只通过公开candidate API更新现有位置和机械投影/after闭包；受控临时树、原S66、Owner源冻结。真实grant与中央发布仍Owner；现有144/288及0信用不变，剩余24 JSON/9 MD由Owner并行，006不在本包。全卡rework，不合main、不推送、不done。
