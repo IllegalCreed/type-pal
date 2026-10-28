@@ -9121,9 +9121,18 @@
       "templateCompliance": "needs-migration",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "GLM 资源工具批回执（TEST-RESOURCE-TOOLS-COVERAGE-1/TB-05，2026-09-19，freeze e58834f6）：8 文件 24 新测（shared/rle 5/rle-encode 4、pal-extract disasm 2/recompile 2/slice 5/palette 2/bdf-to-json 3/asset-manifest 1）；familyLedger R01-R09（R01 严格容器手列字节完整 pixels/opaque/report；R05 登记已有 annotate 覆盖；R09 mkdtemp 真实多层树零字节/中文/二进制精确清单）；shared 14 文件/115 测、pal-extract 34 文件/173 测（4 项真实资产 ENOENT 与基线同，fresh worktree 缺 data/raw）；变异自测三真 + 3 control + 9针(rle-zero/rle-encode-cap/rle-encode-transparent/child-flags/palette-cyclic/rng-state/poison-fade/bind-fields/fmt-ansi)。recorded historical fact（2026-09-19 TB-05），not current execution。",
+      "coreConclusion": "GLM 资源工具批回执（TEST-RESOURCE-TOOLS-COVERAGE-1/TB-05，2026-09-19，freeze e58834f6）：8 文件 24 新测（shared/rle 5/rle-encode 4、pal-extract disasm 2/recompile 2/slice 5/palette 2/bdf-to-json 3/asset-manifest 1）；familyLedger R01-R09（R01 严格容器手列字节完整 pixels/opaque/report；R05 登记已有 annotate 覆盖；R09 mkdtemp 真实多层树零字节/中文/二进制精确清单）；shared 14 文件/115 测、pal-extract 34 文件/173 测（4 项真实资产 ENOENT 与基线同，fresh worktree 缺 data/raw）；变异自测三真 + 3 control + 9针（rle-zero-command-accepted；rle-encode-transparent-cap-raised；rle-encode-write-pad-removed；disasm-o1-read-signed；recompile-goto-label-dropped；slice-global-force-removed；palette-night-offset-zeroed；bdf-second-byte-dropped；manifest-root-self-kept）。recorded historical fact（2026-09-19 TB-05），not current execution。",
       "truthAnchors": [
-        "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json: top-level scalar field \"task\" (structural anchor)"
+        "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json: top-level scalar field \"task\" (structural anchor)",
+        "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json#/mutants/cases/0/name",
+        "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json#/mutants/cases/1/name",
+        "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json#/mutants/cases/2/name",
+        "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json#/mutants/cases/3/name",
+        "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json#/mutants/cases/4/name",
+        "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json#/mutants/cases/5/name",
+        "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json#/mutants/cases/6/name",
+        "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json#/mutants/cases/7/name",
+        "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json#/mutants/cases/8/name"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
@@ -9158,9 +9167,8 @@
         "type": "historical-native-document",
         "currentExecution": false,
         "assertions": [
-          "tests.newTotal===24===perFileExecuted 和",
-          "familyLedger.R05 登记已有不虚增",
-          "mutants.criterionSelfTest 三布尔全真"
+          "针数为9，完整名称逐字取自本件mutants.cases[].name，不能从其它波次替代。",
+          "3 control与判据三真保持历史记录；缺原资产的4项ENOENT不改写为全绿。"
         ]
       },
       "dedupe": {
@@ -9207,6 +9215,51 @@
             "claim": "top-level scalar field \"task\" (structural anchor)",
             "pointer": "/task",
             "value": "TEST-RESOURCE-TOOLS-COVERAGE-1 r1 (TB-05)"
+          },
+          {
+            "claim": "Owner correction: exact native value for /mutants/cases/0/name",
+            "pointer": "/mutants/cases/0/name",
+            "value": "rle-zero-command-accepted"
+          },
+          {
+            "claim": "Owner correction: exact native value for /mutants/cases/1/name",
+            "pointer": "/mutants/cases/1/name",
+            "value": "rle-encode-transparent-cap-raised"
+          },
+          {
+            "claim": "Owner correction: exact native value for /mutants/cases/2/name",
+            "pointer": "/mutants/cases/2/name",
+            "value": "rle-encode-write-pad-removed"
+          },
+          {
+            "claim": "Owner correction: exact native value for /mutants/cases/3/name",
+            "pointer": "/mutants/cases/3/name",
+            "value": "disasm-o1-read-signed"
+          },
+          {
+            "claim": "Owner correction: exact native value for /mutants/cases/4/name",
+            "pointer": "/mutants/cases/4/name",
+            "value": "recompile-goto-label-dropped"
+          },
+          {
+            "claim": "Owner correction: exact native value for /mutants/cases/5/name",
+            "pointer": "/mutants/cases/5/name",
+            "value": "slice-global-force-removed"
+          },
+          {
+            "claim": "Owner correction: exact native value for /mutants/cases/6/name",
+            "pointer": "/mutants/cases/6/name",
+            "value": "palette-night-offset-zeroed"
+          },
+          {
+            "claim": "Owner correction: exact native value for /mutants/cases/7/name",
+            "pointer": "/mutants/cases/7/name",
+            "value": "bdf-second-byte-dropped"
+          },
+          {
+            "claim": "Owner correction: exact native value for /mutants/cases/8/name",
+            "pointer": "/mutants/cases/8/name",
+            "value": "manifest-root-self-kept"
           }
         ],
         "runtimeExecutionPerformed": false,
@@ -9240,6 +9293,17 @@
           "priorReviewRecord": "docs/phase-governance/reviews/20261017-r79-testing-archive.json",
           "priorReviewIndex": 48,
           "priorEntrySha256": "f77cf44184847625c02815107f81553a944a73753f19ebe6673679e15024fb2b",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "9c751652b3a3269e5c90e6d2490ed48d8e6073ec",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r79-testing-archive.json",
+          "priorReviewIndex": 48,
+          "priorEntrySha256": "d437742fadf9403a26e8c4641a32125d45dca2f4ef97cb532da55999bd5408fb",
+          "actor": "Codex",
+          "reason": "C01b: correction invented nine names rather than native cases[].name",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
         }
@@ -9294,14 +9358,31 @@
       },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
-        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "actual": "Codex targeted semantic correction: parsed the fixed native JSON and read the listed fields, counts, identities and historical limitations. Prior unaffected source explanations are reused; no historical command, runtime or old suite was reexecuted.",
         "reusedFrom": [
           "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-03.json\",\"index\":65,\"canonicalSha256\":\"5995635b82d6933c2821bfab99173302e51233b17dfad1c69615be2789a7fd03\"}"
         ],
         "priorReadDomainSha256": "8c263ea6f2700fe1eabb6b65e19effee5f4aff2930e6b0cfa43c836c31ae26c1",
         "notRead": [
           "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
-        ]
+        ],
+        "ownerCorrection": {
+          "actor": "Codex",
+          "date": "2026-10-28",
+          "fixedCarrierSha256": "a5b44d78fabb5d0baec0dc4a21f466448d68e7776e7d60fae9c7885d359c86be",
+          "readPointers": [
+            "/mutants/cases/0/name",
+            "/mutants/cases/1/name",
+            "/mutants/cases/2/name",
+            "/mutants/cases/3/name",
+            "/mutants/cases/4/name",
+            "/mutants/cases/5/name",
+            "/mutants/cases/6/name",
+            "/mutants/cases/7/name",
+            "/mutants/cases/8/name"
+          ],
+          "reason": "C01b: correction invented nine names rather than native cases[].name"
+        }
       },
       "fieldRoles": {
         "nativePointers": ["/task"],

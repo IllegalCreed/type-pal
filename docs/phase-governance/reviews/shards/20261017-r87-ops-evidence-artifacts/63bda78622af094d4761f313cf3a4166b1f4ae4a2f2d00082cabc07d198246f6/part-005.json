@@ -1,10 +1,835 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
-  "generation": "264fd1b212e3435f6b2d5ce04586982ea8d659cb073e376eff625980e9ccea58",
+  "generation": "63bda78622af094d4761f313cf3a4166b1f4ae4a2f2d00082cabc07d198246f6",
   "key": "part-005",
-  "positions": [96, 97, 98, 99],
+  "positions": [93, 94, 95, 96, 97, 98, 99],
   "entries": [
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N04-unsafe-integer-count.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/test-machine-evidence.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Accepted S26 reused: 本篇原生字节逐字段+逐断言程序核读（1 文件/8 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行; S29 additional domain: none; declared program/family composition only; Codex independent evidence/risk acceptance plus GLM-accepted Owner corrections. Qualified document review; no manual269deep review or historical rerun.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "current-save 结构精度 r1→r3（GLM 新对话 B；r3 固定候选 1d09128fe 已 Codex 独立 accept、S1–S9 有限收口 done）；producer：generate-before-after.mjs 与各轮 run-counterproof 判据（判据库为后续多卡只读复用的 save-precision r2 定稿库）；继任/裁决：codex-review-r3/r2/r1.md（同目录三审/二审/一审全文）；81 次执行/80 唯一标题口径；17 针全 VALID；counterproof-r2-runs 对应 r2 归还三原合同、r3-runs 对应 r3 轮。本篇为 counterexample-red 相位：numFailedTests=1（逐断言失败集见 oracle/witness，完整身份）。本篇差异：1 文件/8 断言中恰 1 失败（完整身份见 oracle 集合）；分轴：passed=7/failed=1/pending+skipped+todo=0；numTotalTestSuites=5 为 Vitest 层级计数非文件数。本稿仅治理该历史文档的内容与适用范围：固定原生字节零改写、不重跑原执行、不认证原针/产品质量。\nS29逐篇补充（已接受Owner勘误后）：N04-unsafe-integer-count.json 的独有观察：1 文件/8 断言中恰 1 失败，首条失败身份「current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 超出安全整数边界拒绝」（完整集合逐条列于本行 nativeResults.failedAssertions 与 seed oracle）；相位差异：counterexample-red——counterexample-red表示本篇原生报告有失败断言；精确身份与消息取nativeResults及既有oracle。它可属于业务针、判据探针、污染拒收或旧oracle相位，分类不自动证明真实变异、判据接受、未破坏面或产品缺陷；具体边界沿用该篇seed及本族裁决。；本篇 counter 特异：numTotalTestSuites=5 为 Vitest 套件层级计数，≠文件数 1，不得互替。\n历史边界：族边界：current-save 结构精度 r1→r3 三审有限收口（17 针全 VALID、81 次执行/80 唯一标题口径）；判据库为 save-precision r2 定稿库只读复用；codex-review-r3/r2/r1.md 为继任裁决全文。旧结论适用面：仅按本篇冻结相位和本族实际裁决解释历史记录；不恢复现行合同或授当前runtime/E2E/coverage/迁移信用。B5/B10撤回仅适用于TEST-EDITOR-ALCHEMY-BOUNDARIES-1，不能归到其他卡族；本篇精确相位见runPhase。排重边界：同目录载体计数比较不证明执行互斥或测试排重，跨目录未审=unknown（Owner 补丁后的 dedupe.result 已按此口径）。字段复用：S26 修正稿（含 Owner 207 项计数补丁与 B5/B10 两项 README:29 裁决锚追加）的 coreConclusion/readDomain/nativeWitnesses/businessOracle/dedupe/contextReferences/phaseBasis 原样复用；本轮新增：nativeResults 机器集合按固定算法重取、fieldRoles.governance 由硬编码 r85 改为本篇实际 review 行显式绑定、本条 assessment；无新增人工读域（supplementedReadDomain 为空）。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N04-unsafe-integer-count.json (33cc frozen native bytes)",
+        "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md:12-12"
+      ],
+      "unresolved": [
+        "Historical runtime and original producer execution are not rerun/authenticated; product/counterproof validity follows cited family decisions. Cross-family unknown dedupe remains unknown."
+      ],
+      "nextStep": "Controlled central publication; non-author result review remains required. Keep native bytes, withdrawal boundaries and existing current review location; subsequent content/context changes invalidate affected claims.",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N04-unsafe-integer-count.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        "S29 accepted S26/S29 GLM source/delta reused; Codex independently risk-reviewed content and GLM independently accepted Codex bounded corrections; publication authored by Codex awaiting result review."
+      ],
+      "sourceSha256": "f133da599da4badf39dba1e0c7ffa02369d52f91d89404d4f6ddb445469226a9",
+      "afterSha256": "f133da599da4badf39dba1e0c7ffa02369d52f91d89404d4f6ddb445469226a9",
+      "publicCallers": [
+        "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/README.md",
+        "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json",
+        "scripts/docs/check-document-model.mjs",
+        "scripts/docs/check-content-review.mjs",
+        "scripts/docs/report-governance-progress.mjs"
+      ],
+      "legalInputs": [
+        "固定原生字节（清单 pin）",
+        "原始测试合法输入未载于报告=未载/未重验，不作本轮 oracle"
+      ],
+      "businessOracle": {
+        "type": "historical-vitest-native-preservation",
+        "assertions": [
+          "分轴：passed=7/failed=1/pending+skipped+todo=0；逐断言重算与 num* 一致",
+          "失败断言完整集合（全部成员、不截断）：#/testResults/0/assertionResults/3=current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 超出安全整数边界拒绝（MAX_SAFE_INTEGER+1 是整数但不安全）",
+          "numTotalTestSuites=5 层级计数原值保留（≠文件数 1）",
+          "before=after=清单 SHA：原生字节零改写"
+        ]
+      },
+      "dedupe": {
+        "result": "同目录载体计数比较：N01-empty-actor-id.json（8断言/1红/0pending）；N02-empty-skill-id.json（8断言/1红/0pending）；N03-negative-count.json（8断言/1红/0pending）。这些计数不证明重复或执行互斥；跨目录比较未审，排重结论unknown。",
+        "against": [
+          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N01-empty-actor-id.json",
+          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N02-empty-skill-id.json",
+          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N03-negative-count.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "f133da599da4badf39dba1e0c7ffa02369d52f91d89404d4f6ddb445469226a9",
+        "implementationSha": "f133da599da4badf39dba1e0c7ffa02369d52f91d89404d4f6ddb445469226a9",
+        "history": [
+          {
+            "revision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "record": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+            "index": 93,
+            "beforeEntrySha256": "7f843c2f6f66c64fe6bac606c7b770719c827952339d750a40a65dbed2f7dfa2",
+            "previousCurrentSha": "f133da599da4badf39dba1e0c7ffa02369d52f91d89404d4f6ddb445469226a9",
+            "previousSourceGitRevision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+            "action": "Qualified S29 native document migration; original source/current pins explicitly reconciled to fixed33cc bytes. Old record remains in fixedGit."
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-vitest-cohort",
+        "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N04-unsafe-integer-count.json",
+        "byteStable": true,
+        "nativeResults": {
+          "files": 1,
+          "counters": {
+            "numTotalTestSuites": 5,
+            "numPassedTestSuites": 3,
+            "numFailedTestSuites": 2,
+            "numPendingTestSuites": 0,
+            "numTotalTests": 8,
+            "numPassedTests": 7,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0
+          },
+          "assertionStatuses": {
+            "failed": 1,
+            "passed": 7
+          },
+          "failedAssertions": [
+            {
+              "pointer": "#/testResults/0/assertionResults/3",
+              "fullName": "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 超出安全整数边界拒绝（MAX_SAFE_INTEGER+1 是整数但不安全）",
+              "status": "failed"
+            }
+          ],
+          "pendingAssertions": []
+        },
+        "currentAudit": {
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        "qualification": "Qualified historical-document acceptance; no historical/current execution authentication.",
+        "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+        "ownerCorrectionsSha256": "78fb0b7320152a45d9a7d89f95fe9658bda50f5b657585c951a15f8c6a3ed73f"
+      },
+      "history": [
+        {
+          "revision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R87 ops evidence historical artifact governance",
+          "reviewer": "r87_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "New per-document S29 evidence acceptance, not restoration of unsupported oldreview.",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "priorEvidenceKind": "machine-artifact-envelope",
+          "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+          "contentReviewStatus": "content-reviewed",
+          "templateCompliance": "template-compliant",
+          "notRun": ["historical tests", "runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "本次仅授历史文档内容审阅与原生模板迁移；不认证原测试/反控/fixture/候选执行，不恢复B5/B10或其它后继撤回信用，不授runtime/E2E/视觉/coverage。来源稿停止线（S26时点）：不把历史运行结果当合法输入；不重跑原测试/原针；不授当前 runtime/E2E/视觉/coverage 或迁移完成信用；撤回针的历史边界不因本稿恢复。",
+      "userVisibleBeforeAfter": "原生JSON字节保持；旧机械撤信条目改为既有唯一review内的具体字段/结果全集/相位/来源/限制；新增文档信用不恢复历史执行信用。",
+      "reviewedLines": "本篇原生字节逐字段+逐断言程序核读（1 文件/8 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json-native",
+      "documentStatus": "historical",
+      "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "candidateSha256": "f133da599da4badf39dba1e0c7ffa02369d52f91d89404d4f6ddb445469226a9",
+      "primarySource": [
+        {
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N04-unsafe-integer-count.json",
+          "gitObject": "934a9562af66ffdc48963e33ef0eab8516cbccf6",
+          "sha256": "f133da599da4badf39dba1e0c7ffa02369d52f91d89404d4f6ddb445469226a9"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+        "date": "2026-10-17",
+        "validity": "historical",
+        "runPhase": "counterexample-red",
+        "documentReviewDate": "2026-10-23",
+        "historicalExecutionReexecuted": false
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R87-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R87-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "templateVariant": "historical-vitest-native-v1",
+      "readDomain": {
+        "actual": "本篇原生字节逐字段+逐断言程序核读（1 文件/8 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
+        "reusedFrom": [
+          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md（卡族共享上下文：producer 链/裁决/撤回行，实读一次）"
+        ],
+        "s29Supplement": [],
+        "ownerAcceptance": "Evidence/risk review of accepted seed and family-specific delta; not repeat full manual reading."
+      },
+      "nativeWitnesses": [
+        {
+          "pointer": "#/testResults/0/assertionResults/0/fullName",
+          "quote": "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 空角色 ID 拒绝",
+          "meaning": "首断言身份锚（套件：current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此））——锚定实际断言集"
+        },
+        {
+          "pointer": "#/numTotalTests",
+          "quote": "8",
+          "meaning": "总断言计数 8 与逐断言枚举 8 交叉"
+        },
+        {
+          "pointer": "#/testResults/0/assertionResults/3/failureMessages/0",
+          "quote": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (",
+          "meaning": "失败诊断原文（current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） …；失败集共 1 项完整列于 oracle）"
+        }
+      ],
+      "contextReferences": [
+        {
+          "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md",
+          "sha256": "94c6a967da71a197523b6a7a412b1c271d0f135f9170b73ae132bd20043b5978",
+          "role": "卡族上下文锚（TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1）：支撑本篇相位/producer/边界判断的 README 实文行",
+          "quote": "- 沿革：贡献者 GLM 新对话 B、基点 d84b3db23（产品冻结 ce808b42e）、分支 codex/glm-reforge-save-test-precision-r1；r2 按一审 counter（B-R1-01 四条独立接线合同归还+容器缺席拆身份、B-R1-02 共享文档恢复派发值）；r3 按二审 counter（B-R2-01 归还 maxMP/extraStatuses 空洞/poisons 空洞三原合同并对齐反控入口）。",
+          "lines": [12, 12]
+        }
+      ],
+      "fieldRoles": {
+        "identity": [
+          "snapshot：运行快照身份",
+          "startTime：启动时间",
+          "success：聚合布尔（≠exit0/零诊断）"
+        ],
+        "inputs": [
+          "testResults[].name：1 个受测文件（该次运行输入域）",
+          "assertionResults[].fullName/ancestorTitles：断言/套件身份"
+        ],
+        "results": [
+          "num* 八计数（分轴：p7/f1/pend0/todo0）",
+          "assertionResults[].status：逐断言结果"
+        ],
+        "diagnostics": ["failureMessages：1 条失败诊断（完整集合指针见 oracle）"],
+        "governance": [
+          "current-review: docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json, index=93; no payload/sidecar or native byte changes.",
+          "卡族裁决/撤回边界：codex-review-r3/r2/r1.md（同目录三审/二审/一审全文）"
+        ]
+      },
+      "currentQualification": {
+        "date": "2026-10-23",
+        "reviewer": "Codex (independent GLM document evidence); GLM (independent Codex corrections)",
+        "nonAuthorReviewer": true,
+        "decision": "accept",
+        "grantsNewSemanticAcceptance": true,
+        "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N04-unsafe-integer-count.json",
+        "evidenceSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+        "sourceCandidate": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
+        "correctionVerdictSha256": "58d4c64442b1c8b4a07da24bd7bc4a9d6bb4fb39a4895a013c07db3ec16a21ed",
+        "scope": "New historical-document review only; not oldR-wave credit restoration, not publication self-acceptance or runtime credit."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N05-omit-container-fill.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/test-machine-evidence.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Accepted S26 reused: 本篇原生字节逐字段+逐断言程序核读（1 文件/8 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行; S29 additional domain: none; declared program/family composition only; Codex independent evidence/risk acceptance plus GLM-accepted Owner corrections. Qualified document review; no manual269deep review or historical rerun.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "current-save 结构精度 r1→r3（GLM 新对话 B；r3 固定候选 1d09128fe 已 Codex 独立 accept、S1–S9 有限收口 done）；producer：generate-before-after.mjs 与各轮 run-counterproof 判据（判据库为后续多卡只读复用的 save-precision r2 定稿库）；继任/裁决：codex-review-r3/r2/r1.md（同目录三审/二审/一审全文）；81 次执行/80 唯一标题口径；17 针全 VALID；counterproof-r2-runs 对应 r2 归还三原合同、r3-runs 对应 r3 轮。本篇为 counterexample-red 相位：numFailedTests=1（逐断言失败集见 oracle/witness，完整身份）。本篇差异：1 文件/8 断言中恰 1 失败（完整身份见 oracle 集合）；分轴：passed=7/failed=1/pending+skipped+todo=0；numTotalTestSuites=5 为 Vitest 层级计数非文件数。本稿仅治理该历史文档的内容与适用范围：固定原生字节零改写、不重跑原执行、不认证原针/产品质量。\nS29逐篇补充（已接受Owner勘误后）：N05-omit-container-fill.json 的独有观察：1 文件/8 断言中恰 1 失败，首条失败身份「current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省） skillUseCounts 缺席」（完整集合逐条列于本行 nativeResults.failedAssertions 与 seed oracle）；相位差异：counterexample-red——counterexample-red表示本篇原生报告有失败断言；精确身份与消息取nativeResults及既有oracle。它可属于业务针、判据探针、污染拒收或旧oracle相位，分类不自动证明真实变异、判据接受、未破坏面或产品缺陷；具体边界沿用该篇seed及本族裁决。；本篇 counter 特异：numTotalTestSuites=5 为 Vitest 套件层级计数，≠文件数 1，不得互替。\n历史边界：族边界：current-save 结构精度 r1→r3 三审有限收口（17 针全 VALID、81 次执行/80 唯一标题口径）；判据库为 save-precision r2 定稿库只读复用；codex-review-r3/r2/r1.md 为继任裁决全文。旧结论适用面：仅按本篇冻结相位和本族实际裁决解释历史记录；不恢复现行合同或授当前runtime/E2E/coverage/迁移信用。B5/B10撤回仅适用于TEST-EDITOR-ALCHEMY-BOUNDARIES-1，不能归到其他卡族；本篇精确相位见runPhase。排重边界：同目录载体计数比较不证明执行互斥或测试排重，跨目录未审=unknown（Owner 补丁后的 dedupe.result 已按此口径）。字段复用：S26 修正稿（含 Owner 207 项计数补丁与 B5/B10 两项 README:29 裁决锚追加）的 coreConclusion/readDomain/nativeWitnesses/businessOracle/dedupe/contextReferences/phaseBasis 原样复用；本轮新增：nativeResults 机器集合按固定算法重取、fieldRoles.governance 由硬编码 r85 改为本篇实际 review 行显式绑定、本条 assessment；无新增人工读域（supplementedReadDomain 为空）。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N05-omit-container-fill.json (33cc frozen native bytes)",
+        "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md:12-12"
+      ],
+      "unresolved": [
+        "Historical runtime and original producer execution are not rerun/authenticated; product/counterproof validity follows cited family decisions. Cross-family unknown dedupe remains unknown."
+      ],
+      "nextStep": "Controlled central publication; non-author result review remains required. Keep native bytes, withdrawal boundaries and existing current review location; subsequent content/context changes invalidate affected claims.",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N05-omit-container-fill.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        "S29 accepted S26/S29 GLM source/delta reused; Codex independently risk-reviewed content and GLM independently accepted Codex bounded corrections; publication authored by Codex awaiting result review."
+      ],
+      "sourceSha256": "46d9d2bf52fc666be946423d74cd15b3c76de4db7cd85f12de36625606a60bb7",
+      "afterSha256": "46d9d2bf52fc666be946423d74cd15b3c76de4db7cd85f12de36625606a60bb7",
+      "publicCallers": [
+        "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/README.md",
+        "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json",
+        "scripts/docs/check-document-model.mjs",
+        "scripts/docs/check-content-review.mjs",
+        "scripts/docs/report-governance-progress.mjs"
+      ],
+      "legalInputs": [
+        "固定原生字节（清单 pin）",
+        "原始测试合法输入未载于报告=未载/未重验，不作本轮 oracle"
+      ],
+      "businessOracle": {
+        "type": "historical-vitest-native-preservation",
+        "assertions": [
+          "分轴：passed=7/failed=1/pending+skipped+todo=0；逐断言重算与 num* 一致",
+          "失败断言完整集合（全部成员、不截断）：#/testResults/0/assertionResults/4=current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省） skillUseCounts 缺席：clone 内补空 {}，原件保持缺席不变",
+          "numTotalTestSuites=5 层级计数原值保留（≠文件数 1）",
+          "before=after=清单 SHA：原生字节零改写"
+        ]
+      },
+      "dedupe": {
+        "result": "同目录载体计数比较：N01-empty-actor-id.json（8断言/1红/0pending）；N02-empty-skill-id.json（8断言/1红/0pending）；N03-negative-count.json（8断言/1红/0pending）。这些计数不证明重复或执行互斥；跨目录比较未审，排重结论unknown。",
+        "against": [
+          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N01-empty-actor-id.json",
+          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N02-empty-skill-id.json",
+          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N03-negative-count.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "46d9d2bf52fc666be946423d74cd15b3c76de4db7cd85f12de36625606a60bb7",
+        "implementationSha": "46d9d2bf52fc666be946423d74cd15b3c76de4db7cd85f12de36625606a60bb7",
+        "history": [
+          {
+            "revision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "record": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+            "index": 94,
+            "beforeEntrySha256": "eff943b7653e82818723bf8317604190292d831b08bca48a60bc7bf6c53b84d4",
+            "previousCurrentSha": "46d9d2bf52fc666be946423d74cd15b3c76de4db7cd85f12de36625606a60bb7",
+            "previousSourceGitRevision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+            "action": "Qualified S29 native document migration; original source/current pins explicitly reconciled to fixed33cc bytes. Old record remains in fixedGit."
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-vitest-cohort",
+        "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N05-omit-container-fill.json",
+        "byteStable": true,
+        "nativeResults": {
+          "files": 1,
+          "counters": {
+            "numTotalTestSuites": 5,
+            "numPassedTestSuites": 3,
+            "numFailedTestSuites": 2,
+            "numPendingTestSuites": 0,
+            "numTotalTests": 8,
+            "numPassedTests": 7,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0
+          },
+          "assertionStatuses": {
+            "failed": 1,
+            "passed": 7
+          },
+          "failedAssertions": [
+            {
+              "pointer": "#/testResults/0/assertionResults/4",
+              "fullName": "current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省） skillUseCounts 缺席：clone 内补空 {}，原件保持缺席不变",
+              "status": "failed"
+            }
+          ],
+          "pendingAssertions": []
+        },
+        "currentAudit": {
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        "qualification": "Qualified historical-document acceptance; no historical/current execution authentication.",
+        "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+        "ownerCorrectionsSha256": "78fb0b7320152a45d9a7d89f95fe9658bda50f5b657585c951a15f8c6a3ed73f"
+      },
+      "history": [
+        {
+          "revision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R87 ops evidence historical artifact governance",
+          "reviewer": "r87_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "New per-document S29 evidence acceptance, not restoration of unsupported oldreview.",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "priorEvidenceKind": "machine-artifact-envelope",
+          "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+          "contentReviewStatus": "content-reviewed",
+          "templateCompliance": "template-compliant",
+          "notRun": ["historical tests", "runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "本次仅授历史文档内容审阅与原生模板迁移；不认证原测试/反控/fixture/候选执行，不恢复B5/B10或其它后继撤回信用，不授runtime/E2E/视觉/coverage。来源稿停止线（S26时点）：不把历史运行结果当合法输入；不重跑原测试/原针；不授当前 runtime/E2E/视觉/coverage 或迁移完成信用；撤回针的历史边界不因本稿恢复。",
+      "userVisibleBeforeAfter": "原生JSON字节保持；旧机械撤信条目改为既有唯一review内的具体字段/结果全集/相位/来源/限制；新增文档信用不恢复历史执行信用。",
+      "reviewedLines": "本篇原生字节逐字段+逐断言程序核读（1 文件/8 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json-native",
+      "documentStatus": "historical",
+      "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "candidateSha256": "46d9d2bf52fc666be946423d74cd15b3c76de4db7cd85f12de36625606a60bb7",
+      "primarySource": [
+        {
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N05-omit-container-fill.json",
+          "gitObject": "5fa24f1b72f02bf1b446ae887745fedd64c1d877",
+          "sha256": "46d9d2bf52fc666be946423d74cd15b3c76de4db7cd85f12de36625606a60bb7"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+        "date": "2026-10-17",
+        "validity": "historical",
+        "runPhase": "counterexample-red",
+        "documentReviewDate": "2026-10-23",
+        "historicalExecutionReexecuted": false
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R87-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R87-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "templateVariant": "historical-vitest-native-v1",
+      "readDomain": {
+        "actual": "本篇原生字节逐字段+逐断言程序核读（1 文件/8 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
+        "reusedFrom": [
+          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md（卡族共享上下文：producer 链/裁决/撤回行，实读一次）"
+        ],
+        "s29Supplement": [],
+        "ownerAcceptance": "Evidence/risk review of accepted seed and family-specific delta; not repeat full manual reading."
+      },
+      "nativeWitnesses": [
+        {
+          "pointer": "#/testResults/0/assertionResults/0/fullName",
+          "quote": "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 空角色 ID 拒绝",
+          "meaning": "首断言身份锚（套件：current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此））——锚定实际断言集"
+        },
+        {
+          "pointer": "#/numTotalTests",
+          "quote": "8",
+          "meaning": "总断言计数 8 与逐断言枚举 8 交叉"
+        },
+        {
+          "pointer": "#/testResults/0/assertionResults/4/failureMessages/0",
+          "quote": "AssertionError: expected { hero: { fire: 1 } } to deeply equal {}\n    at /privat",
+          "meaning": "失败诊断原文（current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省） skillUs…；失败集共 1 项完整列于 oracle）"
+        }
+      ],
+      "contextReferences": [
+        {
+          "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md",
+          "sha256": "94c6a967da71a197523b6a7a412b1c271d0f135f9170b73ae132bd20043b5978",
+          "role": "卡族上下文锚（TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1）：支撑本篇相位/producer/边界判断的 README 实文行",
+          "quote": "- 沿革：贡献者 GLM 新对话 B、基点 d84b3db23（产品冻结 ce808b42e）、分支 codex/glm-reforge-save-test-precision-r1；r2 按一审 counter（B-R1-01 四条独立接线合同归还+容器缺席拆身份、B-R1-02 共享文档恢复派发值）；r3 按二审 counter（B-R2-01 归还 maxMP/extraStatuses 空洞/poisons 空洞三原合同并对齐反控入口）。",
+          "lines": [12, 12]
+        }
+      ],
+      "fieldRoles": {
+        "identity": [
+          "snapshot：运行快照身份",
+          "startTime：启动时间",
+          "success：聚合布尔（≠exit0/零诊断）"
+        ],
+        "inputs": [
+          "testResults[].name：1 个受测文件（该次运行输入域）",
+          "assertionResults[].fullName/ancestorTitles：断言/套件身份"
+        ],
+        "results": [
+          "num* 八计数（分轴：p7/f1/pend0/todo0）",
+          "assertionResults[].status：逐断言结果"
+        ],
+        "diagnostics": ["failureMessages：1 条失败诊断（完整集合指针见 oracle）"],
+        "governance": [
+          "current-review: docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json, index=94; no payload/sidecar or native byte changes.",
+          "卡族裁决/撤回边界：codex-review-r3/r2/r1.md（同目录三审/二审/一审全文）"
+        ]
+      },
+      "currentQualification": {
+        "date": "2026-10-23",
+        "reviewer": "Codex (independent GLM document evidence); GLM (independent Codex corrections)",
+        "nonAuthorReviewer": true,
+        "decision": "accept",
+        "grantsNewSemanticAcceptance": true,
+        "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N05-omit-container-fill.json",
+        "evidenceSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+        "sourceCandidate": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
+        "correctionVerdictSha256": "58d4c64442b1c8b4a07da24bd7bc4a9d6bb4fb39a4895a013c07db3ec16a21ed",
+        "scope": "New historical-document review only; not oldR-wave credit restoration, not publication self-acceptance or runtime credit."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N06-hostile-zero-ms.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "template": "docs/phase-governance/templates/test-machine-evidence.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Accepted S26 reused: 本篇原生字节逐字段+逐断言程序核读（1 文件/8 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行; S29 additional domain: none; declared program/family composition only; Codex independent evidence/risk acceptance plus GLM-accepted Owner corrections. Qualified document review; no manual269deep review or historical rerun.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "current-save 结构精度 r1→r3（GLM 新对话 B；r3 固定候选 1d09128fe 已 Codex 独立 accept、S1–S9 有限收口 done）；producer：generate-before-after.mjs 与各轮 run-counterproof 判据（判据库为后续多卡只读复用的 save-precision r2 定稿库）；继任/裁决：codex-review-r3/r2/r1.md（同目录三审/二审/一审全文）；81 次执行/80 唯一标题口径；17 针全 VALID；counterproof-r2-runs 对应 r2 归还三原合同、r3-runs 对应 r3 轮。本篇为 counterexample-red 相位：numFailedTests=1（逐断言失败集见 oracle/witness，完整身份）。本篇差异：1 文件/8 断言中恰 1 失败（完整身份见 oracle 集合）；分轴：passed=7/failed=1/pending+skipped+todo=0；numTotalTestSuites=5 为 Vitest 层级计数非文件数。本稿仅治理该历史文档的内容与适用范围：固定原生字节零改写、不重跑原执行、不认证原针/产品质量。\nS29逐篇补充（已接受Owner勘误后）：N06-hostile-zero-ms.json 的独有观察：1 文件/8 断言中恰 1 失败，首条失败身份「current-codec · hostileAwareness 正数性（结构层只验有限数，0 由此层拒绝） remai」（完整集合逐条列于本行 nativeResults.failedAssertions 与 seed oracle）；相位差异：counterexample-red——counterexample-red表示本篇原生报告有失败断言；精确身份与消息取nativeResults及既有oracle。它可属于业务针、判据探针、污染拒收或旧oracle相位，分类不自动证明真实变异、判据接受、未破坏面或产品缺陷；具体边界沿用该篇seed及本族裁决。；本篇 counter 特异：numTotalTestSuites=5 为 Vitest 套件层级计数，≠文件数 1，不得互替。\n历史边界：族边界：current-save 结构精度 r1→r3 三审有限收口（17 针全 VALID、81 次执行/80 唯一标题口径）；判据库为 save-precision r2 定稿库只读复用；codex-review-r3/r2/r1.md 为继任裁决全文。旧结论适用面：仅按本篇冻结相位和本族实际裁决解释历史记录；不恢复现行合同或授当前runtime/E2E/coverage/迁移信用。B5/B10撤回仅适用于TEST-EDITOR-ALCHEMY-BOUNDARIES-1，不能归到其他卡族；本篇精确相位见runPhase。排重边界：同目录载体计数比较不证明执行互斥或测试排重，跨目录未审=unknown（Owner 补丁后的 dedupe.result 已按此口径）。字段复用：S26 修正稿（含 Owner 207 项计数补丁与 B5/B10 两项 README:29 裁决锚追加）的 coreConclusion/readDomain/nativeWitnesses/businessOracle/dedupe/contextReferences/phaseBasis 原样复用；本轮新增：nativeResults 机器集合按固定算法重取、fieldRoles.governance 由硬编码 r85 改为本篇实际 review 行显式绑定、本条 assessment；无新增人工读域（supplementedReadDomain 为空）。",
+      "truthAnchors": [
+        "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N06-hostile-zero-ms.json (33cc frozen native bytes)",
+        "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md:12-12"
+      ],
+      "unresolved": [
+        "Historical runtime and original producer execution are not rerun/authenticated; product/counterproof validity follows cited family decisions. Cross-family unknown dedupe remains unknown."
+      ],
+      "nextStep": "Controlled central publication; non-author result review remains required. Keep native bytes, withdrawal boundaries and existing current review location; subsequent content/context changes invalidate affected claims.",
+      "phase": "ops",
+      "module": "evidence-artifact",
+      "capability": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N06-hostile-zero-ms.json machine artifact",
+      "owner": "Codex（文档治理；不代签原执行）",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        "S29 accepted S26/S29 GLM source/delta reused; Codex independently risk-reviewed content and GLM independently accepted Codex bounded corrections; publication authored by Codex awaiting result review."
+      ],
+      "sourceSha256": "12eedc8417ae19a0397b8ebb6e9e5b3b80006ff869df4a5d510cd104d64c83cf",
+      "afterSha256": "12eedc8417ae19a0397b8ebb6e9e5b3b80006ff869df4a5d510cd104d64c83cf",
+      "publicCallers": [
+        "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/README.md",
+        "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json",
+        "scripts/docs/check-document-model.mjs",
+        "scripts/docs/check-content-review.mjs",
+        "scripts/docs/report-governance-progress.mjs"
+      ],
+      "legalInputs": [
+        "固定原生字节（清单 pin）",
+        "原始测试合法输入未载于报告=未载/未重验，不作本轮 oracle"
+      ],
+      "businessOracle": {
+        "type": "historical-vitest-native-preservation",
+        "assertions": [
+          "分轴：passed=7/failed=1/pending+skipped+todo=0；逐断言重算与 num* 一致",
+          "失败断言完整集合（全部成员、不截断）：#/testResults/0/assertionResults/6=current-codec · hostileAwareness 正数性（结构层只验有限数，0 由此层拒绝） remainingMs=0 拒绝（期望正有限毫秒）",
+          "numTotalTestSuites=5 层级计数原值保留（≠文件数 1）",
+          "before=after=清单 SHA：原生字节零改写"
+        ]
+      },
+      "dedupe": {
+        "result": "同目录载体计数比较：N01-empty-actor-id.json（8断言/1红/0pending）；N02-empty-skill-id.json（8断言/1红/0pending）；N03-negative-count.json（8断言/1红/0pending）。这些计数不证明重复或执行互斥；跨目录比较未审，排重结论unknown。",
+        "against": [
+          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N01-empty-actor-id.json",
+          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N02-empty-skill-id.json",
+          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N03-negative-count.json"
+        ]
+      },
+      "revision": {
+        "currentSha": "12eedc8417ae19a0397b8ebb6e9e5b3b80006ff869df4a5d510cd104d64c83cf",
+        "implementationSha": "12eedc8417ae19a0397b8ebb6e9e5b3b80006ff869df4a5d510cd104d64c83cf",
+        "history": [
+          {
+            "revision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+            "date": "2026-10-17",
+            "action": "byte-stable historical machine artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "record": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+            "index": 95,
+            "beforeEntrySha256": "24ee1ff241bdb6a0a84d6581639e5b4cc1066c44f2efac33c31c341c4d7ce513",
+            "previousCurrentSha": "12eedc8417ae19a0397b8ebb6e9e5b3b80006ff869df4a5d510cd104d64c83cf",
+            "previousSourceGitRevision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+            "action": "Qualified S29 native document migration; original source/current pins explicitly reconciled to fixed33cc bytes. Old record remains in fixedGit."
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "historical-native-vitest-cohort",
+        "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N06-hostile-zero-ms.json",
+        "byteStable": true,
+        "nativeResults": {
+          "files": 1,
+          "counters": {
+            "numTotalTestSuites": 5,
+            "numPassedTestSuites": 3,
+            "numFailedTestSuites": 2,
+            "numPendingTestSuites": 0,
+            "numTotalTests": 8,
+            "numPassedTests": 7,
+            "numFailedTests": 1,
+            "numPendingTests": 0,
+            "numTodoTests": 0
+          },
+          "assertionStatuses": {
+            "failed": 1,
+            "passed": 7
+          },
+          "failedAssertions": [
+            {
+              "pointer": "#/testResults/0/assertionResults/6",
+              "fullName": "current-codec · hostileAwareness 正数性（结构层只验有限数，0 由此层拒绝） remainingMs=0 拒绝（期望正有限毫秒）",
+              "status": "failed"
+            }
+          ],
+          "pendingAssertions": []
+        },
+        "currentAudit": {
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        "qualification": "Qualified historical-document acceptance; no historical/current execution authentication.",
+        "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+        "ownerCorrectionsSha256": "78fb0b7320152a45d9a7d89f95fe9658bda50f5b657585c951a15f8c6a3ed73f"
+      },
+      "history": [
+        {
+          "revision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+          "action": "read-and-reviewed",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "working-tree",
+          "action": "R87 ops evidence historical artifact governance",
+          "reviewer": "r87_readonly_review + Codex root",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1",
+          "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+          "action": "New per-document S29 evidence acceptance, not restoration of unsupported oldreview.",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "priorEvidenceKind": "machine-artifact-envelope",
+          "ownerDecisionSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+          "contentReviewStatus": "content-reviewed",
+          "templateCompliance": "template-compliant",
+          "notRun": ["historical tests", "runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        "governed-legacy ops evidence historical artifact presentation; original facts remain date-scoped"
+      ],
+      "stopLine": "本次仅授历史文档内容审阅与原生模板迁移；不认证原测试/反控/fixture/候选执行，不恢复B5/B10或其它后继撤回信用，不授runtime/E2E/视觉/coverage。来源稿停止线（S26时点）：不把历史运行结果当合法输入；不重跑原测试/原针；不授当前 runtime/E2E/视觉/coverage 或迁移完成信用；撤回针的历史边界不因本稿恢复。",
+      "userVisibleBeforeAfter": "原生JSON字节保持；旧机械撤信条目改为既有唯一review内的具体字段/结果全集/相位/来源/限制；新增文档信用不恢复历史执行信用。",
+      "reviewedLines": "本篇原生字节逐字段+逐断言程序核读（1 文件/8 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactFormat": "json-native",
+      "documentStatus": "historical",
+      "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+      "candidateSha256": "12eedc8417ae19a0397b8ebb6e9e5b3b80006ff869df4a5d510cd104d64c83cf",
+      "primarySource": [
+        {
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N06-hostile-zero-ms.json",
+          "gitObject": "39a7c0cee56da4008c2ab88d54bde2cc7c921f60",
+          "sha256": "12eedc8417ae19a0397b8ebb6e9e5b3b80006ff869df4a5d510cd104d64c83cf"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "module": "evidence-artifact",
+        "currentBoundary": "current catalog/contract and fresh receipt own truth"
+      },
+      "dependencies": "Current task card, evidence README, source consumer and fresh receipt.",
+      "versionScope": {
+        "sourceRevision": "b44b2af2955498b996bfedd81a6e6a583231d9c6",
+        "date": "2026-10-17",
+        "validity": "historical",
+        "runPhase": "counterexample-red",
+        "documentReviewDate": "2026-10-23",
+        "historicalExecutionReexecuted": false
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "R87-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        },
+        {
+          "id": "R87-DELETE-GUARD",
+          "status": "open-for-cleanup-audit",
+          "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
+        }
+      ],
+      "templateVariant": "historical-vitest-native-v1",
+      "readDomain": {
+        "actual": "本篇原生字节逐字段+逐断言程序核读（1 文件/8 断言身份/状态/失败消息/snapshot）；卡族上下文（README producer 链/裁决/撤回行）实读一次后逐篇引用并核对本篇相位与差异；同目录相位对象实测比较；未读底层产品/测试代码、未复跑执行",
+        "reusedFrom": [
+          "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md（卡族共享上下文：producer 链/裁决/撤回行，实读一次）"
+        ],
+        "s29Supplement": [],
+        "ownerAcceptance": "Evidence/risk review of accepted seed and family-specific delta; not repeat full manual reading."
+      },
+      "nativeWitnesses": [
+        {
+          "pointer": "#/testResults/0/assertionResults/0/fullName",
+          "quote": "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 空角色 ID 拒绝",
+          "meaning": "首断言身份锚（套件：current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此））——锚定实际断言集"
+        },
+        {
+          "pointer": "#/numTotalTests",
+          "quote": "8",
+          "meaning": "总断言计数 8 与逐断言枚举 8 交叉"
+        },
+        {
+          "pointer": "#/testResults/0/assertionResults/6/failureMessages/0",
+          "quote": "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (",
+          "meaning": "失败诊断原文（current-codec · hostileAwareness 正数性（结构层只验有限数，0 由此…；失败集共 1 项完整列于 oracle）"
+        }
+      ],
+      "contextReferences": [
+        {
+          "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/README.md",
+          "sha256": "94c6a967da71a197523b6a7a412b1c271d0f135f9170b73ae132bd20043b5978",
+          "role": "卡族上下文锚（TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1）：支撑本篇相位/producer/边界判断的 README 实文行",
+          "quote": "- 沿革：贡献者 GLM 新对话 B、基点 d84b3db23（产品冻结 ce808b42e）、分支 codex/glm-reforge-save-test-precision-r1；r2 按一审 counter（B-R1-01 四条独立接线合同归还+容器缺席拆身份、B-R1-02 共享文档恢复派发值）；r3 按二审 counter（B-R2-01 归还 maxMP/extraStatuses 空洞/poisons 空洞三原合同并对齐反控入口）。",
+          "lines": [12, 12]
+        }
+      ],
+      "fieldRoles": {
+        "identity": [
+          "snapshot：运行快照身份",
+          "startTime：启动时间",
+          "success：聚合布尔（≠exit0/零诊断）"
+        ],
+        "inputs": [
+          "testResults[].name：1 个受测文件（该次运行输入域）",
+          "assertionResults[].fullName/ancestorTitles：断言/套件身份"
+        ],
+        "results": [
+          "num* 八计数（分轴：p7/f1/pend0/todo0）",
+          "assertionResults[].status：逐断言结果"
+        ],
+        "diagnostics": ["failureMessages：1 条失败诊断（完整集合指针见 oracle）"],
+        "governance": [
+          "current-review: docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json, index=95; no payload/sidecar or native byte changes.",
+          "卡族裁决/撤回边界：codex-review-r3/r2/r1.md（同目录三审/二审/一审全文）"
+        ]
+      },
+      "currentQualification": {
+        "date": "2026-10-23",
+        "reviewer": "Codex (independent GLM document evidence); GLM (independent Codex corrections)",
+        "nonAuthorReviewer": true,
+        "decision": "accept",
+        "grantsNewSemanticAcceptance": true,
+        "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N06-hostile-zero-ms.json",
+        "evidenceSha256": "273d13a2f7c3fe2e843f6198acd1b2ca80643e2ead5a0350c1c651ef93a382bc",
+        "sourceCandidate": "1377650ed91a39009bc1b1c6384ed97ff180ef8f",
+        "correctionVerdictSha256": "58d4c64442b1c8b4a07da24bd7bc4a9d6bb4fb39a4895a013c07db3ec16a21ed",
+        "scope": "New historical-document review only; not oldR-wave credit restoration, not publication self-acceptance or runtime credit."
+      }
+    },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs/N07-script-deep-wiring.json",
       "contentReviewStatus": "content-reviewed",

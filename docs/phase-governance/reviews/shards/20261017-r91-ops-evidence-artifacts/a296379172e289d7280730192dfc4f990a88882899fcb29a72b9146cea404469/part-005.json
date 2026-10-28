@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
-  "generation": "400697ebd32bc72a643de3a2e64243dbaaece0631ed4b7c082a43de560c712fe",
+  "generation": "a296379172e289d7280730192dfc4f990a88882899fcb29a72b9146cea404469",
   "key": "part-005",
   "positions": [
     71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93
@@ -3112,10 +3112,15 @@
       "templateCompliance": "needs-migration",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "两篇静态迁移保全回执(kind=static-document-migration-preservation):2条entries带sourcePath/sourceSHA/sourceGitObject/preservationMethod/archiveSHA与archiveSha256BeforeQuoteWhitespaceFix(引语空白修复前后双SHA)、roundtripPreserved;无runtime声明。",
+      "coreConclusion": "两篇静态迁移历史保全回执（kind=static-document-migration-preservation，date=2026-10-15）：entries恰2条，分别是docs/testing/e2e/contract.md与docs/ops/audits/pre-e2e/quality-gate-remediation.md；每条只有七键 path/sourceRevision/sourceGitObject/sourceSha256/afterSha256/preservationMethod/notRun。前者声明保留语义块并降标题，后者声明quote逆回字节保全；两条notRun均列runtime/E2E/visual/coverage。本件没有archiveSHA、archiveSha256BeforeQuoteWhitespaceFix或roundtripPreserved，不能借用protocol-preservation的字段或授新执行信用。",
       "truthAnchors": [
         "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json: semantic identity field \"schemaVersion\" actual value (family role anchor)",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json: entries inventory: first entry identity anchors membership (2 total)"
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json: entries inventory: first entry identity anchors membership (2 total)",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json#/kind",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json#/entries/0/path",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json#/entries/1/path",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json#/entries/0/notRun",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilot-body-preservation-20261015-04.json#/entries/1/notRun"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
@@ -3154,9 +3159,8 @@
         "type": "historical-native-document",
         "currentExecution": false,
         "assertions": [
-          "roundtripPreserved为保真判定原生轴",
-          "archiveSha256BeforeQuoteWhitespaceFix为修正前后双锚",
-          "entries SHA对为身份保全轴"
+          "两条entry各恰七个原生键；不可把另一件protocol-preservation的字段移入本件。",
+          "preservationMethod为原件声明，本轮不重跑其中的历史迁移或动态检查。"
         ]
       },
       "dedupe": {
@@ -3198,6 +3202,26 @@
             "claim": "entries inventory: first entry identity anchors membership (2 total)",
             "pointer": "/entries/0/path",
             "value": "docs/testing/e2e/contract.md"
+          },
+          {
+            "claim": "Owner correction: exact native value for /kind",
+            "pointer": "/kind",
+            "value": "static-document-migration-preservation"
+          },
+          {
+            "claim": "Owner correction: exact native value for /entries/1/path",
+            "pointer": "/entries/1/path",
+            "value": "docs/ops/audits/pre-e2e/quality-gate-remediation.md"
+          },
+          {
+            "claim": "Owner correction: exact native value for /entries/0/notRun",
+            "pointer": "/entries/0/notRun",
+            "value": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "claim": "Owner correction: exact native value for /entries/1/notRun",
+            "pointer": "/entries/1/notRun",
+            "value": ["runtime", "E2E", "visual", "coverage"]
           }
         ],
         "runtimeExecutionPerformed": false,
@@ -3231,6 +3255,17 @@
           "priorReviewRecord": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
           "priorReviewIndex": 86,
           "priorEntrySha256": "c1e0a14823097e48207d377364b44515f659242a24c975d391f60d6b2811bf4b",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "9c751652b3a3269e5c90e6d2490ed48d8e6073ec",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
+          "priorReviewIndex": 86,
+          "priorEntrySha256": "95242a6bb4157b9518b1ff92793ceb99ccdb97fc270031f4267c03cbedc7de0c",
+          "actor": "Codex",
+          "reason": "C01f: no-op string replacement left the entire cross-artifact claim unchanged",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
         }
@@ -3285,14 +3320,27 @@
       },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
-        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "actual": "Codex targeted semantic correction: parsed the fixed native JSON and read the listed fields, counts, identities and historical limitations. Prior unaffected source explanations are reused; no historical command, runtime or old suite was reexecuted.",
         "reusedFrom": [
           "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-06.json\",\"index\":44,\"canonicalSha256\":\"67c2517528d47b7538e13a2d80f8f343cdf66388e813e3c5edae0613732dcf83\"}"
         ],
         "priorReadDomainSha256": "20d0165f083dfed5da4ccfb67b01167947b40a0d2ad4fe952130d6a3f250e92f",
         "notRead": [
           "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
-        ]
+        ],
+        "ownerCorrection": {
+          "actor": "Codex",
+          "date": "2026-10-28",
+          "fixedCarrierSha256": "8010a7b11542fe215e56858f7d8e7878a0d0d3d30a53ae7f99da9c3f2450d6b4",
+          "readPointers": [
+            "/kind",
+            "/entries/0/path",
+            "/entries/1/path",
+            "/entries/0/notRun",
+            "/entries/1/notRun"
+          ],
+          "reason": "C01f: no-op string replacement left the entire cross-artifact claim unchanged"
+        }
       },
       "fieldRoles": {
         "nativePointers": ["/schemaVersion", "/entries/0/path"],

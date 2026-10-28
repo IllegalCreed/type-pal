@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
-  "generation": "21cae56f30272c68e9d5329d58f538c0d5cbd0e4f41d849d6d32088c53936b50",
+  "generation": "1ff60324fcd957b04aedd746283044d6dd7b95dac4f8279ceb65e3063b1096e8",
   "key": "part-001",
   "positions": [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
@@ -814,9 +814,11 @@
       "templateCompliance": "needs-migration",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "编辑器CI门(base 2560898d,collected 2026-10-11T03:29Z):status=passed;replay=contracts 6/needles 6、current指codex-ci-alchemy-originals/acceptance.json(SHA 30c2a1c7…)、scriptAndLoaderPriorReceiptsUnchanged;scope七布尔(产品改动/新测试夹具生命周期/业务断言/超时/质量配置/基线/新E2E接受newTestFixtureLifecycleChanges=1外全无);gates fast/typecheck/lint/documentation按记录;hostedCi=须验证精确下一push HEAD,先前native失败保留历史,Coverage+Documentation双绿前不retire。",
+      "coreConclusion": "编辑器CI历史门（base 2560898d，collectedAt=2026-10-11T03:29:37.112744+00:00）：原件status=passed，contracts 6/needles 6重放，current指向codex-ci-alchemy-originals/acceptance.json；scope七个字段中 newTestFixtureLifecycleChanges=1，其余六项为0或false，并非七个布尔全无。四门结果保留原记录；hostedCi要求验证精确下一push HEAD，不能借本件认证当前CI或退役旧失败。",
       "truthAnchors": [
-        "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-editor-gates.json: semantic identity field \"status\" actual value (family role anchor)"
+        "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-editor-gates.json: semantic identity field \"status\" actual value (family role anchor)",
+        "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-editor-gates.json#/scope",
+        "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-editor-gates.json#/collectedAt"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
@@ -855,9 +857,8 @@
         "type": "historical-native-document",
         "currentExecution": false,
         "assertions": [
-          "status==passed与replay.contracts/needles计数为结果原生轴",
-          "scope七布尔为变更边界轴",
-          "hostedCi为CI验收边界轴"
+          "scope是混合数值/布尔对象；唯一非零项=newTestFixtureLifecycleChanges=1，其余六项0/false。",
+          "passed是原时点门结果，不替代精确新push的hostedCi。"
         ]
       },
       "dedupe": {
@@ -898,6 +899,24 @@
             "claim": "semantic identity field \"status\" actual value (family role anchor)",
             "pointer": "/status",
             "value": "passed"
+          },
+          {
+            "claim": "Owner correction: exact native value for /scope",
+            "pointer": "/scope",
+            "value": {
+              "productChanges": 0,
+              "newTestFixtureLifecycleChanges": 1,
+              "businessAssertionsChanged": 0,
+              "timeoutConfigurationChanges": 0,
+              "qualityConfigurationChanges": 0,
+              "baselineChanges": 0,
+              "newE2EAcceptance": false
+            }
+          },
+          {
+            "claim": "Owner correction: exact native value for /collectedAt",
+            "pointer": "/collectedAt",
+            "value": "2026-10-11T03:29:37.112744+00:00"
           }
         ],
         "runtimeExecutionPerformed": false,
@@ -931,6 +950,17 @@
           "priorReviewRecord": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
           "priorReviewIndex": 4,
           "priorEntrySha256": "4af1b78a539b5d24eb61d495ebe35ce1113921713a61d4f4dec000cc02fc23b3",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "9c751652b3a3269e5c90e6d2490ed48d8e6073ec",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+          "priorReviewIndex": 4,
+          "priorEntrySha256": "f7a9c57f94df74ef3f48e11b2dbfe30cd42b385849bd106d948875a7bc918e25",
+          "actor": "Codex",
+          "reason": "C01c: mixed numeric/boolean scope was still called seven booleans",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
         }
@@ -985,14 +1015,21 @@
       },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
-        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "actual": "Codex targeted semantic correction: parsed the fixed native JSON and read the listed fields, counts, identities and historical limitations. Prior unaffected source explanations are reused; no historical command, runtime or old suite was reexecuted.",
         "reusedFrom": [
           "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-04.json\",\"index\":36,\"canonicalSha256\":\"e1bbfe5589141b9a6c03c2d910b6f4cc8ae0b63b851621e93fd59e0ea615d39b\"}"
         ],
         "priorReadDomainSha256": "54c119ddd7870acfdf3d807b23d4a6c8334d20dea45037e8e02412d8e036b988",
         "notRead": [
           "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
-        ]
+        ],
+        "ownerCorrection": {
+          "actor": "Codex",
+          "date": "2026-10-28",
+          "fixedCarrierSha256": "4ce260c9b8da20ee206318ff782ddd5637dbad2278146d77318035282096654b",
+          "readPointers": ["/scope", "/collectedAt"],
+          "reason": "C01c: mixed numeric/boolean scope was still called seven booleans"
+        }
       },
       "fieldRoles": {
         "nativePointers": ["/status"],
@@ -1009,9 +1046,11 @@
       "templateCompliance": "needs-migration",
       "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
       "reviewDepth": "partial-semantic",
-      "coreConclusion": "跟进门(base 79705185,collected 2026-10-11T02:44Z):status=passed;directed=nativeTests 9/failures 0(native=build/ci/glm-boundaries-20261011/meal-final-dimensions.json+raw双件);scope七布尔(产品/旧测试适配器/新合同/旧断言/超时/质量配置/新E2EoldTestAdapterChanges=1外全无变更);gates四门;hostedCi=验证精确新push HEAD、先前两失败保留、Coverage与Documentation通过前不retire。",
+      "coreConclusion": "跟进CI历史门（base 79705185，collectedAt=2026-10-11T02:44:43.245752+00:00）：原件status=passed，directed nativeTests=9/failures=0，以meal-final-dimensions.json及raw配对；scope七个字段中 oldTestAdapterChanges=1，其余六项为0或false，并非零变更。四门结果保留原记录；hostedCi要求精确新push HEAD的Coverage与Documentation通过，不能把旧失败抹除或授当前CI信用。",
       "truthAnchors": [
-        "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-followup-gates.json: semantic identity field \"status\" actual value (family role anchor)"
+        "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-followup-gates.json: semantic identity field \"status\" actual value (family role anchor)",
+        "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-followup-gates.json#/scope",
+        "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-ci-followup-gates.json#/collectedAt"
       ],
       "unresolved": [
         "Historical material requires current catalog/contract and fresh receipt before reuse.",
@@ -1050,9 +1089,8 @@
         "type": "historical-native-document",
         "currentExecution": false,
         "assertions": [
-          "directed.nativeTests==9/failures==0为定向结果原生轴",
-          "scope七布尔为变更边界轴",
-          "native/raw双SHA为证据保全轴"
+          "scope是混合数值/布尔对象；唯一非零项=oldTestAdapterChanges=1，其余六项0/false。",
+          "passed是原时点门结果，不替代精确新push的hostedCi。"
         ]
       },
       "dedupe": {
@@ -1093,6 +1131,24 @@
             "claim": "semantic identity field \"status\" actual value (family role anchor)",
             "pointer": "/status",
             "value": "passed"
+          },
+          {
+            "claim": "Owner correction: exact native value for /scope",
+            "pointer": "/scope",
+            "value": {
+              "productChanges": 0,
+              "oldTestAdapterChanges": 1,
+              "newContracts": 0,
+              "oldTestAssertionsChanged": 0,
+              "timeoutChanges": 0,
+              "qualityConfigurationChanges": 0,
+              "newE2EAcceptance": false
+            }
+          },
+          {
+            "claim": "Owner correction: exact native value for /collectedAt",
+            "pointer": "/collectedAt",
+            "value": "2026-10-11T02:44:43.245752+00:00"
           }
         ],
         "runtimeExecutionPerformed": false,
@@ -1126,6 +1182,17 @@
           "priorReviewRecord": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
           "priorReviewIndex": 5,
           "priorEntrySha256": "1b8a399455d1a6e48ed67b3c693122dc37140943511a60dc3b2a32cb07d51d0f",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "9c751652b3a3269e5c90e6d2490ed48d8e6073ec",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+          "priorReviewIndex": 5,
+          "priorEntrySha256": "65df58f4f51460e9a550da4dd1d688be60700668768d92c35f35384a59935fe7",
+          "actor": "Codex",
+          "reason": "C01c: mixed numeric/boolean scope was still called seven booleans",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
         }
@@ -1180,14 +1247,21 @@
       },
       "templateVariant": "historical-archive-record-artifact-native-v1",
       "readDomain": {
-        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "actual": "Codex targeted semantic correction: parsed the fixed native JSON and read the listed fields, counts, identities and historical limitations. Prior unaffected source explanations are reused; no historical command, runtime or old suite was reexecuted.",
         "reusedFrom": [
           "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-04.json\",\"index\":37,\"canonicalSha256\":\"df41c32a44cf0b4564208fe8c4e088ffe927c2265bc8a670f92bcc0ae1dde033\"}"
         ],
         "priorReadDomainSha256": "1745e7713903fc6ed4888a8e488a5a80d3020977c8d7031e4a4d85874e4592aa",
         "notRead": [
           "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
-        ]
+        ],
+        "ownerCorrection": {
+          "actor": "Codex",
+          "date": "2026-10-28",
+          "fixedCarrierSha256": "2655052552b1d8d8bbf1b8bbcce61ecddb7b84232da5a30a2dd75ac3eaa4d442",
+          "readPointers": ["/scope", "/collectedAt"],
+          "reason": "C01c: mixed numeric/boolean scope was still called seven booleans"
+        }
       },
       "fieldRoles": {
         "nativePointers": ["/status"],
