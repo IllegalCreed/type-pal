@@ -3414,7 +3414,7 @@
         }
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "cc110bf6ccd5dd6c477495c7fcd95c7b078233edea9f75dfe0a78dc031d5d9b7",
+      "afterSha256": "5ad9970705f49c7c35b2030d8cf31f716b91fdd2e46bc43f07f52a9082c09d67",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3804,6 +3804,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
             "index": 9,
             "entryCanonicalSha256": "c551e4fad262e7d6c5e4d13b359ca3b27447a5d2503c41f779831b7ee9ebda26"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S63/foundation",
+          "revision": "740bae53f3f772a1dee61236e530a5ec50e126fc",
+          "beforeSha256": "cc110bf6ccd5dd6c477495c7fcd95c7b078233edea9f75dfe0a78dc031d5d9b7",
+          "afterSha256": "5ad9970705f49c7c35b2030d8cf31f716b91fdd2e46bc43f07f52a9082c09d67",
+          "scope": "S63 frozen common contracts, writer and author pilot foundations only; no source/status grants",
+          "priorRecord": {
+            "revision": "740bae53f3f772a1dee61236e530a5ec50e126fc",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+            "index": 9,
+            "entryCanonicalSha256": "e49647222406554e8713cf7409ccd3e773c8e2e6e6cc2d51b72a7f756fbdb1f3"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

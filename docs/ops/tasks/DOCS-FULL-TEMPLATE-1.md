@@ -2647,3 +2647,18 @@ Owner6代码差异（两精确准入/接受数据、资格选择与定位字段�
 合同先冻结：沿现有template体系，以精确path/carrier字节/Git对象/唯一现有review位置限定历史原生artifact；字段角色和指针见证可复算，原结论、来源unknown/撤信/停止线保留。模型结构通过不授语义；作者候选保持partial/needs，显式Owner接受后才可晋升。GLM可在隔离候选域整包更新473已有review正文及相应route/registry投影，经公共API写入；真实中央发布、grant和135+9由Owner持有。
 
 writer须先验证全量白名单与before，再生成完整组/行政pin依赖闭包，使用活锁、staging、公开loader读回、失败保留和原生字节保护；不新增sidecar/平行账本，不导入带顶层写副作用的生成器。临时完整树验证model/progress/非strict/索引/Testing/lint及定点反例；公共层就绪前不发GLM设计或只读小包。就绪后一个执行提示词覆盖473最终候选，内部批次自主，真实单篇阻塞列明继续其他，不逐批问用户。1231/617以实际门记录，不预扣；不合main、不推送、不标done。
+
+
+### S63 实际就绪与S64整包准入（2026-10-28）
+
+三原生变体各1.0.0、473精确源已冻结；17父类型/旧合同/source pins保持。467新候选正文、6个DOC-IA-2/S25专用pilot原样复用原guard及未知来源；carrier Git不认证旧执行。支持equals（默认）、array-length、object-keys、object-key-count、string-contains小见证，value至多4096 UTF-8B，完整raw保留。正式接受表仍空，writer禁改状态/签名/source/撤信；公开guard只允许partial/needs或未来精确非作者接受+Owner决定。
+
+完整临时树实际66写/35退出，114逻辑/155 review物理+4控制投影、41片/12源pin/2435 after精确；467正文变化、6复用、27行政行、1935其余行不变。model2301/0、非strict0、progress617待迁/0完整性、链接1304MD/10629/366、Testing0、lint4633零诊断、索引byte-equal、diff0；只读重验473/0写。真实rename故障在3控制写后触发，64备份/锁/staging保留且reader拒半发布。公共层和候选可用性已实跑，真实473未接入，0新增迁移/runtime信用。
+
+完整工具串行42文件296/296、0fail/0skip，无删除/降门。默认pnpm并发一轮295/294/1中旧Git stdin卡八分钟，仅本次夹具子进程86970被终止；首红/PID、同源完整串行295及最终扩展296原件均保留。存储锁调度、旧pilot reader、工作计划与回执重名、可选字段投影、text provider、20空caller等首红均留痕并修根因，不手改旧输出。新测试读7ff固定partial输入，未来合法接入无需再申请夹具适配；旧测试仅用户授权F1 import与新变体核对。整体1231/617未过，不合main/推送/done。
+
+212历史JSON当前已在S56/S57接入（全部content-reviewed/template-compliant），S38等旧零迁移陈述保持原时点，本轮不重复计数或恢复旧执行。
+
+S64 build allowed一次覆盖473最终隔离提交候选。GLM在同一委托先非作者定向复核S63公共层，accept后直接继续473作者实施，不中途回交只读/设计/content-ready。具体正确稿复用，逐篇核core/数值/失败与pending集合/类型/字段角色/真实读域并补可解析见证；六pilot复用不重复授信。内部自主分批、自验提交后连续做；真实单篇事实或活控制权冲突精准blocked并继续其余，不因旧needs-design标签停止整包。
+
+授权GLM仅在专属worktree经公共API生成现有review、routing/registry机械投影及after闭包；135控制件权威语义、9MD、代码/接受表/模板/原生/产品/旧测试/coverage只读，真实中央/grant仍Codex持有。终件包含实际base/candidate、473完成/blocked集合、S63非作者报告与S64作者交付分列、真实完整回执及只读快检。partial/needs与1231只在Owner真实接受后扣；七退役提案保留不删。公共层技术就绪，新ADMISSION派发，S62未派出原件不覆盖。

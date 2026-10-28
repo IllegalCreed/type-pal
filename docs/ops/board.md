@@ -29,8 +29,8 @@ Template: governance-index-v1 / 1.0.0
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | DOCS-RECORD-INTEGRITY-1 | [R 波记录可信度撤回与补救](tasks/DOCS-RECORD-INTEGRITY-1.md) | rework | Codex / 扩大R23–R36撤信与验收锚点补救，待非作者验收 | 机械保真不授语义信用；原回执保全 |
-| DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex / S63公共合同与候选writer | S61已接受；Owner先完成公共合同/writer/完整临时树pilot，GLM一次473提交候选；Owner135JSON+9MD，strict1231/617保持 |
-| DOCS-NATIVE-JSON-1 | [原生JSON历史证据逐篇治理](tasks/DOCS-NATIVE-JSON-1.md) | rework | Codex / S38发布/补线/封存已非作者接受 | 269已接入；212仍零迁移信用，逐篇晋升/路由后续单独裁定 |
+| DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex总Owner；GLM / S64整包473最终候选 | S63公共层/473整树pilot就绪，42文件296工具全过；S64同包先审公共层再实施473，Owner135JSON+9MD；strict1231/617保持 |
+| DOCS-NATIVE-JSON-1 | [原生JSON历史证据逐篇治理](tasks/DOCS-NATIVE-JSON-1.md) | rework | Codex / S56-S57已接入212，旧执行不重授 | 269与212当前接入按实账保留；本轮不重复计，剩余治理继续rework |
 | DOCS-NATIVE-VITEST-269-1 | [269篇原生Vitest语义接入](tasks/DOCS-NATIVE-VITEST-269-1.md) | review | Codex / 269发布与夹具已独立接受 | 新增269文档迁移，严格实减538项；不授旧执行信用 |
 | DOCS-REGISTRY-SPLIT-1 | [文档 registry 存储拆分](tasks/DOCS-REGISTRY-SPLIT-1.md) | build | registry_storage_author / 隔离实现；root独立验收 | 2.0.2设计非作者限定接受；新增登记缺口显式保留 |
 | DOCS-CATALOG-SPLIT-1 | [phase/lore catalog 分片](tasks/DOCS-CATALOG-SPLIT-1.md) | rework | Codex / 非作者复核待补 | 实现保留；自验冒称独立与过早done撤回 |

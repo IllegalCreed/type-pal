@@ -593,3 +593,5 @@ S61中央接线补充：evidence.path是公共review检查必填的行政来源�
 状态：作者候选保持原partial-review-unknown/needs-migration，已有三件已接受内容原样复用；新独立接受、正式grant和实际迁移另轴。不删除原claimCorrection、历史、provenance或source未知，不重认证旧命令与数字。版本/owner/来源/证据/停止线和后继均在唯一review中，原生字段与日期不改。473路径来源与family/shape/见证由精确代码准入冻结，原135控制JSON和9MD不进入贡献者变更域。
 
 writer先验完整before/白名单/不可变字段，允许473内部不重叠批次；同一组锁内staging保护原件及全部引用，route/registry投影与after依赖闭包一起写、公开loader读回后退旧世代并解锁，失败保留锁/backup/staging。公共model、progress、中央非strict和完整临时树pilot为整包派发前提；schema绿不授全文或runtime/E2E/视觉/coverage信用。
+
+S63冻结补充：native witness的op默认为equals，另支持array-length/object-keys/object-key-count/string-contains；后者仅证明解码字段的具体子串。原required pointer/value见证须equals保留；不支持任意代码或hash-only oracle，value至多4096 UTF-8B，不复制完整raw。六既有pilot保持原guard和两项unverified。完整临时树/故障反例/42文件296工具已实跑，正式接受表为空，0新增迁移。
