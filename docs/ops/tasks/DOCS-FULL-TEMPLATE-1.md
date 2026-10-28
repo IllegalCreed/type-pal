@@ -2620,3 +2620,11 @@ S58的142源/5件清单与S57非作者回执已固定核验；111逻辑review的
 - 原15含3已content-reviewed但全needs，预计只减15迁移+12审阅=27严格项，不按30预扣；扣减以真实终态门为准。127可变控制JSON合同继续draft；Owner增量候选留后续集中复验，必要硬门全零前不合main、不推送、不标父子卡done，不改产品/旧测试/coverage或门规则。
 
 - S61完整门首轮288工具全绿但另拦27条中央review形状问题（15缺evidence.path、12深度词不在既有枚举），实际diagnostics仍1258，未写成严格1231或全门通过。中间8923f36f保持隔离候选，后续追加修复不改首红原件。补齐evidence.path为唯一固定HTML自身、深度用既有partial-semantic；明确其是据证静态审阅，不借该词声称全文重跑。路径是行政定位字段，由guard额外强制等于源path；不进入源语义digest，原3pilot接受digest不变，改路径仍被拒。源/正文/旧source pin不改，修复后重跑全链再记实际扣减。
+
+### S61 实际扣减与封存边界
+
+15HTML已在真实现有review/route/registry接入；其中原3已reviewed只新增模板迁移，另外12新增当前源文档接受，合计只扣15迁移+12审阅。三原pilot的接受语义digest不变，行政evidence.path严格绑定同一固定源；其余12机械元数据按现行词表补齐。原claimCorrection逐值入史，原生HTML/脚本/717JSON、12旧source pin及2435 after pin保全；不把原文中的PASS/真实函数/旧测试数重新认证成当前执行。物理事务creditGranted=0只描述组写入API，本轮15文档迁移由显式接受和Owner决定授予，修复阶段不重复扣减。
+
+修复候选adbe0f886：完整check:docs实跑289工具/0fail，model1834/0issue、链接/索引/Testing/phase-lore均过，中央非strict审阅0issue；lint4622文件0E/W/I。整体check:docs exit1仅strict1231=614审阅+617迁移、交集614、617 distinct（608JSON+9MD），较S59实减27/15；基线1478/1838+3退役+340增量，0完整性。首次288/0加27元数据错误的1258原件保留，未追改成1231。
+
+Owner6代码差异（两精确准入/接受数据、资格选择与定位字段约束、两caller集合、新5项当前回归）及15发布/行政封存留下一次集中非作者复验；原S59/142全文不重做。127可变控制JSON仍draft，006既有技术/视觉接受不重开。全卡未完成，不合main、不推送、不标done；不新增canonical账本/sidecar，原单份gzip只追加必要原件与来源绑定。

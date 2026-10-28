@@ -433,7 +433,7 @@
         "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "5743155b9ab23d47d32c5cc3d8ca2bf83d8545f2b3a185a10d2fa9b2e75d7882",
+      "afterSha256": "c5e4ac17b5e26cc913e78e9d8649d4daafbf6e18bcef48bd9a422ca0d51324f1",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -1710,6 +1710,23 @@
           "beforeSha256": "ca4a4c04271ac99f6906c4cee7a88e50541ad822cd3a601429e68da51cb30fae",
           "afterSha256": "5743155b9ab23d47d32c5cc3d8ca2bf83d8545f2b3a185a10d2fa9b2e75d7882",
           "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/terminal-record",
+          "revision": "adbe0f886e8d04669ecd4aeaca4cbdee0fdac9a5",
+          "beforeSha256": "5743155b9ab23d47d32c5cc3d8ca2bf83d8545f2b3a185a10d2fa9b2e75d7882",
+          "afterSha256": "c5e4ac17b5e26cc913e78e9d8649d4daafbf6e18bcef48bd9a422ca0d51324f1",
+          "scope": "Actual S61 fifteen HTML migration result and bounded handoff scope only; no additional content/state grants",
+          "priorRecord": {
+            "revision": "adbe0f886e8d04669ecd4aeaca4cbdee0fdac9a5",
+            "logicalPath": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+            "index": 1,
+            "entryCanonicalSha256": "83e369e0b0dc907464555c82145875bc24951cc6a0d33c6dea900cce212a30b4"
+          },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false

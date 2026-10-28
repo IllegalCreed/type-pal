@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "0f17453010fb4d589df48fbf0a142ee4a9285171cd5ffe85103f28608ad7eb6c",
+  "generation": "93231973c780978981bf629e48495f75000703da474551422d6f8e36ca2c72ab",
   "key": "part-002",
   "positions": [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36],
   "entries": [
@@ -5264,7 +5264,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "b1e01cf2407ac8c9a90fe8a729beda7009262b8a7b2f4609a584ef15ea34fb01",
+      "afterSha256": "9ca5b18b6a2554f7ae14ed914c2f9274eeee50764331d1c4c049d0813b96e35e",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6350,6 +6350,23 @@
           "beforeSha256": "1b98c006dd9b3e68846ac721f9432344d3b01b1277f368a8a589734f8ef0457f",
           "afterSha256": "b1e01cf2407ac8c9a90fe8a729beda7009262b8a7b2f4609a584ef15ea34fb01",
           "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61/terminal-record",
+          "revision": "adbe0f886e8d04669ecd4aeaca4cbdee0fdac9a5",
+          "beforeSha256": "b1e01cf2407ac8c9a90fe8a729beda7009262b8a7b2f4609a584ef15ea34fb01",
+          "afterSha256": "9ca5b18b6a2554f7ae14ed914c2f9274eeee50764331d1c4c049d0813b96e35e",
+          "scope": "Actual S61 fifteen HTML migration result and bounded handoff scope only; no additional content/state grants",
+          "priorRecord": {
+            "revision": "adbe0f886e8d04669ecd4aeaca4cbdee0fdac9a5",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 33,
+            "entryCanonicalSha256": "20f85b9c142f5e8f188de5347734842561b83093a73181ad937fcf4bae3b95ca"
+          },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
