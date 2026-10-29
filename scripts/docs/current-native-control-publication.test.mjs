@@ -91,7 +91,7 @@ test('the real publication validator rejects body edits, forged report basis, du
       c[0].index++
     },
     (c) => {
-      c.push(structuredClone(c[0]))
+      c[1] = structuredClone(c[0])
     },
   ]) {
     const altered = structuredClone(valid)
