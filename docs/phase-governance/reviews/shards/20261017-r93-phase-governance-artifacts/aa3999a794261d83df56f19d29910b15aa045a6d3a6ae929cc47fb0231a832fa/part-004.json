@@ -1,0 +1,747 @@
+{
+  "schemaVersion": 1,
+  "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+  "generation": "aa3999a794261d83df56f19d29910b15aa045a6d3a6ae929cc47fb0231a832fa",
+  "key": "part-004",
+  "positions": [87, 88, 89, 90],
+  "entries": [
+    {
+      "path": "docs/phase-governance/catalog.lore.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "truthAnchors": [
+        "docs/phase-governance/catalog.lore.json:1",
+        "scripts/docs/phase-lore-catalog.mjs:1"
+      ],
+      "unresolved": [
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "phase": "phase-governance",
+      "module": "catalog-shards",
+      "capability": "docs/phase-governance/lore shard",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+      "afterSha256": "97b3bf1101ac2fa5ef1713b66cc2a46ab28e035e55cc6e14cfb68dc35ced60ee",
+      "publicCallers": [
+        "scripts/docs/check-phase-lore-governance.mjs",
+        "scripts/docs/build-phase-lore-governance.mjs",
+        "scripts/docs/phase-lore-catalog.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/catalog.lore.json"
+      ],
+      "businessOracle": {
+        "type": "catalog-shard-preservation",
+        "assertions": [
+          "native entry fields remain byte-equivalent to the pre-split entry objects",
+          "loader returns the exact phase membership and aggregate summary",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": ["docs/phase-governance/catalog.json", "scripts/docs/phase-lore-catalog.mjs"]
+      },
+      "revision": {
+        "currentSha": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+        "implementationSha": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+        "contentVersion": "N/A-document-migration",
+        "minimumSaveVersion": "N/A-document-migration",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "generated-phase-shard-and-loader-review",
+            "afterSha256": "bc82881faf643d9c164faf6ffbc276e807138a4ac8296cafa64f3202299730f5",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/phase-governance/catalog.lore.json",
+        "sourceSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+        "candidateSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+        "afterSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+        "lineCount": 1952,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "entry-preserving phase partition from pre-split catalog",
+          "exactRoundTrip": true,
+          "inverseSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060"
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "schemaVersion",
+            "id",
+            "generatedBy",
+            "sourceRevision",
+            "phase",
+            "summary",
+            "entries"
+          ],
+          "byteStable": true
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "generated-phase-shard-and-loader-review",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not edit a shard without recomputing its manifest SHA; do not treat catalog structure as runtime/E2E/visual/coverage evidence.",
+      "userVisibleBeforeAfter": "pre-split lore entries → lore shard with native entry objects preserved",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewNotes": "Full JSON object read and loader/consumer preservation verified; this is structural catalog evidence only.",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "current",
+      "sourceGitRevision": "working-tree",
+      "candidateSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/catalog.lore.json",
+          "revision": "working-tree",
+          "sha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+          "scope": "full JSON UTF-8 bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "catalog-shards",
+        "currentBoundary": "manifest + loader own aggregate catalog truth"
+      },
+      "dependencies": "catalog manifest, loader, phase/lore consumer scripts",
+      "versionScope": {
+        "sourceRevision": "working-tree",
+        "date": "2026-10-17",
+        "validity": "current"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "CATALOG-SPLIT-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+        "afterSha256": "7c96f4d96992aeb084f8d67213b02aae5329d8f1853e95354f5e7305c33ffe45",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "7c96f4d96992aeb084f8d67213b02aae5329d8f1853e95354f5e7305c33ffe45",
+          "afterSha256": "df4b0e34c2ad28424e136552d29dd3ac03bfb0810edf229613c19c2495875ef5",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+          "beforeSha256": "df4b0e34c2ad28424e136552d29dd3ac03bfb0810edf229613c19c2495875ef5",
+          "afterSha256": "97b3bf1101ac2fa5ef1713b66cc2a46ab28e035e55cc6e14cfb68dc35ced60ee",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/catalog.phase1.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "truthAnchors": [
+        "docs/phase-governance/catalog.phase1.json:1",
+        "scripts/docs/phase-lore-catalog.mjs:1"
+      ],
+      "unresolved": [
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "phase": "phase-governance",
+      "module": "catalog-shards",
+      "capability": "docs/phase-governance/phase1 shard",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+      "afterSha256": "36799158c96381446065329f9ed3266af179da61ade8c441bc7715de7cd129c5",
+      "publicCallers": [
+        "scripts/docs/check-phase-lore-governance.mjs",
+        "scripts/docs/build-phase-lore-governance.mjs",
+        "scripts/docs/phase-lore-catalog.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/catalog.phase1.json"
+      ],
+      "businessOracle": {
+        "type": "catalog-shard-preservation",
+        "assertions": [
+          "native entry fields remain byte-equivalent to the pre-split entry objects",
+          "loader returns the exact phase membership and aggregate summary",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": ["docs/phase-governance/catalog.json", "scripts/docs/phase-lore-catalog.mjs"]
+      },
+      "revision": {
+        "currentSha": "7144194a364c004429e9eefaba2e548e593c498141983e5ec88333d5f64e40d3",
+        "implementationSha": "7144194a364c004429e9eefaba2e548e593c498141983e5ec88333d5f64e40d3",
+        "contentVersion": "N/A-document-migration",
+        "minimumSaveVersion": "N/A-document-migration",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "generated-phase-shard-and-loader-review",
+            "afterSha256": "38f065a27b2e3b98c78d3b9b23033abb1b9c5b76ae05fd6235f15da792387599",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/phase-governance/catalog.phase1.json",
+        "sourceSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+        "candidateSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+        "afterSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+        "lineCount": 9249,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "entry-preserving phase partition from pre-split catalog",
+          "exactRoundTrip": true,
+          "inverseSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579"
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "schemaVersion",
+            "id",
+            "generatedBy",
+            "sourceRevision",
+            "phase",
+            "summary",
+            "entries"
+          ],
+          "byteStable": true
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "generated-phase-shard-and-loader-review",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not edit a shard without recomputing its manifest SHA; do not treat catalog structure as runtime/E2E/visual/coverage evidence.",
+      "userVisibleBeforeAfter": "pre-split phase1 entries → phase1 shard with native entry objects preserved",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewNotes": "Full JSON object read and loader/consumer preservation verified; this is structural catalog evidence only.",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "current",
+      "sourceGitRevision": "working-tree",
+      "candidateSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/catalog.phase1.json",
+          "revision": "working-tree",
+          "sha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+          "scope": "full JSON UTF-8 bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "catalog-shards",
+        "currentBoundary": "manifest + loader own aggregate catalog truth"
+      },
+      "dependencies": "catalog manifest, loader, phase/lore consumer scripts",
+      "versionScope": {
+        "sourceRevision": "working-tree",
+        "date": "2026-10-17",
+        "validity": "current"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "CATALOG-SPLIT-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "7144194a364c004429e9eefaba2e548e593c498141983e5ec88333d5f64e40d3",
+        "afterSha256": "ddf4d9b1d57bc7c6722e935109a6fea6e42f70866eaae70a8e16288889d48ea1",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "S16 explicit98 phase catalog writeback, owner integration results and S17 admission controls",
+          "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "previousAfterSha256": "ddf4d9b1d57bc7c6722e935109a6fea6e42f70866eaae70a8e16288889d48ea1",
+          "afterSha256": "36799158c96381446065329f9ed3266af179da61ade8c441bc7715de7cd129c5",
+          "method": "Explicit Owner-reviewed S16 catalog/status/current-navigation delta or S17 build admission; no new semantic grant",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/catalog.phase2.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "truthAnchors": [
+        "docs/phase-governance/catalog.phase2.json:1",
+        "scripts/docs/phase-lore-catalog.mjs:1"
+      ],
+      "unresolved": [
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "phase": "phase-governance",
+      "module": "catalog-shards",
+      "capability": "docs/phase-governance/phase2 shard",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+      "afterSha256": "66cffbe0b407c12f4c634e7ecb2d6e04504e5d50abc9fb96ed245bcbc4f1208a",
+      "publicCallers": [
+        "scripts/docs/check-phase-lore-governance.mjs",
+        "scripts/docs/build-phase-lore-governance.mjs",
+        "scripts/docs/phase-lore-catalog.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/catalog.phase2.json"
+      ],
+      "businessOracle": {
+        "type": "catalog-shard-preservation",
+        "assertions": [
+          "native entry fields remain byte-equivalent to the pre-split entry objects",
+          "loader returns the exact phase membership and aggregate summary",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": ["docs/phase-governance/catalog.json", "scripts/docs/phase-lore-catalog.mjs"]
+      },
+      "revision": {
+        "currentSha": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+        "implementationSha": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+        "contentVersion": "N/A-document-migration",
+        "minimumSaveVersion": "N/A-document-migration",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "generated-phase-shard-and-loader-review",
+            "afterSha256": "0de61e4fe1ee4b66a96bc9d0f24deefbf3c00a19ba5c8c3ab45036539ae32daf",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/phase-governance/catalog.phase2.json",
+        "sourceSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+        "candidateSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+        "afterSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+        "lineCount": 13705,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "entry-preserving phase partition from pre-split catalog",
+          "exactRoundTrip": true,
+          "inverseSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55"
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "schemaVersion",
+            "id",
+            "generatedBy",
+            "sourceRevision",
+            "phase",
+            "summary",
+            "entries"
+          ],
+          "byteStable": true
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "generated-phase-shard-and-loader-review",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not edit a shard without recomputing its manifest SHA; do not treat catalog structure as runtime/E2E/visual/coverage evidence.",
+      "userVisibleBeforeAfter": "pre-split phase2 entries → phase2 shard with native entry objects preserved",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewNotes": "Full JSON object read and loader/consumer preservation verified; this is structural catalog evidence only.",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "current",
+      "sourceGitRevision": "working-tree",
+      "candidateSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/catalog.phase2.json",
+          "revision": "working-tree",
+          "sha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+          "scope": "full JSON UTF-8 bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "catalog-shards",
+        "currentBoundary": "manifest + loader own aggregate catalog truth"
+      },
+      "dependencies": "catalog manifest, loader, phase/lore consumer scripts",
+      "versionScope": {
+        "sourceRevision": "working-tree",
+        "date": "2026-10-17",
+        "validity": "current"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "CATALOG-SPLIT-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "71f860de2498fa1b41cc12f79e6a00b21d8c3e906af64a2dd4b431f15f5afbc1",
+        "afterSha256": "72f0001a7223b8683bb05fe72d52efe8cff9db2446e08fb4b3324fc4a015ed1b",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-20",
+          "task": "S16 explicit98 phase catalog writeback, owner integration results and S17 admission controls",
+          "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "previousAfterSha256": "72f0001a7223b8683bb05fe72d52efe8cff9db2446e08fb4b3324fc4a015ed1b",
+          "afterSha256": "c2d1031a30e75c70b7159d6211f17c76333b8569bb6c011645b1016b8f65f52c",
+          "method": "Explicit Owner-reviewed S16 catalog/status/current-navigation delta or S17 build admission; no new semantic grant",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S37-phase2-contracts",
+          "revision": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "scope": "S37 three current phase2 specification author candidates, non-author acceptance pending; original source/review-template credit states/provenance/history and all other rows preserved; three document validity fields explicitly current. Eight explicit after dependencies (three author/five administrative) only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "c2d1031a30e75c70b7159d6211f17c76333b8569bb6c011645b1016b8f65f52c",
+          "afterSha256": "99e70f8a4a64fa70e867fe8dd23b74b91dbaa308fa4aa8d80f3eeb13419f307f"
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S40",
+          "revision": "6f33d0f3bd9eb0f7986d84292328057e5f0deb3c",
+          "beforeSha256": "99e70f8a4a64fa70e867fe8dd23b74b91dbaa308fa4aa8d80f3eeb13419f307f",
+          "afterSha256": "fae6a59f9ab0937df73d27c321332bccc0582af2e57ec38096943447e9587c97",
+          "scope": "Two authored bodies/catalog afters and S39 acceptance acknowledgement; no status grant.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S44",
+          "revision": "1404e6057ced43036e8cef262d056af7477cc435",
+          "beforeSha256": "fae6a59f9ab0937df73d27c321332bccc0582af2e57ec38096943447e9587c97",
+          "afterSha256": "66cffbe0b407c12f4c634e7ecb2d6e04504e5d50abc9fb96ed245bcbc4f1208a",
+          "scope": "Owner concrete12 prefix/section corrections and bounded admission/design decisions; zero semantic/template migration/runtime credit; exact after metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/catalog.phase3.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+      "truthAnchors": [
+        "docs/phase-governance/catalog.phase3.json:1",
+        "scripts/docs/phase-lore-catalog.mjs:1"
+      ],
+      "unresolved": [
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "phase": "phase-governance",
+      "module": "catalog-shards",
+      "capability": "docs/phase-governance/phase3 shard",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
+      ],
+      "sourceSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+      "afterSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+      "publicCallers": [
+        "scripts/docs/check-phase-lore-governance.mjs",
+        "scripts/docs/build-phase-lore-governance.mjs",
+        "scripts/docs/phase-lore-catalog.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/catalog.phase3.json"
+      ],
+      "businessOracle": {
+        "type": "catalog-shard-preservation",
+        "assertions": [
+          "native entry fields remain byte-equivalent to the pre-split entry objects",
+          "loader returns the exact phase membership and aggregate summary",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": ["docs/phase-governance/catalog.json", "scripts/docs/phase-lore-catalog.mjs"]
+      },
+      "revision": {
+        "currentSha": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+        "implementationSha": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+        "contentVersion": "N/A-document-migration",
+        "minimumSaveVersion": "N/A-document-migration",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "generated-phase-shard-and-loader-review",
+            "afterSha256": "0105d6c20b32e541d774ccf4662d81ae0ae52c0d2c4c64555270e12063ee8cde",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/phase-governance/catalog.phase3.json",
+        "sourceSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+        "candidateSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+        "afterSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+        "lineCount": 777,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "entry-preserving phase partition from pre-split catalog",
+          "exactRoundTrip": true,
+          "inverseSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f"
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "schemaVersion",
+            "id",
+            "generatedBy",
+            "sourceRevision",
+            "phase",
+            "summary",
+            "entries"
+          ],
+          "byteStable": true
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "generated-phase-shard-and-loader-review",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not edit a shard without recomputing its manifest SHA; do not treat catalog structure as runtime/E2E/visual/coverage evidence.",
+      "userVisibleBeforeAfter": "pre-split phase3 entries → phase3 shard with native entry objects preserved",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "reviewNotes": "Full JSON object read and loader/consumer preservation verified; this is structural catalog evidence only.",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "current",
+      "sourceGitRevision": "working-tree",
+      "candidateSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/catalog.phase3.json",
+          "revision": "working-tree",
+          "sha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+          "scope": "full JSON UTF-8 bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "catalog-shards",
+        "currentBoundary": "manifest + loader own aggregate catalog truth"
+      },
+      "dependencies": "catalog manifest, loader, phase/lore consumer scripts",
+      "versionScope": {
+        "sourceRevision": "working-tree",
+        "date": "2026-10-17",
+        "validity": "current"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "CATALOG-SPLIT-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
+    }
+  ]
+}

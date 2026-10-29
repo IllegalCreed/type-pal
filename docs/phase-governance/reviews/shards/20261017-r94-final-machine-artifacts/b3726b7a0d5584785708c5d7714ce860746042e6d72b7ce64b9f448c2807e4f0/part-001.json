@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "ad809575913259faf58faad0f386661c4fc63fd1a04090748ad845c6f2549b98",
+  "generation": "b3726b7a0d5584785708c5d7714ce860746042e6d72b7ce64b9f448c2807e4f0",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
   "entries": [
@@ -2065,23 +2065,23 @@
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "受保护loader header/撤信字段人工核读+程序化身份/转移枚举+真实Git解析复核；S58行事实字段复用；不作全文重审",
+      "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
-      "coreConclusion": "现行review账本控制件：r92-testing-archive（20261017-r92-phase-governance-artifacts.json）。原2026-10-17由Codex corrective mechanical maintenance; author self-check only登记的撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位23篇有序文档（docs/phase-governance/reviews×23；成员行状态观测（2026-10-29时点）：partial-review-unknown×23）；唯一治理位置20261017-r94-final-machine-artifacts.json#entries/6。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
+      "coreConclusion": "现行review账本控制件：r92-testing-archive（20261017-r92-phase-governance-artifacts.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位23篇有序文档（docs/phase-governance/reviews×23；成员行状态观测（2026-10-29时点）：partial-review-unknown×23）；唯一治理位置20261017-r94-final-machine-artifacts.json#entries/6。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json#/policy",
         "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json#logical/entries",
         "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json#/currentCorrection"
       ],
       "unresolved": [
-        "本控制件为控制层解释：partial-review-unknown/needs-migration维持，无独立当前内容接受或迁移grant。",
-        "111候选（3复用+108作者稿）的独立非作者验收、Owner正式grant与生产接入仍待。"
+        "本控制层解释不替代成员正文/执行验收；旧撤信、来源unknown及未读成员范围继续保留。",
+        "当前接受/迁移以currentIndependentAcceptance与状态字段为准；未满足独立证据及Owner决定时不得晋升，全量完成另受严格门约束。"
       ],
-      "nextStep": "Codex按证据验收协议复核本111候选后决定生产接入与中央发布；成员级语义仍走各自任务，不并入本控制件。",
+      "nextStep": "取得本次差异的非作者接受后由Owner受控授信；接受后维护稳定身份、来源/归属和after依赖，相关变更触发定向重审，不恢复旧执行或成员信用。",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-      "owner": "GLM（S68作者候选；独立验收与Owner grant未授）",
+      "owner": "GLM原控制解释作者；Codex S69限定读域/归因澄清，非作者接受与Owner授信分记",
       "provenance": [
         "source-document",
         "repository-history",
@@ -2089,7 +2089,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "e284f0b4357deb778bac0b12507f9a4531551c845aaad125af6d000f7aed3978",
+      "afterSha256": "73eeb27fb7e8e8407e8bf59bb246d37f62e049fa8aa3bd8115a829eae8dd24ea",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -2109,7 +2109,7 @@
         ]
       },
       "dedupe": {
-        "result": "唯一逻辑控制owner登记；无语义接受",
+        "result": "唯一逻辑控制owner登记；不据此重授成员语义或旧执行信用",
         "against": [
           "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json#entries/6",
           "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json"
@@ -2165,6 +2165,22 @@
           "runtimeCredit": false,
           "author": "GLM",
           "authorScope": "control-layer explanation only; no child semantics or execution credit"
+        },
+        {
+          "kind": "current-ledger-candidate",
+          "task": "DOCS-FULL-TEMPLATE-1/S69",
+          "date": "2026-10-29",
+          "actor": "Codex",
+          "scope": "Limited clarification of author read-domain/chronology/empty ownership; original content facts retained",
+          "rules": [
+            "R01-disclose-listed-field-reading-instead-of-entire-header",
+            "R02-current-maintainer-not-retroactive-original-reviewer",
+            "R05-durable-next-step-and-boundary-without-stale-awaiting-text"
+          ],
+          "priorEntrySha256": "3216e534aa4bace9fb13dac796ca72a5a090ca3ab0ab237a5b6d8df6fd671c62",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -2172,7 +2188,7 @@
       ],
       "stopLine": "header/有序成员-source身份/转移出处/唯一归属/source pin或受保护存储失败即拒绝；空账本不因空删除；控制通过不产生子文档或runtime信用。",
       "userVisibleBeforeAfter": "S58撤信/结构登记行 → 现行控制解释行（机器字段、源身份、撤信与历史前缀不变）。",
-      "reviewedLines": "本控制件header/policy或scope/撤信/维护史与全部有序成员身份字段；成员正文未逐篇重读",
+      "reviewedLines": "控制policy/scope及明确列示身份字段；其余按受保护loader枚举/固定来源复核；成员正文、全部header嵌套历史与逐条维护history未作人工全文重审",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": false,
@@ -2410,6 +2426,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/current-ledger-candidate",
+          "beforeSha256": "e284f0b4357deb778bac0b12507f9a4531551c845aaad125af6d000f7aed3978",
+          "afterSha256": "73eeb27fb7e8e8407e8bf59bb246d37f62e049fa8aa3bd8115a829eae8dd24ea",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",
@@ -2428,10 +2453,11 @@
         ]
       },
       "readDomain": {
-        "actual": "人工核读本控制件当前header全文（policy/scope、撤信与historicalReviewIdentity、maintenanceHistory共2条，政策原文：\"Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalRev\"）；机器经受保护loader枚举23条有序成员的path/source身份、全组唯一归属与无转移声明；复用S58期行内既有事实字段（sourceSha256/revision/provenance/claimCorrection）。",
+        "actual": "复用GLM披露的policy/scope去重核读（108篇共享45条不同文本）；本篇列示控制政策：Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.。机器经受保护loader枚举本篇23个有序成员的path/source身份、全组唯一归属、维护history条数和显式转移；未宣称人工逐字审阅全部header嵌套对象、每条维护history或成员解释。Codex S69核对这些实际字段及引用关系，未重审成员正文。",
         "notRead": [
           "成员指向的子文档正文未逐篇重读；成员语义/状态以各自行记录的2026-10-29固定时点观测为准，本控制不重新认证。",
-          "历史命令/runtime/E2E/visual/coverage未重跑；本控制通过不构成任何执行信用。"
+          "历史命令/runtime/E2E/visual/coverage未重跑；本控制通过不构成任何执行信用。",
+          "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
       "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
@@ -2443,23 +2469,23 @@
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "受保护loader header/撤信字段人工核读+程序化身份/转移枚举+真实Git解析复核；S58行事实字段复用；不作全文重审",
+      "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
-      "coreConclusion": "现行review账本控制件：r93-phase-governance-artifacts（20261017-r93-phase-governance-artifacts.json）。原2026-10-17由Codex corrective mechanical maintenance; author self-check only登记的撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位91篇有序文档（docs/phase-governance/reviews×83、docs/phase-governance×8；成员行状态观测（2026-10-29时点）：partial-review-unknown×91）；唯一治理位置20261017-r94-final-machine-artifacts.json#entries/7。存储上经唯一准入升级为manifest（固定10ae真实Git source，原flat成员/源字段保全）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
+      "coreConclusion": "现行review账本控制件：r93-phase-governance-artifacts（20261017-r93-phase-governance-artifacts.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位91篇有序文档（docs/phase-governance/reviews×83、docs/phase-governance×8；成员行状态观测（2026-10-29时点）：partial-review-unknown×91）；唯一治理位置20261017-r94-final-machine-artifacts.json#entries/7。存储上经唯一准入升级为manifest（固定10ae真实Git source，原flat成员/源字段保全）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json#/policy",
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json#logical/entries",
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json#/currentCorrection"
       ],
       "unresolved": [
-        "本控制件为控制层解释：partial-review-unknown/needs-migration维持，无独立当前内容接受或迁移grant。",
-        "111候选（3复用+108作者稿）的独立非作者验收、Owner正式grant与生产接入仍待。"
+        "本控制层解释不替代成员正文/执行验收；旧撤信、来源unknown及未读成员范围继续保留。",
+        "当前接受/迁移以currentIndependentAcceptance与状态字段为准；未满足独立证据及Owner决定时不得晋升，全量完成另受严格门约束。"
       ],
-      "nextStep": "Codex按证据验收协议复核本111候选后决定生产接入与中央发布；成员级语义仍走各自任务，不并入本控制件。",
+      "nextStep": "取得本次差异的非作者接受后由Owner受控授信；接受后维护稳定身份、来源/归属和after依赖，相关变更触发定向重审，不恢复旧执行或成员信用。",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-      "owner": "GLM（S68作者候选；独立验收与Owner grant未授）",
+      "owner": "GLM原控制解释作者；Codex S69限定读域/归因澄清，非作者接受与Owner授信分记",
       "provenance": [
         "source-document",
         "repository-history",
@@ -2467,7 +2493,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "7d28c881cefe06b0094d1ed54a978bb66c57970d11c5c2ddc6eebf031127c922",
+      "afterSha256": "6c46bf9c1245234aa33203265f9542341b1e01f5a068ba987feabab88bd1e8b0",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -2487,7 +2513,7 @@
         ]
       },
       "dedupe": {
-        "result": "唯一逻辑控制owner登记；无语义接受",
+        "result": "唯一逻辑控制owner登记；不据此重授成员语义或旧执行信用",
         "against": [
           "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json#entries/7",
           "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
@@ -2599,6 +2625,22 @@
           "runtimeCredit": false,
           "author": "GLM",
           "authorScope": "control-layer explanation only; no child semantics or execution credit"
+        },
+        {
+          "kind": "current-ledger-candidate",
+          "task": "DOCS-FULL-TEMPLATE-1/S69",
+          "date": "2026-10-29",
+          "actor": "Codex",
+          "scope": "Limited clarification of author read-domain/chronology/empty ownership; original content facts retained",
+          "rules": [
+            "R01-disclose-listed-field-reading-instead-of-entire-header",
+            "R02-current-maintainer-not-retroactive-original-reviewer",
+            "R05-durable-next-step-and-boundary-without-stale-awaiting-text"
+          ],
+          "priorEntrySha256": "3fb2f69417f7e4a24abd1278ca80ced8ce10e2cbb33a6eb544d6f8bc782c314b",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
@@ -2606,7 +2648,7 @@
       ],
       "stopLine": "header/有序成员-source身份/转移出处/唯一归属/source pin或受保护存储失败即拒绝；空账本不因空删除；控制通过不产生子文档或runtime信用。",
       "userVisibleBeforeAfter": "S58撤信/结构登记行 → 现行控制解释行（机器字段、源身份、撤信与历史前缀不变）。",
-      "reviewedLines": "本控制件header/policy或scope/撤信/维护史与全部有序成员身份字段；成员正文未逐篇重读",
+      "reviewedLines": "控制policy/scope及明确列示身份字段；其余按受保护loader枚举/固定来源复核；成员正文、全部header嵌套历史与逐条维护history未作人工全文重审",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": false,
@@ -3728,6 +3770,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/current-ledger-candidate",
+          "beforeSha256": "7d28c881cefe06b0094d1ed54a978bb66c57970d11c5c2ddc6eebf031127c922",
+          "afterSha256": "6c46bf9c1245234aa33203265f9542341b1e01f5a068ba987feabab88bd1e8b0",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",
@@ -3746,10 +3797,11 @@
         ]
       },
       "readDomain": {
-        "actual": "人工核读本控制件当前header全文（policy/scope、撤信与historicalReviewIdentity、maintenanceHistory共28条，政策原文：\"Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalRev\"）；机器经受保护loader枚举91条有序成员的path/source身份、全组唯一归属与无转移声明；复用S58期行内既有事实字段（sourceSha256/revision/provenance/claimCorrection）。",
+        "actual": "复用GLM披露的policy/scope去重核读（108篇共享45条不同文本）；本篇列示控制政策：Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.。机器经受保护loader枚举本篇91个有序成员的path/source身份、全组唯一归属、维护history条数和显式转移；未宣称人工逐字审阅全部header嵌套对象、每条维护history或成员解释。Codex S69核对这些实际字段及引用关系，未重审成员正文。",
         "notRead": [
           "成员指向的子文档正文未逐篇重读；成员语义/状态以各自行记录的2026-10-29固定时点观测为准，本控制不重新认证。",
-          "历史命令/runtime/E2E/visual/coverage未重跑；本控制通过不构成任何执行信用。"
+          "历史命令/runtime/E2E/visual/coverage未重跑；本控制通过不构成任何执行信用。",
+          "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
       "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
