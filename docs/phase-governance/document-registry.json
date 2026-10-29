@@ -45,11 +45,11 @@
     "byType": {
       "task-card": 366,
       "guide-runbook": 18,
-      "archive-record": 591,
+      "archive-record": 483,
       "governance-index": 271,
       "audit-report": 67,
       "design-spec": 48,
-      "evidence-receipt": 367,
+      "evidence-receipt": 475,
       "quality-gate": 3,
       "test-machine-evidence": 352,
       "reference-canon": 38,
@@ -120,7 +120,7 @@
       "phase": "phase-governance",
       "path": "document-registry.phase-governance.json",
       "total": 156,
-      "sha256": "2d1e0560080e445cf5e09c693222b51dc889dc556f775e5f072e194a4c708c8a"
+      "sha256": "364833d05a2f8028bf0cff64018674fdb0d390bb624ae15613e06da3801f623d"
     },
     {
       "key": "testing",

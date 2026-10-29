@@ -7155,7 +7155,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
-      "afterSha256": "2d1e0560080e445cf5e09c693222b51dc889dc556f775e5f072e194a4c708c8a",
+      "afterSha256": "364833d05a2f8028bf0cff64018674fdb0d390bb624ae15613e06da3801f623d",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -7264,6 +7264,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/current-ledger-candidate",
+          "beforeSha256": "2d1e0560080e445cf5e09c693222b51dc889dc556f775e5f072e194a4c708c8a",
+          "afterSha256": "364833d05a2f8028bf0cff64018674fdb0d390bb624ae15613e06da3801f623d",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },
@@ -17939,18 +17948,19 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewDepth": "structured-content",
-      "readMethod": "Explicit pending registration: Owner-generated ledger schema and explicit per-path61 routing migration; no independent native machine-document semantic/template acceptance.; no full semantic/template or product acceptance from registration.",
-      "coreConclusion": "Current S19 per-document review partition. It indexes accepted GLM historical bodies; the new Owner-authored JSON ledger remains partial/needs-migration as a native document.",
+      "readMethod": "受保护loader header/policy人工核读+程序化身份/转移枚举+真实Git解析复核；S58行事实字段复用",
+      "coreConclusion": "现行review账本控制件：s19-accepted-20261021-01（20261021-s19-accepted-01.json）。原2026-10-21由Codex evidence-led nonauthor acceptance of GLM document bodies登记的个别历史文档接受批次（当前root账本为同角色机器维护，非自证语义完成），其政策边界按原时点保留（不授runtime/E2E/visual/coverage信用）；本账本现行职责：以唯一成员定位31篇有序文档（docs/ops/evidence/DOCS-FULL-TEMPLATE-1×31；成员行状态观测（2026-10-29时点）：content-reviewed×31）；唯一治理位置20261018-record-integrity-rework.json#entries/86。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
       "truthAnchors": [
-        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-final61-evidence-led-acceptance/609b738c276b75c83a4a7916029afba3c6d000f2eae2c856ff8728f7e5f5e06b.gz",
-        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        "docs/phase-governance/reviews/20261021-s19-accepted-01.json#/policy",
+        "docs/phase-governance/reviews/20261021-s19-accepted-01.json#logical/entries"
       ],
       "unresolved": [
-        "This file has not earned independent full semantic/template acceptance as a document."
+        "本控制件为控制层解释：partial-review-unknown/needs-migration维持，无独立当前内容接受或迁移grant。",
+        "111候选（3复用+108作者稿）的独立非作者验收、Owner正式grant与生产接入仍待。"
       ],
-      "nextStep": "Review the native JSON ledger under the appropriate machine evidence contract; preserve current schema/fields and do not mark template-compliant from generation alone.",
+      "nextStep": "Codex按证据验收协议复核本111候选后决定生产接入与中央发布；成员级语义仍走各自任务，不并入本控制件。",
       "phase": "phase-governance",
-      "owner": "Codex central documentation maintenance",
+      "owner": "GLM（S68作者候选；独立验收与Owner grant未授）",
       "provenance": [
         "explicit central registration; no path-inferred semantic credit",
         "/root same-actor central ledger generation; no artifactOnly/exemption flags"
@@ -17970,32 +17980,34 @@
       },
       "dependencies": [],
       "versionScope": {
-        "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
-        "scope": "registration only; document-specific historical dates and revisions remain native"
+        "validity": "current control carrier; child conclusions keep original dated scope",
+        "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+        "observedAt": "2026-10-29（成员状态统计的固定观测时点，不固化为永久事实）"
       },
       "publicCallers": [
-        "scripts/docs/check-content-review.mjs",
-        "scripts/docs/document-registry.mjs",
-        "native registry reviewRecord routing"
+        "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
+        "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
+        "scripts/docs/report-governance-progress.mjs through protected full-group reader"
       ],
       "legalInputs": [
-        {
-          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-final61-evidence-led-acceptance/609b738c276b75c83a4a7916029afba3c6d000f2eae2c856ff8728f7e5f5e06b.gz",
-          "sha256": "609b738c276b75c83a4a7916029afba3c6d000f2eae2c856ff8728f7e5f5e06b",
-          "sourceRevision": "4e571f79a877430a236329b670da094d92e89fae"
-        }
+        "受保护完整当前review组：flat owners+manifests+自有分片世代，经loadReviewRecords整组物化。",
+        "固定9d3e6834e9 Git基点的逻辑header与有序成员-source身份、原转移出处真实blob。",
+        "唯一治理review位置docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/86与当前观测after字节。"
       ],
       "businessOracle": {
-        "type": "central-ledger-integrity-not-self-semantic-acceptance",
+        "type": "current-review-ledger-integrity",
         "assertions": [
-          "61 source-document decisions route uniquely to exactly two successors.",
-          "Prior full review entries recoverable with exact whole-file/entry Git hashes.",
-          "No independent completeness granted to this new Owner ledger."
+          "逻辑header与有序成员-source身份必须与固定基点身份一致（20261021-s19-accepted-01.json的admission绑定header/membership SHA），after刷新不能洗白身份漂移。",
+          "全组恰一个治理位置docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/86，观测after等于当前载体字节；存储完整性由受保护loader先验，存储上为flat owner（无自有storage marker/source pin/分片）。",
+          "控制通过不授子文档语义、成员状态或旧执行信用；撤信/历史边界不被控制完整性恢复。"
         ]
       },
       "dedupe": {
-        "result": "explicit unique new pending registration; no new completed binding",
-        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+        "result": "唯一逻辑控制owner登记；无语义接受",
+        "against": [
+          "docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/86",
+          "docs/phase-governance/reviews/20261021-s19-accepted-01.json"
+        ]
       },
       "counterReworkBlocked": [
         {
@@ -18014,22 +18026,41 @@
         ]
       },
       "evidence": {
-        "kind": "registration-not-semantic-acceptance",
+        "kind": "current-review-ledger-pilot",
         "path": "docs/phase-governance/reviews/20261021-s19-accepted-01.json",
-        "producer": "/root same-actor central ledger generation; no artifactOnly/exemption flags"
+        "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+        "headerSha256": "1395c33768feccef23a7a6605e18f830538d7122cbb518e246cf9b8556e18935",
+        "membershipSha256": "eb8bb446b957d5c045c910b24da2fa30ac31e3b795674b79a863ad9096f475dd",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "childSemanticAcceptanceGranted": false
       },
       "history": [
         {
           "date": "2026-10-18",
           "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        },
+        {
+          "kind": "current-ledger-candidate",
+          "task": "DOCS-FULL-TEMPLATE-1/S68",
+          "date": "2026-10-29",
+          "priorRevision": "440541915a2c242cd3a1f513217f707ed4e99e50",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "index": 86,
+          "priorEntrySha256": "d299d6adf5ed2538ab5f1acf32a5197aab7e919855f772e7c738ebc54e8fd3a5",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false,
+          "author": "GLM",
+          "authorScope": "control-layer explanation only; no child semantics or execution credit"
         }
       ],
       "supersedes": [],
-      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "stopLine": "header/有序成员-source身份/转移出处/唯一归属/source pin或受保护存储失败即拒绝；空账本不因空删除；控制通过不产生子文档或runtime信用。",
       "sourceSha256": "2081c0e4f7960f68c45a6d918fe189ea9fadefb26291769b9f64d31db17d1221",
       "afterSha256": "198a6f1cfa7609d12e4c9e826e4161398b90b3ca08567c839f500b9be4a9ec81",
       "sourceGitRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
-      "reviewedLines": "Owner-generated ledger schema and explicit per-path61 routing migration; no independent native machine-document semantic/template acceptance.; registration only",
+      "reviewedLines": "本控制件header/policy或scope/撤信/维护史与全部有序成员身份字段；成员正文未逐篇重读",
       "beforeAfter": {
         "before": "No file; explicit central review partition creation under unchanged consumer schema.",
         "after": "Unique pending binding recorded; native file content and statuses not promoted."
@@ -18048,7 +18079,35 @@
           "method": "Explicit pending registration: Owner-generated ledger schema and explicit per-path61 routing migration; no independent native machine-document semantic/template acceptance.; no full semantic/template or product acceptance from registration.",
           "grantsNewSemanticAcceptance": false
         }
-      ]
+      ],
+      "templateVariant": "current-review-ledger-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "documentStatus": "current",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "fieldRoles": {
+        "logical": [
+          "原header身份（policy/scope、日期、维护史前缀与既有冻结/接受字段）",
+          "有序entries[].path/sourceSha256/sourceGitRevision成员-source身份",
+          "无currentRecordTransfers（本账本无转移声明）"
+        ],
+        "physical": [
+          "本owner是flat JSON文件：无自有storage marker、source pin或分片描述符；全组其余manifest/分片由受保护整组loader统一校验。"
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/86"
+        ]
+      },
+      "readDomain": {
+        "actual": "人工核读本控制件当前header全文（policy/scope、maintenanceHistory共0条，政策原文：\"Individual historical document acceptance only. Current root ledger is same-actor machine maintenance, not self-certifie\"）；机器经受保护loader枚举31条有序成员的path/source身份、全组唯一归属与无转移声明；复用S58期行内既有事实字段（sourceSha256/revision/provenance/claimCorrection）。",
+        "notRead": [
+          "成员指向的子文档正文未逐篇重读；成员语义/状态以各自行记录的2026-10-29固定时点观测为准，本控制不重新认证。",
+          "历史命令/runtime/E2E/visual/coverage未重跑；本控制通过不构成任何执行信用。"
+        ]
+      },
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "userVisibleBeforeAfter": "S58撤信/结构登记行 → 现行控制解释行（机器字段、源身份、撤信与历史前缀不变）。"
     },
     {
       "path": "docs/phase-governance/reviews/20261021-s19-accepted-02.json",
@@ -18058,18 +18117,19 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewDepth": "structured-content",
-      "readMethod": "Explicit pending registration: Owner-generated ledger schema and explicit per-path61 routing migration; no independent native machine-document semantic/template acceptance.; no full semantic/template or product acceptance from registration.",
-      "coreConclusion": "Current S19 per-document review partition. It indexes accepted GLM historical bodies; the new Owner-authored JSON ledger remains partial/needs-migration as a native document.",
+      "readMethod": "受保护loader header/policy人工核读+程序化身份/转移枚举+真实Git解析复核；S58行事实字段复用",
+      "coreConclusion": "现行review账本控制件：s19-accepted-20261021-02（20261021-s19-accepted-02.json）。原2026-10-21由Codex evidence-led nonauthor acceptance of GLM document bodies登记的个别历史文档接受批次（当前root账本为同角色机器维护，非自证语义完成），其政策边界按原时点保留（不授runtime/E2E/visual/coverage信用）；本账本现行职责：以唯一成员定位30篇有序文档（docs/ops/evidence/DOCS-FULL-TEMPLATE-1×30；成员行状态观测（2026-10-29时点）：content-reviewed×30）；唯一治理位置20261018-record-integrity-rework.json#entries/87。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
       "truthAnchors": [
-        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-final61-evidence-led-acceptance/609b738c276b75c83a4a7916029afba3c6d000f2eae2c856ff8728f7e5f5e06b.gz",
-        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        "docs/phase-governance/reviews/20261021-s19-accepted-02.json#/policy",
+        "docs/phase-governance/reviews/20261021-s19-accepted-02.json#logical/entries"
       ],
       "unresolved": [
-        "This file has not earned independent full semantic/template acceptance as a document."
+        "本控制件为控制层解释：partial-review-unknown/needs-migration维持，无独立当前内容接受或迁移grant。",
+        "111候选（3复用+108作者稿）的独立非作者验收、Owner正式grant与生产接入仍待。"
       ],
-      "nextStep": "Review the native JSON ledger under the appropriate machine evidence contract; preserve current schema/fields and do not mark template-compliant from generation alone.",
+      "nextStep": "Codex按证据验收协议复核本111候选后决定生产接入与中央发布；成员级语义仍走各自任务，不并入本控制件。",
       "phase": "phase-governance",
-      "owner": "Codex central documentation maintenance",
+      "owner": "GLM（S68作者候选；独立验收与Owner grant未授）",
       "provenance": [
         "explicit central registration; no path-inferred semantic credit",
         "/root same-actor central ledger generation; no artifactOnly/exemption flags"
@@ -18089,32 +18149,34 @@
       },
       "dependencies": [],
       "versionScope": {
-        "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
-        "scope": "registration only; document-specific historical dates and revisions remain native"
+        "validity": "current control carrier; child conclusions keep original dated scope",
+        "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+        "observedAt": "2026-10-29（成员状态统计的固定观测时点，不固化为永久事实）"
       },
       "publicCallers": [
-        "scripts/docs/check-content-review.mjs",
-        "scripts/docs/document-registry.mjs",
-        "native registry reviewRecord routing"
+        "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
+        "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
+        "scripts/docs/report-governance-progress.mjs through protected full-group reader"
       ],
       "legalInputs": [
-        {
-          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-final61-evidence-led-acceptance/609b738c276b75c83a4a7916029afba3c6d000f2eae2c856ff8728f7e5f5e06b.gz",
-          "sha256": "609b738c276b75c83a4a7916029afba3c6d000f2eae2c856ff8728f7e5f5e06b",
-          "sourceRevision": "4e571f79a877430a236329b670da094d92e89fae"
-        }
+        "受保护完整当前review组：flat owners+manifests+自有分片世代，经loadReviewRecords整组物化。",
+        "固定9d3e6834e9 Git基点的逻辑header与有序成员-source身份、原转移出处真实blob。",
+        "唯一治理review位置docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/87与当前观测after字节。"
       ],
       "businessOracle": {
-        "type": "central-ledger-integrity-not-self-semantic-acceptance",
+        "type": "current-review-ledger-integrity",
         "assertions": [
-          "61 source-document decisions route uniquely to exactly two successors.",
-          "Prior full review entries recoverable with exact whole-file/entry Git hashes.",
-          "No independent completeness granted to this new Owner ledger."
+          "逻辑header与有序成员-source身份必须与固定基点身份一致（20261021-s19-accepted-02.json的admission绑定header/membership SHA），after刷新不能洗白身份漂移。",
+          "全组恰一个治理位置docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/87，观测after等于当前载体字节；存储完整性由受保护loader先验，存储上为flat owner（无自有storage marker/source pin/分片）。",
+          "控制通过不授子文档语义、成员状态或旧执行信用；撤信/历史边界不被控制完整性恢复。"
         ]
       },
       "dedupe": {
-        "result": "explicit unique new pending registration; no new completed binding",
-        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+        "result": "唯一逻辑控制owner登记；无语义接受",
+        "against": [
+          "docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/87",
+          "docs/phase-governance/reviews/20261021-s19-accepted-02.json"
+        ]
       },
       "counterReworkBlocked": [
         {
@@ -18133,22 +18195,41 @@
         ]
       },
       "evidence": {
-        "kind": "registration-not-semantic-acceptance",
+        "kind": "current-review-ledger-pilot",
         "path": "docs/phase-governance/reviews/20261021-s19-accepted-02.json",
-        "producer": "/root same-actor central ledger generation; no artifactOnly/exemption flags"
+        "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+        "headerSha256": "e8178060c7540ba400ac12caf4c1afbd39215551e90e20dd6c4d579ed827e1c6",
+        "membershipSha256": "f424d09b0f357440208427632227fa40b72daccf08c6f05d2b569035f13355a5",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "childSemanticAcceptanceGranted": false
       },
       "history": [
         {
           "date": "2026-10-18",
           "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        },
+        {
+          "kind": "current-ledger-candidate",
+          "task": "DOCS-FULL-TEMPLATE-1/S68",
+          "date": "2026-10-29",
+          "priorRevision": "440541915a2c242cd3a1f513217f707ed4e99e50",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "index": 87,
+          "priorEntrySha256": "96f65890eb393defb34f25471f0083f687f8c4eaf5d15e29a59b6905ea2e066c",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false,
+          "author": "GLM",
+          "authorScope": "control-layer explanation only; no child semantics or execution credit"
         }
       ],
       "supersedes": [],
-      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "stopLine": "header/有序成员-source身份/转移出处/唯一归属/source pin或受保护存储失败即拒绝；空账本不因空删除；控制通过不产生子文档或runtime信用。",
       "sourceSha256": "cc76b3fc256be20c10e24b8ea2447e6fcd249a7dcfdfb1ab11c9b4cccdd547bb",
       "afterSha256": "ee8ec2e1dfe7e69a359925235e9fdfbaa2f31dac513e3815a1e918aae023b068",
       "sourceGitRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
-      "reviewedLines": "Owner-generated ledger schema and explicit per-path61 routing migration; no independent native machine-document semantic/template acceptance.; registration only",
+      "reviewedLines": "本控制件header/policy或scope/撤信/维护史与全部有序成员身份字段；成员正文未逐篇重读",
       "beforeAfter": {
         "before": "No file; explicit central review partition creation under unchanged consumer schema.",
         "after": "Unique pending binding recorded; native file content and statuses not promoted."
@@ -18167,7 +18248,35 @@
           "method": "Explicit pending registration: Owner-generated ledger schema and explicit per-path61 routing migration; no independent native machine-document semantic/template acceptance.; no full semantic/template or product acceptance from registration.",
           "grantsNewSemanticAcceptance": false
         }
-      ]
+      ],
+      "templateVariant": "current-review-ledger-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "documentStatus": "current",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "fieldRoles": {
+        "logical": [
+          "原header身份（policy/scope、日期、维护史前缀与既有冻结/接受字段）",
+          "有序entries[].path/sourceSha256/sourceGitRevision成员-source身份",
+          "无currentRecordTransfers（本账本无转移声明）"
+        ],
+        "physical": [
+          "本owner是flat JSON文件：无自有storage marker、source pin或分片描述符；全组其余manifest/分片由受保护整组loader统一校验。"
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/87"
+        ]
+      },
+      "readDomain": {
+        "actual": "人工核读本控制件当前header全文（policy/scope、maintenanceHistory共0条，政策原文：\"Individual historical document acceptance only. Current root ledger is same-actor machine maintenance, not self-certifie\"）；机器经受保护loader枚举30条有序成员的path/source身份、全组唯一归属与无转移声明；复用S58期行内既有事实字段（sourceSha256/revision/provenance/claimCorrection）。",
+        "notRead": [
+          "成员指向的子文档正文未逐篇重读；成员语义/状态以各自行记录的2026-10-29固定时点观测为准，本控制不重新认证。",
+          "历史命令/runtime/E2E/visual/coverage未重跑；本控制通过不构成任何执行信用。"
+        ]
+      },
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "userVisibleBeforeAfter": "S58撤信/结构登记行 → 现行控制解释行（机器字段、源身份、撤信与历史前缀不变）。"
     },
     {
       "path": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
@@ -18177,18 +18286,19 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewDepth": "structured-content",
-      "readMethod": "Explicit pending registration: Owner-generated ledger schema and explicit per-path27 routing migration; no independent native machine-document semantic/template acceptance.; no full semantic/template or product acceptance from registration.",
-      "coreConclusion": "Current S20 per-document review partition. It indexes accepted GLM historical bodies; the new Owner-authored JSON ledger remains partial/needs-migration as a native document.",
+      "readMethod": "受保护loader header/policy人工核读+程序化身份/转移枚举+真实Git解析复核；S58行事实字段复用",
+      "coreConclusion": "现行review账本控制件：s20-accepted-20261021-01（20261021-s20-accepted-01.json）。原2026-10-21由Codex evidence-led nonauthor acceptance of GLM document bodies登记的个别历史文档接受批次（当前root账本为同角色机器维护，非自证语义完成），其政策边界按原时点保留（不授runtime/E2E/visual/coverage信用）；本账本现行职责：以唯一成员定位27篇有序文档（docs/phase-governance/reviews×10、docs/ops/audits/pre-e2e×8、docs/ops/audits/pre-e2e/tools×1、docs/testing/domains/editor/commands/command-form-families/history×1、docs/testing/domains/editor/map/map-workspace-sessions/history×1、docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history×1、docs/testing/domains/runtime/battle/battle-host/history×1、docs/testing/domains/runtime/battle/battle-session-owners/history×1、docs/testing/domains/runtime/menu/menu-session/history×1、docs/testing/domains/runtime/scene/active-scene/history×1、docs/testing/domains/runtime/world/world-runtime/history×1；成员行状态观测（2026-10-29时点）：content-reviewed×27）；唯一治理位置20261018-record-integrity-rework.json#entries/88。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
       "truthAnchors": [
-        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s20-fixed27-evidence-led-with-owner-clarifications/83b5b8d6f4df6e1398f6656fea2616a53d09266c864a4dc0d25b01e5fd09bf76.gz",
-        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        "docs/phase-governance/reviews/20261021-s20-accepted-01.json#/policy",
+        "docs/phase-governance/reviews/20261021-s20-accepted-01.json#logical/entries"
       ],
       "unresolved": [
-        "This file has not earned independent full semantic/template acceptance as a document."
+        "本控制件为控制层解释：partial-review-unknown/needs-migration维持，无独立当前内容接受或迁移grant。",
+        "111候选（3复用+108作者稿）的独立非作者验收、Owner正式grant与生产接入仍待。"
       ],
-      "nextStep": "Review the native JSON ledger under the appropriate machine evidence contract; preserve current schema/fields and do not mark template-compliant from generation alone.",
+      "nextStep": "Codex按证据验收协议复核本111候选后决定生产接入与中央发布；成员级语义仍走各自任务，不并入本控制件。",
       "phase": "phase-governance",
-      "owner": "Codex central documentation maintenance",
+      "owner": "GLM（S68作者候选；独立验收与Owner grant未授）",
       "provenance": [
         "explicit central registration; no path-inferred semantic credit",
         "/root same-actor central ledger generation; no artifactOnly/exemption flags"
@@ -18208,32 +18318,34 @@
       },
       "dependencies": [],
       "versionScope": {
-        "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
-        "scope": "registration only; document-specific historical dates and revisions remain native"
+        "validity": "current control carrier; child conclusions keep original dated scope",
+        "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+        "observedAt": "2026-10-29（成员状态统计的固定观测时点，不固化为永久事实）"
       },
       "publicCallers": [
-        "scripts/docs/check-content-review.mjs",
-        "scripts/docs/document-registry.mjs",
-        "native registry reviewRecord routing"
+        "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
+        "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
+        "scripts/docs/report-governance-progress.mjs through protected full-group reader"
       ],
       "legalInputs": [
-        {
-          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s20-fixed27-evidence-led-with-owner-clarifications/83b5b8d6f4df6e1398f6656fea2616a53d09266c864a4dc0d25b01e5fd09bf76.gz",
-          "sha256": "83b5b8d6f4df6e1398f6656fea2616a53d09266c864a4dc0d25b01e5fd09bf76",
-          "sourceRevision": "ded0ad321084fe62df25a7336ee2f16c153a0d77"
-        }
+        "受保护完整当前review组：flat owners+manifests+自有分片世代，经loadReviewRecords整组物化。",
+        "固定9d3e6834e9 Git基点的逻辑header与有序成员-source身份、原转移出处真实blob。",
+        "唯一治理review位置docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/88与当前观测after字节。"
       ],
       "businessOracle": {
-        "type": "central-ledger-integrity-not-self-semantic-acceptance",
+        "type": "current-review-ledger-integrity",
         "assertions": [
-          "27 source-document decisions route uniquely to exactly two successors.",
-          "Prior full review entries recoverable with exact whole-file/entry Git hashes.",
-          "No independent completeness granted to this new Owner ledger."
+          "逻辑header与有序成员-source身份必须与固定基点身份一致（20261021-s20-accepted-01.json的admission绑定header/membership SHA），after刷新不能洗白身份漂移。",
+          "全组恰一个治理位置docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/88，观测after等于当前载体字节；存储完整性由受保护loader先验，存储上为flat owner（无自有storage marker/source pin/分片）。",
+          "控制通过不授子文档语义、成员状态或旧执行信用；撤信/历史边界不被控制完整性恢复。"
         ]
       },
       "dedupe": {
-        "result": "explicit unique new pending registration; no new completed binding",
-        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+        "result": "唯一逻辑控制owner登记；无语义接受",
+        "against": [
+          "docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/88",
+          "docs/phase-governance/reviews/20261021-s20-accepted-01.json"
+        ]
       },
       "counterReworkBlocked": [
         {
@@ -18252,22 +18364,41 @@
         ]
       },
       "evidence": {
-        "kind": "registration-not-semantic-acceptance",
+        "kind": "current-review-ledger-pilot",
         "path": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
-        "producer": "/root same-actor central ledger generation; no artifactOnly/exemption flags"
+        "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+        "headerSha256": "577975fc4db42e0f6fe35904f49b2672ab4e7bfa18e2a3154f88d8a52104f2b2",
+        "membershipSha256": "2c8f88e8284365ebeef8b4858826af1cdebda209007d4f32231795f991274f02",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "childSemanticAcceptanceGranted": false
       },
       "history": [
         {
           "date": "2026-10-18",
           "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        },
+        {
+          "kind": "current-ledger-candidate",
+          "task": "DOCS-FULL-TEMPLATE-1/S68",
+          "date": "2026-10-29",
+          "priorRevision": "440541915a2c242cd3a1f513217f707ed4e99e50",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "index": 88,
+          "priorEntrySha256": "2ea5120a1079cb517b827af162ae285491591afeab562dfbbfd2b2476b18cf1d",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false,
+          "author": "GLM",
+          "authorScope": "control-layer explanation only; no child semantics or execution credit"
         }
       ],
       "supersedes": [],
-      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "stopLine": "header/有序成员-source身份/转移出处/唯一归属/source pin或受保护存储失败即拒绝；空账本不因空删除；控制通过不产生子文档或runtime信用。",
       "sourceSha256": "4192996e7bb668bd4272946e26d659415b6bd6ab0e93f0fe0d046c110b7f8ee6",
       "afterSha256": "9474b926a8b7aee9ca239814cb3e41b487d2243dbce4e014db016f55d4de935d",
       "sourceGitRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
-      "reviewedLines": "Owner-generated ledger schema and explicit per-path27 routing migration; no independent native machine-document semantic/template acceptance.; registration only",
+      "reviewedLines": "本控制件header/policy或scope/撤信/维护史与全部有序成员身份字段；成员正文未逐篇重读",
       "beforeAfter": {
         "before": "No file; explicit central review partition creation under unchanged consumer schema.",
         "after": "Unique pending binding recorded; native file content and statuses not promoted."
@@ -18295,7 +18426,35 @@
           "method": "Exact S20 source/actor scope labels; no body or logical status change",
           "grantsNewSemanticAcceptance": false
         }
-      ]
+      ],
+      "templateVariant": "current-review-ledger-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "documentStatus": "current",
+      "template": "docs/phase-governance/templates/evidence-receipt.md",
+      "fieldRoles": {
+        "logical": [
+          "原header身份（policy/scope、日期、维护史前缀与既有冻结/接受字段）",
+          "有序entries[].path/sourceSha256/sourceGitRevision成员-source身份",
+          "无currentRecordTransfers（本账本无转移声明）"
+        ],
+        "physical": [
+          "本owner是flat JSON文件：无自有storage marker、source pin或分片描述符；全组其余manifest/分片由受保护整组loader统一校验。"
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/88"
+        ]
+      },
+      "readDomain": {
+        "actual": "人工核读本控制件当前header全文（policy/scope、maintenanceHistory共1条，政策原文：\"Individual historical document acceptance only. Current root ledger is same-actor machine maintenance, not self-certifie\"）；机器经受保护loader枚举27条有序成员的path/source身份、全组唯一归属与无转移声明；复用S58期行内既有事实字段（sourceSha256/revision/provenance/claimCorrection）。",
+        "notRead": [
+          "成员指向的子文档正文未逐篇重读；成员语义/状态以各自行记录的2026-10-29固定时点观测为准，本控制不重新认证。",
+          "历史命令/runtime/E2E/visual/coverage未重跑；本控制通过不构成任何执行信用。"
+        ]
+      },
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "userVisibleBeforeAfter": "S58撤信/结构登记行 → 现行控制解释行（机器字段、源身份、撤信与历史前缀不变）。"
     }
   ],
   "supersededBindings": [
