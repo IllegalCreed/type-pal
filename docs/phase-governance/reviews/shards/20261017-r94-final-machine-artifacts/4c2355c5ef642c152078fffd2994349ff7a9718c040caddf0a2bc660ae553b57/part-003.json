@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "20513dee4d35c4efc23ff0b4c838dba36fe6d78632294e865ce4906107c465b1",
+  "generation": "4c2355c5ef642c152078fffd2994349ff7a9718c040caddf0a2bc660ae553b57",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -32,7 +32,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "abb0b5f4574eeabb87339112443bddfd3f9014dba841b51079bd280adaacb3e6",
+      "afterSha256": "077f8f9c7482665859506d77dc1b8070152f8d2a021ec105dbb8f2e2c309e651",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -1389,6 +1389,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
             "index": 33,
             "entryCanonicalSha256": "6615e932d60d415a48bcc6122b3a9802ba697e1ac92a6cfc4cb905e9633d2ef5"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S72/pregrant",
+          "revision": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+          "beforeSha256": "abb0b5f4574eeabb87339112443bddfd3f9014dba841b51079bd280adaacb3e6",
+          "afterSha256": "077f8f9c7482665859506d77dc1b8070152f8d2a021ec105dbb8f2e2c309e651",
+          "scope": "S72 records true S71 scoped accept and admitted22 Owner publication; before controlled publication, no state/runtime credit",
+          "priorRecord": {
+            "revision": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 33,
+            "entryCanonicalSha256": "e1b46691f5b797fe5ba16414a352064c2a7a88ea607717e05f4acf1f949522ed"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

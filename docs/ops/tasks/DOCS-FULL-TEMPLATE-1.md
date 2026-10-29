@@ -5,8 +5,8 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: GLM（S70接入增量非作者accept）；Codex（S71当前控制/示例作者与Owner）；S71独立验收及全量硬门未完成
-Branch: codex/docs-s71-current-controls
+Reviewer: GLM（S71公共合同/22篇/存储pilot/001续审/封存非作者accept）；Codex（S72受控授信Owner）；全量硬门未完成
+Branch: codex/docs-s72-control-publication
 Last reviewed: 2026-10-29
 Template: task-card-v1 / 1.0.0
 
@@ -2773,3 +2773,9 @@ S71实际交付：两变体各1.0.0已注册，19控制+3JSON示例共22件完�
 001续审已真实核读完整报告和原配对JSON、7源码SHA/行段、两runner/both调用链及55行原生对白合同；三工具文件25/25通过，无浏览器/存读档/视觉新执行。reviewBy按这次文档复核从2026-10-28续至2026-11-28，lastVerified=2026-09-28、原22/11候选/history和配对原件逐字节保留；当前观察22/12单列。新工作树缺少8份既有006产物被testing门拒绝后，只以真实SHA复用只读链接，不重跑或改006。稳定候选实跑327工具/0fail/0skip、docs0/model2433/0/testing0/phase184、lint4660文件0E/0W/0I；progress1818+3+17/1838及584增量、33pending/0integrity，check:docs exit1仅剩strict33/66。没有全门通过或done声明。
 
 下一步将本轮公共增量、结构升级、日期审阅和22具体解释一次交GLM非作者复核；真实接受后只编译22正文hash/报告并沿已备--publish通道授信，预计33→11须以实际计数为准。剩余9MD+006两JSON由Owner并行，不重审已接受111成员/旧runtime；本轮不合main、不推送、不done。
+
+## S72 S71据证接收与22项当前控制/示例受控授信（2026-10-29）
+
+S71冻结候选c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08已获GLM非作者22/22 accept、零counter；HANDBACK 771c9bd552835998ce8572bb6cc07488d464e26ae77d0b74887564aef2b5ffca、verdict 94db1d0fe3683c6d9866e50755b17b6da48e769ad8aac7a29b41df115312384c，内容hash清单8cf600cdc580fd5a65086accb54625ff0d23ea28f902e719b993cbbfc6bdc406及targets22逐值匹配。Owner接收公共12代码、22具体解释、8103结构根/三pilot、001真实源码续审与行政封存范围，不重审旧111/473/006runtime，不因收回执重复授信。报告门段括注的9MD+2JSON是22接入后的预期剩余11项；发布前真实仍33文档/66诊断，不能据该括注提前扣减。
+
+本轮Codex build allowed：在隔离codex/docs-s72-control-publication编译现有22项非作者接受表（绑定c4a候选/具体contentSha/本GLM报告/作者与验收人分离），通过S71已接受公开CLI同一plan dry-run后--publish；只改精确22的状态、接受签名与唯一publication历史，原claimCorrection完整移史，原始正文与来源不改。registry同步22状态及真实after/世代闭包，S70已接受111签名/473原生/14来源pin保全；不增加sidecar/全量review副本，不改旧测试/产品/coverage。必要全仓门实跑后记录真实扣减，不把物理事务creditGranted=0误说成未授显式Owner信用，也不授child/runtime。剩余9MD+006两JSON仍Owner，全卡rework；不合main、不推送、不done。
