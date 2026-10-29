@@ -282,6 +282,10 @@ test('role borrowing, missing Git authority and wrong original OID reject throug
     historyOverlay: false,
   }
   assert(checkMigratedDocument(wrong, templates, f.read).length)
+  f.editRow(b, (r) => {
+    r.docType = 'task-card'
+  })
+  assert.match(f.check(b).join(';'), /review identity/)
 })
 test('updated byte pins cannot wash structural policy or sibling descriptor drift', (t) => {
   const f = fixture(t),
@@ -456,17 +460,24 @@ test('isolated pure qualification preserves withdrawals and separates genuine si
   assert(currentNativeControlQualificationIssues(row, b, { ...a, reviewer: a.author }).length)
 })
 
-test('the original catalog structure API remains available but cannot downgrade the production control role', () => {
+test('the original catalog structure API remains available but cannot downgrade the production control role', (t) => {
   const doc = { path: 'docs/testing/catalog.json', templateId: 'test-catalog-v1' },
     read = (p) => fixed(p).toString('utf8')
   assert.deepEqual(checkMigratedDocument(doc, templates, read), [])
+  const f = fixture(t),
+    binding = currentNativeControlAdmissions.find((b) => b.role === 'testing-catalog')
+  const options = () => ({
+    root: f.directory,
+    readBuffer: f.readBuffer,
+    readSourceBuffer: source,
+    reviewGroupReader: f.group,
+  })
+  assert.deepEqual(checkMigratedDocument(doc, templates, f.read, options()), [])
+  f.editRow(binding, (r) => {
+    r.contentReviewStatus = 'content-reviewed'
+  })
   assert.match(
-    checkMigratedDocument(doc, templates, read, {
-      root,
-      reviewGroupReader: () => {
-        throw new Error('role mismatch must reject before loading')
-      },
-    }).join(';'),
+    checkMigratedDocument(doc, templates, f.read, options()).join(';'),
     /exact admitted role/,
   )
 })

@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { lstatSync } from 'node:fs'
 import { join } from 'node:path'
 import { isDeepStrictEqual as same } from 'node:util'
+import { currentNativeControlAcceptance } from './current-native-control-acceptance.mjs'
 import { currentNativeControlAdmissions } from './current-native-control-admission.mjs'
 import { currentNativeControlQualificationIssues } from './current-native-control-qualification.mjs'
 import { frozenRegistrySource, summarizeDocumentRegistry } from './document-registry.mjs'
@@ -396,15 +397,35 @@ export function inspectCurrentNativeControl(path, readBuffer) {
 /** Snapshot bytes, source, ownership and candidate completeness; no status promotion is implied. */
 export function currentNativeControlIssues(doc, template, contract, read, options = {}) {
   const b = currentNativeControlAdmissions.find((r) => r.path === doc.path)
-  // The preexisting pure catalog structure API grants no current-control credit.
-  // Production model/progress supply the protected group and enforce this role.
-  if (
-    b?.role === 'testing-catalog' &&
-    doc.templateId === 'test-catalog-v1' &&
-    !doc.variant &&
-    typeof options.reviewGroupReader !== 'function'
-  )
-    return undefined
+  // Retain the existing underlying catalog-schema API. Its transitional
+  // production use is legal only while the exact old row is still pending.
+  // Active native metadata or a compiled grant forbids a joint relabel downgrade.
+  if (b?.role === 'testing-catalog' && doc.templateId === 'test-catalog-v1' && !doc.variant) {
+    if (typeof options.reviewGroupReader !== 'function') return undefined
+    try {
+      const group = options.reviewGroupReader()
+      assertReviewRecordSourceUnchanged(group.loadedSource)
+      const owners = [...group.records].flatMap(([owner, r]) =>
+        r.entries.flatMap((row, index) => (row.path === b.path ? [{ owner, index, row }] : [])),
+      )
+      const row = owners[0]?.row
+      if (
+        group.records.size === 114 &&
+        owners.length === 1 &&
+        owners[0].owner === b.reviewRecord &&
+        owners[0].index === b.index &&
+        row.templateId === 'test-catalog-v1' &&
+        !row.templateVariant &&
+        row.contentReviewStatus === 'partial-review-unknown' &&
+        row.templateCompliance === 'needs-migration' &&
+        row.currentIndependentAcceptance === undefined &&
+        currentNativeControlAcceptance[b.path] === undefined
+      )
+        return undefined
+    } catch (error) {
+      return [`current native catalog transition: ${error.message}`]
+    }
+  }
   if (!b && ![currentControlContract.variant, currentExampleContract.variant].includes(doc.variant))
     return undefined
   const expected = b && currentNativeContract(b)
@@ -412,6 +433,7 @@ export function currentNativeControlIssues(doc, template, contract, read, option
     !b ||
     doc.templateId !== expected.templateId ||
     template?.templateId !== expected.templateId ||
+    template.docType !== (b.role === 'template-example' ? 'reference-canon' : 'governance-index') ||
     doc.variant !== expected.variant ||
     doc.historyOverlay ||
     !same(contract, expected)
@@ -467,6 +489,7 @@ export function currentNativeControlIssues(doc, template, contract, read, option
     const row = owners[0].e
     demand(
       row.afterSha256 === hash(raw) &&
+        row.docType === template.docType &&
         row.templateId === expected.templateId &&
         row.templateVariant === expected.variant &&
         row.templateVersion === '1.0.0' &&
