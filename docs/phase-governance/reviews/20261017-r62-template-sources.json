@@ -3997,52 +3997,63 @@
     {
       "path": "docs/phase-governance/templates/registry.json",
       "contentReviewStatus": "partial-review-unknown",
-      "docType": "reference-canon",
-      "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "template": "governance-index.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
       "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/phase-governance/templates/registry.json:1"],
-      "unresolved": [
-        "Template source changes require registry/consumer review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      "coreConclusion": "本候选模板注册表仍有17个父类型、5条原historicalSourcePins；仅governance-index和reference-canon各增一个独立1.0.0 json-native现行变体。原父字段/旧变体逐值保全；本表规定格式与元数据位置，样例和结构检查不能自动授content-reviewed，更不恢复旧运行信用。",
+      "truthAnchors": [
+        "docs/phase-governance/templates/registry.json (native role and structure)",
+        "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/10",
+        "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9:docs/phase-governance/templates/registry.json"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "unresolved": [
+        "成员若有未完成项、原源未认证或运行缺口，仍由对应原卡与证据负责；本控制/示例解释不授替代信用。"
+      ],
+      "nextStep": "只有精确解释获真实非作者接受与Owner决定方可受控grant；后续结构/政策/成员身份改变先重新审阅接受，合法after维护只更新观测闭包。",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "registry.json",
-      "owner": "Codex",
+      "owner": "Codex (S71 current control/reference interpretation; original provenance retained)",
       "provenance": [
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "actor": "Codex",
+          "date": "2026-10-29",
+          "action": "S71 current native control/reference role interpretation",
+          "sourceRevision": "a24bd7d3828a199813316ac5a0a62590a738c556"
+        }
       ],
       "sourceSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
       "afterSha256": "51a66041641b5bafedcba6914906d40348c97062dca3159da023970d00c6e029",
       "publicCallers": [
-        "docs/phase-governance/templates/README.md",
-        "docs/phase-governance/templates/registry.json",
-        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/report-governance-progress.mjs"
       ],
-      "legalInputs": ["current template registry", "docs/phase-governance/templates/registry.json"],
+      "legalInputs": [
+        "本路径唯一角色、原生Buffer、完整114保护review组及实际Git来源。",
+        "只接受真实manifest/片/位置与当前身份；示例占位不作已发生执行。"
+      ],
       "businessOracle": {
-        "type": "canonical-template-source",
+        "type": "current-native-control-integrity",
         "assertions": [
-          "original bytes remain unchanged",
-          "template source remains copyable/consumable",
-          "source and after SHA equal",
-          "no runtime/E2E/visual/coverage credit"
+          "当前原生结构/政策/成员身份必须与解释指纹一致，描述符和派生汇总必须匹配。",
+          "after仅为当前byte观测；原source与历史claim不可刷新洗白。",
+          "独立接受绑定本篇具体解释；任何child/runtime/旧撤信恢复不由此控制件授予。"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-preserved",
+        "result": "unique-current-role",
         "against": [
           "docs/phase-governance/templates/registry.json",
-          "docs/phase-governance/templates/registry.json"
-        ]
+          "docs/phase-governance/reviews/20261017-r62-template-sources.json"
+        ],
+        "notes": "不另建canonical账本、来源副本或sidecar；目录投影不替代权威源。"
       },
       "revision": {
         "currentSha": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
@@ -4064,23 +4075,32 @@
         ]
       },
       "evidence": {
-        "kind": "template-source-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
-        "sourceSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
-        "candidateSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
-        "afterSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
-        "lineCount": 824,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable canonical template source",
-          "sourceBytes": 29292,
-          "sourceLines": 824,
-          "sourceFinalNewline": true,
-          "inverseSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
-          "exactRoundTrip": true,
-          "topLevelShape": "json"
+        "kind": "current-native-control-candidate",
+        "path": "docs/phase-governance/templates/registry.json",
+        "role": "templates",
+        "author": "Codex",
+        "source": {
+          "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+          "path": "docs/phase-governance/templates/registry.json",
+          "gitObject": "7fd76325508151fff04a0559cf4291320b95e449",
+          "sha256": "fa7515c85d25ff6110666c8ae8f1e94181cdcddcbc1201a46a755ca794cbe8da"
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "structureSha256": "01b65e5c50dd00867ff45fd7a5b99270fb747528efdf23f4b40cc610cfa49311",
+        "membershipSha256": "58a3f0234777a5e2073f096f5d400c946c0cf1ce128f845ec1d54edfeeb57c35",
+        "observed": {
+          "types": 17,
+          "historicalSourcePins": 5
+        },
+        "observation": {
+          "kind": "owned-planned-candidate",
+          "revisionBefore": "a24bd7d3828a199813316ac5a0a62590a738c556",
+          "date": "2026-10-29",
+          "nativeBytesSha256": "51a66041641b5bafedcba6914906d40348c97062dca3159da023970d00c6e029",
+          "scope": "Before-state Git plus the exact owned control projection, not a claim that these candidate bytes existed in the before commit."
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "childSemanticAcceptanceGranted": false
       },
       "history": [
         {
@@ -4102,18 +4122,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "current-native-control-candidate",
+          "task": "DOCS-FULL-TEMPLATE-1/S71",
+          "date": "2026-10-29",
+          "author": "Codex",
+          "priorEntrySha256": "2b493915a1cae0e1ec6691924fd5acf4c94ba5ae3320d1239ba285efa30ad09d",
+          "scope": "Exact current control/reference interpretation; no status/old/runtime/child credit."
         }
       ],
       "supersedes": [
         "governed-legacy template-source presentation; canonical source retained byte-stably"
       ],
-      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
-      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "stopLine": "角色/结构/来源/唯一归属/保护快照或原始历史冲突立即停对应claim；只刷after不得授信，不恢复旧声明，不授child/runtime。",
+      "userVisibleBeforeAfter": "原生消费者字段保留，泛化artifact解释改为本路径具体current控制/示例职责；发布信用仍需独立接受。",
       "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "artifactOnly": true,
-      "documentStatus": "canonical-template-source",
+      "artifactOnly": false,
+      "documentStatus": "current",
       "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
       "candidateSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
       "primarySource": [
@@ -4130,11 +4158,7 @@
         "currentBoundary": "template registry and direct consumers own canonical source truth"
       },
       "dependencies": "template README, registry and consumer tests.",
-      "versionScope": {
-        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
-        "date": "2026-10-17",
-        "validity": "canonical-template-source"
-      },
+      "versionScope": "Current control/reference schema; variant1.0.0. Observations belong to the owned candidate view, not perpetual live counts.",
       "counterReworkBlocked": [
         {
           "id": "R62-NO-EXECUTION-CREDIT",
@@ -4243,7 +4267,31 @@
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "templateVariant": "current-governance-control-native-v1",
+      "artifactEnvelope": false,
+      "readDomain": {
+        "actual": "S71 Owner核职责/政策/来源边界；固定before a24bd7d3828a199813316ac5a0a62590a738c556与精确候选view的原生对象全解析、成员/分片/计数全枚举。既有17父合同复用已接受基线并深等保护，本次逐字段审新增两变体。",
+        "notRead": [
+          "未逐篇重新审阅成员正文/旧变体的业务断言。",
+          "未重跑历史raw、浏览器E2E、存读档、视觉或coverage。"
+        ],
+        "currentReader": "Codex",
+        "currentReviewDate": "2026-10-29",
+        "originalReviewDateMeaning": "Existing reviewDate/reviewer fields remain the prior review provenance, not this reading date."
+      },
+      "fieldRoles": {
+        "logical": [
+          "templates authority and ordered identity; child observations/statuses retain their separate contracts"
+        ],
+        "physical": [
+          "原生JSON保留消费者字段，不加wrapper/payload/sidecar；manifest与片按实际loader分列。"
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/10"
+        ]
+      },
+      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。"
     },
     {
       "path": "docs/phase-governance/templates/task-card.md",
@@ -5360,50 +5408,61 @@
       "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
+      "template": "reference-canon.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
       "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/testing/_templates/evidence.json:1"],
-      "unresolved": [
-        "Template source changes require registry/consumer review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      "coreConclusion": "本页是e2e-NNN/draft的执行回执JSON示例，candidateSha和exitCode为空、sourceHashesStable=false；版本示例已对齐当前content22/minimumSAVE12，不代表执行发生。game|reforge|editor与verify|capture是待选择字段，必须用实际caller/raw填值；它本身没有catalog发布身份或通过结论。",
+      "truthAnchors": [
+        "docs/testing/_templates/evidence.json (native role and structure)",
+        "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/14",
+        "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9:docs/testing/_templates/evidence.json"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "unresolved": [
+        "成员若有未完成项、原源未认证或运行缺口，仍由对应原卡与证据负责；本控制/示例解释不授替代信用。"
+      ],
+      "nextStep": "只有精确解释获真实非作者接受与Owner决定方可受控grant；后续结构/政策/成员身份改变先重新审阅接受，合法after维护只更新观测闭包。",
       "phase": "testing",
       "module": "_templates",
       "capability": "evidence.json",
-      "owner": "Codex",
+      "owner": "Codex (S71 current control/reference interpretation; original provenance retained)",
       "provenance": [
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "actor": "Codex",
+          "date": "2026-10-29",
+          "action": "S71 current native control/reference role interpretation",
+          "sourceRevision": "a24bd7d3828a199813316ac5a0a62590a738c556"
+        }
       ],
       "sourceSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
       "afterSha256": "622d2753e96acd93c1a4eeaf85d02ff5c3d38d08dbf86e530aa9457a957bbf7c",
       "publicCallers": [
         "docs/testing/_templates/README.md",
-        "docs/phase-governance/templates/registry.json",
-        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        "scripts/docs/report-governance-progress.mjs"
       ],
-      "legalInputs": ["current template registry", "docs/testing/_templates/evidence.json"],
+      "legalInputs": [
+        "本路径唯一角色、原生Buffer、完整114保护review组及实际Git来源。",
+        "只接受真实manifest/片/位置与当前身份；示例占位不作已发生执行。"
+      ],
       "businessOracle": {
-        "type": "canonical-template-source",
+        "type": "current-native-control-integrity",
         "assertions": [
-          "original bytes remain unchanged",
-          "template source remains copyable/consumable",
-          "source and after SHA equal",
-          "no runtime/E2E/visual/coverage credit"
+          "当前原生结构/政策/成员身份必须与解释指纹一致，描述符和派生汇总必须匹配。",
+          "after仅为当前byte观测；原source与历史claim不可刷新洗白。",
+          "独立接受绑定本篇具体解释；任何child/runtime/旧撤信恢复不由此控制件授予。"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-preserved",
+        "result": "unique-current-role",
         "against": [
           "docs/testing/_templates/evidence.json",
-          "docs/phase-governance/templates/registry.json"
-        ]
+          "docs/phase-governance/reviews/20261017-r62-template-sources.json"
+        ],
+        "notes": "不另建canonical账本、来源副本或sidecar；目录投影不替代权威源。"
       },
       "revision": {
         "currentSha": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
@@ -5425,23 +5484,33 @@
         ]
       },
       "evidence": {
-        "kind": "template-source-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
-        "sourceSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
-        "candidateSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
-        "afterSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
-        "lineCount": 29,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable canonical template source",
-          "sourceBytes": 775,
-          "sourceLines": 29,
-          "sourceFinalNewline": true,
-          "inverseSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
-          "exactRoundTrip": true,
-          "topLevelShape": "json"
+        "kind": "current-native-control-candidate",
+        "path": "docs/testing/_templates/evidence.json",
+        "role": "template-example",
+        "author": "Codex",
+        "source": {
+          "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+          "path": "docs/testing/_templates/evidence.json",
+          "gitObject": "5fe1dc0b0b8a8c2001ef7d9b07516b7e552b5b2f",
+          "sha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213"
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "structureSha256": "7f43a74cbd36b0261fc76f6d1ddb48fa3c82434bcd724080d16c378a877de362",
+        "membershipSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "observed": {
+          "exampleId": "e2e-NNN",
+          "exampleStatus": "draft",
+          "executionPerformed": false
+        },
+        "observation": {
+          "kind": "owned-planned-candidate",
+          "revisionBefore": "a24bd7d3828a199813316ac5a0a62590a738c556",
+          "date": "2026-10-29",
+          "nativeBytesSha256": "622d2753e96acd93c1a4eeaf85d02ff5c3d38d08dbf86e530aa9457a957bbf7c",
+          "scope": "Before-state Git plus the exact owned control projection, not a claim that these candidate bytes existed in the before commit."
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "childSemanticAcceptanceGranted": false
       },
       "history": [
         {
@@ -5463,18 +5532,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "current-native-control-candidate",
+          "task": "DOCS-FULL-TEMPLATE-1/S71",
+          "date": "2026-10-29",
+          "author": "Codex",
+          "priorEntrySha256": "16cfb0ecf8d1f2572ae47f443366867d6dcc01b306def1713738b9d78905f2e7",
+          "scope": "Exact current control/reference interpretation; no status/old/runtime/child credit."
         }
       ],
       "supersedes": [
         "governed-legacy template-source presentation; canonical source retained byte-stably"
       ],
-      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
-      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "stopLine": "角色/结构/来源/唯一归属/保护快照或原始历史冲突立即停对应claim；只刷after不得授信，不恢复旧声明，不授child/runtime。",
+      "userVisibleBeforeAfter": "原生消费者字段保留，泛化artifact解释改为本路径具体current控制/示例职责；发布信用仍需独立接受。",
       "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "artifactOnly": true,
-      "documentStatus": "canonical-template-source",
+      "artifactOnly": false,
+      "documentStatus": "current",
       "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
       "candidateSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
       "primarySource": [
@@ -5491,11 +5568,7 @@
         "currentBoundary": "template registry and direct consumers own canonical source truth"
       },
       "dependencies": "template README, registry and consumer tests.",
-      "versionScope": {
-        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
-        "date": "2026-10-17",
-        "validity": "canonical-template-source"
-      },
+      "versionScope": "Current control/reference schema; variant1.0.0. Observations belong to the owned candidate view, not perpetual live counts.",
       "counterReworkBlocked": [
         {
           "id": "R62-NO-EXECUTION-CREDIT",
@@ -5529,7 +5602,31 @@
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "templateVariant": "current-template-example-native-v1",
+      "artifactEnvelope": false,
+      "readDomain": {
+        "actual": "S71 Owner核职责/政策/来源边界；固定before a24bd7d3828a199813316ac5a0a62590a738c556与精确候选view的原生对象全解析、成员/分片/计数全枚举。既有17父合同复用已接受基线并深等保护，本次逐字段审新增两变体。",
+        "notRead": [
+          "未逐篇重新审阅成员正文/旧变体的业务断言。",
+          "未重跑历史raw、浏览器E2E、存读档、视觉或coverage。"
+        ],
+        "currentReader": "Codex",
+        "currentReviewDate": "2026-10-29",
+        "originalReviewDateMeaning": "Existing reviewDate/reviewer fields remain the prior review provenance, not this reading date."
+      },
+      "fieldRoles": {
+        "logical": [
+          "template-example authority and ordered identity; all example fields remain reference content"
+        ],
+        "physical": [
+          "原生JSON保留消费者字段，不加wrapper/payload/sidecar；manifest与片按实际loader分列。"
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/14"
+        ]
+      },
+      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。"
     },
     {
       "path": "docs/testing/_templates/quality-gate.md",
@@ -5904,50 +6001,61 @@
       "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
+      "template": "reference-canon.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
       "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/testing/_templates/test-catalog.json:1"],
-      "unresolved": [
-        "Template source changes require registry/consumer review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      "coreConclusion": "本页是test-catalog 1.2的JSON骨架：entries空、治理字段留空、status=draft且runtimeExecutionPerformed=false；空数组在样例合法，在真实catalog合同中不等于已审全量。嵌入_governance是给使用者填写的示例，本文件的当前参考治理在唯一review，不把空字段或占位source SHA当真实证据。",
+      "truthAnchors": [
+        "docs/testing/_templates/test-catalog.json (native role and structure)",
+        "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/16",
+        "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9:docs/testing/_templates/test-catalog.json"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "unresolved": [
+        "成员若有未完成项、原源未认证或运行缺口，仍由对应原卡与证据负责；本控制/示例解释不授替代信用。"
+      ],
+      "nextStep": "只有精确解释获真实非作者接受与Owner决定方可受控grant；后续结构/政策/成员身份改变先重新审阅接受，合法after维护只更新观测闭包。",
       "phase": "testing",
       "module": "_templates",
       "capability": "test-catalog.json",
-      "owner": "Codex",
+      "owner": "Codex (S71 current control/reference interpretation; original provenance retained)",
       "provenance": [
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "actor": "Codex",
+          "date": "2026-10-29",
+          "action": "S71 current native control/reference role interpretation",
+          "sourceRevision": "a24bd7d3828a199813316ac5a0a62590a738c556"
+        }
       ],
       "sourceSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
       "afterSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
       "publicCallers": [
         "docs/testing/_templates/README.md",
-        "docs/phase-governance/templates/registry.json",
-        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        "scripts/docs/report-governance-progress.mjs"
       ],
-      "legalInputs": ["current template registry", "docs/testing/_templates/test-catalog.json"],
+      "legalInputs": [
+        "本路径唯一角色、原生Buffer、完整114保护review组及实际Git来源。",
+        "只接受真实manifest/片/位置与当前身份；示例占位不作已发生执行。"
+      ],
       "businessOracle": {
-        "type": "canonical-template-source",
+        "type": "current-native-control-integrity",
         "assertions": [
-          "original bytes remain unchanged",
-          "template source remains copyable/consumable",
-          "source and after SHA equal",
-          "no runtime/E2E/visual/coverage credit"
+          "当前原生结构/政策/成员身份必须与解释指纹一致，描述符和派生汇总必须匹配。",
+          "after仅为当前byte观测；原source与历史claim不可刷新洗白。",
+          "独立接受绑定本篇具体解释；任何child/runtime/旧撤信恢复不由此控制件授予。"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-preserved",
+        "result": "unique-current-role",
         "against": [
           "docs/testing/_templates/test-catalog.json",
-          "docs/phase-governance/templates/registry.json"
-        ]
+          "docs/phase-governance/reviews/20261017-r62-template-sources.json"
+        ],
+        "notes": "不另建canonical账本、来源副本或sidecar；目录投影不替代权威源。"
       },
       "revision": {
         "currentSha": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
@@ -5969,23 +6077,33 @@
         ]
       },
       "evidence": {
-        "kind": "template-source-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
-        "sourceSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
-        "candidateSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
-        "afterSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
-        "lineCount": 25,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable canonical template source",
-          "sourceBytes": 570,
-          "sourceLines": 25,
-          "sourceFinalNewline": true,
-          "inverseSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
-          "exactRoundTrip": true,
-          "topLevelShape": "json"
+        "kind": "current-native-control-candidate",
+        "path": "docs/testing/_templates/test-catalog.json",
+        "role": "template-example",
+        "author": "Codex",
+        "source": {
+          "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+          "path": "docs/testing/_templates/test-catalog.json",
+          "gitObject": "680e1a7fe1b5c44b677f5f2429d1fc455a90f525",
+          "sha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650"
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "structureSha256": "672e43b0a32d843ac4c3e1de2c7bb1ae1e30f732af263ce6604d08542a47c125",
+        "membershipSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "observed": {
+          "exampleId": null,
+          "exampleStatus": "draft",
+          "executionPerformed": false
+        },
+        "observation": {
+          "kind": "owned-planned-candidate",
+          "revisionBefore": "a24bd7d3828a199813316ac5a0a62590a738c556",
+          "date": "2026-10-29",
+          "nativeBytesSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
+          "scope": "Before-state Git plus the exact owned control projection, not a claim that these candidate bytes existed in the before commit."
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "childSemanticAcceptanceGranted": false
       },
       "history": [
         {
@@ -6007,18 +6125,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "current-native-control-candidate",
+          "task": "DOCS-FULL-TEMPLATE-1/S71",
+          "date": "2026-10-29",
+          "author": "Codex",
+          "priorEntrySha256": "be29345e6da3386ac613fcb284f74a1c55a2149f8ce5f593fa07ca3e92def20e",
+          "scope": "Exact current control/reference interpretation; no status/old/runtime/child credit."
         }
       ],
       "supersedes": [
         "governed-legacy template-source presentation; canonical source retained byte-stably"
       ],
-      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
-      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "stopLine": "角色/结构/来源/唯一归属/保护快照或原始历史冲突立即停对应claim；只刷after不得授信，不恢复旧声明，不授child/runtime。",
+      "userVisibleBeforeAfter": "原生消费者字段保留，泛化artifact解释改为本路径具体current控制/示例职责；发布信用仍需独立接受。",
       "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "artifactOnly": true,
-      "documentStatus": "canonical-template-source",
+      "artifactOnly": false,
+      "documentStatus": "current",
       "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
       "candidateSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
       "primarySource": [
@@ -6035,11 +6161,7 @@
         "currentBoundary": "template registry and direct consumers own canonical source truth"
       },
       "dependencies": "template README, registry and consumer tests.",
-      "versionScope": {
-        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
-        "date": "2026-10-17",
-        "validity": "canonical-template-source"
-      },
+      "versionScope": "Current control/reference schema; variant1.0.0. Observations belong to the owned candidate view, not perpetual live counts.",
       "counterReworkBlocked": [
         {
           "id": "R62-NO-EXECUTION-CREDIT",
@@ -6054,7 +6176,31 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "current-template-example-native-v1",
+      "artifactEnvelope": false,
+      "readDomain": {
+        "actual": "S71 Owner核职责/政策/来源边界；固定before a24bd7d3828a199813316ac5a0a62590a738c556与精确候选view的原生对象全解析、成员/分片/计数全枚举。既有17父合同复用已接受基线并深等保护，本次逐字段审新增两变体。",
+        "notRead": [
+          "未逐篇重新审阅成员正文/旧变体的业务断言。",
+          "未重跑历史raw、浏览器E2E、存读档、视觉或coverage。"
+        ],
+        "currentReader": "Codex",
+        "currentReviewDate": "2026-10-29",
+        "originalReviewDateMeaning": "Existing reviewDate/reviewer fields remain the prior review provenance, not this reading date."
+      },
+      "fieldRoles": {
+        "logical": [
+          "template-example authority and ordered identity; all example fields remain reference content"
+        ],
+        "physical": [
+          "原生JSON保留消费者字段，不加wrapper/payload/sidecar；manifest与片按实际loader分列。"
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/16"
+        ]
+      },
+      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。"
     },
     {
       "path": "docs/testing/_templates/test-catalog.md",
@@ -7542,53 +7688,61 @@
       "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
+      "template": "reference-canon.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
       "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/testing/_templates/test-machine-evidence.json:1"],
-      "unresolved": [
-        "Template source changes require registry/consumer review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      "coreConclusion": "本页是test-NNN/recorded的machine evidence 1.5 execution骨架：命令/时间/来源为空、exitCode/signal=null、cleanup.complete=false。recorded是样例字段而非成功；保留_governance占位格式供真实回执填入，不把本样例的execution变体当已经执行，也不以结构可解析授runtime信用。",
+      "truthAnchors": [
+        "docs/testing/_templates/test-machine-evidence.json (native role and structure)",
+        "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/21",
+        "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9:docs/testing/_templates/test-machine-evidence.json"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "unresolved": [
+        "成员若有未完成项、原源未认证或运行缺口，仍由对应原卡与证据负责；本控制/示例解释不授替代信用。"
+      ],
+      "nextStep": "只有精确解释获真实非作者接受与Owner决定方可受控grant；后续结构/政策/成员身份改变先重新审阅接受，合法after维护只更新观测闭包。",
       "phase": "testing",
       "module": "_templates",
       "capability": "test-machine-evidence.json",
-      "owner": "Codex",
+      "owner": "Codex (S71 current control/reference interpretation; original provenance retained)",
       "provenance": [
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "actor": "Codex",
+          "date": "2026-10-29",
+          "action": "S71 current native control/reference role interpretation",
+          "sourceRevision": "a24bd7d3828a199813316ac5a0a62590a738c556"
+        }
       ],
       "sourceSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
       "afterSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
       "publicCallers": [
         "docs/testing/_templates/README.md",
-        "docs/phase-governance/templates/registry.json",
-        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+        "scripts/docs/report-governance-progress.mjs"
       ],
       "legalInputs": [
-        "current template registry",
-        "docs/testing/_templates/test-machine-evidence.json"
+        "本路径唯一角色、原生Buffer、完整114保护review组及实际Git来源。",
+        "只接受真实manifest/片/位置与当前身份；示例占位不作已发生执行。"
       ],
       "businessOracle": {
-        "type": "canonical-template-source",
+        "type": "current-native-control-integrity",
         "assertions": [
-          "original bytes remain unchanged",
-          "template source remains copyable/consumable",
-          "source and after SHA equal",
-          "no runtime/E2E/visual/coverage credit"
+          "当前原生结构/政策/成员身份必须与解释指纹一致，描述符和派生汇总必须匹配。",
+          "after仅为当前byte观测；原source与历史claim不可刷新洗白。",
+          "独立接受绑定本篇具体解释；任何child/runtime/旧撤信恢复不由此控制件授予。"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-preserved",
+        "result": "unique-current-role",
         "against": [
           "docs/testing/_templates/test-machine-evidence.json",
-          "docs/phase-governance/templates/registry.json"
-        ]
+          "docs/phase-governance/reviews/20261017-r62-template-sources.json"
+        ],
+        "notes": "不另建canonical账本、来源副本或sidecar；目录投影不替代权威源。"
       },
       "revision": {
         "currentSha": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
@@ -7610,23 +7764,33 @@
         ]
       },
       "evidence": {
-        "kind": "template-source-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
-        "sourceSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
-        "candidateSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
-        "afterSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
-        "lineCount": 46,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable canonical template source",
-          "sourceBytes": 1059,
-          "sourceLines": 46,
-          "sourceFinalNewline": true,
-          "inverseSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
-          "exactRoundTrip": true,
-          "topLevelShape": "json"
+        "kind": "current-native-control-candidate",
+        "path": "docs/testing/_templates/test-machine-evidence.json",
+        "role": "template-example",
+        "author": "Codex",
+        "source": {
+          "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+          "path": "docs/testing/_templates/test-machine-evidence.json",
+          "gitObject": "b8a19d8da7a884d5008afd14cd4dee8eac705a43",
+          "sha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca"
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "structureSha256": "61ac7d5b887f537510884c1397f050ea2bc94cb57fadb1cb0e4be3387e754ff0",
+        "membershipSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "observed": {
+          "exampleId": "test-NNN",
+          "exampleStatus": "recorded",
+          "executionPerformed": false
+        },
+        "observation": {
+          "kind": "owned-planned-candidate",
+          "revisionBefore": "a24bd7d3828a199813316ac5a0a62590a738c556",
+          "date": "2026-10-29",
+          "nativeBytesSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+          "scope": "Before-state Git plus the exact owned control projection, not a claim that these candidate bytes existed in the before commit."
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "childSemanticAcceptanceGranted": false
       },
       "history": [
         {
@@ -7648,18 +7812,26 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "current-native-control-candidate",
+          "task": "DOCS-FULL-TEMPLATE-1/S71",
+          "date": "2026-10-29",
+          "author": "Codex",
+          "priorEntrySha256": "b8fd854db3fb8e6adba06ee77a76c4594cef7905f399caa6bf9204d8a0ba9e08",
+          "scope": "Exact current control/reference interpretation; no status/old/runtime/child credit."
         }
       ],
       "supersedes": [
         "governed-legacy template-source presentation; canonical source retained byte-stably"
       ],
-      "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
-      "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
+      "stopLine": "角色/结构/来源/唯一归属/保护快照或原始历史冲突立即停对应claim；只刷after不得授信，不恢复旧声明，不授child/runtime。",
+      "userVisibleBeforeAfter": "原生消费者字段保留，泛化artifact解释改为本路径具体current控制/示例职责；发布信用仍需独立接受。",
       "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "artifactOnly": true,
-      "documentStatus": "canonical-template-source",
+      "artifactOnly": false,
+      "documentStatus": "current",
       "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
       "candidateSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
       "primarySource": [
@@ -7676,11 +7848,7 @@
         "currentBoundary": "template registry and direct consumers own canonical source truth"
       },
       "dependencies": "template README, registry and consumer tests.",
-      "versionScope": {
-        "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
-        "date": "2026-10-17",
-        "validity": "canonical-template-source"
-      },
+      "versionScope": "Current control/reference schema; variant1.0.0. Observations belong to the owned candidate view, not perpetual live counts.",
       "counterReworkBlocked": [
         {
           "id": "R62-NO-EXECUTION-CREDIT",
@@ -7695,7 +7863,31 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "templateVariant": "current-template-example-native-v1",
+      "artifactEnvelope": false,
+      "readDomain": {
+        "actual": "S71 Owner核职责/政策/来源边界；固定before a24bd7d3828a199813316ac5a0a62590a738c556与精确候选view的原生对象全解析、成员/分片/计数全枚举。既有17父合同复用已接受基线并深等保护，本次逐字段审新增两变体。",
+        "notRead": [
+          "未逐篇重新审阅成员正文/旧变体的业务断言。",
+          "未重跑历史raw、浏览器E2E、存读档、视觉或coverage。"
+        ],
+        "currentReader": "Codex",
+        "currentReviewDate": "2026-10-29",
+        "originalReviewDateMeaning": "Existing reviewDate/reviewer fields remain the prior review provenance, not this reading date."
+      },
+      "fieldRoles": {
+        "logical": [
+          "template-example authority and ordered identity; all example fields remain reference content"
+        ],
+        "physical": [
+          "原生JSON保留消费者字段，不加wrapper/payload/sidecar；manifest与片按实际loader分列。"
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/21"
+        ]
+      },
+      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。"
     },
     {
       "path": "docs/testing/_templates/test-run-report.md",

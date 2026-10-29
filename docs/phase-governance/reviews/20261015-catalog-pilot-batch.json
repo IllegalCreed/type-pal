@@ -6,19 +6,18 @@
     {
       "path": "docs/testing/catalog.json",
       "contentReviewStatus": "partial-review-unknown",
-      "docType": "test-catalog",
-      "templateId": "test-catalog-v1",
-      "templateVersion": "1.2.0",
-      "template": "docs/phase-governance/templates/../../testing/_templates/test-catalog.json",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "template": "governance-index.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Bounded current body/code/evidence delta plus exact preserved source/history; not a new whole-source deep-read claim.",
-      "reviewDepth": "partial-semantic",
-      "coreConclusion": "Exactly e2e006 pairs a new current execution receipt with the full-byte-pinned historical receipt and backward supersedes. Other17 entry objects unchanged; rework,lastVerifiedOct3,reviewByNov2 remain. Publication deadline is not runtime outcome.",
+      "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "本候选testing catalog的18个稳定ID各配canonical/index/evidence，发布依赖和日期由check-testing核，九个视图仅投影。001此次续审是七源码pin/55行原生合同/25工具用例的真实文档复核，lastVerified与旧执行版本不刷新；006真实结果由其配对当前回执负责，catalog不能替代runtime/E2E/视觉。",
       "truthAnchors": [
-        "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
-        "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
-        "scripts/docs/document-model.mjs",
-        "scripts/docs/frozen-document-source.mjs"
+        "docs/testing/catalog.json (native role and structure)",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json#entries/0",
+        "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9:docs/testing/catalog.json"
       ],
       "primarySource": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/catalog.json",
@@ -26,7 +25,7 @@
         "scripts/docs/document-model.mjs",
         "scripts/docs/frozen-document-source.mjs"
       ],
-      "documentStatus": "Current publication/navigation; exact e136 maintenance independently accepted, later root administrative fields separately pending scoped reception.",
+      "documentStatus": "current",
       "phaseAnchors": ["docs/testing/governance.md", "docs/phase2/READ-FIRST.md", "CLAUDE.md"],
       "dependencies": [
         "docs/phase-governance/templates/registry.json",
@@ -41,14 +40,12 @@
         "limits": "No fresh18-entry product review, original code/test quality closure or runtime/E2E/visual/coverage credit."
       },
       "unresolved": [
-        "Non-author current candidate acceptance pending",
-        "User boat/rower/landing perception pending, silent actual clips available",
-        "Full docs strict backlog and separately expired e2e-route publication remain unpassed"
+        "成员若有未完成项、原源未认证或运行缺口，仍由对应原卡与证据负责；本控制/示例解释不授替代信用。"
       ],
-      "nextStep": "Independent evidence/central-delta acceptance and user visual decision; no date-only closure or main/push/done.",
+      "nextStep": "只有精确解释获真实非作者接受与Owner决定方可受控grant；后续结构/政策/成员身份改变先重新审阅接受，合法after维护只更新观测闭包。",
       "phase": "testing",
       "module": "catalog-and-template-navigation",
-      "owner": "Codex",
+      "owner": "Codex (S71 current control/reference interpretation; original provenance retained)",
       "provenance": [
         "full original document read",
         "frozen 1.1.0 design",
@@ -98,7 +95,13 @@
           }
         },
         "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator.",
-        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
+        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending.",
+        {
+          "actor": "Codex",
+          "date": "2026-10-29",
+          "action": "S71 current native control/reference role interpretation",
+          "sourceRevision": "a24bd7d3828a199813316ac5a0a62590a738c556"
+        }
       ],
       "sourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
@@ -106,25 +109,28 @@
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
       "afterSha256": "ab93577d987e213ba23c6b3082a28c18889229cd1c785d3d8ba32dc4cb5816ac",
       "publicCallers": [
-        "node scripts/docs/check-testing.mjs",
-        "node scripts/docs/check-document-model.mjs",
-        "node scripts/e2e/boat-both.mjs"
+        "scripts/docs/check-testing.mjs",
+        "scripts/docs/report-governance-progress.mjs"
       ],
       "legalInputs": [
-        "Fixed prior e5 author/control objects and current body commit f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
-        "Actual independent006 raw and exact static preview projections; historical native bytes unchanged"
+        "本路径唯一角色、原生Buffer、完整114保护review组及实际Git来源。",
+        "只接受真实manifest/片/位置与当前身份；示例占位不作已发生执行。"
       ],
       "businessOracle": {
-        "type": "bounded-owner-e2e-publication-no-self-credit",
+        "type": "current-native-control-integrity",
         "assertions": [
-          "Exactly e2e006 pairs a new current execution receipt with the full-byte-pinned historical receipt and backward supersedes. Other17 entry objects unchanged; rework,lastVerifiedOct3,reviewByNov2 remain. Publication deadline is not runtime outcome.",
-          "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
+          "当前原生结构/政策/成员身份必须与解释指纹一致，描述符和派生汇总必须匹配。",
+          "after仅为当前byte观测；原source与历史claim不可刷新洗白。",
+          "独立接受绑定本篇具体解释；任何child/runtime/旧撤信恢复不由此控制件授予。"
         ]
       },
       "dedupe": {
-        "result": "distinct-bounded-current-delta",
-        "against": ["2026-10-26 partial006 closeout", "historical006 receipt"],
-        "notes": "No duplicate current binding or restored old acceptance."
+        "result": "unique-current-role",
+        "against": [
+          "docs/testing/catalog.json",
+          "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json"
+        ],
+        "notes": "不另建canonical账本、来源副本或sidecar；目录投影不替代权威源。"
       },
       "revision": {
         "currentSha": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
@@ -156,47 +162,31 @@
         ]
       },
       "evidence": {
-        "kind": "F1-author-source-preservation-default-contract-and-maintenance-review",
-        "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
-        "sourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
-        "afterSha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
-        "lineCount": 2003,
-        "sourceScope": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
-        "completePrior": {
-          "kind": "complete-prior-current-in-reachable-fixed-git",
-          "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
-          "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
-          "gitObject": "483a6b7162309fb91c8de0a521b8d2b8a2f08405",
-          "fileSha256": "7fed55bcd3d5978f6fec7d5ac8d34ddd51da528134c10ee4f2d0ea09a01e66d0",
-          "selector": {
-            "entries.path": "docs/testing/catalog.json",
-            "uniqueMatches": 1
-          },
-          "completePriorObjectRetrievedAndCompared": true
+        "kind": "current-native-control-candidate",
+        "path": "docs/testing/catalog.json",
+        "role": "testing-catalog",
+        "author": "Codex",
+        "source": {
+          "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+          "path": "docs/testing/catalog.json",
+          "gitObject": "0a29af0ca464a19fd029c027539ed58e3694832a",
+          "sha256": "668b213bf3f280d5f8cefe555874988bfd83af82b93734f3d16d19198c2618aa"
         },
-        "independentReception": "Exact e136 maintenance/source and final164 root14 accepted in recorded independent scopes; current subsequent metadata only separately reviewed.",
-        "immediateCompletePrior": {
-          "kind": "complete-prior-current-in-reachable-fixed-git",
-          "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
-          "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
-          "gitObject": "5948051e425f75f475cb60b225cc3c5033fd38bf",
-          "fileSha256": "29de8cf710483d84ed85c33f37ad69e8e42c5b99289ef9fa2cb8b9f2ac70ff4a",
-          "completePriorObjectRetrievedAndCompared": true,
-          "selector": {
-            "entries.path": "docs/testing/catalog.json",
-            "uniqueMatches": 1
-          }
+        "structureSha256": "b98af3e7b34e5d2157897f4e1ac1846ea03137bd7c1813aac30184320871dcc4",
+        "membershipSha256": "5b5afb837d71a9e5fc0be6c96e18241185d44bfe72737051136b4a6fe4ea8dd5",
+        "observed": {
+          "entries": 18
         },
-        "currentPublicationDelta": {
-          "kind": "author-candidate",
-          "task": "E2E-006-1",
-          "date": "2026-10-27",
-          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
-          "currentRuntimeReceipt": "docs/testing/e2e/evidence/e2e-006-current.json",
-          "scope": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
-          "independentAcceptance": "pending",
-          "runtimeAcceptanceGranted": false
-        }
+        "observation": {
+          "kind": "owned-planned-candidate",
+          "revisionBefore": "a24bd7d3828a199813316ac5a0a62590a738c556",
+          "date": "2026-10-29",
+          "nativeBytesSha256": "ab93577d987e213ba23c6b3082a28c18889229cd1c785d3d8ba32dc4cb5816ac",
+          "scope": "Before-state Git plus the exact owned control projection, not a claim that these candidate bytes existed in the before commit."
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "childSemanticAcceptanceGranted": false
       },
       "history": [
         {
@@ -347,15 +337,19 @@
           "priorIndependentAcceptance": null,
           "newDocumentAcceptanceGranted": false,
           "newRuntimeAcceptanceGranted": false
+        },
+        {
+          "kind": "current-native-control-candidate",
+          "task": "DOCS-FULL-TEMPLATE-1/S71",
+          "date": "2026-10-29",
+          "author": "Codex",
+          "priorEntrySha256": "df921152e9ba7706a2a63f05de695939d1c7374c537d6312ede2fc093b85d025",
+          "scope": "Exact current control/reference interpretation; no status/old/runtime/child credit."
         }
       ],
       "supersedes": [],
-      "stopLine": "Neither publication validation, JSON envelope, template example nor historical verified status certifies current runtime/E2E/visual/coverage or full-docs completion.",
-      "userVisibleBeforeAfter": {
-        "before": "Exact ec2 accepted predecessor preserved full in fixedGit prior locator.",
-        "after": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
-        "semanticChange": "Fixed e136/dd377 acceptances recorded with exact scopes, later root delta separately reviewed; no publication/runtime/old-code/whole-goal acceptance."
-      },
+      "stopLine": "角色/结构/来源/唯一归属/保护快照或原始历史冲突立即停对应claim；只刷after不得授信，不恢复旧声明，不授child/runtime。",
+      "userVisibleBeforeAfter": "原生消费者字段保留，泛化artifact解释改为本路径具体current控制/示例职责；发布信用仍需独立接受。",
       "reviewedLines": "1-2003",
       "templateConformity": {
         "result": "template-compliant",
@@ -602,7 +596,32 @@
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "templateVariant": "current-governance-control-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "readDomain": {
+        "actual": "S71 Owner核职责/政策/来源边界；固定before a24bd7d3828a199813316ac5a0a62590a738c556与精确候选view的原生对象全解析、成员/分片/计数全枚举。既有17父合同复用已接受基线并深等保护，本次逐字段审新增两变体。",
+        "notRead": [
+          "未逐篇重新审阅成员正文/旧变体的业务断言。",
+          "未重跑历史raw、浏览器E2E、存读档、视觉或coverage。"
+        ],
+        "currentReader": "Codex",
+        "currentReviewDate": "2026-10-29",
+        "originalReviewDateMeaning": "Existing reviewDate/reviewer fields remain the prior review provenance, not this reading date."
+      },
+      "fieldRoles": {
+        "logical": [
+          "testing-catalog authority and ordered identity; child observations/statuses retain their separate contracts"
+        ],
+        "physical": [
+          "原生JSON保留消费者字段，不加wrapper/payload/sidecar；manifest与片按实际loader分列。"
+        ],
+        "governance": ["docs/phase-governance/reviews/20261015-catalog-pilot-batch.json#entries/0"]
+      },
+      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。",
+      "versionScope": "Current control/reference schema; variant1.0.0. Observations belong to the owned candidate view, not perpetual live counts."
     },
     {
       "path": "docs/testing/_templates/README.md",

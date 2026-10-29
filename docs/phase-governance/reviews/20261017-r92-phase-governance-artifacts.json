@@ -4438,7 +4438,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
-      "afterSha256": "4b8814d3cd1fcdd3e386cbf8bda09ffebe50cc2275a9bfeed1ac6986b918b7bd",
+      "afterSha256": "bb4530026a26fd94dedeb6e1f4972c27e83a4ba1cb1a603abaf09b03a1d714b3",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -4620,6 +4620,15 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/current-ledger-candidate",
+          "beforeSha256": "4b8814d3cd1fcdd3e386cbf8bda09ffebe50cc2275a9bfeed1ac6986b918b7bd",
+          "afterSha256": "bb4530026a26fd94dedeb6e1f4972c27e83a4ba1cb1a603abaf09b03a1d714b3",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",

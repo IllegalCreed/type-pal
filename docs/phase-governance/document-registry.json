@@ -45,16 +45,16 @@
     "byType": {
       "task-card": 366,
       "guide-runbook": 18,
-      "archive-record": 483,
-      "governance-index": 271,
+      "archive-record": 475,
+      "governance-index": 290,
       "audit-report": 67,
       "design-spec": 48,
       "evidence-receipt": 475,
       "quality-gate": 3,
       "test-machine-evidence": 352,
-      "reference-canon": 38,
+      "reference-canon": 37,
       "plan-status": 74,
-      "test-catalog": 11,
+      "test-catalog": 1,
       "test-run-report": 210,
       "narrative-idea": 2,
       "test-e2e-stage": 6,
@@ -120,14 +120,14 @@
       "phase": "phase-governance",
       "path": "document-registry.phase-governance.json",
       "total": 156,
-      "sha256": "0dabe3562b5b09596ccb2d5e379fb73f17be372df690a98f07ef6dd05c65fff8"
+      "sha256": "7e1ce5b5e8ae9cdfa838cf86d4775e1c293320b7eccb579afeb1b1a41534ec70"
     },
     {
       "key": "testing",
       "phase": "testing",
       "path": "document-registry.testing.json",
       "total": 760,
-      "sha256": "7e61d7c34db22fda0d7c130b8c4668ecf1feda00bbdbb762234cfe3b0bbe8138"
+      "sha256": "82c3d13f2b99368dd8d92ebb464e8946d30e96accc0fab7c0dc6aa624ff56c12"
     }
   ],
   "documentRetirements": {

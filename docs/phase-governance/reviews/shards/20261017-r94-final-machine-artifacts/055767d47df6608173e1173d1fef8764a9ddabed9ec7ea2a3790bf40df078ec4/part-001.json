@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "40a2e3b5ba865efcb7ba910294a19ed9244b833392f43002453f233231fed317",
+  "generation": "055767d47df6608173e1173d1fef8764a9ddabed9ec7ea2a3790bf40df078ec4",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   "entries": [
@@ -2089,7 +2089,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "2290e07a57326555e83e15071e5034344992a963e052ffa0068db0f2e6fb5787",
+      "afterSha256": "35d421d000d31dd2efb5f3597f41bded7bbf985e6bd221083c08db2aecdd40cf",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -2454,6 +2454,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/current-ledger-candidate",
+          "beforeSha256": "2290e07a57326555e83e15071e5034344992a963e052ffa0068db0f2e6fb5787",
+          "afterSha256": "35d421d000d31dd2efb5f3597f41bded7bbf985e6bd221083c08db2aecdd40cf",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",
@@ -2556,7 +2565,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "6071f2df66100a30e7e2ad495e967f55648f20b52a12368e3fac312ad77f9e67",
+      "afterSha256": "a59fb97d59f2579193685a2f235fcf42623d8f742ffaf5fac7f53134f3b10d07",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -3946,6 +3955,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/current-ledger-candidate",
+          "beforeSha256": "6071f2df66100a30e7e2ad495e967f55648f20b52a12368e3fac312ad77f9e67",
+          "afterSha256": "a59fb97d59f2579193685a2f235fcf42623d8f742ffaf5fac7f53134f3b10d07",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",

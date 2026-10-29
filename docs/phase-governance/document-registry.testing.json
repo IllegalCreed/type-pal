@@ -102,14 +102,17 @@
     },
     {
       "path": "docs/testing/catalog.json",
-      "docType": "test-catalog",
-      "templateId": "test-catalog-v1",
-      "templateVersion": "1.2.0",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "phase": "testing",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261015-catalog-pilot-batch.json",
-      "reviewDepth": "partial-semantic"
+      "reviewDepth": "structured-content",
+      "templateVariant": "current-governance-control-native-v1",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/_templates/README.md",
@@ -1702,7 +1705,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r62-template-sources.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "current-template-example-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "structured-content"
     },
     {
       "path": "docs/testing/_templates/quality-gate.md",
@@ -1722,7 +1729,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r62-template-sources.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "current-template-example-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "structured-content"
     },
     {
       "path": "docs/testing/_templates/test-catalog.md",
@@ -1772,7 +1783,11 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r62-template-sources.json",
-      "artifactOnly": true
+      "artifactOnly": false,
+      "templateVariant": "current-template-example-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "structured-content"
     },
     {
       "path": "docs/testing/_templates/test-run-report.md",
@@ -9414,26 +9429,34 @@
     {
       "path": "docs/testing/legacy-flat-classification.json",
       "phase": "testing",
-      "docType": "test-catalog",
-      "templateId": "test-catalog-v1",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r83-testing-current.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "current-governance-control-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "structured-content"
     },
     {
       "path": "docs/testing/legacy-flat.json",
       "phase": "testing",
-      "docType": "test-catalog",
-      "templateId": "test-catalog-v1",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r83-testing-current.json",
-      "artifactOnly": true,
-      "artifactEnvelope": true,
-      "artifactFormat": "json"
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "artifactFormat": "json",
+      "templateVariant": "current-governance-control-native-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "reviewDepth": "structured-content"
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-006-current.json",

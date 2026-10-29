@@ -146,7 +146,9 @@
     },
     {
       "path": "docs/testing/catalog.json",
-      "templateId": "test-catalog-v1"
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
     },
     {
       "path": "docs/testing/_templates/README.md",
@@ -13090,6 +13092,132 @@
       "path": "docs/phase-governance/reviews/20261021-s20-accepted-01.json",
       "templateId": "evidence-receipt-v1",
       "variant": "current-review-ledger-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/catalog.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/catalog.lore.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/catalog.phase1.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/catalog.phase2.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/catalog.phase3.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/document-registry.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/document-registry.ops.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/document-registry.lore.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase1.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase2.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase3.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase-governance.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/document-registry.testing.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/routing.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/cross-phase-matrix.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/phase-governance/templates/registry.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/legacy-flat.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/legacy-flat-classification.json",
+      "templateId": "governance-index-v1",
+      "variant": "current-governance-control-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/_templates/evidence.json",
+      "templateId": "reference-canon-v1",
+      "variant": "current-template-example-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/_templates/test-catalog.json",
+      "templateId": "reference-canon-v1",
+      "variant": "current-template-example-native-v1",
+      "historyOverlay": false
+    },
+    {
+      "path": "docs/testing/_templates/test-machine-evidence.json",
+      "templateId": "reference-canon-v1",
+      "variant": "current-template-example-native-v1",
       "historyOverlay": false
     }
   ],
