@@ -20,6 +20,7 @@ import {
   currentNativeContract,
   inspectCurrentNativeControl,
 } from './current-native-control.mjs'
+import { currentNativeControlAcceptance } from './current-native-control-acceptance.mjs'
 import {
   currentNativeControlAdmissions,
   currentNativeControlBaseline,
@@ -472,7 +473,10 @@ test('the original catalog structure API remains available but cannot downgrade 
     readSourceBuffer: source,
     reviewGroupReader: f.group,
   })
-  assert.deepEqual(checkMigratedDocument(doc, templates, f.read, options()), [])
+  const oldRoleIssues = checkMigratedDocument(doc, templates, f.read, options())
+  if (Object.hasOwn(currentNativeControlAcceptance, binding.path))
+    assert.match(oldRoleIssues.join(';'), /exact admitted role/)
+  else assert.deepEqual(oldRoleIssues, [])
   f.editRow(binding, (r) => {
     r.contentReviewStatus = 'content-reviewed'
   })
