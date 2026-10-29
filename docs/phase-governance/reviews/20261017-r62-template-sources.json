@@ -3414,7 +3414,7 @@
         }
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "2adecb9570fa1a96791d0fbbc8cb0301cf3b0f92af439632dbb9d3268a16aafe",
+      "afterSha256": "48fe5f53a61d44d78a0e1f4f792b0841e265f7cc11575c109bd9a38f52f08a0a",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3940,6 +3940,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
             "index": 9,
             "entryCanonicalSha256": "143039e46d8ea3802f9e209afba8b3c64cb7b1c2f3e554dde9dbdf8709a421bb"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S71/final-results",
+          "revision": "15e210c392cc1850a427132b30b2275edd4f7a83",
+          "beforeSha256": "2adecb9570fa1a96791d0fbbc8cb0301cf3b0f92af439632dbb9d3268a16aafe",
+          "afterSha256": "48fe5f53a61d44d78a0e1f4f792b0841e265f7cc11575c109bd9a38f52f08a0a",
+          "scope": "S71 received S70 acceptance, current native definitions and actual001 source/claim-scope review; no new status/runtime credit",
+          "priorRecord": {
+            "revision": "15e210c392cc1850a427132b30b2275edd4f7a83",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+            "index": 9,
+            "entryCanonicalSha256": "44b840fcf92f395d79c41416e7cf389ccc43cb341bc4351b6ff1c3e66dafe3ad"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

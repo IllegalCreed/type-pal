@@ -5,7 +5,7 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: GLM（S69 Owner限定增量非作者accept）；Codex（S68基础字段独立裁定及S70中央接入）；全量硬验收未完成
+Reviewer: GLM（S70接入增量非作者accept）；Codex（S71当前控制/示例作者与Owner）；S71独立验收及全量硬门未完成
 Branch: codex/docs-s71-current-controls
 Last reviewed: 2026-10-29
 Template: task-card-v1 / 1.0.0
@@ -2763,3 +2763,13 @@ S70候选8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9已获GLM只读非作者accept�
 e2e-001须实际核读完整报告/配对JSON、7个sourceRefs行段/实际SHA、两runner和both调用链、现行content22/minimumSAVE12及oracle；必要定向工具回放只授工具合同信用。能据证续审时才更新reviewBy及索引/文档审阅日期，保留lastVerified原日期、旧candidate/版本/raw和runtimeExecution=false；若当前执行事实不足，保留缺口，不把文档续审冒充新实跑。日期门不以豁免、ignore或自动滚动日期解除。
 
 S71正式22项计划首次dry-run在任何落盘前被1MiB护卫拒绝：20261018-record-integrity-rework结构根原flat为981042B，补七个registry分片的具体说明后无法继续flat。Owner据此显式准入该结构根唯一flat→manifest升级，固定8103c7e1879b926df0ac00acdba06a6fe4ea691f的真实flat Git原件（OID 0c324e9c636de903c5b655264e4824b3723d2254、SHA7aff0960daeec007f687d6dc882f7f2ca03bbd3e08e62e04dcd331d09a237382）。它不是governed正文，不增加2435或1838分母；旧13source原样，14th只对应本精确普通Git blob，原对象/成员/位置和旧历史由保护loader保全。新manifest与每片沿原512KiB/1MiB护卫，不压缩结论、不提高maxSize。公共事务与同一封闭candidate通道先支持新精确source，再在三pilot及全22演练中核组读回；不得静默升级其它flat owner或伪造通过。
+
+S71实际交付：两变体各1.0.0已注册，19控制+3JSON示例共22件完成逐路径具体解释；仍partial/needs，接受表为空。复用既有共享事务的封闭native-control candidate/publication通道；作者不能改状态，Owner通道只能应用未来真实编译接受；原ledger通道不会自动触发新结构根升级。10项新回归含真实source/22角色、三model正例、类型/来源/结构/派生汇总反例、假授信、IO竞态/同字节symlink/活锁、资格纯正反例及原catalog schema的过渡职责。旧测试零改动。
+
+三pilot临时树完成17写/7退、14source/49片、2435pin，model2415/0、非strict review及testing均通过；初次whole-model发现原catalog仍在partial旧schema阶段而被新角色提前拦截，已限定仅旧身份partial/needs且无编译接受时保留原schema检查，活动native metadata/授信后禁止降级，原失败保留。另补docType与模板父类型严格相等。物理写入在139，随后只读公共guard修订与实际组读回在70226f5a08467d8e554505f56eaaff87e56e61ed；分阶段如实，不将新版guard倒签到旧执行。
+
+实际22作者候选15e210c39通过同一公开CLI --write（21写/7退、167物理=163 review+4控制投影、14manifest/49片、2435after精确）；两接受表中S70的111签名内容不变，S71表仍0，新语义/迁移/runtime/child信用均0。新结构根独立JSON解包重建与公开loader逐值/键序/三个fingerprint相等，旧13pin保全；原生473、001/006三配对JSON、冻结1838不动。只有模板示例的两个minimumSAVE默认值从11改为12，不将示例当执行。
+
+001续审已真实核读完整报告和原配对JSON、7源码SHA/行段、两runner/both调用链及55行原生对白合同；三工具文件25/25通过，无浏览器/存读档/视觉新执行。reviewBy按这次文档复核从2026-10-28续至2026-11-28，lastVerified=2026-09-28、原22/11候选/history和配对原件逐字节保留；当前观察22/12单列。新工作树缺少8份既有006产物被testing门拒绝后，只以真实SHA复用只读链接，不重跑或改006。稳定候选实跑327工具/0fail/0skip、docs0/model2433/0/testing0/phase184、lint4660文件0E/0W/0I；progress1818+3+17/1838及584增量、33pending/0integrity，check:docs exit1仅剩strict33/66。没有全门通过或done声明。
+
+下一步将本轮公共增量、结构升级、日期审阅和22具体解释一次交GLM非作者复核；真实接受后只编译22正文hash/报告并沿已备--publish通道授信，预计33→11须以实际计数为准。剩余9MD+006两JSON由Owner并行，不重审已接受111成员/旧runtime；本轮不合main、不推送、不done。

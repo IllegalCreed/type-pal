@@ -433,7 +433,7 @@
         "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "2ea74868317e454b73f441604f682b751d26d185e7cb682dc18bf05ca3898626",
+      "afterSha256": "25b3a24294c2c2c80b1c6d5b127f054531b2189b34f6b87bf3a89405fa969cb1",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -1930,6 +1930,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
             "index": 1,
             "entryCanonicalSha256": "cab0aa58f8f04387e6fabbb80207f22048f5f2bd10c60a0e2647c2aafe153cbf"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S71/final-results",
+          "revision": "15e210c392cc1850a427132b30b2275edd4f7a83",
+          "beforeSha256": "2ea74868317e454b73f441604f682b751d26d185e7cb682dc18bf05ca3898626",
+          "afterSha256": "25b3a24294c2c2c80b1c6d5b127f054531b2189b34f6b87bf3a89405fa969cb1",
+          "scope": "S71 received S70 acceptance, current native definitions and actual001 source/claim-scope review; no new status/runtime credit",
+          "priorRecord": {
+            "revision": "15e210c392cc1850a427132b30b2275edd4f7a83",
+            "logicalPath": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+            "index": 1,
+            "entryCanonicalSha256": "a90bd26a7bb8c6d0bc1145e806e7b682842c9c153983b64b957a61d88a74a843"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

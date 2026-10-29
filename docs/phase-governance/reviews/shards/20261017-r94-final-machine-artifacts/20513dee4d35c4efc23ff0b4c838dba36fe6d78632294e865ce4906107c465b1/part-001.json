@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "055767d47df6608173e1173d1fef8764a9ddabed9ec7ea2a3790bf40df078ec4",
+  "generation": "20513dee4d35c4efc23ff0b4c838dba36fe6d78632294e865ce4906107c465b1",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   "entries": [
@@ -2565,7 +2565,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "a59fb97d59f2579193685a2f235fcf42623d8f742ffaf5fac7f53134f3b10d07",
+      "afterSha256": "dfb50913fc18f4bcf3c80511b11df3989bb7db2cbd051efae903716c2e3f2203",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -3964,6 +3964,23 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S71/final-results",
+          "revision": "15e210c392cc1850a427132b30b2275edd4f7a83",
+          "beforeSha256": "a59fb97d59f2579193685a2f235fcf42623d8f742ffaf5fac7f53134f3b10d07",
+          "afterSha256": "dfb50913fc18f4bcf3c80511b11df3989bb7db2cbd051efae903716c2e3f2203",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "15e210c392cc1850a427132b30b2275edd4f7a83",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 7,
+            "entryCanonicalSha256": "a921c325b3d4ff7b85694c77992fadfc174178b45d105ef4aa90020eeb5842f7"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",
