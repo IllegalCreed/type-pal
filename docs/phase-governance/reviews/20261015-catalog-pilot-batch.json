@@ -5,12 +5,12 @@
   "entries": [
     {
       "path": "docs/testing/catalog.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
       "template": "governance-index.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
       "reviewDepth": "structured-content",
       "coreConclusion": "本候选testing catalog的18个稳定ID各配canonical/index/evidence，发布依赖和日期由check-testing核，九个视图仅投影。001此次续审是七源码pin/55行原生合同/25工具用例的真实文档复核，lastVerified与旧执行版本不刷新；006真实结果由其配对当前回执负责，catalog不能替代runtime/E2E/视觉。",
@@ -345,6 +345,17 @@
           "author": "Codex",
           "priorEntrySha256": "df921152e9ba7706a2a63f05de695939d1c7374c537d6312ede2fc093b85d025",
           "scope": "Exact current control/reference interpretation; no status/old/runtime/child credit."
+        },
+        {
+          "kind": "current-native-control-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "date": "2026-10-29",
+          "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+          "contentSha256": "43d0fca9922eed846e05415d5b3a14ca6c92ae654b3c66b5c3266247b9c0edc2",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [],
@@ -621,7 +632,40 @@
         "governance": ["docs/phase-governance/reviews/20261015-catalog-pilot-batch.json#entries/0"]
       },
       "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。",
-      "versionScope": "Current control/reference schema; variant1.0.0. Observations belong to the owned candidate view, not perpetual live counts."
+      "versionScope": "Current control/reference schema; variant1.0.0. Observations belong to the owned candidate view, not perpetual live counts.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/catalog.json",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "reportSha256": "94db1d0fe3683c6d9866e50755b17b6da48e769ad8aac7a29b41df115312384c",
+        "contentSha256": "43d0fca9922eed846e05415d5b3a14ca6c92ae654b3c66b5c3266247b9c0edc2",
+        "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+        "controlIdentity": {
+          "role": "testing-catalog",
+          "source": {
+            "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+            "path": "docs/testing/catalog.json",
+            "gitObject": "0a29af0ca464a19fd029c027539ed58e3694832a",
+            "sha256": "668b213bf3f280d5f8cefe555874988bfd83af82b93734f3d16d19198c2618aa"
+          },
+          "structureSha256": "b98af3e7b34e5d2157897f4e1ac1846ea03137bd7c1813aac30184320871dcc4",
+          "membershipSha256": "5b5afb837d71a9e5fc0be6c96e18241185d44bfe72737051136b4a6fe4ea8dd5",
+          "reviewRecord": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+          "index": 0
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/_templates/README.md",

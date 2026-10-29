@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-  "generation": "ec5d59e34c35ef2cfb76cf66566ee3b7077efd0a3e1b35c860722816af1e8115",
+  "generation": "01217caafd6b30d70dffb7a0375358ef6701be2df3c40ae696d1c463723164b0",
   "key": "part-004",
   "positions": [74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90],
   "entries": [
@@ -1940,7 +1940,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "141e6e00042776095dfc17ec818d90ad0877e4bd46cf590a41eb3ca4618dabe0",
+      "afterSha256": "60c4af2f1600e606ab59bd2a0b8c47386c3a02bd2e206b7e7ffa4f328110746c",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -2506,6 +2506,15 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/current-ledger-candidate",
+          "beforeSha256": "141e6e00042776095dfc17ec818d90ad0877e4bd46cf590a41eb3ca4618dabe0",
+          "afterSha256": "60c4af2f1600e606ab59bd2a0b8c47386c3a02bd2e206b7e7ffa4f328110746c",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",
@@ -4248,11 +4257,11 @@
     },
     {
       "path": "docs/phase-governance/catalog.lore.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "governance-index.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
       "reviewDepth": "structured-content",
       "coreConclusion": "本候选lore相位片有14个唯一Markdown身份，属于184件phase/lore全集；角色、地点、世界观与剧情知识的Markdown治理；不把本项目演出观察升格官方设定。 成员的source与after/当前成熟度由原条目及实际consumer分开核，片本身合规不接受这些成员的新业务结论。",
@@ -4376,6 +4385,24 @@
           "author": "Codex",
           "priorEntrySha256": "8089e9916c60b953e4ac2784e02266ebb3665d795aefff5c2107a4f1ba57b91f",
           "scope": "Exact current control/reference interpretation; no status/old/runtime/child credit."
+        },
+        {
+          "kind": "current-native-control-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "date": "2026-10-29",
+          "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+          "contentSha256": "fd6963a036a92cd2cb322c1954eadeba1975e3bc77664d38b10750c322d0aef2",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [],
@@ -4412,14 +4439,6 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
@@ -4475,15 +4494,48 @@
           "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json#entries/87"
         ]
       },
-      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。"
+      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/catalog.lore.json",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "reportSha256": "94db1d0fe3683c6d9866e50755b17b6da48e769ad8aac7a29b41df115312384c",
+        "contentSha256": "fd6963a036a92cd2cb322c1954eadeba1975e3bc77664d38b10750c322d0aef2",
+        "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+        "controlIdentity": {
+          "role": "phase-shard",
+          "source": {
+            "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+            "path": "docs/phase-governance/catalog.lore.json",
+            "gitObject": "9c817dac608bb811959af33504d40a5f189ad775",
+            "sha256": "97b3bf1101ac2fa5ef1713b66cc2a46ab28e035e55cc6e14cfb68dc35ced60ee"
+          },
+          "structureSha256": "b555b3ecd50625da8695b6b2c0361ba46db8dfebc9f11cf3ee0b9f7409103210",
+          "membershipSha256": "7404b04bc9dd30b3d0d12c3162c47718a482dbffe9392d303ff03be3cd4e3a15",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "index": 87
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/catalog.phase1.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "governance-index.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
       "reviewDepth": "structured-content",
       "coreConclusion": "本候选phase1相位片有60个唯一Markdown身份，属于184件phase/lore全集；第一阶段机制、架构和历史计划的来源边界；不替代原版数据/sdlpal的实际核验。 成员的source与after/当前成熟度由原条目及实际consumer分开核，片本身合规不接受这些成员的新业务结论。",
@@ -4608,6 +4660,24 @@
           "author": "Codex",
           "priorEntrySha256": "a7ee72515cf8c2b8895fdb7b892965f5dd8a720b4f78e2422b69043d3417797a",
           "scope": "Exact current control/reference interpretation; no status/old/runtime/child credit."
+        },
+        {
+          "kind": "current-native-control-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "date": "2026-10-29",
+          "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+          "contentSha256": "086ae57eff0bc3bbdd62cd6b1a9c606db87056c7c4daa9f4598cfb7d3a9b5007",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [],
@@ -4644,14 +4714,6 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "7144194a364c004429e9eefaba2e548e593c498141983e5ec88333d5f64e40d3",
@@ -4694,15 +4756,48 @@
           "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json#entries/88"
         ]
       },
-      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。"
+      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/catalog.phase1.json",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "reportSha256": "94db1d0fe3683c6d9866e50755b17b6da48e769ad8aac7a29b41df115312384c",
+        "contentSha256": "086ae57eff0bc3bbdd62cd6b1a9c606db87056c7c4daa9f4598cfb7d3a9b5007",
+        "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+        "controlIdentity": {
+          "role": "phase-shard",
+          "source": {
+            "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+            "path": "docs/phase-governance/catalog.phase1.json",
+            "gitObject": "bb1162d1bf84202685b4c47977a32b48840d6d2f",
+            "sha256": "36799158c96381446065329f9ed3266af179da61ade8c441bc7715de7cd129c5"
+          },
+          "structureSha256": "ce50e3ed1ed8265b2be3cca84eb7f6315ddc1ccbfcc34aeb6ef675b316ab4e61",
+          "membershipSha256": "4e48873c5bc5bbdff9056203bf771e8a113dcd311bfb37762a142b5c1e1a0d15",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "index": 88
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/catalog.phase2.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "governance-index.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
       "reviewDepth": "structured-content",
       "coreConclusion": "本候选phase2相位片有105个唯一Markdown身份，属于184件phase/lore全集；Reforge现行架构/规则与已归档设计分开；不把第一阶段实现当新引擎兼容合同。 成员的source与after/当前成熟度由原条目及实际consumer分开核，片本身合规不接受这些成员的新业务结论。",
@@ -4828,6 +4923,24 @@
           "author": "Codex",
           "priorEntrySha256": "e12f4ca1592dc8fd506cd8a558cec843d4f9c7997e094a693955b8e284db46ab",
           "scope": "Exact current control/reference interpretation; no status/old/runtime/child credit."
+        },
+        {
+          "kind": "current-native-control-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "date": "2026-10-29",
+          "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+          "contentSha256": "ee9a9239c51827453ec7f7b337d8106ec7ea2b87821bdf4f016aecd18e61c27b",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [],
@@ -4864,14 +4977,6 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "71f860de2498fa1b41cc12f79e6a00b21d8c3e906af64a2dd4b431f15f5afbc1",
@@ -4950,15 +5055,48 @@
           "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json#entries/89"
         ]
       },
-      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。"
+      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/catalog.phase2.json",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "reportSha256": "94db1d0fe3683c6d9866e50755b17b6da48e769ad8aac7a29b41df115312384c",
+        "contentSha256": "ee9a9239c51827453ec7f7b337d8106ec7ea2b87821bdf4f016aecd18e61c27b",
+        "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+        "controlIdentity": {
+          "role": "phase-shard",
+          "source": {
+            "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+            "path": "docs/phase-governance/catalog.phase2.json",
+            "gitObject": "a8f21cd38b2a20198874e569fcc41fad4c246cab",
+            "sha256": "66cffbe0b407c12f4c634e7ecb2d6e04504e5d50abc9fb96ed245bcbc4f1208a"
+          },
+          "structureSha256": "b9a279f1a7e00c255a1d2f74e165faa7a7d42e7d760c7725e69c5b52fd9cd153",
+          "membershipSha256": "a713bc2e9de48e7501615982b458c2996d545df90ddf5ada1bb4108efe6d00ab",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "index": 89
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/catalog.phase3.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "governance-index.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
       "reviewDepth": "structured-content",
       "coreConclusion": "本候选phase3相位片有5个唯一Markdown身份，属于184件phase/lore全集；第三阶段愿景及参考文档的成熟度；不把愿景转成第二阶段已批准需求。 成员的source与after/当前成熟度由原条目及实际consumer分开核，片本身合规不接受这些成员的新业务结论。",
@@ -5083,6 +5221,24 @@
           "author": "Codex",
           "priorEntrySha256": "c52be0177cc792d4b00881e6a0900ee62a206242b10561f6744c9e69fe622de2",
           "scope": "Exact current control/reference interpretation; no status/old/runtime/child credit."
+        },
+        {
+          "kind": "current-native-control-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "date": "2026-10-29",
+          "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+          "contentSha256": "3179980649fef1ade5740950f61fcb1b674363090a36b629d94a6be3727a8e52",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [],
@@ -5119,14 +5275,6 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "current-governance-control-native-v1",
       "artifactEnvelope": false,
       "readDomain": {
@@ -5150,7 +5298,40 @@
           "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json#entries/90"
         ]
       },
-      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。"
+      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/catalog.phase3.json",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "reportSha256": "94db1d0fe3683c6d9866e50755b17b6da48e769ad8aac7a29b41df115312384c",
+        "contentSha256": "3179980649fef1ade5740950f61fcb1b674363090a36b629d94a6be3727a8e52",
+        "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+        "controlIdentity": {
+          "role": "phase-shard",
+          "source": {
+            "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+            "path": "docs/phase-governance/catalog.phase3.json",
+            "gitObject": "2aa746ae94c49d255798c2773a03743d06033ce7",
+            "sha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f"
+          },
+          "structureSha256": "89f2481d42669e126a2150c34d21ae6effeb14cc0fca6042fbc8e2142f4e69f1",
+          "membershipSha256": "f13a2b7f91de540c9b8fc9a91bf266e59b8142460b13069fffc7b08c62c9f573",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "index": 90
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     }
   ]
 }

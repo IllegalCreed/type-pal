@@ -1,13 +1,478 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
-  "generation": "ea54d64c386e37fbccfe228c2c538244a07031f2ee204af068ec9d46037d5fae",
+  "generation": "2a3ed4f517b4024a169a248d3d63549d2e05b086b54bf51dd1242547229c2082",
   "key": "part-002",
   "positions": [
-    38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61,
-    62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76
+    37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+    61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74
   ],
   "entries": [
+    {
+      "path": "docs/phase-governance/document-registry.testing.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "structured-content",
+      "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
+      "coreConclusion": "本候选registry testing片的760件原生条目，以全局positions和path确定唯一位置；测试报告、原生回执、catalog与历史迁移材料的文档身份；发布状态、运行结果与审阅状态是三轴。 reviewRecord只是当前唯一评审指针，reviewStatus/templateCompliance须由各篇接受与完整after校验支持，不能从该片数量或本片的审阅给子项授信。",
+      "truthAnchors": [
+        "docs/phase-governance/document-registry.testing.json (native role and structure)",
+        "docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/37",
+        "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9:docs/phase-governance/document-registry.testing.json"
+      ],
+      "unresolved": [
+        "成员若有未完成项、原源未认证或运行缺口，仍由对应原卡与证据负责；本控制/示例解释不授替代信用。"
+      ],
+      "nextStep": "只有精确解释获真实非作者接受与Owner决定方可受控grant；后续结构/政策/成员身份改变先重新审阅接受，合法after维护只更新观测闭包。",
+      "phase": "phase-governance",
+      "owner": "Codex (S71 current control/reference interpretation; original provenance retained)",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained.",
+        {
+          "actor": "Codex",
+          "date": "2026-10-29",
+          "action": "S71 current native control/reference role interpretation",
+          "sourceRevision": "a24bd7d3828a199813316ac5a0a62590a738c556"
+        }
+      ],
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/document-registry.testing.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+          "scopeActuallyRead": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": "Current control/reference schema; variant1.0.0. Observations belong to the owned candidate view, not perpetual live counts.",
+      "publicCallers": [
+        "scripts/docs/document-registry.mjs",
+        "scripts/docs/report-governance-progress.mjs"
+      ],
+      "legalInputs": [
+        "本路径唯一角色、原生Buffer、完整114保护review组及实际Git来源。",
+        "只接受真实manifest/片/位置与当前身份；示例占位不作已发生执行。"
+      ],
+      "businessOracle": {
+        "type": "current-native-control-integrity",
+        "assertions": [
+          "当前原生结构/政策/成员身份必须与解释指纹一致，描述符和派生汇总必须匹配。",
+          "after仅为当前byte观测；原source与历史claim不可刷新洗白。",
+          "独立接受绑定本篇具体解释；任何child/runtime/旧撤信恢复不由此控制件授予。"
+        ]
+      },
+      "dedupe": {
+        "result": "unique-current-role",
+        "against": [
+          "docs/phase-governance/document-registry.testing.json",
+          "docs/phase-governance/reviews/20261018-record-integrity-rework.json"
+        ],
+        "notes": "不另建canonical账本、来源副本或sidecar；目录投影不替代权威源。"
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "5885ad943cff0cbe6335df33d4c187fb4f10485fe6d3b53f2c0459b6e3517a3f",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932"
+          },
+          {
+            "date": "2026-10-23",
+            "revision": "259d7a1790cd9b37af580290822f8e7263d9077c",
+            "afterSha256": "dc52a23dda653f851006bf747d991bac34a49cc1076fe61feed10e69a351aa94",
+            "scope": "S29 central native publication administrative delta; original review/source identity retained."
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "current-native-control-candidate",
+        "path": "docs/phase-governance/document-registry.testing.json",
+        "role": "registry-shard",
+        "author": "Codex",
+        "source": {
+          "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+          "path": "docs/phase-governance/document-registry.testing.json",
+          "gitObject": "ce68d1af2de700511fc8d313397926d9e5fd28a0",
+          "sha256": "7e61d7c34db22fda0d7c130b8c4668ecf1feda00bbdbb762234cfe3b0bbe8138"
+        },
+        "structureSha256": "e633615a9732067d994065c55e74569d4dd0e4cab552df2c8f41fb3870fa87f2",
+        "membershipSha256": "447fede93cd36a9582f84220242328a4c96a691aa4b606a574f85ca8e1deb1f5",
+        "observed": {
+          "entries": 760,
+          "collectionEntries": 2435,
+          "reviewStatuses": {
+            "content-reviewed": 749,
+            "partial-review-unknown": 11
+          }
+        },
+        "observation": {
+          "kind": "owned-planned-candidate",
+          "revisionBefore": "a24bd7d3828a199813316ac5a0a62590a738c556",
+          "date": "2026-10-29",
+          "nativeBytesSha256": "82c3d13f2b99368dd8d92ebb464e8946d30e96accc0fab7c0dc6aa624ff56c12",
+          "scope": "Before-state Git plus the exact owned control projection, not a claim that these candidate bytes existed in the before commit."
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "childSemanticAcceptanceGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        },
+        {
+          "kind": "current-native-control-candidate",
+          "task": "DOCS-FULL-TEMPLATE-1/S71",
+          "date": "2026-10-29",
+          "author": "Codex",
+          "priorEntrySha256": "b719d302ea2f92dd7147157f328fbe8e6e4f89cd525c4624ae018840a3316011",
+          "scope": "Exact current control/reference interpretation; no status/old/runtime/child credit."
+        },
+        {
+          "kind": "current-native-control-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "date": "2026-10-29",
+          "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+          "contentSha256": "8ba2e0d13addaaa13ea0d0a685116ad379916dabf2f1e5e50b3700dea6abc978",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "角色/结构/来源/唯一归属/保护快照或原始历史冲突立即停对应claim；只刷after不得授信，不恢复旧声明，不授child/runtime。",
+      "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+      "afterSha256": "1692e0e1072b9ab887074436a174031d101e6af5f34b0346fad42d9a61d09fd1",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Provisional machine-catalog family binding only. Native schema1 shard lacks default test-catalog envelope; suitable native storage variant still needs design/freeze and semantic review. Do not modify native fields or mark compliant for shape."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+          "previousAfterSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+          "afterSha256": "fb0378221b7889a9befe9b2484bffd383c04eccf60702f40be7a6a2f862e5dc8",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "previousAfterSha256": "fb0378221b7889a9befe9b2484bffd383c04eccf60702f40be7a6a2f862e5dc8",
+          "afterSha256": "66a77577cf45332f03ade68b9751000525f1595544d8be1be2bba6a03dbd0e05",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "8b1dae5b0a3638c19f23c4fa17937b2a50e4c9cb",
+          "previousAfterSha256": "66a77577cf45332f03ade68b9751000525f1595544d8be1be2bba6a03dbd0e05",
+          "afterSha256": "bb835ffac0cb96c634026101d8f70c34b2045925440340cc6d238495bf294618",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "9885491a47e81f30300c3744853556d1e4e0f663",
+          "previousAfterSha256": "bb835ffac0cb96c634026101d8f70c34b2045925440340cc6d238495bf294618",
+          "afterSha256": "86a1bcfe7b7725171315b6afb66c4f38edcce6e7890c45e000b7e8065172847c",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "1dfd0b7f9bc5a8b7896c381ca82e846ef658aa9f",
+          "previousAfterSha256": "86a1bcfe7b7725171315b6afb66c4f38edcce6e7890c45e000b7e8065172847c",
+          "afterSha256": "24f348641d67908d2f0db512d8642845a0cfa5bc90e09e67a4ba7ad806552d94",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "1cb305683a8e1ebe46a87be29ab0b05e90b9b3c5",
+          "previousAfterSha256": "24f348641d67908d2f0db512d8642845a0cfa5bc90e09e67a4ba7ad806552d94",
+          "afterSha256": "1f63961f79dbd4e208c1f4d41479297b89f93ef5f9bc0d888c8caf768b486f63",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "752708a42db05a9901d0f7bcb3478283db5a521c",
+          "previousAfterSha256": "1f63961f79dbd4e208c1f4d41479297b89f93ef5f9bc0d888c8caf768b486f63",
+          "afterSha256": "378b0b27205f079fbf482e63b53ea8d1a82750d8feff59132d290f9b7cc49beb",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 241 individual accepted bodies and241 explicit route/type corrections",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "378b0b27205f079fbf482e63b53ea8d1a82750d8feff59132d290f9b7cc49beb",
+          "afterSha256": "15c8301a151f295c78510816e42f8c496e9ca1c4681f845585be4b8a7fdd7249",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "15c8301a151f295c78510816e42f8c496e9ca1c4681f845585be4b8a7fdd7249",
+          "afterSha256": "efd181515b00adc74474b22bf0585a0565ba25f2f16b3b972e91c15f91b5df9a",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accept27 historical bodies; structural bounded review partition,1 explicit pending native ledger",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "efd181515b00adc74474b22bf0585a0565ba25f2f16b3b972e91c15f91b5df9a",
+          "afterSha256": "dc52a23dda653f851006bf747d991bac34a49cc1076fe61feed10e69a351aa94",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-23",
+          "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+          "beforeSha256": "dc52a23dda653f851006bf747d991bac34a49cc1076fe61feed10e69a351aa94",
+          "afterSha256": "5885ad943cff0cbe6335df33d4c187fb4f10485fe6d3b53f2c0459b6e3517a3f",
+          "scope": "Exact dependent source/admin pin only; no fresh whole-document or runtime credit."
+        },
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S43",
+          "revision": "7e38a97b6394e869bbcfd70e3f9b5918640e2acf",
+          "beforeSha256": "5885ad943cff0cbe6335df33d4c187fb4f10485fe6d3b53f2c0459b6e3517a3f",
+          "afterSha256": "597e51140524f288cd030ebd070a841d761c6dfd9c4e8e47b07dac87336c58d9",
+          "scope": "Receive original GLM accepts, connect twenty actual routes and qualify twenty-two accepted document versions; exact current metadata/control cascade only.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "revision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "beforeSha256": "597e51140524f288cd030ebd070a841d761c6dfd9c4e8e47b07dac87336c58d9",
+          "afterSha256": "effd1c494aeea6a490a99d942914797748bb31ec37403473d277bedb0c1aea21",
+          "scope": "Register six exact variants and eight accepted native-review companions; current metadata after pins only, old execution claims remain historical.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "revision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "effd1c494aeea6a490a99d942914797748bb31ec37403473d277bedb0c1aea21",
+          "afterSha256": "5d2ab555c3a93544a81628a7053e2a2047f04d91d41e1ee3bd60453af2cb1efb",
+          "scope": "Qualify eight unchanged Markdown document versions and three existing-template routes; administrative after pins only, historical claims remain attributed.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "DOCS-FULL-TEMPLATE-1/S56",
+          "revision": "f639587e9b038a82afb507bbf2a90472d26098d8",
+          "beforeSha256": "5d2ab555c3a93544a81628a7053e2a2047f04d91d41e1ee3bd60453af2cb1efb",
+          "afterSha256": "7f4cf69d5157d39ab0768d0efc05fa51fda9190edfeef18b36436a5a684f3cb2",
+          "scope": "Bounded 222 current-native document acceptance metadata and dependency pin cascade;17 pending; source/native/runtime claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-26",
+          "task": "E2E-006-1",
+          "revision": "14e0336fe045d038a29ab773acaa639696d31ea8",
+          "beforeSha256": "7f4cf69d5157d39ab0768d0efc05fa51fda9190edfeef18b36436a5a684f3cb2",
+          "afterSha256": "bebdd43204c8185fb13fb084f732a57053bba2c963d6adb505d65b75a82ac790",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; seven author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "E2E-006-1",
+          "revision": "e5e5eb9ffcc223d06aa89b5f57e0a90be6fd6f7c",
+          "beforeSha256": "bebdd43204c8185fb13fb084f732a57053bba2c963d6adb505d65b75a82ac790",
+          "afterSha256": "758a0b502946dfcde27f6426d4f81b7f1ad9a37a48a453037c2d2842074061f1",
+          "scope": "Bounded publication author candidate and exact administrative dependency cascade; nine author deltas partial pending, old source/native/other acceptance unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-27",
+          "task": "DOCS-FULL-TEMPLATE-1/S57",
+          "revision": "33cfb9ad89f8696802b7c2ec466fbc93cccf8149",
+          "beforeSha256": "758a0b502946dfcde27f6426d4f81b7f1ad9a37a48a453037c2d2842074061f1",
+          "afterSha256": "9585f3f95367750302add9a4e04ef53d27d12d9b1a9f0149ac1029ad9b0cc0fa",
+          "scope": "Bounded44 current document acceptance and exact dependency cascade; all old native/source/execution claims unchanged.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "cf71157cfb07bf6b25a03a8e66c46e1f653dab27",
+          "beforeSha256": "9585f3f95367750302add9a4e04ef53d27d12d9b1a9f0149ac1029ad9b0cc0fa",
+          "afterSha256": "61ba77594e7a1587054ee1f8eba978841e9f83c09b69d10dc8d02abd3cd192d2",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "revision": "8923f36f3410023f81f3de12dccfbe86b927ae60",
+          "beforeSha256": "61ba77594e7a1587054ee1f8eba978841e9f83c09b69d10dc8d02abd3cd192d2",
+          "afterSha256": "17e5eed56ef72337b9cbb1643bcbfd5f9b9ceb4e2ba6402a0ce26ff5432784dc",
+          "scope": "Exact fifteen static HTML document migrations and administrative dependency cascade only; old execution/source/withdrawal boundaries retained.",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/native-artifact-candidate",
+          "beforeSha256": "17e5eed56ef72337b9cbb1643bcbfd5f9b9ceb4e2ba6402a0ce26ff5432784dc",
+          "afterSha256": "ef86a9138116ea4fb10218ff45610fe01cd83f973c8ff2e6769712398c07e6a2",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "beforeSha256": "ef86a9138116ea4fb10218ff45610fe01cd83f973c8ff2e6769712398c07e6a2",
+          "afterSha256": "7e61d7c34db22fda0d7c130b8c4668ecf1feda00bbdbb762234cfe3b0bbe8138",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/current-ledger-candidate",
+          "beforeSha256": "7e61d7c34db22fda0d7c130b8c4668ecf1feda00bbdbb762234cfe3b0bbe8138",
+          "afterSha256": "82c3d13f2b99368dd8d92ebb464e8946d30e96accc0fab7c0dc6aa624ff56c12",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/current-ledger-candidate",
+          "beforeSha256": "82c3d13f2b99368dd8d92ebb464e8946d30e96accc0fab7c0dc6aa624ff56c12",
+          "afterSha256": "1692e0e1072b9ab887074436a174031d101e6af5f34b0346fad42d9a61d09fd1",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
+        }
+      ],
+      "templateVariant": "current-governance-control-native-v1",
+      "template": "governance-index.md",
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "documentStatus": "current",
+      "readDomain": {
+        "actual": "S71 Owner核职责/政策/来源边界；固定before a24bd7d3828a199813316ac5a0a62590a738c556与精确候选view的原生对象全解析、成员/分片/计数全枚举。既有17父合同复用已接受基线并深等保护，本次逐字段审新增两变体。",
+        "notRead": [
+          "未逐篇重新审阅成员正文/旧变体的业务断言。",
+          "未重跑历史raw、浏览器E2E、存读档、视觉或coverage。"
+        ],
+        "currentReader": "Codex",
+        "currentReviewDate": "2026-10-29",
+        "originalReviewDateMeaning": "Existing reviewDate/reviewer fields remain the prior review provenance, not this reading date."
+      },
+      "fieldRoles": {
+        "logical": [
+          "registry-shard authority and ordered identity; child observations/statuses retain their separate contracts"
+        ],
+        "physical": [
+          "原生JSON保留消费者字段，不加wrapper/payload/sidecar；manifest与片按实际loader分列。"
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/37"
+        ]
+      },
+      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。",
+      "userVisibleBeforeAfter": "原生消费者字段保留，泛化artifact解释改为本路径具体current控制/示例职责；发布信用仍需独立接受。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/document-registry.testing.json",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "reportSha256": "94db1d0fe3683c6d9866e50755b17b6da48e769ad8aac7a29b41df115312384c",
+        "contentSha256": "8ba2e0d13addaaa13ea0d0a685116ad379916dabf2f1e5e50b3700dea6abc978",
+        "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+        "controlIdentity": {
+          "role": "registry-shard",
+          "source": {
+            "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+            "path": "docs/phase-governance/document-registry.testing.json",
+            "gitObject": "ce68d1af2de700511fc8d313397926d9e5fd28a0",
+            "sha256": "7e61d7c34db22fda0d7c130b8c4668ecf1feda00bbdbb762234cfe3b0bbe8138"
+          },
+          "structureSha256": "e633615a9732067d994065c55e74569d4dd0e4cab552df2c8f41fb3870fa87f2",
+          "membershipSha256": "447fede93cd36a9582f84220242328a4c96a691aa4b606a574f85ca8e1deb1f5",
+          "reviewRecord": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "index": 37
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
+    },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
       "contentReviewStatus": "content-reviewed",
@@ -7971,426 +8436,6 @@
         "verdict": "accept",
         "afterSha256": "88febc4939fa54c73e017f1d7fd92f6b69935d5e35246af1e5aadbc0500a9c4c",
         "contentSha256": "2c7826cae2560e8a78154c443b1456fde39a1d3a18f66c802f0d7fa29330b9c0",
-        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
-        "ownerDecision": {
-          "actor": "Codex",
-          "task": "DOCS-FULL-TEMPLATE-1/S65",
-          "currentBodyReview": true,
-          "currentTemplateMigration": true,
-          "oldClaimRestored": false,
-          "runtimeCredit": false
-        }
-      }
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "templateVersion": "1.0.0",
-      "templateCompliance": "template-compliant",
-      "reviewDepth": "partial-semantic",
-      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
-      "coreConclusion": "S05单文档独立语义评审(reviewerTask=central_intake_guard_review):核心结论=把generic封套恢复为真实路线设计,七项已定用户规则矩阵、双轨原生真档、正常输入/NPC完整呈现/精确位置/预览义务、已核001/002入口有限能力、覆盖与用途双轴、最小重跑与具体停止线都有正文表达;原历史元数据与quote不变,旧运行不升格当前事实,方案继续proposed。quotePreservation 12字段(direct/conditional inverse全等、identifiedSeparatorHex、no unconditional trim、旧R60接受未恢复);userRulesMatrix 7条;reviewerProbeFailures 4条原样保留;verdict:单文档语义+模板接受、blockingBodyCounters边界如实。",
-      "truthAnchors": [
-        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json: semantic identity field \"schemaVersion\" actual value (family role anchor)"
-      ],
-      "unresolved": [
-        "This file has not earned independent full semantic/template acceptance as a document."
-      ],
-      "nextStep": "Owner risk-sampling then central admission",
-      "phase": "ops",
-      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
-      "provenance": [
-        "explicit central registration; no path-inferred semantic credit",
-        "Original distinct named producer and exact source manifests; root transports original bytes only."
-      ],
-      "primarySource": [
-        {
-          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
-          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
-          "gitObject": "4d5b988608978aa55895d0f3ebf11197f62343ea",
-          "sha256": "4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "ops",
-        "scope": "Documentation governance only; no product/runtime applicability granted."
-      },
-      "dependencies": [],
-      "versionScope": "current tracked revision 83743275",
-      "publicCallers": [
-        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S05-b87a2397.json: 1915:      \"repositoryPath\": \"docs/ops/evidence/DOCS-RECORD-…",
-        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json: 2258:        \"report\": \"docs/ops/evidence/DOCS-RECORD-INTEGR…",
-        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S05-central-review-4ddd17e4.json: 59:          \"docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/inde…",
-        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S05-central-review-4ddd17e4.json: 318:          \"docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/ind…",
-        "(共17处,列前4)"
-      ],
-      "legalInputs": [
-        {
-          "kind": "fixed-native-carrier",
-          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
-          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
-          "gitObject": "4d5b988608978aa55895d0f3ebf11197f62343ea",
-          "sha256": "4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302"
-        }
-      ],
-      "businessOracle": {
-        "type": "historical-native-document",
-        "currentExecution": false,
-        "assertions": [
-          "verdict.singleDocumentSemanticAcceptance与documentStatus(proposed)为裁决原生轴",
-          "quotePreservation.directEqualsSource/conditionalEqualsSource为保真判定轴",
-          "reviewerProbeFailuresRetained为真实失败锚"
-        ]
-      },
-      "dedupe": {
-        "result": "unique path in manifest",
-        "against": []
-      },
-      "counterReworkBlocked": [
-        {
-          "status": "pending-document-template-review",
-          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
-        }
-      ],
-      "revision": {
-        "currentSha": "8b1dae5b0a3638c19f23c4fa17937b2a50e4c9cb",
-        "history": [
-          {
-            "date": "2026-10-18",
-            "action": "explicit-pending-registration",
-            "sha256": "4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302"
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "historical-native-artifact",
-        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
-        "family": "independent-review-record",
-        "nativeShape": {
-          "type": "object",
-          "fields": [
-            ["schemaVersion", "number"],
-            ["kind", "string"],
-            ["reviewerTask", "string"],
-            ["authorTask", "string"],
-            ["nonAuthorReviewer", "boolean"],
-            ["identityBoundary", "string"],
-            ["reviewDate", "string"],
-            ["finishedAt", "string"],
-            ["admission", "object"],
-            ["candidate", "object"],
-            ["verdict", "object"],
-            ["coreConclusion", "string"],
-            ["userRulesMatrix", "array"],
-            ["templateChapterAssessment", "array"],
-            ["quotePreservation", "object"],
-            ["nativeFieldPreservation", "object"],
-            ["actualReadScope", "object"],
-            ["actualPrimarySourceAssertions", "array"],
-            ["actualPublicConsumers", "object"],
-            ["predecessorIoProbe", "object"],
-            ["testsAndGates", "object"],
-            ["reviewerProbeFailuresRetained", "array"],
-            ["upstreamArtifactIntegrity", "object"],
-            ["strongestAlternativeChecks", "array"],
-            ["beforeAfter", "object"],
-            ["dedupe", "object"],
-            ["remainingWork", "array"],
-            ["readonlyState", "object"],
-            ["stopLine", "string"],
-            ["nextStep", "string"],
-            ["globalHardGatePassed", "boolean"],
-            ["fullSemanticAcceptance", "boolean"],
-            ["fullDocsSemanticAcceptance", "boolean"],
-            ["actualCentralIntakeAccepted", "boolean"],
-            ["cardDoneAllowed", "boolean"],
-            ["mergeToMainAllowed", "boolean"],
-            ["productRuntimeCreditGranted", "boolean"]
-          ]
-        },
-        "witnesses": [
-          {
-            "claim": "semantic identity field \"schemaVersion\" actual value (family role anchor)",
-            "pointer": "/schemaVersion",
-            "value": 1
-          }
-        ],
-        "runtimeExecutionPerformed": false,
-        "historicClaimsReexecuted": false,
-        "creditGranted": 0
-      },
-      "history": [
-        {
-          "date": "2026-10-18",
-          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
-        },
-        {
-          "kind": "native-artifact-candidate",
-          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
-          "priorReviewRecord": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
-          "priorReviewIndex": 75,
-          "priorEntrySha256": "9927b53a07582d8b97b14e4edc9c6adb8bb545f928036e4ab55e6dda80620284",
-          "newSemanticCredit": 0,
-          "newTemplateMigrationCredit": 0
-        },
-        {
-          "kind": "current-document-acceptance",
-          "date": "2026-10-28",
-          "task": "DOCS-FULL-TEMPLATE-1/S65",
-          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
-          "priorRecord": {
-            "logicalPath": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
-            "index": 75,
-            "entryCanonicalSha256": "fbb519a8c0f64365d1cd8ae45de9d1bf36af054ec621bdbab43a8432587e291f"
-          },
-          "priorReviewStatus": "partial-review-unknown",
-          "priorTemplateCompliance": "needs-migration",
-          "currentCreditOnly": true,
-          "oldClaimsRestored": false,
-          "runtimeCredit": false
-        }
-      ],
-      "supersedes": [],
-      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
-      "sourceSha256": "4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302",
-      "afterSha256": "4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302",
-      "sourceGitRevision": "8b1dae5b0a3638c19f23c4fa17937b2a50e4c9cb",
-      "reviewedLines": 0,
-      "beforeAfter": {
-        "before": "Immutable output prepared outside repository pending guarded explicit registration.",
-        "after": "Unique pending binding recorded; native file content and statuses not promoted."
-      },
-      "templateConformance": {
-        "status": "needs-migration",
-        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
-      },
-      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
-      "historyOverlay": false,
-      "artifactOnly": false,
-      "documentStatus": "historical",
-      "readDomain": {
-        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
-        "reusedFrom": [
-          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-08.json\",\"index\":85,\"canonicalSha256\":\"f07439480db73c242a68d2efd1d6ca8f9fc04a7ed8c97345ce372d386cb9f53e\"}"
-        ],
-        "priorReadDomainSha256": "98ca1e0cfd30ce6d71215c2ec114b519ca0060574f98620361750a1a195571e0",
-        "notRead": [
-          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
-        ]
-      },
-      "fieldRoles": {
-        "nativePointers": ["/schemaVersion"],
-        "governance": [
-          "docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/75"
-        ]
-      },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
-      "currentIndependentAcceptance": {
-        "protocol": "document-delivery-acceptance/1.0.0",
-        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
-        "reviewer": "Codex",
-        "nonAuthorReviewer": true,
-        "verdict": "accept",
-        "afterSha256": "4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302",
-        "contentSha256": "364e9f281c89f2b72bdd60ba67530f595f4501e39d54226c9da9e9ac09a1d823",
-        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
-        "ownerDecision": {
-          "actor": "Codex",
-          "task": "DOCS-FULL-TEMPLATE-1/S65",
-          "currentBodyReview": true,
-          "currentTemplateMigration": true,
-          "oldClaimRestored": false,
-          "runtimeCredit": false
-        }
-      }
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S05-b87a2397.json",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "evidence-receipt",
-      "templateId": "evidence-receipt-v1",
-      "templateVersion": "1.0.0",
-      "templateCompliance": "template-compliant",
-      "reviewDepth": "partial-semantic",
-      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
-      "coreConclusion": "S05冻结证据无损运输(lossless-frozen-evidence-transport-not-acceptance):capturedAt 2026-10-17T22:14Z;3个sourceManifests(含owner/originalReportSha256)+236文件,每条sha256/bytes与gzip stored双身份、producerScope标注;policy=原报告与全部命令输出字节保全、原失败不改。creditGrantedByTransport=False、globalHardGatePassed=False。",
-      "truthAnchors": [
-        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S05-b87a2397.json: semantic identity field \"schemaVersion\" actual value (family role anchor)"
-      ],
-      "unresolved": [
-        "This file has not earned independent full semantic/template acceptance as a document."
-      ],
-      "nextStep": "Owner risk-sampling then central admission",
-      "phase": "ops",
-      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
-      "provenance": [
-        "explicit central registration; no path-inferred semantic credit",
-        "Original distinct named producer and exact source manifests; root transports original bytes only."
-      ],
-      "primarySource": [
-        {
-          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S05-b87a2397.json",
-          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
-          "gitObject": "d0529eb5ec0aeefea17b5a81c9671e71798522dc",
-          "sha256": "ceebd3b63a8f8a925bf7812def11f76ec207a962b5487cc1e0c9255b9bcd0930"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "ops",
-        "scope": "Documentation governance only; no product/runtime applicability granted."
-      },
-      "dependencies": [],
-      "versionScope": "current tracked revision 83743275",
-      "publicCallers": [
-        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S05-central-review-4ddd17e4.json: 60:          \"docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/inde…",
-        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S05-central-review-4ddd17e4.json: 319:          \"docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/ind…",
-        "docs/phase-governance/document-registry.ops.json: 15656:      \"path\": \"docs/ops/evidence/DOCS-RECORD-INTEGRITY…",
-        "docs/phase-governance/reviews/20261018-record-integrity-rework.json: 8100:      \"path\": \"docs/ops/evidence/DOCS-RECORD-INTEGRITY-…",
-        "(共7处,列前4)"
-      ],
-      "legalInputs": [
-        {
-          "kind": "fixed-native-carrier",
-          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S05-b87a2397.json",
-          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
-          "gitObject": "d0529eb5ec0aeefea17b5a81c9671e71798522dc",
-          "sha256": "ceebd3b63a8f8a925bf7812def11f76ec207a962b5487cc1e0c9255b9bcd0930"
-        }
-      ],
-      "businessOracle": {
-        "type": "historical-native-document",
-        "currentExecution": false,
-        "assertions": [
-          "kind=lossless-frozen-evidence-transport-not-acceptance为原生语义",
-          "creditGrantedByTransport==False为核心轴",
-          "files[]双SHA/bytes为保全轴"
-        ]
-      },
-      "dedupe": {
-        "result": "unique path in manifest",
-        "against": []
-      },
-      "counterReworkBlocked": [
-        {
-          "status": "pending-document-template-review",
-          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
-        }
-      ],
-      "revision": {
-        "currentSha": "8b1dae5b0a3638c19f23c4fa17937b2a50e4c9cb",
-        "history": [
-          {
-            "date": "2026-10-18",
-            "action": "explicit-pending-registration",
-            "sha256": "ceebd3b63a8f8a925bf7812def11f76ec207a962b5487cc1e0c9255b9bcd0930"
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "historical-native-artifact",
-        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S05-b87a2397.json",
-        "family": "frozen-evidence-transport-intake",
-        "nativeShape": {
-          "type": "object",
-          "fields": [
-            ["schemaVersion", "number"],
-            ["kind", "string"],
-            ["capturedAt", "string"],
-            ["sourceManifests", "array"],
-            ["files", "array"],
-            ["fileCount", "number"],
-            ["policy", "string"],
-            ["creditGrantedByTransport", "boolean"],
-            ["globalHardGatePassed", "boolean"]
-          ]
-        },
-        "witnesses": [
-          {
-            "claim": "semantic identity field \"schemaVersion\" actual value (family role anchor)",
-            "pointer": "/schemaVersion",
-            "value": 1
-          }
-        ],
-        "runtimeExecutionPerformed": false,
-        "historicClaimsReexecuted": false,
-        "creditGranted": 0
-      },
-      "history": [
-        {
-          "date": "2026-10-18",
-          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
-        },
-        {
-          "kind": "native-artifact-candidate",
-          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
-          "priorReviewRecord": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
-          "priorReviewIndex": 76,
-          "priorEntrySha256": "c5bff29ba2d672c6fcb0eb2d0a41dac4f9c7e45b4937b521cefb4b9af8a974c1",
-          "newSemanticCredit": 0,
-          "newTemplateMigrationCredit": 0
-        },
-        {
-          "kind": "current-document-acceptance",
-          "date": "2026-10-28",
-          "task": "DOCS-FULL-TEMPLATE-1/S65",
-          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
-          "priorRecord": {
-            "logicalPath": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
-            "index": 76,
-            "entryCanonicalSha256": "eb197bdd21090cfbdce90b31e24300382656ab01a48a8130d40822ce48cac0f6"
-          },
-          "priorReviewStatus": "partial-review-unknown",
-          "priorTemplateCompliance": "needs-migration",
-          "currentCreditOnly": true,
-          "oldClaimsRestored": false,
-          "runtimeCredit": false
-        }
-      ],
-      "supersedes": [],
-      "stopLine": "no migration/runtime credit; Owner adjudicates retention and binding",
-      "sourceSha256": "ceebd3b63a8f8a925bf7812def11f76ec207a962b5487cc1e0c9255b9bcd0930",
-      "afterSha256": "ceebd3b63a8f8a925bf7812def11f76ec207a962b5487cc1e0c9255b9bcd0930",
-      "sourceGitRevision": "8b1dae5b0a3638c19f23c4fa17937b2a50e4c9cb",
-      "reviewedLines": 0,
-      "beforeAfter": {
-        "before": "Immutable output prepared outside repository pending guarded explicit registration.",
-        "after": "Unique pending binding recorded; native file content and statuses not promoted."
-      },
-      "templateConformance": {
-        "status": "needs-migration",
-        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
-      },
-      "templateVariant": "historical-evidence-receipt-artifact-native-v1",
-      "historyOverlay": false,
-      "artifactOnly": false,
-      "documentStatus": "historical",
-      "readDomain": {
-        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
-        "reusedFrom": [
-          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-08.json\",\"index\":86,\"canonicalSha256\":\"a7520223de63cc99e9faaf026f264dec37c3a6a17f2381822d72168dbd2eaa79\"}"
-        ],
-        "priorReadDomainSha256": "d6335ecacd6f94c853b0894eb8938775f50a97aebfa5d71a425c4ffec8186e2f",
-        "notRead": [
-          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
-        ]
-      },
-      "fieldRoles": {
-        "nativePointers": ["/schemaVersion"],
-        "governance": [
-          "docs/phase-governance/reviews/20261018-record-integrity-rework.json#entries/76"
-        ]
-      },
-      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
-      "currentIndependentAcceptance": {
-        "protocol": "document-delivery-acceptance/1.0.0",
-        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S05-b87a2397.json",
-        "reviewer": "Codex",
-        "nonAuthorReviewer": true,
-        "verdict": "accept",
-        "afterSha256": "ceebd3b63a8f8a925bf7812def11f76ec207a962b5487cc1e0c9255b9bcd0930",
-        "contentSha256": "e4643430b7e0f034b5fe1a189d93a1967bba18e95a3b78ed468209fae882bb2c",
         "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
         "ownerDecision": {
           "actor": "Codex",

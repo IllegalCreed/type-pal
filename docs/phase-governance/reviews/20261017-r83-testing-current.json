@@ -301,11 +301,11 @@
     },
     {
       "path": "docs/testing/legacy-flat-classification.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "governance-index.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
       "reviewDepth": "structured-content",
       "coreConclusion": "本候选legacy分类投影与manifest的359个原path/source身份一一对应，active0/retired359；inventory标题/行数/执行声明是原分类时点的观察，canonicalTarget不自动恢复已退休路径。Agent名只属provenance，当前保留和退出权归manifest/迁移计划，分类投影不认证旧运行。",
@@ -429,6 +429,24 @@
           "author": "Codex",
           "priorEntrySha256": "6769e04c52a4a4aff580139c919aea8e59adacd833e7d7273cbfe629a510e1fe",
           "scope": "Exact current control/reference interpretation; no status/old/runtime/child credit."
+        },
+        {
+          "kind": "current-native-control-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "date": "2026-10-29",
+          "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+          "contentSha256": "2acf87f5c8e4a643f8cf147c64002415559d29dbe40b5782b858dac28ddfd749",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -465,14 +483,6 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "current-governance-control-native-v1",
       "artifactEnvelope": false,
       "readDomain": {
@@ -494,15 +504,48 @@
         ],
         "governance": ["docs/phase-governance/reviews/20261017-r83-testing-current.json#entries/1"]
       },
-      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。"
+      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/legacy-flat-classification.json",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "reportSha256": "94db1d0fe3683c6d9866e50755b17b6da48e769ad8aac7a29b41df115312384c",
+        "contentSha256": "2acf87f5c8e4a643f8cf147c64002415559d29dbe40b5782b858dac28ddfd749",
+        "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+        "controlIdentity": {
+          "role": "legacy-classification",
+          "source": {
+            "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+            "path": "docs/testing/legacy-flat-classification.json",
+            "gitObject": "1ff561d583304f924bfd9fc4478052d980966ad4",
+            "sha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e"
+          },
+          "structureSha256": "1b2cd0ea80b92a13eedad8fced3509158e24f4703815064e0d290e663a1274d1",
+          "membershipSha256": "bc91af428be42c7464a5f9234edf404f3828bcd9f9e30cfc6902ae716092461b",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+          "index": 1
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/legacy-flat.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "governance-index.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
       "reviewDepth": "structured-content",
       "coreConclusion": "本候选legacy-flat的active entries为0、retired为359，frozenCensus仍保留原359件身份。零active不是空账本退役或全量测试通过；每个原路径的movedTo/sourceSha256/plan是退出映射，旧扁平路径不再是当前正文源，不能重新引入根目录材料或只删原清册。",
@@ -626,6 +669,24 @@
           "author": "Codex",
           "priorEntrySha256": "b3bb893ea0ae0db019e8ecc9264f73a69f84482a5a439aad3a9a6fd0da223402",
           "scope": "Exact current control/reference interpretation; no status/old/runtime/child credit."
+        },
+        {
+          "kind": "current-native-control-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "date": "2026-10-29",
+          "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+          "contentSha256": "0c201cf544faddae19c117d9e97477a9dc5acd920529463cccfbb401725e3ec7",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -662,14 +723,6 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "templateVariant": "current-governance-control-native-v1",
       "artifactEnvelope": false,
       "readDomain": {
@@ -691,7 +744,40 @@
         ],
         "governance": ["docs/phase-governance/reviews/20261017-r83-testing-current.json#entries/2"]
       },
-      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。"
+      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/legacy-flat.json",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "reportSha256": "94db1d0fe3683c6d9866e50755b17b6da48e769ad8aac7a29b41df115312384c",
+        "contentSha256": "0c201cf544faddae19c117d9e97477a9dc5acd920529463cccfbb401725e3ec7",
+        "reviewedCandidate": "c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08",
+        "controlIdentity": {
+          "role": "legacy-manifest",
+          "source": {
+            "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+            "path": "docs/testing/legacy-flat.json",
+            "gitObject": "7389938e33ecc83cae5135b7dc84303268e91ae7",
+            "sha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8"
+          },
+          "structureSha256": "4f399b959a2b3f02806a09eb48a70afe7cca3c903d0893eefa4384225d5bcea8",
+          "membershipSha256": "bc91af428be42c7464a5f9234edf404f3828bcd9f9e30cfc6902ae716092461b",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+          "index": 2
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S72",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     }
   ],
   "currentCorrection": {
