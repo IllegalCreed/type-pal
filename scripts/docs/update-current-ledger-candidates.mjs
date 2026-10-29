@@ -7,8 +7,12 @@ import {
   currentLedgerEntryHash,
   prepareCurrentLedgerCandidate,
   prepareCurrentLedgerPublication,
+  prepareCurrentNativeControlCandidate,
+  prepareCurrentNativeControlPublication,
   publishCurrentLedgerReviews,
+  publishCurrentNativeControlReviews,
   writeCurrentLedgerCandidate,
+  writeCurrentNativeControlCandidate,
 } from './current-review-ledger-candidate.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
@@ -39,12 +43,25 @@ export function runCurrentLedgerCandidate(argv) {
     '',
     'tracked working tree must be clean',
   )
-  const publication = plan.kind === 'current-ledger-publication/1.0.0'
+  const native = [
+    'current-native-control-candidate/1.0.0',
+    'current-native-control-publication/1.0.0',
+  ].includes(plan.kind)
+  const publication = [
+    'current-ledger-publication/1.0.0',
+    'current-native-control-publication/1.0.0',
+  ].includes(plan.kind)
   assert(
     argv.length === 2 || (publication ? argv[2] === '--publish' : argv[2] === '--write'),
     'author writes and Owner publication require their distinct explicit flag',
   )
-  const prepare = publication ? prepareCurrentLedgerPublication : prepareCurrentLedgerCandidate
+  const prepare = native
+    ? publication
+      ? prepareCurrentNativeControlPublication
+      : prepareCurrentNativeControlCandidate
+    : publication
+      ? prepareCurrentLedgerPublication
+      : prepareCurrentLedgerCandidate
   const handle = prepare({
     root,
     plan,
@@ -53,8 +70,8 @@ export function runCurrentLedgerCandidate(argv) {
   const result =
     argv.length === 3
       ? publication
-        ? publishCurrentLedgerReviews(handle)
-        : writeCurrentLedgerCandidate(handle)
+        ? (native ? publishCurrentNativeControlReviews : publishCurrentLedgerReviews)(handle)
+        : (native ? writeCurrentNativeControlCandidate : writeCurrentLedgerCandidate)(handle)
       : {
           mode: 'dry-run',
           targets: handle.targets,

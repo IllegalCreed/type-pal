@@ -623,4 +623,14 @@ S67终态补记：R93拆分+20转移subject/真实Git已通过完整组演练，
 
 current-review-ledger-native-v1/1.0.0格式及17父类型不变，补齐此前尚未启用的接受前提。候选仍partial/needs、无接受对象；合格态须冻结具体内容hash、分域非作者basis（原GLM内容由Codex核、Owner澄清由GLM核，复用三pilot沿S66接受）和真实报告、独立Owner决定及唯一publication history。正式表在实际非作者回执之前保持空，不把候选/原件保全/拟稿hash计迁移。
 
+## S71 当前控制与模板示例原生合同设计（2026-10-29）
+
+剩余24JSON按真实角色分开：19件控制数据（phase catalog五件、registry八件、routing/matrix/templates各一件、testing catalog、legacy manifest/classifier两件），三件JSON模板示例，两件006发布证据。前22件复用现有唯一review；006两件沿既有合同和技术接受范围，不以本设计补发执行信用。
+
+- current-governance-control-native-v1归governance-index-v1；current-template-example-native-v1归reference-canon-v1。各自1.0.0、json-native/existing-current-review/current；原17父类型和原变体不改。当前只准入精确路径，拒绝路径前缀或任意JSON换标。
+- 必填：具体事实权/消费者/政策/输入与oracle/实际读域/成员身份与观察数量、历史范围、停止线/下一步；正文在现有review，不注入原生字段。旧source pin由真实Git解析，只是历史来源，不能永久冻结live载体全字节。结构/政策/成员身份指纹与当前原生解析一致；合法after/状态投影不能借机接受子项语义；结构变更须新解释和独立接受，不能只刷新SHA。
+- 按角色检查manifest/shard哈希和归属、registry位置/分片汇总、phase目录全集、routing职责、17模板合同、matrix关系边界、testing发布身份、legacy分类对应。模板示例保留draft/占位语义，不能当真实执行或catalog身份；当前观察数是本次读域，不外推完整运行或全量完成。
+- 必须调用同一公共model/progress guard，要求保护组唯一review所有权、真实Git来源、当前byte pin、原生读取快照不漂移、零runtime/child授权。候选partial/needs，只有后续真实非作者接受的精确正文/结构身份和Owner决定才可授信。接受表先为空，不用合成报告解锁生产。
+- 临时树三pilot：catalog manifest、document-registry manifest、templates registry；要有完整正向和来源/结构/descriptor/角色错配/非法晋升反例。生产新路径/接受和扣减按实际试点与非作者结果另行登记，不从设计条款自动产生信用。
+
 内容hash绑定完整已接受解释/源/历史，排除动态after及行政maintenance；publication事件只用于搬运原claimCorrection，规范化后内容hash不变，旧撤信原对象按history回读，不恢复旧事实。动态raw仍由原guard验当前after、稳定header/有序成员-source/唯一归属/Git/source pin和受保护快照；不因接受放宽这些门。作者API仍不得改状态，Owner新入口只允许compiled接受映射产生的精确状态/签名/历史变换，registry状态投影与依赖after闭包同事务。新回归仅覆上述原子边界，既有测试不改；未采外部接收对象/任意validator作为写权限。

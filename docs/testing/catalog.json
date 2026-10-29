@@ -258,7 +258,7 @@
       "evidence": "e2e/evidence/e2e-001.json",
       "tags": ["story", "opening", "dialogue", "checkpoint"],
       "lastVerified": "2026-09-28",
-      "reviewBy": "2026-10-28",
+      "reviewBy": "2026-11-28",
       "dependsOn": [],
       "sourceRefs": [
         {
@@ -339,7 +339,30 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "source-and-historical-publication-review 2026-10-29; seven source pins and 55-row native contract checked; 25 tool contracts passed; no new runtime/save-restore/visual execution",
+      "reviewHistory": [
+        {
+          "date": "2026-10-29",
+          "reviewer": "Codex",
+          "sourceRevision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+          "action": "source-and-historical-publication-review",
+          "previousReviewBy": "2026-10-28",
+          "reviewBy": "2026-11-28",
+          "sourceRefsValidated": 7,
+          "sourceDialogueRows": 55,
+          "sourceDialogueCues": 24,
+          "toolContractsPassed": 25,
+          "observedCurrentVersions": {
+            "content": 22,
+            "minimumSave": 12
+          },
+          "historicalLastVerifiedPreserved": "2026-09-28",
+          "originalPairedEvidenceSha256": "153fa5ba821992796612537e161ea2693b8a10ed15d0c92332be4f467bf67397",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "scope": "Fresh review of source/caller/oracle and existing historical publication boundary; not a fresh E2E or save/restore result."
+        }
+      ]
     },
     {
       "id": "e2e-002",

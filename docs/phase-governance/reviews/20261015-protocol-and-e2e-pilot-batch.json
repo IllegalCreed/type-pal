@@ -319,7 +319,7 @@
       "reviewedSourceSha256": "52a26a649b2117126016b71ae956af2314c18c0cf1da456bf09d511ada8a0339",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "present",
-      "afterSha256": "c9b4e57dd1ba5243b9865a05bb2000f4afe23e9917a1a331a88b2532ef35e298",
+      "afterSha256": "268d4919419c4bc097067fb56e98c6caad2eb92d6c53de5f449bb4fdbd252741",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -382,7 +382,26 @@
       "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
       "userVisibleBeforeAfter": "16 行阶段 metadata -> 四个必填章节，原 YAML 状态/日期完全保留。",
       "reviewedLines": "1-33",
-      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。"
+      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S71/current-native-foundation",
+          "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+          "beforeSha256": "c9b4e57dd1ba5243b9865a05bb2000f4afe23e9917a1a331a88b2532ef35e298",
+          "afterSha256": "268d4919419c4bc097067fb56e98c6caad2eb92d6c53de5f449bb4fdbd252741",
+          "scope": "S71 received S70 acceptance, current native definitions and actual001 source/claim-scope review; no new status/runtime credit",
+          "priorRecord": {
+            "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+            "logicalPath": "docs/phase-governance/reviews/20261015-protocol-and-e2e-pilot-batch.json",
+            "index": 3,
+            "entryCanonicalSha256": "e90a3c7c1a0be50603e9a29fe1230564dc87189742b6160e8024ea7d5221e2ca"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/testing/e2e/stages/001-opening/report.md",
@@ -413,7 +432,7 @@
       "reviewedSourceSha256": "a2f890e62ce23ad2580345dd4a12178b2efb0e50c7a01371bf6aa4411c1231d3",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "present",
-      "afterSha256": "ae2befda7e538238d8beb5da08aca128ddef98c825041dbc67cfad2ec26ec87a",
+      "afterSha256": "151cae8cf616b8f8616ad3b2de46e8695c55103a209a1bbaedc4fb63446930fb",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -486,6 +505,23 @@
           "afterSha256": "ae2befda7e538238d8beb5da08aca128ddef98c825041dbc67cfad2ec26ec87a",
           "method": "Only explicit named historical-fragment navigation compatibility, original body/metadata/quote/status unchanged; no fresh semantic grant.",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S71/current-native-foundation",
+          "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+          "beforeSha256": "ae2befda7e538238d8beb5da08aca128ddef98c825041dbc67cfad2ec26ec87a",
+          "afterSha256": "151cae8cf616b8f8616ad3b2de46e8695c55103a209a1bbaedc4fb63446930fb",
+          "scope": "S71 received S70 acceptance, current native definitions and actual001 source/claim-scope review; no new status/runtime credit",
+          "priorRecord": {
+            "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+            "logicalPath": "docs/phase-governance/reviews/20261015-protocol-and-e2e-pilot-batch.json",
+            "index": 4,
+            "entryCanonicalSha256": "c736cbb921030476a9edccee333db42ec9b26094cc2f370ea18c99d9ca2f9273"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

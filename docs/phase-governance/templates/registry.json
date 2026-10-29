@@ -24,7 +24,18 @@
         "nextStep"
       ],
       "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
-      "format": "markdown"
+      "format": "markdown",
+      "variants": {
+        "current-governance-control-native-v1": {
+          "templateId": "governance-index-v1",
+          "variant": "current-governance-control-native-v1",
+          "templateVersion": "1.0.0",
+          "format": "json-native",
+          "metadataLocation": "existing-current-review",
+          "lifecycle": "current",
+          "purpose": "Live authority, membership and physical ownership; child semantic credit stays separate."
+        }
+      }
     },
     {
       "docType": "task-card",
@@ -337,7 +348,18 @@
         "nextStep"
       ],
       "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
-      "format": "markdown"
+      "format": "markdown",
+      "variants": {
+        "current-template-example-native-v1": {
+          "templateId": "reference-canon-v1",
+          "variant": "current-template-example-native-v1",
+          "templateVersion": "1.0.0",
+          "format": "json-native",
+          "metadataLocation": "existing-current-review",
+          "lifecycle": "current",
+          "purpose": "Editable JSON template example; placeholders and example statuses are not executions."
+        }
+      }
     },
     {
       "docType": "narrative-idea",

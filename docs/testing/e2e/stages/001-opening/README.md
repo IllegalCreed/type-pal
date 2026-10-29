@@ -1,6 +1,6 @@
 # E2E-001 · 开场
 
-Last reviewed: 2026-10-15
+Last reviewed: 2026-10-29
 Template: test-e2e-stage-v1 / 1.0.0
 
 ```yaml
@@ -10,7 +10,7 @@ phase: [phase1, phase2]
 engines: [game, reforge]
 owner: Codex
 lastVerified: 2026-09-28
-reviewBy: 2026-10-28
+reviewBy: 2026-11-28
 dependsOn: []
 tags: [story, opening, dialogue, checkpoint]
 canonicalReport: report.md
@@ -22,7 +22,7 @@ canonicalReport: report.md
 
 ## 当前结论
 
-catalog 的 verified 与上方 lastVerified 保留原已发布记录的语义。本页此次只做文档迁移，没有新实跑；不能把 2026-09-28 或报告中的 10-07/10-08 结论外推到今天的完整 NPC 验收、capture-ready 或 001–006 连续链。
+catalog 的 verified 与上方 lastVerified 保留原已发布记录的语义。2026-10-29 已重新核读报告、配对JSON、7个源码SHA及行段、双runner/both入口；实际调用原生对白合同得到55行，并回放25项工具合同。reviewBy按这次真实文档续审设为2026-11-28；没有重新运行浏览器剧情、保存/恢复或视觉验收，不能把9-28或10-07/10-08结果外推为今天的完整NPC/capture-ready/连续链通过。
 
 ## 证据与状态
 
@@ -30,4 +30,4 @@ catalog 的 verified 与上方 lastVerified 保留原已发布记录的语义。
 
 ## 依赖与历史
 
-本阶段无前驱依赖，后续阶段必须使用同引擎且版本合法的真实 checkpoint。状态与适用版本以[测试 catalog](../../../catalog.json)和对应报告 revision 为准；静态迁移不改 lastVerified、reviewBy 或原历史 SHA。下一步由当前 E2E 任务按真实缺口推进，不因本页模板通过重录或追认历史。
+本阶段无前驱依赖，后续阶段必须使用同引擎且版本合法的真实 checkpoint。状态与适用版本以[测试 catalog](../../../catalog.json)和对应报告 revision 为准；原模板迁移未更新审阅期限；本次有证据的文档续审只更新reviewBy和审阅说明，lastVerified、原candidate/版本/运行SHA仍保留。下一步由当前 E2E 任务按真实缺口推进，不因本页模板通过重录或追认历史。

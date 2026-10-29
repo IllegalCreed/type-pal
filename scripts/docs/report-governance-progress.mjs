@@ -45,6 +45,7 @@ const reviewReader = (path) => {
   return reviewGroup.records.get(path)
 }
 const sourceOptions = {
+  root,
   reviewGroupReader: () => {
     reviewGroup ??= loadReviewRecords({ root })
     return reviewGroup

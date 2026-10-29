@@ -10,7 +10,7 @@ evidence: e2e/evidence/e2e-001.json
 
 # 001 开场执行器：双引擎完整验证
 
-Last reviewed: 2026-10-15
+Last reviewed: 2026-10-29
 Owner: Codex
 Template: test-run-report-v1 / 1.0.0
 
@@ -208,6 +208,14 @@ HTTP `.type-pal/save-state.json`不存在是现行“干净工程”的合法404
 50ms轮询仅用于等待状态，不用于指定剧情持续时间。没有多数通过或自动重试放行策略。
 
 ## Revision history
+
+### 2026-10-29 当前源码与历史发布边界续审
+
+重新核读本报告与配对原件、7个sourceRefs行段及全文件SHA、两runner和both调用链；七个pin仍与声明相等，双入口仍调用readOpeningContract，both保留独立上下文及任一失败整体非零。实际对当前canonical/原版提取正文调用该合同，55个唯一textId与逐条原文一致；当前源常量为content22/minimumSAVE12，顶部原文档核读的22/11及2026-09-28执行发布日期保持原口径。
+
+opening-matrix、opening-handoff、opening-trace三工具文件真实回放25/25、零fail/skip，覆盖连续性/时钟/完整渲染、视频自然结束与真实绘制插桩的现有反例。该执行只验证工具合同，不是浏览器剧情、存读档或跨引擎实跑。未重录、未补造旧raw；配对e2e-001.json逐字节保留，runtimeExecution.performed仍false。
+
+catalog reviewHistory记录本次source-and-historical-publication-review；reviewBy从2026-10-28续至2026-11-28，lastVerified及原candidate/版本/history不动。新检查回执与S70独立接受共用DOCS-FULL-TEMPLATE-1既有单份封存，不新增执行sidecar；后续源码/原生正文/执行前提变化或到期须再次真实复核，不能自动滚动日期。
 
 ### 源码核读更新（原前置记录）
 

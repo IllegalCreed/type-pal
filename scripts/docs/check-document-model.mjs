@@ -50,6 +50,7 @@ const reviewGroupReader = () => {
   return reviewGroup
 }
 const issues = checkDocumentModel(config, registry, read, {
+  root,
   readSource: (pin) => readGitDocumentSource(root, pin),
   readBuffer,
   readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),

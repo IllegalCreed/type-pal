@@ -1,9 +1,11 @@
-// Author-only current-ledger metadata proposals. The shared transaction owns storage safety.
+// Closed ledger/control metadata proposals. The shared transaction owns storage safety.
 
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { isDeepStrictEqual as same } from 'node:util'
+import { currentNativeControlAdmissions } from './current-native-control-admission.mjs'
+import { applyCurrentNativeControlGrant } from './current-native-control-qualification.mjs'
 import { currentReviewLedgerAdmissions } from './current-review-ledger-admission.mjs'
 import { applyCurrentLedgerGrant } from './current-review-ledger-qualification.mjs'
 import { currentLedgerStorageUpgrade } from './current-review-ledger-storage-admission.mjs'
@@ -58,14 +60,14 @@ const mutable = new Set([
 ])
 
 /** Status, acceptance, source identities, corrections and all existing history stay immutable. */
-export function validateCurrentLedgerChanges(changes, records) {
+function validateCandidateChanges(changes, records, admissions, eventKind) {
   demand(
-    Array.isArray(changes) && changes.length > 0 && changes.length <= 111,
-    'bounded nonempty subset of111 required',
+    Array.isArray(changes) && changes.length > 0 && changes.length <= admissions.length,
+    `bounded nonempty subset of${admissions.length} required`,
   )
   demand(new Set(changes.map((c) => c.path)).size === changes.length, 'duplicate path')
   for (const c of changes) {
-    const b = currentReviewLedgerAdmissions.find((entry) => entry.path === c.path)
+    const b = admissions.find((entry) => entry.path === c.path)
     demand(
       b && c.reviewRecord === b.reviewRecord && c.index === b.index,
       `unadmitted path or position: ${c.path}`,
@@ -91,9 +93,7 @@ export function validateCurrentLedgerChanges(changes, records) {
         c.after.history
           .slice(before.history?.length ?? 0)
           .some(
-            (event) =>
-              event.kind === 'current-ledger-candidate' &&
-              event.priorEntrySha256 === c.beforeEntrySha256,
+            (event) => event.kind === eventKind && event.priorEntrySha256 === c.beforeEntrySha256,
           ),
         'explicit prior row locator required',
       )
@@ -101,14 +101,14 @@ export function validateCurrentLedgerChanges(changes, records) {
   return { targets: changes.length, creditGranted: 0 }
 }
 
-export function validateCurrentLedgerPublication(changes, records) {
+function validateGrantChanges(changes, records, admissions, applyGrant) {
   demand(
-    Array.isArray(changes) && changes.length > 0 && changes.length <= 111,
-    'bounded publication subset of111 required',
+    Array.isArray(changes) && changes.length > 0 && changes.length <= admissions.length,
+    `bounded publication subset of${admissions.length} required`,
   )
   demand(new Set(changes.map((c) => c.path)).size === changes.length, 'duplicate publication path')
   for (const c of changes) {
-    const b = currentReviewLedgerAdmissions.find((entry) => entry.path === c.path)
+    const b = admissions.find((entry) => entry.path === c.path)
     demand(
       b && c.reviewRecord === b.reviewRecord && c.index === b.index,
       'publication path/position not admitted',
@@ -119,11 +119,44 @@ export function validateCurrentLedgerPublication(changes, records) {
       'publication before row changed',
     )
     demand(
-      same(c.after, applyCurrentLedgerGrant(before, b)),
+      same(c.after, applyGrant(before, b)),
       'publication may only apply compiled scoped acceptance; no other body edits',
     )
   }
   return { targets: changes.length, grantsPrepared: changes.length, creditGranted: 0 }
+}
+
+export function validateCurrentLedgerChanges(changes, records) {
+  return validateCandidateChanges(
+    changes,
+    records,
+    currentReviewLedgerAdmissions,
+    'current-ledger-candidate',
+  )
+}
+export function validateCurrentLedgerPublication(changes, records) {
+  return validateGrantChanges(
+    changes,
+    records,
+    currentReviewLedgerAdmissions,
+    applyCurrentLedgerGrant,
+  )
+}
+export function validateCurrentNativeControlChanges(changes, records) {
+  return validateCandidateChanges(
+    changes,
+    records,
+    currentNativeControlAdmissions,
+    'current-native-control-candidate',
+  )
+}
+export function validateCurrentNativeControlPublication(changes, records) {
+  return validateGrantChanges(
+    changes,
+    records,
+    currentNativeControlAdmissions,
+    applyCurrentNativeControlGrant,
+  )
 }
 
 export function projectCurrentLedgerControls(root, changes, readBuffer, publication) {
@@ -187,10 +220,10 @@ export function projectCurrentLedgerControls(root, changes, readBuffer, publicat
   return outputs
 }
 
-function prepareLedgerProposal({ root, plan, planSha256 }, publication) {
+function prepareLedgerProposal({ root, plan, planSha256 }, publication, native = false) {
+  const prefix = native ? 'current-native-control' : 'current-ledger'
   demand(
-    plan?.kind ===
-      (publication ? 'current-ledger-publication/1.0.0' : 'current-ledger-candidate/1.0.0') &&
+    plan?.kind === `${prefix}-${publication ? 'publication' : 'candidate'}/1.0.0` &&
       plan.creditGranted === 0 &&
       /^\d{4}-\d{2}-\d{2}$/u.test(plan.date ?? '') &&
       currentLedgerEntryHash(plan) === planSha256,
@@ -199,9 +232,15 @@ function prepareLedgerProposal({ root, plan, planSha256 }, publication) {
   root = resolve(root)
   const readBuffer = (path) => readFileSync(join(root, path)),
     group = loadReviewRecords({ root }),
-    validated = publication
-      ? validateCurrentLedgerPublication(plan.changes, group.records)
-      : validateCurrentLedgerChanges(plan.changes, group.records),
+    validated = (
+      native
+        ? publication
+          ? validateCurrentNativeControlPublication
+          : validateCurrentNativeControlChanges
+        : publication
+          ? validateCurrentLedgerPublication
+          : validateCurrentLedgerChanges
+    )(plan.changes, group.records),
     records = new Map([...group.records].map(([path, record]) => [path, structuredClone(record)])),
     dirty = new Set(),
     retired = []
@@ -302,7 +341,7 @@ function prepareLedgerProposal({ root, plan, planSha256 }, publication) {
       },
       templates,
       (path) => view(path).toString('utf8'),
-      { readBuffer: view, readSourceBuffer: source, reviewGroupReader: () => virtualGroup },
+      { root, readBuffer: view, readSourceBuffer: source, reviewGroupReader: () => virtualGroup },
     )
     demand(issues.length === 0, `${c.path}: ${issues.join('; ')}`)
   }
@@ -350,4 +389,17 @@ export function writeCurrentLedgerCandidate(handle) {
 
 export function publishCurrentLedgerReviews(handle) {
   return writeLedgerProposal(handle, 'current-ledger-publication/1.0.0')
+}
+
+export function prepareCurrentNativeControlCandidate(options) {
+  return prepareLedgerProposal(options, false, true)
+}
+export function prepareCurrentNativeControlPublication(options) {
+  return prepareLedgerProposal(options, true, true)
+}
+export function writeCurrentNativeControlCandidate(handle) {
+  return writeLedgerProposal(handle, 'current-native-control-candidate/1.0.0')
+}
+export function publishCurrentNativeControlReviews(handle) {
+  return writeLedgerProposal(handle, 'current-native-control-publication/1.0.0')
 }

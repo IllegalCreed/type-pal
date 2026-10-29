@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "32d35abec292f9374e4f1031035f45bb5d75f5702b37a13f83242859020e8829",
+  "generation": "f3b469e8c6b5a14ffb0e3766b358002310ac3b4db70fbf5946c61a5f8ab438ed",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -32,7 +32,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "fd54d48702bac63b1efbf00ed7bd491d31d0f07a58f4a97832c90d92c6e635ab",
+      "afterSha256": "e40abbb6d69ce02fc47eac2bf595048d4fa05ea50d73a57179d280038e6fead3",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -1338,6 +1338,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
             "index": 33,
             "entryCanonicalSha256": "064928df75ad10e648f679e25679b342bd461a00dfd4d4abd669293958248d81"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S71/current-native-foundation",
+          "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+          "beforeSha256": "fd54d48702bac63b1efbf00ed7bd491d31d0f07a58f4a97832c90d92c6e635ab",
+          "afterSha256": "e40abbb6d69ce02fc47eac2bf595048d4fa05ea50d73a57179d280038e6fead3",
+          "scope": "S71 received S70 acceptance, current native definitions and actual001 source/claim-scope review; no new status/runtime credit",
+          "priorRecord": {
+            "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 33,
+            "entryCanonicalSha256": "36f33732fe074619a576d9ec4dd288f697205e86cd9360a3238d51b2a7f7bc6d"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S69 Owner限定增量非作者accept）；Codex（S68基础字段独立裁定及S70中央接入）；全量硬验收未完成
-Branch: codex/docs-s70-ledger-publication
+Branch: codex/docs-s71-current-controls
 Last reviewed: 2026-10-29
 Template: task-card-v1 / 1.0.0
 
@@ -2751,3 +2751,13 @@ GLM对6e0723208b722591a83a622ba700d8ecc9f18521的R01–R05限定增量及六文�
 S70实际接入：接受表111/111与6e正文hash精确绑定；真正CLI在固定d7141f66b clean候选上dry-run（13计划写/7退）后同plan执行--publish，13写/7旧片退，114逻辑/160 review物理/46片/13源pin与2435 after精确。registry恰111行reviewStatus及templateCompliance晋升；108个旧claimCorrection完整移入各自唯一publication history，2324其余语义行保留。111接受只覆盖现行账本解释，oldClaimRestored/runtime/childSemanticAcceptance均false；物理事务返回creditGranted=0不代替显式Owner授信，本轮实际新增111当前审阅与111模板迁移。原生473字节、routing、17父合同及1838固定清单未动。
 
 稳定候选9fca3c914实测：317文档工具测试/0fail/0skip，docs链接/任务状态门与model2412/0通过；lint4652文件0error/0warning/0info；phase-lore184通过；progress1818/1838迁移、3显式退役、17基线未迁与584增量迁移，完整2435当前候选中2402合规、33待办（24JSON+9MD），integrity零。strict由144/288降至33/66（审阅33、迁移33、交集33），实减222诊断。check:docs仍exit1：testing唯一e2e-001 reviewBy2026-10-28<UTC2026-10-29，非本批解除，不刷新日期、不豁免；全量硬门保持rework。行政后仅更新父卡/看板及精确after/maintenance闭包，不改变任何接受正文hash。接入结果与新增一行投影修复交GLM只读增量复核，不重审111正文。
+
+## S71 S70限定接收与剩余现行控制合同（2026-10-29）
+
+S70候选8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9已获GLM只读非作者accept、零counter；HANDBACK b6fa2a61f393c4ea8e2f67a95c8eadb39176a718e3d575b3dcf6d5d6d72f13af，verdict eb8b2e86ee4314e0530a5e27285c285e828438e86ce1f8556b795b87392af879。范围仅S70三代码/分域接受应用/实际发布/行政/封存；111既有正文和S68/S69各自裁定不重做。由Owner据证接收本增量，不再次授予111或child/runtime信用；全卡仍rework，33/66不因接收回执重复扣减。S70工作树/候选/原包冻结，使用隔离后继codex/docs-s71-current-controls。
+
+本轮Codex build allowed：处理剩余24JSON的公共合同与受控真实pilot，并核验e2e-001日期门。19件live控制（16治理控制+testing catalog+两legacy投影）使用当前控制原生合同；3件模板JSON示例用原生参考合同；006两件沿已存在的执行/历史发布合同，不重跑或外借GLM运行信用。字段保持原生，治理复用现有唯一review位置，不新增sidecar或平行账本。current语义结构/有序身份和after观测、旧source、当前接受分轴；原生结构或政策变更使解释指纹失效，合法子项状态/after维护仍须真实consumer和子项合同。模板示例不当实际执行。17父类型/原有变体/source pin/既有测试保持，新格式自有1.0.0。
+
+原型/公开guard/原生结构检查、复用保护组事务的封闭candidate/publication通道、临时树pilot与22件控制/示例最终作者候选由Codex完成，真实状态先保持partial/needs；拒绝借旧接受或只刷after授信。至少覆盖phase catalog manifest、registry manifest及模板注册表自描述三种真实pilot，正反例须进入同一公共model/progress合同。未满足实际接受条件不得发布新授信。旧测试不改；产品/coverage/真实E2E执行不在本轮写权限。
+
+e2e-001须实际核读完整报告/配对JSON、7个sourceRefs行段/实际SHA、两runner和both调用链、现行content22/minimumSAVE12及oracle；必要定向工具回放只授工具合同信用。能据证续审时才更新reviewBy及索引/文档审阅日期，保留lastVerified原日期、旧candidate/版本/raw和runtimeExecution=false；若当前执行事实不足，保留缺口，不把文档续审冒充新实跑。日期门不以豁免、ignore或自动滚动日期解除。

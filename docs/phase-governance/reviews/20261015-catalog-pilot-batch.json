@@ -104,7 +104,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "668b213bf3f280d5f8cefe555874988bfd83af82b93734f3d16d19198c2618aa",
+      "afterSha256": "ab93577d987e213ba23c6b3082a28c18889229cd1c785d3d8ba32dc4cb5816ac",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -580,6 +580,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
             "index": 0,
             "entryCanonicalSha256": "92650628042ac61aa46af7054709da44fa31f3d5bf51b688feeee7d819238cdc"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S71/current-native-foundation",
+          "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+          "beforeSha256": "668b213bf3f280d5f8cefe555874988bfd83af82b93734f3d16d19198c2618aa",
+          "afterSha256": "ab93577d987e213ba23c6b3082a28c18889229cd1c785d3d8ba32dc4cb5816ac",
+          "scope": "S71 received S70 acceptance, current native definitions and actual001 source/claim-scope review; no new status/runtime credit",
+          "priorRecord": {
+            "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+            "logicalPath": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+            "index": 0,
+            "entryCanonicalSha256": "4962f822eae94695cdf63a90787490825172dc8a865810493190201f8277ae6d"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
