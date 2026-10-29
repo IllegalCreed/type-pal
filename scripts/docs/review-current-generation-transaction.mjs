@@ -11,7 +11,11 @@ import {
 } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { isDeepStrictEqual } from 'node:util'
-import { currentLedgerStorageUpgrade } from './current-review-ledger-storage-admission.mjs'
+import {
+  currentLedgerStorageUpgrade,
+  currentReviewStorageUpgrades,
+  currentStructuralReviewStorageUpgrade,
+} from './current-review-ledger-storage-admission.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { historicalVitestCohort } from './historical-vitest-cohort.mjs'
 import {
@@ -160,12 +164,15 @@ export function prepareCurrentReviewTransaction({
       records.size === 114 &&
       (nativeProfile
         ? [...group.storages.values()].filter(Boolean).length ===
-            (group.storages.get(currentLedgerStorageUpgrade.path) ? 13 : 12) &&
-          (!group.storages.get(currentLedgerStorageUpgrade.path) ||
-            isDeepStrictEqual(
-              group.storages.get(currentLedgerStorageUpgrade.path).source,
-              currentLedgerStorageUpgrade,
-            )) &&
+            12 +
+              currentReviewStorageUpgrades.filter((pin) => group.storages.get(pin.path)).length &&
+          currentReviewStorageUpgrades.every(
+            (pin) =>
+              !group.storages.get(pin.path) ||
+              isDeepStrictEqual(group.storages.get(pin.path).source, pin),
+          ) &&
+          (!group.storages.get(currentStructuralReviewStorageUpgrade.path) ||
+            Boolean(group.storages.get(currentLedgerStorageUpgrade.path))) &&
           group.loadedSource.files.length === 114 + group.loadedSource.artifactSet.length
         : group.loadedSource.files.length === 144 && group.loadedSource.artifactSet.length === 30),
     'exact current group required',
@@ -253,23 +260,22 @@ export function prepareCurrentReviewTransaction({
   const sourcePins = new Map(
     [...group.storages].filter(([, v]) => v).map(([p, v]) => [p, structuredClone(v.source)]),
   )
-  const upgradeOutput = outputs.find(
-    (o) => o.path === currentLedgerStorageUpgrade.path && o.kind === 'manifest',
-  )
-  if (!group.storages.get(currentLedgerStorageUpgrade.path) && upgradeOutput) {
+  for (const pin of currentReviewStorageUpgrades) {
+    const upgradeOutput = outputs.find((o) => o.path === pin.path && o.kind === 'manifest')
+    if (group.storages.get(pin.path) || !upgradeOutput) continue
     equal(
       JSON.parse(upgradeOutput.bytes)._reviewStorage.source,
-      currentLedgerStorageUpgrade,
-      'one exact admitted new ledger source pin',
+      pin,
+      'one exact admitted new review source pin',
     )
-    const source = readGitDocumentSnapshot(base, currentLedgerStorageUpgrade)
+    const source = readGitDocumentSnapshot(base, pin)
     demand(
       source?.mode === '100644' &&
-        source.gitObject === currentLedgerStorageUpgrade.gitObject &&
-        sha(source.buffer) === currentLedgerStorageUpgrade.sha256,
-      'new ledger source must resolve in real Git',
+        source.gitObject === pin.gitObject &&
+        sha(source.buffer) === pin.sha256,
+      'new review source must resolve in real Git',
     )
-    sourcePins.set(currentLedgerStorageUpgrade.path, structuredClone(currentLedgerStorageUpgrade))
+    sourcePins.set(pin.path, structuredClone(pin))
   }
   const recordsCopy = new Map([...records].map(([p, v]) => [p, structuredClone(v)]))
   const outputsCopy = outputs.map((o) => ({ ...o, bytes: Buffer.from(o.bytes) }))

@@ -633,4 +633,6 @@ current-review-ledger-native-v1/1.0.0格式及17父类型不变，补齐此前�
 - 必须调用同一公共model/progress guard，要求保护组唯一review所有权、真实Git来源、当前byte pin、原生读取快照不漂移、零runtime/child授权。候选partial/needs，只有后续真实非作者接受的精确正文/结构身份和Owner决定才可授信。接受表先为空，不用合成报告解锁生产。
 - 临时树三pilot：catalog manifest、document-registry manifest、templates registry；要有完整正向和来源/结构/descriptor/角色错配/非法晋升反例。生产新路径/接受和扣减按实际试点与非作者结果另行登记，不从设计条款自动产生信用。
 
+S71容量反例：22候选原dry-run因record-integrity结构根981042B接近flat上限而正确拒绝；当前控制解释不做字节救急。新增一个精确结构存储准入，固定8103的该flat原件（OID0c324e9c636de903c5b655264e4824b3723d2254/SHA7aff0960daeec007f687d6dc882f7f2ca03bbd3e08e62e04dcd331d09a237382）为第14source，仅复用review-storage/1.0.0物化/分片，不新增正文或语义信用。原S67的R93-only限制维持当时范围；本S71显式增加这一个structural root，须实际Git解析/组读回，所有旧13pin不变。
+
 内容hash绑定完整已接受解释/源/历史，排除动态after及行政maintenance；publication事件只用于搬运原claimCorrection，规范化后内容hash不变，旧撤信原对象按history回读，不恢复旧事实。动态raw仍由原guard验当前after、稳定header/有序成员-source/唯一归属/Git/source pin和受保护快照；不因接受放宽这些门。作者API仍不得改状态，Owner新入口只允许compiled接受映射产生的精确状态/签名/历史变换，registry状态投影与依赖after闭包同事务。新回归仅覆上述原子边界，既有测试不改；未采外部接收对象/任意validator作为写权限。

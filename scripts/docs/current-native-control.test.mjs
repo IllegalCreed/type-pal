@@ -248,6 +248,16 @@ test('all22 real native roles retain distinct counts, source axes and example no
   assert.equal(results.find((r) => r.binding.role === 'legacy-manifest').observed.retired, 359)
   for (const r of results.filter((r) => r.binding.role === 'template-example'))
     assert.equal(r.observed.executionPerformed, false)
+  const rootPath = 'docs/phase-governance/catalog.json',
+    corrupt = JSON.parse(read(rootPath))
+  corrupt.summary.byStatus.current--
+  assert.throws(
+    () =>
+      inspectCurrentNativeControl(rootPath, (p) =>
+        p === rootPath ? Buffer.from(JSON.stringify(corrupt)) : read(p),
+      ),
+    /derived summary/,
+  )
 })
 test('three real public model pilots accept complete partial candidates without granting credit', (t) => {
   const f = fixture(t)

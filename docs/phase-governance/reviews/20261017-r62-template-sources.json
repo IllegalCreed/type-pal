@@ -3414,7 +3414,7 @@
         }
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "273a4c745de67602dae588f164f2405db93fc3e0ef8bb4e567c0791c3f04e430",
+      "afterSha256": "2adecb9570fa1a96791d0fbbc8cb0301cf3b0f92af439632dbb9d3268a16aafe",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3923,6 +3923,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
             "index": 9,
             "entryCanonicalSha256": "9615a8cb11d0f84fda7db2d05570c348c8d8a82bb7eb2ccbdf8276b951ab06a7"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S71/structural-storage-admission",
+          "revision": "8103c7e1879b926df0ac00acdba06a6fe4ea691f",
+          "beforeSha256": "273a4c745de67602dae588f164f2405db93fc3e0ef8bb4e567c0791c3f04e430",
+          "afterSha256": "2adecb9570fa1a96791d0fbbc8cb0301cf3b0f92af439632dbb9d3268a16aafe",
+          "scope": "S71 received S70 acceptance, current native definitions and actual001 source/claim-scope review; no new status/runtime credit",
+          "priorRecord": {
+            "revision": "8103c7e1879b926df0ac00acdba06a6fe4ea691f",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+            "index": 9,
+            "entryCanonicalSha256": "143039e46d8ea3802f9e209afba8b3c64cb7b1c2f3e554dde9dbdf8709a421bb"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

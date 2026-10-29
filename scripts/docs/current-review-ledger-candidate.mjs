@@ -8,7 +8,10 @@ import { currentNativeControlAdmissions } from './current-native-control-admissi
 import { applyCurrentNativeControlGrant } from './current-native-control-qualification.mjs'
 import { currentReviewLedgerAdmissions } from './current-review-ledger-admission.mjs'
 import { applyCurrentLedgerGrant } from './current-review-ledger-qualification.mjs'
-import { currentLedgerStorageUpgrade } from './current-review-ledger-storage-admission.mjs'
+import {
+  currentLedgerStorageUpgrade,
+  currentReviewStorageUpgrades,
+} from './current-review-ledger-storage-admission.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { summarizeDocumentRegistry } from './document-registry.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
@@ -222,6 +225,7 @@ export function projectCurrentLedgerControls(root, changes, readBuffer, publicat
 
 function prepareLedgerProposal({ root, plan, planSha256 }, publication, native = false) {
   const prefix = native ? 'current-native-control' : 'current-ledger'
+  const allowedUpgrades = native ? currentReviewStorageUpgrades : [currentLedgerStorageUpgrade]
   demand(
     plan?.kind === `${prefix}-${publication ? 'publication' : 'candidate'}/1.0.0` &&
       plan.creditGranted === 0 &&
@@ -299,13 +303,13 @@ function prepareLedgerProposal({ root, plan, planSha256 }, publication, native =
       })
     }
     const storage = group.storages.get(owner),
-      upgrade = !storage && owner === currentLedgerStorageUpgrade.path
+      upgrade = !storage && allowedUpgrades.find((pin) => pin.path === owner)
     if (storage || upgrade) {
       outputs.push(
         ...packReviewStorageRecord({
           logicalPath: owner,
           record,
-          sourcePin: storage?.source ?? currentLedgerStorageUpgrade,
+          sourcePin: storage?.source ?? upgrade,
           context: { repoRoot: root },
         }).outputs,
       )

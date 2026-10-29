@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-  "generation": "67632b6b68910964c8ca46a5225667f0d59fb0c1d228e5165819716e99d990be",
+  "generation": "e9075259f7e8d3134e6e314aca4aaad85043a31c9aac44dcd50c2816c7b60e4e",
   "key": "part-004",
   "positions": [75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90],
   "entries": [
@@ -1655,7 +1655,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3",
-      "afterSha256": "a719795977246efe2251b55c5943b470e081c131e7e5b7483f267a0952c9be7a",
+      "afterSha256": "e983c6e7131d6b3d79ca6588e7db3d1e6af700094db366d62e6dbc770247662c",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -2174,6 +2174,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
             "index": 80,
             "entryCanonicalSha256": "89079a9adcbf7b3df5f169945bf965adabc8cb0876e258e64a84e948cfdb50da"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S71/structural-storage-admission",
+          "revision": "8103c7e1879b926df0ac00acdba06a6fe4ea691f",
+          "beforeSha256": "a719795977246efe2251b55c5943b470e081c131e7e5b7483f267a0952c9be7a",
+          "afterSha256": "e983c6e7131d6b3d79ca6588e7db3d1e6af700094db366d62e6dbc770247662c",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "8103c7e1879b926df0ac00acdba06a6fe4ea691f",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 80,
+            "entryCanonicalSha256": "aaf1986de3a56f62aad805537ca97dfc491bcdba8a382103026bb48e600b1f53"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

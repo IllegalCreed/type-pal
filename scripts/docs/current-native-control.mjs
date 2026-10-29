@@ -18,6 +18,13 @@ const text = (v) => typeof v === 'string' && v.trim().length > 0
 const texts = (v) => Array.isArray(v) && v.length > 0 && v.every(text)
 const phases = ['lore', 'phase1', 'phase2', 'phase3']
 const registryPhases = ['ops', ...phases, 'phase-governance', 'testing']
+const counts = (rows, field) =>
+  Object.fromEntries(
+    [...new Set(rows.map((e) => e[field]))].map((key) => [
+      key,
+      rows.filter((e) => e[field] === key).length,
+    ]),
+  )
 const base = 'docs/phase-governance/'
 const header = (v, ...omit) =>
   Object.fromEntries(Object.entries(v).filter(([k]) => !omit.includes(k)))
@@ -111,7 +118,10 @@ export function inspectCurrentNativeControl(path, readBuffer) {
         ),
         'phase membership scope',
       )
-      demand(s.summary?.total === s.entries.length, 'phase shard summary count')
+      demand(
+        same(s.summary, { total: s.entries.length, byStatus: counts(s.entries, 'status') }),
+        'phase shard summary count/status projection',
+      )
       entries.push(...s.entries)
     }
     unique(entries, 'path', 'all phase members')
@@ -122,6 +132,14 @@ export function inspectCurrentNativeControl(path, readBuffer) {
         root.summary.byPhase[p] === entries.filter((e) => e.phase === p).length,
         'phase summary partition',
       )
+    demand(
+      same(root.summary, {
+        total: entries.length,
+        byPhase: counts(entries, 'phase'),
+        byStatus: counts(entries, 'status'),
+      }),
+      'phase manifest derived summary',
+    )
     const selected = binding.role === 'phase-manifest' ? entries : v.entries
     members = selected.map((e) => e.path)
     projection = {
