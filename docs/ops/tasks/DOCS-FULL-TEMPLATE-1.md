@@ -5,7 +5,7 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
+Reviewer: GLM（S69 Owner限定增量非作者accept）；Codex（S68基础字段独立裁定及S70中央接入）；全量硬验收未完成
 Branch: codex/docs-s70-ledger-publication
 Last reviewed: 2026-10-29
 Template: task-card-v1 / 1.0.0
@@ -35,7 +35,7 @@ Template: task-card-v1 / 1.0.0
 ## 状态与交接
 - 当前 Owner：Codex。
 - 阻塞/决策：受影响绑定逐篇语义重审待完成；58e899bf纠错包已获非作者限定接收，五个receipt执行/byte metadata scope隔离；R94结构根仅索引，不授完成。
-- 下一步与交接提示词：从 DOCS-RECORD-INTEGRITY-1 和 correction-scope 精确清单继续重审；禁止批量恢复reviewed，不能等待新任务而宣称完成。
+- 下一步与交接提示词：S70已正式接入111现行账本，剩余24JSON/9MD及e2e-001日期门由Owner推进；旧撤信不恢复，全量硬门未过，不合main/不推送/不done。
 
 ## 前提真值门
 ### 一句话行为 / 工程前提
@@ -2747,3 +2747,7 @@ GLM对6e0723208b722591a83a622ba700d8ecc9f18521的R01–R05限定增量及六文�
 本轮Codex build allowed：在codex/docs-s70-ledger-publication编译111逐路径/正文hash/分域basis接受表，经已接受--publish通道正式接入，更新registry投影及必要行政after闭包、父卡/看板与原单份gzip。旧claimCorrection完整入唯一publication history，旧撤信不恢复，成员正文与runtime均不授信。发布前旧144/288保持，发布后只按真实progress/strict扣减；剩余24JSON/9MD仍Owner范围，e2e-001日期红不得刷新或豁免。父子卡保持rework，不合main、不推送、不done。
 
 发布预检发现registry状态投影写错字段：实际consumer读取reviewStatus，而旧投影写contentReviewStatus。Owner按用户小修授权修正一行，并新增固定6e Git夹具、调用真实projector及reviewCreditIssues的回归；旧实现实际报registry/review status mismatch，修复后通过。只导出无写入权的纯投影函数供该测试调用；旧测试、产品、coverage、合同和source pin不改。首个仓外编译脚本语法错误发生在表写入前，修正后重跑；原失败与前述业务红回执保留。接受表本身不晋升任何状态，只有受控发布成功后据实记录。
+
+S70实际接入：接受表111/111与6e正文hash精确绑定；真正CLI在固定d7141f66b clean候选上dry-run（13计划写/7退）后同plan执行--publish，13写/7旧片退，114逻辑/160 review物理/46片/13源pin与2435 after精确。registry恰111行reviewStatus及templateCompliance晋升；108个旧claimCorrection完整移入各自唯一publication history，2324其余语义行保留。111接受只覆盖现行账本解释，oldClaimRestored/runtime/childSemanticAcceptance均false；物理事务返回creditGranted=0不代替显式Owner授信，本轮实际新增111当前审阅与111模板迁移。原生473字节、routing、17父合同及1838固定清单未动。
+
+稳定候选9fca3c914实测：317文档工具测试/0fail/0skip，docs链接/任务状态门与model2412/0通过；lint4652文件0error/0warning/0info；phase-lore184通过；progress1818/1838迁移、3显式退役、17基线未迁与584增量迁移，完整2435当前候选中2402合规、33待办（24JSON+9MD），integrity零。strict由144/288降至33/66（审阅33、迁移33、交集33），实减222诊断。check:docs仍exit1：testing唯一e2e-001 reviewBy2026-10-28<UTC2026-10-29，非本批解除，不刷新日期、不豁免；全量硬门保持rework。行政后仅更新父卡/看板及精确after/maintenance闭包，不改变任何接受正文hash。接入结果与新增一行投影修复交GLM只读增量复核，不重审111正文。
