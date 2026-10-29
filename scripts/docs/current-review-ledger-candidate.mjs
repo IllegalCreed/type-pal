@@ -126,7 +126,7 @@ export function validateCurrentLedgerPublication(changes, records) {
   return { targets: changes.length, grantsPrepared: changes.length, creditGranted: 0 }
 }
 
-function projectControls(root, changes, readBuffer, publication) {
+export function projectCurrentLedgerControls(root, changes, readBuffer, publication) {
   const outputs = [],
     all = [],
     registryPath = 'docs/phase-governance/document-registry.json',
@@ -152,7 +152,7 @@ function projectControls(root, changes, readBuffer, publication) {
           row[key] = after[key]
         if (Object.hasOwn(row, 'artifactEnvelope')) row.artifactEnvelope = false
         if (publication) {
-          row.contentReviewStatus = after.contentReviewStatus
+          row.reviewStatus = after.contentReviewStatus
           row.templateCompliance = after.templateCompliance
         }
       }
@@ -209,7 +209,7 @@ function prepareLedgerProposal({ root, plan, planSha256 }, publication) {
     if (!same(c.after, records.get(c.reviewRecord).entries[c.index])) dirty.add(c.reviewRecord)
     records.get(c.reviewRecord).entries[c.index] = structuredClone(c.after)
   }
-  const outputs = projectControls(root, plan.changes, readBuffer, publication)
+  const outputs = projectCurrentLedgerControls(root, plan.changes, readBuffer, publication)
   let previous = -1
   while (previous !== dirty.size) {
     previous = dirty.size

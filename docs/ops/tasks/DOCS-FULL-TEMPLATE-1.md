@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s69-ledger-intake
+Branch: codex/docs-s70-ledger-publication
 Last reviewed: 2026-10-29
 Template: task-card-v1 / 1.0.0
 
@@ -2738,3 +2738,12 @@ Owner按用户“小修直接处理”在codex/docs-s69-ledger-intake从12d隔�
 本轮进一步build allowed：仅文档工具内实现现行控制接受资格与Owner发布入口，复用既有candidate规划/registry投影/DAG/锁/staging/保护读回，不重造物理writer。正式接受表当前为空；候选保持partial/needs，只有冻结path、具体正文hash及分域非作者basis+独立报告、Owner决定全部成立才可content-reviewed/template-compliant。current after是可维护观测，不作为永久接受身份；header/成员-source与原pin仍由原guard独立验证。旧claimCorrection原对象必须完整移入唯一publication history，不能恢复其旧信用；runtime/child授权均false。作者--write和Owner--publish分开，传假报告、换路径、改状态或序列化句柄不得越权。仅新增必要回归，既有测试字节不改；17父合同/版本/registry不变。
 
 GLM交付没有逐命令argv/cwd/ISO/exit/输入指纹结构回执，原raw保持未绑定口径；Owner因此在固定12d真树补跑一次check:docs，310/0fail/0skip、docs0/model2412/0通过后Testing报唯一e2e-001 reviewBy2026-10-28<UTC2026-10-29。不得据此刷新日期或豁免，catalog不在本次正文范围；Owner后续单独核该日期门前提。现行strict144文档/288诊断仍实记，全量硬门未过。剩余24 JSON/9 MD继续Owner范围；不合main、不推送、不done。后续同一份非作者提示词只验S69差异/接受边界与证据，接受后再由Owner填真报告与受控发布111，不再要求GLM重做作者包。
+
+
+## S70 S69独立接收与111现行账本正式授信（2026-10-29）
+
+GLM对6e0723208b722591a83a622ba700d8ecc9f18521的R01–R05限定增量及六文件资格边界非作者accept、零counter。回执HANDBACK SHA470855f7870f5305baf4721a6db99539b41cbc2eabdfc7457c7ed525cf1bee49、verdict SHA33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66；111内容摘要清单SHA0bfe990dc88542ad7d6852db859b70b0b58250acaa95cc275c0f0e6197bb5e88由Owner逐行复算匹配。GLM仅签Owner增量；S68基础字段另引Codex8245b7b0裁定，三复用pilot基础另引GLM43cfa8ac，不能以GLM签自己的作者稿。
+
+本轮Codex build allowed：在codex/docs-s70-ledger-publication编译111逐路径/正文hash/分域basis接受表，经已接受--publish通道正式接入，更新registry投影及必要行政after闭包、父卡/看板与原单份gzip。旧claimCorrection完整入唯一publication history，旧撤信不恢复，成员正文与runtime均不授信。发布前旧144/288保持，发布后只按真实progress/strict扣减；剩余24JSON/9MD仍Owner范围，e2e-001日期红不得刷新或豁免。父子卡保持rework，不合main、不推送、不done。
+
+发布预检发现registry状态投影写错字段：实际consumer读取reviewStatus，而旧投影写contentReviewStatus。Owner按用户小修授权修正一行，并新增固定6e Git夹具、调用真实projector及reviewCreditIssues的回归；旧实现实际报registry/review status mismatch，修复后通过。只导出无写入权的纯投影函数供该测试调用；旧测试、产品、coverage、合同和source pin不改。首个仓外编译脚本语法错误发生在表写入前，修正后重跑；原失败与前述业务红回执保留。接受表本身不晋升任何状态，只有受控发布成功后据实记录。
