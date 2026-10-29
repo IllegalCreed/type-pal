@@ -7,11 +7,11 @@
   "entries": [
     {
       "path": "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r69-ops-evidence-readmes-20261017（20261017-r69-ops-evidence-readmes.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位10篇有序文档（docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1×4、docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1×2、docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1×2、docs/ops/evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1×1、docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1×1；成员行状态观测（2026-10-29时点）：content-reviewed×10）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/0。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -134,6 +134,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "cda04f512420d6999592d0af71b9aa5fbeed50dc480ca93dbddb0edae7774177",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -180,14 +198,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "fb9eb55b4647a0967f73ac1a5f057374aad90fc05c12c60ee08190cd32b82967",
@@ -230,15 +240,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "cda04f512420d6999592d0af71b9aa5fbeed50dc480ca93dbddb0edae7774177",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "84f04e23c3c8d2f37e4aac97819b6c21c589d727858030181ce5b52eb2962463",
+          "membershipSha256": "03ad9b265ae4bfe6d3fc121fb732b6c50823e158daa68243eccfe8285b36e20d",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 0
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r70-ops-evidence-readmes-20261017（20261017-r70-ops-evidence-readmes.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位5篇有序文档（docs/ops/evidence/game-rix-music-1×2、docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1×1、docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1×1、docs/ops/evidence/game-rng-scene-restore-1×1；成员行状态观测（2026-10-29时点）：content-reviewed×5）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/1。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -361,6 +415,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "c718cdb312c6b5483df1c9ce545f75c4c19807b751d1263720e7e6a76eb1a545",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -407,14 +479,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "a669eb8c2cde7611b3dd00e5f325ce215ddfd5a96ed25d3b9d13d9735d8d6a66",
@@ -457,15 +521,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "c718cdb312c6b5483df1c9ce545f75c4c19807b751d1263720e7e6a76eb1a545",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "4c6955133337616c742596110915c0c8e7921ac4b735304356de1183cac7f653",
+          "membershipSha256": "d0743522e6870a59f5945b68ad81dc85797c7c17d10b5f5d58154690aa592e81",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 1
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r71-testing-archive.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r71-testing-archive（20261017-r71-testing-archive.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位50篇有序文档（docs/testing/archive/legacy/batches/cursor-architecture-batch×18、docs/testing/archive/legacy/batches/background-tests-20260927×2、docs/testing/archive/legacy/batches/codex-command-forms×2、docs/testing/archive/legacy/batches/codex-content-resources×2、docs/testing/archive/legacy/batches/codex-debug-tools×2、docs/testing/archive/legacy/batches/codex-enemy-hooks×2、docs/testing/archive/legacy/batches/codex-pal-assets×2、docs/testing/archive/legacy/batches/codex-playback×2、docs/testing/archive/legacy/batches/codex-translate-events×2、docs/testing/archive×1、docs/testing/archive/legacy×1、docs/testing/archive/legacy/batches×1、docs/testing/archive/legacy/batches/codex-frame-editor×1、docs/testing/archive/legacy/batches/codex-migrate-assembly×1、docs/testing/archive/legacy/batches/codex-migrate-pure×1、docs/testing/archive/legacy/batches/codex-migrate-scenes×1、docs/testing/archive/legacy/batches/codex-plus2-runtime-wave4×1、docs/testing/archive/legacy/batches/codex-plus2-runtime-wave5×1、docs/testing/archive/legacy/batches/codex-plus2-runtime-wave6×1、docs/testing/archive/legacy/batches/codex-plus2-runtime-wave7×1、docs/testing/archive/legacy/batches/codex-plus2-runtime-wave8×1、docs/testing/archive/legacy/batches/codex-plus2-runtime-wave9×1、docs/testing/archive/legacy/batches/codex-plus2-ui-wave2×1、docs/testing/archive/legacy/batches/codex-plus2-ui-wave3×1、docs/testing/archive/legacy/batches/coverage-plus5×1；成员行状态观测（2026-10-29时点）：content-reviewed×50）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/2。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -588,6 +696,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "19897203ff441b48b630f2fd38eb922371cbc13929c92c8a3ce22c64a650e984",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -634,14 +760,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "e5963165e2e4d227037807d2d4c232c6e2d84f933ce9e76c388f7bce95a3c064",
@@ -702,15 +820,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r71-testing-archive.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "19897203ff441b48b630f2fd38eb922371cbc13929c92c8a3ce22c64a650e984",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "9ca9992b6399e8ee207f925c892f33b1f814987ef91cf64ec6c8c1ae2a12a14c",
+          "membershipSha256": "f436e9287cfa3f57550026a545bdd20fc5473f392875c3c9862d17162c9b99c1",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 2
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r72-testing-archive（20261017-r72-testing-archive.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位50篇有序文档（docs/testing/archive/legacy/batches/cursor-map-logic-r2×9、docs/testing/archive/legacy/batches/cursor-architecture-batch×8、docs/testing/archive/legacy/batches/cursor-command-boundaries-r3×8、docs/testing/archive/legacy/batches/cursor-commands-wave2×8、docs/testing/archive/legacy/batches/cursor-pure-wave×3、docs/testing/archive/legacy/batches/cursor-content-pure-wave2×2、docs/testing/archive/legacy/batches/cursor-pure-wave/a×2、docs/testing/archive/legacy/batches/cursor-pure-wave/b×2、docs/testing/archive/legacy/batches/cursor-pure-wave/c×2、docs/testing/archive/legacy/batches/cursor-tool-regressions×2、docs/testing/archive/legacy/batches/cursor-content-pure-wave2/tools×1、docs/testing/archive/legacy/batches/cursor-pure-wave/tools×1、docs/testing/archive/legacy/batches/cursor-wave2×1、docs/testing/archive/legacy/batches/finite-test-intake-20261003×1；成员行状态观测（2026-10-29时点）：content-reviewed×50）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/3。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -833,6 +995,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "0e6e0ef2f09c8186d5ff5f86e7985b1373d7b313a9aab56abced2c5736baa1d5",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -879,14 +1059,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "d6617209e6ff250bb85e01ef9de1d95f80f674bc3c6a2d084192dd63d2655dc3",
@@ -965,15 +1137,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "0e6e0ef2f09c8186d5ff5f86e7985b1373d7b313a9aab56abced2c5736baa1d5",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "d5985239100d1125e93a955ad03ad93ccb9940941703047f15cfb3a5f84bed99",
+          "membershipSha256": "c06650b17c49d46cdc53068d249b3b6acf740b45e25824f343d0c7193d6619e7",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 3
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r73-testing-archive（20261017-r73-testing-archive.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位50篇有序文档（docs/testing/archive/legacy/batches/glm-architecture-support×19、docs/testing/archive/legacy/batches/glm-architecture-regression-lab×3、docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs×3、docs/testing/archive/legacy/batches/glm-content-guards-wave2×3、docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters×1、docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C1-01×1、docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C3-01×1、docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C4-01×1、docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C4-04×1、docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C6-01×1、docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C7-01×1、docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1×1、docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/cleanup×1、docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/kimi-mid-1×1、docs/testing/archive/legacy/batches/finite-test-intake-20261003×1、docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates×1、docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/editor×1、docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/game×1、docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/migrate×1、docs/testing/archive/legacy/batches/glm-architecture-regression-lab/diagnostics×1、docs/testing/archive/legacy/batches/glm-architecture-regression-lab/fixtures×1、docs/testing/archive/legacy/batches/glm-architecture-regression-lab/fixtures/editor×1、docs/testing/archive/legacy/batches/glm-architecture-regression-lab/fixtures/migrate×1、docs/testing/archive/legacy/batches/glm-architecture-regression-lab/tools×1、docs/testing/archive/legacy/batches/glm-architecture-regression-lab/tools/fixture×1、docs/testing/archive/legacy/batches/glm-content-guards-wave3×1；成员行状态观测（2026-10-29时点）：content-reviewed×50）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/4。存储上由自有manifest+受保护分片物化（原source pin保持）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -1096,6 +1312,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "ef1da3e9d66cf7ba5941f1cea4c67d6f8f94ea479a7d3f7a6333863a22ec731e",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -1142,14 +1376,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "3604ebbb83ec044ac87e300f70a05a3769623facc866221094d133c31c66a740",
@@ -1228,15 +1454,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "ef1da3e9d66cf7ba5941f1cea4c67d6f8f94ea479a7d3f7a6333863a22ec731e",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "fd4b0af7071da7baca912555968d6c3eb47c9cb129496279c1f896ea14829b53",
+          "membershipSha256": "67d8e38d42152289d3d25dd3fc71ac11739074ce378a20dbd5bad2f88b361d74",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 4
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r74-testing-archive（20261017-r74-testing-archive.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位50篇有序文档（docs/testing/archive/legacy/batches/glm-large-wave×16、docs/testing/archive/legacy/batches/glm-leaf-workflows×10、docs/testing/archive/legacy/batches/glm-event-wave-k×6、docs/testing/archive/legacy/batches/glm-large-wave/browser-host×4、docs/testing/archive/legacy/batches/glm-content-guards-wave3×3、docs/testing/archive/legacy/batches/glm-editor-ui-wave×3、docs/testing/archive/legacy/batches/glm-item-logic×3、docs/testing/archive/legacy/batches/glm-event-wave-k/counter-control×2、docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d×1、docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host×1、docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/assets×1；成员行状态观测（2026-10-29时点）：content-reviewed×50）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/5。存储上由自有manifest+受保护分片物化（原source pin保持）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -1359,6 +1629,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "6b30ec6dc887bdb2f07c2aa951325980769bd68345867c21d7b4207adf9ed08f",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -1405,14 +1693,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "63fcec1928402687dfed62ae2a768b78a30dfa3027f9ee0fc9a5bd9219562114",
@@ -1527,15 +1807,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "6b30ec6dc887bdb2f07c2aa951325980769bd68345867c21d7b4207adf9ed08f",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "d3de0e9eb9ff8ac7e8b8606b6f3696b4a65ccdf60a4f01393ac67286ef5b8577",
+          "membershipSha256": "9adfe57f025f42d482d91952837407a9dd98ceef91a737a2aff91f4782c6efb2",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 5
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r75-testing-archive（20261017-r75-testing-archive.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位50篇有序文档（docs/testing/archive/legacy/batches/glm-new-waves×14、docs/testing/archive/legacy/batches/glm-new-waves/wave-I/evidence×6、docs/testing/archive/legacy/batches/glm-new-waves/wave-G×4、docs/testing/archive/legacy/batches/glm-new-waves/wave-H×4、docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-A×4、docs/testing/archive/legacy/batches/glm-next-triple×3、docs/testing/archive/legacy/batches/glm-new-waves/wave-F×2、docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host×2、docs/testing/archive/legacy/batches/glm-new-waves/wave-F/evidence×2、docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host×2、docs/testing/archive/legacy/batches/glm-leaf-workflows×1、docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host×1、docs/testing/archive/legacy/batches/glm-new-waves/wave-I×1、docs/testing/archive/legacy/batches/glm-new-waves/wave-J×1、docs/testing/archive/legacy/batches/glm-phase1-leaves×1、docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence×1、docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-B×1；成员行状态观测（2026-10-29时点）：content-reviewed×50）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/6。存储上由自有manifest+受保护分片物化（原source pin保持）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -1658,6 +1982,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "a8085802d5e7a177ff9b72390ab6bc9bab936222c38273442b08bd75b53db4d1",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -1704,14 +2046,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "222afeb822ebc1f88a12f5cc5fe9da437a146f6553e8916c1618bc46b0abf1c4",
@@ -1790,15 +2124,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "a8085802d5e7a177ff9b72390ab6bc9bab936222c38273442b08bd75b53db4d1",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "edefe0e8d764b126a0dfcd5b84ee1af7d24da913b8176c2524dd97e5d945c8c9",
+          "membershipSha256": "f78b59204bd4706b253beb18d965ea77a0f0aaae00151e88610e2c6b4bf6f7c1",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 6
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r76-testing-archive.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r76-testing-archive（20261017-r76-testing-archive.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位50篇有序文档（docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels×6、docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-C×4、docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-D×4、docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-E×4、docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-F×4、docs/testing/archive/legacy/batches/glm-runtime-resource-wave×4、docs/testing/archive/legacy/batches/glm-state-commands×4、docs/testing/archive/legacy/batches/glm-phase1-leaves/evidence/batch-B×3、docs/testing/archive/legacy/batches/glm-phase1-leaves×2、docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1×2、docs/testing/archive/legacy/batches/glm-phase1-leaves/tools×1、docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts×1、docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2×1、docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4×1、docs/testing/archive/legacy/batches/glm-runtime-resource-wave/tools×1、docs/testing/archive/legacy/batches/glm-state-commands/a×1、docs/testing/archive/legacy/batches/glm-state-commands/b×1、docs/testing/archive/legacy/batches/glm-state-commands/c×1、docs/testing/archive/legacy/batches/glm-state-commands/d×1、docs/testing/archive/legacy/batches/glm-state-commands/tools×1、docs/testing/archive/legacy/batches/glm-tenfold-triple×1、docs/testing/archive/legacy/batches/grok-cursor-large×1、docs/testing/archive/legacy/batches/grok-cursor-large/grok×1；成员行状态观测（2026-10-29时点）：content-reviewed×50）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/7。存储上由自有manifest+受保护分片物化（原source pin保持）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -1921,6 +2299,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "0001a74e064607b321faa0f3f79368d5cf595111136da500b37d602d016b8e75",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -1967,14 +2363,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "b52b91f33437de876198d8e4ddbebd080eb13a4494e08072ee26e1d31fbbe0cb",
@@ -2062,15 +2450,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r76-testing-archive.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "0001a74e064607b321faa0f3f79368d5cf595111136da500b37d602d016b8e75",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "4d5dbec81ec13df8f0f8a7e4217257396ccaf511fb79c92403e6e871cda60ec3",
+          "membershipSha256": "028e190cc4d064005034aa7f5c424c1b85302f096bf6595b34421f5b9153719e",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 7
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r77-testing-archive.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r77-testing-archive（20261017-r77-testing-archive.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位50篇有序文档（docs/testing/archive/legacy/batches/script-governance×16、docs/testing/archive/legacy/content/authoring-and-runtime×14、docs/testing/archive/legacy/batches/grok-cursor-large/grok/pixels×9、docs/testing/archive/legacy/batches/kimi-editor-workflows×4、docs/testing/archive/legacy/batches/grok-present-regressions×1、docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host×1、docs/testing/archive/legacy/batches/kimi-editor-workflows/counter-control×1、docs/testing/archive/legacy/batches/kimi-editor-workflows/coverage-compare×1、docs/testing/archive/legacy/batches/quality-zero×1、docs/testing/archive/legacy/content×1、docs/testing/archive/legacy/content/editor-workflows×1；成员行状态观测（2026-10-29时点）：content-reviewed×50）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/8。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -2193,6 +2625,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "1bd5c383bc6f62060906e3ad84b29991efa4feac31bc8bfae396b6d6353070c4",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -2239,14 +2689,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "07b96bbc4f242435b960a73fc07ff1bec8f9be1b5023cbb794e249d8f0565061",
@@ -2325,15 +2767,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r77-testing-archive.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "1bd5c383bc6f62060906e3ad84b29991efa4feac31bc8bfae396b6d6353070c4",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "32ef43987e209562d133820f4dc262a52717ce77ef6bbd2ec189bc414cc60c02",
+          "membershipSha256": "01ef4e752401e8970582274933fb6c09467ae66625570b30e778ec8be6f0a5e2",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 8
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r78-testing-archive（20261017-r78-testing-archive.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位50篇有序文档（docs/testing/archive/legacy/editor/editor-workflows×18、docs/testing/archive/legacy/content/editor-workflows×10、docs/testing/archive/legacy/e2e/route-and-checkpoint×7、docs/testing/archive/legacy/editor/authoring-and-runtime×6、docs/testing/archive/legacy/content/quality-gates×5、docs/testing/archive/legacy/editor/battle×2、docs/testing/archive/legacy/e2e×1、docs/testing/archive/legacy/editor×1；成员行状态观测（2026-10-29时点）：content-reviewed×50）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/9。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -2456,6 +2942,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "e2e6a914cb5c2ea04621a7751b5c569280bd43325024cf42199a13d15db056d5",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -2502,14 +3006,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "061dd28efd149a9a463969e2c212c7792f2e8cedbb04a1641b51b3cfeac9c2be",
@@ -2588,15 +3084,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "e2e6a914cb5c2ea04621a7751b5c569280bd43325024cf42199a13d15db056d5",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "07f3317e8336b76efd25c71de2364b8e1f3fc793067c2f37433f6934a5879599",
+          "membershipSha256": "10aec7df2d91347cccf05ea1e7dad334cc4df83864f230906b3cdfa59cda633b",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 9
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r79-testing-archive.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r79-testing-archive（20261017-r79-testing-archive.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位50篇有序文档（docs/testing/archive/legacy/editor/editor-workflows×16、docs/testing/archive/legacy/editor/save-and-recovery×9、docs/testing/archive/legacy/editor/testing-records×8、docs/testing/archive/legacy/migration/supply-and-import×6、docs/testing/archive/legacy/editor/supply-and-import×5、docs/testing/archive/legacy/extraction/supply-and-import×2、docs/testing/archive/legacy/extraction/testing-records×2、docs/testing/archive/legacy/extraction×1、docs/testing/archive/legacy/migration×1；成员行状态观测（2026-10-29时点）：content-reviewed×50）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/10。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -2719,6 +3259,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "d15ebfdf402701d215c9ce1cf8ea945bb95b3c6af0486f94fab3ad7f3fd62bbd",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -2765,14 +3323,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "183bd20c340b24e2bef68b24989b041053aead209030fb397a609b9e337dab49",
@@ -2860,15 +3410,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r79-testing-archive.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "d15ebfdf402701d215c9ce1cf8ea945bb95b3c6af0486f94fab3ad7f3fd62bbd",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "ca3d6c28dd06631869e95b37b1b2662ddfc9d93763f7a8eb222e5a02adc20069",
+          "membershipSha256": "d71163f4860939f46e00f10ce0fee7ceaac76572757ef4d7556efae1c2d2c13b",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 10
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r80-testing-archive.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r80-testing-archive（20261017-r80-testing-archive.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位33篇有序文档（docs/testing/archive/legacy/ops/testing-records×19、docs/testing/archive/legacy/migration/supply-and-import×5、docs/testing/archive/legacy/persistence/save-and-recovery×3、docs/testing/archive/legacy/migration/testing-records×2、docs/testing/archive/legacy/ops×1、docs/testing/archive/legacy/persistence×1、docs/testing/archive/legacy/phase1-runtime×1、docs/testing/archive/legacy/phase1-runtime/editor-workflows×1；成员行状态观测（2026-10-29时点）：content-reviewed×33）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/11。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -2991,6 +3585,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "145b24551850f0dbb6753e0dba38eb9c835dd9cac9e6e9f52468b12ae6c9137a",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -3037,14 +3649,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "17c1aa4bc63ff0bc2e6fcee6de2919b6e119fdec4cc36c7c78b9745ebd220351",
@@ -3123,15 +3727,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r80-testing-archive.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "145b24551850f0dbb6753e0dba38eb9c835dd9cac9e6e9f52468b12ae6c9137a",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "78ce4bfde01fe2ba46685e30fc0f8630ece8956bf1807f66a82631ad3f2b9e98",
+          "membershipSha256": "19c5ccc53827b7f3f403ca785688330709e57db3fdb9dc10eb4789957d1a570e",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 11
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r81-testing-archive.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r81-testing-archive（20261017-r81-testing-archive.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位50篇有序文档（docs/testing/archive/legacy/quality/quality-gates×32、docs/testing/archive/legacy/runtime/battle×7、docs/testing/archive/legacy/phase1-runtime/engine-boundaries×3、docs/testing/archive/legacy/phase1-runtime/editor-workflows×2、docs/testing/archive/legacy/phase1-runtime/testing-records×2、docs/testing/archive/legacy/runtime/authoring-and-runtime×2、docs/testing/archive/legacy/quality×1、docs/testing/archive/legacy/runtime×1；成员行状态观测（2026-10-29时点）：content-reviewed×50）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/12。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -3254,6 +3902,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "4fe4fd5f4d1e85068aff29ba95b27242fa7b29342764565ed2d90a3663605fdd",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -3300,14 +3966,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "21debf88bfb0558609598cd589c391cf7e1fdddbc7c0f2a772c3c3a5b42b2e62",
@@ -3386,15 +4044,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r81-testing-archive.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "4fe4fd5f4d1e85068aff29ba95b27242fa7b29342764565ed2d90a3663605fdd",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "5a4c233e04785bb633c21bc35e31fe4dd51480edc2cc46c104789fdbea898d0a",
+          "membershipSha256": "e3e62febce4cc3b12d7cb0bc4017131a3091ff4d456fe13e8f92ac8d6ecfb647",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 12
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r82-testing-archive.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r82-testing-archive（20261017-r82-testing-archive.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位50篇有序文档（docs/testing/archive/legacy/runtime/engine-boundaries×17、docs/testing/archive/migrations×15、docs/testing/archive/legacy/runtime/battle×10、docs/testing/archive/legacy/runtime/testing-records×3、docs/testing/archive/legacy/runtime/save-and-recovery×2、docs/testing/archive/legacy/runtime/scene×2、docs/testing/archive/legacy/unresolved-tools×1；成员行状态观测（2026-10-29时点）：content-reviewed×50）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/13。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -3517,6 +4219,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "d0dc8b1492eb8807549af16c5ba5afd07a7aaf0aeab1c763445369425415bf49",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -3563,14 +4283,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "181a621c14d6532abba1617e4fe3d31e151a1aa1aa0f2f0e734e47e60cca40af",
@@ -3649,15 +4361,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r82-testing-archive.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "d0dc8b1492eb8807549af16c5ba5afd07a7aaf0aeab1c763445369425415bf49",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "613d97de16ca28a57007e528e0a9b826a2008bec56b99f4121f7525cb31d5b4a",
+          "membershipSha256": "70e855c46c9f968e8178c2badc7c4d4a065966425e2894224b77cff61f122176",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 13
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r83-testing-current-20261017（20261017-r83-testing-current.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位3篇有序文档（docs/testing×3；成员行状态观测（2026-10-29时点）：partial-review-unknown×2、content-reviewed×1）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/14。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -3780,6 +4536,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "139e3e5bcbb014098c3c8eac477d57c05eb22b839077907a959674b2aa5ab1ea",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -3826,14 +4600,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "39980baccbf7b7c838224c28bcff03dc2be4ca8df8c22609ad3908768182a01f",
@@ -3879,15 +4645,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "139e3e5bcbb014098c3c8eac477d57c05eb22b839077907a959674b2aa5ab1ea",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "152657a3039e5bc768ed2b5aa5c7dc894901909b3c5a263b8705832a92d7869f",
+          "membershipSha256": "835da69e4216fb00670533d6e0f4578216bba970a1f7b6a7ce67779c205bc996",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 14
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r84-ops-evidence-index（20261017-r84-ops-evidence-index.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位1篇有序文档（docs/ops/evidence/DOCS-FULL-TEMPLATE-1×1；成员行状态观测（2026-10-29时点）：content-reviewed×1）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/15。存储上为flat owner（无自有storage marker/source pin/分片）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -4010,6 +4820,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "e7ff5e501912e2eb01046a5b9cb66fb9d128a1e8156d97dcf898871bc9b5f0d4",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -4056,14 +4884,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "3d959bed9b4f8838fb1785e267d427a49cd77672dde1cb048a4def57453dc066",
@@ -4109,15 +4929,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "e7ff5e501912e2eb01046a5b9cb66fb9d128a1e8156d97dcf898871bc9b5f0d4",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "8dc8dea909cbbf6be923d0e6e8757524a36eaaf0c4092c148dc94b34d5ee7c76",
+          "membershipSha256": "63cd0023b012ffcf4cb889d16cf1c3cbe1af07280b8101f78697f0dfe334df20",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 15
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "current-control-content-review",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行r85审阅控制账本：逻辑100成员，由受保护loader从manifest及当前分片物化；原reviewer/policy/currentCorrection/historicalReviewIdentity保留2026-10-18撤信边界，后续各条当前接受由各自独立记录决定。物理generation/分片SHA与logicalSha会随合法成员维护变化，原source pin保持，不能把存储完整性或成员的content-reviewed聚合成此控制件自身已接受，更不恢复旧执行信用。",
@@ -4246,6 +5110,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "a3bfab971f8d0121188a67b4ff47e70d3cdbed933a61546d726e3e37261c35df",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -4292,14 +5174,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "bde1d7a8fc753e31b99897df4337b0af510256e95c340681d37354890e5dda0b",
@@ -4357,15 +5231,67 @@
           "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json#entries/16"
         ]
       },
-      "historyBoundary": "Original policy/reviewer/history and withdrawals retain their original scope. The control has a current lifecycle, while every child document retains its own historical/current status and independent acceptance."
+      "historyBoundary": "Original policy/reviewer/history and withdrawals retain their original scope. The control has a current lifecycle, while every child document retains its own historical/current status and independent acceptance.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "a3bfab971f8d0121188a67b4ff47e70d3cdbed933a61546d726e3e37261c35df",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "Unchanged S66 three pilot core/readDomain/fieldRoles only; not a replacement for S68/S69 scoped reviews.",
+            "reportSha256": "43cfa8aca67a1cfae6589b89c613369535053a3001cd066bb1381a3f485a9473",
+            "candidate": "4768219ea979ed8981fa86377d2c540cec1de467"
+          },
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "40493a19ab9beee5750d7d8d9d1e8d98ebfa1fc924d43b27269ada01484da21f",
+          "membershipSha256": "746f8e972ef211c2737826cf1971e64d3094627f6ab45fbf46f2749d26c37116",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 16
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r86-testing-archive（20261017-r86-ops-evidence-artifacts.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位100篇有序文档（docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/mutation-logs×17、docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/mutation-logs×15、docs/ops/evidence/TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1/receipts×7、docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/mutation-logs×6、docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/mutation-logs×6、docs/ops/evidence/TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1×5、docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/repro-logs×4、docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1×4、docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1×4、docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1×3、docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1×3、docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1×2、docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1×2、docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1×2、docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1×2、docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1×2、docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1×2、docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1×2、docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1×2、docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs×2、docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1×1、docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1×1、docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/coverage-probe×1、docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/coverage-probe×1、docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1×1、docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1×1、docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1×1、docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1×1；成员行状态观测（2026-10-29时点）：content-reviewed×100）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/17。存储上由自有manifest+受保护分片物化（原source pin保持）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -4488,6 +5414,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "286692da68e4a33eae332998044a697745cc91caad62601d0e52209cd2f44c4e",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -4534,14 +5478,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "d8736439dfccf6fedc384762c768552a7927e6c8a0a4bd5fe7dc451db5b6e627",
@@ -4629,15 +5565,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "286692da68e4a33eae332998044a697745cc91caad62601d0e52209cd2f44c4e",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "fb6b2ccf3854294be1a8848b23aa78549450eaa655ee349dbfc4bea52db0188e",
+          "membershipSha256": "4975c271b701990094c78fa540ced2eba3973057b4237edcf710726dafc80609",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 17
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r87-testing-archive（20261017-r87-ops-evidence-artifacts.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位100篇有序文档（docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof/mutation-logs×24、docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1×13、docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1×11、docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs×10、docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/mutation-logs×9、docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r2-runs×9、docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/codex-r2-loss×7、docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint×5、docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/directed×4、docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1×3、docs/ops/evidence/TEST-GLM-REFORGE-WORLD-LIFECYCLE-1×2、docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1×1、docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/counterproof×1、docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/gates×1；成员行状态观测（2026-10-29时点）：content-reviewed×100）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/18。存储上由自有manifest+受保护分片物化（原source pin保持）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -4760,6 +5740,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "aa6e2d900ba8d849c11cd76d6033cc73bd7d6af630b6a72e9c2a90e09710df62",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -4806,14 +5804,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "9b5903c7926a281fbf7c102ad416b6363821401f7567bc84bd8c537c5da7d4b0",
@@ -4910,15 +5900,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "aa6e2d900ba8d849c11cd76d6033cc73bd7d6af630b6a72e9c2a90e09710df62",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "15a76c54b63df7b21c54b55456ffa87af812aa5a2f2cb06129f5f96869f8d368",
+          "membershipSha256": "a51468e999a380f419ba63433b0c1bcde0087e28ec2b06e3d41736024706ccc6",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 18
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r88-testing-archive（20261017-r88-ops-evidence-artifacts.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位99篇有序文档（docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-runs×20、docs/ops/evidence/game-rix-music-1×20、docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/counters×16、docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/counterproof-r3-runs×13、docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/counterproof-raw×13、docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/repro-raw×8、docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1×5、docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1×2、docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1×2；成员行状态观测（2026-10-29时点）：content-reviewed×99）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/19。存储上由自有manifest+受保护分片物化（原source pin保持）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -5041,6 +6075,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "1f18b9251e1cdda873ccf52ca1fa38898250819e92f9de73cdd2573fcadec08f",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -5087,14 +6139,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "96377ec2228b1d39d69cf10e4044f57973d95fd183b8ca393e12dd4f86698498",
@@ -5155,15 +6199,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "1f18b9251e1cdda873ccf52ca1fa38898250819e92f9de73cdd2573fcadec08f",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "56ec9c5e29bc6df2ba2ee75c9a8b83ca434f9a2c715c1899e569ab22ee568397",
+          "membershipSha256": "6e05277f113ea17a6e5d71670af9a1a790b1845d115940e4dfa47b3b78fa6a71",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 19
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r89-testing-archive（20261017-r89-ops-evidence-artifacts.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位94篇有序文档（docs/ops/evidence/DOCS-FULL-TEMPLATE-1×94；成员行状态观测（2026-10-29时点）：content-reviewed×94）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/20。存储上由自有manifest+受保护分片物化（原source pin保持）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -5286,6 +6374,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "03a8fd212163a3f766b507cf560877be9fed52fd260fa6cbcb6f79a6b6573c3c",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -5332,14 +6438,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "3d8ee7c3932e2f328815d9a1535db752e43ca215206b14fc0de25a78087e4143",
@@ -5456,15 +6554,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "03a8fd212163a3f766b507cf560877be9fed52fd260fa6cbcb6f79a6b6573c3c",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "873800ffee1927bb2b07ac15871a188e45ca54f6aa47121bebcf7adbaaaee82e",
+          "membershipSha256": "c120acffbf035295a7dcf846a01adb1242a466fa39d1fd1a8ca12c0fa6293f32",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 20
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r90-testing-archive（20261017-r90-ops-evidence-artifacts.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位50篇有序文档（docs/ops/evidence/DOCS-FULL-TEMPLATE-1×50；成员行状态观测（2026-10-29时点）：content-reviewed×50）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/21。存储上由自有manifest+受保护分片物化（原source pin保持）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -5587,6 +6729,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "5c68f726c4d838badedd3586361b3f0fa2145169c4b5352c58b1cda4e518d0fd",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -5633,14 +6793,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "999c3d1528ecfdad8461bf293d567813384be3319112449ef4c2836dc0940ce0",
@@ -5739,15 +6891,59 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "5c68f726c4d838badedd3586361b3f0fa2145169c4b5352c58b1cda4e518d0fd",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "656394da6db1d1da8217dcb418b2e87e962d4980d6821372c1eea68c28b08e32",
+          "membershipSha256": "3feab3f95dd7b82bcf84f39d9285ffe07977ae93c0ab0d878e11c55080f07b13",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 21
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "复用作者披露的policy/scope核读；受保护控制字段/身份/转移枚举与Owner定向证据复核；不宣称header全嵌套对象人工全文阅读",
       "reviewDepth": "structured-content",
       "coreConclusion": "现行review账本控制件：r91-testing-archive（20261017-r91-ops-evidence-artifacts.json）。头部保留reviewDate=2026-10-17，当前reviewer=Codex corrective mechanical maintenance; author self-check only；该纠错维护角色不倒签为原时点审阅者。本记录用于撤信机械保全批次（原语义/模板/独立完成声明已撤回），其语义/模板/独立完成声明已于2026-10-18勘误撤回（currentCorrection/historicalReviewIdentity按原时点保留，不作全文重审）；本账本现行职责：以唯一成员定位94篇有序文档（docs/ops/evidence/DOCS-FULL-TEMPLATE-1×83、docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory×9、docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-catalog-v1×1、docs/ops/evidence/DOCS-FULL-TEMPLATE-1/pilots/test-machine-evidence-v1×1；成员行状态观测（2026-10-29时点）：content-reviewed×94）；唯一治理位置20261017-r92-phase-governance-artifacts.json#entries/22。存储上由自有manifest+受保护分片物化（原source pin保持）。本行为控制层解释（作者GLM，S68）：只承担账本身份、成员定位、转移出处与存储安全的现行说明；不重授成员正文语义、撤信前声明或旧执行信用，成员状态以各自行记录的2026-10-29固定时点观测为准。",
@@ -5870,6 +7066,24 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "date": "2026-10-29",
+          "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+          "contentSha256": "451aeb95bc3813cdd3897b71d2b017c38ca8b2df11e807dc8e1fbdec5a55d4b7",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": [
@@ -5916,14 +7130,6 @@
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
       ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      },
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "eecc5b81ec7e9e9c579afd7d98068bc1e5f365273892bdfcde9eb1d99a4b0532",
@@ -6037,7 +7243,51 @@
           "header中未逐项展开的冻结设计/嵌套历史对象与成员解释不在本次人工全文审阅声明内；完整性由原生字段、固定Git与保护loader证明。"
         ]
       },
-      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。"
+      "historyBoundary": "原policy/reviewer/日期/撤信与历史条目保持原时点；本行为现行控制生命周期；成员文档语义/状态由各自合同独立判定；旧三签/deep-semantic/执行绿不因控制通过恢复为当前信用。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
+        "reviewer": "Codex / GLM (scoped non-author evidence)",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "451aeb95bc3813cdd3897b71d2b017c38ca8b2df11e807dc8e1fbdec5a55d4b7",
+        "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+        "reviewedCandidate": "6e0723208b722591a83a622ba700d8ecc9f18521",
+        "basis": [
+          {
+            "author": "GLM",
+            "reviewer": "Codex",
+            "nonAuthorReviewer": true,
+            "scope": "S68 original GLM contribution fields, excluding S69 Owner delta; for reused pilots this covers only S68 explanatory delta, not the Codex S66 base.",
+            "reportSha256": "8245b7b099dfd0c833f72afd72d97221eab6930ef1c2c16dcc3951e435d1dfab",
+            "candidate": "12d90b4da6e2cc36c94ceab6577828cd79c7698e"
+          },
+          {
+            "author": "Codex",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "scope": "S69 Owner R01-R05 changes and qualified publication boundary only; all111 final content hashes independently recomputed.",
+            "reportSha256": "33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66",
+            "candidate": "6e0723208b722591a83a622ba700d8ecc9f18521"
+          }
+        ],
+        "controlIdentity": {
+          "baselineRevision": "9d3e6834e9f41475a5802f37db4f898aa42179ba",
+          "headerSha256": "aeb464db6e2b7d8e33d121dc01b2e2313faec298340d3b0cb7bc3889e3169ae7",
+          "membershipSha256": "6cf675c08e6241b4744febd288b5733fe61576c787d576fc82a12b6a4322de91",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "index": 22
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S70",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     }
   ],
   "currentCorrection": {

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "c29e42b2f8ee1b539fa5eb16b1a38006dcfd46fb561219374c212583b28e83f9",
+  "generation": "92511b74bf2d838ba7e35a278653cb46f6e777ca8cff9767393b7c0c199535af",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -1606,7 +1606,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "c35a95a6a1ddc17ad96b866db4ee62da0593a03a01f377278e67410419dcabbf",
+      "afterSha256": "d16a7d91dfddae392f97d5a5eb5c6234ce018e7a75adff568bd19539662453fe",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -2153,6 +2153,15 @@
           "task": "DOCS-FULL-TEMPLATE-1/current-ledger-candidate",
           "beforeSha256": "8f778119809fe3af1a937bb9b21a331f1338001c3dfd4e06fa163f14d6ea1eb6",
           "afterSha256": "c35a95a6a1ddc17ad96b866db4ee62da0593a03a01f377278e67410419dcabbf",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/current-ledger-candidate",
+          "beforeSha256": "c35a95a6a1ddc17ad96b866db4ee62da0593a03a01f377278e67410419dcabbf",
+          "afterSha256": "d16a7d91dfddae392f97d5a5eb5c6234ce018e7a75adff568bd19539662453fe",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
