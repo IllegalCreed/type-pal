@@ -6,7 +6,7 @@ Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S35–S37十篇正文及S38分阶段非作者accept）；Codex（限定当前版本的中央裁定）；全量硬验收未完成
-Branch: codex/docs-s67-current-ledger-bulk
+Branch: codex/docs-s69-ledger-intake
 Last reviewed: 2026-10-29
 Template: task-card-v1 / 1.0.0
 
@@ -2725,3 +2725,16 @@ S67完整组首轮演练在落盘前拒绝：R93新增解释后格式化输入�
 源与临时树完整310/0fail/0skip，源model2301/0、临时2412/0；lint源4644/临时4647均0E/W/I，scope证明源0正文/6行政、临时111正文/3行政、473旧原生/原12source/旧status与claimCorrection全保全。临时首全门在Testing报8个新工作树缺失的006旧build产物；8原SHA只读引用补齐后仅重跑受影响下游：链接/索引/Testing/phase-lore/progress均0，strict恰144文档/288诊断。310同候选工具结果复用，不刷新006日期、不重跑runtime。并发改卡导致首read-only envelope失败、1MiB首红、未变incoming误列、旧分组转移不适配、缺忽略产物五类原件完整留痕，不修改旧执行输出。
 
 S68 GLM build allowed在本S67最终候选的新隔离worktree一次覆盖111最终候选：先非作者只读接受本公共增量与演练，accept后同委托直接继续108篇逐篇语义作者实施+3篇终稿复用，不中途回交只读/设计稿。只通过公开candidate API更新现有位置和机械投影/after闭包；受控临时树、原S66、Owner源冻结。真实grant与中央发布仍Owner；现有144/288及0信用不变，剩余24 JSON/9 MD由Owner并行，006不在本包。全卡rework，不合main、不推送、不done。
+
+
+## S69 S67据证接收、S68限定纠错与受控授信前提（2026-10-29）
+
+GLM回交S67非作者accept及S68作者候选12d90b4da6e2cc36c94ceab6577828cd79c7698e（base440541915、单提交13路径）。Owner核原件：HANDBACK 2fe632cf18854ef9b576ed8f849bf92a26c362ebdc49315b858ab5a8e5ed5f0c，verdict8235101fe7a99be9de79aa734b0104dda3b58243d8c0671aa7e14add884f365a，final-plan db2bdbe58594e3b4330d33f5085afef603b3467e49d2add72d2c5697c781a415，file-manifest5bc2a504e5178ae7aa3f3c643b12ba9898d151c29a672573ef83fd47e79bea46。范围/13件原件/111正文+3行政/2321其余/2435after/473原生/旧状态与撤信/108计数分布/原12+新1source/registry与routing投影全部独立复算一致，三S66 core/readDomain/role未改。不重做成员正文或GLM已校准的完整机械审查。
+
+接收S67公共增量与实跑演练的非作者结论，但两处回执解释须勘误，原件不覆盖：逐字节不变的是publish函数，prepare在S67实际新增R93 source/13pin校验，不采信“prepare也不变”的声明；S68 finalPhysicalFiles=162是159 review物理+3控制投影，退役3片另计，不能解释成含旧片未删。都不构成实际机器内容丢失或越权写入。
+
+Owner按用户“小修直接处理”在codex/docs-s69-ledger-intake从12d隔离追加963ff5492956372d12a8ac7295dd1be944cde95d：108条读域收窄为实际披露的policy/scope去重核读与机器字段枚举，不再泛称整个嵌套header人工全文；55条当前机械维护reviewer不倒签到原reviewDate；lore的7事件/9subject分开；R34/R41/R60明确9/10/8个supersededBindings与实际接替账本，不把historicalReviewIdentity误说成成员数组。三复用正文core/readDomain/role不动；111未解/下一步改为可长期适用的条件边界，避免正式接受后仍写“尚未验收”。机器原件/旧撤信/source/状态保持，全部counter与改动规则及prior完整行hash复用现有history。11写/6旧片退出，114逻辑/160 review物理/46片/13原source，2435after精确；0新信用。Owner新增文字需由未参与者只核此增量，不重新审111原始正文。
+
+本轮进一步build allowed：仅文档工具内实现现行控制接受资格与Owner发布入口，复用既有candidate规划/registry投影/DAG/锁/staging/保护读回，不重造物理writer。正式接受表当前为空；候选保持partial/needs，只有冻结path、具体正文hash及分域非作者basis+独立报告、Owner决定全部成立才可content-reviewed/template-compliant。current after是可维护观测，不作为永久接受身份；header/成员-source与原pin仍由原guard独立验证。旧claimCorrection原对象必须完整移入唯一publication history，不能恢复其旧信用；runtime/child授权均false。作者--write和Owner--publish分开，传假报告、换路径、改状态或序列化句柄不得越权。仅新增必要回归，既有测试字节不改；17父合同/版本/registry不变。
+
+GLM交付没有逐命令argv/cwd/ISO/exit/输入指纹结构回执，原raw保持未绑定口径；Owner因此在固定12d真树补跑一次check:docs，310/0fail/0skip、docs0/model2412/0通过后Testing报唯一e2e-001 reviewBy2026-10-28<UTC2026-10-29。不得据此刷新日期或豁免，catalog不在本次正文范围；Owner后续单独核该日期门前提。现行strict144文档/288诊断仍实记，全量硬门未过。剩余24 JSON/9 MD继续Owner范围；不合main、不推送、不done。后续同一份非作者提示词只验S69差异/接受边界与证据，接受后再由Owner填真报告与受控发布111，不再要求GLM重做作者包。

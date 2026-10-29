@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { isDeepStrictEqual as same } from 'node:util'
 import { currentReviewLedgerAdmissions } from './current-review-ledger-admission.mjs'
+import { applyCurrentLedgerGrant } from './current-review-ledger-qualification.mjs'
 import { currentLedgerStorageUpgrade } from './current-review-ledger-storage-admission.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { summarizeDocumentRegistry } from './document-registry.mjs'
@@ -100,7 +101,32 @@ export function validateCurrentLedgerChanges(changes, records) {
   return { targets: changes.length, creditGranted: 0 }
 }
 
-function projectControls(root, changes, readBuffer) {
+export function validateCurrentLedgerPublication(changes, records) {
+  demand(
+    Array.isArray(changes) && changes.length > 0 && changes.length <= 111,
+    'bounded publication subset of111 required',
+  )
+  demand(new Set(changes.map((c) => c.path)).size === changes.length, 'duplicate publication path')
+  for (const c of changes) {
+    const b = currentReviewLedgerAdmissions.find((entry) => entry.path === c.path)
+    demand(
+      b && c.reviewRecord === b.reviewRecord && c.index === b.index,
+      'publication path/position not admitted',
+    )
+    const before = records.get(b.reviewRecord)?.entries[b.index]
+    demand(
+      before?.path === b.path && currentLedgerEntryHash(before) === c.beforeEntrySha256,
+      'publication before row changed',
+    )
+    demand(
+      same(c.after, applyCurrentLedgerGrant(before, b)),
+      'publication may only apply compiled scoped acceptance; no other body edits',
+    )
+  }
+  return { targets: changes.length, grantsPrepared: changes.length, creditGranted: 0 }
+}
+
+function projectControls(root, changes, readBuffer, publication) {
   const outputs = [],
     all = [],
     registryPath = 'docs/phase-governance/document-registry.json',
@@ -125,6 +151,10 @@ function projectControls(root, changes, readBuffer) {
         ])
           row[key] = after[key]
         if (Object.hasOwn(row, 'artifactEnvelope')) row.artifactEnvelope = false
+        if (publication) {
+          row.contentReviewStatus = after.contentReviewStatus
+          row.templateCompliance = after.templateCompliance
+        }
       }
       all.push(row)
     }
@@ -157,9 +187,10 @@ function projectControls(root, changes, readBuffer) {
   return outputs
 }
 
-export function prepareCurrentLedgerCandidate({ root, plan, planSha256 }) {
+function prepareLedgerProposal({ root, plan, planSha256 }, publication) {
   demand(
-    plan?.kind === 'current-ledger-candidate/1.0.0' &&
+    plan?.kind ===
+      (publication ? 'current-ledger-publication/1.0.0' : 'current-ledger-candidate/1.0.0') &&
       plan.creditGranted === 0 &&
       /^\d{4}-\d{2}-\d{2}$/u.test(plan.date ?? '') &&
       currentLedgerEntryHash(plan) === planSha256,
@@ -168,7 +199,9 @@ export function prepareCurrentLedgerCandidate({ root, plan, planSha256 }) {
   root = resolve(root)
   const readBuffer = (path) => readFileSync(join(root, path)),
     group = loadReviewRecords({ root }),
-    validated = validateCurrentLedgerChanges(plan.changes, group.records),
+    validated = publication
+      ? validateCurrentLedgerPublication(plan.changes, group.records)
+      : validateCurrentLedgerChanges(plan.changes, group.records),
     records = new Map([...group.records].map(([path, record]) => [path, structuredClone(record)])),
     dirty = new Set(),
     retired = []
@@ -176,7 +209,7 @@ export function prepareCurrentLedgerCandidate({ root, plan, planSha256 }) {
     if (!same(c.after, records.get(c.reviewRecord).entries[c.index])) dirty.add(c.reviewRecord)
     records.get(c.reviewRecord).entries[c.index] = structuredClone(c.after)
   }
-  const outputs = projectControls(root, plan.changes, readBuffer)
+  const outputs = projectControls(root, plan.changes, readBuffer, publication)
   let previous = -1
   while (previous !== dirty.size) {
     previous = dirty.size
@@ -294,10 +327,27 @@ export function prepareCurrentLedgerCandidate({ root, plan, planSha256 }) {
   return handle
 }
 
-export function writeCurrentLedgerCandidate(handle) {
+export function prepareCurrentLedgerCandidate(options) {
+  return prepareLedgerProposal(options, false)
+}
+
+export function prepareCurrentLedgerPublication(options) {
+  return prepareLedgerProposal(options, true)
+}
+
+function writeLedgerProposal(handle, kind) {
   const state = handles.get(handle)
   demand(state && same(handle, state.public), 'unmodified in-process prepare capability required')
+  demand(handle.kind === kind, 'candidate write and Owner publication capabilities are distinct')
   const result = publishCurrentReviewTransaction(state.transaction, { allowWrite: true })
   handles.delete(handle)
   return { ...result, targets: handle.targets, newSemanticCredit: 0, newTemplateMigrationCredit: 0 }
+}
+
+export function writeCurrentLedgerCandidate(handle) {
+  return writeLedgerProposal(handle, 'current-ledger-candidate/1.0.0')
+}
+
+export function publishCurrentLedgerReviews(handle) {
+  return writeLedgerProposal(handle, 'current-ledger-publication/1.0.0')
 }

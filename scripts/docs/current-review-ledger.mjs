@@ -5,6 +5,7 @@ import {
   currentReviewLedgerBaseline,
   currentReviewLedgerContract,
 } from './current-review-ledger-admission.mjs'
+import { currentLedgerQualificationIssues } from './current-review-ledger-qualification.mjs'
 import { currentLedgerStorageUpgrade } from './current-review-ledger-storage-admission.mjs'
 import {
   assertReviewRecordSourceUnchanged,
@@ -134,14 +135,8 @@ export function currentReviewLedgerIssues(doc, template, contract, read, options
       row.artifactEnvelope === true
     )
       throw new Error('current control review identity/observed byte pin mismatch')
-    if (
-      row.contentReviewStatus !== 'partial-review-unknown' ||
-      row.templateCompliance !== 'needs-migration' ||
-      row.currentIndependentAcceptance !== undefined
-    )
-      throw new Error(
-        'current control pilot has no independent content acceptance or migration grant',
-      )
+    const qualificationIssues = currentLedgerQualificationIssues(row, binding)
+    if (qualificationIssues.length) throw new Error(qualificationIssues.join('; '))
     if (
       !text(row.coreConclusion) ||
       !texts(row.truthAnchors) ||

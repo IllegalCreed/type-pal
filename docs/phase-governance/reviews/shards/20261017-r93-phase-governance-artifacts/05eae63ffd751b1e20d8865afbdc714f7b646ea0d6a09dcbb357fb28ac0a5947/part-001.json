@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-  "generation": "aa3999a794261d83df56f19d29910b15aa045a6d3a6ae929cc47fb0231a832fa",
+  "generation": "05eae63ffd751b1e20d8865afbdc714f7b646ea0d6a09dcbb357fb28ac0a5947",
   "key": "part-001",
   "positions": [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
@@ -1348,7 +1348,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "62d31e2f3aba1511d0883bf99a69d7dd5f833ec531ef4b4316225ce44bb1fc68",
+      "afterSha256": "072c298f08e365a63b28bc1457b170e2b3194ecc0ecb37e5000740936eb907f9",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -2352,6 +2352,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
             "index": 5,
             "entryCanonicalSha256": "e66a9594acb6d34fba426722683e70d1d97a574114c64f00946c9fb9162e8c92"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S69/scoped-ledger-qualification",
+          "revision": "963ff5492956372d12a8ac7295dd1be944cde95d",
+          "beforeSha256": "62d31e2f3aba1511d0883bf99a69d7dd5f833ec531ef4b4316225ce44bb1fc68",
+          "afterSha256": "072c298f08e365a63b28bc1457b170e2b3194ecc0ecb37e5000740936eb907f9",
+          "scope": "Exact administrative dependency cascade only",
+          "priorRecord": {
+            "revision": "963ff5492956372d12a8ac7295dd1be944cde95d",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "index": 5,
+            "entryCanonicalSha256": "c9da38d52786daffb3a43bb2c7534aeee987e188406d58ad6966b31b2bca64e1"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

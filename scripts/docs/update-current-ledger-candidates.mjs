@@ -6,13 +6,21 @@ import { fileURLToPath } from 'node:url'
 import {
   currentLedgerEntryHash,
   prepareCurrentLedgerCandidate,
+  prepareCurrentLedgerPublication,
+  publishCurrentLedgerReviews,
   writeCurrentLedgerCandidate,
 } from './current-review-ledger-candidate.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
 export function runCurrentLedgerCandidate(argv) {
-  assert(argv.length === 2 || argv.length === 3, '--plan <external-json> [--write] required')
-  assert(argv[0] === '--plan' && (argv.length === 2 || argv[2] === '--write'), 'unknown option')
+  assert(
+    argv.length === 2 || argv.length === 3,
+    '--plan <external-json> [--write|--publish] required',
+  )
+  assert(
+    argv[0] === '--plan' && (argv.length === 2 || ['--write', '--publish'].includes(argv[2])),
+    'unknown option',
+  )
   const root = fileURLToPath(new URL('../../', import.meta.url)),
     input = realpathSync(resolve(argv[1])),
     path = relative(root, input)
@@ -31,14 +39,22 @@ export function runCurrentLedgerCandidate(argv) {
     '',
     'tracked working tree must be clean',
   )
-  const handle = prepareCurrentLedgerCandidate({
+  const publication = plan.kind === 'current-ledger-publication/1.0.0'
+  assert(
+    argv.length === 2 || (publication ? argv[2] === '--publish' : argv[2] === '--write'),
+    'author writes and Owner publication require their distinct explicit flag',
+  )
+  const prepare = publication ? prepareCurrentLedgerPublication : prepareCurrentLedgerCandidate
+  const handle = prepare({
     root,
     plan,
     planSha256: currentLedgerEntryHash(plan),
   })
   const result =
-    argv[2] === '--write'
-      ? writeCurrentLedgerCandidate(handle)
+    argv.length === 3
+      ? publication
+        ? publishCurrentLedgerReviews(handle)
+        : writeCurrentLedgerCandidate(handle)
       : {
           mode: 'dry-run',
           targets: handle.targets,

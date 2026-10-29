@@ -3414,7 +3414,7 @@
         }
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
-      "afterSha256": "91f36b033bde7c517552613d93b0769a18143c3d5bd927277664617a81bc3abe",
+      "afterSha256": "571aec0a3b75a3e1f1f80b2cf6629065e4b0c57cc706dd3300b2222f6fca5562",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -3889,6 +3889,23 @@
             "logicalPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
             "index": 9,
             "entryCanonicalSha256": "6fc2086118c6f1aa0ce0fa0e2305e725cdf3071397abc431b8ddf8b28b469efe"
+          },
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-29",
+          "task": "DOCS-FULL-TEMPLATE-1/S69/scoped-ledger-qualification",
+          "revision": "963ff5492956372d12a8ac7295dd1be944cde95d",
+          "beforeSha256": "91f36b033bde7c517552613d93b0769a18143c3d5bd927277664617a81bc3abe",
+          "afterSha256": "571aec0a3b75a3e1f1f80b2cf6629065e4b0c57cc706dd3300b2222f6fca5562",
+          "scope": "S69 evidence-led review, scoped clarifications and dormant qualification; no new source/document/runtime credit",
+          "priorRecord": {
+            "revision": "963ff5492956372d12a8ac7295dd1be944cde95d",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+            "index": 9,
+            "entryCanonicalSha256": "46d3af2f1426b01b34c55fe50949f12388b4fad05b0571e449305206f92278c0"
           },
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

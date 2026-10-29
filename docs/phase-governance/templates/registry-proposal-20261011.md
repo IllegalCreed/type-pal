@@ -617,3 +617,10 @@ S66公共合同与三类真实pilot已获GLM非作者accept（43cfa8aca67a1cfae6
 S67完整组首轮演练在落盘前拒绝：R93新增解释后格式化输入将达1,075,985B，超过1MiB；没有压缩结论、放宽maxSize或继续写半树。Owner据此明确准入R93唯一flat→manifest升级，固定10ae2c1447f7f5583bc1407024a506e174d2d914真实flat Git原件（OID eba5c8346cad3c5d39ed863ccdc223e9daedddf9、SHA c6abadaa7f66a7c51882396f6363c3eb32282d9deac75e1adb1c0b257099ae3e），91成员及旧源字段原样保全。原12 source pins不改；current事务只允许无R93时12或持此精确R93 pin时13，新增source也须真实Git解析、staging/读回共同核验。新manifest/每片仍≤512KiB；新物理载体本身不产生新正文分母。现行合同拒绝其它flat→manifest升级或更换R93 source，数据与授信仍分轴。原S66“本轮不准入新source”维持其时点；本S67是显式新增唯一存储准入，不追溯改写S66。旧current-review-ledger测试夹具从live改为固定9d复制的最小补丁已备，单独等用户既定旧测试许可；未获许可前不编辑该旧文件。
 
 S67终态补记：R93拆分+20转移subject/真实Git已通过完整组演练，3已接受正文复用+108结构演练仅证明工具可执行，不替代108语义治理。源/临时工具310/0/0，model2301→2412零issue；原17父类型与registry变体完全不改。用户后续明确批准旧current-review-ledger夹具固定9d复制，全部原断言保留；source、已接受语义和runtime信用未扩。S68一次委托先验公共增量后直接做111最终候选，待Owner独立接受后再授信。
+
+
+### S69 现行账本接受资格与Owner发布边界（2026-10-29）
+
+current-review-ledger-native-v1/1.0.0格式及17父类型不变，补齐此前尚未启用的接受前提。候选仍partial/needs、无接受对象；合格态须冻结具体内容hash、分域非作者basis（原GLM内容由Codex核、Owner澄清由GLM核，复用三pilot沿S66接受）和真实报告、独立Owner决定及唯一publication history。正式表在实际非作者回执之前保持空，不把候选/原件保全/拟稿hash计迁移。
+
+内容hash绑定完整已接受解释/源/历史，排除动态after及行政maintenance；publication事件只用于搬运原claimCorrection，规范化后内容hash不变，旧撤信原对象按history回读，不恢复旧事实。动态raw仍由原guard验当前after、稳定header/有序成员-source/唯一归属/Git/source pin和受保护快照；不因接受放宽这些门。作者API仍不得改状态，Owner新入口只允许compiled接受映射产生的精确状态/签名/历史变换，registry状态投影与依赖after闭包同事务。新回归仅覆上述原子边界，既有测试不改；未采外部接收对象/任意validator作为写权限。
