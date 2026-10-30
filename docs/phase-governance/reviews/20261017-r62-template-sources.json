@@ -5094,11 +5094,11 @@
     },
     {
       "path": "docs/testing/_templates/e2e-stage-README.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "reviewDepth": "structured-content",
       "coreConclusion": "E2E入口示例保id/status/phase/engine/owner/lastVerified/dependsOn与canonicalReport；只移除活动reviewBy并说明版本比较，不当实际执行；本轮是用户政策的小范围同步，不重写原模板骨架或引入新父合同。",
@@ -5381,6 +5381,24 @@
           },
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "014f92652d9b0d006d65b16dcab6f3f848f168af291b2cb1eebfcfd24cb65e1d",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [
@@ -5507,7 +5525,28 @@
           "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/13"
         ]
       },
-      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/_templates/e2e-stage-README.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "014f92652d9b0d006d65b16dcab6f3f848f168af291b2cb1eebfcfd24cb65e1d",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/7",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/_templates/evidence.json",
@@ -6396,11 +6435,11 @@
     },
     {
       "path": "docs/testing/_templates/test-catalog.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "reviewDepth": "structured-content",
       "coreConclusion": "catalog模板保发布依赖、旧候选/版本/执行范围，活动reviewBy退休而旧期限留历史，结构检查不能替内容或运行；本轮是用户政策的小范围同步，不重写原模板骨架或引入新父合同。",
@@ -6680,6 +6719,24 @@
           },
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "172432a4398accde5f792b41a8eceb22bc46ba14fc2f974e49365327773b9f41",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [
@@ -6806,7 +6863,28 @@
           "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/17"
         ]
       },
-      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/_templates/test-catalog.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "172432a4398accde5f792b41a8eceb22bc46ba14fc2f974e49365327773b9f41",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/8",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/_templates/test-contract.md",
@@ -7181,11 +7259,11 @@
     },
     {
       "path": "docs/testing/_templates/test-domain-report.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "reviewDepth": "structured-content",
       "coreConclusion": "域报告质量门字段改指记录revision和适用source指纹，不再用reviewBy；其它Scope/输入/结果/证据职责不改；本轮是用户政策的小范围同步，不重写原模板骨架或引入新父合同。",
@@ -7468,6 +7546,24 @@
           },
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "3e722e75b2664eaf038f255e5c041696b89a55e6a596f183b3a58c9e62b82a7c",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [
@@ -7594,15 +7690,36 @@
           "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/19"
         ]
       },
-      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/_templates/test-domain-report.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "3e722e75b2664eaf038f255e5c041696b89a55e6a596f183b3a58c9e62b82a7c",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/9",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/_templates/test-e2e-stage.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "reviewDepth": "structured-content",
       "coreConclusion": "专用阶段五章模板保入口/结论/证据/历史职责及非执行占位，旧reviewBy不再生成新截止；本轮是用户政策的小范围同步，不重写原模板骨架或引入新父合同。",
@@ -7885,6 +8002,24 @@
           },
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "c00acb38c75cfd0c53274ec28bd932d8efc9935368dbfdce6b0b280a0f21cf7d",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [
@@ -8011,7 +8146,28 @@
           "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/20"
         ]
       },
-      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/_templates/test-e2e-stage.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "c00acb38c75cfd0c53274ec28bd932d8efc9935368dbfdce6b0b280a0f21cf7d",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/10",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/_templates/test-machine-evidence.json",

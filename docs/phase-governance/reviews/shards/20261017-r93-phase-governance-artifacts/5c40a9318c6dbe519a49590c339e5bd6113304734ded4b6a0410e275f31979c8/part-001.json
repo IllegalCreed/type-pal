@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-  "generation": "e276f7939e90c57467b7a36a7454b83bc6a87a2572e74e5a6ead939023ba0ffc",
+  "generation": "5c40a9318c6dbe519a49590c339e5bd6113304734ded4b6a0410e275f31979c8",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
   "entries": [
     {
       "path": "docs/phase-governance/by-phase.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "reviewDepth": "structured-content",
       "coreConclusion": "按lore14/phase1 60/phase2 105/phase3 5四组投影184身份、模块/状态/Owner；本页是current导航，不是archive-record或成员通过报告。五章合同由真实producer生成，共享model与逐字节比较共同检验，只有更改唯一catalog才会改变成员事实。",
@@ -128,6 +128,31 @@
           "priorIndependentAcceptance": null,
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "c9136ee64821cd7dffe41566313fe97a59c439f439c77a65ec60ca08ed81d8d3",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [
@@ -162,14 +187,6 @@
         "documentary": "S73 non-author acceptance pending",
         "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
         "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
-      },
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
       },
       "maintenanceDeltas": [
         {
@@ -214,15 +231,36 @@
           "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json#entries/0"
         ]
       },
-      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/by-phase.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "c9136ee64821cd7dffe41566313fe97a59c439f439c77a65ec60ca08ed81d8d3",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/4",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/by-status.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "reviewDepth": "structured-content",
       "coreConclusion": "按catalog状态字典序重组同184身份，组内path排序，不由archive路径猜成熟度；本页是current导航，不是archive-record或成员通过报告。五章合同由真实producer生成，共享model与逐字节比较共同检验，只有更改唯一catalog才会改变成员事实。",
@@ -339,6 +377,31 @@
           "priorIndependentAcceptance": null,
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "396aa41ac74c8e55382a1bb6fba8e20879d98c0c5b0a9737dfbabd9abc4862b0",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [
@@ -373,14 +436,6 @@
         "documentary": "S73 non-author acceptance pending",
         "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
         "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
-      },
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
       },
       "maintenanceDeltas": [
         {
@@ -425,7 +480,28 @@
           "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json#entries/1"
         ]
       },
-      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/by-status.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "396aa41ac74c8e55382a1bb6fba8e20879d98c0c5b0a9737dfbabd9abc4862b0",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/5",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase-governance/catalog.json",
@@ -1685,7 +1761,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "69bd29223672602749aae5e40373387e170f5e1cb662db127343e89e19dc81fa",
+      "afterSha256": "07a720aeea4fd44797999c8a8f95dfedbfd71710de245aadfea1764a7cb04e37",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -2841,6 +2917,17 @@
           "beforeSha256": "bb78b0f47d848b92d539a98d8332ad81aae6b9f593c33e041d1bca2e83672ee3",
           "afterSha256": "69bd29223672602749aae5e40373387e170f5e1cb662db127343e89e19dc81fa",
           "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "revision": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "beforeSha256": "69bd29223672602749aae5e40373387e170f5e1cb662db127343e89e19dc81fa",
+          "afterSha256": "07a720aeea4fd44797999c8a8f95dfedbfd71710de245aadfea1764a7cb04e37",
+          "scope": "Exact23 accepted documentary grants +one pending routing renewal/owned registry and administrative after closure; no runtime/child credit",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
@@ -5334,7 +5421,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "8e6c516737f4ba974b18104f8f3561bf43361c8d6f5e91986e64684ae3c65255",
+      "afterSha256": "464912ba0dfb1189358f4b480fd59e1114d5992df39738ce70415e540cc9486e",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -5581,6 +5668,17 @@
           "beforeSha256": "da74a23d65b935e884b3dd8fdf776744183a2704762dbf92aa490d820f7217d1",
           "afterSha256": "8e6c516737f4ba974b18104f8f3561bf43361c8d6f5e91986e64684ae3c65255",
           "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "revision": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "beforeSha256": "8e6c516737f4ba974b18104f8f3561bf43361c8d6f5e91986e64684ae3c65255",
+          "afterSha256": "464912ba0dfb1189358f4b480fd59e1114d5992df39738ce70415e540cc9486e",
+          "scope": "Exact23 accepted documentary grants +one pending routing renewal/owned registry and administrative after closure; no runtime/child credit",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
@@ -6650,7 +6748,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
-      "afterSha256": "07ad37030dda637e8c3661e0df3d7e3b09d42c96e72392a72f428c3ecf7c2a4a",
+      "afterSha256": "1f327ae75d6fa03917d356bf7feae9a21b76599db9557facc9d81c810932fe70",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -6840,6 +6938,17 @@
           "beforeSha256": "724ed9b940d5e6cdca65fb6e1973d3b1782fe0924d49e5a3a6cc40b95e11ebda",
           "afterSha256": "07ad37030dda637e8c3661e0df3d7e3b09d42c96e72392a72f428c3ecf7c2a4a",
           "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "revision": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "beforeSha256": "07ad37030dda637e8c3661e0df3d7e3b09d42c96e72392a72f428c3ecf7c2a4a",
+          "afterSha256": "1f327ae75d6fa03917d356bf7feae9a21b76599db9557facc9d81c810932fe70",
+          "scope": "Exact23 accepted documentary grants +one pending routing renewal/owned registry and administrative after closure; no runtime/child credit",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false

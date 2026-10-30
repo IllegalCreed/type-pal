@@ -5,8 +5,8 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: GLM（S72接入增量非作者accept）；Codex（S73最终正文作者/Owner）；S73独立接受与全量硬门未完成
-Branch: codex/docs-s73-final11
+Reviewer: GLM（S73全文差异/政策增量23篇非作者accept）；Codex（中央接入Owner）；全量硬门与本轮接入增量待闭合
+Branch: codex/docs-s74-final-intake
 Last reviewed: 2026-10-30
 Template: task-card-v1 / 1.0.0
 
@@ -2807,3 +2807,11 @@ S73作者候选已在3ebe78bb70bcd6b6614fba46fd82f7ce99ae7f3e交齐原11篇及12
 testing-index-governance.test.mjs首验4绿2红仅两页审阅日期夹具不符，用户另行明确授权两处断言适配：按视图名锁by-stage/by-status为2026-10-30，其余七页仍2026-10-16，全部成员/状态/来源/幂等/反控不动，83dc提交仅此补丁。首次仓外准备因不同模块实例的受保护快照被拒绝，registry已作有界候选投影而review组未发布；统一为本树同一模块后重跑成功，失败原件保留。一个model回执命令本身通过但包裹输入因同时提交测试发生变化，不作终态依据；上述稳定整仓回执替代，不手改旧回执。
 
 本轮统一交GLM非作者验23篇文档角色/历史/规则与公共工具增量；不请其重做006技术或用户视觉验收，不重审2435下游正文。旧日期红/续期记录保持历史，适用性只读比较不产生新运行信用；真实source/配对/内容save边界仍严格。原作者证据及S72两份独立报告各封存一次于既有gzip，不新增平行账本；硬验收与Owner授信未闭合前仍rework、不合main、不推送、不done。
+
+## S74 S73限定接收与最终正文中央接入（2026-10-30）
+
+GLM对cd1d3a686853bd745c4129827d894f6e3f84555d非作者验收23/23 accept、四轴零counter；HANDBACK SHA ee869543b4c5264711e34ed280e01efd124b7244f72b5c709c8a998a9ea585bc、verdict SHA bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042。Owner核真实候选与23逐路径contentSha完全相等后据证接收，不重复全文治理、335工具或006技术/视觉；本报告只签S73正文/政策/保全/行政范围，不能提前作为本轮发布结果的接受。
+
+本轮Codex build allowed：隔离codex/docs-s74-final-intake，固定S73真源，编译23条GLM接受与独立Owner决定，仅晋升其状态/签名，旧claimCorrection完整移史；原source、具体解释与已接受2412其余语义保留。registry同步23真实状态与必要after/分片级联，原22/111与473原生保全，复用已验收的有界锁/staging/真实Git/组读回事务，不新增规则豁免、账本或产品运行信用。正文只有当前父卡/看板的准入及实际结果写回，不改23已接受业务解释。
+
+接入前发现两份phase视图虽已由producer和共享model验证，却未列migratedDocuments；完整进度consumer要求每项完成都有唯一正式路由。Owner精确追加by-phase/by-status两条governance-index-v1、historyOverlay=false路由，其余2433路由与七操作入口不变。routing原控制解释/结构指纹只接受过2433版本，不能用旧签名洗成2435：该一项改为partial/needs，原S72出版事件和签名完整包入历史封套（含固定Git/条目hash），新解释与结构/成员指纹待一次限定非作者接收，再编译已有接受表及公开grant。不改其原source或公共guard，不增加模板、变体、旧测试改动或新执行。原23份可按已接受范围接入，不被这一个控制增量连带撤信；所有剩余数以实际门为准，父卡仍rework、不合main、不推送、不done。

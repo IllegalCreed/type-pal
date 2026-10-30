@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
-  "generation": "aa839789b6e76f97a676309d02aab52f0bfebc12b04f9881081d5d51158e7430",
+  "generation": "2f8675fe4d3dc3ba41eeb8b97989d4e58b72ce6d0770a2907ce0f0f24420c8b1",
   "key": "part-001",
   "positions": [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
@@ -6283,7 +6283,7 @@
       "supersedes": [],
       "stopLine": "角色/结构/来源/唯一归属/保护快照或原始历史冲突立即停对应claim；只刷after不得授信，不恢复旧声明，不授child/runtime。",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "fdfc2783c369e79c4ca6d5dfc0cbc3b2f36ea7f22d38f73c64d16b2fa15c03ec",
+      "afterSha256": "d879bd0352dd3f225120653521a5849016baa19d5a7be491674df55f30d4b3d1",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -6606,6 +6606,17 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "revision": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "beforeSha256": "fdfc2783c369e79c4ca6d5dfc0cbc3b2f36ea7f22d38f73c64d16b2fa15c03ec",
+          "afterSha256": "d879bd0352dd3f225120653521a5849016baa19d5a7be491674df55f30d4b3d1",
+          "scope": "Exact23 accepted documentary grants +one pending routing renewal/owned registry and administrative after closure; no runtime/child credit",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",
@@ -6817,7 +6828,7 @@
       "supersedes": [],
       "stopLine": "角色/结构/来源/唯一归属/保护快照或原始历史冲突立即停对应claim；只刷after不得授信，不恢复旧声明，不授child/runtime。",
       "sourceSha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
-      "afterSha256": "b94f8e4033cc7296e7de4dc5986b22d8f823135145f8799c86ff60517d36307f",
+      "afterSha256": "723c464ef82c8ea5a973f358ee4feabd064382fb6ca73d95d6c53d843ad0dab4",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -6847,6 +6858,17 @@
           "beforeSha256": "12171b736de75e73482065bcb91cde53902505bbfd955d013cc32e4a1387dd9b",
           "afterSha256": "b94f8e4033cc7296e7de4dc5986b22d8f823135145f8799c86ff60517d36307f",
           "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "revision": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "beforeSha256": "b94f8e4033cc7296e7de4dc5986b22d8f823135145f8799c86ff60517d36307f",
+          "afterSha256": "723c464ef82c8ea5a973f358ee4feabd064382fb6ca73d95d6c53d843ad0dab4",
+          "scope": "Exact23 accepted documentary grants +one pending routing renewal/owned registry and administrative after closure; no runtime/child credit",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
@@ -7816,7 +7838,7 @@
       "supersedes": [],
       "stopLine": "角色/结构/来源/唯一归属/保护快照或原始历史冲突立即停对应claim；只刷after不得授信，不恢复旧声明，不授child/runtime。",
       "sourceSha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
-      "afterSha256": "b46e9b36ed1b08f28300870739e4044bd33ff719c61c173554a9bb0e1ca00044",
+      "afterSha256": "d6d89fa615023ffd9632e9fdd38ef94ecede71d3fbce2cf41c68c8bb54668066",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -7969,6 +7991,17 @@
           "beforeSha256": "8a8339706536504dc9df6b88b3f663badf206f886509a399e930deea496ee447",
           "afterSha256": "b46e9b36ed1b08f28300870739e4044bd33ff719c61c173554a9bb0e1ca00044",
           "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "revision": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "beforeSha256": "b46e9b36ed1b08f28300870739e4044bd33ff719c61c173554a9bb0e1ca00044",
+          "afterSha256": "d6d89fa615023ffd9632e9fdd38ef94ecede71d3fbce2cf41c68c8bb54668066",
+          "scope": "Exact23 accepted documentary grants +one pending routing renewal/owned registry and administrative after closure; no runtime/child credit",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false

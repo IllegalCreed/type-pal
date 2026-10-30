@@ -4257,13 +4257,13 @@
     },
     {
       "path": "docs/testing/indexes/by-stage.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
       "template": "docs/phase-governance/templates/governance-index.md",
       "historyOverlay": false,
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "reviewDepth": "structured-content",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "coreConclusion": "阶段视图追加catalog实际候选SHA/content/minimumSave/sourceRefs数量/lastVerified版本表；六阶段成员与原状态不变，HEAD不同不自动失效。真实producer生成而非手改派生行。",
@@ -4569,6 +4569,24 @@
           "priorIndependentAcceptance": null,
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "0c99b1e65e6fb6db0a46faf37a8d8a2617e375ac83d42019c3547283e1a55edc",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [],
@@ -4650,17 +4668,38 @@
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/indexes/by-stage.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "0c99b1e65e6fb6db0a46faf37a8d8a2617e375ac83d42019c3547283e1a55edc",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/21",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/indexes/by-status.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
       "template": "docs/phase-governance/templates/governance-index.md",
       "historyOverlay": false,
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "reviewDepth": "structured-content",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "coreConclusion": "状态视图仍按catalog生命周期分组，只将期限事实权替换为版本适用性；current不覆盖原verified/rework，旧执行和proposal不获新信用。真实producer生成而非手改派生行。",
@@ -4966,6 +5005,24 @@
           "priorIndependentAcceptance": null,
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "d6583b644b46d44e1d33b740a9954fb673461db976e99a63e4728f4053685bd4",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [],
@@ -5047,7 +5104,28 @@
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/indexes/by-status.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "d6583b644b46d44e1d33b740a9954fb673461db976e99a63e4728f4053685bd4",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/22",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/indexes/by-tag.md",

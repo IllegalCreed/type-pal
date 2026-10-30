@@ -5,12 +5,12 @@
   "entries": [
     {
       "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-e2e-stage.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "reviewDepth": "structured-content",
       "coreConclusion": "006稳定入口按catalog保rework/lastVerified10-03，活动日期退休；从同引擎真实005前驱进入。525双轨12/11与后继RF11/10分轮，现技术与用户已接受不再标待定；不借当前入口状态授全现场预览或后期剧情。",
@@ -186,6 +186,24 @@
           "priorIndependentAcceptance": null,
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "1855262ce6ee2e05e783b251d679ad5c8041922a7726b483e85c3eeeb14ae8c5",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [],
@@ -258,16 +276,37 @@
         ]
       },
       "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
-      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation."
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "1855262ce6ee2e05e783b251d679ad5c8041922a7726b483e85c3eeeb14ae8c5",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/18",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-run-report",
       "templateId": "test-run-report-v1",
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-run-report.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "reviewDepth": "structured-content",
       "coreConclusion": "报告按执行来源c68/核验017、后继RF起伏0847和两路技术/用户接受分轴：95对白、正式终档/fresh restore、前轮12/11、后继11/10均保原身份。C1只改完整Game持久域验证，不伪装产品丢档；旧串行慢说明明确由58.728秒另存测量及安全accept后继替代。",
@@ -446,6 +485,24 @@
           "priorIndependentAcceptance": null,
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "c3da17bff14fe2160605c4aeca361e1c4ddb61e97168f69c7656cba54e779ddb",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [],
@@ -569,7 +626,28 @@
         ]
       },
       "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
-      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation."
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "c3da17bff14fe2160605c4aeca361e1c4ddb61e97168f69c7656cba54e779ddb",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/19",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     }
   ],
   "supersededBindings": [

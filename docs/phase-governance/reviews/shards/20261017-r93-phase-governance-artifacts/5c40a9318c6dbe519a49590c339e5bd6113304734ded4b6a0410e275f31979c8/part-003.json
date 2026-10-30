@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-  "generation": "e276f7939e90c57467b7a36a7454b83bc6a87a2572e74e5a6ead939023ba0ffc",
+  "generation": "5c40a9318c6dbe519a49590c339e5bd6113304734ded4b6a0410e275f31979c8",
   "key": "part-003",
   "positions": [
     49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72
@@ -882,7 +882,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "455bfd6b68ad459ee5081eb3c89e0fb61d207c04df0d02c879ddc910b1a22e5f",
-      "afterSha256": "c0f0eb9b5ded146cf33a1a2dddf78334d0f9abc6c3695c9a9b58118137545e3f",
+      "afterSha256": "f22c72ded98ee8c036fbf8a418d912d254e4042654c522e92989e1e5806e5044",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -1179,6 +1179,17 @@
           "beforeSha256": "4bcd885af7d7c1a973f843923f5c828cd2745f1c7c385ea1928606466e3b5ad0",
           "afterSha256": "c0f0eb9b5ded146cf33a1a2dddf78334d0f9abc6c3695c9a9b58118137545e3f",
           "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "revision": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "beforeSha256": "c0f0eb9b5ded146cf33a1a2dddf78334d0f9abc6c3695c9a9b58118137545e3f",
+          "afterSha256": "f22c72ded98ee8c036fbf8a418d912d254e4042654c522e92989e1e5806e5044",
+          "scope": "Exact23 accepted documentary grants +one pending routing renewal/owned registry and administrative after closure; no runtime/child credit",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false

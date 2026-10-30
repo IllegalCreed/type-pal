@@ -6,13 +6,13 @@
   "entries": [
     {
       "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-e2e-stage.md",
       "historyOverlay": false,
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "reviewDepth": "structured-content",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "coreConclusion": "002-inn-guests-and-reward阶段原id/status/lastVerified/前驱/正文不动，只退休活动reviewBy；旧日历失败和续期段保原历史。新E2E不因时间或HEAD变化触发，原版本/source适用性及原停止点继续独立核验。",
@@ -362,6 +362,24 @@
           "priorIndependentAcceptance": null,
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "94f4f94470b388935cbe7a2789f831a0b7d57cf15036204122a7a4d215512f31",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [
@@ -445,7 +463,28 @@
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "94f4f94470b388935cbe7a2789f831a0b7d57cf15036204122a7a4d215512f31",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/14",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
@@ -2929,13 +2968,13 @@
     },
     {
       "path": "docs/testing/e2e/stages/003-kitchen/README.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-e2e-stage.md",
       "historyOverlay": false,
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "reviewDepth": "structured-content",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "coreConclusion": "003-kitchen阶段原id/status/lastVerified/前驱/正文不动，只退休活动reviewBy；旧日历失败和续期段保原历史。新E2E不因时间或HEAD变化触发，原版本/source适用性及原停止点继续独立核验。",
@@ -3244,6 +3283,24 @@
           "priorIndependentAcceptance": null,
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "c9f127c383a0721d6128196095b4d6791948b568560f7554b9b1cfccf316da9d",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [
@@ -3300,7 +3357,28 @@
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/e2e/stages/003-kitchen/README.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "c9f127c383a0721d6128196095b4d6791948b568560f7554b9b1cfccf316da9d",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/15",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/e2e/stages/003-kitchen/report.md",
@@ -4683,13 +4761,13 @@
     },
     {
       "path": "docs/testing/e2e/stages/004-meal/README.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-e2e-stage.md",
       "historyOverlay": false,
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "reviewDepth": "structured-content",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "coreConclusion": "004-meal阶段原id/status/lastVerified/前驱/正文不动，只退休活动reviewBy；旧日历失败和续期段保原历史。新E2E不因时间或HEAD变化触发，原版本/source适用性及原停止点继续独立核验。",
@@ -4998,6 +5076,24 @@
           "priorIndependentAcceptance": null,
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "4bcc78a8cae8e70e2d1b3025c06025a8db021a0dadf4f7e02faf3c07ae074e78",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [
@@ -5054,7 +5150,28 @@
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/e2e/stages/004-meal/README.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "4bcc78a8cae8e70e2d1b3025c06025a8db021a0dadf4f7e02faf3c07ae074e78",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/16",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/e2e/stages/004-meal/report.md",
@@ -7160,13 +7277,13 @@
     },
     {
       "path": "docs/testing/e2e/stages/005-shrimp/README.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-e2e-stage.md",
       "historyOverlay": false,
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "reviewDepth": "structured-content",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "coreConclusion": "005-shrimp阶段原id/status/lastVerified/前驱/正文不动，只退休活动reviewBy；旧日历失败和续期段保原历史。新E2E不因时间或HEAD变化触发，原版本/source适用性及原停止点继续独立核验。",
@@ -7483,6 +7600,24 @@
           "priorIndependentAcceptance": null,
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "658e2901083bb3b1441ba225e5d9775f77ab6de18a3c9740a19da809520980d8",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [
@@ -7539,7 +7674,28 @@
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/e2e/stages/005-shrimp/README.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "658e2901083bb3b1441ba225e5d9775f77ab6de18a3c9740a19da809520980d8",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/17",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/e2e/stages/005-shrimp/report.md",

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-  "generation": "e276f7939e90c57467b7a36a7454b83bc6a87a2572e74e5a6ead939023ba0ffc",
+  "generation": "5c40a9318c6dbe519a49590c339e5bd6113304734ded4b6a0410e275f31979c8",
   "key": "part-002",
   "positions": [
     22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
@@ -1058,7 +1058,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "3718a3270626b429db4563da29db115b93ffa59766d1a66185a1b8234dffff99",
-      "afterSha256": "9389f41756ec1f68e22f7d2e73461ff7ff29979ff4e426fcd8e9683f2e64aa3d",
+      "afterSha256": "c2c496ea76c075c0c28117e3924837de1dae6d382c1476e6622af795f89532ed",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -1290,6 +1290,17 @@
           "beforeSha256": "3718a3270626b429db4563da29db115b93ffa59766d1a66185a1b8234dffff99",
           "afterSha256": "9389f41756ec1f68e22f7d2e73461ff7ff29979ff4e426fcd8e9683f2e64aa3d",
           "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "revision": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "beforeSha256": "9389f41756ec1f68e22f7d2e73461ff7ff29979ff4e426fcd8e9683f2e64aa3d",
+          "afterSha256": "c2c496ea76c075c0c28117e3924837de1dae6d382c1476e6622af795f89532ed",
+          "scope": "Exact23 accepted documentary grants +one pending routing renewal/owned registry and administrative after closure; no runtime/child credit",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
@@ -2601,7 +2612,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4ba2dec97aa9b4dc4b05eabe599b900c8ca9d5418a938010bc5153825beda240",
-      "afterSha256": "1c706a7eaf9646a78b5e0cb04cdca284ccb433e41f28735ecc399ee0014cec3b",
+      "afterSha256": "abb50ac9aa145a7aefad44a1207b2151946c2034acc552791cf686ac726b62ac",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -2847,6 +2858,17 @@
           "beforeSha256": "687fe2fb00929c8de92cc773b2343c9e9173ef247e467ba1a5e95fbdcce792a8",
           "afterSha256": "1c706a7eaf9646a78b5e0cb04cdca284ccb433e41f28735ecc399ee0014cec3b",
           "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "revision": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "beforeSha256": "1c706a7eaf9646a78b5e0cb04cdca284ccb433e41f28735ecc399ee0014cec3b",
+          "afterSha256": "abb50ac9aa145a7aefad44a1207b2151946c2034acc552791cf686ac726b62ac",
+          "scope": "Exact23 accepted documentary grants +one pending routing renewal/owned registry and administrative after closure; no runtime/child credit",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
@@ -4481,7 +4503,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9acd2c970029be864bea64c4cf34319586daaa92fd7c7d018760c06813eaa9d5",
-      "afterSha256": "94e955a5cec009b6c8c5ec23c3ff29cc0a9734da99d9397f2f04cdd93ac38d31",
+      "afterSha256": "dc102df318c1f8e3fbe8a32a737cf6addda51b274a1ed14ad4f9825ad8fd18e6",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -4713,6 +4735,17 @@
           "beforeSha256": "9acd2c970029be864bea64c4cf34319586daaa92fd7c7d018760c06813eaa9d5",
           "afterSha256": "94e955a5cec009b6c8c5ec23c3ff29cc0a9734da99d9397f2f04cdd93ac38d31",
           "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "revision": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "beforeSha256": "94e955a5cec009b6c8c5ec23c3ff29cc0a9734da99d9397f2f04cdd93ac38d31",
+          "afterSha256": "dc102df318c1f8e3fbe8a32a737cf6addda51b274a1ed14ad4f9825ad8fd18e6",
+          "scope": "Exact23 accepted documentary grants +one pending routing renewal/owned registry and administrative after closure; no runtime/child credit",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false

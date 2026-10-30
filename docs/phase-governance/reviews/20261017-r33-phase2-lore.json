@@ -378,7 +378,7 @@
     },
     {
       "path": "docs/lore/timeline.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "coreConclusion": "滚动计划按001梦醒、002接待、003厨房、004酒菜邀约、005报信、006求药出海分清因果与停止点；006止95正文/1886、1888、1889、1890确认和控制返回。21章/跨作品女娲族旧稿仍是待核历史，不把旧✅或连续卡done升为今日canon。",
       "truthAnchors": [
         "docs/lore/timeline.md",
@@ -549,6 +549,24 @@
           "priorIndependentAcceptance": null,
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "c692be19b088c70b087611e4d5ae4f6ed644ae43262ab947acee963200af24d7",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -558,7 +576,7 @@
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "reviewDepth": "structured-content",
       "integrationReview": {
@@ -667,7 +685,28 @@
         ],
         "governance": ["docs/phase-governance/reviews/20261017-r33-phase2-lore.json#entries/2"]
       },
-      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/lore/timeline.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "c692be19b088c70b087611e4d5ae4f6ed644ae43262ab947acee963200af24d7",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/0",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/phase2/archive/mockups/actor-mode-v1.html",

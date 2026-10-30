@@ -292,12 +292,12 @@
     },
     {
       "path": "docs/testing/e2e/stages/001-opening/README.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-e2e-stage.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "reviewDepth": "structured-content",
       "coreConclusion": "001-opening阶段原id/status/lastVerified/前驱/正文不动，只退休活动reviewBy；旧日历失败和续期段保原历史。新E2E不因时间或HEAD变化触发，原版本/source适用性及原停止点继续独立核验。",
@@ -410,6 +410,24 @@
           "priorIndependentAcceptance": null,
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "current-ledger-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "date": "2026-10-30",
+          "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+          "contentSha256": "75a59afdb6c1f46c00be5e8552957d8a33e1485c819044febe2b1a78154c7183",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false,
+          "resolvedPriorPending": {
+            "scope": "S73 documentary acceptance only",
+            "unresolvedStatements": [
+              "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+            ],
+            "basisReportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042"
+          }
         }
       ],
       "supersedes": [],
@@ -471,7 +489,28 @@
         ]
       },
       "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
-      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation."
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/testing/e2e/stages/001-opening/README.md",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "contentSha256": "75a59afdb6c1f46c00be5e8552957d8a33e1485c819044febe2b1a78154c7183",
+        "reportSha256": "bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042",
+        "verdictPointer": "/entries/13",
+        "reviewedCandidate": "cd1d3a686853bd745c4129827d894f6e3f84555d",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     },
     {
       "path": "docs/testing/e2e/stages/001-opening/report.md",

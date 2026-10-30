@@ -78,28 +78,28 @@
       "gitObject": "0c324e9c636de903c5b655264e4824b3723d2254",
       "sha256": "7aff0960daeec007f687d6dc882f7f2ca03bbd3e08e62e04dcd331d09a237382"
     },
-    "logicalSha256": "aa839789b6e76f97a676309d02aab52f0bfebc12b04f9881081d5d51158e7430",
+    "logicalSha256": "2f8675fe4d3dc3ba41eeb8b97989d4e58b72ce6d0770a2907ce0f0f24420c8b1",
     "totalEntries": 89,
     "entryOrderSha256": "cb52a283287891ba14bafafb5bdb53d407838fdbf988507bbf7c7b86f4805eda",
-    "orderedEntriesSha256": "ebe995d20391218d026297a507d0210f5c820141254a038aa99202fd285d8cba",
+    "orderedEntriesSha256": "e62cb7e6899e95cc649d46de424723c44f60498197c404e13749b3279b92c812",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261018-record-integrity-rework/aa839789b6e76f97a676309d02aab52f0bfebc12b04f9881081d5d51158e7430/part-001.json",
+        "path": "shards/20261018-record-integrity-rework/2f8675fe4d3dc3ba41eeb8b97989d4e58b72ce6d0770a2907ce0f0f24420c8b1/part-001.json",
         "total": 37,
-        "sha256": "0469852a7765886b2fcd4a29f4aa506f8ea9084d52cdb97fb33dc3bdf166d9b9"
+        "sha256": "78ee9a9ae041ce2d07ef029a8037058ebec4a3949728c2bdf4afe9856f1aae06"
       },
       {
         "key": "part-002",
-        "path": "shards/20261018-record-integrity-rework/aa839789b6e76f97a676309d02aab52f0bfebc12b04f9881081d5d51158e7430/part-002.json",
+        "path": "shards/20261018-record-integrity-rework/2f8675fe4d3dc3ba41eeb8b97989d4e58b72ce6d0770a2907ce0f0f24420c8b1/part-002.json",
         "total": 38,
-        "sha256": "39482c7cf62cae7e659e1b935c2d86a50f05b4903066043f3eeb9dee1459abf8"
+        "sha256": "bac59dc64bc4d085421f7b69d5dfc86fc325bf24756c01dd6471d7a23fbcdbc7"
       },
       {
         "key": "part-003",
-        "path": "shards/20261018-record-integrity-rework/aa839789b6e76f97a676309d02aab52f0bfebc12b04f9881081d5d51158e7430/part-003.json",
+        "path": "shards/20261018-record-integrity-rework/2f8675fe4d3dc3ba41eeb8b97989d4e58b72ce6d0770a2907ce0f0f24420c8b1/part-003.json",
         "total": 14,
-        "sha256": "bb01920a81806807e258661822157e8d78765c246a93254d801d97e18d0cea59"
+        "sha256": "2b92b19a55168a4e855ed493018eb7e7ec8edc446d67e4ec17b62776ca142307"
       }
     ]
   }
