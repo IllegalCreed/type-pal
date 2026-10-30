@@ -2859,3 +2859,13 @@ Owner已做5真实pilot候选：取消毒键卡、coverage:ratchet退出0回执�
 初检nav1759MD/13962链接/497任务0issue、Testing0issue、phase/lore184通过，lint6403文件0E/W/I。首次整套工具341/342，唯一失败是旧CLI反例先被当前脏树守卫拒，未触达其预期flag错误；不改断言，提交干净后复验。该长轮期间增量模块继续细化，包裹输入变化已如实留红，不当终态绿。候选model最初11issue及after/pin缺口未被豁免；相对main的diff检查零，相对S75引入main原raw的空格/EOF诊断保留，不trim证据过门。
 
 事故：一次仓外分类器未处理空Status导致IndexError，已保留原脚本后修复；一次pilot构造把context锚误别名进nativePointers被公开guard拒，已分开字段并重验；一次源观察脚本UTF8输入失败，后续独立命令才成功，未把失败输出冒充成功。原件不手改。整包由GLM做真实正文与原生语义最终候选、Codex做中央扩容/pin和接收；所有作者稿partial/needs、credit0，硬门未过不合main、不推送、不done。
+
+## S77 GLM 新增1916份正文执行整包准入（2026-10-30）
+
+Owner按用户S76授权核范围后一次build allowed：贡献者GLM在codex/docs-s77-incremental-1916隔离树，对固定main72db4172的1916新增集合（456MD+1460JSON）交完整正文/原生语义最终候选，内部批次与续办自行管理，不逐批回交或索取许可。先对Owner公共增量与5 pilot据证非作者验收，若可用直接继续作者执行；该非作者结论只覆盖Owner部分，不代签自己的1916稿。正式清单、真实base/HEAD、工具指纹及本卡范围见仓外type-pal-S77-GLM-incremental1916准入包；固定1838、旧2435接受及三个批准退役不扩张/撤销。
+
+正文作者白名单恰456篇新MD；1460JSON只读保全，具体审阅写统一仓外候选review，不往每份源文件加sidecar。公开build-incremental-document-candidates仅写MD，源SHA/OID/字节、原文保全与派生字段程序实取，所有作者稿partial/needs/credit0。五pilot中取消任务必须保留cancelled与CODE53接替边界；Vitest重试绿不证明初红根因，exit0/空console不代表零诊断或E2E通过。活动testing publication状态与固定载体来源时点分轴，不能把六配对入口降为仅引文或误归档。
+
+全文语义核验适用1916/1916：旧可接受稿逐字段复用并写来源，新稿逐篇记录实际读域、结论、来源/phase/适用版本、消费者/合法输入、文档oracle/原生值见证、排重、counter/rework/blocked、历史/继任、前后SHA、模板选择理由/符合性与停止线。不用抽检、目录归纳、模板句或只哈希代替逐篇语义审阅；工具通过不认证作者确已阅读。精简/退役只能交具体来源、引用/consumer/替代和可逆退出提案，本包不删载体。5342或其它推算分母不可替代固定1916清单；附件实际5324单列归属，不授正文信用。
+
+禁止GLM改中央registry/routing/review/matrix/catalog、父卡/看板/索引、合同/工具、产品、旧测试/coverage或共享配置，不import生成器探测。单篇前提/合同不适配只阻该篇，列counter和解除条件后继续其余集合；不吞异常、不伪造来源/执行记录、不reset/stash/覆盖他人改动。最终一包交完整候选身份/集合、逐篇语义记录、patch、真实回执、失败/事故原件及只读快检；完成集合是作者交齐，不是独立接受或治理done。Codex并行做中央扩容与受影响claim/pin处理，最终授信和全量门由Owner集中执行。硬门未过不合main、不推送、不标父子卡done。
