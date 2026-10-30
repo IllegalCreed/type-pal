@@ -1,6 +1,60 @@
 # CODE-QUALITY-48 — game draw equip 窄批
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-48 — game draw equip 窄批」的任务归属与历史边界。原目标见原文(摘录:逐文件核验装备菜单绘制实现及其两份边界/像素测试，确认 phase/list 与 phase/pick-role 的状态 ownership、资源缺失行为、角色可装备四色、装备槽/属性/数量投影和 framebuffer 边界均与一阶段真值);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-48 — game draw equip 窄批、目标、范围、前提真值门、上下文锚点、验证],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源7260B(SHA dd7492a6560e);原卡前提按原时点保留。当前存活入口:[README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/48-draw-equip/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-48 — game draw equip 窄批的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/48-draw-equip/README.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7260B / SHA-256 dd7492a6560ead1ba911c9ebb77bf3ed3643f0278671a0110b57cf42b2482cc8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-48 — game draw equip 窄批
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -67,3 +121,5 @@ Visual Verification Timing: e2e-deferred（菜单观感留集中 E2E；本批核
 历史 `done` 不等于本轮验收。本轮在 `codex/code-quality-3y` 上完整读取三个范围文件、P03 caller/oracle、equip/menu 生命周期与 SDLPal `uigame.c:1793-2055`、`itemmenu.c:28-224`、`play.c:328-359`、`global.c:1175-1225`；核对角色顺序/装备位、资源缺失、6 槽/5 stat、数量、颜色、边界和测试排重，未发现可直接证明的实现缺陷。零数量绘制差异因正常库存归零会删除条目且进入 pick-role 有正数量门，作为不可达防御输入保留，不改变 UI 行为。复审状态为 `partial`，不标 `accept`。
 
 验证：直接 3 files / 16 tests passed；相邻 9 files / 167 tests passed；`pnpm --filter @type-pal/game typecheck` passed。coverage ratchet、protected fast、全仓 `pnpm check`、official coverage 本小批未运行，统一门留待完整 game/present 模块收口。证据见 [`48-draw-equip`](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/48-draw-equip/README.md)。
+````
+<!-- incremental-original-source:end -->

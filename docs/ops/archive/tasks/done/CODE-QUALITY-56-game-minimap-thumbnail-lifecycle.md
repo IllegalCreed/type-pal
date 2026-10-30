@@ -1,5 +1,59 @@
 # CODE-QUALITY-56 — game minimap thumbnail lifecycle
 
+Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-56 — game minimap thumbnail lifecycle」的任务归属与历史边界。原目标见原文(摘录:逐文件核验小地图实现及两份专属测试，确认世界像素到 640px thumbnail 的变换、NPC/宝物分类、缩放/显隐状态、底图缓存与异步 Image 生命周期对齐真实 caller；先以失败反例验证底图 URL resolve 后 `b);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-56 — game minimap thumbnail lifecycle、目标、范围、前提真值门、上下文锚点与风险、验证],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源8333B(SHA 3d760c42ad5c);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-56 — game minimap thumbnail lifecycle的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8333B / SHA-256 3d760c42ad5c52570e7458a0c41c15cd095c98c8b575f8fa626a21340bdc30ce；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-56 — game minimap thumbnail lifecycle
+
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
 
 Status: done
@@ -78,3 +132,5 @@ Visual Verification Timing: functional-ui（本批核 canvas 坐标、底图加�
 不要做：不得改变 minimap 视觉形态、地图数据、碰撞、存档或公共 MinimapController 接口；不得把 seam repair 缺口隐式修入本卡
 输出：失败反例、修复 diff、caller/oracle 证据、测试结果；当前结论为 accept/done
 ```
+````
+<!-- incremental-original-source:end -->

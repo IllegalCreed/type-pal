@@ -1,6 +1,60 @@
 # CODE-QUALITY-50 — game draw magic 窄批
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-50 — game draw magic 窄批」的任务归属与历史边界。原目标见原文(摘录:逐文件核验大世界仙术菜单绘制实现和三份专属测试，确认施法人选择、仙术网格、WIN95 MP/说明布局、目标箭头、角色信息框、运行时数值、缺资源边界与 framebuffer ownership 对齐 SDLPal；只在直接证据支持时修复，不);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-50 — game draw magic 窄批、目标、范围、前提真值门、上下文锚点、验证],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源6397B(SHA aefcfd2eec8a);原卡前提按原时点保留。当前存活入口:[GAME-MAGIC-PLAYERINFO-STATUS-1.md](../../../tasks/GAME-MAGIC-PLAYERINFO-STATUS-1.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-50 — game draw magic 窄批的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[GAME-MAGIC-PLAYERINFO-STATUS-1.md](../../../tasks/GAME-MAGIC-PLAYERINFO-STATUS-1.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6397B / SHA-256 aefcfd2eec8ab7147555dd44c9b72c2e3932346c2195e08a8125fe7d8788ca6d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-50 — game draw magic 窄批
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -67,3 +121,5 @@ Visual Verification Timing: e2e-deferred（菜单观感留集中 E2E；本批核
 历史 `done` 不等于本轮验收。本轮完整读取四个范围文件、P06 caller/oracle、menu/state 生命周期与 SDLPal `magicmenu.c:1-484`、`uigame.c:653-875`、`uibattle.c:31-269`；直接 25/25、相邻 5 files/136 tests 和 game typecheck 通过。
 
 发现高风险用户可见差异：SDLPal `PAL_PlayerInfoBox` 在仙术页复用的底部信息框中绘制中毒头像染色和乱/定/眠/封状态字，当前 `draw-magic.ts` 明确省略。已开 [`GAME-MAGIC-PLAYERINFO-STATUS-1`](../../../tasks/GAME-MAGIC-PLAYERINFO-STATUS-1.md) 等待用户裁决；本批未改实现或公共输入，draw-magic.ts 登记 `review`，三份测试按自身合同登记已验证。50 当前复审为 `partial`，不标 `accept`。
+````
+<!-- incremental-original-source:end -->

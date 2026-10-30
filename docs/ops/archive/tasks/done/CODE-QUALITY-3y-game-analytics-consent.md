@@ -1,6 +1,60 @@
 # CODE-QUALITY-3y — game analytics consent 窄批
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-3y — game analytics consent 窄批」的任务归属与历史边界。原目标见原文(摘录:Scope: `analytics-consent.ts`、`analytics-consent.test.ts`、`analytics-consent.boundaries.test.ts` Vis);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-3y — game analytics consent 窄批、目标与证据、验证、交接日志、下一位 Agent 提示词、2026-10-21 analytics四卡收口],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源2598B(SHA 140c0e193e34);原卡前提按原时点保留。当前存活入口:[analytics-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-3y — game analytics consent 窄批的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[analytics-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2598B / SHA-256 140c0e193e34f71cde03e07d213aa78872b7539ac8bc0a9f13ee783eeb29cc84；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-3y — game analytics consent 窄批
+
+Status: done
 Phase: phase1 game
 Coding Owner: Codex
 Scope: `analytics-consent.ts`、`analytics-consent.test.ts`、`analytics-consent.boundaries.test.ts`
@@ -41,3 +95,5 @@ Visual Verification Timing: N/A
 原consent三文件接受。持久提交/广播顺序、DNT/GPC默认和异常边界复用五个既有指定反控；当前同窗生产caller核清。BrowserPrivacySignals已由installer复用，存储/事件与UI/SDK职责分离。
 
 [逐文件A–H、完整原件与集中门](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/analytics-closeout.json)；只读verify-analytics默认不写树/不重跑测试。原卡范围及明确支持文件接受，广域main/实网/E2E不附带关闭。
+```
+<!-- incremental-original-source:end -->

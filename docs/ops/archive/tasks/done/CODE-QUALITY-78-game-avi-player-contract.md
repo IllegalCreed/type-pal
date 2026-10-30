@@ -1,6 +1,60 @@
 # CODE-QUALITY-78 — game AVI player contract
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-78 — game AVI player contract」的任务归属与历史边界。原目标见原文(摘录:逐文件核验 AVI/MP4 播放器及其主/边界测试，确认视频 DOM 生命周期、skip 键消费、500ms 结束窗口、autoplay click fallback、warm-up、音量 ownership 与 SDLPal `PAL_P);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-78 — game AVI player contract、目标、范围、前提真值门、上下文锚点、验证],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源4800B(SHA ada82016163f);原卡前提按原时点保留。当前存活入口:[shell-lifecycle-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-78 — game AVI player contract的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[shell-lifecycle-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4800B / SHA-256 ada82016163f8115aa6ee2f6b758c283577af3cabf13a9f65a6e7345f5bdecd9；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-78 — game AVI player contract
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -66,3 +120,5 @@ Visual Verification Timing: e2e-deferred（视频观感集中验证；本批核�
 原三文件接受；更正500ms跳过、play拒绝等待重试和warmup不保证永久autoplay等错注。只删测试helper从未调用的rejected模式/分支，三处实际调用、全部用例/断言保持，完整AST证明且4文件26绿。项目现行默认三跳过键合同明确，不冒称完整SDL物理键表。
 
 [当前逐文件A–H、迁移、完整原件及集中门](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)。只接受原卡及明确迁移范围，广域caller/听感/剧情E2E不附带接受；Git发布另以实际交接为准。
+````
+<!-- incremental-original-source:end -->

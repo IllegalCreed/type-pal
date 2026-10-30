@@ -1,5 +1,59 @@
 # CODE-QUALITY-58 — game tools panel audit
 
+Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-58 — game tools panel audit」的任务归属与历史边界。原目标见原文(摘录:逐文件核验生产工具面板及两份专属测试，确认 tab/DOM ownership、键盘传播、battle/scene/dialog/timer 只读投影、音量/缩放/FPS 委托、minimap 生命周期和导入导出 caller 合同；不改变);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-58 — game tools panel audit、目标、范围、前提真值门、风险与边界、验证],共5个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源8026B(SHA 4c9ef6046065);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)、[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)、[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md)、[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)、[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-58 — game tools panel audit的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文5个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)、[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)、[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md)、[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)、[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/README.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8026B / SHA-256 4c9ef604606556d013e2227f3b39140c9205d0b76c567737cdcea4b98cbd7610；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-58 — game tools panel audit
+
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
 
 Status: done
@@ -78,3 +132,5 @@ Codex单一Owner，build allowed仅两测试、共用测试宿主和治理证据
 2026-10-25 CODE58代码接受：原三文件与文件IO/共用DOM两叶逐文件八维闭合；用户批准导入读取错误提示，正式单红后7绿，11相邻文件102绿与typecheck0；原生Chrome真NotFoundError、0写/槽不变、同名重选成功。三新关闭，3447tracked／491closed／73review／2883pending；固定79accept／4partial／0pending。统一门/coverage/PR仍等全部pre94。 [当前唯一证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/README.md)。原三文件、既有宿主/样式/导出证据复用；新叶完整TS还原。问题与Owner边界逐项说明，不用102绿替代整文件质量。导入错误已按本次用户批准先红后修；存档格式/数据库/槽位合同不改。主面板page寿命与独立动作跨tab完成为原行为；Reader新实例无LOADING重入、无生产abort调用，不制造未知停止线。本轮代码accept；父卡与本轮风险卡等全部pre94统一门/PR，历史归档done不认证本轮集成，历史通过不继承。
 
 无下一位Agent提示词：Codex继续同一3y的1／3m／42／57；新裁决只暂停受影响范围。
+````
+<!-- incremental-original-source:end -->

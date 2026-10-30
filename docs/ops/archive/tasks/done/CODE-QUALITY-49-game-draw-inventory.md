@@ -1,6 +1,60 @@
 # CODE-QUALITY-49 — game draw inventory live-zero 行为冲突
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-49 — game draw inventory live-zero 行为冲突」的任务归属与历史边界。原目标见原文(摘录:核定物品目标层在实时库存数量变为 0 时的 canonical 行为，再决定是否允许修复 `drawInventoryMenu` 及其测试。当前实现、现有测试和 SDLPal primary source 对物品图标/名称是否继续显示存在直);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-49 — game draw inventory live-zero 行为冲突、目标、范围、前提真值门、上下文锚点、验证],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源7635B(SHA daee67ea54de);原卡前提按原时点保留。当前存活入口:[README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/49-draw-inventory/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-49 — game draw inventory live-zero 行为冲突的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/49-draw-inventory/README.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7635B / SHA-256 daee67ea54de0726e692a0c46ab6ef28c50cc1eaa96eb9c16eedb9549854cc9e；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-49 — game draw inventory live-zero 行为冲突
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -76,3 +130,5 @@ Visual Verification Timing: mixed（功能行为先裁决；菜单观感仍留�
 历史 `done` 不等于本轮验收。用户已批准大世界目标层 live-zero 按 SDLPal 对齐。本轮在 `codex/code-quality-3y` 上完整读取实现、三份范围测试、P01/P02 caller/oracle、inventory/menu 生命周期与 SDLPal `uigame.c:1289-1473`、`itemmenu.c:28-310`、`play.c:268-323`；确认绘制层 live count 分支和 dispatcher 的零数量 auto-cancel 与 primary 一致，未发现新的实现缺陷。
 
 当前测试环境仍有 `inventory-list-pixels.grok-r1.test.ts` 的 G06-A12 `document is not defined`：该文件 12 tests 中 11 passed、1 failed；未修改环境、未静音，文件保留 `review`。其余相关测试 10 files / 190 tests passed，game typecheck passed。复审状态为 `partial`，不标 `accept`。证据见 [`49-draw-inventory`](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/49-draw-inventory/README.md)。
+````
+<!-- incremental-original-source:end -->
