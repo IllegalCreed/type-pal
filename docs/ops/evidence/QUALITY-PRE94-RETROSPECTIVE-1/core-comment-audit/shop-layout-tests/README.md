@@ -1,6 +1,40 @@
 # pre94 商店布局与宿主测试判别力返工
 
 Status: recorded
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「pre94 商店布局与宿主测试判别力返工」的治理候选页;证据原件即下方逐字节保全的固定main源(4569B,SHA c315549bd810)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[read-boundaries.json](read-boundaries.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4569B / SHA-256 c315549bd810f9842559a989c3b291147c13b27961c0bbd2ede71878cf4b750d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 商店布局与宿主测试判别力返工
+
+Status: recorded
 Owner: Codex（单Agent，自身核证/反控，不冒充第三方）
 Date: 2026-10-18
 Base: `206b18563e07569414f4ec90f08597c5b8ac66de`
@@ -36,3 +70,5 @@ SDLPal uigame.c PAL_BuyMenu/OnItemChange、PAL_SellMenu/OnItemChange，itemmenu.
 重复blit在draw-shop/draw-inventory/draw-equip/draw-player-status仅发现调用候选；须另核mask/clipping/边界与全部owner才能提取，不冒称已证等价或没有可复用代码。本片没有新增公共出口。
 
 实际门以gates.json和完整附件为准；全仓check/official coverage ratchet/protected fast按用户成本纪律仅大任务收尾，当前未跑。六组审计注释已处理；下一批formulas半开区间与冗余算式的浮点/取整风险，再续尺寸/快捷键/ColorFade和两UI只读差异。未合main，统一门仍rework，专项未完成。
+```
+<!-- incremental-original-source:end -->
