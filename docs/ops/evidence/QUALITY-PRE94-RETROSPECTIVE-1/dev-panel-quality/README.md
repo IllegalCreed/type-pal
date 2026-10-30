@@ -1,5 +1,39 @@
 # CODE53／58 Dev 装配与生命周期质量
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE53／58 Dev 装配与生命周期质量」的治理候选页;证据原件即下方逐字节保全的固定main源(3464B,SHA 4088b431edea)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[prove-recompose.cjs](prove-recompose.cjs)、[receipts.json.gz](receipts.json.gz)、[review.json](review.json)、[static.json](static.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3464B / SHA-256 4088b431edeaefed547bd19f0fb6f50ed3f6a0feffbde893acec2357f8c4d824；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE53／58 Dev 装配与生命周期质量
+
 2026-10-25，同一 `codex/code-quality-3y`，基点 `2ccbffd0ecce117a5dad957bef85e9fc3dfe5496`，Codex 单 Owner。五个文件新关闭、队伍专测旧接受刷新；逐文件八维／读域／取舍／已知限制见 [review.json](review.json)。原卡53仍有419行 `event-opcodes.cov85.test.ts` 待审，不从范围删掉；固定77 accept／6 partial不变。58／57及其它未决范围不附带接受。
 
 ## 改动与验证
@@ -21,3 +55,5 @@
 必要复跑：`pnpm --filter @type-pal/game exec vitest run src/dev/dev-panel.test.ts src/dev/dev-panel.pure.test.ts src/dev/dev-panel.glm-next-wave.test.ts src/dev/dev-panel-party-lifecycle.test.ts src/dev/dev-panel-picker-lifecycle.test.ts src/dev/dev-indexed-image.test.ts --reporter=default`。
 
 本窗是行为保持，未重跑浏览器；旧功能／ownership证据仅按当前还原桥复用。不把缩略图缓存控制当CODE57像素正确。Dev已有的固定P0文案、ID5合成毒标记、旧console计数等限制如实列为非阻断开发工具候选；不冒充真实施毒／普通剧情证据。下一片先核原53声明的事件专测，再续1／57与58实际FileReader边界；3m／42等待真实裁决。
+```
+<!-- incremental-original-source:end -->

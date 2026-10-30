@@ -1,5 +1,39 @@
 # CODE42 对话职责与测试质量
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE42 对话职责与测试质量」的治理候选页;证据原件即下方逐字节保全的固定main源(3124B,SHA d3d1d8b3fee7)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原6个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../approved-boundaries/README.md)、[prove-split.mjs](prove-split.mjs)、[receipts.json.gz](receipts.json.gz)、[review.json](review.json)、[static.json](static.json)、[verify.mjs](verify.mjs)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3124B / SHA-256 d3d1d8b3fee787fc008dfa6f2f94d56a768308027f9f0e7362147a9da45bad55；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE42 对话职责与测试质量
+
 Status: named code scopes accepted; state source and whole card remain review
 Owner: Codex（单Agent自审；不冒充第三方）
 
@@ -16,3 +50,5 @@ Owner: Codex（单Agent自审；不冒充第三方）
 首次拆分产生者语法错误、unused-type告警、格式失败、错误cwd的未收集观察及元数据产生者错误路径均分层披露并保留可得原件／明确复现件，不写成通过。首段搬移证明冻结7c80，不声称后继私有清理逐字相同；后继实际差异、源码／导入／测试映射和限定八维判断共同支撑裁定，不用哈希冒称设计自动认证。
 
 2026-10-25更新：用户裁决已收到；原数值／姓名停线由[获批窄修与当前版本桥](../approved-boundaries/README.md)解除。旧原件和当时状态保留，本目录固定旧版本快检可显示STALE，不据此重做未变合同。整卡代码接受，统一门仍待全部pre94。
+```
+<!-- incremental-original-source:end -->

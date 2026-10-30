@@ -1,5 +1,39 @@
 # CODE3n／3q／3r 代码验收
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3n／3q／3r 代码验收」的治理候选页;证据原件即下方逐字节保全的固定main源(3146B,SHA 867b5da243fc)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../battle-core-fade-quality/README.md)、[README.md](../event-quality/README.md)、[README.md](../scene-quality/README.md)、[review.json](review.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3146B / SHA-256 867b5da243fc612d3ed90c9a2847a9098c4837dbf160021128176a6dbeb5458b；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3n／3q／3r 代码验收
+
 Status: code accepted; final pre94 integration pending
 Owner: Codex（单Agent，自身复核，不冒充第三方）
 Base: 82efe44df6d501af61d16018f763e03f5292b481
@@ -21,3 +55,5 @@ Base: 82efe44df6d501af61d16018f763e03f5292b481
 3n色表量化/快照/输入域、map身份/WORD借用与目录独立Owner已有完整证据；3r继续由解释器管理有序等待，服务回调由单应用bootstrap装配，作用域/纯帧规则已有叶模块。保留同Owner的opcode分支不是漏审结构，不为函数长度制造框架。3m极端dex数值、其它11卡及最终集成仍开放，94–102未扩展。
 
 最终文档/静态与机器账见static.json；Git提交推送/0behind及PR事实按当前refs核。未创建中间PR或合main。
+```
+<!-- incremental-original-source:end -->

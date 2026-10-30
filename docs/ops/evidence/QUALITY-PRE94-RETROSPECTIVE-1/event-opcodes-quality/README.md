@@ -1,5 +1,39 @@
 # CODE53 事件 opcode 专测质量收口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE53 事件 opcode 专测质量收口」的治理候选页;证据原件即下方逐字节保全的固定main源(3775B,SHA 9c178700519e)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[receipts.json.gz](receipts.json.gz)、[review.json](review.json)、[static-receipts.json.gz](static-receipts.json.gz)、[static.json](static.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3775B / SHA-256 9c178700519e8baf56b6569d3169372d3ea60be1f1393220abf8a98f1a9aa38b；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE53 事件 opcode 专测质量收口
+
 Status: source-backed
 Owner: Codex
 Last reviewed: 2026-10-25
@@ -29,3 +63,5 @@ pnpm --filter @type-pal/game exec vitest run src/core/event-opcodes.cov85.test.t
 未跑全仓check、官方coverage/ratchet、protected、浏览器/视觉或PR/merge。全仓与覆盖率仍等全部pre94解决后集中；94–102不扩展。既有中文受控视觉证据复用，不声称本轮验证普通剧情或英文资源。解释器StopMusic死计算已删除，43/77/A3注释按实际MIDI/RIX宿主修正，palette说明区分局部cursor与跨帧等待。此清理不实现淡出，也不声称现有后端时间行为逐一对齐SDLPal。完整AST桥支持此前518相邻复用，最终同9文件518例和typecheck另实跑确认。自动脚本旧cursor改用两入口中的合法ip1；不用无效ip9冒充合法fixture。
 
 静态门的完整stdout/stderr/命令原件另见[静态回执](static.json)与[静态原件归档](static-receipts.json.gz)。这些静态门不替代未跑的全仓runtime/coverage。
+````
+<!-- incremental-original-source:end -->
