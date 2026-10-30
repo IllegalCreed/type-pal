@@ -1,5 +1,39 @@
 # CODE47 draw-box 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE47 draw-box 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(2633B,SHA d42fe30d97e2)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2633B / SHA-256 d42fe30d97e25597440d65b01eaddca6e588925c6db52a5b0c7acacfe4795b3f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE47 draw-box 当前复审切片
+
 基点：`d6bd5caad`；分支：`codex/code-quality-3y`。本片重新复审历史 47 的九宫格/单行框渲染，不把历史 `done`、旧测试数量或旧全仓门当作当前整卡验收。47 当前复审提升为 `partial`，未标 accept/done。
 
 完整读取 `packages/game/src/present/menu/draw-box.ts`（191 行）、`draw-box.test.ts`（101 行）、`draw-box.glm-phase1-leaves.test.ts`（79 行）和 `box-shadow-pixels.grok-r1.test.ts`（232 行）。读取 `draw-menu.ts`、`draw-confirm.ts`、`draw-shop.ts`、`draw-magic.ts`、`draw-inventory.ts`、`draw-equip.ts`、`draw-battle-ui.ts`、`dialog-box.ts`、`draw-battle-settlement.ts` 的真实 box caller，以及 `framebuffer.ts` 写入边界/尺寸 owner。primary source 为 SDLPal `reference/sdlpal/ui.c:131-340,762-833` 与 `ui.h:195-254`。
@@ -17,3 +51,5 @@
 - 未触碰 schema/save/migration、生成物、资产管线、公共接口或用户可见 UI 取舍。
 
 本片只更新复审证据、任务索引和文件账本；47 整卡仍为 `partial`，后续需要在完整 game/present 模块统一门窗口再决定是否收口。
+```
+<!-- incremental-original-source:end -->

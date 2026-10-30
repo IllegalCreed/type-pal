@@ -1,5 +1,39 @@
 # CODE49 draw-inventory 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE49 draw-inventory 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(3081B,SHA 5a6c2a113f22)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3081B / SHA-256 5a6c2a113f229107a36ff5d6aabe287da75606a62482f554807d4d901d683d50；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE49 draw-inventory 当前复审切片
+
 > 2026-10-18 簿记勘误：本页读取行数按原boundary已绑定的同SHA字节纠正；原始旧文保留在audit-metadata-repair附件。没有重写当时测试结果、重跑产品测试或新增整文件验收。
 
 基点：`421ee54b`；分支：`codex/code-quality-3y`。本片重新复审历史 49 的物品列表/目标层 live-zero 行为，不把历史 `done`、旧全仓回执或用户裁决文字直接当作当前验收。用户已于 2026-10-12 裁决：范围限定大世界使用物品目标层，数量归零时按 SDLPal 隐藏物品内容并结束目标层。49 当前复审提升为 `partial`，未标 accept/done。
@@ -19,3 +53,5 @@
 - 未触碰 schema/save/migration、生成物、资产格式、公共接口或新的产品取舍；零数量产品决策沿用用户已批准范围。
 
 本片只更新复审证据、任务索引和逐文件账本；49 整卡仍为 `partial`，环境诊断和统一门是后续收口前提。
+```
+<!-- incremental-original-source:end -->

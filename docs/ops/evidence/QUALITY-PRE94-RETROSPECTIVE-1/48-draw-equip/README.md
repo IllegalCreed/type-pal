@@ -1,5 +1,39 @@
 # CODE48 draw-equip 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE48 draw-equip 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(2870B,SHA bd0799b1e85d)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2870B / SHA-256 bd0799b1e85d90208d379935c93e2a34f41bb2c26f6ec3d719aebf03366a8ef2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE48 draw-equip 当前复审切片
+
 基点：`499f2762`；分支：`codex/code-quality-3y`。本片重新复审历史 48 的装备列表/选人页绘制，不把历史 `done`、旧测试数量或旧全仓门当作当前整卡验收。48 当前复审提升为 `partial`，未标 accept/done。
 
 完整读取 `packages/game/src/present/menu/draw-equip.ts`（279 行）、`draw-equip.glm-phase1-leaves.test.ts`（124 行）、`equip-role-pixels.grok-r1.test.ts`（367 行）和相邻真实 caller/oracle `packages/game/src/present/__tests__/grok-present/p03-equip.test.ts`（208 行）。核对 `draw-menu.ts` 装备出口、`present.ts` runtime projection 注入、`core/menu/equip-menu.ts` 状态生命周期、`menu-driver.ts` 装备 dispatch 与 `inventory-menu.ts` 正常库存不变量；primary 为 SDLPal `reference/sdlpal/uigame.c:1793-2055`、`itemmenu.c:28-224`、`play.c:328-359`、`global.c:1175-1225`。
@@ -19,3 +53,5 @@
 - 未触碰 schema/save/migration、生成物、资产格式、公共接口或产品 UI 取舍。
 
 本片只更新复审证据、任务索引和逐文件账本；48 整卡仍为 `partial`，后续需要统一门窗口再决定是否收口。
+```
+<!-- incremental-original-source:end -->

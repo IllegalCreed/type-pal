@@ -1,5 +1,39 @@
 # CODE40/41/59/60 存档+analytics 四卡复审切片(GLM,只读零改动)
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE40/41/59/60 存档+analytics 四卡复审切片(GLM,只读零改动)」的治理候选页;证据原件即下方逐字节保全的固定main源(3032B,SHA a5fda1163547)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[directed-final.json](directed-final.json)、[per-file-index.md](per-file-index.md)、[read-boundaries.json](read-boundaries.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3032B / SHA-256 a5fda1163547ce099e4145b48a5c79484a35f2003e155a0c0bfba940e4f647d5；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE40/41/59/60 存档+analytics 四卡复审切片(GLM,只读零改动)
+
 基点 `dec0626e1c`;本片零改动(文件与基点逐字节相同)。范围:CODE-QUALITY-59(save-io 版本边界)、60(quick-save 生命周期)、40(install-analytics)、41(analytics-consent-ui)四卡 4 生产文件 + 5 份测试全文逐文件八维。analytics-consent.ts / google-analytics.ts 归 3y/3z 卡(既有 partial),不在本片重复。读取 SHA 见 [`read-boundaries.json`](read-boundaries.json) 逐文件 A–H 索引与读域标注见 [`per-file-index.md`](per-file-index.md)(2026-10-20 C1 返工新增)。,定向原件 [`directed-final.json`](directed-final.json)。
 
 **结论:未发现可由 primary source + 真实 caller 证实的新 direct defect;零改动。**四卡建议 `pending → partial`。
@@ -26,3 +60,5 @@ B:注释交代快存门动机与读档复用链。C:DOM/存储/GA 边界分层�
 ## 失效条件与剩余项
 
 Save API envelope、toast 实现、analytics-consent 存储键/广播合同、main.ts 安装点变化会使对应结论待复核。3y/3z/72 等关联卡的既有 partial 不因本片升格。
+```
+<!-- incremental-original-source:end -->
