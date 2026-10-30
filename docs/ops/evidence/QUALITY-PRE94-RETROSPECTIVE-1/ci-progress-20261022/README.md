@@ -1,5 +1,39 @@
 # pre94 收口 GitHub Documentation CI 返工
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「pre94 收口 GitHub Documentation CI 返工」的主题按原文时点保留(摘录:基点e8566c2c7ea1fbdccdbc782bd54216f94cd0823e，同一3y；当前为未提交候选。[机器记录与模板版次指针](record.json)。主树只读。 GitHub run)。
+
+## 范围与证据
+
+原报告含章节[pre94 收口 GitHub Documentation CI 返工、证据身份、来源与输入、断言与业务 oracle、结果、限制与复核]、1个链接;固定main源2087B(SHA 3821a1a5dfc6)。当前存活入口:[record.json](record.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2087B / SHA-256 3821a1a5dfc6fb52e3d836a809196f5ef305411f862357cb0f15f74b1ae48dd2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 收口 GitHub Documentation CI 返工
+
 Status: recorded
 Owner: Codex
 
@@ -22,3 +56,5 @@ GitHub run39624843994与39600770046的完整job日志，经GitHub connector取�
 ## 限制与复核
 
 不授产品、E2E、视觉或旧卡重新执行信用。快速核对record的三枚edition pin与Git show e856:<path>、当前字节一致；实际运行node scripts/docs/report-governance-progress.mjs应0 integrity issues，pnpm check:docs须包括此入口。原始失败不会因后续通过而改写。
+```
+<!-- incremental-original-source:end -->

@@ -1,5 +1,39 @@
 # 状态／结算／成长相关窗口验收
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「状态／结算／成长相关窗口验收」的治理候选页;证据原件即下方逐字节保全的固定main源(9702B,SHA 3be595178b38)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原5个链接处置见作者review的linkDisposition。当前存活入口:[GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md](../../../tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)、[GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md](../../../tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md)、[README.md](meal-ci/README.md)、[native.json.gz](native.json.gz)、[review.json](review.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 9702B / SHA-256 3be595178b3815613a8ace8d3b3968bee9091ac1140f24dae256de46114a8b5d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 状态／结算／成长相关窗口验收
+
 Status: accepted within specified scope; original window merged, CI repair locally accepted
 Owner: Codex（单Agent）
 
@@ -66,3 +100,5 @@ M05等待真实asset/SHA解码证明后再断言应用可用，默认等待1000/
 385已FF main，Docs成功，Coverage实际在Reforge normal landing默认5s超时；本笔远端门未通过。后继只优化每case内部相同RLE输入的重复压缩，原九身份/业务断言/timeout和真实产品链不变；新包包含完整旧/新输入、所有原件、八维与只读快检，见[meal窄返工](meal-ci/README.md)。本地仅fresh Reforge8965/158官方collector，六包据证复用；组合20032/758严格保护和计数不变，不伪造第二次全仓采集。该Reforge文件仍pending、0新增关闭。新提交发布后实际CI另核。
 
 WORD选择已由用户明确回答：保留TS持续增长、记录第一阶段偏离；原数值实现/save不改，3x仍partial。旧review/native中pending字段保留为历史时间点，不覆盖当前WORD卡与机制文档中的裁决。
+```
+<!-- incremental-original-source:end -->

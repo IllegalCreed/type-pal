@@ -1,5 +1,39 @@
 # CODE3m 核心合同：判别力与数值停止线
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3m 核心合同：判别力与数值停止线」的治理候选页;证据原件即下方逐字节保全的固定main源(2566B,SHA 6115adaddd4d)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原5个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../approved-boundaries/README.md)、[receipts.json.gz](receipts.json.gz)、[review.json](review.json)、[static.json](static.json)、[verify.mjs](verify.mjs)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2566B / SHA-256 6115adaddd4dbc413e538b69d593e8edeb52841c2e2178b328df4cdb6e5e127c；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3m 核心合同：判别力与数值停止线
+
 Status: scoped code acceptance; CODE3m remains partial
 Owner: Codex（单Agent，自审身份明确）
 
@@ -16,3 +50,5 @@ RNG三个range测试用少量精确word映射替代17000次抽样，原8身份�
 [发布静态门与完整原件索引](static.json)在本窗实际终态后写入，不借旧统一门授当前集成信用。
 
 2026-10-25更新：用户裁决已收到；原数值／姓名停线由[获批窄修与当前版本桥](../approved-boundaries/README.md)解除。旧原件和当时状态保留，本目录固定旧版本快检可显示STALE，不据此重做未变合同。整卡代码接受，统一门仍待全部pre94。
+```
+<!-- incremental-original-source:end -->

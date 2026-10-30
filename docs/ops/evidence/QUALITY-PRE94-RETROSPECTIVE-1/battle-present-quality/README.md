@@ -1,5 +1,39 @@
 # CODE3l 结算、精灵、UI与装配器质量返工
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3l 结算、精灵、UI与装配器质量返工」的治理候选页;证据原件即下方逐字节保全的固定main源(3184B,SHA b928fd5e5a13)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原5个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[contracts.json](contracts.json)、[gates.json.gz](gates.json.gz)、[receipts.json.gz](receipts.json.gz)、[review.json](review.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3184B / SHA-256 b928fd5e5a135d804f4c894a897855f2aaf579a5704dad9bf3e75c53dcff85f7；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3l 结算、精灵、UI与装配器质量返工
+
 Owner: Codex（单 Agent）。同一 `codex/code-quality-3y`，基点402128e6d；主树只读，94–102不扩展。
 
 [逐文件八维、读域、caller／primary、未决与门状态](review.json)。复用14份已保存且基点指纹吻合的全文读域；只补当前UI专测和具体缺口。四个相关切片代码冻结后集中大门，不逐文件重跑全仓／coverage。
@@ -17,3 +51,5 @@ Owner: Codex（单 Agent）。同一 `codex/code-quality-3y`，基点402128e6d�
 2026-10-23 CODE3l四片有限收口：14文件八维，12项接受（新关闭精灵源与共享blit，6项旧测试重审恢复），UI规则重复与装配器生命周期仍review；固定65accept／18partial不变。3405tracked／411closed／102review／2892pending。相邻82文件664例，全check20563包例+700工具例、game typecheck；唯一官方采集20134例／775源，按用户授权精确重算game branches/functions并登记26例退役，同报告ratchet／严格protected通过。运行与静态零诊断，原始拒绝／错误断言原件保留；本地有限窗完成，远端检查与合并另核。
 
 覆盖率首次完整采集exit1按旧比例拒绝，正文日志无诊断；第一次同报告策略重放另因未显式确认3条计数退役而拒绝。原件全部保留。按既有参数确认已核26例退役后，原runner同一报告ratchet更新基准；随后不带退役绕过参数的protected fast复核原main与三份精确身份/文件指纹，exit0。未重复采集、未改比较器或排除规则。
+```
+<!-- incremental-original-source:end -->

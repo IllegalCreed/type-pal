@@ -1,5 +1,39 @@
 # CODE57结构、测试、缩略图与地图ownership代码验收
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE57结构、测试、缩略图与地图ownership代码验收」的治理候选页;证据原件即下方逐字节保全的固定main源(5151B,SHA c2b933024406)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原11个链接处置见作者review的linkDisposition。当前存活入口:[GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md](../../../tasks/GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)、[approved-map-consistency-delta.json](approved-map-consistency-delta.json)、[map-after-failure.png](map-after-failure.png)、[map-before-failure.png](map-before-failure.png)、[map-fixed-after.png](map-fixed-after.png)、[map-fixed-before.png](map-fixed-before.png)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5151B / SHA-256 c2b933024406bc64ef173f7a87348a97686ed11f6d1e7ed1470d79e1024dc27f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE57结构、测试、缩略图与地图ownership代码验收
+
 2026-10-25，Codex单Owner，同一codex/code-quality-3y，基点624478c9ff3554d51142214d4d7aef78d67922fb。完整[逐文件八维/版本/限制](review.json)、[源码逆变换](prove-refactor.cjs)与[明确获批行为差异](approved-map-consistency-delta.json)。本窗九项代码范围接受：七文件新关闭，event-system与scene-identity两旧关闭刷新。**CODE57代码接受、CODE3r/53因同一拒绝counter暂停的代码信用恢复；统一集成仍开放。**固定80accept／3partial／0pending，剩余CODE1／3m／42，不扩94–102。
 
 ## 质量整改与职责
@@ -29,3 +63,5 @@
 重跑真实回归需先在此治理树game包启动自有HTTP Vite：`E2E=1 pnpm exec vite --host 127.0.0.1 --port 6005 --strictPort`；再在根运行`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/map-reload.browser.mjs /绝对路径/新的输出目录`。新目录排他创建，7条、所有context/browser关闭；结束关闭自有server。没有Save或主树产物写入，不授完整剧情通过。
 
 全仓check/official coverage/ratchet/protected及一个PR继续等全部pre94解决；本窗不运行或声称这些门通过。风险卡按[当前交付](../../../tasks/GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)读取，旧待批是修前历史。
+```
+<!-- incremental-original-source:end -->

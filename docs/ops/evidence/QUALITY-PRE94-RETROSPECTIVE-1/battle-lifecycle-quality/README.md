@@ -1,5 +1,39 @@
 # CODE3l 动作规则归属与画面生命周期
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: guide-runbook-v1 / 1.0.0
+
+## 目的
+
+承载原文「CODE3l 动作规则归属与画面生命周期」的规范文本治理候选;规范内容按原时点保留。
+
+## 前置条件
+
+前置条件与适用版本见保全块原文;本页不改变其约束效力边界。
+
+## 步骤
+
+原文步骤章节[CODE3l 动作规则归属与画面生命周期]保持;不据此授权新产品执行。
+
+## 失败处理
+
+原文失败处理按原时点;治理不重写处置规则。
+
+## 完成定义
+
+治理完成=保全+模板符合;原文完成定义属原规范,非本页授信。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4526B / SHA-256 051f7d65de2c9297ed5e2ddf7ec431efbeb23f55458b3ab49d0caa724ce3a7c8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3l 动作规则归属与画面生命周期
+
 Codex单Owner，同一3y，基点bd37e6d8；主树只读。复用上窗14份全文读域，只补UI规则归属与真实装配宿主。当前有限窗口已接受，发布状态以分支/PR后继回执为准。
 
 [12项读域逐项八维、caller/primary与未决](review.json)；[纯规则提取的只读逐语句证明](prove-rules.mjs)。默认运行 `node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/prove-rules.mjs` 只输出、不写文件。规则提取与获准画面修复分提交。
@@ -27,3 +61,5 @@ P13此前仅为context，本次两处reset迁移不升整文件；仅present-bat
 stdout完整比对仅check的PAL资源测量耗时500→463ms，四项读取计数完全一致；原字符串与源码锚见stdout-review.json。复用protected脚本的首份证明文字误留上窗exit1，已勘误为本窗原始exit0，生成的执行代码逐字节不变，两个版本均保留。
 
 完整附件分片索引：[receipts-1.json.gz](receipts-1.json.gz)、[receipts-2.json.gz](receipts-2.json.gz)、[receipts-3.json.gz](receipts-3.json.gz)、[receipts-4.json.gz](receipts-4.json.gz)、[receipts-5.json.gz](receipts-5.json.gz)。单份完整官方摘要超过1MiB，按原字节分片，验收器先校验片段再重组核整件SHA；不删减原件。首轮终态卡仍留活动看板导致docs拒绝，已从活动行移除，卡/索引/父任务仍保留。
+```
+<!-- incremental-original-source:end -->

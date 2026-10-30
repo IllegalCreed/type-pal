@@ -1,5 +1,39 @@
 # pre-94 独立审计：证据簿记返工
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「pre-94 独立审计：证据簿记返工」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `770f9168e3422aea1d98bac2a3bd447a1c6f2216` Branch: `codex/code-quality-3y`)。
+
+## 范围与证据
+
+原报告含章节[pre-94 独立审计：证据簿记返工、逐项结果、原件、恢复与验证、保留事项]、4个链接;固定main源3676B(SHA 9bf789a24d68)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[README.md](../53-wave-gates/receipt-audit/README.md)、[read-boundaries.json](../55-draw-menu/read-boundaries.json)、[corrections.json](corrections.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3676B / SHA-256 9bf789a24d689630603a67235f7383be02445b26d097a72733f38bd3ed3d01f7；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre-94 独立审计：证据簿记返工
+
 Status: review
 Owner: Codex（单 Agent；自身修正与机器核对，不冒充第三方）
 Date: 2026-10-18
@@ -34,3 +68,5 @@ Branch: `codex/code-quality-3y`
 53-wave-gates完整raw和精确历史act/环境计数仍缺，继续rework；执行片段不是完整原件，C10的624/243不能冒充该波次计数。六退役的真实指令来源与Codex执行责任、两SDL锚界见[既有勘误](../53-wave-gates/receipt-audit/README.md)。
 
 0新增closed：3314 tracked / 284 closed / 55 review / 2975 pending；83卡50partial/33pending/0accept。十项注释、formulas表达式风险、两UI差异继续pending；全仓check、官方ratchet、protected fast留大任务收尾，未合main。
+```
+<!-- incremental-original-source:end -->

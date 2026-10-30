@@ -1,5 +1,39 @@
 # 385主线CI的meal夹具窄返工与隐藏成长裁决
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「385主线CI的meal夹具窄返工与隐藏成长裁决」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 同一`codex/code-quality-3y`，基点38502c046；本包只接受pal-meal-shell测试输入准)。
+
+## 范围与证据
+
+原报告含章节[385主线CI的meal夹具窄返工与隐藏成长裁决、证据身份、来源与输入、断言与业务 oracle、结果、限制与复核]、5个链接;固定main源4780B(SHA b1cab8ba4650)。当前存活入口:[GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md](../../../../tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)、[integration-native.json.gz](integration-native.json.gz)、[integration.json](integration.json)、[native.json.gz](native.json.gz)、[review.json](review.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4780B / SHA-256 b1cab8ba4650debef413cd9d00c491a50799a3f68a42d0188d38b4ac603334dd；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 385主线CI的meal夹具窄返工与隐藏成长裁决
+
 Status: recorded
 Owner: Codex（单Agent）
 Template: evidence-receipt-v1 / 1.0.0
@@ -37,3 +71,5 @@ lint5790为0/0/0，ledger及diff通过，文档五consumer/progress零issue。�
 默认只读复验：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/verify.mjs`。核当前有限source/原件/输入/AST/严格报告，不运行测试、producer或网络、不写文件；MATCH仅证明这些绑定。下一仍已有3v临时草案，94–102不扩展。
 
 最新main同步：84ac10431仅增加移动端部署文档，已用普通merge接入同一3y，未force或新建分支。代码/测试/配置/项目输入及保护baseline原字节未变，不重复采集；同步后文档consumer/progress、5个catalog测试、lint5794的0/0/0及ledger再次通过，见[integration.json](integration.json)与[完整同步原件](integration-native.json.gz)。新main CI仍按实际run另核。
+```
+<!-- incremental-original-source:end -->
