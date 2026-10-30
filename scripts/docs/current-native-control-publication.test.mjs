@@ -18,7 +18,11 @@ import { loadReviewRecordFromGit } from './review-record-storage.mjs'
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const acceptedCandidate = 'c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08'
 const reportSha256 = '94db1d0fe3683c6d9866e50755b17b6da48e769ad8aac7a29b41df115312384c'
+const renewedPath = 'docs/phase-governance/routing.json'
+const renewedCandidate = '5cea276459404bf1dec59641901b8617d29dd5f1'
+const renewedReportSha256 = '3dd1c37f55d6c44ee833102c70300263ecd594927eb55da286976c98eb1e2435'
 const records = new Map()
+let renewedRowLoaded = false
 function beforeRow(b) {
   if (!records.has(b.reviewRecord))
     records.set(
@@ -26,6 +30,15 @@ function beforeRow(b) {
       loadReviewRecordFromGit({ root, revision: acceptedCandidate, logicalPath: b.reviewRecord })
         .record,
     )
+  // Per-entry frozen sources; this fixture is not a whole-record historical snapshot.
+  if (b.path === renewedPath && !renewedRowLoaded) {
+    records.get(b.reviewRecord).entries[b.index] = loadReviewRecordFromGit({
+      root,
+      revision: renewedCandidate,
+      logicalPath: b.reviewRecord,
+    }).record.entries[b.index]
+    renewedRowLoaded = true
+  }
   return records.get(b.reviewRecord).entries[b.index]
 }
 function changes() {
@@ -41,7 +54,7 @@ function changes() {
   })
 }
 
-test('all22 compiled signatures bind actual S71 Git bodies to GLM while keeping prior withdrawals', () => {
+test('all22 compiled signatures bind their fixed accepted Git bodies to GLM while keeping prior withdrawals', () => {
   assert.deepEqual(
     Object.keys(currentNativeControlAcceptance),
     currentNativeControlAdmissions.map((b) => b.path),
@@ -53,8 +66,8 @@ test('all22 compiled signatures bind actual S71 Git bodies to GLM while keeping 
     assert.equal(a.author, 'Codex')
     assert.equal(a.reviewer, 'GLM')
     assert.equal(a.nonAuthorReviewer, true)
-    assert.equal(a.reportSha256, reportSha256)
-    assert.equal(a.reviewedCandidate, acceptedCandidate)
+    assert.equal(a.reportSha256, b.path === renewedPath ? renewedReportSha256 : reportSha256)
+    assert.equal(a.reviewedCandidate, b.path === renewedPath ? renewedCandidate : acceptedCandidate)
     assert.equal(a.contentSha256, currentNativeControlContentSha256(before))
     const after = applyCurrentNativeControlGrant(before, b)
     assert.deepEqual(before, untouched)
