@@ -1,5 +1,39 @@
 # CODE3o mode / history / poison / search 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3o mode / history / poison / search 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(3164B,SHA 377ac5f54c78)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../core-comment-audit/README.md)、[README.md](../mode-player-quality/README.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3164B / SHA-256 377ac5f54c7812a80246037aeb6edc651dd821363a1d9c3902e57db4a9d93207；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3o mode / history / poison / search 当前复审切片
+
 2026-10-24 当前增量：[模式／玩家生命周期质量及获批毒整理](../mode-player-quality/README.md)。旧全文/primary证据按其版本复用，具体旧误绿与Wear偏差已在新片修复或收窄，整卡仍partial，统一门等全部pre94收尾。
 
 2026-10-18 当前勘误：Search阈值是最大检查点，mode1=0..2、mode2=0..8、mode3=0..12；原“反直觉/没有改成越远越容易”定性错误，现修源码/测试注释与精确边界oracle。旧test没有真正钉normal边界/最远far或first-hit优先级，不能沿用为已证。毒Wear非压缩对照已另开高风险卡；下方原报告按历史保留，当前[源/测试/原生片段证据](../core-comment-audit/README.md)不重签3o整卡。
@@ -18,3 +52,5 @@ caller / 生命周期读取：`event-system.ts` 的历史写入、毒查询/施�
 验证：直接 helper / ownership 五文件 `45 passed`，其中 mode fixture 会输出一条预期 `console.warn`（故障脚本 IP 越界后回 explore）；相邻 event/scene/battle 八文件 `667 passed`，另有既有 fixture 的预期 warning（未知 label、无当前对象、越界 scene object）。`pnpm --filter @type-pal/game typecheck` 通过；由于相邻测试仍有运行时诊断，本片不宣称诊断清零。coverage、official ratchet、protected fast、全仓 `pnpm check` 未在此小批运行。
 
 高风险边界：触及第一阶段 mode/history/poison/search 生命周期与 party-slot ownership；没有改变产品取舍、schema/save、公共接口、生成物或 UI。统一门与相邻预期诊断仍需后续模块窗口收口。
+```
+<!-- incremental-original-source:end -->

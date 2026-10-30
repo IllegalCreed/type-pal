@@ -1,5 +1,39 @@
 # CODE3s battle-system 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3s battle-system 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(4293B,SHA fe29c021ffa6)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../../QUALITY-BATTLE-MAGIC-PARITY-1/README.md)、[README.md](../core-comment-audit/runtime-projection-comments/README.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4293B / SHA-256 fe29c021ffa6abad2a688332bf37edc8e0d2fc44ce1242914f10d7038ebbf907；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3s battle-system 当前复审切片
+
 > 2026-10-18 当前注释counter：本轮全文补审发现宿主的投影、状态或生命周期说明与实际caller不符；原整文件关闭信用转review。原有限数值结果不据此否定，也不扩成“全部注释/测试合法/全生命周期等价”。仅事实错注已修、执行代码不变；详见[投影/宿主返工](../core-comment-audit/runtime-projection-comments/README.md)。
 
 > 2026-10-18 当前counter：H01单敌fixture误造敌人101，显式reporter产生1块stderr；撤回下文对应“无stderr”当前信用，历史原文保留。roster单红后改用0xffff终止符，主测与H01登记review；结果见[相邻返工](../../QUALITY-BATTLE-MAGIC-PARITY-1/README.md)，不扩大为整卡重验。
@@ -17,3 +51,5 @@
 验证：定向 9 files / 242 tests passed；`pnpm --filter @type-pal/game typecheck` passed；测试无失败、跳过或 stderr。coverage ratchet、protected fast、全仓 `pnpm check` 和官方 coverage 按用户批次成本要求未运行，不能据此宣称统一质量门已通过。后续文档静态门只验证治理记录完整性，不替代这些高成本门。
 
 高风险边界：本片触及第一阶段战斗生命周期、状态所有权和战后清理，但保持现有 canonical 行为；没有改 schema/save、公共 API、资产管线、生成物、UI 形态或用户可见战斗取舍。下一批继续选择不重叠的 pre-94 pending 文件，避开活跃任务和 94–102/editor。
+```
+<!-- incremental-original-source:end -->

@@ -1,5 +1,39 @@
 # CODE3m status 只读复审与最小修复切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3m status 只读复审与最小修复切片」的治理候选页;证据原件即下方逐字节保全的固定main源(2264B,SHA f13dfd5e53eb)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2264B / SHA-256 f13dfd5e53eb87b2880ba8d4ddefb9cb1749cbc606fa02b7fba97e478ca96692；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3m status 只读复审与最小修复切片
+
 基点：`e63bb2051`；分支：`codex/code-quality-3y`。本片只处理 3m battle status 生命周期；不改变 status schema、存档格式、公共接口或第二阶段模型。3m 整卡保持 `partial`。
 
 完整读取 `status.ts` 与 `__tests__/status.test.ts`；读取 `battle-state.ts` 的 `BattleStatus`、持久状态 seed 与生命周期，`battle-system.ts` 的回合末 caller，`battle-finalization.ts` 的战后清理，以及 `game-mechanics.md` 的第一阶段状态/装备边界。SDLPal primary 核对 `global.h:38-56` 的 status 枚举、`fight.c:1632-1661` 的玩家/敌方回合末递减、`global.c:2280-2344` 的按 `<=999` 清理、`battle.c:1820-1832` 的战后清理和 `script.c:1052-1102` 的复活路径。
@@ -11,3 +45,5 @@
 验证：先行反例 `status.test.ts` 为 `1 failed / 6 passed`；修复后 status、actions、battle-system、state-machine、battle-finalization、battle-state 六组定向共 `308 passed`，无测试 stderr；`pnpm --filter @type-pal/game typecheck` 通过。小批按用户成本规则未运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`。
 
 本片触碰第一阶段 battle core 高风险边界（状态生命周期），但变更由 SDLPal 直接循环和失败反例限定；未触碰产品取舍、存档格式、公共接口或生成物。未宣称 3m 整卡完成；公式、magic-damage、RNG 与统一质量门仍需独立证据。
+```
+<!-- incremental-original-source:end -->

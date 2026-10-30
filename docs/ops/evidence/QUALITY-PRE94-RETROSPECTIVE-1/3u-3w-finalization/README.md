@@ -1,5 +1,39 @@
 # CODE3u/3w finalization与runtime-context复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE3u/3w finalization与runtime-context复审」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `6fde6d86cf9754e441de948c82ac99ebc1f480c8` Branch: `codex/code-quality-3y`)。
+
+## 范围与证据
+
+原报告含章节[CODE3u/3w finalization与runtime-context复审、准入与读取、真值、caller与实现、未决高风险边界、测试质量、复用和排重、当前状态与限制]、9个链接;固定main源7216B(SHA fa31a68b84d2)。当前存活入口:[GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md](../../../tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[assertion-transfers.json](assertion-transfers.json)、[control-driver-recovery.json](control-driver-recovery.json)、[controls.json](controls.json)、[emit-identity.json](emit-identity.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7216B / SHA-256 fa31a68b84d2eebb31d54df1e99d21f23ddc054ee0892cdafa91ad3a237b3272；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3u/3w finalization与runtime-context复审
+
 Status: recorded
 Owner: Codex（单Agent，自身核读/测试，不冒充第三方）
 Date: 2026-10-18
@@ -41,3 +75,5 @@ finalize先回写HP/MP再cleanup；cleanup清持久状态、在队毒/Extra、�
 最终caller精度：普通lost会先走dialog hold，因此待播queue的丢弃断言移到hold之前触发的watchdog，不把不可达组合充作lost覆盖。原五直接case的公开业务oracle及四个新出口保留，无整例退役；V1全部原件保留，当前canonical为六main v2与一runtime v3，正式6文件275绿和typecheck-current为最终代码候选。文档工具125在前置工具提交37e2cd7c9已实跑且源码未改，本片只重放真实五消费者，不冒充新的完整check:docs。
 
 私有布局排重：原runtime测试直接检查stash自有键/删除形状，真实生产端口依赖公开getter与runner。已读typed caller，另附字面键检索原件（仅字面源码普查，不声称穷尽任意动态访问）。把清理resource暂换成delete、公开结果保持预期时，冻结旧3例为2绿1特定AssertionError，当前3例全绿；[等价形状反控](private-shape-metamorphism.json)与七枚回归反控分开计数。最终源逐字节恢复，三例保留全部公开身份/override/释放oracle，不再认证私有对象布局。
+```
+<!-- incremental-original-source:end -->

@@ -1,5 +1,39 @@
 # CODE3m RNG 复审与边界修复切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3m RNG 复审与边界修复切片」的治理候选页;证据原件即下方逐字节保全的固定main源(2222B,SHA dbf1e15774e9)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2222B / SHA-256 dbf1e15774e9d3c2be564fe4bae911ef75d65b7fbd2d28492dae70ab5ab07018；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3m RNG 复审与边界修复切片
+
 基点：`f6a88d3c4`；分支：`codex/code-quality-3y`。本片完整复审 `rng.ts` 与直接测试，读取真实战斗/事件 caller；仅修复 range API 的已证边界，不改随机算法、seed 格式、存档结构或产品抽样策略。3m 整卡保持 `partial`。
 
 完整读取 `packages/game/src/core/rng.ts`、`rng.test.ts`；读取 `enemy-ai.ts`、`actions/flee.ts`、`battle-progression.ts`，以及 `battle-system.ts` 的队列 jitter、自动选法术、混乱目标、隐藏经验与升级调用区间。primary 为 `reference/sdlpal/util.c:169-275` 的 `lsrand/lrand/RandomLong/RandomFloat`，并核对 `fight.c:1474-1563`、`fight.c:3637-3658`、`fight.c:4143`、`fight.c:4540-4658`、`battle.c:1238-1284` 的实际消费顺序。
@@ -11,3 +45,5 @@
 验证：`rng.test.ts`、enemy-ai、battle actions/system、progression、state-machine、event-system 共 `7 files / 638 passed`，无新增测试诊断；先行边界反例按预期失败，修复后通过。coverage、official ratchet、protected fast、全仓 `pnpm check` 按用户成本规则留到完整大模块收口。
 
 高风险边界：触及第一阶段随机抽样与 RNG 消费顺序，但只恢复 SDLPal `to <= from` 合同；mulberry32 与 SDLPal LCG 的既有架构差异保留，未触碰 seed/save/public schema。公式、magic/status/queue/positions 与 RNG helper 证据现已形成，3m 统一质量门仍未收口。
+```
+<!-- incremental-original-source:end -->

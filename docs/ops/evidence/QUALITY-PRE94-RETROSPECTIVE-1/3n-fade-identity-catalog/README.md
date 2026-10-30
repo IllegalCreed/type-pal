@@ -1,5 +1,39 @@
 # CODE3n fade / identity / catalog 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3n fade / identity / catalog 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(2988B,SHA 288bc1cc21c0)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原1个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../core-comment-audit/palette-approach-tests/README.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2988B / SHA-256 288bc1cc21c02e6aaf9e7d0ce145017920afb9978a101adeb84e1a151bdff8d2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3n fade / identity / catalog 当前复审切片
+
 > 2026-10-18 当前更正：palette源/测旧整文件关闭转review。ColorFade原C无钳制，但PAL_GetPalette产生4倍数网格、64步后补终值；“任意8位步进等价/视觉1:1”源注不能成立，人工非网格C往返也不证明正常原版缺陷。见[输入域与测试返工](../core-comment-audit/palette-approach-tests/README.md)。本次不改产品执行；此前PaletteFade `/31` 修复证据仍按原有限范围保留，其它三个helper不被本次重新签收。
 
 基点：`6d855d9fe`；分支：`codex/code-quality-3y`。本片重新复审 3n 的四个 core helper 及直接 caller/oracle，不把历史 done、旧全仓门或包级全绿当作当前整卡验收。3n 当前复审提升为 `partial`，整卡仍未关闭。
@@ -16,3 +50,5 @@ caller / 生命周期读取：`event-system.ts` 的 palette fade 构造、cursor
 测试：四个直接/跨模块文件 `34 passed` 且无测试 stderr；相邻 event/scene/present 回归合计 `8 files / 554 passed`，但有既有 fixture 触发的预期 `console.warn`（未知 label、无当前对象、越界 scene object），因此本片不宣称“运行时诊断清零”或统一质量门通过。`pnpm --filter @type-pal/game typecheck` 通过。coverage、official ratchet、protected fast、全仓 `pnpm check` 未在此小批运行。
 
 高风险边界：触及第一阶段 palette 数学与脚本 catalog/map/WORD ownership；变更限于 palette helper 的公式和对应 oracle，不改产品 UI 形态、schema/save、生成物或第二阶段模型。3n 仍需统一门与相邻诊断收口，未标 accept/done。
+```
+<!-- incremental-original-source:end -->

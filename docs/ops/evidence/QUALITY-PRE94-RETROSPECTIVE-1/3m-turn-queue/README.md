@@ -1,5 +1,39 @@
 # CODE3m turn-queue 只读复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3m turn-queue 只读复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(2108B,SHA 5f4818c51791)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../core-comment-audit/README.md)、[README.md](../core-comment-audit/queue-approved-fix/README.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2108B / SHA-256 5f4818c517916b13c9769e54d51a325220dba795a0bf243d42a868a9545c58ed；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3m turn-queue 只读复审切片
+
 2026-10-18 counter：严格小于时交换不保证全域稳定；较快玩家能反转两同速敌。原生C片段与真实helper已复现，原“未发现缺陷/C稳定等价”当前信用撤回，源/专测转review。完整排序外括号实际在fight.c:1585，不是1584。用户已批准GAME-ACTION-QUEUE-TIE-ORDER-1先红后修；[直接原件](../core-comment-audit/README.md)。下文保留原候选历史，不恢复整文件闭合。
 
 基点：`1ffef6802`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 198 ahead`。本片只读 `turn-queue.ts`、直接测试和 battle-system caller；不改行动顺序、RNG、战斗玩法或公共接口。3m 整卡保持 `partial`。
@@ -12,3 +46,5 @@ coverage、official ratchet、protected fast、全仓 `pnpm check` 按用户成�
 
 
 2026-10-18 批准窄修当前进展：原C双循环/SHORT/13槽及速度0xffff前缀已恢复，原C静态oracle和真实按键caller已测；[完整实施原件](../core-comment-audit/queue-approved-fix/README.md)。旧稳定等价结论仍撤回，任务review，非有限数值/超容量/dex2缺省/统一门和视觉未完成，不重签整文件。
+```
+<!-- incremental-original-source:end -->
