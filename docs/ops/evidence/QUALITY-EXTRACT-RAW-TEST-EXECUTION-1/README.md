@@ -1,5 +1,39 @@
 # Extract原盘执行完整性与像素oracle
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「Extract原盘执行完整性与像素oracle」的治理候选页;证据原件即下方逐字节保全的固定main源(8416B,SHA a8fea5ad4dda)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原20个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)、[all-cards.md](../QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[counter-probe.py](counter-probe.py)、[README.md](diagnostics-c1/README.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8416B / SHA-256 a8fea5ad4ddab31ce1592acc417332803646f8e83d2a7a422938479563a23622；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# Extract原盘执行完整性与像素oracle
+
 归[任务卡](../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)及[94前全83卡复审](../QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。起点b41dc8d53，最新main=f98d0ddd8；唯一codex/code-quality-3y、单Agent。只改四份内聚测试/测试helper，生产/原盘/生成物/公共接口不改，0新关闭。
 
 ## 逐文件、primary/caller与未修
@@ -57,3 +91,5 @@ Primary是SDLPal palcommon.c真实PAL_SpriteGetFrame与PAL_RLEBlitToSurfaceWithS
 ## C2敌队诊断合同支持片
 
 [C2逐文件/真实IO与7有效反控](diagnostics-c2/README.md)：正例补完整映射与DTO/ownership，未知999同输入独立转移；92身份总数不变但原生变动显式记录，实际V8覆盖保持。extract72/431零stderr、shared126/战斗caller186/双方TC通过，0文件关闭；enemies错误slots注释撤回review，统一门/editor仍未清。
+```
+<!-- incremental-original-source:end -->

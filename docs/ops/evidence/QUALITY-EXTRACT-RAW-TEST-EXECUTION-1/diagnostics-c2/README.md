@@ -1,5 +1,39 @@
 # C2 敌队翻译与诊断合同复核
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「C2 敌队翻译与诊断合同复核」的主题按原文时点保留(摘录:归[原盘执行完整性任务](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)与[全部83卡复审](../../../tasks/QUALIT)。
+
+## 范围与证据
+
+原报告含章节[C2 敌队翻译与诊断合同复核、逐文件结论、判别力、排重和覆盖率、回归与剩余门]、13个链接;固定main源5540B(SHA 61b738a444a9)。当前存活入口:[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[after-coverage.json](after-coverage.json)、[after-proof.json](after-proof.json)、[before-coverage.json](before-coverage.json)、[before-proof.json](before-proof.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5540B / SHA-256 61b738a444a9add29fa46525cc5b255865a1e1a90f1d1f48aa6683f3ca458fb5；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C2 敌队翻译与诊断合同复核
+
 归[原盘执行完整性任务](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)与[全部83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。起点3bcdaadc3，唯一codex/code-quality-3y；origin/main=f98d0ddd8。只改两份测试，生产parser/资源/schema/API/规则/官方baseline均保持。全83卡仍9partial/74pending/0accept，本片0文件关闭。
 
 ## 逐文件结论
@@ -33,3 +67,5 @@ primary：SDL global.h292–295的ENEMYTEAM、global.c294–295加载chunk2、ba
 [回归原件](regressions.json)：完整extract72文件431例、shared16/126、真实战斗caller1/186、双方typecheck与coverage-tools71通过，0stderr块。两处原输出已成为显式被测IO，生产警告未删除；完整包无未声明诊断泄漏。
 
 全仓check、official ratchet、protected fast在稳定模块窗口集中，本片未新跑；editor诊断仍未清，不合main。静态docs/lint-zero/ledger/diff见[gates](gates.md)，未执行的门不得写通过。机器账本3289 inventory /208closed /226review /2855pending；两测试pending→review，enemies旧关闭精确撤回，0新关闭。下一批回CODE3b的SSS/M.MSG四文件，再续其它编号卡；94–102/editor原目标保留。无下一位Agent提示词，单Agent继续。
+```
+<!-- incremental-original-source:end -->

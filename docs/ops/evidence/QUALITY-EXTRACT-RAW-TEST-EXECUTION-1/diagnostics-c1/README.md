@@ -1,5 +1,39 @@
 # C1 BALL/RGM同步诊断IO合同
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「C1 BALL/RGM同步诊断IO合同」的治理候选页;证据原件即下方逐字节保全的固定main源(6859B,SHA dea1e4890179)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)、[after-coverage.json](after-coverage.json)、[after-proof.json](after-proof.json)、[before-coverage.json](before-coverage.json)、[before-proof.json](before-proof.json)、[counter-probe.py](counter-probe.py)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6859B / SHA-256 dea1e48901796c2f2b81a252c669d787c30f0f528e514f16b7038661955acdcb；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C1 BALL/RGM同步诊断IO合同
+
 归[原盘执行卡C1准入](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)与全83卡复审，起点d0151242f；唯一codex/code-quality-3y，main=f98d0ddd8，单Agent。产品解析器/资源/接口/规则不改，0新增关闭。
 
 ## 逐文件与根因
@@ -40,3 +74,5 @@ C1当前8文件53定向、shared16/126及双方typecheck、coverage-tools71通�
 本片新增唯一test-only helper进入tracked库存，两原pending测试和helper只记review，0文件关闭；全83编号卡仍9partial/74pending/0accept。下一片C2仅核enemy-teams/P07/tables的合法正向输入、未知域告警IO与精简，随后继续3b及94–102/editor。无下一位Agent提示词。
 
 最终注释核对：helper原“every output byte”表述过强，已收窄为完整日志记录合同；动态stack并非逐字节固定。行为探针之后只改这一行注释，当前helper与探针快照的其它每个字节完全相同；verify.py显式核该唯一差异及两SHA，不重跑无行为变化的用例。
+```
+<!-- incremental-original-source:end -->
