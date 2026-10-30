@@ -1,5 +1,39 @@
 # pre94 基础战斗动作与移动端影响复核
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「pre94 基础战斗动作与移动端影响复核」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 3v/78两卡原合同接受，固定83卡58accept/25partial/0pending。16文件明确范围中attack/)。
+
+## 范围与证据
+
+原报告含章节[pre94 基础战斗动作与移动端影响复核、当前收口、证据身份、来源与输入、断言与业务oracle、构建时点结果（3eb，保留）]、6个链接;固定main源4467B(SHA 7bebdbfd7c8e)。当前存活入口:[gates-native.json.gz](gates-native.json.gz)、[gates.json](gates.json)、[native.json.gz](native.json.gz)、[recount.json](recount.json)、[review.json](review.json)、[verify.mjs](verify.mjs)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4467B / SHA-256 7bebdbfd7c8ea49f704145333975fd535518bbce62c02c2ee516dc06edd0a2c6；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 基础战斗动作与移动端影响复核
+
 Status: accepted / original3v and78 contracts
 Owner: Codex（单Agent）
 Template: evidence-receipt-v1 / 1.0.0
@@ -37,3 +71,5 @@ Template: evidence-receipt-v1 / 1.0.0
 ## 首官方指标拒绝与有限调整
 
 首采集20034/758实际通过，全部测试stderr为0；game/total分支因旧伪fixture的两项偶然覆盖消失而门exit1。上一成功CI的完整game V8/LCOV与旧baseline逐项相同，未改的AttackMate源码逐字节一致；下降精确定位到protect未定义回退及缺锚即时数字，非HP/protect/defend/clamp业务合同丢失。[有限授权与原件归因](recount.json)只下调固定旧game branch covered两项，其它下限不变；13实际源SHA不符即拒绝，所有旧授权条目/程序AST原样。已实测有效授权、错误源拒绝、未授权baseline不匹配不调整；正式门待新一轮实际运行，旧失败绝不改写为通过。
+```
+<!-- incremental-original-source:end -->

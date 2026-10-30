@@ -1,5 +1,39 @@
 # CODE3r 事件作用域、主测与 E2E 依赖返工
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3r 事件作用域、主测与 E2E 依赖返工」的治理候选页;证据原件即下方逐字节保全的固定main源(4924B,SHA 6ed4f38603f5)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../3r-event-system/README.md)、[codex-final29.json](../glm-foundation/codex-final29.json)、[README.md](../scene-quality/README.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4924B / SHA-256 6ed4f38603f5b8b083bebbd3c7179b15813184c2f548f02b3ee596768b34c251；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3r 事件作用域、主测与 E2E 依赖返工
+
 Status: local technical review; unified pre94 gates deferred
 Owner: Codex（单Agent）
 Base: bdbcb5cec6b2a32e39fed4295a6ca0f075327808
@@ -21,3 +55,5 @@ receipts.json.gz按条目保存原件base64、字节数和SHA256，包括首次�
 本片0新增closed、两个新产品路径仅review，固定83卡仍67accept／16partial／0pending。全仓check、官方coverage/ratchet/protected、新PR和main合并全部延后到剩余pre94完成；剩余广域事件装配、3s/3t及后续模块继续，不扩94–102。没有改变机制、schema/save、资产管线、旧公开签名或产品行为。
 
 文档检查首轮125工具用例通过，但执行命令exit1：两E2E配对报告共4个sourceRef失配。其引用world-pass用例116行逐字节不变，仅515–630→516–631；仅同步当前绑定/两claim指针，保留历史quote、日期、revision、publication及执行信用。补跑实际文档消费者，不复跑未变125工具；中间两claim指针遗漏和producer原文标记假设错误分别保留。不存在“check:docs原命令exit0”的宣称。
+```
+<!-- incremental-original-source:end -->

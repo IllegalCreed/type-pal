@@ -1,5 +1,39 @@
 # GLM foundation阶段交付与Codex接收入口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「GLM foundation阶段交付与Codex接收入口」的治理候选页;证据原件即下方逐字节保全的固定main源(30462B,SHA 03dbc00ad8ae)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原78个链接处置见作者review的linkDisposition。当前存活入口:[glm-pre94-foundation-goal.md](../glm-pre94-foundation-goal.md)、[codex-code6a.json](codex-code6a.json)、[codex-code82.json](codex-code82.json)、[codex-dead-removals.json](codex-dead-removals.json)、[codex-enemy-role.json](codex-enemy-role.json)、[codex-pre94-scope.json](codex-pre94-scope.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 30462B / SHA-256 03dbc00ad8ae6dcbe4987e06c1666a1d1e8e1de62a6a14a0c1af8ef60db0dfb0；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GLM foundation阶段交付与Codex接收入口
+
 Owner: Codex（当前返工/据证验收/集成）；GLM（冻结交付作者）
 Status: build；以下只记有限模块结果，不声明全专项完成
 
@@ -101,3 +135,5 @@ Codex继续本批缺失维度与83卡/测试成果映射，不再要求用户转
 当前GLM解析器增量：[敌人/角色四文件八维与两业务反控](codex-enemy-role.json)。仅更正文案和补强原9测试中的断言/1标题；解析实现不变，11定向/89原盘相邻无stderr。GLM实际41个改动源码中已有7个详细矩阵、34个待补；该口径不包含未改动文件的作者包级主张，0新关闭。累计23个源码/测试矩阵也不等于GLM23/41。
 
 当前GLM正文增量：[五处删除/八维依据与复活缺陷返工](codex-dead-removals.json)。文案与行为分提交；308当前定向/相邻0stderr、game tsc0，旧console缺口不补造。实际改动源码12/41有详细记录，剩29均为注释；0新关闭、228closed/130review/2958pending。当前只完成GLM返工，不推进其它83卡/94–102；已知统一门阻塞仍保留。
+```
+<!-- incremental-original-source:end -->

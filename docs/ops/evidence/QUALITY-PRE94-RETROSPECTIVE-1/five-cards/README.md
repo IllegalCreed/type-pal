@@ -1,5 +1,39 @@
 # pre94 五张遗留卡复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「pre94 五张遗留卡复审」的主题按原文时点保留(摘录:任务：[QUALITY-PRE94-RETROSPECTIVE-1](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。基点 `b9bf6f7760d4)。
+
+## 范围与证据
+
+原报告含章节[pre94 五张遗留卡复审、本批整改与证据、低成本复验、集中门与当前裁定、剩余风险与下一步]、3个链接;固定main源5525B(SHA b9e1c138f248)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[native.json.gz](native.json.gz)、[review.json](review.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5525B / SHA-256 b9e1c138f248565ad120c71cf85c77c5efd940c6604cf2ffa80225cbea470d53；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 五张遗留卡复审
+
 任务：[QUALITY-PRE94-RETROSPECTIVE-1](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。基点 `b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce`；唯一集成分支 `codex/code-quality-3y`，Owner Codex。主树与GLM原候选只读，94–102不扩展。
 
 用户2026-10-20要求补53/79/80/81/90复审欠账。本页是短入口，[逐文件记录](review.json)列18份本轮文件八维、4个广域上下文的复用边界、16个已明确接受的文件；没有把复合文件、83卡或包级全绿当作验收。
@@ -36,3 +70,5 @@
 ## 剩余风险与下一步
 
 复审队列将五卡从pending登记为有明确A–H/限制的partial，仍0整卡accept；其它78张partial及94–102不扩展。单个文件可以凭完整本轮证据关闭；poison helper、battle dispatcher、Dev复合模块和大型event/battle上下文仍review。浏览器截图/剧情E2E未新执行；像素/DOM证据仅覆盖表中指定功能，不声称视觉全验收。
+```
+<!-- incremental-original-source:end -->

@@ -1,6 +1,40 @@
 # 已批准的事件切分修复：本地增量
 
 Status: recorded
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「已批准的事件切分修复：本地增量」的治理候选页;证据原件即下方逐字节保全的固定main源(2562B,SHA a332042eb81a)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[integration.json](integration.json)、[native.json.gz](native.json.gz)、[review.json](review.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2562B / SHA-256 a332042eb81af73e941bbe7fa86142cb29b828db06f24e61c5b36a7c1e0bfd24；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 已批准的事件切分修复：本地增量
+
+Status: recorded
 Owner: Codex
 
 ## 范围与裁决
@@ -24,3 +58,5 @@ Owner: Codex
 ## 未决与下一步
 
 全仓check、官方ratchet/protected本窗未跑。按用户多卡聚合要求，继续同分支CLI IO余项与必要测试排重后，集中全门再推送/合main；不拿上一窗口全绿代替本窗。0新关闭，账本3338/356closed/126review/2856pending、pre94仍56accept/27partial。Kimi/runtime-resource的生产防御输入域和新共用路径排重、跨文件执行限制仍review；94–102不扩展。
+```
+<!-- incremental-original-source:end -->

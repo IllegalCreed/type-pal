@@ -1,5 +1,39 @@
 # 经验输入与真实结算终止性
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「经验输入与真实结算终止性」的主题按原文时点保留(摘录:Template: evidence-receipt-v1 / 1.0.0 同一3y，基点31c9775ce。修复前八个source指纹、四轮完整双流/ready/done/退出信息在[observa)。
+
+## 范围与证据
+
+原报告含章节[经验输入与真实结算终止性、证据身份、来源与输入、断言与业务oracle、结果、限制与复核]、8个链接;固定main源4438B(SHA 22d566f35da5)。当前存活入口:[GAME-SAVE-EXPERIENCE-DOMAIN-1.md](../../../tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md)、[game-item-role-context-review.json](../game-item-role-context-review.json)、[gates.json](gates.json)、[local-native.json.gz](local-native.json.gz)、[native.json.gz](native.json.gz)、[observation.json](observation.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4438B / SHA-256 22d566f35da546e150b5db06b6f65ef66089046e0dcaa6a8aea461849cb67e81；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 经验输入与真实结算终止性
+
 Status: source accepted within scope / final document statics before integration
 Owner: Codex（单Agent）
 Template: evidence-receipt-v1 / 1.0.0
@@ -33,3 +67,5 @@ V1格式、DB版本、奖励/成长算法、其它数值政策和二阶段保持
 获批物品上下文修复及必要8D属性刷新另见[三文件八维/原件](../game-item-role-context-review.json)。四旧不变/四新先红，context-only仍留一个投影业务红；首轮接线漏import引发4ReferenceError与TC TS2552，修正后289相邻及3724整包0诊断。失败原件完整保留，不能把自身失误当原产品反例。item/event系统广域script pointer和3w动态Extra链仍review，不授完整fight/视觉。
 
 原观察tsx进程封装可能返回exit0，必须结合ready/无done/超时后终止记录读取；实际异常退出也保留原件，不归为绿测。未证正常剧情自然产生异常值；既有属性持续增长决定与本场经验奖励不受本输入限制。旧原件字节不因当前修复改写。
+```
+<!-- incremental-original-source:end -->

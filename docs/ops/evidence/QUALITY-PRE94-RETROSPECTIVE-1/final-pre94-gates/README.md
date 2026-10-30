@@ -1,5 +1,39 @@
 # pre94唯一最终集中门禁窗口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「pre94唯一最终集中门禁窗口」的治理候选页;证据原件即下方逐字节保全的固定main源(8861B,SHA 025c97c1f912)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[act-ci-receipts.json.gz](act-ci-receipts.json.gz)、[bootstrap-receipts.json.gz](bootstrap-receipts.json.gz)、[bootstrap.json](bootstrap.json)、[config-contract-receipts.json.gz](config-contract-receipts.json.gz)、[final-receipts.json.gz](final-receipts.json.gz)、[initial-receipts.json.gz](initial-receipts.json.gz)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8861B / SHA-256 025c97c1f91247d16399b6effadb4fedd9867977e4f16f701e8ac4f130e86270；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94唯一最终集中门禁窗口
+
 Status: local gates accepted; remote CI / single PR / merge pending
 Owner: Codex（单Agent）
 
@@ -46,3 +80,5 @@ Owner: Codex（单Agent）
 a76881ec的Documentation40164761305完整日志0诊断；Coverage40164761191七包20180例／807源及protected比较通过，但完整日志有1个stderr区段、4条React act告警（Harness1、CutsceneTab3），因此集成验收拒绝，尚未合并。初始聊天摘要误记两条，当前以未裁剪原件逐条计数为准；不把exit0说成零诊断。完整远端日志／API／注解、本次局部原件与冻结测试正文见[act原件](act-ci-receipts.json.gz)，八维与精确文件变换见`review.actCI`。
 
 真实视频导入需等待WebCrypto；旧文件输入helper的act只覆盖事件，随后真实hash完成时session和选择状态在act之外提交。当前只把原事件调用和原session提交等待包进同一异步act；三个身份、全部fixture与业务断言、真实hash、产品实现及超时设置不变。2文件9例通过、stderr0，editor typecheck0。无需调整baseline或再次本地全仓／覆盖率；旧完整check按精确单文件变换增量复用，新的实际远端CI必须零诊断才合并。0新增关闭，83卡范围及511／63／2878账本保持不变。
+```
+<!-- incremental-original-source:end -->
