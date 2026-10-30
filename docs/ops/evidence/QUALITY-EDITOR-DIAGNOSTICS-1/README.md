@@ -1,5 +1,39 @@
 # Editor 三文件：异步生命周期与测试判别力
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「Editor 三文件：异步生命周期与测试判别力」的治理候选页;证据原件即下方逐字节保全的固定main源(4854B,SHA 15c26a451268)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[window-review.md](window-review.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4854B / SHA-256 15c26a4512681f32ac15f711abe88cae31058bd14391c05c98eeb34e7c09b8b3；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# Editor 三文件：异步生命周期与测试判别力
+
 本片单一Coding Owner=Codex，用户授权三文件，隔离治理分支；只改测试，不改变生产/资产/规则。
 当前首片review，0文件关闭、未合main；作者自验不冒称独立验收。
 
@@ -54,3 +88,5 @@ kit新增的历史驱动只返回真实session undo/redo结果，调用方精确
 
 首个检查点文档接线失败原件为docs-initial-failure.raw.gz、ledger-initial-failure.raw.gz：
 漏证据上级导航、表内空行使3行不被机器计数；随后修正，docs0issues、ledger3284/229/48/3007通过。
+```
+<!-- incremental-original-source:end -->

@@ -1,6 +1,40 @@
 # Git完整路径枚举容量修复
 
 Status: recorded
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「Git完整路径枚举容量修复」的治理候选页;证据原件即下方逐字节保全的固定main源(3741B,SHA d5e39ec35784)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原7个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md](../../tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md)、[controls.json](controls.json)、[gates.json](gates.json)、[green.json](green.json)、[read-boundaries.json](read-boundaries.json)、[red.json](red.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3741B / SHA-256 d5e39ec3578499b4bb7b7f22acb4ed0084b332ed378e56c6ef13f7a00a6a9f2d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# Git完整路径枚举容量修复
+
+Status: recorded
 Owner: Codex（单Agent，自身源码/测试核证，不冒充第三方）
 Date: 2026-10-18
 Base: `6fde6d86cf9754e441de948c82ac99ebc1f480c8`
@@ -31,3 +65,5 @@ Node22.23.2实际执行；[Node22官方文档](https://nodejs.org/download/relea
 必要门为质量工具相邻、文档工具与实际消费者、lint-zero/ledger/diff；全仓check、official coverage ratchet、protected fast按用户成本规则留大任务收尾，不合main。剩余风险是普通全路径超过16MiB时仍会明确失败；未证明任意规模或其它历史CLI容量已治理。完成本片提交推送后恢复3u/3w，校对保存SHA并重基其共享元数据；原全部83卡及94–102/editor目标继续。
 
 最终局部门：quality40、docs工具125及五消费者全通过，包含原固定4MiB溢出拒绝；lint-zero5365文件0error/0warning/0info，ledger3316/259/92/2965。fresh fetch后0behind/254ahead（本工具提交前），未合main。仅MJS工具，无必要package typecheck；实际Node解析/CLI与lint已执行。观察得到的四个失败CLI临时树均已删除，成功夹具名未打印，按实际t.after和原生无hook失败范围记录，不伪造目录清单。
+```
+<!-- incremental-original-source:end -->
