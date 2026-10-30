@@ -1,5 +1,39 @@
 # 数值表单合法夹具与生命周期
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「数值表单合法夹具与生命周期」的治理候选页;证据原件即下方逐字节保全的固定main源(3029B,SHA 714fe884368c)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-FORM-FIXTURES-1.md](../../tasks/QUALITY-EDITOR-FORM-FIXTURES-1.md)、[window-review.md](../QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3029B / SHA-256 714fe884368cbe119607d8019eed547ecdc786392fe229c9204f6a42230208d1；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 数值表单合法夹具与生命周期
+
 任务：[QUALITY-EDITOR-FORM-FIXTURES-1](../../tasks/QUALITY-EDITOR-FORM-FIXTURES-1.md)。四份测试逐文件直接读、真实组件/命令/caller范围见read-boundaries.json。当前build，0关闭；产品、规则、content版本均未改。
 
 前三测试基线14例通过但334条不支持act的诊断；仅启用环境后仍14例通过、暴露10条act外更新。保持原100次输入和旧夹具，仅修真实卸载生命周期后14例全部诊断0（lifecycle-original-14）。之后才将两处100次重复输入缩为三种不同合法值，并核blur、Enter、Escape、对象切换、canonical和历史命令数。CONTENT_VERSION当前确为22；最初过期版本猜测在核常量后已撤回，没有版本升级。
@@ -17,3 +51,5 @@ check、官方普通ratchet、protected fast与C04/C05在下一稳定窗口集�
 检查点静态门：docs 0 issues，lint 4227文件0 error/0 warning/0 info，ledger通过；完整原件见static-preflight.json。全仓测试/普通ratchet/protected待集中窗口，不作统一零诊断结论。
 
 稳定窗口已实测，严格统一诊断门仍未通过；见[联合原始计数与边界](../QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。本片留review，0关闭、不合main。
+```
+<!-- incremental-original-source:end -->

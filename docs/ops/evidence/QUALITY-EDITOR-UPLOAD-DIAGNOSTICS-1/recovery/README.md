@@ -1,5 +1,39 @@
 # C10 恢复：真实提交等待、失败收尾与有证排重
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「C10 恢复：真实提交等待、失败收尾与有证排重」的治理候选页;证据原件即下方逐字节保全的固定main源(5820B,SHA eea714cb2e32)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原14个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md](../../../tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[editor-diagnostics-by-file.json](editor-diagnostics-by-file.json)、[editor-full.json](editor-full.json)、[final-source-delta.json](final-source-delta.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5820B / SHA-256 eea714cb2e320ee3446cab42c3e6f37b9d15783cbd7a82ba63c3ee1cd5624626；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C10 恢复：真实提交等待、失败收尾与有证排重
+
 基点d261e1d17，唯一codex/code-quality-3y；最新origin/main=f98d0ddd8。归属[任务卡](../../../tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md)。本检查点修四份测试/驱动文件，0新增关闭；不代表94前83卡或94–102已验收。用户重申全量复审后，保存本片并回3d/3g，editor其它诊断留在队列，不无限扩大本片。
 
 ## 逐文件证据与根因
@@ -42,3 +76,5 @@
 相邻reforge回归、静态门与账本最终结果见[gates.md](gates.md)。反控图、真实runner、SHA、精确退役与来源冻结由[只读核验](verify.py)另进程重建，回执[verification.json](verification.json)；这是Codex证据自核，不冒充第三方审查。
 
 四文件继续review；没有产品/UI/schema/save/资产管线/公共接口变化。完整check/official ratchet/protected fast等待稳定模块窗口，不以当前包绿合main。94前全83卡仍10partial/73pending/0整卡accept；下一片回3d PNG与3g CLI，editor Uploader六act及其它46文件诊断继续登记，94–102原返工保持。
+```
+<!-- incremental-original-source:end -->
