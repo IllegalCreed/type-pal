@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "7ff61b124df3a88d2ffbd058836a3b56a84bce6c7c438aa25306ef7a4e21e353",
+  "generation": "2c8aded5b53ed911bf42de43ee805fb3d88955a8870ce4aa81e575cdd71c63fd",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -42,7 +42,7 @@
         }
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "0f3e456201b4d1dfe84ec94a2b45f6bf34e88a09728423d330393e6491827921",
+      "afterSha256": "038903772e223e6a4394de396be33bed80366f85da4191c03bc1f938be95580d",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
@@ -1518,6 +1518,17 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S75",
+          "revision": "5cea276459404bf1dec59641901b8617d29dd5f1",
+          "beforeSha256": "0f3e456201b4d1dfe84ec94a2b45f6bf34e88a09728423d330393e6491827921",
+          "afterSha256": "038903772e223e6a4394de396be33bed80366f85da4191c03bc1f938be95580d",
+          "scope": "Exact one independently accepted routing-control grant and registry/administrative after closure; no runtime/child credit",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
       "readDomain": {
@@ -1851,7 +1862,7 @@
         }
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "96f9bec5e7566666dd046e034425fe24d37a3a2663fbb5bb5d3cfdb111330a83",
+      "afterSha256": "9eb63b392efaed321b3a4a868187256d1a72393f1f19e6c1c4610da53e7c92e9",
       "publicCallers": [
         "scripts/docs/document-registry.mjs",
         "scripts/docs/report-governance-progress.mjs"
@@ -2482,6 +2493,17 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S75",
+          "revision": "5cea276459404bf1dec59641901b8617d29dd5f1",
+          "beforeSha256": "96f9bec5e7566666dd046e034425fe24d37a3a2663fbb5bb5d3cfdb111330a83",
+          "afterSha256": "9eb63b392efaed321b3a4a868187256d1a72393f1f19e6c1c4610da53e7c92e9",
+          "scope": "Exact one independently accepted routing-control grant and registry/administrative after closure; no runtime/child credit",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",
@@ -2544,11 +2566,11 @@
     },
     {
       "path": "docs/phase-governance/routing.json",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "governance-index.md",
-      "templateCompliance": "needs-migration",
+      "templateCompliance": "template-compliant",
       "readMethod": "Current native role/authority/source review with complete machine structure and identity inspection; child semantics delegated",
       "reviewDepth": "structured-content",
       "coreConclusion": "当前routing保留AGENTS七项操作与原2433条迁移声明，精确追加已获S73非作者接受的by-phase/by-status两条governance-index导航合同，共2435条。两页由phase/lore catalog的184成员生成，不承担全1838正文或运行验收；路由结构改变重新待非作者接受，旧2433版本的签名/出版事件完整保留历史。",
@@ -2787,6 +2809,17 @@
           },
           "scope": "Remove inherited unrelated006 applicability and superseded self-reference counter from current routing role; exact old values remain in fixed Git and original publication history.",
           "newCredit": 0
+        },
+        {
+          "kind": "current-native-control-publication",
+          "task": "DOCS-FULL-TEMPLATE-1/S75",
+          "date": "2026-10-30",
+          "reviewedCandidate": "5cea276459404bf1dec59641901b8617d29dd5f1",
+          "contentSha256": "83d0ab9fb78077ed8948decb24391f4363b65ae106abe24d202fd9f0fa7f2edf",
+          "priorClaimCorrection": null,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
         }
       ],
       "supersedes": ["none; structural root"],
@@ -3093,7 +3126,40 @@
           "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json#entries/36"
         ]
       },
-      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。"
+      "historyBoundary": "原source/candidate/reviewDate及旧撤信维持各自时点；本轮只解释当前控制/参考角色，不把成员旧声称或示例recorded升为当前执行。",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/phase-governance/routing.json",
+        "author": "Codex",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "reportSha256": "3dd1c37f55d6c44ee833102c70300263ecd594927eb55da286976c98eb1e2435",
+        "contentSha256": "83d0ab9fb78077ed8948decb24391f4363b65ae106abe24d202fd9f0fa7f2edf",
+        "reviewedCandidate": "5cea276459404bf1dec59641901b8617d29dd5f1",
+        "controlIdentity": {
+          "role": "routing",
+          "source": {
+            "revision": "8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9",
+            "path": "docs/phase-governance/routing.json",
+            "gitObject": "ef1e6064c3ac194bfe6f5a00281d1131e7231099",
+            "sha256": "a9bf795e247f2c0967c55afdce467124e81d88c693e6917809d08afad2e1bb08"
+          },
+          "structureSha256": "a1b10d97287760e096908f2a8fef0f6d7faf1db3cf833eb332d2763dbfdb4268",
+          "membershipSha256": "74d36680d5a9e2c09b2928694fc1c6b2f6106f22e83b20a0d7fd9fa256892d7c",
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "index": 36
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S75",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticAcceptanceGranted": false
+        }
+      }
     }
   ]
 }

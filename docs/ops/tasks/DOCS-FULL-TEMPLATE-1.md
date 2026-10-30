@@ -5,8 +5,8 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: GLM（S73全文差异/政策增量23篇非作者accept）；Codex（中央接入Owner）；全量硬门与本轮接入增量待闭合
-Branch: codex/docs-s74-final-intake
+Reviewer: GLM（S74中央接入与唯一路由控制增量非作者accept）；Codex（S75受控接入与最终硬门Owner）
+Branch: codex/docs-s75-final-gates
 Last reviewed: 2026-10-30
 Template: task-card-v1 / 1.0.0
 
@@ -2819,3 +2819,11 @@ GLM对cd1d3a686853bd745c4129827d894f6e3f84555d非作者验收23/23 accept、四�
 实际发布固定cd1d3a686为受审来源，先准备有界registry/路由候选并dry-run，再同一计划独立重建比较全部输出后执行受控事务：23物理写/10旧片退，114逻辑/163 review物理/49片/14source及2435after精确，锁释放、退出完成。实际接入提交2fd03f6fdd5f39bfc26f23ffd576aba3178fc5b9；23条原具体解释hash均与GLM报告相同，3个原claimCorrection完整入各自唯一出版history，其余2411语义保持；原111及另21控制接受不变，routing旧接受完整归史。物理事务creditGranted=0只表示它不自行授权，不能否认本轮明确Owner23项文档/迁移授信；child/runtime/旧声明恢复仍0。
 
 固定2fd03f6f实测335/335、0fail/0skip；docs0、model2435/0、Testing0、phase/lore184通过，lint4664文件0E/0W/0I。strict真实23文档/46诊断→1文档/2诊断，唯一routing；完整进度实际1835/1838迁移+3退役、0基线未迁、599增量迁移，当前1待办、17/17模板覆盖、0integrity。check:docs和--require-complete仍真实exit1，分别因该控制待验，未放行或报done。本轮未改任何生产工具/旧测试/coverage，也不重跑006；后继结果写回与该控制继承的过时适用说明/自引用counter在同一待验范围定向澄清，23已接受具体解释不变。
+
+## S75 S74接收、最后一项受控授信与最终文档硬门（2026-10-30）
+
+GLM对5cea276459404bf1dec59641901b8617d29dd5f1的中央23授信/唯一routing解释/行政封存三轴accept、零counter；HANDBACK SHA 104e7b2da5b40a62175e682154b8c59de3215274cc1c40ee62e7a292e610a42f、verdict SHA 3dd1c37f55d6c44ee833102c70300263ecd594927eb55da286976c98eb1e2435。routing具体解释hash为83d0ab9fb78077ed8948decb24391f4363b65ae106abe24d202fd9f0fa7f2edf，与公共模块及冻结候选相等；Owner据证接收，不重审S73的23篇或006技术/视觉，不重复授前23信用。
+
+本轮Codex build allowed：隔离codex/docs-s75-final-gates，仅机械替换现有current-native-control-acceptance表中routing一项的报告/hash/候选/任务/日期，保留其余21项、作者/非作者分离与所有guard不动；调用已接受的applyCurrentNativeControlGrant及保护事务，registry同步该一项和必要after/世代闭包。旧2433版本的事件/签名仍完整在历史封套，新2435正文解释、原source、23/111/另21接受与473原生不改；不新增合同、writer、模板、旧测试适配或runtime信用。随后实际运行check:docs、lint、diff与require-complete，只有真实零诊断才记录待办归零；父卡不因此自动合main/推送/done，整合代码治理分支的独立工作树仍须保护。
+
+回执B有一处定位措辞勘误：其中“evidence source钉cd1d”与真实字段不符。cd1d是旧已接受条目的before定位；不可变source仍为8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9，后者由原准入与Git字节provider验证。Owner按实际字段/一手Git校正这句说明，原GLM回执不修改，不改任何pin或借其文字刷新来源；其具体解释hash和其余接受范围不受影响。
