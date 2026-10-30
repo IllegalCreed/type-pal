@@ -16,7 +16,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 - `status`: current
-- S72接受基点为2424合规、11待办；S73已交齐这11篇作者候选，并将12份复审政策增量暂降为待接收。当前2412合规、23待办／46严格诊断；只待一次非作者验收与Owner真实接入，不提前扣减。
+- S73的23篇及政策增量已获非作者accept并由S74实际接入。固定1838清单已显式闭合：1835迁移+3批准退役；当前2435候选中2434合规、仅routing控制件的两路由增量待验，1待办／2严格诊断。全部17类模板已覆盖，无integrity问题；不将此记为全量硬门通过。
 
 ## 入口与责任
 - canonical 入口：本看板、`docs/ops/tasks/index.md` 和各任务卡。
@@ -31,7 +31,7 @@ Template: governance-index-v1 / 1.0.0
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | DOCS-RECORD-INTEGRITY-1 | [R 波记录可信度撤回与补救](tasks/DOCS-RECORD-INTEGRITY-1.md) | rework | Codex / 扩大R23–R36撤信与验收锚点补救，待非作者验收 | 机械保真不授语义信用；原回执保全 |
-| DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex总Owner；S73原11正文与12政策增量合包待非作者接收 | 335工具全绿、lint4664零诊断；strict23文档/46诊断均待本包接收，旧来源与006运行信用不重授，不合main/不done |
+| DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex总Owner；S74已授23项，仅两索引路由所致的一个控制增量待验 | 335工具全绿、lint4664零诊断；strict23/46→1/2，1838固定范围已显式闭合；全量硬门未过，不合main/不done |
 | DOCS-NATIVE-JSON-1 | [原生JSON历史证据逐篇治理](tasks/DOCS-NATIVE-JSON-1.md) | rework | Codex / S56-S57已接入212，旧执行不重授 | 269与212当前接入按实账保留；本轮不重复计，剩余治理继续rework |
 | DOCS-NATIVE-VITEST-269-1 | [269篇原生Vitest语义接入](tasks/DOCS-NATIVE-VITEST-269-1.md) | review | Codex / 269发布与夹具已独立接受 | 新增269文档迁移，严格实减538项；不授旧执行信用 |
 | DOCS-REGISTRY-SPLIT-1 | [文档 registry 存储拆分](tasks/DOCS-REGISTRY-SPLIT-1.md) | build | registry_storage_author / 隔离实现；root独立验收 | 2.0.2设计非作者限定接受；新增登记缺口显式保留 |

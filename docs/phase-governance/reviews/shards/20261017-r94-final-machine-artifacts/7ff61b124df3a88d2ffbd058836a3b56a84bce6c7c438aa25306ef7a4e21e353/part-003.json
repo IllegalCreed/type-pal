@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "89faecc9c99aca24a03eb0c98f277fb703c9247c061b792737fb02a34b71d77d",
+  "generation": "7ff61b124df3a88d2ffbd058836a3b56a84bce6c7c438aa25306ef7a4e21e353",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -42,7 +42,7 @@
         }
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "9682f2426f4ece7e82f9e6997c1289742081125b0f14514b8f2be19b9cc54dee",
+      "afterSha256": "0f3e456201b4d1dfe84ec94a2b45f6bf34e88a09728423d330393e6491827921",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
@@ -1507,6 +1507,17 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74/final-results",
+          "revision": "2fd03f6fdd5f39bfc26f23ffd576aba3178fc5b9",
+          "beforeSha256": "9682f2426f4ece7e82f9e6997c1289742081125b0f14514b8f2be19b9cc54dee",
+          "afterSha256": "0f3e456201b4d1dfe84ec94a2b45f6bf34e88a09728423d330393e6491827921",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
       "readDomain": {
@@ -2763,6 +2774,19 @@
           "priorEntrySha256": "6b4dc30880b82a6ea3cca08e35e927df910717de15b9a5775b268d47631e2039",
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "S74-role-scope-clarification",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74",
+          "priorRecord": {
+            "revision": "2fd03f6fdd5f39bfc26f23ffd576aba3178fc5b9",
+            "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 36,
+            "sha256": "f721f96531cc288bc89e11baeb1784161aae0f2b3b7c169e2fcdce88c5514680"
+          },
+          "scope": "Remove inherited unrelated006 applicability and superseded self-reference counter from current routing role; exact old values remain in fixed Git and original publication history.",
+          "newCredit": 0
         }
       ],
       "supersedes": ["none; structural root"],
@@ -2793,9 +2817,9 @@
       "versionScope": "Current control/reference schema; variant1.0.0. Observations belong to the owned candidate view, not perpetual live counts.",
       "counterReworkBlocked": [
         {
-          "id": "ROOT-SELF-REFERENCE",
-          "status": "open-but-explicit",
-          "statement": "Registry and routing remain outside normal migrated routing to avoid recursive self-authority."
+          "id": "S74-ROUTING-RENEWAL",
+          "status": "pending-independent-acceptance",
+          "statement": "The old2433 routing publication remains complete in historical-current-native-control-publication. The changed2435 structure must receive its own scoped non-author acceptance before public native-control grant; no guard or source pin is weakened."
         }
       ],
       "correctiveDelta": {
@@ -3049,7 +3073,7 @@
           "runtimeAcceptanceGranted": false
         }
       ],
-      "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
+      "applicability": "Current routing authority and two accepted phase-index additions only; no E2E006, execution, child or global completion credit. Seven operation routes and original2433 declarations remain exact; renewed control awaits non-author acceptance.",
       "templateVariant": "current-governance-control-native-v1",
       "artifactEnvelope": false,
       "readDomain": {

@@ -438,7 +438,7 @@
         }
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "ba7f88bdcfcfc75a9d8608b61236593209304cb7742267821907031b48216f66",
+      "afterSha256": "797859d8b8b28e284d95fb3a5bb166323dc295bd08c3d59829c1436ca83210ba",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -1842,6 +1842,17 @@
           "revision": "83dc14427081c0295f6f29e1ca3e0d202bbc7c6d",
           "beforeSha256": "ac223bf4553b87f3ef86c30db5007f52a2a1832bb2d9085f910e2ebb4b05d0a9",
           "afterSha256": "ba7f88bdcfcfc75a9d8608b61236593209304cb7742267821907031b48216f66",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74/final-results",
+          "revision": "2fd03f6fdd5f39bfc26f23ffd576aba3178fc5b9",
+          "beforeSha256": "ba7f88bdcfcfc75a9d8608b61236593209304cb7742267821907031b48216f66",
+          "afterSha256": "797859d8b8b28e284d95fb3a5bb166323dc295bd08c3d59829c1436ca83210ba",
           "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

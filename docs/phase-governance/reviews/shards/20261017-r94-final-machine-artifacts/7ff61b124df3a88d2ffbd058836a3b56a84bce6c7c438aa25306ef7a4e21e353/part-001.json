@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "89faecc9c99aca24a03eb0c98f277fb703c9247c061b792737fb02a34b71d77d",
+  "generation": "7ff61b124df3a88d2ffbd058836a3b56a84bce6c7c438aa25306ef7a4e21e353",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   "entries": [
@@ -2574,7 +2574,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "5624a5bf71f7b0f9222bef29d46aec2cd506226e4c3f97d0b20f0bdcaa988e2b",
+      "afterSha256": "8e03aaafd39ca071f97142e10ed96170979ebfce8076076bacf872771675b1aa",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -4063,6 +4063,17 @@
           "beforeSha256": "b7e7a0d1416468ceed0fb46005009337b5ed50e9f34b79321e16bc65d2e0f7de",
           "afterSha256": "5624a5bf71f7b0f9222bef29d46aec2cd506226e4c3f97d0b20f0bdcaa988e2b",
           "scope": "Exact23 accepted documentary grants +one pending routing renewal/owned registry and administrative after closure; no runtime/child credit",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S74/final-results",
+          "revision": "2fd03f6fdd5f39bfc26f23ffd576aba3178fc5b9",
+          "beforeSha256": "5624a5bf71f7b0f9222bef29d46aec2cd506226e4c3f97d0b20f0bdcaa988e2b",
+          "afterSha256": "8e03aaafd39ca071f97142e10ed96170979ebfce8076076bacf872771675b1aa",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
