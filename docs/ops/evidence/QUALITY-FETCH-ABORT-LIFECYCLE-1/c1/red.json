@@ -1,0 +1,80 @@
+{
+  "base": "8f5a9af5d314fa7eb148f40b3a2d8a3243efd081",
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/shell/fetch-retry.cancellation.test.ts",
+    "--maxWorkers=1",
+    "--silent=false",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cancel-c1-m6tbfzg9/runner.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "seconds": 1.036,
+  "sourceSha256": {
+    "packages/game/src/shell/fetch-retry.ts": "acece0be9e180b65cb5f86e96bea80072c5640edbb8af25dcc05ec01fa91b1aa",
+    "packages/game/src/shell/fetch-retry.cancellation.test.ts": "d4c1ef5d90a56a7a7305f0f3715543a411050798aae0a7ecad727a181f959b70",
+    "packages/game/src/shell/fetch-retry.boundaries.test.ts": "b58d0abe1ba8f2cb1935f4ece662061c2f9c3647a741447651fdf54b91831d45"
+  },
+  "rawSha256": "53a8745de743515a82495975c51544018b48468bf798c86d2ba5fee59c18bf72",
+  "runnerSha256": "164e933ece57c10b1e2713a7a9f99531777e39b80c0490635876cb99ac627a14",
+  "files": 1,
+  "passed": 3,
+  "failed": 3,
+  "pending": 0,
+  "stderrBlocks": 0,
+  "actWarnings": 0,
+  "environmentWarnings": 0,
+  "cases": [
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/fetch-retry.cancellation.test.ts",
+      "fullName": "fetch-retry 取消与退避资源 已取消 Request：'自定义 Error' 原因与原生 fetch 一致，不进入退避",
+      "status": "failed",
+      "failureMessages": [
+        "AssertionError: expected \"setTimeout\" to not be called at all, but actually been called 2 times\n\nReceived:\n\n  1st setTimeout call:\n\n    Array [\n      [Function anonymous],\n      100,\n    ]\n\n  2nd setTimeout call:\n\n    Array [\n      [Function anonymous],\n      100,\n    ]\n\n\nNumber of calls: 2\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1467:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/fetch-retry.cancellation.test.ts:40:25\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ]
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/fetch-retry.cancellation.test.ts",
+      "fullName": "fetch-retry 取消与退避资源 已取消 Request：'默认 AbortError，零次重试' 原因与原生 fetch 一致，不进入退避",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/fetch-retry.cancellation.test.ts",
+      "fullName": "fetch-retry 取消与退避资源 init 的 signal 在退避中取消：立即拒绝、清 timer/监听器且不再请求",
+      "status": "failed",
+      "failureMessages": [
+        "AssertionError: expected undefined to be defined\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/fetch-retry.cancellation.test.ts:77:29\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ]
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/fetch-retry.cancellation.test.ts",
+      "fullName": "fetch-retry 取消与退避资源 Request 的 signal 在退避中取消：立即拒绝、清 timer/监听器且不再请求",
+      "status": "failed",
+      "failureMessages": [
+        "AssertionError: expected undefined to be defined\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/fetch-retry.cancellation.test.ts:77:29\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ]
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/fetch-retry.cancellation.test.ts",
+      "fullName": "fetch-retry 取消与退避资源 init.signal=signal 覆盖已取消 Request；正常退避恢复后不持有监听器",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/fetch-retry.cancellation.test.ts",
+      "fullName": "fetch-retry 取消与退避资源 init.signal=null 覆盖已取消 Request；正常退避恢复后不持有监听器",
+      "status": "passed",
+      "failureMessages": []
+    }
+  ]
+}

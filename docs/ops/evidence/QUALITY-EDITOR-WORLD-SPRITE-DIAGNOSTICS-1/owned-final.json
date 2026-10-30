@@ -1,0 +1,31 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/editor",
+    "exec",
+    "vitest",
+    "run",
+    "src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+    "src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-c07-owned-final.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "seconds": 4.28,
+  "bytes": 594,
+  "sha256": "4c9b9ae40181e1d7a558bc375253c0b725d03f29f701fb24d6c2a33ceb0eed25",
+  "testsSha256": "96f9ad9c6e5b3581f3dd3c71d19228092ca9e9fdb8b1c8c52d5909c07d168a3d",
+  "passed": 9,
+  "failed": 0,
+  "pending": 0,
+  "unwrappedAct": 0,
+  "unsupportedActEnvironment": 0,
+  "navigation": 0
+}

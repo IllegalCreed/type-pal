@@ -1,0 +1,30 @@
+{
+  "rows": [
+    {
+      "label": "coverage-tools",
+      "exit": 0,
+      "bytes": 13979,
+      "sha256": "1428f637eedd4fb5bf97dafa4ad9f6dcbde1f8fcd80cff13b5624de983d1adda"
+    },
+    {
+      "label": "editor-typecheck",
+      "exit": 0,
+      "bytes": 189,
+      "sha256": "051fe1ecaef8e8518e7ff4c1a27464a412c6990160e9214d8e838280a3830194"
+    },
+    {
+      "label": "docs",
+      "exit": 0,
+      "bytes": 11742,
+      "sha256": "6058f9a5c7ae7d6eb0adf5e4e6356b3ffc2190bacb29bac4e797ec6efa5866da"
+    },
+    {
+      "label": "lint",
+      "exit": 0,
+      "bytes": 199,
+      "sha256": "904208dc50745a9af760c1b356b94bb820828e0adc9cfa3d9bdb8cd3ace3561e"
+    }
+  ],
+  "coverageToolsTests": 65,
+  "noSkipped": true
+}

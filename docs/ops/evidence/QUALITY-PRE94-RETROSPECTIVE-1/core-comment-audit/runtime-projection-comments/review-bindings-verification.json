@@ -1,0 +1,64 @@
+{
+  "base": "bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a",
+  "scope": "Only four current records, no blanket hash refresh or whole-document semantic credit",
+  "initialVerifierLimitation": "Initial trial restoration omitted the existing evidence.afterSha256 current cache and rejected equality. Added this explicit current binding to restoration; no review source mutation to satisfy verifier.",
+  "records": [
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "changedCurrentTargets": ["docs/ops/board.md"],
+      "allOtherObjectsAndNativeVerdictsExact": true,
+      "historicalRevisionChainExact": true,
+      "allowedCurrentBindings": [
+        "entry.afterSha256",
+        "entry.revision.implementationSha",
+        "entry.evidence.afterSha256 where present",
+        "entry.reviewedLines"
+      ],
+      "addedHistory": "One bounded delta entry at revision.history[0]"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "changedCurrentTargets": ["docs/ops/audits/code-quality-file-ledger.md"],
+      "allOtherObjectsAndNativeVerdictsExact": true,
+      "historicalRevisionChainExact": true,
+      "allowedCurrentBindings": [
+        "entry.afterSha256",
+        "entry.revision.implementationSha",
+        "entry.evidence.afterSha256 where present",
+        "entry.reviewedLines"
+      ],
+      "addedHistory": "One bounded delta entry at revision.history[0]"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "changedCurrentTargets": [
+        "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+        "docs/phase-governance/reviews/20261016-historical-cards-d.json"
+      ],
+      "allOtherObjectsAndNativeVerdictsExact": true,
+      "historicalRevisionChainExact": true,
+      "allowedCurrentBindings": [
+        "entry.afterSha256",
+        "entry.revision.implementationSha",
+        "entry.evidence.afterSha256 where present",
+        "entry.reviewedLines"
+      ],
+      "addedHistory": "One bounded delta entry at revision.history[0]"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "changedCurrentTargets": [
+        "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+      ],
+      "allOtherObjectsAndNativeVerdictsExact": true,
+      "historicalRevisionChainExact": true,
+      "allowedCurrentBindings": [
+        "entry.afterSha256",
+        "entry.revision.implementationSha",
+        "entry.evidence.afterSha256 where present",
+        "entry.reviewedLines"
+      ],
+      "addedHistory": "One bounded delta entry at revision.history[0]"
+    }
+  ]
+}

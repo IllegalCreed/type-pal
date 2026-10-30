@@ -1,6 +1,6 @@
 /**
  * opcode 0x98 set-follower 的额外跟随者(sdlpal `rgParty[wMaxPartyMemberIndex + i]`,i=1..nFollower)
- * 渲染计算 —— 纯函数,便于按 sdlpal 真值单测。
+ * 渲染项计算：只读trail/chunk列表，返回新项；present拥有资源查找、排序与绘制。
  *
  * sdlpal 真值(scene.c):
  *  - 统一渲染循环 scene.c:210-226:`for i in 0..maxIdx+nFollower` 各用 PAL_GetPlayerSprite(i) 自己的
@@ -37,7 +37,8 @@ export interface FollowerRenderItem {
 
 /**
  * 计算 0x98 跟随者渲染项。follower k(0-based)→ trail[3+k](= sdlpal rgTrail[2+(k+1)])。
- * trail 深度不足(刚进场未铺满)→ 跳过该跟随者(走几步铺满后自然出现),不报错。
+ * 生产trail由移动/脚本写入为稠密前缀；深度不足时跳过，不改变trail或跟随者状态。
+ * 生产stepFrame为0..3；公开number参数的其它值按当前防御策略回落站立步0。
  */
 export function computeFollowerRenderItems(
   trail: readonly TrailEntry[],

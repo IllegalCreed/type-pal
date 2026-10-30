@@ -1,6 +1,6 @@
 /**
  * TEST-CURSOR-ASSET-UI-LARGE-1 战斗精灵资产夹具：blank 项目内注入真实 gzip+RLE 战斗帧字节与用途定义，
- * 经正式 loader 自证可保存。只被本卡 *.cursor-r1.test.ts(x) 导入。
+ * 经正式 loader 自证可保存。仅供编辑器测试复用，不被生产模块导入。
  */
 import type {
   AssetId,

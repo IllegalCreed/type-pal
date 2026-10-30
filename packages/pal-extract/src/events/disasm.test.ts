@@ -181,3 +181,11 @@ describe('loadScene round-trip(M3.5,opcode 0x0059)', () => {
     expect(back).toEqual(bc)
   })
 })
+
+it('labels implicit saved entries after advance and checkpoint without changing raw bytes', () => {
+  const raw = concat(instr(1), instr(8), instr(0))
+  const parsed = disasm(raw, [], [0])
+  expect(parsed[1]?.label).toBe('L_1')
+  expect(parsed[2]?.label).toBe('L_2')
+  expect(recompile(parsed, [])).toEqual(raw)
+})

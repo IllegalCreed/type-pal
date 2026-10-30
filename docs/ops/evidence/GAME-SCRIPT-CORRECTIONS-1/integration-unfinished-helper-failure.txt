@@ -1,0 +1,119 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/game
+
+ ❯ src/core/script-corrections.pal.test.ts (7 tests | 1 failed) 656ms
+   ✓ candy purchase 'Cancel' with 100 cash pays only for a received candy 184ms
+   ✓ candy purchase 'Confirm' with 100 cash pays only for a received candy 61ms
+   ✓ candy purchase 'Confirm' with 19 cash pays only for a received candy 97ms
+   ✓ real cure 307 clears silence and debuffs while preserving positive statuses 44ms
+   ✓ real cure 308 clears silence and debuffs while preserving positive statuses 82ms
+   × real cure 65 clears silence and debuffs while preserving positive statuses 35ms
+   ✓ replacing and removing the dark blade clears its luck without overwriting the equipped sachet 152ms
+ ✓ src/core/script-story-corrections.pal.test.ts (10 tests) 761ms
+ ✓ src/core/script-topology-corrections.pal.test.ts (4 tests) 268ms
+ ❯ src/core/object-script-progress.test.ts (5 tests | 4 failed) 15ms
+     ✓ casts the advanced success hook on the next heal while the use hook stays independent 2ms
+     × equipment hooks are object-owned across roles, preserving the other item hooks and flags 4ms
+     × item-use root survives a nested call and saved wait, then advances and resets on later use 7ms
+     × root checkpoint survives a child checkpoint and plain end, so the next use skips the completed prefix 1ms
+     × returning to title during a waiting item script discards its unfinished next entry 1ms
+ ❯ src/core/battle/__tests__/object-script-progress.test.ts (3 tests | 1 failed) 24ms
+     ✓ Wine God: eight successes, save/import/load, ninth removes the nonleader spell; Repeat cannot cast a tenth 15ms
+     ✓ failed Wine God resource check does not advance; a new game starts from the resource entry 1ms
+     × use and throw hooks advance independently without changing the item table 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/object-script-progress.test.ts > overworld object script ownership > equipment hooks are object-owned across roles, preserving the other item hooks and flags
+ReferenceError: state is not defined
+ ❯ getItemScriptEntry src/core/object-script-state.ts:41:26
+     39|
+     40| export function getItemScriptEntry(gs: GameState, item: Item, script: …
+     41|   gs.rgObject[item.id] = state
+       |                          ^
+     42|   return state?.rgwData[ITEM_SLOT[script]] ?? item[script]
+     43| }
+ ❯ updateAllEquipments src/core/equip-effect.ts:271:19
+ ❯ src/core/object-script-progress.test.ts:79:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  src/core/object-script-progress.test.ts > overworld object script ownership > item-use root survives a nested call and saved wait, then advances and resets on later use
+ReferenceError: state is not defined
+ ❯ getItemScriptEntry src/core/object-script-state.ts:41:26
+     39|
+     40| export function getItemScriptEntry(gs: GameState, item: Item, script: …
+     41|   gs.rgObject[item.id] = state
+       |                          ^
+     42|   return state?.rgwData[ITEM_SLOT[script]] ?? item[script]
+     43| }
+ ❯ startOverworldItemScript src/core/event-system.ts:3304:23
+ ❯ src/core/object-script-progress.test.ts:107:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  src/core/object-script-progress.test.ts > overworld object script ownership > root checkpoint survives a child checkpoint and plain end, so the next use skips the completed prefix
+ReferenceError: state is not defined
+ ❯ getItemScriptEntry src/core/object-script-state.ts:41:26
+     39|
+     40| export function getItemScriptEntry(gs: GameState, item: Item, script: …
+     41|   gs.rgObject[item.id] = state
+       |                          ^
+     42|   return state?.rgwData[ITEM_SLOT[script]] ?? item[script]
+     43| }
+ ❯ startOverworldItemScript src/core/event-system.ts:3304:23
+ ❯ src/core/object-script-progress.test.ts:141:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/core/object-script-progress.test.ts > overworld object script ownership > returning to title during a waiting item script discards its unfinished next entry
+ReferenceError: state is not defined
+ ❯ getItemScriptEntry src/core/object-script-state.ts:41:26
+     39|
+     40| export function getItemScriptEntry(gs: GameState, item: Item, script: …
+     41|   gs.rgObject[item.id] = state
+       |                          ^
+     42|   return state?.rgwData[ITEM_SLOT[script]] ?? item[script]
+     43| }
+ ❯ startOverworldItemScript src/core/event-system.ts:3304:23
+ ❯ src/core/object-script-progress.test.ts:158:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  src/core/script-corrections.pal.test.ts > real cure 65 clears silence and debuffs while preserving positive statuses
+ReferenceError: state is not defined
+ ❯ getItemScriptEntry src/core/object-script-state.ts:41:26
+     39|
+     40| export function getItemScriptEntry(gs: GameState, item: Item, script: …
+     41|   gs.rgObject[item.id] = state
+       |                          ^
+     42|   return state?.rgwData[ITEM_SLOT[script]] ?? item[script]
+     43| }
+ ❯ performItem src/core/battle/actions/item.ts:89:23
+ ❯ src/core/script-corrections.pal.test.ts:117:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  src/core/battle/__tests__/object-script-progress.test.ts > object script progress belongs to the saved game > use and throw hooks advance independently without changing the item table
+ReferenceError: state is not defined
+ ❯ getItemScriptEntry src/core/object-script-state.ts:41:26
+     39|
+     40| export function getItemScriptEntry(gs: GameState, item: Item, script: …
+     41|   gs.rgObject[item.id] = state
+       |                          ^
+     42|   return state?.rgwData[ITEM_SLOT[script]] ?? item[script]
+     43| }
+ ❯ performItem src/core/battle/actions/item.ts:89:23
+ ❯ src/core/battle/__tests__/object-script-progress.test.ts:191:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  3 failed | 2 passed (5)
+      Tests  6 failed | 23 passed (29)
+   Start at  16:39:42
+   Duration  2.44s (transform 3.65s, setup 810ms, import 4.31s, tests 1.72s, environment 2.02s)
+
+undefined
+/Users/zhangxu/illegal/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/script-corrections.pal.test.ts src/core/script-story-corrections.pal.test.ts src/core/script-topology-corrections.pal.test.ts src/core/battle/__tests__/object-script-progress.test.ts src/core/object-script-progress.test.ts --reporter=default

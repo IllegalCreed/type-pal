@@ -1,0 +1,8 @@
+$ pnpm lint
+exit_code=0
+
+
+> type-pal@ lint /Users/zhangxu/illegal/type-pal-quality-3x
+> node scripts/quality/lint-zero.mjs
+
+lint: PASS — 4009 files; 0 errors / 0 warnings / 0 infos; complete report

@@ -13,14 +13,14 @@ import {
   OP_REMOVE_MAGIC,
   OP_SET_PLAYER_STATUS,
 } from './event-opcode-player.js'
+import { freshPlayerOpcodeState } from './event-opcode-player.test-fixtures.js'
 import * as eventEntry from './event-system.js'
-import { createInitialGameState } from './game-state.js'
 import { setObjectPoisons } from './player-poison-state.js'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const ownerFile = resolve(here, 'event-opcode-player.ts')
 const entryFile = resolve(here, 'event-system.ts')
-const fresh = () => createInitialGameState({ x: 0, y: 0, facing: 'down' })
+const fresh = freshPlayerOpcodeState
 const poisonRunner = vi.fn(() => 0)
 
 afterEach(() => {
@@ -119,7 +119,7 @@ describe('player opcode family ownership', () => {
     expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 77, wPoisonScript: 0 })
   })
 
-  it('level-up retains seven random samples, stat increments, caps and primary-exp reset', () => {
+  it('level-up retains six random samples, seven stat increments and primary-exp reset', () => {
     const gs = fresh()
     const role = 0
     gs.PlayerRolesRuntime.rgwLevel[role] = 1

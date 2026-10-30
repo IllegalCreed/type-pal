@@ -1,0 +1,35 @@
+{
+  "base": "206b18563e07569414f4ec90f08597c5b8ac66de",
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "sha256": "4cd77e0892a460ba387eeeaff6d0ad94a7f2be3f40a17376df1361e84b14da19",
+      "lines": 240,
+      "readRanges": [[1, 240]],
+      "snapshot": "4cd77e0892a4.draw-shop.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sha256": "8c438eec6622854d20603ef112894836594e143ddf9d6d903697d5c44b0f9f71",
+      "lines": 102,
+      "readRanges": [[1, 102]],
+      "snapshot": "8c438eec6622.draw-shop.glm-phase1-leaves.test.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "sha256": "e797e4dc86e51721fa75ff78cebc451986b6733fefabd448d2679f4da655beb4",
+      "lines": 153,
+      "readRanges": [[1, 153]],
+      "snapshot": "e797e4dc86e5.draw-menu.glm-phase1-leaves.test.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "sha256": "e0ee06cde04cd4ed675ab60a923ee78e9f5d1d56aa3d70c138036d6bf30f390d",
+      "lines": 347,
+      "readRanges": [[1, 347]],
+      "snapshot": "e0ee06cde04c.shop-preview-pixels.grok-r1.test.ts.before.gz"
+    }
+  ],
+  "scope": "Four current files fully read; source edits only comments, tests bounded to legal inputs and distinguishing oracles. No full-file closure."
+}

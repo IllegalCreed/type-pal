@@ -148,7 +148,7 @@ function draw(
 ): Framebuffer {
   const fb = createFramebuffer()
   fillSentinel(fb)
-  drawBattleSprites(fb, state, sprites, roles, undefined, 0, hidePlayers, overlays)
+  drawBattleSprites(fb, state, sprites, roles, undefined, hidePlayers, overlays)
   return fb
 }
 

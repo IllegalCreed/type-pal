@@ -1,0 +1,80 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/pal-extract",
+    "exec",
+    "vitest",
+    "run",
+    "src/cli-error-exits.kimi-r1.test.ts",
+    "--maxWorkers=1",
+    "--silent=false",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-extract-c1-mutant-report-1txn7a6m/runner.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "seconds": 10.52,
+  "mutantSha256": "57e3d6ad9cbedcb3a1938a023f608b5f68c1d0454ee50218455edfce54d7d507",
+  "formalSourceSha256": "830424d216ff6b52041088d34f37e42c38af04fd367ba3bee5168a2ae2f0e071",
+  "rawSha256": "9e2e09ea45cca477c76777b25125e6952b012a82cb25caf6c0ff09ec6cb1018c",
+  "runnerSha256": "087bb97af27b387b343d73370943b9acdd2a046ec91d3e5d43c05b2a31d68716",
+  "passed": 7,
+  "failed": 2,
+  "pending": 0,
+  "stderrBlocks": 0,
+  "cases": [
+    {
+      "fullName": "KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 operand）",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：M.MSG 缺失 → ENOENT + exit 1",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：WORD.DAT 缺失 → ENOENT + exit 1",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：SSS.MKF 头部过短 → MKF 精确诊断 + exit 1",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：SSS.MKF 首偏移非 4 对齐 → MKF 精确诊断 + exit 1",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：输出目录覆盖策略——陈旧产物清除、videos/ PRESERVE 保留",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：命令面真值——不消费 argv，多余参数被忽略",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：OUT 根是共享 symlink 时，清理前拒绝且保留目标 marker",
+      "status": "failed",
+      "failureMessages": [
+        "AssertionError: expected false to be true // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts:233:62\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ]
+    },
+    {
+      "fullName": "KIMI-R1 CLI：data 父目录是共享 symlink 时，清理前拒绝且保留目标 marker",
+      "status": "failed",
+      "failureMessages": [
+        "AssertionError: expected false to be true // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts:249:76\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ]
+    }
+  ]
+}

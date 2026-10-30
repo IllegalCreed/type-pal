@@ -2,7 +2,7 @@
 /**
  * TEST-CURSOR-ASSET-UI-LARGE-1 C05-G07：SpriteFrameWorkbench 拖拽 MIME 与源帧选择器。
  * 排重：SpriteFrameWorkbench.test 语义架；glm F04b RawFrameInspector；本组只测
- * inspect/read 拖拽 payload、SpriteSourceFramePicker 键盘/aria、SpriteFrameCanvas 真实像素。
+ * inspect 拖拽 payload、SpriteSourceFramePicker 键盘/aria、SpriteFrameCanvas 真实像素。
  */
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
@@ -12,7 +12,6 @@ import { setupC05Ui, teardownC05Ui } from '../__tests__/cursor-asset-r1/c05-acti
 import { colorCensus, requireRealCanvas2d } from '../__tests__/cursor-asset-r1/canvas-pixels.js'
 import {
   inspectSpriteFrameDragPayload,
-  readSpriteFrameDragPayload,
   SPRITE_FRAME_DRAG_MIME,
   SpriteFrameCanvas,
   type SpriteFrameView,
@@ -77,20 +76,20 @@ describe('C05-G07 拖拽协议与源帧选择器', () => {
     expect(result).toEqual({ kind: 'invalid' })
   })
 
-  test('C05-G07-04 readSpriteFrameDragPayload：合法 payload 可读回', () => {
-    const payload = readSpriteFrameDragPayload({
+  test('C05-G07-04 inspect：合法 payload 可读回', () => {
+    const payload = inspectSpriteFrameDragPayload({
       getData: (type) =>
         type === SPRITE_FRAME_DRAG_MIME ? JSON.stringify({ asset: C05_ASSET, frame: 3 }) : '',
     })
-    expect(payload).toEqual({ asset: C05_ASSET, frame: 3 })
+    expect(payload).toEqual({ kind: 'payload', value: { asset: C05_ASSET, frame: 3 } })
   })
 
-  test('C05-G07-05 readSpriteFrameDragPayload：invalid 时 undefined', () => {
+  test('C05-G07-05 inspect：JSON 标量不是拖拽 payload', () => {
     expect(
-      readSpriteFrameDragPayload({
+      inspectSpriteFrameDragPayload({
         getData: (type) => (type === SPRITE_FRAME_DRAG_MIME ? '"nope"' : ''),
       }),
-    ).toBeUndefined()
+    ).toEqual({ kind: 'invalid' })
   })
 
   test('C05-G07-06 选中帧超出范围：安全钳到末帧且 status 播报末索引', async () => {
@@ -127,7 +126,7 @@ describe('C05-G07 拖拽协议与源帧选择器', () => {
     expect(onSelect).toHaveBeenLastCalledWith(open.frameCount - 1)
   })
 
-  test('C05-G07-09 SpriteFrameCanvas 绘制真实 bakeFrame 像素（互异 RGB 至少 2）', async () => {
+  test('C05-G07-09 SpriteFrameCanvas 绘制真实 bakeFrame 的非透明像素与透明留白', async () => {
     requireRealCanvas2d()
     const open = await openC05('g07-09')
     act(() => {

@@ -6,15 +6,17 @@ import type { PalContentSupplySources } from './pal-content-supply.js'
 import type { SourceScene } from './pal-source-types.js'
 import type { SourceCmd } from './source-facts.js'
 
+/** 固定提取器文件的类型边界；不是外部作者 JSON 的 schema 校验入口。 */
 function readPalSourceJson<T>(repo: string, rel: string): T {
   return JSON.parse(readFileSync(resolve(repo, rel), 'utf8')) as T
 }
 
 /** 只读取提取源；本模块中不得出现 projects/pal 路径。 */
 export function loadPalSourcePartitions(repo: string): PalContentSupplySources {
-  const allPath = resolve(repo, 'data/extracted/events/all.json')
-  const allText = readFileSync(allPath, 'utf8')
-  const allJson = JSON.parse(allText) as { segments: { commands: SourceCmd[] }[] }
+  const allJson = readPalSourceJson<{ segments: { commands: SourceCmd[] }[] }>(
+    repo,
+    'data/extracted/events/all.json',
+  )
   const migrate: PalContentSupplySources['migrate'] = {
     roles: readPalSourceJson<{ roles: PalContentSupplySources['migrate']['roles'] }>(
       repo,

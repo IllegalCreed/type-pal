@@ -1,0 +1,477 @@
+{
+  "candidate": "bb94ad8e2efc5a56c10f496ccb16303cae9d4518",
+  "main": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+  "gateAssessment": "rework: zero-diagnostic requirement not met despite process/numerical success",
+  "diagnosticCounting": "Independent pattern counts, not an exhaustive classification of all console output. Header groups are localization clues, not proof of causal ownership; asynchronous/parallel output may interleave. Receipt actDiagnostics counts only unwrapped updates.",
+  "gates": [
+    {
+      "name": "check",
+      "receipt": "codex-final-check.json",
+      "exitCode": 0,
+      "seconds": 478.19,
+      "rawIntegrityVerified": true,
+      "diagnostics": {
+        "unwrappedAct": 3620,
+        "unsupportedActEnvironment": 577,
+        "navigation": 2,
+        "overlappingAct": 0,
+        "unawaitedAct": 0
+      },
+      "unwrappedActHeaderGroups": {
+        "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx": 604,
+        "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx": 404,
+        "src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx": 398,
+        "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx": 377,
+        "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx": 276,
+        "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx": 210,
+        "src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx": 204,
+        "src/ui/FrameAnimationEditor.save.test.tsx": 130,
+        "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx": 118,
+        "src/ui/ImageTab.kimi-workflows.test.tsx": 114,
+        "src/ui/SkillTab.glm-m.test.tsx": 80,
+        "src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx": 79,
+        "src/ui/TilesetTab.kimi-workflows.test.tsx": 69,
+        "src/ui/CutsceneTab.kimi-workflows.test.tsx": 66,
+        "src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx": 58,
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx": 56,
+        "src/ui/SkillTab.glm-ui-wave.test.tsx": 37,
+        "src/ui/EnemyTab.glm-m.test.tsx": 28,
+        "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx": 27,
+        "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx": 26,
+        "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx": 24,
+        "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx": 24,
+        "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx": 19,
+        "src/ui/EnemyTab.test.tsx": 18,
+        "src/ui/PoisonTab.glm-m.test.tsx": 18,
+        "src/ui/BattleFieldTab.glm-m.test.tsx": 17,
+        "src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx": 14,
+        "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx": 12,
+        "src/ui/ItemTab.glm-m.test.tsx": 12,
+        "src/ui/SceneCanvas.kimi-workflows.test.tsx": 10,
+        "src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx": 10,
+        "src/ui/ItemUseEffectEditor.glm-m.test.tsx": 10,
+        "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx": 9,
+        "src/ui/ItemAlchemyTab.glm-m.test.tsx": 8,
+        "src/ui/CasualtyEditor.glm-m.test.tsx": 7,
+        "src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx": 6,
+        "src/ui/SceneCanvas.glm-ui-wave.test.tsx": 6,
+        "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx": 6,
+        "src/ui/TilesetTab.test.tsx": 5,
+        "src/__tests__/architecture-lab/app-lifecycle.test.tsx": 4,
+        "src/ui/BattleSpriteLibrary.glm-m.test.tsx": 3,
+        "src/ui/FireEffectPreview.glm-large-wave.test.tsx": 3,
+        "src/ui/scene-stage.kimi-workflows.test.ts": 2,
+        "src/ui/AudioAssetWorkbench.test.tsx": 2,
+        "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx": 2,
+        "src/ui/ProjectAudioPreviewButton.test.tsx": 2,
+        "src/ui/ProjectWorkbenchTab.test.tsx": 1,
+        "src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx": 1,
+        "src/ui/BattleFieldTab.glm-leaf-wave.test.tsx": 1,
+        "src/ui/design-system/list-header.glm-leaf-wave.test.tsx": 1,
+        "src/ui/BattleSpriteUploader.glm-next-wave.test.tsx": 1,
+        "src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx": 1
+      },
+      "navigationContexts": [
+        {
+          "line": 5237,
+          "context": [
+            "",
+            "stdout | src/main.host-lifecycle-1.test.ts > 战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换",
+            "[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话",
+            "",
+            "Not implemented: navigation to another Document",
+            "stderr | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+            "[sfx] AudioContext 不可用，音效播放器停用",
+            "",
+            "stderr | src/pal-meal-shell.test.ts > the opening aunt presents each exact handoff before drawing (100ms frames)"
+          ],
+          "causalOwner": "unverified"
+        },
+        {
+          "line": 41192,
+          "context": [
+            " ✓ src/ui/FrameAnimationEditor.async-ownership.test.tsx (9 tests) 485ms",
+            " ✓ src/core/script-editor-projection.boundaries.test.ts (4 tests) 5ms",
+            " ✓ src/ui/StampPreviewCanvas.c06-g07.cursor-r1.test.tsx (10 tests) 464ms",
+            " ✓ src/ui/ImageTab.c07-g06.cursor-r1.test.tsx (10 tests) 449ms",
+            "Not implemented: navigation to another Document",
+            " ✓ src/ui/design-system/navigation.glm-leaf-wave.test.tsx (6 tests) 57ms",
+            " ✓ src/ui/ScriptTree.workflow-coverage.test.tsx (5 tests) 74ms",
+            " ✓ src/ui/ImageAssetPicker.glm-leaf-wave.test.tsx (7 tests) 101ms",
+            " ✓ src/core/playback.test.ts (12 tests) 923ms"
+          ],
+          "causalOwner": "unverified"
+        }
+      ]
+    },
+    {
+      "name": "ratchet",
+      "receipt": "codex-final-ratchet.json",
+      "exitCode": 0,
+      "seconds": 429.2,
+      "rawIntegrityVerified": true,
+      "diagnostics": {
+        "unwrappedAct": 3610,
+        "unsupportedActEnvironment": 577,
+        "navigation": 2,
+        "overlappingAct": 0,
+        "unawaitedAct": 0
+      },
+      "unwrappedActHeaderGroups": {
+        "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx": 604,
+        "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx": 404,
+        "src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx": 398,
+        "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx": 377,
+        "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx": 276,
+        "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx": 210,
+        "src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx": 204,
+        "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx": 118,
+        "src/ui/ImageTab.kimi-workflows.test.tsx": 114,
+        "src/ui/FrameAnimationEditor.save.test.tsx": 104,
+        "src/ui/SkillTab.glm-m.test.tsx": 80,
+        "src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx": 79,
+        "src/ui/TilesetTab.kimi-workflows.test.tsx": 69,
+        "src/ui/CutsceneTab.kimi-workflows.test.tsx": 66,
+        "src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx": 58,
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx": 56,
+        "src/ui/SkillTab.glm-ui-wave.test.tsx": 37,
+        "src/ui/EnemyTab.glm-m.test.tsx": 28,
+        "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx": 27,
+        "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx": 26,
+        "src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx": 26,
+        "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx": 24,
+        "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx": 24,
+        "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx": 19,
+        "src/ui/EnemyTab.test.tsx": 18,
+        "src/ui/PoisonTab.glm-m.test.tsx": 18,
+        "src/ui/BattleFieldTab.glm-m.test.tsx": 17,
+        "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx": 12,
+        "src/ui/ItemTab.glm-m.test.tsx": 12,
+        "src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx": 10,
+        "src/ui/SceneCanvas.kimi-workflows.test.tsx": 10,
+        "src/ui/ItemUseEffectEditor.glm-m.test.tsx": 10,
+        "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx": 9,
+        "src/ui/ItemAlchemyTab.glm-m.test.tsx": 8,
+        "src/ui/CasualtyEditor.glm-m.test.tsx": 7,
+        "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx": 6,
+        "src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx": 6,
+        "src/ui/SceneCanvas.glm-ui-wave.test.tsx": 6,
+        "src/ui/TilesetTab.test.tsx": 5,
+        "src/__tests__/architecture-lab/app-lifecycle.test.tsx": 4,
+        "src/ui/CutsceneTab.glm-ui-wave.test.tsx": 4,
+        "src/ui/BattleSpriteLibrary.glm-m.test.tsx": 3,
+        "src/ui/FireEffectPreview.glm-large-wave.test.tsx": 3,
+        "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx": 2,
+        "src/ui/scene-stage.kimi-workflows.test.ts": 2,
+        "src/ui/AudioAssetWorkbench.test.tsx": 2,
+        "src/ui/ProjectAudioPreviewButton.test.tsx": 2,
+        "src/ui/ProjectWorkbenchTab.test.tsx": 1,
+        "src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx": 1,
+        "src/ui/BattleFieldTab.glm-leaf-wave.test.tsx": 1,
+        "src/ui/BattleSpriteUploader.glm-next-wave.test.tsx": 1,
+        "src/ui/design-system/list-header.glm-leaf-wave.test.tsx": 1,
+        "src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx": 1
+      },
+      "navigationContexts": [
+        {
+          "line": 1841,
+          "context": [
+            "",
+            "stdout | src/main.host-lifecycle-1.test.ts > 战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换",
+            "[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话",
+            "",
+            "Not implemented: navigation to another Document",
+            "stderr | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+            "[sfx] AudioContext 不可用，音效播放器停用",
+            "",
+            "stdout | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键"
+          ],
+          "causalOwner": "unverified"
+        },
+        {
+          "line": 42165,
+          "context": [
+            "stderr | src/ui/ProjectPicker-recovery.test.tsx > 大项目克隆先显示准备再显示写入，失败后恢复操作且下一次成功不残留进度",
+            "The current testing environment is not configured to support act(...)",
+            "",
+            " ✓ src/ui/ProjectPicker-recovery.test.tsx (5 tests) 58ms",
+            "Not implemented: navigation to another Document",
+            " ✓ src/ui/design-system/navigation.glm-leaf-wave.test.tsx (6 tests) 59ms",
+            " ✓ src/core/zip.test.ts (10 tests) 58ms",
+            " ✓ src/ui/ScriptSceneHookInspector.glm-leaf-wave.test.tsx (2 tests) 62ms",
+            " ✓ src/core/skill-commands.glm-boundaries.test.ts (7 tests) 55ms"
+          ],
+          "causalOwner": "unverified"
+        }
+      ]
+    },
+    {
+      "name": "protected",
+      "receipt": "codex-final-protected.json",
+      "exitCode": 0,
+      "seconds": 365.51,
+      "rawIntegrityVerified": true,
+      "diagnostics": {
+        "unwrappedAct": 3523,
+        "unsupportedActEnvironment": 577,
+        "navigation": 2,
+        "overlappingAct": 0,
+        "unawaitedAct": 0
+      },
+      "unwrappedActHeaderGroups": {
+        "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx": 604,
+        "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx": 404,
+        "src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx": 398,
+        "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx": 377,
+        "src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx": 276,
+        "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx": 210,
+        "src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx": 204,
+        "src/ui/ImageTab.kimi-workflows.test.tsx": 128,
+        "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx": 118,
+        "src/ui/SkillTab.glm-m.test.tsx": 80,
+        "src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx": 79,
+        "src/ui/TilesetTab.kimi-workflows.test.tsx": 69,
+        "src/ui/CutsceneTab.kimi-workflows.test.tsx": 66,
+        "src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx": 58,
+        "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx": 56,
+        "src/ui/SkillTab.glm-ui-wave.test.tsx": 37,
+        "src/ui/EnemyTab.glm-m.test.tsx": 28,
+        "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx": 27,
+        "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx": 26,
+        "src/ui/FrameAnimationEditor.save.test.tsx": 26,
+        "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx": 24,
+        "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx": 24,
+        "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx": 19,
+        "src/ui/EnemyTab.test.tsx": 18,
+        "src/ui/PoisonTab.glm-m.test.tsx": 18,
+        "src/ui/BattleFieldTab.glm-m.test.tsx": 17,
+        "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx": 12,
+        "src/ui/TilesetTab.test.tsx": 12,
+        "src/ui/ItemTab.glm-m.test.tsx": 12,
+        "src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx": 10,
+        "src/ui/SceneCanvas.kimi-workflows.test.tsx": 10,
+        "src/ui/ItemUseEffectEditor.glm-m.test.tsx": 10,
+        "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx": 9,
+        "src/ui/ItemAlchemyTab.glm-m.test.tsx": 8,
+        "src/ui/CasualtyEditor.glm-m.test.tsx": 7,
+        "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx": 6,
+        "src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx": 6,
+        "src/ui/SceneCanvas.glm-ui-wave.test.tsx": 6,
+        "src/__tests__/architecture-lab/app-lifecycle.test.tsx": 4,
+        "src/ui/BattleSpriteLibrary.glm-m.test.tsx": 3,
+        "src/ui/FireEffectPreview.glm-large-wave.test.tsx": 3,
+        "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx": 2,
+        "src/ui/scene-stage.kimi-workflows.test.ts": 2,
+        "src/ui/AudioAssetWorkbench.test.tsx": 2,
+        "src/ui/ProjectAudioPreviewButton.test.tsx": 2,
+        "src/ui/ProjectWorkbenchTab.test.tsx": 1,
+        "src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx": 1,
+        "src/ui/BattleFieldTab.glm-leaf-wave.test.tsx": 1,
+        "src/ui/BattleSpriteUploader.glm-next-wave.test.tsx": 1,
+        "src/ui/design-system/list-header.glm-leaf-wave.test.tsx": 1,
+        "src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx": 1
+      },
+      "navigationContexts": [
+        {
+          "line": 1639,
+          "context": [
+            "",
+            "stdout | src/main.host-lifecycle-1.test.ts > 战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换",
+            "[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话",
+            "",
+            "Not implemented: navigation to another Document",
+            "stderr | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+            "[sfx] AudioContext 不可用，音效播放器停用",
+            "",
+            "stdout | src/main.host-lifecycle-1.test.ts > 场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键"
+          ],
+          "causalOwner": "unverified"
+        },
+        {
+          "line": 41101,
+          "context": [
+            "",
+            "This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act",
+            "",
+            " ✓ src/ui/design-system/list-header.glm-leaf-wave.test.tsx (3 tests) 66ms",
+            "Not implemented: navigation to another Document",
+            " ✓ src/ui/design-system/navigation.glm-leaf-wave.test.tsx (6 tests) 76ms",
+            " ✓ src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx (10 tests) 91ms",
+            " ✓ src/core/zip.test.ts (10 tests) 100ms",
+            " ✓ src/core/ambience-commands.glm-boundaries.test.ts (7 tests) 65ms"
+          ],
+          "causalOwner": "unverified"
+        }
+      ]
+    }
+  ],
+  "frozenSourceBytes": {
+    "checked": 36,
+    "changed": [],
+    "exception": "scripts/coverage/baseline.fast.json was updated only by the completed official ratchet"
+  },
+  "officialBaseline": {
+    "path": "scripts/coverage/baseline.fast.json",
+    "beforeSha256": "0c7af436278a04974fb7a986044cc1fb99ca8d7084af2247d7434f31594c4dd4",
+    "afterSha256": "7e9037ecc38ba8278a0ade15cdbe69afaebc6ea50a997920bd0924ecaf7ce634",
+    "sourceFileCount": 736,
+    "testCountBefore": 19862,
+    "testCountAfter": 19865,
+    "gameFastTestsBefore": 3533,
+    "gameFastTestsAfter": 3536,
+    "otherPackagesUnchanged": true,
+    "gameSourceScopeUnchanged": true,
+    "changedMetrics": [
+      {
+        "scope": "game",
+        "metric": "statements",
+        "before": {
+          "covered": 13819,
+          "total": 15822
+        },
+        "after": {
+          "covered": 13869,
+          "total": 15836
+        }
+      },
+      {
+        "scope": "game",
+        "metric": "branches",
+        "before": {
+          "covered": 9032,
+          "total": 11452
+        },
+        "after": {
+          "covered": 9045,
+          "total": 11456
+        }
+      },
+      {
+        "scope": "game",
+        "metric": "functions",
+        "before": {
+          "covered": 1571,
+          "total": 1904
+        },
+        "after": {
+          "covered": 1591,
+          "total": 1910
+        }
+      },
+      {
+        "scope": "game",
+        "metric": "lines",
+        "before": {
+          "covered": 12339,
+          "total": 13878
+        },
+        "after": {
+          "covered": 12385,
+          "total": 13891
+        }
+      },
+      {
+        "scope": "total",
+        "metric": "statements",
+        "before": {
+          "covered": 70872,
+          "total": 79014
+        },
+        "after": {
+          "covered": 70922,
+          "total": 79028
+        }
+      },
+      {
+        "scope": "total",
+        "metric": "branches",
+        "before": {
+          "covered": 51532,
+          "total": 61704
+        },
+        "after": {
+          "covered": 51545,
+          "total": 61708
+        }
+      },
+      {
+        "scope": "total",
+        "metric": "functions",
+        "before": {
+          "covered": 13437,
+          "total": 15038
+        },
+        "after": {
+          "covered": 13457,
+          "total": 15044
+        }
+      },
+      {
+        "scope": "total",
+        "metric": "lines",
+        "before": {
+          "covered": 63318,
+          "total": 69150
+        },
+        "after": {
+          "covered": 63364,
+          "total": 69163
+        }
+      }
+    ],
+    "addedTestFiles": ["packages/game/src/core/save/__tests__/indexed-db.test.ts"],
+    "removedTestFiles": [],
+    "changedTestIdentities": [
+      {
+        "before": {
+          "file": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+          "testCount": 10,
+          "identityDigest": "8a381d43d963a352111f5c6b3cc0c62ce270cdb51a4ccf85c8b9fa02b4870e8c"
+        },
+        "after": {
+          "file": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+          "testCount": 10,
+          "identityDigest": "4eb15ca39810af7ebf75ce75bc07cc15795205e3558d5344d09ff856825174ea"
+        }
+      },
+      {
+        "before": {
+          "file": "packages/game/src/tools/quick-save.test.ts",
+          "testCount": 8,
+          "identityDigest": "f27c5a1f8fddc2c71ebfece16d8616f4c29c639778ed5814d71979faaafd7a21"
+        },
+        "after": {
+          "file": "packages/game/src/tools/quick-save.test.ts",
+          "testCount": 8,
+          "identityDigest": "27a112eeedf97f4349dda9243c92c59cf679d27e9c362dbccf6746b22e2629fe"
+        }
+      }
+    ],
+    "retirementProtection": "protected fast verified exact equip 4->3, opening 3->2, save-slot 15->14; no matcher/rule relaxation"
+  },
+  "fullCheckPackageTests": {
+    "files": 1640,
+    "tests": 20274,
+    "nodeToolTestCounts": [48, 62, 37, 397, 22]
+  },
+  "nextSliceFullReads": [
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx",
+      "lines": 121,
+      "sha256": "9189c196022cfebc80be3fa75860e8f0c3976e72e71c1f6d5c890843b96a1f69",
+      "conclusion": "full text read only; production caller/lifecycle/oracle and isolated diagnostic cause not yet fully reviewed; no implementation or closure"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/kit.ts",
+      "lines": 234,
+      "sha256": "bf9a160a7e043393f9c0c9ab7f615e35905366e0f4849303c474857531f161e2",
+      "conclusion": "full text read only; production caller/lifecycle/oracle and isolated diagnostic cause not yet fully reviewed; no implementation or closure"
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "lines": 1201,
+      "sha256": "0d671ec7997ae03c4a118e9cbe5ac3f4a3d0ee2e369adf93097c81949ae80359",
+      "conclusion": "full text read only; production caller/lifecycle/oracle and isolated diagnostic cause not yet fully reviewed; no implementation or closure"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+> @type-pal/game@1.0.0 exec vitest run <24 files: 21 manifest menu tests + menu-driver.test.ts + menu-driver.cov85.test.ts + item-select.glm-phase1-leaves.test.ts>
+env: VITEST_MAX_WORKERS=1 (cwd worktree codex/code-quality-menu-integration @ 0491824e0)
+
+ Test Files  24 passed (24)
+      Tests  241 passed (241)
+   Duration  10.30s
+
+GLM 2026-10-15 独立复跑；与 Codex 检查点回执 targeted.txt（13.94s）口径一致。

@@ -1,40 +1,13 @@
 /**
- * TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 · CLI 错误退出与输出策略合同（src/cli.ts）。
- *
- * 隔离方式同既有 glm-q 套件（cli-isolated.glm-q.test.ts 确立）：mkdtemp 临时树内复制
- * 只读产品 src/** 与 package.json、symlink node_modules，REPO_ROOT 解析到临时树 →
- * RAW/OUT 全部落临时目录；合成输入，不写真实 data/raw/extracted。
- *
- * 排重 basis（旧 fullName 不重复）：cli-isolated.glm-q.test.ts 已覆盖事件管线成功段、
- * DATA 表段、图像/音频段、全管线 exit 0、FBP 越界、截断 SSS chunk0；
- * cli-global-entries.glm-q.test.ts 覆盖十二类全局 hook 接线。本文件只补：
- * - ROUND-TRIP FAILED → console.error + process.exit(2)（cli.ts:263-267 错误退出）：
- *   setPalette operand[1] 非 0 尾巴被 disasm 丢弃 → recompile 写 0 ≠ 原始字节。
- * - 输入文件不存在：M.MSG / WORD.DAT 缺失 → ENOENT + exit 1。
- * - 输入格式错误：SSS.MKF 头部过短 / 首偏移非 4 对齐 → openMkf 精确诊断 + exit 1。
- * - 输出目录覆盖策略：陈旧产物被清、PRESERVE(videos/) 保留（cli.ts:189-197）。
- * - 命令面真值：cli.ts 不消费 argv，多余参数被忽略（错误诊断仍是 ENOENT 而非 usage）。
- * 每条断言精确到诊断文本与 exit code（卡面要求）。
+ * 隔离实跑 CLI：round-trip/缺文件/坏容器的错误退出、argv及输出清理/共享链接保护。
+ * 测试宿主复制只读源码并拥有临时树与子进程，业务输入/预期仍留在本文件。
+ * 不在真实 data/raw 或 data/extracted 运行提取。
  */
 
-import { spawn } from 'node:child_process'
-import {
-  cpSync,
-  existsSync,
-  mkdirSync,
-  mkdtempSync,
-  readFileSync,
-  rmSync,
-  symlinkSync,
-  writeFileSync,
-} from 'node:fs'
-import { tmpdir } from 'node:os'
-import { dirname, join, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { afterAll, expect, test } from 'vitest'
-
-const HERE = dirname(fileURLToPath(import.meta.url))
-const REAL_PACKAGE = resolve(HERE, '..')
+import { createCliTestHost } from './__tests__/cli-host.js'
 
 function u32(value: number): Uint8Array {
   const out = new Uint8Array(4)
@@ -82,57 +55,20 @@ function buildWordDat(): Uint8Array {
   return new Uint8Array(565 * 10).fill(0x20)
 }
 
-interface RunResult {
-  exitCode: number | null
-  stdout: string
-  stderr: string
-}
-
-function runCli(tree: string, args: string[] = []): Promise<RunResult> {
-  return new Promise((resolvePromise, reject) => {
-    const child = spawn(
-      process.execPath,
-      [join(REAL_PACKAGE, 'node_modules', 'tsx', 'dist', 'cli.mjs'), 'src/cli.ts', ...args],
-      {
-        cwd: join(tree, 'packages', 'pal-extract'),
-        env: { ...process.env, NODE_COMPILE_CACHE: '' },
-      },
-    )
-    let stdout = ''
-    let stderr = ''
-    child.stdout.on('data', (chunk) => {
-      stdout += String(chunk)
-    })
-    child.stderr.on('data', (chunk) => {
-      stderr += String(chunk)
-    })
-    child.once('error', reject)
-    child.on('close', (exitCode) => resolvePromise({ exitCode, stdout, stderr }))
-  })
-}
-
-const trees: string[] = []
-afterAll(() => {
-  for (const tree of trees) rmSync(tree, { recursive: true, force: true })
-})
+const cliHost = createCliTestHost('kimi-r1-cli-')
+const { runCli } = cliHost
+afterAll(cliHost.disposeAll)
 
 function makeTree(rawFiles: Record<string, Uint8Array>): string {
-  const tree = mkdtempSync(join(tmpdir(), 'kimi-r1-cli-'))
-  const pkgDir = join(tree, 'packages', 'pal-extract')
-  mkdirSync(pkgDir, { recursive: true })
-  cpSync(join(REAL_PACKAGE, 'src'), join(pkgDir, 'src'), { recursive: true })
-  cpSync(join(REAL_PACKAGE, 'package.json'), join(pkgDir, 'package.json'))
-  symlinkSync(join(REAL_PACKAGE, 'node_modules'), join(pkgDir, 'node_modules'), 'dir')
+  const tree = cliHost.createTree()
   const rawDir = join(tree, 'data', 'raw')
-  mkdirSync(rawDir, { recursive: true })
   for (const [name, bytes] of Object.entries(rawFiles)) writeFileSync(join(rawDir, name), bytes)
-  trees.push(tree)
   return tree
 }
 
 test('KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 operand）', async () => {
   // bytecode: ip0 setPalette(9, op1=1) —— disasm 丢 operand[1]，recompile 写 0 ≠ 原始；
-  //           ip1 end。cli.ts:263-267 自检拒绝 → exit 2（不是 exit 1）。
+  //           ip1 end。CLI round-trip guard 自检拒绝 → exit 2（不是 exit 1）。
   const bytecode = new Uint8Array([
     ...u16(0x008b),
     ...u16(9),
@@ -148,7 +84,7 @@ test('KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 �
     'M.MSG': new TextEncoder().encode(MSG_TEXT),
     'WORD.DAT': buildWordDat(),
   })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(2)
   expect(result.stderr).toContain('[pal-extract] ROUND-TRIP FAILED — events 不忠实')
   expect(result.stdout).not.toContain('[pal-extract] events round-trip OK')
@@ -158,7 +94,7 @@ test('KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 �
 
 test('KIMI-R1 CLI：M.MSG 缺失 → ENOENT + exit 1', async () => {
   const tree = makeTree({ 'SSS.MKF': buildSss(new Uint8Array(8)), 'WORD.DAT': buildWordDat() })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(result.stderr).toContain('ENOENT')
   expect(result.stderr).toContain('M.MSG')
@@ -169,7 +105,7 @@ test('KIMI-R1 CLI：WORD.DAT 缺失 → ENOENT + exit 1', async () => {
     'SSS.MKF': buildSss(new Uint8Array(8)),
     'M.MSG': new TextEncoder().encode(MSG_TEXT),
   })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(result.stderr).toContain('ENOENT')
   expect(result.stderr).toContain('WORD.DAT')
@@ -181,7 +117,7 @@ test('KIMI-R1 CLI：SSS.MKF 头部过短 → MKF 精确诊断 + exit 1', async (
     'M.MSG': new TextEncoder().encode(MSG_TEXT),
     'WORD.DAT': buildWordDat(),
   })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(result.stderr).toContain('MKF: buffer too small for header')
 })
@@ -192,21 +128,21 @@ test('KIMI-R1 CLI：SSS.MKF 首偏移非 4 对齐 → MKF 精确诊断 + exit 1'
     'M.MSG': new TextEncoder().encode(MSG_TEXT),
     'WORD.DAT': buildWordDat(),
   })
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(result.stderr).toContain('MKF: first offset 6 not multiple of 4')
 })
 
-test('KIMI-R1 CLI：输出目录覆盖策略——陈旧产物清除、videos/ PRESERVE 保留', async () => {
-  const tree = makeTree({}) // 无 SSS.MKF：清理在加载输入之前执行
+test('KIMI-R1 CLI：输入预检失败保留既有产物与 videos', async () => {
+  const tree = makeTree({}) // 无 SSS.MKF：输入预检失败不得清理旧输出
   const extracted = join(tree, 'data', 'extracted')
   mkdirSync(join(extracted, 'videos'), { recursive: true })
   writeFileSync(join(extracted, 'stale-events.json'), '{}')
   writeFileSync(join(extracted, 'videos', '1.mp4'), 'KEEP')
-  const result = await runCli(tree)
-  expect(result.exitCode).toBe(1) // 随后加载 SSS.MKF 才失败
+  const result = await runCli(tree, ['--faithful'])
+  expect(result.exitCode).toBe(1) // 在加载 SSS.MKF 时失败
   expect(result.stderr).toContain('SSS.MKF')
-  expect(existsSync(join(extracted, 'stale-events.json'))).toBe(false) // 陈旧产物被清
+  expect(readFileSync(join(extracted, 'stale-events.json'), 'utf8')).toBe('{}')
   expect(readFileSync(join(extracted, 'videos', '1.mp4'), 'utf8')).toBe('KEEP') // PRESERVE
 })
 
@@ -217,4 +153,36 @@ test('KIMI-R1 CLI：命令面真值——不消费 argv，多余参数被忽略'
   expect(result.exitCode).toBe(1)
   expect(result.stderr).toContain('SSS.MKF')
   expect(result.stderr).not.toContain('Usage')
+})
+
+test('KIMI-R1 CLI：OUT 根是共享 symlink 时，清理前拒绝且保留目标 marker', async () => {
+  const tree = makeTree({})
+  const extracted = join(tree, 'data', 'extracted')
+  const sharedOut = join(tree, 'shared-extracted')
+  mkdirSync(sharedOut, { recursive: true })
+  writeFileSync(join(sharedOut, 'owned-by-other-tree'), 'KEEP')
+  rmSync(extracted, { recursive: true, force: true })
+  symlinkSync(sharedOut, extracted, 'dir')
+
+  const result = await runCli(tree, ['--faithful'])
+  expect(result.exitCode).toBe(1)
+  expect(existsSync(join(sharedOut, 'owned-by-other-tree'))).toBe(true)
+  expect(readFileSync(join(sharedOut, 'owned-by-other-tree'), 'utf8')).toBe('KEEP')
+  expect(result.stderr).toContain('shared output')
+})
+
+test('KIMI-R1 CLI：data 父目录是共享 symlink 时，清理前拒绝且保留目标 marker', async () => {
+  const tree = makeTree({})
+  const data = join(tree, 'data')
+  const sharedData = join(tree, 'shared-data')
+  mkdirSync(join(sharedData, 'extracted'), { recursive: true })
+  writeFileSync(join(sharedData, 'extracted', 'owned-by-other-tree'), 'KEEP')
+  rmSync(data, { recursive: true, force: true })
+  symlinkSync(sharedData, data, 'dir')
+
+  const result = await runCli(tree, ['--faithful'])
+  expect(result.exitCode).toBe(1)
+  expect(existsSync(join(sharedData, 'extracted', 'owned-by-other-tree'))).toBe(true)
+  expect(readFileSync(join(sharedData, 'extracted', 'owned-by-other-tree'), 'utf8')).toBe('KEEP')
+  expect(result.stderr).toContain('shared output')
 })

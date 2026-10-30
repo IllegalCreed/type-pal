@@ -1,0 +1,328 @@
+fast-coverage	Check types and lint before coverage	﻿2026-10-21T18:20:20.5440985Z ##[group]Run pnpm test:quality-tools && pnpm typecheck && pnpm lint
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:20.5441538Z [36;1mpnpm test:quality-tools && pnpm typecheck && pnpm lint[0m
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:20.5492061Z shell: /usr/bin/bash -e {0}
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:20.5492331Z env:
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:20.5492565Z   TYPE_PAL_COVERAGE_PARALLEL_EDITOR: 1
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:20.5516677Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:20.5517047Z ##[endgroup]
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:20.8527475Z 
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:20.8528429Z > type-pal@ test:quality-tools /home/runner/work/type-pal/type-pal
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:20.8528973Z > node --test scripts/quality/*.test.mjs
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:20.8529193Z 
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:20.9067122Z TAP version 13
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1457596Z # Subtest: inventory rejects an empty output path without publishing output
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1462154Z ok 1 - inventory rejects an empty output path without publishing output
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1468509Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1468997Z   duration_ms: 54.992134
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1469577Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1469981Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1470796Z # Subtest: inventory rejects duplicate output options without publishing output
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1471977Z ok 2 - inventory rejects duplicate output options without publishing output
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1473481Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1473907Z   duration_ms: 43.384146
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1474382Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1474792Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1476024Z # Subtest: code-quality inventory emits deterministic scoped records with caller and category fields
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1477534Z ok 3 - code-quality inventory emits deterministic scoped records with caller and category fields
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1478420Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1478802Z   duration_ms: 2697.289562
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1479331Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1479707Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1481085Z # Subtest: actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1482751Z ok 4 - actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1483759Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1484324Z   duration_ms: 298.184408
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1484949Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1496388Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1497573Z # Subtest: actual quality inventory CLI consumes over1MiB Git paths and preserves exact tail records and callers
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1499558Z ok 5 - actual quality inventory CLI consumes over1MiB Git paths and preserves exact tail records and callers
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1500556Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1501037Z   duration_ms: 101.385887
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1501580Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1502046Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1652023Z # Subtest: unique files determine all counts; running the guard does not change evidence
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1653411Z ok 6 - unique files determine all counts; running the guard does not change evidence
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1655955Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1656393Z   duration_ms: 2.900683
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1656908Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1657297Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1658078Z # Subtest: duplicate ledger row fails even if the header gives it no extra credit
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1659462Z ok 7 - duplicate ledger row fails even if the header gives it no extra credit
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1660193Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1660572Z   duration_ms: 0.479639
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1661026Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1661404Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1662098Z # Subtest: untracked evidence path cannot count as a reviewed file
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1663063Z ok 8 - untracked evidence path cannot count as a reviewed file
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1663720Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1664100Z   duration_ms: 0.399067
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1664528Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1664902Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1665547Z # Subtest: each published status count is checked independently
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1666820Z ok 9 - each published status count is checked independently
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1668014Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1668391Z   duration_ms: 0.762877
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1668827Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1669201Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1669994Z # Subtest: added and removed tracked files invalidate inventory and pending counts
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1671176Z ok 10 - added and removed tracked files invalidate inventory and pending counts
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1671937Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1672308Z   duration_ms: 0.415718
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1672724Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1673222Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1673941Z # Subtest: table shape, status and evidence cannot be silently skipped
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1675024Z ok 11 - table shape, status and evidence cannot be silently skipped
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1675950Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1676357Z   duration_ms: 1.540122
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1676780Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1677151Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1678008Z # Subtest: fenced examples give no credit; duplicate/missing summary or table fails closed
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1679301Z ok 12 - fenced examples give no credit; duplicate/missing summary or table fails closed
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1680127Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1680522Z   duration_ms: 0.807562
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1680957Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1681331Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1697226Z # Subtest: hidden fenced example with an info-bearing marker cannot publish reviewed-file counts
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1713884Z ok 13 - hidden fenced example with an info-bearing marker cannot publish reviewed-file counts
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1716632Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1717169Z   duration_ms: 0.312964
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1717754Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1718265Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1719078Z # Subtest: hidden HTML comment cannot publish reviewed-file counts
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1720184Z ok 14 - hidden HTML comment cannot publish reviewed-file counts
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1720974Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1721469Z   duration_ms: 0.554692
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1721951Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1727331Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1728156Z # Subtest: a fenced block terminates the contiguous machine ledger
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1729262Z ok 15 - a fenced block terminates the contiguous machine ledger
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1730039Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1730542Z   duration_ms: 0.797653
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1731116Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1731936Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1732838Z # Subtest: comment markers in fenced code do not hide the following live ledger
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1734109Z ok 16 - comment markers in fenced code do not hide the following live ledger
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1734981Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1735495Z   duration_ms: 0.396231
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1736388Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1737003Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1737778Z # Subtest: comment markers in inline code do not hide the following live ledger
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1738889Z ok 17 - comment markers in inline code do not hide the following live ledger
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1739595Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1739966Z   duration_ms: 0.315739
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1740396Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1740766Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1741519Z # Subtest: malformed or duplicate inventory is rejected before claiming success
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1742642Z ok 18 - malformed or duplicate inventory is rejected before claiming success
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1743350Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1743751Z   duration_ms: 0.500058
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1744186Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1744554Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1745289Z # Subtest: importing the validator from an unrelated cwd does not start the CLI
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1746702Z ok 19 - importing the validator from an unrelated cwd does not start the CLI
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1747433Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1747814Z   duration_ms: 36.093726
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1748243Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1748609Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1749509Z # Subtest: real quality-tools caller checks the current repository ledger against the inventory CLI
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1751294Z not ok 20 - real quality-tools caller checks the current repository ledger against the inventory CLI
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1752212Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1752582Z   duration_ms: 1512.059817
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1753025Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1753912Z   location: '/home/runner/work/type-pal/type-pal/scripts/quality/code-quality-ledger.test.mjs:168:1'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1754834Z   failureType: 'testCodeFailure'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1755281Z   error: |-
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1755954Z     code-quality ledger: FAIL
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1756574Z     inventory count mismatch: declared 3,338, actual 3352
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1757451Z     status count mismatch: declared 356/126/2856/2982, actual 356/126/2870/2996
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1758110Z     
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1758437Z     
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1758769Z     1 !== 0
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1759121Z     
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1759465Z   code: 'ERR_ASSERTION'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1759967Z   name: 'AssertionError'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1760447Z   expected: 0
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1760774Z   actual: 1
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1761141Z   operator: 'strictEqual'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1761555Z   stack: |-
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1762593Z     TestContext.<anonymous> (file:///home/runner/work/type-pal/type-pal/scripts/quality/code-quality-ledger.test.mjs:178:10)
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1763818Z     Test.runInAsyncScope (node:async_hooks:214:14)
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1764560Z     Test.run (node:internal/test_runner/test:1047:25)
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1765469Z     Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1766646Z     Test.postRun (node:internal/test_runner/test:1173:19)
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1767435Z     Test.run (node:internal/test_runner/test:1101:12)
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1768320Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1769047Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1769602Z # Subtest: accepts a complete, zero-diagnostic report
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1770426Z ok 21 - accepts a complete, zero-diagnostic report
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1771042Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1771407Z   duration_ms: 1.800406
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1771820Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1772171Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1772827Z # Subtest: rejects nonzero errors even when CLI exits zero
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1773646Z ok 22 - rejects nonzero errors even when CLI exits zero
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1774525Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1774844Z   duration_ms: 0.317993
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1775256Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1775800Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1776224Z # Subtest: rejects missing errors
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1776773Z ok 23 - rejects missing errors
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1777193Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1777599Z   duration_ms: 0.272988
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1777992Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1778337Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1779034Z # Subtest: rejects nonzero warnings even when CLI exits zero
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1779855Z ok 24 - rejects nonzero warnings even when CLI exits zero
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1780369Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1780667Z   duration_ms: 0.274752
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1781004Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1781305Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1781696Z # Subtest: rejects missing warnings
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1782188Z ok 25 - rejects missing warnings
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1782589Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1782915Z   duration_ms: 0.202244
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1783259Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1783537Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1784044Z # Subtest: rejects nonzero infos even when CLI exits zero
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1784746Z ok 26 - rejects nonzero infos even when CLI exits zero
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1785415Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1785764Z   duration_ms: 0.152279
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1786193Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1786633Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1786997Z # Subtest: rejects missing infos
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1787453Z ok 27 - rejects missing infos
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1787830Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1788150Z   duration_ms: 0.292475
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1788518Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1789043Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1789577Z # Subtest: rejects nonzero skipped even when CLI exits zero
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1790326Z ok 28 - rejects nonzero skipped even when CLI exits zero
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1790834Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1791148Z   duration_ms: 0.144965
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1791509Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1791836Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1792235Z # Subtest: rejects missing skipped
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1792739Z ok 29 - rejects missing skipped
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1793134Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1793446Z   duration_ms: 0.516119
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1793806Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1794120Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1794772Z # Subtest: rejects nonzero diagnosticsNotPrinted even when CLI exits zero
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1795952Z ok 30 - rejects nonzero diagnosticsNotPrinted even when CLI exits zero
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1796564Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1796880Z   duration_ms: 0.51111
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1797231Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1797549Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1798023Z # Subtest: rejects missing diagnosticsNotPrinted
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1798675Z ok 31 - rejects missing diagnosticsNotPrinted
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1799148Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1799461Z   duration_ms: 0.263981
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1799825Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1800140Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1800662Z # Subtest: rejects nonzero changed even when CLI exits zero
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1801467Z ok 32 - rejects nonzero changed even when CLI exits zero
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1801998Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1802323Z   duration_ms: 0.124446
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1802706Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1803029Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1803427Z # Subtest: rejects missing changed
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1803925Z ok 33 - rejects missing changed
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1804325Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1804635Z   duration_ms: 0.113486
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1805000Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1805326Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1805903Z # Subtest: rejects invalid count -1
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1806467Z ok 34 - rejects invalid count -1
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1806877Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1807171Z   duration_ms: 0.155324
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1807538Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1807852Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1808303Z # Subtest: rejects invalid count NaN
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1808798Z ok 35 - rejects invalid count NaN
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1809430Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1809754Z   duration_ms: 0.111722
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1810135Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1810345Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1810594Z # Subtest: rejects invalid count Infinity
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1810939Z ok 36 - rejects invalid count Infinity
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1811192Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1811421Z   duration_ms: 0.098086
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1811708Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1812035Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1812422Z # Subtest: rejects invalid count 1.5
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1812962Z ok 37 - rejects invalid count 1.5
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1813394Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1813718Z   duration_ms: 0.095301
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1814101Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1814466Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1814910Z # Subtest: rejects invalid count 0
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1815463Z ok 38 - rejects invalid count 0
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1816162Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1816530Z   duration_ms: 0.102965
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1816934Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1817289Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1817727Z # Subtest: rejects invalid count null
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1818299Z ok 39 - rejects invalid count null
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1818760Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1819118Z   duration_ms: 0.091013
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1819529Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1819897Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1820472Z # Subtest: rejects diagnostics even if summary hides them
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1821303Z ok 40 - rejects diagnostics even if summary hides them
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1821890Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1822246Z   duration_ms: 0.17425
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1822663Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1823304Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1823677Z # Subtest: rejects empty scan
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1824145Z ok 41 - rejects empty scan
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1824521Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1824847Z   duration_ms: 0.140897
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1825206Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1825518Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1826328Z # Subtest: rejects unknown or malformed report shapes
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1827041Z ok 42 - rejects unknown or malformed report shapes
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1827540Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1827859Z   duration_ms: 1.622709
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1828225Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1828539Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1829093Z # Subtest: rejects process errors regardless of a clean report
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1829893Z ok 43 - rejects process errors regardless of a clean report
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1830420Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1830733Z   duration_ms: 0.2691
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1831097Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1831411Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1831811Z # Subtest: real Biome process: clean
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1832353Z ok 44 - real Biome process: clean
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1832759Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1833070Z   duration_ms: 137.908527
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1833437Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1833757Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1834159Z # Subtest: real Biome process: warning
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1834697Z ok 45 - real Biome process: warning
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1835127Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1835439Z   duration_ms: 138.530464
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1836053Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1836372Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1836775Z # Subtest: real Biome process: info
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1837293Z ok 46 - real Biome process: info
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1837696Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1838012Z   duration_ms: 121.989743
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1838380Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1838691Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1839092Z # Subtest: real Biome process: syntax
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1839617Z ok 47 - real Biome process: syntax
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1840023Z   ---
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1840337Z   duration_ms: 152.112329
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1840708Z   type: 'test'
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1841018Z   ...
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1841299Z 1..47
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1841590Z # tests 47
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1841891Z # suites 0
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1842186Z # pass 46
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1842482Z # fail 1
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1842791Z # cancelled 0
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1843303Z # skipped 0
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1843605Z # todo 0
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1843950Z # duration_ms 3280.983652
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.1949705Z  ELIFECYCLE  Command failed with exit code 1.
+fast-coverage	Check types and lint before coverage	2026-10-21T18:20:24.2189270Z ##[error]Process completed with exit code 1.

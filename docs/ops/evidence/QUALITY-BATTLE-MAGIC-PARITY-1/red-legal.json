@@ -1,0 +1,45 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/__tests__/magic-parity.test.ts",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-magic-final-red.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 1,
+  "base": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+  "testSha256": "80228bcb04fec4dbab1803868fcc4dc3dd12019ed9c1efda8aac7e3bca2dfcb4",
+  "failed": 9,
+  "passed": 6,
+  "runtimeErrorSuites": 0,
+  "failures": [
+    "SDLPal simulated magic target (fight.c:87-128, 5330-5400) 0x42 uses the previous living target for damage and FIRE landing (base=198, hp=9000)",
+    "SDLPal simulated magic target (fight.c:87-128, 5330-5400) 0x42 uses the previous living target for damage and FIRE landing (base=+0, hp=9000)",
+    "SDLPal simulated magic target (fight.c:87-128, 5330-5400) 0x42 uses the previous living target for damage and FIRE landing (base=198, hp=100)",
+    "SDLPal simulated magic target (fight.c:87-128, 5330-5400) all dead but uncleared: selector -1 continues through all occupied slots",
+    "SDLPal 0x66 raw runtime attack (script.c:2007-2014) changing equipment/Extra leaves the throw unchanged (raw attack=50)",
+    "SDLPal 0x66 raw runtime attack (script.c:2007-2014) changing equipment/Extra leaves the throw unchanged (raw attack=0)",
+    "SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768) normal pre-roll precedes real sleep script and reaches frame3 without damage",
+    "SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768) attackAll pre-roll precedes real sleep script and reaches frame3 without damage",
+    "SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768) miss does not acquire an auto-defend pose"
+  ],
+  "raw": "red-legal.raw.gz",
+  "rawSha256": "588a1be8a9dde088881e4bd9a7af847e8c6b13fd92e319f9c204c84d66661cf9",
+  "rawBytes": 8691,
+  "oldProductionSha256": {
+    "packages/game/src/core/battle/magic-damage.ts": "fc31dc5db6ff0cd65a53971cd70261ad01bf1b78eebdea40d3ec056dea2a63b5",
+    "packages/game/src/core/battle/battle-opcodes.ts": "0025dd6fe905ccd19aced025fff9abd980b47891abb1536a2afdc2c5f3b560c6",
+    "packages/game/src/core/battle/actions/magic.ts": "d357c8c3982e027cb2b61509c1d158691bb4f3b4da44265f93da2bae77ddc7c3"
+  },
+  "restoredSha256": {
+    "packages/game/src/core/battle/magic-damage.ts": "0bb2d526b93c7c6ef4f6b8fab86391db8b9fcc6069bffb3da2b1e7b934a69b18",
+    "packages/game/src/core/battle/battle-opcodes.ts": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66",
+    "packages/game/src/core/battle/actions/magic.ts": "f9b0f72ad5ead271fc69e30ab28a665e8d6f6a9ef76358c56662e6a458add5f4"
+  }
+}

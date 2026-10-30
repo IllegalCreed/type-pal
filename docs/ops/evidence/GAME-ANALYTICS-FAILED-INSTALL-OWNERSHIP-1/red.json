@@ -1,0 +1,27 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/analytics/google-analytics.test.ts",
+    "src/analytics/google-analytics.boundaries.test.ts",
+    "src/analytics/install-analytics.test.ts",
+    "src/analytics/google-analytics.install-failure.test.ts",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-ga-failure-red-20261018.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T05:35:51.373828+00:00",
+  "completedAt": "2026-10-18T05:35:52.881293+00:00",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "raw": "red.raw.gz",
+  "rawBytes": 9707,
+  "rawSha256": "62fc33d34894acc030223cce6f42485ae7acaa9052658412e7e840f86a4447be",
+  "fullUncutMergedStdoutStderr": true
+}

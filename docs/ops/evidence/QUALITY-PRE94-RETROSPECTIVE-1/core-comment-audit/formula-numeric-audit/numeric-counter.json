@@ -1,0 +1,134 @@
+{
+  "base": "8dabfd49976f818364d451635f155af08a41b9a9",
+  "owner": "Codex single agent",
+  "bounds": [
+    {
+      "path": "reference/sdlpal/util.c",
+      "function": "RandomFloat",
+      "sha256": "e8f70ab5b01a21f0a2f40c9ae3fb2c05a38dd3b13bb4fc28d8603af8f54deac7",
+      "ranges": [[250, 277]],
+      "bodySha256": "8a7b5ad2c2b5062e9e6bfab5b156f4978a8855416d0fa6f55cb0d182fb783f70"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "function": "PAL_CalcBaseDamage",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "ranges": [[130, 171]],
+      "bodySha256": "263aa982b6c624a198c2438d6ab1083f1f94c65a8f8a0b6e326f09766524de43"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "function": "PAL_CalcMagicDamage",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "ranges": [[173, 250]],
+      "bodySha256": "fc80a81c7b1fb290fa54fc3451149095d41e5aaa445cb0e0c84d958609b6d6da"
+    }
+  ],
+  "nativeSourceSha256": "0d5a7b584cf28644d197c30e499d35fc0bf85a948533aa02540c5b28091e2dde",
+  "runs": [
+    {
+      "label": "compile-O0",
+      "command": [
+        "clang",
+        "-std=c11",
+        "-O0",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-ffp-contract=off",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-numeric-s6mp7t2o/counter.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-numeric-s6mp7t2o/counter-O0"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:35:14.415400+00:00",
+      "completedAt": "2026-10-17T21:35:14.704824+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "compile-O0.raw.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "label": "native-O0",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-numeric-s6mp7t2o/counter-O0"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:35:14.704854+00:00",
+      "completedAt": "2026-10-17T21:35:15.570717+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "native-O0.raw.gz",
+      "rawBytes": 323,
+      "rawSha256": "348b0ae52e2cbaf72cb61d15d52c964c865ec4a8957b80177225c220acbe25a0",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "label": "compile-O2",
+      "command": [
+        "clang",
+        "-std=c11",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-ffp-contract=off",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-numeric-s6mp7t2o/counter.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-numeric-s6mp7t2o/counter-O2"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:35:15.570959+00:00",
+      "completedAt": "2026-10-17T21:35:15.660013+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "compile-O2.raw.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "label": "native-O2",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-numeric-s6mp7t2o/counter-O2"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:35:15.660043+00:00",
+      "completedAt": "2026-10-17T21:35:15.974840+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "native-O2.raw.gz",
+      "rawBytes": 323,
+      "rawSha256": "348b0ae52e2cbaf72cb61d15d52c964c865ec4a8957b80177225c220acbe25a0",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "label": "typescript",
+      "command": [
+        "pnpm",
+        "exec",
+        "tsx",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-numeric-s6mp7t2o/counter.mts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:35:15.975969+00:00",
+      "completedAt": "2026-10-17T21:35:18.396704+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "typescript.raw.gz",
+      "rawBytes": 411,
+      "rawSha256": "7a160bd895fcbdbb48327949ac33da8f454c3a7aaef4bec19ef74b5a7acef74b",
+      "fullUncutMergedStdoutStderr": true
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-numeric-s6mp7t2o",
+  "tempRemoved": true,
+  "scope": "Original C bodies with minimal typed globals and one normalized lrand sample stub, actual public TS caller and real SeedableRng. Not full SDLPal/pal.exe/native asset parity, and no same-seed cross-RNG claim."
+}

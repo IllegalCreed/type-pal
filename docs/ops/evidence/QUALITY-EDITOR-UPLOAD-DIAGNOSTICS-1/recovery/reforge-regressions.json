@@ -1,0 +1,45 @@
+[
+  {
+    "name": "reforge-adjacent",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/reforge",
+      "exec",
+      "vitest",
+      "run",
+      "src/quantize.test.ts",
+      "src/quantize.glm-runtime-resource.test.ts",
+      "src/assets.test.ts",
+      "src/assets.presentation.residual.test.ts",
+      "--maxWorkers=1",
+      "--silent=false",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c10-adj-qz19y2um/runner.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 1.064,
+    "rawSha256": "ca0d91ab31eb50b769cdc8668ffc75a21416eeeb70b22b21452cac9104bf47ea",
+    "actWarnings": 0,
+    "environmentWarnings": 0,
+    "stderrBlocks": 0,
+    "passed": 22,
+    "failed": 0,
+    "pending": 0,
+    "testFiles": 4,
+    "runnerSha256": "0f5e10c2e714004d47752e5b78614ca8b8565fd0f5a197d931a0feec2de729de"
+  },
+  {
+    "name": "reforge-typecheck",
+    "command": ["pnpm", "--filter", "@type-pal/reforge", "typecheck"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 6.817,
+    "rawSha256": "23b61d2687647ffbf35e3380d272bbc6a8a40cc363941d524e29eb2f1f2dd638",
+    "actWarnings": 0,
+    "environmentWarnings": 0,
+    "stderrBlocks": 0
+  }
+]

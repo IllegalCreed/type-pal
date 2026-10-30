@@ -1,0 +1,28 @@
+{
+  "base": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "scripts/docs/check.mjs",
+      "sha256": "a3626ea8fb71e98f67c8daee76788e03d058f723af80c37ad975ade5cf0dd200",
+      "lines": 382,
+      "snapshot": "a3626ea8fb71-check.mjs.before.gz",
+      "ranges": [[1, 382]]
+    },
+    {
+      "path": "scripts/quality/code-quality-inventory.mjs",
+      "sha256": "3506486afd2a30c6182042b9e2c1badb46e8f36465e46541c09057a191265ee2",
+      "lines": 216,
+      "snapshot": "3506486afd2a-code-quality-inventory.mjs.before.gz",
+      "ranges": [[1, 216]]
+    },
+    {
+      "path": "scripts/quality/code-quality-inventory.test.mjs",
+      "sha256": "97a35784f99e1036e20920549deb4388d06fe8272e904d9b87694aad7673fdaa",
+      "lines": 64,
+      "snapshot": "97a35784f99e-code-quality-inventory.test.mjs.before.gz",
+      "ranges": [[1, 64]]
+    }
+  ],
+  "parkedOwnWipManifest": "/tmp/type-pal-finalization-park-20261018/manifest.json"
+}

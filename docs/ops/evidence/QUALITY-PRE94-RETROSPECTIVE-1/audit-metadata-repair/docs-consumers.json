@@ -1,0 +1,17 @@
+{
+  "command": [
+    "sh",
+    "-c",
+    "node scripts/docs/check.mjs && node scripts/docs/check-document-model.mjs && node scripts/docs/check-testing.mjs && node scripts/docs/check-phase-lore-governance.mjs && node scripts/docs/check-content-review.mjs --strict"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T19:39:08.324619+00:00",
+  "completedAt": "2026-10-17T19:39:10.699094+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "docs-consumers.raw.gz",
+  "rawBytes": 310,
+  "rawSha256": "681f1f0a67e69ef88ecf71b03f1e8d0dff16f1df2e6276d108f58728c7175350",
+  "fullUncutMergedStdoutStderr": true
+}

@@ -89,7 +89,7 @@ describe('F6 竞争单次兑现与输入语义', () => {
       vi.useRealTimers()
     }
   })
-  test('输入语义：Enter/空格消费并推进；Escape 不吞交还外层；其它键消费不推进；inactive 不吞', () => {
+  test('输入语义：Enter/空格消费并推进；Escape 不吞交还外层；其它键消费不推进；inactive 不吞', async () => {
     const queue = new RewardGainQueue()
     // inactive：不吞任何输入
     expect(handleRewardGainInput(queue, new Set(['Enter']))).toBe(false)
@@ -97,7 +97,7 @@ describe('F6 竞争单次兑现与输入语义', () => {
     const pending = queue.present(['x'], controller.signal)
     expect(handleRewardGainInput(queue, new Set(['Enter']))).toBe(true) // 消费 + 推进
     expect(queue.active).toBe(false)
-    void expect(pending).resolves.toBeUndefined()
+    await expect(pending).resolves.toBeUndefined()
     // Escape：活动但不推进、不吞（返回 false）
     const controller2 = new AbortController()
     const pending2 = queue.present(['y'], controller2.signal)
@@ -107,6 +107,6 @@ describe('F6 竞争单次兑现与输入语义', () => {
     expect(handleRewardGainInput(queue, new Set(['ArrowUp']))).toBe(true)
     expect(queue.current?.text).toBe('y')
     controller2.abort()
-    void pending2.catch(() => undefined)
+    await expect(pending2).rejects.toMatchObject({ name: 'AbortError' })
   })
 })

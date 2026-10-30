@@ -1,0 +1,28 @@
+{
+  "candidate": "addf1dca1400cf864535ce4b67257ab0adcdcb5e",
+  "rows": [
+    {
+      "command": ["pnpm", "check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "bytes": 11741,
+      "sha256": "dd36a2694a2147f8e4fe3ad54f0aab51ca91f56914effa0f5859f06e56a2c11d"
+    },
+    {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "bytes": 199,
+      "sha256": "17c106aeff71ea2de92133de96136f10622b814b997bc00829390b5aedfa3ecd"
+    },
+    {
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "bytes": 112,
+      "sha256": "a2cad967d946527d9bf87666f183ac81534434e90305f8b03d40d041b18b53f8"
+    }
+  ],
+  "strictRuntimeDiagnosticsZero": false,
+  "newFileClosures": 0
+}

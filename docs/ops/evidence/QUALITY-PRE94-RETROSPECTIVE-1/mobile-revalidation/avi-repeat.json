@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "status": "proven UI retry counter; product implementation frozen pending user decision",
+  "owner": "Codex",
+  "task": "GAME-AVI-RETRY-OWNERSHIP-1",
+  "parent": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "phase": "phase1",
+  "source": {
+    "path": "packages/game/src/shell/avi-player.ts",
+    "sha256": "3216ea10612c0bda2eda0a44b642f6676070cc6781be94b1b2e1933a7d316f69"
+  },
+  "readScope": "Full current AVI implementation; current bootstrap/modal caller diff; existing full-review/one-rejection tests reused. Read-only real DOM/media-IO counter.",
+  "observation": {
+    "controlPassed": 1,
+    "counterFailed": 1,
+    "failedFullName": "counter: after two rejections the visible prompt must allow the next successful retry",
+    "failedAssertion": "expected actual visible retry prompt to be undefined after another successful retry click; prompt remained",
+    "cause": "one-shot click listener consumed by the first retry; rejection returns early because clickOverlay already exists",
+    "notGenericTimeout": true,
+    "notImplementedFix": true,
+    "ordinaryBrowserPolicySequenceReachability": "not physically reproduced"
+  },
+  "limits": [
+    "Both media outcomes are legitimate mocked play Promise outcomes,not a claim of physical Safari/browser permission behavior.",
+    "No current product or normal skip/500ms behavior changed; no official test identity added.",
+    "Current full CI can pass because previous tests only exercised one rejection followed by success."
+  ],
+  "native": {
+    "path": "avi-repeat-native.json.gz",
+    "sha256": "bcb75d3749bb3619b241e6e9ccf811ad11cd1e5f670393181ef46a042a58d034",
+    "members": {
+      "probe-avi-repeat.mjs": {
+        "bytes": 5396,
+        "sha256": "1f59153d0e27f059007805d4e09c7895a229c744075405b938f1b1a1ed75b05a"
+      },
+      "avi-repeat-observation.test.ts": {
+        "bytes": 2584,
+        "sha256": "2b31e5f53d9c4ac20288027d5c8ec743298f981197d9165610b08bf6614f5941"
+      },
+      "avi-repeat-observation.native.json": {
+        "bytes": 1773,
+        "sha256": "21fcf630310399dfde1b213f168b1e527ae739d66b3136b1b982374b6a1d1b8d"
+      },
+      "avi-repeat-observation.execution.json": {
+        "bytes": 1116,
+        "sha256": "375a66379d7efe2f25c14447dfdfcac4cc4986fb05ee2f4e26917b42b82b392d"
+      },
+      "avi-repeat-observation.stdout.raw": {
+        "bytes": 724,
+        "sha256": "8947bd989ce34a6e540b453eede6af1fcfd02ac5e16e4fdd64dc04b6172db048"
+      },
+      "avi-repeat-observation.stderr.raw": {
+        "bytes": 1133,
+        "sha256": "0ebfc182cb839df051b295cab6efa7b1c30659e32d4f76cb2b499359301fb698"
+      },
+      "avi-repeat-probe.execution.json": {
+        "bytes": 2368,
+        "sha256": "e59b25072bb7a26d54b1e16f7f5fd3f0345f373ec373b91ee75c8200ae61416f"
+      },
+      "avi-repeat-probe.stdout.raw": {
+        "bytes": 1023,
+        "sha256": "94d1398a49e066ad88bfb0255bbde14479314bc2015ccb9a5d022a6af2ef3dcf"
+      },
+      "avi-repeat-probe.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "avi-player-before.ts": {
+        "bytes": 7876,
+        "sha256": "3216ea10612c0bda2eda0a44b642f6676070cc6781be94b1b2e1933a7d316f69"
+      }
+    }
+  }
+}

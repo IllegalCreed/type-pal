@@ -1,0 +1,116 @@
+{
+  "base": "7996a6884",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b",
+      "lines": 49,
+      "boundary": "Full implementation read; dimensions, write ownership, clear and palette conversion."
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.test.ts",
+      "sha256": "6e3c42f30f2301f4ad29382e6b9472c53b96d49c379889c5e1a6094e33b22e9c",
+      "lines": 43,
+      "boundary": "Full direct default/write/clear/RGBA oracle read."
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+      "sha256": "7998f8a7abefb04d8693231c5ff72a5bfd4fb25b75f3f97966a27125938f114e",
+      "lines": 43,
+      "boundary": "Full bounds/custom-size/missing-palette oracle read."
+    },
+    {
+      "path": "packages/game/src/present/screen-shake.ts",
+      "sha256": "8bc3671e94d45a19fc8c8d75ed10929aa57fc03638b481fcba5ba0e60f01b755",
+      "lines": 54,
+      "boundary": "Full implementation read; parity, vertical move, black fill, advance ownership."
+    },
+    {
+      "path": "packages/game/src/present/screen-shake.test.ts",
+      "sha256": "51d19a12c63fe6ccf6cf79f0363e68e75ab624a3f0e1f983186780fd12ca2987",
+      "lines": 105,
+      "boundary": "Full parity/continuity/decrement oracle read."
+    },
+    {
+      "path": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "sha256": "13aa503486dd427bc29a692b442d504903eaf7e2f3f7c20e57401ec8c08ff16d",
+      "lines": 81,
+      "boundary": "Full extreme-level and advance=false boundary read."
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.ts",
+      "sha256": "b0c3751c0f6fe21966a98dff88c507c0acf0e5a345d41d01e95494ff7ec08fde",
+      "lines": 73,
+      "boundary": "Full implementation read; progression, WORD closeout, phase and circular rows."
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.test.ts",
+      "sha256": "bfd831a4eec3d01d500ff59f8083fc2583c2c97d3eff1671d6ca213a88838895",
+      "lines": 66,
+      "boundary": "Full primary wave behavior and conservation oracle read."
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+      "sha256": "3144143e26fc20ffa68e44f33b50417ca1bfcf2cb6e50418a577eb883d24c1fa",
+      "lines": 74,
+      "boundary": "Full negative progression, fade-only, circular and phase oracle read."
+    },
+    {
+      "path": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "sha256": "5b746c7a8aaab328604e38401a3448170ca59d0e6e31137030346bf14e93efca",
+      "lines": 104,
+      "boundary": "Full mirror table, cutoff, accumulation and fade-only oracle read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "lines": 805,
+      "ranges": ["252-323", "700-725", "795-805"],
+      "boundary": "Framebuffer clear, map wave, final shake and ImageData flush caller ranges only."
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "sha256": "42b97e13874649122b736f29e639bc60339fcc7a6d7f2c50510f7e66edd82269",
+      "lines": 382,
+      "ranges": ["25-90", "145-180"],
+      "boundary": "writePixel/opaque ownership and framebuffer dimensions caller ranges only."
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "sha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc",
+      "lines": 49,
+      "ranges": ["1-49"],
+      "boundary": "Full short writePixel caller read."
+    },
+    {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "lines": 903,
+      "ranges": ["365-430", "480-490"],
+      "boundary": "PAL_ApplyWave and scene ordering primary ranges."
+    },
+    {
+      "path": "reference/sdlpal/video.c",
+      "sha256": "1ccfff8e985db13ab596c852c68c15b290fa33c4ca51415ec10452f8c3a67033",
+      "lines": 1484,
+      "ranges": ["571-620"],
+      "boundary": "VIDEO_UpdateScreen shake primary range."
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "lines": 757,
+      "ranges": ["379-379", "538-539"],
+      "boundary": "WORD/SHORT wave state primary fields."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3k acceptance",
+    "dither-fade, draw-number or follower-pos semantic review",
+    "Browser visual/E2E verification or coordinate re判定",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance",
+    "Historical raw census or mutant rerun in this slice"
+  ]
+}

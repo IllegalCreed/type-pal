@@ -1,0 +1,37 @@
+{
+  "scope": "same20 tests; fixture corrections and existing oracle strengthening, no case-count increase",
+  "files": [
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.test.ts",
+      "contracts": [
+        "literal scene19/party100,200/music86; count0 excluded and absent battle null",
+        "typed real battle constructor: enemy75 defeated with0HP plus enemy12 at30; exact enemy ID set and total30",
+        "each independent canMove gate: explore allowed; menu, suspendRaf, sceneLoading, formal paletteFade each blocked"
+      ],
+      "isolation": "fresh complete GameState per case; real loadDefaultGame initializes party/runtime/Exp for battle; fresh complete palette state"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.test.ts",
+      "contracts": [
+        "disabled has neither overlay nor elapsed advance",
+        "enabled wall-clock500 and actual overlay",
+        "show0 keeps counting1000 without overlay",
+        "canonical clear default9452000ms rather than merely positive",
+        "F4 resets only when enabled; disabled preserves elapsed1000",
+        "F8 actual manualPaused and F2 persisted0/1",
+        "manual pause freezes, ordinary run does not, banana cell1280,720 pauses timer without freezing world"
+      ],
+      "isolation": "owned hotkey unbind in afterEach, fake timers/real restore, clear toast DOM/timeouts and localStorage/timer singleton",
+      "clock": "F8 at performance.now1000 after prior tick1000; monotonic public caller input"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "contracts": [
+        "bind: tick1000 then F4 resets to idle0 with one toast; restart at500 then unbind: F4 preserves500/running and toast count",
+        "disabled no toast; repeated unbind is idempotent; no unasserted overlay claim"
+      ],
+      "isolation": "afterEach also unbinds on assertion failure; fake timer, body, localStorage and singleton clear",
+      "dedupe": "post-unbind running-state oracle is independent from main enabled/disabled F4 and former toast-only observation"
+    }
+  ]
+}

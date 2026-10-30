@@ -1,0 +1,386 @@
+
+> type-pal@ test:coverage-tools /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal
+> node --test scripts/coverage/*.test.mjs
+
+TAP version 13
+# Subtest: 批准账只含精确历史/审计文件，运行时不能扩大
+ok 1 - 批准账只含精确历史/审计文件，运行时不能扩大
+  ---
+  duration_ms: 1.052
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/pal-authored-overlays.test.ts
+ok 2 - 仅精确历史快照获准：packages/migrate/src/pal-authored-overlays.test.ts
+  ---
+  duration_ms: 0.161292
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts
+ok 3 - 仅精确历史快照获准：packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts
+  ---
+  duration_ms: 0.044708
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/source-facts.boundaries.test.ts
+ok 4 - 仅精确历史快照获准：packages/migrate/src/source-facts.boundaries.test.ts
+  ---
+  duration_ms: 0.042625
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/world-sprite-layout-registry.test.ts
+ok 5 - 仅精确历史快照获准：packages/migrate/src/world-sprite-layout-registry.test.ts
+  ---
+  duration_ms: 0.041958
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/render.test.ts
+ok 6 - 仅精确历史快照获准：packages/reforge/src/render.test.ts
+  ---
+  duration_ms: 0.038875
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts
+ok 7 - 仅精确历史快照获准：packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.088417
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts
+ok 8 - 仅精确历史快照获准：packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.032167
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/menu/save-slot-menu.test.ts
+ok 9 - 仅精确历史快照获准：packages/game/src/core/menu/save-slot-menu.test.ts
+  ---
+  duration_ms: 0.312791
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/content/src/author-flow.guard-residual.test.ts
+ok 10 - 仅精确历史快照获准：packages/content/src/author-flow.guard-residual.test.ts
+  ---
+  duration_ms: 0.30225
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/content/src/author-script-core.test.ts
+ok 11 - 仅精确历史快照获准：packages/content/src/author-script-core.test.ts
+  ---
+  duration_ms: 0.095208
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx
+ok 12 - 仅精确历史快照获准：packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx
+  ---
+  duration_ms: 0.030125
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-compiler-core.test.ts
+ok 13 - 仅精确历史快照获准：packages/reforge/src/script-compiler-core.test.ts
+  ---
+  duration_ms: 0.022667
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-runner-core.test.ts
+ok 14 - 仅精确历史快照获准：packages/reforge/src/script-runner-core.test.ts
+  ---
+  duration_ms: 0.021542
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-world.test.ts
+ok 15 - 仅精确历史快照获准：packages/reforge/src/script-world.test.ts
+  ---
+  duration_ms: 0.02075
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/command-bus.test.ts
+ok 16 - 仅精确历史快照获准：packages/game/src/core/command-bus.test.ts
+  ---
+  duration_ms: 0.121667
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/save/current-save.current-characterization.test.ts
+ok 17 - 仅精确历史快照获准：packages/reforge/src/save/current-save.current-characterization.test.ts
+  ---
+  duration_ms: 0.071417
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/shell/audio.glm-phase1-leaves.test.ts
+ok 18 - 仅精确历史快照获准：packages/game/src/shell/audio.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.084417
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：未知第六文件
+ok 19 - 退役判据拒绝：未知第六文件
+  ---
+  duration_ms: 0.094958
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：test-file删除不是计数退役
+ok 20 - 退役判据拒绝：test-file删除不是计数退役
+  ---
+  duration_ms: 0.1215
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：生产范围删除不适用
+ok 21 - 退役判据拒绝：生产范围删除不适用
+  ---
+  duration_ms: 0.030625
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：额外删除一例
+ok 22 - 退役判据拒绝：额外删除一例
+  ---
+  duration_ms: 0.023375
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：其它旧数量
+ok 23 - 退役判据拒绝：其它旧数量
+  ---
+  duration_ms: 0.019792
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧身份摘要漂移
+ok 24 - 退役判据拒绝：旧身份摘要漂移
+  ---
+  duration_ms: 0.019458
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：同数替换新身份
+ok 25 - 退役判据拒绝：同数替换新身份
+  ---
+  duration_ms: 0.018958
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：候选数量伪造
+ok 26 - 退役判据拒绝：候选数量伪造
+  ---
+  duration_ms: 0.018666
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧数量伪造
+ok 27 - 退役判据拒绝：旧数量伪造
+  ---
+  duration_ms: 0.018375
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧文件不相同
+ok 28 - 退役判据拒绝：旧文件不相同
+  ---
+  duration_ms: 0.019125
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：新文件不相同
+ok 29 - 退役判据拒绝：新文件不相同
+  ---
+  duration_ms: 0.018791
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：文件字节漂移
+ok 30 - 退役判据拒绝：文件字节漂移
+  ---
+  duration_ms: 0.018459
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：缺旧条目
+ok 31 - 退役判据拒绝：缺旧条目
+  ---
+  duration_ms: 0.018209
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：缺新条目
+ok 32 - 退役判据拒绝：缺新条目
+  ---
+  duration_ms: 0.017833
+  type: 'test'
+  ...
+# Subtest: Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+ok 33 - Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+  ---
+  duration_ms: 0.686333
+  type: 'test'
+  ...
+# Subtest: fast 排除所有 PAL test 扩展，full 保留
+ok 34 - fast 排除所有 PAL test 扩展，full 保留
+  ---
+  duration_ms: 0.096125
+  type: 'test'
+  ...
+# Subtest: coverage 测试进程不重复拾取 dist/build 产物
+ok 35 - coverage 测试进程不重复拾取 dist/build 产物
+  ---
+  duration_ms: 0.100334
+  type: 'test'
+  ...
+# Subtest: 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+ok 36 - 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+  ---
+  duration_ms: 0.056708
+  type: 'test'
+  ...
+# Subtest: precise coverage rejects inherited and override cache activation without mutating inputs
+ok 37 - precise coverage rejects inherited and override cache activation without mutating inputs
+  ---
+  duration_ms: 1.011458
+  type: 'test'
+  ...
+# Subtest: fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+ok 38 - fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+  ---
+  duration_ms: 41.436542
+  type: 'test'
+  ...
+# Subtest: full file guard 区分缺失、目录与空文件
+ok 39 - full file guard 区分缺失、目录与空文件
+  ---
+  duration_ms: 12.869083
+  type: 'test'
+  ...
+# Subtest: full JSON guard 在运行测试前拒绝坏 JSON
+ok 40 - full JSON guard 在运行测试前拒绝坏 JSON
+  ---
+  duration_ms: 7.153
+  type: 'test'
+  ...
+# Subtest: full directory guard 要求真实目录和最低文件数
+ok 41 - full directory guard 要求真实目录和最低文件数
+  ---
+  duration_ms: 3.661875
+  type: 'test'
+  ...
+# Subtest: full JSON contract 拒绝错版本 current 工程与错误 scene identity
+ok 42 - full JSON contract 拒绝错版本 current 工程与错误 scene identity
+  ---
+  duration_ms: 0.574
+  type: 'test'
+  ...
+# Subtest: full test inventory 必须包含 fast 的每个 identity
+ok 43 - full test inventory 必须包含 fast 的每个 identity
+  ---
+  duration_ms: 0.950041
+  type: 'test'
+  ...
+# Subtest: scope audit 分别报告源码、测试和执行配置变化
+ok 44 - scope audit 分别报告源码、测试和执行配置变化
+  ---
+  duration_ms: 0.522583
+  type: 'test'
+  ...
+# Subtest: 同一测试文件减少 case 会形成显式 removal
+ok 45 - 同一测试文件减少 case 会形成显式 removal
+  ---
+  duration_ms: 0.385083
+  type: 'test'
+  ...
+# Subtest: installed merger is the version-locked patch recorded in manifest and lockfile
+ok 46 - installed merger is the version-locked patch recorded in manifest and lockfile
+  ---
+  duration_ms: 2.0375
+  type: 'test'
+  ...
+# Subtest: native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 47 - native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 107.478125
+  type: 'test'
+  ...
+# Subtest: native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 48 - native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 99.056125
+  type: 'test'
+  ...
+# Subtest: native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 49 - native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 93.913167
+  type: 'test'
+  ...
+# Subtest: native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 50 - native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 94.785375
+  type: 'test'
+  ...
+# Subtest: mixed import and genuine call preserve zero branches and actual method counts in both orders
+ok 51 - mixed import and genuine call preserve zero branches and actual method counts in both orders
+  ---
+  duration_ms: 1.377708
+  type: 'test'
+  ...
+# Subtest: same-range static and instance initialization identities and counts stay separate
+ok 52 - same-range static and instance initialization identities and counts stay separate
+  ---
+  duration_ms: 0.869917
+  type: 'test'
+  ...
+# Subtest: ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+ok 53 - ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+  ---
+  duration_ms: 0.818834
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client import-only: actual report method count
+ok 54 - real Vitest ssr/client import-only: actual report method count
+  ---
+  duration_ms: 1673.574875
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client genuine calls: actual report method count
+ok 55 - real Vitest ssr/client genuine calls: actual report method count
+  ---
+  duration_ms: 2461.813125
+  type: 'test'
+  ...
+# Subtest: normalizeMetrics 只接受完整的整数计数
+ok 56 - normalizeMetrics 只接受完整的整数计数
+  ---
+  duration_ms: 0.79975
+  type: 'test'
+  ...
+# Subtest: aggregateMetrics 按 covered/total 汇总，不平均百分比
+ok 57 - aggregateMetrics 按 covered/total 汇总，不平均百分比
+  ---
+  duration_ms: 0.561083
+  type: 'test'
+  ...
+# Subtest: compareRatio 用精确分数识别两位小数看不出的回退
+ok 58 - compareRatio 用精确分数识别两位小数看不出的回退
+  ---
+  duration_ms: 1.899125
+  type: 'test'
+  ...
+# Subtest: compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+ok 59 - compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+  ---
+  duration_ms: 3.278041
+  type: 'test'
+  ...
+# Subtest: ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+ok 60 - ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+  ---
+  duration_ms: 1.139084
+  type: 'test'
+  ...
+# Subtest: 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+ok 61 - 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+  ---
+  duration_ms: 0.444583
+  type: 'test'
+  ...
+# Subtest: 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+ok 62 - 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+  ---
+  duration_ms: 0.195541
+  type: 'test'
+  ...
+1..62
+# tests 62
+# suites 0
+# pass 62
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4778.460042

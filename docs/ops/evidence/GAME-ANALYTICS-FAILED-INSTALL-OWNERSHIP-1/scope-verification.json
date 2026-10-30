@@ -1,0 +1,13 @@
+{
+  "command": ["python3", "/tmp/type-pal-ga-failure-verify.py"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T05:44:36.563755+00:00",
+  "completedAt": "2026-10-18T05:44:36.623500+00:00",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "raw": "scope-verification.raw.gz",
+  "rawBytes": 266,
+  "rawSha256": "1de84493463b342f91b13502c50615c2e7838a88367b00386652b56ed173c6fe",
+  "fullUncutMergedStdoutStderr": true
+}

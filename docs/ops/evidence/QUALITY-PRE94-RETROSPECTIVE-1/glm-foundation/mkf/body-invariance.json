@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "base": "63735f72fb12f6ca27bb3a3443418dd808b101cf",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/shared/src/mkf.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "770ba6916a38b2ee73d0068a4b50825bc9448d2bcb317676707090b959241aa4",
+        "current": "770ba6916a38b2ee73d0068a4b50825bc9448d2bcb317676707090b959241aa4"
+      },
+      "printedBytes": {
+        "base": 1768,
+        "current": 1768
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/shared/src/mkf.boundaries.test.ts",
+      "titleCallCount": {
+        "base": 13,
+        "current": 13
+      },
+      "printedSha256": {
+        "base": "bf2a07562327d36d011e4a82bfa0706d83dd472aee11f2f79e79789a19b65ba2",
+        "current": "bf2a07562327d36d011e4a82bfa0706d83dd472aee11f2f79e79789a19b65ba2"
+      },
+      "printedBytes": {
+        "base": 3444,
+        "current": 3444
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

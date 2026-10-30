@@ -1,0 +1,36 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game
+
+ ❯ src/core/object-script-progress.test.ts (5 tests | 1 failed | 4 skipped) 8ms
+     ↓ casts the advanced success hook on the next heal while the use hook stays independent
+     ↓ equipment hooks are object-owned across roles, preserving the other item hooks and flags
+     ↓ item-use root survives a nested call and saved wait, then advances and resets on later use
+     × root checkpoint survives a child checkpoint and plain end, so the next use skips the completed prefix 7ms
+     ↓ returning to title during a waiting item script discards its unfinished next entry
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/object-script-progress.test.ts > overworld object script ownership > root checkpoint survives a child checkpoint and plain end, so the next use skips the completed prefix
+ReferenceError: state is not defined
+ ❯ getItemScriptEntry src/core/object-script-state.ts:41:26
+     39|
+     40| export function getItemScriptEntry(gs: GameState, item: Item, script: …
+     41|   gs.rgObject[item.id] = state
+       |                          ^
+     42|   return state?.rgwData[ITEM_SLOT[script]] ?? item[script]
+     43| }
+ ❯ startOverworldItemScript src/core/event-system.ts:3305:23
+ ❯ src/core/object-script-progress.test.ts:141:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 skipped (5)
+   Start at  16:20:55
+   Duration  881ms (transform 217ms, setup 24ms, import 244ms, tests 8ms, environment 516ms)
+
+JSON report written to /tmp/script-runtime-checkpoint-negative.json
+undefined
+/Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/object-script-progress.test.ts -t root checkpoint --reporter=default --reporter=json --outputFile.json=/tmp/script-runtime-checkpoint-negative.json

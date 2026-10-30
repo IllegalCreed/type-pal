@@ -1,0 +1,31 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-magic-adjacent-legal.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "passed": 935,
+  "failed": 0,
+  "testFiles": 37,
+  "directPassed": 15,
+  "runtimeErrorSuites": 0,
+  "testSha256": "80228bcb04fec4dbab1803868fcc4dc3dd12019ed9c1efda8aac7e3bca2dfcb4",
+  "raw": "adjacent-legal.raw.gz",
+  "rawSha256": "e72af625a0d806a31c8378234363d1e21d504a958dd0f4dc27148a686b27e06f",
+  "rawBytes": 3220,
+  "diagnostics": {
+    "vitestStderrSections": 1,
+    "reactActPhrases": 0,
+    "actEnvironmentPhrases": 0,
+    "unhandledErrorHeadings": 0
+  }
+}

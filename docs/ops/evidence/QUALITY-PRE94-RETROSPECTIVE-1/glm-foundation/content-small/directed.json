@@ -1,0 +1,980 @@
+{
+  "numTotalTestSuites": 30,
+  "numPassedTestSuites": 30,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 85,
+  "numPassedTests": 85,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792372940481,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 lerpTint：t 夹取与分量四舍五入"],
+          "fullName": "O09 lerpTint：t 夹取与分量四舍五入 非整数结果按分量四舍五入（旧中点全整数的真实新轴）",
+          "status": "passed",
+          "title": "非整数结果按分量四舍五入（旧中点全整数的真实新轴）",
+          "duration": 0.9719169999999906,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveSkillExecution / authoredSkillExecutionLayers"],
+          "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers 无 override：两侧都回退公共 effects/animation，prepare 为空",
+          "status": "passed",
+          "title": "无 override：两侧都回退公共 effects/animation，prepare 为空",
+          "duration": 0.3008749999999907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveSkillExecution / authoredSkillExecutionLayers"],
+          "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers 单侧 override：覆盖侧用 override，另一侧回退公共",
+          "status": "passed",
+          "title": "单侧 override：覆盖侧用 override，另一侧回退公共",
+          "duration": 0.1814589999999896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveSkillExecution / authoredSkillExecutionLayers"],
+          "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
+          "status": "passed",
+          "title": "authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
+          "duration": 0.24712499999998272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveDialogueIdentity：合法 unbound 透传"],
+          "fullName": "O09 resolveDialogueIdentity：合法 unbound 透传 unbound：speaker/portrait 声明性透传（浅拷贝 portrait）",
+          "status": "passed",
+          "title": "unbound：speaker/portrait 声明性透传（浅拷贝 portrait）",
+          "duration": 0.1889590000000112,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372940690,
+      "endTime": 1792372940692.189,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/ambience-skill.glm-o.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["resolveAmbienceTint(氛围 id → 乘色)"],
+          "fullName": "resolveAmbienceTint(氛围 id → 乘色) night → 拟合夜色;day → 恒等",
+          "status": "passed",
+          "title": "night → 拟合夜色;day → 恒等",
+          "duration": 1.207084000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveAmbienceTint(氛围 id → 乘色)"],
+          "fullName": "resolveAmbienceTint(氛围 id → 乘色) 缺 id / 未知 id / 空表 → 恒等兜底(工程没带氛围表时零影响)",
+          "status": "passed",
+          "title": "缺 id / 未知 id / 空表 → 恒等兜底(工程没带氛围表时零影响)",
+          "duration": 0.22270800000001145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveAmbienceTint(氛围 id → 乘色)"],
+          "fullName": "resolveAmbienceTint(氛围 id → 乘色) 工程可覆写 day(自定义白天色调)",
+          "status": "passed",
+          "title": "工程可覆写 day(自定义白天色调)",
+          "duration": 0.10175000000000978,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isIdentityTint / lerpTint"],
+          "fullName": "isIdentityTint / lerpTint 恒等判定:全通道 ≥254 视为不染(免全屏合成)",
+          "status": "passed",
+          "title": "恒等判定:全通道 ≥254 视为不染(免全屏合成)",
+          "duration": 0.1820419999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isIdentityTint / lerpTint"],
+          "fullName": "isIdentityTint / lerpTint lerp:t=0 起点 / t=1 终点 / 中点四舍五入 / 越界夹取",
+          "status": "passed",
+          "title": "lerp:t=0 起点 / t=1 终点 / 中点四舍五入 / 越界夹取",
+          "duration": 0.22295800000000554,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372940647,
+      "endTime": 1792372940648.223,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/ambience.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "enemy-team leaf scanner preserves repeated identities and exact nested traversal order",
+          "status": "passed",
+          "title": "enemy-team leaf scanner preserves repeated identities and exact nested traversal order",
+          "duration": 1.5841670000000079,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "enemy-team scanner ignores unrelated same-name fields and malformed leaves without hiding valid siblings",
+          "status": "passed",
+          "title": "enemy-team scanner ignores unrelated same-name fields and malformed leaves without hiding valid siblings",
+          "duration": 0.18670799999998167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372940703,
+      "endTime": 1792372940705.1868,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/enemy-team-reference.resource-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G1 record"],
+          "fullName": "G1 record 合法对象原身份透传且内容不被改写",
+          "status": "passed",
+          "title": "合法对象原身份透传且内容不被改写",
+          "duration": 1.2835409999999854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 record"],
+          "fullName": "G1 record null拒绝且路径精确",
+          "status": "passed",
+          "title": "null拒绝且路径精确",
+          "duration": 0.3042079999999885,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 record"],
+          "fullName": "G1 record undefined拒绝且路径精确",
+          "status": "passed",
+          "title": "undefined拒绝且路径精确",
+          "duration": 0.4043750000000159,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 record"],
+          "fullName": "G1 record 数组拒绝且路径精确",
+          "status": "passed",
+          "title": "数组拒绝且路径精确",
+          "duration": 0.29612500000001774,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 record"],
+          "fullName": "G1 record 字符串拒绝且路径精确",
+          "status": "passed",
+          "title": "字符串拒绝且路径精确",
+          "duration": 0.12770799999998417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 record"],
+          "fullName": "G1 record 数字0拒绝且路径精确",
+          "status": "passed",
+          "title": "数字0拒绝且路径精确",
+          "duration": 0.09745899999998642,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 record"],
+          "fullName": "G1 record false拒绝且路径精确",
+          "status": "passed",
+          "title": "false拒绝且路径精确",
+          "duration": 0.14908300000001873,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 exactKeys"],
+          "fullName": "G1 exactKeys 恰好允许键与允许键子集都通过（缺允许键不是本层错误）",
+          "status": "passed",
+          "title": "恰好允许键与允许键子集都通过（缺允许键不是本层错误）",
+          "duration": 0.4079590000000053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 exactKeys"],
+          "fullName": "G1 exactKeys 未知字段拒绝且路径含键名；多个未知按实际键序报第一个",
+          "status": "passed",
+          "title": "未知字段拒绝且路径含键名；多个未知按实际键序报第一个",
+          "duration": 0.5417079999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 nonEmptyString"],
+          "fullName": "G1 nonEmptyString 合法串原值返回；内部空格合法（只禁首尾空白）",
+          "status": "passed",
+          "title": "合法串原值返回；内部空格合法（只禁首尾空白）",
+          "duration": 0.12983300000001918,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 nonEmptyString"],
+          "fullName": "G1 nonEmptyString 空串拒绝",
+          "status": "passed",
+          "title": "空串拒绝",
+          "duration": 0.12329200000002061,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 nonEmptyString"],
+          "fullName": "G1 nonEmptyString 纯空白拒绝",
+          "status": "passed",
+          "title": "纯空白拒绝",
+          "duration": 0.05808400000000802,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 nonEmptyString"],
+          "fullName": "G1 nonEmptyString 首尾空格拒绝",
+          "status": "passed",
+          "title": "首尾空格拒绝",
+          "duration": 0.04791600000001495,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 nonEmptyString"],
+          "fullName": "G1 nonEmptyString 非字符串拒绝",
+          "status": "passed",
+          "title": "非字符串拒绝",
+          "duration": 0.04591699999997445,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 nonEmptyString"],
+          "fullName": "G1 nonEmptyString null拒绝",
+          "status": "passed",
+          "title": "null拒绝",
+          "duration": 0.04537499999997863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 finite"],
+          "fullName": "G1 finite 有限数原值返回（0/负数/小数都合法）",
+          "status": "passed",
+          "title": "有限数原值返回（0/负数/小数都合法）",
+          "duration": 0.052707999999995536,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 finite"],
+          "fullName": "G1 finite NaN拒绝",
+          "status": "passed",
+          "title": "NaN拒绝",
+          "duration": 0.09962500000000318,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 finite"],
+          "fullName": "G1 finite Infinity拒绝",
+          "status": "passed",
+          "title": "Infinity拒绝",
+          "duration": 0.044291999999984455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 finite"],
+          "fullName": "G1 finite -Infinity拒绝",
+          "status": "passed",
+          "title": "-Infinity拒绝",
+          "duration": 0.041957999999993945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 finite"],
+          "fullName": "G1 finite 字符串拒绝",
+          "status": "passed",
+          "title": "字符串拒绝",
+          "duration": 0.0423330000000135,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 finite"],
+          "fullName": "G1 finite null拒绝",
+          "status": "passed",
+          "title": "null拒绝",
+          "duration": 0.13708300000001827,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 percent 闭区间"],
+          "fullName": "G1 percent 闭区间 端点0与100合法且原值返回",
+          "status": "passed",
+          "title": "端点0与100合法且原值返回",
+          "duration": 0.0494160000000079,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 percent 闭区间"],
+          "fullName": "G1 percent 闭区间 负小数拒绝（非有限先走有限叶）",
+          "status": "passed",
+          "title": "负小数拒绝（非有限先走有限叶）",
+          "duration": 0.05620899999999551,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 percent 闭区间"],
+          "fullName": "G1 percent 闭区间 超上界拒绝（非有限先走有限叶）",
+          "status": "passed",
+          "title": "超上界拒绝（非有限先走有限叶）",
+          "duration": 0.041249999999990905,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 percent 闭区间"],
+          "fullName": "G1 percent 闭区间 Infinity拒绝（非有限先走有限叶）",
+          "status": "passed",
+          "title": "Infinity拒绝（非有限先走有限叶）",
+          "duration": 0.041666999999989685,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 percent 闭区间"],
+          "fullName": "G1 percent 闭区间 NaN拒绝（非有限先走有限叶）",
+          "status": "passed",
+          "title": "NaN拒绝（非有限先走有限叶）",
+          "duration": 0.05708300000000577,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 positiveInteger"],
+          "fullName": "G1 positiveInteger 1与大整数合法且原值返回",
+          "status": "passed",
+          "title": "1与大整数合法且原值返回",
+          "duration": 0.05354099999999562,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 positiveInteger"],
+          "fullName": "G1 positiveInteger 0拒绝",
+          "status": "passed",
+          "title": "0拒绝",
+          "duration": 0.05391699999998423,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 positiveInteger"],
+          "fullName": "G1 positiveInteger 负整数拒绝",
+          "status": "passed",
+          "title": "负整数拒绝",
+          "duration": 0.051375000000007276,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 positiveInteger"],
+          "fullName": "G1 positiveInteger 正小数拒绝",
+          "status": "passed",
+          "title": "正小数拒绝",
+          "duration": 0.04229099999997743,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 positiveInteger"],
+          "fullName": "G1 positiveInteger Infinity拒绝",
+          "status": "passed",
+          "title": "Infinity拒绝",
+          "duration": 0.040374999999983174,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 positiveInteger"],
+          "fullName": "G1 positiveInteger NaN拒绝",
+          "status": "passed",
+          "title": "NaN拒绝",
+          "duration": 0.04120799999998326,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G1 positiveInteger"],
+          "fullName": "G1 positiveInteger 字符串拒绝",
+          "status": "passed",
+          "title": "字符串拒绝",
+          "duration": 0.04058300000002646,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372940687,
+      "endTime": 1792372940692.137,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/enemy-validation-shapes.leaf.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["lookupText"],
+          "fullName": "lookupText 命中 → 返回译文",
+          "status": "passed",
+          "title": "命中 → 返回译文",
+          "duration": 0.8410420000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["lookupText"],
+          "fullName": "lookupText 未命中 → 回退返回 id 本身(开发期可见)",
+          "status": "passed",
+          "title": "未命中 → 回退返回 id 本身(开发期可见)",
+          "duration": 0.1288330000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372940752,
+      "endTime": 1792372940753.129,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/locale.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）",
+          "status": "passed",
+          "title": "未知色名标记 → 按纯文本（COLOR_TAGS 白名单外）",
+          "duration": 1.1396660000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 错配闭合 → 按纯文本（反向引用要求同名开闭）",
+          "status": "passed",
+          "title": "错配闭合 → 按纯文本（反向引用要求同名开闭）",
+          "duration": 0.24629199999998264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 空标记内容 → 产出带色的空 span（非空数组语义保持）",
+          "status": "passed",
+          "title": "空标记内容 → 产出带色的空 span（非空数组语义保持）",
+          "duration": 0.17862500000001091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 相邻标记无间隔 → 两个着色 span，之间不产生空文本 span",
+          "status": "passed",
+          "title": "相邻标记无间隔 → 两个着色 span，之间不产生空文本 span",
+          "duration": 0.130958000000021,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）",
+          "status": "passed",
+          "title": "同名嵌套 → 非贪婪取首个闭合（文档明示非嵌套语义）",
+          "duration": 0.08704099999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 redAlt 与 red 交替序区分（redAlt 不被截成 red）",
+          "status": "passed",
+          "title": "redAlt 与 red 交替序区分（redAlt 不被截成 red）",
+          "duration": 0.12691700000002015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 大小写敏感：<CYAN> 不识别 → 纯文本",
+          "status": "passed",
+          "title": "大小写敏感：<CYAN> 不识别 → 纯文本",
+          "duration": 0.10404199999999264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 孤儿闭合 → 按纯文本",
+          "status": "passed",
+          "title": "孤儿闭合 → 按纯文本",
+          "duration": 0.10637499999998568,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 parseRichText：标记识别残余轴"],
+          "fullName": "O09 parseRichText：标记识别残余轴 标记内容含 \"<\" → 着色 span 文本原样保留",
+          "status": "passed",
+          "title": "标记内容含 \"<\" → 着色 span 文本原样保留",
+          "duration": 0.32754099999999653,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372940648,
+      "endTime": 1792372940650.3276,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/rich-text-residual.glm-o.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseRichText"],
+          "fullName": "parseRichText 纯文本 → 单 span",
+          "status": "passed",
+          "title": "纯文本 → 单 span",
+          "duration": 1.047333000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseRichText"],
+          "fullName": "parseRichText 空串 → 单个空 span",
+          "status": "passed",
+          "title": "空串 → 单个空 span",
+          "duration": 0.19779199999999264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseRichText"],
+          "fullName": "parseRichText 句中颜色标记 → 前/色/后三段",
+          "status": "passed",
+          "title": "句中颜色标记 → 前/色/后三段",
+          "duration": 0.1841670000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseRichText"],
+          "fullName": "parseRichText 行首颜色标记 → 色/后两段",
+          "status": "passed",
+          "title": "行首颜色标记 → 色/后两段",
+          "duration": 0.13466700000000742,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseRichText"],
+          "fullName": "parseRichText 多个颜色标记",
+          "status": "passed",
+          "title": "多个颜色标记",
+          "duration": 0.08174999999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseRichText"],
+          "fullName": "parseRichText 未闭合标记 → 按纯文本处理(不吞字符不崩)",
+          "status": "passed",
+          "title": "未闭合标记 → 按纯文本处理(不吞字符不崩)",
+          "duration": 0.05879200000001106,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372940649,
+      "endTime": 1792372940650.1978,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/rich-text.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["validateAuthorItemCore · item-private 槽唯一门"],
+          "fullName": "validateAuthorItemCore · item-private 槽唯一门 两个 itemPrivateScript 效果拒绝",
+          "status": "passed",
+          "title": "两个 itemPrivateScript 效果拒绝",
+          "duration": 1.5937079999999924,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateAuthorItemCore · battleOnly 上下文门"],
+          "fullName": "validateAuthorItemCore · battleOnly 上下文门 battleOnly 用途包含不可用于战斗的效果（runScript 世界专用）拒绝",
+          "status": "passed",
+          "title": "battleOnly 用途包含不可用于战斗的效果（runScript 世界专用）拒绝",
+          "duration": 0.215958999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateAuthorItemCore · battleOnly 上下文门"],
+          "fullName": "validateAuthorItemCore · battleOnly 上下文门 battleOnly + 战斗可用效果（healHp）合法",
+          "status": "passed",
+          "title": "battleOnly + 战斗可用效果（healHp）合法",
+          "duration": 0.6005830000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateAuthorItemCore · battleOnly 上下文门"],
+          "fullName": "validateAuthorItemCore · battleOnly 上下文门 纯世界效果（runScript）非 battleOnly 合法",
+          "status": "passed",
+          "title": "纯世界效果（runScript）非 battleOnly 合法",
+          "duration": 0.14608299999997598,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372940755,
+      "endTime": 1792372940757.6006,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/validate-author-items.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["canonical author scene validation"],
+          "fullName": "canonical author scene validation entity labels are optional metadata and duplicate names do not replace IDs",
+          "status": "passed",
+          "title": "entity labels are optional metadata and duplicate names do not replace IDs",
+          "duration": 2.1944579999999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author scene validation"],
+          "fullName": "canonical author scene validation rejects explicitly invalid entity label \"\"",
+          "status": "passed",
+          "title": "rejects explicitly invalid entity label \"\"",
+          "duration": 0.23945800000001327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author scene validation"],
+          "fullName": "canonical author scene validation rejects explicitly invalid entity label \"   \"",
+          "status": "passed",
+          "title": "rejects explicitly invalid entity label \"   \"",
+          "duration": 0.15850000000000364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author scene validation"],
+          "fullName": "canonical author scene validation rejects explicitly invalid entity label null",
+          "status": "passed",
+          "title": "rejects explicitly invalid entity label null",
+          "duration": 0.14737500000001091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author scene validation"],
+          "fullName": "canonical author scene validation rejects explicitly invalid entity label 42",
+          "status": "passed",
+          "title": "rejects explicitly invalid entity label 42",
+          "duration": 0.09345799999999826,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author scene validation"],
+          "fullName": "canonical author scene validation rejects explicitly invalid entity label {}",
+          "status": "passed",
+          "title": "rejects explicitly invalid entity label {}",
+          "duration": 0.07724999999999227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author scene validation"],
+          "fullName": "canonical author scene validation rejects explicitly invalid entity label undefined",
+          "status": "passed",
+          "title": "rejects explicitly invalid entity label undefined",
+          "duration": 0.294667000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author scene validation"],
+          "fullName": "canonical author scene validation accepts local behavior registries and named scene hook variants",
+          "status": "passed",
+          "title": "accepts local behavior registries and named scene hook variants",
+          "duration": 0.17416699999998286,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author scene validation"],
+          "fullName": "canonical author scene validation rejects non-current top-level hooks and positional behavior pages",
+          "status": "passed",
+          "title": "rejects non-current top-level hooks and positional behavior pages",
+          "duration": 0.5353330000000085,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author scene validation"],
+          "fullName": "canonical author scene validation accepts dynamic-only behavior registries without inventing a static page",
+          "status": "passed",
+          "title": "accepts dynamic-only behavior registries without inventing a static page",
+          "duration": 0.19870800000001054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author item script validation"],
+          "fullName": "canonical author item script validation accepts stable shared ids and one inline item-private use slot",
+          "status": "passed",
+          "title": "accepts stable shared ids and one inline item-private use slot",
+          "duration": 0.9985410000000172,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author item script validation"],
+          "fullName": "canonical author item script validation allows an empty authoring chain and composes item-private script with pure effects",
+          "status": "passed",
+          "title": "allows an empty authoring chain and composes item-private script with pure effects",
+          "duration": 0.17941599999997493,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author item script validation"],
+          "fullName": "canonical author item script validation rejects non-current ScriptRef ownership and malformed private ownership",
+          "status": "passed",
+          "title": "rejects non-current ScriptRef ownership and malformed private ownership",
+          "duration": 0.10908299999999826,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author item script validation"],
+          "fullName": "canonical author item script validation retains the single external effect and scene-target contracts",
+          "status": "passed",
+          "title": "retains the single external effect and scene-target contracts",
+          "duration": 0.2898750000000234,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372940755,
+      "endTime": 1792372940761.2898,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/validate-author.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["canonical runtime scene validation"],
+          "fullName": "canonical runtime scene validation accepts lifecycle commands in nested flow and explicit hostile policy",
+          "status": "passed",
+          "title": "accepts lifecycle commands in nested flow and explicit hostile policy",
+          "duration": 2.1950410000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical runtime scene validation"],
+          "fullName": "canonical runtime scene validation rejects old hostile fields and nested vanish in any script channel",
+          "status": "passed",
+          "title": "rejects old hostile fields and nested vanish in any script channel",
+          "duration": 0.5008330000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical runtime scene validation"],
+          "fullName": "canonical runtime scene validation rejects facing on a current zone entity",
+          "status": "passed",
+          "title": "rejects facing on a current zone entity",
+          "duration": 0.11341699999999832,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372940754,
+      "endTime": 1792372940757.1135,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/validate-runtime.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "no-pages entity retains its complete current behavior registry through the real outer guard",
+          "status": "passed",
+          "title": "no-pages entity retains its complete current behavior registry through the real outer guard",
+          "duration": 2.516416000000021,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "no-pages behavior rejects nested malformed lifecycle input without skipping the parent guard",
+          "status": "passed",
+          "title": "no-pages behavior rejects nested malformed lifecycle input without skipping the parent guard",
+          "duration": 0.6150829999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372940754,
+      "endTime": 1792372940757.615,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/validate-runtime.wave2.test.ts"
+    }
+  ]
+}

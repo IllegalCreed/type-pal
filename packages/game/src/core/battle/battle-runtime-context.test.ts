@@ -39,15 +39,20 @@ describe('battle runtime context ownership', () => {
 
     expect(getBattleResources(gs)).toBe(installed)
     expect(getBattleLiveRoles(gs)).toBe(installed.playerRoles)
-    expect((gs as unknown as { __battleResources?: BattleResources }).__battleResources).toBe(
-      installed,
-    )
+    const otherGs = fresh()
+    const otherResources = resources()
+    expect(getBattleResources(otherGs)).toBeUndefined()
+    setBattleResources(otherGs, otherResources)
+    expect(getBattleResources(gs)).toBe(installed)
+    expect(getBattleLiveRoles(gs)).toBe(installed.playerRoles)
+    expect(getBattleResources(otherGs)).toBe(otherResources)
+    expect(getBattleLiveRoles(otherGs)).toBe(otherResources.playerRoles)
   })
 
   it('prefers the injected runner and preserves it when no new override is supplied', () => {
     const gs = fresh()
-    const fallback = vi.fn(() => 1) as RunScriptFn
-    const injected = vi.fn(() => 2) as RunScriptFn
+    const fallback = vi.fn<RunScriptFn>(() => 1)
+    const injected = vi.fn<RunScriptFn>(() => 2)
 
     expect(getBattleRunScript(gs, fallback)).toBe(fallback)
     setBattleRunScript(gs, injected)
@@ -56,20 +61,17 @@ describe('battle runtime context ownership', () => {
     expect(getBattleRunScript(gs, fallback)).toBe(injected)
   })
 
-  it('releases resources and runner with the historical hidden-field semantics', () => {
+  it('releases both public resource views and restores the fallback runner', () => {
     const gs = fresh()
-    const fallback = vi.fn(() => 1) as RunScriptFn
-    const injected = vi.fn(() => 2) as RunScriptFn
+    const fallback = vi.fn<RunScriptFn>(() => 1)
+    const injected = vi.fn<RunScriptFn>(() => 2)
     setBattleResources(gs, resources())
     setBattleRunScript(gs, injected)
 
     clearBattleRuntimeContext(gs)
 
-    const stash = gs as unknown as Record<string, unknown>
     expect(getBattleResources(gs)).toBeUndefined()
-    expect(Object.hasOwn(stash, '__battleResources')).toBe(true)
-    expect(stash.__battleResources).toBeUndefined()
-    expect(Object.hasOwn(stash, '__battleRunScript')).toBe(false)
+    expect(getBattleLiveRoles(gs)).toBeUndefined()
     expect(getBattleRunScript(gs, fallback)).toBe(fallback)
   })
 })

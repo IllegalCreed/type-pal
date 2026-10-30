@@ -1,0 +1,89 @@
+[
+  {
+    "approval": {
+      "file": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "previous": 4,
+      "current": 3,
+      "previousIdentityDigest": "e78dc305842326ee719ff997624584df2de2b9e7156b5a2f56c18f6765c19cd4",
+      "currentIdentityDigest": "1889fb5557bfcc610ea4f3e25add02813e2c7044012cf70c08b8d61d30eac619",
+      "fileSha256": "bcfe23ecda771cb5ab879746dc3c38b17ad742049adfb867b9378d284d3ed461"
+    },
+    "actual": {
+      "file": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "testCount": 3,
+      "identityDigest": "1889fb5557bfcc610ea4f3e25add02813e2c7044012cf70c08b8d61d30eac619"
+    },
+    "previous": {
+      "file": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "testCount": 4,
+      "identityDigest": "e78dc305842326ee719ff997624584df2de2b9e7156b5a2f56c18f6765c19cd4"
+    },
+    "currentBaseline": {
+      "file": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "testCount": 3,
+      "identityDigest": "1889fb5557bfcc610ea4f3e25add02813e2c7044012cf70c08b8d61d30eac619"
+    },
+    "fileSha256": "bcfe23ecda771cb5ab879746dc3c38b17ad742049adfb867b9378d284d3ed461",
+    "exactAccepted": true,
+    "extraRemovalRejected": true,
+    "changedBytesRejected": true
+  },
+  {
+    "approval": {
+      "file": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+      "previous": 3,
+      "current": 2,
+      "previousIdentityDigest": "bd2f2514088aac7ebd9d4c4dc924499c960d819ed3b6e12fad431342ef311b1a",
+      "currentIdentityDigest": "9f078317d0ffa967d9e6fb2731d2bf9899822c8f81e257bc30e61688bc087112",
+      "fileSha256": "28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46"
+    },
+    "actual": {
+      "file": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+      "testCount": 2,
+      "identityDigest": "9f078317d0ffa967d9e6fb2731d2bf9899822c8f81e257bc30e61688bc087112"
+    },
+    "previous": {
+      "file": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+      "testCount": 3,
+      "identityDigest": "bd2f2514088aac7ebd9d4c4dc924499c960d819ed3b6e12fad431342ef311b1a"
+    },
+    "currentBaseline": {
+      "file": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+      "testCount": 2,
+      "identityDigest": "9f078317d0ffa967d9e6fb2731d2bf9899822c8f81e257bc30e61688bc087112"
+    },
+    "fileSha256": "28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46",
+    "exactAccepted": true,
+    "extraRemovalRejected": true,
+    "changedBytesRejected": true
+  },
+  {
+    "approval": {
+      "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+      "previous": 15,
+      "current": 14,
+      "previousIdentityDigest": "f8c83187e00a0e5bf0f71a81659c7d4aa219a17414f0851499cd440b2caf6581",
+      "currentIdentityDigest": "6490d967d5d342759dd36c5ee94f33b235394a5dd23d320da2b98b479ed52fda",
+      "fileSha256": "e2292069dcf1c6b57cf31810d2ee10effa88a996746481fb16dd0ffd0f8c8174"
+    },
+    "actual": {
+      "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+      "testCount": 14,
+      "identityDigest": "6490d967d5d342759dd36c5ee94f33b235394a5dd23d320da2b98b479ed52fda"
+    },
+    "previous": {
+      "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+      "testCount": 15,
+      "identityDigest": "f8c83187e00a0e5bf0f71a81659c7d4aa219a17414f0851499cd440b2caf6581"
+    },
+    "currentBaseline": {
+      "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+      "testCount": 14,
+      "identityDigest": "6490d967d5d342759dd36c5ee94f33b235394a5dd23d320da2b98b479ed52fda"
+    },
+    "fileSha256": "e2292069dcf1c6b57cf31810d2ee10effa88a996746481fb16dd0ffd0f8c8174",
+    "exactAccepted": true,
+    "extraRemovalRejected": true,
+    "changedBytesRejected": true
+  }
+]

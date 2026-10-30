@@ -1,7 +1,7 @@
 import iconv from 'iconv-lite'
 
 /**
- * GBK 字节流 → UTF-8 字符串。原版数据中的对话 / 物品名 / 人名都是 GBK。
+ * GBK字节流→JavaScript字符串。原版数据中的对话/物品名/人名都是GBK。
  * 遇 0x00 截断 —— 与 sdlpal text.c 的 C 字符串语义一致。
  *
  * ⚠ 本作 M.MSG 是繁体 BIG5 原版**不彻底简体化**的产物:正文转成了 GBK 简体,但残留三类没转干净
@@ -72,7 +72,7 @@ const PUA_CHAR_FIXUP: Record<number, string> = {
 }
 
 /**
- * 把转码残留 PUA 还原成正字。无 PUA → 原样快速返回(绝大多数正常文本走这条,零开销)。
+ * 把转码残留PUA还原成正字。扫描后未发现PUA时返回原串,不构造替换结果。
  * 整条未转码 BIG5 命中 FULL_LINE_FIXUP → 整条替换;否则逐 PUA 查 PUA_CHAR_FIXUP,未知 PUA 删(空白)。
  */
 export function fixupTranscodeResidue(s: string): string {

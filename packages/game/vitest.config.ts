@@ -2,6 +2,9 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
+    // Full-map raster tests keep the real 64×128 input and default deadlines.
+    // Bound concurrent coverage heaps instead of competing with another worker.
+    maxWorkers: 1,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     // M3.5 T18+:e2e/ 下是 Playwright spec,不让 vitest 拾起。

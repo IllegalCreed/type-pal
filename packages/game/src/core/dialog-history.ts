@@ -1,6 +1,5 @@
-// 历史对话环形缓冲(生产工具面板「历史对话」用)。纯追加,不影响对话流程。
-// 2026-06-15 修订:带地图维度,渲染时按 map 边界天然分组(无需额外「切场景」事件)。
-//   仙剑场景名按 mapNum(地图号)而非 wNumScene 命名:同 map 多场景共享地名更稳。
+// 工具面板的有界对话历史；由事件提交追加，超限后移除最旧记录。
+// 按 mapNum 而非 wNumScene 分组，同一地图的多个场景共享地名。
 
 export const DIALOG_HISTORY_CAP = 100
 
@@ -32,7 +31,8 @@ export function pushDialogHistory(history: DialogHistoryEntry[], map: number, te
  * 故老档(功能上线前存的,无 dialogHistory 字段)会残留当前 session 历史 → 时间线倒错。
  * 此函数显式归一:
  *  - undefined/空(老档)→ `[]`(清残留,从读档点重记);
- *  - 新档快照原样恢复,超 CAP 截断到最后 CAP 条(防旧 CAP 期存档超限)。
+ *  - 非空快照未超限时借用数组，超限时另取最后 CAP 条，不修改传入快照。
+ * Save.loadSlot 已在存储边界深拷贝；这里不再复制，返回值交给当前 gs 持有和追加。
  */
 export function restoreDialogHistory(
   loaded: DialogHistoryEntry[] | undefined,

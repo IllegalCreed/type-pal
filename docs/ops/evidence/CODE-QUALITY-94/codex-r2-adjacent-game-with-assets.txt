@@ -1,0 +1,96 @@
+
+> @type-pal/game@1.0.0 test /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+> vitest run --passWithNoTests
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+
+ ❯ src/assets/sprite-blob-snapshot.test.ts (5 tests | 5 failed) 5ms
+     × npc: data/sprite/{id}.rle == decompressYj2(MGO.MKF[id]) 2ms
+     × battle enemy: data/battle-sprite/enemy/{id}.rle == tryYj2(ABC.MKF[id]) 0ms
+     × battle player: data/battle-sprite/player/{id}.rle == tryYj2(F.MKF[id]) 0ms
+     × magic effect: data/magic/effect.rle == DATA.MKF[10] 2ms
+     × magic fire: data/magic/fire-{NN}.rle == tryYj2(FIRE.MKF[NN]) 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/assets/sprite-blob-snapshot.test.ts > sprite blob 真值对拍(npc / battle / magic) > npc: data/sprite/{id}.rle == decompressYj2(MGO.MKF[id])
+Error: ENOENT: no such file or directory, open '/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/data/raw/MGO.MKF'
+ ❯ openRaw src/assets/sprite-blob-snapshot.test.ts:41:33
+     39|
+     40| function openRaw(name: string): Mkf {
+     41|   return openMkf(new Uint8Array(readFileSync(resolve(RAW, name))))
+       |                                 ^
+     42| }
+     43|
+ ❯ src/assets/sprite-blob-snapshot.test.ts:72:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/assets/sprite-blob-snapshot.test.ts > sprite blob 真值对拍(npc / battle / magic) > battle enemy: data/battle-sprite/enemy/{id}.rle == tryYj2(ABC.MKF[id])
+Error: ENOENT: no such file or directory, open '/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/data/raw/ABC.MKF'
+ ❯ openRaw src/assets/sprite-blob-snapshot.test.ts:41:33
+     39|
+     40| function openRaw(name: string): Mkf {
+     41|   return openMkf(new Uint8Array(readFileSync(resolve(RAW, name))))
+       |                                 ^
+     42| }
+     43|
+ ❯ src/assets/sprite-blob-snapshot.test.ts:83:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  src/assets/sprite-blob-snapshot.test.ts > sprite blob 真值对拍(npc / battle / magic) > battle player: data/battle-sprite/player/{id}.rle == tryYj2(F.MKF[id])
+Error: ENOENT: no such file or directory, open '/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/data/raw/F.MKF'
+ ❯ openRaw src/assets/sprite-blob-snapshot.test.ts:41:33
+     39|
+     40| function openRaw(name: string): Mkf {
+     41|   return openMkf(new Uint8Array(readFileSync(resolve(RAW, name))))
+       |                                 ^
+     42| }
+     43|
+ ❯ src/assets/sprite-blob-snapshot.test.ts:92:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  src/assets/sprite-blob-snapshot.test.ts > sprite blob 真值对拍(npc / battle / magic) > magic effect: data/magic/effect.rle == DATA.MKF[10]
+AssertionError: 缺少对拍样本: /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/data/extracted/data/magic/effect.rle: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/assets/sprite-blob-snapshot.test.ts:102:55
+    100|   it('magic effect: data/magic/effect.rle == DATA.MKF[10]', async () =…
+    101|     const effPath = resolve(EXT, 'magic', 'effect.rle')
+    102|     expect(existsSync(effPath), `缺少对拍样本: ${effPath}`).toBe(true)
+       |                                                       ^
+    103|     const data = openRaw('DATA.MKF')
+    104|     await assertBlobBytes(effPath, readChunk(data, 10))
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  src/assets/sprite-blob-snapshot.test.ts > sprite blob 真值对拍(npc / battle / magic) > magic fire: data/magic/fire-{NN}.rle == tryYj2(FIRE.MKF[NN])
+Error: ENOENT: no such file or directory, open '/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/data/raw/FIRE.MKF'
+ ❯ openRaw src/assets/sprite-blob-snapshot.test.ts:41:33
+     39|
+     40| function openRaw(name: string): Mkf {
+     41|   return openMkf(new Uint8Array(readFileSync(resolve(RAW, name))))
+       |                                 ^
+     42| }
+     43|
+ ❯ src/assets/sprite-blob-snapshot.test.ts:108:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed | 308 passed | 3 skipped (312)
+      Tests  5 failed | 3499 passed | 8 skipped (3512)
+   Start at  10:40:54
+   Duration  174.34s (transform 2.93s, setup 1.78s, import 9.70s, tests 33.08s, environment 106.34s)
+
+/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/game@1.0.0 test: `vitest run --passWithNoTests`
+Exit status 1

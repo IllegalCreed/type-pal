@@ -128,8 +128,7 @@ describe('drawTilemap', () => {
   })
 
   it('传入 coverage 时标记已画像素;远处未画处不标记', () => {
-    // 原版靠 gpScreen 不清屏遮住瓦片美术接缝的透明像素;我们每帧 fb.clear() 到 0,
-    // 接缝会露黑(血池"黑色三角")。修复需先知道哪些像素被瓦片画过 → coverage mask。
+    // coverage 区分未画像素与已画的 index 0；接缝补偿只允许填前者。
     const fb = createFramebuffer()
     const tiles: TileImages = {
       get(idx) {
@@ -157,8 +156,8 @@ describe('drawTilemap', () => {
   })
 })
 
-describe('repairTilemapSeams(瓦片接缝漏黑修复——血池"黑色三角"根因:原版不清屏遮住,我们 clear 到 0 露黑)', () => {
-  it('未覆盖像素用最近的已覆盖邻居填充', () => {
+describe('repairTilemapSeams 接缝补偿', () => {
+  it('未覆盖像素从同值的已覆盖邻居填充', () => {
     const fb = createFramebuffer(3, 3)
     const coverage = new Uint8Array(9)
     // 覆盖除中心(1,1)外的 8 格,像素值都设 5。

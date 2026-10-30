@@ -1,0 +1,38 @@
+{
+  "name": "extract-targeted",
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/pal-extract",
+    "exec",
+    "vitest",
+    "run",
+    "src/resources/parsers/ball.glm-runtime-resource.test.ts",
+    "src/resources/misc-guards.kimi-r1.test.ts",
+    "src/resources/parsers/__tests__/data-misc.test.ts",
+    "src/resources/parsers/__tests__/misc-mkf.test.ts",
+    "src/resources/parsers/fire.glm-runtime-resource.test.ts",
+    "src/resources/sprite.boundaries.test.ts",
+    "src/resources/sprite.glm-runtime-resource.test.ts",
+    "src/resources/sprite.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--silent=false",
+    "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-raw-recovery-co1h34dm/extract-targeted.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "seconds": 4.168,
+  "rawSha256": "5d83f7d7dcf329f69dedf03a110cd46354d0ec3498ec6ac86695e693da497692",
+  "diagnostics": {
+    "act": 0,
+    "environment": 0,
+    "navigation": 0,
+    "stderrBlocks": 0
+  },
+  "passed": 53,
+  "failed": 0,
+  "pending": 0,
+  "runnerSha256": "1d84dfcc2caa76d7b809a2bf63ff406d0bda8ae079cc20e86534148f8594abff"
+}

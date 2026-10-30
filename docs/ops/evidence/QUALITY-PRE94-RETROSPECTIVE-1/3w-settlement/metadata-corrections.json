@@ -1,0 +1,14 @@
+{
+  "scope": "Pre-commit count correction after evidence-producer initial draft; no published historical row/raw rewritten",
+  "initialDraftStrings": {
+    "settlementCurrentLines": 250,
+    "specCurrentLines": 360,
+    "progressionCurrentLines": 306
+  },
+  "currentActualLines": {
+    "settlement": 249,
+    "spec": 347,
+    "progression": 307
+  },
+  "source": "read-boundaries.json SHA and exact splitlines; parent new admission/delivery corrected before docs consumers; old archived history unchanged"
+}

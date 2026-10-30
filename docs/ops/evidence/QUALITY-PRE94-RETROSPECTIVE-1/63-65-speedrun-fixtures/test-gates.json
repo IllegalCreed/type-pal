@@ -1,0 +1,51 @@
+[
+  {
+    "name": "adjacent",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/game",
+      "exec",
+      "vitest",
+      "run",
+      "src/tools/speedrun",
+      "src/tools/tools-panel.test.ts",
+      "src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "src/core/palette-fade.test.ts",
+      "src/core/battle/__tests__/battle-state.test.ts",
+      "src/core/battle/battle-state.glm-next-wave.test.ts",
+      "--maxWorkers=1",
+      "--silent=false",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-65-speedrun-fixtures/adjacent.runner.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "50c9acb0bce8e0c541699b977f631af175319593bb97e03bd6b0e84790b54bf0",
+    "numTotalTests": 144,
+    "numPassedTests": 144,
+    "numFailedTests": 0,
+    "numPendingTests": 0,
+    "files": 23,
+    "finalDelta": {
+      "path": "packages/game/src/tools/speedrun/index.test.ts",
+      "adjacentCandidateSha256": "a78a7aee715faf60165464335a7f5d1db90ca9f4200f0b6080d2553a7c779f88",
+      "finalSha256": "82881cf80a251e55152535e8a68cc1b73fdda063306e2734f01d969cf83a8252",
+      "change": "only align fake performance.now to the last injected1000ms tick before F8",
+      "finalDirectAndCounterEvidence": "after-proof.json; 20 control green and19green/1specified AssertionError",
+      "broaderAdjacentNotRepeated": "constructor, production and interface code unchanged"
+    }
+  },
+  {
+    "name": "typecheck",
+    "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+  }
+]

@@ -1,0 +1,504 @@
+{
+  "kind": "root-candidate-diff-and-risk-review",
+  "date": "2026-10-22",
+  "reviewer": "Codex",
+  "baseRevision": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+  "branch": "codex/script-corrections",
+  "candidate": "uncommitted working tree; per-file byte fingerprints below",
+  "contributors": "Three saved isolated candidates were interrupted by account quota before complete final receipts/commits. Root recorded their snapshots, took ownership and completed integration. No claim of three completed author reviews.",
+  "intakeFindings": [
+    "Fixed an unfinished runtime helper variable reference; preserved that failure separately from original defect red.",
+    "Found missing implicit next-entry labels for synchronous resumed callers; added labels and real/raw round-trip validation.",
+    "Replaced imperative Win correction code with reviewed JSON and a guarded resource-neutral executor; final generated identity remains unchanged.",
+    "Kept historical hash expectations and precise approved delta inversions distinct; no scene-wide bypass.",
+    "Initial branch-coverage gap and an existing 5000ms video-test timeout are preserved as failed runs; no timeout/threshold adjustment.",
+    "Final full editor check exposed ten stale graph-census totals; exact stable dependencies and existing collector/index/worker parity validate their approved content delta. See editor-reference-delta.json."
+  ],
+  "groups": {
+    "extraction": {
+      "files": [
+        {
+          "path": "packages/pal-extract/README.md",
+          "sha256": "8511f9eaaefe744c2a06e4badad3d6362c83e07b47187b3738fdf04f9a54f936",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/__tests__/asset-manifest.boundaries.test.ts",
+          "sha256": "b6d04e4598cd8c5aebcfd71c975ebbd6fde71da9587e340f09bc5e5dbcd394cf",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/__tests__/asset-manifest.test.ts",
+          "sha256": "56374015e7d049a7a23a1f744c064ce6acba95ec59e5e54b474ce81b1d04343a",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+          "sha256": "acf20e9fda9aa82c66b64734a04344a410ab22cc5b4622727ae7b46966123fdc",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+          "sha256": "586c8987a642a1212d3d690da8775d3df2851c2b736afa3db0a7757ad117b16f",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+          "sha256": "724102f0cc54b03400c287453ef2e3a60a04a946118a0ba636e95e0d30880a21",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+          "sha256": "f23e419c1849b7c25d4530332bbb071e2830e2431f215c6750da69ab8f4b6d89",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+          "sha256": "1b05cc32c9341086d46975558bfa1e145d81d3a0ee2a8dc26ca99e9cf664491c",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/cli-script-corrections.pal.test.ts",
+          "sha256": "66bb4fb0de31c34fb4ae1c5f780eb469ce3fbac978ae9490e5dcfbd27de08ebd",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/cli.ts",
+          "sha256": "9cb15bea656a04f4c5793386df75a1acd67a38c0ca6774fa431a11304141b8b7",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/events/disasm.kimi-r1.test.ts",
+          "sha256": "b854d08aad806be6d5efa9211a68970e1c69e3166a669bdb15012b617a294e89",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/events/disasm.test.ts",
+          "sha256": "773172a1889e1976cbb16194b47571a960e0d018068397605bf8baa8666f49ac",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/events/disasm.ts",
+          "sha256": "59df908dd2aeaea470bcc47001ba90634c272652eea7debe38020ccd66dc807a",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/events/script-corrections.pal.test.ts",
+          "sha256": "76b1a8da1ba83192f9759802a199aa5da933119b01e7fb5ac3320708b864e4af",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/events/script-corrections.test.ts",
+          "sha256": "2cdf9ece0f6afcda27306edcca1c3bd8aa7cd49b1e2b6993a47477860c7961e6",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/events/script-corrections.ts",
+          "sha256": "235627c8a17ca5bba8a50ae19a70525c33d6043a9d7305e1bf396d2b85517b0c",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/events/win-script-corrections.json",
+          "sha256": "c345c2a9b823446105369001d6a672d1368a55784c8dcaa6ec5fed87310c7e02",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/resources/asset-manifest.glm-runtime-resource.test.ts",
+          "sha256": "dc5ccf2ce7158be2df5c103c75d4eda4f3cecaee51f2c757cc78d384f405a9df",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/resources/asset-manifest.ts",
+          "sha256": "064c788e473795cf2fda5502188115dfe8b5d644c1b0e451c1cce37ada63a47f",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts",
+          "sha256": "96fc6d03c76ed9581658b76e3cc650f8f2989bc1c90b308b0eba47c41e1e9326",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/pal-extract/src/resources/scene.ts",
+          "sha256": "d164c20ab364826c7b198c33cffebc805dfb667d35a072246504548be2157206",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        }
+      ],
+      "A": "Supported SSS SHA, guarded original instruction/object/message values, append references and final consumers checked; unreviewed source rejects before output cleanup.",
+      "B": "Raw-source versus corrected-build boundary is explicit; original input bytes are never rewritten.",
+      "C": "Win rule data is declarative; the resource-neutral executor owns cloning/relocation, CLI owns I/O. Reforge author content remains independent.",
+      "D": "CLI default is reviewed correction and faithful is explicit; generated manifest records applied rules and actual byte hashes.",
+      "E": "Legal source, wrong identity/prevalue, independent byte/oracle and CLI/output preservation cases retained; synthetic faithful cases claim structure only.",
+      "F": "D/E rule IDs link primary audit to named appended blocks. Original opcode now flows directly to raw output instead of a name search.",
+      "G": "Removed runtime treasure mutation; redundant opcode reverse lookup/defaults deleted with existing byte proof. No source/testing exclusion added.",
+      "H": "Pure plan executor can be tested without Win assets; local PAL tests and real full CLI prove the supported primary source."
+    },
+    "object-entry": {
+      "files": [
+        {
+          "path": "packages/game/src/core/battle/__tests__/actions.test.ts",
+          "sha256": "23cfabd1cef51236becebc4cb3795d3a1a78e72558484e99d2be85c670d94623",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/battle/__tests__/magic-inline-damage.test.ts",
+          "sha256": "8b05fcb08da6d2d37ab22d82339014d65df872ea0de1e7c8d5fbb82fe5ea49d1",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/battle/__tests__/object-script-progress.test.ts",
+          "sha256": "5d71849943de52ee70fde458c0c34d400eae64d70961f7e21a8ed3120d1d92b9",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/battle/actions/attack.ts",
+          "sha256": "7e2753f7ebdf9972d86f50de3f0da714711652185dd901cf920a95d4435bb32a",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/battle/actions/item.ts",
+          "sha256": "3c1f018c397303fedbc45633468d53d719e65e192b78bd47f302ca2599bd6a19",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/battle/actions/magic.ts",
+          "sha256": "95e26a03660b32983306c119ee8c072a37a4402bddfa174053f5e2c9ced42b09",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/battle/actions/throw-item.ts",
+          "sha256": "ea6ce09bf4d63fe39fa721ec3ddd4f43c44b81df034dd6a70b5562af8efb53a6",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/dependency-ownership.test.ts",
+          "sha256": "101d1e8c64d066345bd2a9d51f5e712d689d4fdb01d0ef49e919eb1ec7324b1a",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/equip-effect.ts",
+          "sha256": "ad46cb97fa178bb0862f8ccc2b280a635ab783ab59966a8b82a637cd22784288",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/event-system.glm-event-k06.test.ts",
+          "sha256": "821a593c20bd47118c177e90f03161e39f4c156a74d7f3338ef38841068bb436",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/event-system.test.ts",
+          "sha256": "8fbee836f3f25165daa6156cb807a515a746836040b9c6423869b4828fd75f96",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/event-system.ts",
+          "sha256": "c3dc767e7c178b10b8de89c8b3873eb1d7ebaf88ed205138fbb94793eb215590",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-script.ts",
+          "sha256": "320d06326b087a178a995150f3b1c76004e20c09bfecb1feaf1b72d7f67d0434",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-driver.ts",
+          "sha256": "d909b4b5b99293d88a0d85e41cf77c4283868780ea69c34e5823b28db8c1119e",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/object-script-progress.test.ts",
+          "sha256": "d718382d00e9263408fcfca1f44d5a600d94df9f798d74cbb44fae194759e74b",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/object-script-state.ts",
+          "sha256": "8d805022e2ea3fc951abd83b3c58f22035140069cf79366f744df2e4e3beee32",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/save/v1-world.ts",
+          "sha256": "ec7843cbb0e9acd528040bbd94f9941b4f8db0d38e1b2f4da67f5d1f3b9613c0",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/save/v1.ts",
+          "sha256": "4c0d694485cbf0c2f9da4ce7d21f87c1b90202b13d73282c2a17656aa5e2640a",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/script-catalog.ts",
+          "sha256": "d55d22f0fe6106eea3a20ef7180f78a874aa12ef394af04808284a5bf6deeecd",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/script-corrections.pal.test.ts",
+          "sha256": "e4dfc53be70f1db43a27d1feba436887761e5340ba62480e5e8410caccbf7833",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/script-story-corrections.pal.test.ts",
+          "sha256": "912ae80ee2c9d7f162999488b21b7ea48d350231590e5d660ff147dd2abda192",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
+          "sha256": "a95ff231f2a7c434c31d1c989f025e52f2dc1152967ce8f9704c371b6890110b",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        }
+      ],
+      "A": "Use/equip/throw and magic use/success slots are independent; actual returned entry is persisted only to owned OBJECT state. Root item progress survives waits, child calls and battle/save boundaries.",
+      "B": "Comments name saved owner, slot union and root completion/checkpoint behavior; obsolete upstream-merge comment corrected.",
+      "C": "Mutable rgObject owns progress; resource Item/Spell definitions remain unchanged. No Wine God-specific counter in the first-phase engine.",
+      "D": "Battle callbacks now return numeric entry through the existing RunScriptFn contract; overworld item caller passes Item to retain ownership/flags. Saved cursor owner fields are optional.",
+      "E": "Real caller tests cover nonleader ninth/tenth use, resource failure, save/new-game, independent hooks, checkpoint/nested/wait/reset/cancel cases; old helper tests migrate instead of duplicate.",
+      "F": "Slot maps and get/set helpers expose the purpose of the seven-word union.",
+      "G": "Common state helper replaces per-caller static mutation/ignored return; existing save storage is reused.",
+      "H": "Production callers, real Wine script and save import/export are observable without replacing the interpreter. Legacy files are not marked fully closed by this delta review."
+    },
+    "event-metadata": {
+      "files": [
+        {
+          "path": "packages/game/src/core/game-state.test.ts",
+          "sha256": "a1743e390379367926e23c015ec4b3de3b021fbbd510c2db62662d775595f089",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/game-state.ts",
+          "sha256": "391694cefcd1de1f816d177b13e2e035290e62b5f0ed90c3b70a9f519571e03d",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/scene-system.test.ts",
+          "sha256": "569d5f8171f8316b0d78a6d92dbc1c42ba1f078758d5e48a49c8eeb76d256ad8",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/game/src/core/scene-system.ts",
+          "sha256": "988629e03895443fdd49964924f23d1d43cdab7d930a7348f1629553ce000b7f",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/shared/src/resources.ts",
+          "sha256": "a7d582ce6cbaafadb730790de9cfd2abde2acc23e01e4f68c310a956f1cc0554",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        }
+      ],
+      "A": "Corrected scene/global object metadata agrees; loading preserves the existing governor approach anchor and once consumption rather than resurrecting it.",
+      "B": "Metadata is explicitly project-level rather than fabricated original EVENTOBJECT fields.",
+      "C": "Extraction owns the data choice; NPC hydration and scene trigger remain generic.",
+      "D": "Only optional auto-trigger metadata is added to SceneEventObject; existing save/Npc fields retain their format.",
+      "E": "Approach/landing/one-shot/hydration/save regressions cover the prior user-selected behavior; topology proves second-phase interact/range3 reachability only.",
+      "F": "Stable field names match existing NpcState semantics.",
+      "G": "Removed object1518 runtime constants and special-case condition.",
+      "H": "Scene/global dump and production trigger calls provide independent observation; full visual route remains untested."
+    },
+    "author": {
+      "files": [
+        {
+          "path": "packages/reforge/src/__tests__/pal-corrections-harness.ts",
+          "sha256": "4db536e7735041d9791ffc1642b0796ec71faba54f2ad465ae7ca36b2e159e3f",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/reforge/src/battle/pal-cure-status-corrections.test.ts",
+          "sha256": "2bd2b255958e04579a377b2aadd29e98f18231c624f52af6d23b6b8371a444c5",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/reforge/src/pal-confirm-script-governance.test.ts",
+          "sha256": "a390ee1dd7d18f32baff6b7161b00fb1c6f8d91697b3cbe2cb75372ef6d37f14",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/reforge/src/pal-court-corrections.test.ts",
+          "sha256": "ee7910d77e5a2d56280c525a53f12b35ca7b2cc20b04999589b805adf9b7d0df",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/reforge/src/pal-gov3-content-world-recovery.test.ts",
+          "sha256": "7ff7c830e4b13e0435f5e232ce1acf7a929501b5ede38846b6e9a8a050a72e28",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/reforge/src/pal-palace-corrections.test.ts",
+          "sha256": "317dfd4f1fdbf631335ccc5da8958f12c3eeae539e3041b95874c035af335386",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/reforge/src/pal-story-corrections.test.ts",
+          "sha256": "caa2b63faa2c75691cbc8b4164f8949e63af4f46ce1bf5e9bcb816ed1d5adcf9",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/reforge/src/pal-trial-portals-corrections.test.ts",
+          "sha256": "93480181f7bfeba2c1a45dac1c0a978b3a0f1a1951e31936d657e5c105af3a99",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "packages/reforge/src/pal-unified-steps-content.test.ts",
+          "sha256": "a9cda09aba70eacff7ccecefd0a1ea93c3981de8a94f7658dd1d38ef3151b09c",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "169aea997e38278426095db6a55c9ad74c6b9b2b7c7348f9d08d846a31e4bddc",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "380e857aae64100848be07b5f52744373b61669a2a82fece18960cbccd6f17bd",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/scenes/s009.json",
+          "sha256": "5c14b7528f104e70e5fad4d438461e6b39c2a54b25e71eb203b8979c3f1853c6",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/scenes/s077.json",
+          "sha256": "044c11d7ebf018384e4fff2671e77e0390fe13f52c16048e0e13b5e868f2f943",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/scenes/s081.json",
+          "sha256": "a6872c36fbdb94ad0a6ecdf2e992f6454a10493d8757df38f9528128561a691b",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/scenes/s102.json",
+          "sha256": "ab1b37bf78ce759607d66912e15f23c3c19d415274f7441eb3971393af134522",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/scenes/s172.json",
+          "sha256": "1efaf54fa5b9573d88acafef832aad2d699d1c2f3f09bcaae5e7ab726e6e9cbe",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/scenes/s182.json",
+          "sha256": "71e4655626de09385623c37ad4f717be0adcaf9bf97fecffd6069b50278a72e8",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/scenes/s225.json",
+          "sha256": "e784c101ead234935d75dd07207ab5fc8bacb4cc34735d2dfc89434bb04eb0b6",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/scenes/s226.json",
+          "sha256": "a6886f58290d1e898ce53abf29019d4befbcea0e95f848ab6cf2f6c1290245d3",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/scenes/s249.json",
+          "sha256": "80991553a96920a0516dab4888082428fca57fe5962247cd1e431cb6bef8259b",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/scenes/s260.json",
+          "sha256": "e665d9244950eadaee63427d908fe98ecd311ac96cb0fbae6cae9a804f114fa6",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/scenes/s278.json",
+          "sha256": "4b02fef39cc1db6deae71e09e483f9afaaca5e50c8a51c861065f265c9c885a1",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/scenes/s285.json",
+          "sha256": "e4f9ce0347c15ce6995ae160c071c3308c845e6f4da49db882f479375128ed3b",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/scenes/s286.json",
+          "sha256": "4dae4de0f504304939cd4bdad23f0741068ac7f9bcef0d65cc60963a9038129e",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "projects/pal/content/skills.json",
+          "sha256": "11798f862b16025f7efd2bad4bf6348281836b16d0747e366386468dc8857598",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        }
+      ],
+      "A": "D/E paired scene, skill and item changes use stable current entity/entry IDs; unrelated entrances/effects/costs retained. D05/D16 remain unchanged for documented reasons.",
+      "B": "Current task distinguishes proven defects, behavior equivalence, historical motivation and still-unrun full routes. No automatic current truth is inferred from archived converters.",
+      "C": "Only canonical author content changed for Reforge; no retired converter or first-phase byte-address runtime is introduced.",
+      "D": "No author schema/content-version or SAVE schema change; existing scene lifecycle, actions and skill/item status contracts are used.",
+      "E": "Actual ScriptProjectRuntime/battle tests cover reentry, denial loop, hiring branches, reveal/cleanup, both palace eras, trial returns and silence while retaining buffs/costs. Historical hashes recognize only approved deltas.",
+      "F": "Distinct trial/palace landing names isolate the affected callers; existing scene IDs remain stable.",
+      "G": "No new fictitious chest/caller, inventory or plot. One ordinary palace enemy event becomes the original missing exit, explicitly recorded as a scope tradeoff.",
+      "H": "Canonical runner/effect and map tests can be repeated; host UI/battle-result seams do not count as full gameplay or visual E2E."
+    },
+    "checks": {
+      "files": [
+        {
+          "path": "scripts/coverage/approved-test-retirements.mjs",
+          "sha256": "ad095fab816db691b9f4b54128b1294227ff5c08eae784c3998fe6275d715664",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.test.mjs",
+          "sha256": "c153f719e8683cc7d2dcaf13dee1d3057df20285f505d41651adc403a57d9368",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "scripts/coverage/baseline.fast.json",
+          "sha256": "c50b8c863240e763af8e27dab57bf1c69d190ceb2ee131e9909e0fdc4aa8170e",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "scripts/docs/frozen-binding-baseline.test.mjs",
+          "sha256": "c68544c7aae828b088c1eecf2d81c994739ec5c8da1eee58a791e6e3c890ad81",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "scripts/script-governance/census.test.mjs",
+          "sha256": "b31eb43e0ae70abbb694f146f45e7e120d0327e9726a8b34349a421905b255cf",
+          "reviewScope": "current actual diff and associated contract; no unrelated legacy full-file closure"
+        },
+        {
+          "path": "scripts/coverage/baseline.fast.json",
+          "sha256": "c50b8c863240e763af8e27dab57bf1c69d190ceb2ee131e9909e0fdc4aa8170e",
+          "reviewScope": "Official ratchet output:2 added production files,49 net fast tests, no package metric regression; exact retirement approval retained."
+        }
+      ],
+      "A": "Counts/identities change only for the exact new publication and two retired helper cases; raw and corrected corpus sizes are separately identified.",
+      "B": "Comments explain explicit approval scope and preserved historical cohorts.",
+      "C": "Checking tools remain independent from correction execution.",
+      "D": "No weakened predicate, timeout, exclusion or coverage threshold. Frozen1838 remains unchanged.",
+      "E": "Original tool failures remain, corrected precise expectations rerun; negative retirement guards still reject any extra removal.",
+      "F": "New corpus contract names corrected/faithful forms explicitly.",
+      "G": "No duplicate token-only business tests added; two obsolete helper tests retire with the deleted implementation.",
+      "H": "Existing executable tools and native outputs remain the verification route."
+    },
+    "editor-corpus-census": {
+      "files": [
+        {
+          "path": "packages/editor/src/core/project-reference.pal.test.ts",
+          "sha256": "bc3ea898b34209830400d13a81e6698f2572785b01e8719516902d75c9f38664",
+          "reviewScope": "Current test delta; no editor production behavior changes or legacy full-file closure"
+        }
+      ],
+      "A": "Ten stale current-corpus census values match approved new content; two exact dependency assertions pin seven cross-scene cleanup targets and the Anu entry reveal.",
+      "B": "Comments name the script-correction dependencies and the ordinary-enemy-to-portal source change.",
+      "C": "The existing production loader, direct collectors, index and worker projection remain the tested ownership chain.",
+      "D": "Same test identity, input corpus and public APIs; no schema or editor implementation change.",
+      "E": "Original whole run630 passing files plus1 stale-census failure retained. A diagnostic enumerated all ten count-only differences; final focused normal assertions pass with all independent collector/worker/blocker gates retained.",
+      "F": "Stable source entitye2862 and targetIDs3657..3663/e2984 are explicit; counts remain subordinate to semantic dependency facts.",
+      "G": "No skipped case, widened exclusion, removed assertion or weakened threshold; temporary soft assertions are not retained.",
+      "H": "Current PAL project fixture runs through the real loader and worker projection. PAL-only selection leaves the protected-fast candidate unchanged."
+    }
+  },
+  "decision": "Accept the listed scoped implementation, primary-source/production-caller regressions and completed integration components. Task remains review for complete story/visual/editor-preview verification; unrelated full-file quality cards are not closed.",
+  "integrationReceipt": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json",
+  "notRun": [
+    "Original EXE/SDLPal playback",
+    "Complete story browser E2E",
+    "Frame-by-frame visual and editor preview state acceptance",
+    "Deployment"
+  ],
+  "invalidators": [
+    "Any changed file hash or relevant caller/input/source identity invalidates that scoped claim until its affected evidence is rechecked.",
+    "Source generation version or canonical actor/portal identities changing invalidates the corresponding paired gameplay/topology claim.",
+    "Tool-only/document-only wording changes do not automatically rerun unchanged product evidence."
+  ]
+}

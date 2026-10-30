@@ -1,0 +1,55 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/pal-extract",
+    "exec",
+    "vitest",
+    "run",
+    "src/resources/parsers/ball.glm-runtime-resource.test.ts",
+    "src/resources/misc-guards.kimi-r1.test.ts",
+    "--maxWorkers=1",
+    "--silent=false",
+    "--coverage.enabled",
+    "--coverage.reporter=json",
+    "--coverage.reportsDirectory=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c1-v8-uftrq2dt",
+    "--coverage.include=src/resources/parsers/ball.ts",
+    "--coverage.include=src/resources/parsers/rgm.ts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "seconds": 0.723,
+  "rawSha256": "de3e77e6ccfa983a2e6587293044cd15bd5f461444dcf2ae30892fcef5d77b12",
+  "coverageSha256": "6aad73689ef3ad99a7b3c3a6926b90f233983b3c541f92b0e02ef528564560b4",
+  "metrics": {
+    "ball.ts": {
+      "statements": {
+        "covered": 12,
+        "total": 13
+      },
+      "functions": {
+        "covered": 1,
+        "total": 1
+      },
+      "branches": {
+        "covered": 11,
+        "total": 12
+      }
+    },
+    "rgm.ts": {
+      "statements": {
+        "covered": 8,
+        "total": 13
+      },
+      "functions": {
+        "covered": 1,
+        "total": 1
+      },
+      "branches": {
+        "covered": 6,
+        "total": 12
+      }
+    }
+  },
+  "officialGate": false
+}

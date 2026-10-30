@@ -1,0 +1,73 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/__tests__/stats/e2-equipment-effects.test.ts",
+    "src/core/__tests__/stats/e4-run-equip-script.test.ts",
+    "--maxWorkers=1",
+    "--silent=false",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-game-c2-red-wnpstib0/runner.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "sourceSha256": "97bebc1bb975c8c8e29efce6aaeed2f954de1dbca16220827db6f71af41a8157",
+  "testSha256": "765635f16786f0f7f2cd5f5f6f2218b455fe281cbd6389a54b83c014f48123b4",
+  "rawSha256": "ec581b6be94274a6e5f6865ead5cdd760227fb9e3e7b9a971d701963239d0c73",
+  "runnerSha256": "5ec87570b1b40f81bdd37b4392f10e6a356cbcd672539dea0cb1f36da2939dfe",
+  "passed": 8,
+  "failed": 0,
+  "pending": 0,
+  "stderrBlocks": 2,
+  "expectedStderrBlocks": 2,
+  "files": 2,
+  "cases": [
+    {
+      "fullName": null,
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": null,
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": null,
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": null,
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": null,
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": null,
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": null,
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": null,
+      "status": "passed",
+      "failureMessages": []
+    }
+  ]
+}

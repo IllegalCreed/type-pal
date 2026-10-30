@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "base": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
+  "kind": "CI-documentation-integrity-repair",
+  "owner": "Codex",
+  "remoteRuns": [
+    {
+      "id": 39624843994,
+      "job": 119307336168,
+      "sha": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
+      "url": "https://github.com/IllegalCreed/type-pal/actions/runs/39624843994",
+      "conclusion": "failure",
+      "step": "Check documentation progress integrity",
+      "raw": "github-docs-e856.raw.gz",
+      "rawBytes": 1328983,
+      "rawSha256": "d130fefe337189e590fd9822073a99ced23850d912ec71b29a1487b91dc829ee"
+    },
+    {
+      "id": 39600770046,
+      "job": 119224385751,
+      "sha": "0f6423ef1ccefb28aaf4dc046f8d22fa849f3625",
+      "url": "https://github.com/IllegalCreed/type-pal/actions/runs/39600770046",
+      "conclusion": "failure",
+      "step": "Check documentation progress integrity",
+      "raw": "github-docs-0f642.raw.gz",
+      "rawBytes": 1327706,
+      "rawSha256": "98a65517a220993c89b63c62e3cbdd8a9482c8dfd73b9cc4c99d35b9da68bd19"
+    }
+  ],
+  "cause": "Local check:docs omitted the separate CI progress consumer; one declared task-card lacked required headings/route, and three authorized template edits replaced the current artifact preservation envelope. Not a Linux-only failure.",
+  "repairs": [
+    "Only three task heading names and one matching route; body/status preserved.",
+    "Current committed canonical template edition exact-byte pin; old source/history retained, no claim that approved changed bytes equal historical originals.",
+    "Actual progress consumer added to local check:docs; CI checks retained unchanged."
+  ],
+  "templateEditionPins": [
+    {
+      "path": "docs/ops/templates/TASK-lite-template.md",
+      "revision": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
+      "gitObject": "7a4aef174d3db4c75b7a55e3cee47d857fcc63d8",
+      "sha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
+      "bytes": 3471,
+      "lines": 75
+    },
+    {
+      "path": "docs/ops/templates/TASK-template.md",
+      "revision": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
+      "gitObject": "dc742a340415a657372edc60677b07514a1c1470",
+      "sha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
+      "bytes": 6916,
+      "lines": 212
+    },
+    {
+      "path": "docs/phase-governance/templates/task-card.md",
+      "revision": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
+      "gitObject": "0832f27baa94432591c38e4684a5cb8dc9ce1478",
+      "sha256": "38963b0583bec2206913fcbeac2bda3850e3cb9dd97cd858c6cdc5cebb6e4821",
+      "bytes": 855,
+      "lines": 26
+    }
+  ],
+  "gateState": "Repair at f1e56 passed actual GitHub Documentation CI; later CLI/event code window has its own gate record.",
+  "constraints": [
+    "No validator weakening/exclusion/status downgrade",
+    "Template source bytes unchanged",
+    "No runtime/E2E/visual/coverage credit",
+    "CI action-installation platform deprecation warnings are present in remote original; not reported as repository static errors."
+  ],
+  "localEvidence": {
+    "member": "local-native.json.gz",
+    "sha256": "0a488a5eb3de43fbc22dd93e513272845dd0754f61e3720fa2e68e384a5d658e",
+    "members": [
+      {
+        "name": "progress-before.raw",
+        "bytes": 779514,
+        "sha256": "fb4f9eaf785a5d814c8548aa9957e9679a2ed4ef39099c243274f95a173d9302"
+      },
+      {
+        "name": "ci-progress-fixed.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-progress-fixed.stderr.raw",
+        "bytes": 745,
+        "sha256": "bc2d7175ff62c847bc349ba49ba89bcb23d9e26e08f8eed33c569f9861207459"
+      },
+      {
+        "name": "ci-progress-fixed.execution.json",
+        "bytes": 2993,
+        "sha256": "11b639c9f2e74cd3ea65b3e2f341e61034474b67508bf63730d32213151f556e"
+      },
+      {
+        "name": "ci-progress-restored.stdout.raw",
+        "bytes": 158,
+        "sha256": "13cd6421e553467956f2179133d6374b3b33d04b8d1a259e2f84af7202399ec5"
+      },
+      {
+        "name": "ci-progress-restored.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-progress-restored.execution.json",
+        "bytes": 3002,
+        "sha256": "9e766d04232766bfc323e44c6794da641f9b4a2c8a691246b7807ae294ee8851"
+      },
+      {
+        "name": "ci-checkdocs.stdout.raw",
+        "bytes": 30270,
+        "sha256": "f6565ae14b28899063cca155c525cc2e885d954dfe2147435a76e88bbb071114"
+      },
+      {
+        "name": "ci-checkdocs.stderr.raw",
+        "bytes": 157,
+        "sha256": "bbff2851da3b4ab7e5041b4468a605f96933c4771e324efe31d0803c18c4d639"
+      },
+      {
+        "name": "ci-checkdocs.execution.json",
+        "bytes": 2890,
+        "sha256": "5af7283e3c992cfcfd2b40ac738a9d2679f7c25d534b24c786a47df813bdf12c"
+      },
+      {
+        "name": "ci-docs-consumers.stdout.raw",
+        "bytes": 311,
+        "sha256": "3ec4597055faec62e2d0693c261ef7dc3fc48b8fa6642187219de03cc698be1f"
+      },
+      {
+        "name": "ci-docs-consumers.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-docs-consumers.execution.json",
+        "bytes": 3289,
+        "sha256": "a0dc47d5cd4d9a3c1b13539599f253c607a6b5ccb483982f80fbd2a4354361cf"
+      },
+      {
+        "name": "ci-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "3f3675d407ada3b0857a243798b28e988b2f914eca73a688e8ee0a34aede9a6a"
+      },
+      {
+        "name": "ci-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-lint.execution.json",
+        "bytes": 2922,
+        "sha256": "bc135d0f78568183137ea9938842f538752120dd0b0ba6042a366c5b7a0e661b"
+      }
+    ]
+  },
+  "processDisclosure": [
+    "ci-progress-fixed was a harness command before its temporary shim existed: MODULE_NOT_FOUND, not a repository failure. Full output retained; ci-progress-restored runs the actual existing consumer.",
+    "ci-checkdocs tooling tests passed, then docs navigation rejected the new packet. Added only the real parent navigation link; all five actual consumers then passed. Tool source/tests unchanged, successful tooling results reused."
+  ],
+  "latestCoverageRun": {
+    "id": 39624844407,
+    "sha": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
+    "conclusion": "success",
+    "url": "https://github.com/IllegalCreed/type-pal/actions/runs/39624844407",
+    "observedAt": "2026-10-21T15:47Z"
+  },
+  "remoteRepairSuccess": {
+    "id": 39629198807,
+    "job": 119322473137,
+    "sha": "f1e56acc2ab08b18a740f8718e89963e7d6de461",
+    "url": "https://github.com/IllegalCreed/type-pal/actions/runs/39629198807",
+    "conclusion": "success",
+    "allChecks": ["check:docs", "progress integrity", "lint-zero"],
+    "raw": "github-docs-f1e56.raw.gz",
+    "rawBytes": 1331681,
+    "rawSha256": "2eb811e2e2b111409692d4949f596b207311eda761bcb1640faea8e7e6a10718"
+  },
+  "remoteRawEncoding": "UTF-8 encoding of full connector-decoded job logs, not ZIP transport bytes."
+}

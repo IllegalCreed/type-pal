@@ -1,0 +1,23 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/__tests__/magic-parity.test.ts",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-magic-final-green.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "passed": 15,
+  "failed": 0,
+  "runtimeErrorSuites": 0,
+  "testSha256": "7a8063b130d0277871bb84d067df6667a8e92fe25bff26161e31a49285cfe0c1",
+  "raw": "green-final.raw.gz",
+  "rawSha256": "65b042fb7058aab959eb68068a1e03f0ec270bdf1305cce21cbfb9d52ac52230",
+  "rawBytes": 390
+}

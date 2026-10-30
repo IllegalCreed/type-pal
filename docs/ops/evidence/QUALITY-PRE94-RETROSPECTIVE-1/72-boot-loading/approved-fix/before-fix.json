@@ -1,0 +1,190 @@
+[
+  {
+    "name": "necessary",
+    "phase": "before production fix",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/game",
+      "exec",
+      "vitest",
+      "run",
+      "src/shell/precache-ui.test.ts",
+      "-t",
+      "necessary 阶段失败后迟到进度保留错误文本和条宽",
+      "--maxWorkers=1",
+      "--silent=false",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/necessary.runner.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 1,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "6cc91dc9c56f12e1b4c465dcab4c6df8805875d670530cc74e19e02d565eb549",
+    "runnerSha256": "b7f66e8f3c3846409aa1cc7104a30451f74de71d39a1734c29db67000c948bf6",
+    "sourceSha256": {
+      "packages/game/src/main.ts": "f4add3675f3d1b5e9205058d4403face28e0d068a9fb5ec584b1a41b0aa30e64",
+      "packages/game/src/shell/boot-loading.ts": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845",
+      "packages/game/src/shell/precache-ui.ts": "ba6cc9ee369dd852552ca797d0f689d501f2ddd37afcb833ab575052686f43a9",
+      "packages/game/src/shell/precache-ui.test.ts": "79d7178e5321821ff9da1e282b2989b3e57f6c96211e8c513728d7e23019f29f"
+    },
+    "failure": [
+      {
+        "ancestorTitles": ["createUnifiedProgressUi"],
+        "fullName": "createUnifiedProgressUi necessary 阶段失败后迟到进度保留错误文本和条宽",
+        "status": "failed",
+        "title": "necessary 阶段失败后迟到进度保留错误文本和条宽",
+        "duration": 12.081166000000053,
+        "failureMessages": [
+          "AssertionError: expected '加载必要资源 100%' to be '启动失败:主资源加载失败' // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/precache-ui.test.ts:64:73\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+        ],
+        "meta": {},
+        "tags": []
+      }
+    ],
+    "notRun": "Other tests explicitly deselected by -t, not acceptance credit"
+  },
+  {
+    "name": "full",
+    "phase": "before production fix",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/game",
+      "exec",
+      "vitest",
+      "run",
+      "src/shell/precache-ui.test.ts",
+      "-t",
+      "full 阶段失败后迟到进度保留错误文本和条宽",
+      "--maxWorkers=1",
+      "--silent=false",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/full.runner.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 1,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "5330570eeee8bb1d22a6b9a16c8c01e8f7f2a7fe424a45ee3e9364f35f866a7f",
+    "runnerSha256": "874776939f98ad296defe94d7962f0011c982340723ebfebc00ca74b23bf4dd7",
+    "sourceSha256": {
+      "packages/game/src/main.ts": "f4add3675f3d1b5e9205058d4403face28e0d068a9fb5ec584b1a41b0aa30e64",
+      "packages/game/src/shell/boot-loading.ts": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845",
+      "packages/game/src/shell/precache-ui.ts": "ba6cc9ee369dd852552ca797d0f689d501f2ddd37afcb833ab575052686f43a9",
+      "packages/game/src/shell/precache-ui.test.ts": "79d7178e5321821ff9da1e282b2989b3e57f6c96211e8c513728d7e23019f29f"
+    },
+    "failure": [
+      {
+        "ancestorTitles": ["createUnifiedProgressUi"],
+        "fullName": "createUnifiedProgressUi full 阶段失败后迟到进度保留错误文本和条宽",
+        "status": "failed",
+        "title": "full 阶段失败后迟到进度保留错误文本和条宽",
+        "duration": 10.610833000000014,
+        "failureMessages": [
+          "AssertionError: expected '已缓存 10/20MB' to be '启动失败:主资源加载失败' // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/precache-ui.test.ts:64:73\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+        ],
+        "meta": {},
+        "tags": []
+      }
+    ],
+    "notRun": "Other tests explicitly deselected by -t, not acceptance credit"
+  },
+  {
+    "name": "ownership",
+    "phase": "before production fix",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/game",
+      "exec",
+      "vitest",
+      "run",
+      "src/shell/boot-loading.test.ts",
+      "-t",
+      "释放计数时保留后来安装的 fetch 层及其请求透传",
+      "--maxWorkers=1",
+      "--silent=false",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/ownership.runner.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 1,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "da151d5b810499d109332eb579956fb7d3d229c9574792bb496b676ab7659923",
+    "runnerSha256": "1943c4c66f923d296bd3200f29e257cd74eddf9ae6b0fd3c45faa0dd3fda7190",
+    "sourceSha256": {
+      "packages/game/src/main.ts": "f4add3675f3d1b5e9205058d4403face28e0d068a9fb5ec584b1a41b0aa30e64",
+      "packages/game/src/shell/boot-loading.ts": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845",
+      "packages/game/src/shell/precache-ui.ts": "ba6cc9ee369dd852552ca797d0f689d501f2ddd37afcb833ab575052686f43a9",
+      "packages/game/src/shell/boot-loading.test.ts": "ea42585dca3ed74721e7c2e8c09a3812dbe935882efd8a88e3437a0d07379a0a"
+    },
+    "failure": [
+      {
+        "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+        "fullName": "boot-loading(启动加载覆盖层) 释放计数时保留后来安装的 fetch 层及其请求透传",
+        "status": "failed",
+        "title": "释放计数时保留后来安装的 fetch 层及其请求透传",
+        "duration": 8.178042000000005,
+        "failureMessages": [
+          "AssertionError: expected [Function bound Mock] to be [Function laterFetch] // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/boot-loading.test.ts:149:30\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+        ],
+        "meta": {},
+        "tags": []
+      }
+    ],
+    "notRun": "Other tests explicitly deselected by -t, not acceptance credit"
+  },
+  {
+    "name": "generation",
+    "phase": "before production fix",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/game",
+      "exec",
+      "vitest",
+      "run",
+      "src/shell/boot-loading.test.ts",
+      "-t",
+      "释放后在途请求照常完成，不计入随后新建的启动轮次",
+      "--maxWorkers=1",
+      "--silent=false",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/generation.runner.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 1,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "bcaa4c918d58c6dab9b4454c99b3eeb251deda4761d73ac4817e32aa749dfde4",
+    "runnerSha256": "23843a765d386e076f77e773c8974101c7749a12efd5e2636b33999389624bdc",
+    "sourceSha256": {
+      "packages/game/src/main.ts": "f4add3675f3d1b5e9205058d4403face28e0d068a9fb5ec584b1a41b0aa30e64",
+      "packages/game/src/shell/boot-loading.ts": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845",
+      "packages/game/src/shell/precache-ui.ts": "ba6cc9ee369dd852552ca797d0f689d501f2ddd37afcb833ab575052686f43a9",
+      "packages/game/src/shell/boot-loading.test.ts": "ea42585dca3ed74721e7c2e8c09a3812dbe935882efd8a88e3437a0d07379a0a"
+    },
+    "failure": [
+      {
+        "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+        "fullName": "boot-loading(启动加载覆盖层) 释放后在途请求照常完成，不计入随后新建的启动轮次",
+        "status": "failed",
+        "title": "释放后在途请求照常完成，不计入随后新建的启动轮次",
+        "duration": 12.535832999999968,
+        "failureMessages": [
+          "AssertionError: expected [ 0.5, 1 ] to deeply equal [ 0.5 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/boot-loading.test.ts:177:25\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ],
+        "meta": {},
+        "tags": []
+      }
+    ],
+    "notRun": "Other tests explicitly deselected by -t, not acceptance credit"
+  }
+]

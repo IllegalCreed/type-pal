@@ -1,0 +1,813 @@
+{
+  "main": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+  "old3y": "d4cf7f57d237895d920ddee72f69e0278680157a",
+  "acceptancePreservedTip": "a9be8ab9847aee995f02c241910ae1751a6ab14d",
+  "conflicts": [
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "mainSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
+      "old3ySha256": "90772f3f5dba08305dd517221b172c09b1528b50f2052f7bdb6f0ad412c3267d",
+      "conflictSha256": "72f3ed7d5be91550d12ac367b416ab78b540223136e73ba181ec6badc0b5946a"
+    },
+    {
+      "path": "docs/ops/evidence/README.md",
+      "mainSha256": "f8e12ef73d092e976cde88f3ff289cb944e9dbcb165f1cbb06acc70c07d215d6",
+      "old3ySha256": "a1755660969ca1cea5cb0a4e6f175ee5b9dbf2d243e4bc4810a16fa64f729858",
+      "conflictSha256": "d4d40085b30e3ecbe5ea9e5a36e0d212c1a06301df02aa07b720b73bd6b6435f"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "mainSha256": "7b3b4fe8c48f59023f127fd5347647bd6656c3250c1cee8fad0f4ec6bd916a39",
+      "old3ySha256": "13e08dd00db11bc280e42c950c4c579daa2eb5de52c646c1ea229a82d8f4e42e",
+      "conflictSha256": "104fb38a5d4ecd8ba96aa23453ea6362945a80f45d05024205fcd5ad27156715"
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.ts",
+      "mainSha256": "118a645461e4ca3dac7583a4ca7fc485149d64f3204f37d5408f21593fe017bc",
+      "old3ySha256": "5da3bd509ef50196a09d6180a2909debc5f68ffed60752ca5b67d1ba1b9f9f9b",
+      "conflictSha256": "711de78629143cc940787914f908542648192280c3c499434c520a844513c259"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "mainSha256": "2f11c74cf65f5da4bf347ce40023fe858cd8dd3b3494eea65b8d0e4e5c713088",
+      "old3ySha256": "b6fee7230bf4d63f4ea559b3eb090777a685a97a545e91f0a0bbad162d0b89fc",
+      "conflictSha256": "3a7ad4e4306ac793ab6ed848166e1c667a1538100074064b660ddbfc6f4bcbf7"
+    }
+  ],
+  "midiChoice": "exact main source; full source + old delta read, tests pending",
+  "baselineChoice": "exact main comparison input, both originals retained; official regeneration pending",
+  "newHistoricalClosuresDeferred": [
+    "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+    "packages/pal-extract/audit-data-mkf.mjs",
+    "packages/pal-extract/src/audit-data-mkf.test.ts",
+    "packages/game/src/shell/fetch-retry.test.ts",
+    "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+    "packages/game/src/analytics/analytics-consent.ts",
+    "packages/game/src/analytics/analytics-consent.test.ts",
+    "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+    "packages/game/src/analytics/google-analytics.ts",
+    "packages/game/src/analytics/google-analytics.test.ts",
+    "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+    "packages/game/src/analytics/install-analytics.ts",
+    "packages/game/src/analytics/install-analytics.test.ts",
+    "packages/game/src/analytics/analytics-consent-ui.ts",
+    "packages/game/src/analytics/analytics-consent-ui.test.ts",
+    "packages/game/src/present/dialog-box.ts",
+    "packages/game/src/present/dialog-box.test.ts",
+    "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+    "packages/game/src/present/draw-sprite.ts",
+    "packages/game/src/present/draw-sprite.test.ts",
+    "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+    "packages/game/src/present/font.ts",
+    "packages/game/src/present/font.test.ts",
+    "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/font-width.grok-r1.test.ts",
+    "packages/game/src/present/follower-render.ts",
+    "packages/game/src/present/follower-render.test.ts",
+    "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+    "packages/game/src/present/menu/draw-confirm.ts",
+    "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/draw-box.ts",
+    "packages/game/src/present/menu/draw-box.test.ts",
+    "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/draw-opening-menu.ts",
+    "packages/game/src/present/menu/draw-opening-menu.test.ts",
+    "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/draw-shop.ts",
+    "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/draw-magic.ts",
+    "packages/game/src/present/menu/draw-magic.test.ts",
+    "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/draw-inventory.ts",
+    "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/draw-equip.ts",
+    "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+    "packages/game/src/present/draw-tilemap.ts",
+    "packages/game/src/present/draw-tilemap.test.ts",
+    "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/draw-menu.ts",
+    "packages/game/src/present/menu/draw-menu.test.ts",
+    "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/tools/minimap.ts",
+    "packages/game/src/tools/minimap.test.ts",
+    "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+    "packages/game/src/tools/tools-panel.ts",
+    "packages/game/src/tools/tools-panel.test.ts",
+    "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+    "packages/game/src/tools/save-io.ts",
+    "packages/game/src/tools/save-io.test.ts",
+    "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+    "packages/game/src/tools/quick-save.ts",
+    "packages/game/src/tools/quick-save.test.ts",
+    "packages/game/src/tools/speedrun/store.ts",
+    "packages/game/src/tools/speedrun/store.test.ts",
+    "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+    "packages/game/src/tools/speedrun/timer.ts",
+    "packages/game/src/tools/speedrun/timer.test.ts",
+    "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+    "packages/game/src/tools/speedrun/snapshot.ts",
+    "packages/game/src/tools/speedrun/snapshot.test.ts",
+    "packages/game/src/tools/speedrun/detectors.ts",
+    "packages/game/src/tools/speedrun/detectors.test.ts",
+    "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+    "packages/game/src/tools/speedrun/checkpoints.test.ts",
+    "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+    "packages/game/src/tools/speedrun/countdown.test.ts",
+    "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+    "packages/game/src/tools/speedrun/time-format.test.ts",
+    "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+    "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+    "packages/game/src/shell/audio-volume.test.ts",
+    "packages/game/src/shell/audio.ts",
+    "packages/game/src/shell/audio.test.ts",
+    "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+    "packages/game/src/shell/audio-midi.ts",
+    "packages/game/src/shell/audio-midi.boundaries.test.ts",
+    "packages/game/src/shell/main-loop.ts",
+    "packages/game/src/shell/main-loop.test.ts",
+    "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+    "packages/game/src/shell/rng-player.ts",
+    "packages/game/src/shell/rng-player.test.ts",
+    "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+    "packages/game/src/shell/avi-player.ts",
+    "packages/game/src/shell/avi-player.test.ts",
+    "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+    "packages/game/src/shell/boot-loading.ts",
+    "packages/game/src/shell/boot-loading.test.ts",
+    "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+    "packages/game/src/shell/input.ts",
+    "packages/game/src/shell/input.test.ts",
+    "packages/game/src/shell/input.boundaries.test.ts",
+    "packages/game/src/shell/input-replay.grok-r1.test.ts",
+    "packages/game/src/tools/speedrun/index.ts",
+    "packages/game/src/tools/speedrun/index.test.ts",
+    "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+    "packages/game/src/tools/speedrun/overlay.ts",
+    "packages/game/src/tools/speedrun/overlay.test.ts",
+    "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/menu-mode.ts",
+    "packages/game/src/core/menu/menu-stack.ts",
+    "packages/game/src/core/menu/menu-mode.test.ts",
+    "packages/game/src/core/menu/inventory-menu.ts",
+    "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/shop-menu.ts",
+    "packages/game/src/core/menu/shop-menu.test.ts",
+    "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/equip-menu.ts",
+    "packages/game/src/core/menu/equip-menu.test.ts",
+    "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+    "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/in-game-menu.ts",
+    "packages/game/src/core/menu/in-game-menu.test.ts",
+    "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+    "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/magic-select.ts",
+    "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+    "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/inventory-action-menu.ts",
+    "packages/game/src/core/menu/inventory-action-menu.test.ts",
+    "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/sell-menu.ts",
+    "packages/game/src/core/menu/sell-menu.test.ts",
+    "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+    "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+    "scripts/coverage/approved-test-retirements.mjs",
+    "scripts/coverage/approved-test-retirements.test.mjs"
+  ],
+  "currentLedger": {
+    "total": 3287,
+    "closed": 226,
+    "review": 162,
+    "pending": 2899
+  },
+  "reviewCards": [
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3y-game-analytics-consent.md",
+      "sha256": "fa5cf235109bb1800bec942b24d7ee2457406fe285fabf0d56e384658cad9602",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md",
+      "sha256": "d5a8f11926f9d831c5b4f72937212f809329608a64b07aa5e953bb507950635b",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md",
+      "sha256": "9190895a9625082826e9d368895eb7fa0b6ac0a0d9f67a6125121d2aa15362c9",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md",
+      "sha256": "07107fcebb1a732bdac61ba7b406e466d139886eb543c6a39073d843cff9a977",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md",
+      "sha256": "b9d0c1080023240c5c372f39094347e351bc24b8ee95be1743178ecfb4c44bf8",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md",
+      "sha256": "6406df7eaa0ccaa4dc4119bd7b0b49dc1e10ef1e1cd07cb19f10a5d4858f7064",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-44-game-font.md",
+      "sha256": "5b2a40148425ebee6d3d5c4f39481a67d0d7a8454f31cbeaef6410cb601c3984",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-45-game-follower-render.md",
+      "sha256": "c5d51aa3b436f7d75fb4709b6e112f4470b540bbd04d84e93ffae7288fc2dd77",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-46-game-draw-confirm.md",
+      "sha256": "9ea6cce96941f34a3f01a0e2fb0c75b9cf4e9c5d129f325d1136e1fa487dba29",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-47-game-draw-box.md",
+      "sha256": "a18712b7dc799df7414337ae27d3f72f103a53d065c5575f3ee3d94c03f0c704",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-48-game-draw-equip.md",
+      "sha256": "da8b2d2d412ee0af517f0f70d2b12f7804383a4bae266069e99fa22dfa1f987b",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-49-game-draw-inventory.md",
+      "sha256": "2f9accc798276ca90bfa6b79031fa755b8337d7ec50ae8ce79d6cea632c37559",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-50-game-draw-magic.md",
+      "sha256": "a24bad934bab68a571354b2ed1eca2e4cae0f934126ac1c58ad80c58bbe222f6",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md",
+      "sha256": "08c7b198e5835ba510b8cdef1ba0160b5e3263313c79aa3a9ee304e0dbdb22f3",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md",
+      "sha256": "e03ec268f9b9fb67a1821e0b69a6a86678e8e6db4c490aa7aea0e3ec68350810",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md",
+      "sha256": "7f3952759c08a2e2b28c444e85af77731a501e9b297bcd9d9222592c9ce824f2",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md",
+      "sha256": "cc77e6ca0f84b75bffed59f21b6654a864021a7d1020e775e367ea7deebdcebc",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md",
+      "sha256": "3cc5da1fb37d42352cfe89f33072863bc1f6f41a897826090cb6f109b72b07ad",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md",
+      "sha256": "8a9de1ab3c753f2d2bcd7a15121e3156875ce4aacef38852187b1768a81815ac",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md",
+      "sha256": "0570b597f3073f3d7c3047825926fa1dbc22e96e92aef337ee0a419a5b93047a",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md",
+      "sha256": "ba7fe741167a330a26b38552c79cd82722b73e68f606d38a20adf8edb1a186bd",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md",
+      "sha256": "693d39a5e0d615c8d3d10fbdf285761e0ca4d1dde4b91d38c77285a5cecc19c5",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-62-game-speedrun-timer-boundary.md",
+      "sha256": "3171d360e7ee46ebb802880ccd2a59c57cf96080cf3b931c335c7daeca11c6a1",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-63-game-speedrun-snapshot-boundary.md",
+      "sha256": "1a75c3542dfd9fc1ef3094fad6dc04f33cb803a540c26c2f9e9b18edd13750a4",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-64-game-speedrun-detectors-boundary.md",
+      "sha256": "8179df4464f6d06b5de48bbd7df5c7f6e5c090de0052de1815b8fa5ef1c7a1c1",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-65-game-speedrun-index-orchestration.md",
+      "sha256": "88a60f78a7b26adc16781b5b9d7a51665a9b5a323ed8f25cc1079cbafb4e8307",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-66-game-speedrun-overlay-boundary.md",
+      "sha256": "e6192ed09f052f2b0dd267fc7574168b263628c79cf3fd0677c8331d954efd09",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-67-game-speedrun-checkpoint-boundary-tests.md",
+      "sha256": "f41f2857a94e896479787224da74fe48f229c3e757f5151eba2bf198102c8bc0",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-68-game-speedrun-countdown-tests.md",
+      "sha256": "e08e4fba34cf94403008d7399a128c3138f4913bf0a321e8698164892c6eeed2",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-69-game-speedrun-time-format-tests.md",
+      "sha256": "f453f78a6ec57a1492ab92295c466df195a6437763f3c032862c0c5ce2948f7f",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md",
+      "sha256": "e4f311bf6d40deda89b472fa26501fb9f9a8ef179bcf52f692cb61b81995efa1",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md",
+      "sha256": "fe17aaa1063aa5020c62fb38249b59773b6bca27f31761d87775d806fefde3ee",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-72-game-boot-loading-lifecycle.md",
+      "sha256": "00c678769eb7b1c2efddd20b01fdaec62beab36a8e26028901bbe300388d1d9f",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-73-game-input-lifecycle.md",
+      "sha256": "2874450d11db286d9bbfad7577df49dde61915cf27d3fc730e4c485748173d18",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-74-game-audio-manager-contract.md",
+      "sha256": "ccb49d3c6bf5a7b14e11b6a704e42e53bed43f814c26e6cbbbf6ee8a17609ed1",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-75-game-audio-midi-race.md",
+      "sha256": "64f9a158bb0a426b619ec75035584e986ace5a6ed25ae9b241bd8b88d9456ffc",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-76-game-main-loop-contract.md",
+      "sha256": "b91b5cc8c119613cab39f559682ef5217e614a80121fd75af4ecb22347ccfb8b",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md",
+      "sha256": "8d5da4092fb3b4372265b838862bd296a7e9e72de0d4ee02cff669ace60bcff6",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md",
+      "sha256": "bf0a73e28616201d112ccd6fbce7d5cc852bc51dae8c60974be7f68055651ec1",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-82-data-mkf-diagnostic.md",
+      "sha256": "76f60a6392d8d68ec8371fe93d049726444c4dfdb481ea8d2a06062c6da3e700",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-83-game-menu-stack.md",
+      "sha256": "45b305ee161630da06507573395aa6d9191be23dea7f6aa045b2b41e3970636f",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md",
+      "sha256": "db35b542e1f79226a0447fdbecde8caa557d8960c7b511431e89dc0e118e2b93",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md",
+      "sha256": "60855a6845f5dceb2dbf6eeec321551a601b4959ab973b17b9b8acddeef4a8d3",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-86-game-equip-menu-contract.md",
+      "sha256": "3c5caf1b71af29e279a162eabbbad770e9d7c41921dbed6aa057a3313c87d162",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-87-game-ingame-menu-contract.md",
+      "sha256": "8425e3c993b30bfbfe739db38425672583bb8c9014a9d5f693efc1539e80a02d",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md",
+      "sha256": "f773175015c0fd698c8c8aebcb104a5e2aea5c12809f92fdff7165f055eb75a0",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md",
+      "sha256": "41179120cf17f29a630e0682b8d4d982ae36506961adce77cfabeb058754c9ca",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md",
+      "sha256": "787362503b956244cb8dfbd0c0161d530c401d9f9c9ed7281976f085fa1aecef",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-92-protected-fast-command-correction.md",
+      "sha256": "c7a2171ebfae4a9d9bc63527638e6104cfde3f94a3c8d9ce40bf7bf0c515be48",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-93-game-sell-menu-contract.md",
+      "sha256": "c2eeaeba7116b525b204c79f6978ac0f91ddd3cd15fa60597dc59449a09e947c",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-96-sell-test-retirement-evidence.md",
+      "sha256": "932165ccc8e011dd5506de99204cd91896da947c8b0522ec2eff2fb2f19c418b",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-53-player-status-runtime-zero.md",
+      "sha256": "675f192bbb974f8a61fde21f5b917a63b63d9ffc0c5c91a2936352902a4b3d80",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md",
+      "sha256": "f27f2d45832a0d84efb36c0d279425099143e4e19c7435a21a9c729daab724e9",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-79-battle-poison-level-boundary.md",
+      "sha256": "69a88763c8b756c20f7fbd5b2a8d2b808c5d04b422e955b01891dab2d9aa63e0",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
+      "sha256": "7f71c707284ac6c1aff684982bee2f83ca46389fb80c36368d9fe27079a4df29",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+      "sha256": "178d18d9432ed2443b8cbb5a31fcafb71fcff97efdc94fbfdc832e88f7cd1903",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
+      "sha256": "254e96c1bbaaac2c7234c921534ad57cdce16fdfcc6daba1237f03c182909b5f",
+      "status": "pending rereview"
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md",
+      "sha256": "f76c9ff72b83716a48b45a2e24db8ac35975a45d110801fe625ab5e6b615cc79",
+      "status": "pending rereview"
+    }
+  ],
+  "diffSources": [
+    {
+      "path": "packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx",
+      "sha256": "a73e19eea4855fae5bad4e698c55d8ecd4abe16fc14a51cbb02f74f2a85b2ebf",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/actions.test.ts",
+      "sha256": "8e41771ac1cb770a69cfee91ee40ebb01971ca2d7ebd02998f4d64ea64e844ae",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+      "sha256": "6a130a287fdcd9ab9bec28a0aabc040097b991264cab47549b4225dd4d1a40b5",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+      "sha256": "3b3489e1bd46e7eb38bf00ec9da4cfea9de8122d1b9b20617721923e0c58c30c",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "0025dd6fe905ccd19aced025fff9abd980b47891abb1536a2afdc2c5f3b560c6",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/dependency-ownership.test.ts",
+      "sha256": "d483cc817fa920d93c453fef65dd1c6a5dcc59615667ceeeca7b10bafdd186c9",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.test.ts",
+      "sha256": "415a2340e5191aa974f126a51c2f5a135d6a9aef6f234aa92b3fe43ee9141ef5",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+      "sha256": "dd978a600e02a8e65a98777d8a9e7e27203c717a98a247281709e0c50e033bba",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/event-opcodes.cov85.test.ts",
+      "sha256": "e25b2c2b35b14b1680d29735c5a26bff0411f3217e13d3261ecef4b5c96bf042",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-contracts.test.ts",
+      "sha256": "2c6cf987e15c53684158c0a37091e33c6e0aa0e44fd9d30e804ae6a737ad901e",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/event-system.test.ts",
+      "sha256": "b7fdaf473dce29e1b2b4f714eb40a7b455e344eefdf3f338801d344e233abab0",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "fdfe520283d6975bd93573f153ee51f620c3ec424433b2672ff447ba20a2831b",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.test.ts",
+      "sha256": "5fe3b552a39cce7ea9155958299f7e2c19fabd2cc43d47e97a448a469d41fb94",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.ts",
+      "sha256": "b0febbfa204ee8637cecca4305555e7426a7ec7bc8030254587c55bb56069819",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "sha256": "e2e1ae2efad2861669b352733ff923326ec6f6de150c87dec167c6255ef328fd",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+      "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.test.ts",
+      "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+      "sha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+      "sha256": "f9bdde69dac26275ed920a44113100933a90b5c93dbd9ddfa81408f02525b454",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+      "sha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "sha256": "d80cb2670f407a8ae46178b5e2ed99dac2c6c0fb794e16c9269b506e60e82aab",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.ts",
+      "sha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.test.ts",
+      "sha256": "ce9456b36defae3df0895a444b29523a08ad66bfc97b00a28e9af525f535f544",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.ts",
+      "sha256": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+      "sha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+      "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+      "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.test.ts",
+      "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "sha256": "531db7e99064e51f1a5a55fafa13f537a84e53260987852197811aa293794e5b",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.test.ts",
+      "sha256": "041b41a3a423b38d509ff6bcf5ff016efbcb1c37cd357af61d95450774d0bbca",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+      "sha256": "f37091d9530844bffa1f98008f4d01f665243e931b8e1b42c53c73dcbda1d099",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+      "sha256": "57b71c9ce217354a257f13d31813a26b538cc2e88dd21a615edac7cdce29a795",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+      "sha256": "b50f9e69be6bd335b89b5842390a404d868a9ed9e7ee45488ad4fe5a50e042f1",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.ts",
+      "sha256": "d82477551564270e2de8ce41dee51e1a6f6749753e8e6dd4fbc3d7d9da054395",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+      "sha256": "ca07c42756238fa4be8a550f7a3094dfdfb66ed5217364a6d5ecf347cfbeba57",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+      "sha256": "5db9d7d93dd741924ec4d36f8f34ed76f5a185d50ed7f8010b4cb03b35c50d3f",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "sha256": "6dc6dbbf459110332cb58bddfc3e8b27e334ce902a78525759780fda1823b5d3",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "sha256": "3b914002b9b26b277ce579630ac15d08bebf984d5d6f54d9b8adfc0b19a76330",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "sha256": "8aab3f1f2292dc1a8d610be94825847d5b2c9459197ea1260db94f9f581fd1c3",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+      "sha256": "ec6b3f484aebb0f311e33c864c67128ff54b9a0a2f3d4218d1dbed03bd0b7dae",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+      "sha256": "681590bfe7bbf34f443647de52a05e27a41b896fdc19e0f17a34d7041063aeaf",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.ts",
+      "sha256": "9f9491a01db0837af8510aad5e07ea3595ada941ec9d8d10e9bf97cb7310fb46",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "sha256": "847ba3cd0594f5578ea7a564df055435fa57b9e4a333f69cd25086f6547a8389",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.boundaries.test.ts",
+      "sha256": "a55ce7bb26059e35da357250cf4c1e2aee2cb6d28d3b73ffe486cd0fa751f2f6",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.ts",
+      "sha256": "118a645461e4ca3dac7583a4ca7fc485149d64f3204f37d5408f21593fe017bc",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.test.ts",
+      "sha256": "f7fafac9dcc5bcd23be1468ad4938cdbd3dabb06230749a5422f35009588fb72",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.ts",
+      "sha256": "acece0be9e180b65cb5f86e96bea80072c5640edbb8af25dcc05ec01fa91b1aa",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/status-poison-equip.glm-q.test.ts",
+      "sha256": "7ea1461c6dc36f0c7debd8489a1e1c474fed3124b808b44fe59e779f593b4247",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sha256": "5583b8ddcf18f3da57a80f6fc84fa71f6e7ea74aeaa2444de4d485c1cf9a59f8",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "sha256": "e6db123378836bff7ae83405dfabbeb641659843405ccd10768b33ad47c8b890",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.test.ts",
+      "sha256": "81ea83ea67242f8178bcbbc67c5b7a7d00b685bf343496b3e229da7a089b187e",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "306968e63cd42b0b2b084f1ccf14e179eac096196c05defcd0db85df0048ffb3",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+      "sha256": "4e0d74618590ef5ebd5e2d476838886c5013d558e292e2ad59333c14615335b8",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.test.ts",
+      "sha256": "a00d04bea44135667710c73f8b0fe84a813e4792ed4c4464012dd00cc2014364",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "a888866e9555bc9fa58fed28d9e035fcb41d3d90c9fdc6d9eb79ddee0aef5d7a",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/pal-extract/audit-data-mkf.mjs",
+      "sha256": "b6d2040d44b8869648099cb090e0adf8af416c7ca2c0ec66e06e8b621e133f53",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "sha256": "2ba45d0947f9dc087911131d9288a1feae0bac3ea19c6fecf972dd4225c19e15",
+      "status": "pending rereview"
+    },
+    {
+      "path": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+      "sha256": "ce1ba6f3c0dc91540b2329c0d351871a6d57edb030e626424d430e56bf6900c3",
+      "status": "pending rereview"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "04973ec3d0acd5da247b1ae4117b39885c7e5f7e80204ed294b12251e631d8ea",
+      "status": "pending rereview"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "0532c36cfbaebf26dee62a0cb005082d6b4ba08d5899e32a9d8503894eee3490",
+      "status": "pending rereview"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "2f11c74cf65f5da4bf347ce40023fe858cd8dd3b3494eea65b8d0e4e5c713088",
+      "status": "pending rereview"
+    }
+  ]
+}

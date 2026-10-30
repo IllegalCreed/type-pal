@@ -1,0 +1,29 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/reforge",
+    "exec",
+    "vitest",
+    "run",
+    "src/main.host-lifecycle-1.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-c05-host-current.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 0,
+  "seconds": 1.88,
+  "rawBytes": 3650,
+  "rawSha256": "ef3610cb921e15291e35b8ccb52aa50253baa055ceb4cc9649fe44e90cc70384",
+  "runnerBytes": 3123,
+  "runnerSha256": "517f5141b83568e4b307efcb10ca0ac05c37f947d2dd29375abc2244c4699e34",
+  "passed": 8,
+  "failed": 0,
+  "pending": 0,
+  "unwrappedAct": 0,
+  "unsupportedActEnvironment": 0,
+  "navigation": 0
+}

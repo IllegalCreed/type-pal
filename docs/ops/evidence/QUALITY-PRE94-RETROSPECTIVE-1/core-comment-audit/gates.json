@@ -1,0 +1,98 @@
+{
+  "base": "78f8e3c79be8a89412e19986a1a1c54d645f2005",
+  "scope": "Search comment/test repair and two primary-backed risk registrations; no queue/poison behavior change",
+  "direct": {
+    "passed": 12,
+    "failed": 0,
+    "diagnostics": 0,
+    "receipt": "direct-current.json"
+  },
+  "adjacent": {
+    "scope": "Exactly three selected real Confirm caller cases, not whole file/package",
+    "passed": 3,
+    "unselected": 107,
+    "diagnostics": 0,
+    "receipt": "adjacent.json"
+  },
+  "controls": {
+    "pairs": 6,
+    "oldPassedEach": 10,
+    "newPassedEach": 11,
+    "newBusinessAssertionErrorsEach": 1,
+    "pendingSkippedRuntimeErrors": 0,
+    "sourceSpecRestoredByteForByte": true,
+    "receipt": "search-controls.json"
+  },
+  "commentOnlySource": {
+    "equalRemoveCommentsEmit": true,
+    "receipt": "executable-equality.json"
+  },
+  "newCounters": {
+    "nativeCFragmentsAndActualTsPublicLeavesDiffer": 2,
+    "compilerWarnings": 0,
+    "scope": "Native exact fragments in minimal contexts only; not full SDLPal/browser/assets",
+    "receipt": "primary-counters.json",
+    "initialInvalidFragment": "initial-compile/README.md; missing outer bracket, no runtime counter credit"
+  },
+  "typecheck": {
+    "exit": 0,
+    "diagnostics": 0,
+    "receipt": "typecheck-current.json"
+  },
+  "docs": {
+    "exit": 0,
+    "toolTests": 125,
+    "issues": 0,
+    "markdownFiles": 1559,
+    "links": 9224,
+    "tasks": 463,
+    "contentReviews": 2345,
+    "receipt": "docs.json"
+  },
+  "lint": {
+    "exit": 0,
+    "files": 5131,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "receipt": "lint-final.json",
+    "priorFailures": [
+      {
+        "receipt": "lint.json",
+        "exit": 1,
+        "diagnostics": 1
+      },
+      {
+        "receipt": "lint-current.json",
+        "exit": 1,
+        "diagnostics": 3
+      }
+    ],
+    "repair": "Only formatted evidence JSON, preserving exact original failed-probe bytes and object equality; capture writer now formats receipts at creation. No rule/exclude/ignore changes."
+  },
+  "ledger": {
+    "exit": 0,
+    "tracked": 3314,
+    "closed": 278,
+    "review": 61,
+    "pending": 2975,
+    "newClosed": 0,
+    "oldClosuresReopened": 5,
+    "receipt": "ledger.json"
+  },
+  "diff": {
+    "exit": 0,
+    "receipt": "diff.json"
+  },
+  "newClosed": 0,
+  "oldClosuresReopened": 5,
+  "notRun": [
+    "whole-repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "whole game package",
+    "browser/E2E"
+  ],
+  "notRunReason": "User batches expensive whole-repo/coverage gates at large-task closeout. Only bounded selected caller contracts run here; no blanket package or whole-file green claim.",
+  "merged": false
+}

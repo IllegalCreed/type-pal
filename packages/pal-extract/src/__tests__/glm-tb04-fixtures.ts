@@ -35,7 +35,7 @@ export function concatBytes(parts: readonly Uint8Array[]): Uint8Array {
   return out
 }
 
-/** 合法 MKF 容器：N+1 个 u32 LE offset（头长 4 对齐；chunk 严格相邻递增）。 */
+/** 合法 MKF 容器：N+1 个 u32 LE offset（头长 4 对齐；非递减，允许空 chunk）。 */
 export function mkfContainer(chunks: readonly Uint8Array[]): Uint8Array {
   const headerBytes = (chunks.length + 1) * 4
   const offsets: number[] = [headerBytes]
@@ -138,7 +138,7 @@ export function wordDat(): Uint8Array {
   return out
 }
 
-/** M.MSG 合成正文 + 偏移表（含空条与 sentinel：末 offset 只作下界，不产出消息）。 */
+/** M.MSG 合成正文 + 偏移表（含空条与 sentinel：末 offset 是末条终点，不另产消息）。 */
 export function msgRegion(): { bytes: Uint8Array; offsets: Uint32Array } {
   const bytes = concatBytes([gbk('甲'), gbk('乙丙'), gbk(''), gbk('丁'), gbk('尾哨兵不产出')])
   // 甲@0..2 乙丙@2..6 (空)@6 丁@6..8 尾哨兵@8..（不读）

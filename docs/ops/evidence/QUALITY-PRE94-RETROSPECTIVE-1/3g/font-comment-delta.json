@@ -1,0 +1,26 @@
+{
+  "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+  "beforeSource": "committed c2fee5a9e via git show, not a new execution",
+  "beforeSha256": "0ae2dd6e94bdccfebcacdb7da4887a31e02276c197219da3843b22c36492777d",
+  "afterSha256": "dae36eb783884bb3481fface786697ce58549c31959464024bde8261cf976679",
+  "diff": [
+    "--- ",
+    "+++ ",
+    "@@ -32,7 +32,7 @@",
+    " const REAL_PACKAGE = resolve(HERE, '..')",
+    " const MSG_TEXT = 'HELLO MSG'",
+    " ",
+    "-/** \u6700\u5c0f\u5408\u6cd5 BDF\uff1a8\u00d716 ASCII 'A'(65) + 16\u00d716 CJK 0x4E2D(19970)\uff0c\u5404 16 \u884c\u4f4d\u56fe\u3002 */",
+    "+/** \u6700\u5c0f\u5408\u6cd5 BDF\uff1a8\u00d716 ASCII 'A'(65) + 16\u00d716 CJK '\u4e02'(U+4E02\uff0c19970)\uff0c\u5404 16 \u884c\u4f4d\u56fe\u3002 */",
+    " function buildBdf(): Uint8Array {",
+    "   const rows = (widthBytes: number, firstRow: string): string[] =>",
+    "     Array.from({ length: 16 }, (_, i) => (i === 0 ? firstRow : '0'.repeat(widthBytes * 2)))"
+  ],
+  "testBodyAndFixtureUnchanged": true,
+  "numericFact": {
+    "fixtureDecimal": 19970,
+    "fixtureUnicodeHex": "4e02",
+    "claimedZhongDecimal": 20013
+  },
+  "testRetirement": false
+}

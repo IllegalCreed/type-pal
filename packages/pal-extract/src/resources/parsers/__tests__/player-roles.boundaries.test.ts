@@ -1,9 +1,9 @@
 /**
  * TEST-FOUNDATION-COVERAGE-1 C2：DATA.MKF chunk 3 PLAYERROLES 解析边界
- * （player-roles.ts:53-260,SoA 75 行×12B=900B）。
+ * （sdlpal global.h::tagPLAYERROLES,SoA 75 行×12B=900B）。
  * 必须构造完整 DATA.MKF（chunk3 = 900B）；SoA 轴向：行=字段、列=6 角色，
  * 装备/仙术/抗性数组的轴不能颠倒。角色名走 words.persons 反查。
- * 装备/仙术断言取完整数组长度+非首/末槽非对称标记，防 slice 截断类坏实现。
+ * 装备/仙术断言取完整数组长度+首末槽与不同角色的非对称标记，防 slice 截断类坏实现。
  */
 import { describe, expect, test } from 'vitest'
 import {
@@ -59,7 +59,7 @@ describe('parsePlayerRoles · SoA 布局合同', () => {
     expect(r1!.elemResistance.thunder).toBe(8)
     expect(r2!.elemResistance.fire).toBe(12)
     expect(r0!.elemResistance.water).toBe(0) // 未写单元格保持零
-    // 装备：完整长度 6；非首/末槽非对称标记（角色×槽位交错，防截断/换轴）
+    // 装备：完整长度 6；首末槽与不同角色的非对称标记（防截断/换轴）
     expect(r0!.equipment).toEqual([196, 0, 0, 0, 0, 0])
     expect(r1!.equipment).toEqual([210, 0, 0, 0, 0, 0])
     expect(r2!.equipment).toEqual([0, 0, 0, 0, 0, 123])
@@ -81,12 +81,13 @@ describe('parsePlayerRoles · SoA 布局合同', () => {
       /chunk 3 size 898 ≠ sizeof\(PLAYERROLES\)=900/,
     )
   })
-  test('零值全表合法（全零 900B → 全部角色字段为 0/无 -1 语义）', () => {
+  test('全零 900B 仍解出六个角色，HP 与武术保留 0', () => {
     const { roles } = parsePlayerRoles(mkDataMkf(mkRolesChunk([])))
+    expect(roles).toHaveLength(6)
     expect(roles.every((r) => r.maxHP === 0 && r.attackStrength === 0)).toBe(true)
   })
   test('rgwName 指针反查 _name：按 name 值指向 word36+k，role3/4 故意对调不写反', () => {
-    // 原版 rgwName = [36,37,38,40,39,41]（player-roles.ts:263 注释真值：role3=巫后/role4=阿奴 对调）
+    // 已核 DATA.MKF rgwName = [36,37,38,40,39,41]：role3=巫后/role4=阿奴 对调。
     const cells = [0, 1, 2, 3, 4, 5].map((p) =>
       playerRoleCell(PLAYER_ROLE_ROWS.name, p, [36, 37, 38, 40, 39, 41][p]!),
     )

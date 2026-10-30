@@ -1,0 +1,546 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "scripts/docs/check.mjs",
+      "sha256": "8ffce288f92eb90c4971cbb64edd77a78516e1d9a80c8ec9748e5ce7aa37d407",
+      "lines": 383,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md",
+        "sha256": "d5e39ec3578499b4bb7b7f22acb4ed0084b332ed378e56c6ef13f7a00a6a9f2d"
+      },
+      "dimensions": {
+        "A": "完整383行：真实git NUL清单/物理存在性→namespace→链接/导航/卡顶/index/board→canonical版本，错误保持exit1，非法CLI exit throw；index只写stdout。旧>1MiB真实git反例与恢复证据按同字节复用。",
+        "B": "现行/历史分段与版本拒绝说明对应实现；固定Last reviewed是生成模板版本，不冒称每次执行重新审阅全部任务。16MiB完整枚举与独立4MiB namespace界限说明保留。",
+        "C": "auditDocuments为纯注入documents/exists/rules，CLI唯一拥有Git/FS；markdown解析、例外配置与终态namespace各有叶owner，不把历史任务签名当当前准入。",
+        "D": "localTarget/taskInfo/renderTaskIndex被真实审计/索引路径使用，测试导出用于直接验证同实现；版本和任务状态事实不另复制第二生成器。",
+        "E": "当前docs两个实际测试文件18合同在118原件中通过，核合法有限Map和独立坏链接/顶部状态/边界；旧3个真实Git容量/尾路径oracle复用，不把默认scope门当所有历史内容正确。",
+        "F": "多数函数短而单责，auditDocuments长在按不同合同顺序收集issues；add与linked局部表达意图，CLI列举→读取→验收→输出直接，不为指标拆散有序审计。",
+        "G": "无生成文件替代源码、无忽略/排除新增。历史中文状态仅显式名单终态；路径及父目录Set是真实checkout证明，不退化为exists宽松放行。",
+        "H": "纯审计可注入最小树，真实CLI由独占Git夹具验证；模块导入guard用realpath且不启动main。CLI无可取消长异步资源，不引入依赖容器。"
+      },
+      "readScope": "Full executable/comment source read; complete finite tables decoded and mechanically audited. Reuse historical authorized product/raw claims only at their recorded scope; no new whole coverage run.",
+      "currentReview": "Codex single-owner eight-axis completion, not closure by package green.",
+      "remaining": "No blocking code-quality gap; unified phase gates, exact future structural recount/retirement additions and publication remain.",
+      "changes": "No source/test byte changes; current whole-file contract/design/data review",
+      "verification": [
+        "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
+        "all unchanged source/table bytes pinned to origin/main immutable0e14",
+        "new parallel5 tests include old3green/new2 business reds→green"
+      ]
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "87c5e8049444e8d5b6195b5d01ced2061420f04ed9a572a7e8f80f9b67a29d45",
+      "lines": 576,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+        "sha256": "65a9dc6581b4a238791e26f0a9d874a1fb5129843a4a90c6c970d67f93de615d"
+      },
+      "dimensions": {
+        "A": "原586行全文与所有阶段caller补读；profile/flag、版本、full输入、完整test census、provider/scope/protected比较及原子baseline写回保持。只提取既有调度；并行生命周期两正式反例后修，非指标规则变化。",
+        "B": "明确默认reporter保留通过用例诊断、scope和provider不等于内容验收；注释无全绿替代逐文件声明。report collector与新调度owner职责在入口可见。",
+        "C": "实际collectPackage仍唯一拥有子进程/目录/报告，collectPackages仅顺序与在途任务；前台失败先等已启动editor兑现再返回，不再留下写报告后台任务或未处理拒绝。",
+        "D": "metrics/inventory/full-inputs/provider/env/两个精确批准表继续复用；只抽有独立生命周期和直接测试需求的调度，不引入万能runner或双份覆盖率算法。",
+        "E": "旧官方/保护门只作历史有效管线证据；本窗105工具正控包括调度5/四指标/范围和批准拒绝。当前真实官方采集仍按用户要求留全52稳定后，未伪称新protected成功。",
+        "F": "主流程缩成检查→收集→汇总→比较→ratchet；错误与保护分支显式，较长的census和保护比较保留单一合同，不为行数拆碎。",
+        "G": "fast/full/可选parallel确有配置合同；不删保护旧baseline必要历史，不添scope排除或容差。新helper参数仅实际配置/报告job/现有并行开关，没有预留业务模式。",
+        "H": "调度新叶可直接用可兑现job测等待/错误归属，不跑真实覆盖率来测调度。CLI/计数/写盘仍在原实际边界，MJS无TS类型门；冻结前会集中执行真实全门。"
+      },
+      "readScope": "Full executable/comment source read; complete finite tables decoded and mechanically audited. Reuse historical authorized product/raw claims only at their recorded scope; no new whole coverage run.",
+      "currentReview": "Codex single-owner eight-axis completion, not closure by package green.",
+      "remaining": "No blocking code-quality gap; unified phase gates, exact future structural recount/retirement additions and publication remain.",
+      "changes": "Existing scheduling extracted; owned async failure fix in new helper",
+      "verification": [
+        "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
+        "all unchanged source/table bytes pinned to origin/main immutable0e14",
+        "new parallel5 tests include old3green/new2 business reds→green"
+      ]
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "aaefc818e0da3243b71ab0350e57ea97bf3b22051a5060e2f9d5175617db90f8",
+      "lines": 2655,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json",
+        "sha256": "0876e9fe84c96c91f799172cadd4f42086c61a8a67e68a4de8e9e60dc84de167"
+      },
+      "dimensions": {
+        "A": "全文算法/全部注释及20条有限数据解码补核；完整旧JSON摘要命中才读逐源SHA，逐包before必须精确、after normalize后重聚合total。未知baseline不读源不调整、失败不修改原对象。",
+        "B": "授权说明均限定具体重构/合法fixture/计数迁移及原件，不将用户允许合理rebase写成百分比豁免；历史策略在相应原件保留。",
+        "C": "私有数据表拥有有限迁移知识；算法无FS/进程，readSource由真实runner提供，指标定义唯一依赖metrics，不写baseline也不改scope。",
+        "D": "复用normalize/aggregate与完整SHA，测试通过第三参注入有限表是可测配置端口，生产runner不开放任意批准文件/CLI开关；不复制比较算法。",
+        "E": "三个现有测试全文核：精确单包迁移与raw不变、源码/旧计数错误及未知快照、额外两包退步拒绝。合成metrics只证算法，不冒充20项原产品授权/覆盖率原件。",
+        "F": "长文件为20条有限数据而非巨大控制流；id/authority/evidence/sources/packages明确可查，算法直线且无模式布尔开关。",
+        "G": "旧精确快照仍用于受保护历史ref比较，非过时产品fallback；20个baseline摘要唯一。当前5文件与main全字节相同，未借本次收口新加宽批准。",
+        "H": "纯reader可注入拒绝/错SHA，无全局环境或计时依赖；数据形状/授权链接/指标数域机械核，历史source不要求等于未来当前源，运行时仅精确快照才适用。"
+      },
+      "readScope": "Full executable/comment source read; complete finite tables decoded and mechanically audited. Reuse historical authorized product/raw claims only at their recorded scope; no new whole coverage run.",
+      "currentReview": "Codex single-owner eight-axis completion, not closure by package green.",
+      "remaining": "No blocking code-quality gap; unified phase gates, exact future structural recount/retirement additions and publication remain.",
+      "changes": "No source/test byte changes; current whole-file contract/design/data review",
+      "verification": [
+        "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
+        "all unchanged source/table bytes pinned to origin/main immutable0e14",
+        "new parallel5 tests include old3green/new2 business reds→green"
+      ],
+      "recountMaintenance": {
+        "previousSha256": "4e9e8856de17fe772d72ca8ee24dab9f7b2b44d647b416cadec1b5fa56244e1e",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/uniform.json"
+      }
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.test.mjs",
+      "sha256": "1d02b9d98db14be58e6a462634b574f44e9508202252046a5e5c2d6c2259fbab",
+      "lines": 85,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+        "sha256": "65a9dc6581b4a238791e26f0a9d874a1fb5129843a4a90c6c970d67f93de615d"
+      },
+      "dimensions": {
+        "A": "三例完整输入为四个safe非负covered≤total指标、两包及唯一有限批准；原始baseline深拷贝仅作不变性oracle，不是clone自比功能正确性。",
+        "B": "标题准确区分raw原件、未知不应用与额外回退，没有宣称校验产品覆盖率或全部批准来源。",
+        "C": "每例全新baseline/approval、无真实FS/全局mutant；readSource失败只有本例，生产源码不被改写。",
+        "D": "metrics/fixture/proof只用于生成合法输入；actual.after计数独立写出，不调用adjust函数产生预期值；比较使用真实指标算法。",
+        "E": "8个原退步→精确迁移后零退步为实际业务oracle；两类拒绝和unknown must-not-read可判别，调整包/未调整包额外减一都保留退步，无弱化断言。",
+        "F": "三个合同原子：迁移成功、错误/未知域、额外退步；对照数值小且差异明确，不堆随机大型计数。",
+        "G": "无skip/only/恒真类型例或重复覆盖产品，类型合同不计runtime；数量不作为质量证明。",
+        "H": "真实纯函数直接执行，reader seam隔离来源；无需coverage collector/子进程或大任务来重验三个计数合同。"
+      },
+      "readScope": "Full executable/comment source read; complete finite tables decoded and mechanically audited. Reuse historical authorized product/raw claims only at their recorded scope; no new whole coverage run.",
+      "currentReview": "Codex single-owner eight-axis completion, not closure by package green.",
+      "remaining": "No blocking code-quality gap; unified phase gates, exact future structural recount/retirement additions and publication remain.",
+      "changes": "No source/test byte changes; current whole-file contract/design/data review",
+      "verification": [
+        "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
+        "all unchanged source/table bytes pinned to origin/main immutable0e14",
+        "new parallel5 tests include old3green/new2 business reds→green"
+      ]
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "b86ca4f3d13fc0b2b5c05d87781bba2652ad518f40eadf2b569170b5e71f9c3d",
+      "lines": 725,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+        "sha256": "a05861edda475819ddc4b8ec3cfa20f3b9e9d0fd308da96932d4703686050de5"
+      },
+      "dimensions": {
+        "A": "全部72条有限tuple及predicate补核：file/kind/old-new数量/两个identity摘要/当前源码摘要全部相等才允许；空前后snapshot与其它scope类型拒绝，无glob/模糊前缀。",
+        "B": "头部已明确2026-10-03只原五项；后续按entry旁实际standing或明确裁决与证据，不把旧授权头覆盖后来条目。六项审计追认指针保留，不伪造逐条用户签名。",
+        "C": "冻结数组和逐对象避免运行期扩张；算法无IO。protected runner只在发生现存文件计数删除时读取当前SHA并调用，本表不自行删除测试或改范围。",
+        "D": "只有一个精确lookup判据、无第二退役宽松路线；历史tuple保留供不同protected ref比对，新的测试正常编辑可令旧snapshot失配，不要求回退旧文件。",
+        "E": "72精确成功与14独立拒绝轴在原生100coverage工具部分执行；数据授权复用原逐项合同/审计，不将由表生成的正控冒充独立产品oracle。",
+        "F": "每行old/current/digest/file清晰，长表对应审计事实，不为缩行混入哈希压缩编码；predicate直接列完整约束。",
+        "G": "72文件唯一、净222，旧快照不能随新文件自动恢复信用；本窗sprite四项的未来精确表增量留最终冻结，不提前改baseline/默认批准规则。",
+        "H": "纯predicate任意坏tuple可直接运行；冻结性质和拒绝矩阵无需Vitest/正式覆盖率。实际当前文件SHA的适用性由runner独立读磁盘，不拿表自身证明磁盘。"
+      },
+      "readScope": "Full executable/comment source read; complete finite tables decoded and mechanically audited. Reuse historical authorized product/raw claims only at their recorded scope; no new whole coverage run.",
+      "currentReview": "Codex single-owner eight-axis completion, not closure by package green.",
+      "remaining": "No blocking code-quality gap; unified phase gates, exact future structural recount/retirement additions and publication remain.",
+      "changes": "No source/test byte changes; current whole-file contract/design/data review",
+      "verification": [
+        "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
+        "all unchanged source/table bytes pinned to origin/main immutable0e14",
+        "new parallel5 tests include old3green/new2 business reds→green"
+      ],
+      "retirementMaintenance": {
+        "previousSha256": "f87270fb2290cb0f232a1fd402a6d0f4e859f8f2fba9e8f24404b520a9b16bf2",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/retirement-freeze.json"
+      }
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "7e0bae2851085609c20b13814cfdac557ad560abbb0003012dd322e1529e8843",
+      "lines": 88,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+        "sha256": "a05861edda475819ddc4b8ec3cfa20f3b9e9d0fd308da96932d4703686050de5"
+      },
+      "dimensions": {
+        "A": "完整88行：72个精确tuple成功、两个冻结拒绝、14种拒绝值均对应真实matcher合同；declared72/222只证数据规模，不给产品质量授信。",
+        "B": "注释明确当前真实文件bytes只在适用删除时由runner核，历史固定快照不禁止未来正常修改；后续条目授权逐批而非整账旧日期。",
+        "C": "每次proof新对象，负例只改独立一个域，冻结写反例不能污染表；无FS/时钟或共享工程，Node测试隔离。",
+        "D": "proof复用合法tuple装配，refusals显式独立写坏输入；generated正控是匹配合同而非数据授权oracle，区分两种证明范围。",
+        "E": "所有14false断言真实执行；额外删一例/同数换身份/旧新file不匹配/源SHA漂移/缺snapshot等可分辨。无mock次数冒充业务、无新增跳过。",
+        "F": "矩阵每行说明唯一反证域，不把14断言折叠成一个无差别throws；正控逐文件失败能定位tuple。",
+        "G": "正控72虽共享装配但输入tuple彼此不同且无真实IO成本，不为提覆盖率堆case。无再次执行业已退役产品测试或恢复旧fallback。",
+        "H": "真实matcher直接接受可控输入，无核心mock；TAP完整原件可低成本确认合同身份/结果，当前盘SHA另由protected集成门证实。"
+      },
+      "readScope": "Full executable/comment source read; complete finite tables decoded and mechanically audited. Reuse historical authorized product/raw claims only at their recorded scope; no new whole coverage run.",
+      "currentReview": "Codex single-owner eight-axis completion, not closure by package green.",
+      "remaining": "No blocking code-quality gap; unified phase gates, exact future structural recount/retirement additions and publication remain.",
+      "changes": "No source/test byte changes; current whole-file contract/design/data review",
+      "verification": [
+        "governance-tools118 and coordinator-failure-green105 preserve separate original TAP sets, not summed",
+        "all unchanged source/table bytes pinned to origin/main immutable0e14",
+        "new parallel5 tests include old3green/new2 business reds→green"
+      ],
+      "retirementMaintenance": {
+        "previousSha256": "df50605009a95089a4dfbec569b469bb3595da1500e3bacfb82f56b938340f6d",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/retirement-freeze.json"
+      }
+    }
+  ],
+  "extras": [
+    {
+      "path": "scripts/coverage/package-collection.mjs",
+      "sha256": "7f791d607bb50e404e3739313515b1f9aad9e033c86915043e01aec062e070de",
+      "status": "code-accepted;new scheduling leaf/contract, outside fixed52",
+      "dimensions": {
+        "A": "实际当前配置含game/editor；串行/并行success顺序不变；并行失败立即观察editor拒绝并等待已启动job，primary前台错误不被finally掩盖。",
+        "B": "注释明确顺序owner与报告IO分工及两失败原因，不声称取消尚未完成子进程或改变指标。",
+        "C": "唯一owner只持editor兑现状态，无FS/env/coverage算法；runner传真实收集器，完成或失败都回收在途Promise。",
+        "D": "只抽有独立生命周期的调度；未把指标或其它工具job塞入万能调度框架，无反向import。",
+        "E": "三既有正控+两正式业务红（未等job/拒绝逸出）→五绿；子Node监听真实unhandled事件，断言原错误/归还时刻/零stderr。",
+        "F": "按实际配置顺序直接for-await，success/failure显式标签避免错误truthy掩盖throw undefined；finally只等已处理结果。",
+        "G": "单真实入口被run.mjs使用，测试只验证job lifetime；无新flag/默认并发/规则放宽/空export。",
+        "H": "依赖收集回调是实际IO端口，测试不跑覆盖率；子进程同步回收且有限5s测试超时，未放宽任何原门。"
+      }
+    },
+    {
+      "path": "scripts/coverage/package-collection.test.mjs",
+      "sha256": "4bafa8e77304296f194bcf019660ae92fa23843ea1e0494546edf768534afe76",
+      "status": "code-accepted;new scheduling leaf/contract, outside fixed52",
+      "dimensions": {
+        "A": "实际当前配置含game/editor；串行/并行success顺序不变；并行失败立即观察editor拒绝并等待已启动job，primary前台错误不被finally掩盖。",
+        "B": "注释明确顺序owner与报告IO分工及两失败原因，不声称取消尚未完成子进程或改变指标。",
+        "C": "唯一owner只持editor兑现状态，无FS/env/coverage算法；runner传真实收集器，完成或失败都回收在途Promise。",
+        "D": "只抽有独立生命周期的调度；未把指标或其它工具job塞入万能调度框架，无反向import。",
+        "E": "三既有正控+两正式业务红（未等job/拒绝逸出）→五绿；子Node监听真实unhandled事件，断言原错误/归还时刻/零stderr。",
+        "F": "按实际配置顺序直接for-await，success/failure显式标签避免错误truthy掩盖throw undefined；finally只等已处理结果。",
+        "G": "单真实入口被run.mjs使用，测试只验证job lifetime；无新flag/默认并发/规则放宽/空export。",
+        "H": "依赖收集回调是实际IO端口，测试不跑覆盖率；子进程同步回收且有限5s测试超时，未放宽任何原门。"
+      }
+    }
+  ],
+  "bindings": [
+    {
+      "path": "scripts/docs/check.mjs",
+      "sha256": "8ffce288f92eb90c4971cbb64edd77a78516e1d9a80c8ec9748e5ce7aa37d407"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "87c5e8049444e8d5b6195b5d01ced2061420f04ed9a572a7e8f80f9b67a29d45"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "aaefc818e0da3243b71ab0350e57ea97bf3b22051a5060e2f9d5175617db90f8",
+      "recountMaintenance": {
+        "previousSha256": "4e9e8856de17fe772d72ca8ee24dab9f7b2b44d647b416cadec1b5fa56244e1e",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/uniform.json"
+      }
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.test.mjs",
+      "sha256": "1d02b9d98db14be58e6a462634b574f44e9508202252046a5e5c2d6c2259fbab"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "b86ca4f3d13fc0b2b5c05d87781bba2652ad518f40eadf2b569170b5e71f9c3d",
+      "retirementMaintenance": {
+        "previousSha256": "f87270fb2290cb0f232a1fd402a6d0f4e859f8f2fba9e8f24404b520a9b16bf2",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/retirement-freeze.json"
+      }
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "7e0bae2851085609c20b13814cfdac557ad560abbb0003012dd322e1529e8843",
+      "retirementMaintenance": {
+        "previousSha256": "df50605009a95089a4dfbec569b469bb3595da1500e3bacfb82f56b938340f6d",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/retirement-freeze.json"
+      }
+    },
+    {
+      "path": "scripts/coverage/package-collection.mjs",
+      "sha256": "7f791d607bb50e404e3739313515b1f9aad9e033c86915043e01aec062e070de"
+    },
+    {
+      "path": "scripts/coverage/package-collection.test.mjs",
+      "sha256": "4bafa8e77304296f194bcf019660ae92fa23843ea1e0494546edf768534afe76"
+    },
+    {
+      "path": "scripts/docs/config.mjs",
+      "sha256": "58bc33bd9e678478451c19fd94f3fcfc9153d4dcf36604bc7ae8509f3e528ff6"
+    },
+    {
+      "path": "scripts/docs/markdown.mjs",
+      "sha256": "1427de079109a39fb03ce0b0251d80dc813f8f9758f71e3cf09099030eca5215"
+    },
+    {
+      "path": "scripts/docs/terminal-namespace.mjs",
+      "sha256": "918745e1008b35faeeb2246fa783f1a10dbc82afb63de93c26bf6b8e9463cf33"
+    },
+    {
+      "path": "scripts/docs/check.test.mjs",
+      "sha256": "ac4879d0abe20780d8cf66ebd9b84befb4a7b63d200eaf22e87d6d1b10e9b67e"
+    },
+    {
+      "path": "scripts/docs/cursor-current-section.test.mjs",
+      "sha256": "6832e231e5eec1e577308f55d7044453e9b74d15ee17cfd59182ddd26a904198"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+    },
+    {
+      "path": "scripts/coverage/environment.mjs",
+      "sha256": "a8d8d39731f17344c04550a8828b5b41dc16eb2b24fb4ada1db34ccbc10175d3"
+    },
+    {
+      "path": "scripts/coverage/inventory.mjs",
+      "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+    },
+    {
+      "path": "scripts/coverage/full-inputs.mjs",
+      "sha256": "ca07d82ee1ecfcc503d5733c56c462241606ff8735e725ea558a86acc36b1bdf"
+    },
+    {
+      "path": "scripts/coverage/metrics.mjs",
+      "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+    },
+    {
+      "path": "scripts/coverage/protected-baseline.mjs",
+      "sha256": "a36a3150baa4350fa5ce48d5b676071a1543aa85b32748ef7760b0522ca2f3c2"
+    },
+    {
+      "path": "package.json",
+      "sha256": "d03353b2c46b34fd84b6fc233160dcd3636f8e6e8f0e6378582f9aacce35df45"
+    },
+    {
+      "path": ".github/workflows/coverage.yml",
+      "sha256": "57c90518509ce5705ab1b8a650d91ee17c4f6c4b9ea93ec486aa8f1bfc700099"
+    },
+    {
+      "path": "docs/testing/catalog.json",
+      "sha256": "8d9031106fc6fe67143c11d07763613c8f764e410b06e118444691fd582ab800",
+      "currentMetadataBridge": {
+        "previousSha256": "13113b4734d626a519c58c92b0d30bf01f9e9293f63b3305de7773c79272d863",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only paired oracle sourceRefs changed with approved unused bus parameter removal; previous runtime claims retained."
+      }
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "sha256": "89988cc48f526e07c8452902f70b70d34a7bdf35fe25e11bf54bf41bc146d0ba",
+      "currentMetadataBridge": {
+        "previousSha256": "9a84191be3e49843c5e7e86b9fd39139631b93f5baeed5707857494a66a30311",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only paired oracle sourceRefs changed with approved unused bus parameter removal; previous runtime claims retained."
+      }
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+      "sha256": "c516f76950696a75cb242af10a1666eec848d059596d6dba076e106d88539784",
+      "currentMetadataBridge": {
+        "previousSha256": "5c5a9ebba1a65bc0508ad467ca92851210678386f5cef1ec140e27df9019509b",
+        "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+        "scope": "Only paired oracle sourceRefs changed with approved unused bus parameter removal; previous runtime claims retained."
+      }
+    }
+  ],
+  "native": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/tools-native.json.gz",
+    "sha256": "6bbff8b20048f85577a6f5a31c15e48b44d12d6886bb5756b4f69cbb620ded51",
+    "decodedSha256": "d07f7e1571f22ba516c7b43de90ba09779dd696c85ac8595e0112ea315064bab",
+    "members": [
+      {
+        "name": "tools-data-audit.json",
+        "sha256": "95290e77c610c3c9893e2585ec25bea8c92983d8c269efc66bc087fef9d3a56e",
+        "bytes": 34456
+      },
+      {
+        "name": "prove-coverage-split.cjs",
+        "sha256": "029fac9f6e4e6fcaea454ec72df7c434fad1d63c920c9c09f05086fa73b51003",
+        "bytes": 2048
+      },
+      {
+        "name": "governance-tools.execution.json",
+        "sha256": "9e2f5f159d0e2bec9e64b56351137e491e6332bbfa48c8f79df2d21055c01a56",
+        "bytes": 750
+      },
+      {
+        "name": "governance-tools.stdout.raw",
+        "sha256": "39b59d00d00d7e898005d54f19e8f758608fad7c87e17f31e22e2c4a188843e5",
+        "bytes": 26633
+      },
+      {
+        "name": "governance-tools.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "coverage-coordinator-baseline.execution.json",
+        "sha256": "caf5a6459ff5b089e6dcbbe38857c20875ca83b27e70c285f5f94f6158fe609c",
+        "bytes": 468
+      },
+      {
+        "name": "coverage-coordinator-baseline.stdout.raw",
+        "sha256": "6ed3a21a683ce032924d953ec21d9fbb31b29728bffd038937c1f7eb338caa48",
+        "bytes": 741
+      },
+      {
+        "name": "coverage-coordinator-baseline.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "coordinator-split-docs.execution.json",
+        "sha256": "d43dd84024812bce1847dd9852586fd242af83c3770050a522c14831b040e2d1",
+        "bytes": 424
+      },
+      {
+        "name": "coordinator-split-docs.stdout.raw",
+        "sha256": "df8aad7f2ada713851f848f2d9bfca138d640d370e0531895a7524d8990b2af6",
+        "bytes": 93
+      },
+      {
+        "name": "coordinator-split-docs.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "coordinator-failure-red.execution.json",
+        "sha256": "13e50ac6fd1ba0ea022b0baa345dd8de3f9f4d0c31c8fb59139a4caac3cc8dc7",
+        "bytes": 463
+      },
+      {
+        "name": "coordinator-failure-red.stdout.raw",
+        "sha256": "06b82adbbeee31e536f3d71a2e92244287818bc13827b6aa49529cbf4412cb7c",
+        "bytes": 2985
+      },
+      {
+        "name": "coordinator-failure-red.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "coordinator-failure-green.execution.json",
+        "sha256": "862a498cc2628f9239229d2cbedaf9ed31fc593e88718b587d6e01720bdd0374",
+        "bytes": 724
+      },
+      {
+        "name": "coordinator-failure-green.stdout.raw",
+        "sha256": "b686d0800b18523cab555df5144e03f5203eacbd7fc81dd9bf0240a7020badd0",
+        "bytes": 23661
+      },
+      {
+        "name": "coordinator-failure-green.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "tools-closeout-docs.execution.json",
+        "sha256": "0a6f39934c8b8312636f9261a42e20ad9faf6d24aa2c34639be69e2997d08deb",
+        "bytes": 421
+      },
+      {
+        "name": "tools-closeout-docs.stdout.raw",
+        "sha256": "e93f25d6a3b8a4c391c31ef537807d49008049dd043514a900b651bdd166f6fe",
+        "bytes": 93
+      },
+      {
+        "name": "tools-closeout-docs.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "tools-closeout-lint.execution.json",
+        "sha256": "7c08ba4a29b33f0026e1a88de19d57be401be32e0aebce2d1d4bb01a1df47488",
+        "bytes": 428
+      },
+      {
+        "name": "tools-closeout-lint.stdout.raw",
+        "sha256": "3efcc169e0bf0cf78a47dd62b98ffe9dad1e8d406cd4447accfef34f3070c03d",
+        "bytes": 76
+      },
+      {
+        "name": "tools-closeout-lint.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "tools-full-docs.execution.json",
+        "sha256": "2cfee1f31f74c3a75b214c99ad46230d44fb8edb544f14e0f7db8debd8d3f3f9",
+        "bytes": 410
+      },
+      {
+        "name": "tools-full-docs.stdout.raw",
+        "sha256": "11efc1dc8bb205268ac1b9ee62def88cdc2029286b39a5464dfec8d5dd8315c3",
+        "bytes": 30564
+      },
+      {
+        "name": "tools-full-docs.stderr.raw",
+        "sha256": "d8ebe056d991207fbdb77480ee0bc8d2b554aa7090af2a915fbf3e79ac058ac0",
+        "bytes": 203
+      },
+      {
+        "name": "tools-full-docs-r2.execution.json",
+        "sha256": "86ab3cb655806e3df58334f3da64d82700dd4d77e0bd5d5fa1c46907905349f7",
+        "bytes": 413
+      },
+      {
+        "name": "tools-full-docs-r2.stdout.raw",
+        "sha256": "ab3888bbb5d92d159cd021de1cdf7d044bfe45e1ce47104351ae9a13b0d01b27",
+        "bytes": 30636
+      },
+      {
+        "name": "tools-full-docs-r2.stderr.raw",
+        "sha256": "8262dc9a4a79467d9b1c56eae85caf03112b05d4b483ef0aeafe9c7c94147c93",
+        "bytes": 141
+      },
+      {
+        "name": "tools-full-docs-r3.execution.json",
+        "sha256": "cbf618007633822189b37e3af633f474f78177c79dfc4ba7f076358e79c62e67",
+        "bytes": 411
+      },
+      {
+        "name": "tools-full-docs-r3.stdout.raw",
+        "sha256": "9b49b40cc65016f21977e5d09ec838b392e9a10d201a438a0911cf546069b1fd",
+        "bytes": 30736
+      },
+      {
+        "name": "tools-full-docs-r3.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  },
+  "pureSplit": "coverage-coordinator-split.json at pure commit163a4d66e; source body equality then independent failure fix",
+  "limits": [
+    "No full repository check, coverage collection, ratchet or protected run in this stage yet.",
+    "Five unchanged finite data/test/doc sources byte-equal main; finite authorizations/history reused, not a re-audit of every retired product test.",
+    "Current20/72 approval data unchanged. New sprite retirements and any justified exact structural recount are pending phase freeze; do not claim protected fast passed."
+  ],
+  "metadataRepair": {
+    "scope": "D1 equipment source binding only; oldSHA2bb82b9b retained in report/evidence/catalog history. Current pure6-getter sharing has44 equipment/36 adjacent finite regressions; no new D1 SCC/161-token/needles/browser claim.",
+    "preserved": "catalog statuses, dates, versions and all unrelated entries; raw original executions unchanged",
+    "processDisclosure": [
+      "Full check:docs first failed2 stale source hashes; complete raw attached.",
+      "Intermediate direct checker found4 report/evidence/catalog mismatches; only tool transcript retained, no separate raw or timestamps claimed.",
+      "Metadata formatter briefly rejected r93 by17bytes over the existing1MiB bound. Shortened only owned repeated current metadata; rules unchanged. Tool transcript only for this producer error.",
+      "Second full docs run passed tools/local/model/testing/phase-lore, then failed stale navigation/r93 SHA; complete raw attached. Strict leaf and paired checker now0 issues."
+    ]
+  },
+  "retirementMaintenance": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/retirement-freeze.json",
+    "sha256": "22aa6ea6321d2220eddf51fd4865c04835ca9be77726579dffe18d4ee69af58a",
+    "files": [
+      "scripts/coverage/approved-test-retirements.mjs",
+      "scripts/coverage/approved-test-retirements.test.mjs"
+    ],
+    "scope": "Only explicit three old/new file snapshots (two additions, bus replacement) and finite aggregate census; predicate/other historical snapshots unchanged."
+  },
+  "recountMaintenance": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/uniform.json",
+    "files": ["scripts/coverage/approved-baseline-adjustments.mjs"],
+    "scope": "One finite two-file old/current count migration, consumer unchanged; 20 historical approval rows retained. Current row explicitly includes subprocess-tested behavioral guards, not only refactoring."
+  }
+}

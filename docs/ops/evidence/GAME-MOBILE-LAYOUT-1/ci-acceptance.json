@@ -1,0 +1,130 @@
+{
+  "task": "GAME-MOBILE-LAYOUT-1",
+  "owner": "Codex",
+  "producer": "GitHub CLI native run/check state and full CI log, assembled by Codex",
+  "date": "2026-10-22 JST",
+  "testedHead": "9322990af3fe0599234ffd3c8130e9865946010d",
+  "protectedBase": "9b4df714565a749fd4b69f0f1c7a50bcbb30dc66",
+  "pullRequest": "https://github.com/IllegalCreed/type-pal/pull/8",
+  "merge": {
+    "headRefOid": "9322990af3fe0599234ffd3c8130e9865946010d",
+    "mergeCommit": {
+      "oid": "7663b30715ce83160af594ad30895502d18ac9cd"
+    },
+    "mergedAt": "2026-10-21T18:52:29Z",
+    "state": "MERGED",
+    "url": "https://github.com/IllegalCreed/type-pal/pull/8"
+  },
+  "checks": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-21T18:51:32Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/IllegalCreed/type-pal/actions/runs/39652572817/job/119404426076",
+      "name": "fast-coverage",
+      "startedAt": "2026-10-21T18:25:29Z",
+      "status": "COMPLETED",
+      "workflowName": "Coverage ratchet"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-21T18:26:42Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/IllegalCreed/type-pal/actions/runs/39652572847/job/119404425547",
+      "name": "documentation",
+      "startedAt": "2026-10-21T18:25:28Z",
+      "status": "COMPLETED",
+      "workflowName": "Documentation"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-21T18:25:25Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://dashboard.gitguardian.com",
+      "name": "GitGuardian Security Checks",
+      "startedAt": "2026-10-21T18:25:23Z",
+      "status": "COMPLETED",
+      "workflowName": ""
+    }
+  ],
+  "coverage": {
+    "files": 755,
+    "tests": 20024,
+    "total": {
+      "statements": [71884, 79706],
+      "branches": [52105, 62132],
+      "functions": [13626, 15182],
+      "lines": [64198, 69749]
+    },
+    "run": "https://github.com/IllegalCreed/type-pal/actions/runs/39652572817",
+    "scope": "Official protected fast check against base9b; native counts match final local ratchet."
+  },
+  "issue": {
+    "closedAt": "2026-10-21T18:53:23Z",
+    "number": 7,
+    "state": "CLOSED",
+    "url": "https://github.com/IllegalCreed/type-pal/issues/7",
+    "comment": "https://github.com/IllegalCreed/type-pal/issues/7#issuecomment-6323968514"
+  },
+  "cleanup": {
+    "branch": "codex/game-mobile-layout",
+    "local": "deleted after verifying merge ancestor",
+    "remote": "deleted after verifying exact retired ref",
+    "otherWorktrees": "untouched"
+  },
+  "closeout": {
+    "scope": "Pure documentation/status/evidence after accepted merge; runtime/config/coverage baseline byte-equivalent to tested head.",
+    "runtimePaths": [
+      "packages",
+      "scripts",
+      ".github",
+      "package.json",
+      "pnpm-lock.yaml",
+      "pnpm-workspace.yaml"
+    ],
+    "verification": "git diff --exit-code <tested-head> -- <runtimePaths>",
+    "wholeProductRerun": "Not repeated manually for documentation-only receipt; main automatic CI is separate.",
+    "docs": {
+      "command": "pnpm check:docs",
+      "exit": 0,
+      "tools": 125,
+      "raw": "closeout-docs.txt.gz",
+      "sha256": "bd75542788626cd10cf8789c7279cc5673c11151925e9f63a43ab88803fa0358",
+      "scope": "Full current docs tools/consumers after removing terminal task from active board; zero issues/integrity issues."
+    },
+    "priorFailure": {
+      "exit": 1,
+      "raw": "closeout-before-board-retirement.txt.gz",
+      "sha256": "b383b62befdcb46c400cb37ee57e2ff98968adfe6c4d28c44b7d76147cc3da29",
+      "reason": "Active board linked a now-done task; only its owned row removed, canonical task and generated index retained."
+    }
+  },
+  "artifacts": [
+    {
+      "path": "ci-checks.json.gz",
+      "sha256": "1e410c470c808d94ddb6340754d3b762bc4a2834453252a075d357ac50964fd6",
+      "encoding": "gzip of exact native output; no semantic edits"
+    },
+    {
+      "path": "ci-protected.txt.gz",
+      "sha256": "af5d7c4573a708f21b00cd980bd79077285f73a293723fd302ce01faa11b1e51",
+      "encoding": "gzip of exact native output; no semantic edits"
+    },
+    {
+      "path": "merge-result.json.gz",
+      "sha256": "78c2564e904481147538ee02945ff6f32df44d928f35be54cde42a676ce77242",
+      "encoding": "gzip of exact native output; no semantic edits"
+    },
+    {
+      "path": "issue-closed.json.gz",
+      "sha256": "c1fbf6bb41d7f1a7abe16e73f6a9e5a3aa6cc563e3ea118ac90ca3f4efd42c89",
+      "encoding": "gzip of exact native output; no semantic edits"
+    }
+  ],
+  "limits": [
+    "No physical phone or gamepad test",
+    "No Safari safe-area/full-story/production SW claim",
+    "No Aliyun deployment; issue reply explicitly distinguishes merge from online availability"
+  ],
+  "retention": "Permanent task acceptance receipt; preserve original native outputs and supersede explicitly."
+}

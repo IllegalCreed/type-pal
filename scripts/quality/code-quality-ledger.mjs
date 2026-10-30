@@ -9,17 +9,66 @@ const closedStates = new Set(['已验证', '保留'])
 const reviewStates = new Set(['review', 'blocked', 'rework'])
 const categories = new Set(['product', 'test', 'fixture', 'generated', 'tool', 'vendor/reference'])
 
+function inlineCodeEnd(line, start) {
+  const marker = /^`+/.exec(line.slice(start))[0]
+  let end = line.indexOf(marker, start + marker.length)
+  while (end >= 0 && (line[end - 1] === '`' || line[end + marker.length] === '`')) {
+    end = line.indexOf(marker, end + marker.length)
+  }
+  return end < 0 ? start + marker.length : end + marker.length
+}
+
+function hideCommentText(line, inComment) {
+  let text = ''
+  let index = 0
+  while (index < line.length) {
+    if (inComment) {
+      const closing = line.indexOf('-->', index)
+      const end = closing < 0 ? line.length : closing + 3
+      text += ' '.repeat(end - index)
+      index = end
+      inComment = closing < 0
+    } else if (line[index] === '`') {
+      const end = inlineCodeEnd(line, index)
+      text += line.slice(index, end)
+      index = end
+    } else if (line.startsWith('<!--', index)) {
+      inComment = true
+    } else if (line[index] === '\\') {
+      text += line.slice(index, index + 2)
+      index += 2
+    } else {
+      text += line[index++]
+    }
+  }
+  return { text, inComment }
+}
+
 function visibleLines(source) {
   const lines = []
   let fence
+  let inComment = false
   for (const line of source.split(/\r?\n/)) {
-    const marker = /^\s*(`{3,}|~{3,})/.exec(line)?.[1]
-    if (marker) {
-      if (!fence) fence = marker
-      else if (marker[0] === fence[0] && marker.length >= fence.length) fence = undefined
-      continue
+    const marker = /^\s*(`{3,}|~{3,})(.*)$/.exec(line)
+    if (fence) {
+      if (
+        marker &&
+        marker[1][0] === fence[0] &&
+        marker[1].length >= fence.length &&
+        !marker[2].trim()
+      ) {
+        fence = undefined
+      }
+      lines.push('')
+    } else if (!inComment && marker) {
+      fence = marker[1]
+      lines.push('')
+    } else {
+      // Code literals are not HTML; blanked lines still terminate a machine table.
+      const visible = hideCommentText(line, inComment)
+      inComment = visible.inComment
+      lines.push(visible.text)
     }
-    if (!fence) lines.push(line)
   }
   return lines
 }

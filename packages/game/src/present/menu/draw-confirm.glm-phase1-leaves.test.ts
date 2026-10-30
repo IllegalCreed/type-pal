@@ -1,10 +1,8 @@
 /**
- * TEST-GLM-PHASE1-LEAVES-3 L09（draw-confirm.ts）— 去重表：无既有独立测试（targets.json
- * existingTestPointers 空；grok P04/P13 走 shop/战斗路径不直接断言本渲染器的选中色/阴影）。
- *  - 新合同：默认 否/是 两单行框 (130,100)/(205,100)、rightSelected 决定哪侧闪烁、
- *    fShadow 三影黑点、自定义 关/开 标签复用同布局。
+ * 确认框的选中侧/时钟、两框坐标、三影和合法关/开标签。
+ * 相邻opening-confirm像素例保留空标签与固定布局的边界。
  */
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import {
   fixtureGlyphs,
   freezeNow,
@@ -18,18 +16,25 @@ import { drawConfirmBox } from './draw-confirm.js'
 const glyphs = fixtureGlyphs
 
 describe('L09 drawConfirmBox', () => {
-  it('默认 否/是：rightSelected=false → 左「否」0xF9、右「是」0x4F；两框体已画', () => {
+  it('默认 否/是：左项随时钟闪烁，右项常态；两框体已画', () => {
     const fb = newFb()
-    const restore = freezeNow(0)
+    const now = vi.spyOn(Date, 'now')
     try {
-      drawConfirmBox(fb, false, makeUiFrames(), glyphs)
+      const fou = textDot('否', 0, 145, 110)
+      const shi = textDot('是', 0, 220, 110)
+      for (const { ms, color } of [
+        { ms: 0, color: 0xf9 },
+        { ms: 100, color: 0xfa },
+        { ms: 600, color: 0xf9 },
+      ]) {
+        now.mockReturnValue(ms)
+        drawConfirmBox(fb, false, makeUiFrames(), glyphs)
+        expect(pixel(fb, fou.x, fou.y)).toBe(color)
+        expect(pixel(fb, shi.x, shi.y)).toBe(0x4f)
+      }
     } finally {
-      restore()
+      now.mockRestore()
     }
-    const fou = textDot('否', 0, 145, 110)
-    const shi = textDot('是', 0, 220, 110)
-    expect(pixel(fb, fou.x, fou.y)).toBe(0xf9)
-    expect(pixel(fb, shi.x, shi.y)).toBe(0x4f)
     // 左框 (130,100) / 右框 (205,100) 内部 style0 素色
     expect(pixel(fb, 140, 104)).toBe(0x11)
     expect(pixel(fb, 215, 104)).toBe(0x11)

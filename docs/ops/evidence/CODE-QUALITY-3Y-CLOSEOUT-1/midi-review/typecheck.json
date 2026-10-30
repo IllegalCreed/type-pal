@@ -1,0 +1,8 @@
+{
+  "command": ["pnpm", "--filter", "@type-pal/game", "run", "typecheck"],
+  "startedAt": "2026-10-15T15:05:21.475499+00:00",
+  "exit": 0,
+  "seconds": 4.54,
+  "rawSha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+  "rawBytes": 125
+}

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "base": "HEAD",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/present/present.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "221083e9bfe69a1cf85f09af8d4aa4b1b1481496e15b4b52eb73f84fd7a27464",
+        "current": "221083e9bfe69a1cf85f09af8d4aa4b1b1481496e15b4b52eb73f84fd7a27464"
+      },
+      "printedBytes": {
+        "base": 17493,
+        "current": 17493
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/present/battle/present-battle.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "d57b10039bdf8b59fa34dc7b3366f579f31925fd148d9b3c8ba9c074d0b4c070",
+        "current": "d57b10039bdf8b59fa34dc7b3366f579f31925fd148d9b3c8ba9c074d0b4c070"
+      },
+      "printedBytes": {
+        "base": 10942,
+        "current": 10942
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

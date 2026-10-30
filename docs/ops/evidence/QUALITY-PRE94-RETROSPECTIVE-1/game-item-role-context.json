@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "owner": "Codex",
+  "status": "draft; actual caller observation,not an accepted product fix",
+  "base": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+  "sources": [
+    {
+      "path": "packages/game/src/core/battle/actions/item.ts",
+      "sha256": "95396fb42b8e3650c6eaa59701c26ed5690a3be168da438b4a83511cf8f6d460"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "26dbd7a749476bcf9029c3edbf06aa9f1afaa004e12016a5a646d0e25e3eb840"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017"
+    }
+  ],
+  "primary": {
+    "raw": {
+      "path": "data/raw/SSS.MKF",
+      "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+    },
+    "opcode": {
+      "ip": 39536,
+      "words": [23, 17, 22, 30],
+      "endIp": 39537
+    },
+    "sdlpal": "fight.c:4378-4392 passes selected party role or0xFFFF;script.c:752-767 writes Extra by explicit wEventObjectID"
+  },
+  "actual": {
+    "raw": {
+      "path": "data/raw/SSS.MKF",
+      "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+    },
+    "extracted": {
+      "path": "data/extracted/events/all.json",
+      "sha256": "3f54bc1aba2eb82653f71d7384260f6de4e3e5e1977ee48ffdbb31a27c409c8d",
+      "checkedOnly": "43503 instruction count + actual39536/39537; not full re-extraction proof"
+    },
+    "actual": {
+      "selectedPartySlot": 1,
+      "selectedRole": 4,
+      "before": 0,
+      "after": 0,
+      "extra": 0,
+      "inventory": 0
+    },
+    "explicitContextControl": {
+      "eventObjectId": 4,
+      "extra": 30
+    },
+    "limits": "Legal typed startBattle fixture -> actual performItem/runScript,not complete fight/UI or nativeSDL execution. Explicit-context control directly invokes supported runScript,does not modify product or prove an approved fix."
+  },
+  "execution": {
+    "id": "garlic-role-observation",
+    "role": "probe",
+    "command": "node",
+    "args": [
+      "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/run-garlic-proof.mjs"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "environment": {},
+    "removedEnvironmentMarkers": [],
+    "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+    "start": "2026-10-22T03:43:29.045Z",
+    "end": "2026-10-22T03:43:30.133Z",
+    "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+    "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+    "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts\n M packages/game/src/core/battle/battle-progression.ts\n M packages/game/src/core/save/v1.ts\n M packages/game/src/tools/save-io.test.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+    "codeChanges": [
+      {
+        "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "sha256": "136e3b6867ca82b1a1b53dfb233f2bec829dbf25e6213a9b57b4fe04be481d7a"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-progression.ts",
+        "sha256": "d7a3c1253d4a93fd6b1ae993371b15d4cc231f389b447de5a65934f5e8dc8f27"
+      },
+      {
+        "path": "packages/game/src/core/save/v1.ts",
+        "sha256": "92d908ac942928390a6db0229b666f8291b5a8e8a97a5df07871d37054869d2b"
+      },
+      {
+        "path": "packages/game/src/tools/save-io.test.ts",
+        "sha256": "50e69083b4380cea6c57abbc6704c780b76df06d37a1da74a63c564e3898f812"
+      }
+    ],
+    "versions": {
+      "node": "v22.23.2",
+      "vitest": "4.1.7",
+      "typescript": "6.0.3"
+    },
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "stdout": {
+      "member": "garlic-role-observation.stdout.raw",
+      "bytes": 827,
+      "sha256": "b8a1eabe837651029bd1fb740ae6e67434f3dd46bad0615627501c625789d11a"
+    },
+    "stderr": {
+      "member": "garlic-role-observation.stderr.raw",
+      "bytes": 49,
+      "sha256": "e45ae70c65b1fcd32f9fe91ded254dbe471375a956edc87085e96e20303e7361"
+    }
+  },
+  "reading": {
+    "full": [
+      "packages/game/src/core/battle/actions/item.ts",
+      "packages/game/src/core/battle/battle-runtime-context.ts"
+    ],
+    "contextOnly": [
+      "battle-system.ts:2875-2904 real performItem passes getBattleRunScript",
+      "event-system.ts:2900-2931/3040-3103 explicit eventObjectId seed and raw fallback",
+      "event-opcode-player.ts:57-85 missing context warns and no-ops",
+      "dev-panel.ts:1498-1510 party editing blocked battle;world edits rebuild equipments"
+    ]
+  },
+  "conclusion": "Current actual performItem invokes real interpreter without eventObjectId. Raw garlic84 chosen for role4 is consumed but poison resistance stays0; direct interpreter with explicit target role4 writes30. This is not a nonparty Extra residue proof;GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 remains unknown.",
+  "limits": "No complete fight,UI,nativeSDL execution,products/tests/asset writes. Existing tracked item source is implicitpending;3r/3s/3w remainpartial. New visible policy must be approved before build. Current experience/growth frozen gates do not include this behavior change.",
+  "native": {
+    "path": "game-item-role-context-native.json.gz",
+    "sha256": "b71c54301c23a737edb3c28e3baf5ba08f7dcc6e8262893942c4176a40ebd5b1",
+    "members": {
+      "garlic-role-observation.mts": {
+        "bytes": 3381,
+        "sha256": "e587e27f8979e6fe01c871c3225b3489ac5bf3c552c7f0350eb2ce3744f2dc9a"
+      },
+      "run-garlic-proof.mjs": {
+        "bytes": 442,
+        "sha256": "206a4681cf8be30532ff6ab111e69c0286066fe2dc49981500e327132b7f9eb1"
+      },
+      "garlic-role-observation.execution.json": {
+        "bytes": 2849,
+        "sha256": "f685ce0b2fae9566d6eb535600b8f4ff70092fe9f626c808c11aa5ae944e295c"
+      },
+      "garlic-role-observation.stdout.raw": {
+        "bytes": 827,
+        "sha256": "b8a1eabe837651029bd1fb740ae6e67434f3dd46bad0615627501c625789d11a"
+      },
+      "garlic-role-observation.stderr.raw": {
+        "bytes": 49,
+        "sha256": "e45ae70c65b1fcd32f9fe91ded254dbe471375a956edc87085e96e20303e7361"
+      }
+    }
+  },
+  "currentUserDecision": {
+    "date": "2026-10-22",
+    "text": "批准修复目标角色传递（推荐）",
+    "execution": "After current experience/progression frozen window; formal business red first. No product modification in this observation."
+  }
+}

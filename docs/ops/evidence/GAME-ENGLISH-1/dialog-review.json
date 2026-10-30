@@ -1,0 +1,891 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-ENGLISH-1",
+  "role": "dialogue contributor",
+  "owner": "english_runtime_audit",
+  "createdAt": "2026-10-22T12:27:03.196286+00:00",
+  "state": "delivered-for-independent-review",
+  "base": "557e8fab57e9a38c7bcd3fae5c75e81dc6178788",
+  "dependencyCommit": "f66399d3b5d7c07e440de3395e77246ef6df8410",
+  "implementationCommits": [
+    "b14fe8d174b0e4384eccec23454a23f3079d7b31",
+    "f69fe1351dd4ed10dfc1ea9403a3ca64ce505fab"
+  ],
+  "codeCandidate": "f69fe1351dd4ed10dfc1ea9403a3ca64ce505fab",
+  "fullFileGovernanceClosure": false,
+  "acceptanceScope": "Display-only localization contracts in the assigned nine files. No independent/root acceptance, official coverage ratchet, whole-file code-quality closure, browser visual, all-story E2E, deployment or task done is claimed.",
+  "contract": {
+    "input": "PalLanguagePack.groups from the shared corrected gameplay dataset; no English SSS loading",
+    "progress": "The script IP and Command identities stay fixed while translated rows are displayed; resumeIp points to the following original instruction. Chinese/fallback groups retain per-opcode source semantics and pin their language until group end.",
+    "clear": "SLF null is an explicit confirmation/reset boundary, not a printed blank line; title/portrait are preserved.",
+    "controls": "Wordwrap retains raw escape/color/$speed/~delay order and does not reveal hidden ~ suffixes.",
+    "savedState": "Optional EventCursor.localizedDialog and BattleDialogLine.clearPage use explicit current V1 guards, with no new version or upgrader."
+  },
+  "publicApi": {
+    "install": "setEnglishMessages(groups: readonly LocalizedMessageGroup[]): void",
+    "wrap": "wrapEnglishDialogLine(raw: string, availableWidth: number): string[]",
+    "gaps": "getMissingEnglishMessageGroups(): { start: number; end: number }[]"
+  },
+  "primarySources": [
+    "reference/sdlpal/script.c:3088 MESSAGE_GetSpan",
+    "reference/sdlpal/script.c:3444 localized exploration caller",
+    "reference/sdlpal/script.c:3616 localized item description caller",
+    "reference/sdlpal/text.c:1010 PAL_GetMsgNum",
+    "reference/sdlpal/text.c:600 empty-message token mapping",
+    "packages/pal-extract/src/events/disasm.ts:55 jump/advance/random/root labeling",
+    "packages/pal-extract/src/events/script-entries.ts:22 actual table roots"
+  ],
+  "files": [
+    {
+      "path": "packages/game/src/localization/messages.ts",
+      "sha256": "fe0d4847126dde80f76e7ee26e82b83bd966739c7bdf180474bc0d739481f721",
+      "reviewScope": "Changed localization responsibilities, actual callers and adjacent state/save/presentation boundaries; no claim to retire the existing whole-file governance queue.",
+      "dimensions": {
+        "A": "messageSpan follows SDLPal MESSAGE_GetSpan, including RestoreScreen and consecutive message identities; exact start:end lookup reports unmatched spans instead of guessing. beginDialogPlayback snapshots translated rows or pins the original-language source span. Actual corrected source audit finds 4768 exact matches and no middle labels.",
+        "B": "Comments explain script/display cursor distinction, absent lines pinning original text, and why hidden text after ~ must not be emitted by wrapping.",
+        "C": "Owns language-group lookup, display token wrapping and inspectable gaps; no GameState mutation or IO. event-system owns cursor advancement; bootstrap owns installation via setEnglishMessages.",
+        "D": "The same resolver supports exploration, battle queue and script descriptions. Word wrapping is independent of script execution and reusable by description rendering.",
+        "E": "New tests exercise exact/fallback spans, two exploration progression modes, both language-switch directions, narration, battle, descriptions, null pages and controls. Mutation of group resume skips the next reward and fails the real cash assertion.",
+        "F": "Named playback/span/token structures separate source identity from translated row position. Missing-group getter returns copies so observers cannot mutate diagnostics.",
+        "G": "No translated Command array, duplicate gameplay catalog or alternative interpreter. The missing-group map resets on pack installation; normal lookups allocate only the active group snapshot.",
+        "H": "Pure wrap/scan logic is directly testable; locale choice is the existing public language API. Full real callers are tested rather than mocking parsing or execution."
+      }
+    },
+    {
+      "path": "packages/game/src/localization/messages.test.ts",
+      "sha256": "0e88b84b45bf1090bb65a0a8f58717dac786d0659f5fdb5805ef0cd37cdbd3cd",
+      "reviewScope": "Changed localization responsibilities, actual callers and adjacent state/save/presentation boundaries; no claim to retire the existing whole-file governance queue.",
+      "dimensions": {
+        "A": "Legal typed Commands/InputSnapshot and createInitialGameState are used. Battle fixtures use real loadDefaultGame/projectRuntimeToBattleRoles/startBattle. Invalid [42] is confined to the external V1 unknown-input guard test.",
+        "B": "The 3-boundary assertion documents full-page, explicit-clear and pre-reward waits; fixtures identify source message identities separately from English text.",
+        "C": "Tests share only input/state preparation and the public tick runner; expected English rows/rewards are specified independently of the implementation.",
+        "D": "Reuses existing legal battle lifecycle preparation; no new duplicated battle factory or bespoke simulated instruction semantics.",
+        "E": "9 cases are new localization contracts; existing Chinese pagination/skip/dialog/description/save cases remain and pass. The source instruction continuation counter fails exactly one selected cash assertion (0 versus 7) and restores 9 green.",
+        "F": "Case names identify exact span, caller, wait mode, save and wrapping contracts. Snapshot restore begins at translated lineIndex 2, detecting replay/loss of preceding rows.",
+        "G": "No timeout extension, source mutation during green tests, core mocks, type escape hatches, weak type tests, test retirement or baseline edits.",
+        "H": "All assertions observe public outputs (dialog history/state, script result, cash, validation) and bounded frame loops fail if scripts never finish."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "54e838d92e011fd96d4529ecfee4b6374fcf6b25aa86640d49af832227b36d0f",
+      "reviewScope": "Changed localization responsibilities, actual callers and adjacent state/save/presentation boundaries; no claim to retire the existing whole-file governance queue.",
+      "dimensions": {
+        "A": "advanceDialogCursor is used for ordinary line completion, narration dismissal, userSkip and control-only rows. It retains source IP within translated groups, then resumes exactly after source span; calls/rewards/labels are unchanged. The pinned original-language path continues individual source operations.",
+        "B": "New comments explain SLF null control and room reserved for portraits/wait icons. Existing source/reference semantics outside the changed display boundaries are retained.",
+        "C": "Event interpreter owns only playback state and semantic continuation; the separate localization module owns span matching/wrapping. No IO/resource or preference persistence is introduced here.",
+        "D": "Exploration and synchronous battle invoke beginDialogPlayback; a shared advancement helper prevents divergent completion modes.",
+        "E": "9 localization and 77 adjacent tests pass, including slow/skip pagination, title/portrait clear, battle/description and V1 restore. ResumeIp+1 negative control proves following gameplay command is not silently skipped.",
+        "F": "Translated text is named text rather than mutating cmd.text; existing dispatch and async waiting phases remain legible and separate from display-row advancement.",
+        "G": "No expanded commands/label rewrites or duplicate gameplay script source. Empty groups can finish without invented source operations; unmatched groups retain original text and expose the gap.",
+        "H": "Uses existing public tickEventSystem/runScript and typed cursors; no private hook or test-only runtime API added."
+      }
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "c1e3d93696824b14d0192d226faa79cf62a91a7f2ae08778a3320ee35a9dea8f",
+      "reviewScope": "Changed localization responsibilities, actual callers and adjacent state/save/presentation boundaries; no claim to retire the existing whole-file governance queue.",
+      "dimensions": {
+        "A": "EventCursor gains one optional serializable display-progress object; source IP/commands/labels and save version are preserved. Context cannot span a call/battle instruction because group boundaries include only dialogue/RestoreScreen.",
+        "B": "The added comment states that translated rows hold the source IP; the imported type documents absent lines as a pinned original-language group.",
+        "C": "State declaration imports the playback type only; no runtime import cycle. Interpreter remains the sole writer.",
+        "D": "Existing V1 JSON projection derives the optional field from GameState instead of introducing a parallel stored type.",
+        "E": "Game typecheck enforces explicit V1 guard completeness; actual serializeSave/parseImportedSave + tick restore test resumes translated lineIndex 2.",
+        "F": "localizedDialog names the optional transient display state and does not overload existing ip/waiting fields.",
+        "G": "No GameState language preference, save version bump, default-state boilerplate or migration added.",
+        "H": "Plain JSON strings/null/numbers are directly serializable and inspectable in real caller tests."
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/script-desc.ts",
+      "sha256": "0bffc90524c46f0a4696e399c3ac1c4a9361aed42b3733cf9009e853c3d9c8e2",
+      "reviewScope": "Changed localization responsibilities, actual callers and adjacent state/save/presentation boundaries; no claim to retire the existing whole-file governance queue.",
+      "dimensions": {
+        "A": "getScriptDescLines consumes exact localized groups and ignores explicit page-clear tokens; it retains the source end boundary/lookahead and original Chinese fallback.",
+        "B": "Existing description-chain reference remains accurate; new dependency makes translated output follow the same identity mapping as dialogue.",
+        "C": "Description lookup stays read-only; formatting/layout stays with present and root owns description-specific wrapping.",
+        "D": "Uses resolveMessageGroup rather than creating a second translation map or copying script dispatch.",
+        "E": "Shared new source group fixture yields the same non-null English rows; six unchanged description regressions pass.",
+        "F": "The group.resumeIp - 1 assignment accounts for the existing for-loop increment, so source instructions are visited once.",
+        "G": "No execution of gameplay commands while rendering descriptions and no new description cache/invalidation complexity.",
+        "H": "Public getScriptDescLines is tested with setGlobalEvents/buildLabelMap data, not a fake translation service."
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "907f8dade18dd4b55b0cecc6d08c6b9a76aa26499df9b93539681752306d5541",
+      "reviewScope": "Changed localization responsibilities, actual callers and adjacent state/save/presentation boundaries; no claim to retire the existing whole-file governance queue.",
+      "dimensions": {
+        "A": "BattleDialogLine has optional clearPage for a display-only SLF null token; all existing text/effect forms remain valid.",
+        "B": "The comment specifies confirmation and preservation of title/portrait, distinguishing this token from clearBefore/new speaker.",
+        "C": "Queue state carries intent; battle-system owns consumption, V1 owns validation.",
+        "D": "Uses the existing queue rather than a parallel translated battle subsystem.",
+        "E": "Typecheck covers actual producers/consumers; null-page tests inspect both queue completion and retained title/portrait.",
+        "F": "clearPage is a named boolean separate from effect and speaker-change clearBefore.",
+        "G": "Only one optional field; no change to numerical battle state/actions/timing.",
+        "H": "The queued token can be validated through normal tickBattleDialog without test hooks."
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "5625c22c900260282b28ada5757fc5b0f407f5af272e78454b6834044bc7ff21",
+      "reviewScope": "Changed localization responsibilities, actual callers and adjacent state/save/presentation boundaries; no claim to retire the existing whole-file governance queue.",
+      "dimensions": {
+        "A": "tickBattleDialog waits before consuming clearPage when visible dialogue exists, then resetDialogBody preserves title/portrait. Without a dialog/visible rows it consumes the token without inventing an empty dialogue. Existing clearBefore/style/effect handling remains in order.",
+        "B": "No misleading new mechanism claims; BattleDialogLine documents the source meaning of the token.",
+        "C": "The existing battle dialogue host remains owner of all page waits and line feeding; no interpreter callback at render time.",
+        "D": "Reuses setWaitingPageKey/resetDialogBody and existing feedNextBattleDialogLine rather than duplicating dialogue state transitions.",
+        "E": "All 13 existing battle dialog tests and new translated queue/null-title tests pass.",
+        "F": "The clearPage branch is adjacent to the existing next-line boundaries and is handled before style comparison for a style-less control token.",
+        "G": "Finite display-only branch; no changes to battle turn queues/AI or gameplay side effects.",
+        "H": "The real startBattle fixture and tickBattleDialog exercise the queue with no battle-core mock."
+      }
+    },
+    {
+      "path": "packages/game/src/core/save/v1-world.ts",
+      "sha256": "4c9171a7ececa07ddbafe199c3844aa7b1435b04f960b0f439c361ccf64af3b1",
+      "reviewScope": "Changed localization responsibilities, actual callers and adjacent state/save/presentation boundaries; no claim to retire the existing whole-file governance queue.",
+      "dimensions": {
+        "A": "V1 guard explicitly validates optional localizedDialog resumeIp/lineIndex as finite nonnegative integers and lines as optional string-or-null arrays; no coercion/default/upgrader or version change.",
+        "B": "The persisted shape stays self-describing through the imported playback type; existing save guard documentation remains applicable.",
+        "C": "Validation stays in the V1 external-input layer; interpreter owns display progression, language preference remains separate.",
+        "D": "Uses existing object/array/nullable/optional guards and the runtime playback type, retaining compile-time field coverage.",
+        "E": "Mid-group serialize/import succeeds; malformed numeric text token is rejected; existing 29 save-io and 9 API tests pass.",
+        "F": "displayIndex states the new counters input domain, separate from legacy cursor-number fields.",
+        "G": "Only the new optional shape is added; existing records remain accepted without migration.",
+        "H": "Pure guard is exercised with valid runtime snapshot and explicit malformed external JSON shape."
+      }
+    },
+    {
+      "path": "packages/game/src/core/save/v1-battle.ts",
+      "sha256": "40c6a0f33d24b491d3179ba159e96c25680fd4cd6d214145ee08d360b09fcdb3",
+      "reviewScope": "Changed localization responsibilities, actual callers and adjacent state/save/presentation boundaries; no claim to retire the existing whole-file governance queue.",
+      "dimensions": {
+        "A": "Stored battleDialogQueue guard accepts optional boolean clearPage and keeps all prior text/style/effect representations unchanged.",
+        "B": "Existing V1 representation comments remain true; no compatibility promise beyond the actual optional field.",
+        "C": "Only serialized battle-data validation changes here; execution remains battle-system responsibility.",
+        "D": "Reuses existing optional boolean flag guard and queue object shape.",
+        "E": "Game typecheck checks projection compatibility, existing save-io/API cases pass; translated exploration snapshot directly tests the analogous display-state persistence boundary.",
+        "F": "clearPage guard sits beside clearBefore; the original queue shape is easy to compare with BattleDialogLine.",
+        "G": "One optional guard, no save version/schema migration or alternate battle persistence format.",
+        "H": "Pure V1 shape remains independently callable through parseImportedSave; no browser/IO dependency added."
+      }
+    }
+  ],
+  "testQuality": {
+    "legalInputs": "Commands/InputSnapshot/public createInitialGameState; existing createBattleLifecycleFixture runs formal initialization and startBattle. IO-invalid shape is isolated to the unknown-input save guard.",
+    "oracle": "Explicit English strings/null boundary count, source continuation reward 7, unchanged script length/label identity, retained title/portrait, exact V1 lineIndex2 resume; all observed through real production callers.",
+    "dedupe": "9 new localization cases add variable source/display row-count, exact group/mid-entry fallback, locale pinning, clear/controls, narration and persistence coverage. Existing Chinese dialogue/battle/description/save tests are reused (77) rather than copied or retired.",
+    "originalRed": "Before caller integration, 6 business assertions failed and 2 pure resolver/wrap cases passed. The shell attempted to assign zsh read-only variable status after Vitest; native test text nevertheless records the actual business failures and pnpm exit1. This historical shell issue is not a product result.",
+    "counter": "A temporary resumeIp+1 mutation skipped the following cash instruction; exactly the selected loaded.dwCash assertion failed 0 versus7. Original source bytes were restored and all9 passed.",
+    "nativeIdentities": [
+      {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "fullName": "translated message groups matches the actual span across RestoreScreen and reports unsupported middle entry",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "fullName": "translated message groups exploration displays every translated row with page/clear and one reward (skip=false)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "fullName": "translated message groups exploration displays every translated row with page/clear and one reward (skip=true)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "fullName": "translated message groups pins an active English group through preference changes and resumes from a V1 snapshot",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "fullName": "translated message groups preserves the current Chinese group while the next group adopts English",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "fullName": "translated message groups narration advances translated rows on both timeout and key completion",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "fullName": "translated message groups battle and description callers expand the same source group without expanding instructions",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "fullName": "translated message groups explicit clear preserves the title and portrait in exploration and battle",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/localization/messages.test.ts",
+        "fullName": "translated message groups wraps words without exposing escapes, control suffixes or losing persistent color/speed",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/dialog-bug2-skip.test.ts",
+        "fullName": "Bug2: 按一下 Confirm → 同段后续行同 tick 连锁瞬显(fUserSkip 跨行持续) 3 行对话:typing 中按一次 Confirm,本 tick 内整页 3 行全部瞬显入页(不各占一 tick)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/dialog-bug2-skip.test.ts",
+        "fullName": "Bug2: 按一下 Confirm → 同段后续行同 tick 连锁瞬显(fUserSkip 跨行持续) 3 行对话:按一次 Confirm 后到段末,不再需要第二次按键即可推进到 waiting-end-key/end",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/dialog-bug2-skip.test.ts",
+        "fullName": "Bug2: 按一下 Confirm → 同段后续行同 tick 连锁瞬显(fUserSkip 跨行持续) 5 行对话:按一次 Confirm 连锁瞬显到第 5 行 → 停在 waiting-page-key(忠实 sdlpal 第 5 行等键)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/dialog-bug2-skip.test.ts",
+        "fullName": "Bug2: 按一下 Confirm → 同段后续行同 tick 连锁瞬显(fUserSkip 跨行持续) 普通行连锁瞬显后,userSkip 仍 true(同段持续,直到翻页/段末才复位)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.glm-contracts.test.ts",
+        "fullName": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 DM18 翻页等键吞任意键:Cancel/Down 与 Confirm 同效翻页,第 5 行独占新页(event-system.ts:1708-1715,text.c:1433)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.glm-contracts.test.ts",
+        "fullName": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 末页边界:恰 4 行后遇 end 只等段末键(不触发翻页键),末页 3 行 Confirm 关闭(event-system.ts:1879-1890,script.c:3475)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.glm-contracts.test.ts",
+        "fullName": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 DM18 反向:typing 中 Cancel/Up 不跳字,相位/已显字数/ip 全不动(event-system.ts:1712-1714,text.c:1602 kKeySearch|kKeyMenu)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.glm-contracts.test.ts",
+        "fullName": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 DM18 跳字键集:typing 中 Menu(kKeyMenu)与 Confirm 同效瞬显并连锁到段末等键(event-system.ts:1712-1714,text.c:1602)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.glm-contracts.test.ts",
+        "fullName": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 空页位:$00 段中空行占一页行位,翻页边界提前到第 4 真行;空行不入历史(event-system.ts:2017-2040,text.c:1745-1746 行计数无条件 ++)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.glm-contracts.test.ts",
+        "fullName": "TEST-GLM-GAME-DIALOGUE-PAGINATION-1 L2 跳字连锁停在翻页边界:Confirm 一次瞬显前 4 行、第 5 行保留 ip 等键;翻页后 userSkip 复位新页重新逐字(event-system.ts:2053-2058,dialog-box.ts:594-595,text.c:1447/1607)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.test.ts",
+        "fullName": "event dialogue page continuation 001翻页后仍展示并记录尚未消费的第五行",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.test.ts",
+        "fullName": "event dialogue page continuation setDialogStyleTop / fast=false 连续三页无漏行重行",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.test.ts",
+        "fullName": "event dialogue page continuation setDialogStyleBottom / fast=false 连续三页无漏行重行",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.test.ts",
+        "fullName": "event dialogue page continuation setDialogStyleCenter / fast=false 连续三页无漏行重行",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.test.ts",
+        "fullName": "event dialogue page continuation setDialogStyleTop / fast=true 连续三页无漏行重行",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.test.ts",
+        "fullName": "event dialogue page continuation setDialogStyleBottom / fast=true 连续三页无漏行重行",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.test.ts",
+        "fullName": "event dialogue page continuation setDialogStyleCenter / fast=true 连续三页无漏行重行",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.test.ts",
+        "fullName": "event dialogue page continuation 分页后接 'setDialogStyleBottom'/undefined 完整消费，后续副作用仅一次",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.test.ts",
+        "fullName": "event dialogue page continuation 分页后接 'raw'/5 完整消费，后续副作用仅一次",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/event-dialogue-pagination.test.ts",
+        "fullName": "event dialogue page continuation 分页后接 'raw'/142 完整消费，后续副作用仅一次",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "save-io serializeSave:gs → 带版本头的 JSON 字符串",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "save-io parseImportedSave:合法 → 返回 gs;格式错 → 抛",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "save-io parseImportedSave:缺必要字段(partyMembers)→ 抛",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "save-io parseImportedSave:partyMembers 合法但 wNumScene 缺失或为文本 → 拒绝",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "save-io parseImportedSave:未知 version → 拒绝，不把未来/旧 envelope 交给 Save API",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "save-io 现金被改成文本时，在调用真实 Save 写入前拒绝，原槽位与预览保持不变",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "save-io 现金数值溢出为 Infinity 时拒绝；正常 V1 的真实 0 保留",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure rejects damaged 'party direction'",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure rejects damaged 'party member element'",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure rejects damaged 'inventory count'",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure rejects damaged 'runtime HP element'",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure rejects damaged 'runtime role row length'",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure rejects damaged 'OBJECT word row length'",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure rejects damaged 'inherited command discriminator'",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure rejects damaged 'native byte object range'",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure rejects damaged 'loader prototype write'",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure rejects a nonfinite nested HP value from a valid JSON numeric literal",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure preserves a frozen store-v2 snapshot exported as V1 without adding later runtime fields",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure preserves native JSON data shapes without manufacturing Map/RNG methods",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "V1 stored-data structure rejects an unknown battle phase in an otherwise actual startBattle snapshot",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "existing nonempty store-v2 representations preserves the actual historical dialog producer and JSON-fallback Save output",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "existing nonempty store-v2 representations preserves the actual historical battle producer and JSON-fallback Save output",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "fixed player-role index domain rejects party role -1 outside the six integral role slots",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "fixed player-role index domain rejects party role 0.5 outside the six integral role slots",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "fixed player-role index domain rejects party role 6 outside the six integral role slots",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "fixed player-role index domain rejects a corrupt battle-local role id even when the saved party is valid",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "fixed player-role index domain keeps the highest real role slot in an actual battle producer",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "saved experience remainder domain rejects corrupt experience in every pool before replacing the real slot or its preview",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/tools/save-io.test.ts",
+        "fullName": "saved experience remainder domain preserves both WORD endpoints in all six roles and leaves grown attributes unchanged",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/menu/script-desc.test.ts",
+        "fullName": "getScriptDescLines 木剑 40133 → 2 行真值描述",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/menu/script-desc.test.ts",
+        "fullName": "getScriptDescLines 玉佛珠 40265 → 3 行真值描述",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/menu/script-desc.test.ts",
+        "fullName": "getScriptDescLines scriptDesc=0 → 空数组(防 wScript=0 死循环)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/menu/script-desc.test.ts",
+        "fullName": "getScriptDescLines label 不存在 → 空数组(防 ip undefined crash)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/menu/script-desc.test.ts",
+        "fullName": "getScriptDescLines 遇 end 立刻 stop(不会越界吃下一段描述)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/menu/script-desc.test.ts",
+        "fullName": "getScriptDescLines 遇非 showDialog 的 raw op 跳过(0xA7 noop 不算行)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/save/__tests__/api.test.ts",
+        "fullName": "Save API memory fallback saveSlot / loadSlot: round-trip preserves gameplay fields",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/save/__tests__/api.test.ts",
+        "fullName": "Save API memory fallback saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/save/__tests__/api.test.ts",
+        "fullName": "Save API memory fallback loadSlot returns an independent snapshot on every read",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/save/__tests__/api.test.ts",
+        "fullName": "Save API memory fallback loadSlot 不存在的 slot → null",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/save/__tests__/api.test.ts",
+        "fullName": "Save API memory fallback listSlots:返回已存槽位 + meta",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/save/__tests__/api.test.ts",
+        "fullName": "Save API memory fallback deleteSlot:删后 load null + listSlots 少一条",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/save/__tests__/api.test.ts",
+        "fullName": "Save API memory fallback slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/save/__tests__/api.test.ts",
+        "fullName": "Save API memory fallback overwrite:同 slot saveSlot 二次覆盖",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/save/__tests__/api.test.ts",
+        "fullName": "Save API memory fallback MAX_SAVE_SLOTS 暴露为 5",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "fullName": "tickBattleDialog —— 战斗内对话 hold 队列空 + 无 box → 返回 false(不 hold,放行战斗)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "fullName": "tickBattleDialog —— 战斗内对话 hold 队列有行 + 无 box → startDialogLine 起首行 + 返回 true(暂停战斗)+ 清 phaseStall",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "fullName": "tickBattleDialog —— 战斗内对话 hold 单行打字完 → 无后续 → waiting-end-key;Confirm 关 box + 返回 true(吃掉关框键防漏进菜单)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "fullName": "tickBattleDialog —— 战斗内对话 hold 同风格多行 → 行间自动累积(append,不等键)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "fullName": "tickBattleDialog —— 战斗内对话 hold 打字中 Confirm → 跳到行末(skip-typing,整行显满)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "fullName": "tickBattleDialog —— 战斗内对话 hold narration 风格:满 1.4s 自动消失",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "fullName": "tickBattleDialog —— 战斗内对话 hold narration 风格:任意键立即消失(不止 Confirm)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "fullName": "tickBattleDialog —— 战斗内对话 hold clearBefore 行:先结束当前段(等结束键),Confirm 后下段起新框",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "fullName": "tickBattleDialog —— 战斗内对话 hold 风格切换(top→bottom)另起新框(不混页)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "fullName": "tickBattleDialog —— 战斗内对话 hold top↔bottom 切换 → 旧框移入 dialogBoxKept(同屏共存),整段结束清两者",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "fullName": "tickBattleDialog —— 战斗内对话 hold 同位置续行(都 bottom)→ 不进 dialogBoxKept(正常翻页/append)",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "fullName": "tickBattleDialog —— 战斗内对话 hold D26(2b) effect 条目 → dispatch 0x69(set enemyEscapeAnim)+ 消费 + hold,不开 dialog",
+        "status": "passed"
+      },
+      {
+        "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+        "fullName": "tickBattleDialog —— 战斗内对话 hold D26(2b) 时序:嘲讽对话 → effect(0x69) → narration 按队列顺序处理",
+        "status": "passed"
+      }
+    ],
+    "nativeSummary": {
+      "files": 8,
+      "passed": 86,
+      "failed": 0,
+      "pending": 0
+    },
+    "testRetirement": "none",
+    "coverage": "not run; coordinator owns the stable integration window"
+  },
+  "executions": [
+    {
+      "command": "pnpm --filter @type-pal/game exec vitest run src/localization/messages.test.ts --reporter=default --reporter=json --outputFile.json=../../build/english-dialog/target-native.json",
+      "cwd": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal",
+      "exit": 0,
+      "result": "9/9",
+      "raw": "dialog-target-green.log.gz",
+      "native": "dialog-target-native.json.gz"
+    },
+    {
+      "command": "pnpm --filter @type-pal/game exec vitest run src/localization/messages.test.ts src/core/event-dialogue-pagination.test.ts src/core/event-dialogue-pagination.glm-contracts.test.ts src/core/dialog-bug2-skip.test.ts src/core/battle/__tests__/battle-dialog.test.ts src/core/menu/script-desc.test.ts src/tools/save-io.test.ts src/core/save/__tests__/api.test.ts --reporter=default --reporter=json --outputFile.json=../../build/english-dialog/adjacent-native.json",
+      "cwd": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal",
+      "exit": 0,
+      "result": "86/86 (9 new +77 adjacent)",
+      "raw": "dialog-adjacent-green.log.gz",
+      "native": "dialog-adjacent-native.json.gz"
+    },
+    {
+      "command": "pnpm --filter @type-pal/game run typecheck",
+      "cwd": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal",
+      "exit": 0,
+      "diagnostics": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      },
+      "raw": "dialog-typecheck.log.gz"
+    },
+    {
+      "command": "pnpm exec biome check <the nine implementation/test paths listed in files>",
+      "cwd": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal",
+      "exit": 0,
+      "diagnostics": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      },
+      "raw": "dialog-lint.log.gz"
+    },
+    {
+      "command": "pnpm exec tsx docs/ops/evidence/GAME-ENGLISH-1/dialog-audit-entries.ts <all.json> <en.json> [output.json]",
+      "cwd": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal",
+      "exit": 0,
+      "result": "4768 groups, 5316 labels, zero unmatched groups / middle labels",
+      "raw": "dialog-entry-audit.log.gz",
+      "receipt": "dialog-entry-audit.json"
+    },
+    {
+      "command": "pnpm exec tsx docs/ops/evidence/GAME-ENGLISH-1/dialog-audit-wrap.ts <en.json> [output.json]",
+      "cwd": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal",
+      "exit": 0,
+      "result": "67715 real-line × width checks; zero visible nonwhitespace loss / overflow / final color or delay mismatch",
+      "raw": "dialog-wrap-audit.log.gz",
+      "receipt": "dialog-wrap-audit.json"
+    },
+    {
+      "command": "pnpm check:docs",
+      "cwd": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal",
+      "exit": 1,
+      "result": "125 docs-tool tests pass; docs/document-model/testing/phase-lore zero issues; content-review rejects board.md and tasks/index.md after-SHA drift already in the task scaffold base. Those files are outside contributor ownership and were not refreshed.",
+      "raw": "dialog-docs.log.gz"
+    },
+    {
+      "command": "pnpm lint",
+      "cwd": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal",
+      "exit": 0,
+      "result": "5877 files; complete report",
+      "diagnostics": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      },
+      "raw": "dialog-full-lint.log.gz"
+    },
+    {
+      "command": "pnpm exec biome check --write <two dialog audit TS probes>",
+      "cwd": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal",
+      "exit": 0,
+      "zeroDiagnosticsAccepted": false,
+      "diagnostics": {
+        "error": 0,
+        "warning": 0,
+        "info": 2
+      },
+      "result": "Initial formatting had two useTemplate infos; explicitly fixed without rule changes. Final two-probe check has zero diagnostics; full lint-zero CLI later passes.",
+      "raw": "dialog-audit-initial-format.log.gz",
+      "restoredRaw": "dialog-audit-final-format.log.gz"
+    }
+  ],
+  "runtimeDiagnostics": "Explicit default reporter retained passing-test console output; no visible runtime error/warning/info was emitted in final targeted/adjacent runs. This does not claim unexecuted browser paths.",
+  "artifacts": [
+    {
+      "path": "dialog-original-red.log.gz",
+      "sha256": "834c2e36bd67220f3759b04ea2c6f1d65fcdf613b76b847d9cff678e50038539",
+      "uncompressedSha256": "74b912375e0cd7658c45cbde7dc26632d5b8659a377d1702a691c01ab0322169",
+      "uncompressedBytes": 5251,
+      "producer": "english_runtime_audit",
+      "purpose": "red.log"
+    },
+    {
+      "path": "dialog-initial-green.log.gz",
+      "sha256": "2beaa80347cd7037b9d722ad9f4e96b9fc73761d04e68e246e01b75e533a279e",
+      "uncompressedSha256": "9b979a157b684bbc4a2c0aca25cf0f1a9e9172f4526af9a1bd0357ec08f10d64",
+      "uncompressedBytes": 309,
+      "producer": "english_runtime_audit",
+      "purpose": "green-attempt1.log"
+    },
+    {
+      "path": "dialog-target-green.log.gz",
+      "sha256": "346552082d319135247e7f21006a06ab9fd3152ad9e3fc19494657727abb74db",
+      "uncompressedSha256": "4c2561b9f3e6dc7c2e3657336f843c57f7fa748319d116df07f5343fee0ba0a1",
+      "uncompressedBytes": 428,
+      "producer": "english_runtime_audit",
+      "purpose": "target-restored.log"
+    },
+    {
+      "path": "dialog-target-native.json.gz",
+      "sha256": "4e3359c3ca4be299e1984562a3f3aaee379e91e92976f4cf994ed03d5b53fa33",
+      "uncompressedSha256": "2545af5163a296213af0261fa6cbf1302e5b7b433cc6dee00c85b270dd0f8ad3",
+      "uncompressedBytes": 3844,
+      "producer": "english_runtime_audit",
+      "purpose": "target-native.json"
+    },
+    {
+      "path": "dialog-adjacent-green.log.gz",
+      "sha256": "fa27e76b269c7bf63e06aa0dfa38a3b94c8aed6232c1aea34c50b8f5ebf68e6e",
+      "uncompressedSha256": "90c33b3d7605acad12b5bd2d0d80d59b6acdad9c60b7c30e3d056e3943ba8279",
+      "uncompressedBytes": 849,
+      "producer": "english_runtime_audit",
+      "purpose": "adjacent-final.log"
+    },
+    {
+      "path": "dialog-adjacent-native.json.gz",
+      "sha256": "62732ed010a79de694e251fd64cb7b74707c91bfe41b9f85dfb715bd85a4be38",
+      "uncompressedSha256": "a86dfa3655aea23d6cf93fad52c900fef5e088f36efe2efc9f4389f2e7b55f77",
+      "uncompressedBytes": 31633,
+      "producer": "english_runtime_audit",
+      "purpose": "adjacent-native.json"
+    },
+    {
+      "path": "dialog-counter.log.gz",
+      "sha256": "a88fa08e6af996357f45f572e14a01d713e76154f8119029d5f94e21ecf2c844",
+      "uncompressedSha256": "7c72c5c06d1981237453bef74ecff8a6ab90cf87015b6a7f16445e8f780be1f3",
+      "uncompressedBytes": 2277,
+      "producer": "english_runtime_audit",
+      "purpose": "counter.log"
+    },
+    {
+      "path": "dialog-counter-native.json.gz",
+      "sha256": "a691d1c3e969647f65fd16029eb042d0d031d972ffbb3dc9fea8e4270f1f23a8",
+      "uncompressedSha256": "e77dbcbc8776993dd4730267543bebad7f799b82c5ad5f4e8d72bd439431ccca",
+      "uncompressedBytes": 4923,
+      "producer": "english_runtime_audit",
+      "purpose": "counter-native.json"
+    },
+    {
+      "path": "dialog-typecheck.log.gz",
+      "sha256": "652b014b977dc1628e472a16b7ff6c155b8253a45d682154098e4d2035dfe21e",
+      "uncompressedSha256": "91e087942212d8241dfdcef926edb3d61b7d67308e9cdaba7299e1edb3379a04",
+      "uncompressedBytes": 120,
+      "producer": "english_runtime_audit",
+      "purpose": "typecheck-final.log"
+    },
+    {
+      "path": "dialog-lint.log.gz",
+      "sha256": "33e8bd230d77c8b4cccfee05c00f65105e006140fc021d0f984ec6b325ed91af",
+      "uncompressedSha256": "3397c822df738d7392c69b7ba75e6775a727c9f36dbce9d8cc6bf8b19b95d192",
+      "uncompressedBytes": 43,
+      "producer": "english_runtime_audit",
+      "purpose": "lint-final.log"
+    },
+    {
+      "path": "dialog-entry-audit.log.gz",
+      "sha256": "6321e0858a200155621b5d4bae794d11975c0faa69ab92267abdf75a45359cf2",
+      "uncompressedSha256": "d63757eb3662a33e2856a9cdfbfd4e748f89041781bfc4e62a26814f32a796b9",
+      "uncompressedBytes": 694,
+      "producer": "english_runtime_audit",
+      "purpose": "entry-audit-final.log"
+    },
+    {
+      "path": "dialog-wrap-audit.log.gz",
+      "sha256": "0ba31149e2a6dc6c2d61003c2d2c7c65c0d7678caf0609f4053924184adcac85",
+      "uncompressedSha256": "e9123777540d5d741b850a70db148f5f356f609049281ff959e4dbdb3b9a6e33",
+      "uncompressedBytes": 293,
+      "producer": "english_runtime_audit",
+      "purpose": "wrap-audit-final.log"
+    },
+    {
+      "path": "dialog-audit-initial-format.log.gz",
+      "sha256": "841a554bdad26e69d6b0ee56736104b6d4e9b6ff610066c9dc4670db2d11280b",
+      "uncompressedSha256": "7af206a58538f96f70a4102707889a9e09b76af8cdae2c923fda6cbffa314777",
+      "uncompressedBytes": 2754,
+      "producer": "english_runtime_audit",
+      "purpose": "audit-format.log"
+    },
+    {
+      "path": "dialog-audit-final-format.log.gz",
+      "sha256": "ff3416aca60010bf1c322d48082353b9356da976c637bad93fe70335e38e2472",
+      "uncompressedSha256": "1d8961d250c4f27d6ab333755021aa5c213b35a554b6b28b863a341ec48a6684",
+      "uncompressedBytes": 42,
+      "producer": "english_runtime_audit",
+      "purpose": "audit-format-final.log"
+    },
+    {
+      "path": "dialog-entry-audit.json",
+      "sha256": "d63757eb3662a33e2856a9cdfbfd4e748f89041781bfc4e62a26814f32a796b9",
+      "producer": "english_runtime_audit",
+      "purpose": "entry-audit-final.json"
+    },
+    {
+      "path": "dialog-wrap-audit.json",
+      "sha256": "e9123777540d5d741b850a70db148f5f356f609049281ff959e4dbdb3b9a6e33",
+      "producer": "english_runtime_audit",
+      "purpose": "wrap-audit-final.json"
+    },
+    {
+      "path": "dialog-counter-receipt.json",
+      "sha256": "183ea47d0cdaa087566621e0c56ad8065946709dcc14aaa59f52726f7841c301",
+      "producer": "english_runtime_audit",
+      "purpose": "counter-receipt.json"
+    },
+    {
+      "path": "dialog-docs.log.gz",
+      "sha256": "82c12281881c99adfe0885d13ce7bb25cd181c794b06b2c141f83db794f01dbb",
+      "uncompressedSha256": "4e775c438a877c99569e979f935f0fe091b2f485d43384384195a5edea919f8b",
+      "uncompressedBytes": 30722,
+      "producer": "english_runtime_audit",
+      "purpose": "Full docs gate at contributor candidate; retains the two coordinator-owned base SHA drift diagnostics."
+    },
+    {
+      "path": "dialog-full-lint.log.gz",
+      "sha256": "e29d90bfbf2d2cb260711f53f0880b65434ad69cc1f819b751947e2b0e75df8e",
+      "uncompressedSha256": "d6ae679fef46ed49374651d6380d139b7555785484fc05a8f37b3e64a0946469",
+      "uncompressedBytes": 188,
+      "producer": "english_runtime_audit",
+      "purpose": "Repository lint-zero CLI with complete Biome JSON diagnostics enforced."
+    }
+  ],
+  "versions": {
+    "node": "v22.23.2",
+    "pnpm": "10.29.2",
+    "vitest": "4.1.7"
+  },
+  "limitations": [
+    "Source mapping/wrap probes bind the exact source/pack hashes in dialog-entry-audit.json. A final regenerated pack must rerun these probes if group ranges, controls or text change.",
+    "Static labels cover extractor-declared roots/targets/resumes, not arbitrary externally rewritten saved instruction pointers. Unmatched external spans preserve Chinese and appear in the gaps getter.",
+    "Root owns bootstrap pack installation, font/glyph completeness, canvas names/layout, DOM settings, browser visual checks, docs/index/catalog/inventory integration and centralized full gates.",
+    "No full-text code-quality retirement is claimed for the large legacy interpreter/battle/state files; the assigned localization change contracts and integration boundaries are reviewed above.",
+    "Full docs gate is not green in this isolated scaffold base: board/index review hashes require coordinator-owned same-change maintenance. The complete failed log is preserved; contributor did not relax or bypass the gate."
+  ],
+  "invalidation": [
+    "Changes to MESSAGE_GetSpan/group source identities, extraction normalization or Command layout invalidate mapping evidence.",
+    "Changes to wait/clear/typing/save hydration paths invalidate the corresponding caller and persistence cases.",
+    "Changes to glyph advance widths/control grammar invalidate wrapping evidence; actual screenshots remain separate."
+  ],
+  "next": "Codex independently reviews the two implementation commits and this evidence, installs pack.groups, wraps descriptions with the exported helper, and completes browser/central integration gates. No next contributor handoff is needed.",
+  "dependencyNote": "Same language foundation as 95d2454cf already integrated by coordinator; do not cherry-pick twice.",
+  "auditProbes": [
+    {
+      "path": "dialog-audit-entries.ts",
+      "sha256": "c36135a552fb6fa1a78c7d1afd7b14db46785cdb72176694b20474d5fe463352",
+      "scope": "Read-only source/pack compatibility; optional output path is explicit."
+    },
+    {
+      "path": "dialog-audit-wrap.ts",
+      "sha256": "b1727acab9522adfb3852c4788db275470afa573bf6dc3cea0a4ef3e0b28555c",
+      "scope": "Read-only translated-line width/control preservation; optional output path is explicit."
+    }
+  ]
+}

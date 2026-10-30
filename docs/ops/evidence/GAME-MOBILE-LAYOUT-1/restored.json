@@ -1,0 +1,130 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 9,
+  "numPassedTests": 9,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792599183513,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source a tap between logic ticks latches one press, without a duplicate click edge",
+          "status": "passed",
+          "title": "a tap between logic ticks latches one press, without a duplicate click edge",
+          "duration": 10.430250000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source releasing touch does not release a matching physical keyboard hold",
+          "status": "passed",
+          "title": "releasing touch does not release a matching physical keyboard hold",
+          "duration": 2.3347089999999753,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source cancelling one finger preserves the other finger and clears only its visual hold",
+          "status": "passed",
+          "title": "cancelling one finger preserves the other finger and clears only its visual hold",
+          "duration": 1.789083000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source releasing a newer keyboard alias restores touch direction priority over the older alias",
+          "status": "passed",
+          "title": "releasing a newer keyboard alias restores touch direction priority over the older alias",
+          "duration": 0.7340409999999906,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source window blur releases physical and touch holds and unconsumed presses",
+          "status": "passed",
+          "title": "window blur releases physical and touch holds and unconsumed presses",
+          "duration": 1.116958000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source tool input blocking clears old holds and requires a new press after closing",
+          "status": "passed",
+          "title": "tool input blocking clears old holds and requires a new press after closing",
+          "duration": 0.9000409999999874,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source assistive click activation emits a tap without needing pointer events",
+          "status": "passed",
+          "title": "assistive click activation emits a tap without needing pointer events",
+          "duration": 0.5207500000000209,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source disposing a touch surface releases its contacts and removes event producers",
+          "status": "passed",
+          "title": "disposing a touch surface releases its contacts and removes event producers",
+          "duration": 0.37999999999999545,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["touch controls through the live input source"],
+          "fullName": "touch controls through the live input source a held thumb slides between four directions, stops in the center, and resumes after leaving the rim",
+          "status": "passed",
+          "title": "a held thumb slides between four directions, stops in the center, and resumes after leaving the rim",
+          "duration": 4.0076669999999694,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792599183958,
+      "endTime": 1792599183980.0076,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/illegal/type-pal/packages/game/src/shell/mobile-control-probe-1ci9b9nf/touch-controls.test.ts"
+    }
+  ]
+}

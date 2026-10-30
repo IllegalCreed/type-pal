@@ -1,0 +1,26 @@
+CODE-QUALITY-86 source / caller / oracle index
+
+Whitelist (full reads):
+- packages/game/src/core/menu/equip-menu.ts:1-123
+- packages/game/src/core/menu/equip-menu.test.ts:1-260
+- packages/game/src/core/menu/equip-menu.boundaries.test.ts:1-101
+- packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts:1-101
+
+Production callers and ownership:
+- packages/game/src/core/menu/menu-driver.ts:283-291 routes the equip menu; 753-852 handles list/grid navigation, role cursor, equipableBy gate, scriptOnEquip, wLastUnequippedItem, inventory refresh and close/resume.
+- packages/game/src/core/equip-effect.ts:115-236 owns synchronous equip script opcodes, 0x18 swap, inventory movement, wLastUnequippedItem and iCurEquipPart cleanup; 239-294 owns effect rebuild and menu script entry.
+- packages/game/src/core/equipment-state.ts owns effect rows, role-indexed runtime stats and poison/effect cleanup.
+- packages/game/src/core/game-state.ts:51-74 owns ActiveMenuKind/menuStack; partyMembers is role-id order and runtime equipment is role-indexed.
+- packages/game/src/present/menu/draw-equip.ts plus p03-equip, draw-equip leaves and equip-role pixel tests are adjacent rendering/oracle evidence.
+
+Primary source:
+- reference/sdlpal/itemmenu.c:287-310,331-377 confirms equipable filter, amount>amountInUse confirmation gate and full-list inactive rendering.
+- reference/sdlpal/uigame.c:1793-2056 confirms six equipment slots, party role IDs, equipableBy bit, role cursor wrap, confirm/swap loop and wLastUnequippedItem lifecycle.
+- reference/sdlpal/play.c:328-359 confirms outer item picker and repeated menu loop.
+- reference/sdlpal/script.c:768-811,1090-1145 confirms 0x18 equipment swap, inventory handling and role-id script path.
+
+Oracle / risk result:
+- Real menu-driver/equip-effect/runtime state callers and SDLPal source agree on list/pick-role/done state ownership and role identity.
+- Targeted 12 files / 127 tests pass; E4 missing-label and E2 unknown-row output are deliberate negative-control diagnostics, not new failures.
+- No direct whitelist implementation defect found. Test evidence was strengthened by replacing `as never`/empty-party fixtures with typed PlayerRoles and real GameState partyMembers.
+- Adjacent dispatcher/equip-effect/inventory-state risks remain outside this four-file closure.

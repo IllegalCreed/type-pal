@@ -1,5 +1,7 @@
 # CODE-QUALITY-3x - game battle progression / hidden experience 逐文件治理
 
+> 2026-10-18 当前源区间勘误：uibattle.c飘字循环1746–1767、PAL_BattleUIShowNum 1770–1808（EOF1808）；PAL_PlayerLevelUp为global.c:2347–2409（EOF2409）。旧quote/历史快照中的1810/2454仅保留原记录，不是当前有效读取范围；见[直接核对](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/anchor-corrections.json)。未重跑或重签产品/coverage门。
+
 Status: done
 Phase: phase1 game
 Capability: ops / code-quality / phase1-mechanics

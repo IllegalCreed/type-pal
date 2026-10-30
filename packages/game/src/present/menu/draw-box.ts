@@ -1,7 +1,7 @@
 /**
- * M5.6 W0.c:9-slice 菜单边框 + 阴影渲染。
+ * 9-slice菜单边框与单行框；只写caller持有的framebuffer，不推进菜单状态。
  *
- * sdlpal 真值:[reference/sdlpal/ui.c:131-240](../../../../reference/sdlpal/ui.c#L131-L240)
+ * SDLPal参考：ui.c的PAL_CreateBoxWithShadow。
  * `PAL_CreateBoxWithShadow`:9 个边框 bitmap(SPRITEUI frame `iStyle*9 + i*3 + j`,
  * i=row 0/1/2,j=col 0/1/2)排成 3×3 网格。外含 border 共 (rows+2)×(cols+2) tile。
  * iStyle 0 = 大世界菜单(灰色),1 = 战斗菜单(暗红)。
@@ -18,8 +18,8 @@ import type { Framebuffer } from '../framebuffer.js'
  *   每项宽 = `(PAL_TextWidth(text) + 8) >> 4`(像素 → 全角字符数;PAL_CharWidth 全角 16 / 半角 8)。
  *   PAL_CreateBox(..., PAL_MenuTextMaxWidth(...) - 1, ...) → box 内容列数。
  *
- * 角色名 / 菜单文案列表 box 宽统一走此函数,**不要再硬编码 cols**:
- *   仙术选人 uigame.c:717、装备选人 uigame.c:1920、系统菜单 uigame.c:559、主菜单 989 等。
+ * 本项目按实际GlyphTable测量；缺字形按16px，不能与静态palWordWidth混用。
+ * 当前菜单列表caller用它决定内容列数；空文本仍保留至少一列。
  * @returns nColumns(>= 1)
  */
 export function menuTextMaxCols(texts: readonly string[], glyphs?: GlyphTable): number {
@@ -31,13 +31,7 @@ export function menuTextMaxCols(texts: readonly string[], glyphs?: GlyphTable): 
   return Math.max(1, maxW - 1)
 }
 
-// sdlpal palette 黑色 idx,用于 shadow 渲染。
-// M5.6 hotfix(2026-05-27)— shadow color 真值:不是固定纯色,而是基于当前 fb pixel 计算。
-// sdlpal `PAL_CalcShadowColor`(palcommon.c:28-33)真值:
-//   return ((src & 0xF0) | ((src & 0x0F) >> 1))
-// 把 palette index 的低 4 位(luminance group)右移 1 = 除 2 变暗;保留高 4 位 hue。
-// 视觉上原色稍变暗,像半透明黑色 overlay。
-// 我之前 hardcode 0x0F 是错(palette index 0x0F 通常是亮色,显示纯白阴影)— user 怒怼。
+// PAL_CalcShadowColor保留高4位色组、低4位亮度减半；依赖落点当前像素。
 function palCalcShadowColor(srcColor: number): number {
   return (srcColor & 0xf0) | ((srcColor & 0x0f) >> 1)
 }
@@ -83,9 +77,8 @@ export function drawBox(input: DrawBoxInput): void {
   const totalRows = input.rows + 2 // sdlpal ui.c:170:"Border takes 2 additional rows and columns"
   const totalCols = input.cols + 2
 
-  // sdlpal ui.c:194-197 真值:tile-by-tile 单循环,每 tile 先 shadow(右下偏移)再正色。
-  // 单循环 vs 两轮的差:tile 边缘重叠时,两轮把所有阴影画完后正色覆盖,可能让先画 tile 的阴影
-  // 被后画相邻 tile 的正色压掉一部分;单循环按行扫描保证每 tile 阴影刚画完正色就盖,边缘平滑。
+  // ui.c PAL_CreateBoxWithShadow逐tile先影后正色；后画tile的影可能落在先画的正色上。
+  // 不改成全框先影后正色两轮，那会改变重叠处的像素。
   let curY = input.y
   for (let i = 0; i < totalRows; i++) {
     const m = i === 0 ? 0 : i === totalRows - 1 ? 2 : 1
@@ -169,7 +162,7 @@ export function drawSingleLineBox(input: DrawSingleLineBoxInput): void {
       `draw-box: drawSingleLineBox 需要 uiSpriteFrames[${SINGLE_LINE_FRAME_LEFT}..${SINGLE_LINE_FRAME_RIGHT}]`,
     )
   }
-  // 阴影一行 + 正色一行(单行结构无 tile 边缘重叠问题,顺序不敏感)
+  // PAL_CreateSingleLineBoxWithShadow先画整行阴影，再从左起画整行正色；保持此顺序。
   if (shadow > 0) {
     let sx = input.x + shadow
     blitShadowMask(input.fb, left, sx, input.y + shadow)

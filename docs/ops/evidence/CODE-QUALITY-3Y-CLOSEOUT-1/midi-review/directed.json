@@ -1,0 +1,30 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/shell/audio-midi.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-3y-midi-directed.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-15T15:01:27.155835+00:00",
+  "exit": 0,
+  "seconds": 1.84,
+  "rawBytes": 371,
+  "rawSha256": "a7a506358c6cab28efa75333f159983557db06cce6516b5ac15405a569616eb2",
+  "runnerBytes": 5185,
+  "runnerSha256": "441cab577936410a8f343d51cec0d2838cf6d0fdb4a4fc5fb2fd3f6cf1e8b291",
+  "passed": 12,
+  "failed": 0,
+  "pending": 0,
+  "unwrappedAct": 0,
+  "unsupportedActEnvironment": 0,
+  "navigation": 0
+}

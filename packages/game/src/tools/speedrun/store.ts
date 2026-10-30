@@ -1,4 +1,6 @@
 // 速通计时器设置与最佳成绩的 localStorage 持久化(全局,跨存档)。
+import { isMobileLayout } from '../../shell/presentation.js'
+
 const K_ENABLED = 'tp-speedrun-enabled'
 const K_SHOW = 'tp-speedrun-show'
 const K_BANANA = 'tp-speedrun-banana'
@@ -17,8 +19,8 @@ const ls = (): Storage | undefined =>
 export function loadSettings(): SpeedrunSettings {
   const s = ls()
   return {
-    enabled: s?.getItem(K_ENABLED) === '1',
-    show: s?.getItem(K_SHOW) !== '0', // 默认显示
+    enabled: !isMobileLayout() && s?.getItem(K_ENABLED) === '1',
+    show: !isMobileLayout() && s?.getItem(K_SHOW) !== '0', // 桌面启用后默认显示
     banana: s?.getItem(K_BANANA) === '1',
   }
 }
@@ -37,9 +39,17 @@ export function loadBests(defaults: BestTimes): BestTimes {
   const raw = ls()?.getItem(K_BESTS)
   if (!raw) return { ...defaults }
   try {
-    const parsed = JSON.parse(raw) as Record<string, unknown>
+    const parsed: unknown = JSON.parse(raw)
     const out: BestTimes = { ...defaults }
-    for (const k of Object.keys(out)) if (k in parsed) out[k] = parsed[k] as number | null
+    if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) return out
+    const record = parsed as Record<string, unknown>
+    for (const [k, value] of Object.entries(record)) {
+      if (
+        Object.hasOwn(out, k) &&
+        (value === null || (typeof value === 'number' && Number.isFinite(value) && value >= 0))
+      )
+        out[k] = value
+    }
     return out
   } catch {
     return { ...defaults }

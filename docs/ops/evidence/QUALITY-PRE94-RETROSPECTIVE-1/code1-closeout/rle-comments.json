@@ -1,0 +1,18 @@
+{
+  "base": "d1cadb32ea1f6a427cf0257e174bed4b5e23b045",
+  "scope": "Comments only:actual exports/source-profile naming/encoder size policy. No algorithm/type/import/API/fixture/input changes;format truth remains draft.",
+  "files": [
+    {
+      "path": "packages/shared/src/rle.ts",
+      "beforeSha256": "91c3091ae09e8e577373a7679328e5a1ceba95e78b8f66736b366ff4f162744e",
+      "afterSha256": "a8f91693c0fc03a3905776dafc7a984cd0fc1d01822263588bbf6ca5b2e74eb7",
+      "normalizedSha256": "283ad614c5ed426b79750a77433a0e93119321aea285890af6df5ce9d5a1f569"
+    },
+    {
+      "path": "packages/shared/src/rle-encode.ts",
+      "beforeSha256": "047b96879d4889a99f745525f894c6ebcc3714a65bca73c2e609912e0162ba36",
+      "afterSha256": "cb6f970a575f4bbf5634cae5f3836c9c326bf1d2192e9c20d06d47d9e707dbd5",
+      "normalizedSha256": "613448e6ff14f182d6b0c0eaffa4a063a7f950b9168acf6adbda74b163b4458a"
+    }
+  ]
+}

@@ -1,9 +1,9 @@
-// checkpoints.ts —— 21 个速通节点定义 + 香蕉树(反作弊/中场休息)配置。
-//   场景号/敌人id/物品id 已对齐我方 extracted 数据(spec §4.5)。
-//   ⚠坐标全部抄自 PalTimer(98柔情),但**须 +PARTYOFFSET(160,112) 换算**:PalTimer 读原版**视口**坐标,
-//     我们 gs.party.x/y 是**世界坐标 = 视口 + PARTYOFFSET**(2026-06-19 查 PalTimer 源 `仙剑98柔情.cs` +
-//     香蕉处实测坐实:站位 (1280,720) − PalTimer 视口 (1120,608) = 正好 (160,112))。地图边缘点(见石碑)
-//     偏移>160 且各点不一(spec §4.1),已标 ⚠、须实跑读 gs.party 核(spec §4.4 Task 12 未竟)。
+// 21 个速通节点与香蕉树配置；稳定 ID 用于计时/持久化，显示名可以本地化。
+// 坐标使用世界像素，即 PalTimer(98柔情)视口 + (160,112)；容差与进出场景策略沿用本项目设计。
+// 2026-10-23 已对五坐标、BGM86、进塔三场景做隔离 DEV 局部校准；证据见
+// docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/，不代表完整剧情路线验收。
+
+import { localize } from '../../localization/language.js'
 import {
   atAnySpot,
   atSpot,
@@ -32,6 +32,35 @@ export interface BananaConfig {
   itemId: number
 }
 
+const ENGLISH_CHECKPOINT_NAMES: Readonly<Record<string, string>> = {
+  stele: 'Read stele',
+  kungfu: 'Learn swordplay',
+  boat: 'Board boat',
+  'exit-lin': 'Leave Lin mansion',
+  'exit-yinlong': 'Leave Hidden Dragon Cave',
+  biohazard: 'Zombie outbreak',
+  'boss-guijiang': 'Ghost General',
+  'boss-chigui': 'Scarlet Ghost King',
+  'enter-yangzhou': 'Enter Yangzhou',
+  'exit-yangzhou': 'Leave Yangzhou',
+  'exit-trouble': 'Leave Trouble Cave',
+  'enter-jing': 'Enter capital',
+  'boss-caiyi': 'Caiyi',
+  'enter-tower': 'Enter Demon Tower',
+  'sword-pillar': 'Sword pillar',
+  'boss-huolong': 'Destroy tower',
+  'boss-fenghuang': 'Phoenix',
+  'enter-tenyears': 'Ten years ago',
+  'water-pearl': 'Water Orb',
+  'pray-rain': 'Pray for rain',
+  clear: 'Finish game',
+}
+
+/** Localized display only; checkpoint IDs, detectors and persisted times stay unchanged. */
+export function checkpointName(checkpoint: Pick<Checkpoint, 'id' | 'name'>): string {
+  return localize(checkpoint.name, ENGLISH_CHECKPOINT_NAMES[checkpoint.id] ?? checkpoint.name)
+}
+
 const H = 3_600_000,
   M = 60_000,
   S = 1000
@@ -46,8 +75,8 @@ export const CHECKPOINTS: readonly Checkpoint[] = [
       [1856, 496],
       [1840, 488],
     ]),
-  }, // PalTimer视口(1696,384)/(1680,376)+PARTYOFFSET ⚠地图边缘,X偏移或>160,须实跑核
-  { id: 'kungfu', name: '学功夫', defaultBestMs: t(0, 11, 13), detector: bgmIs(86) }, // ⊙BGM
+  }, // 石碑触发脚本 L_5182 的实测站位 (1856,496)，容差允许接近时提前打点。
+  { id: 'kungfu', name: '学功夫', defaultBestMs: t(0, 11, 13), detector: bgmIs(86) }, // 教剑脚本地址 2237 切换音乐。
   { id: 'boat', name: '上船', defaultBestMs: t(0, 18, 37), detector: atSpot(6, 1232, 1192) }, // PalTimer视口(1072,1080)+PARTYOFFSET
   { id: 'exit-lin', name: '出林家堡', defaultBestMs: t(0, 24, 53), detector: leaveScene(40) },
   { id: 'exit-yinlong', name: '出隐龙窟', defaultBestMs: t(0, 30, 46), detector: leaveScene(49) },
@@ -90,12 +119,12 @@ export const CHECKPOINTS: readonly Checkpoint[] = [
 ]
 
 /**
- * 圣姑家香蕉树:**站到 3 格之一暂停**,拿香蕉(291)恢复。**照抄 PalTimer 逻辑(精确格、零容差)**。
- * PalTimer `仙剑98柔情.cs:1099` CheckCheatBegin = scene 177 + PositionCheck(精确 ==){(1088,608),(1120,608),
+ * 香蕉树配置沿用精确三格/零容差；站格暂停，拿香蕉(291)恢复。以下为历史换算记录，本轮未实跑复核。
+ * PalTimer ba7ca7cc 的 CheckCheatBegin：scene 177 + PositionCheck(精确 ==){(1088,608),(1120,608),
  *   (1120,592)} —— 那是原版**视口**坐标;我们 `party` 是**世界=视口+PARTYOFFSET(160,112)**,故 +offset 换算:
  *   (1088,608)→(1248,720)、(1120,608)→(1280,720)、(1120,592)→(1280,704)。
  * 香蕉树本体(事件对象 EO[16]@scene/176.json 世界 (1264,712)、禁入障碍、人站不上去)就在这 3 个相邻可站格中间;
- *   user 实测捡香蕉站位 (1280,720) = 中间格,精确命中。坐标已知确切 → **不加容错容差**(tol=0,同 PalTimer)。
+ *   历史用户记录的捡香蕉站位 (1280,720) = 中间格，因此保留既有零容差(tol=0)，不凭静态测试改点。
  */
 export const BANANA: BananaConfig = {
   scene: 177,

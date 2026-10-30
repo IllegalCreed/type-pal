@@ -1,0 +1,30 @@
+{
+  "sourceCandidate": "84d5dd31fdcdcea7478ca3438fc1e2192411ead6",
+  "originalThreeSourcesMatchedBeforePromotion": true,
+  "governanceWindowHadCompletedBeforeSourceMutation": true,
+  "sourceRows": [
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+      "beforeSha256": "98eac49c32f24efe94daec485a0a328c34881a42ca577645bd1ef6d5831b73c4",
+      "fullRead": true,
+      "afterSha256": "301ba3aca35b2602c6d03728e2bf1881d7bad318cd2101b78343f0d2a5af4449"
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+      "beforeSha256": "e0696ae55cd58822a15416888f5754d42a6286303bb3206b5348af6a1798d70a",
+      "fullRead": true,
+      "afterSha256": "e2e91246b2ffe0acfb492a4392ffcf47c3c4f28e083b201a4d17ca610c8d60c7"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx",
+      "beforeSha256": "e5aaa1b553c3eedee2d2ce56346a57cf7d11ce081ddd393d330301ae50bf3bab",
+      "fullRead": true,
+      "afterSha256": "edb43815e46e0902fde287e3f31336e6ae7a3ad88853a2d2dd4bde6098e8b326"
+    }
+  ],
+  "isolatedWorkspace": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+  "scratchRemoved": true,
+  "noProductMutation": true,
+  "mainWorktreeReadOnly": true,
+  "newFileClosures": 0
+}

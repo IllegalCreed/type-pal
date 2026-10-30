@@ -1,0 +1,18 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/game
+
+·······stderr | src/core/scene-system.test.ts > P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > contact NPC(triggerMode >= 4)不阻挡走路 → walking=true
+scene-system: triggerLabel L_42 不在全局 labelMap(NPC id=7)
+
+stderr | src/core/scene-system.test.ts > P0.e wScriptOnEnter 真跑 > setSceneObjectState opcode 不报错(no-op, M5+ field)
+event-system: setSceneObjectState id(1-based)=1 → idx=0 不在当前 scene 也不在全局表,跳过
+
+··············································································································stdout | src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchSaveSlotMenu > Confirm → close save-slot(pop 一层)
+[save] saved to slot 1(times=1)
+
+·································································································································································································································
+
+ Test Files  5 passed (5)
+      Tests  342 passed (342)
+   Start at  00:35:40
+   Duration  1.15s (transform 1.64s, setup 126ms, import 1.92s, tests 100ms, environment 2.85s)

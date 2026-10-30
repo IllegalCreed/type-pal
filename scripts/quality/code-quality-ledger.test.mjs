@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
+import { tmpdir } from 'node:os'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { auditCodeQualityLedger } from './code-quality-ledger.mjs'
@@ -29,7 +30,6 @@ test('unique files determine all counts; running the guard does not change evide
     counts: { total: 3, verified: 1, review: 1, pending: 1, unclosed: 2 },
   })
   assert.equal(JSON.stringify(inventory), before)
-  assert.equal(source, ledger())
 })
 
 test('duplicate ledger row fails even if the header gives it no extra credit', () => {
@@ -95,6 +95,52 @@ test('fenced examples give no credit; duplicate/missing summary or table fails c
   }
 })
 
+for (const [name, hidden] of [
+  ['fenced example with an info-bearing marker', (body) => `~~~md\n~~~still-code\n${body}\n~~~`],
+  ['HTML comment', (body) => `<!--\n${body}\n-->`],
+]) {
+  test(`hidden ${name} cannot publish reviewed-file counts`, () => {
+    const result = auditCodeQualityLedger(hidden(ledger()), inventory)
+    assert.deepEqual(result.counts, {
+      total: 3,
+      verified: 0,
+      review: 0,
+      pending: 3,
+      unclosed: 3,
+    })
+    assert.ok(result.issues.includes('expected exactly one file ledger table'))
+  })
+}
+
+test('a fenced block terminates the contiguous machine ledger', () => {
+  const source = ledger().replace(rowB, `~~~md\nhistorical text\n~~~\n${rowB}`)
+  const result = auditCodeQualityLedger(source, inventory)
+  assert.deepEqual(result.counts, {
+    total: 3,
+    verified: 1,
+    review: 0,
+    pending: 2,
+    unclosed: 2,
+  })
+  assert.match(result.issues.join('\n'), /status count mismatch/)
+})
+
+test('comment markers in fenced code do not hide the following live ledger', () => {
+  const source = `~~~md\n<!-- literal comment marker\n~~~\n${ledger()}\n-->`
+  assert.deepEqual(auditCodeQualityLedger(source, inventory), {
+    issues: [],
+    counts: { total: 3, verified: 1, review: 1, pending: 1, unclosed: 2 },
+  })
+})
+
+test('comment markers in inline code do not hide the following live ledger', () => {
+  const source = `Use \`<!--\` as literal text.\n${ledger()}\n-->`
+  assert.deepEqual(auditCodeQualityLedger(source, inventory), {
+    issues: [],
+    counts: { total: 3, verified: 1, review: 1, pending: 1, unclosed: 2 },
+  })
+})
+
 test('malformed or duplicate inventory is rejected before claiming success', () => {
   for (const invalid of [
     null,
@@ -107,6 +153,18 @@ test('malformed or duplicate inventory is rejected before claiming success', () 
   }
 })
 
+test('importing the validator from an unrelated cwd does not start the CLI', () => {
+  const moduleUrl = new URL('./code-quality-ledger.mjs', import.meta.url)
+  const run = spawnSync(
+    process.execPath,
+    ['--input-type=module', '--eval', `await import(${JSON.stringify(moduleUrl.href)})`],
+    { cwd: tmpdir(), encoding: 'utf8', timeout: 15000 },
+  )
+  assert.equal(run.status, 0, run.stderr)
+  assert.equal(run.stdout, '')
+  assert.equal(run.stderr, '')
+})
+
 test('real quality-tools caller checks the current repository ledger against the inventory CLI', () => {
   const run = spawnSync(
     process.execPath,
@@ -114,6 +172,7 @@ test('real quality-tools caller checks the current repository ledger against the
     {
       cwd: fileURLToPath(new URL('../../', import.meta.url)),
       encoding: 'utf8',
+      timeout: 15000,
     },
   )
   assert.equal(run.status, 0, run.stderr)

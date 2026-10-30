@@ -26,6 +26,7 @@ import type { Palette } from '@type-pal/shared'
 import type { IndexedImage } from '../assets/png.js'
 import type { Framebuffer } from '../present/framebuffer.js'
 import { flushToCanvas } from '../present/present.js'
+import { listenForModalActions } from './input.js'
 
 export interface CraneSprite {
   frames: IndexedImage[]
@@ -212,6 +213,9 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
     }
   }
   window.addEventListener('keydown', onKey, true)
+  const detachActions = listenForModalActions(skipKeys, () => {
+    skipped = true
+  })
 
   // 9 仙鹤初始位置(sdlpal main.c:280-285)
   const cranes: CranePos[] = []
@@ -315,5 +319,6 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
     await fadeOut(options.fb, options.canvasCtx, options.palette, FADE_OUT_MS, now)
   } finally {
     window.removeEventListener('keydown', onKey, true)
+    detachActions()
   }
 }

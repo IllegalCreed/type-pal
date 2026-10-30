@@ -1,0 +1,22 @@
+{
+  "typescript": "6.0.3",
+  "scope": "Only two battle lifecycle implementations, same transpile options; not native/gameplay/whole-file acceptance",
+  "rows": [
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "beforeSha256": "c613002b06e83ccc6a4805c1fc0a3ace2d7107068d2305689ab3e456fe3f2c0c",
+      "currentSha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d",
+      "removeCommentsJavaScriptSha256": "3f236247840689a364142b32eaa6d3f75d2c3d3b905be077f7c685c85b099c7a",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "beforeSha256": "d9075c4dcad02f11f4dceaa6bd044706e543f33f08963de64c391105489a4a95",
+      "currentSha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+      "removeCommentsJavaScriptSha256": "739f3d3154a6f7d24a3614a66d513ae3123051251d7bf77dfd1743b16f3b9406",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    }
+  ]
+}

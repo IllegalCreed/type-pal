@@ -9,10 +9,13 @@ import {
 import { act, type ComponentProps } from 'react'
 import { createRoot } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { MapSelection } from '../core/map-selection.js'
 import { DsInspectorHost } from './design-system/index.js'
 import { MapSelectionInspector as MapSelectionInspectorContent } from './MapSelectionInspector.js'
+
+beforeEach(() => vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true))
+afterEach(() => vi.unstubAllGlobals())
 
 function MapSelectionInspector(props: ComponentProps<typeof MapSelectionInspectorContent>) {
   return (

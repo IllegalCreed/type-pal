@@ -1,5 +1,5 @@
 /**
- * M5.6 T10b:InventoryMenu fullscreen — sdlpal `itemmenu.c:28-466` PAL_ItemSelectMenu 1:1 port。
+ * 库存菜单与物品目标选择状态，参照 PAL_ItemSelectMenu；脚本和交易由caller推进。
  *
  * sdlpal 真值锚:
  *  - `gpGlobals->iCurInvMenuItem` linear cursor across full inventory(itemmenu.c:107-112)
@@ -19,18 +19,36 @@
  *  - cursor clamp [0, numInventory - 1](itemmenu.c:107-112,不 wrap)
  *
  * 大世界打开物品菜单 → 选物品 → if usable 进 ItemUseMenu(选目标 role)→
- * Confirm → 跑 item.scriptOnUse(M5 stub log)。
+ * Confirm → 由 caller(menu-driver)走 startOverworldItemScript 执行 item.scriptOnUse
+ * 完整脚本链(applyToAll 单体两分支,见 dispatchInventoryMenu)。
  */
 
 import type { Item, PlayerRoles } from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
 import type { ItemFilter } from './item-select.js'
 import {
+  MENUITEM_COLOR,
+  MENUITEM_COLOR_EQUIPPEDITEM,
+  MENUITEM_COLOR_INACTIVE,
+  MENUITEM_COLOR_SELECTED_INACTIVE,
+  selectedMenuItemColor,
+} from './menu-colors.js'
+import {
   createSelectionMenu,
   moveSelectionDown,
   moveSelectionUp,
   type SelectionMenuState,
 } from './primitives.js'
+
+// 既有入口保留色值出口；定义和闪烁计算归纯menu规则。
+export {
+  MENUITEM_COLOR,
+  MENUITEM_COLOR_EQUIPPEDITEM,
+  MENUITEM_COLOR_INACTIVE,
+  MENUITEM_COLOR_SELECTED_FIRST,
+  MENUITEM_COLOR_SELECTED_INACTIVE,
+  MENUITEM_COLOR_SELECTED_TOTAL,
+} from './menu-colors.js'
 
 /**
  * L40:用物品选目标框的默认光标 slot(sdlpal uigame.c:1311 `static SHORT sSelectedPlayer = 0`)。
@@ -47,16 +65,8 @@ export const INV_LINES_PER_PAGE = 7
 /** sdlpal itemmenu.c:52 真值:`8 * dwWordLength + 20` = 8*10+20 = 100 px / item label cell width */
 export const INV_ITEM_TEXT_WIDTH = 100
 
-// ── sdlpal ui.h 真值色(InventoryMenu / EquipMenu 共享) ─────────────────────
-export const MENUITEM_COLOR = 0x4f // ui.h:29  默认
-export const MENUITEM_COLOR_INACTIVE = 0x18 // ui.h:30  filter 不命中 + 非选
-export const MENUITEM_COLOR_SELECTED_INACTIVE = 0x1c // ui.h:32  filter 不命中 + 选中
-export const MENUITEM_COLOR_EQUIPPEDITEM = 0xc8 // ui.h:38  equipment 中(amount=0)
-export const MENUITEM_COLOR_SELECTED_FIRST = 0xf9 // ui.h:33  闪烁起始色
-export const MENUITEM_COLOR_SELECTED_TOTAL = 6 // ui.h:34  闪烁 cycle
-
 /**
- * sdlpal itemmenu.c:135-181 真值 6-case 色规则 — InventoryMenu / EquipMenu / Shop 共享。
+ * 库存网格的六类行色(itemmenu.c:135-181)，供物品、装备列表与卖出网格消费。
  *
  * | isSelected | isUsable(filter 命中 + count > inUse) | isEquipped(count==0) | color |
  * |---|---|---|---|
@@ -64,13 +74,11 @@ export const MENUITEM_COLOR_SELECTED_TOTAL = 6 // ui.h:34  闪烁 cycle
  * | ✓ | ✓     | ✓    | MENUITEM_COLOR_EQUIPPEDITEM 0xC8 |
  * | ✓ | ✓     | ✗    | MENUITEM_COLOR_SELECTED_FIRST + tick/100 % 6(闪烁 0xF9..0xFE) |
  * | ✗ | ✗     | -    | MENUITEM_COLOR_INACTIVE 0x18 |
- * | ✗ | -     | ✓    | MENUITEM_COLOR_EQUIPPEDITEM 0xC8 |
+ * | ✗ | ✓     | ✓    | MENUITEM_COLOR_EQUIPPEDITEM 0xC8 |
  * | ✗ | ✓     | ✗    | MENUITEM_COLOR 0x4F |
  *
- * 抽出 pure fn 便于单测 4-case 防回归(2026-05-29 C5 session 4:user 实测 EquipMenu
- * 全装备红色,根因 isUsable hardcode `flags.usable` 而非 filter 命中)。
- *
- * `selectedFlashTickMs` 默认 `Date.now()`;单测传固定值确保 deterministic。
+ * filter未命中优先取禁用色；有装备标志不绕过这个条件。
+ * `selectedFlashTickMs`省略时读取Date.now；显式提供时可确定性验证闪烁。
  */
 export function pickItemRowColor(opts: {
   isSelected: boolean
@@ -83,7 +91,7 @@ export function pickItemRowColor(opts: {
     if (!isUsable) return MENUITEM_COLOR_SELECTED_INACTIVE
     if (isEquipped) return MENUITEM_COLOR_EQUIPPEDITEM
     const t = opts.selectedFlashTickMs ?? Date.now()
-    return MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(t / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
+    return selectedMenuItemColor(t)
   }
   if (!isUsable) return MENUITEM_COLOR_INACTIVE
   if (isEquipped) return MENUITEM_COLOR_EQUIPPEDITEM
@@ -123,8 +131,11 @@ export function createInventoryMenu(
   // INACTIVE 红色(0x18 / 光标停其上 0x1C,itemmenu.c:148/171),确认时 no-op(itemmenu.c:289)。
   // 所以「使用/装备/卖」菜单都是全显示 + 非匹配项红色,不是把非匹配项从列表删掉。
   //
-  // 注(2026-05-27 session 3):items.json id 0 是真值物品(观音符),不是 "wItem=0 = no item"
-  // 哨兵;inventory entries 由 addItemToInventory 维护(count=0 自动清掉),故全部保留。
+  // 注(2026-10-15 更正):items.json 的 id 是全局 wObjectID(61..294,梦蛇 295 归 spells 排除;
+  //   提取器 resources/parsers/items.ts `id = ITEM_OBJ_START + i`),0 是"无物品"哨兵,不是真值物品
+  //   ——2026-05-27 旧注"id 0 是观音符"是 0-based local id 时代的历史误会,已废弃。
+  //   本表全显示语义照旧:库存条目由 addItemToInventory 维护(count=0 自动清掉),
+  //   进表的 entry 本身就代表真实持有,无需再按 id 过滤。
   const inv: InventorySlot[] = gs.inventory.map((e) => ({
     itemId: e.itemId,
     count: e.count ?? 0,

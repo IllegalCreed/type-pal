@@ -1,0 +1,1054 @@
+{
+  "version": 1,
+  "status": "contributor-complete-awaiting-parent-independent-acceptance",
+  "task": "GAME-ENGLISH-1",
+  "generatedAt": "2026-10-22T13:26:23.384104+00:00",
+  "base": "67dfea992ceb6b05d2c38d5803cc5a0c2daac5a2",
+  "candidate": "fb0dcea5b8497eeb33fb75bffa94583ca005e0d7",
+  "branch": "codex/english-text-boundaries",
+  "scope": {
+    "changed": [
+      "packages/pal-extract/src/io/slf.test.ts",
+      "packages/pal-extract/src/localization/build-language-pack.test.ts",
+      "packages/pal-extract/src/cli-localization.test.ts"
+    ],
+    "productionChanges": [],
+    "configurationOrThresholdChanges": [],
+    "newTests": 14,
+    "originalTests": 16,
+    "deletions": [],
+    "sourceFingerprints": {
+      "packages/pal-extract/src/io/slf.ts": {
+        "sha256": "8fb323f2cf828200e51ec6753677f0208a631e7cd436455fa01f3e5e83f5132c",
+        "rootCheckoutMatches": true
+      },
+      "packages/pal-extract/src/localization/build-language-pack.ts": {
+        "sha256": "e55266cd6fcde40b777184118a271ec58adb430d98082e92753bac513410eb88",
+        "rootCheckoutMatches": true
+      },
+      "packages/pal-extract/src/cli.ts": {
+        "sha256": "0474cf59a4c0c67d9d08dd088b44099ab44744dc7ef76e39ab122642c2a31c92",
+        "rootCheckoutMatches": true
+      },
+      "packages/pal-extract/src/__tests__/cli-host.ts": {
+        "sha256": "6da3976c58acf663493472e23bddb6ad7eb9382d11c5257b9a3153445b23ea95",
+        "rootCheckoutMatches": true
+      },
+      "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts": {
+        "sha256": "ef6393d93a79eba8ab3d1cdbc87e8ddcf2ce32887ee920fa99d8970936597dbd",
+        "rootCheckoutMatches": true
+      },
+      "packages/shared/src/localization.ts": {
+        "sha256": "70560f236b3fdc2162b6f843e237f577cf81350c50b9ada26d8a68bc9fc307a1",
+        "rootCheckoutMatches": true
+      },
+      "scripts/coverage/config.mjs": {
+        "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35",
+        "rootCheckoutMatches": true
+      },
+      "scripts/coverage/environment.mjs": {
+        "sha256": "a8d8d39731f17344c04550a8828b5b41dc16eb2b24fb4ada1db34ccbc10175d3",
+        "rootCheckoutMatches": true
+      },
+      "pnpm-lock.yaml": {
+        "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65",
+        "rootCheckoutMatches": true
+      }
+    },
+    "tests": {
+      "packages/pal-extract/src/io/slf.test.ts": "85ce811cc562e5a84405445bf9620b4349801e19eb183c8a8b407ed0dc4f0b18",
+      "packages/pal-extract/src/localization/build-language-pack.test.ts": "b4877f0fd9678133889ca6a87e2638e741c8b8972fb1d8945f877362c44dd22b",
+      "packages/pal-extract/src/cli-localization.test.ts": "324463cd3377ea6250a92f22dc7390a390f3bdd6cf10f0c891868da677b3c43b"
+    }
+  },
+  "contracts": [
+    {
+      "id": "SLF-DISJOINT",
+      "testFile": "packages/pal-extract/src/io/slf.test.ts",
+      "caller": "cli.ts parseSlf fatal UTF-8 preflight",
+      "legalInput": "Two authored non-overlapping inclusive message ranges intentionally in reverse numeric order, a legal clear marker.",
+      "oracle": "Explicit start/end/line/null array in authored order; parser sorting for overlap validation must not reorder output.",
+      "dedupe": "Existing success has only one range; existing overlap rejection cannot detect accidental sorting/reordering."
+    },
+    {
+      "id": "SLF-REJECT",
+      "testFile": "packages/pal-extract/src/io/slf.test.ts",
+      "caller": "cli.ts parseSlf external SLF",
+      "legalInput": "External unknown text boundary: duplicate layouts/messages, malformed coordinates, layout ID83 outside documented1..82, decimal IDs beyond MAX_SAFE_INTEGER, section nesting inside messages.",
+      "oracle": "Specific rejection reasons distinct from generic overlap/unterminated failures.",
+      "dedupe": "7 new rejection rows cover distinct hazards; existing reversed/overlap/flag/word syntax inputs unchanged."
+    },
+    {
+      "id": "ALIAS-ATOMIC",
+      "testFile": "packages/pal-extract/src/localization/build-language-pack.test.ts",
+      "caller": "cli.ts buildLanguagePack(common corrected instructions)",
+      "legalInput": "Typed Command[] / complete565-word SLF fixture; revision metadata points to wrong actual range or contains unused source alias.",
+      "oracle": "Exact mismatch20:22 or unused-alias error; deep pre/post snapshot is an input mutation oracle covering SLF message lines, commands, all revisions.",
+      "dedupe": "Existing tests cover valid alias, missing range, unused text revision, source SHA and text preconditions; neither invalid alias contract previously present."
+    },
+    {
+      "id": "CLI-PREFLIGHT-PRESERVATION",
+      "testFile": "packages/pal-extract/src/cli-localization.test.ts",
+      "caller": "Actual Node+tsx CLI through createCliTestHost copied isolated source tree.",
+      "legalInput": "Legal faithful synthetic SSS/M.MSG/WORD pass roundtrip; three unknown argv boundaries: omitted path, following flag, faithful plus an existing SLF path.",
+      "oracle": "Process exit1/no signal, specific error, exact old directory entry set and Buffer byte equality.",
+      "dedupe": "Existing successful source-only extraction did not exercise English argv errors. Existing generic input guard errors are earlier pipeline failures, not these new flags."
+    },
+    {
+      "id": "CLI-HELP",
+      "testFile": "packages/pal-extract/src/cli-localization.test.ts",
+      "caller": "Actual source module entry with process.argv[1] equal to physical cli.ts and --help.",
+      "legalInput": "Real entry argv; console.log spy forwards original output.",
+      "oracle": "Help advertises --english-slf PATH and --faithful; argv/spy/module cache restored in finally.",
+      "dedupe": "New public help options not covered by other tests.",
+      "limit": "Current worktree raw files exist. This only proves option documentation at real entry; no absent-raw/no-IO claim."
+    }
+  ],
+  "fileReview": {
+    "packages/pal-extract/src/io/slf.test.ts": {
+      "A": "Pure parser outputs and explicit malformed external-input rejection; valid disjoint groups preserve authored order. CLI preflight is actual caller.",
+      "B": "Existing source-preservation comment unchanged; added cases have descriptive names and no unsupported runtime claim.",
+      "C": "All cases call pure parseSlf directly, with no new fixture ownership/global coupling.",
+      "D": "Existing malformed-input table reused; positive array kept local because its output-order contract is different.",
+      "E": "Literal expected groups/reason strings, external unknown-domain bad strings, no casts/core mocks; distinct contracts above.",
+      "F": "Readable SLF section strings and named table rows make boundaries visible.",
+      "G": "No helper/API/product addition; original10 cases kept,8 meaningful new cases.",
+      "H": "Pure deterministic parser allows direct observable outputs/errors; no side effects to isolate."
+    },
+    "packages/pal-extract/src/localization/build-language-pack.test.ts": {
+      "A": "Typed complete source fixture plus deliberately invalid alias metadata tests failure before publishing pack; commands/text/revisions all immutable.",
+      "B": "No new explanatory comment needed; test name states atomic failure contract.",
+      "C": "Local fixture owner is unchanged, no IO/global dependencies.",
+      "D": "Existing fixture reused; two alias variants share exactly the same throw-and-immutability contract.",
+      "E": "Specific external-oracle errors plus pre/post snapshot for mutation detection; not a cloned result compared to itself.",
+      "F": "wrong-span/unused variants and explicit range20:22 match failure contract.",
+      "G": "Two previously absent alias boundaries, no production refactor or unrelated old-test rewrite.",
+      "H": "Public pure builder directly exposed; independent unused-alias counter is unique AssertionError then restored green."
+    },
+    "packages/pal-extract/src/cli-localization.test.ts": {
+      "A": "Real legal faithful child CLI inputs reach new guards; exact sentinel bytes and file set prove no destructive cleanup; actual help entry restores argv/console/cache.",
+      "B": "Existing faithful-fixture comment remains accurate; overly broad help raw-independence title was narrowed after independent read.",
+      "C": "Each child host owns only its copied tree/process and onTestFinished disposal; in-process help restores all state in finally.",
+      "D": "Existing host and legal archive builders reused; no new process abstractions.",
+      "E": "Expected argv errors/exit/signal plus exact independent sentinel bytes; no FS or core mock. Spy only observes log while preserving native output.",
+      "F": "Three named argv cases distinguish path omission, flag confusion and mode conflict; help name matches assertions.",
+      "G": "No invalid raw workaround/core monkeypatch; only necessary three source archives to reach argv guards. Added4 cases.",
+      "H": "Child processes expose real errors and disk state; real help main entry is directly executable. Parent V8 cannot attribute child tests; documented below."
+    }
+  },
+  "validation": {
+    "directed": {
+      "success": true,
+      "files": 3,
+      "total": 30,
+      "passed": 30,
+      "failed": 0,
+      "pending": 0,
+      "identities": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/cli-localization.test.ts",
+          "fullName": "a successful source-only CLI extraction advertises Chinese without a missing English request",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/cli-localization.test.ts",
+          "fullName": "CLI rejects missing source path before replacing previous output",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/cli-localization.test.ts",
+          "fullName": "CLI rejects another flag as source path before replacing previous output",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/cli-localization.test.ts",
+          "fullName": "CLI rejects faithful extraction with an English source before replacing previous output",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/cli-localization.test.ts",
+          "fullName": "the real CLI entry documents optional English sources and faithful extraction",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/localization/build-language-pack.test.ts",
+          "fullName": "language construction binds flexible text to common message spans without rewriting scripts",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/localization/build-language-pack.test.ts",
+          "fullName": "nonincrementing adjacent messages remain separate groups",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/localization/build-language-pack.test.ts",
+          "fullName": "language source and per-entry preconditions guard updates independently",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/localization/build-language-pack.test.ts",
+          "fullName": "a selectable English pack requires every common message range and original word identity",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/localization/build-language-pack.test.ts",
+          "fullName": "unused revision rules and untranslated text fail rather than silently falling back",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/localization/build-language-pack.test.ts",
+          "fullName": "a wrong-span alias fails without mutating source text, scripts or revision rules",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/localization/build-language-pack.test.ts",
+          "fullName": "a unused alias fails without mutating source text, scripts or revision rules",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF preserves flexible message lines and clear boundaries, but unescapes word names",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF accepts disjoint message ranges and retains their authored order and clear markers",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup duplicate words",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup word escape",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup word syntax",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup unfinished section",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup nested section",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup layout flags",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup duplicate layouts",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup layout syntax",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup reserved layout identity",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup unsafe word identity",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup unsafe message identity",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup reversed range",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup duplicate message ranges",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup section inside a message",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup overlapping ranges",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/packages/pal-extract/src/io/slf.test.ts",
+          "fullName": "SLF rejects malformed source before extraction cleanup stray end",
+          "status": "passed"
+        }
+      ]
+    },
+    "typecheck": "typecheck-final-command.json",
+    "biome": "biome-final-default-command.json",
+    "sourceDiagnostics": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "fullRepositoryGate": "not run by contributor; parent owns frozen integration window",
+    "officialCoverageRatchet": "not rerun or claimed passed by contributor"
+  },
+  "counterControls": {
+    "artifact": "counters.json",
+    "cases": [
+      {
+        "name": "premature-cleanup",
+        "mutant": {
+          "success": false,
+          "files": 1,
+          "total": 1,
+          "passed": 0,
+          "failed": 1,
+          "pending": 0,
+          "identities": [
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/pal-english-counter-XiNCBV/packages/pal-extract/src/cli-localization.test.ts",
+              "fullName": "CLI rejects missing source path before replacing previous output",
+              "status": "failed"
+            }
+          ]
+        },
+        "restored": {
+          "success": true,
+          "files": 1,
+          "total": 1,
+          "passed": 1,
+          "failed": 0,
+          "pending": 0,
+          "identities": [
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/pal-english-counter-XiNCBV/packages/pal-extract/src/cli-localization.test.ts",
+              "fullName": "CLI rejects missing source path before replacing previous output",
+              "status": "passed"
+            }
+          ]
+        },
+        "assertion": "one AssertionError; exact native message retained in JSON/stderr",
+        "repositoryAndTemporaryRestoration": "counters.json"
+      },
+      {
+        "name": "unused-alias",
+        "mutant": {
+          "success": false,
+          "files": 1,
+          "total": 1,
+          "passed": 0,
+          "failed": 1,
+          "pending": 0,
+          "identities": [
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/pal-english-counter-FQzNXM/packages/pal-extract/src/localization/build-language-pack.test.ts",
+              "fullName": "a unused alias fails without mutating source text, scripts or revision rules",
+              "status": "failed"
+            }
+          ]
+        },
+        "restored": {
+          "success": true,
+          "files": 1,
+          "total": 1,
+          "passed": 1,
+          "failed": 0,
+          "pending": 0,
+          "identities": [
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/pal-english-counter-FQzNXM/packages/pal-extract/src/localization/build-language-pack.test.ts",
+              "fullName": "a unused alias fails without mutating source text, scripts or revision rules",
+              "status": "passed"
+            }
+          ]
+        },
+        "assertion": "one AssertionError; exact native message retained in JSON/stderr",
+        "repositoryAndTemporaryRestoration": "counters.json"
+      }
+    ],
+    "narrowing": "Temporary copies retain original test.each callback and select one original table row via TS statement boundaries. Test.fullName is preserved; no -t, skipped, pending or todo. Repository product bytes never edited.",
+    "calibrationFailures": [
+      "directed-calibration: initial test.each incorrectly expected a test context fourth argument; TypeError and TS errors fixed with public onTestFinished import, no business-red credit.",
+      "counters-calibration.json and counters-calibration2.json: pnpm could not find root Vitest in non-workspace temp tree, exit254; no counter credit. Actual counters use Node+absolute installed Vitest and both pass after source restoration."
+    ]
+  },
+  "coverage": {
+    "observedBefore": {
+      "branches": {
+        "covered": 624,
+        "total": 758
+      },
+      "statements": {
+        "covered": 1281,
+        "total": 1741
+      },
+      "lines": {
+        "covered": 1124,
+        "total": 1540
+      }
+    },
+    "observedAfter": {
+      "branches": {
+        "covered": 643,
+        "total": 758
+      },
+      "statements": {
+        "covered": 1361,
+        "total": 1741
+      },
+      "lines": {
+        "covered": 1199,
+        "total": 1540
+      }
+    },
+    "afterSummary": "coverage/coverage-summary.json",
+    "native": "coverage-pre-title-native.json",
+    "command": "coverage-pre-title-command.json",
+    "fastPackageOnly": {
+      "files": 69,
+      "tests": 361,
+      "passed": 361,
+      "pending": 0
+    },
+    "selection": "Same coveragePackages pal-extract config/testSelection(fast), unchanged exclusions/include/provider/env; output isolated from root coverage/fast.",
+    "sourceModules": {
+      "io/slf.ts": "73/73 branches,79/79 statements,63/63 lines",
+      "localization/build-language-pack.ts": "45/45 branches,66/66 statements,59/59 lines"
+    },
+    "titleDrift": "Package native predates sole help test title narrowing from raw-independence wording. Code body/source modules unchanged; final candidate directed30/30 reran with final identity. Official parent coverage still pending.",
+    "limitation": "Real help returns at cli.ts175. V8/LCOV marks unreachable main lines (e.g.200,234,246,270) and branches as hit after async main execution; cli.ts tool branches5/98→15/98 are not proof of preflight execution. Only9 parser/builder missing branches have directly attributed business evidence. Child CLI guards independently pass, never treated as parent-V8 coverage. No coverage configuration or thresholds changed."
+  },
+  "independentRead": {
+    "agent": "boundary_test_read",
+    "scope": "Read three current test diffs and production callers; no execution.",
+    "result": "SLF,alias,sentinel accept; help no-raw claim counter fixed by title/credit narrowing."
+  },
+  "priorUiSourceReport": {
+    "commit": "21908c2922534977d3a1adf4b5421f3764201e9f",
+    "path": "docs/ops/evidence/GAME-ENGLISH-1/equip-width-source-review.json",
+    "status": "Completed read-only report; parent says product fix49b188439 independently accepted. No UI implementation included here."
+  },
+  "reproduction": {
+    "quick": "Inspect git show fb0dcea5b and native directed/counter JSON plus SHA index.",
+    "directedCommand": [
+      "pnpm",
+      "--filter",
+      "@type-pal/pal-extract",
+      "exec",
+      "vitest",
+      "run",
+      "src/io/slf.test.ts",
+      "src/localization/build-language-pack.test.ts",
+      "src/cli-localization.test.ts",
+      "--reporter=default"
+    ],
+    "counterCommand": ["node", "build/english-test-boundaries/run-counters.mjs"],
+    "expected": "Directed30/30; each narrowed counter one AssertionError then1/1 restored, no pending; typecheck/Biome/diff check0diagnostics.",
+    "dependencies": "Temporary worktree node_modules symlinks removed after handoff; recreate links or use root installed workspace dependencies before rerun."
+  },
+  "invalidation": "Changes to parser grammar, normalized common message ranges, alias semantics, CLI preflight ordering/flags, host ownership, faithful fixture archives, shared Command/pack schema or Vitest/V8 behavior invalidate affected contracts. Full integration/visual/save/language translation claims are outside this test batch.",
+  "artifactIndex": {
+    "typecheck-final-stdout.txt": {
+      "sha256": "e5c0dfb46286869c4173c8eb9e1a094eff7637190c7b80ca931078d94adac292",
+      "bytes": 132
+    },
+    "unused-alias-mutant-stdout.txt": {
+      "sha256": "95bd2bb5e04f7403e57104acdcb4d2e6210b35c2a5e5eb7036080546b2834349",
+      "bytes": 583
+    },
+    "premature-cleanup-calibration-restored-command.json": {
+      "sha256": "88564f842581be5f323e786c4e6ab9db5cf74fd16bba8b1e0f55d17d2e397bbe",
+      "bytes": 553
+    },
+    "unused-alias-restored-native.json": {
+      "sha256": "813841c975261d0dfe8a1e0e39d5b0f7f61b82b99d0bf8bf71e58edbe2302f74",
+      "bytes": 1036
+    },
+    "directed-pre-title-native.json": {
+      "sha256": "8e3885f7b3569bf9646a47f4af94e2648c155470128356958fdc973f4bcae083",
+      "bytes": 9762
+    },
+    "unused-alias-calibration2-restored-stdout.txt": {
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "bytes": 78
+    },
+    "coverage-pre-title-stdout.txt": {
+      "sha256": "7b56b8fb88afcf88429c112cfc5b77f1df0aaa26bc28a1a590cd7955e0cb13e0",
+      "bytes": 9206
+    },
+    "run-counters.mjs": {
+      "sha256": "fbaa86dbc81e1c5ea8fafcd52e71da917872d871a953b58ff3cc485cc4250f7c",
+      "bytes": 5615
+    },
+    "unused-alias-calibration2-mutant-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "biome-final-default-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "counters-calibration2.json": {
+      "sha256": "85909bc3420b85812623e1c6f817452f5f6a7f9c446a6254fda2f02c313873cb",
+      "bytes": 4523
+    },
+    "biome-stdout.txt": {
+      "sha256": "0851a2a98271a2254c9c17019c3709f7fa7db270cda9e5625fff0d53517a3ea1",
+      "bytes": 230
+    },
+    "unused-alias-calibration-restored-stdout.txt": {
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "bytes": 78
+    },
+    "directed-calibration-native.json": {
+      "sha256": "c073ced3d1e0fcb4620049f8227a26c18976320a86f3f1aa642f58a1fe3447e4",
+      "bytes": 13776
+    },
+    "premature-cleanup-restored-stdout.txt": {
+      "sha256": "03e07bcf71183737dd49f1501345d315b9e59b03e59bd29ba77fd24c311ddf2f",
+      "bytes": 560
+    },
+    "directed-calibration-stdout.txt": {
+      "sha256": "03d05e35098b9b25b22046cc1af5dd60a8b8776b0cab5b2b31848f69b000dc25",
+      "bytes": 1462
+    },
+    "premature-cleanup-calibration2-restored-command.json": {
+      "sha256": "962dad98122cd3fc349ce3a1fe2daeec9af9e80ca98a858676a348e4247eb7c8",
+      "bytes": 553
+    },
+    "directed-native.json": {
+      "sha256": "15f1a8627621e3a7ae7b298374320854be6677416219df68dcac5eaf46a46b7d",
+      "bytes": 9762
+    },
+    "premature-cleanup-calibration-restored-stdout.txt": {
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "bytes": 78
+    },
+    "typecheck-calibration-command.json": {
+      "sha256": "ab2a3f9f3c5b4ca003839520a9b165c50e4959458579271b67f3d7daf392c912",
+      "bytes": 326
+    },
+    "unused-alias-calibration-restored-command.json": {
+      "sha256": "5208c96f2b10d6c092bb15c122c22210a2b74bd2b92bc7408f06b3f21892ca54",
+      "bytes": 564
+    },
+    "biome-final-stderr.txt": {
+      "sha256": "12185f7730fa380f95bd4166d23005af3e8d28da402cd07d459a581a0425e7e8",
+      "bytes": 103
+    },
+    "directed-pre-title-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "biome-final-default-command.json": {
+      "sha256": "d4e73a0155e44586bec85d08de6e3875f2c11239dcbaf664243328e0ca05f7b5",
+      "bytes": 468
+    },
+    "coverage-pre-title-command.json": {
+      "sha256": "6410722722131ee86e902c13bd90a723606012abcac11352a634770cdcfc6e32",
+      "bytes": 2263
+    },
+    "premature-cleanup-calibration-mutant-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "unused-alias-restored-command.json": {
+      "sha256": "b77faf31d816f3cf95a1e2733f613ebcaf691eed3b99e721475ad5741fb945d5",
+      "bytes": 675
+    },
+    "coverage-pre-title-native.json": {
+      "sha256": "9128fd0a1139598654cc5e9e429dc6a87d366a3d6f072a1df1ac304e8804d61b",
+      "bytes": 464790
+    },
+    "directed-command.json": {
+      "sha256": "ae3f29ef2c088e08252376c518a82b8287902324d5566bccc550679b1ffdafa2",
+      "bytes": 599
+    },
+    "typecheck-command.json": {
+      "sha256": "10e94b62f53f00461de5313d57a0acc1a0939ead5af750c55e28b9773df89452",
+      "bytes": 326
+    },
+    "typecheck-final-command.json": {
+      "sha256": "8af3fd0b1dbbf9aba35bc1924fd2398f59056b757e2c9e98d64d4646a099de26",
+      "bytes": 326
+    },
+    "unused-alias-calibration2-restored-command.json": {
+      "sha256": "b781db70f959d9b1fa743a6e4a92e914369dea385341734a96c6d51b168897fa",
+      "bytes": 564
+    },
+    "typecheck-calibration-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "unused-alias-restored-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "directed-stdout.txt": {
+      "sha256": "eea05d35a20449693239d993196e858a2781a6d3712a988c1d08909543732608",
+      "bytes": 1334
+    },
+    "unused-alias-mutant-command.json": {
+      "sha256": "ec7636f7ac56eb681df739e7d216b4d02269083dc690ca1de7eb104dcf82dda8",
+      "bytes": 673
+    },
+    "typecheck-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "premature-cleanup-calibration2-restored-stdout.txt": {
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "bytes": 78
+    },
+    "unused-alias-calibration-mutant-stdout.txt": {
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "bytes": 78
+    },
+    "premature-cleanup-calibration2-mutant-stdout.txt": {
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "bytes": 78
+    },
+    "premature-cleanup-mutant-stdout.txt": {
+      "sha256": "00ef49b66fe74533f0d484c35182ddb4d49753328123fb837909ba9e56796601",
+      "bytes": 567
+    },
+    "unused-alias-calibration-mutant-command.json": {
+      "sha256": "b97c2dfe8e5ade8aa9b11870c7b11d387ebb96afd3eb323527d3be79b86cb6f7",
+      "bytes": 562
+    },
+    "unused-alias-calibration2-mutant-stdout.txt": {
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "bytes": 78
+    },
+    "unused-alias-calibration2-restored-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "coverage-pre-title-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "typecheck-final-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "unused-alias-mutant-stderr.txt": {
+      "sha256": "51658a7b3c413e9694469ddb029ec4c74a7100e98610f0cb1b49c344b06d7612",
+      "bytes": 764
+    },
+    "premature-cleanup-mutant-command.json": {
+      "sha256": "81add5fe45c462617ca9aa1768646d035e4bf3ad5d9f33bc81641e18329dc5e0",
+      "bytes": 662
+    },
+    "premature-cleanup-restored-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "directed-calibration-stderr.txt": {
+      "sha256": "00859d7594e50076bbe72a9bedf329771431aa2a3ef7a58a33c4b368c56da868",
+      "bytes": 837
+    },
+    "biome-final-default-stdout.txt": {
+      "sha256": "4f9cf04b1c13950f172a5f395b09b3c65907cbfb2a2987e5e89671f6fc41eed9",
+      "bytes": 43
+    },
+    "unused-alias-calibration2-mutant-command.json": {
+      "sha256": "4f399df09567b0bca41df88ac720758e2cd534ffac9747d4357d6a2c01b2c1bd",
+      "bytes": 562
+    },
+    "biome-final-command.json": {
+      "sha256": "77e47384aa7db43f1ee54078ac631a4616f1e968e8a2004be008814e24225413",
+      "bytes": 491
+    },
+    "biome-stderr.txt": {
+      "sha256": "12185f7730fa380f95bd4166d23005af3e8d28da402cd07d459a581a0425e7e8",
+      "bytes": 103
+    },
+    "unused-alias-calibration-restored-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "premature-cleanup-mutant-native.json": {
+      "sha256": "56620e01b9084990f03ddb263b8ad5d5635d76bba78e18b22298b1c1e770db40",
+      "bytes": 1420
+    },
+    "counters.json": {
+      "sha256": "8f1c2678f135aac970ff99d2faaea7b4e706d1d0ca8762f8483127eb572a892f",
+      "bytes": 4951
+    },
+    "premature-cleanup-restored-command.json": {
+      "sha256": "796e73036eabdbf032293f6534254044b26bfe64290a9b60abc46d7d457d9720",
+      "bytes": 664
+    },
+    "premature-cleanup-calibration-mutant-stdout.txt": {
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "bytes": 78
+    },
+    "typecheck-calibration-stdout.txt": {
+      "sha256": "e2f9d194991a2164f3f8378ae181fa264fb9cf40e39b0c1e369c7c07ea17a22f",
+      "bytes": 1164
+    },
+    "counters-calibration.json": {
+      "sha256": "6fe692b15efe98761747fb4ca87bf2f0ad9387ac49b980c7adb60796971ad634",
+      "bytes": 4523
+    },
+    "directed-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "unused-alias-restored-stdout.txt": {
+      "sha256": "9b25f692c72894a4d5e1253e26768fd271f00ce18814975e7cfe6114e5123f0d",
+      "bytes": 487
+    },
+    "premature-cleanup-calibration-restored-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "premature-cleanup-restored-native.json": {
+      "sha256": "8828caeb4d3553289c7e239b388fcf91fa364000a402f1e1d3671a585015cb99",
+      "bytes": 995
+    },
+    "premature-cleanup-calibration2-mutant-command.json": {
+      "sha256": "9b415b3ca9c8aa22a9b9137376a80cc1fea69429d11b5dd4dc1f486546f068de",
+      "bytes": 551
+    },
+    "directed-pre-title-stdout.txt": {
+      "sha256": "c6b11286e5a3ac4ae6223814f5be4c74eac4db734cb1515432e183563cd64f62",
+      "bytes": 1342
+    },
+    "biome-final-stdout.txt": {
+      "sha256": "6f98cbde7e64045e08c9371324684201a357edd775801d741a3eadea2a69431c",
+      "bytes": 230
+    },
+    "premature-cleanup-calibration2-restored-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "biome-command.json": {
+      "sha256": "ac9144e7bce4fa21446953190981c6b4d63b959bd8f0a3251277aecbd267ae4d",
+      "bytes": 491
+    },
+    "premature-cleanup-calibration-mutant-command.json": {
+      "sha256": "521e6a8ea77643af1847e60db41da93737492dfe3cc5aee7906f3bddae825e92",
+      "bytes": 551
+    },
+    "unused-alias-calibration-mutant-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "premature-cleanup-mutant-stderr.txt": {
+      "sha256": "0ecaa8cebea17a4239468c26c8c5477e83fad91f86fdf6a0ce233b26dccb32f0",
+      "bytes": 695
+    },
+    "premature-cleanup-calibration2-mutant-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "directed-pre-title-command.json": {
+      "sha256": "b71e4afd849569f7387c9cf81022ba5c81ea48ed4487040823486011cc2c4bd0",
+      "bytes": 599
+    },
+    "typecheck-stdout.txt": {
+      "sha256": "e5c0dfb46286869c4173c8eb9e1a094eff7637190c7b80ca931078d94adac292",
+      "bytes": 132
+    },
+    "unused-alias-mutant-native.json": {
+      "sha256": "cd491240651f5b304afe4ad531f4d1eaa8cf9c29032b6b5784f1fa3d6e6b1dd9",
+      "bytes": 2484
+    },
+    "directed-calibration-command.json": {
+      "sha256": "0e169434b6f2eaa787ab4de30ef2dac16b85aa108276a566cdf2f869f78246c0",
+      "bytes": 599
+    },
+    "coverage/coverage-summary.json": {
+      "sha256": "7b213e5647f2792d7f9fdf76d64efd22d0605a6fc7a71959cc3d0530f97c21af",
+      "bytes": 16275
+    },
+    "coverage/lcov.info": {
+      "sha256": "e6b2a717fc43653e0c62a92b1cdbbd14aed6ff9f5fefea5228dcfb1b3672dfa8",
+      "bytes": 35976
+    },
+    "coverage/lcov-report/index.html": {
+      "sha256": "c5a1dfbc561576f9d211837de26f1b819f4d208b1ec05b497983fe448081dda5",
+      "bytes": 9897
+    },
+    "coverage/lcov-report/block-navigation.js": {
+      "sha256": "cd8db34b1fbeb973354a93f8b4133c7c7eab34cdda9429a0434be91384783b7e",
+      "bytes": 2655
+    },
+    "coverage/lcov-report/prettify.js": {
+      "sha256": "fa1b1e1b906ddcfa08b46f161c0f924f506e1a31b4f3e09b8caaa2463ef52c18",
+      "bytes": 17590
+    },
+    "coverage/lcov-report/favicon.png": {
+      "sha256": "5b0cfd52dc0bfbe544f4e1a9c77aa46b8629b0e0aad6c54f95eef457b86c2a89",
+      "bytes": 445
+    },
+    "coverage/lcov-report/prettify.css": {
+      "sha256": "ea3fe433f9450698ca8a230271688e7aeec12f99c8a7ef6c94379abb38f27823",
+      "bytes": 676
+    },
+    "coverage/lcov-report/sorter.js": {
+      "sha256": "f8cc5d157379d844fd695ad567b6c29b3c1f0812964ddf6f95c26327e434bab5",
+      "bytes": 6731
+    },
+    "coverage/lcov-report/base.css": {
+      "sha256": "3f876e51f0a46864ffa7665b4b7a1f5fb5f6f37fb6a28f014e2b12d82962c852",
+      "bytes": 5394
+    },
+    "coverage/lcov-report/sort-arrow-sprite.png": {
+      "sha256": "42c895355f9838ede83fdfdca90127d8471aefed5ecf5342374f65ec7c3f10ab",
+      "bytes": 138
+    },
+    "coverage/lcov-report/scripts/index.html": {
+      "sha256": "5bd2eb589eab2e21856d5e6167f84ec7639797ef37609849ff18d703433bd463",
+      "bytes": 4392
+    },
+    "coverage/lcov-report/scripts/extract-videos.ts.html": {
+      "sha256": "0e567f76ecbc8e0615ab7f3c0431ca6d44453fe05fde761e12ae42f6e5e7ad3e",
+      "bytes": 22614
+    },
+    "coverage/lcov-report/src/index.html": {
+      "sha256": "5b7988c01bf3774b565cc63d4b22e5eea456e55cd842525186620fc7ef627211",
+      "bytes": 5108
+    },
+    "coverage/lcov-report/src/output-boundary.ts.html": {
+      "sha256": "b73fe99a6aec7b36c0f6528341b8e12f30e8303e70c6b475e8132077ed2bcea2",
+      "bytes": 6242
+    },
+    "coverage/lcov-report/src/cli.ts.html": {
+      "sha256": "68eb9b61b3a796e9801bbb3e9b86dd6a60f07654fbed2d9f58a87d964d6a5650",
+      "bytes": 149373
+    },
+    "coverage/lcov-report/src/resources/asset-manifest.ts.html": {
+      "sha256": "9046fccd75c98336508074cacb6236c83b3d39928b55eed44b906185257bb654",
+      "bytes": 10737
+    },
+    "coverage/lcov-report/src/resources/index.html": {
+      "sha256": "efd03f7ad1f5c117c26575ece04161f38b7c4a0635488b4d0090fb4d97445dfc",
+      "bytes": 9835
+    },
+    "coverage/lcov-report/src/resources/scene.ts.html": {
+      "sha256": "551a56c19c46be19477721379cff5f9345c2208b2e6ee83787872838fade412d",
+      "bytes": 15284
+    },
+    "coverage/lcov-report/src/resources/sprite.ts.html": {
+      "sha256": "934e0cffebb8443d94403a737ea70b2b0dd200edf027156f35fcd067ce35f9f7",
+      "bytes": 15045
+    },
+    "coverage/lcov-report/src/resources/palette.ts.html": {
+      "sha256": "d2d4bb40547be1becdc2da0137057ee89ab9cd39293abb9dd2c1ed75eeea574b",
+      "bytes": 8164
+    },
+    "coverage/lcov-report/src/resources/battle-sprite.ts.html": {
+      "sha256": "770a86180c1b30fda58b02c55089d3478e5ec1dfbcdaa6550686aa9107ead50e",
+      "bytes": 9665
+    },
+    "coverage/lcov-report/src/resources/tables.ts.html": {
+      "sha256": "1682039b3e9c34f32f57dd6e86cd88df4883886db6b84873458b366921afd190",
+      "bytes": 8782
+    },
+    "coverage/lcov-report/src/resources/music.ts.html": {
+      "sha256": "9b36953ddc56f800a471603a0242263a96912fedbf23f179cd9da6b399031d3f",
+      "bytes": 9781
+    },
+    "coverage/lcov-report/src/resources/enemy-pos.ts.html": {
+      "sha256": "cf2026cfb09c3db1cbfaf766e5a424ce2dc46c4a65b5efb58069831d3465e357",
+      "bytes": 9840
+    },
+    "coverage/lcov-report/src/resources/map.ts.html": {
+      "sha256": "917f106f93b62253ada588e0b0678abab5a14ffd84d1b124f4f7574486e94cd7",
+      "bytes": 11920
+    },
+    "coverage/lcov-report/src/resources/parsers/rng-frames.ts.html": {
+      "sha256": "d6f8bc9020701d5de390bdf3bccc4032a3d3d55627268fc57e499f407a5667ed",
+      "bytes": 8124
+    },
+    "coverage/lcov-report/src/resources/parsers/fire.ts.html": {
+      "sha256": "32b2f3361a2d5a854072dc934022aa2ebeffa80bee1a5c3f7ffafbd761b9661a",
+      "bytes": 10806
+    },
+    "coverage/lcov-report/src/resources/parsers/rix.ts.html": {
+      "sha256": "4e7bceb3e6cf448b7abaf4d3ea60c59f33e7b59286274a1090e3118e9fad1b2e",
+      "bytes": 5185
+    },
+    "coverage/lcov-report/src/resources/parsers/index.html": {
+      "sha256": "b081b3166d31b87f35ad480059b772f6e62ba2900b93db43c4ac8cc301997c47",
+      "bytes": 13942
+    },
+    "coverage/lcov-report/src/resources/parsers/_utils.ts.html": {
+      "sha256": "94b3ad2523c01f1bbae161050d47fd472a59415a702ac817f94fe8105c71d89f",
+      "bytes": 11888
+    },
+    "coverage/lcov-report/src/resources/parsers/stores.ts.html": {
+      "sha256": "1a511b457a4d1d0032e4c403e142693b50d9cec8c6a315d4b88a1114b29e88d7",
+      "bytes": 9394
+    },
+    "coverage/lcov-report/src/resources/parsers/spells.ts.html": {
+      "sha256": "3de220009d8d09b3821481b6fcdc7fe73badec333d4ba81497a2a2fba9a6ab3c",
+      "bytes": 43866
+    },
+    "coverage/lcov-report/src/resources/parsers/player-roles.ts.html": {
+      "sha256": "39a4138d9d18a9dc214c00804eae12699daaa930819f6e89a8d65a8b982e4ee8",
+      "bytes": 40632
+    },
+    "coverage/lcov-report/src/resources/parsers/ball.ts.html": {
+      "sha256": "42be8e1a776ec6f0f9133fe3ce86230a82e8da70cb4b66dd2200f37037c54c4b",
+      "bytes": 9931
+    },
+    "coverage/lcov-report/src/resources/parsers/items.ts.html": {
+      "sha256": "f677585e65ffc41cf01a3c2ae658401a3d76f17d190c2ce8f0f76ea7cd31e134",
+      "bytes": 17111
+    },
+    "coverage/lcov-report/src/resources/parsers/battle-fields.ts.html": {
+      "sha256": "da0b99ad80d88aebcd6b112a6cbcc3c43841b4e1077da450f1b1fc92c6388527",
+      "bytes": 11780
+    },
+    "coverage/lcov-report/src/resources/parsers/sounds.ts.html": {
+      "sha256": "576d68f624a8fc443de3492ba58545432d9827e5b75d2c5ae9407d71aaf2e59f",
+      "bytes": 6833
+    },
+    "coverage/lcov-report/src/resources/parsers/enemies.ts.html": {
+      "sha256": "1f641fab8b834ee2ceea372daa6ba3f9f82d0634c9c71ea4373e8180f6b2f591",
+      "bytes": 37136
+    },
+    "coverage/lcov-report/src/resources/parsers/enemy-teams.ts.html": {
+      "sha256": "9efb4986cf81636e891c28b80e565425386f07696c600b93e3f1481ce7024e4d",
+      "bytes": 18356
+    },
+    "coverage/lcov-report/src/resources/parsers/rgm.ts.html": {
+      "sha256": "feefb8a56f33d819d65f84cf56aff15e506cb6bb2a4db138b1621d6e2e9ceec8",
+      "bytes": 10377
+    },
+    "coverage/lcov-report/src/resources/parsers/data-misc.ts.html": {
+      "sha256": "19759bb67e52e567377764e639df6949e58ec81f3871e3fcbdd1418874dacb16",
+      "bytes": 16562
+    },
+    "coverage/lcov-report/src/io/index.html": {
+      "sha256": "ddb4206dc0922e5745dbf9437770c1df103bc3cd89ce5ce7cc4f6634670655c6",
+      "bytes": 8993
+    },
+    "coverage/lcov-report/src/io/yj2.ts.html": {
+      "sha256": "e9fe6da32a5b546e2abaa2c8ff4420131eb2f4f42ec8326d30f1e13ea79a83bd",
+      "bytes": 3952
+    },
+    "coverage/lcov-report/src/io/write.ts.html": {
+      "sha256": "1060cc0cca5c0ca918788345dc083bab366dc862a3b40ee150b830a770a1316d",
+      "bytes": 5138
+    },
+    "coverage/lcov-report/src/io/word.ts.html": {
+      "sha256": "6ecbe071c752d1ed55ae9994056361ab66781aef6dbb0a9f7b58d868e5187fa6",
+      "bytes": 17581
+    },
+    "coverage/lcov-report/src/io/mkf.ts.html": {
+      "sha256": "3bc2afec332787dc6cb1ce7404544688ed9a8d96448e08fc7492735b3e3830fa",
+      "bytes": 4001
+    },
+    "coverage/lcov-report/src/io/sss.ts.html": {
+      "sha256": "e6ad9f1dde907d74c3c0937e83d8a6482521dc3b37bb4beb6d21fc2655e97529",
+      "bytes": 29658
+    },
+    "coverage/lcov-report/src/io/msg.ts.html": {
+      "sha256": "78fe006c8a4db98738e120c42d64e1ea05867edd1df42d7629719379c60a0693",
+      "bytes": 7088
+    },
+    "coverage/lcov-report/src/io/rle.ts.html": {
+      "sha256": "7c50840310e6de8a23264dc55fbe6be2310700717f1df2db8565585c38a16dde",
+      "bytes": 3966
+    },
+    "coverage/lcov-report/src/io/slf.ts.html": {
+      "sha256": "1f76c4d221e7ecb96919fb11c2d923aff4576a616df67f5a13a0306a52e7ddd7",
+      "bytes": 14734
+    },
+    "coverage/lcov-report/src/utils/index.html": {
+      "sha256": "d3edc49a010afac0510c768bd9bf369b7fbe5b57495da60d11d82b23f6677731",
+      "bytes": 4441
+    },
+    "coverage/lcov-report/src/utils/gbk.ts.html": {
+      "sha256": "3e1927b0c3cc352399fb0a5324be805c28d9b06c5fdcc70aa26e762c92ea2e6d",
+      "bytes": 16801
+    },
+    "coverage/lcov-report/src/font/index.html": {
+      "sha256": "092abf151d72be0e1954375b5bc527a7a54fcccc40867ab239b8df02414894f9",
+      "bytes": 4459
+    },
+    "coverage/lcov-report/src/font/bdf-to-json.ts.html": {
+      "sha256": "2b780946fd9f39c856f4e90b84a5ae7b24324e156717beced718bc99c931a1c0",
+      "bytes": 12983
+    },
+    "coverage/lcov-report/src/events/roundtrip.ts.html": {
+      "sha256": "7930192686edc9e57996dce37e1a7da38d159d473e82f95562b48adcfb717a72",
+      "bytes": 10456
+    },
+    "coverage/lcov-report/src/events/index.html": {
+      "sha256": "193cf6ce57b02e853fac836ceb02d0faf2e5fed9dfb53a39b4dcdc398ce229fe",
+      "bytes": 9291
+    },
+    "coverage/lcov-report/src/events/script-corrections.ts.html": {
+      "sha256": "c469804db51f550d1e93519a0d9146f16e2b3832f8ee72537b1dd224f64be8a3",
+      "bytes": 22646
+    },
+    "coverage/lcov-report/src/events/slice.ts.html": {
+      "sha256": "db23802903912cf28a28ed5a7b025d3488e87e68bb0e9416658981f1ccb45bb7",
+      "bytes": 27724
+    },
+    "coverage/lcov-report/src/events/annotate.ts.html": {
+      "sha256": "57b9a8fbdad801a02d6e15b7512681e641d2eee665bd6446942ea96ea2fed5a7",
+      "bytes": 17718
+    },
+    "coverage/lcov-report/src/events/opcodes.ts.html": {
+      "sha256": "ed01c1dec82af55429a1af5d827b50f4569fafaf3c758c78ef8a8498b96fa84f",
+      "bytes": 44297
+    },
+    "coverage/lcov-report/src/events/script-entries.ts.html": {
+      "sha256": "b51a74dd8be90eda57451f4e03e246925d40d9108fb41e26224fcecd0e7e03be",
+      "bytes": 11833
+    },
+    "coverage/lcov-report/src/events/disasm.ts.html": {
+      "sha256": "85369257e637679341b2871ea4332aec92840d79a66c9545602a70782f1c57fd",
+      "bytes": 31577
+    },
+    "coverage/lcov-report/src/events/recompile.ts.html": {
+      "sha256": "f3a3bd97f1e2ea4e87202cef567313c43b509a479db29d26b7832b7a65a7567e",
+      "bytes": 15065
+    },
+    "coverage/lcov-report/src/localization/index.html": {
+      "sha256": "2dbad03cf76af787bd0772d7541e688a82dc3d893df98b2a6cb7250fb7f1b9c9",
+      "bytes": 5203
+    },
+    "coverage/lcov-report/src/localization/english-revisions.ts.html": {
+      "sha256": "1236bee124c8a2005b49d0fca8154e130c46fb359782b95eb7b0ec3f02876781",
+      "bytes": 4996
+    },
+    "coverage/lcov-report/src/localization/build-language-pack.ts.html": {
+      "sha256": "1af5ee477ecb9ff84cd7974158090495ec06442440d140fe4f4a4e71d6c5e5aa",
+      "bytes": 15335
+    }
+  },
+  "cleanup": {
+    "removedOwnedDependencyLinks": [
+      "node_modules",
+      "packages/pal-extract/node_modules",
+      "packages/shared/node_modules"
+    ],
+    "worktreeStatus": "",
+    "diffCheckExit": 0,
+    "diffCheckStdout": "",
+    "diffCheckStderr": ""
+  }
+}

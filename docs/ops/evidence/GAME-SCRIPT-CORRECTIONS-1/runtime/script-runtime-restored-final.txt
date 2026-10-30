@@ -1,0 +1,96 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game
+
+ ❯ src/core/object-script-progress.test.ts (5 tests | 4 failed) 11ms
+     ✓ casts the advanced success hook on the next heal while the use hook stays independent 2ms
+     × equipment hooks are object-owned across roles, preserving the other item hooks and flags 3ms
+     × item-use root survives a nested call and saved wait, then advances and resets on later use 4ms
+     × root checkpoint survives a child checkpoint and plain end, so the next use skips the completed prefix 1ms
+     × returning to title during a waiting item script discards its unfinished next entry 0ms
+ ❯ src/core/battle/__tests__/object-script-progress.test.ts (3 tests | 1 failed) 13ms
+     ✓ Wine God: eight successes, save/import/load, ninth removes the nonleader spell; Repeat cannot cast a tenth 9ms
+     ✓ failed Wine God resource check does not advance; a new game starts from the resource entry 1ms
+     × use and throw hooks advance independently without changing the item table 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/object-script-progress.test.ts > overworld object script ownership > equipment hooks are object-owned across roles, preserving the other item hooks and flags
+ReferenceError: state is not defined
+ ❯ getItemScriptEntry src/core/object-script-state.ts:41:26
+     39|
+     40| export function getItemScriptEntry(gs: GameState, item: Item, script: …
+     41|   gs.rgObject[item.id] = state
+       |                          ^
+     42|   return state?.rgwData[ITEM_SLOT[script]] ?? item[script]
+     43| }
+ ❯ updateAllEquipments src/core/equip-effect.ts:271:19
+ ❯ src/core/object-script-progress.test.ts:79:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/core/object-script-progress.test.ts > overworld object script ownership > item-use root survives a nested call and saved wait, then advances and resets on later use
+ReferenceError: state is not defined
+ ❯ getItemScriptEntry src/core/object-script-state.ts:41:26
+     39|
+     40| export function getItemScriptEntry(gs: GameState, item: Item, script: …
+     41|   gs.rgObject[item.id] = state
+       |                          ^
+     42|   return state?.rgwData[ITEM_SLOT[script]] ?? item[script]
+     43| }
+ ❯ startOverworldItemScript src/core/event-system.ts:3305:23
+ ❯ src/core/object-script-progress.test.ts:107:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  src/core/object-script-progress.test.ts > overworld object script ownership > root checkpoint survives a child checkpoint and plain end, so the next use skips the completed prefix
+ReferenceError: state is not defined
+ ❯ getItemScriptEntry src/core/object-script-state.ts:41:26
+     39|
+     40| export function getItemScriptEntry(gs: GameState, item: Item, script: …
+     41|   gs.rgObject[item.id] = state
+       |                          ^
+     42|   return state?.rgwData[ITEM_SLOT[script]] ?? item[script]
+     43| }
+ ❯ startOverworldItemScript src/core/event-system.ts:3305:23
+ ❯ src/core/object-script-progress.test.ts:141:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  src/core/object-script-progress.test.ts > overworld object script ownership > returning to title during a waiting item script discards its unfinished next entry
+ReferenceError: state is not defined
+ ❯ getItemScriptEntry src/core/object-script-state.ts:41:26
+     39|
+     40| export function getItemScriptEntry(gs: GameState, item: Item, script: …
+     41|   gs.rgObject[item.id] = state
+       |                          ^
+     42|   return state?.rgwData[ITEM_SLOT[script]] ?? item[script]
+     43| }
+ ❯ startOverworldItemScript src/core/event-system.ts:3305:23
+ ❯ src/core/object-script-progress.test.ts:158:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  src/core/battle/__tests__/object-script-progress.test.ts > object script progress belongs to the saved game > use and throw hooks advance independently without changing the item table
+ReferenceError: state is not defined
+ ❯ getItemScriptEntry src/core/object-script-state.ts:41:26
+     39|
+     40| export function getItemScriptEntry(gs: GameState, item: Item, script: …
+     41|   gs.rgObject[item.id] = state
+       |                          ^
+     42|   return state?.rgwData[ITEM_SLOT[script]] ?? item[script]
+     43| }
+ ❯ performItem src/core/battle/actions/item.ts:89:23
+ ❯ src/core/battle/__tests__/object-script-progress.test.ts:191:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  5 failed | 3 passed (8)
+   Start at  16:21:21
+   Duration  1.12s (transform 737ms, setup 64ms, import 859ms, tests 23ms, environment 895ms)
+
+JSON report written to /tmp/script-runtime-restored-final.json
+undefined
+/Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/object-script-progress.test.ts src/core/battle/__tests__/object-script-progress.test.ts --reporter=default --reporter=json --outputFile.json=/tmp/script-runtime-restored-final.json

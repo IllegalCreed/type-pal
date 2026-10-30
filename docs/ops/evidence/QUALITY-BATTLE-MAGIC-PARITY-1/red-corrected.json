@@ -1,0 +1,17 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "test",
+    "src/core/battle/__tests__/magic-parity.test.ts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "time": "2026-10-17T19:12:01.987393+00:00",
+  "exit": 1,
+  "raw": "red-corrected.raw.gz",
+  "rawBytes": 7587,
+  "rawSha256": "41209ae9e860ab44386af25e57dcbc72732fc1550991f66dff83e045c9ed13fa",
+  "testSha256": "6237dee0af998a978288c0ea1ba09027464f50b050a14f0db25de8d3a16dbb3e",
+  "correction": "Initial expected FIRE overlay count 2 corrected to 1 after reading builder l=(n-fireDelay)*effectTimes+n+shake with n=1. Original red preserved, no credit for incorrect frame-count oracle."
+}

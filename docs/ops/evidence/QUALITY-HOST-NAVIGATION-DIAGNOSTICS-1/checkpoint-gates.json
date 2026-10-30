@@ -1,0 +1,28 @@
+{
+  "rows": [
+    {
+      "command": ["pnpm", "check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "bytes": 11740,
+      "sha256": "81032c28a343caec1911faf984b58370278ce5d3cc64bd12f695404d89177359"
+    },
+    {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "bytes": 199,
+      "sha256": "9acb0c8eb996f992619f1ea4dd30fbddb11b94d5da9d18db23771e02117edae7"
+    },
+    {
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "bytes": 112,
+      "sha256": "ff0dbf30b480fdd51bbb6b72c6c7e06eb8aade2aae8fe45d0b66009a57ae64dc"
+    }
+  ],
+  "newFileClosures": 0,
+  "fullModuleWindowPending": true,
+  "otherRuntimeOutputStillPresent": true
+}

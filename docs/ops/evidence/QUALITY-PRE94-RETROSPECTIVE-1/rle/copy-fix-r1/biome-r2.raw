@@ -1,0 +1,7 @@
+# r2 scoped biome — 2026-10-18T10:40:11Z
+$ node_modules/.bin/biome check packages/shared/src/rle.ts <evidence dir>
+Checked 7 files in 25ms. No fixes applied.
+exit: 0
+# r2 scoped biome — second run (after gates-r2.json + README fix) — 2026-10-18T10:40:45Z
+Checked 8 files in 21ms. No fixes applied.
+exit: 0

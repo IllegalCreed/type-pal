@@ -1,0 +1,8 @@
+$ pnpm coverage:ratchet
+exit_code=0
+
+Final candidate run on 2026-10-13 (Asia/Tokyo), after replacing two existing DOM casts with typed querySelector calls.
+coverage-tools: 58 tests passed.
+Fast coverage passed for shared 16 files/131 tests, content 149/1498, pal-extract 59/272, migrate 80/671, reforge 359/8964, game 309/3522, editor 612/4789.
+Consolidated TOTAL: 731 files / 19847 tests; statements 89.93% (70837/78771), branches 83.65% (51539/61610), functions 89.50% (13415/14989), lines 91.81% (63295/68938).
+Ratchet result: coverage and scope unchanged; baseline.fast.json remains valid. No exclusions or threshold weakening.

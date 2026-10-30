@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-ENGLISH-1",
+  "kind": "repository-main-branch-protection",
+  "owner": "Codex",
+  "recordedAtUtc": "2026-10-22T15:06:35.493Z",
+  "localDate": "2026-10-23",
+  "repository": "IllegalCreed/type-pal",
+  "branch": "main",
+  "authorization": "User: 可以按照你的推荐设置。 Authorized PR-only main updates, documentation+fast-coverage checks, strict up-to-date, admin enforcement, no force/deletion, zero required reviewers and non-linear merge history.",
+  "before": {
+    "protected": false
+  },
+  "ruleId": "BPR_kwDOSlBEPM4FFCA8",
+  "appliedVia": "GitHub GraphQL createBranchProtectionRule; independent REST GET readback and authenticated browser branch list verified.",
+  "verified": {
+    "pullRequestRequired": true,
+    "requiredApprovingReviews": 0,
+    "requireLastPushApproval": false,
+    "requireCodeOwners": false,
+    "requiredChecks": [
+      {
+        "context": "documentation",
+        "app_id": 15368
+      },
+      {
+        "context": "fast-coverage",
+        "app_id": 15368
+      }
+    ],
+    "upToDateRequired": true,
+    "administratorsEnforced": true,
+    "forcePushAllowed": false,
+    "deletionAllowed": false,
+    "linearHistoryRequired": false,
+    "signaturesRequired": false,
+    "locked": false
+  },
+  "workflow": "All main changes, including release closeout documentation, must use a pull request after both owned checks pass; keep merge commits. No force-push or admin bypass used.",
+  "transportHistory": {
+    "restPutAttempts": 3,
+    "restPutOutcome": "Connection EOF; subsequent GET404 showed no rule.",
+    "browserFormOutcome": "Connection closed on submit; subsequent GET404 showed no rule.",
+    "graphql": "Mutation succeeded; independent REST readback and UI show rule. GitHub returned legacy App node ID deprecation with next_global_id A_kwHNJr_NPAg; retained original reply, required checks pin actual app15368."
+  },
+  "visual": {
+    "path": "branch-protection.png",
+    "sha256": "2410ab0826d73e450d498053251be7e0aa43c4ffcb0f4750f2b31d1e9ae10076",
+    "observation": "Authenticated settings page shows main rule currently applying to1branch."
+  },
+  "artifacts": [
+    {
+      "path": "protection-native/main-branch-before-protection.json.gz",
+      "source": "build/english-release/main-branch-before-protection.json",
+      "sha256": "eef57041efd8c97a1370b95521c08fa3df1c3c6061948e3bcab271f99a78221c",
+      "gzipSha256": "eb792be9e099036987d0f6f04573d56c2ddbeb9c6e7dc9ad9ef9c81c08221398",
+      "bytes": 3795
+    },
+    {
+      "path": "protection-native/ci-app-identities.json.gz",
+      "source": "build/english-release/ci-app-identities.json",
+      "sha256": "953d2ea7a61f9fabc9f782614f1f6824af84d01aec4af8682eda7850a8990c06",
+      "gzipSha256": "24d2eca3bedfc2a1e613e88976902484695c89ca34da8a8dac7eea7452573390",
+      "bytes": 284
+    },
+    {
+      "path": "protection-native/github-actions-app.json.gz",
+      "source": "build/english-release/github-actions-app.json",
+      "sha256": "d233c61dad4b3f5c70daad0dc9acf7ee6b268e2c0b43308af507e33cb8e97a18",
+      "gzipSha256": "441800cefdeed5f4e5a70f92a82b6bd02e087e4a4a3c96cc93e399a3294d36c6",
+      "bytes": 66
+    },
+    {
+      "path": "protection-native/branch-protection-request.json.gz",
+      "source": "build/english-release/branch-protection-request.json",
+      "sha256": "adf77fc00f754b0f805cebed2a30e7bd56c5d618353fe67f16bafb6f6cbdadd1",
+      "gzipSha256": "84cf67a752006938583de8ac3edc624d35a35b1e9fecb646338cf34954027f97",
+      "bytes": 668
+    },
+    {
+      "path": "protection-native/branch-protection-graphql-preflight.json.gz",
+      "source": "build/english-release/branch-protection-graphql-preflight.json",
+      "sha256": "1e7819a74e82ab59362838fab43586ed6b7e1c5ec12f5154bb32f79b4eafab7e",
+      "gzipSha256": "778f0a89c6877d5f3184cd64fec093c0895ad1689650e687a56d5ede51bd00c0",
+      "bytes": 278
+    },
+    {
+      "path": "protection-native/branch-protection-graphql-request.json.gz",
+      "source": "build/english-release/branch-protection-graphql-request.json",
+      "sha256": "87557fc09b4fe1acf5b83fa8ca1ed2343629d4e9bfcf44c715bea7794d388d3b",
+      "gzipSha256": "55a200b9a369ade5ddefa40d6183a927021bc6316b29e3787893b64b4683d649",
+      "bytes": 1353
+    },
+    {
+      "path": "protection-native/branch-protection-graphql-applied.json.gz",
+      "source": "build/english-release/branch-protection-graphql-applied.json",
+      "sha256": "8e3a9bebb01c61e226abed2fe470d83773cd14fae4c6a72c1c1488fa981a4e55",
+      "gzipSha256": "c98e748a9878c4b849de6c3dffb0e36123946ecd68ace554bb134658f8ba2640",
+      "bytes": 974
+    },
+    {
+      "path": "protection-native/branch-protection-final.json.gz",
+      "source": "build/english-release/branch-protection-final.json",
+      "sha256": "f2109f2701d38667a9f45c48d8b31100daafef614b37887f6862996dd241d91d",
+      "gzipSha256": "f06d1072440739a61b3016be954a17c5fea1d9872e093839e51a008539054cfa",
+      "bytes": 1340
+    }
+  ],
+  "limits": [
+    "No deliberate direct push, force push, or branch deletion against main used as a test.",
+    "This repository setting does not grant runtime, story E2E, coverage, CI or deployment completion credit."
+  ]
+}

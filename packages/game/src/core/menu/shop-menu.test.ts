@@ -4,14 +4,8 @@
  */
 import type { AbstractKey, Command, InputSnapshot, Item, ItemFlags } from '@type-pal/shared'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { createCommandBus } from '../command-bus.js'
-import {
-  addItemToInventory,
-  buildLabelMap,
-  OP_BUY_MENU,
-  setShopMenuHandler,
-  tickEventSystem,
-} from '../event-system.js'
+
+import { buildLabelMap, OP_BUY_MENU, setShopMenuHandler, tickEventSystem } from '../event-system.js'
 import { createInitialGameState, type GameState } from '../game-state.js'
 import { dispatchMenuInput, setMenuCatalogs } from './menu-driver.js'
 import { openMenu, tickMenu } from './menu-mode.js'
@@ -43,7 +37,7 @@ function flags(over: Partial<ItemFlags> = {}): ItemFlags {
     sellable: false,
     equipableBy: [false, false, false, false, false, false],
     ...over,
-  } as ItemFlags
+  }
 }
 
 function mkItem(id: number, price: number, over: Partial<Item> = {}): Item {
@@ -116,7 +110,7 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
   let gs: GameState
 
   beforeEach(() => {
-    setMenuCatalogs({ items: CATALOG, spells: [], magics: [], playerRoles: { roles: [] } as never })
+    setMenuCatalogs({ items: CATALOG, spells: [], magics: [], playerRoles: { roles: [] } })
     // 模拟 bootstrap 的 setShopMenuHandler:buy 开 shop-buy 菜单
     setShopMenuHandler(({ gs: g, mode }) => {
       if (mode === 'buy') openMenu(g, { kind: 'shop-buy', state: createBuyMenu(CATALOG) })
@@ -132,7 +126,7 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
       { op: 'raw', opcode: 0x100, operands: [0, 0, 0] }, // ip1(随便后续 op)
       { op: 'end' },
     ])
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.mode).toBe('menu')
     expect(gs.menuStack[0]?.kind).toBe('shop-buy')
     expect(gs.eventCursor?.waiting).toBe('shop')
@@ -141,14 +135,14 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
 
   it('买 1 个:Confirm 选 → Confirm 买 → cash 扣 + item 入包', () => {
     loadEvent(gs, [{ op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     // list:Confirm 选 item87(价 100)→ 进 confirm(默认 No)
-    dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())
+    dispatchMenuInput(gs, snap(['Confirm']))
     const st = gs.menuStack[0]!.state as { phase: string; confirmYes: boolean }
     expect(st.phase).toBe('confirm')
     // toggle 到 Yes 再 Confirm
-    dispatchMenuInput(gs, snap(['Down']), createCommandBus())
-    dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())
+    dispatchMenuInput(gs, snap(['Down']))
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.dwCash).toBe(900) // 1000 - 100
     expect(gs.inventory.find((e) => e.itemId === 87)?.count).toBe(1)
     expect(st.phase).toBe('list') // 留在菜单可继续买(sdlpal while loop)
@@ -156,19 +150,19 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
 
   it('关商店(list 阶段 Menu)→ menuStack 空 → resume mode=event 续跑脚本', () => {
     loadEvent(gs, [{ op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     // list 阶段 Menu → 关菜单;同一 tickMenu 的 post-dispatch 检栈空 → resume mode=event
-    tickMenu(gs, snap(['Menu']), createCommandBus())
+    tickMenu(gs, snap(['Menu']))
     expect(gs.menuStack.length).toBe(0)
     expect(gs.mode).toBe('event') // waiting='shop' → 续跑脚本(非 explore)
     expect(gs.eventCursor?.waiting).toBeUndefined()
   })
 
   it('买不起(cash<price)→ Confirm 无反应,留 list(sdlpal uigame.c:1683)', () => {
-    gs.dwCash = 50 // 全部商品都买不起(最低 100)
+    gs.dwCash = 50 // 当前首项item87价格100，不能确认；目录中其它商品不参与本次选中门
     loadEvent(gs, [{ op: 'raw', opcode: OP_BUY_MENU, operands: [1, 0, 0] }, { op: 'end' }])
-    tickEventSystem(gs, snap(), createCommandBus())
-    dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())
+    tickEventSystem(gs, snap())
+    dispatchMenuInput(gs, snap(['Confirm']))
     const st = gs.menuStack[0]!.state as { phase: string }
     expect(st.phase).toBe('list') // 没进 confirm
     expect(gs.dwCash).toBe(50) // 没扣钱
@@ -176,11 +170,10 @@ describe('shop opcode 0x0026 端到端(开菜单 → 买 → 关 → 续跑脚�
 
   it('卖 1 个:cash += price/2 + item 出包', () => {
     gs.inventory = [{ itemId: 105, count: 2 }] // 105 可卖,价 50 → 售 25
-    addItemToInventory // (touch import)
     openMenu(gs, { kind: 'shop-sell', state: createSellMenu(gs, CATALOG) })
-    dispatchMenuInput(gs, snap(['Confirm']), createCommandBus()) // 选 105
-    dispatchMenuInput(gs, snap(['Down']), createCommandBus()) // toggle Yes
-    dispatchMenuInput(gs, snap(['Confirm']), createCommandBus()) // 卖
+    dispatchMenuInput(gs, snap(['Confirm'])) // 选 105
+    dispatchMenuInput(gs, snap(['Down'])) // toggle Yes
+    dispatchMenuInput(gs, snap(['Confirm'])) // 卖
     expect(gs.dwCash).toBe(1025) // 1000 + 25
     expect(gs.inventory.find((e) => e.itemId === 105)?.count).toBe(1)
   })

@@ -1,10 +1,10 @@
 /**
- * @type-pal/content — 第二阶段内容数据（切片 1：鬼界民居 demo）
+ * @type-pal/content — 第二阶段内容合同与公共出口。
  *
- * 纯数据 + 类型。reforge 引擎**消费**这层；编辑器（将来）**生产**这层。
+ * 领域数据与类型由 Reforge 消费、编辑器维护;下方集中转发校验与资源等模块出口。
  * 地图、实体和脚本均以工程稳定 id 连接；旧资源编号只允许出现在迁移输入端。
  *
- * 见 docs/phase2/archive/slices/indoor/guijie-minju.md。稳定 id，不用下标。
+ * 阶段边界见 docs/phase2/READ-FIRST.md。引用使用稳定 id，不用数组下标。
  */
 
 import type { AssetId } from './asset.js'
@@ -76,7 +76,6 @@ export interface EntityBase {
   pos: GridPos
   /** 是否挡路（碰撞） */
   collide?: boolean
-  /** 交互触发的对话 id */
   /** 初始隐藏(原版 sState=0;脚本届时显形 = M3/B2 状态页)。隐藏 = 不渲染不碰撞。 */
   hidden?: boolean
   /** 画序偏置(原版 sLayer 人工覆盖;叠加进 Y-sort 基线,防遮挡漂移)。 */
@@ -137,7 +136,7 @@ export interface SceneDef {
   /** 额外命名落点；默认落点只存于 entry，脚本以稳定 record key 引用。 */
   entries?: Record<string, SceneEntryPoint>
   // 调色板字段已退役(W7a-3):清洁重写只留盘 0,无「调色板」概念(见 no-palette-concept 方针)。
-  /** 玩家（李逍遥）进场点 */
+  /** 玩家的默认进场点；其它命名落点由 entries 持有。 */
   entry: { pos: GridPos; facing: Facing }
   /** 场内可见实体与无外观触发区（不含玩家） */
   entities: EntityDef[]

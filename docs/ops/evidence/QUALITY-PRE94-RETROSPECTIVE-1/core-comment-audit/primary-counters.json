@@ -1,0 +1,152 @@
+{
+  "base": "78f8e3c79be8a89412e19986a1a1c54d645f2005",
+  "scope": "Native compiled exact C body fragments in minimal typed contexts vs actual TS public leaves. Not a native full SDLPal executable or browser/gameplay run. No product edits.",
+  "fragments": [
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sourceSha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "range": [1574, 1585],
+      "fragmentSha256": "e46ef57ca085a4519ac542e2ba384a0f642719267501c2d6475e1e477c932b14"
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sourceSha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "range": [1414, 1455],
+      "fragmentSha256": "82142dc665ed963c2f46a620558b9f51966a72c279fe3b3da2d3e0b84591a2c5"
+    }
+  ],
+  "queuePadding": "13 native slots (3+5*2); unfilled WORD0xffff fields sorted as SHORT -1, filtered only after native sort for display",
+  "legalDomain": "Positive ordinary dex30/100; one player/two nondual enemies. Poison typed catalog positive ids1/2, level99/1, compact two occupied slots for party[2]; no native asset identity or completed gameplay claim.",
+  "rows": [
+    {
+      "label": "queue-compile",
+      "command": [
+        "/usr/bin/clang",
+        "-std=c99",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-4ykihmka/queue.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-4ykihmka/queue-probe"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:56:48.774629+00:00",
+      "completedAt": "2026-10-17T19:56:48.918069+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "",
+      "stderr": "",
+      "raw": "queue-compile.raw.gz",
+      "rawSha256": "a9f982d8cb8dbc81e6965814c7d33f2249d63fbd3467f8331ddca475f7e4377e",
+      "rawBytes": 10,
+      "fullUncutStdoutAndStderr": true
+    },
+    {
+      "label": "queue-c",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-4ykihmka/queue-probe"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:56:48.918111+00:00",
+      "completedAt": "2026-10-17T19:56:49.801034+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "[[\"player\",0,100],[\"enemy\",1,30],[\"enemy\",0,30]]\n",
+      "stderr": "",
+      "raw": "queue-c.raw.gz",
+      "rawSha256": "2ad30f6fefcf84a4391f4bd74c3c1852d90efcdb1fb3e737c08b88bcbe0c52bb",
+      "rawBytes": 59,
+      "fullUncutStdoutAndStderr": true
+    },
+    {
+      "label": "queue-ts",
+      "command": [
+        "pnpm",
+        "exec",
+        "tsx",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-4ykihmka/queue.mts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:56:49.801091+00:00",
+      "completedAt": "2026-10-17T19:56:52.661376+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "[[\"player\",0,100],[\"enemy\",0,30],[\"enemy\",1,30]]\n",
+      "stderr": "",
+      "raw": "queue-ts.raw.gz",
+      "rawSha256": "eadb7a2593cd4ce27acf6641adcbf47507d1d1d7cc0193483bc03977087c192c",
+      "rawBytes": 59,
+      "fullUncutStdoutAndStderr": true
+    },
+    {
+      "label": "poison-compile",
+      "command": [
+        "/usr/bin/clang",
+        "-std=c99",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-4ykihmka/poison.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-4ykihmka/poison-probe"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:56:52.662057+00:00",
+      "completedAt": "2026-10-17T19:56:52.713808+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "",
+      "stderr": "",
+      "raw": "poison-compile.raw.gz",
+      "rawSha256": "a9f982d8cb8dbc81e6965814c7d33f2249d63fbd3467f8331ddca475f7e4377e",
+      "rawBytes": 10,
+      "fullUncutStdoutAndStderr": true
+    },
+    {
+      "label": "poison-c",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-4ykihmka/poison-probe"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:56:52.713844+00:00",
+      "completedAt": "2026-10-17T19:56:53.041124+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "[[0,2,9]]\n",
+      "stderr": "",
+      "raw": "poison-c.raw.gz",
+      "rawSha256": "2afc1987e6b7a0999f98c678dc45ffbf1c3e0c12b48cd76cc187e73db26dc51c",
+      "rawBytes": 20,
+      "fullUncutStdoutAndStderr": true
+    },
+    {
+      "label": "poison-ts",
+      "command": [
+        "pnpm",
+        "exec",
+        "tsx",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-4ykihmka/poison.mts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:56:53.041287+00:00",
+      "completedAt": "2026-10-17T19:56:54.311047+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "[[1,2,9]]\n",
+      "stderr": "",
+      "raw": "poison-ts.raw.gz",
+      "rawSha256": "48b420ba088c9972df78afd9bd98e308edcb214bb9f1b15be060860f5aefbe2a",
+      "rawBytes": 20,
+      "fullUncutStdoutAndStderr": true
+    }
+  ],
+  "ownedTemporaryRoot": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-4ykihmka",
+  "temporaryRootRemoved": true
+}

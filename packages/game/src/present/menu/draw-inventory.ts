@@ -1,6 +1,7 @@
+import { getWord } from '../../core/word-lookup.js'
+import { drawScriptDescription } from './draw-description.js'
 /**
- * M5.6 T10b:InventoryMenu fullscreen UI 渲染 — sdlpal `itemmenu.c:28-310`
- * PAL_ItemSelectMenuUpdate 真值 1:1 port。
+ * 物品列表与使用目标层；采用本项目中文 WIN95 菜单布局。
  *
  * sdlpal 真值布局(中文 dwWordLength=10 默认):
  *  - Box: PAL_CreateBoxWithShadow(PAL_XY(2, 0), 6, 17, style=1, FALSE, shadowOffset=0)
@@ -40,18 +41,18 @@ import {
   INV_ITEMS_PER_LINE,
   INV_LINES_PER_PAGE,
   MENUITEM_COLOR,
-  MENUITEM_COLOR_SELECTED_FIRST,
-  MENUITEM_COLOR_SELECTED_TOTAL,
   pickItemRowColor,
 } from '../../core/menu/inventory-menu.js'
 import { matchesFilter } from '../../core/menu/item-select.js'
+import { selectedMenuItemColor } from '../../core/menu/menu-colors.js'
 import { getScriptDescLines } from '../../core/menu/script-desc.js'
+import { blitSpriteOpaque } from '../blit-indexed-sprite.js'
 import { drawNumber } from '../draw-number.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawBox } from './draw-box.js'
 
-// sdlpal ui.h 真值色 — pickItemRowColor 内部用,本文件直接 reference 仅留 DESCTEXT_COLOR
+// 中文物品说明使用固定的描述文字颜色。
 const DESCTEXT_COLOR = 0x3c
 
 // sdlpal ui.h:110/114
@@ -64,24 +65,6 @@ const INV_AMOUNT_X_OFFSET = 81 // 10 * 8 + 1
 const INV_PAGE_LINE_OFFSET = Math.floor((INV_LINES_PER_PAGE + 1) / 2) // 4
 const ITEMBOX_XBASE = 0
 const ITEMBOX_YBASE = 140
-
-function selectedColor(): number {
-  return (
-    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
-  )
-}
-
-/** sprite blit (opaque mask)— 复用 draw-sprite 风格,直接内嵌轻量版本。 */
-function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
-  for (let y = 0; y < frame.height; y++) {
-    for (let x = 0; x < frame.width; x++) {
-      const off = y * frame.width + x
-      if (frame.opaque[off]! > 0) {
-        fb.writePixel(dstX + x, dstY + y, frame.indices[off]!)
-      }
-    }
-  }
-}
 
 /** shadow blit — palCalcShadowColor(curr) 替换 fb 当前 pixel(sdlpal palcommon.c:201)。 */
 function blitSpriteShadow(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
@@ -137,7 +120,7 @@ const STATUS_COLOR_EQUIPMENT = 0xbe // sdlpal ui.h:97
 const SPRITENUM_SLASH = 39
 
 /**
- * sdlpal `uigame.c:1289-1473` PAL_ItemUseMenu 1:1 port — phase='use-target' 时叠加画。
+ * PAL_ItemUseMenu 目标层：在列表之后叠加角色属性、物品与实时数量。
  *
  * 真值布局:
  *  - box PAL_XY(110, 2) 7×9
@@ -176,7 +159,7 @@ function drawItemUseMenu(
   for (let i = 0; i < STAT_LABELS.length; i++) {
     renderText(
       fb,
-      STAT_LABELS[i]!,
+      getWord(48 + i, STAT_LABELS[i]!),
       ITEMUSE_STAT_LABEL_X,
       16 + 18 * i,
       ITEMUSEMENU_COLOR_STATLABEL,
@@ -229,8 +212,8 @@ function drawItemUseMenu(
   // 4. party member names(uigame.c:1383-1396)
   state.targetMenu.items.forEach((memberItem, i) => {
     const role = playerRoles.roles[memberItem.id]
-    const name = role?._name ?? `role#${memberItem.id}`
-    const color = i === cursorIdx ? selectedColor() : MENUITEM_COLOR
+    const name = getWord(role?.name ?? -1, role?._name ?? `role#${memberItem.id}`)
+    const color = i === cursorIdx ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
     renderText(
       fb,
       name,
@@ -242,12 +225,19 @@ function drawItemUseMenu(
     )
   })
 
-  // 5. ITEMBOX sprite at (120, 80)(uigame.c:1398)
+  // PAL_ItemUseMenu blits only the normal ITEMBOX; the inventory list retains its own shadow.
   const itemboxFrame = uiSpriteFrames[SPRITENUM_ITEMBOX]
   if (itemboxFrame) {
-    blitSpriteShadow(fb, itemboxFrame, ITEMUSE_ITEMBOX_POS.x + 5, ITEMUSE_ITEMBOX_POS.y + 5)
     blitSpriteOpaque(fb, itemboxFrame, ITEMUSE_ITEMBOX_POS.x, ITEMUSE_ITEMBOX_POS.y)
   }
+
+  // amount — sdlpal `uigame.c:1401` 真值 `i = PAL_GetItemAmount(wItemToUse)` 每帧 live 读
+  // gpGlobals->rgInventory,**不用** state.inventory snapshot(否则用一次后 picker 始终显
+  // 旧 amount,看起来"道具没减"。C 只在 i > 0 时绘制图标、名称和数量
+  // (uigame.c:1403-1419);数量归零后目标层保持框/角色信息并结束。
+  const invEntry = gs.inventory.find((e) => e.itemId === selectedItem.id)
+  const amount = invEntry?.count ?? 0
+  if (amount <= 0) return
 
   // 6. BALL icon at (127, 88)(uigame.c:1408-1412)+ 物品名 + amount
   if (itemIcons) {
@@ -257,21 +247,14 @@ function drawItemUseMenu(
   // 物品名 at (116, 143),color = STATUS_COLOR_EQUIPMENT 0xBE,fShadow=TRUE
   renderText(
     fb,
-    selectedItem._name ?? `?${selectedItem.id}`,
+    getWord(selectedItem.id, selectedItem._name ?? `?${selectedItem.id}`),
     ITEMUSE_ITEM_NAME_POS.x,
     ITEMUSE_ITEM_NAME_POS.y,
     STATUS_COLOR_EQUIPMENT,
     glyphs,
     true,
   )
-  // amount — sdlpal `uigame.c:1401` 真值 `i = PAL_GetItemAmount(wItemToUse)` 每帧 live 读
-  // gpGlobals->rgInventory,**不用** state.inventory snapshot(否则用一次后 picker 始终显
-  // 旧 amount,看起来"道具没减")。
-  const invEntry = gs.inventory.find((e) => e.itemId === selectedItem.id)
-  const amount = invEntry?.count ?? 0
-  if (amount > 0) {
-    drawNumber(fb, amount, 2, ITEMUSE_ITEM_AMOUNT, 'cyan', 'right', uiSpriteFrames)
-  }
+  drawNumber(fb, amount, 2, ITEMUSE_ITEM_AMOUNT, 'cyan', 'right', uiSpriteFrames)
 }
 
 export function drawInventoryMenu(input: DrawInventoryInput): void {
@@ -309,18 +292,17 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
       const diff = slot.count - slot.inUse
       // sdlpal itemmenu.c:171 真值:`!(item.wFlags & g_wItemFlags) || nAmount <= nAmountInUse`
       // → 不满足 menu 入口 filter(equip/usable/...)就是 inactive。
-      // 修(2026-05-29 session 4 user 怒怼"李逍遥能装的木剑红色"):**用 state.filter 判 filter
-      // 命中**,而不是 hardcode `flags.usable` — EquipMenu 复用本 fn 时 filter='equip'。
+      // 装备/使用/卖共用全库存列表；入口 filter 决定可用色，不匹配项仍显示。
       const isUsable = item != null && diff > 0 && matchesFilter(item, state.filter)
       const isEquipped = slot.count === 0
 
-      // 6 case 颜色规则(sdlpal itemmenu.c:135-181)— 抽 pickItemRowColor pure helper,单测 covered
+      // 按选中态、可用性和装备占用计算行色；与 core 使用同一判定。
       const color = pickItemRowColor({ isSelected, isUsable, isEquipped })
 
       // Item label — sdlpal itemmenu.c:187 PAL_DrawText fShadow=TRUE
       const labelX = 15 + k * INV_ITEM_TEXT_WIDTH
       const labelY = 12 + j * 18
-      const label = item?._name ?? `?${slot.itemId}`
+      const label = getWord(slot.itemId, item?._name ?? `?${slot.itemId}`)
       renderText(fb, label, labelX, labelY, color, glyphs, true)
 
       if (isSelected) {
@@ -373,16 +355,12 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
   const curSlot = state.inventory[state.cursor]
   if (!noDesc && curSlot) {
     const curItem = items.find((it) => it.id === curSlot.itemId)
-    const sid = (curItem as { scriptDesc?: number } | undefined)?.scriptDesc ?? 0
+    const sid = curItem?.scriptDesc ?? 0
     const lines = getScriptDescLines(sid)
-    for (let li = 0; li < lines.length; li++) {
-      renderText(fb, lines[li]!, 71, 151 + li * 16, DESCTEXT_COLOR, glyphs, true)
-    }
+    drawScriptDescription(fb, lines, 71, 151, 240, DESCTEXT_COLOR, glyphs)
   }
 
-  // M5.6 session 3:phase='use-target' → 叠加画 PAL_ItemUseMenu(uigame.c:1289-1473)。
-  // user 反馈"使用物品时并没有弹出选择角色的 UI" — confirmInventoryItem 已切 phase
-  // 但渲染层没接,本次补。需 gs + playerRoles(catalog),draw-menu.ts 转发。
+  // 目标层需要 live runtime 与角色名；draw-menu 负责注入，绘制不推进菜单状态。
   if (state.phase === 'use-target' && gs && playerRoles) {
     drawItemUseMenu(fb, state, items, uiSpriteFrames, glyphs, itemIcons, gs, playerRoles)
   }

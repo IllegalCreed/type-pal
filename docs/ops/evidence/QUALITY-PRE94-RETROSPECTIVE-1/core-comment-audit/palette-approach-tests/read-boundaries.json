@@ -1,0 +1,67 @@
+{
+  "base": "9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "sha256": "c264ebc0964f66eac34e2757da4ee6ec324c7b3c10a3e40173ed3df49e3bc589",
+      "lines": 328,
+      "ranges": [[1, 328]],
+      "scope": "Full read; no whole-file acceptance inferred from reading.",
+      "snapshot": "c264ebc0964f-palette-fade.ts.current.gz"
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.test.ts",
+      "sha256": "642e9df4c92b433e1589d734e2483a2c60c5c27d8e648ce121aaaef734b31a7d",
+      "lines": 246,
+      "ranges": [[1, 246]],
+      "scope": "Full read; no whole-file acceptance inferred from reading.",
+      "snapshot": "642e9df4c92b-palette-fade.test.ts.current.gz"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/palette.ts",
+      "sha256": "ad806bc60aa51e5dd61bbb8c9fe50c2c20ae66feed9fa89944393714d3272ba9",
+      "lines": 37,
+      "ranges": [[1, 37]],
+      "scope": "Full read; no whole-file acceptance inferred from reading."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+      "sha256": "d078ffc4ca504e32e0a4b7a786e838ffccde853d73fb1af0caf04f33b6f810d8",
+      "lines": 162,
+      "ranges": [[1, 162]],
+      "scope": "Full read; no whole-file acceptance inferred from reading."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "reference/sdlpal/palette.c",
+      "sha256": "88a3160fac6bddd28355a28b788b76b848b9853d06eb75b8abe2116b9ee7795d",
+      "lines": 667,
+      "ranges": [[55, 104], [456, 667]],
+      "scope": "Only these primary/caller/lifecycle ranges, not whole-file closure."
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242",
+      "lines": 5117,
+      "ranges": [[605, 650], [1525, 1563], [2535, 2549], [2599, 2615], [3529, 3540]],
+      "scope": "Only these primary/caller/lifecycle ranges, not whole-file closure."
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "lines": 805,
+      "ranges": [[195, 246]],
+      "scope": "Only these primary/caller/lifecycle ranges, not whole-file closure."
+    }
+  ],
+  "newClosed": 0,
+  "limits": [
+    "C PAL_GetPalette grid established by source shifts; compiled ColorFade uses synthetic typed palette/video/delay stubs, not full asset/EXE execution.",
+    "Same-grid comparison is two concrete forward/reverse palettes,65 submissions each, not full color-domain/visual parity.",
+    "Artificial non-grid C input is outside PAL_GetPalette normal domain and does not prove a production C defect.",
+    "TS palette uses actual decodePalette of legal768-byte synthetic6bit data, no generated files written.",
+    "Source after controls only removes a stale PAL_GetPalette99-104 anchor; control base gzip and two parsed TS/JS identity comparisons preserve exact temporal scope.",
+    "All other fade math, invalid durations/cursor cancellation, real asset/E2E/visual and unified gates remain unaccepted."
+  ]
+}

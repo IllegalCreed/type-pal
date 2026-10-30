@@ -1,0 +1,654 @@
+{
+  "schemaVersion": 1,
+  "base": "c4278084be4b04ebbb77fb0633b5a94c1c0eafe2",
+  "owner": "Codex, single Agent",
+  "state": "finite review; no file accepted and CODE3h remains partial",
+  "sourceSnapshots": [
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "cbb59a40793fb1fef5fa8ecd9648422401a50810b5f4c8a6c61b88771f3a548a",
+      "gitBlobSha1": "ce59c45c9e5627a91432a1f89c96a87934c0c0d5",
+      "lines": 501,
+      "previousBlob": "0032a9cf4ac1a71ab371cdbf5aef2a290c3296f4",
+      "parsedTsSha256": "b85ba71e897a608c296c54bae9710229b594e82d816dcad9fe745361966baa61",
+      "emittedJsSha256": "d617e9c83850a811d84faf38bd1d317f3702168d1d2c66b4b7e9bea031b4cc92",
+      "allEqual": true
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.ts",
+      "sha256": "28d312c4792b1cc6c7f2d4f156a764aab80e98f3228a47c567cc40a9a8d1603f",
+      "gitBlobSha1": "eafa9d50cf9497f234b5ec716fbca2baca327a4d",
+      "lines": 19,
+      "previousBlob": "e80adedb384fcfe87397a25a1e50e5fd5a698f9f",
+      "parsedTsSha256": "96c4a6c463484830e9f327f775cbd9b86098f17cb45e782ec2be66c5ee8a4cb7",
+      "emittedJsSha256": "9a1da8d6b1ad1714733c65e6d8d7785e3428275a1ce155c047200918f3062c63",
+      "allEqual": true
+    }
+  ],
+  "files": [
+    {
+      "path": "packages/game/src/assets/loader.test.ts",
+      "sha256": "9bfb8abd59603935e60ce8ee2baa2e9510b18a336244dc788bf272e12c01b437",
+      "gitBlobSha1": "068695d2b1b7625b5d67c6adab4bac532e8b8472",
+      "lines": 85,
+      "dimensions": {
+        "A": "Public loadScene calls with valid 1x1 tilemap, 256-color palette and empty no-script scene; same actual cache API as bootstrap cap16/protect/onEvict. No fake core or private Map reads.",
+        "B": "Removed false four-parallel-JSON comment and memory-leak repair claim from suite heading. Titles identify four LRU contracts; parent-title identity mappings are explicit.",
+        "C": "Local makeFetcher owns fresh per-request fixtures. Tests own each cache and evicted array; no global stub or shared mutable cache.",
+        "D": "Reuses existing legalPalette/legalTilemap values, not unrelated universal setup. Three weak subsets retire to stronger real cache/HTTP tests.",
+        "E": "Four eviction/recency/protect/unbounded contracts retained, including original call-count assertions; adds returned references/refetch identities/map IDs. Clone-return fault old17green/new4business failures. Exact retirement identities match protected baseline.",
+        "F": "Single typed fixture constructor and sequential operations reveal cache lifetime; no as any or forced palette/tilemap shape.",
+        "G": "7→4 tests; generic404→G01-B07; hit/other scene→G01-D01 and retained unbounded exact calls; two-field pass-through→D01 same-reference guarantee.",
+        "H": "Existing injectable fetcher and onEvict/protect ports suffice. No test API, timers or asynchronous work left running."
+      }
+    },
+    {
+      "path": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "sha256": "0cc019bd0f4b5f11afdf5860a3b2ed30cd348118374df97d32b7501455ef48eb",
+      "gitBlobSha1": "4eb8861f929d67afcde57c34af1dc1a103bc783c",
+      "lines": 171,
+      "dimensions": {
+        "A": "Real loadAll with legal Response/PNG/gzip/RLE inputs; each optional-resource HTTP failure is isolated except existing C10 UI+item pair, to split during approved product fix.",
+        "B": "Removed unsupported old-tests coverage claim; explicitly no renderability certification from map/array assertions.",
+        "C": "beforeEach captures only console.warn; afterEach restores fetch globals and mocks. Every successful case asserts exact expected warning count, so extra warnings fail.",
+        "D": "Reuses existing legal-host routes/bytes. No silenceWarn helper or new diagnostics abstraction.",
+        "E": "All ten old identities and business assertions retained. Each checks full diagnostic and Error name/message, not Error object identity. Lost-request-context fault old17green/new only C01 AssertionError. C10 packing oracle is known wrong product contract and remains rework pending approved UI repair.",
+        "F": "Expected messages and HTTP URLs are visible alongside each failed request rather than hidden in catchall matchers.",
+        "G": "No added duplicate cases or removed business assertions in quality slice. Nine blind warning captures replaced with observable diagnostics.",
+        "H": "Uses real parsers/canvas rather than core mocks; fetch supplies legal HTTP outcomes. Native first candidate C08 expectation was wrong and corrected to exact actual source; failed run preserved."
+      }
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "dimensions": {
+        "A": "Current file fully reread with old final29 A-H evidence reused. Real bootstrap SceneFetcher segments inspected. Known UI packing counter disproves full acceptance; no behavior change in this slice.",
+        "B": "Cache caller comment corrected from scene-N/PNG/per-scene palette to scene/{id}, mapNum, RLE and startup palette reuse.",
+        "C": "loadAll is IO assembly; cache owns its Map, caller owns parallel decoded maps cleaned by onEvict. BASE is explicit module constant. Wide LoadedAssets is assembly output, not a context passed into cache policy.",
+        "D": "Shared RLE/PNG adapters retain distinct keyed resource/failure contracts. No mode booleans or speculative helper extraction.",
+        "E": "Directed 43→40 is quality evidence, not whole-file acceptance. Historical six snapshot gap needs current native execution and input provenance, not arithmetic substitution.",
+        "F": "Previously recorded complexity11 is reading clue; current comment-only parsed TS/JS exactly equal, no metric-driven decomposition.",
+        "G": "Public helper/caller census reused; no dead export removed or product policy silently rewritten.",
+        "H": "Existing IO and cache ports support direct real-decoder tests. Actual drawNumber counter demonstrates a missing cross-layer oracle, now separate approved card."
+      }
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.ts",
+      "dimensions": {
+        "A": "Re-export delegates existing shared codec; base64 atob behavior and dialog-assets consumer reused. Existing G-1 format truth not resolved by this comment.",
+        "B": "Wrong 0x02000000 notation corrected to bytes02 00 00 00 / little-endian2, verified against shared decodeRle prefix guard.",
+        "C": "Adapter keeps browser base64 conversion and no duplicate decoder or state ownership.",
+        "D": "Shared codec re-export retained; no merge of strict/tolerant algorithms or speculative API deletion.",
+        "E": "Existing RLE/base64 directed tests retained; this slice changes no fixture/assertion or format.",
+        "F": "Prefix units/endian now explicit; small direct conversion remains readable without wrapper layers.",
+        "G": "Public re-export surface unchanged; empty string fast path and atob failure behavior unchanged.",
+        "H": "Pure Uint8Array conversion remains directly testable; identity/body invariance is evidence for comment-only nature, not whole-format correctness."
+      }
+    }
+  ],
+  "reads": {
+    "fullCurrent": [
+      "packages/game/src/assets/loader.ts",
+      "packages/game/src/assets/loader.test.ts",
+      "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "packages/game/src/assets/rle-decode.ts",
+      "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "packages/game/src/present/draw-number.ts",
+      "packages/game/src/present/framebuffer.ts"
+    ],
+    "partialCurrent": [
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "ranges": [[505, 650]],
+        "purpose": "cache/fetcher/palette/parallel map owner; not whole bootstrap acceptance"
+      },
+      {
+        "path": "packages/pal-extract/src/cli.ts",
+        "ranges": [[307, 339]],
+        "purpose": "SPRITEUI manifest producer only"
+      }
+    ],
+    "reused": [
+      "3h README PNG before/after and verifier",
+      "3h/bootstrap README barrier/fixture oracles",
+      "glm-foundation/codex-final29 loader full read and A-H",
+      "present-leaves-gates fetch-retry current acceptance",
+      "unchanged scene-cache G01-D and mid-1 full readings from preceding turn"
+    ]
+  },
+  "pins": [
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "sha256": "d3985df5421e4c96c7fab8ef416cfec9ba02ed9f898a29f69925ea0854bc0b2f",
+      "gitBlobSha1": "00de0afaa72e659654e18d4758aba7d7052fe48e",
+      "lines": 439
+    },
+    {
+      "path": "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+      "sha256": "8224427cc2efa1bc017d02b03e1e456934e4741e66da931fab2cd6ca6b9ec142",
+      "gitBlobSha1": "d4e5aecf6572bafbdb5f28b3c5f535ee212f4990",
+      "lines": 152
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+      "sha256": "ab7d56fcf5fd750022f90c8a1d340699a32f5478badbade72b5f86e9f225a4cd",
+      "gitBlobSha1": "e68faa86d0b97aaffe8d88641e5c801253644ec6",
+      "lines": 186
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "sha256": "e9fe9e4a87d062c3c56efb0471f7ef14f08a5d8d3fb745622bb6bc3e4db53f09",
+      "gitBlobSha1": "68f04c014d4fbb0c0550e8884cfc9d7155ca6a9a",
+      "lines": 169
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "8de02e1ed153bc067feb91b6ef6b26859dc1ff77e8ffc325a71832cbad4c7cd8",
+      "gitBlobSha1": "abb6af8ad74321890730a07de64503977cece1ce",
+      "lines": 1938
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "91c3091ae09e8e577373a7679328e5a1ceba95e78b8f66736b366ff4f162744e",
+      "gitBlobSha1": "5d7f8e4c2505c9a3e63cf6073f1022b3867e28e2",
+      "lines": 325
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "sha256": "eecebbe3c11de70e361762ba4184cce17a61a19c30da306d36d426706d1e6fe5",
+      "gitBlobSha1": "ddbff98b1bdac3e06f02e34497ff7c482380b952",
+      "lines": 118
+    },
+    {
+      "path": "packages/game/src/present/draw-number.ts",
+      "sha256": "29b6f5dbc54d3ec0587de2380cf48e97c1744d3e503e0ec56587ae229a73aebd",
+      "gitBlobSha1": "b2575e70019f83f6d24c0270547caace986d5761",
+      "lines": 109
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b",
+      "gitBlobSha1": "78b517c3e477d5600b3eb17e9fa301d3d9aee273",
+      "lines": 49
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "gitBlobSha1": "cc85530bc05315d71dd41a6f38aa97c73d5e2165",
+      "lines": 11
+    }
+  ],
+  "tests": {
+    "before": {
+      "passed": 43,
+      "failed": 0,
+      "pending": 0
+    },
+    "after": {
+      "passed": 40,
+      "failed": 0,
+      "pending": 0
+    },
+    "controls": [
+      {
+        "id": "clone-return-before",
+        "exit": 0,
+        "passed": 17,
+        "failed": []
+      },
+      {
+        "id": "clone-return-after",
+        "exit": 1,
+        "passed": 10,
+        "failed": [
+          {
+            "file": "packages/game/src/assets/loader.test.ts",
+            "fullName": "SceneAssetsCache LRU 超过 maxEntries → 淘汰最旧条目(重访需重 fetch)+ 触发 onEvict",
+            "assertionError": true
+          },
+          {
+            "file": "packages/game/src/assets/loader.test.ts",
+            "fullName": "SceneAssetsCache LRU cache hit 刷新 recency:最近命中的不被淘汰",
+            "assertionError": true
+          },
+          {
+            "file": "packages/game/src/assets/loader.test.ts",
+            "fullName": "SceneAssetsCache LRU protect 返回的 sceneId 永不被淘汰(保护当前渲染场景,防黑屏)",
+            "assertionError": true
+          },
+          {
+            "file": "packages/game/src/assets/loader.test.ts",
+            "fullName": "SceneAssetsCache LRU 不传 opts → 无限缓存(向后兼容,永不淘汰)",
+            "assertionError": true
+          }
+        ]
+      },
+      {
+        "id": "warning-context-before",
+        "exit": 0,
+        "passed": 17,
+        "failed": []
+      },
+      {
+        "id": "warning-context-after",
+        "exit": 1,
+        "passed": 13,
+        "failed": [
+          {
+            "file": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+            "fullName": "G01-C loadAll 失败恢复 G01-C01 object-players 404 时结果为空数组，敌人表仍在",
+            "assertionError": true
+          }
+        ]
+      }
+    ],
+    "controlRestoration": {
+      "packages/game/src/assets/loader.ts": true,
+      "packages/game/src/assets/loader.test.ts": true,
+      "packages/game/src/assets/load-all-recover.grok-r1.test.ts": true
+    }
+  },
+  "retirement": {
+    "authority": "Standing user 2026-10-03/18/20 test-quality and duplicate pruning; not inherited 10-03 five-file batch",
+    "entry": {
+      "file": "packages/game/src/assets/loader.test.ts",
+      "previous": 7,
+      "current": 4,
+      "previousIdentityDigest": "5f98ca22f6e487c5cc5f4fef1b753d6f1bd87a962c0041c10d08262c34abb431",
+      "currentIdentityDigest": "8462c7758c5590e831f140d410f5f3708fab13e0a22a0c1315a639b22fd4f776",
+      "fileSha256": "9bfb8abd59603935e60ce8ee2baa2e9510b18a336244dc788bf272e12c01b437"
+    },
+    "prior45EntriesUnchanged": true,
+    "totalsBefore": {
+      "entries": 45,
+      "net": 92
+    },
+    "totalsAfter": {
+      "entries": 46,
+      "net": 95
+    },
+    "predicate": "unchanged; only exact data row and exact test count expectations"
+  },
+  "gates": {
+    "typecheck": "quality-typecheck execution exit0/stderr0",
+    "coverageTools": "retirement-tools-fixed current94; first run failed because new count expectation was written before data row; original preserved",
+    "wholeCheck": "not rerun; batch at module window",
+    "officialCoverage": "not rerun; only published c427 CI verified; baseline untouched",
+    "protected": "not rerun for this slice",
+    "lint": "four scoped source/test check zero before data; final gate later"
+  },
+  "ci": {
+    "id": 39742213502,
+    "url": "https://github.com/IllegalCreed/type-pal/actions/runs/39742213502",
+    "head": "c4278084be4b04ebbb77fb0633b5a94c1c0eafe2",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "id": 119701943920,
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "tests": 20045,
+    "sources": 758,
+    "lint": {
+      "files": 5823,
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "runtimeStderrBlocks": 0,
+    "actWarnings": 0,
+    "platformDeprecationWarnings": 6,
+    "platformWarningAnnotations": 1,
+    "platformDetails": [
+      "fast-coverage\tRun pnpm/action-setup@v4\t2026-10-22T07:41:30.0757789Z (node:2108) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.",
+      "fast-coverage\tRun actions/setup-node@v4\t2026-10-22T07:41:30.8998390Z (node:2122) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.",
+      "fast-coverage\tRun actions/setup-node@v4\t2026-10-22T07:41:31.7319289Z (node:2122) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.",
+      "fast-coverage\tUpload per-package reports\t2026-10-22T08:01:27.2825970Z (node:31406) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.",
+      "fast-coverage\tUpload per-package reports\t2026-10-22T08:01:28.5898481Z (node:31406) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.",
+      "fast-coverage\tPost Run actions/setup-node@v4\t2026-10-22T08:01:29.9113261Z (node:31419) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.",
+      "fast-coverage\tComplete job\t2026-10-22T08:01:30.2409716Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4, pnpm/action-setup@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/"
+    ],
+    "claim": "GitHub success; project gates clean. Platform action/runtime warnings explicitly nonzero; not an all-platform-zero claim."
+  },
+  "artifacts": [
+    {
+      "file": "before.stdout.raw.gz",
+      "bytes": 685,
+      "sha256": "ea17a1ef846c2973d0eaf64e1fc6f8ff275acc7d95dccec70f883ecccbb08154",
+      "gzipSha256": "e54b6fbfb0bc8ba882db44cde2fc0df2b5cdb0d7af3a26e985c6d54848b03183"
+    },
+    {
+      "file": "before.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "before.execution.json.gz",
+      "bytes": 837,
+      "sha256": "88ae6642bb18c15e41bcf353e789dc5f78eba35412204fa3f6eaf8ae4ab52099",
+      "gzipSha256": "45f7aa0daaf4d40adddf3180d905cee6f7fe631decf360eaf6226a693faac1d3"
+    },
+    {
+      "file": "before.native.json.gz",
+      "bytes": 16408,
+      "sha256": "c9f35c20bc696a5d36782dd4e953c687f72cda3c4f8489dcdd9cb52dd37a2897",
+      "gzipSha256": "c8a17b3f5b032b3eed5ffdbe6358c115ce5f44a853feee7938613c265475a81c"
+    },
+    {
+      "file": "after.stdout.raw.gz",
+      "bytes": 1555,
+      "sha256": "ce5b98079d7ceb1680a9af337a7f96360f9c2bc47c1c83b95cef0c1ce54c3cd4",
+      "gzipSha256": "122992e75f227fb4c7948fe0610267af634579362db9b9127ad23cb74ca98951"
+    },
+    {
+      "file": "after.stderr.raw.gz",
+      "bytes": 1132,
+      "sha256": "cbeb6cd619851fd623c1f431269c854fc8c11274de2369ab8b3fbe578107167f",
+      "gzipSha256": "ccc1be2b5cf5954066385dd094380d028d0e1a2d4b79356b99bf72b44de2eb4e"
+    },
+    {
+      "file": "after.execution.json.gz",
+      "bytes": 839,
+      "sha256": "db936884561fde7b3bc4a7431192232140245a5adb40e8eeb679dc650965e2fd",
+      "gzipSha256": "cb26df18e4503e66f1dd08a937fafca2ecd200d72a7485b766b5aa556287a2a1"
+    },
+    {
+      "file": "after.native.json.gz",
+      "bytes": 16590,
+      "sha256": "112e36f9d0cc08c781c0661f469532f83f6d223b896bce2b614aa961acd45fd4",
+      "gzipSha256": "793b96c0f431fc8e72f1f0e261f62a769c07aaf70966b4f02d620125f57a1ff1"
+    },
+    {
+      "file": "after-fixed.stdout.raw.gz",
+      "bytes": 689,
+      "sha256": "2c15bf981533c1b6fcb413ec35fd7a0a938f247c0f54d9a12428752eda2ecf5a",
+      "gzipSha256": "f8c37a93481f807be77795d32d93b8193ce0b592da84158dbec0e946f6c69263"
+    },
+    {
+      "file": "after-fixed.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "after-fixed.execution.json.gz",
+      "bytes": 847,
+      "sha256": "db3c9a03990468d9ad117a8382478c3c173e40305d8bb64fd6e735ff522d5102",
+      "gzipSha256": "0c16dd4140c4499226bace3ac0814f2fe87a7d5902fcab4ec16bf06f543316e9"
+    },
+    {
+      "file": "after-fixed.native.json.gz",
+      "bytes": 15256,
+      "sha256": "e6b53ee990e6d66e60d54c31f857f17330a849acff584b69c17a416e4f3c7b2b",
+      "gzipSha256": "cc6fa9c1ef151972a58954199e08a570e3ded6733a9415c2ff5db78764f37a20"
+    },
+    {
+      "file": "clone-return-before.stdout.raw.gz",
+      "bytes": 517,
+      "sha256": "d7748e870a3a2ade8e0ced695c31226869f7cbe9771c63e67ac86a8e3da8dc5d",
+      "gzipSha256": "a0c62b3ce8bac840c110377089be3a44ade991bd498594553a5d3e55cb5b8605"
+    },
+    {
+      "file": "clone-return-before.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "clone-return-before.execution.json.gz",
+      "bytes": 726,
+      "sha256": "bda6a9a5617a9d3a5258266ba0a8d6f87aeb6e0dc5b1a5efe5588c1c66b12aa3",
+      "gzipSha256": "cacf0ff6e9e34e4e655aa9303df8589c035d44dabd24785b6de3b62cfcd606e8"
+    },
+    {
+      "file": "clone-return-before.native.json.gz",
+      "bytes": 6643,
+      "sha256": "8a4130e92719e6e843fd09be9c9a73ace0e667763736df627e92c90b3566059f",
+      "gzipSha256": "12ed6c0c7d2fb56125013c2f6bff6f8f519212c9902233575d332e080886e062"
+    },
+    {
+      "file": "clone-return-after.stdout.raw.gz",
+      "bytes": 863,
+      "sha256": "7d6ffd514a5a3bd1960e3154e98dcb558b0001eabff54240282ed3c1ec4b1123",
+      "gzipSha256": "17b09f3a9c16c76fa2c4002d9754cb1171502e0f3f0bc10f1420c474133b65b3"
+    },
+    {
+      "file": "clone-return-after.stderr.raw.gz",
+      "bytes": 3641,
+      "sha256": "7d548c4a691a0d676621ccea7e5a5b557869e79dce0cc12cc7ea2723aa45674f",
+      "gzipSha256": "c923be936e9913691f69a9919f88ed52ed189f0bbb426efc18305f9de58b4a29"
+    },
+    {
+      "file": "clone-return-after.execution.json.gz",
+      "bytes": 727,
+      "sha256": "325a02df2f3bf1249a08c56ee2c9b24c5c305580691bf2c8b63ae6fc50bbddc3",
+      "gzipSha256": "768e3d951f4edf56c5313fd73dd86caf710ab2f652654154d3410d1893be4e07"
+    },
+    {
+      "file": "clone-return-after.native.json.gz",
+      "bytes": 8123,
+      "sha256": "4d8e5c94ce75db29a35feed0a786a12961ef837591d984ba4d9696a512bba9c1",
+      "gzipSha256": "ac41ecb594517ab4fbce957cbb5815c6df6e8d4c9f3dfc41e8e15a3ccb545f22"
+    },
+    {
+      "file": "warning-context-before.stdout.raw.gz",
+      "bytes": 520,
+      "sha256": "cfe144a6805f5ac0d40297654d2e22648e86e76aaaf154a04e3dd7846b1037c7",
+      "gzipSha256": "c4c489a78536a5151276d039c716c2c0dac3e18a105a4abc83a757532dee5891"
+    },
+    {
+      "file": "warning-context-before.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "warning-context-before.execution.json.gz",
+      "bytes": 732,
+      "sha256": "5a8c64d9f004d9301741c4f0eb3063935122055ab4290e8d3788dd7f24b84928",
+      "gzipSha256": "1c049771c9cb6d3b6e1570e453ff064f97ccd156681f5b4b271c76ec9db507a0"
+    },
+    {
+      "file": "warning-context-before.native.json.gz",
+      "bytes": 6646,
+      "sha256": "0d00f789765d43572f547ee968c4e1764434970a8f25560c1b014a93688e154c",
+      "gzipSha256": "95c2ac3771ae1566b6743e851cc67c70eab97054fae4e3e3ef09ee48a3ea1c8a"
+    },
+    {
+      "file": "warning-context-after.stdout.raw.gz",
+      "bytes": 1392,
+      "sha256": "a274f67a9df7ca04614acc2eaf5b8bc2c1a93085b327b11715a154c44ed76aa2",
+      "gzipSha256": "8d92ebfd3d22efd577c1778d808aa13bf78ffc82ae12f26ab1c2a26e18a661aa"
+    },
+    {
+      "file": "warning-context-after.stderr.raw.gz",
+      "bytes": 1130,
+      "sha256": "69d748e6056a61854d1892f71aac8d0c20948e69ff3e74dab6a3a570f201e963",
+      "gzipSha256": "73bf8c8289c21f80e273e54a913735bcec89993ec52062de88c0f75960e2c4fa"
+    },
+    {
+      "file": "warning-context-after.execution.json.gz",
+      "bytes": 734,
+      "sha256": "ac2633f29ab2a9c240bddbc9736a81335260ef8b01d1a6b4cec442ca7a917292",
+      "gzipSha256": "c84e27d23ccedef85d7e3a94d1573992ef28e6225fbe195d1cd843c26395642d"
+    },
+    {
+      "file": "warning-context-after.native.json.gz",
+      "bytes": 6799,
+      "sha256": "6619597b3be0e15f712de361dae7a8a334087591f3954dc21545b01c28f340dc",
+      "gzipSha256": "25c0e6eba37a77619cf8c2c99d56558e72c0e87ba5d50dd3bda6255071ed6f0f"
+    },
+    {
+      "file": "quality-typecheck.stdout.raw.gz",
+      "bytes": 125,
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+      "gzipSha256": "cfa917f0c8b26c1776c0712d5d9901bedd66eac5267f430cd75f2d59be095d3c"
+    },
+    {
+      "file": "quality-typecheck.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "quality-typecheck.execution.json.gz",
+      "bytes": 450,
+      "sha256": "cf52301ee47d82590fd18b0648fca9089aa91db5d73eed77fb0620a9a14a3309",
+      "gzipSha256": "da9018c5462e54b53e4e4fdc350dfdeb9d75c838cd56df1685e7809fda2b19ba"
+    },
+    {
+      "file": "retirement-tools.stdout.raw.gz",
+      "bytes": 21616,
+      "sha256": "d5ecf3dfb5a13911de5fe6cf03fc342ed21a5983bcde60338bfee44d23921f3a",
+      "gzipSha256": "0d8de5039b6a39dae4efc8a19af3ea11efe8f8529854051b8be0c481901e7da7"
+    },
+    {
+      "file": "retirement-tools.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "retirement-tools.execution.json.gz",
+      "bytes": 423,
+      "sha256": "931fb64a5afb5c0e5f9eb81316329092781c8743c3df08415844f77d43d10a47",
+      "gzipSha256": "f50d31dfe3346c1b2bb93601903cdda7f8bb0079a2a1a5fb44e84b096422d6b3"
+    },
+    {
+      "file": "retirement-tools-fixed.stdout.raw.gz",
+      "bytes": 21033,
+      "sha256": "0651e74e3d5f3b0205afa102c4c1550d80fd741fd674b440c49398fca25e1896",
+      "gzipSha256": "9f7e5306a6cbefd8c078358b7f476e7cfc56b1f6917b5f4a3bb6321fbf58e46a"
+    },
+    {
+      "file": "retirement-tools-fixed.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "retirement-tools-fixed.execution.json.gz",
+      "bytes": 429,
+      "sha256": "f664f37bb6d32b68a623a842cc3f135071d06bdf66067f9ba0cd984f5bf7b0a1",
+      "gzipSha256": "75178e6e55251c945f7511708c47f8c9c2bb86c83d4ff18d30b4db12f278f102"
+    },
+    {
+      "file": "ui-index-counter.stdout.raw.gz",
+      "bytes": 633,
+      "sha256": "186b1106e25f99ff124de009aa399d7bda9e5c65b7e93969dc050c896d8041dd",
+      "gzipSha256": "ad51406c64ba0ddf11caa5327d1b6d84d25dc1c6ea38a9586207759b717e610e"
+    },
+    {
+      "file": "ui-index-counter.stderr.raw.gz",
+      "bytes": 662,
+      "sha256": "896b61e50289c822380f9c6c5463673bc0bbeadeea4fa4f0072f1ba4be59cc15",
+      "gzipSha256": "17374385cd37ee0213b075cdeec2974e4076b37d4f0d5b10f1e0cd1b05c2aed5"
+    },
+    {
+      "file": "ui-index-counter.execution.json.gz",
+      "bytes": 682,
+      "sha256": "4e4e7b904c1a509a14af6e16ddedc35823d9e60a8d5315921a8970595831f5b0",
+      "gzipSha256": "fdd35323a3060ed97af0bcb36ef9b44fee670b2820937285418d0984663b3ccc"
+    },
+    {
+      "file": "ui-index-counter.native.json.gz",
+      "bytes": 1692,
+      "sha256": "7fc03bf8bd79aab60974f571c9f4004eec43e7d01aafc0e53cbdccfbecf9ecad",
+      "gzipSha256": "bd2c5a1780fc5ad37ae62a5b92ac7d94cde5b4e28c7de8e1e01dee6af045a9d5"
+    },
+    {
+      "file": "published-coverage-log.stdout.raw.gz",
+      "bytes": 659219,
+      "sha256": "1fc8e4a570c3a068c0c6bb0373927a8e2561c5881020ef76c4d056dc9daea9ff",
+      "gzipSha256": "d70377c63726f4ef77ad961bba5f8bbefa2a95698edc5b5c5febe19081cf6fb2"
+    },
+    {
+      "file": "published-coverage-log.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "published-coverage-log.execution.json.gz",
+      "bytes": 456,
+      "sha256": "9b8fdf8f735364e9d92e1e0b746ef41692bd263ba220ed5894b720dd4c880176",
+      "gzipSha256": "dedb1bc8cf7e2a8efa0fd0671883e8a333c4d19715776106e1262c10f751d56a"
+    },
+    {
+      "file": "published-coverage-run.stdout.raw.gz",
+      "bytes": 12764,
+      "sha256": "fd37502e356959b12c796c702cbf94eedd554b7e5b4d51ea05f24023c4aa458b",
+      "gzipSha256": "5f37d83ecab3baa86b802f78d99d29f25fd07e510a9b4056e7428bc34cdbcb6a"
+    },
+    {
+      "file": "published-coverage-run.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "published-coverage-run.execution.json.gz",
+      "bytes": 471,
+      "sha256": "b877c69b1e66abda024bae2117d75d09628c28cbe8cd4f0b75813bf2565572f9",
+      "gzipSha256": "d6b8c10ee121c1cfa1089e55f50ae698a6aa9dd8901598a3bdb55b093e6cc00e"
+    },
+    {
+      "file": "published-coverage-jobs.stdout.raw.gz",
+      "bytes": 3292,
+      "sha256": "06fb31227139aea136742dbb0311d3c5719882101f14eb3f241a65f878b06fdb",
+      "gzipSha256": "a3323f7ab6dba8702eb809078fe2ccf1fb45da9c85d06803516230b2420b7c13"
+    },
+    {
+      "file": "published-coverage-jobs.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "published-coverage-jobs.execution.json.gz",
+      "bytes": 476,
+      "sha256": "47c07bc2b3703b999643ffc222ecba82f4ea94a091d0291f6a949f8ec7e2cdbb",
+      "gzipSha256": "c692c41dbc90c75cc04989d29991c64e30d9e46538552cf4e5135ab2df7d38a4"
+    },
+    {
+      "file": "controls.json.gz",
+      "bytes": 23980,
+      "sha256": "39582ac0c3e9d3e4613263d111c74ec3115c5a969f875c2703f26a57c6212ac9",
+      "gzipSha256": "308bb6b52e31b4e7307ccec6971a372e8742d1cc12a3e8898a8e3267b55a536f"
+    },
+    {
+      "file": "ui-index-counter.test.ts.gz",
+      "bytes": 1722,
+      "sha256": "7675a653264590599c86a04e86ac8e48079111953126bc1252f09b51bf646779",
+      "gzipSha256": "9dc022e91c71d00e8cb896dd9fbc37dbeffffc2af97b61710bc98e1a933255d1"
+    },
+    {
+      "file": "before.loader-identities.json.gz",
+      "bytes": 1386,
+      "sha256": "d264660c281e7d20d9f1148f58f4a42d37228bc25294bd40fa8ad8bac6036117",
+      "gzipSha256": "eff674c8cabba1d4c4962541c6916a906b5373d1f868c99340fe136768e48871"
+    },
+    {
+      "file": "after-fixed.loader-identities.json.gz",
+      "bytes": 804,
+      "sha256": "f28fc8740e6680ba7f3018887e58d7eb6fe20048b8195138fa293ab0690c36e3",
+      "gzipSha256": "040383e956dbfd66e79afc3f5e8a7f2de51cbb1bd8d888454a5821202f16ec06"
+    },
+    {
+      "file": "retirement-entry.json.gz",
+      "bytes": 364,
+      "sha256": "97d2ea136b1ff22ef951a0fd92b09f3777839f6ba63f9596e9d42a09c2b7c630",
+      "gzipSha256": "9cedc3fafaf3d0873623c33254de7223a2e3a3d2be284cf4d9b1005528289e5d"
+    }
+  ],
+  "limits": [
+    "No new file closure; no whole3h acceptance.",
+    "UI numbering fix authorized by user after counter; product fix will be separate commit and evidence.",
+    "No generated outputs, main tree or 94–102 edited.",
+    "Native after initial C08 diagnostic expectation failed only C08, then exact-source correction passed; no product repair claimed.",
+    "Private control helper first parse error ran zero tests and wrote no product; corrected helper controls restored all owned files."
+  ]
+}

@@ -1,0 +1,17 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/pal-extract
+
+ ✓ src/events/script-corrections.pal.test.ts (4 tests) 3465ms
+   ✓ supported source corrections preserve raw input and change only reviewed instructions  2673ms
+   ✓ unknown source fingerprint and drifted old instruction fail closed without changing source  744ms
+ ✓ src/events/roundtrip.test.ts (1 test) 70ms
+ ✓ src/cli-script-corrections.pal.test.ts (2 tests) 6768ms
+   ✓ default CLI corrects gameplay before every event consumer is emitted  3722ms
+   ✓ default CLI rejects an altered source before corrected event outputs; faithful mode remains explicit  3045ms
+
+ Test Files  3 passed (3)
+      Tests  7 passed (7)
+   Start at  17:33:28
+   Duration  7.00s (transform 327ms, setup 0ms, import 634ms, tests 10.30s, environment 0ms)
+
+JSON report written to /Users/zhangxu/illegal/type-pal/docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-pal-green.native.stdout.txt

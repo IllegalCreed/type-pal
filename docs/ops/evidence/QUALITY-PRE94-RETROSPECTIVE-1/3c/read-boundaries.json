@@ -1,0 +1,147 @@
+{
+  "head": "ceda5bb12d743e83dfc92758a2950c71dbe8f78c",
+  "files": [
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+      "method": "full-text",
+      "lines": 66,
+      "sha256": "025ac707772c82bb1b942559afa8f81101ba6b22cf2232d60d1995e673ed95bb"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+      "method": "full-text",
+      "lines": 98,
+      "sha256": "4f5724fd8bc89ae713cda40f1a6479c94e792352a05d9898c8975032c481361d"
+    },
+    {
+      "path": "docs/phase2/READ-FIRST.md",
+      "method": "full-text",
+      "lines": 55,
+      "sha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
+      "method": "full-text",
+      "lines": 684,
+      "sha256": "20f3c6e594ad9c6667e653cf7d6e6234f897407b05bc02e567fc9b2403989e8c"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
+      "method": "full-text",
+      "lines": 94,
+      "sha256": "3813f3c8c5bcdf7ec7115e24f9f060ca4d839ac8f13c8f9a1aea96c162aa015c"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+      "method": "full-text",
+      "lines": 297,
+      "sha256": "8ee51125f865d088d0146e8dac6e075ee5b778088ad429cd6b93be42cd5441f9"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "method": "full-text",
+      "lines": 149,
+      "sha256": "12621c986427a0e52cc327824c5f523b2517f74feef5f27b044389fdce9af76e"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.glm-next-wave.test.tsx",
+      "method": "full-text",
+      "lines": 159,
+      "sha256": "e32e8c3fdee44d320fc4e99e3afd0ea10edbf618b6fe9dde68e7726a05923921"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrames.tsx",
+      "method": "full-text",
+      "lines": 100,
+      "sha256": "3e074dd41a2833a66ed027c79e425fb4c00019479d1079319a16fb39ca09762a"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrames.test.tsx",
+      "method": "full-text",
+      "lines": 135,
+      "sha256": "e2a7e7052e79904ca98f53898c887e74e96dcd00d2929347c09504e249eb28bc"
+    },
+    {
+      "path": "packages/editor/src/ui/world-sprite-action-preview.ts",
+      "method": "full-text",
+      "lines": 83,
+      "sha256": "fda3ac85f6663ca317324e81401b2d3b3122cbc36eb62354c02c8c9fa9215a89"
+    },
+    {
+      "path": "packages/editor/src/ui/battle-sprite-action-preview.ts",
+      "method": "full-text",
+      "lines": 169,
+      "sha256": "7468b68dc254a13aebab5b355cccbae3a37df3c6dbebeed79d56938751725d8b"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "method": "full-text",
+      "lines": 369,
+      "sha256": "162cbf465da3c9585cca3ff9068b16fcd521536a15e44c62e49063abd768c427"
+    },
+    {
+      "path": "packages/reforge/src/entity-action-player.test.ts",
+      "method": "full-text",
+      "lines": 307,
+      "sha256": "41f5d5febabea8c8a9339cd973df6ca3e6e8c1da854b181fdea55d9ce3848ba7"
+    },
+    {
+      "path": "packages/content/src/sprite.ts",
+      "method": "full-text",
+      "lines": 112,
+      "sha256": "41a0318b2c92665a2f3082283a6bd29bd81b2fe7317945221c72a5b586dd1bfd"
+    },
+    {
+      "path": "packages/editor/vite.config.ts",
+      "method": "full-text",
+      "lines": 152,
+      "sha256": "c6913c3db24c9b8e49d03dd036860072779f4f1b0449aced55dfe607759ffcc0"
+    },
+    {
+      "path": "packages/editor/package.json",
+      "method": "full-text",
+      "lines": 34,
+      "sha256": "42163ff55b01dc9db58eb1d5d7b730ca79efe853a1cd797c7928da2243033009"
+    },
+    {
+      "path": "package.json",
+      "method": "full-text",
+      "lines": 70,
+      "sha256": "23276788c35ae3803a7562dc1e730f5cb255742822c8446cc5790cb54fa6e7f6"
+    },
+    {
+      "path": "scripts/coverage/environment.mjs",
+      "method": "full-text",
+      "lines": 6,
+      "sha256": "a8d8d39731f17344c04550a8828b5b41dc16eb2b24fb4ada1db34ccbc10175d3"
+    },
+    {
+      "path": "packages/reforge/src/entity-action-player.ts",
+      "method": "specified-intervals-only",
+      "intervals": [[1, 270]],
+      "lines": 781,
+      "sha256": "aeb4692b99b007e1d32080cf1c531825c8084e499fd162a97606aedddbbb34c7"
+    },
+    {
+      "path": "packages/reforge/src/index.ts",
+      "method": "specified-intervals-only",
+      "intervals": [[1, 100]],
+      "lines": 362,
+      "sha256": "7b7cedc519b85f96841be1c68d8a1a02c0731083d5d2f8fc555292a7d74b6464"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "method": "specified-intervals-only",
+      "intervals": [[520, 580]],
+      "lines": 581,
+      "sha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc"
+    }
+  ],
+  "notFullReadThisSlice": [
+    "packages/reforge/src/entity-action-player.boundaries.test.ts",
+    "packages/editor/src/ui/BattleSpriteInlinePreview.test.tsx",
+    "packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+    "packages/editor/src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx"
+  ],
+  "boundaries": "test execution and source grep are not full semantic reads; caller intervals do not accept whole file"
+}

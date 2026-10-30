@@ -1,18 +1,18 @@
 # Phase 1 runtime ownership
 
 Governance Owner: Codex（文档治理；作者 history_cards_a，非作者 history_cards_c_tail 已验收作者候选）
-Last reviewed: 2026-10-16
+Last reviewed: 2026-10-27
 Template: governance-index-v1 / 1.0.0
 
 原文没有显式 Owner / Status 元数据；治理负责人不冒作原作者，治理日期不倒填原发布日期。
 
 ## 目的
 
-第一阶段 runtime 的依赖所有权入口，不把二阶段版本轴授予Game执行。
+第一阶段 runtime 测试域入口：依赖所有权与玩家输入分别沿各自报告和配对evidence核验，不把二阶段版本轴授予Game执行。
 
 ## 范围
 
-本页只负责 1 个原有不同目标的导航；业务断言、测试状态与执行证据仍由下游唯一报告、catalog 和配对 evidence 承担。
+本页负责 2 个不同目标的导航；业务断言、测试状态与执行证据仍由下游唯一报告、catalog 和配对 evidence 承担。
 
 ## 当前状态
 
@@ -21,6 +21,9 @@ Template: governance-index-v1 / 1.0.0
 ## 入口与责任
 
 - [Dependency ownership](dependencies/README.md)
+- [可选45°方向控制回归](control-rotation/README.md)
+
+2026-10-27新增输入回归入口：实际执行结论仅取该报告及根独立接收回执；本次导航改动不新增运行。
 
 本页只维护这些入口的用途；原文未署 Owner，不能把下游 catalog 的 Codex 出版责任倒填成本页原作者。
 

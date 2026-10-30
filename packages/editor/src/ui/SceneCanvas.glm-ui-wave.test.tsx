@@ -1,3 +1,4 @@
+import { waitForReact } from '../__tests__/react-io-wait.js'
 // @vitest-environment jsdom
 /**
  * TEST-GLM-EDITOR-UI-WAVE-1 U4a：SceneCanvas 残差。
@@ -183,7 +184,7 @@ describe('U4a SceneCanvas 残差', () => {
 
   // 真实 useSceneAssets 就绪等待：fit 完成后 view.zoom 落到 96%（fitStageView 0.96）。
   const waitReady = async (canvas: HTMLCanvasElement): Promise<void> => {
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(host.querySelector('.canvas-note')?.textContent ?? '').not.toContain('载入中')
     })
     void canvas

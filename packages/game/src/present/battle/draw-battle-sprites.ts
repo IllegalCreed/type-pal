@@ -5,8 +5,11 @@
  *   - 我方:F.MKF chunk[role.spriteNumInBattle](sdlpal `battle.c:856`)
  *   - 敌方:ABC.MKF chunk[enemy.id](sdlpal 同函数 `wEnemyID` 真值)
  *
- * M3 简版:位置硬编码(5 个槽位)。M5 时按 sdlpal ENEMYPOS / 队列位置真值。
- * blit 规则同 draw-sprite:anchor 在底部中心,索引 0 透明,屏外 clip。
+ * 位置:sdlpal 真值 —— 敌方 ENEMYPOS 表(DATA.MKF chunk 13,缺则 5 槽 fallback)+
+ *   队员 g_rgPlayerPos 表(battle-positions.ts 单一来源);精灵与伤害数字共用
+ *   computeEnemyAnchor / computePlayerAnchor 锚点,杜绝漂移。
+ * blit 规则:anchor 在底部中心;透明走 opaque mask(RLE-skip run,0 = 跳过,
+ *   同 draw-sprite 约定);屏外像素经 fb.writePixel 边界检查裁剪。
  */
 import type { EnemyPosTable, PlayerRoles } from '@type-pal/shared'
 import { ENEMY_POSITIONS_FALLBACK, getPlayerBasePos } from '../../core/battle/battle-positions.js'
@@ -58,40 +61,11 @@ export interface SpriteFrame {
 }
 
 export interface SpriteAsset {
-  /** 帧列表(M3 静态先画 frame[0]);M4 / 后续按 phase 切帧。 */
+  /**
+   * 帧缓冲借用资源加载器，绘制不修改。动画期读 currentFrame；敌人空闲期读
+   * battle-system 推进的 idleFrame，队员读状态姿态。资源缺帧回退 frames[0]。
+   */
   frames: SpriteFrame[]
-}
-
-/**
- * 敌人 idle 帧轮播的闭式索引(D17c)。
- *
- * 对照 sdlpal `fight.c:991-1019 PAL_BattleUpdateFighters` 敌方段(25fps,
- * `BATTLE_FRAME_TIME = 1000/25 = 40ms`,`battle.h:28-29`)。sdlpal 逐 video 帧
- * 跑一个倒计时器:`--wIdleAnimSpeed == 0 → wCurrentFrame++` 并把周期重置回
- * `lprgEnemy[id].wIdleAnimSpeed`(即每 idleAnimSpeed 帧推进 1 格);随后
- * `wCurrentFrame >= wIdleFrames → wCurrentFrame = 0` 环绕。我们用与该倒计时器
- * 同相的闭式 `floor(frameNum / idleAnimSpeed) % idleFrames` 复现整段序列
- * 0,1,…,idleFrames-1,0,…,无须跨帧保存 wCurrentFrame 状态。
- *
- * 门控:
- *   - 睡眠 / 麻痹(`fight.c:1001-1006`):`wCurrentFrame = 0` 定格,不轮播。
- *   - `idleFrames <= 1`(`fight.c:1015-1018`,77 条 enemies idleFrames=1)或
- *     `idleAnimSpeed <= 0`(id0 占位 idleAnimSpeed=0,防除 0)→ 恒定 frame 0。
- *
- * @param frameNum           当前 25fps tick 帧号(= gs.frameNum)
- * @param idleFrames         敌人 idle 序列总帧数(enemies.json[id].idleFrames)
- * @param idleAnimSpeed      每推进 1 格需经过的帧数(enemies.json[id].idleAnimSpeed)
- * @param isSleepOrParalyzed sleep>0 || paralyzed>0
- */
-export function computeIdleFrameIndex(
-  frameNum: number,
-  idleFrames: number,
-  idleAnimSpeed: number,
-  isSleepOrParalyzed: boolean,
-): number {
-  if (isSleepOrParalyzed) return 0 // fight.c:1001-1006 定格 wCurrentFrame=0
-  if (idleFrames <= 1 || idleAnimSpeed <= 0) return 0 // 退化 / 防除 0
-  return Math.floor(frameNum / idleAnimSpeed) % idleFrames
 }
 
 /**
@@ -190,16 +164,6 @@ export function blitFrameDeathFade(
   }
 }
 
-/**
- * 画双方战斗精灵。
- *
- * - 死亡(hp ≤ 0)的敌方 / 队员不画。
- * - sprite 找不到(loader 缺资源)时跳过(已 warn,渲染层不再重复)。
- *
- * sprite key 规约:
- *   - 我方:`player-${spriteNumInBattle}`
- *   - 敌方:`enemy-${enemy.e.id}`
- */
 /** sdlpal `s_iFrame & 1` 等价(同 draw-battle-ui arrowBlinkRed):敌方 target 高亮 / 箭头闪烁 toggle。 */
 function battleSelectBlinkOn(): boolean {
   return (Math.floor(Date.now() / 40) & 1) === 1
@@ -260,13 +224,22 @@ export function computePlayerBattleIdleFrame(
   return 0
 }
 
+/**
+ * 画双方战斗精灵。
+ *
+ * - 死敌保留受击帧至死亡淡出结束；死员绘制倒下姿态，傀儡保留站姿。
+ * - sprite 找不到(loader 缺资源)时跳过(已 warn,渲染层不再重复)。
+ *
+ * sprite key 规约:
+ *   - 我方:`player-${spriteNumInBattle}`
+ *   - 敌方:`enemy-${enemy.e.id}`
+ */
 export function drawBattleSprites(
   fb: Framebuffer,
   state: BattleState,
   battleSprites: Map<string, SpriteAsset>,
   playerRoles: PlayerRoles,
   enemyPos: EnemyPosTable | undefined,
-  _currentFrame: number,
   /** 召唤演出期:隐藏全体队员(改画召唤神,battle.c:386-405 lpSummonSprite!=NULL 分支)。 */
   hidePlayers = false,
   /**

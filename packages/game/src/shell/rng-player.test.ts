@@ -1,4 +1,5 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import type { Palette } from '@type-pal/shared'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { IndexedImage } from '../assets/png.js'
 import { createFramebuffer } from '../present/framebuffer.js'
 import { __setRngChunkLoaderForTest, playRng } from './rng-player.js'
@@ -21,13 +22,22 @@ function mockFrameFiller(): (chunkIdx: number, frameIdx: number) => Promise<Inde
   })
 }
 
-const mockPalette = {
+const mockPalette: Palette = {
   colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
   cycles: [],
-} as unknown as import('@type-pal/shared').Palette
-const mockCanvasCtx = {
-  putImageData: vi.fn(),
-} as unknown as CanvasRenderingContext2D
+}
+
+function canvasContext() {
+  const ctx = document.createElement('canvas').getContext('2d')
+  if (!ctx) throw new Error('RNG test requires a 2D canvas context')
+  const putImageData = vi.spyOn(ctx, 'putImageData').mockImplementation(() => {})
+  return { ctx, putImageData }
+}
+
+let mockCanvasCtx: CanvasRenderingContext2D
+beforeEach(() => {
+  mockCanvasCtx = canvasContext().ctx
+})
 
 afterEach(() => {
   vi.restoreAllMocks()
@@ -52,22 +62,27 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
   })
 
   it('Space 按键跳过 → 不到末帧停', async () => {
-    const fb = createFramebuffer()
-    const promise = playRng({
-      chunkIdx: 6,
-      frameDelayMs: 50,
-      fb,
-      canvasCtx: mockCanvasCtx,
-      palette: mockPalette,
-      fetchManifest: mockManifestOk(),
-      fetchFrame: mockFrameFiller(),
-    })
-    await new Promise((r) => setTimeout(r, 60))
-    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
-    await promise
-    // fb 是某中间帧(不一定是末帧)
-    expect(fb.indices[0]).toBeGreaterThanOrEqual(1)
-    expect(fb.indices[0]).toBeLessThanOrEqual(3)
+    vi.useFakeTimers()
+    try {
+      const fb = createFramebuffer()
+      const promise = playRng({
+        chunkIdx: 6,
+        frameDelayMs: 50,
+        skipKeys: ['Space'],
+        fb,
+        canvasCtx: mockCanvasCtx,
+        palette: mockPalette,
+        fetchManifest: mockManifestOk(),
+        fetchFrame: mockFrameFiller(),
+      })
+      await vi.advanceTimersByTimeAsync(0)
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
+      await vi.runAllTimersAsync()
+      await promise
+      expect(fb.indices[0]).toBe(1)
+    } finally {
+      vi.useRealTimers()
+    }
   })
 
   it('manifest 缺该 chunk → 警告 + return,不抛', async () => {
@@ -227,23 +242,30 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
     })
 
     it('跳过键提前结束 → 未显示帧的递减一次性结清(与完整播完一致)', async () => {
-      const fb = createFramebuffer()
-      const shakeState = { shakeTime: 100, shakeLevel: 4 }
-      const promise = playRng({
-        chunkIdx: 6,
-        frameDelayMs: 50,
-        fb,
-        canvasCtx: mockCanvasCtx,
-        palette: mockPalette,
-        fetchManifest: mockManifestOk(),
-        fetchFrame: mockFrameFiller(),
-        shakeState,
-      })
-      await new Promise((r) => setTimeout(r, 60))
-      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
-      await promise
-      // 无论实际显示几帧,显示帧逐帧递减 + 跳过结清剩余 = 总递减恒为全片 3 帧
-      expect(shakeState.shakeTime).toBe(97)
+      vi.useFakeTimers()
+      try {
+        const fb = createFramebuffer()
+        const shakeState = { shakeTime: 100, shakeLevel: 4 }
+        const promise = playRng({
+          chunkIdx: 6,
+          frameDelayMs: 50,
+          skipKeys: ['Space'],
+          fb,
+          canvasCtx: mockCanvasCtx,
+          palette: mockPalette,
+          fetchManifest: mockManifestOk(),
+          fetchFrame: mockFrameFiller(),
+          shakeState,
+        })
+        await vi.advanceTimersByTimeAsync(0)
+        window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
+        await vi.runAllTimersAsync()
+        await promise
+        expect(fb.indices[4 * 320]).toBe(1)
+        expect(shakeState.shakeTime).toBe(97)
+      } finally {
+        vi.useRealTimers()
+      }
     })
 
     it('不传 shakeState → 行为不变', async () => {
@@ -263,12 +285,11 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
 
   it('initialFadeInMs:第一帧先按黑 palette 显示,再恢复目标 palette', async () => {
     const fb = createFramebuffer()
-    const putImageData = vi.fn()
-    const ctx = { putImageData } as unknown as CanvasRenderingContext2D
-    const palette = {
+    const { ctx, putImageData } = canvasContext()
+    const palette: Palette = {
       colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
       cycles: [],
-    } as unknown as import('@type-pal/shared').Palette
+    }
     palette.colors[1] = [180, 120, 60]
 
     await playRng({
@@ -285,10 +306,11 @@ describe('playRng — sdlpal PAL_RNGPlay 等价 (M5.6 T18 Step 4)', () => {
       fetchFrame: mockFrameFiller(),
     })
 
-    const first = putImageData.mock.calls[0]?.[0] as ImageData
-    const last = putImageData.mock.calls.at(-1)?.[0] as ImageData
-    expect(Array.from(first.data.slice(0, 3))).toEqual([0, 0, 0])
-    expect(Array.from(last.data.slice(0, 3))).toEqual([180, 120, 60])
+    const renderedColors = putImageData.mock.calls.map(([frame]) =>
+      Array.from(frame.data.slice(0, 3)),
+    )
+    expect(renderedColors[0]).toEqual([0, 0, 0])
+    expect(renderedColors.at(-1)).toEqual([180, 120, 60])
   })
 
   // 资源管线优化(2026-06-22)后,playRng 用 `Promise.all(frames.map(fetchFrame))` 并发取帧,默认

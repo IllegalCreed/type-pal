@@ -9,6 +9,7 @@ import {
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { installReactActEnvironment } from '../__tests__/react-io-wait.js'
 import { EditSession } from '../core/edit-session.js'
 import type { MapSelection } from '../core/map-selection.js'
 import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
@@ -20,7 +21,10 @@ await stubNodeTestHost()
 let root: Root
 let host: HTMLDivElement
 
+let restoreActEnvironment = () => {}
+
 beforeEach(async () => {
+  restoreActEnvironment = installReactActEnvironment()
   document.body.innerHTML = ''
   Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
     configurable: true,
@@ -42,6 +46,7 @@ beforeEach(async () => {
 afterEach(async () => {
   await act(async () => root.unmount())
   host.remove()
+  restoreActEnvironment()
 })
 
 function fixture() {

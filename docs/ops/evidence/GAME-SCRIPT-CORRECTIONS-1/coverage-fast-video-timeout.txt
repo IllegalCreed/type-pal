@@ -1,0 +1,344 @@
+
+[coverage:fast] @type-pal/shared
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/shared
+      Coverage enabled with v8
+
+ ✓ src/rle.boundaries.test.ts (7 tests) 6ms
+ ✓ src/rle.glm-runtime-resource.test.ts (9 tests) 5ms
+ ✓ src/rle-encode.boundaries.test.ts (4 tests) 5ms
+ ✓ src/rle.glm-o.test.ts (9 tests) 7ms
+ ✓ src/rle.test.ts (26 tests) 15ms
+ ✓ src/pal-map-names.test.ts (2 tests) 11ms
+ ✓ src/rle-encode.test.ts (8 tests) 26ms
+ ✓ src/rle-encode.glm-runtime-resource.test.ts (4 tests) 33ms
+ ✓ src/mkf.boundaries.test.ts (11 tests) 7ms
+ ✓ src/yj2.boundaries.test.ts (10 tests) 218ms
+ ✓ src/rng.test.ts (6 tests) 5ms
+ ✓ src/index.test.ts (2 tests) 4ms
+ ✓ src/rng.boundaries.test.ts (16 tests) 412ms
+     ✓ 非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧  308ms
+
+ Test Files  13 passed (13)
+      Tests  114 passed (114)
+   Start at  17:14:22
+   Duration  746ms (transform 763ms, setup 0ms, import 1.07s, tests 752ms, environment 1ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 98.49% ( 459/466 )
+Branches     : 95.87% ( 209/218 )
+Functions    : 100% ( 23/23 )
+Lines        : 99.51% ( 410/412 )
+================================================================================
+
+[coverage:fast] @type-pal/content
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/content
+      Coverage enabled with v8
+
+ ✓ src/frame-sequence.contracts.test.ts (19 tests) 10ms
+ ✓ src/asset.test.ts (27 tests) 18ms
+ ✓ src/script-library.test.ts (19 tests) 17ms
+ ✓ src/battle-choreography.leaf.test.ts (41 tests) 20ms
+ ✓ src/validate-refs.test.ts (46 tests) 33ms
+ ✓ src/validate.test.ts (94 tests) 21ms
+ ✓ src/frame-sequence.test.ts (13 tests) 23ms
+ ✓ src/record-items.guard-residual.test.ts (39 tests) 25ms
+ ✓ src/script-library.resource-boundaries.test.ts (20 tests) 168ms
+ ✓ src/frame-sequence.resource-boundaries.test.ts (20 tests) 23ms
+ ✓ src/validate-refs.glm-o.test.ts (23 tests) 24ms
+ ✓ src/author-script-core.test.ts (34 tests) 16ms
+ ✓ src/item.effects.background.test.ts (10 tests) 11ms
+ ✓ src/scene-index.boundaries.test.ts (10 tests) 7ms
+ ✓ src/asset.resource-boundaries.test.ts (13 tests) 8ms
+ ✓ src/author-script-current.boundaries.test.ts (9 tests) 4ms
+ ✓ src/stamp.glm-leaf-wave.test.ts (3 tests) 4ms
+ ✓ src/project-map.boundaries.test.ts (24 tests) 15ms
+ ✓ src/asset-closure.contracts.test.ts (5 tests) 22ms
+ ✓ src/item.test.ts (51 tests) 23ms
+ ✓ src/command-target-reference.test.ts (5 tests) 7ms
+ ✓ src/frame-sequence.cursor-boundaries.test.ts (1 test) 11ms
+ ✓ src/script-library.glm-o.test.ts (10 tests) 7ms
+ ✓ src/validate-refs.data-refs.test.ts (4 tests) 11ms
+ ✓ src/actor-condition.glm-o.test.ts (12 tests) 5ms
+ ✓ src/record-skills-poisons.guard-residual.test.ts (9 tests) 6ms
+ ✓ src/item.ownership.background.test.ts (8 tests) 9ms
+ ✓ src/enemy-validation-shapes.leaf.test.ts (33 tests) 6ms
+ ✓ src/world-variable.test.ts (8 tests) 4ms
+ ✓ src/author-dialogue.field-guards.test.ts (5 tests) 9ms
+ ✓ src/author-dialogue.test.ts (5 tests) 5ms
+ ✓ src/enemy-ai-condition-guard.leaf.test.ts (17 tests) 8ms
+ ✓ src/validate-refs.contracts.test.ts (6 tests) 14ms
+ ✓ src/item-effects.glm-o.test.ts (9 tests) 7ms
+ ✓ src/validate-skills-poisons.boundaries.test.ts (21 tests) 6ms
+ ✓ src/map-index.contracts.test.ts (15 tests) 14ms
+ ✓ src/item.derived.background.test.ts (8 tests) 14ms
+ ✓ src/entity-lifecycle.test.ts (9 tests) 6ms
+ ✓ src/actor-reference.boundaries.test.ts (6 tests) 12ms
+ ✓ src/frame-sequence-provider-next2.glm-o.test.ts (12 tests) 11ms
+ ✓ src/author-command.guard-residual.test.ts (11 tests) 8ms
+ ✓ src/map-index.test.ts (5 tests) 4ms
+ ✓ src/data-guards.glm-o.test.ts (12 tests) 9ms
+ ✓ src/project-map.test.ts (6 tests) 10ms
+ ✓ src/world-variable.boundaries.test.ts (6 tests) 5ms
+ ✓ src/asset.residual.test.ts (3 tests) 6ms
+ ✓ src/runtime-script.boundaries.test.ts (4 tests) 25ms
+ ✓ src/map-index.glm-leaf-wave.test.ts (5 tests) 6ms
+ ✓ src/validate.glm-o.test.ts (19 tests) 18ms
+ ✓ src/validate-runtime.wave2.test.ts (2 tests) 8ms
+ ✓ src/script-command.guard-residual.test.ts (21 tests) 18ms
+ ✓ src/author-script.cursor-pure-wave2.test.ts (1 test) 4ms
+ ✓ src/validate-start-world.boundaries.test.ts (20 tests) 6ms
+ ✓ src/runtime-scene.test.ts (9 tests) 8ms
+ ✓ src/validate-runtime.test.ts (3 tests) 6ms
+ ✓ src/command-target-reference.contracts.test.ts (4 tests) 5ms
+ ✓ src/author-battle-dialogue-boundary.test.ts (13 tests) 13ms
+ ✓ src/validate-enemy-crosscalls.test.ts (10 tests) 21ms
+ ✓ src/frame-sequence.glm-leaf-wave.test.ts (5 tests) 8ms
+ ✓ src/enemy-ai.glm-o.test.ts (15 tests) 5ms
+ ✓ src/runtime-script-lifecycle.test.ts (5 tests) 6ms
+ ✓ src/item.cursor-pure-wave2.test.ts (1 test) 13ms
+ ✓ src/asset-catalog.contracts.test.ts (27 tests) 6ms
+ ✓ src/character.test.ts (25 tests) 9ms
+ ✓ src/record-actors.guard-residual.test.ts (6 tests) 10ms
+ ✓ src/frame-sequence.residual.test.ts (3 tests) 5ms
+ ✓ src/author-script-core.wave2.test.ts (16 tests) 12ms
+ ✓ src/actor-condition.test.ts (11 tests) 9ms
+ ✓ src/project-map.contracts.test.ts (5 tests) 5ms
+ ✓ src/world-variable.glm-leaf-wave.test.ts (3 tests) 6ms
+ ✓ src/author-unified-control.test.ts (12 tests) 8ms
+ ✓ src/ambience-skill.glm-o.test.ts (5 tests) 3ms
+ ✓ src/item.preflight.background.test.ts (6 tests) 66ms
+ ✓ src/battle-sprite-profile.contracts.test.ts (5 tests) 4ms
+ ✓ src/enemy-hook.guard-residual.test.ts (7 tests) 8ms
+ ✓ src/battle-sprite.test.ts (5 tests) 5ms
+ ✓ src/author-script-core.glm-o.test.ts (15 tests) 8ms
+ ✓ src/migration-diagnostic.boundaries.test.ts (4 tests) 4ms
+ ✓ src/author-flow.guard-residual.test.ts (4 tests) 6ms
+ ✓ src/validate-author.test.ts (14 tests) 19ms
+ ✓ src/enemy-script.boundaries.test.ts (9 tests) 5ms
+ ✓ src/character.cursor-pure-wave2.test.ts (2 tests) 6ms
+ ✓ src/battle-sprite.boundaries.test.ts (14 tests) 10ms
+ ✓ src/enemy-script.wave2.test.ts (18 tests) 25ms
+ ✓ src/enemy-script.test.ts (6 tests) 7ms
+ ✓ src/actor-condition.boundaries.test.ts (19 tests) 11ms
+ ✓ src/enemy-team.contracts.test.ts (11 tests) 8ms
+ ✓ src/entities-near-condition.test.ts (11 tests) 6ms
+ ✓ src/small-guards.glm-o.test.ts (14 tests) 7ms
+ ✓ src/enemy-script.cursor-pure-wave2.test.ts (1 test) 3ms
+ ✓ src/frame-sequence.glm-o.test.ts (11 tests) 9ms
+ ✓ src/rewards-lifecycle.glm-o.test.ts (3 tests) 3ms
+ ✓ src/script.glm-o.test.ts (7 tests) 3ms
+ ✓ src/project-map.resource-boundaries.test.ts (10 tests) 6ms
+ ✓ src/author-state.guard-residual.test.ts (8 tests) 5ms
+ ✓ src/enemy-script.glm-o.test.ts (10 tests) 8ms
+ ✓ src/validate-actors.boundaries.test.ts (6 tests) 3ms
+ ✓ src/run-entity-trigger.test.ts (2 tests) 5ms
+ ✓ src/author-dialogue.cursor-pure-wave2.test.ts (1 test) 3ms
+ ✓ src/item.inventory.background.test.ts (8 tests) 19ms
+ ✓ src/frame-animation-control.test.ts (7 tests) 6ms
+ ✓ src/auto-script-continuation.test.ts (21 tests) 12ms
+ ✓ src/author-script.current-characterization.test.ts (4 tests) 5ms
+ ✓ src/command-target-reference.boundaries.test.ts (6 tests) 5ms
+ ✓ src/battle-formulas.test.ts (25 tests) 12ms
+ ✓ src/runtime-scene.wave2.test.ts (9 tests) 7ms
+ ✓ src/tileset.test.ts (3 tests) 4ms
+ ✓ src/migration-diagnostic.glm-leaf-wave.test.ts (2 tests) 5ms
+ ✓ src/actor-reference.contracts.test.ts (6 tests) 4ms
+ ✓ src/rewards.test.ts (6 tests) 7ms
+ ✓ src/item.external.background.test.ts (6 tests) 12ms
+ ✓ src/asset.cursor-pure-wave2.test.ts (1 test) 4ms
+ ✓ src/item-equip.glm-o.test.ts (3 tests) 33ms
+ ✓ src/project-map.cursor-pure-wave2.test.ts (1 test) 3ms
+ ✓ src/item-use.glm-o.test.ts (7 tests) 7ms
+ ✓ src/rewards.boundaries.test.ts (6 tests) 11ms
+ ✓ src/author-dialogue.contracts.test.ts (7 tests) 7ms
+ ✓ src/migration-diagnostic.test.ts (2 tests) 6ms
+ ✓ src/tileset-stamp.contracts.test.ts (4 tests) 5ms
+ ✓ src/author-script-core.cursor-pure-wave2.test.ts (1 test) 32ms
+ ✓ src/stamp.cursor-boundaries.test.ts (1 test) 3ms
+ ✓ src/script.cursor-pure-wave2.test.ts (1 test) 3ms
+ ✓ src/scene-index.test.ts (3 tests) 5ms
+ ✓ src/script-library.glm-leaf-wave.test.ts (4 tests) 13ms
+ ✓ src/enemy-ai.cursor-pure-wave2.test.ts (1 test) 5ms
+ ✓ src/ambience.test.ts (5 tests) 3ms
+ ✓ src/stamp.test.ts (3 tests) 5ms
+ ✓ src/shop.test.ts (16 tests) 4ms
+ ✓ src/validate-author-items.boundaries.test.ts (4 tests) 7ms
+ ✓ src/enemy-team-reference.resource-boundaries.test.ts (2 tests) 7ms
+ ✓ src/tileset.cursor-pure-wave2.test.ts (2 tests) 7ms
+ ✓ src/runtime-hostile.glm-o.test.ts (7 tests) 9ms
+ ✓ src/poison.glm-o.test.ts (12 tests) 9ms
+ ✓ src/sprite-frame-demand.contracts.test.ts (4 tests) 5ms
+ ✓ src/rich-text.test.ts (6 tests) 3ms
+ ✓ src/map-index.residual.test.ts (8 tests) 5ms
+ ✓ src/battle-field-reference.test.ts (2 tests) 4ms
+ ✓ src/grid.test.ts (11 tests) 5ms
+ ✓ src/command-target-reference.cursor-pure-wave2.test.ts (1 test) 6ms
+ ✓ src/rich-text-residual.glm-o.test.ts (9 tests) 4ms
+ ✓ src/tileset.glm-leaf-wave.test.ts (2 tests) 5ms
+ ✓ src/enemy-ai.test.ts (9 tests) 7ms
+ ✓ src/rewards.cursor-pure-wave2.test.ts (1 test) 6ms
+ ✓ src/actor-condition.cursor-pure-wave2.test.ts (1 test) 7ms
+ ✓ src/shop.cursor-pure-wave2.test.ts (1 test) 2ms
+ ✓ src/item.cursor-boundaries.test.ts (1 test) 2ms
+ ✓ src/hidden-exp-grid.glm-o.test.ts (1 test) 2ms
+ ✓ src/actor.test.ts (4 tests) 2ms
+ ✓ src/locale.test.ts (2 tests) 2ms
+
+ Test Files  149 passed (149)
+      Tests  1498 passed (1498)
+   Start at  17:14:27
+   Duration  3.85s (transform 5.22s, setup 0ms, import 11.91s, tests 1.55s, environment 9ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 96.42% ( 5668/5878 )
+Branches     : 94.11% ( 4827/5129 )
+Functions    : 98.06% ( 811/827 )
+Lines        : 97.34% ( 5061/5199 )
+================================================================================
+
+[coverage:fast] @type-pal/pal-extract
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/pal-extract
+      Coverage enabled with v8
+
+ ✓ src/io/word.boundaries.test.ts (3 tests) 40ms
+ ✓ src/io/sss.boundaries.test.ts (8 tests) 12ms
+ ✓ src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts (3 tests) 6ms
+ ✓ src/audit-data-mkf.test.ts (8 tests) 388ms
+ ✓ src/resources/misc-guards.kimi-r1.test.ts (16 tests) 43ms
+ ✓ src/resources/parsers/__tests__/items.boundaries.test.ts (2 tests) 47ms
+ ✓ src/resources/parsers/__tests__/rix.test.ts (4 tests) 8ms
+ ✓ src/resources/parsers/__tests__/data-misc.boundaries.test.ts (3 tests) 11ms
+ ✓ src/resources/parsers/items.glm-runtime-resource.test.ts (2 tests) 25ms
+ ✓ src/resources/parsers/battle-fields.glm-runtime-resource.test.ts (1 test) 4ms
+ ✓ src/utils/gbk.test.ts (10 tests) 25ms
+ ✓ src/events/roundtrip.kimi-r1.test.ts (2 tests) 22ms
+ ✓ src/output-boundary.test.ts (5 tests) 18ms
+ ✓ src/io/msg.boundaries.test.ts (4 tests) 71ms
+ ✓ src/resources/parsers/ball.glm-runtime-resource.test.ts (4 tests) 19ms
+ ✓ src/resources/palette.glm-runtime-resource.test.ts (3 tests) 6ms
+ ✓ src/events/slice.boundaries.test.ts (5 tests) 9ms
+ ✓ src/events/recompile.boundaries.test.ts (2 tests) 10ms
+ ✓ src/__tests__/asset-manifest.boundaries.test.ts (2 tests) 13ms
+ ✓ src/events/annotate.glm-runtime-resource.test.ts (10 tests) 5ms
+ ✓ src/resources/sprite.glm-runtime-resource.test.ts (4 tests) 9ms
+ ✓ src/resources/parsers/__tests__/spells.boundaries.test.ts (10 tests) 5ms
+ ✓ src/resources/parsers/fire.glm-runtime-resource.test.ts (4 tests) 7ms
+ ✓ src/resources/parsers/__tests__/player-roles.boundaries.test.ts (4 tests) 9ms
+ ✓ src/resources/parsers/__tests__/enemies.boundaries.test.ts (5 tests) 8ms
+ ✓ src/__tests__/asset-manifest.test.ts (3 tests) 8ms
+ ✓ src/events/slice.kimi-r1.test.ts (11 tests) 7ms
+ ✓ src/events/script-corrections.test.ts (14 tests) 54ms
+ ✓ src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts (2 tests) 4ms
+ ✓ src/io/mkf.test.ts (3 tests) 6ms
+ ✓ src/resources/parsers/rgm.glm-runtime-resource.test.ts (3 tests) 6ms
+ ✓ src/events/opcodes.test.ts (21 tests) 4ms
+ ✓ src/events/annotate.test.ts (6 tests) 5ms
+ ✓ src/events/recompile.test.ts (3 tests) 3ms
+ ✓ src/resources/asset-manifest.glm-runtime-resource.test.ts (2 tests) 5ms
+ ✓ src/resources/enemy-pos.boundaries.test.ts (2 tests) 7ms
+ ✓ src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts (3 tests) 7ms
+ ✓ src/resources/parsers/stores.glm-runtime-resource.test.ts (2 tests) 2ms
+ ✓ src/resources/battle-sprite.test.ts (3 tests) 33ms
+ ✓ src/events/disasm.test.ts (14 tests) 8ms
+ ✓ src/font/__tests__/bdf-to-json.boundaries.test.ts (3 tests) 4ms
+ ✓ src/io/rle.test.ts (3 tests) 5ms
+ ✓ src/events/slice.test.ts (14 tests) 7ms
+ ✓ src/resources/scene.glm-runtime-resource.test.ts (5 tests) 5ms
+ ✓ src/resources/palette.test.ts (3 tests) 7ms
+ ✓ src/events/recompile.glm-runtime-resource.test.ts (4 tests) 10ms
+ ✓ src/resources/parsers/__tests__/stores.boundaries.test.ts (1 test) 6ms
+ ✓ src/resources/parsers/__tests__/sounds.test.ts (1 test) 9ms
+ ✓ src/resources/scene.test.ts (5 tests) 7ms
+ ✓ src/events/disasm.boundaries.test.ts (2 tests) 10ms
+ ✓ src/font/bdf-to-json.glm-runtime-resource.test.ts (5 tests) 6ms
+ ✓ src/resources/palette.boundaries.test.ts (2 tests) 8ms
+ ✓ src/events/disasm.glm-runtime-resource.test.ts (6 tests) 7ms
+ ✓ src/font/__tests__/bdf-to-json.test.ts (2 tests) 6ms
+ ✓ src/events/disasm.kimi-r1.test.ts (5 tests) 11ms
+ ✓ src/resources/sprite.boundaries.test.ts (6 tests) 4ms
+ ✓ src/resources/parsers/__tests__/battle-fields.boundaries.test.ts (1 test) 2ms
+ ✓ src/events/script-entries.test.ts (2 tests) 5ms
+ ✓ src/events/slice.glm-runtime-resource.test.ts (3 tests) 7ms
+ ✓ src/__tests__/cli-host.test.ts (3 tests) 5046ms
+   ✓ real CLI exit retains complete streams and detached receipt; disposal removes its tree  3067ms
+   ✓ disposal waits for an active real process before removing its copied tree  1940ms
+ ✓ src/cli-font-lookup.glm-q.test.ts (2 tests) 5586ms
+   ✓ Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容  3722ms
+   ✓ Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表  1826ms
+ ✓ src/cli-battle-assets.glm-q.test.ts (2 tests) 6215ms
+   ✓ Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest  3474ms
+   ✓ Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip  2699ms
+ ✓ src/cli-isolated.glm-q.test.ts (6 tests) 10721ms
+   ✓ Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）  3663ms
+   ✓ Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）  1754ms
+   ✓ Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝  1204ms
+   ✓ Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）  1307ms
+   ✓ Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）  1301ms
+   ✓ Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件  1362ms
+ ❯ src/cli-entrypoint-paths.test.ts (6 tests | 1 failed) 11653ms
+   ✓ video entrypoint refuses shared data before invoking ffmpeg or changing its target  2117ms
+   ✓ video entrypoint refuses shared extracted before invoking ffmpeg or changing its target  1532ms
+   × owned video output accepts read-only raw links, writes six outputs and then skips them 5111ms
+   ✓ absolute CLI entrypoint through a directory link executes main instead of silently exiting zero  895ms
+   ✓ importing CLI from a different real entrypoint stays side-effect free  1062ms
+   ✓ default prepareOutputRoot checks the imported CLI tree, independently of process cwd  935ms
+ ✓ src/cli-error-exits.kimi-r1.test.ts (9 tests) 13727ms
+   ✓ KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 operand）  3226ms
+   ✓ KIMI-R1 CLI：M.MSG 缺失 → ENOENT + exit 1  2138ms
+   ✓ KIMI-R1 CLI：WORD.DAT 缺失 → ENOENT + exit 1  1267ms
+   ✓ KIMI-R1 CLI：SSS.MKF 头部过短 → MKF 精确诊断 + exit 1  1223ms
+   ✓ KIMI-R1 CLI：SSS.MKF 首偏移非 4 对齐 → MKF 精确诊断 + exit 1  1306ms
+   ✓ KIMI-R1 CLI：输入预检失败保留既有产物与 videos  1213ms
+   ✓ KIMI-R1 CLI：命令面真值——不消费 argv，多余参数被忽略  1086ms
+   ✓ KIMI-R1 CLI：OUT 根是共享 symlink 时，清理前拒绝且保留目标 marker  1044ms
+   ✓ KIMI-R1 CLI：data 父目录是共享 symlink 时，清理前拒绝且保留目标 marker  1133ms
+ ✓ src/cli-global-entries.glm-q.test.ts (14 tests) 19005ms
+   ✓ Q-NEXT1-01 item.use entry  3461ms
+   ✓ Q-NEXT1-02 item.equip entry  1963ms
+   ✓ Q-NEXT1-03 item.throw entry  1258ms
+   ✓ Q-NEXT1-04 item.desc entry  1259ms
+   ✓ Q-NEXT1-05 spell.use entry  1345ms
+   ✓ Q-NEXT1-06 spell.success entry  1464ms
+   ✓ Q-NEXT1-07 spell.desc entry  1207ms
+   ✓ Q-NEXT1-08 enemy.turnStart entry  1284ms
+   ✓ Q-NEXT1-09 enemy.battleEnd entry  928ms
+   ✓ Q-NEXT1-10 enemy.ready entry  904ms
+   ✓ Q-NEXT1-11 player.friendDeath entry  972ms
+   ✓ Q-NEXT1-12 player.dying entry  935ms
+   ✓ Q-NEXT1-13 shared entry alias  908ms
+   ✓ Q-NEXT1-14 scene global overlap  914ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/cli-entrypoint-paths.test.ts > owned video output accepts read-only raw links, writes six outputs and then skips them
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/cli-entrypoint-paths.test.ts:116:1
+    114| })
+    115|
+    116| it('owned video output accepts read-only raw links, writes six outputs…
+       | ^
+    117|   const f = makeTree()
+    118|   const raw = join(f.root, 'owned-input')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 65 passed (66)
+      Tests  1 failed | 330 passed (331)
+   Start at  17:14:33
+   Duration  19.52s (transform 1.60s, setup 0ms, import 3.63s, tests 73.06s, environment 5ms)
+
+undefined
+/Users/zhangxu/illegal/type-pal/packages/pal-extract:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run --reporter=default --passWithNoTests --exclude node_modules/** --exclude dist/** --exclude build/** --exclude coverage/** --exclude **/*.pal.test.js --exclude **/*.pal.test.jsx --exclude **/*.pal.test.ts --exclude **/*.pal.test.tsx --exclude **/*.pal.test.mjs --exclude **/*.pal.test.mts --exclude **/*.pal.test.cjs --exclude **/*.pal.test.cts --exclude src/events/roundtrip.test.ts --exclude src/io/msg.test.ts --exclude src/io/sss.test.ts --exclude src/io/word.test.ts --exclude src/io/yj2.test.ts --exclude src/resources/map.test.ts --exclude src/resources/parsers/__tests__/data-misc.test.ts --exclude src/resources/parsers/__tests__/misc-mkf.test.ts --exclude src/resources/parsers/rng-frames.test.ts --exclude src/resources/sprite.test.ts --exclude src/resources/tables.test.ts --coverage --coverage.provider=v8 --coverage.reportsDirectory=/Users/zhangxu/illegal/type-pal/coverage/fast/pal-extract --coverage.reporter=text-summary --coverage.reporter=json-summary --coverage.reporter=html --coverage.reporter=lcov --coverage.include src/**/*.ts --coverage.include scripts/extract-videos.ts --coverage.exclude **/__tests__/** --coverage.exclude **/*.test.ts --coverage.exclude **/*.test.tsx --coverage.exclude **/*.spec.ts --coverage.exclude **/*.spec.tsx --coverage.exclude **/*.d.ts
+
+[coverage:fast] FAIL
+pnpm 退出码 1

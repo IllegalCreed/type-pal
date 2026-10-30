@@ -1,6 +1,6 @@
 import type { Command, InputSnapshot } from '@type-pal/shared'
 import { afterEach, describe, expect, it } from 'vitest'
-import { createCommandBus } from './command-bus.js'
+
 import * as equipEntry from './equip-effect.js'
 import * as equipment from './equipment-state.js'
 import * as eventEntry from './event-system.js'
@@ -37,10 +37,10 @@ describe('D1 shared-state ownership after dependency split', () => {
     expect(menuEntry.closeTopMenu).toBe(menuStack.closeTopMenu)
   })
 
-  it('catalog keeps the actual patched command array and publishes replacements through both entrypoints', () => {
+  it('catalog keeps the supplied corrected command array and publishes replacements through both entrypoints', () => {
     const commands: Command[] = [
       { op: 'showDialog', messageIndex: 12256, text: '获得九节鞭', label: 'L_1' },
-      { op: 'giveItem', itemId: 0, count: 1 },
+      { op: 'giveItem', itemId: 164, count: 1 },
       { op: 'end' },
     ]
     eventEntry.setGlobalEvents(commands)
@@ -65,13 +65,13 @@ describe('D1 shared-state ownership after dependency split', () => {
     expect(catalog.resolveLabelIp(cursor, 'shared#L_7')).toBe(0)
     expect(catalog.resolveLabelIp(cursor, 'L_8')).toBeUndefined()
     expect(eventEntry.getCmds({})).toBe(global)
-    expect(eventEntry.resolveScriptLabel(fresh(), 'L_8')).toEqual({ ip: 0 })
+    expect(eventEntry.resolveScriptLabel('L_8')).toEqual({ ip: 0 })
   })
 
   it('unknown global labels cannot resolve inherited object members as script IPs', () => {
     catalog.setGlobalEvents([{ op: 'end', label: 'L_1' }])
     for (const label of ['toString', 'constructor', '__proto__']) {
-      expect(catalog.resolveScriptLabel(fresh(), label)).toBeNull()
+      expect(catalog.resolveScriptLabel(label)).toBeNull()
       expect(catalog.resolveLabelIp({}, label)).toBeUndefined()
     }
   })
@@ -91,7 +91,7 @@ describe('D1 shared-state ownership after dependency split', () => {
       { op: 'end', label: '__proto__' },
     ]
     catalog.setGlobalEvents(commands)
-    expect(catalog.resolveScriptLabel(fresh(), '__proto__')).toEqual({ ip: 2 })
+    expect(catalog.resolveScriptLabel('__proto__')).toEqual({ ip: 2 })
     expect(catalog.resolveLabelIp({}, 'shared#toString')).toBe(1)
     expect(Object.getPrototypeOf(catalog.getGlobalLabelMap())).toBeNull()
   })
@@ -123,7 +123,7 @@ describe('D1 shared-state ownership after dependency split', () => {
     gs.PlayerRolesRuntime.rgwPoisonResistance[1] = 0
     equipEntry.runEquipScript(gs, 520, 1)
     expect(gs.PlayerRolesRuntime.rgwHP[1]).toBe(70)
-    expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 100, wPoisonScript: 4 })
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 100, wPoisonScript: 4 })
   })
 
   it('equipment removal sees poison definitions registered at the original event entrypoint', () => {
@@ -132,20 +132,20 @@ describe('D1 shared-state ownership after dependency split', () => {
       { id: 101, level: 2, color: 0, playerScript: 0, enemyScript: 0 },
     ])
     const gs = fresh()
+    gs.partyMembers = [0, 1]
     poison.addPoisonForPlayer(gs, 0, 100)
     poison.addPoisonForPlayer(gs, 0, 101)
     poison.addPoisonForPlayer(gs, 1, 100)
     equipment.removeEquipmentEffect(gs, 0, 5)
-    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })
-    expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 101, wPoisonScript: 0 })
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 101, wPoisonScript: 0 })
+    expect(gs.rgPoisonStatus['1_0']).toEqual({ wPoisonID: 0, wPoisonScript: 0 })
     expect(gs.rgPoisonStatus['0_1']).toEqual({ wPoisonID: 100, wPoisonScript: 0 })
     expect(poison.isPlayerPoisoned(gs, 1)).toBe(false)
     expect(poison.isPlayerPoisoned(gs, 0)).toBe(true)
   })
 
   it('event history consumes the latest map written through either scene identity entrypoint', () => {
-    const gs = fresh(),
-      bus = createCommandBus()
+    const gs = fresh()
     for (const [setMap, map] of [
       [sceneEntry.setCurrentMapNum, 7],
       [identity.setCurrentMapNum, 9],
@@ -156,7 +156,7 @@ describe('D1 shared-state ownership after dependency split', () => {
         ip: 0,
       }
       gs.mode = 'event'
-      eventEntry.tickEventSystem(gs, input(), bus)
+      eventEntry.tickEventSystem(gs, input())
       expect(gs.dialogHistory?.at(-1)).toEqual({ map, text: '共享地图' })
       expect(sceneEntry.getCurrentMapNum()).toBe(map)
     }
@@ -169,7 +169,7 @@ describe('D1 shared-state ownership after dependency split', () => {
     menuStack.closeTopMenu(gs)
     expect(gs.mode).toBe('menu')
     expect(gs.eventCursor).toEqual({ ip: 3, waiting: 'shop' })
-    menuEntry.tickMenu(gs, input(), createCommandBus())
+    menuEntry.tickMenu(gs, input())
     expect(gs.mode).toBe('event')
     expect(gs.eventCursor).toEqual({ ip: 3, waiting: undefined })
     expect(gs.menuStack).toEqual([])

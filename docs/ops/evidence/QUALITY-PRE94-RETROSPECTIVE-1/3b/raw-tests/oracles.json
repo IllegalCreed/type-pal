@@ -1,0 +1,59 @@
+{
+  "sss": {
+    "inputSha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756",
+    "eventObjects": 5077,
+    "scenes": 295,
+    "objectWords": 3955,
+    "messageOffsets": 13514,
+    "bytecodeInstructions": 43503,
+    "eoDigest": "439658d77816db3cbc3dd54fcf3a6989c405716230998b0193838a557f262dcd",
+    "sceneDigest": "dafd2356cb308d7cf4671b87d465473298bf8b3f6633bfb0140068f6ee47c305",
+    "objectDigest": "8c371169b681d006267d28ec85b2afd06324d8e2ac2f2d346c79b63f290c1ed0",
+    "offsetDigest": "8ea4810e4ee1001dfc4a91af44537cc0bfb6fd87f8a86f22fc9013edf79f948b",
+    "bytecodeDigest": "241ecddf16642de71eb4ba35f80b42677f7ececd42462c778d44c2e048a0dc70"
+  },
+  "msg": {
+    "msgSha256": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846",
+    "sssSha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756",
+    "offsets": 13514,
+    "messages": 13513,
+    "samples": [
+      {
+        "id": 0,
+        "start": 0,
+        "end": 30,
+        "hex": "243130c0eea1abe5d0a1abd2a3a3acc0eea1abe5d0a1abd2a3a3a17e3330",
+        "expected": "$10李～逍～遥，李～逍～遥！~30"
+      },
+      {
+        "id": 1,
+        "start": 30,
+        "end": 37,
+        "hex": "c0eee5d0d2a33a",
+        "expected": "李逍遥:"
+      },
+      {
+        "id": 100,
+        "start": 1674,
+        "end": 1682,
+        "hex": "c0eee5d0d2a3a1c3",
+        "expected": "李逍遥∶"
+      },
+      {
+        "id": 6757,
+        "start": 112544,
+        "end": 112564,
+        "hex": "b4f3c9a9b3f6c0b4cde2c3e6b2c9bba8c2f0a3bf",
+        "expected": "大嫂出来外面采花吗？"
+      },
+      {
+        "id": 13512,
+        "start": 224436,
+        "end": 224455,
+        "hex": "a1a1cddba1aba1a1d4f5c3b4b0eca3a17e3630",
+        "expected": "　哇～　怎么办！~60"
+      }
+    ]
+  },
+  "notClaimed": "Five fixed clean raw entries only; no exclusion/filter added to the runner and no full-text/fixup/native oracle."
+}

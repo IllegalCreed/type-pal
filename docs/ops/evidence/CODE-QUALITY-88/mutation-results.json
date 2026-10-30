@@ -1,0 +1,61 @@
+[
+  {
+    "phase": "original",
+    "command": "pnpm exec vitest run src/core/menu/__tests__/item-magic-select.test.ts src/core/menu/magic-select.boundaries.test.ts src/core/menu/magic-select.glm-phase1-leaves.test.ts --reporter=json",
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq88-xdMKo5",
+    "exitCode": 0,
+    "signal": null,
+    "sourceSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47"
+  },
+  {
+    "id": "MUT-01",
+    "description": "reverse object-id sort",
+    "command": "pnpm exec vitest run src/core/menu/__tests__/item-magic-select.test.ts src/core/menu/magic-select.boundaries.test.ts src/core/menu/magic-select.glm-phase1-leaves.test.ts --reporter=json",
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq88-xdMKo5",
+    "replacementOccurrences": 1,
+    "mutantExitCode": 1,
+    "mutantSignal": null,
+    "mutantBusinessAssertion": true,
+    "mutantRuntimeError": false,
+    "originalSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+    "mutantSha256": "525689e302a724fc2f3006422a01ab13b8285d459416e85318f99f4e8d659747",
+    "restoredSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+    "sourceRestoredByteIdentical": true,
+    "restoredExitCode": 0,
+    "restoredSignal": null
+  },
+  {
+    "id": "MUT-02",
+    "description": "disable exact-MP spell",
+    "command": "pnpm exec vitest run src/core/menu/__tests__/item-magic-select.test.ts src/core/menu/magic-select.boundaries.test.ts src/core/menu/magic-select.glm-phase1-leaves.test.ts --reporter=json",
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq88-xdMKo5",
+    "replacementOccurrences": 1,
+    "mutantExitCode": 1,
+    "mutantSignal": null,
+    "mutantBusinessAssertion": true,
+    "mutantRuntimeError": false,
+    "originalSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+    "mutantSha256": "220577dedcef9659f6037be99ec9802a63b926e3d4b5ca3aa326d9b29397d32e",
+    "restoredSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+    "sourceRestoredByteIdentical": true,
+    "restoredExitCode": 0,
+    "restoredSignal": null
+  },
+  {
+    "id": "MUT-03",
+    "description": "resolve spell by magicNumber instead of object id",
+    "command": "pnpm exec vitest run src/core/menu/__tests__/item-magic-select.test.ts src/core/menu/magic-select.boundaries.test.ts src/core/menu/magic-select.glm-phase1-leaves.test.ts --reporter=json",
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq88-xdMKo5",
+    "replacementOccurrences": 1,
+    "mutantExitCode": 1,
+    "mutantSignal": null,
+    "mutantBusinessAssertion": true,
+    "mutantRuntimeError": false,
+    "originalSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+    "mutantSha256": "1777d53babe66e4f7fe85180d19979409033384eb3eafb4074b92b85086254ab",
+    "restoredSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+    "sourceRestoredByteIdentical": true,
+    "restoredExitCode": 0,
+    "restoredSignal": null
+  }
+]

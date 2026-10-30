@@ -1,0 +1,1103 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-ENGLISH-1",
+  "kind": "coordinator-integration-acceptance",
+  "owner": "Codex",
+  "date": "2026-10-22",
+  "decision": "implementation-accepted-pending-user-experience",
+  "candidate": {
+    "base": "6a29b455fc51664df85334bc177d0994348a7987",
+    "frozenProduct": "de8f05c1c11c4652c45e2ef782306bf5d184b834",
+    "currentHead": "de8f05c1c11c4652c45e2ef782306bf5d184b834",
+    "fileFingerprints": [
+      {
+        "path": "packages/game/index.html",
+        "sha256": "55a747276b155879353b1c1d5978d56cbddf7ebe1cca2e53281271ca21e08b9d"
+      },
+      {
+        "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+        "sha256": "2b0b50eb2ed05a4a2f89e8acbf73e8365839ef552de1f433b47cc940e15b0934"
+      },
+      {
+        "path": "packages/game/src/assets/language-pack.test.ts",
+        "sha256": "d8097a8e21204fd3d60f306d09373c3a6bf5adc46aa7e0aa6bf8411baf5e4a28"
+      },
+      {
+        "path": "packages/game/src/assets/language-pack.ts",
+        "sha256": "90823c2c79881f5783c04d2bd070d1f6837a43685814ea6b6123a927b342fca4"
+      },
+      {
+        "path": "packages/game/src/core/battle/actions/throw-item.ts",
+        "sha256": "70e2a69b3397d1e402f07e57db7832ada38ecfa380694abf4930b80629f16fba"
+      },
+      {
+        "path": "packages/game/src/core/battle/anim-timeline.ts",
+        "sha256": "6d157c643e6798a672233d03b0fc2c01a4e77def66236ee71fb43c302a647102"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.ts",
+        "sha256": "2cd6d03e5be5d0046f9b1ebe0a62df164e62718a652af05f35d9bb0f257d703a"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "sha256": "b316f1ad01e30d1db46861cef7b29c0fb4d7069fffead3d509993b49be18da85"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-settlement.ts",
+        "sha256": "f37d735312ba546599694e3d11c426302d36fd9d04027abe3a1554799134f298"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-state.ts",
+        "sha256": "907f8dade18dd4b55b0cecc6d08c6b9a76aa26499df9b93539681752306d5541"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-system.ts",
+        "sha256": "00b9ddfbb6f962cbd54df84757be4ca9fa8ebe45828c3e2648503a521af4eb2b"
+      },
+      {
+        "path": "packages/game/src/core/event-system.ts",
+        "sha256": "54e838d92e011fd96d4529ecfee4b6374fcf6b25aa86640d49af832227b36d0f"
+      },
+      {
+        "path": "packages/game/src/core/game-state.ts",
+        "sha256": "c1e3d93696824b14d0192d226faa79cf62a91a7f2ae08778a3320ee35a9dea8f"
+      },
+      {
+        "path": "packages/game/src/core/menu/script-desc.ts",
+        "sha256": "0bffc90524c46f0a4696e399c3ac1c4a9361aed42b3733cf9009e853c3d9c8e2"
+      },
+      {
+        "path": "packages/game/src/core/save/v1-battle.ts",
+        "sha256": "7f1eb8f53cc847187d3b40e4ceadde61ada01737d82897221cca4a79047b5c77"
+      },
+      {
+        "path": "packages/game/src/core/save/v1-world.ts",
+        "sha256": "4c9171a7ececa07ddbafe199c3844aa7b1435b04f960b0f439c361ccf64af3b1"
+      },
+      {
+        "path": "packages/game/src/core/word-lookup.ts",
+        "sha256": "e8f01ede5466b24f54b711b77f37c64bd675e49742a650aa67f2ce51d6f3deda"
+      },
+      {
+        "path": "packages/game/src/localization/language.test.ts",
+        "sha256": "4c96a04add9afdccf39f1ff310e5978285f9384890372a76a8b81e3cf8a816c4"
+      },
+      {
+        "path": "packages/game/src/localization/language.ts",
+        "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779"
+      },
+      {
+        "path": "packages/game/src/localization/layout.ts",
+        "sha256": "4240ea5e629b2f6c65fc9a0fb48e73c418b9ea5aa5ec547b011e0313c3c1bc1c"
+      },
+      {
+        "path": "packages/game/src/localization/map-names-en.ts",
+        "sha256": "ef57733e5f7158b80024e6c0dd04f2eacfc8378dbd69a72954af45872dcf0f06"
+      },
+      {
+        "path": "packages/game/src/localization/messages.test.ts",
+        "sha256": "14a04511d1bc2704c54fc31d9e6af8b75ae5dde1e70deba6341dbc2928d2bdc7"
+      },
+      {
+        "path": "packages/game/src/localization/messages.ts",
+        "sha256": "fe0d4847126dde80f76e7ee26e82b83bd966739c7bdf180474bc0d739481f721"
+      },
+      {
+        "path": "packages/game/src/localization/presentation.test.ts",
+        "sha256": "07cf03de71dd2477bdfa47c066c0126a0cd16241eb6d1eecd6aa2817f77d0757"
+      },
+      {
+        "path": "packages/game/src/localization/settlement-language.test.ts",
+        "sha256": "a4dd3eba70b418fe11ea837ac20c8c57bb874e77a02fc95e0a450ea64f50729b"
+      },
+      {
+        "path": "packages/game/src/localization/shell-surfaces.test.ts",
+        "sha256": "41f5ce926b70b0a68a26392f20c6b890179e900295f97f6859272068effbd372"
+      },
+      {
+        "path": "packages/game/src/localization/static-shell.ts",
+        "sha256": "f1ce70512971b2f042a6630136193c13324ba590baee16c68da5b886283a34f5"
+      },
+      {
+        "path": "packages/game/src/localization/ui-text.ts",
+        "sha256": "d39fb2476e782d14fe4b0ae3de372786ec929417d948fd325a802340a7c55971"
+      },
+      {
+        "path": "packages/game/src/main.ts",
+        "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03"
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "sha256": "e7bf2f68bcdf0615a433b1ee31be1268f3eac68cee5c1c872903b46847cc6cb9"
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "sha256": "b4d1da8c10db3bca67993e34c73eb68af80244e9978106279e7332e2ccc95353"
+      },
+      {
+        "path": "packages/game/src/present/battle/present-battle.ts",
+        "sha256": "868feace88f4996992631e4d09b53fa249d290dbe0b25b34466e4f5a6eb908f0"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-confirm.ts",
+        "sha256": "1134c80e0808aa838bb3f5d1ea9aa47db616ce26ce3a7cc68114228bafd94f12"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-description.ts",
+        "sha256": "4d06005cabcd67c300540c62898453022fcaafacd00256a99bdb6a6f055fb485"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-equip.ts",
+        "sha256": "a43f540896a97d1833e9ed3bbede943b03fd9c6eca3cde00b95608e15232d5b9"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-inventory.ts",
+        "sha256": "666328fac00afefa8346f6554ffe0a1f080fc610972ac66d0e6ad27edd42e7a1"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-magic.ts",
+        "sha256": "c965e7a3968d2c617defe53fa6a9dcbd42f215ec814189adac74a8f0443aa0e1"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-menu.ts",
+        "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.ts",
+        "sha256": "9fcd4810b9675a0840d29d1d7a1040e7cfbe883ebbdfebe0b74e501d04f2aff6"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-shop.ts",
+        "sha256": "0f1862745c4f80ba9bd1f7319ae0679e188ad4e947aee3286146e820d50afbe4"
+      },
+      {
+        "path": "packages/game/src/present/menu/localized-background.test.ts",
+        "sha256": "68eb977f4f2d21b870b40c23dfd25226c4da981ec0c478bdb3b320ca92251548"
+      },
+      {
+        "path": "packages/game/src/present/menu/localized-background.ts",
+        "sha256": "b879073cd9631bd3b3e2e0342f8771862fbc6812bda65a39f64893f46fe506bc"
+      },
+      {
+        "path": "packages/game/src/present/player-info-box.ts",
+        "sha256": "13167b4e3188bda871356971ef38d9fd1ae8281f602e0ff9845b912de177c73d"
+      },
+      {
+        "path": "packages/game/src/present/small-font.ts",
+        "sha256": "126e1059b63a940419fda70b2354697fc95a0938af65b1bd9482894d82e8fec9"
+      },
+      {
+        "path": "packages/game/src/shell/boot-loading.ts",
+        "sha256": "49711b04336e1ff4820de3f0f361a6b6bbbdc2e90fcfb727aa5fbf6f91def42a"
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c"
+      },
+      {
+        "path": "packages/game/src/shell/game-shell.ts",
+        "sha256": "fd3ecbb8ae06dc98c56dc7a05bff7e8dad69a9a4469243ce756631194cb27520"
+      },
+      {
+        "path": "packages/game/src/shell/precache-ui.ts",
+        "sha256": "4075c170e5a937f834dac8a7b08df249dd1f193146244a91e0101f0c132976f8"
+      },
+      {
+        "path": "packages/game/src/tools/map-names.ts",
+        "sha256": "17cb9d607c1d17e14bdc70b2c9d724ca441061819be6ad48add0d7335327deb8"
+      },
+      {
+        "path": "packages/game/src/tools/minimap.ts",
+        "sha256": "a9f9f88e33b8d7f5b54f513bdc8b193940c332a118fc4cb5ed921b8ee22505ca"
+      },
+      {
+        "path": "packages/game/src/tools/quick-save.ts",
+        "sha256": "9a3e15aff078041f076a9715ba12592243ce72dc93fcd3a0c9208e1a8ec0905c"
+      },
+      {
+        "path": "packages/game/src/tools/save-io.ts",
+        "sha256": "4eb173f96cd19b0bcc1175ad9a96e439cd5a6235d7896550deeec22bf7c5b3e0"
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/checkpoints.ts",
+        "sha256": "ca9bb468bc7a1c900b1dcd9099c71ab90bc1d51ec9420eed8e150f5c6fb7dcb6"
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/index.ts",
+        "sha256": "26f79ca8271020de7f0663698cf52a665cf367e67db475af714167d996c241ad"
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/overlay.ts",
+        "sha256": "5faaa4fbff490389ccb36d9a24eeaac33fc1807443ca59686da0e81031b94a62"
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.english.test.ts",
+        "sha256": "8d539ec2b88f18f88c70c7f09e02484a5e0a74bf7bc39e4845a11c6b0d073d45"
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.ts",
+        "sha256": "df6083ef6eeaf958db857a728a7a661185d2975e300bfba28a47c32a75f911de"
+      },
+      {
+        "path": "packages/pal-extract/src/cli-localization.pal.test.ts",
+        "sha256": "fbbc7bd02587a23cdb6044afa0dc400c031cd7d917a6d14fe68cb3a2a6675e88"
+      },
+      {
+        "path": "packages/pal-extract/src/cli-localization.test.ts",
+        "sha256": "324463cd3377ea6250a92f22dc7390a390f3bdd6cf10f0c891868da677b3c43b"
+      },
+      {
+        "path": "packages/pal-extract/src/cli.ts",
+        "sha256": "0474cf59a4c0c67d9d08dd088b44099ab44744dc7ef76e39ab122642c2a31c92"
+      },
+      {
+        "path": "packages/pal-extract/src/io/slf.test.ts",
+        "sha256": "85ce811cc562e5a84405445bf9620b4349801e19eb183c8a8b407ed0dc4f0b18"
+      },
+      {
+        "path": "packages/pal-extract/src/io/slf.ts",
+        "sha256": "8fb323f2cf828200e51ec6753677f0208a631e7cd436455fa01f3e5e83f5132c"
+      },
+      {
+        "path": "packages/pal-extract/src/localization/build-language-pack.test.ts",
+        "sha256": "b4877f0fd9678133889ca6a87e2638e741c8b8972fb1d8945f877362c44dd22b"
+      },
+      {
+        "path": "packages/pal-extract/src/localization/build-language-pack.ts",
+        "sha256": "e55266cd6fcde40b777184118a271ec58adb430d98082e92753bac513410eb88"
+      },
+      {
+        "path": "packages/pal-extract/src/localization/english-message-revisions.json",
+        "sha256": "56c8b451e2aa63a4fec581cf336363e180d356e128083334a07c5f7ce28e3aeb"
+      },
+      {
+        "path": "packages/pal-extract/src/localization/english-revisions.ts",
+        "sha256": "8a88ef573de1c96d1f3f0e766890474dfb63ad6d71304a51bb528130f7b2cad6"
+      },
+      {
+        "path": "packages/pal-extract/src/localization/english-word-revisions.json",
+        "sha256": "5890ffcc042561f44125c25291e909bb7037083420b565b9bf3209a8b0a584c8"
+      },
+      {
+        "path": "packages/shared/src/index.ts",
+        "sha256": "6c8ccd23db2b01611579e30ac005018a6085abb5db6c4fb7f08927ccf1d18d35"
+      },
+      {
+        "path": "packages/shared/src/localization.ts",
+        "sha256": "70560f236b3fdc2162b6f843e237f577cf81350c50b9ada26d8a68bc9fc307a1"
+      }
+    ]
+  },
+  "scope": "First-stage English display resources and runtime/UI only. No Reforge/editor/English gameplay branch, source binaries, voice or video/image translation. Task status remains review until user experience acceptance.",
+  "acceptedContributors": [
+    {
+      "report": "root-canvas-review.json",
+      "decision": "accept-finite-diff-scope",
+      "basis": "Read the28-file A–H findings, actual caller/source anchors, retained limits and source fingerprints.27 current file hashes match the reviewed db75 source; the single battle-opcodes delta is the separately reviewed literal fix. No broad old-file closure."
+    },
+    {
+      "report": "dialog-literal-review.json",
+      "decision": "accept",
+      "basis": "Read exact2-file diff and primary parser grammar; actual runScript→battle queue→parsed visible text and color/quantity oracles. Native first red2, unique punctuation removal counter1, byte restoration and70 passing adjacent cases. No escape applied to plain renderText sinks."
+    },
+    {
+      "report": "text-boundary-review.json",
+      "decision": "accept",
+      "basis": "Read the exact 3-test-file delta and native30/30; genuine disjoint ranges, specific rejected SLF/alias inputs and no-mutation oracle; child CLI exact sentinel/file-set safety and actual help documentation. Two copied-tree business counters each fail1 and restore1. No product/config/threshold edits."
+    },
+    {
+      "report": "dialog-clear-review.json",
+      "decision": "accept",
+      "basis": "Read two actual runScript→battle host timed-clear tests, original11/11 and unique empty-frame counter; no previous cases weakened."
+    },
+    {
+      "report": "text-review.json",
+      "decision": "accept",
+      "basis": "Actual CLI/source/revision delta; primary SLF and SDL group-span comparison; protected preflight boundary; real two-pass extraction and common bytecode recompile. Scope-specific original logs retained."
+    },
+    {
+      "report": "dialog-review.json",
+      "decision": "accept",
+      "basis": "Actual resolver and exploration/battle/description callers; preserved original commands, labels and resume IP; typed fixtures and exact continuation business counter. Later 2 timed-clear cases separately accepted from 688acdec26f096a7cf4b0eb51d4ff0d319b76e29."
+    },
+    {
+      "report": "shell-review.json",
+      "decision": "accept",
+      "basis": "Actual display-only names/keys and language lifetime; object identity rather than enemy type; persistent preference and Chinese fallback; native unit reports and isolated browser switching."
+    },
+    {
+      "report": "canvas-independent-review.json",
+      "decision": "accept-finite-risk-scope",
+      "basis": "Independent source/background/font checks and final small-space/settlement fixes. Historical initial findings and later counters remain separate; no old broad-file closure credit."
+    },
+    {
+      "report": "docs-maintenance.json",
+      "decision": "accept",
+      "basis": "Actual 39-file documentation diff, retained historical records, unchanged artifact envelopes and review prefix; current statuses/counts and exact CLI sourceRef dependency; full consumer logs."
+    }
+  ],
+  "rootSharedContractReview": [
+    {
+      "path": "packages/shared/src/localization.ts",
+      "sha256": "70560f236b3fdc2162b6f843e237f577cf81350c50b9ada26d8a68bc9fc307a1",
+      "dimensions": {
+        "A": "Types only: explicit inclusive common message identities, null clear token, version1/en sidecar and source fingerprint fields. Extractor and validated runtime loader consume the same interface; no save/gameplay schema change.",
+        "B": "Comments distinguish display data, shared corrected message identity, clear versus blank line, WORD identity and small-font/shadow bit meanings.",
+        "C": "Data-only interface has no runtime imports, state or IO; ownership remains extractor writes/runtime loader validates.",
+        "D": "One shared wire contract replaces incompatible private extractor/runtime shapes; no generic multi-language framework.",
+        "E": "No type-only runtime tests: seven-package typecheck plus real parser/build/loader and all4768 mappings exercise actual consumers.",
+        "F": "Named source/group/layout fields express display contract without opaque mode parameters.",
+        "G": "No runtime functions/factories/migration/extra dependency; only fields actually consumed by this English feature.",
+        "H": "Public typed groups allow legal caller fixtures and unknown-JSON validation without casts or private-state access."
+      }
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "6c8ccd23db2b01611579e30ac005018a6085abb5db6c4fb7f08927ccf1d18d35",
+      "dimensions": {
+        "A": "One type-module star export, unique names and existing package public import path; no runtime side effect.",
+        "B": "No new comment needed for the conventional barrel export.",
+        "C": "Package entry stays a barrel; no feature state or IO is moved here.",
+        "D": "Extractor and game share the same package export instead of source-path imports.",
+        "E": "Real workspace consumers and shared13files114tests/typecheck validate export integration; no duplicate type-only runtime case.",
+        "F": "Adjacent export follows existing module ordering.",
+        "G": "Only required export added, no existing APIs removed or duplicated.",
+        "H": "Actual package consumer imports remain directly typechecked."
+      }
+    }
+  ],
+  "commonData": {
+    "kind": "generated-english-closure",
+    "date": "2026-10-22",
+    "source": {
+      "slfSha256": "81c4bed62f48ccf30bcd50ae9afc766352c06e0b52b782a9d64d7517af86ef73",
+      "scriptSha256": "9adb46c70a8cfcd5fba345e774d99e983c22803ca70e004d324a86e4b5be1942",
+      "messageSha256": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846"
+    },
+    "commonCommands": 43522,
+    "matchedGroups": 4768,
+    "words": 578,
+    "clearTokens": 364,
+    "han": 0,
+    "missingGlyphs": [],
+    "scriptJsonSha256": "e4f0a7dbcf6ec3c43793698af45c4e298bb11d18b263271389fab256891066db",
+    "packSha256": "050289f885822f44840a54fe974206e9c2039aa80b38acb6471b7fa334390f2f",
+    "manifest": "00fa07bbb38ef7a6",
+    "scope": "static generated resource and real resolver; no full story/runtime claim"
+  },
+  "resourceReplay": {
+    "commands": ["pnpm extract", "pnpm extract"],
+    "manifest": "00fa07bbb38ef7a6",
+    "sameManifestBytes": true,
+    "files": 2909,
+    "totalBytes": 208976882,
+    "sourceBinariesCommitted": false,
+    "availability": "lookup/languages.json advertises en only when the optional supported SLF was generated; no English SSS/M.MSG/WORD/EXE is read"
+  },
+  "staticResourceChecks": {
+    "legalLabelledEntries": 5316,
+    "middleOfGroupEntries": 0,
+    "missingGroups": 0,
+    "wrappedLineLayoutChecks": 67715,
+    "wrapFailures": 0,
+    "descriptionRows": {
+      "items": 4,
+      "spells": 3
+    },
+    "limits": "Resource/mapping/font audits do not prove every story performance or translation quality.",
+    "hanVerification": "Final verify-generated.mts uses the correct Unicode Script=Han regexp and completed; earlier incorrectly escaped exploratory probe is retained only as calibration, not a proof."
+  },
+  "rootFixes": [
+    {
+      "id": "steal-literal-name",
+      "decision": "closed",
+      "commit": "de8f05c1c11c4652c45e2ef782306bf5d184b834",
+      "claim": "Escape only the literal WORD name inside the steal narration control string; retain outer color markers. Actual runtime caller displays Gods Tea apostrophe and Knock-Out hyphen literally, red letters unchanged, exact inventory+1 and enemy remaining0. Plain renderText animation/menu names remain unescaped.",
+      "currentDatasetBoundary": "No current enemy table stealItem110/135; defect proved at the public typed caller, not claimed as a naturally reached story encounter.",
+      "source": "dialog-literal-review.json",
+      "expectedText": ["Got God's Tea", "Got Knock-Out"]
+    },
+    {
+      "id": "small-space",
+      "decision": "closed",
+      "claim": "Actual full-width separator U+3000 is a blank16x8 glyph, preserving description spacing without tofu.",
+      "counter": {
+        "id": "small-space",
+        "source": "packages/game/src/present/small-font.ts",
+        "sourceSha256": "126e1059b63a940419fda70b2354697fc95a0938af65b1bd9482894d82e8fec9",
+        "mutantSha256": "8043d1d77c334db132b22a32348e75fa2a3cfe6bc5b5c022f9cc192e65ce66fd",
+        "test": "packages/game/src/localization/presentation.test.ts",
+        "testSha256": "ce1efb3ae2ec91680bc7e2335d5fa04481be64e6656cef8d5d166b229e6ff8bb",
+        "red": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/localization/presentation.test.ts",
+            "--reporter=json",
+            "--outputFile=/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-mutant.json"
+          ],
+          "exit": 1,
+          "signal": null,
+          "json": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-mutant.json",
+          "failed": 1,
+          "passed": 2
+        },
+        "green": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/localization/presentation.test.ts",
+            "--reporter=json",
+            "--outputFile=/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-restored.json"
+          ],
+          "exit": 0,
+          "json": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-restored.json",
+          "passed": 3
+        },
+        "scope": "one exact business assertion; fixtures and runtime calls unchanged"
+      }
+    },
+    {
+      "id": "settlement-name",
+      "decision": "closed",
+      "claim": "Live role WORD identity and magicId localize an already-created settlement without changing numerical rewards. Serialized magicId349 survives normal save import.",
+      "counter": {
+        "id": "settlement-name",
+        "source": "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "sourceSha256": "e7bf2f68bcdf0615a433b1ee31be1268f3eac68cee5c1c872903b46847cc6cb9",
+        "mutantSha256": "e2bc2f4d2f27ac665b15c7c4c59dbfebb286e38b56944783d79f8f70d096210f",
+        "test": "packages/game/src/localization/settlement-language.test.ts",
+        "testSha256": "a4dd3eba70b418fe11ea837ac20c8c57bb874e77a02fc95e0a450ea64f50729b",
+        "red": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/localization/settlement-language.test.ts",
+            "--reporter=json",
+            "--outputFile=/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-mutant.json"
+          ],
+          "exit": 1,
+          "signal": null,
+          "json": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-mutant.json",
+          "failed": 1,
+          "passed": 0
+        },
+        "green": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/localization/settlement-language.test.ts",
+            "--reporter=json",
+            "--outputFile=/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-restored.json"
+          ],
+          "exit": 0,
+          "json": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-restored.json",
+          "passed": 1
+        },
+        "scope": "one exact business assertion; fixtures and runtime calls unchanged"
+      }
+    },
+    {
+      "id": "map-name-boundary",
+      "decision": "closed",
+      "commit": "b0949b9d7",
+      "claim": "New shell test now consumes the existing public hasMapName API instead of becoming a fourth restricted authored-map data consumer; production code and whitelist unchanged.",
+      "tests": "game3 and migrate2 actual boundary tests pass; source delta is test-only."
+    },
+    {
+      "id": "equipment-width",
+      "decision": "closed-implementation-and-sampled-visual",
+      "commit": "49b188439",
+      "primary": [
+        "reference/sdlpal/uigame.c:1920",
+        "reference/sdlpal/ui.c:797",
+        "data/en/win_files/m_eng.slf:236"
+      ],
+      "sourceReview": "equip-width-source-review.json",
+      "claim": "Fix newly introduced fixed4 English columns. Derive PAL_WordMaxWidth(36,4)-1 using half-width names; seven ASCII letters need3 columns. Real SPRITEUI widths22/16/33 make English119→103px; Chinese87px unchanged. Corrected foreground/shadow does not overlap LUK.",
+      "counter": {
+        "id": "equip-width",
+        "source": "packages/game/src/present/menu/draw-equip.ts",
+        "sourceSha256": "a43f540896a97d1833e9ed3bbede943b03fd9c6eca3cde00b95608e15232d5b9",
+        "mutantSha256": "ec8834aa3f6b2fd2e459c1f708d047bbd0612027a795f2df60599ac9449129e9",
+        "test": "packages/game/src/localization/presentation.test.ts",
+        "testSha256": "07cf03de71dd2477bdfa47c066c0126a0cd16241eb6d1eecd6aa2817f77d0757",
+        "red": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/localization/presentation.test.ts",
+            "--reporter=json",
+            "--outputFile=/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-mutant.json"
+          ],
+          "exit": 1,
+          "signal": null,
+          "json": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-mutant.json",
+          "failed": 1,
+          "passed": 3
+        },
+        "green": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/localization/presentation.test.ts",
+            "--reporter=json",
+            "--outputFile=/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-restored.json"
+          ],
+          "exit": 0,
+          "json": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-restored.json",
+          "passed": 4
+        },
+        "scope": "one exact business assertion; fixtures and runtime calls unchanged"
+      },
+      "sampledUiStateUnchanged": true,
+      "visualFixture": "Only this equip sample adds real item201 through public addItemToInventory for dev-functional preparation, then real UI keys; not a story checkpoint."
+    },
+    {
+      "id": "language-json-boundary",
+      "decision": "closed-scoped-review",
+      "commit": "db75de1a7",
+      "claim": "Unknown HTTP/JSON payloads with invalid source/word/group/layout data fail before any table is published. Twenty additional boundary cases use real Response.json; only fetch is an IO mock. Assertion function removes the old always-true-or-throw predicate and unreachable parse throw.",
+      "counter": {
+        "id": "language-pack-sha",
+        "source": "packages/game/src/assets/language-pack.ts",
+        "sourceSha256": "90823c2c79881f5783c04d2bd070d1f6837a43685814ea6b6123a927b342fca4",
+        "mutantSha256": "5ac5038c31749d7435f2e30295acf1f022e047acc3ef68e792dd4bd422097d14",
+        "test": "packages/game/src/assets/language-pack.test.ts",
+        "testSha256": "d8097a8e21204fd3d60f306d09373c3a6bf5adc46aa7e0aa6bf8411baf5e4a28",
+        "red": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/assets/language-pack.test.ts",
+            "--reporter=json",
+            "--outputFile=/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-mutant.json"
+          ],
+          "exit": 1,
+          "signal": null,
+          "json": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-mutant.json",
+          "failed": 1,
+          "passed": 23
+        },
+        "green": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/assets/language-pack.test.ts",
+            "--reporter=json",
+            "--outputFile=/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-restored.json"
+          ],
+          "exit": 0,
+          "json": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-restored.json",
+          "passed": 24
+        },
+        "scope": "one exact business assertion; fixtures and runtime calls unchanged"
+      },
+      "counterFailureKind": "Vitest rejects business assertion: promise resolved instead of rejecting; not a collection/runtime TypeError."
+    }
+  ],
+  "browser": {
+    "development": {
+      "url": "http://localhost:6005/?skip-intro=1",
+      "source": "browser-smoke.json",
+      "sameGameplayState": true,
+      "preference": {
+        "lang": "en",
+        "preference": "en"
+      },
+      "errors": [],
+      "viewed": [
+        "english-settings.png",
+        "english-menu.png",
+        "english-status.png",
+        "english-mobile-settings.png",
+        "chinese-menu.png"
+      ]
+    },
+    "equipment": {
+      "source": "equip-browser.json",
+      "errors": [],
+      "viewed": ["equip-width-english.png", "equip-width-chinese.png"],
+      "stateUnchanged": true
+    },
+    "naturalOpening": {
+      "report": "opening-browser.json",
+      "decision": "accept-limited-feature-smoke",
+      "basis": "Read the original input/state ledger and tools: fresh normal title/New Game, native video and 45 real Enter inputs, read-only telemetry, no gameplay writes. Viewed call, multiline page and unobscured bottom supplement; verified final room-control predicate. Initial privacy-occluded lower sample retained, not accepted as unobscured evidence.",
+      "sourceCandidate": "05e1cfcff19ff8c469f391b5dc9dbd20fa16f2fa",
+      "laterDelta": "Only equipment width, equivalent JSON assertion refactor and literal stolen-item name escaping changed product after that opening; opening dialogue source and resource bytes remain identical."
+    },
+    "production": {
+      "kind": "production-static-preview-english",
+      "origin": "http://127.0.0.1:6006",
+      "loadingText": "Chinese Paladin\ntype-pal · Browser remake\nCached 19/199MB\n▶ Enter game\nEnter after the dashed line, or wait for 100% to cache all game resources.\nGitHub\n\n非官方同人项目，与大宇、软星及《仙剑奇侠传》权利人无关。原版资源仅供学习交流，权利人如有要求将立即下架。请支持正版。\nUnofficial fan project. Not affiliated with Softstar. For study only; removed on request. Please support the official game.",
+      "cacheNames": ["type-pal-00fa07bbb38ef7a6"],
+      "groupCount": 4768,
+      "offline": {
+        "status": 200,
+        "language": "en",
+        "words": 578
+      },
+      "selected": "en",
+      "errors": [],
+      "completed": [
+        {
+          "type": "precache-done",
+          "total": 2909,
+          "totalBytes": 208976882
+        }
+      ],
+      "scope": "production build + real service worker + offline in-page language switching; no offline navigation or cloud deployment claim",
+      "viewed": "production-offline-english.png",
+      "claimBoundary": "English resources actually precached by production SW; offline fetch and in-page switching verified. No offline navigation/reload, cloud deployment or final app UI proof implied."
+    },
+    "visualArtifacts": {
+      "kind": "inspected-local-visual-artifacts",
+      "task": "GAME-ENGLISH-1",
+      "entries": [
+        {
+          "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/english-settings.png",
+          "preservedPath": "build/english-integration/visual/english-settings.png",
+          "sha256": "2b5b3e9b11e62f25d82434a28c8f6694944b75aa0c1cac3353fba142be23ce84",
+          "bytes": 127154,
+          "inspected": true,
+          "scope": "Named browser smoke sample"
+        },
+        {
+          "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/english-menu.png",
+          "preservedPath": "build/english-integration/visual/english-menu.png",
+          "sha256": "4eb4142820e431e736d2aeca3e3c2733bfa42ad8143b4f7c3584fc7b305041af",
+          "bytes": 62637,
+          "inspected": true,
+          "scope": "Named browser smoke sample"
+        },
+        {
+          "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/english-status.png",
+          "preservedPath": "build/english-integration/visual/english-status.png",
+          "sha256": "98dac7216e70847212c5488a829a84639d8242beb37983a364e9debca8e8117b",
+          "bytes": 63449,
+          "inspected": true,
+          "scope": "Named browser smoke sample"
+        },
+        {
+          "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/english-mobile-settings.png",
+          "preservedPath": "build/english-integration/visual/english-mobile-settings.png",
+          "sha256": "2653bc412f8dabdd95ab1c5b2008330cde8803ce4a31de0f22ab123ccdde3ccf",
+          "bytes": 76937,
+          "inspected": true,
+          "scope": "Named browser smoke sample"
+        },
+        {
+          "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/chinese-menu.png",
+          "preservedPath": "build/english-integration/visual/chinese-menu.png",
+          "sha256": "6217a064af3b9bfa8c50df9cd7c4d7a8969465de8c927044a624805aa113fb3d",
+          "bytes": 63283,
+          "inspected": true,
+          "scope": "Named browser smoke sample"
+        },
+        {
+          "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/production-offline-english.png",
+          "preservedPath": "build/english-integration/visual/production-offline-english.png",
+          "sha256": "e9d4a45ca225098b85dd9f187c781eae2529460f39ae1a95d59e86768f5f4af9",
+          "bytes": 126863,
+          "inspected": true,
+          "scope": "Named browser smoke sample"
+        },
+        {
+          "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-english.png",
+          "preservedPath": "build/english-integration/visual/equip-width-english.png",
+          "sha256": "03ec9704d756683de9478b0b63b312a98333d501fbc68cbced197e0589edfd22",
+          "bytes": 54146,
+          "inspected": true,
+          "scope": "Controlled dev-functional fixture, not story E2E"
+        },
+        {
+          "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-chinese.png",
+          "preservedPath": "build/english-integration/visual/equip-width-chinese.png",
+          "sha256": "41285ed53049f8bd8fbe946763546539faed22b517999914ecada9a86b30c3be",
+          "bytes": 50457,
+          "inspected": true,
+          "scope": "Controlled dev-functional fixture, not story E2E"
+        },
+        {
+          "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-browser/01-xiaoyao-call.png",
+          "preservedPath": "build/english-integration/visual/01-xiaoyao-call.png",
+          "sha256": "16a1380673509036717b328e5b9e30b9e157a5ffb9fe259e058592d3460b6f3a",
+          "bytes": 19428,
+          "inspected": true,
+          "scope": "Natural English opening selected page, not full-story/capture acceptance"
+        },
+        {
+          "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-browser/03-multiline-page.png",
+          "preservedPath": "build/english-integration/visual/03-multiline-page.png",
+          "sha256": "d1212f1b8d6d264cb263be3b89ac8b0344600eba4f94afab6a412de4d6931fac",
+          "bytes": 72541,
+          "inspected": true,
+          "scope": "Natural English opening selected page, not full-story/capture acceptance"
+        },
+        {
+          "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-browser/bottom-page/06-bottom-page-unobscured.png",
+          "preservedPath": "build/english-integration/visual/06-bottom-page-unobscured.png",
+          "sha256": "dc8470321d0e6d319bed6b87de2a43e00be0b6ba6ac97049f6be0a4cb3bb56f4",
+          "bytes": 53722,
+          "inspected": true,
+          "scope": "Natural English opening selected page, not full-story/capture acceptance"
+        }
+      ],
+      "scope": "PNG copies remain ignored local artifacts; hashes and original reports are preserved. No cloud publication or user approval implied."
+    }
+  },
+  "coveragePrecisionLimit": "V8 LCOV marked some unexecuted main-body lines/branches during the real --help test. Numeric gates use the unchanged provider; those counters do not prove preflight execution. Actual argv guards are evidenced independently by child CLI sentinel preservation, and parser/builder branches by direct real calls. No provider/selection/threshold changes.",
+  "validation": {
+    "preFreeze": {
+      "shared": "13files114tests pass",
+      "extract": "83files496tests pass with maxWorkers2; original2 default5s timeouts retained",
+      "game": "347files3789tests pass",
+      "typecheck": "all7packages zero diagnostics",
+      "lint": "5902files zero error/warning/info",
+      "productionBuild": "pass zero warnings"
+    },
+    "coverage": {
+      "status": "passed",
+      "firstComplete": {
+        "tests": 20141,
+        "allTestsPass": true,
+        "ratchetExit": 1,
+        "regressions": [
+          "game.branches",
+          "pal-extract.branches",
+          "total.statements",
+          "total.branches",
+          "total.lines"
+        ],
+        "native": "coverage-ratchet-final.txt"
+      },
+      "priorBoundaryFailure": "coverage-ratchet.txt: new test crossed restricted map-name import boundary; whitelist preserved and test corrected",
+      "command": "VITEST_MAX_WORKERS=2 TYPE_PAL_COVERAGE_BASE_REF=6a29b455fc51664df85334bc177d0994348a7987 pnpm coverage:ratchet",
+      "exit": 0,
+      "tests": 20180,
+      "sourceFiles": 774,
+      "metricImprovements": 12,
+      "scopeChanges": 10,
+      "scopeRemovals": 0,
+      "comparison": {
+        "kind": "read-only-final-metric-and-scope-check",
+        "task": "GAME-ENGLISH-1",
+        "officialRun": "VITEST_MAX_WORKERS=2 TYPE_PAL_COVERAGE_BASE_REF=6a29b455fc51664df85334bc177d0994348a7987 pnpm coverage:ratchet",
+        "officialExit": 0,
+        "summarySha256": "893d61c67d161f45e04cc1eea3e68058d0977148c4cdf4667db67cc78e71ec4b",
+        "baselineSha256": "533fe4775366c5a5f6a9220dec6a3a38476bc42c9ab410e4a81e059660f4905a",
+        "strictRegressions": [],
+        "strictScopeChanges": [],
+        "protectedTarget": "6a29b455fc51664df85334bc177d0994348a7987",
+        "protectedRegressions": [],
+        "protectedScopeRemovals": [],
+        "total": {
+          "statements": {
+            "covered": 72677,
+            "total": 80471
+          },
+          "branches": {
+            "covered": 52607,
+            "total": 62703
+          },
+          "functions": {
+            "covered": 13731,
+            "total": 15293
+          },
+          "lines": {
+            "covered": 64901,
+            "total": 70413
+          }
+        },
+        "packages": {
+          "shared": {
+            "statements": {
+              "covered": 459,
+              "total": 466
+            },
+            "branches": {
+              "covered": 209,
+              "total": 218
+            },
+            "functions": {
+              "covered": 23,
+              "total": 23
+            },
+            "lines": {
+              "covered": 410,
+              "total": 412
+            }
+          },
+          "content": {
+            "statements": {
+              "covered": 5668,
+              "total": 5878
+            },
+            "branches": {
+              "covered": 4827,
+              "total": 5129
+            },
+            "functions": {
+              "covered": 811,
+              "total": 827
+            },
+            "lines": {
+              "covered": 5061,
+              "total": 5199
+            }
+          },
+          "pal-extract": {
+            "statements": {
+              "covered": 1361,
+              "total": 1741
+            },
+            "branches": {
+              "covered": 643,
+              "total": 758
+            },
+            "functions": {
+              "covered": 133,
+              "total": 161
+            },
+            "lines": {
+              "covered": 1199,
+              "total": 1540
+            }
+          },
+          "migrate": {
+            "statements": {
+              "covered": 2345,
+              "total": 2592
+            },
+            "branches": {
+              "covered": 1622,
+              "total": 1787
+            },
+            "functions": {
+              "covered": 385,
+              "total": 410
+            },
+            "lines": {
+              "covered": 2057,
+              "total": 2266
+            }
+          },
+          "reforge": {
+            "statements": {
+              "covered": 17027,
+              "total": 18878
+            },
+            "branches": {
+              "covered": 10821,
+              "total": 13095
+            },
+            "functions": {
+              "covered": 2774,
+              "total": 3073
+            },
+            "lines": {
+              "covered": 15237,
+              "total": 16471
+            }
+          },
+          "game": {
+            "statements": {
+              "covered": 15292,
+              "total": 17080
+            },
+            "branches": {
+              "covered": 9906,
+              "total": 12279
+            },
+            "functions": {
+              "covered": 1836,
+              "total": 2137
+            },
+            "lines": {
+              "covered": 13628,
+              "total": 14964
+            }
+          },
+          "editor": {
+            "statements": {
+              "covered": 30525,
+              "total": 33836
+            },
+            "branches": {
+              "covered": 24579,
+              "total": 29437
+            },
+            "functions": {
+              "covered": 7769,
+              "total": 8662
+            },
+            "lines": {
+              "covered": 27309,
+              "total": 29561
+            }
+          }
+        },
+        "scope": "Actual final native summary checked using unchanged exported comparison/inventory functions. This is not another Vitest/official fast execution; the official ratchet already executed all20180 tests."
+      },
+      "native": "coverage-ratchet-accepted.txt"
+    },
+    "fullCheck": {
+      "status": "passed",
+      "command": "VITEST_MAX_WORKERS=2 pnpm check",
+      "exit": 0,
+      "packageTests": 20609,
+      "packageFiles": 1684,
+      "packages": {
+        "shared": 114,
+        "content": 1498,
+        "game": 3814,
+        "pal-extract": 510,
+        "reforge": 8991,
+        "editor": 4943,
+        "migrate": 739
+      },
+      "staticDiagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "lintFiles": 5912
+      },
+      "native": "check-final-retry.txt",
+      "initialDefault": {
+        "command": "pnpm check",
+        "exit": 1,
+        "native": "check-final.txt",
+        "failure": "One existing default-CLI altered-source test exceeded5000ms; no product assertion failed."
+      },
+      "workerAdjustment": {
+        "mechanism": "VITEST_MAX_WORKERS=2, supported in installed Vitest coverage.DM_a_rWm.js resolveConfig",
+        "testSelectionChanged": false,
+        "timeLimitChanged": false,
+        "rulesChanged": false,
+        "baselineLowered": false
+      }
+    },
+    "finalBuild": {
+      "command": "pnpm --filter @type-pal/game build",
+      "exit": 0,
+      "warnings": 0,
+      "native": "game-build-final.txt",
+      "productRevision": "de8f05c1c11c4652c45e2ef782306bf5d184b834"
+    },
+    "documentationFinal": {
+      "status": "passed",
+      "command": "pnpm check:docs",
+      "exit": 0,
+      "issues": 0,
+      "native": "check-docs-accepted.txt",
+      "scope": "125docs tools,1693Markdown/10554links/480tasks, document model/testing/phase-lore/strict content-review consumers all passed; structure is not full-content acceptance."
+    },
+    "finalLint": {
+      "command": "pnpm lint",
+      "exit": 0,
+      "files": 5912,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "native": "lint-accepted.txt"
+    }
+  },
+  "limitations": [
+    "No full-story English E2E or professional translation proofreading claim.",
+    "English voice, video and baked image content outside scope.",
+    "User-visible UI acceptance remains pending; no push/PR/merge/cloud deployment this turn.",
+    "Full-file code-governance inventory remains3401, closed377/review110/pending2914; feature acceptance does not close old broad records."
+  ],
+  "invalidation": [
+    "Language schema, source fingerprints, range mapping or script caller/resume semantics change: repeat related resource and caller checks.",
+    "Canvas coordinate/font/menu name source changes: recheck relevant pixels and control.",
+    "HTTP publication or SW/manifest behavior changes: repeat relevant loader/production offline checks."
+  ],
+  "rootLoaderFileReviews": [
+    {
+      "path": "packages/game/src/assets/language-pack.ts",
+      "sha256": "90823c2c79881f5783c04d2bd070d1f6837a43685814ea6b6123a927b342fca4",
+      "dimensions": {
+        "A": "Real boot awaits full unknown-JSON validation before setting word/message/layout tables; Chinese-only manifest avoids missing English fetch. HTTP/shape errors propagate to the optional-language fallback; stale preference is preserved by separate bootstrap behavior.",
+        "B": "Comments explain optional publication and absent-resource request boundaries; assertion name states failure behavior.",
+        "C": "This module owns network/shape boundary only, no GameState or locale publication; bootstrap owns lifecycle and language module owns preference.",
+        "D": "Consumes shared wire shape; does not duplicate extraction revisions or a separate loading pipeline.",
+        "E": "24 real Response.json/parse tests, explicit known-valid response, Chinese-only request set, distinct malformed schema fields and HTTP failures. Representative SHA predicate counter23pass1business-fail then24green.",
+        "F": "Assert-and-return parse function removed an always-true-or-throw predicate and unreachable fallback, preserving all rejection branches.",
+        "G": "No unused public hooks or extra state; only parse/load exported and both used by real callers/tests.",
+        "H": "Only fetch is mocked at the IO boundary; unknown payloads are legal boundary input, no typed gameplay casts or core replacement."
+      }
+    },
+    {
+      "path": "packages/game/src/assets/language-pack.test.ts",
+      "sha256": "d8097a8e21204fd3d60f306d09373c3a6bf5adc46aa7e0aa6bf8411baf5e4a28",
+      "dimensions": {
+        "A": "Exercises actual loader endpoints, HTTP Response JSON parsing and validation, not a replacement validator.",
+        "B": "Comment explicitly separates unknown network payloads from typed core fixtures.",
+        "C": "Per-test fetch stubs are restored by afterEach, original4 cases unchanged.",
+        "D": "One table shares the corrupt-response contract while names identify distinct schema hazards; manifest tests retain separate no-pack-request oracle.",
+        "E": "Specific error text and exact request list; different JSON fields are not name/number-only duplicates. Same24 identities under one representative SHA mutant and exact source restoration.",
+        "F": "Named malformed fields make the accepted JSON contract inspectable without importing private validator state.",
+        "G": "No additional product API, source copies, skips, relaxed timeout or rule changes; separate full-story checks are not claimed.",
+        "H": "Deterministic real Response objects isolate HTTP only; tests observe public promise result/error and requests."
+      }
+    }
+  ],
+  "independentIncrementalReviews": [
+    {
+      "owner": "english_shell_audit",
+      "scope": [
+        "packages/game/src/present/menu/draw-equip.ts",
+        "packages/game/src/localization/presentation.test.ts"
+      ],
+      "decision": "accept",
+      "basis": "Actual source/formula/SPRITEUI widths and legal caller fixtures; exact counter+restored hashes/native statuses; did not duplicate runtime tests."
+    },
+    {
+      "owner": "english_shell_audit",
+      "scope": [
+        "packages/game/src/assets/language-pack.ts",
+        "packages/game/src/assets/language-pack.test.ts"
+      ],
+      "decision": "accept",
+      "basis": "Read unknown JSON schema contract and publication boundary,20 genuinely distinct input guards, original4 cases unchanged. Verified24 same identities, regex-only mutant failed one exact SHA rejection, restored24; inspected installed Vitest rejects stack rewriting to distinguish business AssertionError from infrastructure failure. Calibration harness class-name error preserved separately."
+    }
+  ],
+  "evidence": {
+    "nativePublication": "native-publication.json",
+    "originalLocations": "Root build/english-integration plus named managed contributor worktrees; raw original outputs and controls are losslessly published in native index, including failed calibrations."
+  }
+}

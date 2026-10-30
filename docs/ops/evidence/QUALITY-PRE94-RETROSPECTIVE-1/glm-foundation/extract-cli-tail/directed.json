@@ -1,0 +1,307 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 5,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 24,
+  "numPassedTests": 24,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792332791459,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "video entrypoint refuses shared data before invoking ffmpeg or changing its target",
+          "status": "passed",
+          "title": "video entrypoint refuses shared data before invoking ffmpeg or changing its target",
+          "duration": 1711.433916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "video entrypoint refuses shared extracted before invoking ffmpeg or changing its target",
+          "status": "passed",
+          "title": "video entrypoint refuses shared extracted before invoking ffmpeg or changing its target",
+          "duration": 968.8268750000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "owned video output accepts read-only raw links, writes six outputs and then skips them",
+          "status": "passed",
+          "title": "owned video output accepts read-only raw links, writes six outputs and then skips them",
+          "duration": 2324.4759169999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "absolute CLI entrypoint through a directory link executes main instead of silently exiting zero",
+          "status": "passed",
+          "title": "absolute CLI entrypoint through a directory link executes main instead of silently exiting zero",
+          "duration": 1086.3202919999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "importing CLI from a different real entrypoint stays side-effect free",
+          "status": "passed",
+          "title": "importing CLI from a different real entrypoint stays side-effect free",
+          "duration": 1239.9198750000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792332791613,
+      "endTime": 1792332798943.92,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/cli-entrypoint-paths.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
+          "status": "passed",
+          "title": "Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容",
+          "duration": 2461.758375,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
+          "status": "passed",
+          "title": "Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表",
+          "duration": 1757.5514170000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792332791664,
+      "endTime": 1792332795883.5515,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/cli-font-lookup.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-01 item.use entry",
+          "status": "passed",
+          "title": "Q-NEXT1-01 item.use entry",
+          "duration": 2521.508416,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-02 item.equip entry",
+          "status": "passed",
+          "title": "Q-NEXT1-02 item.equip entry",
+          "duration": 1889.135459,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-03 item.throw entry",
+          "status": "passed",
+          "title": "Q-NEXT1-03 item.throw entry",
+          "duration": 1529.1385419999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-04 item.desc entry",
+          "status": "passed",
+          "title": "Q-NEXT1-04 item.desc entry",
+          "duration": 1599.02675,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-05 spell.use entry",
+          "status": "passed",
+          "title": "Q-NEXT1-05 spell.use entry",
+          "duration": 1409.7424579999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-06 spell.success entry",
+          "status": "passed",
+          "title": "Q-NEXT1-06 spell.success entry",
+          "duration": 1385.2946670000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-07 spell.desc entry",
+          "status": "passed",
+          "title": "Q-NEXT1-07 spell.desc entry",
+          "duration": 1379.0587080000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-08 enemy.turnStart entry",
+          "status": "passed",
+          "title": "Q-NEXT1-08 enemy.turnStart entry",
+          "duration": 1355.6485830000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-09 enemy.battleEnd entry",
+          "status": "passed",
+          "title": "Q-NEXT1-09 enemy.battleEnd entry",
+          "duration": 1381.797375,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-10 enemy.ready entry",
+          "status": "passed",
+          "title": "Q-NEXT1-10 enemy.ready entry",
+          "duration": 1375.9427909999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-11 player.friendDeath entry",
+          "status": "passed",
+          "title": "Q-NEXT1-11 player.friendDeath entry",
+          "duration": 1357.8988750000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-12 player.dying entry",
+          "status": "passed",
+          "title": "Q-NEXT1-12 player.dying entry",
+          "duration": 1394.0233750000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-13 shared entry alias",
+          "status": "passed",
+          "title": "Q-NEXT1-13 shared entry alias",
+          "duration": 1358.8868750000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q-NEXT1-14 scene global overlap",
+          "status": "passed",
+          "title": "Q-NEXT1-14 scene global overlap",
+          "duration": 1356.4590000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792332791665,
+      "endTime": 1792332812959.459,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/cli-global-entries.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["assertOwnedOutputRoot"],
+          "fullName": "assertOwnedOutputRoot allows an owned data directory and an absent output directory",
+          "status": "passed",
+          "title": "allows an owned data directory and an absent output directory",
+          "duration": 2.184167000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["assertOwnedOutputRoot"],
+          "fullName": "assertOwnedOutputRoot rejects a shared data symlink before inspecting output",
+          "status": "passed",
+          "title": "rejects a shared data symlink before inspecting output",
+          "duration": 0.9507919999999785,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["assertOwnedOutputRoot"],
+          "fullName": "assertOwnedOutputRoot rejects a shared data/extracted symlink while allowing the data parent",
+          "status": "passed",
+          "title": "rejects a shared data/extracted symlink while allowing the data parent",
+          "duration": 0.8763749999999959,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792332791788,
+      "endTime": 1792332791792.8765,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/output-boundary.test.ts"
+    }
+  ]
+}

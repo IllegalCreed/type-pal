@@ -1,0 +1,22 @@
+{
+  "typescript": "6.0.3",
+  "scope": "Only the two selected formula/magic implementations, same transpile options; not native/gameplay/whole-file acceptance",
+  "rows": [
+    {
+      "path": "packages/game/src/core/battle/formulas.ts",
+      "beforeSha256": "fa5d007e9131d344f2e7f90c10e7b67afe7ae42fe2478398adc8f6ffd6259ce8",
+      "currentSha256": "69595552a0230603b53e6e2b1a7800b31f98db9c793fc7d5d548fb9ff3f9a549",
+      "removeCommentsJavaScriptSha256": "cc022bc968c2f43c493a02df299d951c05b68a85bf87521d29ea48688f92f241",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    },
+    {
+      "path": "packages/game/src/core/battle/magic-damage.ts",
+      "beforeSha256": "0bb2d526b93c7c6ef4f6b8fab86391db8b9fcc6069bffb3da2b1e7b934a69b18",
+      "currentSha256": "dbe4cc35a692113f9820d41590fe5eecde3ec0b5b1476969a0d06293debac423",
+      "removeCommentsJavaScriptSha256": "135e94e7d99d2e699f51674692ee992fbb9a6deb4cc45c35e97c6ef8a52f1b1f",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    }
+  ]
+}

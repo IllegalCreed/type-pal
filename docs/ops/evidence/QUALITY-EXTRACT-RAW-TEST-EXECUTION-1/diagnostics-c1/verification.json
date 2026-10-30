@@ -1,0 +1,156 @@
+{
+  "reviewer": "Codex separate receipt-verification process, not third-party acceptance",
+  "twentyWholeSuiteProbeRunsVerified": true,
+  "finalSingleAssertionFailures": [
+    {
+      "mutation": "ball-missing",
+      "file": "ball.glm-runtime-resource.test.ts",
+      "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "ball-wrong-id",
+      "file": "ball.glm-runtime-resource.test.ts",
+      "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "ball-extra",
+      "file": "ball.glm-runtime-resource.test.ts",
+      "fullName": "R03 decodeBallIcon 空槽与标记头 零尺寸帧是坏输入：标记与非标记均报告原始RLE错误并返回null",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "rgm-missing",
+      "file": "misc-guards.kimi-r1.test.ts",
+      "fullName": "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "rgm-wrong-id",
+      "file": "misc-guards.kimi-r1.test.ts",
+      "fullName": "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "rgm-extra",
+      "file": "misc-guards.kimi-r1.test.ts",
+      "fullName": "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "error-propagation",
+      "file": "misc-guards.kimi-r1.test.ts",
+      "fullName": "KIMI-R1 pal-extract 散落守卫 parseItems：截断精确拒绝（报实测与所需字节数）",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "restore-on-throw",
+      "file": "misc-guards.kimi-r1.test.ts",
+      "fullName": "KIMI-R1 pal-extract 散落守卫 parseItems：截断精确拒绝（报实测与所需字节数）",
+      "type": "AssertionError"
+    }
+  ],
+  "legacyDiagnosticGaps": 6,
+  "newHarnessContracts": 2,
+  "duplicateTransferFailures": {
+    "before": [
+      {
+        "file": "ball.glm-runtime-resource.test.ts",
+        "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）"
+      },
+      {
+        "file": "ball.glm-runtime-resource.test.ts",
+        "fullName": "R03 decodeBallIcon 空槽与标记头 前缀形似但非 02 00 00 00：不剥离（02 00 01 00 → w=2,h=1 从 0 读）"
+      }
+    ],
+    "after": [
+      {
+        "file": "ball.glm-runtime-resource.test.ts",
+        "fullName": "R03 decodeBallIcon 空槽与标记头 无标记：同帧字节从 0 直解（独立手算期望，不相对带标记版）"
+      }
+    ]
+  },
+  "localProductionCoverageExactlyEqual": {
+    "before": {
+      "ball.ts": {
+        "statements": {
+          "covered": 12,
+          "total": 13
+        },
+        "functions": {
+          "covered": 1,
+          "total": 1
+        },
+        "branches": {
+          "covered": 11,
+          "total": 12
+        }
+      },
+      "rgm.ts": {
+        "statements": {
+          "covered": 8,
+          "total": 13
+        },
+        "functions": {
+          "covered": 1,
+          "total": 1
+        },
+        "branches": {
+          "covered": 6,
+          "total": 12
+        }
+      }
+    },
+    "after": {
+      "ball.ts": {
+        "statements": {
+          "covered": 12,
+          "total": 13
+        },
+        "functions": {
+          "covered": 1,
+          "total": 1
+        },
+        "branches": {
+          "covered": 11,
+          "total": 12
+        }
+      },
+      "rgm.ts": {
+        "statements": {
+          "covered": 8,
+          "total": 13
+        },
+        "functions": {
+          "covered": 1,
+          "total": 1
+        },
+        "branches": {
+          "covered": 6,
+          "total": 12
+        }
+      }
+    }
+  },
+  "nativeCounts": [21, 20],
+  "retirementRows": 26,
+  "retirementNet": 60,
+  "matcherAndOther25EntriesUnchanged": true,
+  "productionBaselineAndRulesUnchanged": [
+    "packages/pal-extract/src/resources/parsers/ball.ts",
+    "packages/pal-extract/src/resources/parsers/rgm.ts",
+    "packages/pal-extract/src/resources/sprite.ts",
+    "packages/shared/src/rle.ts",
+    "scripts/coverage/config.mjs",
+    "scripts/coverage/baseline.fast.json"
+  ],
+  "temporaryCopiesRemoved": true,
+  "newFileClosures": 0,
+  "wholeCardAcceptance": false,
+  "helperCommentOnlyCorrection": {
+    "probeSha256": "efa8cfcecb3c3c7f9ccc5b2554d00308a9dca6a38426da00946506852c8fd131",
+    "currentSha256": "81e4c3b53d339c6c95a34ca9cd257d7b2a4541dec9be5ea8f3213d0af45e8010",
+    "onlyExactSingleCommentReplacement": true
+  }
+}

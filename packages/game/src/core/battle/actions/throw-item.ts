@@ -1,3 +1,4 @@
+import { getWord } from '../../word-lookup.js'
 /**
  * 投掷物 perform —— E2(战斗投掷物,kBattleActionThrowItem)。
  *
@@ -23,14 +24,14 @@ import type {
   PlayerRoles,
 } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
-import type { RunScriptOptions } from '../../event-system.js'
 import type { GameState } from '../../game-state.js'
+import { getItemScriptEntry, setItemScriptEntry } from '../../object-script-state.js'
 import { buildThrowWindupTimeline } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
+import type { RunScriptFn } from '../battle-runtime-context.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 
-/** 注入的 runScript 函数(同 performItem;测试可 mock,默认 event-system.runScript)。 */
-export type RunScriptFn = (opts: RunScriptOptions) => void
+export type { RunScriptFn } from '../battle-runtime-context.js'
 
 export interface PerformThrowItemInput {
   state: BattleState
@@ -98,7 +99,12 @@ export function performThrowItem(input: PerformThrowItemInput): void {
   const hasAnim = !input.casterIsEnemy && !!caster?.posOriginal
   const magicSound = caster ? (input.playerRoles.roles[caster.roleId]?.magicSound ?? 0) : 0
   const windup = hasAnim
-    ? buildThrowWindupTimeline(input.casterIdx, caster!.posOriginal!, magicSound, item._name)
+    ? buildThrowWindupTimeline(
+        input.casterIdx,
+        caster!.posOriginal!,
+        magicSound,
+        getWord(item.id, item._name),
+      )
     : []
   const pendingAnimFrames: BattleAnimFrame[] = []
   const pendingDamageNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
@@ -109,10 +115,11 @@ export function performThrowItem(input: PerformThrowItemInput): void {
       ? undefined // 全体:由 0x42 的 applyToAll flag / 自动选敌处理
       : { type: 'enemy' as const, idx: input.targetIdx }
 
-  if (item.scriptOnThrow !== 0) {
-    input.runScript({
+  const scriptEntry = getItemScriptEntry(input.gs, item, 'scriptOnThrow')
+  if (scriptEntry !== 0) {
+    const nextEntry = input.runScript({
       commands: input.commands,
-      ip: item.scriptOnThrow,
+      ip: scriptEntry,
       bus: input.bus,
       runtimeMode: 'battle',
       battleCtx: {
@@ -121,11 +128,11 @@ export function performThrowItem(input: PerformThrowItemInput): void {
         target: targetCtx,
         magicTables: { magics: input.magics, objectMagics: input.objectMagics },
         objectPoisons: input.objectPoisons, // 0x28 apply poison
-        playerRoles: input.playerRoles, // 0x66 throw weapon 算 w 需 caster attackStrength
-        gs: input.gs, // raw opcode fall 到 applyRawOpcode(控制流/资源/数据)需 gs
+        playerRoles: input.playerRoles, // 嵌套脚本所需战斗视图；0x66裸武术从gs.PlayerRolesRuntime读取
+        gs: input.gs, // 0x66裸武术与通用raw控制流/资源/数据读取当前runtime
         // 0x28 施毒跑一次 wEnemyScript(sdlpal script.c:1213)+ 蛊孵化链末尾 giveItem 需 commands/runScript
         commands: input.commands,
-        runScript: input.runScript as (o: RunScriptOptions) => number,
+        runScript: input.runScript,
         enemySpriteFrameHeights: input.enemySpriteFrameHeights,
         // 投掷动画:0x42/0x66 把 OffMagic 特效帧 push 进 pendingAnimFrames;HP-mutate 数字延迟进 pendingDamageNums。
         //   无动画(敌投/无 pos)→ 不传缓冲 → opcode 即时 emit + 音效即时(向后兼容)。
@@ -138,6 +145,7 @@ export function performThrowItem(input: PerformThrowItemInput): void {
           : {}),
       },
     })
+    setItemScriptEntry(input.gs, item, 'scriptOnThrow', nextEntry)
   }
 
   // —— 消耗 1(sdlpal:脚本之后 PAL_AddItemToInventory(-1)) ——

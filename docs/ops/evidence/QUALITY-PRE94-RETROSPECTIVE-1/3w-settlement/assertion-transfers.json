@@ -1,0 +1,30 @@
+{
+  "oldCases": 5,
+  "currentCases": 8,
+  "wholeCasesRetired": 0,
+  "scope": "Split two multi-axis cases into key/two-timeouts and dialog/no-dialog; strengthen two build cases. No retired registry/baseline/rules change.",
+  "rows": [
+    {
+      "old": "timeout helper five typed screen variants",
+      "current": "same case, all five exact5500/3000 assertions retained",
+      "limit": "Pure DTO metadata function only; no numeric-progression or visual credit"
+    },
+    {
+      "old": "no-level build, one screen/cash/index/shownMs/HP/MP",
+      "current": "real loadDefaultGame→projection→startBattle; two-party injured/dead writeback before XP; same screen/cash/start-index/time assertions, no recredit by next host tick"
+    },
+    {
+      "old": "one-role level/hidden/learn sequence, HP growth/fullness, hidden label/delta, magic name",
+      "current": "party[1,0] per-role ordering and exact names/role IDs; old level1→2, old/current HP, hidden label49/delta1 and learned name retained; core seeded RNG, no clone algorithm"
+    },
+    {
+      "old": "mixed first-key/75tick/reset-clock/second-screen case",
+      "current": "one pressed/held/nonConfirm/reset-on-next-screen case; separate normal74+1 and boss137+1 real ticks, no manual timer reset"
+    },
+    {
+      "old": "two battles in one PhaseE test; manual queue=[]; mode/exits already true by fixture defaults",
+      "current": "two cases with installed resources/battle mode/autoBattle true. Actualscript queue→real active dialog→skip/line-done/end-key host path; no manual queue clearing. All old once/HP400/MP25/explore/state release/autoBattle false assertions retained and resource ownership/script-before-recovery observed."
+    }
+  ],
+  "dedupe": "Neighbor state-machine already covers exp0 cash and defeated/return-IP; kept there, no new standalone duplicates. This spec needs exp0 and dead enemy snapshots to reach real lifecycle, not new count credit for those setup facts. Progression math/gear snapshots delegated, not mocked or recopied."
+}

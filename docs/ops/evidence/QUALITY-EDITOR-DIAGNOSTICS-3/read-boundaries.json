@@ -1,0 +1,42 @@
+{
+  "base": "2eb5b1401cb003af91c7262b691dcbe788ec0e82",
+  "sources": [
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts",
+      "beforeSha256": "0ff8f1b5ecf000cd6aee415b32d0ac20231ffbc78563cbc1c064d7c6872a9515",
+      "currentSha256": "79e76390490103d7632f37996078a9fcae6b6b8a82c7f5b604e60eff6575f00d",
+      "lines": 294,
+      "readMethod": "UI full current text; three test full reads reused only after exact prior SHA match; full implementation diff read",
+      "status": "review only; no closure"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "beforeSha256": "bc210cbddb218b027dd01c9473db139eab3d46d07ddcac1832d90fed4614009f",
+      "currentSha256": "43951ad480d24a6f28d84773741d3bbdf20d1a632300a444836195dbea740b13",
+      "lines": 407,
+      "readMethod": "UI full current text; three test full reads reused only after exact prior SHA match; full implementation diff read",
+      "status": "review only; no closure"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "beforeSha256": "7860434cbecaf7837afb2e23e7fbf96a6f0f6421c455f9e7db4f4de17de5ac21",
+      "currentSha256": "ee216c72cb9df2265852e347a122818b3a8f45021725647e0cf7f41779f894d2",
+      "lines": 290,
+      "readMethod": "UI full current text; three test full reads reused only after exact prior SHA match; full implementation diff read",
+      "status": "review only; no closure"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "beforeSha256": "6e4fbdf15f891ad7d389442236ed933d549d168a14de3cb7123fd731d70402cc",
+      "currentSha256": "3d74f378b3d3dd7483e7f63fdda0c5d2bc1f92a8c289961138a823bd5a9a0b03",
+      "lines": 270,
+      "readMethod": "UI full current text; three test full reads reused only after exact prior SHA match; full implementation diff read",
+      "status": "review only; no closure"
+    }
+  ],
+  "priorReads": "QUALITY-EDITOR-DIAGNOSTICS-2/next-read-boundaries.json and read-boundaries.json",
+  "remaining": "Host historical pending-promise navigation and failure cleanup fault injection remain unverified; unknown cross-file duplicates retained; full window pending. No closure.",
+  "oldWaitRawMessageCallers": "Only G01/G05; global search preceded removal. New raw helper returns its fresh DOM result after real notice.",
+  "precisionBase": "51215be62098796d298d1172a4738d6f8ccf5339",
+  "precisionReads": "G01 full current text and all changed G02/G05 text read; prior full G02/G05/product/caller reads reused only after exact SHA comparison before edits; content battle-sprite.ts full read for canonical discriminated union."
+}

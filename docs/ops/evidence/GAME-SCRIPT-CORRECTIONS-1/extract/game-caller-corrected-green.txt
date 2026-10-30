@@ -1,0 +1,42 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/game
+
+ ❯ src/core/script-corrections.raw.test.ts (7 tests | 1 failed) 233ms
+   ✓ candy purchase 'Cancel' with 100 cash pays only for a received candy 32ms
+   × candy purchase 'Confirm' with 100 cash pays only for a received candy 37ms
+   ✓ candy purchase 'Confirm' with 19 cash pays only for a received candy 32ms
+   ✓ real cure 307 clears silence and debuffs while preserving positive statuses 35ms
+   ✓ real cure 308 clears silence and debuffs while preserving positive statuses 33ms
+   ✓ real cure 65 clears silence and debuffs while preserving positive statuses 33ms
+   ✓ replacing and removing the dark blade clears its luck without overwriting the equipped sachet 31ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/script-corrections.raw.test.ts > candy purchase 'Confirm' with 100 cash pays only for a received candy
+AssertionError: expected 100 to be 80 // Object.is equality
+
+- Expected
++ Received
+
+- 80
++ 100
+
+ ❯ src/core/script-corrections.raw.test.ts:62:21
+     60|   expect(gs.mode).toBe('explore')
+     61|   expect(decisions).toBe(1)
+     62|   expect(gs.dwCash).toBe(expectedCash)
+       |                     ^
+     63|   expect(gs.inventory.filter((item) => item.itemId === 80)).toEqual(
+     64|     count ? [{ itemId: 80, count }] : [],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  15:54:58
+   Duration  1.15s (transform 255ms, setup 20ms, import 312ms, tests 233ms, environment 490ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/script-corrections.raw.test.ts --reporter=default

@@ -1,0 +1,65 @@
+{
+  "base": "cae26b1c7",
+  "isolatedWorkspace": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+  "sources": [
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+      "beforeSha256": "98eac49c32f24efe94daec485a0a328c34881a42ca577645bd1ef6d5831b73c4",
+      "fullRead": true,
+      "currentSha256": "301ba3aca35b2602c6d03728e2bf1881d7bad318cd2101b78343f0d2a5af4449",
+      "currentLines": 516,
+      "status": "review; no closure"
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+      "beforeSha256": "e0696ae55cd58822a15416888f5754d42a6286303bb3206b5348af6a1798d70a",
+      "fullRead": true,
+      "currentSha256": "e2e91246b2ffe0acfb492a4392ffcf47c3c4f28e083b201a4d17ca610c8d60c7",
+      "currentLines": 137,
+      "status": "review; no closure"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx",
+      "beforeSha256": "e5aaa1b553c3eedee2d2ce56346a57cf7d11ce081ddd393d330301ae50bf3bab",
+      "fullRead": true,
+      "currentSha256": "edb43815e46e0902fde287e3f31336e6ae7a3ad88853a2d2dd4bde6098e8b326",
+      "currentLines": 157,
+      "status": "review; no closure"
+    },
+    {
+      "path": "packages/editor/src/ui/__tests__/kimi-editor-workflows/k02-fixtures.ts",
+      "beforeSha256": "e8b4a5e4578be1e8e6f1a2fb3d755be48d0f6ad9f353f1e3c003159dc6cd5687",
+      "fullRead": true,
+      "change": "header only; code bytes after first comment unchanged",
+      "currentSha256": "41d3a808d9b39ed97bdfad129dba3fbb60730bc766925dc161ab77aacf06ef3b",
+      "currentLines": 117,
+      "status": "review; no closure"
+    }
+  ],
+  "fullReads": [
+    "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+    "packages/editor/src/ui/SpriteResourceViewer.tsx",
+    "packages/editor/src/core/editor-asset-reader.ts",
+    "packages/editor/src/core/sprite-assets.ts",
+    "packages/editor/src/ui/__tests__/kimi-editor-workflows/k02-fixtures.ts",
+    "packages/editor/src/ui/__tests__/kimi-editor-workflows/kit.ts",
+    "packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts"
+  ],
+  "partialReads": [
+    {
+      "path": "packages/editor/src/ui/DataMode.tsx",
+      "range": "704-770"
+    },
+    {
+      "path": "packages/editor/src/core/sprite-commands.ts",
+      "ranges": ["1-190", "388-549"]
+    },
+    {
+      "path": "packages/reforge/src/assets.ts",
+      "ranges": ["1-85", "175-300"]
+    }
+  ],
+  "noFileClosure": true,
+  "additionalCallerNotFullyReviewed": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+  "remaining": "Whole-file dedup outside this finite slice and global zero-diagnostic window remain pending."
+}

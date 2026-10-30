@@ -1,0 +1,164 @@
+{
+  "phase": "after",
+  "head": "ceda5bb12d743e83dfc92758a2950c71dbe8f78c",
+  "sourceSha256": "20f3c6e594ad9c6667e653cf7d6e6234f897407b05bc02e567fc9b2403989e8c",
+  "testSha256": "3813f3c8c5bcdf7ec7115e24f9f060ca4d839ac8f13c8f9a1aea96c162aa015c",
+  "runs": [
+    {
+      "name": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-3c-after-control.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3c-54fntmoz/control.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 2.028,
+      "passed": 1,
+      "failed": 0,
+      "pending": 0,
+      "failures": [],
+      "rawSha256": "1afd8fe08afaec811434e53bdaf9a70ebec94ecb2bd7063844145ea8839abcf6",
+      "runnerSha256": "bbf76179d8dcbe5431ce5dcb614d5bb7b60739bd690649a5f0c2b4d096e70fc9",
+      "moduleSha256": "20f3c6e594ad9c6667e653cf7d6e6234f897407b05bc02e567fc9b2403989e8c",
+      "testCopySha256": "ad1673e52681f9f903bac44b28e0ab8115135516cdcad162247e3a19cb865d92",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "fallback",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-3c-after-fallback.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3c-54fntmoz/fallback.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 1.824,
+      "passed": 0,
+      "failed": 1,
+      "pending": 0,
+      "failures": [
+        {
+          "name": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+          "messages": [
+            "AssertionError: expected \"Mock\" to be called once, but got 0 times\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor/src/ui/pre94-3c-after-fallback.test.tsx:60:18\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "rawSha256": "dd40a4188f477961f5d3a67c56fb04fd48f86f560047250f5035af0184d54633",
+      "runnerSha256": "594644b5295e7a37a768b19e105fb84fbf7cf26c9061755b51353a350060194f",
+      "moduleSha256": "aa75fa9ffb3302739ca4d4b5c7061b70aaf70f4b83c21b7ccb289edcbdf80eec",
+      "testCopySha256": "cd89c6d0f1d9c86e982a457f5df05fb43096e7b416cff55268969125f3c7acf0",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "finish",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-3c-after-finish.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3c-54fntmoz/finish.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 1.819,
+      "passed": 0,
+      "failed": 1,
+      "pending": 0,
+      "failures": [
+        {
+          "name": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+          "messages": [
+            "AssertionError: expected 1 to be +0 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor/src/ui/pre94-3c-after-finish.test.tsx:69:32\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "rawSha256": "08400b68cac6b88bb16ffbc97a21830acadcf8480f701b0931cb1072f1c97f63",
+      "runnerSha256": "e74be39f8d66d40aac114b87b305f57bb3d72e998ee334ee0ff54368c1cfa3f6",
+      "moduleSha256": "9ab947b42c225243533f7033d0f3de0e0abc0094803b5d158f94915697b55111",
+      "testCopySha256": "ed31c6391c7c648b5af87ca00de74cb1e20324b1829e034c52a4ae8aa6612c49",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    },
+    {
+      "name": "cleanup",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-3c-after-cleanup.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3c-54fntmoz/cleanup.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 1.766,
+      "passed": 0,
+      "failed": 1,
+      "pending": 0,
+      "failures": [
+        {
+          "name": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+          "messages": [
+            "AssertionError: expected 1 to be +0 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor/src/ui/pre94-3c-after-cleanup.test.tsx:80:32\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "rawSha256": "23d00ed683b62c4b4570fb0e8eff672845ecf46f38ecc14add359208a6b7a02d",
+      "runnerSha256": "a4136d43b612c5af432ea908221e1de05a7d4f87595a169a454cda4b7e93f1dc",
+      "moduleSha256": "7d85c49031dd331b7accfd8dff1dd6a6ab13ba32bb164cc2afc4d023daea3a12",
+      "testCopySha256": "4d6cdca7b8773464a7ab8d31cc91f2a3ac99eab225ac93a09ccce1fcd8d85346",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    }
+  ],
+  "productionUnchanged": true,
+  "testUnchangedDuringProbe": true,
+  "temporaryCopiesRemoved": true
+}

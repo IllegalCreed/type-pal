@@ -1,0 +1,10 @@
+{
+  "reviewer": "Codex, actual view_image inspection after CUA interaction",
+  "screenshot": "build/dev-screenshots/ga-failed-install-20261018/ga-failed-install-refresh.png",
+  "sha256": "b2886b0708bde13b25f6d7f5919849069cc833e12a8c7b4384dae88e9287cce4",
+  "observed": [
+    "after-refresh diagnostic block: hasController true, privacyRoots1, js/config/page_view recorded",
+    "Actual lower privacy panel visible, copy restricts collection to page views, policy link, reject/allow buttons"
+  ],
+  "scope": "Screenshot and actual tool-visible AX interaction prove privacy panel opened. Saved repeat AX request returned no-change summary, not a full panel tree. No fabricated replacement AX, no full-game/Google network claim."
+}

@@ -1,0 +1,319 @@
+{
+  "numTotalTestSuites": 13,
+  "numPassedTestSuites": 13,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 25,
+  "numPassedTests": 25,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792342222701,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["battle finalization ownership"],
+          "fullName": "battle finalization ownership clears all nine temporary status slots and world transients while preserving equipment counters",
+          "status": "passed",
+          "title": "clears all nine temporary status slots and world transients while preserving equipment counters",
+          "duration": 2.4852079999999432,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle finalization ownership"],
+          "fullName": "battle finalization ownership observes released battle resources and runner at the actual 0x07 cursor handoff",
+          "status": "passed",
+          "title": "observes released battle resources and runner at the actual 0x07 cursor handoff",
+          "duration": 0.7866670000000795,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle finalization ownership"],
+          "fullName": "battle finalization ownership lost finalizer writes party HP/MP by role and resumes the lost branch without revival",
+          "status": "passed",
+          "title": "lost finalizer writes party HP/MP by role and resumes the lost branch without revival",
+          "duration": 0.299082999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle finalization ownership"],
+          "fullName": "battle finalization ownership 'player escape' finalizer selects the real resume branch",
+          "status": "passed",
+          "title": "'player escape' finalizer selects the real resume branch",
+          "duration": 0.22387499999990723,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle finalization ownership"],
+          "fullName": "battle finalization ownership 'enemy termination' finalizer selects the real resume branch",
+          "status": "passed",
+          "title": "'enemy termination' finalizer selects the real resume branch",
+          "duration": 0.15991700000006404,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle finalization ownership"],
+          "fullName": "battle finalization ownership 'watchdog' finalizer selects the real resume branch",
+          "status": "passed",
+          "title": "'watchdog' finalizer selects the real resume branch",
+          "duration": 0.171416000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792342223539,
+      "endTime": 1792342223543.2239,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-finalization.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["battle runtime context ownership"],
+          "fullName": "battle runtime context ownership keeps the exact resource and live-role identities installed by startBattle",
+          "status": "passed",
+          "title": "keeps the exact resource and live-role identities installed by startBattle",
+          "duration": 1.243832999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle runtime context ownership"],
+          "fullName": "battle runtime context ownership prefers the injected runner and preserves it when no new override is supplied",
+          "status": "passed",
+          "title": "prefers the injected runner and preserves it when no new override is supplied",
+          "duration": 0.48137500000007094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle runtime context ownership"],
+          "fullName": "battle runtime context ownership releases both public resource views and restores the fallback runner",
+          "status": "passed",
+          "title": "releases both public resource views and restores the fallback runner",
+          "duration": 0.20391699999993307,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792342223447,
+      "endTime": 1792342223449.2039,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-runtime-context.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey)"
+          ],
+          "fullName": "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms",
+          "status": "passed",
+          "title": "exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms",
+          "duration": 0.7469589999999471,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["won首tick的结算装配"],
+          "fullName": "won首tick的结算装配 先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次",
+          "status": "passed",
+          "title": "先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次",
+          "duration": 2.179708000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["won首tick的结算装配"],
+          "fullName": "won首tick的结算装配 按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配",
+          "status": "passed",
+          "title": "按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配",
+          "duration": 0.9041669999999158,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["逐屏输入与时间边界"],
+          "fullName": "逐屏输入与时间边界 每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页",
+          "status": "passed",
+          "title": "每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页",
+          "duration": 0.5585839999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["逐屏输入与时间边界"],
+          "fullName": "逐屏输入与时间边界 isBoss=false:超时前一tick不翻页,下一tick翻页并清stall",
+          "status": "passed",
+          "title": "isBoss=false:超时前一tick不翻页,下一tick翻页并清stall",
+          "duration": 0.33045900000001893,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["逐屏输入与时间边界"],
+          "fullName": "逐屏输入与时间边界 isBoss=true:超时前一tick不翻页,下一tick翻页并清stall",
+          "status": "passed",
+          "title": "isBoss=true:超时前一tick不翻页,下一tick翻页并清stall",
+          "duration": 0.34749999999996817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Phase E→对话→恢复与释放"],
+          "fullName": "Phase E→对话→恢复与释放 真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放",
+          "status": "passed",
+          "title": "真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放",
+          "duration": 1.852708000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Phase E→对话→恢复与释放"],
+          "fullName": "Phase E→对话→恢复与释放 无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放",
+          "status": "passed",
+          "title": "无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放",
+          "duration": 0.3295419999999467,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["原盘战后掉落分支与特殊非胜利接回"],
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=21,掉落1棵止血草,分支只执行一次",
+          "status": "passed",
+          "title": "黑毛球战后0x06:roll=21,掉落1棵止血草,分支只执行一次",
+          "duration": 1.6042079999999714,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["原盘战后掉落分支与特殊非胜利接回"],
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=22,掉落+0棵止血草,分支只执行一次",
+          "status": "passed",
+          "title": "黑毛球战后0x06:roll=22,掉落+0棵止血草,分支只执行一次",
+          "duration": 0.5722500000000537,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["原盘战后掉落分支与特殊非胜利接回"],
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=+0不跑战后掉落/半恢复,接回ip5",
+          "status": "passed",
+          "title": "0x89 result=+0不跑战后掉落/半恢复,接回ip5",
+          "duration": 0.429540999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["原盘战后掉落分支与特殊非胜利接回"],
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=1不跑战后掉落/半恢复,接回ip6",
+          "status": "passed",
+          "title": "0x89 result=1不跑战后掉落/半恢复,接回ip6",
+          "duration": 0.2750829999999951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["原盘战后掉落分支与特殊非胜利接回"],
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=65535不跑战后掉落/半恢复,接回ip7",
+          "status": "passed",
+          "title": "0x89 result=65535不跑战后掉落/半恢复,接回ip7",
+          "duration": 0.1717079999999669,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792342223648,
+      "endTime": 1792342223658.2751,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["createBattleState —— DH1 零占位槽(battle.c:1598-1720)"],
+          "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) null 槽 → defeated 空槽:objectId=0、e 全零、无脚本、不参与目标(defeated)",
+          "status": "passed",
+          "title": "null 槽 → defeated 空槽:objectId=0、e 全零、无脚本、不参与目标(defeated)",
+          "duration": 2.007333000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createBattleState —— DH1 零占位槽(battle.c:1598-1720)"],
+          "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) 真实槽不受空槽影响:e shallow copy + maxHealth=战前满血(0x64 真值基线)",
+          "status": "passed",
+          "title": "真实槽不受空槽影响:e shallow copy + maxHealth=战前满血(0x64 真值基线)",
+          "duration": 0.4557089999999562,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createBattleState —— 开战 seed"],
+          "fullName": "createBattleState —— 开战 seed gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 脚本flag)",
+          "status": "passed",
+          "title": "gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 脚本flag)",
+          "duration": 0.1995000000000573,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792342223458,
+      "endTime": 1792342223460.4558,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-state.glm-next-wave.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+[
+  {
+    "label": "shared",
+    "command": ["pnpm", "--filter", "@type-pal/shared", "test"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+    "exit": 0,
+    "bytes": 459,
+    "sha256": "8ff1dd458e60d6e7591b3d666e42e232f6e027261c56b02300ab32b2b5e01dd6",
+    "unwrappedAct": 0,
+    "unsupportedActEnvironment": 0,
+    "navigation": 0
+  },
+  {
+    "label": "quality-tools",
+    "command": ["pnpm", "test:quality-tools"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+    "exit": 0,
+    "bytes": 6138,
+    "sha256": "9b91fe48df3a2ef52cdd8437b3e8a823b727111e028681889bfa9cf5904690b8",
+    "unwrappedAct": 0,
+    "unsupportedActEnvironment": 0,
+    "navigation": 0
+  },
+  {
+    "label": "game-sample",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/game",
+      "exec",
+      "vitest",
+      "run",
+      "src/core/battle/battle-finalization.test.ts",
+      "src/core/dependency-ownership.test.ts",
+      "src/status-poison-equip.glm-q.test.ts",
+      "--maxWorkers=1",
+      "--reporter=default",
+      "--silent=false"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+    "exit": 0,
+    "bytes": 447,
+    "sha256": "d3db2bfda8fb9635ed2dfee156d930d9e7ff8aaaab787c71be68f96b9ac6f9fe",
+    "unwrappedAct": 0,
+    "unsupportedActEnvironment": 0,
+    "navigation": 0
+  },
+  {
+    "label": "extract-yj2",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/pal-extract",
+      "exec",
+      "vitest",
+      "run",
+      "src/io/yj2.test.ts",
+      "--maxWorkers=1",
+      "--reporter=default",
+      "--silent=false"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+    "exit": 0,
+    "bytes": 307,
+    "sha256": "07c7d88342ef011f6df59b405ea5844b2b6960b84171ce0a37176eb1940346b4",
+    "unwrappedAct": 0,
+    "unsupportedActEnvironment": 0,
+    "navigation": 0
+  }
+]

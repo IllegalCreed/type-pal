@@ -1,0 +1,509 @@
+{
+  "scope": "Current actual documentation consumers, lint-zero, ledger/diff and readonly verifier. No fullcheck/official coverage/protected run or claim. Source tests/code unchanged since b3dc6d12a.",
+  "runs": [
+    {
+      "id": "docs-final",
+      "command": "node",
+      "args": ["scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:00:17.538Z",
+      "end": "2026-10-24T10:00:19.003Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 93,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "docs-final.execution.json",
+          "sha256": "f703df7d9446dcb6aad0a38197da7917d0e8143464e9efc4f6c7bda075e39820"
+        },
+        "stdout.raw": {
+          "member": "docs-final.stdout.raw",
+          "sha256": "0ee9bbea95376ebdc27500ae58044b95bbfec6f3e9f685f1adb5339644b854da"
+        },
+        "stderr.raw": {
+          "member": "docs-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "docmodel-final",
+      "command": "node",
+      "args": ["scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:00:17.553Z",
+      "end": "2026-10-24T10:00:20.067Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 79,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "docmodel-final.execution.json",
+          "sha256": "a1e5f0aadc241478635a1cb4a0c461bc3c88824f018d3a2f112e9ace660b97bd"
+        },
+        "stdout.raw": {
+          "member": "docmodel-final.stdout.raw",
+          "sha256": "ffc94083fd593e60e88a4f322ba62257d6625eb40729e176e1de8faf7db3594b"
+        },
+        "stderr.raw": {
+          "member": "docmodel-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "testing-final",
+      "command": "node",
+      "args": ["scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:00:17.546Z",
+      "end": "2026-10-24T10:00:17.726Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 30,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "testing-final.execution.json",
+          "sha256": "b169c9fae13f198fe48742ab1b0ba5663f68b8e0cc57bade6ebac4ee3177f9f1"
+        },
+        "stdout.raw": {
+          "member": "testing-final.stdout.raw",
+          "sha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c"
+        },
+        "stderr.raw": {
+          "member": "testing-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "phase-final",
+      "command": "node",
+      "args": ["scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:00:17.543Z",
+      "end": "2026-10-24T10:00:17.661Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 44,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "phase-final.execution.json",
+          "sha256": "854fd21d379352b1cb18173552a4e3178466245a30bbd9007569489042fe7254"
+        },
+        "stdout.raw": {
+          "member": "phase-final.stdout.raw",
+          "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c"
+        },
+        "stderr.raw": {
+          "member": "phase-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "content-final",
+      "command": "node",
+      "args": ["scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:00:17.551Z",
+      "end": "2026-10-24T10:00:18.355Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 65,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "content-final.execution.json",
+          "sha256": "e97dfeee022e9378651100db51474743a42a10570f673fa268cbac6de493b373"
+        },
+        "stdout.raw": {
+          "member": "content-final.stdout.raw",
+          "sha256": "3b0b15882a95d042815fa3dcb89b8a9fee95d0b962e3624081c56d62e567efad"
+        },
+        "stderr.raw": {
+          "member": "content-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "progress-final",
+      "command": "node",
+      "args": ["scripts/docs/report-governance-progress.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:00:17.554Z",
+      "end": "2026-10-24T10:00:22.017Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 158,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "progress-final.execution.json",
+          "sha256": "51ccdecb9e0b6f53ed92aa87078a9d058acf02b654e234e5fc1cbd847b3c992b"
+        },
+        "stdout.raw": {
+          "member": "progress-final.stdout.raw",
+          "sha256": "53fe8ce66c4f6212ed30633f7a8910053c1ed3105d83535ec4eb3a08655a830b"
+        },
+        "stderr.raw": {
+          "member": "progress-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "lint-final",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:00:17.560Z",
+      "end": "2026-10-24T10:00:21.042Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "lint-final.execution.json",
+          "sha256": "a77c44b7587cae0ca5ad7e25d6d8514047461bef9f6c9e11b5fd4e345bc89c89"
+        },
+        "stdout.raw": {
+          "member": "lint-final.stdout.raw",
+          "sha256": "a489069bbb50d6a61bcf4356e8da5b5a96c023a0a03a959d486bc2f0fc4cfdd5"
+        },
+        "stderr.raw": {
+          "member": "lint-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "ledger-final",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:00:17.559Z",
+      "end": "2026-10-24T10:00:19.827Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 112,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "ledger-final.execution.json",
+          "sha256": "3cc739f0f7a3be850c2ea8c362c38b06c12159cbb1be7bdb2459343b012e44a8"
+        },
+        "stdout.raw": {
+          "member": "ledger-final.stdout.raw",
+          "sha256": "a13c514e822d5261eea3588ce6811b1769dfa1b3cd3e4c8afc3bb79c2ee34e5b"
+        },
+        "stderr.raw": {
+          "member": "ledger-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "diff-final",
+      "command": "git",
+      "args": ["diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:00:17.586Z",
+      "end": "2026-10-24T10:00:17.668Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "diff-final.execution.json",
+          "sha256": "1ab58692d5c4ef22b95f87424aed5e6b49581736f62e993d629421fc278228d4"
+        },
+        "stdout.raw": {
+          "member": "diff-final.stdout.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr.raw": {
+          "member": "diff-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "main-ci",
+      "command": "gh",
+      "args": [
+        "run",
+        "list",
+        "--commit",
+        "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
+        "--limit",
+        "8",
+        "--json",
+        "databaseId,name,status,conclusion,headSha,url"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:01:23.641Z",
+      "end": "2026-10-24T10:01:26.333Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 447,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "main-ci.execution.json",
+          "sha256": "6cf0c56db6b3b33fab73762ca33b8a08178f69eda394e45f2e525d0beb814fdf"
+        },
+        "stdout.raw": {
+          "member": "main-ci.stdout.raw",
+          "sha256": "762e7ebd68fc6f73ee63fad0ad28f98b3f7d691540323950e25f53c34457e36d"
+        },
+        "stderr.raw": {
+          "member": "main-ci.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "code-fast-verify",
+      "command": "node",
+      "args": ["docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/verify.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:00:00.292Z",
+      "end": "2026-10-24T10:00:01.649Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 295,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "code-fast-verify.execution.json",
+          "sha256": "bef718c9ce6167dc43662d0eddb5f57343ef98a448b22006cd5cdbae5db0f714"
+        },
+        "stdout.raw": {
+          "member": "code-fast-verify.stdout.raw",
+          "sha256": "03d3c71dab1e4e799b315b9822000e93d772df64391ed0023c147a9af1f35e20"
+        },
+        "stderr.raw": {
+          "member": "code-fast-verify.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "docs-delivery",
+      "command": "node",
+      "args": ["scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:03:12.309Z",
+      "end": "2026-10-24T10:03:13.599Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 93,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "docs-delivery.execution.json",
+          "sha256": "077bff00ddf2849dfdc01fe52f9bd621af49036324a70fd75a98beb2a8775048"
+        },
+        "stdout.raw": {
+          "member": "docs-delivery.stdout.raw",
+          "sha256": "4afcdbb9d3461b2b8e8aab7e005aaef4debc383d2f99baa4287bead1809a946a"
+        },
+        "stderr.raw": {
+          "member": "docs-delivery.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "lint-delivery",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:03:12.309Z",
+      "end": "2026-10-24T10:03:15.251Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "lint-delivery.execution.json",
+          "sha256": "e6e82722b3d4d0405d6d2d5c8902eb49ed41884d0ca2f7db031e6426b9306790"
+        },
+        "stdout.raw": {
+          "member": "lint-delivery.stdout.raw",
+          "sha256": "0e9bf1032ae3acb08905470fa054584f3ed273bc26643ca1bff62d1ce49ec954"
+        },
+        "stderr.raw": {
+          "member": "lint-delivery.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "docs-pointer-final",
+      "command": "node",
+      "args": ["scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:07:09.967Z",
+      "end": "2026-10-24T10:07:10.709Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 93,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "docs-pointer-final.execution.json",
+          "sha256": "c3cf69fb4ed9cade30d61541a4b022a22a322aa4c38144d42fee04a84d9867e4"
+        },
+        "stdout.raw": {
+          "member": "docs-pointer-final.stdout.raw",
+          "sha256": "4afcdbb9d3461b2b8e8aab7e005aaef4debc383d2f99baa4287bead1809a946a"
+        },
+        "stderr.raw": {
+          "member": "docs-pointer-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "phase-pointer-final",
+      "command": "node",
+      "args": ["scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:07:09.967Z",
+      "end": "2026-10-24T10:07:10.040Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 44,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "phase-pointer-final.execution.json",
+          "sha256": "85b9dc73b35fd3052e7719bb2c92e2f7afe48f0b87f99cac8c4bdb384680156d"
+        },
+        "stdout.raw": {
+          "member": "phase-pointer-final.stdout.raw",
+          "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c"
+        },
+        "stderr.raw": {
+          "member": "phase-pointer-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "progress-pointer-final",
+      "command": "node",
+      "args": ["scripts/docs/report-governance-progress.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:07:09.967Z",
+      "end": "2026-10-24T10:07:12.708Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "observerTimeout": false,
+      "stdoutBytes": 158,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "progress-pointer-final.execution.json",
+          "sha256": "6e60d701f33ec08a5d5d2ab0223a61a175988f84e37f3e271f09c25142ea0324"
+        },
+        "stdout.raw": {
+          "member": "progress-pointer-final.stdout.raw",
+          "sha256": "7987e8a418e246f27e243ea7384d1eadba7562751237742a320d0cc6995fcedb"
+        },
+        "stderr.raw": {
+          "member": "progress-pointer-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    }
+  ],
+  "lint": {
+    "files": 6026,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0
+  },
+  "documentConsumers": 6,
+  "docToolUnitTests": "Unchanged125 tool tests inherited; did not run pnpm check:docs wrapper anew. Six actual consumers above executed directly. Progress0 integrity does not mean all documentation content accepted.",
+  "mainCI": [
+    {
+      "conclusion": "success",
+      "databaseId": 40078127138,
+      "headSha": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
+      "name": "Documentation",
+      "status": "completed",
+      "url": "https://github.com/IllegalCreed/type-pal/actions/runs/40078127138"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40078127160,
+      "headSha": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
+      "name": "Coverage ratchet",
+      "status": "completed",
+      "url": "https://github.com/IllegalCreed/type-pal/actions/runs/40078127160"
+    }
+  ],
+  "limits": "main b3d server Documentation/Coverage success belongs to that exact main SHA, not current governance candidate.33 captured cliHost children/temp stage output trees removed. Final unified pre94 gates and merge remain deferred.",
+  "archive": {
+    "path": "static.json.gz",
+    "sha256": "9b0e516d7a1a598790d2f56b7b21d6ff75d068ce0fb99a5eb1e9d9ddc63e44ae"
+  }
+}

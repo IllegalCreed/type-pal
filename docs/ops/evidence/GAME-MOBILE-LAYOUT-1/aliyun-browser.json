@@ -1,0 +1,99 @@
+{
+  "buttons": [
+    {
+      "label": "向上",
+      "rect": {
+        "height": 50,
+        "width": 50,
+        "x": 66.328125,
+        "y": 502
+      }
+    },
+    {
+      "label": "向左",
+      "rect": {
+        "height": 50,
+        "width": 50,
+        "x": 17,
+        "y": 551.328125
+      }
+    },
+    {
+      "label": "向右",
+      "rect": {
+        "height": 50,
+        "width": 50,
+        "x": 115,
+        "y": 551.328125
+      }
+    },
+    {
+      "label": "向下",
+      "rect": {
+        "height": 50,
+        "width": 50,
+        "x": 66.328125,
+        "y": 600
+      }
+    },
+    {
+      "label": "确认 / 交互",
+      "rect": {
+        "height": 67.5,
+        "width": 67.5,
+        "x": 291.5,
+        "y": 539.5
+      }
+    },
+    {
+      "label": "取消 / 菜单",
+      "rect": {
+        "height": 67.5,
+        "width": 67.5,
+        "x": 212,
+        "y": 583.5
+      }
+    },
+    {
+      "label": "▶ 进入游戏",
+      "rect": {
+        "height": 40.5,
+        "width": 164.078125,
+        "x": 105.4609375,
+        "y": 183.5
+      }
+    },
+    {
+      "label": "打开工具面板",
+      "rect": {
+        "height": 44,
+        "width": 44,
+        "x": 323,
+        "y": 8
+      }
+    }
+  ],
+  "canvas": {
+    "height": 200,
+    "renderedHeight": 234.375,
+    "renderedWidth": 375,
+    "width": 320
+  },
+  "layout": "mobile",
+  "scripts": ["https://pal.illegalscreed.cn/assets/index-CtdllQTA.js"],
+  "url": "https://pal.illegalscreed.cn/",
+  "viewport": [375, 667],
+  "steps": [
+    "production launch and opening confirmation exercised; game reached room dialogue",
+    "mobile tools: system tab shows touch visibility, gamepad explanation and three audio controls",
+    "hide touch controls: only tool launcher remains",
+    "reload: ready entry and tool launcher present; touch visibility checkbox remains 0",
+    "restore original enabled choice: all six controls return"
+  ],
+  "screenshots": ["aliyun-mobile-portrait.png", "aliyun-mobile-settings.png"],
+  "limits": [
+    "no real gamepad",
+    "not a full-story E2E",
+    "browser viewport simulation, not a physical phone"
+  ]
+}

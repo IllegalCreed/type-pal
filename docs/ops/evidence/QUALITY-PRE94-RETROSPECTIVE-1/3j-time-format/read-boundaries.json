@@ -1,0 +1,86 @@
+{
+  "base": "7057dddd9",
+  "fullReads": [
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.ts",
+      "sha256": "03cd01e6ed78b3acf1979f5a20ed65eefd4a0afa0397c91d49d2cddf9cfcb275",
+      "lines": 36,
+      "boundary": "Full implementation read; parseHms finite-result guard is the only behavior change."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+      "sha256": "557afe10f66636612c0f08851218504d92d078a002b1f27ec2a1d35a22e895f9",
+      "lines": 25,
+      "boundary": "Full direct contract read."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+      "sha256": "faccd961fb705a2bd3702a98561f17623b8bd3a2b6705915999233147b36d246",
+      "lines": 42,
+      "boundary": "Full boundary-contract read; one overflow counterexample added."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "sha256": "a016cb828e3b6fb212581a0c59534ec6cb1f29e82eb0403d1ad2c5c58fd809b7",
+      "lines": 19,
+      "boundary": "Full de-duplication/leaf-contract read."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "a888866e9555bc9fa58fed28d9e035fcb41d3d90c9fdc6d9eb79ddee0aef5d7a",
+      "lines": 58,
+      "boundary": "Full persistence caller/oracle read; finite and non-negative load validation confirmed."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.test.ts",
+      "sha256": "a00d04bea44135667710c73f8b0fe84a813e4792ed4c4464012dd00cc2014364",
+      "lines": 51,
+      "boundary": "Full persistence contract read."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.ts",
+      "sha256": "60c44dec89eeb0acf88719ff4cd86c81ff58f00932b3dc15f87ec77e737b9fdc",
+      "lines": 120,
+      "boundary": "Full display caller read."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.ts",
+      "sha256": "fd8335bcaf0aa8a0cc5461d075e2c5f72b2344b108d523e323117d84b8e1315a",
+      "lines": 218,
+      "boundary": "Full lifecycle/time ownership caller read."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+      "lines": 116,
+      "boundary": "Full orchestration caller read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1",
+      "lines": 1106,
+      "ranges": ["1-260", "820-930"],
+      "boundary": "Only module imports and timer-tab parseHms caller; whole panel remains outside this slice."
+    },
+    {
+      "path": "CLAUDE.md",
+      "boundary": "Relevant first-phase tool/quality and caller rules read; historical document not treated as current runtime proof."
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "boundary": "Historical mechanics boundary read; no speedrun mechanic claimed."
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "boundary": "Engineering caller/lifecycle notes read for applicable constraints; no speedrun-specific source found."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3j card acceptance",
+    "Full tools-panel semantic review",
+    "Non-finite formatClock/formatHms/formatDiff behavior without a direct production caller",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

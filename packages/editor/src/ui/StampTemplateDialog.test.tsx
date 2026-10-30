@@ -1,4 +1,5 @@
 // @vitest-environment jsdom
+
 import type { StampTemplate } from '@type-pal/content'
 import {
   buildBlankProjectMap,
@@ -9,6 +10,7 @@ import {
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { installReactActEnvironment } from '../__tests__/react-io-wait.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { MapSelection } from '../core/map-selection.js'
@@ -101,7 +103,10 @@ async function input(element: HTMLInputElement, value: string): Promise<void> {
 let root: Root
 let host: HTMLDivElement
 
+let restoreActEnvironment = () => {}
+
 beforeEach(() => {
+  restoreActEnvironment = installReactActEnvironment()
   document.body.innerHTML = ''
   Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
     configurable: true,
@@ -124,6 +129,7 @@ afterEach(async () => {
   await act(async () => root.unmount())
   vi.useRealTimers()
   host.remove()
+  restoreActEnvironment()
 })
 
 describe('StampTemplateDialog', () => {

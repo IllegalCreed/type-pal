@@ -1,0 +1,47 @@
+{
+  "counts": {
+    "total": 3425,
+    "verified": 452,
+    "review": 85,
+    "pending": 2888,
+    "unclosed": 2973
+  },
+  "newClosed": [
+    {
+      "path": "packages/pal-extract/src/events/slice.ts",
+      "before": "review"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.test.ts",
+      "before": "review"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+      "before": "review"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+      "before": "review"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/world-assets.ts",
+      "before": "implicit-pending"
+    }
+  ],
+  "priorCachedRollup": {
+    "pending": 0,
+    "partial": 11,
+    "accept": 72
+  },
+  "actualBefore": {
+    "pending": 0,
+    "partial": 9,
+    "accept": 74
+  },
+  "currentFixed83": {
+    "pending": 0,
+    "partial": 8,
+    "accept": 75
+  },
+  "rollupErratum": "Previous74/9 actual card states/447closed were correct, derivative cached currentReviewCounts/lastIncrementalReview still72/11. Current values recomputed from cards; prior snapshot and missing3o/3p chronology preserved, no extra credit."
+}

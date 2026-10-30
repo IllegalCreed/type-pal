@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "state": "complete",
+  "scope": "Two-source comment-only window. Complete source AST equality reuses code/native/tests; current docs/lint/ledger/diff captured only. Prior static members/index preserved; no whole check/official/protected/PR.",
+  "gates": [
+    "links",
+    "model",
+    "testing",
+    "phase",
+    "content",
+    "progress",
+    "lint",
+    "ledger",
+    "diff",
+    "static-format-final"
+  ],
+  "archive": {
+    "path": "static.receipts.json.gz",
+    "sha256": "504140823aaf1c6694b66b52f8e6c7afadb6a6c1b3f94ccdf660583c0fe717e1"
+  },
+  "inputs": [
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "sha256": "9444db850f09b4890a801f22aeaff9debc9bdf4ddcbdef18766502e07d827915"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+      "sha256": "9b27554e01d68d74faada76c5d732003246463c62992148225a4721468e96fa8"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md",
+      "sha256": "0770625027b0663b8918e28713937779224e81fa36ec395bbb4580e66dd04956"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/prove-rle-comments.cjs",
+      "sha256": "0472ca77fbaa016744a42ac8379217ba0c99ca5186596b15feb362cf8dffd446"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/receipts.json.gz",
+      "sha256": "70e1408cd6e9aa9ef71ae70be81c405cba9d871e7b3b2a3e369496efefec8c67"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/review.json",
+      "sha256": "b0a9d8d2e22f9aebf2abf8d16df55f0f723774c57edefb506bccc05872f9e60a"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/rle-comments.json",
+      "sha256": "d958b9bfa42dd501893f662bb616b365d4f55d80f1b3d49e3232a6e1345e25a2"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/verify.mjs",
+      "sha256": "c6a04bce9d9e1b7943e546284cc160b3fa3b02ff26842feb2de34caf94ee6275"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+      "sha256": "e2578a2d15524e7141a9a213b03fd694edb915cb89455d9ee561742f26f39ae0"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "sha256": "665bb3e7eb19f6304f68521b00d95d31864dd81b545ca5100fecd3bdea251289"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "sha256": "6722292df504eb6165e1bbc1792bb915b9e6d94452f71a920b68ec5764e0cee0"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "sha256": "25e38b59dde74c0b3b0670d5af0ce5f125b41dd9415a641f9ca26dadebaaf843"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "sha256": "1b2694e7db20717e9341d757c7e864a8a779aea19d8afa6c9fabb318b6be7040"
+    }
+  ]
+}

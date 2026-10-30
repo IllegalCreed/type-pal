@@ -1,0 +1,432 @@
+
+> @type-pal/pal-extract@0.0.0 test /Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/pal-extract
+> vitest run --reporter=default --passWithNoTests
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/pal-extract
+
+ ✓ src/events/slice.kimi-r1.test.ts (11 tests) 4ms
+ ✓ src/events/slice.test.ts (14 tests) 5ms
+ ✓ src/resources/parsers/__tests__/spells.boundaries.test.ts (10 tests) 12ms
+ ✓ src/resources/parsers/__tests__/data-misc.test.ts (12 tests) 93ms
+ ✓ src/resources/misc-guards.kimi-r1.test.ts (16 tests) 35ms
+ ✓ src/resources/tables.test.ts (89 tests) 103ms
+ ✓ src/events/disasm.test.ts (13 tests) 7ms
+ ✓ src/events/disasm.kimi-r1.test.ts (5 tests) 7ms
+ ✓ src/events/annotate.glm-runtime-resource.test.ts (10 tests) 7ms
+ ✓ src/resources/parsers/__tests__/player-roles.boundaries.test.ts (4 tests) 6ms
+ ✓ src/io/sss.boundaries.test.ts (8 tests) 15ms
+ ✓ src/io/word.test.ts (7 tests) 5ms
+ ✓ src/events/slice.boundaries.test.ts (5 tests) 9ms
+ ✓ src/resources/scene.test.ts (5 tests) 6ms
+ ✓ src/events/opcodes.test.ts (21 tests) 4ms
+ ✓ src/events/roundtrip.kimi-r1.test.ts (2 tests) 18ms
+ ✓ src/audit-data-mkf.test.ts (8 tests) 347ms
+ ✓ src/__tests__/asset-manifest.boundaries.test.ts (2 tests) 10ms
+ ✓ src/resources/parsers/__tests__/misc-mkf.test.ts (8 tests) 4303ms
+     ✓ real FIRE.MKF — 55 chunks，837帧身份/尺寸/SDLPal全部RGBA  4016ms
+ ✓ src/utils/gbk.test.ts (10 tests) 17ms
+ ✓ src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts (2 tests) 7ms
+ ✓ src/cli-font-lookup.glm-q.test.ts (2 tests) 4079ms
+   ✓ Q10 CLI BDF 接线正向：合成 unifont-cn.bdf → data/font/glyphs.json 完整内容  1906ms
+   ✓ Q10 CLI lookup 产物：words.json 扁平/分类切片与 strings.json 消息表  2138ms
+ ✓ src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts (3 tests) 5ms
+ ✓ src/resources/parsers/__tests__/enemies.boundaries.test.ts (5 tests) 4ms
+ ✓ src/resources/sprite.glm-runtime-resource.test.ts (4 tests) 6ms
+ ✓ src/__tests__/cli-host.test.ts (3 tests) 3441ms
+   ✓ real CLI exit retains complete streams and detached receipt; disposal removes its tree  2150ms
+   ✓ disposal waits for an active real process before removing its copied tree  1260ms
+ ✓ src/cli-battle-assets.glm-q.test.ts (2 tests) 4999ms
+   ✓ Q10 CLI 战斗精灵 dump-all：F/ABC 合法 YJ2 sprite 解压落 gzip blob + raw 回退原文 + manifest  2252ms
+   ✓ Q10 CLI 战斗背景正向：合法 YJ2 64000B FBP → PNG + ids；解压后尺寸不符精确 warn skip  2661ms
+ ✓ src/events/annotate.test.ts (6 tests) 3ms
+ ❯ src/resources/sprite.test.ts (3 tests | 1 failed) 5ms
+     ✓ 给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧 1ms
+     ✓ 未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错) 1ms
+     × 既有场景 1/14/17 引用的非零 sprite 均有 canonical .rle 产物 2ms
+ ✓ src/resources/scene.glm-runtime-resource.test.ts (5 tests) 5ms
+ ✓ src/events/disasm.glm-runtime-resource.test.ts (6 tests) 4ms
+ ✓ src/events/recompile.boundaries.test.ts (2 tests) 3ms
+ ✓ src/font/__tests__/bdf-to-json.boundaries.test.ts (3 tests) 7ms
+ ✓ src/io/word.boundaries.test.ts (3 tests) 35ms
+ ✓ src/resources/parsers/ball.glm-runtime-resource.test.ts (4 tests) 15ms
+ ✓ src/font/bdf-to-json.glm-runtime-resource.test.ts (5 tests) 8ms
+ ✓ src/events/disasm.boundaries.test.ts (2 tests) 4ms
+ ✓ src/output-boundary.test.ts (5 tests) 10ms
+ ✓ src/io/sss.test.ts (1 test) 22ms
+ ✓ src/events/recompile.glm-runtime-resource.test.ts (4 tests) 3ms
+ ✓ src/resources/parsers/__tests__/items.boundaries.test.ts (2 tests) 60ms
+ ✓ src/resources/map.test.ts (3 tests) 26ms
+ ✓ src/resources/parsers/fire.glm-runtime-resource.test.ts (4 tests) 6ms
+ ✓ src/resources/palette.boundaries.test.ts (2 tests) 8ms
+ ✓ src/__tests__/asset-manifest.test.ts (3 tests) 6ms
+ ✓ src/io/msg.boundaries.test.ts (4 tests) 19ms
+ ✓ src/events/slice.glm-runtime-resource.test.ts (3 tests) 3ms
+ ✓ src/resources/parsers/__tests__/data-misc.boundaries.test.ts (3 tests) 7ms
+ ✓ src/resources/parsers/rgm.glm-runtime-resource.test.ts (3 tests) 13ms
+ ✓ src/events/script-entries.test.ts (2 tests) 2ms
+ ✓ src/events/recompile.test.ts (3 tests) 3ms
+ ✓ src/resources/battle-sprite.test.ts (3 tests) 12ms
+ ✓ src/resources/palette.glm-runtime-resource.test.ts (3 tests) 3ms
+ ✓ src/resources/parsers/enemy-teams.glm-runtime-resource.test.ts (3 tests) 4ms
+ ✓ src/resources/enemy-pos.boundaries.test.ts (2 tests) 7ms
+ ✓ src/io/yj2.test.ts (1 test) 22ms
+ ✓ src/io/msg.test.ts (1 test) 57ms
+ ✓ src/resources/parsers/stores.glm-runtime-resource.test.ts (2 tests) 6ms
+ ✓ src/resources/parsers/items.glm-runtime-resource.test.ts (2 tests) 19ms
+ ✓ src/resources/parsers/__tests__/rix.test.ts (4 tests) 8ms
+ ✓ src/resources/asset-manifest.glm-runtime-resource.test.ts (2 tests) 4ms
+ ✓ src/io/mkf.test.ts (3 tests) 4ms
+ ✓ src/resources/sprite.boundaries.test.ts (6 tests) 2ms
+ ✓ src/font/__tests__/bdf-to-json.test.ts (2 tests) 11ms
+ ✓ src/io/rle.test.ts (3 tests) 4ms
+ ✓ src/resources/parsers/__tests__/battle-fields.boundaries.test.ts (1 test) 3ms
+ ✓ src/resources/parsers/__tests__/stores.boundaries.test.ts (1 test) 2ms
+ ✓ src/resources/parsers/battle-fields.glm-runtime-resource.test.ts (1 test) 6ms
+ ✓ src/resources/palette.test.ts (3 tests) 2ms
+ ✓ src/resources/parsers/__tests__/sounds.test.ts (1 test) 3ms
+ ✓ src/events/roundtrip.test.ts (1 test) 220ms
+ ✓ src/cli-entrypoint-paths.test.ts (6 tests) 8083ms
+   ✓ video entrypoint refuses shared data before invoking ffmpeg or changing its target  976ms
+   ✓ video entrypoint refuses shared extracted before invoking ffmpeg or changing its target  1058ms
+   ✓ owned video output accepts read-only raw links, writes six outputs and then skips them  2396ms
+   ✓ absolute CLI entrypoint through a directory link executes main instead of silently exiting zero  1245ms
+   ✓ importing CLI from a different real entrypoint stays side-effect free  1405ms
+   ✓ default prepareOutputRoot checks the imported CLI tree, independently of process cwd  1003ms
+ ✓ src/events/script-corrections.raw.test.ts (3 tests) 3573ms
+   ✓ supported source corrections preserve raw input and change only reviewed instructions  2556ms
+   ✓ unknown source fingerprint and drifted old instruction fail closed without changing source  1001ms
+ ✓ src/cli-script-corrections.raw.test.ts (2 tests) 8209ms
+   ✓ default CLI corrects gameplay before every event consumer is emitted  4000ms
+   ✓ default CLI rejects an altered source before corrected event outputs; faithful mode remains explicit  4207ms
+ ❯ src/cli-isolated.glm-q.test.ts (6 tests | 1 failed) 10052ms
+   ✓ Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）  1796ms
+   ✓ Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 + SPRITEUI/effect blob）  2138ms
+   ✓ Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合成 RLE/FIRE 空/SOUNDS/Musics），缺 FBP 边界拒绝  1727ms
+   × Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done） 1830ms
+   ✓ Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）  1279ms
+   ✓ Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不产出事件文件  1192ms
+ ✓ src/cli-error-exits.kimi-r1.test.ts (9 tests) 12305ms
+   ✓ KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 operand）  1822ms
+   ✓ KIMI-R1 CLI：M.MSG 缺失 → ENOENT + exit 1  1978ms
+   ✓ KIMI-R1 CLI：WORD.DAT 缺失 → ENOENT + exit 1  1693ms
+   ✓ KIMI-R1 CLI：SSS.MKF 头部过短 → MKF 精确诊断 + exit 1  1648ms
+   ✓ KIMI-R1 CLI：SSS.MKF 首偏移非 4 对齐 → MKF 精确诊断 + exit 1  1262ms
+   ✓ KIMI-R1 CLI：输出目录覆盖策略——陈旧产物清除、videos/ PRESERVE 保留  1203ms
+   ✓ KIMI-R1 CLI：命令面真值——不消费 argv，多余参数被忽略  978ms
+   ✓ KIMI-R1 CLI：OUT 根是共享 symlink 时，清理前拒绝且保留目标 marker  844ms
+   ✓ KIMI-R1 CLI：data 父目录是共享 symlink 时，清理前拒绝且保留目标 marker  785ms
+ ✓ src/resources/parsers/rng-frames.test.ts (14 tests) 12175ms
+     ✓ chunk 6 解出 N>0 帧 + 每帧 320×200 PNG  435ms
+     ✓ chunk 6 帧序列 — 第一帧非全黑(RLE delta 写了内容)  505ms
+     ✓ 全 12 chunk 都能解(0 frame chunk 容忍)  11223ms
+ ✓ src/cli-global-entries.glm-q.test.ts (14 tests) 16694ms
+   ✓ Q-NEXT1-01 item.use entry  1817ms
+   ✓ Q-NEXT1-02 item.equip entry  2385ms
+   ✓ Q-NEXT1-03 item.throw entry  1783ms
+   ✓ Q-NEXT1-04 item.desc entry  1829ms
+   ✓ Q-NEXT1-05 spell.use entry  1275ms
+   ✓ Q-NEXT1-06 spell.success entry  1093ms
+   ✓ Q-NEXT1-07 spell.desc entry  937ms
+   ✓ Q-NEXT1-08 enemy.turnStart entry  824ms
+   ✓ Q-NEXT1-09 enemy.battleEnd entry  793ms
+   ✓ Q-NEXT1-10 enemy.ready entry  741ms
+   ✓ Q-NEXT1-11 player.friendDeath entry  773ms
+   ✓ Q-NEXT1-12 player.dying entry  749ms
+   ✓ Q-NEXT1-13 shared entry alias  760ms
+   ✓ Q-NEXT1-14 scene global overlap  750ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/cli-isolated.glm-q.test.ts > Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + PAT 调色板 + MGO 合法 YJ2 sprite + asset-manifest + done）
+AssertionError: expected [ { …(3) }, { …(3) }, { …(3) }, …(46) ] to deeply equal [ { …(2) }, { …(2) }, { …(2) }, …(46) ]
+
+- Expected
++ Received
+
+  [
+    {
+      "path": "data/animation/rng-00.rle",
++     "sha256": "e645c2c5920bef4d06b09d49b95642605774652b05124c7bbfa0ec11180a338c",
+      "size": 28,
+    },
+    {
+      "path": "data/battle-bgs.json",
++     "sha256": "393ee1efea53f6222ea33588f37e002e5570d0c2c413b4f409eaa1a511de6220",
+      "size": 29,
+    },
+    {
+      "path": "data/battle-effect-index.json",
++     "sha256": "ad6ac022210675cfc9fe1b2734adfa497e4ca8f93a3d87ec100443fb7558f8ab",
+      "size": 102,
+    },
+    {
+      "path": "data/battle-fields.json",
++     "sha256": "830e7b6373bc9d59f9072c1b5670d392b632651b3c0dea5de5292a9705f49ba2",
+      "size": 161,
+    },
+    {
+      "path": "data/battle-sprites.json",
++     "sha256": "f47416c9bcf5affb0911905a7e7ad808cf57b5e15f86614aa8dec49ebdb27030",
+      "size": 19,
+    },
+    {
+      "path": "data/dialog-icons-raw.json",
++     "sha256": "0f1ab1b4df0a102b6760301470896f76bdd1707704eabd1e724a6e799201878f",
+      "size": 507,
+    },
+    {
+      "path": "data/enemies.json",
++     "sha256": "7099c5b83aa695668caf332b8c5bf818118e9953b47c022686d2ce1a137c79a3",
+      "size": 787,
+    },
+    {
+      "path": "data/enemy-objects.json",
++     "sha256": "7b8caef8f8b53ca868362466659b99d65c5cca5530d6fd14b4b3d4fc4a4d00e8",
+      "size": 24482,
+    },
+    {
+      "path": "data/enemy-pos.json",
++     "sha256": "395d14c2fc60f9c6aed4cea6e497f301815dcff08381645597bbdba4c5c1d324",
+      "size": 801,
+    },
+    {
+      "path": "data/enemy-teams.json",
++     "sha256": "8e2f73a70b8189eb5532d0d5b871cf93580eabb782d99886cb08e6eafc3a409f",
+      "size": 170,
+    },
+    {
+      "path": "data/event-objects.json",
++     "sha256": "811b49502d040e84a8ac5d796d247d979c4a3eac1d3ccf42fe857d68215d554e",
+      "size": 445,
+    },
+    {
+      "path": "data/fire-sprites.json",
++     "sha256": "d1d9d2a997a163144d71fa7ff182550de23597c35d90303f714a84c9cb66c4f5",
+      "size": 37,
+    },
+    {
+      "path": "data/items-icons.json",
++     "sha256": "8f4014c5915bebff7764072c5c164087fb1ad2ef31fcecc69b8a8d6f597c33ee",
+      "size": 105,
+    },
+    {
+      "path": "data/items.json",
++     "sha256": "078c606bddb2658237a42b080d6795ec10bece5f1b4e5fd727f603cb6c6ca408",
+      "size": 103416,
+    },
+    {
+      "path": "data/level-up-exp.json",
++     "sha256": "5aa2d32fbd63c2bd3e371835d0652d18e1a27a0dfb39fce9f41779dba1895279",
+      "size": 502,
+    },
+    {
+      "path": "data/level-up-magic.json",
++     "sha256": "c180f1b7eaa00d645d8283ad182f825f788add8b30d90a8f2c6bc01ce061bf75",
+      "size": 250,
+    },
+    {
+      "path": "data/magic.json",
++     "sha256": "22414fc6f074aebe510dee8895341113eefaf9c40787221d858b41b2e8fe9f23",
+      "size": 318,
+    },
+    {
+      "path": "data/magic/effect.rle",
++     "sha256": "51bfc0950957753ecbfb45409d93a3e31bb09d7242ebed130b2190c801ce4d22",
+      "size": 30,
+    },
+    {
+      "path": "data/music-manifest.json",
++     "sha256": "6fb2d74ece1a87c74b93493e8c16170c194429d0e79333bd5429f59817d9c050",
+      "size": 34,
+    },
+    {
+      "path": "data/object-magics.json",
++     "sha256": "bc66c43162b97fefb45e5d9f11fcae39f5874aa48743c1d9fab2128dbf71c4e1",
+      "size": 131030,
+    },
+    {
+      "path": "data/object-players.json",
++     "sha256": "fab35bd0341a1fc42ad7a71241cb121195cbf80e5824a16b1d3f6a299af76ad4",
+      "size": 458,
+    },
+    {
+      "path": "data/object-poisons.json",
++     "sha256": "42cbf4d7ea4ab7da591716e50e36e04b5ec8c860a18d467cbef095a392969502",
+      "size": 54992,
+    },
+    {
+      "path": "data/palette/0.json",
++     "sha256": "2bb2ae86e34f94b5149257b2d17539ca607da5d98134ec76b81721b262f86a6b",
+      "size": 11219,
+    },
+    {
+      "path": "data/palette/1.json",
++     "sha256": "c06d66b0458077c941ec60457d0c009f607bc2aaca2ad900ff27ec1aebd893ea",
+      "size": 22425,
+    },
+    {
+      "path": "data/player-roles.json",
++     "sha256": "1479cd095d36c8602762f206a52a3060ca4c82c38c36168aa179f49dfa7815b6",
+      "size": 8047,
+    },
+    {
+      "path": "data/portraits.json",
++     "sha256": "b8dc1a82e9c01e8c5aca0c0275cacce9e68226d7ef49d3f098c8715193675e6a",
+      "size": 109,
+    },
+    {
+      "path": "data/rng-frames.json",
++     "sha256": "87e139ade6b04b2cdc59d4db9391ed6558b93c48f46c7376acce308847e9e4f5",
+      "size": 98,
+    },
+    {
+      "path": "data/scene/0.json",
++     "sha256": "00668667a064886ed6ffdb21f2bb2e47ca996c93cbc8ef9b07f6ed2507caf82b",
+      "size": 471,
+    },
+    {
+      "path": "data/sounds-metadata.json",
++     "sha256": "f756455e9c2c0ebda24a78d52dbbd2a105257605b7862ffa110bac80295e0cf4",
+      "size": 180,
+    },
+    {
+      "path": "data/spells.json",
++     "sha256": "d0fa4446a45bdcae42c0e735f7165adf97f2a00beb9fbec3a2930d0259abbc2a",
+      "size": 26679,
+    },
+    {
+      "path": "data/sprite/0.rle",
++     "sha256": "d7913bf68fdf127555e55d79e078e29022a2274d6bd78b5533f6017223392815",
+      "size": 22,
+    },
+    {
+      "path": "data/stores.json",
++     "sha256": "27ad6d16abe96848e23903e5d6f103719b772471cca8b0b80c16758c1159e797",
+      "size": 54,
+    },
+    {
+      "path": "data/tilemap/0.json",
++     "sha256": "f4355e176a16109b0567704499c7a0c5f9997997d05b3ae22ad9abd61b25f640",
+      "size": 460369,
+    },
+    {
+      "path": "data/tilemap/1.json",
++     "sha256": "8648d96bdc835d778bca099eeaf6cfc565176c235eaea78fe751d043467a2624",
+      "size": 460369,
+    },
+    {
+      "path": "data/tileset/0.rle",
++     "sha256": "51bfc0950957753ecbfb45409d93a3e31bb09d7242ebed130b2190c801ce4d22",
+      "size": 30,
+    },
+    {
+      "path": "data/tileset/1.rle",
++     "sha256": "ab9f9e16e2fa2047d777eadc9bafbf5b2069c80adae9ed81755232f34e0af8ed",
+      "size": 30,
+    },
+    {
+      "path": "data/ui-sprite/spriteui.json",
++     "sha256": "d9f87dfdf98d8a3eb1bae551c2bccb8dc03c3c2ca509aadf47ce3f5c736e708a",
+      "size": 153,
+    },
+    {
+      "path": "events/all.json",
++     "sha256": "78c3eab550ae8e23e8013db4941ff671a2470e3cceeba07bb4075fe5b4d3e929",
+      "size": 440,
+    },
+    {
+      "path": "events/objects.json",
++     "sha256": "9590a6ece168977516b7d94133d1804be9366212f9549ddfc93e2a70d6bb4b3c",
+      "size": 20,
+    },
+    {
+      "path": "events/scene-000.json",
++     "sha256": "e188883016c619c37f765f3ef14ece0737257923be5ac083f4e7e26a09049ee0",
+      "size": 341,
+    },
+    {
+      "path": "events/shared.json",
++     "sha256": "e0febc76e3e4d6fd019a3de32157ebd01603a533490d401c24329af8d161adcc",
+      "size": 80,
+    },
+    {
+      "path": "images/items/000.png",
++     "sha256": "7cae380f7995d9f58904d0a245a3696982fd17d47bc0b525a96c1a91b1213d66",
+      "size": 82,
+    },
+    {
+      "path": "images/portraits/00.png",
++     "sha256": "7cae380f7995d9f58904d0a245a3696982fd17d47bc0b525a96c1a91b1213d66",
+      "size": 82,
+    },
+    {
+      "path": "images/ui/frame-00.png",
++     "sha256": "38c345afaeaf0b42db60217e1fc660ce8e97b33ed3507ab1b397e0e5dfbf02dc",
+      "size": 83,
+    },
+    {
+      "path": "lookup/strings.json",
++     "sha256": "1fa5acbfefb847c66989ae8b6ce318f1e5334940bacea7565c75d474b38325bd",
+      "size": 17,
+    },
+    {
+      "path": "lookup/words.json",
++     "sha256": "e422c27e4cd9368389f02773587f7fa602507c37be83e51bb3f5e7480fbc590d",
+      "size": 9203,
+    },
+    {
+      "path": "music/mus.mkf",
++     "sha256": "c0cdbb6e45249a718e7e605f801cf43f673a22fcf0347034da71f6be2e4f4d5e",
+      "size": 8,
+    },
+    {
+      "path": "script-corrections.json",
++     "sha256": "f35a6352e94b52459be60bd3093f95121e85f28b8666959039b291580e83904c",
+      "size": 181,
+    },
+    {
+      "path": "sounds/1.wav",
++     "sha256": "1536be459237e03927d21c3380b86472c99542673232f274ff6fae2982380a69",
+      "size": 9,
+    },
+  ]
+
+ ❯ src/cli-isolated.glm-q.test.ts:428:26
+    426|     .sort()
+    427|     .map((path) => ({ path, size: readFileSync(join(outputDirectory, p…
+    428|   expect(manifest.files).toEqual(actualFiles)
+       |                          ^
+    429|   expect(manifest.fileCount).toBe(actualFiles.length)
+    430|   expect(manifest.totalBytes).toBe(actualFiles.reduce((sum, entry) => …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/resources/sprite.test.ts > M3.5 T5 character sprite extraction loops scene chain > 既有场景 1/14/17 引用的非零 sprite 均有 canonical .rle 产物
+AssertionError: 需要既有场景产物；本用例不会执行提取: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/resources/sprite.test.ts:47:64
+     45|   it('既有场景 1/14/17 引用的非零 sprite 均有 canonical .rle 产物', () => {
+     46|     const sceneFiles = SLICE_SCENE_IDS.map((id) => resolve(DATA_DIR, '…
+     47|     expect(sceneFiles.every(existsSync), '需要既有场景产物；本用例不会执行提取').toBe(tr…
+       |                                                                ^
+     48|
+     49|     // 1) 跨 scene union EventObject.spriteNum(>0)+ dedup
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 76 passed (78)
+      Tests  2 failed | 459 passed (461)
+   Start at  15:52:00
+   Duration  16.96s (transform 2.07s, setup 0ms, import 4.14s, tests 89.32s, environment 6ms)
+
+/Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/pal-extract:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/pal-extract@0.0.0 test: `vitest run --reporter=default --passWithNoTests`
+Exit status 1

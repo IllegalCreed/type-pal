@@ -1,0 +1,143 @@
+{
+  "task": "GAME-ENGLISH-1",
+  "owner": "english_runtime_audit",
+  "state": "delivered-for-root-independent-review",
+  "createdAt": "2026-10-22T13:17:32.553918+00:00",
+  "base": "67dfea992ceb6b05d2c38d5803cc5a0c2daac5a2",
+  "candidate": "688acdec26f096a7cf4b0eb51d4ff0d319b76e29",
+  "scope": "Exactly two new tests in messages.test.ts; original nine tests unchanged. No permanent production, rule, exclusion, quality gate, coverage baseline, task card or catalog change.",
+  "sourceSha256": "85a69e9aadcd7293fc78e6e0c257400cb563b9f0fe2e87fa32222c46dfb48b58",
+  "diff": "build/english-dialog-clear/change.patch",
+  "businessContracts": [
+    {
+      "name": "battle timed dialogue clears and continues without another confirmation",
+      "caller": "runScript(runtimeMode:battle) -> beginDialogPlayback -> battleDialogQueue -> tickBattleDialog",
+      "legalInput": "Typed sourceCommands with contiguous messageIndex100..102, RestoreScreen and bottom portrait8; SLF title/timed string/null/following body. No state or command mutation by the test.",
+      "independentOracle": "SDLPal text.c:1542-1554 resets nCurrentDialogLine to0 after ~NN; text.c:1770 waits only for count>0. Therefore null after ~ cannot demand Confirm; body is removed while title and portrait survive. The actual English pack has10 null-after-~ occurrences, including start1..4 with this exact timed string. Short final line intentionally isolates clearing from line-wrap behavior.",
+      "dedupe": "The existing explicit clear case requires Confirm after ordinary body; this added case forbids that extra Confirm after a timed body."
+    },
+    {
+      "name": "battle narration clear after timeout adds no empty dialog or extra wait",
+      "caller": "runScript(runtimeMode:battle) -> translated queue -> narration host timeout -> clearPage with no active dialog -> next narration",
+      "legalInput": "Real createBattleLifecycleFixture/startBattle, typed narration command and translated body/null/body; input is empty throughout.",
+      "independentOracle": "SDLPal text.c:1663-1710 auto-closes narration after1.4s. A following clear is not a new message and must not create an empty box or additional wait. The next two host ticks consume clear and begin the following actual narration.",
+      "dedupe": "Existing exploration narration case exercises timeout and key completion, not the battle no-active-box clear path."
+    }
+  ],
+  "fileReview": {
+    "path": "packages/game/src/localization/messages.test.ts",
+    "dimensions": {
+      "A": "Both additions use legal typed Commands and real battle lifecycle initialization; no casts, fabricated BattleState, fake interpreter or direct dialog mutations. The first bounded tick loop must reach the next body to pass; the second checks the real1.4s lifecycle boundary.",
+      "B": "The sole added comment explains the narration duration units (35 battle ticks at40ms) from primary timing rather than restating queue internals.",
+      "C": "Each case tests one clear contract. Shared preparation remains in the established input and battle fixture helpers; no product responsibilities move into tests.",
+      "D": "Reuses createBattleLifecycleFixture, runScript, tickBattleDialog and existing source span. Repeated setup is short and semantic; no generic flag-driven harness added.",
+      "E": "11 native green cases, preserving all9 originals; one selected business negative control fails precisely at the phantom empty dialog assertion, after successful collection and execution. Ten unselected cases in that counter receive no execution credit.",
+      "F": "Names identify timed/body clear and auto-closed narration clear. Assertions observe visible body/title/portrait/absence of phantom box; initial real-wrap fixture mismatch was corrected and raw failure preserved.",
+      "G": "Only60 inserted test lines. No skip/only directives, timeout relaxation, mocks, new exports, retired tests, production changes, baseline edits or coverage suppressions.",
+      "H": "Real tick APIs permit deterministic no-key time progression and direct observation of dialog state. No test-only product hooks or private API exposure introduced."
+    }
+  },
+  "verification": {
+    "focusedCommand": "pnpm --filter @type-pal/game exec vitest run src/localization/messages.test.ts --reporter=default --reporter=json --outputFile.json=../../build/english-dialog-clear/final.json",
+    "focusedNative": {
+      "passed": 11,
+      "failed": 0,
+      "pending": 0
+    },
+    "counterNative": {
+      "passed": 0,
+      "failed": 1,
+      "unselectedPending": 10
+    },
+    "counterMutation": "Temporarily replace the unique if(line.clearPage) feeder guard with if(line.clearPage && gs.dialogBox); restore original bytes in finally. See counter-meta.json for identical before/after production hash.",
+    "typecheck": "pnpm --filter @type-pal/game typecheck: zero diagnostics",
+    "biome": "pnpm exec biome check packages/game/src/localization/messages.test.ts:1file,zero diagnostics",
+    "diffCheck": "git diff --check passed; committed patch has only the approved test file",
+    "calibration": "First run had10pass/1fail because a long expected following phrase was correctly word-wrapped under portrait width. Preserved calibration-wrap.*. The final short following phrase isolates this clear contract; no product change was made.",
+    "notRun": [
+      "Official full/fast coverage ratchet: centralized root run",
+      "Full repo typecheck/lint/docs: root ownership",
+      "Additional browser/E2E: no product change in this contribution"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "build/english-dialog-clear/calibration-wrap.log",
+      "bytes": 2589,
+      "sha256": "8eb99195671067f0a8eefca0c33f5c060a8d83cf8fb87c1879f5517483474687",
+      "gzipPath": "build/english-dialog-clear/calibration-wrap.log.gz",
+      "gzipSha256": "11439f52d791eb8ebe2761bba427d46715cb2cc583e010ed428e9ce987f55329"
+    },
+    {
+      "path": "build/english-dialog-clear/calibration-wrap.json",
+      "bytes": 5849,
+      "sha256": "e8d201820c8e2a1894bb627ee67bac969a1b1a3ab94ef70f206b1247215f18e2",
+      "gzipPath": "build/english-dialog-clear/calibration-wrap.json.gz",
+      "gzipSha256": "090c460f36c5370a8924dce71fc077dbf91ab3ba0c1f01df38faaf3cdbab1c36"
+    },
+    {
+      "path": "build/english-dialog-clear/focused.log",
+      "bytes": 431,
+      "sha256": "91ed8246ef1689b3a5ab1b02bf2063a064c9ddb7c98f6c19fdee4c8c6ad2656b",
+      "gzipPath": "build/english-dialog-clear/focused.log.gz",
+      "gzipSha256": "b3a0dee4db185dc9b1a0dc333b240ee0e60e64f3f3945dd053ecba5eefbce80d"
+    },
+    {
+      "path": "build/english-dialog-clear/focused.json",
+      "bytes": 4518,
+      "sha256": "991c46ad2008c086072379bfaeee7ee4a09fd5a1dd0c42f56b4a361afde9bd3c",
+      "gzipPath": "build/english-dialog-clear/focused.json.gz",
+      "gzipSha256": "580f0616543b6dc8e329cfa33f93a59b559918bfc3822539482f635c69305e32"
+    },
+    {
+      "path": "build/english-dialog-clear/counter.log",
+      "bytes": 3136,
+      "sha256": "ba623acb63f8cfa870035add56d614d60f29b31ea876499e251eeb1cb70be289",
+      "gzipPath": "build/english-dialog-clear/counter.log.gz",
+      "gzipSha256": "1f80882cc0e6845520356066e38a346c11c33b98578e9d804173b02686c2fb5c"
+    },
+    {
+      "path": "build/english-dialog-clear/counter.json",
+      "bytes": 5548,
+      "sha256": "0304908fb05d53dbfad7d5f5b38e3d1bfdc2a6e0629caa386cb82fa2ed005c95",
+      "gzipPath": "build/english-dialog-clear/counter.json.gz",
+      "gzipSha256": "91920221bfd9c093251bd56fcdd6e60af78b1a7f8eb19eb59dbe99b3ed526b84"
+    },
+    {
+      "path": "build/english-dialog-clear/counter-meta.json",
+      "bytes": 842,
+      "sha256": "c3b3c9da3b388d625892d85aedf4734d297286ce7f4dfa95cb518507bc533640",
+      "gzipPath": "build/english-dialog-clear/counter-meta.json.gz",
+      "gzipSha256": "87556364985f4b6d1ace62cbd8bb753050c626672651834f25a0c19a4a7e1875"
+    },
+    {
+      "path": "build/english-dialog-clear/final.log",
+      "bytes": 429,
+      "sha256": "1b62d38566ad0a9c3deae6175049b65041402581a71c34ccfffad4288b9569fa",
+      "gzipPath": "build/english-dialog-clear/final.log.gz",
+      "gzipSha256": "74626ef470637c43f1bf67545f612aa596891a24e5af90b40a996e2ca0115ce1"
+    },
+    {
+      "path": "build/english-dialog-clear/final.json",
+      "bytes": 4522,
+      "sha256": "8584c5126ac4cf5a3589fa322a027e17a5c6a85782932d18b0291323095602ad",
+      "gzipPath": "build/english-dialog-clear/final.json.gz",
+      "gzipSha256": "64e95772054cf334ebcbe0e74f5ed883c5070bab99618a920da05ae3334f4769"
+    },
+    {
+      "path": "build/english-dialog-clear/typecheck.log",
+      "bytes": 120,
+      "sha256": "91e087942212d8241dfdcef926edb3d61b7d67308e9cdaba7299e1edb3379a04",
+      "gzipPath": "build/english-dialog-clear/typecheck.log.gz",
+      "gzipSha256": "652b014b977dc1628e472a16b7ff6c155b8253a45d682154098e4d2035dfe21e"
+    },
+    {
+      "path": "build/english-dialog-clear/biome.log",
+      "bytes": 42,
+      "sha256": "6a55b3380e0fed7dcaf28ae4d71347a8a7a960c308b072baefd4a1c89be32dfc",
+      "gzipPath": "build/english-dialog-clear/biome.log.gz",
+      "gzipSha256": "a57136997677a94d7cf974db815bc0f975f892e6b65a56a62f89754db758eacc"
+    }
+  ],
+  "limits": "No claim that official coverage ratchet passed, whole-file governance closed, all-story E2E passed or task done. Root must review and integrate the test-only candidate."
+}

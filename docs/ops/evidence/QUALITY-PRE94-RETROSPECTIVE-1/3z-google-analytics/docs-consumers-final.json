@@ -1,0 +1,13 @@
+{
+  "command": ["python3", "/tmp/type-pal-tools-docs-consumers.py"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T23:11:32.240162+00:00",
+  "completedAt": "2026-10-17T23:11:34.534859+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "docs-consumers-final.raw.gz",
+  "rawBytes": 1142,
+  "rawSha256": "90418a54a8e040454bd9e845f473814bba016e848b509451779047b465e679f2",
+  "fullUncutMergedStdoutStderr": true
+}

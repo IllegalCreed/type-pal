@@ -1,0 +1,622 @@
+{
+  "numTotalTestSuites": 22,
+  "numPassedTestSuites": 22,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 51,
+  "numPassedTests": 51,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792372994941,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["E1 checkAuthorDialogueCue · 合法联合与非法半状态"],
+          "fullName": "E1 checkAuthorDialogueCue · 合法联合与非法半状态 actor/unbound cue 合法；narration 合法；非法 kind 拒绝",
+          "status": "passed",
+          "title": "actor/unbound cue 合法；narration 合法；非法 kind 拒绝",
+          "duration": 1.357292000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E1 checkAuthorDialogueCue · 合法联合与非法半状态"],
+          "fullName": "E1 checkAuthorDialogueCue · 合法联合与非法半状态 缺 portrait.side 拒绝",
+          "status": "passed",
+          "title": "缺 portrait.side 拒绝",
+          "duration": 0.17508400000002666,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E1 checkAuthorDialogueCue · 合法联合与非法半状态"],
+          "fullName": "E1 checkAuthorDialogueCue · 合法联合与非法半状态 rows 字符串数组 拒绝",
+          "status": "passed",
+          "title": "rows 字符串数组 拒绝",
+          "duration": 0.08262500000000728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E1 checkAuthorDialogueCue · 合法联合与非法半状态"],
+          "fullName": "E1 checkAuthorDialogueCue · 合法联合与非法半状态 rows 空数组 拒绝",
+          "status": "passed",
+          "title": "rows 空数组 拒绝",
+          "duration": 0.0691669999999931,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E1 checkAuthorDialogueCue · 合法联合与非法半状态"],
+          "fullName": "E1 checkAuthorDialogueCue · 合法联合与非法半状态 非法 side 值 拒绝",
+          "status": "passed",
+          "title": "非法 side 值 拒绝",
+          "duration": 0.20591699999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E2 resolveAuthorDialogueCue · fail-loud 无 fallback"],
+          "fullName": "E2 resolveAuthorDialogueCue · fail-loud 无 fallback 合法 actor+expression 解析全部字段；cue 与实际传入的 actor 表都不被修改",
+          "status": "passed",
+          "title": "合法 actor+expression 解析全部字段；cue 与实际传入的 actor 表都不被修改",
+          "duration": 0.8978339999999889,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E2 resolveAuthorDialogueCue · fail-loud 无 fallback"],
+          "fullName": "E2 resolveAuthorDialogueCue · fail-loud 无 fallback 缺 Actor/缺主立绘/缺命名表情 fail-loud 不回退全局资源",
+          "status": "passed",
+          "title": "缺 Actor/缺主立绘/缺命名表情 fail-loud 不回退全局资源",
+          "duration": 0.3818330000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372995115,
+      "endTime": 1792372995119.3818,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/author-dialogue.contracts.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C1 author-dialogue 剩余合同"],
+          "fullName": "C1 author-dialogue 剩余合同 resolve 复制 slot/cursorFrame，无立绘 actor 只出 speaker",
+          "status": "passed",
+          "title": "resolve 复制 slot/cursorFrame，无立绘 actor 只出 speaker",
+          "duration": 1.5706250000000068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372995122,
+      "endTime": 1792372995123.5706,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/author-dialogue.cursor-pure-wave2.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["A6 rows 守卫轴（现行合同：非空数组，无长度上限——不发明 >4 拒绝）"],
+          "fullName": "A6 rows 守卫轴（现行合同：非空数组，无长度上限——不发明 >4 拒绝） 空数组拒绝；元素缺 text/非对象拒绝；多行合法",
+          "status": "passed",
+          "title": "空数组拒绝；元素缺 text/非对象拒绝；多行合法",
+          "duration": 1.402875000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A7 row speed 守卫轴"],
+          "fullName": "A7 row speed 守卫轴 speed 非法值拒绝（负/NaN/非有限）；0 与非整数正数合法",
+          "status": "passed",
+          "title": "speed 非法值拒绝（负/NaN/非有限）；0 与非整数正数合法",
+          "duration": 0.696124999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A8 autoAdvance 守卫轴"],
+          "fullName": "A8 autoAdvance 守卫轴 autoAdvance 非法值拒绝；0 与非整数非负有限数合法；输入不变",
+          "status": "passed",
+          "title": "autoAdvance 非法值拒绝；0 与非整数非负有限数合法；输入不变",
+          "duration": 0.8814580000000092,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A9 slot 守卫轴"],
+          "fullName": "A9 slot 守卫轴 非法 slot 拒绝；四个合法值逐一通过",
+          "status": "passed",
+          "title": "非法 slot 拒绝；四个合法值逐一通过",
+          "duration": 0.2967919999999822,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A10 cursorFrame 守卫轴"],
+          "fullName": "A10 cursorFrame 守卫轴 非法 cursorFrame 拒绝（超 0..2/非整数）；0/1/2 合法",
+          "status": "passed",
+          "title": "非法 cursorFrame 拒绝（超 0..2/非整数）；0/1/2 合法",
+          "duration": 0.23970800000000736,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372995115,
+      "endTime": 1792372995118.2969,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/author-dialogue.field-guards.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["author dialogue identity"],
+          "fullName": "author dialogue identity actor 默认名、称谓覆写、主立绘与表情只从本 Actor 解析",
+          "status": "passed",
+          "title": "actor 默认名、称谓覆写、主立绘与表情只从本 Actor 解析",
+          "duration": 1.4362500000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author dialogue identity"],
+          "fullName": "author dialogue identity 缺 actor/default/expression 全部 fail-loud，不回退全局资源",
+          "status": "passed",
+          "title": "缺 actor/default/expression 全部 fail-loud，不回退全局资源",
+          "duration": 0.557959000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author dialogue identity"],
+          "fullName": "author dialogue identity 拒绝半状态、空 unbound 与 actor 直接 AssetId",
+          "status": "passed",
+          "title": "拒绝半状态、空 unbound 与 actor 直接 AssetId",
+          "duration": 0.1957089999999937,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author dialogue identity"],
+          "fullName": "author dialogue identity 作者命令只接受当前 identity 形状",
+          "status": "passed",
+          "title": "作者命令只接受当前 identity 形状",
+          "duration": 0.6137919999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author dialogue identity"],
+          "fullName": "author dialogue identity runtime 全树投影调用同一 resolver",
+          "status": "passed",
+          "title": "runtime 全树投影调用同一 resolver",
+          "duration": 0.17466699999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372995163,
+      "endTime": 1792372995165.6138,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/author-dialogue.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["D3 battleSpriteDefinitionFrameIndices/Demand · 三类 profile"],
+          "fullName": "D3 battleSpriteDefinitionFrameIndices/Demand · 三类 profile player：全部必填帧索引 + 可选 steal；demand=max+1",
+          "status": "passed",
+          "title": "player：全部必填帧索引 + 可选 steal；demand=max+1",
+          "duration": 2.0014580000000137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D3 battleSpriteDefinitionFrameIndices/Demand · 三类 profile"],
+          "fullName": "D3 battleSpriteDefinitionFrameIndices/Demand · 三类 profile enemy：连续段展开；0 帧段贡献零索引；去重",
+          "status": "passed",
+          "title": "enemy：连续段展开；0 帧段贡献零索引；去重",
+          "duration": 0.3223750000000223,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D3 battleSpriteDefinitionFrameIndices/Demand · 三类 profile"],
+          "fullName": "D3 battleSpriteDefinitionFrameIndices/Demand · 三类 profile summon：必须传 actualFrameCount；非正数拒绝",
+          "status": "passed",
+          "title": "summon：必须传 actualFrameCount；非正数拒绝",
+          "duration": 0.5987079999999878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D3/D4 validateBattleSprites + resolveBattleSpriteDefinition"],
+          "fullName": "D3/D4 validateBattleSprites + resolveBattleSpriteDefinition 合法定义通过且输入不变；resolve 精确查找",
+          "status": "passed",
+          "title": "合法定义通过且输入不变；resolve 精确查找",
+          "duration": 1.1116250000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D3/D4 validateBattleSprites + resolveBattleSpriteDefinition"],
+          "fullName": "D3/D4 validateBattleSprites + resolveBattleSpriteDefinition 缺目标拒绝；kind 不匹配（单值/集合）拒绝",
+          "status": "passed",
+          "title": "缺目标拒绝；kind 不匹配（单值/集合）拒绝",
+          "duration": 0.5800410000000227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372995115,
+      "endTime": 1792372995119.58,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/battle-sprite-profile.contracts.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "battle sprite rejects idle empty without mutating the submitted profile",
+          "status": "passed",
+          "title": "battle sprite rejects idle empty without mutating the submitted profile",
+          "duration": 2.8139170000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle sprite rejects idle offset without mutating the submitted profile",
+          "status": "passed",
+          "title": "battle sprite rejects idle offset without mutating the submitted profile",
+          "duration": 0.23712500000002024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle sprite rejects magic gap without mutating the submitted profile",
+          "status": "passed",
+          "title": "battle sprite rejects magic gap without mutating the submitted profile",
+          "duration": 0.4317079999999862,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle sprite rejects idle zero tick without mutating the submitted profile",
+          "status": "passed",
+          "title": "battle sprite rejects idle zero tick without mutating the submitted profile",
+          "duration": 0.17116599999999949,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle sprite rejects negative action tick without mutating the submitted profile",
+          "status": "passed",
+          "title": "battle sprite rejects negative action tick without mutating the submitted profile",
+          "duration": 0.13437500000000568,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle sprite rejects fractional section without mutating the submitted profile",
+          "status": "passed",
+          "title": "battle sprite rejects fractional section without mutating the submitted profile",
+          "duration": 0.25491699999997763,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle sprite rejects section object without mutating the submitted profile",
+          "status": "passed",
+          "title": "battle sprite rejects section object without mutating the submitted profile",
+          "duration": 0.205332999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle sprite rejects unknown profile without mutating the submitted profile",
+          "status": "passed",
+          "title": "battle sprite rejects unknown profile without mutating the submitted profile",
+          "duration": 0.12158300000001532,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle sprite rejects id slash independently of catalog lookups",
+          "status": "passed",
+          "title": "battle sprite rejects id slash independently of catalog lookups",
+          "duration": 0.6512079999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle sprite rejects label blank independently of catalog lookups",
+          "status": "passed",
+          "title": "battle sprite rejects label blank independently of catalog lookups",
+          "duration": 0.15816699999999173,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle sprite rejects asset type independently of catalog lookups",
+          "status": "passed",
+          "title": "battle sprite rejects asset type independently of catalog lookups",
+          "duration": 0.17541700000001015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle sprite rejects profile null independently of catalog lookups",
+          "status": "passed",
+          "title": "battle sprite rejects profile null independently of catalog lookups",
+          "duration": 0.0897910000000195,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle sprite container must be an array of records",
+          "status": "passed",
+          "title": "battle sprite container must be an array of records",
+          "duration": 0.11429199999997763,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "parsed enemy sections are detached from the actual author input",
+          "status": "passed",
+          "title": "parsed enemy sections are detached from the actual author input",
+          "duration": 0.10333299999999213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372995116,
+      "endTime": 1792372995122.1143,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/battle-sprite.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["BattleSpriteDef schema/profile"],
+          "fullName": "BattleSpriteDef schema/profile player-fighter 命名帧与 optional steal 形成精确需求",
+          "status": "passed",
+          "title": "player-fighter 命名帧与 optional steal 形成精确需求",
+          "duration": 1.2711660000000222,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattleSpriteDef schema/profile"],
+          "fullName": "BattleSpriteDef schema/profile enemy 区段必须连续，actTicksPerFrame=0 合法",
+          "status": "passed",
+          "title": "enemy 区段必须连续，actTicksPerFrame=0 合法",
+          "duration": 0.5825419999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattleSpriteDef schema/profile"],
+          "fullName": "BattleSpriteDef schema/profile summon 必须用实际帧数计算，零帧 fail-loud",
+          "status": "passed",
+          "title": "summon 必须用实际帧数计算，零帧 fail-loud",
+          "duration": 0.17287500000000477,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattleSpriteDef schema/profile"],
+          "fullName": "BattleSpriteDef schema/profile 重复 id、缺 asset、kind mismatch 与旧 number/path 全拒绝",
+          "status": "passed",
+          "title": "重复 id、缺 asset、kind mismatch 与旧 number/path 全拒绝",
+          "duration": 0.2595839999999896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattleSpriteDef schema/profile"],
+          "fullName": "BattleSpriteDef schema/profile 定义解析区分缺失与 profile mismatch",
+          "status": "passed",
+          "title": "定义解析区分缺失与 profile mismatch",
+          "duration": 0.3303749999999752,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372995114,
+      "endTime": 1792372995116.3303,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/battle-sprite.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current lifecycle commands"],
+          "fullName": "current lifecycle commands accepts lifecycle leaves with exact targets and ticks",
+          "status": "passed",
+          "title": "accepts lifecycle leaves with exact targets and ticks",
+          "duration": 1.4702090000000112,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current lifecycle commands"],
+          "fullName": "current lifecycle commands rejects vanishEntity, including in nested arms",
+          "status": "passed",
+          "title": "rejects vanishEntity, including in nested arms",
+          "duration": 0.3237500000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current lifecycle commands"],
+          "fullName": "current lifecycle commands rejects malformed lifecycle variants directly",
+          "status": "passed",
+          "title": "rejects malformed lifecycle variants directly",
+          "duration": 0.2174579999999935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current lifecycle commands"],
+          "fullName": "current lifecycle commands retains non-lifecycle command shape and recursive validation",
+          "status": "passed",
+          "title": "retains non-lifecycle command shape and recursive validation",
+          "duration": 0.1475420000000156,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current lifecycle commands"],
+          "fullName": "current lifecycle commands applies the same recursive boundary to flows, pages, hooks, and shared scripts",
+          "status": "passed",
+          "title": "applies the same recursive boundary to flows, pages, hooks, and shared scripts",
+          "duration": 0.8177499999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372995163,
+      "endTime": 1792372995165.8179,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/runtime-script-lifecycle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "runtime options cannot replace the current vocabulary or bypass lifecycle validation",
+          "status": "passed",
+          "title": "runtime options cannot replace the current vocabulary or bypass lifecycle validation",
+          "duration": 1.9987079999999935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "runtime forwards the same cue and full nested path to the supplied dialogue validator",
+          "status": "passed",
+          "title": "runtime forwards the same cue and full nested path to the supplied dialogue validator",
+          "duration": 1.2431250000000205,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "runtime scene change is allowed in trigger flow but rejected in the actual auto behavior wrapper",
+          "status": "passed",
+          "title": "runtime scene change is allowed in trigger flow but rejected in the actual auto behavior wrapper",
+          "duration": 0.2669159999999806,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "runtime shared-script explicit path and scene-hook wrappers preserve recursive lifecycle validation",
+          "status": "passed",
+          "title": "runtime shared-script explicit path and scene-hook wrappers preserve recursive lifecycle validation",
+          "duration": 0.3750830000000178,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372995162,
+      "endTime": 1792372995166.375,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/runtime-script.boundaries.test.ts"
+    }
+  ]
+}

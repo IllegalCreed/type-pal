@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "base": "HEAD",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "55b23cbcfa8c96431d91213707839ccd2cbcd4e3e8dfe7e4bc204bd2ab0c2221",
+        "current": "55b23cbcfa8c96431d91213707839ccd2cbcd4e3e8dfe7e4bc204bd2ab0c2221"
+      },
+      "printedBytes": {
+        "base": 8794,
+        "current": 8794
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "3538ee4945a179e632740e030b16c34c77b1ba7cf844a3925ba99d75de34d9c3",
+        "current": "3538ee4945a179e632740e030b16c34c77b1ba7cf844a3925ba99d75de34d9c3"
+      },
+      "printedBytes": {
+        "base": 22355,
+        "current": 22355
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

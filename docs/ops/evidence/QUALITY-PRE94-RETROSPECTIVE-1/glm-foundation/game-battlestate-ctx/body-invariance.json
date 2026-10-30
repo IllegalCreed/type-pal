@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "base": "7af061e36400fe09fefd81994cc0ed4758e55860",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/battle/battle-state.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "cae74355c7287c461392aa132b8d92881dd8c0f4420ecb09b53817e460ce205b",
+        "current": "cae74355c7287c461392aa132b8d92881dd8c0f4420ecb09b53817e460ce205b"
+      },
+      "printedBytes": {
+        "base": 12513,
+        "current": 12513
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "7847ba25a9430729b35f226c9e6b96cb474e57a8634652192f712c67624071c5",
+        "current": "7847ba25a9430729b35f226c9e6b96cb474e57a8634652192f712c67624071c5"
+      },
+      "printedBytes": {
+        "base": 2300,
+        "current": 2300
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

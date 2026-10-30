@@ -1,0 +1,2416 @@
+{
+  "numTotalTestSuites": 26,
+  "numPassedTestSuites": 26,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 216,
+  "numPassedTests": 216,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792388546218,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "take preserves the remaining automatic wait while the neighbor continues, then release resumes it",
+          "status": "passed",
+          "title": "take preserves the remaining automatic wait while the neighbor continues, then release resumes it",
+          "duration": 626.8590000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a taken automatic owner evaluates its branch only after release",
+          "status": "passed",
+          "title": "a taken automatic owner evaluates its branch only after release",
+          "duration": 38.27804200000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "automatic map IO ready during take commits neither canonical nor live map until release",
+          "status": "passed",
+          "title": "automatic map IO ready during take commits neither canonical nor live map until release",
+          "duration": 41.92245900000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "debug scene teardown captures an unfinished automatic wait before clearing timers",
+          "status": "passed",
+          "title": "debug scene teardown captures an unfinished automatic wait before clearing timers",
+          "duration": 41.29449999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "taking an automatic caller pauses its in-flight 'moveEntity' on a different target",
+          "status": "passed",
+          "title": "taking an automatic caller pauses its in-flight 'moveEntity' on a different target",
+          "duration": 47.119290999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "taking an automatic caller pauses its in-flight 'playEntityAction' on a different target",
+          "status": "passed",
+          "title": "taking an automatic caller pauses its in-flight 'playEntityAction' on a different target",
+          "duration": 43.68825000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "faceEntityToParty uses live positions and preserves pose at 8/7",
+          "status": "passed",
+          "title": "faceEntityToParty uses live positions and preserves pose at 8/7",
+          "duration": 28.216333000000077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "faceEntityToParty uses live positions and preserves pose at 8/9",
+          "status": "passed",
+          "title": "faceEntityToParty uses live positions and preserves pose at 8/9",
+          "duration": 29.236415999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "faceEntityToParty uses live positions and preserves pose at 7/8",
+          "status": "passed",
+          "title": "faceEntityToParty uses live positions and preserves pose at 7/8",
+          "duration": 28.713792000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "faceEntityToParty uses live positions and preserves pose at 9/8",
+          "status": "passed",
+          "title": "faceEntityToParty uses live positions and preserves pose at 9/8",
+          "duration": 26.863124999999854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "faceEntityToParty uses live positions and preserves pose at 8/8",
+          "status": "passed",
+          "title": "faceEntityToParty uses live positions and preserves pose at 8/8",
+          "duration": 30.537667000000056,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "faceEntityToParty uses live positions and preserves pose at 7/7",
+          "status": "passed",
+          "title": "faceEntityToParty uses live positions and preserves pose at 7/7",
+          "duration": 25.135291000000052,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "faceEntityToParty uses live positions and preserves pose at 9/9",
+          "status": "passed",
+          "title": "faceEntityToParty uses live positions and preserves pose at 9/9",
+          "duration": 26.951957999999877,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "faceEntityToParty uses live positions and preserves pose at 9/7",
+          "status": "passed",
+          "title": "faceEntityToParty uses live positions and preserves pose at 9/7",
+          "duration": 29.417500000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "faceEntityToParty uses live positions and preserves pose at 7/9",
+          "status": "passed",
+          "title": "faceEntityToParty uses live positions and preserves pose at 7/9",
+          "duration": 23.355583000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "automatic 'faceEntityToParty' waits for the actual target owner, including a different automatic caller",
+          "status": "passed",
+          "title": "automatic 'faceEntityToParty' waits for the actual target owner, including a different automatic caller",
+          "duration": 42.96216600000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "automatic 'setEntityFacing' waits for the actual target owner, including a different automatic caller",
+          "status": "passed",
+          "title": "automatic 'setEntityFacing' waits for the actual target owner, including a different automatic caller",
+          "duration": 39.87129199999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "automatic 'setEntityFrame' waits for the actual target owner, including a different automatic caller",
+          "status": "passed",
+          "title": "automatic 'setEntityFrame' waits for the actual target owner, including a different automatic caller",
+          "duration": 49.482332999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "automatic 'animEntity' waits for the actual target owner, including a different automatic caller",
+          "status": "passed",
+          "title": "automatic 'animEntity' waits for the actual target owner, including a different automatic caller",
+          "duration": 39.83595800000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "automatic 'playEntityAction' waits for the actual target owner, including a different automatic caller",
+          "status": "passed",
+          "title": "automatic 'playEntityAction' waits for the actual target owner, including a different automatic caller",
+          "duration": 39.76875000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "automatic 'stopEntityAction' waits for the actual target owner, including a different automatic caller",
+          "status": "passed",
+          "title": "automatic 'stopEntityAction' waits for the actual target owner, including a different automatic caller",
+          "duration": 36.746000000000095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "an already playing automatic action keeps its exact phase while its target is held and resumes after release",
+          "status": "passed",
+          "title": "an already playing automatic action keeps its exact phase while its target is held and resumes after release",
+          "duration": 35.99458299999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "taking an automatic walk draws idle while retaining the phase for release without moving while held",
+          "status": "passed",
+          "title": "taking an automatic walk draws idle while retaining the phase for release without moving while held",
+          "duration": 48.806583000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a foreground waypoint counts its arrival step before handing the retained walk back to auto",
+          "status": "passed",
+          "title": "a foreground waypoint counts its arrival step before handing the retained walk back to auto",
+          "duration": 41.85529200000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a foreground endpoint does not retain a walk for no-auto",
+          "status": "passed",
+          "title": "a foreground endpoint does not retain a walk for no-auto",
+          "duration": 39.333582999999635,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a foreground endpoint does not retain a walk for cancelled-auto",
+          "status": "passed",
+          "title": "a foreground endpoint does not retain a walk for cancelled-auto",
+          "duration": 38.009207999999944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a foreground endpoint does not retain a walk for final-destination",
+          "status": "passed",
+          "title": "a foreground endpoint does not retain a walk for final-destination",
+          "duration": 39.11691699999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a foreground endpoint does not retain a walk for zero-distance",
+          "status": "passed",
+          "title": "a foreground endpoint does not retain a walk for zero-distance",
+          "duration": 34.94825000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a foreground waypoint stays standing when the retained auto target is suspended",
+          "status": "passed",
+          "title": "a foreground waypoint stays standing when the retained auto target is suspended",
+          "duration": 35.80554200000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a foreground waypoint stays standing when the retained auto owner is suspended",
+          "status": "passed",
+          "title": "a foreground waypoint stays standing when the retained auto owner is suspended",
+          "duration": 32.40487499999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a taken target pauses only its automatic page action while another page continues",
+          "status": "passed",
+          "title": "a taken target pauses only its automatic page action while another page continues",
+          "duration": 30.22887499999979,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "canonical island dialogue leaves its ambient boat animation running; an added hold freezes it",
+          "status": "passed",
+          "title": "canonical island dialogue leaves its ambient boat animation running; an added hold freezes it",
+          "duration": 105.1205829999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a scene without an entry starts its automatic behavior when its declared fade finishes",
+          "status": "passed",
+          "title": "a scene without an entry starts its automatic behavior when its declared fade finishes",
+          "duration": 27.482499999999618,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a mounted ride preserves the carrier facing through every move; a normal move still turns it",
+          "status": "passed",
+          "title": "a mounted ride preserves the carrier facing through every move; a normal move still turns it",
+          "duration": 55.12675000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "canonical boarding steps advance one continuous phase through their authored waits and settle when released",
+          "status": "passed",
+          "title": "canonical boarding steps advance one continuous phase through their authored waits and settle when released",
+          "duration": 32.50850000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "canonical boat boarding never moves the rower away from its source position before the carrier starts",
+          "status": "passed",
+          "title": "canonical boat boarding never moves the rower away from its source position before the carrier starts",
+          "duration": 80.65141700000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a foreground awaited action still finishes on a target it has explicitly taken",
+          "status": "passed",
+          "title": "a foreground awaited action still finishes on a target it has explicitly taken",
+          "duration": 29.394874999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "switching the automatic binding while a pose waits invalidates the old owner and never writes its old frame or reward",
+          "status": "passed",
+          "title": "switching the automatic binding while a pose waits invalidates the old owner and never writes its old frame or reward",
+          "duration": 26.402292000000216,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a new scene with the same entity id cannot receive the previous scene automatic pose or tail",
+          "status": "passed",
+          "title": "a new scene with the same entity id cannot receive the previous scene automatic pose or tail",
+          "duration": 28.669083999999657,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a foreground action with the same binding replaces a paused automatic waiter and still completes",
+          "status": "passed",
+          "title": "a foreground action with the same binding replaces a paused automatic waiter and still completes",
+          "duration": 29.407834000000094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restoring the same scene invalidates the old held automatic activation before its pose can write",
+          "status": "passed",
+          "title": "restoring the same scene invalidates the old held automatic activation before its pose can write",
+          "duration": 32.11020800000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F5/F9 preserves a completed NPC facing and fixed pose, including an NPC without automatic behavior",
+          "status": "passed",
+          "title": "F5/F9 preserves a completed NPC facing and fixed pose, including an NPC without automatic behavior",
+          "duration": 28.076790999999957,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "scene return resumes an automatic walk from the exact departure pose instead of its previous endpoint",
+          "status": "passed",
+          "title": "scene return resumes an automatic walk from the exact departure pose instead of its previous endpoint",
+          "duration": 44.474541000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F9 resumes a slow automatic walk at its saved gait and consumes the saved rest before its next step",
+          "status": "passed",
+          "title": "F9 resumes a slow automatic walk at its saved gait and consumes the saved rest before its next step",
+          "duration": 42.042625000000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F5/F9 resumes an awaited action at its exact timeline position, not its first frame",
+          "status": "passed",
+          "title": "F5/F9 resumes an awaited action at its exact timeline position, not its first frame",
+          "duration": 31.224750000000313,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "an action timeline pauses outside its scene and resumes without replaying its prefix",
+          "status": "passed",
+          "title": "an action timeline pauses outside its scene and resumes without replaying its prefix",
+          "duration": 37.92208399999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F9 consumes only the saved remainder of an automatic wait",
+          "status": "passed",
+          "title": "F9 consumes only the saved remainder of an automatic wait",
+          "duration": 44.078500000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "disabling a completed automatic owner cancels its cross-entity background action (live)",
+          "status": "passed",
+          "title": "disabling a completed automatic owner cancels its cross-entity background action (live)",
+          "duration": 26.426625000000058,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "disabling a completed automatic owner cancels its cross-entity background action (restore-completed)",
+          "status": "passed",
+          "title": "disabling a completed automatic owner cancels its cross-entity background action (restore-completed)",
+          "duration": 29.405666999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "disabling a completed automatic owner cancels its cross-entity background action (restore-waiting)",
+          "status": "passed",
+          "title": "disabling a completed automatic owner cancels its cross-entity background action (restore-waiting)",
+          "duration": 36.17991699999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restoring a fulfilled automatic action does not clear a newer foreground fixed frame",
+          "status": "passed",
+          "title": "restoring a fulfilled automatic action does not clear a newer foreground fixed frame",
+          "duration": 32.58533299999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "saving as a background action is installed records the next leaf, so restore never installs it twice",
+          "status": "passed",
+          "title": "saving as a background action is installed records the next leaf, so restore never installs it twice",
+          "duration": 24.330375000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "inactive hideEntity preserves or removes a different owner’s background animation on the target",
+          "status": "passed",
+          "title": "inactive hideEntity preserves or removes a different owner’s background animation on the target",
+          "duration": 33.98916700000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "inactive removeEntity preserves or removes a different owner’s background animation on the target",
+          "status": "passed",
+          "title": "inactive removeEntity preserves or removes a different owner’s background animation on the target",
+          "duration": 32.01283299999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388547274,
+      "endTime": 1792388549878.013,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.auto-pose-authority.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "a paused command inside one ordinary step remains saveable when hidden before F5, then resumes without replay",
+          "status": "passed",
+          "title": "a paused command inside one ordinary step remains saveable when hidden before F5, then resumes without replay",
+          "duration": 624.69025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a paused command inside one ordinary step remains saveable when suspended before F5, then resumes without replay",
+          "status": "passed",
+          "title": "a paused command inside one ordinary step remains saveable when suspended before F5, then resumes without replay",
+          "duration": 47.27362500000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "the ordinary save menu snapshots a queued auto stepEntity without waiting for a frozen world tick",
+          "status": "passed",
+          "title": "the ordinary save menu snapshots a queued auto stepEntity without waiting for a frozen world tick",
+          "duration": 38.36799999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "the ordinary save menu snapshots a queued auto chasePlayer without waiting for a frozen world tick",
+          "status": "passed",
+          "title": "the ordinary save menu snapshots a queued auto chasePlayer without waiting for a frozen world tick",
+          "duration": 43.140499999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a committed auto stepEntity saved during its following wait never applies its relative movement twice after F9",
+          "status": "passed",
+          "title": "a committed auto stepEntity saved during its following wait never applies its relative movement twice after F9",
+          "duration": 44.362959000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a committed auto chasePlayer saved during its following wait never applies its relative movement twice after F9",
+          "status": "passed",
+          "title": "a committed auto chasePlayer saved during its following wait never applies its relative movement twice after F9",
+          "duration": 40.39570800000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F9 restores a self chase contact claim before hostile scanning can steal its pacing window",
+          "status": "passed",
+          "title": "F9 restores a self chase contact claim before hostile scanning can steal its pacing window",
+          "duration": 40.454041999999845,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F9 restores a shared-suspended-owner chase contact claim before hostile scanning can steal its pacing window",
+          "status": "passed",
+          "title": "F9 restores a shared-suspended-owner chase contact claim before hostile scanning can steal its pacing window",
+          "duration": 42.20849999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F9 restores a between-chase-leaves chase contact claim before hostile scanning can steal its pacing window",
+          "status": "passed",
+          "title": "F9 restores a between-chase-leaves chase contact claim before hostile scanning can steal its pacing window",
+          "duration": 45.22145899999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F9 restores a self-hidden-owner chase contact claim before hostile scanning can steal its pacing window",
+          "status": "passed",
+          "title": "F9 restores a self-hidden-owner chase contact claim before hostile scanning can steal its pacing window",
+          "duration": 36.080417000000125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F9 restores a shared-hidden-target chase contact claim before hostile scanning can steal its pacing window",
+          "status": "passed",
+          "title": "F9 restores a shared-hidden-target chase contact claim before hostile scanning can steal its pacing window",
+          "duration": 38.54600000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a cross-target auto step followed by a wait suspended at its owner is saveable without replaying the committed step",
+          "status": "passed",
+          "title": "a cross-target auto step followed by a wait suspended at its owner is saveable without replaying the committed step",
+          "duration": 44.067208000000164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a cross-target auto step followed by a wait suspended at its target is saveable without replaying the committed step",
+          "status": "passed",
+          "title": "a cross-target auto step followed by a wait suspended at its target is saveable without replaying the committed step",
+          "duration": 40.52208400000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a completed chase-trigger interaction is saved during its pacing wait and never rewards twice after F9",
+          "status": "passed",
+          "title": "a completed chase-trigger interaction is saved during its pacing wait and never rewards twice after F9",
+          "duration": 30.108458000000155,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a chase terminal held by the manual-save menu remains pending in the real slot and fires once after restoring that slot",
+          "status": "passed",
+          "title": "a chase terminal held by the manual-save menu remains pending in the real slot and fires once after restoring that slot",
+          "duration": 52.28974999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F5 during the actual one-step aunt route at first-target captures the in-flight pose immediately, and F9 resumes that command",
+          "status": "passed",
+          "title": "F5 during the actual one-step aunt route at first-target captures the in-flight pose immediately, and F9 resumes that command",
+          "duration": 92.37062500000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F5 during the actual one-step aunt route at stairs captures the in-flight pose immediately, and F9 resumes that command",
+          "status": "passed",
+          "title": "F5 during the actual one-step aunt route at stairs captures the in-flight pose immediately, and F9 resumes that command",
+          "duration": 77.86574999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F9 during the actual aunt multi-command route cancels every remaining move and final trigger switch",
+          "status": "passed",
+          "title": "F9 during the actual aunt multi-command route cancels every remaining move and final trigger switch",
+          "duration": 100.18504200000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a real diagonal target leg saves without waiting for its endpoint and resumes without reward replay after F9",
+          "status": "passed",
+          "title": "a real diagonal target leg saves without waiting for its endpoint and resumes without reward replay after F9",
+          "duration": 56.656625000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F9 cancels a real in-flight diagonal move without late position, reward or behavior selection",
+          "status": "passed",
+          "title": "F9 cancels a real in-flight diagonal move without late position, reward or behavior selection",
+          "duration": 61.99920800000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "ordinary auto completion (next) commits after self state0, permitting F5/F9 without replay",
+          "status": "passed",
+          "title": "ordinary auto completion (next) commits after self state0, permitting F5/F9 without replay",
+          "duration": 36.7175000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "ordinary auto completion (direct) commits after self state0, permitting F5/F9 without replay",
+          "status": "passed",
+          "title": "ordinary auto completion (direct) commits after self state0, permitting F5/F9 without replay",
+          "duration": 34.57962499999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "ordinary auto completion (branch) commits after self state0, permitting F5/F9 without replay",
+          "status": "passed",
+          "title": "ordinary auto completion (branch) commits after self state0, permitting F5/F9 without replay",
+          "duration": 33.01133299999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "the actual kitchen departure hides the hall aunt, settles and survives F5/F9",
+          "status": "passed",
+          "title": "the actual kitchen departure hides the hall aunt, settles and survives F5/F9",
+          "duration": 57.60220799999979,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388547273,
+      "endTime": 1792388549031.6023,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.auto-save-flows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "H9 public battle runs actual settlement and onDefeated before resolving, preserving nonempty inventory",
+          "status": "passed",
+          "title": "H9 public battle runs actual settlement and onDefeated before resolving, preserving nonempty inventory",
+          "duration": 152.43341599999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H9 author startBattle waits for real victory then runs the following command exactly once",
+          "status": "passed",
+          "title": "H9 author startBattle waits for real victory then runs the following command exactly once",
+          "duration": 43.455375000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H9 real defeat writes zero HP, skips victory hooks and follows only onLose plus continuation",
+          "status": "passed",
+          "title": "H9 real defeat writes zero HP, skips victory hooks and follows only onLose plus continuation",
+          "duration": 41.51770799999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H9 thrown inventory is consumed by real battle and reaches the host world after victory",
+          "status": "passed",
+          "title": "H9 thrown inventory is consumed by real battle and reaches the host world after victory",
+          "duration": 44.36579100000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H9 missing enemy team rejects before any active session and leaves menu operable",
+          "status": "passed",
+          "title": "H9 missing enemy team rejects before any active session and leaves menu operable",
+          "duration": 27.19104200000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H9 delayed battle sprite cannot commit a battle after the scene owner has changed",
+          "status": "passed",
+          "title": "H9 delayed battle sprite cannot commit a battle after the scene owner has changed",
+          "duration": 30.027333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388553672,
+      "endTime": 1792388554011.0273,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.battle-host-flows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 非正/非数 field ?battle-preview=0&enemies=foe 回退默认战场 24",
+          "status": "passed",
+          "title": "Q01 非正/非数 field ?battle-preview=0&enemies=foe 回退默认战场 24",
+          "duration": 104.76287500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 非正/非数 field ?battle-preview=abc&enemies=foe 回退默认战场 24",
+          "status": "passed",
+          "title": "Q01 非正/非数 field ?battle-preview=abc&enemies=foe 回退默认战场 24",
+          "duration": 26.120749999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 非正/非数 field ?battle-preview=-5&enemies=foe 回退默认战场 24",
+          "status": "passed",
+          "title": "Q01 非正/非数 field ?battle-preview=-5&enemies=foe 回退默认战场 24",
+          "duration": 23.706292000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 缺 enemies 参数：默认取工程敌表前 3 项",
+          "status": "passed",
+          "title": "Q01 缺 enemies 参数：默认取工程敌表前 3 项",
+          "duration": 21.591709000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 空 enemies 参数：零敌人仍渲染摆位一帧即返回",
+          "status": "passed",
+          "title": "Q01 空 enemies 参数：零敌人仍渲染摆位一帧即返回",
+          "duration": 21.62208300000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388559048,
+      "endTime": 1792388559245.622,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.battle-preview.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "H1 normal boot executes the real current project pipeline and first world frame",
+          "status": "passed",
+          "title": "H1 normal boot executes the real current project pipeline and first world frame",
+          "duration": 120.51741700000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H1 startup ?entry=second selects a complete entry, not just its scene",
+          "status": "passed",
+          "title": "H1 startup ?entry=second selects a complete entry, not just its scene",
+          "duration": 31.809166000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H1 startup ?entry=unknown selects a complete entry, not just its scene",
+          "status": "passed",
+          "title": "H1 startup ?entry=unknown selects a complete entry, not just its scene",
+          "duration": 27.012875000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H1 scope failure has no playable frame or published world",
+          "status": "passed",
+          "title": "H1 scope failure has no playable frame or published world",
+          "duration": 20.299999999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H1 canvas failure has no playable frame or published world",
+          "status": "passed",
+          "title": "H1 canvas failure has no playable frame or published world",
+          "duration": 19.6472500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H1 context failure has no playable frame or published world",
+          "status": "passed",
+          "title": "H1 context failure has no playable frame or published world",
+          "duration": 22.31545799999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H1 legacy failure has no playable frame or published world",
+          "status": "passed",
+          "title": "H1 legacy failure has no playable frame or published world",
+          "duration": 18.774166000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H1 failed chrome read rejects the real boot; repaired source boots on a fresh owner",
+          "status": "passed",
+          "title": "H1 failed chrome read rejects the real boot; repaired source boots on a fresh owner",
+          "duration": 44.48283399999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H1 title selection completes ordinary boot with the selected world, not the default world",
+          "status": "passed",
+          "title": "H1 title selection completes ordinary boot with the selected world, not the default world",
+          "duration": 73.09829100000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388554426,
+      "endTime": 1792388554804.0984,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.boot-flows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 旧试放/独立试打参数在 bootGame 入口精确拒绝 ?battle-trial=0&money=0",
+          "status": "passed",
+          "title": "Q01 旧试放/独立试打参数在 bootGame 入口精确拒绝 ?battle-trial=0&money=0",
+          "duration": 101.90804200000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 旧试放/独立试打参数在 bootGame 入口精确拒绝 ?skill=heal",
+          "status": "passed",
+          "title": "Q01 旧试放/独立试打参数在 bootGame 入口精确拒绝 ?skill=heal",
+          "duration": 23.51516700000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 无偏好存储：音乐/音效默认全开，标题带工程名",
+          "status": "passed",
+          "title": "Q01 无偏好存储：音乐/音效默认全开，标题带工程名",
+          "duration": 32.47241699999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 显式双关偏好落盘：setEnabled(false) 各一次",
+          "status": "passed",
+          "title": "Q01 显式双关偏好落盘：setEnabled(false) 各一次",
+          "duration": 29.18258299999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 半开关偏好只关音乐：缺省 sound 键按开启解析",
+          "status": "passed",
+          "title": "Q01 半开关偏好只关音乐：缺省 sound 键按开启解析",
+          "duration": 26.919583999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 坏偏好 JSON 静默回退全开，不抛出",
+          "status": "passed",
+          "title": "Q01 坏偏好 JSON 静默回退全开，不抛出",
+          "duration": 24.254750000000058,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 手势解锁接线：pointerdown/keydown 捕获相各自触发 bgm.resume",
+          "status": "passed",
+          "title": "Q01 手势解锁接线：pointerdown/keydown 捕获相各自触发 bgm.resume",
+          "duration": 24.190875000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 gallery 精灵解码失败静默占位并照常收尾；零 sprite 资产照常返回",
+          "status": "passed",
+          "title": "Q01 gallery 精灵解码失败静默占位并照常收尾；零 sprite 资产照常返回",
+          "duration": 22.398541000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388554714,
+      "endTime": 1792388554998.3984,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.boot-shell.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性",
+          "status": "passed",
+          "title": "C85 运动探针臂:?motion-entity 报告在场实体的坐标与在场性",
+          "duration": 123.73854200000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "C85 运动探针缺席臂:探针实体不在场时 present=false 仍可观测",
+          "status": "passed",
+          "title": "C85 运动探针缺席臂:探针实体不在场时 present=false 仍可观测",
+          "duration": 33.353958000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局",
+          "status": "passed",
+          "title": "C85 存储回退臂:indexedDB 缺席时回落 MemorySaveStore 并正常开局",
+          "duration": 29.1484999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "C85 标题启动序列臂:无 startup 视频角色的工程按空序列过场直达菜单",
+          "status": "passed",
+          "title": "C85 标题启动序列臂:无 startup 视频角色的工程按空序列过场直达菜单",
+          "duration": 76.76516700000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388557798,
+      "endTime": 1792388558061.7651,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.c85-boot.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "H4 top author dialogue blocks menu, then closes before its next real command",
+          "status": "passed",
+          "title": "H4 top author dialogue blocks menu, then closes before its next real command",
+          "duration": 157.693334,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H4 bottom author dialogue blocks menu, then closes before its next real command",
+          "status": "passed",
+          "title": "H4 bottom author dialogue blocks menu, then closes before its next real command",
+          "duration": 33.62695800000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H4 narration author dialogue blocks menu, then closes before its next real command",
+          "status": "passed",
+          "title": "H4 narration author dialogue blocks menu, then closes before its next real command",
+          "duration": 32.745874999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H4 center author dialogue blocks menu, then closes before its next real command",
+          "status": "passed",
+          "title": "H4 center author dialogue blocks menu, then closes before its next real command",
+          "duration": 31.253417000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H4 wait resumes from gameplay frames and ignored menu input cannot bypass the wait",
+          "status": "passed",
+          "title": "H4 wait resumes from gameplay frames and ignored menu input cannot bypass the wait",
+          "duration": 32.385583,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H4 multi-page dialogue retains its real runner until the last displayed page is acknowledged",
+          "status": "passed",
+          "title": "H4 multi-page dialogue retains its real runner until the last displayed page is acknowledged",
+          "duration": 29.17508399999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H4 confirm yes consumes keyboard and resumes exactly its current branch",
+          "status": "passed",
+          "title": "H4 confirm yes consumes keyboard and resumes exactly its current branch",
+          "duration": 25.165957999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H4 confirm no consumes keyboard and resumes exactly its current branch",
+          "status": "passed",
+          "title": "H4 confirm no consumes keyboard and resumes exactly its current branch",
+          "duration": 25.109291999999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388556173,
+      "endTime": 1792388556540.1094,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.dialog-flows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前 Reforge 主壳的作者脚本效果链"],
+          "fullName": "当前 Reforge 主壳的作者脚本效果链 实体状态、朝向、图层和屏幕波纹从正式 onEnter 走到持久世界与活场景",
+          "status": "passed",
+          "title": "实体状态、朝向、图层和屏幕波纹从正式 onEnter 走到持久世界与活场景",
+          "duration": 121.69,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 Reforge 主壳的作者脚本效果链"],
+          "fullName": "当前 Reforge 主壳的作者脚本效果链 全队资源同加按上限钳制，半钱只取当前钱数，不改变原入口 seed",
+          "status": "passed",
+          "title": "全队资源同加按上限钳制，半钱只取当前钱数，不改变原入口 seed",
+          "duration": 30.561374999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 Reforge 主壳的作者脚本效果链"],
+          "fullName": "当前 Reforge 主壳的作者脚本效果链 编外跟随精灵经真实资源准备后提交一次世界态；当前已有队员仍保持身份",
+          "status": "passed",
+          "title": "编外跟随精灵经真实资源准备后提交一次世界态；当前已有队员仍保持身份",
+          "duration": 30.264332999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 Reforge 主壳的作者脚本效果链"],
+          "fullName": "当前 Reforge 主壳的作者脚本效果链 实体隐藏与恢复经同一脚本状态表实时投影，下一条命令仍能继续",
+          "status": "passed",
+          "title": "实体隐藏与恢复经同一脚本状态表实时投影，下一条命令仍能继续",
+          "duration": 30.90133299999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 Reforge 主壳的作者脚本效果链"],
+          "fullName": "当前 Reforge 主壳的作者脚本效果链 只扣 MP 到零而 HP 不变；正式换队保留成员实例与顺序",
+          "status": "passed",
+          "title": "只扣 MP 到零而 HP 不变；正式换队保留成员实例与顺序",
+          "duration": 28.070542000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 Reforge 主壳的作者脚本效果链"],
+          "fullName": "当前 Reforge 主壳的作者脚本效果链 编外跟随从非空清空后不保留旧资源引用，也不改变队员本体",
+          "status": "passed",
+          "title": "编外跟随从非空清空后不保留旧资源引用，也不改变队员本体",
+          "duration": 31.446542000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 Reforge 主壳的作者脚本效果链"],
+          "fullName": "当前 Reforge 主壳的作者脚本效果链 当前角色形象在合法精灵/战斗资源准备后写入持久实例，定义和素材输入不变",
+          "status": "passed",
+          "title": "当前角色形象在合法精灵/战斗资源准备后写入持久实例，定义和素材输入不变",
+          "duration": 26.621875000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 Reforge 主壳的作者脚本效果链"],
+          "fullName": "当前 Reforge 主壳的作者脚本效果链 全队恢复跳过阵亡者，复活仅作用阵亡者且按最大体力十分比结算",
+          "status": "passed",
+          "title": "全队恢复跳过阵亡者，复活仅作用阵亡者且按最大体力十分比结算",
+          "duration": 27.911708999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 Reforge 主壳的作者脚本效果链"],
+          "fullName": "当前 Reforge 主壳的作者脚本效果链 批量实体显隐先持久写两个场景，切场后第二个实体才由当前场景投影隐藏",
+          "status": "passed",
+          "title": "批量实体显隐先持久写两个场景，切场后第二个实体才由当前场景投影隐藏",
+          "duration": 32.95108300000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 Reforge 主壳的作者脚本效果链"],
+          "fullName": "当前 Reforge 主壳的作者脚本效果链 显式场景与落点只覆盖启动位置，不偷换所选入口世界或重放 onEnter 奖励",
+          "status": "passed",
+          "title": "显式场景与落点只覆盖启动位置，不偷换所选入口世界或重放 onEnter 奖励",
+          "duration": 32.89850000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前 Reforge 主壳的作者脚本效果链"],
+          "fullName": "当前 Reforge 主壳的作者脚本效果链 开发期 give 参数只给已登记物品五件，保持正常入口脚本和独立素材闭包",
+          "status": "passed",
+          "title": "开发期 give 参数只给已登记物品五件，保持正常入口脚本和独立素材闭包",
+          "duration": 26.168499999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388552435,
+      "endTime": 1792388552854.1685,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.effect-flows.residual.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "H10 'absolute' entity position reaches both durable state and live projection before continuation",
+          "status": "passed",
+          "title": "H10 'absolute' entity position reaches both durable state and live projection before continuation",
+          "duration": 124.50875000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H10 'party-relative' entity position reaches both durable state and live projection before continuation",
+          "status": "passed",
+          "title": "H10 'party-relative' entity position reaches both durable state and live projection before continuation",
+          "duration": 32.39979100000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H10 authored move waits for exact endpoint and persists it without mutating scene definition",
+          "status": "passed",
+          "title": "H10 authored move waits for exact endpoint and persists it without mutating scene definition",
+          "duration": 38.42554100000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H10 hide then restore keeps entity identity and resumes the next authored command",
+          "status": "passed",
+          "title": "H10 hide then restore keeps entity identity and resumes the next authored command",
+          "duration": 30.548999999999978,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H10 authored loadScene uses 'default' arrival and continues after the actual map commit",
+          "status": "passed",
+          "title": "H10 authored loadScene uses 'default' arrival and continues after the actual map commit",
+          "duration": 33.308625000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H10 authored loadScene uses 'explicit' arrival and continues after the actual map commit",
+          "status": "passed",
+          "title": "H10 authored loadScene uses 'explicit' arrival and continues after the actual map commit",
+          "duration": 37.405958000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H10 script movement owns keyboard until completion; exploration menu opens afterwards",
+          "status": "passed",
+          "title": "H10 script movement owns keyboard until completion; exploration menu opens afterwards",
+          "duration": 32.081541000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388555425,
+      "endTime": 1792388555754.0815,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.entity-host-flows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "two real moving instances cross the strict half-grid boundary, including a hidden different-height target",
+          "status": "passed",
+          "title": "two real moving instances cross the strict half-grid boundary, including a hidden different-height target",
+          "duration": 136.95487499999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388558498,
+      "endTime": 1792388558634.9548,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.entity-proximity.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "H7 equip confirmation can be cancelled without changing the actual world or author input",
+          "status": "passed",
+          "title": "H7 equip confirmation can be cancelled without changing the actual world or author input",
+          "duration": 135.502,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H7 equip empty slot commits only selected equipment and removes exactly one bag item",
+          "status": "passed",
+          "title": "H7 equip empty slot commits only selected equipment and removes exactly one bag item",
+          "duration": 36.33933400000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H7 equip occupied slot swaps back through the same confirmation panel without losing inventory",
+          "status": "passed",
+          "title": "H7 equip occupied slot swaps back through the same confirmation panel without losing inventory",
+          "duration": 36.51912500000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H7 equip keyboard navigation [ 'ArrowRight' ] commits 'w1', not the original cursor",
+          "status": "passed",
+          "title": "H7 equip keyboard navigation [ 'ArrowRight' ] commits 'w1', not the original cursor",
+          "duration": 33.52645800000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H7 equip keyboard navigation [ 'ArrowDown' ] commits 'w3', not the original cursor",
+          "status": "passed",
+          "title": "H7 equip keyboard navigation [ 'ArrowDown' ] commits 'w3', not the original cursor",
+          "duration": 33.19845899999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H7 equip keyboard navigation [ 'ArrowDown', 'ArrowUp' ] commits 'w0', not the original cursor",
+          "status": "passed",
+          "title": "H7 equip keyboard navigation [ 'ArrowDown', 'ArrowUp' ] commits 'w0', not the original cursor",
+          "duration": 32.81812500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H7 equip keyboard navigation [ 'ArrowRight', 'ArrowLeft' ] commits 'w0', not the original cursor",
+          "status": "passed",
+          "title": "H7 equip keyboard navigation [ 'ArrowRight', 'ArrowLeft' ] commits 'w0', not the original cursor",
+          "duration": 29.325833999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388557727,
+      "endTime": 1792388558064.326,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.equipment-flows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear",
+          "status": "passed",
+          "title": "explicit initial reveal owns black from alpha0, presents first frame, completes600 before normal62.5ms and holds until clear",
+          "duration": 178.615542,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a delayed old decode and its finally cannot repaint or hide a superseding held request",
+          "status": "passed",
+          "title": "a delayed old decode and its finally cannot repaint or hide a superseding held request",
+          "duration": 178.385,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "clear during slow first decode releases its owned black and prevents resurrection",
+          "status": "passed",
+          "title": "clear during slow first decode releases its owned black and prevents resurrection",
+          "duration": 30.355792000000065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade",
+          "status": "passed",
+          "title": "superseding during first-frame fade cannot let the old fade callback or finally cancel the new fade",
+          "duration": 33.58395900000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "real author clear between movie and world does not leave a held layer through the following command",
+          "status": "passed",
+          "title": "real author clear between movie and world does not leave a held layer through the following command",
+          "duration": 134.141666,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a legal SAVE12 restore resets held cinematic state rather than replaying its pixels",
+          "status": "passed",
+          "title": "a legal SAVE12 restore resets held cinematic state rather than replaying its pixels",
+          "duration": 165.827583,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a real scene commit clears held cinematic pixels while its own scene fade stays authoritative",
+          "status": "passed",
+          "title": "a real scene commit clears held cinematic pixels while its own scene fade stays authoritative",
+          "duration": 387.77241700000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "author clear does not remove a later ordinary fade that belongs to the surrounding script",
+          "status": "passed",
+          "title": "author clear does not remove a later ordinary fade that belongs to the surrounding script",
+          "duration": 184.97345799999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388551152,
+      "endTime": 1792388552445.9734,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.frame-animation-owner.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 ?gallery 渲染精灵速查表后直接返回，不进主循环、不发帧",
+          "status": "passed",
+          "title": "N01 ?gallery 渲染精灵速查表后直接返回，不进主循环、不发帧",
+          "duration": 97.5455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 ?battle-preview 静态摆位渲染一帧即返回，不进战斗与主循环",
+          "status": "passed",
+          "title": "N01 ?battle-preview 静态摆位渲染一帧即返回，不进战斗与主循环",
+          "duration": 28.616708000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 ?battle-preview 引用缺失战斗精灵定义时精确拒绝且零帧",
+          "status": "passed",
+          "title": "N01 ?battle-preview 引用缺失战斗精灵定义时精确拒绝且零帧",
+          "duration": 21.851708999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 ?party 覆写开局队伍并满血满蓝，不改变工程输入",
+          "status": "passed",
+          "title": "N01 ?party 覆写开局队伍并满血满蓝，不改变工程输入",
+          "duration": 33.0719170000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N01 空开局队伍在进入世界前精确拒绝，无帧、无 debug 面",
+          "status": "passed",
+          "title": "N01 空开局队伍在进入世界前精确拒绝，无帧、无 debug 面",
+          "duration": 23.659667000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388557186,
+      "endTime": 1792388557390.6597,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "MHB-ENTRY-REVEAL-1 脚本切场景进入带 fade 入场契约的目标：入场事务显式 fade 揭幕后才执行 onEnter 正文",
+          "status": "passed",
+          "title": "MHB-ENTRY-REVEAL-1 脚本切场景进入带 fade 入场契约的目标：入场事务显式 fade 揭幕后才执行 onEnter 正文",
+          "duration": 153.80366699999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "MHB-SCRIPT-ERR-1 触发脚本运行期资源失败：公开脚本错误回执、runner 槽释放、世界保持原状，修复后同一公开入口重试成功",
+          "status": "passed",
+          "title": "MHB-SCRIPT-ERR-1 触发脚本运行期资源失败：公开脚本错误回执、runner 槽释放、世界保持原状，修复后同一公开入口重试成功",
+          "duration": 58.044083,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "MHB-TRIAL-DONE-1 ?battle= 试打开场：跳过入口 onEnter 演出，真实战斗经公开宿主启动，终局试打结束回执且战果入账",
+          "status": "passed",
+          "title": "MHB-TRIAL-DONE-1 ?battle= 试打开场：跳过入口 onEnter 演出，真实战斗经公开宿主启动，终局试打结束回执且战果入账",
+          "duration": 52.820291999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "MHB-TRIAL-ERROR-1 ?battle= 非法敌队：试打失败公开回执、零战斗会话、宿主保持可操作",
+          "status": "passed",
+          "title": "MHB-TRIAL-ERROR-1 ?battle= 非法敌队：试打失败公开回执、零战斗会话、宿主保持可操作",
+          "duration": 28.325874999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "MHB-SAVE-FAIL-1 F5 缩略图外部 IO 失败：存档失败公开回执、savedTimes 不消费、写队列不毒化，重试成功得首号",
+          "status": "passed",
+          "title": "MHB-SAVE-FAIL-1 F5 缩略图外部 IO 失败：存档失败公开回执、savedTimes 不消费、写队列不毒化，重试成功得首号",
+          "duration": 88.32766700000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388552867,
+      "endTime": 1792388553248.3276,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.host-boundaries-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "标题读档入口:标题菜单选读档后从真实存档完成开局",
+          "status": "passed",
+          "title": "标题读档入口:标题菜单选读档后从真实存档完成开局",
+          "duration": 231.39808299999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "标题入口视频:选中入口先播 intro 视频再进世界",
+          "status": "passed",
+          "title": "标题入口视频:选中入口先播 intro 视频再进世界",
+          "duration": 92.469875,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单",
+          "status": "passed",
+          "title": "启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两段再进标题菜单",
+          "duration": 82.398417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次",
+          "status": "passed",
+          "title": "播放中快速读档:中止在途视频并按存档游标重放,奖励只结算一次",
+          "duration": 122.33274999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播",
+          "status": "passed",
+          "title": "资源解析中取消:视频 urlFor 返回后不再创建视频层,重放才首次开播",
+          "duration": 83.82091700000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开",
+          "status": "passed",
+          "title": "战败读最近档:多槽按 savedAt 恢复最新,战败流程不再重开",
+          "duration": 72.65508299999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换",
+          "status": "passed",
+          "title": "战败无档重开:读档入口在零存档下安静收口,世界不被任何槽替换",
+          "duration": 41.245750000000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+          "status": "passed",
+          "title": "场景 BGM 缺席曲臂:显式 null 停曲并落 world.audio.currentMusic=null,缺省场景延续不写键",
+          "duration": 43.67566600000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388550293,
+      "endTime": 1792388551062.6758,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.host-lifecycle-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "H8 medicine repeats on the real target and returns to list only after last consumption",
+          "status": "passed",
+          "title": "H8 medicine repeats on the real target and returns to list only after last consumption",
+          "duration": 131.40587499999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H8 explicit failed item gate keeps item and menu, with a visible failure message",
+          "status": "passed",
+          "title": "H8 explicit failed item gate keeps item and menu, with a visible failure message",
+          "duration": 36.357709,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H8 all-allies item uses direct route, heals both and consumes only once",
+          "status": "passed",
+          "title": "H8 all-allies item uses direct route, heals both and consumes only once",
+          "duration": 33.822708000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H8 item target cancellation preserves bag, and a close-after-use item really releases the menu",
+          "status": "passed",
+          "title": "H8 item target cancellation preserves bag, and a close-after-use item really releases the menu",
+          "duration": 37.29950000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H8 actual item private script blocks duplicate input and preserves its money on consumption",
+          "status": "passed",
+          "title": "H8 actual item private script blocks duplicate input and preserves its money on consumption",
+          "duration": 35.41370800000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H8 unavailable teleport hook refuses consumption and restores the same usable menu",
+          "status": "passed",
+          "title": "H8 unavailable teleport hook refuses consumption and restores the same usable menu",
+          "duration": 33.50308300000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H8 running item script owns exploration input until completion, then scene navigation works",
+          "status": "passed",
+          "title": "H8 running item script owns exploration input until completion, then scene navigation works",
+          "duration": 40.460166999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H8 item private script changes scene and closes the old menu while preserving its new world",
+          "status": "passed",
+          "title": "H8 item private script changes scene and closes the old menu while preserving its new world",
+          "duration": 37.118334000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388553272,
+      "endTime": 1792388553658.1184,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.item-flows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "H3 status panel cycles both real party members and returns through hub without changing world",
+          "status": "passed",
+          "title": "H3 status panel cycles both real party members and returns through hub without changing world",
+          "duration": 123.11195799999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H3 real magic route selects caster and target, heals only target, charges caster once, and backs out",
+          "status": "passed",
+          "title": "H3 real magic route selects caster and target, heals only target, charges caster once, and backs out",
+          "duration": 37.42854199999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H3 empty caster list cannot cast and returns to the same hub",
+          "status": "passed",
+          "title": "H3 empty caster list cannot cast and returns to the same hub",
+          "duration": 34.587208999999916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H3 insufficient MP cannot enter a cast; exact same skill succeeds with enough MP",
+          "status": "passed",
+          "title": "H3 insufficient MP cannot enter a cast; exact same skill succeeds with enough MP",
+          "duration": 55.56975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H3 music switch commits explicit silence; cancellation preserves stored preferences and world",
+          "status": "passed",
+          "title": "H3 music switch commits explicit silence; cancellation preserves stored preferences and world",
+          "duration": 31.571042000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H3 empty equip panel rejects confirm without closing hub or mutating inventory",
+          "status": "passed",
+          "title": "H3 empty equip panel rejects confirm without closing hub or mutating inventory",
+          "duration": 31.657291999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H3 empty use panel rejects confirm without closing hub or mutating inventory",
+          "status": "passed",
+          "title": "H3 empty use panel rejects confirm without closing hub or mutating inventory",
+          "duration": 28.04404199999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388555828,
+      "endTime": 1792388556170.044,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.menu-flows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "menu storage ports write the selected real slot, retain rejected load UI, then restore and close on success",
+          "status": "passed",
+          "title": "menu storage ports write the selected real slot, retain rejected load UI, then restore and close on success",
+          "duration": 148.35995899999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388556616,
+      "endTime": 1792388556764.3599,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.menu-storage-flows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "runtime observation is detached/read-only and preserves actual world and player state",
+          "status": "passed",
+          "title": "runtime observation is detached/read-only and preserves actual world and player state",
+          "duration": 118.76262500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "real checkpoint restore reports loaded; rejected input is explicitly failed even when boot falls back",
+          "status": "passed",
+          "title": "real checkpoint restore reports loaded; rejected input is explicitly failed even when boot falls back",
+          "duration": 84.22687500000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388558496,
+      "endTime": 1792388558699.2268,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.observation.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "nonzero authored nudge keeps actual gait during its wait and settles after script ownership ends",
+          "status": "passed",
+          "title": "nonzero authored nudge keeps actual gait during its wait and settles after script ownership ends",
+          "duration": 129.85749999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a zero nudge preserves pose and phase; explicit leader pose supersedes preceding gait",
+          "status": "passed",
+          "title": "a zero nudge preserves pose and phase; explicit leader pose supersedes preceding gait",
+          "duration": 32.02758400000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "an already pending real load cancels a nudge wait without late movement or rewards",
+          "status": "passed",
+          "title": "an already pending real load cancels a nudge wait without late movement or rewards",
+          "duration": 46.03708400000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388554079,
+      "endTime": 1792388554287.037,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.party-nudge-flows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Root counter: a genuine long frame cannot turn 720ms dither into gameplay-clock catch-up",
+          "status": "passed",
+          "title": "Root counter: a genuine long frame cannot turn 720ms dither into gameplay-clock catch-up",
+          "duration": 137.48587500000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Root counter: the first ordinary cue keeps its real 24ms typewriter after a long frame",
+          "status": "passed",
+          "title": "Root counter: the first ordinary cue keeps its real 24ms typewriter after a long frame",
+          "duration": 36.139332999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388555234,
+      "endTime": 1792388555407.1394,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.presentation-clock-root.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "real script retains confirmed top/bottom draws until replacement, clear and root completion",
+          "status": "passed",
+          "title": "real script retains confirmed top/bottom draws until replacement, clear and root completion",
+          "duration": 147.30729100000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "canceling a root after confirmation clears retained draws while a real wait is pending",
+          "status": "passed",
+          "title": "canceling a root after confirmation clears retained draws while a real wait is pending",
+          "duration": 100.47441600000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a real scene switch clears source dialogue before the same root continues waiting",
+          "status": "passed",
+          "title": "a real scene switch clears source dialogue before the same root continues waiting",
+          "duration": 299.775042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "ordinary first cue uses UI time despite accumulated long-frame lag: false",
+          "status": "passed",
+          "title": "ordinary first cue uses UI time despite accumulated long-frame lag: false",
+          "duration": 31.41212500000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "ordinary first cue uses UI time despite accumulated long-frame lag: true",
+          "status": "passed",
+          "title": "ordinary first cue uses UI time despite accumulated long-frame lag: true",
+          "duration": 32.67154199999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "world single-step pause does not pause dialogue typing, input or the next script effect",
+          "status": "passed",
+          "title": "world single-step pause does not pause dialogue typing, input or the next script effect",
+          "duration": 37.30820900000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "world pause keeps legal skip and automatic tail timing on the same UI clock",
+          "status": "passed",
+          "title": "world pause keeps legal skip and automatic tail timing on the same UI clock",
+          "duration": 41.217416000000185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "ordinary page skip and next-page typing retain real-time start after a lagged first cue",
+          "status": "passed",
+          "title": "ordinary page skip and next-page typing retain real-time start after a lagged first cue",
+          "duration": 32.84133399999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "normal dither keeps its forced zero frame and all 72 time-derived steps before resolving",
+          "status": "passed",
+          "title": "normal dither keeps its forced zero frame and all 72 time-derived steps before resolving",
+          "duration": 130.22691600000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "dither UI progress agrees with real output and finishes while gameplay lags or pauses: false",
+          "status": "passed",
+          "title": "dither UI progress agrees with real output and finishes while gameplay lags or pauses: false",
+          "duration": 43.71620800000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "dither UI progress agrees with real output and finishes while gameplay lags or pauses: true",
+          "status": "passed",
+          "title": "dither UI progress agrees with real output and finishes while gameplay lags or pauses: true",
+          "duration": 48.01695799999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "palette preparation cost is excluded from the existing 720ms dither budget",
+          "status": "passed",
+          "title": "palette preparation cost is excluded from the existing 720ms dither budget",
+          "duration": 37.39204199999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "canceling a real detached dialog rejects its awaited effect and never executes the tail",
+          "status": "passed",
+          "title": "canceling a real detached dialog rejects its awaited effect and never executes the tail",
+          "duration": 27.2482500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "canceling a real detached dither rejects its awaited effect and never executes the tail",
+          "status": "passed",
+          "title": "canceling a real detached dither rejects its awaited effect and never executes the tail",
+          "duration": 34.45770799999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388549470,
+      "endTime": 1792388550514.4578,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.presentation-clock.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "H5 F5 stores real SAVE12 data, F9 restores after actual menu spell, and scopes remain isolated",
+          "status": "passed",
+          "title": "H5 F5 stores real SAVE12 data, F9 restores after actual menu spell, and scopes remain isolated",
+          "duration": 186.29591700000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H5 empty slot preserves world and shows the absent message, not load success",
+          "status": "passed",
+          "title": "H5 empty slot preserves world and shows the absent message, not load success",
+          "duration": 29.803209000000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H5 corrupt snapshot is rejected without mutation, menu remains usable, then the original snapshot restores",
+          "status": "passed",
+          "title": "H5 corrupt snapshot is rejected without mutation, menu remains usable, then the original snapshot restores",
+          "duration": 29.29591599999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H5 two actual quick-save requests commit monotonically without consuming an extra count",
+          "status": "passed",
+          "title": "H5 two actual quick-save requests commit monotonically without consuming an extra count",
+          "duration": 81.52070900000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H5 a committed save survives a browser-cache read failure and remains visible with its thumbnail",
+          "status": "passed",
+          "title": "H5 a committed save survives a browser-cache read failure and remains visible with its thumbnail",
+          "duration": 88.60304199999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H5 delayed old IDB read cannot replace a newer restore or its success message",
+          "status": "passed",
+          "title": "H5 delayed old IDB read cannot replace a newer restore or its success message",
+          "duration": 78.87041699999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388551544,
+      "endTime": 1792388552037.8704,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.save-flows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "H6 public next/previous scene input commits complete scenes and preserves party identity",
+          "status": "passed",
+          "title": "H6 public next/previous scene input commits complete scenes and preserves party identity",
+          "duration": 175.60866699999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H6 failed scene IO leaves the original world operable; repairing the same source permits retry",
+          "status": "passed",
+          "title": "H6 failed scene IO leaves the original world operable; repairing the same source permits retry",
+          "duration": 87.49416599999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H6 old in-flight scene response cannot overwrite a newer complete round trip",
+          "status": "passed",
+          "title": "H6 old in-flight scene response cannot overwrite a newer complete round trip",
+          "duration": 81.722667,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388556960,
+      "endTime": 1792388557305.7227,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.scene-flows.test.ts"
+    }
+  ]
+}

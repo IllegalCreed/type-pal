@@ -1,0 +1,49 @@
+{
+  "productionUnchanged": true,
+  "beforeSnapshotsVerified": true,
+  "mutantAndTestCopyHashesReconstructed": true,
+  "rawAndRunnerHashesVerified": true,
+  "oneOriginalIdentityPreserved": true,
+  "failures": [
+    {
+      "phase": "before",
+      "mutation": "fallback",
+      "identity": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+      "failure": "AssertionError: expected \"Mock\" to be called once, but got 0 times"
+    },
+    {
+      "phase": "before",
+      "mutation": "finish",
+      "identity": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+      "failure": "AssertionError: expected 1 to be +0 // Object.is equality"
+    },
+    {
+      "phase": "after",
+      "mutation": "fallback",
+      "identity": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+      "failure": "AssertionError: expected \"Mock\" to be called once, but got 0 times"
+    },
+    {
+      "phase": "after",
+      "mutation": "finish",
+      "identity": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+      "failure": "AssertionError: expected 1 to be +0 // Object.is equality"
+    },
+    {
+      "phase": "after",
+      "mutation": "cleanup",
+      "identity": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+      "failure": "AssertionError: expected 1 to be +0 // Object.is equality"
+    }
+  ],
+  "temporaryCopiesRemoved": true,
+  "otherSemanticManifestEntriesUnchanged": true,
+  "originalCardHistoryPreserved": true,
+  "cards": 83,
+  "partial": 7,
+  "currentAccepted": 0,
+  "adjacentActDiagnostics": 6,
+  "baselineUnchanged": true,
+  "sourceSha256": "20f3c6e594ad9c6667e653cf7d6e6234f897407b05bc02e567fc9b2403989e8c",
+  "testSha256": "3813f3c8c5bcdf7ec7115e24f9f060ca4d839ac8f13c8f9a1aea96c162aa015c"
+}

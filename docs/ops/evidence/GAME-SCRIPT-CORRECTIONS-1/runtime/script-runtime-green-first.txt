@@ -1,0 +1,33 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game
+
+ ❯ src/core/battle/__tests__/object-script-progress.test.ts (3 tests | 1 failed) 13ms
+     × Wine God: eight successes, save/import/load, ninth removes the nonleader spell; Repeat cannot cast a tenth 11ms
+     ✓ failed Wine God resource check does not advance; a new game starts from the resource entry 1ms
+     ✓ use and throw hooks advance independently without changing the item table 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/battle/__tests__/object-script-progress.test.ts > object script progress belongs to the saved game > Wine God: eight successes, save/import/load, ninth removes the nonleader spell; Repeat cannot cast a tenth
+TypeError: state.pendingActions.get is not a function
+ ❯ tickPerformAction src/core/battle/battle-system.ts:2573:39
+    2571|       //   else-if 链,只对活人跑(死人傀儡分支不查)。
+    2572|       if (role && (role.hp > 0 || (player.status.puppet ?? 0) > 0)) {
+    2573|         action = state.pendingActions.get(item.idx)
+       |                                       ^
+    2574|         // DL3:合击已执行 → 同回合后续玩家行动被吞(fight.c:3762 等 case 顶 fThisTurnCoop…
+    2575|         if (state.fThisTurnCoop && action?.type !== 'coop-magic')
+ ❯ tickBattle src/core/battle/battle-system.ts:518:7
+ ❯ src/core/battle/__tests__/object-script-progress.test.ts:87:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  15:51:20
+   Duration  817ms (transform 267ms, setup 15ms, import 306ms, tests 13ms, environment 409ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/battle/__tests__/object-script-progress.test.ts --reporter=default

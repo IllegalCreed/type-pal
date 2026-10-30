@@ -1,0 +1,32 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/editor",
+    "exec",
+    "vitest",
+    "run",
+    "src/ui/design-system/navigation.glm-leaf-wave.test.tsx",
+    "src/ui/design-system/floating-layer.test.tsx",
+    "src/ui/editor-navigation.test.ts",
+    "src/ui/use-editor-navigation-session.test.tsx",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-c05-editor-adjacent.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 0,
+  "seconds": 2.58,
+  "rawBytes": 591,
+  "rawSha256": "73ab4980215649217214bbfb3b1f62c7c515935b9053c1f78a63687b3f456c31",
+  "runnerBytes": 12265,
+  "runnerSha256": "afb77dcc8f10f8995687ef2b0a404fc5a44a9a35e457c8a389f3f37f1aa00a3b",
+  "passed": 34,
+  "failed": 0,
+  "pending": 0,
+  "unwrappedAct": 0,
+  "unsupportedActEnvironment": 0,
+  "navigation": 0
+}

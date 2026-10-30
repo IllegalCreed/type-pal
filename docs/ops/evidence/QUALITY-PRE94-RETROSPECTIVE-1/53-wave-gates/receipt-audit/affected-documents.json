@@ -1,0 +1,23 @@
+{
+  "scope": "Only canonical gate-credit revocation notices; no independent re-acceptance of affected code/tests",
+  "paths": [
+    "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/56-minimap/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/64-speedrun-detectors/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/66-speedrun-overlay/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/65-speedrun-index/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/67-speedrun-checkpoint-tests/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/61-speedrun-store/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-speedrun-snapshot/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/68-countdown-tests/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/55-draw-menu/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/62-speedrun-timer/README.md",
+    "docs/ops/archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md",
+    "docs/ops/archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md",
+    "docs/ops/archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md",
+    "docs/ops/archive/tasks/done/CODE-QUALITY-62-game-speedrun-timer-boundary.md",
+    "docs/ops/archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md"
+  ]
+}

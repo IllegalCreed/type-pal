@@ -1,0 +1,2168 @@
+{
+  "schemaVersion": 1,
+  "base": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+  "owner": "Codex single owner",
+  "scope": "OriginalCODE3j seven sources plus necessary corresponding test delta. No94-102, routes/data/broadcallers not accepted.",
+  "state": "finite code-quality window accepted; checkpoint runtime calibration held",
+  "files": [
+    {
+      "path": "packages/game/src/tools/toast.ts",
+      "sha256": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa",
+      "lines": 81,
+      "decision": "accept",
+      "dimensions": {
+        "A": "真实quick-save、tools-panel和speedrun/index仅传字符串、三种类型及固定正duration。每条闭包持有自己的节点/两级timer；到期先淡出再220ms移除，空容器才释放；textContent不解释消息HTML。无document直接返回，未增加任意非法duration策略。",
+        "B": "现有说明限于非阻塞DOM/堆叠/自动淡出；未把jsdom当浏览器动画或视觉验收。测试对两级timer的说明在当前收口校正，不改生产注释。",
+        "C": "ensureContainer只拥有同一toast容器，单条闭包只移除自己的子节点；IO集中在showToast，没有GameState写入、回导bootstrap或跨层状态Owner。",
+        "D": "toast的多条定时生命周期与countdown的逐帧单节点、FPS采样/样式生命周期不同，不抽万能DOM helper或模式布尔值。",
+        "E": "旧6→当前4，默认文本/三类型/到期前后/两条堆叠合同均有目的地；默认2000ms与220ms精确边界直接断言opacity/节点/最后容器。opacity变异旧6绿、新3绿1指定AssertionError，恢复4绿。",
+        "F": "ICON/ACCENT、ensureContainer、showToast职责明确；局部c只在短DOM组装内使用，不为偏好重命名或扩大差异。",
+        "G": "唯一公开函数被三个真实生产域调用；无需控制器/取消接口，节点自然有界于每条duration；不添加原本不存在的公开测试口。",
+        "H": "真实DOM和受控原生timer可直接观察业务结果；hook在失败时也结清timer并移除自己容器，恢复时钟，不清空整个body。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/map-names.ts",
+      "sha256": "0aaafcb41b643024bc3af6844c12afb87b8d372332dabd852f935120b65d7440",
+      "lines": 20,
+      "decision": "accept",
+      "dimensions": {
+        "A": "当前tools-panel显示及dev-panel命名过滤是真caller；getMapName按有效语言选择中文authored/英文表，缺名局部回退；hasMapName只认authored成员，0有效、104缺名、9999越界不混淆。",
+        "B": "修正只写“地图N”的过时头注，当前明确中/英文回退；旧3j记录的minimap直接caller说法由实际tools-panel/dev-panel边界取代。",
+        "C": "薄适配单向依赖shared authored表和本地化显示，不写语言/地图/游戏状态，不把fallback污染共享真值。",
+        "D": "共享中文真源与英文呈现表语义不同；工具边界复用它们并局部组装fallback，既不复制author数据，也不删除必要的边界适配。",
+        "E": "三例以literal双语名/缺名回退/authored成员为oracle，零ID和范围内104补强；英文fallback变异旧3绿、新2绿1指定AssertionError，恢复3绿；UI英语caller在92相邻中实跑。",
+        "F": "mapNum、getMapName与hasMapName分别表达地图显示身份和是否考据；不把场景号当地图号。",
+        "G": "两出口均有真实显示/过滤caller，fallback不是多余防御；不为统一文字重复加入存储或配置层。",
+        "H": "专测切换真实内存语言，不mock localize；useFallbackLanguage不写持久偏好，hook还原原语言与html lang属性，避免默认中文隐式前提。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.ts",
+      "sha256": "ba19622f9f2f969a58e5f88fb6ca5c32983931493915a769afb4f72553c32a92",
+      "lines": 36,
+      "decision": "accept",
+      "dimensions": {
+        "A": "overlay消费timer有限wall-clock/split与经store有限校验的PB；tools-panel文本只经parseHms入setBest。解析先核十进制/段数/各段finite与分秒范围，再核总毫秒finite；格式化只承诺当前有限数值域，不新增非finite显示政策。",
+        "B": "明确毫秒单位、厘秒/秒向下截断、负数归零及差值子秒符号；parse注释写清可trim、分秒0–59与非法null。",
+        "C": "四个公开纯函数不碰DOM/IO/store；解析失败留给caller反馈，格式规则与持久化Owner分离。",
+        "D": "pad在三种输出中共享固定二位规则；删除未使用的宽度参数，六个local调用都只有一实参，不引入通用格式配置。",
+        "E": "复用CODE69的三文件14例、原两层溢出counter和独立literal oracle；当前28定向包含14例。parseHms正文未变，不重复制造同一counter。",
+        "F": "parseHms的flat early-return按文本→数字→范围→聚合检查，AST初筛CC11有明确读域；不为指标拆成更多跳转helper。",
+        "G": "去掉唯一死宽度参数；pad非export，六个调用及其余解析语句精确正文回填等于旧版；四公开签名保持。",
+        "H": "纯字符串/数值直接验证，无需mock时钟或新增public seam；当前caller有限输入与未知的任意外部数值滥用分开。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.ts",
+      "sha256": "024f25580a64a2893451465ba832cab608089f26513e0584d68277640d461ad3",
+      "lines": 30,
+      "decision": "accept",
+      "dimensions": {
+        "A": "index每rAF只传剩余正整数文案或null；创建/更新/移除单节点，重复null与无document安全；时钟和manual pause由timer/index拥有。",
+        "B": "头注明确本模块不持有时钟；相同文案guard解释rAF重复写节点的成本，与MutationObserver证据对应。",
+        "C": "仅呈现层DOM写入，不跨写游戏/计时状态；null由真实disabled/恢复结束caller清理。",
+        "D": "生命周期与多toast不同，保留小模块而不抽带模式的共用overlay容器。",
+        "E": "复用CODE68两文件4例：同节点/重建、pointer-events、相同文案无MutationObserver变更、无document不触DOM；原有效反控沿具体同正文复用。",
+        "F": "短早退明确null与字符串路径，ID/局部el无跨域隐藏状态。",
+        "G": "相同文本guard有真实每帧caller和反例，非多余缓存；没有新增timer/listener或未用参数。",
+        "H": "真实DOM、MutationObserver和受控document边界即可验证；不增加工厂、renderer mock或测试专用出口。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.ts",
+      "sha256": "80503c155ae7e56f0e17ea172ecbca88eb0331c770837784a0f914b09d23784d",
+      "lines": 139,
+      "decision": "review",
+      "dimensions": {
+        "A": "21稳定ID/默认时间/检测器构造与BANANA全部参数正文不变，静态合法/单调/成员合同成立；五坐标点、学功夫BGM、锁妖塔入口的当前路线校准无执行证据，属于关键未知，整文件保持review并撤回旧静态关闭信用。",
+        "B": "头部与BANANA说明收窄为历史PalTimer98换算/用户站位记录，取消未冻结版本的1099行号和“本窗全已对齐”的误读；链接历史设计§4.4只作欠账来源，不当当前primary。",
+        "C": "数据Owner为本模块，timer只读配置与detector，store用id作key；checkpointName仅按语言呈现，不改节点身份/已存PB。当前index/overlay/tools-panel均无配置写入。",
+        "D": "复用detector工厂表达各事件，不把场景/坐标/boss策略合成万能布尔函数；本地t只组织静态默认毫秒。",
+        "E": "复用CODE67三静态例和92相邻中的当前英文tools-panel/overlay caller；静态21/首尾/香蕉不等于路线实跑，不能以更多类似用例填补校准缺口。",
+        "F": "id/name/defaultBestMs/detector显式区分身份、显示与单位；当前注释说明坐标记录的适用边界，未重排节点或改名。",
+        "G": "既有21节点/翻译表均有实际consumer，不删“看起来用不到”的地点或恢复旧坐标兼容分支。",
+        "H": "静态数据和检测器可由typed快照测；真实路线位置/BGM是否到点须实际运行，测试设计不能证明未执行的校准。"
+      },
+      "held": ["five coordinate calibrations", "kungfu BGM86", "tower entrance set164/165/147"],
+      "runtimeCalibration": "not performed; no node or coordinate changes"
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.ts",
+      "sha256": "1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6",
+      "lines": 58,
+      "decision": "reuse accepted exact-version dimensions; no new closure",
+      "dimensions": {
+        "A": "Layout argument delegates sanitized percent to setScale and returns before legacy CSS writes. Bootstrap supplies actual layout controller; one-argument legacy canvas/fullscreen contract preserved.",
+        "B": "Three obsolete fixed960x600 ownership comments corrected to desktop default and optional layout ownership. Generated JS byte-equal before/after.",
+        "C": "Controller owns scale value/storage, layout owns adapted presentation sizing. No reverse import of bootstrap or GameState.",
+        "D": "Narrow structural setScale port instead of importing full shell controller. Shared clamping applies to both paths; no duplicated policy.",
+        "E": "Original finite/clamp/round/fullscreen oracles reused; actual mobile game-shell clamp/delegation tests and source wiring independently reviewed in registered mobile packet.",
+        "F": "Explicit early return separates layout delegation from standalone canvas branch.",
+        "G": "No dead parameter: layout supplied by production bootstrap. No generic mode Boolean or compatibility fallback reintroduced.",
+        "H": "Injected canvas/layout capability and native storage permit deterministic assertions; full-screen delegation does not claim browser grant."
+      },
+      "reuse": {
+        "at": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+        "sourceSha256": "1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6",
+        "reason": "same source, actual bootstrap/presentation/main-loop/mobile callers checked; no duplicated full review"
+      },
+      "notes": [
+        "MIN/MAX are used by clamp and existing direct tests; UI logarithmic mapping has the same current10–1000 domain. No boundary or export change."
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.ts",
+      "sha256": "a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020",
+      "lines": 112,
+      "decision": "reuse accepted exact-version dimensions; no new closure",
+      "dimensions": {
+        "A": "Mobile layout returns disabled without overwriting saved desktop preference. Existing per-frame path clears sampling/hides at disabled transition.",
+        "B": "Correct overstrong rAF→CPU diagnosis comment: frame rate signals a symptom, not a unique cause. Generated JS byte-equal before/after.",
+        "C": "FPS keeps its own DOM/sample owner; one read-only shell presentation query is an existing allowed tools→shell dependency, no core state write.",
+        "D": "Reuses isMobileLayout predicate; no duplicated screen-size or storage layout detection.",
+        "E": "Original FPS sample/threshold/enable cases reused plus actual mobile preference switch test in current61; no assertion that passing FPS test proves actual CPU smoothness.",
+        "F": "One Boolean guard expresses mobile policy; existing sample state names/500ms window remain clear.",
+        "G": "No new listener/timer or unused export. No speculative rewrite of singleton diagnostics ownership.",
+        "H": "Injected frame timestamps and native layout/storage are deterministic; no hardware/framerate benchmark inferred."
+      },
+      "reuse": {
+        "at": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json",
+        "sourceSha256": "a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020",
+        "reason": "same source, actual bootstrap/presentation/main-loop/mobile callers checked; no duplicated full review"
+      },
+      "notes": [
+        "hideFpsOverlay body is used by local tick/set; its exported visibility is only referenced by existing direct tests. Narrowing that modifier is a nonblocking candidate, not an unused-function deletion or new API."
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/toast.test.ts",
+      "sha256": "6ee3acb3b46be80148823ea83ff18a1bb16a0ebe92ba26c2a9fe3b183db8c644",
+      "lines": 69,
+      "decision": "accept",
+      "dimensions": {
+        "A": "四例真实showToast/DOM/window timer；输入均为当前caller支持的字符串/类型/正duration，hook结清所有本例timer并只移除命名容器。",
+        "B": "标题写默认2000与220边界、共享容器及三类型；旧leaf排重/收尾夸大说明随实际合并退出，不冒称浏览器transition实跑。",
+        "C": "一个文件拥有整套同源toast fixture；beforeEach只接管fakeclock，afterEach finally释放timer/DOM，消除两份重复fixture和后例清body兜底。",
+        "D": "旧主4+leaf2逐合同转移到4例，不保留只换数字的未到期子集；类型消息、精确生命周期和多资源Owner分开。",
+        "E": "完整文本/图标、pointer-events、opacity、transform、节点身份/连通性与timer0是结果oracle；旧绿新指定单红/恢复7可复验。",
+        "F": "每例直接读出一条用户可见合同，无万能fixtures或隐藏断言；必要生命周期结果成组，不将无关输入混进同例。",
+        "G": "6→4精简2例；没有新增skip/only/ignore/断言弱化，删文件实际不存在且合同均迁移，不修改保护判据。",
+        "H": "fakeclock只控制宿主时间、不mock业务；失败路径finally清理仍执行，无public测试口或私有状态读取。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/map-names.test.ts",
+      "sha256": "6061d03b7442f04f2bc0b560224c4fc414781c3744d67149e7caf0e8cc5ce486",
+      "lines": 53,
+      "decision": "accept",
+      "dimensions": {
+        "A": "三例真实locale与shared authored lookup；覆盖0/四个原已知名、范围内缺名104与未知9999；有效语言和html属性按原值还原，不触用户持久偏好。",
+        "B": "三标题准确描述双语/缺名/authored成员；不把fallback字符串存在当地名已考据或坐标已实跑。",
+        "C": "本文件只拥有语言fixture与对应html属性；不清其它storage/DOM，不依赖先前默认中文或修改生产locale函数。",
+        "D": "旧3→当前3，一份consumer入口覆盖中文/英文分支；998重复未知数值改为范围内104空洞，没有再复制一组相同fixture的英语文件。",
+        "E": "literal中文/英文表值和独立Map104/地图104、成员布尔为oracle；英文fallback变异旧3绿新指定单红，真正执行分歧分支。",
+        "F": "给定mapNum数组与对应literal列表一目了然；输入轴按显示/回退/成员拆开。",
+        "G": "数量保持3，去掉对隐式默认语言的依赖；未为覆盖率新增空转或clone自比。",
+        "H": "调用公开有效语言setter与真实mapper，不mock table/localize；无需生产依赖注入或暴露私有状态。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.test.ts",
+      "sha256": "a684c34ac598bf934caff399c0616b2f24cc5ce8e3fcaefaa07eb9c300219833",
+      "lines": 29,
+      "decision": "reuse accepted exact test; no new closure",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：2例真实DOM创建/文本更新/同node、移除/二次移除/重建；与leaf相同文本不写DOM是不同合同。",
+        "B": "逐项标题/注释限于实际执行；2例真实DOM创建/文本更新/同node、移除/二次移除/重建；与leaf相同文本不写DOM是不同合同。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：2例真实DOM创建/文本更新/同node、移除/二次移除/重建；与leaf相同文本不写DOM是不同合同。",
+        "E": "2例真实DOM创建/文本更新/同node、移除/二次移除/重建；与leaf相同文本不写DOM是不同合同。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "reuse": {
+        "at": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json",
+        "gates": "present-speedrun-gates.json",
+        "sourceSha256": "a684c34ac598bf934caff399c0616b2f24cc5ce8e3fcaefaa07eb9c300219833"
+      },
+      "cases": [
+        {
+          "fullName": "showCountdown 传字符串挂出、更新文本",
+          "status": "passed"
+        },
+        {
+          "fullName": "showCountdown 传 null 移除",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "sha256": "2abb8449f9eb418542b978538b4709f6104478e211c51032faba7faa82a71eb2",
+      "lines": 38,
+      "decision": "reuse accepted exact test; no new closure",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：2例MutationObserver核相同文本无变更，以及无document不触DOM；observer disconnect/stub/mock恢复俱有明确owner，沿用68反控。",
+        "B": "逐项标题/注释限于实际执行；2例MutationObserver核相同文本无变更，以及无document不触DOM；observer disconnect/stub/mock恢复俱有明确owner，沿用68反控。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：2例MutationObserver核相同文本无变更，以及无document不触DOM；observer disconnect/stub/mock恢复俱有明确owner，沿用68反控。",
+        "E": "2例MutationObserver核相同文本无变更，以及无document不触DOM；observer disconnect/stub/mock恢复俱有明确owner，沿用68反控。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "reuse": {
+        "at": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json",
+        "gates": "present-speedrun-gates.json",
+        "sourceSha256": "2abb8449f9eb418542b978538b4709f6104478e211c51032faba7faa82a71eb2"
+      },
+      "cases": [
+        {
+          "fullName": "L20 showCountdown 宿主边界 相同文字逐帧刷新时不触发 DOM 变更",
+          "status": "passed"
+        },
+        {
+          "fullName": "L20 showCountdown 宿主边界 无 document 时字符串和 null 调用均不访问 DOM",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+      "sha256": "61046994eb6a6dd74a1fc16df10f6411aa470565fe30d94bbd34fbb174a9be75",
+      "lines": 23,
+      "decision": "reuse accepted exact test; no new closure",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：4例正常固定字符串/厘秒/小时/parse/带符号；oracle为独立手算literal，与负数/拒绝边界分工。",
+        "B": "逐项标题/注释限于实际执行；4例正常固定字符串/厘秒/小时/parse/带符号；oracle为独立手算literal，与负数/拒绝边界分工。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：4例正常固定字符串/厘秒/小时/parse/带符号；oracle为独立手算literal，与负数/拒绝边界分工。",
+        "E": "4例正常固定字符串/厘秒/小时/parse/带符号；oracle为独立手算literal，与负数/拒绝边界分工。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "reuse": {
+        "at": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json",
+        "gates": "present-speedrun-gates.json",
+        "sourceSha256": "61046994eb6a6dd74a1fc16df10f6411aa470565fe30d94bbd34fbb174a9be75"
+      },
+      "cases": [
+        {
+          "fullName": "time-format formatClock 到厘秒",
+          "status": "passed"
+        },
+        {
+          "fullName": "time-format formatHms 到秒",
+          "status": "passed"
+        },
+        {
+          "fullName": "time-format parseHms 支持 H:MM:SS 与 M:SS",
+          "status": "passed"
+        },
+        {
+          "fullName": "time-format formatDiff 带符号",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+      "sha256": "ce31751bf2f91e1707bea710ae157e7bd15094d802c3757f9c896c1f60d9051f",
+      "lines": 49,
+      "decision": "reuse accepted exact test; no new closure",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：8例整分整小时截断/负数、diff子秒负号、trim与拒绝、308个9总量溢出；沿用原有效二层溢出counter，不混同非finite格式化政策。",
+        "B": "逐项标题/注释限于实际执行；8例整分整小时截断/负数、diff子秒负号、trim与拒绝、308个9总量溢出；沿用原有效二层溢出counter，不混同非finite格式化政策。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：8例整分整小时截断/负数、diff子秒负号、trim与拒绝、308个9总量溢出；沿用原有效二层溢出counter，不混同非finite格式化政策。",
+        "E": "8例整分整小时截断/负数、diff子秒负号、trim与拒绝、308个9总量溢出；沿用原有效二层溢出counter，不混同非finite格式化政策。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "reuse": {
+        "at": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json",
+        "gates": "present-speedrun-gates.json",
+        "sourceSha256": "ce31751bf2f91e1707bea710ae157e7bd15094d802c3757f9c896c1f60d9051f"
+      },
+      "cases": [
+        {
+          "fullName": "H08 进位与符号边界 formatClock 截断厘秒；整分和整小时前后正确进位",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 formatClock 负数归零",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 formatHms 在整小时边界截断到秒",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 formatHms 负数归零",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 formatDiff 绝对值截断到整秒，保留不足一秒的负号",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 parseHms 允许段内首尾空白",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 parseHms 拒绝负号、空段、非数字、秒越界和错误段数",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 parseHms：总毫秒溢出时拒绝，避免工具面板把 Infinity 持久化成 null",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "sha256": "79411da90343bc7a2346df5e4743c3ab47146df823e15d160e9f20d7ecab5076",
+      "lines": 16,
+      "decision": "reuse accepted exact test; no new closure",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：2例科学计数法文本拒绝、分钟60且秒合法独立守卫；与主测/边界无重复数值变体，沿用69旧绿新单红。",
+        "B": "逐项标题/注释限于实际执行；2例科学计数法文本拒绝、分钟60且秒合法独立守卫；与主测/边界无重复数值变体，沿用69旧绿新单红。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：2例科学计数法文本拒绝、分钟60且秒合法独立守卫；与主测/边界无重复数值变体，沿用69旧绿新单红。",
+        "E": "2例科学计数法文本拒绝、分钟60且秒合法独立守卫；与主测/边界无重复数值变体，沿用69旧绿新单红。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "reuse": {
+        "at": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json",
+        "gates": "present-speedrun-gates.json",
+        "sourceSha256": "79411da90343bc7a2346df5e4743c3ab47146df823e15d160e9f20d7ecab5076"
+      },
+      "cases": [
+        {
+          "fullName": "L20 time-format 解析拒绝边界 小时字段拒绝科学计数法，即便 Number 能转换它",
+          "status": "passed"
+        },
+        {
+          "fullName": "L20 time-format 解析拒绝边界 分钟为 60 且秒合法时仍拒绝",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.test.ts",
+      "sha256": "892636edd42fbc2de200468950fb83789ad7930818db0bc050299db536a3b363",
+      "lines": 27,
+      "decision": "reuse accepted exact test; no new closure",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：3例仅静态21个唯一ID/参考线递增、首尾label、banana三格零容差。更名撤PalTimer/运行校准的越权推论；坐标/BGM实跑仍未知。",
+        "B": "逐项标题/注释限于实际执行；3例仅静态21个唯一ID/参考线递增、首尾label、banana三格零容差。更名撤PalTimer/运行校准的越权推论；坐标/BGM实跑仍未知。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：3例仅静态21个唯一ID/参考线递增、首尾label、banana三格零容差。更名撤PalTimer/运行校准的越权推论；坐标/BGM实跑仍未知。",
+        "E": "3例仅静态21个唯一ID/参考线递增、首尾label、banana三格零容差。更名撤PalTimer/运行校准的越权推论；坐标/BGM实跑仍未知。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "reuse": {
+        "at": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json",
+        "gates": "present-speedrun-gates.json",
+        "sourceSha256": "892636edd42fbc2de200468950fb83789ad7930818db0bc050299db536a3b363"
+      },
+      "cases": [
+        {
+          "fullName": "checkpoints 正好 21 个,id 唯一,时间单调递增",
+          "status": "passed"
+        },
+        {
+          "fullName": "checkpoints 首尾节点正确",
+          "status": "passed"
+        },
+        {
+          "fullName": "checkpoints 香蕉配置(照抄 PalTimer 3 精确格 + PARTYOFFSET,零容差)",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+      "lines": 53,
+      "read": "full"
+    },
+    {
+      "path": "packages/game/src/localization/map-names-en.ts",
+      "sha256": "ef57733e5f7158b80024e6c0dd04f2eacfc8378dbd69a72954af45872dcf0f06",
+      "lines": 225,
+      "read": "full primary display data only"
+    },
+    {
+      "path": "packages/shared/src/pal-authored-map-names.ts",
+      "sha256": "69d57d63ed58dda873776b48878f05f3578e80d3be667e521131065a3293547a",
+      "lines": 240,
+      "read": "full primary authored data only"
+    },
+    {
+      "path": "packages/game/src/shell/presentation.ts",
+      "sha256": "2c6229b3b85271c52c80d9143d7aa6568aa6e2c507f30a84d4722028f4fa06bd",
+      "lines": 10,
+      "read": "full dependency only"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "sha256": "9a3e15aff078041f076a9715ba12592243ce72dc93fcd3a0c9208e1a8ec0905c",
+      "lines": 77,
+      "read": "full caller only"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "26f79ca8271020de7f0663698cf52a665cf367e67db475af714167d996c241ad",
+      "lines": 124,
+      "read": "full caller; accepted65 reused"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.ts",
+      "sha256": "5faaa4fbff490389ccb36d9a24eeaac33fc1807443ca59686da0e81031b94a62",
+      "lines": 123,
+      "read": "full caller; accepted66 reused"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "3ed91fc0eba9daa62805e0d0b9d4e098cf55553a3db05b5b7f9f195326365d4b",
+      "lines": 60,
+      "read": "full caller; accepted61 reused"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.ts",
+      "sha256": "a5fcf2a7380eca2afc4e93832075b2847671ffba597c5f12e1b8e8a1cf252f2c",
+      "lines": 218,
+      "read": "full type/lifecycle caller; accepted62 reused"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.ts",
+      "sha256": "c2209367f139dd37dbc77bf11d59c76a63fe687b90de607b35e152d4e48cb60c",
+      "lines": 75,
+      "read": "full factories; accepted64 reused"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "df6083ef6eeaf958db857a728a7a661185d2975e300bfba28a47c32a75f911de",
+      "lines": 1332,
+      "read": "70–87,650–690,736–763,835–892,962–1062 caller ranges only"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+      "lines": 1956,
+      "read": "1102–1120 production construction only"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "01842b519dd9bc8bee3a221c962d2c9cdec043f7c912f848efd2ef3e1c559847",
+      "lines": 176,
+      "read": "156–176 rAF ownership/calls only"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.ts",
+      "sha256": "d23f4cceda7b457573c00f64f4ca8c19ce96874e7323cabebc67ac127eaf91e0",
+      "lines": 2347,
+      "read": "1160–1181,1278–1299 named/filter/display caller only"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.english.test.ts",
+      "sha256": "8d539ec2b88f18f88c70c7f09e02484a5e0a74bf7bc39e4845a11c6b0d073d45",
+      "lines": 159,
+      "read": "full adjacent caller oracle only"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+      "sha256": "e8509d85b2fd1b9f51b3ed59029d736aefd20f6e6e35d784517b897334cac083",
+      "lines": 89,
+      "read": "full adjacent host only"
+    }
+  ],
+  "transfers": [
+    {
+      "old": [
+        "toast 挂出含消息的 toast",
+        "toast success / error 不同类型 class",
+        "toast duration 后淡出并移除(容器也清掉)",
+        "toast 未到 duration 不得移除，负控证明计时器不是一挂就清"
+      ],
+      "to": [
+        "toast 默认成功消息保留图标、文本和不拦输入的节点",
+        "toast 错误和提示分别使用对应图标与类型 class",
+        "toast 默认停留到 2000ms 才淡出，220ms 过渡结束才移除最后一条及容器",
+        "toast 两条共享容器，到期只移除自己，最后一条结束后释放容器"
+      ],
+      "mapping": "old挂出→default exact icon/text; success/error→default success+error/info; duration1000/removal+negative999→default2000/220 precise boundaries and custom1000/3000 stack. No distinct numeric500/998 policy exists."
+    },
+    {
+      "old": [
+        "L19 showToast 堆叠合同 两条共存；到期只移除自己，容器保留",
+        "L19 showToast 堆叠合同 最后一条移除后容器自删；info 类型用 · 图标与专属 class"
+      ],
+      "to": [
+        "toast 默认成功消息保留图标、文本和不拦输入的节点",
+        "toast 错误和提示分别使用对应图标与类型 class",
+        "toast 默认停留到 2000ms 才淡出，220ms 过渡结束才移除最后一条及容器",
+        "toast 两条共享容器，到期只移除自己，最后一条结束后释放容器"
+      ],
+      "mapping": "stack→two-owner full lifetime; info icon/class→types; last-single-container cleanup→precise lifetime, also last-of-stack cleanup. Deleted file2→0, main4→4, net6→4. No new scope-removal predicate."
+    },
+    {
+      "old": [
+        "map-names 已知地图返回考据地名",
+        "map-names 未知地图回退 地图N",
+        "map-names hasMapName 区分已知/未知"
+      ],
+      "to": [
+        "map-names 已知地图按当前语言显示，保留零号梦境和考据地名",
+        "map-names 范围内缺名和范围外未知地图都使用当前语言回退",
+        "map-names hasMapName 按考据表成员判断，语言与回退标签不改变成员关系"
+      ],
+      "mapping": "known labels preserved+0 and English; unknown9999 preserved/998 redundant replaced by authored hole104; membership language-independent.3→3."
+    }
+  ],
+  "controls": {
+    "results": [
+      {
+        "id": "toast-fade",
+        "product": "src/tools/toast.ts",
+        "beforeSha256": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa",
+        "mutantSha256": "0911dc4cf0328d89827429c8bac338ed86525802ede01cade801e17cfdb60388",
+        "from": "el.style.opacity = '0'",
+        "to": "el.style.opacity = '1'",
+        "old": {
+          "id": "toast-fade-old",
+          "exit": 0,
+          "passed": 6,
+          "failed": 0,
+          "failures": []
+        },
+        "current": {
+          "id": "toast-fade-current",
+          "exit": 1,
+          "passed": 3,
+          "failed": 1,
+          "failures": ["toast 默认停留到 2000ms 才淡出，220ms 过渡结束才移除最后一条及容器"]
+        }
+      },
+      {
+        "id": "map-english-fallback",
+        "product": "src/tools/map-names.ts",
+        "beforeSha256": "17cb9d607c1d17e14bdc70b2c9d724ca441061819be6ad48add0d7335327deb8",
+        "mutantSha256": "1c59c72af3fd6a5bfee67a7d699119e7112ebed8499722acc82654498ebe0000",
+        "from": "ENGLISH_MAP_NAMES[mapNum] ?? `Map ${mapNum}`",
+        "to": "ENGLISH_MAP_NAMES[mapNum] ?? `地图${mapNum}`",
+        "old": {
+          "id": "map-english-fallback-old",
+          "exit": 0,
+          "passed": 3,
+          "failed": 0,
+          "failures": []
+        },
+        "current": {
+          "id": "map-english-fallback-current",
+          "exit": 1,
+          "passed": 2,
+          "failed": 1,
+          "failures": ["map-names 范围内缺名和范围外未知地图都使用当前语言回退"]
+        }
+      }
+    ],
+    "restored": {
+      "id": "toast-map-controls-restored",
+      "exit": 0,
+      "passed": 7,
+      "failed": 0,
+      "failures": []
+    },
+    "sourceAndTestsRestored": true
+  },
+  "body": {
+    "base": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+    "typescriptVersion": "6.0.3",
+    "records": [
+      {
+        "file": "packages/game/src/tools/map-names.ts",
+        "beforeSha256": "17cb9d607c1d17e14bdc70b2c9d724ca441061819be6ad48add0d7335327deb8",
+        "sha256": "0aaafcb41b643024bc3af6844c12afb87b8d372332dabd852f935120b65d7440",
+        "kind": "comments only",
+        "parsedBodyEqual": true
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/countdown.ts",
+        "beforeSha256": "1496186d3dddd0c818aac769fec34fa4b98cf6b7aef06e8173618b3d65551a62",
+        "sha256": "024f25580a64a2893451465ba832cab608089f26513e0584d68277640d461ad3",
+        "kind": "comments only",
+        "parsedBodyEqual": true
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/checkpoints.ts",
+        "beforeSha256": "ca9bb468bc7a1c900b1dcd9099c71ab90bc1d51ec9420eed8e150f5c6fb7dcb6",
+        "sha256": "80503c155ae7e56f0e17ea172ecbca88eb0331c770837784a0f914b09d23784d",
+        "kind": "comments only",
+        "parsedBodyEqual": true
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/time-format.ts",
+        "beforeSha256": "03cd01e6ed78b3acf1979f5a20ed65eefd4a0afa0397c91d49d2cddf9cfcb275",
+        "sha256": "ba19622f9f2f969a58e5f88fb6ca5c32983931493915a769afb4f72553c32a92",
+        "kind": "private unused parameter removal + comments",
+        "localPadCalls": [
+          ["Math.floor((s % 3600) / 60)"],
+          ["s % 60"],
+          ["cc"],
+          ["Math.floor((s % 3600) / 60)"],
+          ["s % 60"],
+          ["s % 60"]
+        ],
+        "allSixCallsSingleArgument": true,
+        "restoredParsedBodyEqual": true,
+        "scope": "pad is unexported and every call uses fixed width2; no other parsed statement differs."
+      }
+    ],
+    "limits": "Parsed body invariance and exact local pad arity/width substitution; not an independent semantic claim for route calibration."
+  },
+  "complexity": {
+    "tool": "TypeScript AST decision screen",
+    "version": "6.0.3",
+    "definition": "1 + if/conditional/for/while/do/case/catch/logical && || ?? per function; nested function bodies excluded. Reading clue only, not acceptance target.",
+    "files": [
+      "packages/game/src/tools/display-scale.ts",
+      "packages/game/src/tools/fps-overlay.ts",
+      "packages/game/src/tools/toast.ts",
+      "packages/game/src/tools/map-names.ts",
+      "packages/game/src/tools/speedrun/time-format.ts",
+      "packages/game/src/tools/speedrun/countdown.ts",
+      "packages/game/src/tools/speedrun/checkpoints.ts"
+    ],
+    "functions": [
+      {
+        "file": "packages/game/src/tools/display-scale.ts",
+        "line": 16,
+        "name": "clampPct",
+        "complexity": 2
+      },
+      {
+        "file": "packages/game/src/tools/display-scale.ts",
+        "line": 21,
+        "name": "createDisplayScaleController",
+        "complexity": 4
+      },
+      {
+        "file": "packages/game/src/tools/display-scale.ts",
+        "line": 29,
+        "name": "apply",
+        "complexity": 2
+      },
+      {
+        "file": "packages/game/src/tools/display-scale.ts",
+        "line": 46,
+        "name": "getPercent",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/tools/display-scale.ts",
+        "line": 47,
+        "name": "setPercent",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/tools/display-scale.ts",
+        "line": 52,
+        "name": "toggleFullscreen",
+        "complexity": 3
+      },
+      {
+        "file": "packages/game/src/tools/fps-overlay.ts",
+        "line": 12,
+        "name": "ls",
+        "complexity": 2
+      },
+      {
+        "file": "packages/game/src/tools/fps-overlay.ts",
+        "line": 15,
+        "name": "isFpsEnabled",
+        "complexity": 2
+      },
+      {
+        "file": "packages/game/src/tools/fps-overlay.ts",
+        "line": 19,
+        "name": "injectStyles",
+        "complexity": 3
+      },
+      {
+        "file": "packages/game/src/tools/fps-overlay.ts",
+        "line": 35,
+        "name": "ensureRoot",
+        "complexity": 2
+      },
+      {
+        "file": "packages/game/src/tools/fps-overlay.ts",
+        "line": 46,
+        "name": "hideFpsOverlay",
+        "complexity": 2
+      },
+      {
+        "file": "packages/game/src/tools/fps-overlay.ts",
+        "line": 51,
+        "name": "renderFps",
+        "complexity": 3
+      },
+      {
+        "file": "packages/game/src/tools/fps-overlay.ts",
+        "line": 79,
+        "name": "tickFps",
+        "complexity": 5
+      },
+      {
+        "file": "packages/game/src/tools/fps-overlay.ts",
+        "line": 105,
+        "name": "setFpsEnabled",
+        "complexity": 3
+      },
+      {
+        "file": "packages/game/src/tools/toast.ts",
+        "line": 8,
+        "name": "ensureContainer",
+        "complexity": 2
+      },
+      {
+        "file": "packages/game/src/tools/toast.ts",
+        "line": 37,
+        "name": "showToast",
+        "complexity": 4
+      },
+      {
+        "file": "packages/game/src/tools/toast.ts",
+        "line": 73,
+        "name": "(local callback)",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/tools/toast.ts",
+        "line": 76,
+        "name": "(local callback)",
+        "complexity": 2
+      },
+      {
+        "file": "packages/game/src/tools/map-names.ts",
+        "line": 10,
+        "name": "getMapName",
+        "complexity": 3
+      },
+      {
+        "file": "packages/game/src/tools/map-names.ts",
+        "line": 18,
+        "name": "hasMapName",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/time-format.ts",
+        "line": 2,
+        "name": "pad",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/time-format.ts",
+        "line": 5,
+        "name": "formatClock",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/time-format.ts",
+        "line": 13,
+        "name": "formatHms",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/time-format.ts",
+        "line": 19,
+        "name": "parseHms",
+        "complexity": 11
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/time-format.ts",
+        "line": 20,
+        "name": "(local callback)",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/time-format.ts",
+        "line": 22,
+        "name": "(local callback)",
+        "complexity": 2
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/time-format.ts",
+        "line": 23,
+        "name": "(local callback)",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/time-format.ts",
+        "line": 32,
+        "name": "formatDiff",
+        "complexity": 3
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/countdown.ts",
+        "line": 4,
+        "name": "showCountdown",
+        "complexity": 5
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/checkpoints.ts",
+        "line": 60,
+        "name": "checkpointName",
+        "complexity": 2
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/checkpoints.ts",
+        "line": 67,
+        "name": "t",
+        "complexity": 1
+      }
+    ],
+    "flagged": [
+      {
+        "file": "packages/game/src/tools/speedrun/time-format.ts",
+        "line": 19,
+        "name": "parseHms",
+        "complexity": 11
+      }
+    ],
+    "duplicates": "Review exact root/container and CSS setup against ownership/input/lifetime; static similar DOM boilerplate does not authorize shared global lifecycle or style owner."
+  },
+  "mergedMainCi": {
+    "head": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+    "documentationRun": 39900260968,
+    "coverageRun": 39900261034,
+    "checks": "bothcompletedSUCCESS/App15368/nativeannotations0",
+    "docs": {
+      "id": "merged-docs-log-r2",
+      "kind": "docs",
+      "head": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+      "bytes": 2262967,
+      "sha256": "0cb184f526e8cb8f436af528f8752be5c4ed9e50d258250b9ad015096960b87c",
+      "total": null,
+      "lint": ["lint: PASS — 5941 files; 0 errors / 0 warnings / 0 infos; complete report"],
+      "noticeCount": 0,
+      "notices": [],
+      "limits": "Full untrimmed hosted raw log retained separately; all diagnostic/deprecation annotations checked across all steps, not merely project command exit. API candidate/check/merge status is separate."
+    },
+    "coverage": {
+      "id": "merged-coverage-log-r2",
+      "kind": "coverage",
+      "head": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+      "bytes": 680239,
+      "sha256": "33a95d8bb97b10b87567b50caaf2de34a97e2d638bef081465f46fe56dc476a6",
+      "total": "TOTAL        90.32% (72674/80466)  83.90% (52607/62701)  89.79% (13730/15291)  92.17% (64901/70411)  774    20172",
+      "lint": ["lint: PASS — 5941 files; 0 errors / 0 warnings / 0 infos; complete report"],
+      "noticeCount": 0,
+      "notices": [],
+      "limits": "Full untrimmed hosted raw log retained separately; all diagnostic/deprecation annotations checked across all steps, not merely project command exit. API candidate/check/merge status is separate."
+    }
+  },
+  "runs": {
+    "directed": {
+      "id": "directed-tools-final",
+      "files": 8,
+      "passed": 28
+    },
+    "adjacent": {
+      "id": "adjacent-tools-final",
+      "files": 15,
+      "passed": 92
+    },
+    "typesBeforePad": {
+      "id": "game-types-first",
+      "state": "passed; final currenttypecheck is part of frozen wholecheck"
+    }
+  },
+  "deleted": {
+    "path": "packages/game/src/tools/toast.glm-phase1-leaves.test.ts",
+    "sourceAt": "1880db84a18aa40574d768621dd3ae6ddc7c9df9",
+    "oldTestCount": 2,
+    "newTestCount": 0,
+    "contractDestinations": "tools/toast.test.ts four listedcases",
+    "authority": "Current user3j test quality + standing precise dedup and file merge/reorganization permission",
+    "safety": "Actual file deletion; existing ratchet --allow-scope-removal only after verified path absent. protected existing-file retirement predicate and53entries untouched."
+  },
+  "primary": [
+    {
+      "path": "packages/shared/src/pal-authored-map-names.ts",
+      "scope": "current authorednames",
+      "sha256": "69d57d63ed58dda873776b48878f05f3578e80d3be667e521131065a3293547a",
+      "lines": 240
+    },
+    {
+      "path": "packages/game/src/localization/map-names-en.ts",
+      "scope": "current Englishdisplay",
+      "sha256": "ef57733e5f7158b80024e6c0dd04f2eacfc8378dbd69a72954af45872dcf0f06",
+      "lines": 225
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-18-speedrun-timer-design.md",
+      "range": "historicalquoted§4.4/4.5/4.6 (185–254)",
+      "scope": "Historical configuration provenance/unresolvedcalibration, not current gameplay truth",
+      "sha256": "319e152a0ea0aab091b33be44b4c139f0d65589f50061851030b082cc08d6e8c",
+      "lines": 337
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-18-speedrun-timer.md",
+      "range": "historicalquotedTask12 (1674–1702)",
+      "scope": "explicit unrun calibration debt",
+      "sha256": "5e649bf286aa6f72814a4b2dae4212dbd1c78f70a2976f5af099114e53445298",
+      "lines": 1728
+    }
+  ],
+  "held": {
+    "file": "packages/game/src/tools/speedrun/checkpoints.ts",
+    "reason": "Five coordinates, kungfuBGM and towerentrances not run-calibrated. No currentPalTimer source version frozen. Old static validated row reopened review; no coordinate/datachange.",
+    "other": "Existing outward visibility ofFPS hide helper is a nonblocking narrowing candidate; body used by localtick/set, existing direct tests retain export. No publicAPI change."
+  },
+  "progress": {
+    "fixed83": {
+      "accept": 64,
+      "partial": 19,
+      "pending": 0
+    },
+    "newClosuresBeforeGates": 0,
+    "card3j": "partial; runtime calibration remains review",
+    "newlyClosedFiles": [
+      "packages/game/src/tools/speedrun/time-format.ts",
+      "packages/game/src/tools/toast.test.ts",
+      "packages/game/src/tools/map-names.test.ts"
+    ],
+    "reopenedReviewFiles": ["packages/game/src/tools/speedrun/checkpoints.ts"],
+    "netNewClosed": 2,
+    "counts": {
+      "total": 3403,
+      "verified": 407,
+      "review": 104,
+      "pending": 2892,
+      "unclosed": 2996
+    }
+  },
+  "integration": {
+    "state": "passed",
+    "localGateIds": [
+      "module-check-serial",
+      "same-report-ratchet",
+      "module-protected",
+      "recount-tools",
+      "final-docs",
+      "final-lint",
+      "final-ledger",
+      "final-diff"
+    ],
+    "check": {
+      "id": "module-check-serial",
+      "packageCounts": [1498, 114, 3804, 510, 8991, 4943, 739],
+      "packageTestCount": 20599,
+      "toolCounts": [125, 101, 47, 397, 22],
+      "toolTestCount": 692,
+      "lint": ["lint: PASS — 5942 files; 0 errors / 0 warnings / 0 infos; complete report"]
+    },
+    "official": {
+      "id": "module-ratchet",
+      "collectionExit": 1,
+      "policyAfterRecountId": "same-report-ratchet",
+      "policyExit": 0,
+      "packageCounts": [114, 1498, 361, 671, 8991, 3754, 4781],
+      "testCount": 20170,
+      "sourceFileCount": 774,
+      "baselineSha256": "d73ff1d6421ded095acd01370b7136dee5e65d5de5b3a637752f43bd1c10a470"
+    },
+    "protected": "Same completed official report; strict and protected0regressions. Only actual deleted two-test file removed. Existing-file retirement guard/table unchanged.",
+    "failedAttempts": [
+      {
+        "id": "module-ratchet",
+        "exit": 1,
+        "reason": "All20170tests passed; one covered default-arg branch removed. Same14native tests prove precise structural delta. Original policy refusal retained, then exact original post-collection policy replayed on same report with user-authorized pinned recount."
+      },
+      {
+        "id": "module-check",
+        "exit": 1,
+        "reason": "Real owned Chrome tool test45s timeout; exact process ancestry pinned then owned child killed. No other browser touched."
+      },
+      {
+        "id": "module-check-retry",
+        "exit": 1,
+        "reason": "Five pal-extract CLI startup tests5s timeout under default file concurrency;505other tests passed. No business assertion failure."
+      }
+    ],
+    "recovery": {
+      "id": "watchdog-isolated",
+      "tests": 8,
+      "stderrBytes": 0,
+      "serialRun": "Installed Vitest VITEST_MAX_WORKERS=1; full original pnpm check unchanged, no timeout/assertion/rule weakening."
+    },
+    "stdoutTimingReview": [
+      {
+        "source": "packages/editor/src/core/author-disk-baseline.pal.test.ts",
+        "sha256": "390de8a8890a7085e35f19f657574ab9b0133cc9d0a1b0d4ecbb4de44d9c6640",
+        "scope": "Full file read only to classify console.info payload; no file acceptance. elapsedMs = Math.round(performance.now() - start), literal IO counts unchanged; no warning/error/act diagnostic ignored.",
+        "before": {
+          "elapsedMs": 620,
+          "reads": 1077,
+          "totalBytesRead": 152305027,
+          "paths": 538,
+          "bytesRead": 76154226
+        },
+        "after": {
+          "elapsedMs": 493,
+          "reads": 1077,
+          "totalBytesRead": 152305027,
+          "paths": 538,
+          "bytesRead": 76154226
+        }
+      }
+    ],
+    "structuralRecount": {
+      "approvalModuleSha256": "3971b4e29f513df826341ba338649e57e9ca830d10c9a7fdd0455b924cae8071",
+      "entry": {
+        "id": "pre94-time-format-private-default-recount-20261023",
+        "authority": "User standing authority permits exact baseline adjustment for justified refactoring without restoring dead code or weak tests. Current3j removes only unexported pad width default; all six callers pass one argument and fixed width2 is unchanged. Same14 unchanged strong tests before/current V8 prove only one covered default-arg branch removed (line2,37hits); all other branch locations/hits and statements/functions/lines unchanged. Pin complete old baseline and four source/test bytes. No tolerance, scope/comparator/timeout or behavior change.",
+        "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json",
+        "baselineSha256": "4fdc2286c5338060524aaf6c160f08797cbbd681f23c0499318ead4027171187",
+        "sources": [
+          {
+            "path": "packages/game/src/tools/speedrun/time-format.ts",
+            "sha256": "ba19622f9f2f969a58e5f88fb6ca5c32983931493915a769afb4f72553c32a92"
+          },
+          {
+            "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+            "sha256": "61046994eb6a6dd74a1fc16df10f6411aa470565fe30d94bbd34fbb174a9be75"
+          },
+          {
+            "path": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+            "sha256": "ce31751bf2f91e1707bea710ae157e7bd15094d802c3757f9c896c1f60d9051f"
+          },
+          {
+            "path": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+            "sha256": "79411da90343bc7a2346df5e4743c3ab47146df823e15d160e9f20d7ecab5076"
+          }
+        ],
+        "packages": {
+          "game": {
+            "before": {
+              "statements": {
+                "covered": 15289,
+                "total": 17075
+              },
+              "branches": {
+                "covered": 9906,
+                "total": 12277
+              },
+              "functions": {
+                "covered": 1835,
+                "total": 2135
+              },
+              "lines": {
+                "covered": 13628,
+                "total": 14962
+              }
+            },
+            "after": {
+              "statements": {
+                "covered": 15289,
+                "total": 17075
+              },
+              "branches": {
+                "covered": 9905,
+                "total": 12276
+              },
+              "functions": {
+                "covered": 1835,
+                "total": 2135
+              },
+              "lines": {
+                "covered": 13628,
+                "total": 14962
+              }
+            }
+          }
+        }
+      },
+      "native": {
+        "file": "packages/game/src/tools/speedrun/time-format.ts",
+        "records": [
+          {
+            "id": "pad-v8-before",
+            "sha256": "03cd01e6ed78b3acf1979f5a20ed65eefd4a0afa0397c91d49d2cddf9cfcb275",
+            "metrics": {
+              "statements": {
+                "covered": 26,
+                "total": 27
+              },
+              "branches": {
+                "covered": 25,
+                "total": 26
+              },
+              "functions": {
+                "covered": 8,
+                "total": 8
+              },
+              "lines": {
+                "covered": 19,
+                "total": 19
+              }
+            },
+            "branches": [
+              {
+                "key": "0",
+                "loc": {
+                  "start": {
+                    "line": 2,
+                    "column": 24
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 42
+                  }
+                },
+                "type": "default-arg",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 2,
+                      "column": 28
+                    },
+                    "end": {
+                      "line": 2,
+                      "column": 42
+                    }
+                  }
+                ],
+                "line": 2,
+                "hits": [37]
+              },
+              {
+                "key": "1",
+                "loc": {
+                  "start": {
+                    "line": 21,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": null
+                  }
+                },
+                "type": "if",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 21,
+                      "column": 2
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": null
+                    }
+                  },
+                  {
+                    "start": {},
+                    "end": {}
+                  }
+                ],
+                "line": 21,
+                "hits": [3, 14]
+              },
+              {
+                "key": "2",
+                "loc": {
+                  "start": {
+                    "line": 21,
+                    "column": 6
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": 44
+                  }
+                },
+                "type": "binary-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 21,
+                      "column": 6
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": 26
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 21,
+                      "column": 26
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": 44
+                    }
+                  }
+                ],
+                "line": 21,
+                "hits": [17, 15]
+              },
+              {
+                "key": "3",
+                "loc": {
+                  "start": {
+                    "line": 22,
+                    "column": 33
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 74
+                  }
+                },
+                "type": "cond-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 22,
+                      "column": 51
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 63
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 22,
+                      "column": 63
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 74
+                    }
+                  }
+                ],
+                "line": 22,
+                "hits": [27, 7]
+              },
+              {
+                "key": "4",
+                "loc": {
+                  "start": {
+                    "line": 23,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": null
+                  }
+                },
+                "type": "if",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 23,
+                      "column": 2
+                    },
+                    "end": {
+                      "line": 23,
+                      "column": null
+                    }
+                  },
+                  {
+                    "start": {},
+                    "end": {}
+                  }
+                ],
+                "line": 23,
+                "hits": [6, 8]
+              },
+              {
+                "key": "5",
+                "loc": {
+                  "start": {
+                    "line": 24,
+                    "column": 22
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": null
+                  }
+                },
+                "type": "cond-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 24,
+                      "column": 43
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 50
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 24,
+                      "column": 50
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": null
+                    }
+                  }
+                ],
+                "line": 24,
+                "hits": [5, 3]
+              },
+              {
+                "key": "6",
+                "loc": {
+                  "start": {
+                    "line": 25,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 25,
+                    "column": null
+                  }
+                },
+                "type": "if",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 25,
+                      "column": 2
+                    },
+                    "end": {
+                      "line": 25,
+                      "column": null
+                    }
+                  },
+                  {
+                    "start": {},
+                    "end": {}
+                  }
+                ],
+                "line": 25,
+                "hits": [0, 17]
+              },
+              {
+                "key": "7",
+                "loc": {
+                  "start": {
+                    "line": 25,
+                    "column": 6
+                  },
+                  "end": {
+                    "line": 25,
+                    "column": 63
+                  }
+                },
+                "type": "binary-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 25,
+                      "column": 6
+                    },
+                    "end": {
+                      "line": 25,
+                      "column": 25
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 25,
+                      "column": 25
+                    },
+                    "end": {
+                      "line": 25,
+                      "column": 44
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 25,
+                      "column": 44
+                    },
+                    "end": {
+                      "line": 25,
+                      "column": 63
+                    }
+                  }
+                ],
+                "line": 25,
+                "hits": [17, 8, 8]
+              },
+              {
+                "key": "8",
+                "loc": {
+                  "start": {
+                    "line": 26,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": null
+                  }
+                },
+                "type": "if",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 26,
+                      "column": 2
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": null
+                    }
+                  },
+                  {
+                    "start": {},
+                    "end": {}
+                  }
+                ],
+                "line": 26,
+                "hits": [3, 5]
+              },
+              {
+                "key": "9",
+                "loc": {
+                  "start": {
+                    "line": 26,
+                    "column": 6
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 26
+                  }
+                },
+                "type": "binary-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 26,
+                      "column": 6
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 16
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 26,
+                      "column": 16
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 26
+                    }
+                  }
+                ],
+                "line": 26,
+                "hits": [8, 7]
+              },
+              {
+                "key": "10",
+                "loc": {
+                  "start": {
+                    "line": 28,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 28,
+                    "column": null
+                  }
+                },
+                "type": "cond-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 28,
+                      "column": 36
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": 46
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 28,
+                      "column": 46
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": null
+                    }
+                  }
+                ],
+                "line": 28,
+                "hits": [4, 1]
+              },
+              {
+                "key": "11",
+                "loc": {
+                  "start": {
+                    "line": 33,
+                    "column": 15
+                  },
+                  "end": {
+                    "line": 33,
+                    "column": null
+                  }
+                },
+                "type": "cond-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 33,
+                      "column": 24
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": 30
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 33,
+                      "column": 30
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": null
+                    }
+                  }
+                ],
+                "line": 33,
+                "hits": [3, 3]
+              },
+              {
+                "key": "12",
+                "loc": {
+                  "start": {
+                    "line": 33,
+                    "column": 30
+                  },
+                  "end": {
+                    "line": 33,
+                    "column": null
+                  }
+                },
+                "type": "cond-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 33,
+                      "column": 39
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": 45
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 33,
+                      "column": 45
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": null
+                    }
+                  }
+                ],
+                "line": 33,
+                "hits": [2, 1]
+              }
+            ]
+          },
+          {
+            "id": "pad-v8-after",
+            "sha256": "ba19622f9f2f969a58e5f88fb6ca5c32983931493915a769afb4f72553c32a92",
+            "metrics": {
+              "statements": {
+                "covered": 26,
+                "total": 27
+              },
+              "branches": {
+                "covered": 24,
+                "total": 25
+              },
+              "functions": {
+                "covered": 8,
+                "total": 8
+              },
+              "lines": {
+                "covered": 19,
+                "total": 19
+              }
+            },
+            "branches": [
+              {
+                "key": "0",
+                "loc": {
+                  "start": {
+                    "line": 21,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": null
+                  }
+                },
+                "type": "if",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 21,
+                      "column": 2
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": null
+                    }
+                  },
+                  {
+                    "start": {},
+                    "end": {}
+                  }
+                ],
+                "line": 21,
+                "hits": [3, 14]
+              },
+              {
+                "key": "1",
+                "loc": {
+                  "start": {
+                    "line": 21,
+                    "column": 6
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": 44
+                  }
+                },
+                "type": "binary-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 21,
+                      "column": 6
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": 26
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 21,
+                      "column": 26
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": 44
+                    }
+                  }
+                ],
+                "line": 21,
+                "hits": [17, 15]
+              },
+              {
+                "key": "2",
+                "loc": {
+                  "start": {
+                    "line": 22,
+                    "column": 33
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 74
+                  }
+                },
+                "type": "cond-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 22,
+                      "column": 51
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 63
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 22,
+                      "column": 63
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 74
+                    }
+                  }
+                ],
+                "line": 22,
+                "hits": [27, 7]
+              },
+              {
+                "key": "3",
+                "loc": {
+                  "start": {
+                    "line": 23,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": null
+                  }
+                },
+                "type": "if",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 23,
+                      "column": 2
+                    },
+                    "end": {
+                      "line": 23,
+                      "column": null
+                    }
+                  },
+                  {
+                    "start": {},
+                    "end": {}
+                  }
+                ],
+                "line": 23,
+                "hits": [6, 8]
+              },
+              {
+                "key": "4",
+                "loc": {
+                  "start": {
+                    "line": 24,
+                    "column": 22
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": null
+                  }
+                },
+                "type": "cond-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 24,
+                      "column": 43
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 50
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 24,
+                      "column": 50
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": null
+                    }
+                  }
+                ],
+                "line": 24,
+                "hits": [5, 3]
+              },
+              {
+                "key": "5",
+                "loc": {
+                  "start": {
+                    "line": 25,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 25,
+                    "column": null
+                  }
+                },
+                "type": "if",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 25,
+                      "column": 2
+                    },
+                    "end": {
+                      "line": 25,
+                      "column": null
+                    }
+                  },
+                  {
+                    "start": {},
+                    "end": {}
+                  }
+                ],
+                "line": 25,
+                "hits": [0, 17]
+              },
+              {
+                "key": "6",
+                "loc": {
+                  "start": {
+                    "line": 25,
+                    "column": 6
+                  },
+                  "end": {
+                    "line": 25,
+                    "column": 63
+                  }
+                },
+                "type": "binary-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 25,
+                      "column": 6
+                    },
+                    "end": {
+                      "line": 25,
+                      "column": 25
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 25,
+                      "column": 25
+                    },
+                    "end": {
+                      "line": 25,
+                      "column": 44
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 25,
+                      "column": 44
+                    },
+                    "end": {
+                      "line": 25,
+                      "column": 63
+                    }
+                  }
+                ],
+                "line": 25,
+                "hits": [17, 8, 8]
+              },
+              {
+                "key": "7",
+                "loc": {
+                  "start": {
+                    "line": 26,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": null
+                  }
+                },
+                "type": "if",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 26,
+                      "column": 2
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": null
+                    }
+                  },
+                  {
+                    "start": {},
+                    "end": {}
+                  }
+                ],
+                "line": 26,
+                "hits": [3, 5]
+              },
+              {
+                "key": "8",
+                "loc": {
+                  "start": {
+                    "line": 26,
+                    "column": 6
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 26
+                  }
+                },
+                "type": "binary-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 26,
+                      "column": 6
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 16
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 26,
+                      "column": 16
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 26
+                    }
+                  }
+                ],
+                "line": 26,
+                "hits": [8, 7]
+              },
+              {
+                "key": "9",
+                "loc": {
+                  "start": {
+                    "line": 28,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 28,
+                    "column": null
+                  }
+                },
+                "type": "cond-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 28,
+                      "column": 36
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": 46
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 28,
+                      "column": 46
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": null
+                    }
+                  }
+                ],
+                "line": 28,
+                "hits": [4, 1]
+              },
+              {
+                "key": "10",
+                "loc": {
+                  "start": {
+                    "line": 33,
+                    "column": 15
+                  },
+                  "end": {
+                    "line": 33,
+                    "column": null
+                  }
+                },
+                "type": "cond-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 33,
+                      "column": 24
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": 30
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 33,
+                      "column": 30
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": null
+                    }
+                  }
+                ],
+                "line": 33,
+                "hits": [3, 3]
+              },
+              {
+                "key": "11",
+                "loc": {
+                  "start": {
+                    "line": 33,
+                    "column": 30
+                  },
+                  "end": {
+                    "line": 33,
+                    "column": null
+                  }
+                },
+                "type": "cond-expr",
+                "locations": [
+                  {
+                    "start": {
+                      "line": 33,
+                      "column": 39
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": 45
+                    }
+                  },
+                  {
+                    "start": {
+                      "line": 33,
+                      "column": 45
+                    },
+                    "end": {
+                      "line": 33,
+                      "column": null
+                    }
+                  }
+                ],
+                "line": 33,
+                "hits": [2, 1]
+              }
+            ]
+          }
+        ],
+        "delta": {
+          "statements": {
+            "covered": 0,
+            "total": 0
+          },
+          "branches": {
+            "covered": -1,
+            "total": -1
+          },
+          "functions": {
+            "covered": 0,
+            "total": 0
+          },
+          "lines": {
+            "covered": 0,
+            "total": 0
+          }
+        },
+        "currentRestored": true,
+        "sourceSha256": "ba19622f9f2f969a58e5f88fb6ca5c32983931493915a769afb4f72553c32a92",
+        "scope": "Same three unchanged tests before/current; native single-file V8 counts. No full collection repeated. Branch locations/hits retained for exact default-parameter identification.",
+        "exactRemovedBranch": {
+          "key": "0",
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 24
+            },
+            "end": {
+              "line": 2,
+              "column": 42
+            }
+          },
+          "type": "default-arg",
+          "locations": [
+            {
+              "start": {
+                "line": 2,
+                "column": 28
+              },
+              "end": {
+                "line": 2,
+                "column": 42
+              }
+            }
+          ],
+          "line": 2,
+          "hits": [37]
+        },
+        "remainingBranchLocationsAndHitsEqual": true
+      },
+      "policy": {
+        "source": "scripts/coverage/run.mjs",
+        "sourceSha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684",
+        "mainPolicyTailSha256": "5e38765473100a2037e59cf233614d0eb4c9a753d0139b09bfa73f272ec235bd",
+        "selectedVariables": [
+          "profile",
+          "supportedFlags",
+          "ratchet",
+          "allowScopeRemoval",
+          "readJson",
+          "childEnvironment",
+          "spawnCommand",
+          "spawnCapture",
+          "gitPathExists",
+          "normalizeRepoPath",
+          "baselineView"
+        ],
+        "selectedFunctions": [
+          "writeBaseline",
+          "assertComparableProvider",
+          "assertSafeRatchetScope",
+          "readBaselineFromGit",
+          "assertCandidateDoesNotLowerProtectedBaseline",
+          "approvedComparisonBaseline"
+        ],
+        "summarySha256": "8c28c69b63d4f8c956f8a5644bc4d524f27054ea8a75bc2b6d95bd52f0caa9e6",
+        "limits": "Exact original post-collection main policy tail and required declarations/imports; no collectPackage or SUT. Original official exit1 retained. Replays approved structural comparison, protected target, scope guard and official writeBaseline on same frozen summary."
+      }
+    },
+    "coverageCollections": 1,
+    "diagnostics": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "limits": "No game-route/E2E/visual calibration. Failed attempts preserved without pass credit. Final docs/static/ledger and hosted PR/merge use actual successor receipts.",
+    "finalStatic": {
+      "ids": ["final-docs", "final-lint", "final-ledger", "final-diff"],
+      "state": "passed; raw attached before final receipt packing, no product/code changes after module gates"
+    }
+  },
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "88d167c9629a648256c7f943a60dcc0c6d36957e43efba947cba5b28078ceca1",
+    "entries": 153
+  },
+  "limits": "MATCH verifies pins/native/raw/explicit body/transfer evidence, not automatic design quality. A-H are explicit Codex judgments; accepted priorrows are cited reuse, no repeated full review or extra controls. No gameplay route/E2E/visual execution. Wholecheck includes an owned real-Chrome tool test; initial timeout and isolated rerun retained."
+}

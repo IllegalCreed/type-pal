@@ -1,0 +1,20 @@
+{
+  "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+  "before": 6,
+  "current": 6,
+  "mappings": [
+    {
+      "old": "L18 drawMinimap 真实 canvas worldToThumb (wx+16)*SCALE 单调且原点偏移一个相机半格",
+      "current": "L18 drawMinimap 真实 canvas 非全图 view 使用指定底图裁剪区域",
+      "reason": "Replace a duplicate primitive geometry slot with real base-crop discrimination, or narrow persistence title to actual oracle."
+    },
+    {
+      "old": "L18 setupMinimap 控制器持久化 默认 NPC/宝物显、widget 关；setShowNpc(false) 立即生效并持久化；非法持久值回默认",
+      "current": "L18 setupMinimap 控制器持久化 默认开关、setShowNpc写存储；按保存值重建控制器读回",
+      "reason": "Replace a duplicate primitive geometry slot with real base-crop discrimination, or narrow persistence title to actual oracle."
+    }
+  ],
+  "baselineEdited": false,
+  "retirementEdited": false,
+  "officialIdentityGate": "not run; exact mapping retained for large-task closeout"
+}

@@ -1,0 +1,61 @@
+{
+  "observation": "Current extracted phase1 data has seven outside-battle usable spells; this is an availability fact, not proof of DOS original display behavior",
+  "spellDataSha256": "dd31c1e269018b37ae9b07bad7294c685b491a83c4ae4ff2bab975834a1945bd",
+  "outsideUsable": [
+    {
+      "id": 296,
+      "name": "气疗术",
+      "magicNumber": 33
+    },
+    {
+      "id": 297,
+      "name": "观音咒",
+      "magicNumber": 35
+    },
+    {
+      "id": 298,
+      "name": "凝神归元",
+      "magicNumber": 34
+    },
+    {
+      "id": 299,
+      "name": "元灵归心术",
+      "magicNumber": 51
+    },
+    {
+      "id": 300,
+      "name": "五气朝元",
+      "magicNumber": 46
+    },
+    {
+      "id": 301,
+      "name": "还魂咒",
+      "magicNumber": 36
+    },
+    {
+      "id": 302,
+      "name": "赎魂",
+      "magicNumber": 37
+    }
+  ],
+  "sourceHashes": [
+    {
+      "path": "reference/sdlpal/magicmenu.c",
+      "sha256": "d3744426d40167d4130aeaa0fac686264df285e44d73cc3648dba56f3645d312"
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "sha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93"
+    }
+  ],
+  "callChain": [
+    "uigame.c:732 passes FALSE to PAL_MagicSelectionMenu",
+    "magicmenu.c:338-372 adds learned spells and marks unusable ones disabled",
+    "magicmenu.c:245-291 draws all current-page entries using disabled colors and rejects their confirmation"
+  ],
+  "limitation": "SDLPal source checked; no pal.exe/DOS visual reproduction; no product display change approved or implemented"
+}

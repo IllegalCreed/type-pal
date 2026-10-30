@@ -1,0 +1,9 @@
+{
+  "command": ["pnpm", "test:coverage-tools"],
+  "exit": 0,
+  "bytes": 14491,
+  "sha256": "4fc2ca6b5d5ef9b60ed4890153b11c71c76daba2e464dbb920310a0171318fed",
+  "approvedEntries": 22,
+  "retiredTotal": 51,
+  "matcherUnchanged": true
+}

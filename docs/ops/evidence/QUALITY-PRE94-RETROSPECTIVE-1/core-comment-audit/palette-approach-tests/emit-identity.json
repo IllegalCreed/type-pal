@@ -1,0 +1,22 @@
+{
+  "typescript": "6.0.3",
+  "scope": "Only the selected palette implementation, same transpile options; not native/gameplay/whole-file acceptance",
+  "rows": [
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "beforeSha256": "f01138f7b86018a085cf9715ddcffb0f8c5ca47dc6a901efe15f3bee09c0fff4",
+      "currentSha256": "c264ebc0964f66eac34e2757da4ee6ec324c7b3c10a3e40173ed3df49e3bc589",
+      "removeCommentsJavaScriptSha256": "969cfccda48438cb785f0e452216f72a7ff57b98c97115812c2f80eb4e16a83b",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "beforeSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8",
+      "currentSha256": "c264ebc0964f66eac34e2757da4ee6ec324c7b3c10a3e40173ed3df49e3bc589",
+      "removeCommentsJavaScriptSha256": "969cfccda48438cb785f0e452216f72a7ff57b98c97115812c2f80eb4e16a83b",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    }
+  ]
+}

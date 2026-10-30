@@ -1,0 +1,27 @@
+{
+  "command": [
+    "pnpm",
+    "exec",
+    "biome",
+    "check",
+    "packages/game/src/core/battle/actions/attack.ts",
+    "packages/game/src/core/battle/battle-system.ts",
+    "packages/game/src/core/game-state.ts",
+    "packages/game/src/core/battle/battle-state.ts",
+    "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+    "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+    "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+    "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T21:07:48.288130+00:00",
+  "completedAt": "2026-10-17T21:07:48.505760+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "final-static.raw.gz",
+  "rawBytes": 44,
+  "rawSha256": "9d9766bdce4ed2146e26b905afd01d269556488d769a13f3311d4932fadc08d5",
+  "fullUncutMergedStdoutStderr": true
+}

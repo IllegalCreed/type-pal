@@ -1,0 +1,14 @@
+{
+  "name": "coverage-tools",
+  "command": ["pnpm", "test:coverage-tools"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "seconds": 4.598,
+  "rawSha256": "833f20278d42fb64c501657d922e60dd182dd07aa2343b94a1b8db12b47f9149",
+  "diagnostics": {
+    "act": 0,
+    "environment": 0,
+    "navigation": 0,
+    "stderrBlocks": 0
+  }
+}

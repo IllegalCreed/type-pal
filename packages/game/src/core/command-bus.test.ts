@@ -4,42 +4,34 @@ import { createCommandBus } from './command-bus.js'
 describe('CommandBus', () => {
   it('emit + drain 顺序', () => {
     const bus = createCommandBus()
-    bus.emit({ op: 'showDialogBox', text: 'hi', style: 'center' })
-    bus.emit({ op: 'showDialogBox', text: 'bye', style: 'top' })
-    const drained = bus.drain()
-    expect(drained).toHaveLength(2)
-    expect(drained[0]?.cmd.op).toBe('showDialogBox')
+    bus.emit({ op: 'playSound', soundId: 7 })
+    bus.emit({ op: 'stopMusic', fadeMs: 250 })
+    expect(bus.drain()).toEqual([
+      { cmd: { op: 'playSound', soundId: 7 } },
+      { cmd: { op: 'stopMusic', fadeMs: 250 } },
+    ])
   })
 
   it('drain 后 bus 清空', () => {
     const bus = createCommandBus()
-    bus.emit({ op: 'showDialogBox', text: 'a', style: 'top' })
-    bus.drain()
+    bus.emit({ op: 'playSound', soundId: 7 })
+    const first = bus.drain()
     expect(bus.drain()).toEqual([])
+    bus.emit({ op: 'stopMusic', fadeMs: 250 })
+    const next = bus.drain()
+    // 新发送不修改已交付数组，消费方修改旧数组也不能污染下一批。
+    expect(first).toEqual([{ cmd: { op: 'playSound', soundId: 7 } }])
+    first.length = 0
+    expect(next).toEqual([{ cmd: { op: 'stopMusic', fadeMs: 250 } }])
   })
 
-  it('emit 返回唯一 cmdId', () => {
-    const bus = createCommandBus()
-    const id1 = bus.emit({ op: 'clearDialogBox' })
-    const id2 = bus.emit({ op: 'clearDialogBox' })
-    expect(id1).not.toBe(id2)
-  })
-
-  it('complete(cmdId) M2 内 no-op,但不抛错', () => {
-    const bus = createCommandBus()
-    const id = bus.emit({ op: 'clearDialogBox' })
-    expect(() => bus.complete(id)).not.toThrow()
-  })
-
-  it('未知 cmdId complete —— 不抛错', () => {
-    const bus = createCommandBus()
-    expect(() => bus.complete(999999)).not.toThrow()
-  })
-
-  it('emit 返回的 cmdId 与 drain 出的 BusEntry.cmdId 配对', () => {
-    const bus = createCommandBus()
-    const id = bus.emit({ op: 'clearDialogBox' })
-    const [entry] = bus.drain()
-    expect(entry?.cmdId).toBe(id)
+  it('不同 bus 实例独立持有队列', () => {
+    const first = createCommandBus()
+    const other = createCommandBus()
+    first.emit({ op: 'playSound', soundId: 7 })
+    expect(other.drain()).toEqual([])
+    other.emit({ op: 'stopMusic', fadeMs: 250 })
+    expect(first.drain()).toEqual([{ cmd: { op: 'playSound', soundId: 7 } }])
+    expect(other.drain()).toEqual([{ cmd: { op: 'stopMusic', fadeMs: 250 } }])
   })
 })

@@ -1,0 +1,30 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/analytics/google-analytics.test.ts",
+    "src/analytics/google-analytics.boundaries.test.ts",
+    "src/analytics/install-analytics.test.ts",
+    "src/analytics/google-analytics.install-failure.test.ts",
+    "src/analytics/analytics-consent.test.ts",
+    "src/analytics/analytics-consent.boundaries.test.ts",
+    "src/analytics/analytics-consent-ui.test.ts",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-ga-failure-green-20261018.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T05:36:39.675574+00:00",
+  "completedAt": "2026-10-18T05:36:41.154064+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "green.raw.gz",
+  "rawBytes": 4911,
+  "rawSha256": "c2e4ede2472fc95020fa365be4d244bda6325f29734bec78b08edfd2f8664f6c",
+  "fullUncutMergedStdoutStderr": true
+}

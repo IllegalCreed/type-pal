@@ -1,0 +1,84 @@
+{
+  "runs": [
+    {
+      "label": "shared-targeted",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/shared",
+        "exec",
+        "vitest",
+        "run",
+        "src/yj2.boundaries.test.ts",
+        "src/rle.glm-o.test.ts",
+        "src/rng.boundaries.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-yj2-shared-targeted.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "passed": 34,
+      "failed": 0,
+      "pending": 0,
+      "rawSha256": "c7cd1e5e8dc5d060660aabf3eac87cac78436de72210da220e72a37a43cfd58f",
+      "runnerSha256": "420b0b945366d43404273afc537fbfefaffc76f91bf2342094acefd83713ea1a",
+      "act": 0,
+      "environment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "extract-adjacent",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/io/yj2.test.ts",
+        "src/resources/map.test.ts",
+        "src/resources/parsers/rng-frames.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-yj2-extract-adjacent.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "passed": 18,
+      "failed": 0,
+      "pending": 0,
+      "rawSha256": "8f6a7c226d3a9aff00ff4cfbf6d3a4f4cc2e84c458bc1127ccdaa2d0bfdaa629",
+      "runnerSha256": "f21ae901f1ce8aeb5fd266cf884afd8240dfc7bccfbc170c7086cb6d45ccd8bb",
+      "act": 0,
+      "environment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "shared-check",
+      "command": ["pnpm", "--filter", "@type-pal/shared", "run", "check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "6f1ed0c969325b0d11d5e4d1cf167f5b0c2b7547acb1e4532e85097a7f516155"
+    },
+    {
+      "label": "extract-typecheck",
+      "command": ["pnpm", "--filter", "@type-pal/pal-extract", "run", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "faf13fd368a252ffd64775c0ad9baf7070f4fa0b906d29c45d647cd301885440"
+    },
+    {
+      "label": "coverage-tools",
+      "command": ["pnpm", "test:coverage-tools"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "8789a4c1e6072f269889b1a72f4d177d6384b9fc4483ac0ceed690f1c6f960ca"
+    }
+  ],
+  "fullCoverageGate": false
+}

@@ -82,7 +82,7 @@ describe('P05 菜单栈转发', () => {
     gs.partyMembers = [4]
     gs.inventory = [{ itemId: sword.id, count: 1 }]
     const menu = createEquipMenu(gs, items)
-    confirmEquipItem(menu, items, roles, gs.partyMembers)
+    confirmEquipItem(menu, items)
     openMenu(gs, { kind: 'equip', state: menu })
     const frames = makeUiFrames()
     const bg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }
@@ -122,7 +122,7 @@ describe('P05 菜单栈转发', () => {
     const gs = makeGs()
     const roles = makeRoles()
     gs.partyMembers = [4, 1]
-    gs.rgPoisonStatus['0_4'] = { wPoisonID: 77, wPoisonScript: 1 }
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 77, wPoisonScript: 1 }
     const menu = createPlayerStatus(gs.partyMembers)
     openMenu(gs, { kind: 'player-status', state: menu })
     const frames = makeUiFrames()

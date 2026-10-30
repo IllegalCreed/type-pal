@@ -149,7 +149,9 @@ describe('M03 EnemyTab AI 动作未触达轴', () => {
     await fillAndBlur(controlByAriaLabel<HTMLInputElement>(host, '召唤数量'), '3')
     expect(rules(session)).toEqual([{ at: 'act', do: { kind: 'summon', count: 3 } }])
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(rules(session)).toEqual([{ at: 'act', do: { kind: 'summon', count: 1 } }])
   })
 
@@ -165,7 +167,9 @@ describe('M03 EnemyTab AI 动作未触达轴', () => {
     expect(rules(session)).toEqual([{ at: 'act', do: { kind: 'divide', copies: 5 } }])
     expect(session.getHistoryVersion()).toBe(before + 2)
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(rules(session)).toEqual([{ at: 'act', do: { kind: 'divide', copies: 1 } }])
   })
 })

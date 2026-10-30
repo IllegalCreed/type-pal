@@ -1,21 +1,8 @@
 /**
- * TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 · sliceByScene 剩余分支合同（events/slice.ts）。
- *
- * 排重 basis（旧 fullName 不重复）：
- * - slice.test.ts：单/双场景归属、shared 改写、eventObject triggerScript 入口、randomJump。
- * - slice.boundaries.test.ts（R06）：globalEntries 独达/重合强制 shared、循环一次、
- *   最后 scene EO 开区间、raw 数字 operand 不改写。
- * 本文件只补以下未覆盖 edge（fast lcov 一手测量）：
- * - scene BFS 遇具名非 raw 命令时 pushRawJumpTargets 早退（slice.ts:30）。
- * - scene EO 区间越过 eventObjects 末尾时 `if (!eo) continue`（:67）；
- *   triggerScript=0 不入口（:68 false）、autoScript>0 入口（:69 true）。
- * - scene end reset 缺 resetTo 只收 i+1（:98 false）。
- * - globalEntries 越界 ip 与重复入口被跳过（:132）；global BFS 的 end advance/reset
- *   变体（:137-141）、goto 跟随与非 L_ 标签不跟随（:145-147）、字符串字段扫描
- *   L_N 命中/未命中（:150-153）。
- * 不覆盖（ledger）：0xA2 `operands[0] ?? 0`（:35，RawCommand operands 为定长三元组，
- * typed/真实 disasm 输入不可缺）、shared predicate `sceneCount[i] ?? 0`（:193，
- * sceneCount 与 commands 同长，构造上不可达）。
+ * 场景/全局入口的边界与人读字段合同。控制流规则现共用遍历器，不再按实现行号计分支信用。
+ * main/boundaries 已核场景/shared归属、EO半开区间、raw跳转、随机目标和end续行；
+ * 本套件补具名命令顺序推进、auto入口、全局end/goto及metadata负例。
+ * EO越界、缺resetTo、越界/外部label均为显式helper防御输入，不冒称disasm产物或原盘执行。
  */
 
 import type { Command } from '@type-pal/shared'
@@ -29,7 +16,7 @@ function makeScene(scriptOnEnter: number, eventObjectIndex: number, teleport = 0
     scriptOnEnter,
     scriptOnTeleport: teleport,
     eventObjectIndex,
-    raw: new Uint16Array(),
+    raw: new Uint16Array([0, scriptOnEnter, teleport, eventObjectIndex]),
   }
 }
 
@@ -51,7 +38,7 @@ function makeEo(triggerScript: number, autoScript: number): EventObject {
     spritePtrOffset: 0,
     nSpriteFramesAuto: 0,
     scriptIdleFrameCountAuto: 0,
-    raw: new Uint16Array(),
+    raw: new Uint16Array([0, 0, 0, 0, triggerScript, autoScript, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
   }
 }
 
@@ -83,14 +70,14 @@ describe('KIMI-R1 sliceByScene scene BFS 残余分支', () => {
       { op: 'end' }, // 1 不可达
       { op: 'end' }, // 2 不可达
       { op: 'end' }, // 3 不可达
-      { op: 'end' }, // 4 ← eo1.autoScript
+      { op: 'end', label: 'L_4' }, // 4 ← eo1.autoScript；身份必须区别于错误入口1的end
     ]
     const result = sliceByScene(
       commands,
       [makeScene(0, 0), makeScene(0, 5)],
       [makeEo(0, 0), makeEo(0, 4)],
     )
-    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end' }])
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end', label: 'L_4' }])
     expect(result.scenes[1]!.segments[0]!.commands).toEqual([])
     expect(result.shared.segments[0]!.commands).toEqual([])
   })
@@ -113,40 +100,44 @@ describe('KIMI-R1 sliceByScene scene BFS 残余分支', () => {
 describe('KIMI-R1 sliceByScene globalEntries BFS 残余分支', () => {
   test('越界与重复入口被跳过：ip>=commands.length 与 visited 去重', () => {
     // [99] 越界丢弃；[1,1] 重复入口第二次被 visited 拦截；结果与单 [1] 一致。
-    const commands: Command[] = [{ op: 'end' }, { op: 'end' }, { op: 'end' }]
+    const commands: Command[] = [
+      { op: 'end', label: 'L_0' },
+      { op: 'end', label: 'L_1' },
+      { op: 'end', label: 'L_2' },
+    ]
     const result = sliceByScene(commands, [makeScene(2, 0)], [], [99, 1, 1])
-    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end' }])
-    expect(result.shared.segments[0]!.commands).toEqual([{ op: 'end' }])
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end', label: 'L_2' }])
+    expect(result.shared.segments[0]!.commands).toEqual([{ op: 'end', label: 'L_1' }])
   })
 
   test('end advance：global BFS 收 i+1 续行', () => {
     const commands: Command[] = [
-      { op: 'end' }, // 0 不可达
-      { op: 'end', advance: true }, // 1 ← global entry；advance 收 2
-      { op: 'end' }, // 2 advance 续行
+      { op: 'end', label: 'L_0' }, // 0 不可达
+      { op: 'end', advance: true, label: 'L_1' }, // 1 ← global entry；advance 收 2
+      { op: 'end', label: 'L_2' }, // 2 advance 续行
     ]
     const result = sliceByScene(commands, [makeScene(0, 0)], [], [1])
     expect(result.scenes[0]!.segments[0]!.commands).toEqual([])
     expect(result.shared.segments[0]!.commands).toEqual([
-      { op: 'end', advance: true },
-      { op: 'end' },
+      { op: 'end', advance: true, label: 'L_1' },
+      { op: 'end', label: 'L_2' },
     ])
   })
 
   test('end reset：resetTo 数字收目标 + i+1；缺 resetTo 只收 i+1', () => {
     const commands: Command[] = [
       { op: 'end' }, // 0 不可达
-      { op: 'end', reset: true, resetTo: 4, idleFrames: 30 }, // 1 ← global entry
-      { op: 'end', reset: true }, // 2 reset 续行；缺 resetTo 仅收 3
-      { op: 'end' }, // 3
-      { op: 'end' }, // 4 ← resetTo 目标
+      { op: 'end', reset: true, resetTo: 4, idleFrames: 30, label: 'L_1' }, // 1 ← global entry
+      { op: 'end', reset: true, label: 'L_2' }, // 2 reset 续行；缺 resetTo 仅收 3
+      { op: 'end', label: 'L_3' }, // 3
+      { op: 'end', label: 'L_4' }, // 4 ← resetTo 目标
     ]
     const result = sliceByScene(commands, [makeScene(0, 0)], [], [1])
     expect(result.shared.segments[0]!.commands).toEqual([
-      { op: 'end', reset: true, resetTo: 4, idleFrames: 30 },
-      { op: 'end', reset: true },
-      { op: 'end' },
-      { op: 'end' },
+      { op: 'end', reset: true, resetTo: 4, idleFrames: 30, label: 'L_1' },
+      { op: 'end', reset: true, label: 'L_2' },
+      { op: 'end', label: 'L_3' },
+      { op: 'end', label: 'L_4' },
     ])
     expect(result.scenes[0]!.segments[0]!.commands).toEqual([])
   })
@@ -170,34 +161,31 @@ describe('KIMI-R1 sliceByScene globalEntries BFS 残余分支', () => {
     ])
   })
 
-  test('字符串字段扫描：text 恰为 L_N 入队、普通文本与数字字段不入队', () => {
+  test.each([
+    ['scene', 'dialogue'],
+    ['scene', 'item'],
+    ['global', 'dialogue'],
+    ['global', 'item'],
+  ] as const)('%s 的人读 %s 文本 L_N 不制造控制流边', (owner, kind) => {
+    const readable: Command =
+      kind === 'dialogue'
+        ? { op: 'showDialog', messageIndex: 1, text: 'L_3', label: 'L_1' }
+        : { op: 'giveItem', itemId: 61, count: 1, _item: 'L_3', label: 'L_1' }
     const commands: Command[] = [
-      { op: 'end' }, // 0 不可达
-      { op: 'showDialog', messageIndex: 1, text: 'L_3' }, // 1 ← global entry：text 命中 L_3
-      { op: 'raw', opcode: 0x0050, operands: [1, 2, 3] }, // 2 fall-through：op 串非标签
-      { op: 'end' }, // 3 ← L_3 目标
+      { op: 'end', label: 'L_0' },
+      readable,
+      { op: 'end', label: 'L_2' }, // 真终止阻断普通续行，3不能顺序抵达。
+      { op: 'raw', opcode: 0x14, operands: [9, 0, 0], label: 'L_3' },
+      { op: 'end', label: 'L_4' },
     ]
-    const result = sliceByScene(commands, [makeScene(0, 0)], [], [1])
-    expect(result.shared.segments[0]!.commands).toEqual([
-      { op: 'showDialog', messageIndex: 1, text: 'L_3' },
-      { op: 'raw', opcode: 0x0050, operands: [1, 2, 3] },
-      { op: 'end' },
-    ])
-    // 普通文本（非 L_N 模式）不制造可达性
-    const plain = sliceByScene(
-      [
-        { op: 'end' },
-        { op: 'showDialog', messageIndex: 1, text: '借过' },
-        { op: 'end' },
-        { op: 'end' },
-      ] as Command[],
-      [makeScene(0, 0)],
+    const result = sliceByScene(
+      commands,
+      [makeScene(owner === 'scene' ? 1 : 0, 0)],
       [],
-      [1],
+      owner === 'global' ? [1] : [],
     )
-    expect(plain.shared.segments[0]!.commands).toEqual([
-      { op: 'showDialog', messageIndex: 1, text: '借过' },
-      { op: 'end' },
-    ])
+    const expected: Command[] = [readable, { op: 'end', label: 'L_2' }]
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual(owner === 'scene' ? expected : [])
+    expect(result.shared.segments[0]!.commands).toEqual(owner === 'global' ? expected : [])
   })
 })

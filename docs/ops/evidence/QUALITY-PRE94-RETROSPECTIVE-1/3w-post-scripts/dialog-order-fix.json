@@ -1,0 +1,1131 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "base": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+  "status": "approved per-enemy ordering repaired;module gates passed;finite file/card acceptance in module-closeout.json",
+  "owner": "Codex(single Agent)",
+  "task": "GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1",
+  "authorization": "User approved per-enemy SDLPal ordering. No save/schema/public field or generic interpreter-yield change. Adjacent DL23 test migration added to same Owner scope after actual failure.",
+  "changedSourcePaths": [
+    "packages/game/src/core/battle/battle-settlement.ts",
+    "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+    "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts"
+  ],
+  "pins": [
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "c04c634aad9ec06280aa05094efbb0ce10cdb03ec82aab2578ea8bb0ddd7fb2b",
+      "lines": 272
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sha256": "399bb0f54ca1ecec84cd3c2c80e635ea1daad2be7edeaa56f18f79334e39104c",
+      "lines": 506
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+      "sha256": "37c477b6ee26cfa3850547c59a8c300cf367ab8f690221c22c776869adadf720",
+      "lines": 158
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874",
+      "lines": 3130
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "dafb38b53c861aab3b551d6e2c40a7cfe91703f996142239403f011b16a471c1",
+      "lines": 71
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+      "lines": 98
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311",
+      "lines": 96
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "sha256": "2bd7845ef57f603b1db5801a1b33f08c7f05193c08d3c1d47909b8ac9a18b3fa",
+      "lines": 218
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization-extra.test.ts",
+      "sha256": "77deb8f163f37881356976399c2f5ceb32edbf9051dd73be3f06fbe21836bdc5",
+      "lines": 149
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "d7a3c1253d4a93fd6b1ae993371b15d4cc231f389b447de5a65934f5e8dc8f27",
+      "lines": 308
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "4025164dd238bc88588cef534255dca71d22c187dadde80f4b39756e5a974328",
+      "lines": 92
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "19bbf2f967f44105db0a9b029ecacaf3735ca2f5782fe3b867b3462849db674e",
+      "lines": 5096
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87",
+      "lines": 2106
+    },
+    {
+      "path": "packages/game/src/core/save/data.ts",
+      "sha256": "3f12a4c005494bc30d3d24b963d8a342bacf888d3762f34c5a196b80d1dae1af",
+      "lines": 95
+    },
+    {
+      "path": "packages/game/src/core/save/v1-battle.ts",
+      "sha256": "5fad387e319e6c4c07884d327e4c97e94a1ccbc08524ec385157b79ee65c8679",
+      "lines": 346
+    },
+    {
+      "path": "packages/game/src/core/save/v1-shape.ts",
+      "sha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9",
+      "lines": 73
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b",
+      "lines": 99
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "cfe38ef22a36301e06f24ddf76551eeb3c3d05c82a3cbe66cd6876dbeda14ba0",
+      "lines": 32
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "8de02e1ed153bc067feb91b6ef6b26859dc1ff77e8ffc325a71832cbad4c7cd8",
+      "lines": 1938
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652
+    },
+    {
+      "path": "reference/sdlpal/text.c",
+      "sha256": "8e3c1be5111ea6bed1d0a8a480a2818235d0b3c22a6f73540f5701ac26cbc456",
+      "lines": 2569
+    }
+  ],
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/dialog-order-fix-native.json.gz",
+    "sha256": "1a3cf9e86a2c19115c701f13f4dd2bf631a3ea08f60305cc7edbc6fe79427cfa",
+    "members": [
+      {
+        "name": "order-red.execution.json",
+        "bytes": 689,
+        "sha256": "668a33512cd51a007dbe0cd80372a2ec13469029b0eedd919e71281693760da1"
+      },
+      {
+        "name": "order-red.stdout.raw",
+        "bytes": 1948,
+        "sha256": "87eb0ea38ca17dda9f63c8b7d3a0bea2dc60d7bf69e30ab5fcb09f9329c5a6cc"
+      },
+      {
+        "name": "order-red.stderr.raw",
+        "bytes": 907,
+        "sha256": "10810cf406711f7a2e16168c50f06e562b83e39447695a8df352c067d83c225a"
+      },
+      {
+        "name": "order-red.vitest.json",
+        "bytes": 8398,
+        "sha256": "2b90bda0cee96408e17c368fd8a376c58eed15514f821903df52a421a60d4190"
+      },
+      {
+        "name": "order-green.execution.json",
+        "bytes": 873,
+        "sha256": "54d635a4416723bdf039e184d3f358905583e4913c1470db43074e471c445d3d"
+      },
+      {
+        "name": "order-green.stdout.raw",
+        "bytes": 969,
+        "sha256": "4daf74799a372017847d3651c818a6371a23757f4ebeec654c2fc263a4d541ba"
+      },
+      {
+        "name": "order-green.stderr.raw",
+        "bytes": 974,
+        "sha256": "c874e606a2514ca329303142efa8779433585cf8f1a23992d6a7f3c7c0f25049"
+      },
+      {
+        "name": "order-green.vitest.json",
+        "bytes": 10675,
+        "sha256": "9af17c433a4952c256228f020213a9880af1f832cd065a467b0f6d01a2837751"
+      },
+      {
+        "name": "order-green-final.execution.json",
+        "bytes": 869,
+        "sha256": "ae3d8ae6440122e0a7e126437450bca19d762460564be88b8ad7628d34b3789c"
+      },
+      {
+        "name": "order-green-final.stdout.raw",
+        "bytes": 685,
+        "sha256": "c2c3183f06aa295008db0f23a58cd10a12cd368020f472be3f02bc1cdf6281a4"
+      },
+      {
+        "name": "order-green-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "order-green-final.vitest.json",
+        "bytes": 11365,
+        "sha256": "c083305c8673b648337845d705b554e175abb1eed88542c40bc24e7dc1b87679"
+      },
+      {
+        "name": "order-typecheck.execution.json",
+        "bytes": 446,
+        "sha256": "49629f9bf0f5b1508aa39e58a743251b69e95972d163dfb575d9e3bb19274f06"
+      },
+      {
+        "name": "order-typecheck.stdout.raw",
+        "bytes": 540,
+        "sha256": "439f4fa4d714d15f8ac78332ffb80fbea84f7e9dafc5498f85f05a79fb105a74"
+      },
+      {
+        "name": "order-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "post-order-fixed-core.execution.json",
+        "bytes": 540,
+        "sha256": "087e798c987afe55c5a95422ef562d01690f5a7ce35c41eec5e9026b23493ea6"
+      },
+      {
+        "name": "post-order-fixed-core.stdout.raw",
+        "bytes": 2204,
+        "sha256": "73d21a9418423b120082d0782de54505303d1a0e118bce34a54d90d606fdc84c"
+      },
+      {
+        "name": "post-order-fixed-core.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "order-green-private.execution.json",
+        "bytes": 873,
+        "sha256": "26dc2ff865ad1899f1417aaabc55f0713b3302bade9acda5d4f6725e41a1b78c"
+      },
+      {
+        "name": "order-green-private.stdout.raw",
+        "bytes": 687,
+        "sha256": "2e6884aed1f6fe72284187da2682aa6fae4cfd4d425c889285e0a9268191dde0"
+      },
+      {
+        "name": "order-green-private.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "order-green-private.vitest.json",
+        "bytes": 11358,
+        "sha256": "b8396f17c8e691bef2d887daaa43ed2499a3a67321b301766b71a68820403283"
+      },
+      {
+        "name": "order-typecheck-private.execution.json",
+        "bytes": 452,
+        "sha256": "49f98813923158e5b24c99a67407f0150adb1d60983aaf7463df85ce5d1f77bf"
+      },
+      {
+        "name": "order-typecheck-private.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "order-typecheck-private.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "post-order-fixed-private-core.execution.json",
+        "bytes": 547,
+        "sha256": "efa16c58451600c3238d204d6967ce0325953e1b207b7877c3026d0f034ea145"
+      },
+      {
+        "name": "post-order-fixed-private-core.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "post-order-fixed-private-core.stderr.raw",
+        "bytes": 970,
+        "sha256": "d918a7b9c8d02a9789f641ee64a75e8761b6a1cee6326172039547696bd57881"
+      },
+      {
+        "name": "post-order-fixed-private-final.execution.json",
+        "bytes": 549,
+        "sha256": "7f2ea51a61350b0b037d6a027163be222b3217c1746d2c46ae586df417413de0"
+      },
+      {
+        "name": "post-order-fixed-private-final.stdout.raw",
+        "bytes": 2454,
+        "sha256": "f7d8f987dea3d1c99fb3809f77a97cf3bfb8b5ec79426fec644fb3fc7728e2a4"
+      },
+      {
+        "name": "post-order-fixed-private-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "order-green-comments.execution.json",
+        "bytes": 875,
+        "sha256": "a391cc933bb5aab36350178dd28ab438217e1df2763ed7863d73422370e0c7b4"
+      },
+      {
+        "name": "order-green-comments.stdout.raw",
+        "bytes": 688,
+        "sha256": "e078a7df430a4422cfc40c56bffa692cbe226502ee684fcfa8b2fbc4575929bc"
+      },
+      {
+        "name": "order-green-comments.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "order-green-comments.vitest.json",
+        "bytes": 11325,
+        "sha256": "6faf4b9a4f639fd574df1f4478f2072ed8d3154b026bf6b764b093660fd88ddb"
+      },
+      {
+        "name": "module-pal-extract-bounded.execution.json",
+        "bytes": 687,
+        "sha256": "82ea581570a2b18369efeebfd7e1f6a7bad61bec9ab1c0baf1f4a5de17e55884"
+      },
+      {
+        "name": "module-pal-extract-bounded.stdout.raw",
+        "bytes": 8666,
+        "sha256": "8307b6ddeaa3ccd714570e00a46b87801589ee7140192ea2aeed09c3dd226f72"
+      },
+      {
+        "name": "module-pal-extract-bounded.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-pal-extract-bounded.vitest.json",
+        "bytes": 159454,
+        "sha256": "e343d2eb64fe387997e579eb380a76ae1cbee0d9d88ff7aaff80a0854341fa7d"
+      },
+      {
+        "name": "module-check.execution.json",
+        "bytes": 409,
+        "sha256": "297a4c565cb28800c4c48a3abbadd5f6e32bfd347da24258fd39331e0d73712d"
+      },
+      {
+        "name": "module-check.stdout.raw",
+        "bytes": 241949,
+        "sha256": "e7e2b3c8082cefeaa59cf35aaf7f37afed05af476399c70de861d6e053ae84dd"
+      },
+      {
+        "name": "module-check.stderr.raw",
+        "bytes": 7852,
+        "sha256": "33bbee8cbe4293c7617e0c937df6d304fec403eb63908dcf6f560d0fdefc7ffd"
+      },
+      {
+        "name": "module-check-bounded.execution.json",
+        "bytes": 453,
+        "sha256": "3908635f35d10a225f49fa6dbb75831d2e28ac53670931de9e75062f1bef64bb"
+      },
+      {
+        "name": "module-check-bounded.stdout.raw",
+        "bytes": 372935,
+        "sha256": "77d83e48636cc94e5ce9a749c4b1875ea89a698644ea185b9f3febdccfe1c96e"
+      },
+      {
+        "name": "module-check-bounded.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-ratchet.execution.json",
+        "bytes": 533,
+        "sha256": "0738a2e546383b050f5f6fb544e2036c5196e6637d1c9f92d03d34cce3fab33c"
+      },
+      {
+        "name": "module-ratchet.stdout.raw",
+        "bytes": 200879,
+        "sha256": "ba82df2315ebad48cb908e81c4355501973abad71d29e914d73dee434c6e1a73"
+      },
+      {
+        "name": "module-ratchet.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-protected.execution.json",
+        "bytes": 511,
+        "sha256": "0280e154b1131471cf3e5f9dc53a4c4fa601fbcd015b732c56e414e03d6299b1"
+      },
+      {
+        "name": "module-protected.stdout.raw",
+        "bytes": 126,
+        "sha256": "a9851f337f1bcb3f942656b5da11ab4c00554be887669cdcad283578fc458a1f"
+      },
+      {
+        "name": "module-protected.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-docs-final.execution.json",
+        "bytes": 415,
+        "sha256": "d9db4bd26e88d268674c062f454d1e0f4c6f69f659a8b0268ccd1dcb109da723"
+      },
+      {
+        "name": "module-docs-final.stdout.raw",
+        "bytes": 30731,
+        "sha256": "876009ab2c55835fc5b0a98b0fe24c953f5b2f4c919c3b0186b493fda471fc0f"
+      },
+      {
+        "name": "module-docs-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-lint-final.execution.json",
+        "bytes": 407,
+        "sha256": "8c83c28ea16afd75544de335ba0e3011d636aebbf6b36860652960b57b43db6b"
+      },
+      {
+        "name": "module-lint-final.stdout.raw",
+        "bytes": 193,
+        "sha256": "604b6014b44a3d4159b64068aa6b7b8336a2d8220c461712cfda59d0d51770ac"
+      },
+      {
+        "name": "module-lint-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-ledger-final.execution.json",
+        "bytes": 444,
+        "sha256": "b1bf8e4fb823eb56a402b20f2263db2245afe2c8b6c6a9f47427cc166cc7078c"
+      },
+      {
+        "name": "module-ledger-final.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-ledger-final.stderr.raw",
+        "bytes": 102,
+        "sha256": "d0e8a8dfd2ff681a0ad0589f124f2139a328b901bad769a95da582458b6d762a"
+      },
+      {
+        "name": "module-ledger-final-r2.execution.json",
+        "bytes": 447,
+        "sha256": "92d3ff8d71bda2289dd95f0dd83158c9a1dd79476a9fc07ad8242f6bb2c1023e"
+      },
+      {
+        "name": "module-ledger-final-r2.stdout.raw",
+        "bytes": 113,
+        "sha256": "083d349685e127c7c7673b03c624d435556884ddaf7f4f592e6256453a0a6e4b"
+      },
+      {
+        "name": "module-ledger-final-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-lint-final-r2.execution.json",
+        "bytes": 410,
+        "sha256": "532260195641b67e4af1afd573aaca0e235a2594b89359f88ecf36e6df5a2639"
+      },
+      {
+        "name": "module-lint-final-r2.stdout.raw",
+        "bytes": 193,
+        "sha256": "604b6014b44a3d4159b64068aa6b7b8336a2d8220c461712cfda59d0d51770ac"
+      },
+      {
+        "name": "module-lint-final-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-diff-final.execution.json",
+        "bytes": 419,
+        "sha256": "6ce8628af21c399be24bee2c0e7201684aece0dcd6ae328cba2dd72f2f852623"
+      },
+      {
+        "name": "module-diff-final.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "module-diff-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "order-settlement.before.ts",
+        "bytes": 10500,
+        "sha256": "5c9ad6b8541fc763fc070dd43297a556273fd0614962f67fe3d5435a540956eb"
+      },
+      {
+        "name": "order-settlement-test.red.ts",
+        "bytes": 19795,
+        "sha256": "399bb0f54ca1ecec84cd3c2c80e635ea1daad2be7edeaa56f18f79334e39104c"
+      },
+      {
+        "name": "order-settlement.after.ts",
+        "bytes": 11530,
+        "sha256": "c04c634aad9ec06280aa05094efbb0ce10cdb03ec82aab2578ea8bb0ddd7fb2b"
+      },
+      {
+        "name": "order-settlement-test.after.ts",
+        "bytes": 19795,
+        "sha256": "399bb0f54ca1ecec84cd3c2c80e635ea1daad2be7edeaa56f18f79334e39104c"
+      },
+      {
+        "name": "order-system-test.after.ts",
+        "bytes": 7049,
+        "sha256": "37c477b6ee26cfa3850547c59a8c300cf367ab8f690221c22c776869adadf720"
+      },
+      {
+        "name": "order-system-test.before-comment-fix.ts",
+        "bytes": 7070,
+        "sha256": "886272d0cf771dd381d91f62a294e886c3879f1fa38a622669cb7076ecf77754"
+      },
+      {
+        "name": "post-order-fixed-probe.mts",
+        "bytes": 8472,
+        "sha256": "bacb172db9308037b452e49c3ea9197ef960d4a6a357fd453950425c23750125"
+      },
+      {
+        "name": "post-order-private-export-draft.mts",
+        "bytes": 8415,
+        "sha256": "5f7cf6b2bfdbb22a0a5581f6f1c1b03b9ab494117e29016acd48b394b079aaca"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 1147,
+        "sha256": "2058c9cc7cf40c8e167ae256adab6e9942c95c9390bf0a1d25878ea13c3c84c5"
+      },
+      {
+        "name": "record-order.py",
+        "bytes": 14295,
+        "sha256": "f50c5a491988b15b731f23f363ef7a232561032a7f8ea4d0606e521896c23f24"
+      },
+      {
+        "name": "module-diagnostics.json",
+        "bytes": 76137,
+        "sha256": "974e63a5afe55f73605e235dab6e4473bbf23e119f8ccc8926b6c183710bc6fd"
+      },
+      {
+        "name": "module-diagnostics.py",
+        "bytes": 1756,
+        "sha256": "39372f300025b83af12c81135cade5b7c4eece2e95c4370dc3135c398710e84c"
+      },
+      {
+        "name": "module-protected.mjs",
+        "bytes": 3458,
+        "sha256": "3eaefaa6260dfa0c1ec07223919f70f151b173f21a63cbb7afd285fd84d0187b"
+      },
+      {
+        "name": "module-protected-report.json",
+        "bytes": 1376,
+        "sha256": "e375810106739fe5aabca86d9f42eefbeb519fc6e450ad15dbd2f6a764b59bf5"
+      },
+      {
+        "name": "module-summary.json",
+        "bytes": 8501158,
+        "sha256": "8e06240b7c22672644add376c3738ae4242af48879aeebe88fc3d619e7176a55"
+      },
+      {
+        "name": "module-baseline.before.json",
+        "bytes": 531597,
+        "sha256": "e81f2ad2337913756b2b2fba29b3bc8542509e3d74131e9690e7e3c46d932cfb"
+      },
+      {
+        "name": "module-baseline.after.json",
+        "bytes": 531911,
+        "sha256": "c53781956afc4cdcebde6a324fbb0909ae4e4e9c88fb4063956948910f82d6a4"
+      },
+      {
+        "name": "complexity.mjs",
+        "bytes": 1900,
+        "sha256": "d271c86bbc238a18dbb9ed9694339691b0f92ea501cbef73860104d417528428"
+      },
+      {
+        "name": "complexity-hints.json",
+        "bytes": 2808,
+        "sha256": "004fd0604d8ae205a74e1f482f4a355ea3c10c644ec646db7e165b61bc2b4437"
+      },
+      {
+        "name": "close-module.py",
+        "bytes": 9024,
+        "sha256": "0245025adc5d6d16001846c201f4056692edf7a1ab0779e857fcf821a0414b22"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "id": "order-red",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/order-red.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:49:02.016Z",
+      "end": "2026-10-22T06:49:03.187Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 1948,
+      "stderrBytes": 907
+    },
+    {
+      "id": "order-green",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "src/core/battle/battle-system.glm-next-wave.test.ts",
+        "src/core/battle/battle-finalization.glm-next-wave.test.ts",
+        "src/core/battle/battle-finalization-extra.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/order-green.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:49:46.818Z",
+      "end": "2026-10-22T06:49:48.361Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 969,
+      "stderrBytes": 974
+    },
+    {
+      "id": "order-green-final",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "src/core/battle/battle-system.glm-next-wave.test.ts",
+        "src/core/battle/battle-finalization.test.ts",
+        "src/core/battle/battle-finalization-extra.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/order-green-final.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:50:48.849Z",
+      "end": "2026-10-22T06:50:50.351Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 685,
+      "stderrBytes": 0
+    },
+    {
+      "id": "order-typecheck",
+      "command": "../../node_modules/.bin/tsc",
+      "args": ["--noEmit"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:50:48.851Z",
+      "end": "2026-10-22T06:50:52.949Z",
+      "exit": 2,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 540,
+      "stderrBytes": 0
+    },
+    {
+      "id": "post-order-fixed-core",
+      "command": "node_modules/.bin/tsx",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/post-order-fixed-probe.mts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:50:48.849Z",
+      "end": "2026-10-22T06:50:49.981Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 2204,
+      "stderrBytes": 0
+    },
+    {
+      "id": "order-green-private",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "src/core/battle/battle-system.glm-next-wave.test.ts",
+        "src/core/battle/battle-finalization.test.ts",
+        "src/core/battle/battle-finalization-extra.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/order-green-private.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:52:26.670Z",
+      "end": "2026-10-22T06:52:28.031Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 687,
+      "stderrBytes": 0
+    },
+    {
+      "id": "order-typecheck-private",
+      "command": "../../node_modules/.bin/tsc",
+      "args": ["--noEmit"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:52:26.670Z",
+      "end": "2026-10-22T06:52:30.468Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "post-order-fixed-private-core",
+      "command": "node_modules/.bin/tsx",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/post-order-fixed-probe.mts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:53:14.545Z",
+      "end": "2026-10-22T06:53:15.529Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 970
+    },
+    {
+      "id": "post-order-fixed-private-final",
+      "command": "node_modules/.bin/tsx",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/post-order-fixed-probe.mts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:53:58.775Z",
+      "end": "2026-10-22T06:53:59.598Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 2454,
+      "stderrBytes": 0
+    },
+    {
+      "id": "order-green-comments",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "src/core/battle/battle-system.glm-next-wave.test.ts",
+        "src/core/battle/battle-finalization.test.ts",
+        "src/core/battle/battle-finalization-extra.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/order-green-comments.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T07:04:08.206Z",
+      "end": "2026-10-22T07:04:09.465Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 688,
+      "stderrBytes": 0
+    },
+    {
+      "id": "module-pal-extract-bounded",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "--maxWorkers=2",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/module-pal-extract-bounded.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+      "start": "2026-10-22T07:02:32.952Z",
+      "end": "2026-10-22T07:03:23.800Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 8666,
+      "stderrBytes": 0
+    },
+    {
+      "id": "module-check",
+      "command": "pnpm",
+      "args": ["check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:56:58.794Z",
+      "end": "2026-10-22T07:01:12.859Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 241818,
+      "stderrBytes": 7852
+    },
+    {
+      "id": "module-check-bounded",
+      "command": "env",
+      "args": ["VITEST_MAX_WORKERS=2", "pnpm", "check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T07:04:09.403Z",
+      "end": "2026-10-22T07:15:54.880Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 372935,
+      "stderrBytes": 0
+    },
+    {
+      "id": "module-ratchet",
+      "command": "env",
+      "args": [
+        "VITEST_MAX_WORKERS=2",
+        "TYPE_PAL_COVERAGE_BASE_REF=9032b775deb9f0f5f0c2c1eb7068053934901938",
+        "pnpm",
+        "coverage:ratchet"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T07:16:15.284Z",
+      "end": "2026-10-22T07:28:37.007Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 200879,
+      "stderrBytes": 0
+    },
+    {
+      "id": "module-protected",
+      "command": "node",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-order-5LVwWG/module-protected.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T07:36:10.798Z",
+      "end": "2026-10-22T07:36:11.045Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 126,
+      "stderrBytes": 0
+    },
+    {
+      "id": "module-docs-final",
+      "command": "pnpm",
+      "args": ["check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T07:37:55.235Z",
+      "end": "2026-10-22T07:39:03.064Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 30731,
+      "stderrBytes": 0
+    },
+    {
+      "id": "module-lint-final",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T07:37:55.235Z",
+      "end": "2026-10-22T07:37:59.594Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0
+    },
+    {
+      "id": "module-ledger-final",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T07:37:55.235Z",
+      "end": "2026-10-22T07:37:57.771Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 102
+    },
+    {
+      "id": "module-ledger-final-r2",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T07:38:57.626Z",
+      "end": "2026-10-22T07:38:59.037Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 113,
+      "stderrBytes": 0
+    },
+    {
+      "id": "module-lint-final-r2",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T07:39:47.205Z",
+      "end": "2026-10-22T07:39:51.814Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0
+    },
+    {
+      "id": "module-diff-final",
+      "command": "git",
+      "args": ["diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T07:37:55.234Z",
+      "end": "2026-10-22T07:37:55.290Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8599c94b5fd91fc8fe3a6b304012c132a606eb6a",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "tests": [
+    {
+      "id": "order-red",
+      "files": 1,
+      "passed": 16,
+      "failed": 1,
+      "pending": 0,
+      "identitySetSha256": "029836ffbf9bfbb43cdec974e90655e62b8d213a84770fecb3eae10519058521",
+      "failedFullNames": [
+        "Phase E→对话→恢复与释放 逐敌提示结束后才入下一份掉落,跳过空槽,末条超时后才半恢复和释放"
+      ]
+    },
+    {
+      "id": "order-green",
+      "files": 3,
+      "passed": 20,
+      "failed": 1,
+      "pending": 0,
+      "identitySetSha256": "e3a5b18b6c620bbe470d329c70b42916bce9017e922bb9b8db2305b9dc625ec3",
+      "failedFullNames": [
+        "DL23:turn-start 置终态 → break(battle.c:747-750 BattleResult != PreBattle) 敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won"
+      ]
+    },
+    {
+      "id": "order-green-final",
+      "files": 4,
+      "passed": 27,
+      "failed": 0,
+      "pending": 0,
+      "identitySetSha256": "3822df38366a7c3beec89837520b52e87907b17ae699f3932c9e41b961e2170f",
+      "failedFullNames": []
+    },
+    {
+      "id": "order-green-private",
+      "files": 4,
+      "passed": 27,
+      "failed": 0,
+      "pending": 0,
+      "identitySetSha256": "3822df38366a7c3beec89837520b52e87907b17ae699f3932c9e41b961e2170f",
+      "failedFullNames": []
+    },
+    {
+      "id": "order-green-comments",
+      "files": 4,
+      "passed": 27,
+      "failed": 0,
+      "pending": 0,
+      "identitySetSha256": "8e45f6e99ee7be2059a5d5277b316cfa5f222f16f72eaa734a71054fa80ef989",
+      "failedFullNames": []
+    },
+    {
+      "id": "module-pal-extract-bounded",
+      "files": 76,
+      "passed": 455,
+      "failed": 0,
+      "pending": 0,
+      "identitySetSha256": "021a4e2d10cdd1179af913b3c29d4a3b77f4765e78aa11b95e1b16ba26dffd79",
+      "failedFullNames": []
+    }
+  ],
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "dimensions": {
+        "A": "Formal old-source16pass/1businessfail is inventory2 vs1 before first message. Private cursor resumes original enemy slots only after queue AND active box end; no-dialog slots continue synchronously,return pointer untouched. Runtime HP/MP accessors install once. Existing 16 identities plus new slot/hold/timeout case pass.",
+        "B": "Comments state actual per-enemy boundary,not generic instruction yield. Ownership/persistence comments explain why private WeakMap instead of serialized optional field. No claim of complete SDL runtime/render equality.",
+        "C": "Only settlement writes cursor keyed by its own settlement object; no GS/resource retained by cursor values. Progression remains numeric owner,dialog host consumes input,time and boxes,cleanup releases resources. Old s.next field draft rejected at save type boundary.",
+        "D": "Existing runner,hold,lifecycle fixture and runtime projection reused. No cloned interpreter,resolver,universal helper or mode flag. Two queue/active checks intentionally guard before and after advancement.",
+        "E": "New legal two-enemy+empty-slot boundary has exact reward0 resources and real commands. Old source fails inventory business assertion only;final4files27pass and TC0. Full original team46 combat separately first1/final2; no mocked business or terminal state in that probe.",
+        "F": "advanceBattleWonPostScripts names incremental execution. Explicit nextEnemy/ei cursor and one return at message boundary make sequencing visible.",
+        "G": "No new export/public field/Save guard or fallback. One bounded private WeakMap is needed to retain progress without serializing it;delete on normal completion,GC on aborted settlement lifetime.",
+        "H": "Same deterministic public tickBattle path and actual runScript;no test-only port,IO,timer,global event listener or added dependency. WeakMap keys isolate concurrent settlement objects,not a shared numeric singleton."
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "dimensions": {
+        "A": "Full current file and one new case;explicit valid post-win boundary,0reward,real giveItem/narration commands. Blank slot must neither drop nor shift downstream context. Pre-active queued and empty-queue active guards,consumed key and final1400ms recovery are checked.",
+        "B": "Title describes assertions;comment distinguishes isolated boundary from fullfight. No oracle copied from cursor logic.",
+        "C": "Fixture prepares resources;host and interpreter own actual transitions. Local state,bus,input,not shared mutable fixture or new factory.",
+        "D": "Existing one-enemy ordinary dialogue,random-drop threshold,raw-role/HP-MP and screen tests remain;new multi-enemy intermediate state cannot be proved by final item count or those old cases.",
+        "E": "Old16 identities all pass on red;only new count1 assertion fails. Same test bytes pass with final implementation;zero skip/todo. Exact old/new identity and native streams archived. Assertions retain finalcounts,HPMP,mode,state,resources,autoBattle.",
+        "F": "Concrete first/second message sequence and34+1 ticks show intended states without helper indirection.",
+        "G": "Exactly one added case;zero assertion deletion or new duplicate roundtrip/fake-core. Reward and command setup share existing fixture.",
+        "H": "No randomness/time mocks/global listeners/new injection. Real fixed-delta hold tested directly and through host,local fixtures isolate cases."
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+      "dimensions": {
+        "A": "Full3-case file read;DL23 real0x89 result3 with two still-live enemies enters actual won/PhaseE. Changed only obsolete synchronous timing expectation,kept two distinct leaf/caster/drop and cleanup assertions.",
+        "B": "Added key-consumption comment matches host. Two stale TS line citations removed in favor of runEnemyTurnStartScripts anchor;one affected title maps old-to-new,all3contracts remain. Existing original result3 vs current raw-data result0 distinction preserved.",
+        "C": "Existing pass-through runner observes actual calls;turnStart still actual direct runner. No alternate ownership or fixture changes.",
+        "D": "Special live-enemy victory is distinct from all-defeated boundary. Existing two clear-flag reset cases unchanged;no extra duplicate test added.",
+        "E": "First draft green attempt correctly failed this old synchronous assertion;retained native failure,then migrated timing. Calls/content/order/per-enemy inventory and final HPMP/resource assertions maintained or strengthened;test identities unchanged.",
+        "F": "Explicit two messages replace loop whose hidden assumption was both alreadyqueued.",
+        "G": "No test deletion or broader mock/count-only oracle;business inventory,dialogue and lifecycle retained.",
+        "H": "Same typed fixture/public host and transparent runner;no module-global state/new dependency."
+      }
+    }
+  ],
+  "reuse": [
+    "role-context-fix.json at base8599;prior valid15/1red,26direct61adjacent TC0 frozen unchanged.",
+    "post-player-state-fix.json at faaf;actual modified-V1 fullfight394->500 and C500/30,325/23 remain finite role-state evidence.",
+    "extra-cleanup-fix.json at09;all-role Extra cleanup and permanent equipment test,prior236local proof retained.",
+    "3w-settlement and3w-post-scripts prior full A-H/controls;current caller and changed source re-read. No acceptance credit for 94-102 or wholebattle-system."
+  ],
+  "processDisclosure": [
+    "Public optional cursor draft passed27 but tsc caught V1 validator missing field. Rejected design;no Save guard touched. Exact draft source not independently frozen;typecheck native retained,not final credit.",
+    "First direct command included nonexistent finalization.glm-next-wave filter;Vitest collected3files21 with1 obsolete DL23 failure. No finalization credit for that absent path. Actual final run uses existing finalization.test.ts,4files27green.",
+    "First private export probe wrongly expected empty settlement screens;actual original enemy rewards generate exp300 screen/index1. Failure is probe assumption,not product counter;exact draft retained. Finalprobe asserts actual original reward300 and unchanged four-field V1 settlement."
+  ],
+  "streamFinalObservations": [
+    {
+      "id": "module-check",
+      "stdoutBytesAtRootClose": 241818,
+      "stdoutBytesFinal": 241949,
+      "reason": "Failed pnpm recursive command had a trailing child ELIFECYCLE line after root close;original metadata preserved,final complete bytes archived;no pass credit"
+    }
+  ],
+  "identityRenames": [
+    {
+      "file": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+      "before": "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) 敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置,battle-system.ts:2187)",
+      "after": "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) 敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置)"
+    }
+  ],
+  "gates": {
+    "direct": "4files27green;stderr0",
+    "typecheck": "Final private-cursor gameTC0 stdout/stderr0",
+    "actualCore": "Originalteam46/object402/SSS41008 unchanged,accepted stats-only V1->Save->actual automaticfight192tick:first message inventory1,nextenemy only afterfirst message,final2/explore/released. Export at firstmessage passes existing V1 guard and contains only existing settlement fields.",
+    "whole": "Complete envVITEST_MAX_WORKERS=2 pnpmcheck20443+684tools andseven TC/zero diagnostics;initialunbounded12timeouts retained",
+    "coverage": "One official protected ratchet20045tests/758sources;zero diagnostics;baseline only generated official delta",
+    "protected": "Same official report strict metrics/scope/protected vs fixed903 passes;not a duplicate collection"
+  },
+  "remaining": [
+    "Original pnpmcheck failed12pal-extract5s timeouts;bounded full455green without timeout/config changes,then fullcheck rerun with native VITEST_MAX_WORKERS=2. Original complete failures retained;no blanket pass claim.",
+    "First finalledger gate failed declared-summary372/115 vs actual377/110;fixed onlysummarycounts and owned metadata,final-r2ledger native retained.",
+    "First postacceptance docs check failed3terminaltasksstilllinkedonboard;removedclosedrows. Complete raw file was not captured for that manual command;tool response retained,not native-original credit.",
+    "Browser/pixel not run;only actual host state and existing draw/input callers;original3wcard explicitly defers visual E2E.",
+    "Single arbitrary script internal yields,GS/BattleState broaderparty mutation and wholeinterpreter remain3r/3s;not certified by approved per-enemy leaf sequencing."
+  ],
+  "finalDisposition": {
+    "proof": "module-closeout.json",
+    "cards": {
+      "accept": 62,
+      "partial": 21,
+      "pending": 0
+    },
+    "ledger": {
+      "tracked": 3356,
+      "closed": 377,
+      "review": 110,
+      "pending": 2869
+    },
+    "scope": "Only original3w state/cleanup contract and named5file eight-dimensional acceptance;not wholebattle-system/event-system/visual"
+  },
+  "countsAtLocalRepair": {
+    "tracked": 3356,
+    "closed": 372,
+    "review": 115,
+    "pending": 2869,
+    "acceptCards": 61,
+    "partialCards": 22,
+    "newClosed": 0
+  },
+  "complexityHints": {
+    "member": "complexity-hints.json",
+    "marked": [
+      "buildBattleWonSettlement=11",
+      "advanceBattleWonPostScripts=11",
+      "tickBattleSettlement=13"
+    ],
+    "decision": "Read all marked control flow. build composes typed screens without copying progression;advance owns per-enemy cursor plus one-time runtime handoff;tick intentionally checks dialog before and after script advance. Preserve semantic guards;no metric-driven split."
+  },
+  "generatedPaths": ["scripts/coverage/baseline.fast.json"]
+}

@@ -43,6 +43,7 @@ describe('drawBattleEffectOverlay', () => {
 
   it('sprite 缺(loader 未注入)→ no-op,不抛', () => {
     const fb = createFramebuffer()
+    fb.indices.fill(77)
     const overlay: BattleAnimOverlay = {
       kind: 'effect',
       spriteChunk: 10,
@@ -51,11 +52,12 @@ describe('drawBattleEffectOverlay', () => {
       y: 90,
     }
     expect(() => drawBattleEffectOverlay(fb, overlay, undefined)).not.toThrow()
-    expect(fb.indices[90 * 320 + 160]).toBe(0) // 背景未被写
+    expect(fb.indices.every((value) => value === 77)).toBe(true)
   })
 
   it('frameIdx 越界 → no-op,不抛', () => {
     const fb = createFramebuffer()
+    fb.indices.fill(77)
     const sprite = mkSprite([{ w: 2, h: 2, fill: 11 }])
     const overlay: BattleAnimOverlay = {
       kind: 'effect',
@@ -65,6 +67,7 @@ describe('drawBattleEffectOverlay', () => {
       y: 90,
     }
     expect(() => drawBattleEffectOverlay(fb, overlay, sprite)).not.toThrow()
+    expect(fb.indices.every((value) => value === 77)).toBe(true)
   })
 
   it('透明像素(opaque=0)不覆盖背景', () => {
@@ -112,6 +115,7 @@ describe('drawBattleMagicOverlay (D17 法术 FIRE.MKF overlay)', () => {
 
   it('chunk 缺(magicSprites 无该 key)→ no-op,不抛', () => {
     const fb = createFramebuffer()
+    fb.indices.fill(77)
     const magicSprites = new Map<number, SpriteAsset>()
     const overlay: BattleAnimOverlay = {
       kind: 'magic',
@@ -121,11 +125,12 @@ describe('drawBattleMagicOverlay (D17 法术 FIRE.MKF overlay)', () => {
       y: 90,
     }
     expect(() => drawBattleMagicOverlay(fb, overlay, magicSprites)).not.toThrow()
-    expect(fb.indices[90 * 320 + 160]).toBe(0)
+    expect(fb.indices.every((value) => value === 77)).toBe(true)
   })
 
   it('magicSprites 整个 undefined → no-op,不抛', () => {
     const fb = createFramebuffer()
+    fb.indices.fill(77)
     const overlay: BattleAnimOverlay = {
       kind: 'magic',
       spriteChunk: 12,
@@ -134,5 +139,6 @@ describe('drawBattleMagicOverlay (D17 法术 FIRE.MKF overlay)', () => {
       y: 90,
     }
     expect(() => drawBattleMagicOverlay(fb, overlay, undefined)).not.toThrow()
+    expect(fb.indices.every((value) => value === 77)).toBe(true)
   })
 })

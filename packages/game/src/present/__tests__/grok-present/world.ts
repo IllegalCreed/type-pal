@@ -1,7 +1,11 @@
 import type { Item, ItemFlags, PlayerRole, PlayerRoles } from '@type-pal/shared'
 import type { IndexedImage } from '../../../assets/png.js'
 import { setGlobalEvents } from '../../../core/event-system.js'
-import { createInitialGameState, type GameState } from '../../../core/game-state.js'
+import {
+  createInitialGameState,
+  type GameState,
+  hydratePlayerRolesRuntime,
+} from '../../../core/game-state.js'
 import { rememberMagicCasterCursor } from '../../../core/menu/in-game-magic-menu.js'
 import {
   cancelInventoryMenu,
@@ -82,6 +86,16 @@ export function makeRoles(): PlayerRoles {
 
 export function makeGs(): GameState {
   return createInitialGameState({ x: 160, y: 112, facing: 'down' })
+}
+
+/** 正常菜单场景：数值合法且 runtime 已 hydrate；死亡/缺目录等防御输入由各例显式构造。 */
+export function makeLiveScene(party: readonly number[] = [0]) {
+  const gs = makeGs()
+  const roles = makeRoles()
+  for (const role of roles.roles) role.maxMP = 100
+  gs.partyMembers = [...party]
+  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, roles)
+  return { gs, roles }
 }
 
 export function freezeNow(ms: number): () => void {

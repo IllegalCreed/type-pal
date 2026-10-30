@@ -1,0 +1,414 @@
+{
+  "kind": "CODE80 post-implementation discrimination controls; no red-first chronology claim",
+  "parent": "f4cfaa47e719440cd04e49853316e2bb2022f4f0",
+  "runs": [
+    {
+      "label": "battle 中队伍卡不可入队/离队；explore 中同一卡仍可切换",
+      "source": "packages/game/src/dev/dev-panel.ts",
+      "sourceSha256": "2e01ef32b22c026db79f3814e1f198687a39ba9d5b394b81b3ba748b95e81620",
+      "mutantSha256": "83d843030722e0a7de048823fe17995a54ba2428504ebc3cd80b8a7702fbd0ed",
+      "replacement": {
+        "old": "if (partyEditingDisabled && !isLeader) card.disabled = true",
+        "new": "if (false && !isLeader) card.disabled = true"
+      },
+      "test": "src/dev/dev-panel.glm-next-wave.test.ts",
+      "testSha256": "3eb73e16d7efaf924cfd9849a7787d63774c8ab408a76dbb2c8e92cc01fe3e8c",
+      "red": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/dev/dev-panel.glm-next-wave.test.ts",
+          "-t",
+          "battle 中队伍卡不可入队/离队；explore 中同一卡仍可切换",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code80-control.json"
+        ],
+        "exit": 1,
+        "stdout": "JSON report written to /tmp/type-pal-code80-control.json\nundefined\n/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/dev/dev-panel.glm-next-wave.test.ts -t battle 中队伍卡不可入队/离队；explore 中同一卡仍可切换 --reporter=json --outputFile=/tmp/type-pal-code80-control.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 2,
+          "numPassedTestSuites": 0,
+          "numFailedTestSuites": 2,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 4,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 3,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791878878741,
+          "success": false,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["setupDevPanel 显式控制与释放(DEV-only debug overlay)"],
+                  "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) B(explore)开 picker;再按 B toggle 关闭;两次都对按键 preventDefault",
+                  "status": "skipped",
+                  "title": "B(explore)开 picker;再按 B toggle 关闭;两次都对按键 preventDefault",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["setupDevPanel 显式控制与释放(DEV-only debug overlay)"],
+                  "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) 非 explore/battle 模式(event)按 B:不拦截、不开面板",
+                  "status": "skipped",
+                  "title": "非 explore/battle 模式(event)按 B:不拦截、不开面板",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["setupDevPanel 显式控制与释放(DEV-only debug overlay)"],
+                  "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) F1(全局)dump gs 深拷贝:内容等于当时快照,后改 gs 不影响 dump,且非同引用",
+                  "status": "skipped",
+                  "title": "F1(全局)dump gs 深拷贝:内容等于当时快照,后改 gs 不影响 dump,且非同引用",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["setupDevPanel 显式控制与释放(DEV-only debug overlay)"],
+                  "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) battle 中队伍卡不可入队/离队；explore 中同一卡仍可切换",
+                  "status": "failed",
+                  "title": "battle 中队伍卡不可入队/离队；explore 中同一卡仍可切换",
+                  "duration": 139.0441659999999,
+                  "failureMessages": [
+                    "AssertionError: expected false to be true // Object.is equality\n    at /Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/dev/dev-panel.glm-next-wave.test.ts:120:35\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+                  ],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791878879550,
+              "endTime": 1791878879689.0442,
+              "status": "failed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/dev/dev-panel.glm-next-wave.test.ts"
+            }
+          ]
+        }
+      },
+      "restoredGreen": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/dev/dev-panel.glm-next-wave.test.ts",
+          "-t",
+          "battle 中队伍卡不可入队/离队；explore 中同一卡仍可切换",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code80-control.json"
+        ],
+        "exit": 0,
+        "stdout": "JSON report written to /tmp/type-pal-code80-control.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 2,
+          "numPassedTestSuites": 2,
+          "numFailedTestSuites": 0,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 4,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 3,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791878880017,
+          "success": true,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": ["setupDevPanel 显式控制与释放(DEV-only debug overlay)"],
+                  "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) B(explore)开 picker;再按 B toggle 关闭;两次都对按键 preventDefault",
+                  "status": "skipped",
+                  "title": "B(explore)开 picker;再按 B toggle 关闭;两次都对按键 preventDefault",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["setupDevPanel 显式控制与释放(DEV-only debug overlay)"],
+                  "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) 非 explore/battle 模式(event)按 B:不拦截、不开面板",
+                  "status": "skipped",
+                  "title": "非 explore/battle 模式(event)按 B:不拦截、不开面板",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["setupDevPanel 显式控制与释放(DEV-only debug overlay)"],
+                  "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) F1(全局)dump gs 深拷贝:内容等于当时快照,后改 gs 不影响 dump,且非同引用",
+                  "status": "skipped",
+                  "title": "F1(全局)dump gs 深拷贝:内容等于当时快照,后改 gs 不影响 dump,且非同引用",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": ["setupDevPanel 显式控制与释放(DEV-only debug overlay)"],
+                  "fullName": "setupDevPanel 显式控制与释放(DEV-only debug overlay) battle 中队伍卡不可入队/离队；explore 中同一卡仍可切换",
+                  "status": "passed",
+                  "title": "battle 中队伍卡不可入队/离队；explore 中同一卡仍可切换",
+                  "duration": 172.95337499999994,
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791878880708,
+              "endTime": 1791878880880.9534,
+              "status": "passed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/dev/dev-panel.glm-next-wave.test.ts"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "探索'离队'后清旧真毒，并在新队伍位置重建寿葫芦效果",
+      "source": "packages/game/src/dev/dev-panel.ts",
+      "sourceSha256": "2e01ef32b22c026db79f3814e1f198687a39ba9d5b394b81b3ba748b95e81620",
+      "mutantSha256": "c53d5b14214bd0ee0a3353a8c781cb3897d88b5fa953707c69c35626e77bd2c3",
+      "replacement": {
+        "old": "          updateAllEquipments(deps.gs, deps.resources.items)",
+        "new": "          // omitted equipment rebuild"
+      },
+      "test": "src/dev/dev-panel-party-lifecycle.test.ts",
+      "testSha256": "f37091d9530844bffa1f98008f4d01f665243e931b8e1b42c53c73dcbda1d099",
+      "red": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/dev/dev-panel-party-lifecycle.test.ts",
+          "-t",
+          "探索'离队'后清旧真毒，并在新队伍位置重建寿葫芦效果",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code80-control.json"
+        ],
+        "exit": 1,
+        "stdout": "JSON report written to /tmp/type-pal-code80-control.json\nundefined\n/Users/zhangxu/illegal/type-pal-quality-3x/packages/game:\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/dev/dev-panel-party-lifecycle.test.ts -t 探索'离队'后清旧真毒，并在新队伍位置重建寿葫芦效果 --reporter=json --outputFile=/tmp/type-pal-code80-control.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 1,
+          "numPassedTestSuites": 0,
+          "numFailedTestSuites": 1,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 4,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 3,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791878881185,
+          "success": false,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": [],
+                  "fullName": "真实战斗中入队与离队卡均禁用，点击不改变队伍和战斗状态",
+                  "status": "skipped",
+                  "title": "真实战斗中入队与离队卡均禁用，点击不改变队伍和战斗状态",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [],
+                  "fullName": "探索面板打开后启战，旧卡片点击也不能改变战斗队伍",
+                  "status": "skipped",
+                  "title": "探索面板打开后启战，旧卡片点击也不能改变战斗队伍",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [],
+                  "fullName": "探索'离队'后清旧真毒，并在新队伍位置重建寿葫芦效果",
+                  "status": "failed",
+                  "title": "探索'离队'后清旧真毒，并在新队伍位置重建寿葫芦效果",
+                  "duration": 145.5132910000001,
+                  "failureMessages": [
+                    "AssertionError: expected {} to deeply equal { …(2) }\n    at /Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/dev/dev-panel-party-lifecycle.test.ts:202:36\n    at withPanel (/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/dev/dev-panel-party-lifecycle.test.ts:95:5)\n    at /Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/dev/dev-panel-party-lifecycle.test.ts:191:3\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal-quality-3x/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+                  ],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [],
+                  "fullName": "探索'入队'后清旧真毒，并在新队伍位置重建寿葫芦效果",
+                  "status": "skipped",
+                  "title": "探索'入队'后清旧真毒，并在新队伍位置重建寿葫芦效果",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791878881897,
+              "endTime": 1791878882042.5132,
+              "status": "failed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/dev/dev-panel-party-lifecycle.test.ts"
+            }
+          ]
+        }
+      },
+      "restoredGreen": {
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/game",
+          "exec",
+          "vitest",
+          "run",
+          "src/dev/dev-panel-party-lifecycle.test.ts",
+          "-t",
+          "探索'离队'后清旧真毒，并在新队伍位置重建寿葫芦效果",
+          "--reporter=json",
+          "--outputFile=/tmp/type-pal-code80-control.json"
+        ],
+        "exit": 0,
+        "stdout": "JSON report written to /tmp/type-pal-code80-control.json\n",
+        "stderr": "",
+        "report": {
+          "numTotalTestSuites": 1,
+          "numPassedTestSuites": 1,
+          "numFailedTestSuites": 0,
+          "numPendingTestSuites": 0,
+          "numTotalTests": 4,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 3,
+          "numTodoTests": 0,
+          "snapshot": {
+            "added": 0,
+            "failure": false,
+            "filesAdded": 0,
+            "filesRemoved": 0,
+            "filesRemovedList": [],
+            "filesUnmatched": 0,
+            "filesUpdated": 0,
+            "matched": 0,
+            "total": 0,
+            "unchecked": 0,
+            "uncheckedKeysByFile": [],
+            "unmatched": 0,
+            "updated": 0,
+            "didUpdate": false
+          },
+          "startTime": 1791878882371,
+          "success": true,
+          "testResults": [
+            {
+              "assertionResults": [
+                {
+                  "ancestorTitles": [],
+                  "fullName": "真实战斗中入队与离队卡均禁用，点击不改变队伍和战斗状态",
+                  "status": "skipped",
+                  "title": "真实战斗中入队与离队卡均禁用，点击不改变队伍和战斗状态",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [],
+                  "fullName": "探索面板打开后启战，旧卡片点击也不能改变战斗队伍",
+                  "status": "skipped",
+                  "title": "探索面板打开后启战，旧卡片点击也不能改变战斗队伍",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [],
+                  "fullName": "探索'离队'后清旧真毒，并在新队伍位置重建寿葫芦效果",
+                  "status": "passed",
+                  "title": "探索'离队'后清旧真毒，并在新队伍位置重建寿葫芦效果",
+                  "duration": 149.57004199999994,
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                },
+                {
+                  "ancestorTitles": [],
+                  "fullName": "探索'入队'后清旧真毒，并在新队伍位置重建寿葫芦效果",
+                  "status": "skipped",
+                  "title": "探索'入队'后清旧真毒，并在新队伍位置重建寿葫芦效果",
+                  "failureMessages": [],
+                  "meta": {},
+                  "tags": []
+                }
+              ],
+              "startTime": 1791878883107,
+              "endTime": 1791878883256.57,
+              "status": "passed",
+              "message": "",
+              "name": "/Users/zhangxu/illegal/type-pal-quality-3x/packages/game/src/dev/dev-panel-party-lifecycle.test.ts"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

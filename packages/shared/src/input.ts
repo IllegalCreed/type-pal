@@ -13,7 +13,7 @@
  *
  * ts 端按字符串枚举:
  *  - 'Confirm' = sdlpal kKeySearch(浏览器键名习惯)
- *  - 'Cancel' 仍保留(M5 battle 用作回退键,与 sdlpal kKeyMenu 在菜单 context 等价但 ts 显式分两键)
+ *  - 'Cancel' 作为取消别名保留；当前物理取消键由 Shell 映射为 'Menu'。
  */
 export type AbstractKey =
   | 'Up'
@@ -38,7 +38,7 @@ export type AbstractKey =
 
 /** 一帧的输入快照。 */
 export interface InputSnapshot {
-  /** 当前按住的键(走路用) */
+  /** 本帧按住且可消费的键(走路用；scene-fade 可抑制方向)。 */
   held: ReadonlySet<AbstractKey>
   /** 本 tick 新按下的键(菜单 / 确认用) */
   pressed: ReadonlySet<AbstractKey>
@@ -56,12 +56,11 @@ export interface InputSnapshot {
 export interface InputSource {
   nextSnapshot(frameNum: number): InputSnapshot
   /**
-   * DM30(2026-06-12 收窄):**仅 scene-fade**(0x93 SceneFade / 0x80 PaletteFade-fUpdateScene)
-   * 每步清键(palette.c:314-316/441-446:PAL_ClearKeyState + dir=prevdir=Unknown;input.c:213
-   * 按住不放只产生 fRepeat=TRUE 的 KeyDown 不重算 dir)—— 该类 fade 期间按住的方向键在 fade 结束后
-   * **不**自动恢复走路,需物理松开重按。其余渐变(0x50/0x51/0x8C/0x4F/自动渐入 = PAL_FadeOut/FadeIn/
-   * ColorFade/FadeToRed)C 不清键,**不得**调本方法(2026-06-12 战后吞键回归根因)。实现方:把当前
-   * held 方向键加入抑制集(keyup 解除)并清 pressed。可选(测试 stub 可不实现)。
+   * 仅 scene-fade(0x93 / 0x80-fUpdateScene)每步清 pressed 与当前方向，保留物理键序。
+   * 对照 PAL_SceneFade / PAL_GetCurrDirection / PAL_KeyDown / PAL_KeyUp：渐变结束后，
+   * 单纯继续按住不会自动恢复；非repeat方向keydown或方向keyup才重算，恢复其它仍按住方向。
+   * repeat/非方向事件不解除抑制。其余纯色表渐变不清键，调用方不得在那些路径调用本方法。
+   * 可选端口，回放/录制及测试源可不实现；不改变快照或回放的 ownership。
    */
   suppressHeldForFade?(): void
 }

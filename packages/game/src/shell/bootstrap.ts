@@ -7,6 +7,7 @@ import type {
   SceneEventObject,
   Tilemap,
 } from '@type-pal/shared'
+import { loadEnglishLanguage } from '../assets/language-pack.js'
 import {
   fetchPalette,
   type SceneAssets,
@@ -70,8 +71,9 @@ import { createSellMenu } from '../core/menu/sell-menu.js'
 import { createBuyMenu } from '../core/menu/shop-menu.js'
 import { makeWorkingPalette } from '../core/palette-fade.js'
 import { Save } from '../core/save/api.js'
+import { supplySupplementalSceneObjects } from '../core/scene-supplemental-objects.js'
 import { isWalkable, setCurrentMapNum, setSceneContext } from '../core/scene-system.js'
-import { setWordTable } from '../core/word-lookup.js'
+import { setEnglishWordTable, setWordTable } from '../core/word-lookup.js'
 import {
   type BattleFixturesData,
   type SceneJumpsData,
@@ -81,10 +83,12 @@ import {
 import battleFixturesRaw from '../dev/fixtures/battle-fixtures.json' with { type: 'json' }
 import sceneJumpsRaw from '../dev/fixtures/scene-jumps.json' with { type: 'json' }
 import sceneNamesRaw from '../dev/fixtures/scene-names.json' with { type: 'json' }
+import { localize, useFallbackLanguage } from '../localization/language.js'
+import { setEnglishLayout } from '../localization/layout.js'
+import { setEnglishMessages } from '../localization/messages.js'
 import type { SpriteAsset } from '../present/battle/draw-battle-sprites.js'
 import { type BattleAssets, BattlePresent } from '../present/battle/present-battle.js'
 import { toSpriteImages } from '../present/draw-sprite.js'
-import { drawTilemap } from '../present/draw-tilemap.js'
 import { renderText } from '../present/font.js'
 import { createFramebuffer } from '../present/framebuffer.js'
 import {
@@ -103,7 +107,6 @@ import {
   battleVictoryTrack,
   createAudioManager,
   pickMusicTrack,
-  setOggVolumeScale,
   setSfxVolume,
   sfxForBattleEvent,
 } from './audio.js'
@@ -113,27 +116,22 @@ import { createAudioVolumeController } from './audio-volume.js'
 import { playAvi, setVideoVolume } from './avi-player.js'
 import { finishBootLoading, setBootLoadingNote } from './boot-loading.js'
 import { startBootstrapResourceLoad } from './bootstrap-resources.js'
-import {
-  colorFadeBlocking,
-  fadeInBlocking,
-  fadeOutBlocking,
-  playEndingAnimation,
-  waitForKey,
-} from './ending-player.js'
+import { createDosCutscenes } from './dos-cutscenes.js'
+import { playEndingAnimation } from './ending-player.js'
 import { scrollFbp, showFbp } from './fbp-player.js'
+import type { GameShell } from './game-shell.js'
 import { KeyboardInputSource } from './input.js'
 import { type LoopContext, startRafLoop } from './main-loop.js'
 import { createMusicSourceController, readMusicSource } from './music-source.js'
 import { pausePrecache, resumePrecache } from './precache-client.js'
 import { playRng } from './rng-player.js'
-import { playSplashFallback } from './splash-fallback.js'
-import { playTrademarkFallback } from './trademark-fallback.js'
+import { createSceneThumbnailRenderer } from './scene-thumbnail.js'
 
 // JSON 静态 import 的 TS 类型推断会把每条 fixture 推成具体 key 集合(eg. fixture-zh1
 // 没 "1" → 推 "1": undefined),与 BattleFixturesData 的 Record<string, ...> 不严格匹配。
-// 这里显式 cast —— dev/fixtures/battle-fixtures.json 的 schema 由 BattleFixture 定义,运行时合法。
+// 这里仅提供静态类型视图,cast本身不校验JSON的运行时合法性。
 const battleFixtures = battleFixturesRaw as unknown as BattleFixturesData
-// 同模式 cast —— scene-jumps.json schema 由 SceneJump 定义。
+// scene-jumps使用同一静态视图方式,不在此增加运行时校验。
 const sceneJumps = sceneJumpsRaw as unknown as SceneJumpsData
 // dev 场景名表(scene-names.json,人工补全;`_doc` 字段 runtime 忽略)。
 const sceneNames = sceneNamesRaw as unknown as SceneNamesData
@@ -159,7 +157,7 @@ const SCENE_ID = Number.isInteger(devSceneBoot) ? devSceneBoot : skipIntroBoot ?
  * - win95:trademark / splash 走 mp4 视频(playAvi 1/2.avi)— sdlpal `gConfig.fIsWIN95=TRUE`
  *   真值同口径
  * - dos:走 sdlpal DOS fallback 真做(playTrademarkFallback RNG.MKF chunk 6 +
- *   playSplashFallback FBP chunk 3/4 + 仙鹤 + 标题 RLE + palette 渐变 200 行 port)
+ *   playSplashFallback FBP chunk 0x26/0x27 + 仙鹤 + 标题 RLE + palette渐变)
  * `?skip-intro=1` 优先短路全部(同前)。
  */
 const buildFlag: 'win95' | 'dos' =
@@ -225,6 +223,8 @@ export function showError(canvas: HTMLCanvasElement, msg: string): void {
 }
 
 export interface BootstrapDeps {
+  gameShell?: GameShell
+  openPrivacySettings?: () => void
   /** soundfontSettled 后调:必要资源就绪(PROD 出「进入游戏」按钮;dev/无门 no-op)。 */
   onPlayable?: () => void
   /** bootstrap await 它:用户点进入 / 自动放行后 resolve(dev 预先 resolved → 不阻塞)。 */
@@ -246,7 +246,14 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   // M4 P4.T3: loadGlyphs 与 loadAll 并行加载(glyphs.json 7.8MB,不阻塞 tiles/sprites)。
   // glyphs 加载失败则 warn + 继续(所有文字退化为 tofu 占位,不影响游戏可运行性)。
   // M5 Sync.2: dialog 资产(portrait RGM 92 + DATA chunk 12 icon sprite group)并行加载。
-  const { assets, glyphs, dialogAssets } = await resourcesReady
+  const [{ assets, glyphs, dialogAssets }, englishPack] = await Promise.all([
+    resourcesReady,
+    loadEnglishLanguage().catch(() => undefined),
+  ])
+  setEnglishWordTable(englishPack?.words ?? {})
+  setEnglishMessages(englishPack?.groups ?? [])
+  setEnglishLayout(englishPack?.layout ?? {})
+  if (!englishPack) useFallbackLanguage('zh-CN')
 
   const {
     tilemap,
@@ -336,13 +343,14 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   gs.npcs =
     sliceSceneEventObjects(gs, gs.wNumScene) ??
     scene.eventObjects.map((eo) => npcFromEventObject(eo, labelMap))
+  supplySupplementalSceneObjects(gs, scene.eventObjects)
   hydrateNpcStaticDefaults(gs.npcs, scene.eventObjects)
 
   // M5.6 T17:onEnter 启动改由 startNewGameFromPrimary helper 触发,
   // OpeningMenu 选 new-game / ?skip-intro=1 路径都调它。
   // (helper 定义在下面 setStartGameHandler 之前;此处仅保留注释占位。)
   // skipIntro 行为见 ?skip-intro=1 路径分支(SCENE_ID=1 + runEnterScript 同步只取 setPartyPos)。
-  // 正常启动:OpeningMenu 选 new-game → playOpeningAvi() stub → startNewGameFromPrimary 装载完整
+  // 正常启动:OpeningMenu选new-game → playOpeningAvi(Win95播3.mp4,DOS直接返回) → 装载完整
   // onEnter(对话由 tickEventSystem 步进)。
 
   // sprite 装配 — sdlpal `scene.c:750-755`:站立帧 = wDirection * walkFrames,
@@ -353,8 +361,9 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   if (partyData.frames.length === 0) throw new Error('队长 sprite 无 frame')
   // 逐帧 anchor(sdlpal scene.c:224/358 PAL_RLEGetWidth/Height 用当前帧)— 见 toSpriteImages。
   const partyFrames = toSpriteImages(partyData.frames)
-  // playerRoles.rgwWalkFrames[role]:M4 简版 fallback 3(sdlpal `scene.c:752 if (i == 0) i = 3`)。
-  // M5 真做时按 PlayerRoles[leaderRole].walkFrames 取。
+  // ctx 兜底 walkFrames = 3(sdlpal scene.c:752 `if (i == 0) i = 3` 默认)。真值按 per-role 查:
+  // present.getPartyWalkFrames 优先 runtime rgwWalkFrames[role] → playerRoles.walkFrames[role],
+  // 都缺才回落本值。
   const partyWalkFrames = 3
   type NpcSprite = (typeof partyFrames)[number]
   const npcSprites = new Map<number, NpcSprite>()
@@ -384,6 +393,8 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   const tileImagesBySceneId = new Map<number, Map<number, IndexedImage>>()
   tileImagesBySceneId.set(SCENE_ID, tileImages)
   let currentSceneId = SCENE_ID
+  let mapReloadRevision = 0
+  let currentSceneAssets: SceneAssets | undefined
 
   const presentCtx: PresentContext = {
     tilemap,
@@ -479,6 +490,22 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     initialMusicSource,
   )
   audio.setMusicBackend(musicSource)
+  const fetchMgoSprite = (id: number): Promise<IndexedImage[]> =>
+    loadSpriteFramesBlob(`${BASE}/data/sprite/${id}.rle`)
+  const { playDosOpening, playDosEnding } = createDosCutscenes({
+    fb,
+    canvasCtx,
+    palette,
+    battleBgs,
+    characterSprites,
+    fetchMgoSprite,
+    getScreenPalette: () => gs.palette ?? palette,
+    setMusic: (track) => {
+      gs.wNumMusic = track
+      syncShellAudio(audio, gs, [], playerRoles)
+    },
+  })
+
   // autoplay 解锁:浏览器要求 AudioContext 在用户手势后 resume。**不能用 { once:true } 只听首个
   //   keydown** —— 若首个手势是鼠标点击(如点 devpanel 触发战斗/BGM)keydown 不触发,ctx 永久挂起
   //   → BGM/SFX 全哑(user 2026-06-03 实测控制台 "AudioContext was not allowed to start")。改:
@@ -495,8 +522,6 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     bus,
     input,
     tilemap,
-    eventCommands,
-    labelMap,
     partyWalkFrames,
     onPresent: (drained, ticked) => {
       // 音频同步必须在 suspendRaf gate 前跑:山神庙传剑等 modal CG/RNG 播放期间仍会有脚本
@@ -527,17 +552,9 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     },
   }
 
-  // M3.5 T17:per-scene lazy fetcher(D33)。dev jump 时按需 fetch 新 scene 的
-  // scene-N.json + tilemap-N.json + 新 scene NPC sprite(missing 才补 fetch)+
-  // 新 scene tile PNG(cache miss 才 fetch,写进 tileImagesBySceneId)。
-  // 简版接合点(palette 留 M5):
-  //  - palette:跨 scene 切真色板要 setPalette opcode runtime 触发,留 M5;此处用首屏 palette。
-  //    新 scene 渲染时仍用首屏 palette,visual color 可能不对(已知)。
-  //  - npcSprites:**真有跨 scene 差异**(scene 1 有 11 个 sprite,scene 16 有 7 个不同 sprite)。
-  //    closure 持的 `npcSprites` 是 SpriteImage(带 anchor)装好的;新 scene 缺的 sprite,
-  //    在 sceneFetcher 里按需 fetch sprite-N.json + 各 frame PNG,塞回 closure 的 npcSprites。
-  //  - tileset blob:loader.loadAll 只 fetch 首屏 scene 的 tileset blob。sceneFetcher 内
-  //    fetchSceneTileImages 复刻同模式,写进 by-sceneId map(cache,首屏 / 已 fetch 跳过)。
+  // 按scene懒载scene/events/tilemap,并行补该场景的tileset RLE blob与缺失sprite RLE blob。
+  // tileImagesBySceneId随SceneAssetsCache淘汰;NPC帧存closure map,由presentCtx共享。
+  // SceneAssets.palette当前复用启动palette,不是按scene另取;屏幕色表由palette/fade脚本管理。
   const BASE = '/extracted'
 
   async function fetchMissingSprite(id: number): Promise<void> {
@@ -585,9 +602,10 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
         onTeleportLabel?: string
       }>
     })
+    const mapNum = gs.sceneMapNumOverride?.[sceneId + 1] ?? sceneJson.mapNum
     const [tilemapJson, eventsJson] = await Promise.all([
-      fetch(`${BASE}/data/tilemap/${sceneJson.mapNum}.json`).then((r) => {
-        if (!r.ok) throw new Error(`tilemap-${sceneJson.mapNum}.json fetch failed (${r.status})`)
+      fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
+        if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
         return r.json() as Promise<Tilemap>
       }),
       // P3.T1: per-scene events(lazy load,修 M3.5 ⚠️ a9 #8)
@@ -614,12 +632,11 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       fetchSceneTileImages(sceneId, tilemapJson),
     ])
 
-    // SceneAssets.npcSprites 当前没人消费(loadScene 只 mutate gs;present 走 closure 的
-    // npcSprites)。M3.5 简版传空 map,接口形式上满足即可;M5 把 sprite 数据装这里,
-    // present 切到从 sceneAssets 取。
+    // loadScene 当前不读取 SceneAssets.npcSprites;present 使用 closure 中共享的
+    // npcSprites map。此处空 map 仅满足现有接口,不承担精灵缓存的所有权。
     return {
       sceneId,
-      mapNum: sceneJson.mapNum, // 场景名按 mapNum 命名(tools/map-names) + scene-system.getCurrentMapNum
+      mapNum, // 场景名按 mapNum 命名(tools/map-names) + scene-system.getCurrentMapNum
       tilemap: tilemapJson,
       palette,
       eventObjects: sceneJson.eventObjects,
@@ -656,121 +673,20 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
    *    tile bitmap map(sceneFetcher 已 fetch 进 tileImagesBySceneId)。
    * 3. setSceneContext 重置:scene-system tick 用新 tilemap.width/height 做 walkability + camera clamp
    * 4. npcSprites:closure 同一引用,sceneFetcher 里已补 fetch missing sprite,无需再动
-   * 5. palette / eventCommands:首屏保留(留 M5)
+   * 5. 只发布探索地图；脚本由全局目录解析，basePalette由loadSceneCommon更新
    */
   function applySceneAssetsToPresent(sceneAssets: SceneAssets): void {
+    mapReloadRevision++ // Any scene activation retires earlier map-only publications, including same-scene reloads.
+    currentSceneAssets = sceneAssets
     presentCtx.tilemap = sceneAssets.tilemap
     currentSceneId = sceneAssets.sceneId
-    // P3.T1: 使用新 scene 的 eventCommands / labelMap,
-    // 修 M3.5 ⚠️ a9 #8:loadScene 已 setSceneContext,此处同步覆写保持一致。
+    // 资源就绪后同步探索地图；脚本目录不在此重复保存。
     setSceneContext({
       tilemap: sceneAssets.tilemap,
-      eventCommands: sceneAssets.eventCommands,
-      labelMap: sceneAssets.labelMap,
     })
   }
 
-  // ── dev 场景缩略图(setupDevPanel.renderSceneThumbnail)─────────────────────────
-  // 把整张 map tilemap(≤64×128 → ~2080×2080 px)渲染到离屏大 framebuffer,再降采样成 96px PNG dataURL。
-  // **按 mapNum 缓存**(同 map 多场景共享缩略图);解码的 tile 位图渲染完即弃(只留 dataURL),不写
-  // gameplay 的 tileImagesBySceneId / sceneAssetsCache(LRU 16),避免污染正在玩的场景缓存。
-  // 并发限 2 + 同 map dedup —— 防 IntersectionObserver 一次滚入多卡片时 N×数百 tile PNG 同时 fetch。
-  const THUMB_TILE_W = 32
-  const THUMB_TILE_H = 16
-  const THUMB_OUT_W = 96
-  const thumbCache = new Map<string, string>() // `${mapNum}_${outW}` → dataURL(仅缓存成功)
-  const thumbInflight = new Map<string, Promise<string | null>>()
-  let thumbActive = 0
-  const thumbWaiters: (() => void)[] = []
-  const THUMB_CONCURRENCY = 2
-  const acquireThumb = async (): Promise<void> => {
-    if (thumbActive < THUMB_CONCURRENCY) {
-      thumbActive++
-      return
-    }
-    await new Promise<void>((res) => thumbWaiters.push(res)) // 槽位由 release 转移,不再自增
-  }
-  const releaseThumb = (): void => {
-    const w = thumbWaiters.shift()
-    if (w) w()
-    else thumbActive--
-  }
-
-  async function renderMapThumbnail(
-    mapNum: number,
-    paletteOverride?: Palette,
-    outW: number = THUMB_OUT_W,
-  ): Promise<string | null> {
-    const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
-      if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
-      return r.json() as Promise<Tilemap>
-    })
-    // tileset blob 解码 → 本地 transient Map(渲染后即弃)。
-    const tileImgs = await loadTilesetBlob(`${BASE}/data/${tilemapJson.tileset}`)
-    // 整张 map 渲染:留小边距(fence/sub-row 落在 -16/-8),camera 偏移让左上 tile 进画。
-    const bufW = (tilemapJson.width + 1) * THUMB_TILE_W
-    const bufH = (tilemapJson.height + 2) * THUMB_TILE_H
-    const tfb = createFramebuffer(bufW, bufH)
-    const camera = { x: -THUMB_TILE_W / 2, y: -THUMB_TILE_H }
-    const tiles = { get: (i: number): IndexedImage | undefined => tileImgs.get(i) }
-    drawTilemap(tfb, tilemapJson, tiles, camera, 0)
-    drawTilemap(tfb, tilemapJson, tiles, camera, 1)
-    // 大 canvas(putImageData 全分辨率)→ 降采样小 canvas → dataURL。用首屏 palette(与 dev jump 渲染同源)。
-    const full = document.createElement('canvas')
-    full.width = bufW
-    full.height = bufH
-    const fctx = full.getContext('2d')
-    if (!fctx) return null
-    fctx.putImageData(tfb.toImageData(paletteOverride ?? palette), 0, 0)
-    const scale = outW / bufW
-    const thumb = document.createElement('canvas')
-    thumb.width = outW
-    thumb.height = Math.max(1, Math.round(bufH * scale))
-    const tctx = thumb.getContext('2d')
-    if (!tctx) return null
-    tctx.imageSmoothingEnabled = true
-    tctx.imageSmoothingQuality = 'high'
-    tctx.drawImage(full, 0, 0, thumb.width, thumb.height)
-    return thumb.toDataURL('image/png')
-  }
-
-  const renderSceneThumbnail = async (
-    sceneId: number,
-    mapNum?: number,
-    outW: number = THUMB_OUT_W, // dev picker 用默认 96;小地图传 256(高清)
-  ): Promise<string | null> => {
-    let map = mapNum
-    if (map === undefined) {
-      // scene-jumps 多数带 mapNum;缺则 fetch scene json 拿。
-      const sj = await fetch(`${BASE}/data/scene/${sceneId}.json`)
-        .then((r) => (r.ok ? (r.json() as Promise<{ mapNum: number }>) : null))
-        .catch(() => null)
-      map = sj?.mapNum
-    }
-    if (map === undefined) return null
-    const cacheKey = `${map}_${outW}` // 不同分辨率分开缓存(dev 96 / 小地图 256 不串)
-    const cached = thumbCache.get(cacheKey)
-    if (cached) return cached
-    const inflight = thumbInflight.get(cacheKey)
-    if (inflight) return inflight
-    const mapNumResolved = map
-    const p = (async (): Promise<string | null> => {
-      await acquireThumb()
-      try {
-        const url = await renderMapThumbnail(mapNumResolved, undefined, outW)
-        if (url) thumbCache.set(cacheKey, url)
-        return url
-      } catch (e) {
-        console.warn(`[dev-panel] 缩略图渲染失败 map ${mapNumResolved}:`, e)
-        return null
-      } finally {
-        releaseThumb()
-        thumbInflight.delete(cacheKey)
-      }
-    })()
-    thumbInflight.set(cacheKey, p)
-    return p
-  }
+  const renderSceneThumbnail = createSceneThumbnailRenderer(palette)
 
   // 扫新 scene eventCommands 的 setPlayerSprite(opcode 0x65)预 fetch cutscene sprite group。
   async function preloadCutsceneSprites(commands: Command[]): Promise<void> {
@@ -807,6 +723,13 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     // loadGame 路径)→ present 保留旧帧(供 fadeScreen backup)。冻到 onEnter 第一个可渲染 yield 才清。
     gs.sceneLoading = true
     const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)
+    const requestedMap = gs.sceneMapNumOverride?.[newWNumScene]
+    if (requestedMap !== undefined && requestedMap !== sceneAssets.mapNum) {
+      const replacement = await fetchMapResources(requestedMap)
+      sceneAssets.mapNum = requestedMap
+      sceneAssets.tilemap = replacement.tilemap
+      tileImagesBySceneId.set(dumpFileIndex, replacement.tiles)
+    }
     gs.wNumScene = newWNumScene
     setCurrentMapNum(sceneAssets.mapNum) // 同步当前 mapNum:小地图底图 / 地图名 / 历史对话按 map 分组都读它(此前仅 scene-system.loadScene 设,opcode/读档路径漏设→停 0 梦境)
     // DM25:res.c:236-240 `if (fEnteringScene) { wScreenWave = 0; sWaveProgression = 0; }` ——
@@ -849,15 +772,15 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       gs.npcs =
         sliceSceneEventObjects(gs, newWNumScene) ??
         sceneAssets.eventObjects.map((eo) => npcFromEventObject(eo, sceneAssets.labelMap))
-      hydrateNpcStaticDefaults(gs.npcs, sceneAssets.eventObjects)
     } else {
       // C8 load game 路径:存档 JSON.stringify 会断开 gs.npcs 与 gs.allEventObjects 的引用。
       // 从加载回的 gs.allEventObjects 重切当前 scene → 重建引用(状态一致,后续脚本改动持久)。
       // 旧档无 allEventObjects → sliceSceneEventObjects 返 undefined → 保留存档内 gs.npcs。
       const reslice = sliceSceneEventObjects(gs, newWNumScene)
       if (reslice) gs.npcs = reslice
-      hydrateNpcStaticDefaults(gs.npcs, sceneAssets.eventObjects)
     }
+    supplySupplementalSceneObjects(gs, sceneAssets.eventObjects)
+    hydrateNpcStaticDefaults(gs.npcs, sceneAssets.eventObjects)
     applySceneAssetsToPresent(sceneAssets)
     await preloadCutsceneSprites(sceneAssets.eventCommands)
     await ensurePlayerSpritesLoaded()
@@ -902,21 +825,32 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     await loadSceneCommon(newWNumScene, { fromSavedGame: false })
   })
 
-  // opcode 0x99(changeMap)op0==0xFFFF:map-only 重载当前场景 tilemap(不重跑 onEnter / 不重置 npcs)。
-  // 删当前 scene 的 tile cache 强制重 fetch(同 sceneId 不同 mapNum)→ 换 presentCtx.tilemap + scene-system。
-  setMapReloader(async (mapNum: number) => {
+  // Map-only replacement and a cached scene override share the same complete IO bundle.
+  // Ownership/publication stays in their callers; rejection cannot mutate the live resources.
+  async function fetchMapResources(mapNum: number) {
     const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {
       if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)
       return r.json() as Promise<Tilemap>
     })
-    tileImagesBySceneId.delete(currentSceneId) // 强制重 fetch(fetchSceneTileImages 有 cache)
-    await fetchSceneTileImages(currentSceneId, tilemapJson)
-    presentCtx.tilemap = tilemapJson
-    setSceneContext({
-      tilemap: tilemapJson,
-      eventCommands: gs.sceneCommands ?? [],
-      labelMap: gs.sceneLabelMap ?? {},
-    })
+    const tiles = await loadTilesetBlob(`${BASE}/data/${tilemapJson.tileset}`)
+    return { tilemap: tilemapJson, tiles }
+  }
+
+  // opcode 0x99(changeMap)op0==0xFFFF:map-only 重载当前场景 tilemap(不重跑 onEnter / 不重置 npcs)。
+  // 完整加载后同步发布；失败保留活资源。新请求或场景重装会撤销旧请求的发布权。
+  setMapReloader(async (mapNum: number) => {
+    const requestRevision = ++mapReloadRevision
+    const sceneId = currentSceneId
+    const replacement = await fetchMapResources(mapNum)
+    if (requestRevision !== mapReloadRevision) return
+    if (currentSceneAssets) {
+      currentSceneAssets.mapNum = mapNum
+      currentSceneAssets.tilemap = replacement.tilemap
+    }
+    tileImagesBySceneId.set(sceneId, replacement.tiles)
+    presentCtx.tilemap = replacement.tilemap
+    setSceneContext({ tilemap: replacement.tilemap })
+    setCurrentMapNum(mapNum)
   })
 
   // opcode 0x4C MonsterChasePlayer 障碍检测注入(port sdlpal PAL_CheckObstacle)。
@@ -1089,7 +1023,6 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   const audioVolume = createAudioVolumeController({
     applyVolume: (v) => {
       musicSource.setVolume?.(v)
-      setOggVolumeScale(v)
     },
   })
   const sfxVolume = createAudioVolumeController({
@@ -1103,10 +1036,19 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     keyVol: 'tp-video-volume',
     keyMute: 'tp-muted',
   })
-  const displayScale = createDisplayScaleController(canvas)
+  const displayScale = createDisplayScaleController(canvas, deps?.gameShell)
   setupToolsPanel({
+    languageAvailable: englishPack !== undefined,
+    onOpenChange: (open) => deps?.gameShell?.setToolsOpen(open),
+    openPrivacySettings: deps?.openPrivacySettings,
     getGs: () => gs,
-    getResources: () => ({ playerRoles, objectPoisons, items, levelUpExp: assets.levelUpExp }),
+    getResources: () => ({
+      playerRoles,
+      objectPoisons,
+      items,
+      enemyObjects,
+      levelUpExp: assets.levelUpExp,
+    }),
     displayScale,
     audioVolume,
     musicSource,
@@ -1114,10 +1056,11 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     videoVolume,
     saveSlot: (slot, g) => Save.saveSlot(slot, g),
     loadSlot: (slot) => Save.loadSlot(slot),
-    // 小地图底图:复用 renderSceneThumbnail,出 640px 高清(= minimap BASE_PX;各缩放档皆降采样=清晰)。
-    //   "地图发黑" 真因是 getCurrentMapNum stale 停在 map 0 梦境(已修),非 palette。
+    // 小地图输出宽640,与minimap BASE_PX一致;标准地图高也为640。
+    // 显示缩放由minimap的DPR/裁剪决定;色表与seam边界仍以CODE57为准。
     getMapThumbnail: (mapNum) => renderSceneThumbnail(0, mapNum, 640),
   })
+  deps?.gameShell?.connect(input)
   setupQuickSave({
     getGs: () => gs,
     saveSlot: (slot, g) => Save.saveSlot(slot, g),
@@ -1128,7 +1071,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       return true
     },
   })
-  setupSpeedrunHotkeys() // 速通计时器快捷键(F10 重置 / F8 切覆盖层),仅启用时生效
+  setupSpeedrunHotkeys() // 启用计时器后:F8暂停/恢复,F4重置本局,F2切覆盖层
 
   // M3.5 T19:dev gate 暴露 GameState + assets 供 L2 Playwright helper 用 page.evaluate 探针。
   // 生产构建 dead-code(Vite tree-shake import.meta.env.DEV 分支)。
@@ -1349,9 +1292,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   })
 
   // 结局动画 handler(opcode 0x96 PAL_EndingAnimation)。fetch FBP 61/62(battleBgs)+ MGO 571/572 妖兽/女孩
-  //   sprite(非预载,按需 fetch sprite/{id}.json + 帧 PNG)→ 跑 400 帧 cutscene。modal,suspendRaf。
-  const fetchMgoSprite = (id: number): Promise<IndexedImage[]> =>
-    loadSpriteFramesBlob(`${BASE}/data/sprite/${id}.rle`)
+  //   sprite(非预载,按需加载sprite/{id}.rle blob)→跑400帧cutscene。modal,suspendRaf。
   setEndingAnimationHandler(({ gs }) => {
     gs.suspendRaf = true
     void (async () => {
@@ -1377,133 +1318,6 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
         if (gs.eventCursor?.waiting === 'ending-anim') gs.eventCursor.waiting = undefined
       })
   })
-
-  /**
-   * 结局 DOS 全片编排(port sdlpal ending.c:396-512 PAL_EndingScreen 的 DOS fallback 分支)。
-   * 一个 suspendRaf 闭包顺序跑全部视觉 beat(RNG/FadeOut-In/ShowFBP/ScrollFBP/ColorFade/EndingAnimation),
-   * fade 用阻塞 palette-scale(全程 suspendRaf,不能走 present 驱动)。caller 包 suspendRaf + finally。
-   * iCurPlayingRNG=9(追真值:游戏 0xA0 结局前 ip 35576 setRNG chunk 9)。
-   * **未做(非视觉/已记)**:音乐(M6 音频系统)、ShowFBP(76) 的 MGO effectSprite 0x27b 叠加(Phase 留)、
-   *   WaitForKey(原版等键,这里连续观看用短延时)。
-   */
-  async function playDosEnding(): Promise<void> {
-    const ctx = canvasCtx!
-    const BLACK = new Uint8Array(320 * 200)
-    const bg = (n: number): Uint8Array => battleBgs.get(n)?.indices ?? BLACK
-    const pget = (n: number): Promise<typeof palette> => fetchPalette(n).catch(() => palette)
-    const fbp = (
-      chunk: number,
-      fade: number,
-      pal: typeof palette,
-      fx?: IndexedImage[],
-    ): Promise<void> =>
-      showFbp({
-        fbpIndices: bg(chunk),
-        fade,
-        chunkNum: chunk,
-        isWin95: false,
-        fb,
-        canvasCtx: ctx,
-        palette: pal,
-        effectSpriteFrames: fx,
-      })
-    const scroll = (chunk: number, pal: typeof palette, fx?: IndexedImage[]): Promise<void> =>
-      scrollFbp({
-        fbpIndices: bg(chunk),
-        speed: 0xf,
-        fScrollDown: true,
-        fb,
-        canvasCtx: ctx,
-        palette: pal,
-        effectSpriteFrames: fx,
-      })
-    const rng = (
-      chunkIdx: number,
-      startFrame: number,
-      endFrame: number,
-      speed: number,
-      pal: typeof palette,
-    ): Promise<void> =>
-      playRng({
-        chunkIdx,
-        startFrame,
-        endFrame,
-        frameDelayMs: 1000 / speed,
-        fb,
-        canvasCtx: ctx,
-        palette: pal,
-      })
-
-    // ── Part A(ending.c:420-483)──
-    // DL28:各段配乐(ending.c:424/430/448/496 AUDIO_PlayMusic;经 wNumMusic+sync 轮询)。
-    const setMus = (n: number): void => {
-      gs.wNumMusic = n
-      syncShellAudio(audio, gs, [], playerRoles)
-    }
-    const curPal = gs.palette ?? palette
-    setMus(0x1a) // 哭戏段(ending.c:424)
-    await rng(9, 110, 150, 7, curPal)
-    await rng(9, 151, -1, 9, curPal)
-    await fadeOutBlocking(fb, ctx, curPal, 1200) // FadeOut(2)
-    const pal5 = await pget(5)
-    setMus(0x19) // ending.c:430
-    await fbp(75, 0, pal5)
-    await fadeInBlocking(fb, ctx, pal5, 600) // FadeIn(5,1)
-    await scroll(74, pal5)
-    await fadeOutBlocking(fb, ctx, pal5, 600) // FadeOut(1)
-    const pal4 = await pget(4)
-    const [beast, girl] = await Promise.all([
-      fetchMgoSprite(571).catch(() => [] as IndexedImage[]),
-      fetchMgoSprite(572).catch(() => [] as IndexedImage[]),
-    ])
-    await playEndingAnimation({
-      upperIndices: bg(61),
-      lowerIndices: bg(62),
-      beastFrames: beast,
-      girlFrames: girl,
-      fb,
-      canvasCtx: ctx,
-      palette: pal4,
-    })
-    setMus(0) // ending.c:443 停乐(fade 2s;MIDI 后端忠实硬停)
-    await colorFadeBlocking(fb, ctx, pal4, 15, 64 * 70) // ColorFade(7,15)
-    const pal0 = await pget(0)
-    setMus(0x11) // ending.c:448
-    await rng(11, 0, -1, 7, pal0)
-    await fadeOutBlocking(fb, ctx, pal0, 1200) // FadeOut(2)
-    const pal8 = await pget(8)
-    // DL28:fNeedToFadeIn(ending.c:459)→ RNG 首帧 600ms 淡入(rng-player initialFadeInMs)。
-    await playRng({
-      chunkIdx: 10,
-      startFrame: 0,
-      endFrame: -1,
-      frameDelayMs: 1000 / 6,
-      fb,
-      canvasCtx: ctx,
-      palette: pal8,
-      initialFadeInMs: 600,
-    })
-    await fbp(77, 10, pal8) // EndingSetEffectSprite(0) → 无叠加
-    // EndingSetEffectSprite(0x27b=635):76/73/72/71/68@7 全 sticky 叠这只 21 帧 MGO 精灵(ending.c:467-475)
-    const fx635 = await fetchMgoSprite(635).catch(() => [] as IndexedImage[])
-    await fbp(76, 7, pal8, fx635)
-    const pal5b = await pget(5)
-    await fbp(73, 7, pal5b, fx635)
-    await scroll(72, pal5b, fx635)
-    await fbp(71, 7, pal5b, fx635)
-    await fbp(68, 7, pal5b, fx635)
-    await fbp(68, 6, pal5b) // EndingSetEffectSprite(0) → 无叠加(ending.c:477)
-    await waitForKey() // sdlpal PAL_WaitForKey(0):等玩家按键再放演职员表(ending.c:480)
-    setMus(0) // ending.c:481 停乐
-
-    // ── Part B(ending.c:485-511,演职员表卷动 67→59)──
-    setMus(9) // ending.c:496 演职员表曲
-    for (const c of [67, 66, 65, 64, 63, 62, 61, 60, 59]) {
-      await scroll(c, pal5b)
-    }
-    setMus(0) // ending.c:509 停乐
-    await fadeOutBlocking(fb, ctx, pal5b, 1800) // FadeOut(3)
-  }
 
   // Sync.2 fix4+:扫 setPlayerSprite(opcode 0x65)的 sprite id,预 fetch。
   //   操作:operand[0]=roleId, operand[1]=spriteId;任何队员都可能被剧情换形象。
@@ -1532,7 +1346,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   // sdlpal main.c:545-546 真值:`PAL_TrademarkScreen → PAL_SplashScreen → PAL_OpeningMenu`,
   // OpeningMenu 选 new-game 返回 0 → `PAL_PlayAVI("3.avi")` → loop 进 scene。
   //
-  // ts 端:T18/T19 trademark + splash + 3.avi 留后续 task;T17 只接 OpeningMenu 本体 + AVI hook stub。
+  // 当前启动序列见showTrademarkAndSplash;new-game的Win95路径由playOpeningAvi实播3.mp4。
   //
   // ?skip-intro=1 URL flag(M3.5 commit a9a87ac)— 之前跳 scene 0 梦境直接 scene 1,
   // T17 扩为同时跳过 OpeningMenu(dev / e2e 用)。
@@ -1564,12 +1378,13 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     gs.npcs =
       sliceSceneEventObjects(gs, gs.wNumScene) ??
       scene.eventObjects.map((eo) => npcFromEventObject(eo, labelMap))
+    supplySupplementalSceneObjects(gs, scene.eventObjects)
     hydrateNpcStaticDefaults(gs.npcs, scene.eventObjects)
     // 渲染路由复位到 primary scene(等价 applySceneAssetsToPresent;scene 闭包是 SceneObjects 无
     //   tilemap/palette,故用 loadAll 顶层 primary tilemap)。
     presentCtx.tilemap = tilemap
     currentSceneId = SCENE_ID
-    setSceneContext({ tilemap, eventCommands, labelMap })
+    setSceneContext({ tilemap })
     // 结局 / 死亡演出可能把工作 palette 留在黑色、红色或其他场景色;新游戏从 primary palette 重建。
     gs.palette = makeWorkingPalette(palette)
 
@@ -1799,58 +1614,9 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
    *
    * suspendRaf 包 try/finally,modal 期间 canvas render 暂停。
    */
-  // DOS 开场 fallback(trademark RNG chunk 6 + splash 卷轴)抽成独立闭包 —— showTrademarkAndSplash 的
+  // 独立DOS工厂提供开场/结局有序演出；showTrademarkAndSplash 的
   // dos 分支 + devpanel "开场 DOS" 按钮共用(资产 battleBgs/characterSprites/palette 在任何 build 都已加载,
   // 故 win95 build 下 devpanel 也能跑 DOS 版)。不管 suspendRaf(caller 包)。
-  async function playDosOpening(): Promise<void> {
-    // sdlpal main.c:199-203 DOS Trademark fallback / main.c:223-456 DOS Splash fallback
-    // palette 3:trademark / palette 1:splash(sdlpal PAL_SetPalette / PAL_GetPalette 真值)
-    // DM28:splash 起手播标题曲 5(NUM_RIX_TITLE,main.c:46/:293;蝶恋),退出停乐(main.c:449-455)。
-    //   经 gs.wNumMusic + audio.sync(suspendRaf 只停 present,逻辑 tick 持续轮询)。
-    gs.wNumMusic = 5
-    syncShellAudio(audio, gs, [], playerRoles)
-    const palette3 = await fetchPalette(3).catch(() => palette)
-    await playTrademarkFallback({
-      fb,
-      canvasCtx: canvasCtx!,
-      palette: palette3,
-    })
-    const palette1 = await fetchPalette(1).catch(() => palette)
-    // M15(2026-06-07 sdlpal 审查):DOS splash 用 FBP chunk 0x26/0x27,非 WIN95 的 3/4
-    //   (sdlpal main.c:42-43 BITMAPNUM_SPLASH_UP/DOWN = fIsWIN95 ? 0x03/0x04 : 0x26/0x27)。
-    const fbpUp = assets.battleBgs.get(0x26)
-    const fbpDown = assets.battleBgs.get(0x27)
-    const craneSprite = characterSprites.get(73)
-    const titleSprite = characterSprites.get(71)
-    if (!fbpUp || !fbpDown || !craneSprite || !titleSprite || titleSprite.frames.length === 0) {
-      console.warn('[bootstrap] DOS splash 资产缺失,跳过 splash fallback')
-      return
-    }
-    await playSplashFallback({
-      fb,
-      canvasCtx: canvasCtx!,
-      palette: palette1,
-      // BattleBgAsset(无 opaque)→ wrap 成 IndexedImage(全 opaque)
-      bitmapUp: { ...fbpUp, opaque: new Uint8Array(fbpUp.width * fbpUp.height).fill(1) },
-      bitmapDown: { ...fbpDown, opaque: new Uint8Array(fbpDown.width * fbpDown.height).fill(1) },
-      craneSprite: {
-        frames: craneSprite.frames.map((f) => ({
-          width: f.width,
-          height: f.height,
-          indices: f.indices,
-          opaque: f.opaque,
-        })),
-        anchorX: craneSprite.anchorX,
-        anchorY: craneSprite.anchorY,
-      },
-      titleFrame: {
-        width: titleSprite.frames[0]!.width,
-        height: titleSprite.frames[0]!.height,
-        indices: titleSprite.frames[0]!.indices,
-        opaque: titleSprite.frames[0]!.opaque,
-      },
-    })
-  }
 
   async function showTrademarkAndSplash(): Promise<void> {
     gs.suspendRaf = true
@@ -1867,11 +1633,11 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     }
   }
 
-  // soundfont 收尾等待:其余 boot 资源(~3200 个请求)完成后,慢网下进度计数会停在最后一格
-  // 等这单个大文件请求 —— 注明在等什么;到手(或失败)即清。必须在视频/菜单发起**之前**等,
+  // soundfont 收尾等待:其余 boot 资源完成后,
+  // 慢网下进度计数会停在最后一格等这单个大文件请求 —— 注明在等什么;到手(或失败)即清。必须在视频/菜单发起**之前**等,
   // 否则 1.mp4 在 loading 覆盖层底下开播。(大小不写死:音色库可换,2026-06-12 已从 32MB
   // GeneralUser GS 换 6MB TimGM6mb,见 public/soundfont-LICENSE.txt)
-  if (initialMusicSource === 'midi') setBootLoadingNote('音色库')
+  if (initialMusicSource === 'midi') setBootLoadingNote(localize('音色库', 'Soundfont'))
   await soundfontSettled
   setBootLoadingNote('')
 

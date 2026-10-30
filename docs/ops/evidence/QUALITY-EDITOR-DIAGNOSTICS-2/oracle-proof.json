@@ -1,0 +1,308 @@
+{
+  "candidate": "51efbc1fffbae58e9bd70108651072beb439882c",
+  "isolatedWorkspace": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv",
+  "copiedPackages": ["editor", "reforge", "content", "shared"],
+  "dependencies": "external runtime symlinks; @type-pal links point to isolated copies; isolated Vite caches",
+  "noWorkingTreeProductMutation": true,
+  "cleanup": {
+    "path": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv",
+    "removed": true,
+    "exactPrefixAndParentChecked": true
+  },
+  "recipes": [
+    {
+      "name": "blob",
+      "case": "C02-G04-03",
+      "path": "packages/editor/src/core/battle-sprite-commands.ts",
+      "start": "export class DeleteUnusedBattleSpriteAssetCommand",
+      "end": "export class SetEnemyBattleSpriteCommand",
+      "before": "delete assetBlobs[record.path]",
+      "after": "void assetBlobs[record.path]",
+      "independentlyRebuiltSha256": "4a9d5860d76688bc640017671d65598ee6290728a15eea8203ab8854922112be"
+    },
+    {
+      "name": "error",
+      "case": "C02-G04-07",
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "start": "const deleteAsset = async",
+      "end": "const replaceAsset = async",
+      "before": "reportError(reason)",
+      "after": "reportError(new Error('删除前校验 generic'))",
+      "independentlyRebuiltSha256": "e87d5a9656823447e9c8c5e3631beb888e72a05a39092dfa0bc5c31ddfa64f96"
+    }
+  ],
+  "runs": [
+    {
+      "label": "oracle-old-blob",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv/oracle-old-blob.json",
+        "--silent=false",
+        "-t",
+        "C02-G04-03"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "e4e2f734331a13e22e69ee29af27780c4d8e6806f6707de3a4dc12cbadb2a506",
+      "rawBytes": 518,
+      "runnerSha256": "c07de77b11a7480ee523d4d3c53ba9ad63a374e82404ee8216b897df4271518d",
+      "runnerBytes": 3770,
+      "testSha256": "588ed3f60b9f67b66b0aeafd5ac103cad69a53f1da39b73b09c1d0278f69885f",
+      "passed": 1,
+      "failed": 0,
+      "pendingFromExplicitSelection": 9,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-03 确认删除：目录、catalog 与 blob 同步移除，选择落到首个其他资产并上报宿主",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "sourcePath": "packages/editor/src/core/battle-sprite-commands.ts",
+      "sourceSha256": "16041546eef69003ec20515cd91110b910b266df64c3cfbc84f47e9fda89b890",
+      "mutantSha256": "4a9d5860d76688bc640017671d65598ee6290728a15eea8203ab8854922112be",
+      "executedMutantSha256": "4a9d5860d76688bc640017671d65598ee6290728a15eea8203ab8854922112be"
+    },
+    {
+      "label": "oracle-old-error",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv/oracle-old-error.json",
+        "--silent=false",
+        "-t",
+        "C02-G04-07"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "decad89ac9390c6c8119def1db071562aaa681495b2ab0028a208b6b16b9bf1c",
+      "rawBytes": 519,
+      "runnerSha256": "4133e64076fe3c87f579fc25c127e7f006486145d8266d924b737787f37d217b",
+      "runnerBytes": 3763,
+      "testSha256": "588ed3f60b9f67b66b0aeafd5ac103cad69a53f1da39b73b09c1d0278f69885f",
+      "passed": 1,
+      "failed": 0,
+      "pendingFromExplicitSelection": 9,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-07 磁盘字节与登记不符：删除前校验拒绝，资产与历史保持",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "sourcePath": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceSha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+      "mutantSha256": "e87d5a9656823447e9c8c5e3631beb888e72a05a39092dfa0bc5c31ddfa64f96",
+      "executedMutantSha256": "e87d5a9656823447e9c8c5e3631beb888e72a05a39092dfa0bc5c31ddfa64f96"
+    },
+    {
+      "label": "oracle-new-blob",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv/oracle-new-blob.json",
+        "--silent=false",
+        "-t",
+        "C02-G04-03"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "468e11eafb7d4b4baeeb51f86bb2d471535864d459468108074666fbc02250b8",
+      "rawBytes": 2863,
+      "runnerSha256": "eb3f74beeadbb0be2046475aa97188fc4937b6e049d524ca1266c78fd584461e",
+      "runnerBytes": 4167,
+      "testSha256": "83f4ef49f0e906550c5be57e1c027f7b9e69060bdcef2e5973591eddd2edee72",
+      "passed": 0,
+      "failed": 1,
+      "pendingFromExplicitSelection": 9,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-03 确认删除：目录、catalog 与 blob 同步移除，选择落到首个其他资产并上报宿主",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected  to be undefined\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv/packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx:103:49\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "unwrappedAct": 0,
+      "sourcePath": "packages/editor/src/core/battle-sprite-commands.ts",
+      "sourceSha256": "16041546eef69003ec20515cd91110b910b266df64c3cfbc84f47e9fda89b890",
+      "mutantSha256": "4a9d5860d76688bc640017671d65598ee6290728a15eea8203ab8854922112be",
+      "executedMutantSha256": "4a9d5860d76688bc640017671d65598ee6290728a15eea8203ab8854922112be"
+    },
+    {
+      "label": "oracle-new-error",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv/oracle-new-error.json",
+        "--silent=false",
+        "-t",
+        "C02-G04-07"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "427fce6fb3f8002f6626d4ee7510ae3f9b7d5b880eba98736c3a389b8e9be411",
+      "rawBytes": 2983,
+      "runnerSha256": "6afa908a3d2400e2cfdb9da87bea768df521453afd2ff94c84ffc4390e06fadf",
+      "runnerBytes": 4208,
+      "testSha256": "83f4ef49f0e906550c5be57e1c027f7b9e69060bdcef2e5973591eddd2edee72",
+      "passed": 0,
+      "failed": 1,
+      "pendingFromExplicitSelection": 9,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-07 磁盘字节与登记不符：删除前校验拒绝，资产与历史保持",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [ '删除前校验 generic' ] to deeply equal [ Array(1) ]\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv/packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx:202:35\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "unwrappedAct": 0,
+      "sourcePath": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+      "sourceSha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+      "mutantSha256": "e87d5a9656823447e9c8c5e3631beb888e72a05a39092dfa0bc5c31ddfa64f96",
+      "executedMutantSha256": "e87d5a9656823447e9c8c5e3631beb888e72a05a39092dfa0bc5c31ddfa64f96"
+    },
+    {
+      "label": "oracle-recovery",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv/oracle-recovery.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c02-oracle-0hah9cvv",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "44ff4da68b6468a45ec170e7c66561617ab944e586f469d9189438661f537e25",
+      "rawBytes": 495,
+      "runnerSha256": "08782f5a8e9f16bf2708a4e05d66fb6e6d5b4896475cd167bbab3e91e8ea6e74",
+      "runnerBytes": 4028,
+      "testSha256": "83f4ef49f0e906550c5be57e1c027f7b9e69060bdcef2e5973591eddd2edee72",
+      "passed": 10,
+      "failed": 0,
+      "pendingFromExplicitSelection": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-01 入口互斥：有用途的帧源只给替换，无用途的帧源只给删除",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-02 确认框选取消：零提交，目录与历史不变",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-03 确认删除：目录、catalog 与 blob 同步移除，选择落到首个其他资产并上报宿主",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-04 删除后 undo：磁盘字节写回 blob，行回到目录且可再次真实解码",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-05 undo/redo 两个方向都过保存门，redo 重新移除 catalog 与 blob",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-06 引用索引未就绪：删除源文件禁用并给出原因，就绪后恢复可点",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-07 磁盘字节与登记不符：删除前校验拒绝，资产与历史保持",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-08 连续删除两个闲置资产：每次都落首个其他资产，两次 undo 还原目录顺序",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-09 先删最后一个用途再删源文件：两步各自可撤销，整体撤回后与初始完全一致",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+          "fullName": "C02-G04-10 被角色引用的 starter 用途不可删：按钮禁用并写明引用数，引用页签计数一致",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0
+    }
+  ]
+}

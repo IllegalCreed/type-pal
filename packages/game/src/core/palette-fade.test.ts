@@ -26,6 +26,9 @@ describe('palette-fade helpers', () => {
     expect(b.length).toBe(256)
     expect(b[0]).toEqual([0, 0, 0])
     expect(b[255]).toEqual([0, 0, 0])
+    b[0]![0] = 99
+    expect(b[255]).toEqual([0, 0, 0]) // 每个通道行独立
+    expect(blackColors()[0]).toEqual([0, 0, 0]) // 下一份快照独立
   })
 
   it('cloneColors:深拷,改副本不影响源', () => {
@@ -133,41 +136,62 @@ describe('buildPaletteFade(0x80)', () => {
     const cur = fill([0, 0, 0])
     const target = fill([80, 80, 80])
     const pf = buildPaletteFade(cur, target, 3200, 0)
+    cur[0]![0] = 99
+    target[0]![1] = 99
     const colors = fill([0, 0, 0])
     stepPaletteFade(colors, pf, 1600)
-    expect(colors[0]).toEqual([40, 40, 40])
+    // SDLPal step 16 uses 16/31, so 80*16/31 truncates to 41.
+    expect(colors[0]).toEqual([41, 41, 41])
+  })
+
+  it('每通道按 SDLPal /31 整数截断，不使用四舍五入', () => {
+    const cur = fill([0, 0, 0])
+    const target = fill([1, 1, 1])
+    const pf = buildPaletteFade(cur, target, 3200, 0)
+    const colors = fill([0, 0, 0])
+    // 32-step loop at step 16: (0 * 15 + 1 * 16) / 31 = 0 (C integer division).
+    stepPaletteFade(colors, pf, 1600)
+    expect(colors[0]).toEqual([0, 0, 0])
   })
 })
 
 describe('buildColorFade(0x8C)', () => {
   it('!fFrom:场景 base → 纯色 base[color](approach ±4)', () => {
-    const base = fill([100, 100, 100])
-    base[7] = [40, 40, 40] // bColor=7
+    const base = fill([101, 81, 40])
+    base[7] = [40, 101, 40] // VGA [25,20,10]与[10,25,10]经decodePalette展开
     const pf = buildColorFade(base, 7, false, 6400, 0)
     expect(pf.mode).toBe('approach')
     expect(pf.increment).toBe(4)
     expect(pf.steps).toBe(64)
-    // start = base(100),target = solid base[7]=(40)
-    expect(pf.startColors[0]).toEqual([100, 100, 100])
-    expect(pf.targetColors[0]).toEqual([40, 40, 40])
-    expect(pf.targetColors[7]).toEqual([40, 40, 40])
+    // 同时含下降/上升/不变通道;输入按生产提取器8位展开值,不假称C原始网格
+    expect(pf.startColors[0]).toEqual([101, 81, 40])
+    expect(pf.targetColors[0]).toEqual([40, 101, 40])
+    expect(pf.targetColors[7]).toEqual([40, 101, 40])
 
-    const colors = fill([100, 100, 100])
-    // progress=1 → stepN=64 → maxDelta=256 → 全收敛到 40
+    const colors = fill([101, 81, 40])
+    // step64饱和到选定色;C若被人工喂101→40会往返,但它正常取色不会产101
     stepPaletteFade(colors, pf, 6400)
-    expect(colors[0]).toEqual([40, 40, 40])
-    // 中途:progress 让 stepN=5 → maxDelta=20 → moveToward(100,40,20)=80
-    const colors2 = fill([100, 100, 100])
+    expect(colors[0]).toEqual([40, 101, 40])
+    // step5:下降101→81,上升81→101,第三通道不动
+    const colors2 = fill([101, 81, 40])
     stepPaletteFade(colors2, pf, Math.floor((5 / 64) * 6400)) // progress*64 = 5
-    expect(colors2[0]).toEqual([80, 80, 80])
+    expect(colors2[0]).toEqual([81, 101, 40])
   })
 
   it('fFrom:纯色 base[color] → 场景 base', () => {
-    const base = fill([100, 100, 100])
-    base[3] = [20, 20, 20]
+    const base = fill([100, 20, 40])
+    base[3] = [20, 100, 40]
     const pf = buildColorFade(base, 3, true, 6400, 0)
-    expect(pf.startColors[0]).toEqual([20, 20, 20]) // solid base[3]
-    expect(pf.targetColors[0]).toEqual([100, 100, 100])
+    expect(pf.startColors[0]).toEqual([20, 100, 40]) // solid base[3]
+    expect(pf.targetColors[0]).toEqual([100, 20, 40])
+    const colors = blackColors()
+    stepPaletteFade(colors, pf, 500) // step5:上升/下降各20,第三通道不动
+    expect(colors[0]).toEqual([40, 80, 40])
+    expect(colors[3]).toEqual([20, 100, 40]) // 选定色自身不动
+    stepPaletteFade(colors, pf, 500) // 同时刻重绘从快照推导,不得再积累一步
+    expect(colors[0]).toEqual([40, 80, 40])
+    finalizePaletteFade(colors, pf)
+    expect(colors[0]).toEqual([100, 20, 40])
   })
 })
 
@@ -192,7 +216,7 @@ describe('buildFadeToRed(0x4F)', () => {
     expect(colors[FADE_TO_RED_SKIP]).toEqual([199, 186, 174])
   })
 
-  it('lum 上限 clamp 255', () => {
+  it('最大合法8位RGB计算目标255,不据此声称可辨删除clamp', () => {
     const base = fill([255, 255, 255]) // (255*3)/4+64 = 191+64 = 255
     const pf = buildFadeToRed(base, 2400, 0)
     expect(pf.targetColors[0]).toEqual([255, 0, 0])

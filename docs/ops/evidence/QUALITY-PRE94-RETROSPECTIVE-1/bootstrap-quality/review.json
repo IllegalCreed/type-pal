@@ -1,0 +1,569 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "base": "624478c9ff3554d51142214d4d7aef78d67922fb",
+  "pureRefactorCommit": "740996efbff2476747bdf4d12aee3eba5f802395",
+  "owner": "Codex",
+  "branch": "codex/code-quality-3y",
+  "state": "CODE57 code accepted; event-system closure and CODE3r/53 aggregate code acceptance restored. Seven newly closed files, two old closures refreshed. Unified integration gates deferred.",
+  "files": [
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "decision": "accept code; unified integration and full ordinary-story/DOS visual certification separate",
+      "dimensions": {
+        "A": "Full base1949-line root and caller/lifetime review retained. Approved seam, IO rejection/retention and map identity/cache fixes are separately frozen. Seven real-browser cases cover complete resource publication, JSON/blob failure, latest-request ownership, scene leave/return, current-map identity, fresh/cached named-scene overrides using real maps76/20. Map0 is absent from this asset set; the first invalid-resource trial has no acceptance credit.",
+        "B": "Moved DOS rationale follows the actual functions; current startup palette,96/640 thumbnail sizes, resource publication and rejection owners are stated. scene-identity comments now include successful map-only replacement; no claim that SDLPal defines HTTP recovery.",
+        "C": "Root owns GS/scene activation/cache/current map identity; DOS and thumbnail leaves own their narrow jobs. Complete IO bundles are loaded before publication. Current SceneAssets is a borrowed cache object; only mapNum/tilemap are updated with decoded tiles. Revision revokes older publications without changing script scheduling.",
+        "D": "fetchMapResources is shared only by map-only and stale cached-map replacement, which have the same JSON/blob failure contract. Normal scene fetch retains its existing sprite/events scheduling and uses the already-approved map override. No shared cache API, universal mode helper or new whole-state dependency.",
+        "E": "Old3 helper identities and three old-green/new-single-red controls retained; seam formal/native red-green and seven native map contracts.391 adjacent tests at the unchanged core/cache/codec boundary, final3 helper cases and game TC0. Exact source reversal isolates approved behavior changes from the pure refactor.",
+        "F": "Long DOS sequences and thumbnail cache/semaphore removed from root. Scene fetch, cache activation, override reconciliation and map publication are named stages; SceneAssets/tiles/identity owners remain visible.",
+        "G": "Private unused palette argument removed; public exports preserved. New revision/currentSceneAssets state has actual publication/alias duties, no future scaffolding. Temporary loaded maps are released by GC when superseded; no new retry/UI layer.",
+        "H": "Leaf renderer directly testable with native Canvas/codec; root IO is exercised by actual main and legal opcodes in fresh browser contexts. Only specified HTTP500 is replaced. Snapshot/caller identities and the single publication-guard mutation give falsifiable ownership checks."
+      }
+    },
+    {
+      "path": "packages/game/src/shell/dos-cutscenes.ts",
+      "decision": "accept code; no fresh DOS ending visual claim",
+      "dimensions": {
+        "A": "两个完整旧序列的资源/音乐/等待/渐变/异常fallback顺序可逆还原；caller仍包suspendRaf/finally；实例早于入口注册，工厂仅定义函数并返回，无提前IO或TDZ。",
+        "B": "原primary与等待/模态说明跟随真正函数；setMusic说明是root端口而非本模块改gs。",
+        "C": "只负责DOS顺序演出；借用fb/context/初始色表/只读资源表，当前屏幕色表getter、音乐意图和MGO IO为三个窄端口。根拥有游戏/标题/挂起状态。",
+        "D": "正常DOS启动和Dev预览共享同一opening，Dev结局使用ending；借现有玩家，不新增模式布尔helper或万能上下文。",
+        "E": "完整类型/执行还原加原GLM ending.c逐beat证据、现役ending/RNG/player相邻；57当前回归和真实应用安装证明绑定。未重跑完整DOS片尾或声称听感/视觉1:1。",
+        "F": "playDosOpening/playDosEnding与fbp/scroll/rng局部动作按演出段排列，比在bootstrap闭包内追踪更直接。",
+        "G": "全部输入有实际消费，两个返回方法均有真实caller；无公共disposer/未来抽象。",
+        "H": "没有GS/AudioManager全对象或隐式核心setter；依赖读写边界明确，确定的序列仍直接调用已测播放器，不为改结构新造mock核心。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/scene-thumbnail.ts",
+      "decision": "accept approved seam fix and scoped renderer contracts",
+      "dimensions": {
+        "A": "同map/outW成功缓存、inflight dedup、并发2和finally交接保留；读取旧startup色表，不接实时night.palette。用户批准后两层coverage共同写入、现repair在降采样前执行；map76实际像素先红后绿。",
+        "B": "2080缓冲/96与640/相机/缓存owner准确；无override旧注；seam策略沿用当前主呈现补偿，不宣称SDLPal static-thumbnail真值。",
+        "C": "一个应用一个renderer，cache/在途/并发/临时framebuffer为同一owner；UI view关闭只抑制迟到DOM，不取消其它consumer共享工作。临时mask不入成功缓存。",
+        "D": "复用drawTilemap/repair/Framebuffer/现loader，不另写像素或codec算法；不和gameplay LRU混用。",
+        "E": "五合同覆盖两个真实宽度/独立RGBA、scene→map、在途排重/并发交接、失败重试、透明边缘；合法64×128和32×16字节帧。真实map12/76 native对照及map76正式红，opaque index0保留复用draw-tilemap既有合同，不堆同义用例。",
+        "F": "factory→acquire/release→render→cached callable，阶段/状态集中；私有函数只收两个实际参数。",
+        "G": "paletteOverride死参删除；默认输入由两个真实caller给定，未为不受支持输入恢复fallback。cache只留URL，页面结束由应用寿命释放。",
+        "H": "直接模块入口以平台fetch Response+实际decoder/Canvas验证，核心不mock；primary与截图独立于测试fixture。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-load.test.ts",
+      "decision": "accept",
+      "dimensions": {
+        "A": "完整256 RGB/夜色/cycle为当前Palette合法输入，沿真实loadGameFromSlot的快照→黑屏转换链。",
+        "B": "标题仍为存档屏幕隔离，不冒称真实Save/全场景加载。",
+        "C": "同一所有权转换合同中验证原盘→restore→black三个对象层级。",
+        "D": "makeWorkingPalette与cloneScreenPalette不同：前者重建已知字段，后者spread保留原对象字段；不因相似盲合。底层core测试不代替shell导出接线。",
+        "E": "保留旧长度/值/引用合同，增加实际修改tuple后的独立源值/第二行不变和metadata引用；两种tuple共享变异旧3绿/新恰1指定红，非clone自比。",
+        "F": "restored/black/palette与字面首/中/末值表达拥有者。",
+        "G": "原1身份保留，无case膨胀或镜像断言；不删未知oracle。",
+        "H": "纯函数不mock；模块未启动应用，无时钟/IO或共享状态修改。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+      "decision": "accept",
+      "dimensions": {
+        "A": "真实400×250 Canvas，实际fillRect/fillText call-through并观察真实RGBA；null只在本canvas平台边界替代。",
+        "B": "头注限定main失败画布端口，不声称完整bootstrap无法测试或全资源启动通过。",
+        "C": "两个独立业务合同：正常绘制/上下文缺失；绘制记录只观察端口，不伪造完整context。",
+        "D": "复用native Canvas与typed vi.spyOn，无Object.assign(Object.create(...))冒充整个CanvasRenderingContext2D。",
+        "E": "旧两身份和背景/文字顺序、色彩、坐标/消息保留；初始空font只属旧替身，不是生产合同，改为实际像素/字体。硬编码320×200反控旧3绿/新单红。",
+        "F": "draws完整有序数组而非bg/text只保留末次调用；输入尺寸区别默认值。",
+        "G": "无多余数值相似case，原2保留。",
+        "H": "所有spy finally恢复；本地canvas不挂DOM，不污染原型；真实图像由native后端绘制。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/scene-thumbnail.test.ts",
+      "decision": "accept",
+      "dimensions": {
+        "A": "标准64×128地图、真实32×16合法GOP literal/skip帧与完整Palette；只在fetch的未知IO边界给500。",
+        "B": "明确透明skip与opaque index0区别，未把单条fixture当原盘数据。",
+        "C": "5个原子合同按resource/renderer边界，不混root动作或重造tile算法。",
+        "D": "不用SUT生成oracle；固定RGBA与输出大小独立，metadata/cache请求序列分合同；未与minimap分类/裁剪测试重复。",
+        "E": "4绿1真实PNG边缘业务红→5绿；缓存/并发有可观察deferred控制与完整清理，故障warn精确一次/模板/原Error字段断言，不以次数替代结果。",
+        "F": "installTransport/tileset/pixels分别为平台IO、输入编码、独立native解图；名称直接。",
+        "G": "五例分别有输入域/结果轴，不为coverage加量；从标题移除未直接证明的failure semaphore释放宣称，原身份映射明确。",
+        "H": "typed fetch Response、真实共享codec/Canvas，finally settle全部jobs后恢复globals；不mock renderer/decoder或放宽timeout。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "decision": "accept; prior closure restored after approved rejection fix",
+      "dimensions": {
+        "A": "Old whole-file/effective mechanism evidence reused; direct0x99 rejection counter is repaired through the actual callback owner. Unit failure logs the exact original Error once; native JSON/blob500 has no pageerror. Other core execution/type structure reconstructs exactly.",
+        "B": "Map-only comment states nonblocking script continuation and core rejection/shell-resource ownership. Synchronous SDLPal resource loading is not mislabeled HTTP fallback truth.",
+        "C": "Core keeps script intention/override, shell owns decoded map publication; catch only logs the original error and does not reset cursor/NPC/mode.",
+        "D": "Does not copy sceneLoader full-scene reset policy into map-only failure. Existing setter contract remains unchanged.",
+        "E": "One new failure contract complements existing success/absent-loader cases. Initial formal red is a business AssertionError plus real unhandled rejection.391 adjacent pass with no diagnostics. Incorrect false expectation was corrected to the legal constructor state undefined before that pass; subsequent header-only changes preserve typed AST.",
+        "F": "Rejection handler names map number and original cause directly; no detached void failure.",
+        "G": "No new API/compatibility/retry/state-reset path.",
+        "H": "Existing async resource injection isolates IO; native actual-core callback chain provides independent unhandled-error evidence. Scoped spy restored in finally."
+      }
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+      "decision": "accept",
+      "dimensions": {
+        "A": "Entire three-case file read; legal constructor state/typed scripts and original SHORT oracle preserved. Callback rejection is platform IO, not a fake core implementation.",
+        "B": "Current header uses stable opcode/function anchors and identifies neighboring success coverage; obsolete zero-injection claims and old line numbers removed.",
+        "C": "Layer semantics, successful map notification/continuation and rejected notification each have separate result axes.",
+        "D": "Neighbor cov85 checks notification/override; K04 additionally checks same-frame sound/absent loader and exact rejection/state preservation. No equivalent copied failure case found.",
+        "E": "Existing2 identities retained plus1 distinct rejection identity; exact original Error/log template/count, subsequent sound and unchanged party/NPC/optional loading state checked. Formal red is one business AssertionError plus the real unhandled rejection; no collection error counted.",
+        "F": "Explicit failure/caller/commands and result names; no broad harness or mock graph.",
+        "G": "Only one new unit case; native root IO cases cover a different caller/lifetime domain.",
+        "H": "setMapReloader reset and console spy restored in finally; constructor omits sceneLoading, so final oracle is explicitly undefined rather than the incorrect first false assumption."
+      }
+    },
+    {
+      "path": "packages/game/src/core/scene-identity.ts",
+      "decision": "accept existing closure refreshed; comment-only",
+      "dimensions": {
+        "A": "Entire13-line store and production writers/readers read; current getter/setter executable TS unchanged from base. Actual map-only, scene activation and tools identity observed.",
+        "B": "Comments now include the newly approved complete map-only writer rather than only scene loading.",
+        "C": "One shared current-map cell; bootstrap publishes only after resources complete, no reverse dependency.",
+        "D": "Existing store reused; no second map identity or duplicate setter introduced.",
+        "E": "Seven native root cases observe the real exported getter, including before/after revisit; no new tautological getter test.",
+        "F": "Simple get/set identity boundary names retained.",
+        "G": "Both exports have real scene/history/tools callers; no unused parameters.",
+        "H": "Deterministic setter/getter remains directly observable through actual consumers; no new private exposure."
+      }
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "7d22fb11132c0a6b4973b588c8ea1d63056e42a4b85869e91f8ff961f738ae2d",
+      "lines": 1707
+    },
+    {
+      "path": "packages/game/src/shell/dos-cutscenes.ts",
+      "sha256": "bd18018aa36e4291c8ef414848d77b98b1806d81214e98ad7c4fb10db48e7df8",
+      "lines": 216
+    },
+    {
+      "path": "packages/game/src/shell/scene-thumbnail.ts",
+      "sha256": "38f39fc61162cc9044f4739388d9d4742385764ee85ded1d8adea72d79a6c461",
+      "lines": 115
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-load.test.ts",
+      "sha256": "2e98e0418ed488e7739a13042454745acc1cba0a3ed8f6c0a07b933fad9fc2b5",
+      "lines": 39
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+      "sha256": "facec95b90f51609c99047b7ba6d106c1be58b6e44736dd337b7ce982ff9fef0",
+      "lines": 56
+    },
+    {
+      "path": "packages/game/src/shell/scene-thumbnail.test.ts",
+      "sha256": "f4e177bccb473672c63f32e3aea5020c556ca8c54a79dae53bee003e3468fe4f",
+      "lines": 163
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "87e0d498f6679d58c4e22b60ba3d543a47819d462afcefe71da0b8fe85385210",
+      "lines": 4973
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03",
+      "lines": 99
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "sha256": "8ad57e0042e6d6797303bb863f8696312ea72e813da94e04d4a1829470272b1e",
+      "lines": 340
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060",
+      "lines": 49
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "868c492fc155e8a6becd1ff29ee1be002dd78573964d26c84700ac959f0a9f27",
+      "lines": 148
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f",
+      "lines": 501
+    },
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "sha256": "2535e26d93586f17b77404adff93b04946435812bcd556014fd4086de9adbbf3",
+      "lines": 298
+    },
+    {
+      "path": "packages/game/src/tools/minimap-model.ts",
+      "sha256": "cacc7e36d063c9aefe36491e9c8b4d11d843fde880be822c7b035fe816a291d7",
+      "lines": 140
+    },
+    {
+      "path": "packages/game/src/dev/dev-scene-panel.ts",
+      "sha256": "a6996812a362b2708dac1bd4119ea4365a3a4f030d81f0fda494ccd7a7d08ac7",
+      "lines": 231
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "sha256": "c32b60762cfc573fa28e6a372a6e3dafb8710216582e5c0cf565ddfaa06ec38e",
+      "lines": 329
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.ts",
+      "sha256": "9099d346ac0a66353169d940d4b5dbc173f702c7ec22da4fe403c63e01ca3fdc",
+      "lines": 207
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.ts",
+      "sha256": "726d13f8e6293bb3f50ef42637f3a45e54f20f7d66bb7a9c056c78d3b15c6f04",
+      "lines": 268
+    },
+    {
+      "path": "packages/game/src/shell/fbp-player.ts",
+      "sha256": "ba1446541c29346fd98d84ecf97db75d36ec6070bddbfdce64f8e52904bba81a",
+      "lines": 173
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.ts",
+      "sha256": "67f2a8b128b07b6faf8da926660473de86d37737c72e4548aa482e1857d947c1",
+      "lines": 324
+    },
+    {
+      "path": "packages/game/src/shell/trademark-fallback.ts",
+      "sha256": "ad6995cb2b1927d569400cb8f2ec391c6838713af4e611288d41d0fd307308ee",
+      "lines": 91
+    },
+    {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "lines": 903
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652
+    },
+    {
+      "path": "reference/sdlpal/ending.c",
+      "sha256": "ddaaf5014cbc173cbdf2dadf369f29cecba2244b1eaf0ff30b52f63c6c697971",
+      "lines": 512
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "lines": 20
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "lines": 11
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65",
+      "lines": 2521
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k04.test.ts",
+      "sha256": "2adaa8e4355728112636ae4ba9c686b9896e41cfab7fbf1d1e624ac84968954e",
+      "lines": 148
+    },
+    {
+      "path": "packages/game/src/core/scene-identity.ts",
+      "sha256": "7a3b6d9d9b1686b14e684175f8f54c14ead752c4a110eb67c336ec01ba03c44e",
+      "lines": 13
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/map-reload.browser.mjs",
+      "sha256": "7517c9d286ad727b025b18963fbc2cf4466e4d8504f3ba6363e6f8a8f79863a5",
+      "lines": 398
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/approved-map-consistency-delta.json",
+      "sha256": "78d3c612ba5e8c1ddbafdd4a37245adefbb043ed8778bfbe2c01e15523d9f7c3",
+      "lines": 196
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/prove-refactor.cjs",
+      "sha256": "651ca55d5b88d7e0a6739b69960cdca2626a19ad135f866ce877a0b79b54f3e3",
+      "lines": 253
+    }
+  ],
+  "assetInputs": [
+    {
+      "path": "data/extracted/data/tilemap/12.json",
+      "sha256": "47a369d45b8163b4fa172af1359bde3912856bf099e280ae6dbf26f135b3e794",
+      "bytes": 467358
+    },
+    {
+      "path": "data/extracted/data/tilemap/76.json",
+      "sha256": "0b08353a0d689cfd3344168ff305b2d43f0a62e221eff07697c20f731002c66c",
+      "bytes": 506645
+    },
+    {
+      "path": "data/extracted/data/tileset/12.rle",
+      "sha256": "9d738a0cbbcf83491634365a73c297be141b272cd1651beb3fb271aa87e1974b",
+      "bytes": 25756
+    },
+    {
+      "path": "data/extracted/data/tileset/76.rle",
+      "sha256": "878d4c4802b31ad19a5615511ce8ef71765964cf1f89273617b3f3d8fa723162",
+      "bytes": 25509
+    },
+    {
+      "path": "data/extracted/data/palette/0.json",
+      "sha256": "c07d1ae9d6dede23379aeda7cfc04ee37663abb7b8cb9069a6e3d00d9f6cfca9",
+      "bytes": 22117
+    },
+    {
+      "path": "data/extracted/data/tilemap/20.json",
+      "sha256": "f43acfbabaa298aa73a9fe080a2adf811a0e86a4c201d25008e2f255865ef773"
+    },
+    {
+      "path": "data/extracted/data/tileset/20.rle",
+      "sha256": "024fc07692dfc51071efbd980cfa45d1264d264af24f8f61fe3a3ec0fbf39cea"
+    }
+  ],
+  "sourceRead": {
+    "bootstrap": "1949 lines at base completely read, plus current exact transform; prior author/current delta reused; moved complete bodies and production callers checked",
+    "primary": [
+      "script.c 2736–2760 actual0x99",
+      "scene.c452–505",
+      "draw-tilemap actual coverage/repair",
+      "main unique startup and current helpers"
+    ],
+    "limits": "No fresh full original-game/DOS ending/E2E certification"
+  },
+  "quantitativeScreen": {
+    "tool": "TypeScript6.0.3 AST",
+    "rule": "base1 + conditional/loop/catch/case/logical binary; nested functions separately",
+    "threshold": 10,
+    "flagged": [
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "name": "syncShellAudio",
+        "line": 176,
+        "branches": 14
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "name": "bootstrap",
+        "line": 233,
+        "branches": 36
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "name": "loadSceneCommon",
+        "line": 710,
+        "branches": 14
+      }
+    ],
+    "decision": "Reading clues only. DOS/thumbnail responsibilities extracted; map IO and publication owners corrected. No metric-driven splitting or claim of invariance across approved behavior fixes."
+  },
+  "reusedEvidence": [
+    "../glm-foundation/game-shell-bootstrap/README.md",
+    "../glm-foundation/codex-final29.json",
+    "../core-comment-audit/tools-thumbnail-hotkeys/README.md",
+    "../3h/rle-boot-quality/README.md",
+    "../72-boot-loading/approved-fix/README.md",
+    "../tools-panel-closeout/README.md"
+  ],
+  "mapping": {
+    "originalTests": 3,
+    "retainedIdentities": 3,
+    "newThumbnailContracts": 5,
+    "retiredTests": 0,
+    "oracleErratum": "Old fake ctx initial font empty was fixture-only; actual native context canonical colors #440000/#ff8888 and genuine pixel output replace it.",
+    "titleErratum": {
+      "before": "reports a failed map load once, releases the slot and leaves failure uncached for retry",
+      "after": "reports a failed map load once and leaves failure uncached for retry",
+      "reason": "failure-case directly proves uncached retry; concurrency release separately observed on success, not claimed by this title"
+    },
+    "newMapCallerCase": 1,
+    "retainedK04Identities": 2,
+    "nativeMapCases": 7
+  },
+  "controls": {
+    "records": [
+      {
+        "id": "clone-tuple-shared",
+        "source": "848d22ff7a79f402420f23a4066caa4779f39d46f1a260eb6221c9e3271dd640",
+        "mutant": "2c9da63653e32a1e016518b3844d734392d525de020200c7c45839b8cfe73747",
+        "oldTests": [
+          "2a20bb9788d49be84cae0fa24a0a9ea653be64a1e1b5e3046b14cd843b72d1b6",
+          "a76b470dd1a16ff46d61def2787f756c15f94b35c9dbbd7fcd2f2317b94f372e"
+        ],
+        "currentTests": [
+          "2e98e0418ed488e7739a13042454745acc1cba0a3ed8f6c0a07b933fad9fc2b5",
+          "facec95b90f51609c99047b7ba6d106c1be58b6e44736dd337b7ce982ff9fef0"
+        ],
+        "old": {
+          "passed": 3,
+          "failed": []
+        },
+        "new": {
+          "passed": 2,
+          "failed": [
+            {
+              "fullName": "load palette transition helpers 读档黑屏 palette 不会污染存档恢复用的原 palette",
+              "failureMessages": [
+                "AssertionError: expected [ 99, 1, 2 ] to deeply equal [ +0, 1, 2 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/bootstrap-load.test.ts:32:31\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "black-tuple-shared",
+        "source": "848d22ff7a79f402420f23a4066caa4779f39d46f1a260eb6221c9e3271dd640",
+        "mutant": "92a445e149ffebdd13f366290614f71dda6114f7d95284abd1fd65895e149943",
+        "oldTests": [
+          "2a20bb9788d49be84cae0fa24a0a9ea653be64a1e1b5e3046b14cd843b72d1b6",
+          "a76b470dd1a16ff46d61def2787f756c15f94b35c9dbbd7fcd2f2317b94f372e"
+        ],
+        "currentTests": [
+          "2e98e0418ed488e7739a13042454745acc1cba0a3ed8f6c0a07b933fad9fc2b5",
+          "facec95b90f51609c99047b7ba6d106c1be58b6e44736dd337b7ce982ff9fef0"
+        ],
+        "old": {
+          "passed": 3,
+          "failed": []
+        },
+        "new": {
+          "passed": 2,
+          "failed": [
+            {
+              "fullName": "load palette transition helpers 读档黑屏 palette 不会污染存档恢复用的原 palette",
+              "failureMessages": [
+                "AssertionError: expected [ +0, 33, +0 ] to deeply equal [ +0, +0, +0 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/bootstrap-load.test.ts:34:29\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "error-default-size",
+        "source": "848d22ff7a79f402420f23a4066caa4779f39d46f1a260eb6221c9e3271dd640",
+        "mutant": "e234ed68cca60f60daaac32439aa06c992a5adfeec4a2bb1d385e394d3b2caa3",
+        "oldTests": [
+          "2a20bb9788d49be84cae0fa24a0a9ea653be64a1e1b5e3046b14cd843b72d1b6",
+          "a76b470dd1a16ff46d61def2787f756c15f94b35c9dbbd7fcd2f2317b94f372e"
+        ],
+        "currentTests": [
+          "2e98e0418ed488e7739a13042454745acc1cba0a3ed8f6c0a07b933fad9fc2b5",
+          "facec95b90f51609c99047b7ba6d106c1be58b6e44736dd337b7ce982ff9fef0"
+        ],
+        "old": {
+          "passed": 3,
+          "failed": []
+        },
+        "new": {
+          "passed": 2,
+          "failed": [
+            {
+              "fullName": "showError 启动失败显示(bootstrap.ts) 绘制时序:fillRect 时 fillStyle=#400 铺满画布;fillText 时 fillStyle=#f88、font=10px monospace 于 (8,32)",
+              "failureMessages": [
+                "AssertionError: expected [ { fn: 'fillRect', …(2) }, …(1) ] to deeply equal [ { fn: 'fillRect', …(2) }, …(1) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/bootstrap.glm-next-wave.test.ts:24:21\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "sourceRestored": true,
+    "testsRestored": true
+  },
+  "executions": {
+    "baseline": "baseline",
+    "strengthened": "strengthened",
+    "syntheticRed": "seam-formal-red",
+    "syntheticGreen": "seam-directed",
+    "nativeRed": "native-seam-red",
+    "nativeGreen": "native-seam-green",
+    "adjacent": "adjacent",
+    "typecheck": "final-typecheck",
+    "proof": "final-refactor-proof",
+    "startup": "bootstrap-browser",
+    "counterIds": ["map-reload-probe", "map-tiles-failure", "map-tiles-r2"],
+    "mapFormalRed": "map-caller-red",
+    "mapAdjacent": "map-adjacent-r2",
+    "mapTypecheck": "map-typecheck",
+    "mapBrowserRed": "map-browser-red",
+    "mapBrowserGreen": "map-browser-final",
+    "publicationControl": "map-control",
+    "consistencyFormalRed": "map-consistency-red-r2",
+    "consistencyFinal": "map-consistency-final",
+    "finalTypecheck": "consistency-typecheck",
+    "finalHelpers": "consistency-helpers",
+    "finalProof": "consistency-proof"
+  },
+  "diagnostics": {
+    "green": "57 initial adjacent +391 map-adjacent +3 final helper results, all recorded at their actual source versions. No stderr/runtime errors in successful unit gates. Native ordinary/success cases have no error/warning/pageerror; each deliberately failed HTTP case has exactly one platform500 console error plus one exact handled application error and no unhandled rejection. This is intentional fault evidence, not console-empty.",
+    "negative": "Original unhandled failures, initial wrong fixture/oracle/tool failures and source-mutant failures remain immutable. No global or coverage gate claimed."
+  },
+  "processDisclosure": [
+    "First refactor proof rejected TS printer multiline formatting; changed structural normalization to typed AST node/leaf tree, not ignored business expressions. Original failure raw retained.",
+    "Initial direct Biome run had3info useTemplate in proof producer; fixed actual code, original terminal output not preserved as raw.",
+    "Direct final proof attempt used wrong removal order, leaving repair(tfb); corrected exact normalization order. That direct failure was tool-visible, not archived raw; later actual PASS is frozen.",
+    "One exploratory root require(canvas) failed due pnpm package resolution, corrected createRequire(game/package.json); no product-test credit assigned.",
+    "Owned6005 session33118 stopped deliberately by Ctrl-C exit130 after all browsers closed; server terminal output not separate raw, browser-side original errors are frozen.",
+    "Only comments moved after adjacent/TC; complete normalized TS bridge covers those byte changes without rerunning unchanged tests.",
+    "First map unit green failed because createInitialGameState omits sceneLoading; corrected false oracle to explicit undefined. Native runtime separately observes false. Initial same-scene0x59 fixture was a no-op by the documented guard; replaced with actual scene2→1→2 before granting scene-ownership credit.",
+    "First native screenshots were captured while loading overlay faded; final browser observer explicitly waits for #boot-loading removal. Original screenshots remain evidence of their actual scope, not map visual acceptance.",
+    "Initial named-map0 case used an asset absent from this extraction and has no acceptance credit. Replaced with actual maps76/20 covering fresh entry and cached override. Corrected producer replayed exact f454 source: precisely the two map-consistency cases fail by business assertions, then current source restored byte-exact before seven-case green. This is a later old-version replay, not falsely claimed chronological pre-implementation execution.",
+    "Pure-refactor checker now reverses only frozen manually reviewed approved-map-consistency-delta exact hunks before prior typed-AST reconstruction; authorized behavior is deliberately not declared invariant. Checker identity/hunks themselves are independently reviewable.",
+    "One temporary probe originally resolved repository relative to /tmp and failed before launch; corrected to verified cwd. First admission-edit Python failed decoding before execution; no product change occurred. These exploratory failures are not acceptance gates.",
+    "Owned Vite servers stopped deliberately only after browser/context closures. Server terminal raw is not separately preserved; full browser console/pageerror and command/native receipts are."
+  ],
+  "stops": {
+    "mapFailure": {
+      "card": "docs/ops/tasks/GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md",
+      "status": "Approved and code repaired; no remaining CODE57 IO/identity counter",
+      "authorization": [
+        "call_6eeed1b6bbf9487da0a5579959147b46",
+        "call_b5321581708e46f39e1c2043ce60ebf5"
+      ],
+      "lateSceneOwnership": "Two-request and actual scene leave/return native contracts pass; deleting only publication guard makes exactly these two fail. Resource downloads are not aborted, but superseded complete results cannot publish."
+    },
+    "remaining": "pre94 CODE1 /3m /42; all other80 code-card scopes accepted; final unified integration still pending"
+  },
+  "notRun": [
+    "whole check",
+    "official coverage/ratchet",
+    "protected fast",
+    "PR/merge",
+    "full ordinary-story/DOS-ending visual"
+  ],
+  "invalidations": "Changed root installation, resource/caller lifetimes, codec/map/palette bytes, draw/repair ownership or public helper contracts invalidate their specific claims. Hash identifies source, not quality.",
+  "behaviorCommits": {
+    "seam": "a096dd2e364ac236174c4bfae8870af6001c4511",
+    "failedReplacement": "f454fa7e1785e271505d169fecd9317640b60c3b",
+    "identityAndRevisit": "fdbb909f5389ef6a4c4f0a72ccf1b6652d4b4d15"
+  },
+  "publicationControl": {
+    "originalSha256": "bd61a0a25a8e9d27ac0e8fc8f9d787f25f671bab6c40069c1dfe65ba4d7a9067",
+    "mutatedSha256": "e9912d48a3c8993e7ad93fc62982535c6b812d1994167fd01bc63740c96fd61e",
+    "restoredSha256": "bd61a0a25a8e9d27ac0e8fc8f9d787f25f671bab6c40069c1dfe65ba4d7a9067",
+    "sourceRestored": true
+  },
+  "consistencyReplay": {
+    "base": "f454fa7e1785e271505d169fecd9317640b60c3b",
+    "replayedSourceSha256": "bd61a0a25a8e9d27ac0e8fc8f9d787f25f671bab6c40069c1dfe65ba4d7a9067",
+    "finalSourceSha256": "7d22fb11132c0a6b4973b588c8ea1d63056e42a4b85869e91f8ff961f738ae2d",
+    "restoredSha256": "7d22fb11132c0a6b4973b588c8ea1d63056e42a4b85869e91f8ff961f738ae2d",
+    "restored": true
+  },
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "82e677bb15a22896d73c4b2c79ef0232effc1f0de3225b34818eaaa340c0116e",
+    "members": 337
+  },
+  "executionIdentity": "Execution HEAD fields identify invocation commits, not an uncommitted working candidate. Final source/context fingerprints identify the tested code, subsequently frozen by the behavior commits. Earlier root/core/helper tests and three controls retain original snapshots and explicit typed-AST version bridges; no test is claimed rerun merely after a comment change."
+}

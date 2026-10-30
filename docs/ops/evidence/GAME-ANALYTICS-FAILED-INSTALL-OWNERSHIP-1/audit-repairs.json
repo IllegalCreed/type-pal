@@ -1,0 +1,16 @@
+{
+  "scope": "Two evidence verifier failures retained; no source/test/rule changes to pass checks",
+  "attempts": [
+    {
+      "receipt": "scope-verification.json",
+      "result": "exit1",
+      "reason": "Saved repeated privacy AX observation was no-change diff, not full tree. Original screenshot actually inspected with view_image and separately recorded; no invented AX."
+    },
+    {
+      "receipt": "scope-verification-final.json",
+      "result": "exit1",
+      "reason": "Owned screenshots in packages/game/artifacts were not ignored; moved exact bytes to repository prescribed ignored build/dev-screenshots, no ignore/config change. Original UI fixture already removed; screenshot hashes unchanged."
+    }
+  ],
+  "canonicalVerifier": "scope-verification-current.json"
+}

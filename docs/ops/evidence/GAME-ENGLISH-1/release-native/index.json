@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 1,
+  "id": "GAME-ENGLISH-1-release-native",
+  "template": "evidence-receipt-v1",
+  "status": "recorded",
+  "owner": "english_release_docs (Codex delegated documentation owner)",
+  "task": "docs/ops/tasks/GAME-ENGLISH-1.md",
+  "scope": "Lossless originals of actual root CI/merge, deployment/postflight and browser reload observations. Final finite production browser smoke is recorded in its original report; no full-story/physical-device/offline-navigation inference.",
+  "recordedAt": "2026-10-22T16:01:37.303Z",
+  "producer": "Codex root executed original commands; delegated documentation owner verified files and gzip round trip only",
+  "candidate": "612b203a1313960fd33feb509cfb294471802b98",
+  "merged": "365e582e288ea1c0052595f2aa31ab59ab72da01",
+  "entries": [
+    {
+      "name": "deploy-all.txt",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/deploy-all.txt",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/deploy-all.txt.gz",
+      "sourceBytes": 213452,
+      "sourceSha256": "6769509377f24ada46d137a26cca7b251a8a82dbb6ddd246688f0dd2574a24e1",
+      "gzipBytes": 36690,
+      "gzipSha256": "70c7421c588ee361dbbd2d99a74c4feb12ec82ec63aa4246195102c3ed94705a",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "cdn-refresh.json",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/cdn-refresh.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/cdn-refresh.json.gz",
+      "sourceBytes": 391,
+      "sourceSha256": "00990c447132b9973480923799d9a63c72ef639616ad769d3a56f761507c2f56",
+      "gzipBytes": 291,
+      "gzipSha256": "a4316d7d231979c197623f06b781f1253ad29145118c62447d9d17d4c944a22e",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "postflight.json",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/postflight.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/postflight.json.gz",
+      "sourceBytes": 536892,
+      "sourceSha256": "b7ed9d1e8634e3a9ff9e5704860c157318db65f80a541c1bed74062b1b8e5743",
+      "gzipBytes": 134142,
+      "gzipSha256": "500997e921ede6af2b6b42aed157770dbd3d1a432a0223384272db680733341a",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "postflight.stderr.txt",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/postflight.stderr.txt",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/postflight.stderr.txt.gz",
+      "sourceBytes": 0,
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "f1b651238a58fe290baec6c5e32f3bdb1943dd2bd582f02569231f7a757c7837",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "ci-612-green.json",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/ci-612-green.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/ci-612-green.json.gz",
+      "sourceBytes": 1000,
+      "sourceSha256": "ad8277af06010da05446498c3707e6d8ceef1cd6d64642c7e3243eaa602e9fe2",
+      "gzipBytes": 431,
+      "gzipSha256": "311646c5629d5230a4b731340377e3f0d8c64edbe77ab49348df0286e120f994",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "ci-612-check-runs.json",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/ci-612-check-runs.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/ci-612-check-runs.json.gz",
+      "sourceBytes": 13398,
+      "sourceSha256": "5b54acb28f4401c30e768a17917e63eefbcf3f075603f2a5bef82ad07c1937ad",
+      "gzipBytes": 3382,
+      "gzipSha256": "0010b83707c72c007dc1c82472e97b80e086b5d9577539e694392c9a1869dd77",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "ci-612-coverage.txt",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/ci-612-coverage.txt",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/ci-612-coverage.txt.gz",
+      "sourceBytes": 743606,
+      "sourceSha256": "b118e8764cc6e3c9443872b34f2e6e08175327358eb96a92ef496ab14beaa95a",
+      "gzipBytes": 93781,
+      "gzipSha256": "1aa1a586e2d44a458fad4f75e9b0f32938f8510ba1879817c2bd7adda00dea34",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "ci-612-docs.txt",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/ci-612-docs.txt",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/ci-612-docs.txt.gz",
+      "sourceBytes": 2251772,
+      "sourceSha256": "62c2840cb1f100a5619c07a8b487d048385306be5bc115154cf6de6a140b6c47",
+      "gzipBytes": 222597,
+      "gzipSha256": "43b95bbd122237b5bc8c0de5625b886d7d76c7f691e712d521e971951c061994",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "pr11-merged.json",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/pr11-merged.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/pr11-merged.json.gz",
+      "sourceBytes": 287,
+      "sourceSha256": "a09bfb1d511a2768adce27f49953a4d75c05263a6540e58e1859ae305c502145",
+      "gzipBytes": 238,
+      "gzipSha256": "cf2d4f820a236629d4a510ceac46bf30f4826075a7967d9c545190bace932223",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "deployment-input.json",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/deployment-input.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/deployment-input.json.gz",
+      "sourceBytes": 19013,
+      "sourceSha256": "2970c7ded03c51adc37432abb472ed1a44ac50e5fed3c465607145daf39e48c0",
+      "gzipBytes": 3861,
+      "gzipSha256": "4cdfb21489b46a9d258352760d6825ee6d2e3647d7d717cbfaed8530fbe52677",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "aliyun-backup.txt",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/aliyun-backup.txt",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/aliyun-backup.txt.gz",
+      "sourceBytes": 483,
+      "sourceSha256": "b16ed97a29ede2ae4d7c3b75b4a248f30c7cce999676bb8d02ee2a633e687df8",
+      "gzipBytes": 295,
+      "gzipSha256": "80c9a3f2a74afa4ed9962c12e752f4b2ed9d2945387cb0eadf15a843e7d57780",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "aliyun-backup-freshness-final.txt",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/aliyun-backup-freshness-final.txt",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/aliyun-backup-freshness-final.txt.gz",
+      "sourceBytes": 343,
+      "sourceSha256": "ee779e3c1ecdc4b7a0890c684eaba92d9680d9c073fa7c777e46723ef926454d",
+      "gzipBytes": 242,
+      "gzipSha256": "f3d14463aa03024b8b782b9987d78b03c717a4344a14137a116256e51d2f0360",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "production-reload-dom.txt",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/production-reload-dom.txt",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/production-reload-dom.txt.gz",
+      "sourceBytes": 652,
+      "sourceSha256": "c83f6d9f7afef9e871e4e8d04b8ffedd7ff5c312b1c29342246b903a126dde58",
+      "gzipBytes": 530,
+      "gzipSha256": "a022de5f905a7731a8e184f75e67fd1a9e02bab015b6be7249b82be30c5bfc90",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "production-browser.json",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/production-browser.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/production-browser.json.gz",
+      "sourceBytes": 1116,
+      "sourceSha256": "99d369a8de70360978536b6ccc88982729cb809468428917a3958f204970dc82",
+      "gzipBytes": 644,
+      "gzipSha256": "b5326438dfe7611f35e688803216a7914ea8f449fab227e48a5db01d4ac8f5da",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "production-browser-logs.json",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/production-browser-logs.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/production-browser-logs.json.gz",
+      "sourceBytes": 3,
+      "sourceSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "gzipBytes": 23,
+      "gzipSha256": "c5a41d7ea306751f1e447839dbb90f15ee27cb51d30061c3f65660a34ff6f1ee",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "deployment-execution.json",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/deployment-execution.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/deployment-execution.json.gz",
+      "sourceBytes": 488,
+      "sourceSha256": "bcfbfc72975fae708a7d4ccd427f362bc9a1c1c541d1cada996561c0cfdef853",
+      "gzipBytes": 359,
+      "gzipSha256": "ee1e28747fde9e3c4c74acbf8c5ccdbb64bb01f3064a74f1da26232edd07ca62",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "production-final-dom.txt",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/production-final-dom.txt",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/production-final-dom.txt.gz",
+      "sourceBytes": 136,
+      "sourceSha256": "c66e148850037abba3d79a3a8dd783d8891332b02296a2bea0b6a048319b1787",
+      "gzipBytes": 138,
+      "gzipSha256": "84f9147afdd59427d6fb65ce48f908a0100a991589db13182e590e525815ac70",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "production-english-dialog.png",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/production-english-dialog.png",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/production-english-dialog.png",
+      "sourceBytes": 97015,
+      "sourceSha256": "6e775281f10ab83d234a88a239f814277d3e5159a490ad2f317ee23ca6ed74d1",
+      "copyMethod": "byte-for-byte PNG",
+      "exactRoundTrip": true,
+      "visualScope": "Viewed by root and delegated documentation owner: full English Li Aunt dialogue visible."
+    },
+    {
+      "name": "production-english-settings.png",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/production-english-settings.png",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/production-english-settings.png",
+      "sourceBytes": 30774,
+      "sourceSha256": "861e9a8739b0b6e7a3cbb261ded97b53092912bd902db079b5cdb32c57b6c54e",
+      "copyMethod": "byte-for-byte PNG",
+      "exactRoundTrip": true,
+      "visualScope": "Original filename retained; image displays movie frame, not settings panel. No settings screenshot acceptance."
+    },
+    {
+      "name": "production-browser-followup.json",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/production-browser-followup.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/production-browser-followup.json.gz",
+      "sourceBytes": 884,
+      "sourceSha256": "52a572480c97a5b2804545d2460ae6707374bb430f4662b09844e9c6abbbe73a",
+      "gzipBytes": 492,
+      "gzipSha256": "342007af45153c258c675c9d32870fd56d1656a137221fe7217796f78da468a2",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "production-settings-followup-dom.txt",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/production-settings-followup-dom.txt",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/production-settings-followup-dom.txt.gz",
+      "sourceBytes": 1739,
+      "sourceSha256": "73514f9c33e75bd3dedac1a2bc0968de164be76a23486e4570e006d53f9f4090",
+      "gzipBytes": 801,
+      "gzipSha256": "2826677421b7268be59fdc7fb9b9f7adc3881bccc78b27ecef7805aa677f857f",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "production-settings-followup.png",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/production-settings-followup.png",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/production-settings-followup.png",
+      "sourceBytes": 94013,
+      "sourceSha256": "66c1cb19c5a3f68ad3077fc3661d13205b73a23bac810c1a698c312998fa80c5",
+      "copyMethod": "byte-for-byte PNG",
+      "visualScope": "Root and delegated documentation owner viewed actual System panel with English selected; English Aunt dialogue behind.",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "independent-production-review.json",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/independent-production-review.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/independent-production-review.json.gz",
+      "sourceBytes": 4699,
+      "sourceSha256": "fe08f0c9819897988d4b8d75660e34a74ea8888865bd4f94e5990b65c46afe7b",
+      "gzipBytes": 2010,
+      "gzipSha256": "18270393fe8926222cd67dc9e946437662f45953f67421a921d243cdacad545b",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "independent-production-followup.json",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/independent-production-followup.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/independent-production-followup.json.gz",
+      "sourceBytes": 1766,
+      "sourceSha256": "ee457d272f794beb2bfdbd5e5f0be69588210452ff4018b2e6ee1d5cb2222c0a",
+      "gzipBytes": 896,
+      "gzipSha256": "f2f69e13fed8f47442ae0b2eeb3ec4810e7c5ba23edb12a4d50748a7b3ca9d4c",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "branch-protection-after-merge.json",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-release/branch-protection-after-merge.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/branch-protection-after-merge.json.gz",
+      "sourceBytes": 1340,
+      "sourceSha256": "f2109f2701d38667a9f45c48d8b31100daafef614b37887f6862996dd241d91d",
+      "gzipBytes": 393,
+      "gzipSha256": "f06d1072440739a61b3016be954a17c5fea1d9872e093839e51a008539054cfa",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "closeout-check-docs.txt",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/english-shell/type-pal/build/english-release-closeout/check-docs.txt",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/closeout-check-docs.txt.gz",
+      "sourceBytes": 30742,
+      "sourceSha256": "fa545e0edea9f8dd83d60b91541aba39d398845d07b581d4c650579f8fd5d73c",
+      "gzipBytes": 6931,
+      "gzipSha256": "f7bbcdddd0177095c822b8757c2ace5e4b0cf4411852fe6bd4f9170590494f0a",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "closeout-lint.txt",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/english-shell/type-pal/build/english-release-closeout/lint.txt",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/closeout-lint.txt.gz",
+      "sourceBytes": 187,
+      "sourceSha256": "2544125460a48a62f2deef6058265d062da15d930214ff5a66ee25c1b46dd9bf",
+      "gzipBytes": 173,
+      "gzipSha256": "53975d09ba9043071e3385165d7d09d0f80a2a0c6d86cab9dc2a2becfb9f22d7",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "closeout-diff-check.txt",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/english-shell/type-pal/build/english-release-closeout/diff-check.txt",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/closeout-diff-check.txt.gz",
+      "sourceBytes": 0,
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "f1b651238a58fe290baec6c5e32f3bdb1943dd2bd582f02569231f7a757c7837",
+      "exactRoundTrip": true
+    },
+    {
+      "name": "closeout-verification.json",
+      "sourcePath": "/Users/zhangxu/.codex/worktrees/english-shell/type-pal/build/english-release-closeout/verification-published.json",
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/release-native/closeout-verification.json.gz",
+      "sourceBytes": 173,
+      "sourceSha256": "36329824543fa6a0512d2adbab132d72dda84921a8fb1a78f4a937a501eaf8b9",
+      "gzipBytes": 146,
+      "gzipSha256": "966d1a4ed2b96c94cf3275bcfd4a707e135f11868a425e82ede986150b1e3dd9",
+      "exactRoundTrip": true
+    }
+  ],
+  "retention": "Keep raw historical outcomes and external Actions Node20-deprecation annotations; no result inferred from filenames.",
+  "limitations": [
+    "No new commands or browser/product tests performed by native publication",
+    "No full-story English E2E or offline navigation claim"
+  ],
+  "inspection": {
+    "producer": "Codex root actual UI/browser operations; delegated documentation owner read reports/DOM, inspected PNG contents and verified native copying.",
+    "browserReportPassed": true,
+    "dialoguePngAccepted": true,
+    "settingsNamedPngNotAcceptedAsSettings": true,
+    "warningErrorLogs": [],
+    "settingsFollowup": {
+      "report": "production-browser-followup.json.gz",
+      "image": "production-settings-followup.png",
+      "passed": true,
+      "originalMistimedScreenshotRetained": true
+    }
+  }
+}

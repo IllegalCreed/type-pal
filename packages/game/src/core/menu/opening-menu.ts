@@ -1,7 +1,7 @@
 /**
  * M5.6 T17:OpeningMenu(主菜单)— sdlpal `uigame.c:42-167` PAL_OpeningMenu。
  *
- * 大世界启动后第一个菜单 — 2 项固定:新游戏 / 读取存档。
+ * 启动标题菜单 — 2 项固定:新游戏 / 读取存档。
  *
  * sdlpal 真值锚:
  *  - 2 个 MENUITEM:`MAINMENU_LABEL_NEWGAME`(value=0)、`MAINMENU_LABEL_LOADGAME`(value=1)
@@ -26,8 +26,7 @@ export type OpeningMenuChoice = 'new-game' | 'load-game'
  *   id 8 hex `be c9 b5 c4 bb d8 d2 e4` GBK → "旧的回忆"
  * 每 word fixed 10 byte 长度,中文 2 byte/字,4 字 + 2 空格右补 = 10 byte。
  *
- * W3 C1/C2:文案改 lookup-driven —— id = 真 WORD id(ui.h:48-49 MAINMENU_LABEL_NEWGAME=7 / LOADGAME=8),
- *   label 由 getWord(id) 取(words.json flat[],单一源),fallback = byte-level 核过的硬编码兜底。
+ * label 由 getWord(id) 读取当前词表；无词表时使用上述原盘字节对应的兜底。
  *
  * 坐标在渲染层 PAL_XY(125±padding, 95/112);state machine 不持坐标。
  */

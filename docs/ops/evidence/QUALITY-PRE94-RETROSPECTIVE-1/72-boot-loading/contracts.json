@@ -1,0 +1,37 @@
+{
+  "beforeTests": 20,
+  "afterTests": 20,
+  "dedupe": "remove weaker duplicate main fail case; canonical G09-C11 retains exact text/error class and now same-root/fetch-release oracles; add independent Request/init/Response identity contract",
+  "main9": [
+    "3/4 expected denominator and75%",
+    "new wave4/8 denominator while99% stays monotonic; controlled requests settled in finally",
+    "Request/init forwarded exactly and original Response identity returned",
+    "finish fills100%, releases wrapper, keeps root through599ms and removes at600ms",
+    "note append and clear literal text",
+    "no overlay preserves transport identity; only DOM-less overlay case, not SSR runtime",
+    "repeat init does not double-wrap",
+    "without installed counting wrapper note must not overwrite SW-owned DOM",
+    "callback fraction0.5 does not write fallback DOM"
+  ],
+  "host11": [
+    "default810 denominator",
+    "exact rejection identity still increments done1/2",
+    "status-only missing-fill branch",
+    "fill-only missing-status25% branch",
+    "fail without status keeps error class and prevents later fill update",
+    "finish without fill removes at600ms",
+    "restoreBootFetch stops progress callbacks",
+    "same-frame notes coalesce to one RAF and keep latest text",
+    "missing RAF uses16ms timeout; queued virtual render drained in finally even on assertion failure",
+    "zero denominator callback0 without DOM writes",
+    "exact fail text/error class/root identity and wrapper release; DOM-byte PNG is data witness only"
+  ],
+  "legalInputs": "actual index.html IDs, typed Response/Request/RequestInit and fetch IO substitute; finite expected totals4/2/default810 and deliberate zero denominator; no core mock/cast",
+  "isolation": "main fake clock16ms plus per-test globals restoration; pending fetches settled; restoreBootFetch clears callback; drain scheduled render before clearing timer so module flag resets; host restores exact RAF and timeout handles in finally",
+  "counterTargets": {
+    "fetch-init-dropped": "Request/init 与 Response 身份透传",
+    "fetch-error-swallowed": "G09-C02",
+    "denominator-fixed": "进度单调"
+  },
+  "unresolved": "real public loader/UI composition demonstrates late progress overwrites failure; keep main/boot review and precache UI rework under high-risk draft"
+}

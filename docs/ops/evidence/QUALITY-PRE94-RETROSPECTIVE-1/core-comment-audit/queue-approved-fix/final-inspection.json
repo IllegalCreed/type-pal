@@ -1,0 +1,13 @@
+{
+  "command": ["python3", "/tmp/type-pal-queue-final-inspection.py"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:28:29.488535+00:00",
+  "completedAt": "2026-10-17T20:28:29.521516+00:00",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "raw": "final-inspection.raw.gz",
+  "rawBytes": 1699,
+  "rawSha256": "dbc32c18e8c4c2bd7f809250acc4614ef49ff1a53b0b679040eb7956b04197cd",
+  "fullUncutMergedStdoutStderr": true
+}

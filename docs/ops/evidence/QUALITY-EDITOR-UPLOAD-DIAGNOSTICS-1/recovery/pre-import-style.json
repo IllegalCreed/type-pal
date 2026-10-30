@@ -1,0 +1,29 @@
+{
+  "summary": {
+    "changed": 0,
+    "unchanged": 1,
+    "matches": 0,
+    "duration": 33734666,
+    "errors": 0,
+    "warnings": 1,
+    "infos": 0,
+    "skipped": 0,
+    "suggestedFixesSkipped": 0,
+    "diagnosticsNotPrinted": 0,
+    "scannerDuration": 3883500
+  },
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "message": "Several of these imports are unused.",
+      "category": "lint/correctness/noUnusedImports",
+      "location": {
+        "path": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "start": { "line": 38, "column": 3 },
+        "end": { "line": 38, "column": 20 }
+      },
+      "advices": []
+    }
+  ],
+  "command": "check"
+}

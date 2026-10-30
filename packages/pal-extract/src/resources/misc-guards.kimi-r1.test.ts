@@ -1,7 +1,8 @@
 /**
  * TEST-COVERAGE85-KIMI-EXTRACT-MIGRATE-1 · pal-extract 散落守卫残余分支。
  *
- * 排重 basis（旧 fullName 不重复）：各模块既有 *.test.ts / *.boundaries.test.ts /
+ * 历史覆盖率选点不等于语义排重；当前C1只补parser诊断IO与清理，其它轴仍待逐项复审。
+ * 相邻 *.test.ts / *.boundaries.test.ts /
  * *.glm-runtime-resource.test.ts 已覆盖合法路径与主边界（见各文件头注）；本文件只补
  * fast lcov 一手测量的未覆盖 edge：
  * - map.ts:37 parseMap 长度守卫精确拒绝。
@@ -9,7 +10,6 @@
  * - io/word.ts:94 parseWordDat 短缓冲 flat 截断 break。
  * - font/bdf-to-json.ts:47 非法 hex 位图行 `parseInt || 0` 回退。
  * - resources/asset-manifest.ts:31 buildManifest 相同 path 排序相等臂 + 非资源排除。
- * - resources/sprite.ts:76 extractCharacterSprites 缺 chunk skip。
  * - parsers/enemies.ts:210/240 两个 OBJECT_ENEMY map 建造器短缓冲提前返回。
  * - parsers/items.ts:75 parseItems 截断精确拒绝。
  * - parsers/rgm.ts:46 decodeRgmPortrait 0 宽/高帧返回 null。
@@ -23,7 +23,8 @@
  */
 
 import { encodeSpriteChunk } from '@type-pal/shared'
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, test } from 'vitest'
+import { withParserWarnings } from '../__tests__/parser-diagnostics.js'
 import { parseBdf } from '../font/bdf-to-json.js'
 import { parseWordDat } from '../io/word.js'
 import { buildManifest } from '../resources/asset-manifest.js'
@@ -40,7 +41,6 @@ import { parseItems } from '../resources/parsers/items.js'
 import { decodeRgmPortrait } from '../resources/parsers/rgm.js'
 import { parseSpells } from '../resources/parsers/spells.js'
 import { parseStores } from '../resources/parsers/stores.js'
-import { extractCharacterSprites } from '../resources/sprite.js'
 
 function u16le(view: DataView, offset: number, value: number): void {
   view.setUint16(offset, value, true)
@@ -148,35 +148,19 @@ describe('KIMI-R1 pal-extract 散落守卫', () => {
 
   test('buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store', () => {
     const manifest = buildManifest([
-      { path: 'b/2.png', size: 2 },
-      { path: 'asset-manifest.json', size: 999 }, // SELF 排除
-      { path: 'a/.DS_Store', size: 5 }, // 排除
-      { path: 'a/1.png', size: 1 },
-      { path: 'b/2.png', size: 2 }, // 与首项同 path 同 size → sort 相等臂
+      { path: 'b/2.png', size: 2, sha256: '0'.repeat(64) },
+      { path: 'asset-manifest.json', size: 999, sha256: '0'.repeat(64) }, // SELF 排除
+      { path: 'a/.DS_Store', size: 5, sha256: '0'.repeat(64) }, // 排除
+      { path: 'a/1.png', size: 1, sha256: '0'.repeat(64) },
+      { path: 'b/2.png', size: 2, sha256: '0'.repeat(64) }, // 与首项同 path 同 size → sort 相等臂
     ])
     expect(manifest.files).toEqual([
-      { path: 'a/1.png', size: 1 },
-      { path: 'b/2.png', size: 2 },
-      { path: 'b/2.png', size: 2 },
+      { path: 'a/1.png', size: 1, sha256: '0'.repeat(64) },
+      { path: 'b/2.png', size: 2, sha256: '0'.repeat(64) },
+      { path: 'b/2.png', size: 2, sha256: '0'.repeat(64) },
     ])
     expect(manifest.fileCount).toBe(3)
     expect(manifest.totalBytes).toBe(5)
-  })
-
-  test('extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip', () => {
-    const chunk = encodeSpriteChunk([
-      { width: 2, height: 2, pixels: new Uint8Array(4).fill(3), opaque: new Uint8Array(4).fill(1) },
-    ])
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    try {
-      const out = extractCharacterSprites([1, 99], new Map([[1, chunk]]))
-      expect(out).toHaveLength(1)
-      expect(out[0]!.spriteId).toBe(1)
-      expect(out[0]!.frames).toHaveLength(1)
-      expect(warn).toHaveBeenCalledWith('[pal-extract] sprite 99: MGO.MKF chunk 未找到,skip')
-    } finally {
-      warn.mockRestore()
-    }
   })
 
   test('buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map', () => {
@@ -187,15 +171,40 @@ describe('KIMI-R1 pal-extract 散落守卫', () => {
   })
 
   test('parseItems：截断精确拒绝（报实测与所需字节数）', () => {
-    expect(() => parseItems(new Uint8Array(100))).toThrow(
-      'parseItems: SSS.MKF chunk 2 truncated (got 100B, need ≥ 4144B for items 0..234)',
-    )
+    const previous = globalThis.console
+    try {
+      expect(() => withParserWarnings([], () => parseItems(new Uint8Array(100)))).toThrow(
+        'parseItems: SSS.MKF chunk 2 truncated (got 100B, need ≥ 4144B for items 0..234)',
+      )
+      expect(globalThis.console === previous).toBe(true)
+    } finally {
+      globalThis.console = previous
+    }
   })
 
   test('decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）', () => {
-    const header = [0x02, 0x00, 0x00, 0x00]
-    expect(decodeRgmPortrait(7, new Uint8Array([...header, 0, 0, 2, 0]))).toBeNull() // width=0
-    expect(decodeRgmPortrait(8, new Uint8Array([...header, 2, 0, 0, 0]))).toBeNull() // height=0
+    // 零尺寸是坏RLE，不是原盘空槽；真实Error消息/来源及null输出都必须保持。
+    const errorFrom = {
+      functionName: 'decodeRgmPortrait',
+      moduleUrl: new URL('./parsers/rgm.ts', import.meta.url),
+    }
+    const result = withParserWarnings(
+      [
+        {
+          message: '[rgm] chunk 7 RLE decode fail, skip: Error: RLE: invalid frame dimensions 0x2',
+          errorFrom,
+        },
+        {
+          message: '[rgm] chunk 8 RLE decode fail, skip: Error: RLE: invalid frame dimensions 2x0',
+          errorFrom,
+        },
+      ],
+      () => [
+        decodeRgmPortrait(7, new Uint8Array([0x02, 0x00, 0x00, 0x00, 0, 0, 2, 0])),
+        decodeRgmPortrait(8, new Uint8Array([0x02, 0x00, 0x00, 0x00, 2, 0, 0, 0])),
+      ],
+    )
+    expect(result).toEqual([null, null])
   })
 
   test('parseSpells：无 words 时不填 _name 注释', () => {

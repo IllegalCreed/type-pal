@@ -1,0 +1,69 @@
+{
+  "method": "Independent split rebuild of untouched WorldSpriteLibrary/sprite-commands after scratch cleanup; raw/runner/executed identities/test and mutant bytes checked",
+  "proofs": [
+    {
+      "proof": "oracle-proof.json",
+      "workspaceAbsent": true,
+      "rows": [
+        {
+          "label": "oracle-old-fixed-max",
+          "passed": 6,
+          "failed": 0,
+          "rawIntegrity": true,
+          "recipeRebuiltAfterCleanup": true,
+          "failedNames": []
+        },
+        {
+          "label": "oracle-new-fixed-max",
+          "passed": 5,
+          "failed": 1,
+          "rawIntegrity": true,
+          "recipeRebuiltAfterCleanup": true,
+          "failedNames": [
+            "K02 WorldSpriteLibrary 真实资源 proof 工作流 布局编辑与源帧追加串联：reader 重读后每向帧数上限绑新帧数，编辑继续可用，undo 全链还原"
+          ]
+        },
+        {
+          "label": "oracle-recovery",
+          "passed": 9,
+          "failed": 0,
+          "rawIntegrity": true,
+          "recipeRebuiltAfterCleanup": false,
+          "failedNames": []
+        }
+      ]
+    },
+    {
+      "proof": "blob-oracle-proof.json",
+      "workspaceAbsent": true,
+      "rows": [
+        {
+          "label": "blob-oracle-old-zero-bytes",
+          "passed": 3,
+          "failed": 0,
+          "rawIntegrity": true,
+          "recipeRebuiltAfterCleanup": true,
+          "failedNames": []
+        },
+        {
+          "label": "blob-oracle-new-zero-bytes",
+          "passed": 2,
+          "failed": 1,
+          "rawIntegrity": true,
+          "recipeRebuiltAfterCleanup": true,
+          "failedNames": [
+            "U2b WorldSpriteLibrary 残差 删除未使用源资源：catalog 记录与孤立 blob 一并清理，undo 连 bytes 一起恢复"
+          ]
+        },
+        {
+          "label": "blob-oracle-recovery",
+          "passed": 9,
+          "failed": 0,
+          "rawIntegrity": true,
+          "recipeRebuiltAfterCleanup": false,
+          "failedNames": []
+        }
+      ]
+    }
+  ]
+}

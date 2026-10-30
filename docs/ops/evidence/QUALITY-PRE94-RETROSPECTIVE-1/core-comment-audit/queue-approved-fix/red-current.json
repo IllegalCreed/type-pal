@@ -1,0 +1,25 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/__tests__/turn-queue-parity.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-queue-red-current.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:19:38.420637+00:00",
+  "completedAt": "2026-10-17T20:19:39.666824+00:00",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "raw": "red-current.raw.gz",
+  "rawBytes": 7357,
+  "rawSha256": "a7d00942a1d56298322fcceb9d6f6a162b7c0fc43a29a1aba71e2f2a77165be1",
+  "fullUncutMergedStdoutStderr": true
+}

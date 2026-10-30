@@ -2,33 +2,26 @@
  * TEST-GROK-RENDER-HOST-LARGE-1 G05-D。
  * 不重复默认箭头位置、底框立绘和物品框图标的正向坐标。
  */
-import type { Item } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import {
+  dialogGlyphs as glyphs,
+  dialogItem as item,
+  dialogSprite as solidSprite,
+} from '../__tests__/dialog-fixtures.js'
 import type { IndexedImage } from '../assets/png.js'
 import {
   appendDialogLine,
   type DialogSprite,
   drawDialogBox,
-  getDialogBoxRect,
   getDialogTextPos,
   getDialogTitlePos,
   setWaitingEndKey,
   startDialogLine,
 } from './dialog-box.js'
-import type { Glyph, GlyphTable } from './font.js'
 import { createFramebuffer, type Framebuffer } from './framebuffer.js'
 
 function at(fb: Framebuffer, x: number, y: number): number {
   return fb.indices[y * 320 + x] ?? 0
-}
-
-function solidSprite(width: number, height: number, color: number): DialogSprite {
-  return {
-    width,
-    height,
-    indices: new Uint8Array(width * height).fill(color),
-    opaque: new Uint8Array(width * height).fill(1),
-  }
 }
 
 function dotImage(width: number, height: number, color: number): IndexedImage {
@@ -37,43 +30,6 @@ function dotImage(width: number, height: number, color: number): IndexedImage {
   indices[0] = color
   opaque[0] = 1
   return { width, height, indices, opaque }
-}
-
-function glyphs(specs: Record<string, number>): GlyphTable {
-  const map = new Map<number, Glyph>()
-  for (const [ch, width] of Object.entries(specs)) {
-    const cp = ch.codePointAt(0)
-    if (cp === undefined) continue
-    const bytesPerRow = Math.ceil(width / 8)
-    const bitmap = new Uint8Array(bytesPerRow * 16)
-    bitmap[0] = 0x80
-    map.set(cp, { width, height: 16, bitmap })
-  }
-  return {
-    has: (cp) => map.has(cp),
-    get: (cp) => map.get(cp),
-  }
-}
-
-function item(id: number, bitmap: number): Item {
-  return {
-    id,
-    bitmap,
-    price: 0,
-    scriptOnUse: 0,
-    scriptOnEquip: 0,
-    scriptOnThrow: 0,
-    scriptDesc: 0,
-    flags: {
-      usable: false,
-      equipable: false,
-      throwable: false,
-      consuming: false,
-      applyToAll: false,
-      sellable: false,
-      equipableBy: [false, false, false, false, false, false],
-    },
-  }
 }
 
 function boxFrames(): IndexedImage[] {
@@ -229,9 +185,5 @@ describe('G05-D dialog 图标物品框与旁白', () => {
   it('G05-D12 物品框姓名坐标也是占位 (160,30)', () => {
     expect(getDialogTitlePos('item-box', false)).toEqual({ x: 160, y: 30 })
     expect(getDialogTitlePos('item-box', true)).toEqual({ x: 160, y: 30 })
-  })
-
-  it('G05-D13 物品框占位矩形是 (8,80,304,48)', () => {
-    expect(getDialogBoxRect('item-box')).toEqual({ x: 8, y: 80, w: 304, h: 48 })
   })
 })

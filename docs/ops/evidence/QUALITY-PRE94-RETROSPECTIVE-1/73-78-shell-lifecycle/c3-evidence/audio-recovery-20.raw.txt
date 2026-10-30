@@ -1,0 +1,17 @@
+$ cd /Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game && ../../node_modules/.bin/vitest run src/shell/audio.test.ts --reporter=default --reporter=json --outputFile=audio-recovery-20.json
+# started: 2026-10-20T12:42:24
+# exit: 0
+# --- stdout ---
+
+ RUN  v4.1.7 /Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game
+
+ ✓ src/shell/audio.test.ts (20 tests) 4ms
+
+ Test Files  1 passed (1)
+      Tests  20 passed (20)
+   Start at  12:42:24
+   Duration  414ms (transform 26ms, setup 17ms, import 20ms, tests 4ms, environment 307ms)
+
+JSON report written to /Users/zhangxu/.glm-worktrees/pre94-foundation/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/c3-evidence/audio-recovery-20.json
+# --- stderr ---
+(empty)

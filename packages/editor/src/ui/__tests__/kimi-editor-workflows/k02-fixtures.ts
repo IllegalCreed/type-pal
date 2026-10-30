@@ -4,7 +4,7 @@
  * 再走正式 loader（loadCurrentProjectFrom → 全量场景/地图 → toEditorState → assertProjectSaveValid
  * 自证）。与 glm-kit 的 loadLegalUiProject 同一管道，差异只在装载前注入额外合法文件；
  * 资产字节落在内存磁盘上（assetBlobs 为空），读取必经磁盘端口，可被 gatedFileSource 闸门观测。
- * 只被 K02 两个新测试导入，不引入第二套产品实现。
+ * 供编辑器测试共享，不进入生产代码，不引入第二套产品实现。
  */
 import type { AssetId, AssetRecordV1, SpriteDef, SpriteLayout } from '@type-pal/content'
 import {

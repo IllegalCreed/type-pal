@@ -1,0 +1,12 @@
+
+> @type-pal/game@1.0.0 test /Users/zhangxu/illegal/type-pal-quality-3x/packages/game
+> vitest run --passWithNoTests
+
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/game
+
+
+ Test Files  312 passed (312)
+      Tests  3540 passed (3540)
+   Start at  12:34:21
+   Duration  33.30s (transform 9.07s, setup 6.60s, import 27.55s, tests 47.89s, environment 206.17s)

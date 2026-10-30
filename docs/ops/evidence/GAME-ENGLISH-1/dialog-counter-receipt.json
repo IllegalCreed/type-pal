@@ -1,0 +1,35 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/localization/messages.test.ts",
+    "-t",
+    "pins an active English",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=../../build/english-dialog/counter-native.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal",
+  "exit": 1,
+  "mutation": "advance translated group to resumeIp + 1; skips next source instruction",
+  "sourceBeforeSha256": "54e838d92e011fd96d4529ecfee4b6374fcf6b25aa86640d49af832227b36d0f",
+  "sourceMutatedSha256": "5b1c88a7cd83f26332f9362332494de7c431aa83bc22fb2bc0941a641019e052",
+  "restoredSourceSha256": "54e838d92e011fd96d4529ecfee4b6374fcf6b25aa86640d49af832227b36d0f",
+  "testSha256": "0e88b84b45bf1090bb65a0a8f58717dac786d0659f5fdb5805ef0cd37cdbd3cd",
+  "selectedFailures": [
+    {
+      "file": "packages/game/src/localization/messages.test.ts",
+      "fullName": "translated message groups pins an active English group through preference changes and resumes from a V1 snapshot",
+      "status": "failed",
+      "failureMessages": [
+        "AssertionError: expected +0 to be 7 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/english-dialog/type-pal/packages/game/src/localization/messages.test.ts:131:27\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      ]
+    }
+  ],
+  "unselectedDeclaredCases": 8,
+  "selectionExplanation": "-t selects exactly the specified save/continuation case; eight unselected declarations are reported as skipped by Vitest and receive no test/negative-control credit."
+}

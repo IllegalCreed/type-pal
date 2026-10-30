@@ -1,0 +1,10 @@
+2026-10-17 current-tree replay
+Command: node docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/run-counterproof.mjs
+Source: packages/reforge/src/menu/menu-box.ts sha256 9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1
+Result: exit 0
+K1-cascade-layer-offset: red ok, restored green ok
+K2-blink-phase-wrap: red ok, restored green ok
+K3-stat-row-pitch: red ok, restored green ok
+K4-mid-name-anchor: red ok, restored green ok
+K5-empty-slot-skip: red ok, restored green ok
+Historical counterproof.json and mutation-logs were restored byte-for-byte after replay; this file is the current receipt summary.

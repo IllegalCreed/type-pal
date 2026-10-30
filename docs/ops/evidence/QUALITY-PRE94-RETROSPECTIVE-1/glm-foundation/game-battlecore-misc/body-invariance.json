@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "base": "5cd3f055918c608d0506f45f4b4180d284865def",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/battle/formulas.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "4b7e0d227a5b37db1a205fca2197945d3f35454687d3fbeb97afee442f416617",
+        "current": "4b7e0d227a5b37db1a205fca2197945d3f35454687d3fbeb97afee442f416617"
+      },
+      "printedBytes": {
+        "base": 3067,
+        "current": 3067
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/magic-damage.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "8f37d7015def3689fd8b4202770495f193517cde2b35ec0d435d238fc228be3d",
+        "current": "8f37d7015def3689fd8b4202770495f193517cde2b35ec0d435d238fc228be3d"
+      },
+      "printedBytes": {
+        "base": 6893,
+        "current": 6893
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/magic-object.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "b0b272098120c61c9f7e0b4669acbcdc2cfdc77f327c849a174b20ec056fdfb7",
+        "current": "b0b272098120c61c9f7e0b4669acbcdc2cfdc77f327c849a174b20ec056fdfb7"
+      },
+      "printedBytes": {
+        "base": 2287,
+        "current": 2287
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/simulated-magic-target.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "d6468f613bfa58ad8fa5a2ed797db0a9a00cb54752571436167123c9f989468c",
+        "current": "d6468f613bfa58ad8fa5a2ed797db0a9a00cb54752571436167123c9f989468c"
+      },
+      "printedBytes": {
+        "base": 687,
+        "current": 687
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/enemy-ai.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "a8561cc34e39dc225112df66943dc08e1fc31d7238c54674b0843691a516910f",
+        "current": "a8561cc34e39dc225112df66943dc08e1fc31d7238c54674b0843691a516910f"
+      },
+      "printedBytes": {
+        "base": 2863,
+        "current": 2863
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/status.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "39c5a2500aad7be5dc88ed5f6ca48ac70eacccb4cfc3c393018b3e96407dc75c",
+        "current": "39c5a2500aad7be5dc88ed5f6ca48ac70eacccb4cfc3c393018b3e96407dc75c"
+      },
+      "printedBytes": {
+        "base": 990,
+        "current": 990
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/battle-positions.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "ec819b30e87ece664d29ed7b4f5c621400e258aa2294aff7c1a884292d5daaf9",
+        "current": "ec819b30e87ece664d29ed7b4f5c621400e258aa2294aff7c1a884292d5daaf9"
+      },
+      "printedBytes": {
+        "base": 1512,
+        "current": 1512
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

@@ -20,6 +20,7 @@ ops顶层放跨任务长期协作与质量制度；活动看板与任务卡负�
 ## 入口与责任
 
 - [文档质量与验收规范](document-quality.md)：跨任务长期合同、贡献者交付与Codex证据验收。
+- [工程代码质量与验收规范](code-quality.md)：两阶段所有开发与审查的八维标准、低成本复验和完成定义。
 - [现行协作工作流](agent-workflow.md)、[当前任务看板](board.md)。
 - [活动任务与生成索引](tasks/README.md)：状态从卡顶部读取。
 - [完整/轻量任务模板](templates/README.md)：同一 task-card 类型的两个变体。

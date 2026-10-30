@@ -1,0 +1,48 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/reforge
+
+ ✓ src/pal-court-corrections.test.ts (6 tests) 33ms
+ ❯ src/pal-story-corrections.test.ts (8 tests | 1 failed) 48ms
+   ✓ 鬼阴坛告别只演一次，离场回访及正式保存恢复都不重演 17ms
+   ✓ 剑圣离场：实际雇用秀才=true 才能触发随队告别 3ms
+   ✓ 剑圣离场：实际雇用秀才=false 才能触发随队告别 2ms
+   ✓ 桃源林演出阿奴默认不站场，选择剧情入口后在揭场前显示，结束及回访仍隐藏 7ms
+   ✓ 提前交虫 35 只：不足不清场，交足后盖罗娇全队离开且读档不复现 3ms
+   ✓ 提前交虫 36 只：不足不清场，交足后盖罗娇全队离开且读档不复现 2ms
+   ✓ 假巫王战后拜月登场可见且挡路，决战触发区保持可见不挡路 4ms
+   × 中年人最后一段使用修正文句，不再展示孤立问号，重复交谈仍正常 9ms
+ ✓ src/battle/pal-cure-status-corrections.test.ts (3 tests) 7ms
+ ✓ src/pal-palace-corrections.test.ts (6 tests) 8ms
+ ✓ src/pal-trial-portals-corrections.test.ts (3 tests) 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/pal-story-corrections.test.ts > 中年人最后一段使用修正文句，不再展示孤立问号，重复交谈仍正常
+Error: unexpected confirmation
+ ❯ Object.confirm src/__tests__/pal-corrections-harness.ts:91:39
+     89|     confirm: async () => {
+     90|       const answer = answers.shift()
+     91|       if (answer === undefined) throw new Error('unexpected confirmati…
+       |                                       ^
+     92|       return answer
+     93|     },
+ ❯ BaseProjectScriptRuntimeHost.confirm src/script-project-core.ts:347:25
+ ❯ ProjectScriptRuntimeHost.confirm src/runtime-script-project.ts:242:30
+ ❯ RuntimeScriptRunner.runCommand src/script-runner-core.ts:486:36
+ ❯ src/script-runner-core.ts:347:25
+ ❯ atScriptExecutionGate src/script-execution-gate.ts:40:12
+ ❯ RuntimeScriptRunner.runCommands src/script-runner-core.ts:341:9
+ ❯ RuntimeScriptRunner.runStages src/script-runner-core.ts:292:9
+ ❯ RuntimeScriptRunner.runFlow src/script-runner-core.ts:201:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 25 passed (26)
+   Start at  16:39:42
+   Duration  9.42s (transform 10.42s, setup 0ms, import 17.83s, tests 102ms, environment 2ms)
+
+undefined
+/Users/zhangxu/illegal/type-pal/packages/reforge:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/pal-story-corrections.test.ts src/pal-court-corrections.test.ts src/pal-trial-portals-corrections.test.ts src/pal-palace-corrections.test.ts src/battle/pal-cure-status-corrections.test.ts --reporter=default --maxWorkers 2

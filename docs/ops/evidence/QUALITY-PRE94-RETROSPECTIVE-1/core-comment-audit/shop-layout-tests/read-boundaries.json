@@ -1,0 +1,204 @@
+{
+  "base": "206b18563e07569414f4ec90f08597c5b8ac66de",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "sha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+      "lines": 241,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure.",
+      "snapshot": "6a60e2c32a1e.draw-shop.ts.current.gz"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+      "lines": 105,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure.",
+      "snapshot": "4a5a1d845528.draw-shop.glm-phase1-leaves.test.ts.current.gz"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "sha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+      "lines": 205,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure.",
+      "snapshot": "dfa26f65cac8.draw-menu.glm-phase1-leaves.test.ts.current.gz"
+    },
+    {
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "sha256": "b61f9120d6a536a457aa451016218bf0c3ecd7438d8a0f5225e32b646770b3d2",
+      "lines": 352,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure.",
+      "snapshot": "b61f9120d6a5.shop-preview-pixels.grok-r1.test.ts.current.gz"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "93ddabfd8ce8b6f2dd38c94bee5925e52fd1444d6809d53c6e52af631dace54f",
+      "lines": 448,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.test.ts",
+      "sha256": "9d2d16c7c664ac66f17e5c16ec0885a009c66faa0e7ca9cacc834f43b163331a",
+      "lines": 89,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+      "lines": 103,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.ts",
+      "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+      "lines": 139,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82",
+      "lines": 33,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+      "lines": 32,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    },
+    {
+      "path": "packages/game/src/core/menu/player-status.ts",
+      "sha256": "6f531c53952accde2f9990e9a815e945508fa307140b0dcbdc6ecb30d9218f37",
+      "lines": 58,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    },
+    {
+      "path": "packages/game/src/core/menu/script-desc.ts",
+      "sha256": "fb91740ca45c61b722d7ac68598f2ba480d4b878481ac02c0a536105d0b1ee0c",
+      "lines": 39,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea",
+      "lines": 229,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "sha256": "ba8e6bd98cb558cc2955391bfc86e69d030634bb5f4d6c6cf27e857dbcc83072",
+      "lines": 188,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "sha256": "eda55d7e7faa55923d2df15e2e856e975e4c949af9365b26ec6b292c25f178a0",
+      "lines": 122,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/font.ts",
+      "sha256": "b280a039f4ecd1d79b59af8224858a2a62f5afa65d28cf99bec6d9bf6b16fa84",
+      "lines": 81,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+      "sha256": "9c2ea2827c1011d84c8ee86d2fbad2881bd722a1ef72d547f7463e7d6d6734fc",
+      "lines": 105,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b",
+      "lines": 49,
+      "readScope": "Full base text plus entire own delta where modified; no whole-file quality closure."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "f6df365e29c4039cd3bf6ac0b0113883fe6aa20ca0814c637a575407ee485546",
+      "lines": 1054,
+      "ranges": [[100, 155], [260, 428]],
+      "scope": "Only these caller/type/primary ranges, not the whole file."
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "lines": 805,
+      "ranges": [[673, 721]],
+      "scope": "Only these caller/type/primary ranges, not the whole file."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "sha256": "8aab3f1f2292dc1a8d610be94825847d5b2c9459197ea1260db94f9f581fd1c3",
+      "lines": 390,
+      "ranges": [[279, 381]],
+      "scope": "Only these caller/type/primary ranges, not the whole file."
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d",
+      "lines": 280,
+      "ranges": [[1, 175]],
+      "scope": "Only these caller/type/primary ranges, not the whole file."
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "sha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69",
+      "lines": 111,
+      "ranges": [[1, 83]],
+      "scope": "Only these caller/type/primary ranges, not the whole file."
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "sha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+      "lines": 306,
+      "ranges": [[1, 135]],
+      "scope": "Only these caller/type/primary ranges, not the whole file."
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0",
+      "lines": 98,
+      "ranges": [[1, 95]],
+      "scope": "Only these caller/type/primary ranges, not the whole file."
+    },
+    {
+      "path": "packages/shared/src/events.ts",
+      "sha256": "973a52b68ef6f5c3ea1dd9701e3987703d8400794ae1c73b55148160debc8f3a",
+      "lines": 192,
+      "ranges": [[1, 62]],
+      "scope": "Only these caller/type/primary ranges, not the whole file."
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+      "sha256": "0190fb4ea18357e24e30a552ece01049ecdb208539895e3117fda5c2e402a6c4",
+      "lines": 286,
+      "ranges": [[1, 55]],
+      "scope": "Only these caller/type/primary ranges, not the whole file."
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1",
+      "lines": 2076,
+      "ranges": [[1503, 1792]],
+      "scope": "Only these caller/type/primary ranges, not the whole file."
+    },
+    {
+      "path": "reference/sdlpal/itemmenu.c",
+      "sha256": "7026d7875f79a57cf21fd80135d13022ff792698720ef6f56de864d208742a74",
+      "lines": 466,
+      "ranges": [[404, 433]],
+      "scope": "Only these caller/type/primary ranges, not the whole file."
+    }
+  ],
+  "newClosed": 0,
+  "limits": [
+    "SDLPal sources only; not pal.exe/visual/E2E execution.",
+    "Canvas case executed through unchanged package jsdom config; old node failure original command remains unknown.",
+    "Remaining5 equipment parts/WORD extremes/shared image helper equivalence and complete runtime resource pipeline unaccepted.",
+    "Legacy shared role factories still use mp99/maxMP40; P04 places equipment without eligibility; adjacent green grants no legal equipment caller credit for those fixtures.",
+    "Three test title mappings retained; official protected identity/baseline gate not run here."
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "kind": "double-generation-and-input-integrity",
+  "commands": ["pnpm extract", "pnpm extract"],
+  "exitCodes": [0, 0],
+  "rawInputsUnchanged": true,
+  "rawSha256": {
+    ".DS_Store": "edcc6b7f1cd9ef2ac0c2c3469aaff3bb2b94ecc064e8ed96d80abdcadba8dc13",
+    "1.RPG": "2ef11bcab4384c0fc896cd75988add7885c01930fc243c78ef05ce456bd7622c",
+    "1.avi": "ded8e771e2b89597d93c63d844495f8fa099aabc5695e99500b9375cfdb3fbce",
+    "2.RPG": "09a1467f0f1f7548d9e8f491aa84cd1a439abad788bc848413af930f1e0efc17",
+    "2.avi": "742463d89d3cac4c636d9de9b0982d8b86c31480922ef804b8216f7b683d49c6",
+    "3.RPG": "85abcb8d2b881ac22eb7cf2caaf367595123237fce119b0309e3c521088bb6f8",
+    "3.avi": "bb46b8f24de9a7f728c11e432f83dc6b55fe6ce51dd1cb976c10e022d3298149",
+    "4.RPG": "dd4c697200937207dbf94daf7cbc03a238fa0cd878dd54947bbe8736162395b1",
+    "4.avi": "b3255b46cf37b3ba0b78030a29ebe3b1fa45c5f275bf70ebd31fbb8e87985a9f",
+    "5.RPG": "9bea5c409e980d5e2b31be1f3fa6565ca4f6773f56d1ac4e772e4477ab900142",
+    "5.avi": "99bbfbb9e7054da3f1dd07f2cffe8847761576e41a38aa378da8ba8e6ea76363",
+    "6.avi": "be49ef9849538a9503f36f313bb0867f962d02edeff37a32205a2e912e1b3bf3",
+    "ABC.MKF": "f9685ba8d22e851a4be492c6b74fbc671d89112d64394e7af86ec7a23751529c",
+    "BALL.MKF": "b9925833a9d921aa6bea9d0d199dbbe170968716d951036a142c1dd303f99bd0",
+    "DATA.MKF": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b",
+    "F.MKF": "eb492e6dcd0eefb6fbc1751d775bc8667b46d3cd5231974caa1eef309f3152d7",
+    "FBP.MKF": "29bbc71c10c58a555e5b45b853dfeef3fa0d299ceeb8e7556b6c1d6bc40c4d84",
+    "FIRE.MKF": "5a23940d3daab5bfa95efd3b92b4d1ae481fc4f7ad38374ec66b16c7e7d5d9cf",
+    "GOP.MKF": "5745d016a8d9c280b90a8b92d2871210a2dd0a0c04a79d4c8e65f4d0396aa04b",
+    "LOGO.ICO": "70ca6da1770145d971423998b3706d4bdddfe6b4f5a1f697a8fa1b7c92e02d29",
+    "M.MSG": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846",
+    "MAP.MKF": "bef63043ffcbe9b6de6cbe295891134d7cea74952cb6701b5566049d0eb015e2",
+    "MGO.MKF": "0df639e22da1cf766c821de0b07d8c0bb58602c50ff5a2eea233a9e3c9f6e789",
+    "PAL.EXE": "75d612b9cbd9c1f0884f18c9a6d2ee522b227f2f6b3da92495bae8f73161c450",
+    "PAL.illegal.INI": "35004af1f5671500506cc3c55cd3d8830a19c584a1c4e66f056251953bf12747",
+    "PALOLD.DLL": "c6a34e511ed1c7bb2ecddfaaba00992d53006db3ed4b5ab3da61943b417227e8",
+    "PAT.MKF": "b2d6a3db53a3e80106a4c041c7f94dfaf9dcb065517fce79b1ff3d413494d997",
+    "Pal.dll": "5fbc351be3df936ad0d36e5dbee7f1c631fcc06cee7b903d4bf9c81bf6b17bde",
+    "Pal.ini": "8ce462873c32b879b06e63a52b972fff432c71005623f3cb7c99dd7fe6625023",
+    "README.md": "0a82aab7a527744494e64c1c29c757165e2b5bfa24a113b4f554f4ef8c7db7aa",
+    "README.txt": "6ea8511489566933b663da59e0e9c8bf1b5d14da5cfec9091ba239bf122c8840",
+    "RGM.MKF": "fbeb7cbafd374af8c07088ab18996edcadd6ec52b8bb0a0af644c2cee4e26bac",
+    "RNG.MKF": "5d62cad87b330d2e1ec00d7c1acc4de96b8324e547fa8095aab0f64a9811d7bd",
+    "SOUNDS.MKF": "039a5cc64be937168ce458c8288fbd61fb3d2854e9445a775ab67f6af2276e01",
+    "SSS.MKF": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756",
+    "VB40032.DLL": "0f1604c9a7398cbb317383799b88c4e1aa7ce0b2c968392f0a7a9ddff22ec57d",
+    "WORD.DAT": "be56e77c7ecd61306133913a1987b1dddf656528ae870c2de1ee8ccda7ff3ebf",
+    "mus.mkf": "8367c9d34331f67b20b12380e809a38d3313cae199f260d272d07fcf55e11a21",
+    "sdlpal.cfg": "9662d364ba727eb660f55f71f23c03de8517129cc29df1a040d8e29b0cbe3b90",
+    "unifont-cn.bdf": "1ab843ec8d2540a702974044f9a4a3acb8bb91bb9dfc1ec10605c7ce813f02bd"
+  },
+  "finalManifestVersion": "93bd7485051ef2b2",
+  "finalFileCount": 2907,
+  "totalBytes": 208146826,
+  "allManifestEntriesDeepEqual": true,
+  "corrections": {
+    "source": {
+      "file": "SSS.MKF",
+      "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+    },
+    "mode": "corrected",
+    "version": "pal-win-1",
+    "rules": [
+      {
+        "id": "D01",
+        "reason": "Repair the corrupt Chinese farewell and remove its garbage line."
+      },
+      {
+        "id": "D03",
+        "reason": "Complete the altar onEnter after the farewell."
+      },
+      {
+        "id": "D06",
+        "reason": "Decide scholar farewell from his hiring state before hiding him."
+      },
+      {
+        "id": "D07",
+        "reason": "Hide the cutscene Anu until her explicit entrance preparation."
+      },
+      {
+        "id": "D08",
+        "reason": "Clear Gai Luojiao and retinue even when worms are collected early."
+      },
+      {
+        "id": "D02",
+        "reason": "Confirm the candy purchase before deducting twenty cash."
+      },
+      {
+        "id": "D04",
+        "reason": "Separate the first interrogation from repeated denial dialogue."
+      },
+      {
+        "id": "D09",
+        "reason": "Connect the trial-cave central island and its return route."
+      },
+      {
+        "id": "D10",
+        "reason": "Connect both palace eras; reuse one ordinary enemy event as the missing exit."
+      },
+      {
+        "id": "D11",
+        "reason": "Restore collision for Bai Yue after the impostor-king battle."
+      },
+      {
+        "id": "D12",
+        "reason": "Restore the whip, purple balm and corpse-meat chest rewards."
+      },
+      {
+        "id": "D13",
+        "reason": "The common cure chain removes silence instead of confused twice."
+      },
+      {
+        "id": "D14",
+        "reason": "Keep poison guards inside their own scripts instead of jumping to entry zero."
+      },
+      {
+        "id": "D15",
+        "reason": "Assign the blade luck bonus to the weapon slot so unequipping removes it."
+      },
+      {
+        "id": "D17",
+        "reason": "Keep enemy poison-magic guards inside their own scripts."
+      },
+      {
+        "id": "D18",
+        "reason": "Remove Wine God from Li Xiaoyao explicitly, independent of party order."
+      },
+      {
+        "id": "E02",
+        "reason": "Trigger the governor reward once from the reachable point before the desk."
+      }
+    ],
+    "messages": {
+      "file": "M.MSG",
+      "sha256": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846",
+      "corrections": [
+        {
+          "messageIndex": 1503,
+          "before": "看错痢?",
+          "after": "看错了"
+        }
+      ]
+    }
+  },
+  "limits": ["Generated assets remain local ignored outputs. Not browser/story E2E."]
+}

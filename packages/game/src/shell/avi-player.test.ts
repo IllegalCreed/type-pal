@@ -3,8 +3,8 @@ import { playAvi, setVideoVolume } from './avi-player.js'
 
 // jsdom 默认无 HTMLMediaElement.prototype.play/pause 实现,做 stub
 function stubVideoElement(): void {
-  HTMLMediaElement.prototype.play = vi.fn(() => Promise.resolve())
-  HTMLMediaElement.prototype.pause = vi.fn()
+  vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue()
+  vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
 }
 
 describe('playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)', () => {
@@ -17,6 +17,7 @@ describe('playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)', () => {
     document.body.querySelectorAll('video').forEach((v) => {
       v.remove()
     })
+    vi.restoreAllMocks()
   })
 
   it('返回 Promise + 创 <video> 元素 + src 正确', async () => {
@@ -84,11 +85,15 @@ describe('playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3)', () => {
   })
 
   it('video error 事件触发 → Promise 仍 resolve(不抛)', async () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const p = playAvi({ src: '/extracted/videos/nonexistent.mp4' })
     const video = document.body.querySelector('video') as HTMLVideoElement
     video.dispatchEvent(new Event('error'))
     await p
     expect(document.body.querySelector('video')).toBeNull()
+    expect(warning.mock.calls).toEqual([
+      ['[avi-player] video load/decode failed: /extracted/videos/nonexistent.mp4'],
+    ])
   })
 
   it('多次 cleanup 调用 idempotent(settled flag 防双重 resolve)', async () => {
@@ -110,6 +115,7 @@ describe('playAvi — 视频音量(工具面板「视频」滑块 / 主静音)',
     document.body.querySelectorAll('video').forEach((v) => {
       v.remove()
     })
+    vi.restoreAllMocks()
   })
 
   it('playAvi 建 <video> 时套用当前 videoVolume', async () => {

@@ -1,5 +1,6 @@
 // index.ts —— 速通计时器单例编排:每 rAF tick(主循环调用)+ 工具面板用的各动作。
 import type { GameState } from '../../core/game-state.js'
+import { localize } from '../../localization/language.js'
 import { showToast } from '../toast.js'
 import { BANANA, CHECKPOINTS } from './checkpoints.js'
 import { showCountdown } from './countdown.js'
@@ -33,7 +34,8 @@ export function tickSpeedrunTimer(gs: GameState, nowMs: number): void {
   const t = getTimer()
   t.tick(buildSnapshot(gs), nowMs, { bananaEnabled: settings.banana })
   if (t.consumeBestsDirty()) saveBests(t.getBests())
-  if (t.consumeJustResumed()) showToast('开始!', { type: 'success', durationMs: 800 })
+  if (t.consumeJustResumed())
+    showToast(localize('开始!', 'Go!'), { type: 'success', durationMs: 800 })
 
   if (settings.show) renderOverlay(t.getRun(), CHECKPOINTS, t.getBests())
   else hideOverlay()
@@ -76,7 +78,8 @@ export function toggleSpeedrunPause(): void {
   const t = getTimer()
   t.toggleManualPause(performance.now())
   const run = t.getRun()
-  if (run.manualPaused && run.countdownEndMs == null) showToast('计时器已暂停', { type: 'success' })
+  if (run.manualPaused && run.countdownEndMs == null)
+    showToast(localize('计时器已暂停', 'Timer paused'), { type: 'success' })
 }
 
 /**
@@ -103,12 +106,17 @@ export function setupSpeedrunHotkeys(): () => void {
     } else if (e.code === 'F4') {
       e.preventDefault()
       resetSpeedrun()
-      showToast('计时器已重置', { type: 'success' })
+      showToast(localize('计时器已重置', 'Timer reset'), { type: 'success' })
     } else if (e.code === 'F2') {
       e.preventDefault()
       const next = !loadSettings().show
       saveSetting('show', next)
-      showToast(next ? '计时器覆盖层:显示' : '计时器覆盖层:隐藏', { type: 'success' })
+      showToast(
+        next
+          ? localize('计时器覆盖层:显示', 'Timer overlay shown')
+          : localize('计时器覆盖层:隐藏', 'Timer overlay hidden'),
+        { type: 'success' },
+      )
     }
   }
   window.addEventListener('keydown', handler)

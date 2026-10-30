@@ -1,0 +1,39 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/shared",
+    "exec",
+    "vitest",
+    "run",
+    "src/rle.test.ts",
+    "src/rle.boundaries.test.ts",
+    "src/rle.glm-o.test.ts",
+    "src/rle.glm-runtime-resource.test.ts",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/targeted.native.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T07:38:13.701572+00:00",
+  "completedAt": "2026-10-18T07:38:14.259192+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "targeted.raw.gz",
+  "rawBytes": 618,
+  "rawSha256": "9e6af0c9525238b7228169466a4c212f714b9f4a27f041f690755ea5538c6af1",
+  "fullUncutMergedStdoutStderr": true,
+  "native": {
+    "path": "targeted.native.json.gz",
+    "uncompressedBytes": 18265,
+    "uncompressedSha256": "2a1c6a0216dd20a4dd5e01ec98ad47b23c7df8297124e84cfd782a03a82d1afa"
+  },
+  "diagnostics": {
+    "error": 0,
+    "warning": 0,
+    "info": 0,
+    "runtime": 0,
+    "basis": "Codex read the complete 618-byte merged output; no non-test diagnostic. Not a whole-repo diagnostic claim."
+  }
+}

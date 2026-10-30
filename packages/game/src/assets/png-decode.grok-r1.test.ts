@@ -1,39 +1,38 @@
 /**
- * G02-A。旧 png.test 只在 G=B=0 时取 R。L23 覆盖 alpha 0 与 200，以及坏 blob 的前缀正则。
- * P10 已覆盖 2×2 行序、失败与成功时的 bitmap.close。本组不重复这些断言。
+ * G02-A：R 通道、3×2 完整平面、缺上下文释放、错误上下文与原始 cause。
+ * A04 的坏 Blob 摘要并入 A05；L23 保留 alpha 边界，P10 保留真实消费与释放。
  */
-import { describe, expect, it } from 'vitest'
-import { indexedPng } from '../__tests__/grok-render-r1/legal-host.js'
+import { describe, expect, it, vi } from 'vitest'
+import { encodeRgbaPng } from '../present/__tests__/grok-present/png-rgba.js'
 import { decodePngToIndices } from './png.js'
 
-async function blobOf(rgba: readonly number[], width: number, height: number): Promise<Blob> {
-  const bytes = await indexedPng(width, height, rgba)
-  return new Blob([bytes.slice()], { type: 'image/png' })
+function blobOf(rgba: readonly number[], width: number, height: number): Blob {
+  const bytes = encodeRgbaPng(width, height, Uint8Array.from(rgba))
+  return new Blob([Buffer.from(bytes)], { type: 'image/png' })
 }
 
 describe('G02-A decodePngToIndices 通道与上下文', () => {
   it('G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R', async () => {
-    const image = await decodePngToIndices(await blobOf([5, 9, 8, 255], 1, 1))
+    const image = await decodePngToIndices(blobOf([5, 9, 8, 255], 1, 1))
     expect(image.width).toBe(1)
     expect(image.height).toBe(1)
     expect(Array.from(image.indices)).toEqual([5])
     expect(Array.from(image.opaque)).toEqual([1])
   })
 
-  it('G02-A02 3×2 图的末像素落在下标 5，宽高不是写死的 2×1', async () => {
+  it('G02-A02 3×2 完整下标与遮罩按行保存', async () => {
     const rgba = [
-      1, 0, 0, 255, 1, 0, 0, 255, 1, 0, 0, 255, 1, 0, 0, 255, 1, 0, 0, 255, 9, 0, 0, 255,
+      1, 1, 1, 255, 2, 2, 2, 255, 3, 3, 3, 255, 4, 4, 4, 255, 5, 5, 5, 255, 9, 9, 9, 255,
     ]
-    const image = await decodePngToIndices(await blobOf(rgba, 3, 2))
+    const image = await decodePngToIndices(blobOf(rgba, 3, 2))
     expect(image.width).toBe(3)
     expect(image.height).toBe(2)
-    expect(image.indices).toHaveLength(6)
-    expect(image.indices[5]).toBe(9)
-    expect(image.opaque[5]).toBe(1)
+    expect(Array.from(image.indices)).toEqual([1, 2, 3, 4, 5, 9])
+    expect(Array.from(image.opaque)).toEqual([1, 1, 1, 1, 1, 1])
   })
 
   it('G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap', async () => {
-    const source = await blobOf([1, 0, 0, 255, 2, 0, 0, 255], 2, 1)
+    const source = blobOf([1, 0, 0, 255, 2, 0, 0, 255], 2, 1)
     const originalBitmap = globalThis.createImageBitmap
     const originalGetContext = HTMLCanvasElement.prototype.getContext
     let closes = 0
@@ -58,24 +57,32 @@ describe('G02-A decodePngToIndices 通道与上下文', () => {
     }
   })
 
-  it('G02-A04 4 字节坏 blob 的错误同时带上字节数和 MIME 类型', async () => {
-    const blob = new Blob([Uint8Array.of(1, 2, 3, 4)], { type: 'image/png' })
-    await expect(decodePngToIndices(blob)).rejects.toThrow(
-      'decodePngToIndices: failed to decode PNG blob (4B, type=image/png)',
-    )
-  })
-
   it('G02-A05 解码失败时把原始异常放在 Error.cause 上', async () => {
     const blob = new Blob([Uint8Array.of(9)], { type: 'image/png' })
-    const caught = await decodePngToIndices(blob).then(
-      () => null,
-      (error: unknown) => error,
-    )
-    expect(caught).toBeInstanceOf(Error)
-    if (!(caught instanceof Error)) throw new Error('expected Error')
-    expect(caught.message).toBe(
-      'decodePngToIndices: failed to decode PNG blob (1B, type=image/png)',
-    )
-    expect(caught.cause).toBeInstanceOf(Error)
+    const readBitmap = vi.spyOn(globalThis, 'createImageBitmap')
+    try {
+      const caught = await decodePngToIndices(blob).then(
+        () => null,
+        (error: unknown) => error,
+      )
+      expect(caught).toBeInstanceOf(Error)
+      if (!(caught instanceof Error)) throw new Error('expected Error')
+      expect(caught.message).toBe(
+        'decodePngToIndices: failed to decode PNG blob (1B, type=image/png)',
+      )
+      expect(readBitmap).toHaveBeenCalledTimes(1)
+      expect(readBitmap).toHaveBeenCalledWith(blob)
+      const pending = readBitmap.mock.results[0]
+      expect(pending?.type).toBe('return')
+      if (!pending || pending.type !== 'return') throw new Error('bitmap promise missing')
+      const originalFailure = await pending.value.then(
+        () => null,
+        (error: unknown) => error,
+      )
+      expect(originalFailure).toBeInstanceOf(Error)
+      expect(caught.cause).toBe(originalFailure)
+    } finally {
+      readBitmap.mockRestore()
+    }
   })
 })

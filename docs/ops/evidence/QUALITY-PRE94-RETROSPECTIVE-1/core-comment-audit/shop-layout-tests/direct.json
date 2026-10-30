@@ -1,0 +1,26 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+    "src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+    "src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-shop-direct.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T21:15:55.815769+00:00",
+  "completedAt": "2026-10-17T21:15:57.293758+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "direct.raw.gz",
+  "rawBytes": 4070,
+  "rawSha256": "329417395395699c53f72716e22357039a4db310c52cabe094acef4b874df132",
+  "fullUncutMergedStdoutStderr": true
+}

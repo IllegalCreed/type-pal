@@ -35,6 +35,7 @@ import {
 import { act, createElement, useEffect, useRef, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import { ApplyProjectMapPatchCommand, UpsertAssetCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
@@ -242,7 +243,7 @@ describe('K12 scene-stage 共享层真实工作流', () => {
         }),
       )
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(statuses.at(-1)?.status).toBe('ready')
     })
     const first = statuses.at(-1)!.loaded!
@@ -294,7 +295,7 @@ describe('K12 scene-stage 共享层真实工作流', () => {
     await act(async () => {
       session.dispatch(new UpsertAssetCommand(TILESET_ASSET, record, bytes, originalBytes))
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(statuses.at(-1)?.loaded?.tilesets.get('starter')?.get(0)?.height).toBe(16)
     })
     const reloaded = statuses.at(-1)!
@@ -324,7 +325,7 @@ describe('K12 scene-stage 共享层真实工作流', () => {
         }),
       )
     })
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(statuses.at(-1)?.status).toBe('error')
     })
     expect(statuses.at(-1)!.err).toContain('content/maps/lost.json')

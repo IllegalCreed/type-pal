@@ -1,7 +1,7 @@
 /**
- * M5.6 Step A:sdlpal `PAL_DrawNumber` 1:1 port — sprite-based digit blit。
+ * sdlpal `PAL_DrawNumber` 的数字精灵布局；TS 资源表缺帧时跳过该位，仍保留位间距。
  *
- * sdlpal 真值锚:[`reference/sdlpal/ui.c:640-732`](../../../reference/sdlpal/ui.c#L640-L732)
+ * sdlpal 真值锚:[`reference/sdlpal/ui.c:640-732`](../../../../reference/sdlpal/ui.c#L640-L732)
  *
  * Digit sprite 来源 = SPRITEUI(DATA.MKF chunk 9)— M4 P2.T3 已 dump 进
  * `images/ui/frame-NN.png`,通过 LoadedAssets.uiSpriteFrames 暴露。
@@ -22,6 +22,7 @@
  */
 
 import type { IndexedImage } from '../assets/png.js'
+import { blitSpriteOpaque } from './blit-indexed-sprite.js'
 import type { Framebuffer } from './framebuffer.js'
 
 export type NumColor = 'yellow' | 'blue' | 'cyan'
@@ -35,24 +36,12 @@ const FRAME_BASE: Record<NumColor, number> = {
 
 const DIGIT_WIDTH = 6 // sdlpal ui.c:705 `x -= 6` / :719 `x += 6 * nLength`
 
-/** sprite blit(opaque mask 决定哪些 pixel 写入)。 */
-function blitDigitSprite(fb: Framebuffer, frame: IndexedImage, x: number, y: number): void {
-  for (let dy = 0; dy < frame.height; dy++) {
-    for (let dx = 0; dx < frame.width; dx++) {
-      const srcIdx = dy * frame.width + dx
-      if (frame.opaque[srcIdx]! > 0) {
-        fb.writePixel(x + dx, y + dy, frame.indices[srcIdx]!)
-      }
-    }
-  }
-}
-
 /**
- * 画数字 → fb。sdlpal `PAL_DrawNumber` 1:1 port。
+ * 将非负有限整数按 PAL_DrawNumber 布局写入 fb；非有限值跳过，其余输入由caller负责。
  *
  * @param fb              目标 framebuffer
  * @param num             要画的数字
- * @param nLength         最大显示位数(超出 truncate 高位;不足 0 padding 否决,左/中对齐时不影响,右对齐用 nLength 算右起点)
+ * @param nLength         显示槽数(超出截去高位，不补前导零；中/右对齐参与定位，左对齐仅影响截断)
  * @param pos             起 PAL_POS 坐标(sdlpal 真值 PAL_X / PAL_Y)
  * @param color           digit sprite 颜色(yellow / blue / cyan)
  * @param align           对齐模式
@@ -67,6 +56,8 @@ export function drawNumber(
   align: NumAlign,
   uiSpriteFrames: IndexedImage[],
 ): void {
+  // TS派生值可从有限输入溢出；跳过异常数字，避免位数循环阻塞整帧。
+  if (!Number.isFinite(num)) return
   const base = FRAME_BASE[color]
 
   // sdlpal ui.c:684-694:计算 actual length(num=0 时 nActualLength=1 — 至少画 1 位"0")
@@ -101,7 +92,7 @@ export function drawNumber(
     const digit = remaining % 10
     const frame = uiSpriteFrames[base + digit]
     if (frame) {
-      blitDigitSprite(fb, frame, x, y)
+      blitSpriteOpaque(fb, frame, x, y)
     }
     x -= DIGIT_WIDTH
     remaining = Math.floor(remaining / 10)

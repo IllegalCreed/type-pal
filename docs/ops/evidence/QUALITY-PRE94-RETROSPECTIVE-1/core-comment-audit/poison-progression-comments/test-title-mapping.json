@@ -1,0 +1,7 @@
+{
+  "file": "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+  "scope": "One title narrowed to actually executed projection, no test-count change; no protected baseline/retirement payload edited or official identity gate run in this slice.",
+  "old": "D11×M5:升级写 runtime → 投影 → 下一场战斗吃升级后属性(整链闭环)",
+  "current": "D11×M5:升级写runtime → 公开battle roles投影读取升级结果",
+  "describe": "battleWonLevelUp —— D11 战斗胜利升级"
+}

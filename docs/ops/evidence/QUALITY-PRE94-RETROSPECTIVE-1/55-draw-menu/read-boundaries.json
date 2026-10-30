@@ -1,0 +1,79 @@
+{
+  "base": "770f9168e3422aea1d98bac2a3bd447a1c6f2216",
+  "recordedAt": "2026-10-18",
+  "historicalReportBase": "f544b9b94",
+  "scope": "Fresh read boundary supplement. Missing original boundary artifact is not reconstructed or backdated. Old15/197 test claims and missing wave raw are not re-certified.",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "93ddabfd8ce8b6f2dd38c94bee5925e52fd1444d6809d53c6e52af631dace54f",
+      "lines": 448,
+      "boundary": "Fresh complete text read2026-10-18 for missing evidence; no new whole-file semantic/gate acceptance."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.test.ts",
+      "sha256": "9d2d16c7c664ac66f17e5c16ec0885a009c66faa0e7ca9cacc834f43b163331a",
+      "lines": 89,
+      "boundary": "Fresh complete text read2026-10-18 for missing evidence; no new whole-file semantic/gate acceptance."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "sha256": "e797e4dc86e51721fa75ff78cebc451986b6733fefabd448d2679f4da655beb4",
+      "lines": 153,
+      "boundary": "Fresh complete text read2026-10-18 for missing evidence; no new whole-file semantic/gate acceptance."
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82",
+      "lines": 33,
+      "boundary": "Fresh complete text read2026-10-18 for missing evidence; no new whole-file semantic/gate acceptance."
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+      "lines": 32,
+      "boundary": "Fresh complete text read2026-10-18 for missing evidence; no new whole-file semantic/gate acceptance."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "lines": 805,
+      "ranges": ["679-705"],
+      "boundary": "Actual draw stack entry and menu-mode gate"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+      "lines": 116,
+      "ranges": ["1-116"],
+      "boundary": "Fresh full caller text read for3j attribution; not55 product acceptance"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1",
+      "lines": 1106,
+      "ranges": ["1-32", "820-890", "941-943"],
+      "boundary": "Imported actions and timer controls, not whole panel review"
+    }
+  ],
+  "priorReportPrimaryRangesNotRereadHere": {
+    "reference/sdlpal/uigame.c": [
+      "42-242",
+      "430-620",
+      "878-919",
+      "990-1031",
+      "1051-1286",
+      "1503-1777"
+    ],
+    "reference/sdlpal/ui.c": ["458"]
+  },
+  "notClaimed": [
+    "Historical original read-boundaries recovery",
+    "Fresh SDLPal parity re-acceptance",
+    "Product/test/whole-file closure",
+    "Runtime/browser visual/E2E",
+    "Current full check/coverage ratchet/protected fast"
+  ]
+}

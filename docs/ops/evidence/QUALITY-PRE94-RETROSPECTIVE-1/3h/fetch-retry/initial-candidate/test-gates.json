@@ -1,0 +1,63 @@
+[
+  {
+    "name": "game-full",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/game",
+      "exec",
+      "vitest",
+      "run",
+      "--maxWorkers=1",
+      "--silent=false",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-retry-gates-crterugd/game-full.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "seconds": 156.852,
+    "rawSha256": "8a182b8ece999d7a7968e902d2777dc990bf227fc117790dd7008892edcfd0f3",
+    "actWarnings": 0,
+    "environmentWarnings": 0,
+    "stderrBlocks": 17,
+    "unhandledErrors": 0,
+    "runnerSha256": "80b0ff080ef3028928ebdc4e008091a596e44c573f1172186f547d5ca153f29d",
+    "files": 320,
+    "passed": 3605,
+    "failed": 0,
+    "pending": 0
+  },
+  {
+    "name": "game-typecheck-final",
+    "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "seconds": 3.592,
+    "rawSha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+    "actWarnings": 0,
+    "environmentWarnings": 0,
+    "stderrBlocks": 0,
+    "unhandledErrors": 0,
+    "outputTail": "\n> @type-pal/game@1.0.0 typecheck /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game\n> tsc --noEmit\n"
+  },
+  {
+    "name": "coverage-tools",
+    "command": ["pnpm", "test:coverage-tools"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "seconds": 2.977,
+    "rawSha256": "c29c8ca86035ae3ee7a95be6aa479a038f6189d00347b3dee2365e0646ac1770",
+    "actWarnings": 0,
+    "environmentWarnings": 0,
+    "stderrBlocks": 0,
+    "unhandledErrors": 0,
+    "outputTail": "1..75\n# tests 75\n# suites 0\n# pass 75\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 2802.592291"
+  }
+]

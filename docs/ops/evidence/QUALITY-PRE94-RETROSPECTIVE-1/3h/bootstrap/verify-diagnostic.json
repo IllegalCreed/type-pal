@@ -1,0 +1,7 @@
+{
+  "verifierExit": 1,
+  "line": 34,
+  "nativeRuns": 0,
+  "reason": "Vitest default reporter groups two identical afterEach failures under adjacent exact FAIL headers and one shared AssertionError body. Original native receipts are retained; verifier must validate that group, not rerun or change tests.",
+  "verifierSha256": "d65dcafde9db23b453d8732dadfbf6231ee597ca03460cba68643c82ca39c292"
+}

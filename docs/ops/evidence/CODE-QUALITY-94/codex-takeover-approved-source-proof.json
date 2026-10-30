@@ -1,0 +1,30 @@
+{
+  "base": "d4685d071",
+  "sourceFiles": [
+    {
+      "path": "packages/game/src/core/save/indexed-db.ts",
+      "sha256": "a10533a1cd2dda82a8d58a5d01443fd84125760e62bf85904442537971bc7197"
+    },
+    {
+      "path": "packages/game/src/core/save/__tests__/indexed-db.test.ts",
+      "sha256": "8cadeeadc72c078fe3f3446d5820abe0c7991fecf8dfb698bb57d779aad7904f"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "f6df365e29c4039cd3bf6ac0b0113883fe6aa20ca0814c637a575407ee485546"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.cov85.test.ts",
+      "sha256": "80b99e958e6d384c805356ccb3b325499276e9381648ad59ba5a625818a8612c"
+    },
+    {
+      "path": "packages/game/package.json",
+      "sha256": "43ade8421eaeac4be984c3f17eb7cae1ca4b241c9cd3dde5d8e26f1a79f24dba"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "c64b02e6d0582caa35ae0730ca2e8c7e2e3c3f7ea4f19734459ae7dfaf7b6cf5"
+    }
+  ],
+  "scope": "two user-approved fixes; third behavior unchanged"
+}

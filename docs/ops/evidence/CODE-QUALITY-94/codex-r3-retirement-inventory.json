@@ -1,0 +1,78 @@
+[
+  {
+    "name": "L06 OpeningMenu 剩余合同 > 词表载入：菜单 items 与 openingMenuLabels 同取 flat[7]/flat[8]（单一文案源）",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts"
+  },
+  {
+    "name": "L06 OpeningMenu 剩余合同 > 空表 choice 防御 undefined（直造状态可达）",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts"
+  },
+  {
+    "name": "L04 equip-menu 剩余合同 > 库存条目 itemId 不在目录 → confirmEquipItem no-op 留 list（!item 分支）",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts"
+  },
+  {
+    "name": "L04 equip-menu 剩余合同 > done 相：equipMoveUp/Down 与 cancelEquipMenu 零触达",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts"
+  },
+  {
+    "name": "L04 equip-menu 剩余合同 > 单人队 pick-role：Down/Up 环绕自返（wMaxPartyMemberIndex=0）",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts"
+  },
+  {
+    "name": "createSaveSlotMenu > 默认 5 slot,label \"进度N\",mode 透传",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  },
+  {
+    "name": "createSaveSlotMenu > load mode",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  },
+  {
+    "name": "createSaveSlotMenu > slotMeta override label",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  },
+  {
+    "name": "createSaveSlotMenu > 初始 slotMetas 空 Map(fetchSlotMetas 异步填)",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  },
+  {
+    "name": "saveSlotMenuUp/Down + Current > Down 切下一 slot",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  },
+  {
+    "name": "saveSlotMenuUp/Down + Current > Up 切上一 slot;边界 wrap(SelectionMenu 默认行为)",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  },
+  {
+    "name": "saveSlotMenuUp/Down + Current > Current 返回 slot id(1-based,sdlpal uigame.c:184 真值)",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  },
+  {
+    "name": "fetchSlotMetas + Save IO > fetchSlotMetas 空 slots → slotMetas 仍空",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  },
+  {
+    "name": "fetchSlotMetas + Save IO > save 后 fetchSlotMetas → slotMetas 含 SlotMeta",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  },
+  {
+    "name": "fetchSlotMetas + Save IO > 多 slot save → fetchSlotMetas 全 fill",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  },
+  {
+    "name": "SlotMeta.savedTimes — sdlpal uigame.c:589-597 真值 > savedTimes 从 gs.wSavedTimes 取(extractMeta 真值)",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  },
+  {
+    "name": "Save → Load roundtrip > save GameState → loadSlot 取回同字段值",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  },
+  {
+    "name": "Save → Load roundtrip > save 是 deep clone — loaded 修改不影响 saved",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  },
+  {
+    "name": "Save → Load roundtrip > loadSlot 不存在 slot → null",
+    "file": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game/src/core/menu/save-slot-menu.test.ts"
+  }
+]

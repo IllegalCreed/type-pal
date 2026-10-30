@@ -1,0 +1,14 @@
+{
+  "typescript": "6.0.3",
+  "scope": "Only the selected shop implementation, same transpile options; not native/gameplay/whole-file acceptance",
+  "rows": [
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "beforeSha256": "4cd77e0892a460ba387eeeaff6d0ad94a7f2be3f40a17376df1361e84b14da19",
+      "currentSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+      "removeCommentsJavaScriptSha256": "48c0af088383ff8e510b465c2057cd05ab53a28ffc5a7f5161b56da0978edd72",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    }
+  ]
+}

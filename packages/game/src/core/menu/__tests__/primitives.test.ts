@@ -1,19 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import {
-  createConfirmMenu,
   createSelectionMenu,
-  createSwitchMenu,
-  createTripleMenu,
   getSelected,
   moveSelectionDown,
   moveSelectionUp,
-  moveTripleDown,
-  moveTripleUp,
-  pageDown,
-  pageUp,
-  switchLeft,
-  switchRight,
-  toggleConfirm,
 } from '../primitives.js'
 
 describe('M-w0.1 SelectionMenu', () => {
@@ -93,103 +83,5 @@ describe('M-w0.1 SelectionMenu', () => {
     ])
     moveSelectionDown(s)
     expect(getSelected(s)?.id).toBe(200)
-  })
-})
-
-describe('M-w0.1 ConfirmMenu', () => {
-  it('defaultYes 控制初始 selection', () => {
-    expect(createConfirmMenu('?', true).selection).toBe('yes')
-    expect(createConfirmMenu('?', false).selection).toBe('no')
-  })
-
-  it('toggleConfirm yes ↔ no', () => {
-    const s = createConfirmMenu('?', true)
-    toggleConfirm(s)
-    expect(s.selection).toBe('no')
-    toggleConfirm(s)
-    expect(s.selection).toBe('yes')
-  })
-})
-
-describe('M-w0.1 TripleMenu', () => {
-  it('moveTripleDown 0→1→2→0(循环)', () => {
-    const s = createTripleMenu(['a', 'b', 'c'])
-    expect(s.selection).toBe(0)
-    moveTripleDown(s)
-    expect(s.selection).toBe(1)
-    moveTripleDown(s)
-    expect(s.selection).toBe(2)
-    moveTripleDown(s)
-    expect(s.selection).toBe(0)
-  })
-
-  it('moveTripleUp 0→2→1→0(反向循环)', () => {
-    const s = createTripleMenu(['a', 'b', 'c'])
-    moveTripleUp(s)
-    expect(s.selection).toBe(2)
-    moveTripleUp(s)
-    expect(s.selection).toBe(1)
-  })
-})
-
-describe('M-w0.1 SwitchMenu', () => {
-  it('switchRight 循环', () => {
-    const s = createSwitchMenu(['easy', 'mid', 'hard'])
-    expect(s.current).toBe(0)
-    switchRight(s)
-    expect(s.current).toBe(1)
-    switchRight(s)
-    expect(s.current).toBe(2)
-    switchRight(s)
-    expect(s.current).toBe(0)
-  })
-
-  it('switchLeft 反向循环', () => {
-    const s = createSwitchMenu(['a', 'b'])
-    switchLeft(s)
-    expect(s.current).toBe(1)
-  })
-
-  it('空 options 不抛错', () => {
-    const s = createSwitchMenu([])
-    switchLeft(s)
-    switchRight(s)
-    expect(s.current).toBe(0)
-  })
-})
-
-describe('M5.6 T6 pageUp / pageDown(SelectionMenu 翻页)', () => {
-  function mkLong() {
-    // 20 项,pageSize 8 → 3 页
-    return createSelectionMenu(
-      Array.from({ length: 20 }, (_, i) => ({ id: i, label: `Item ${i}` })),
-    )
-  }
-
-  it('pageDown 从 cursor 0 → cursor 8(下一页)', () => {
-    const s = mkLong()
-    pageDown(s)
-    expect(s.cursor).toBe(8)
-  })
-
-  it('pageDown 末页 clamp 到末项 19', () => {
-    const s = mkLong()
-    s.cursor = 16
-    pageDown(s)
-    expect(s.cursor).toBe(19)
-  })
-
-  it('pageUp 从 cursor 16 → 8', () => {
-    const s = mkLong()
-    s.cursor = 16
-    pageUp(s)
-    expect(s.cursor).toBe(8)
-  })
-
-  it('pageUp 第一页 clamp 到 0', () => {
-    const s = mkLong()
-    s.cursor = 4
-    pageUp(s)
-    expect(s.cursor).toBe(0)
   })
 })

@@ -1,0 +1,778 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-19",
+  "owner": "Codex",
+  "decision": "CODE82 partial;twofilesreview;0newclosed",
+  "base": "b146b14699f7fcb9ab5f72fac1d89fb2f8fa865f",
+  "sourceCommits": ["4c6988c3a", "59a4b439e"],
+  "scope": "CODE82 exact standalone diagnostic and its unchanged8case process test;not extractor pipeline or shared public codec change",
+  "fileReviews": [
+    {
+      "path": "packages/pal-extract/audit-data-mkf.mjs",
+      "sha256": "dc6d386620a54dc8f3036b754f0cc1173fa037a40c9f19e85936cd61f818afc5",
+      "lines": 91,
+      "readScope": "full current file;complete parent card and adjacent modules/ranges below",
+      "dimensions": {
+        "A": "Private parseChunkOffsets retains every header/monotonic/buffer bound check and original MKF error text before census output. For0≤i<N,validated offsets give0≤start≤end≤byteLength,so subarray(start,end).byteLength=end-start exactly;no unsupported-index caller exists in this self-contained loop. Real local raw63978B/15chunks and eight process contracts stay valid. No argument,output/API/asset input-policy change.",
+        "B": "New one-line invariant explains why diagnostic code consumes only offsets/lengths and validates before printing. Existing struct-size labels checked against local SDL declarations/load slots and constants;no newly invented SDL gameplay claim. Historical CODE82 no-index-defense statement had diverged from current copied helper;current code removes the unreachable defensive branch.",
+        "C": "Small standalone entrypoint keeps pure offset validation separate from readFile/format/log sequence. No export/import consumer;input read is synchronous,errors propagate through Node exit,borrowed raw bytes are not changed. Removing the archive object avoids retaining buffer ownership in a helper that never consumes content.",
+        "D": "Standalone diagnostic/parser duplication with shared remains a deliberate host boundary:current stock Node import of source workspace package fails at missing events.js. Sharing would require changing module/build/public boundaries,not a warranted helper extraction here. Shared openMkf has external chunk-read consumers;this CLI requires only offset lengths,so its removed readChunk wrapper is not a reusable contract.",
+        "E": "Exact subprocess8case suite unchanged:full legal16chunk census with empty/unknown/nonintegral record reporting,six separately named malformed offset cases,missing-own-checkout rejection. Current8green plus unchanged adjacent MKF3reused;raw stdout byte-equal before/after. One precise STORE18→20 counter fails the intended full-census business assertion;temporary edit restored exactly.",
+        "F": "parseChunkOffsets/chunkCount/label/recordSize/recordCount reveal units and purpose instead of openMkf/n/m[0]/m[1]/recs. Tuple destructuring makes record metadata explicit;reader need not infer positional meaning from output text.",
+        "G": "Delete private archive object/chunkCount/readChunk wrappers and impossible external-index branch;no public helper/export removed. Reuse recordCount instead of dividing twice. No generic options,mode flag,arbitrary caps,compatibility branch,ignore or coverage rule change.",
+        "H": "Pure validation can be exercised through real CLI with owned temporary checkout;external IO limited to one local read and stdout/stderr. No timers/listeners/fetch/process-global mutable service. No test-only public API;process-level fixture intentionally verifies actual entrypoint path and cleanup."
+      },
+      "currentAcceptance": "review;file-levelA-H finite work complete,whole-stage unified gates pending",
+      "unknowns": [
+        "Official final check/coverage/protected and current editor/route diagnostics remain open;no whole-file closed credit here"
+      ]
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "sha256": "2ba45d0947f9dc087911131d9288a1feae0bac3ea19c6fecf972dd4225c19e15",
+      "lines": 86,
+      "readScope": "full current file;complete parent card and adjacent modules/ranges below",
+      "dimensions": {
+        "A": "Each run copies the actual script into a unique owned tree,sets unrelated cwd and optional DATA input,then launches stock Node with5s bound. Child error/signal guards prevent timeout/crash from masquerading as expected rejection. Fixtures deliberately include malformed binary negative inputs,not semantically illegal game objects presented as valid.",
+        "B": "Fixture comments tie chunk slots/size constants to C declarations and explain deliberate nonintegral STORE reporting. Titles describe real process/path/error contracts;no new tests or claim expanded runtime coverage.",
+        "C": "runAudit owns its temporary directory and finally cleanup;per-case process/data isolate module state. Offsets fixture serializes literal LE32 values independently of production parser;no shared archive globals,mocks or observers.",
+        "D": "One helper owns process/temp lifecycle across eight cases. Six malformed parameterized cases isolate distinct header/order/bounds guards;positive census and missing-file case have different oracles. No same-contract duplicate deletion proven necessary here.",
+        "E": "Real caller=spawned Node CLI;oracle=independent fixed offsets plus full expected chunk labels/record counts from primary structs,or nonzero/no stdout/specific guard error. No implementation clone used as correctness oracle. STORE width counter causes exactly the intended AssertionError,not missing file/mock count;all eight identities/fixture/assertion bytes unchanged.",
+        "F": "Names express owning-checkout and reject-before-census behavior. Explicit16rows are intentional independent expectations,not generated from meaning dictionary. Whitespace normalization permits column alignment differences;separate raw before/after proof checks exact current output bytes.",
+        "G": "No skip/only,cast,weakening,case growth or removed assertion. Two fixture helpers have actual multiple consumers,not extra layers. Existing assertions on spawn error/status/stdout/stderr protect different failure outcomes.",
+        "H": "Controlled local files and real child process are deterministic;unique mkdtemp directory handles parallelism and spaces in path. Subprocess bounded,finally removes only its owned tree. Missing input is locally reproducible without global raw installation."
+      },
+      "currentAcceptance": "review;file-levelA-H finite work complete,whole-stage unified gates pending",
+      "unknowns": [
+        "Official final check/coverage/protected and current editor/route diagnostics remain open;no whole-file closed credit here"
+      ]
+    }
+  ],
+  "callerPrimaryBindings": [
+    {
+      "path": "packages/shared/src/mkf.ts",
+      "sha256": "7d4504527745800dee8ef1675269c6385ff028896d322f4fb66fde378bfc42cc",
+      "readScope": "full;public archive/borrowed-view contract differs from standalone lengths"
+    },
+    {
+      "path": "packages/pal-extract/src/io/mkf.ts",
+      "sha256": "ca53d95c262a6fe6d7b31fe0ec149804e4e759875803b3cf63c8f7c713cb0fd3",
+      "readScope": "full;re-export host"
+    },
+    {
+      "path": "packages/pal-extract/src/io/mkf.test.ts",
+      "sha256": "7da6a589a75cac60a352cc156da790c70505235d7be335ddc01d461090dfebb0",
+      "readScope": "full;three adjacent direct archive contracts"
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "aa5e78f8a222de107f814d11cd9dc52239cc23135fe9c794db754f28b868d99d",
+      "readScope": "full;source export graph"
+    },
+    {
+      "path": "packages/shared/package.json",
+      "sha256": "574bb6698c420e6e2858b496676943ba179e671a53127463b3a9c840ad29aa9a",
+      "readScope": "full;source TS workspace entry"
+    },
+    {
+      "path": "packages/pal-extract/package.json",
+      "sha256": "95ee7652070927b0af6014f8bb41af2985f7d869a65b96ea7aca510be6cd2277",
+      "readScope": "full;scripts/runtime dependencies"
+    },
+    {
+      "path": "packages/pal-extract/tsconfig.json",
+      "sha256": "c495913f16faed5087b5f04fdf57ea15147633743e2c2b0f4352383a2453ac1b",
+      "readScope": "full;root diagnostic.mjs is outside include;TS files unchanged"
+    },
+    {
+      "path": "reference/sdlpal/palcommon.c",
+      "sha256": "919f428112e70c11b8db208e9bba486c8ab056aa4a893a8d4d6bae9b21b9aae6",
+      "readScope": "855-1013;chunk count/size/read"
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "readScope": "292-308 and427-429;DATA slot/type ownership"
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "readScope": "252-444;table struct fields/arrays"
+    },
+    {
+      "path": "reference/sdlpal/palcommon.h",
+      "sha256": "92ca376598778230c7433449ede5e597cc23ef91ea246b2720b10da045ff86ba",
+      "readScope": "named constants at45/48/54/57/60/63/66/82 only"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-82-data-mkf-diagnostic.md",
+      "sha256": "76f60a6392d8d68ec8371fe93d049726444c4dfdb481ea8d2a06062c6da3e700",
+      "readScope": "full;historical outcome/standalone boundary/guard statement"
+    }
+  ],
+  "input": {
+    "path": "data/raw/DATA.MKF",
+    "sha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b",
+    "byteLength": 63978,
+    "readOnlyTarget": "/Users/zhangxu/illegal/type-pal/data/raw/DATA.MKF",
+    "localSetup": "Added one ignored owned-worktree raw file symlink after captured ENOENT;main source bytes/tree untouched,no output link/write"
+  },
+  "attachments": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code82-before.vitest.json.gz",
+      "kind": "baseline-green8",
+      "originalSha256": "fa2b11555e10a7434343d8838a7995c54cc38bebe9ffe4d5323d45362ad05c11",
+      "gzipSha256": "49adc1fe83b4f0c95affa23459e9b3a8925d650fe7cc24c3805760d7395a055f",
+      "tests": 8,
+      "passed": 8,
+      "failed": 0,
+      "pending": 0
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code82-after.vitest.json.gz",
+      "kind": "length-refactor-green11;includes3adjacent",
+      "originalSha256": "a9b8cb7974210708c3e484299dc3938daabc14a92c30f5cc49ab2346e981eee9",
+      "gzipSha256": "e56a4aeb8ea80df80d7cefe705c49cb199c3bfd4ee30fe9b46dce2e0c6655d24",
+      "tests": 11,
+      "passed": 11,
+      "failed": 0,
+      "pending": 0
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code82-counter.vitest.json.gz",
+      "kind": "length-refactor-intended-single-failure-with7passed",
+      "originalSha256": "c7d6455c44e8b12f8933ed7460b87fc3165fe064a3d2e996a797d0bb114363ff",
+      "gzipSha256": "212d950c3cb239992a1d008946f2563c470f876aafdd776e164dcc11a85a0e23",
+      "tests": 8,
+      "passed": 7,
+      "failed": 1,
+      "pending": 0
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code82-final.vitest.json.gz",
+      "kind": "current-naming-green8",
+      "originalSha256": "a6e503dda4dc326663b6007c608b9a21aed395c03dc08bdf6f34f73e7f934d82",
+      "gzipSha256": "fb47eabb25f2f033fdb442b4ec97640f82a0f2564414a926ca390571e5cc466f",
+      "tests": 8,
+      "passed": 8,
+      "failed": 0,
+      "pending": 0
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code82-final-counter.vitest.json.gz",
+      "kind": "current-intended-single-failure-with7name-filtered",
+      "originalSha256": "5fdee9968cd6d7f868808040450a22f2360d0910ae8d53a08df4321cde478a4f",
+      "gzipSha256": "5bda233d647c3d130268ea2a1a1aa94023748b1c79f75d70df7db78c81340408",
+      "tests": 8,
+      "passed": 0,
+      "failed": 1,
+      "pending": 7
+    }
+  ],
+  "identitiesBefore": [
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "reads the owning checkout from another cwd, including empty chunks and record diagnostics",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "rejects 'short header' before reporting a census",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "rejects 'zero table end' before reporting a census",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "rejects 'misaligned table end' before reporting a census",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "rejects 'truncated table' before reporting a census",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "rejects 'backward chunk' before reporting a census",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "rejects 'outside chunk' before reporting a census",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "fails on a missing local DATA.MKF instead of reading a different checkout",
+      "status": "passed"
+    }
+  ],
+  "identitiesFinal": [
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "reads the owning checkout from another cwd, including empty chunks and record diagnostics",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "rejects 'short header' before reporting a census",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "rejects 'zero table end' before reporting a census",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "rejects 'misaligned table end' before reporting a census",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "rejects 'truncated table' before reporting a census",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "rejects 'backward chunk' before reporting a census",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "rejects 'outside chunk' before reporting a census",
+      "status": "passed"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "fullName": "fails on a missing local DATA.MKF instead of reading a different checkout",
+      "status": "passed"
+    }
+  ],
+  "identityMapping": "8unchanged full names/fixtures/assertions;zero additions/removals/renames. Adjacent3not newtarget tests.",
+  "executionAccounting": "Final directed8green after naming cleanup;reuse adjacent3from earlier11green because their implementation/tests/dependencies unchanged. Intermediate8baseline/11green/8counter/8final/filtered1counter are executions,not36unique tests. No new package/full-repository tests.",
+  "logs": {
+    "before": {
+      "command": [
+        "../../node_modules/.bin/vitest",
+        "run",
+        "src/audit-data-mkf.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-data-mkf-before.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+      "recordedAt": "2026-10-19T13:48:01.444047+00:00",
+      "exitCode": 0,
+      "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract\n\n ✓ src/audit-data-mkf.test.ts (8 tests) 192ms\n\n Test Files  1 passed (1)\n      Tests  8 passed (8)\n   Start at  22:48:01\n   Duration  296ms (transform 23ms, setup 0ms, import 34ms, tests 192ms, environment 0ms)\n\nJSON report written to /tmp/type-pal-data-mkf-before.json\n",
+      "stderr": "",
+      "sourceBindings": {
+        "packages/pal-extract/audit-data-mkf.mjs": "b6d2040d44b8869648099cb090e0adf8af416c7ca2c0ec66e06e8b621e133f53",
+        "packages/pal-extract/src/audit-data-mkf.test.ts": "2ba45d0947f9dc087911131d9288a1feae0bac3ea19c6fecf972dd4225c19e15"
+      }
+    },
+    "afterLengthRefactor": {
+      "command": [
+        "../../node_modules/.bin/vitest",
+        "run",
+        "src/audit-data-mkf.test.ts",
+        "src/io/mkf.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-data-mkf-after.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+      "recordedAt": "2026-10-19T13:50:27.584229+00:00",
+      "exitCode": 0,
+      "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract\n\n ✓ src/io/mkf.test.ts (3 tests) 2ms\n ✓ src/audit-data-mkf.test.ts (8 tests) 202ms\n\n Test Files  2 passed (2)\n      Tests  11 passed (11)\n   Start at  22:50:27\n   Duration  310ms (transform 79ms, setup 0ms, import 108ms, tests 204ms, environment 0ms)\n\nJSON report written to /tmp/type-pal-data-mkf-after.json\n",
+      "stderr": "",
+      "sourceBindings": {
+        "packages/pal-extract/audit-data-mkf.mjs": "16024e4141ff7403c7e3743fb657a0de3de7adeccfd0f752e78cd6e27f56e4ff",
+        "packages/pal-extract/src/audit-data-mkf.test.ts": "2ba45d0947f9dc087911131d9288a1feae0bac3ea19c6fecf972dd4225c19e15",
+        "packages/pal-extract/src/io/mkf.test.ts": "7da6a589a75cac60a352cc156da790c70505235d7be335ddc01d461090dfebb0",
+        "packages/shared/src/mkf.ts": "7d4504527745800dee8ef1675269c6385ff028896d322f4fb66fde378bfc42cc"
+      }
+    },
+    "beforeNamingCounter": {
+      "command": [
+        "../../node_modules/.bin/vitest",
+        "run",
+        "src/audit-data-mkf.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-data-mkf-counter.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+      "recordedAt": "2026-10-19T13:50:28.401070+00:00",
+      "exitCode": 1,
+      "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract\n\n ❯ src/audit-data-mkf.test.ts (8 tests | 1 failed) 196ms\n   × reads the owning checkout from another cwd, including empty chunks and record diagnostics 29ms\n   ✓ rejects 'short header' before reporting a census 24ms\n   ✓ rejects 'zero table end' before reporting a census 23ms\n   ✓ rejects 'misaligned table end' before reporting a census 24ms\n   ✓ rejects 'truncated table' before reporting a census 24ms\n   ✓ rejects 'backward chunk' before reporting a census 24ms\n   ✓ rejects 'outside chunk' before reporting a census 23ms\n   ✓ fails on a missing local DATA.MKF instead of reading a different checkout 23ms\n\n Test Files  1 failed (1)\n      Tests  1 failed | 7 passed (8)\n   Start at  22:50:28\n   Duration  275ms (transform 13ms, setup 0ms, import 18ms, tests 196ms, environment 0ms)\n\nJSON report written to /tmp/type-pal-data-mkf-counter.json\n",
+      "stderr": "\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/audit-data-mkf.test.ts > reads the owning checkout from another cwd, including empty chunks and record diagnostics\nAssertionError: expected [ …(16) ] to deeply equal [ …(16) ]\n\n- Expected\n+ Received\n\n@@ -1,7 +1,7 @@\n  [\n-   \"chunk 0: size= 19 STORE recordSize=18 → records=1.0555555555555556 (NOT INTEGER!)\",\n+   \"chunk 0: size= 19 STORE recordSize=20 → records=0.95 (NOT INTEGER!)\",\n    \"chunk 1: size= 70 ENEMY recordSize=70 → records=1\",\n    \"chunk 2: size= 10 ENEMYTEAM recordSize=10 → records=1\",\n    \"chunk 3: size= 900 PLAYERROLES (single record) recordSize=900 → records=1\",\n    \"chunk 4: size= 32 MAGIC recordSize=32 → records=1\",\n    \"chunk 5: size= 12 BATTLEFIELD recordSize=12 → records=1\",\n\n ❯ src/audit-data-mkf.test.ts:46:73\n     44|     'offsets.length = 17 last offset = 1474 fileSize = 1474',\n     45|   ])\n     46|   expect(lines.slice(2).map((line) => line.trim().replace(/ +/g, ' '))…\n       |                                                                         ^\n     47|     'chunk 0: size= 19 STORE recordSize=18 → records=1.055555555555555…\n     48|     'chunk 1: size= 70 ENEMY recordSize=70 → records=1',\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+      "sourceSha256": "16024e4141ff7403c7e3743fb657a0de3de7adeccfd0f752e78cd6e27f56e4ff",
+      "mutation": "Only diagnostic STORE width18→20 in actual script;keep input fixture/oracle/tests unchanged",
+      "failureIdentities": [
+        "reads the owning checkout from another cwd, including empty chunks and record diagnostics"
+      ],
+      "restoredBytes": true,
+      "statusBeforeAfterEqual": true
+    },
+    "final": {
+      "command": [
+        "../../node_modules/.bin/vitest",
+        "run",
+        "src/audit-data-mkf.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-data-mkf-final.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+      "recordedAt": "2026-10-19T13:54:18.199572+00:00",
+      "exitCode": 0,
+      "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract\n\n ✓ src/audit-data-mkf.test.ts (8 tests) 194ms\n\n Test Files  1 passed (1)\n      Tests  8 passed (8)\n   Start at  22:54:17\n   Duration  294ms (transform 22ms, setup 0ms, import 33ms, tests 194ms, environment 0ms)\n\nJSON report written to /tmp/type-pal-data-mkf-final.json\n",
+      "stderr": "",
+      "sourceBindings": {
+        "packages/pal-extract/audit-data-mkf.mjs": "dc6d386620a54dc8f3036b754f0cc1173fa037a40c9f19e85936cd61f818afc5",
+        "packages/pal-extract/src/audit-data-mkf.test.ts": "2ba45d0947f9dc087911131d9288a1feae0bac3ea19c6fecf972dd4225c19e15"
+      }
+    },
+    "finalCounter": {
+      "command": [
+        "../../node_modules/.bin/vitest",
+        "run",
+        "src/audit-data-mkf.test.ts",
+        "-t",
+        "reads the owning checkout from another cwd, including empty chunks and record diagnostics",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-data-mkf-final-counter.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+      "recordedAt": "2026-10-19T13:54:19.093466+00:00",
+      "exitCode": 1,
+      "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract\n\n ❯ src/audit-data-mkf.test.ts (8 tests | 1 failed | 7 skipped) 46ms\n   × reads the owning checkout from another cwd, including empty chunks and record diagnostics 46ms\n   ↓ rejects 'short header' before reporting a census\n   ↓ rejects 'zero table end' before reporting a census\n   ↓ rejects 'misaligned table end' before reporting a census\n   ↓ rejects 'truncated table' before reporting a census\n   ↓ rejects 'backward chunk' before reporting a census\n   ↓ rejects 'outside chunk' before reporting a census\n   ↓ fails on a missing local DATA.MKF instead of reading a different checkout\n\n Test Files  1 failed (1)\n      Tests  1 failed | 7 skipped (8)\n   Start at  22:54:18\n   Duration  136ms (transform 16ms, setup 0ms, import 25ms, tests 46ms, environment 0ms)\n\nJSON report written to /tmp/type-pal-data-mkf-final-counter.json\n",
+      "stderr": "\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/audit-data-mkf.test.ts > reads the owning checkout from another cwd, including empty chunks and record diagnostics\nAssertionError: expected [ …(16) ] to deeply equal [ …(16) ]\n\n- Expected\n+ Received\n\n@@ -1,7 +1,7 @@\n  [\n-   \"chunk 0: size= 19 STORE recordSize=18 → records=1.0555555555555556 (NOT INTEGER!)\",\n+   \"chunk 0: size= 19 STORE recordSize=20 → records=0.95 (NOT INTEGER!)\",\n    \"chunk 1: size= 70 ENEMY recordSize=70 → records=1\",\n    \"chunk 2: size= 10 ENEMYTEAM recordSize=10 → records=1\",\n    \"chunk 3: size= 900 PLAYERROLES (single record) recordSize=900 → records=1\",\n    \"chunk 4: size= 32 MAGIC recordSize=32 → records=1\",\n    \"chunk 5: size= 12 BATTLEFIELD recordSize=12 → records=1\",\n\n ❯ src/audit-data-mkf.test.ts:46:73\n     44|     'offsets.length = 17 last offset = 1474 fileSize = 1474',\n     45|   ])\n     46|   expect(lines.slice(2).map((line) => line.trim().replace(/ +/g, ' '))…\n       |                                                                         ^\n     47|     'chunk 0: size= 19 STORE recordSize=18 → records=1.055555555555555…\n     48|     'chunk 1: size= 70 ENEMY recordSize=70 → records=1',\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+      "sourceSha256": "dc6d386620a54dc8f3036b754f0cc1173fa037a40c9f19e85936cd61f818afc5",
+      "mutation": "Only STORE diagnostic width18→20,final59a4b439e source snapshot",
+      "failureIdentities": [
+        "reads the owning checkout from another cwd, including empty chunks and record diagnostics"
+      ],
+      "restoredBytes": true,
+      "statusBeforeAfterEqual": true,
+      "filterAccounting": "Only one intended contract selected;other7pending due name filter,not source skip/only."
+    },
+    "rawInputMissing": {
+      "command": [
+        "node",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/audit-data-mkf.mjs"
+      ],
+      "cwd": "/tmp",
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "node:fs:560\n  return binding.open(\n                 ^\n\nError: ENOENT: no such file or directory, open '/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/raw/DATA.MKF'\n    at Object.openSync (node:fs:560:18)\n    at readFileSync (node:fs:444:35)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/audit-data-mkf.mjs:43:28\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {\n  errno: -2,\n  code: 'ENOENT',\n  syscall: 'open',\n  path: '/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/raw/DATA.MKF'\n}\n\nNode.js v22.23.2\n",
+      "explanation": "Local ignored raw directory lacked DATA.MKF. Initial wrapper also attempted absent-file hash and stopped before saving command output;this is a fresh captured reproduction before providing read-only input."
+    },
+    "rawBefore": {
+      "command": [
+        "node",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/audit-data-mkf.mjs"
+      ],
+      "cwd": "/tmp",
+      "exitCode": 0,
+      "stdout": "DATA.MKF chunkCount = 15\noffsets.length = 16 last offset = 63978 fileSize = 63978\nchunk  0: size=   378  STORE                              recordSize=18 → records=21\nchunk  1: size= 10780  ENEMY                              recordSize=70 → records=154\nchunk  2: size=  3800  ENEMYTEAM                          recordSize=10 → records=380\nchunk  3: size=   900  PLAYERROLES (single record)        recordSize=900 → records=1\nchunk  4: size=  3328  MAGIC                              recordSize=32 → records=104\nchunk  5: size=   696  BATTLEFIELD                        recordSize=12 → records=58\nchunk  6: size=   400  LEVELUPMAGIC_ALL                   recordSize=20 → records=20\nchunk  7: size=     0  (empty / unused)                   \nchunk  8: size=     0  (empty / unused)                   \nchunk  9: size= 25532  SPRITEUI (sprite group, raw)       \nchunk 10: size= 17478  battle effect sprite group         \nchunk 11: size=    40  rgwBattleEffectIndex[10][2]        recordSize=40 → records=1\nchunk 12: size=   282  bufDialogIcons (282B sprite)       \nchunk 13: size=   100  EnemyPos 5x5 PALPOS                recordSize=100 → records=1\nchunk 14: size=   200  rgLevelUpExp[100]                  recordSize=200 → records=1\n",
+      "stderr": "",
+      "inputSha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b",
+      "inputBytes": 63978,
+      "inputPath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/raw/DATA.MKF",
+      "readOnlyTarget": "/Users/zhangxu/illegal/type-pal/data/raw/DATA.MKF",
+      "linkCreatedOnlyInOwningWorktree": true
+    },
+    "rawAfterLengthRefactor": {
+      "command": [
+        "node",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/audit-data-mkf.mjs"
+      ],
+      "cwd": "/tmp",
+      "exitCode": 0,
+      "stdout": "DATA.MKF chunkCount = 15\noffsets.length = 16 last offset = 63978 fileSize = 63978\nchunk  0: size=   378  STORE                              recordSize=18 → records=21\nchunk  1: size= 10780  ENEMY                              recordSize=70 → records=154\nchunk  2: size=  3800  ENEMYTEAM                          recordSize=10 → records=380\nchunk  3: size=   900  PLAYERROLES (single record)        recordSize=900 → records=1\nchunk  4: size=  3328  MAGIC                              recordSize=32 → records=104\nchunk  5: size=   696  BATTLEFIELD                        recordSize=12 → records=58\nchunk  6: size=   400  LEVELUPMAGIC_ALL                   recordSize=20 → records=20\nchunk  7: size=     0  (empty / unused)                   \nchunk  8: size=     0  (empty / unused)                   \nchunk  9: size= 25532  SPRITEUI (sprite group, raw)       \nchunk 10: size= 17478  battle effect sprite group         \nchunk 11: size=    40  rgwBattleEffectIndex[10][2]        recordSize=40 → records=1\nchunk 12: size=   282  bufDialogIcons (282B sprite)       \nchunk 13: size=   100  EnemyPos 5x5 PALPOS                recordSize=100 → records=1\nchunk 14: size=   200  rgLevelUpExp[100]                  recordSize=200 → records=1\n",
+      "stderr": "",
+      "inputSha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b",
+      "stdoutEqualToBefore": true,
+      "inputUnchanged": true
+    },
+    "rawFinal": {
+      "command": [
+        "node",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/audit-data-mkf.mjs"
+      ],
+      "cwd": "/tmp",
+      "exitCode": 0,
+      "stdout": "DATA.MKF chunkCount = 15\noffsets.length = 16 last offset = 63978 fileSize = 63978\nchunk  0: size=   378  STORE                              recordSize=18 → records=21\nchunk  1: size= 10780  ENEMY                              recordSize=70 → records=154\nchunk  2: size=  3800  ENEMYTEAM                          recordSize=10 → records=380\nchunk  3: size=   900  PLAYERROLES (single record)        recordSize=900 → records=1\nchunk  4: size=  3328  MAGIC                              recordSize=32 → records=104\nchunk  5: size=   696  BATTLEFIELD                        recordSize=12 → records=58\nchunk  6: size=   400  LEVELUPMAGIC_ALL                   recordSize=20 → records=20\nchunk  7: size=     0  (empty / unused)                   \nchunk  8: size=     0  (empty / unused)                   \nchunk  9: size= 25532  SPRITEUI (sprite group, raw)       \nchunk 10: size= 17478  battle effect sprite group         \nchunk 11: size=    40  rgwBattleEffectIndex[10][2]        recordSize=40 → records=1\nchunk 12: size=   282  bufDialogIcons (282B sprite)       \nchunk 13: size=   100  EnemyPos 5x5 PALPOS                recordSize=100 → records=1\nchunk 14: size=   200  rgLevelUpExp[100]                  recordSize=200 → records=1\n",
+      "stderr": "",
+      "inputSha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b",
+      "stdoutEqualToBefore": true,
+      "inputUnchanged": true
+    },
+    "stockNodeSharedImport": {
+      "command": ["node", "--input-type=module", "-e", "await import(\"@type-pal/shared\")"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+      "recordedAt": "2026-10-19T13:49:30.204390+00:00",
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "node:internal/modules/esm/resolve:275\n    throw new ERR_MODULE_NOT_FOUND(\n          ^\n\nError [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/events.js' imported from /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/index.ts\n    at finalizeResolution (node:internal/modules/esm/resolve:275:11)\n    at moduleResolve (node:internal/modules/esm/resolve:861:10)\n    at defaultResolve (node:internal/modules/esm/resolve:985:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:747:20)\n    at ModuleLoader.resolve (node:internal/modules/esm/loader:724:38)\n    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:320:38)\n    at ModuleJob._link (node:internal/modules/esm/module_job:182:49) {\n  code: 'ERR_MODULE_NOT_FOUND',\n  url: 'file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared/src/events.js'\n}\n\nNode.js v22.23.2\n",
+      "scope": "Read-only concrete stock Node source-package import probe;not a new product/standalone CLI failure. Standalone tool deliberately avoids this workspace runtime dependency."
+    }
+  },
+  "complexityScreen": {
+    "tool": "typescript@6.0.3 AST local branch count",
+    "method": "1+if/loop/catch/case/conditional/&&/||/??;nested functions separate;optional-chain notcounted;screening only",
+    "rows": [
+      {
+        "path": "packages/pal-extract/audit-data-mkf.mjs",
+        "name": "parseChunkOffsets",
+        "line": 6,
+        "cyclomatic": 8,
+        "flag": false
+      },
+      {
+        "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+        "name": "runAudit",
+        "line": 7,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+        "name": "offsets",
+        "line": 26,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+        "name": "<callback>",
+        "line": 29,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+        "name": "<callback>",
+        "line": 33,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+        "name": "<callback>",
+        "line": 46,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+        "name": "<callback>",
+        "line": 73,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+        "name": "<callback>",
+        "line": 80,
+        "cyclomatic": 1,
+        "flag": false
+      }
+    ]
+  },
+  "equivalenceProof": "Offset validation is unchanged. Every loop index is an integeri in[0,offsets.length-1);table monotonic and within buffer means start/end meet subarray clamp boundaries,so size subtraction equals old view length. Formatting code uses the same primitive record metadata;named recordCount reuses the same pure division result. Private return/name changes have no exported caller.",
+  "typecheckReuse": {
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json",
+    "scope": "Existing extract tsc0 at486570fa0 reused:git diff486570fa0..current has onlydocs plus root audit-data-mkf.mjs;testTS/shared/tsconfig/package TS graph unchanged. Root .mjs not in src/scripts tsconfig include;actual Node CLI11/8execution verifies syntax. No new tsc run claimed.",
+    "sourceGraphDeltaProof": {
+      "command": ["git", "diff", "--name-only", "486570fa0..HEAD"],
+      "exitCode": 0,
+      "stdout": "docs/ops/audits/code-quality-file-ledger.md\ndocs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\ndocs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/README.md\ndocs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-pre94-scope.json\ndocs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\ndocs/phase-governance/reviews/20261016-historical-cards-d.json\ndocs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\ndocs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\npackages/pal-extract/audit-data-mkf.mjs\n",
+      "stderr": "",
+      "untrackedCode": ""
+    }
+  },
+  "callerSearch": {
+    "command": ["rg", "-n", "audit-data-mkf", "package.json", "packages", "scripts"],
+    "result": "Only test copy path and fast-baseline test identity references;standalone script is actual entrypoint,no productimport/export found in searched code. External unknown consumers not claimed absent."
+  },
+  "limits": [
+    "No public/schema/save/migration/asset pipeline,generated data,CLI args,error text or output-format changes.",
+    "Comparison raw is one target archive,not an exhaustive arbitrary-file oracle;algebraic size equivalence covers valid validated offsets.",
+    "8cases are strong finite contract evidence,not allpossible MKF layout proof. No new arbitrary caps or IO retry policy.",
+    "Stock Node shared import failure is a scoped host/testability probe,not a newly discovered product regression or authorization for TS/build changes.",
+    "Expired e2e-route review/editor act+environment diagnostics still block unified main integration.",
+    "Full check/coverage/protected are deferred until complete large-task closeout;source/test still review."
+  ],
+  "ledger": {
+    "before": {
+      "tracked": 3316,
+      "closed": 234,
+      "review": 120,
+      "pending": 2962
+    },
+    "after": {
+      "tracked": 3316,
+      "closed": 234,
+      "review": 121,
+      "pending": 2961
+    },
+    "newClosed": 0,
+    "currentSource": "docs/ops/audits/code-quality-file-ledger.md",
+    "oldScriptRow": "| `packages/pal-extract/audit-data-mkf.mjs` | product | review | DATA.MKF diagnostic census 直接读过；发现绝对 repo path 与 shared MKF duplicate | 仅诊断脚本，Q6/CLI tool audit 待核 |",
+    "newScriptRow": "| `packages/pal-extract/audit-data-mkf.mjs` | product | review | [CODE82八维续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json)；完整源码/Node入口/C结构与原盘byte-equal | 私有offset-only长度诊断、明确字段名/复用计数；保留standalone宿主边界；8定向+3相邻/真实业务反控，统一门待 |",
+    "newTestRow": "| `packages/pal-extract/src/audit-data-mkf.test.ts` | test | review | [CODE82八维续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json)；全文8真实Node进程合同、精确身份/原件 | fixture/断言/8身份字节保持；STORE18→20触发指定业务AssertionError，隔离目录finally清理；不以绿灯关闭 |",
+    "regressionSubset": {
+      "missing": 129,
+      "review": 45,
+      "已验证": 68,
+      "rework": 1
+    },
+    "historicalTailSha256": "b59824baa8dad3728c7dd9cf5378bdb7366202527ad7ef397f677ad5ef76cc6b"
+  },
+  "nextScope": "Reuse exact CODE3/3f annotation current counter/withdrawal evidence to fill missing design/readability/simplicity/testability claims,or CODE6a toolpair;do not redo valid A/E or roll into94–102first.",
+  "quickVerify": {
+    "command": [
+      "node",
+      "-e",
+      "const f=require('node:fs'),c=require('node:crypto'),z=require('node:zlib'),a=require('node:assert/strict');const d=JSON.parse(f.readFileSync(process.argv[1]));const h=b=>c.createHash('sha256').update(b).digest('hex');for(const r of [...d.fileReviews,...d.callerPrimaryBindings,d.input])a.equal(h(f.readFileSync(r.path)),r.sha256,r.path);for(const r of d.fileReviews)a.ok('ABCDEFGH'.split('').every(k=>typeof r.dimensions[k]==='string'));for(const r of d.attachments){const b=f.readFileSync(r.path);a.equal(h(b),r.gzipSha256);const raw=z.gunzipSync(b);a.equal(h(raw),r.originalSha256);const n=JSON.parse(raw);a.deepEqual([n.numTotalTests,n.numPassedTests,n.numFailedTests,n.numPendingTests],[r.tests,r.passed,r.failed,r.pending]);}const ids=n=>n.testResults.flatMap(t=>t.assertionResults.map(a=>({path:t.name.slice(t.name.indexOf('/packages/')+1),fullName:a.fullName,status:a.status})));const native=i=>JSON.parse(z.gunzipSync(f.readFileSync(d.attachments[i].path)));a.deepEqual(ids(native(0)),d.identitiesBefore);a.deepEqual(ids(native(3)),d.identitiesFinal);a.equal(d.logs.finalCounter.sourceSha256,d.fileReviews[0].sha256);a.deepEqual(d.identitiesBefore,d.identitiesFinal);a.equal(d.identitiesFinal.length,8);a.ok(d.identitiesFinal.every(r=>r.status==='passed'));a.ok(d.logs.rawFinal.stdoutEqualToBefore&&d.logs.rawFinal.inputUnchanged);a.ok(d.logs.finalCounter.exitCode===1&&d.logs.finalCounter.restoredBytes&&d.logs.finalCounter.statusBeforeAfterEqual);const failures=native(4).testResults.flatMap(t=>t.assertionResults).filter(t=>t.status==='failed');a.equal(failures.length,1);a.equal(failures[0].fullName,d.identitiesFinal[0].fullName);a.ok(failures[0].failureMessages.every(m=>m.includes('AssertionError')));const s=d.currentScopedState;const card=JSON.parse(f.readFileSync(s.cardsPath)).cards.find(x=>x.id===s.id);for(const [key,value]of Object.entries(s.expected))a.deepEqual(card[key],value);const live=f.readFileSync(s.ledgerPath,'utf8').split('<!-- original-source-fenced:start -->')[0].split('| 文件 |')[1].split('\\n\\n')[0];for(const row of s.ledgerRows)a.ok(live.split('\\n').includes(row));console.log('CODE82 identities-and-receipts-match;semantic acceptance not certified');",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json"
+    ],
+    "scope": "Read-only current source/primary/raw/native/identity/restore fingerprints;not tests/network or semantic A-H certification.",
+    "producerValidation": {
+      "positive": {
+        "exitCode": 0,
+        "stdout": "CODE82 identities-and-receipts-match;semantic acceptance not certified\n",
+        "stderr": ""
+      },
+      "staleSourceControl": {
+        "change": "Only first source SHA=64zeroes in external temporary record",
+        "exitCode": 1,
+        "stdout": "",
+        "stderr": "node:assert:150\n  throw new AssertionError(obj);\n  ^\n\nAssertionError [ERR_ASSERTION]: packages/pal-extract/audit-data-mkf.mjs\n+ actual - expected\n\n+ 'dc6d386620a54dc8f3036b754f0cc1173fa037a40c9f19e85936cd61f818afc5'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n\n    at [eval]:1:300\n    at [eval]:1:2240\n    at runScriptInThisContext (node:internal/vm:209:10)\n    at node:internal/process/execution:446:12\n    at [eval]-wrapper:6:24\n    at runScriptInContext (node:internal/process/execution:444:60)\n    at evalFunction (node:internal/process/execution:279:30)\n    at evalTypeScript (node:internal/process/execution:291:3)\n    at node:internal/main/eval_string:74:3 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: 'dc6d386620a54dc8f3036b754f0cc1173fa037a40c9f19e85936cd61f818afc5',\n  expected: '0000000000000000000000000000000000000000000000000000000000000000',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+      },
+      "temporaryRecordRemoved": true,
+      "statusBeforeAfterEqual": true,
+      "limits": "Codex self-control,not independent semantic certification",
+      "presentationDelta": "After producer control,the live-table header is rendered as its literal string instead of equivalent charCode construction;predicate/string value unchanged."
+    },
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal"
+  },
+  "cardStateDelta": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+    "oldSourceSha256": "46c783d5ba82dffac4eed2b5ad57e3ae25e30e554724793391cae5bf37a1a6c1",
+    "before82": {
+      "id": "82",
+      "number": 82,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-82-data-mkf-diagnostic.md",
+      "sha256": "76f60a6392d8d68ec8371fe93d049726444c4dfdb481ea8d2a06062c6da3e700",
+      "lines": 49,
+      "historicalStatus": "done",
+      "currentReview": "pending",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 范围与前提"
+        },
+        {
+          "line": 11,
+          "text": "白名单仅 `packages/pal-extract/audit-data-mkf.mjs` 与新增 `packages/pal-extract/src/audit-data-mkf.test.ts`。单一 Coding Owner 为 Codex；不修改 extractor CLI、shared codec、资产管线、raw/extracted 数据或公共 API。最新基线 `origin/main=646c8097034e4bd30a3ebde86cd61d46a2382e8a`，隔离分支 `codex/code-quality-3y`，开批 HEAD `571fbeb18683c6f36d5b54a213c9a6159f28d4aa`，0 behind / 54 ahead。"
+        },
+        {
+          "line": 28,
+          "text": "- 已读 AGENTS/CLAUDE/workflow/governance/ledger；历史 CODE-QUALITY-2 的共享 MKF 边界与本文件 review 记录；当前 CODE53/57/79/80/81 不占用本白名单。"
+        },
+        {
+          "line": 45,
+          "text": "Codex：premise verified / build allowed；范围只读诊断、零 API 变动。初次候选在建卡/反例前误落盘，已完整撤回为 HEAD，随后重建失败反例；该历史不冒称首轮先红。修复保留 standalone parser，因为真实入口是 `node` 执行 `.mjs`，而 shared codec 是未构建的 TS workspace export；实际路径/cwd 与输出等价反例已验证。"
+        },
+        {
+          "line": 49,
+          "text": "本批不触碰 schema/save/migration/asset pipeline、公共 API、raw/extracted 生成物或用户可见行为；standalone parser duplication 作为执行方式边界保留并登记。全仓未完成；本批不得关闭未读的 Q3 文件。无下一位 Agent 提示词，继续由 Codex 单 Agent 执行。下一批选择未被活动卡占用的 Q3 pending 或 Q6 非 E2E 工具。"
+        }
+      ],
+      "scopeConfirmed": false
+    },
+    "after82": {
+      "id": "82",
+      "number": 82,
+      "suffix": "",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-82-data-mkf-diagnostic.md",
+      "sha256": "76f60a6392d8d68ec8371fe93d049726444c4dfdb481ea8d2a06062c6da3e700",
+      "lines": 49,
+      "historicalStatus": "done",
+      "currentReview": "partial",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 9,
+          "text": "## 范围与前提"
+        },
+        {
+          "line": 11,
+          "text": "白名单仅 `packages/pal-extract/audit-data-mkf.mjs` 与新增 `packages/pal-extract/src/audit-data-mkf.test.ts`。单一 Coding Owner 为 Codex；不修改 extractor CLI、shared codec、资产管线、raw/extracted 数据或公共 API。最新基线 `origin/main=646c8097034e4bd30a3ebde86cd61d46a2382e8a`，隔离分支 `codex/code-quality-3y`，开批 HEAD `571fbeb18683c6f36d5b54a213c9a6159f28d4aa`，0 behind / 54 ahead。"
+        },
+        {
+          "line": 28,
+          "text": "- 已读 AGENTS/CLAUDE/workflow/governance/ledger；历史 CODE-QUALITY-2 的共享 MKF 边界与本文件 review 记录；当前 CODE53/57/79/80/81 不占用本白名单。"
+        },
+        {
+          "line": 45,
+          "text": "Codex：premise verified / build allowed；范围只读诊断、零 API 变动。初次候选在建卡/反例前误落盘，已完整撤回为 HEAD，随后重建失败反例；该历史不冒称首轮先红。修复保留 standalone parser，因为真实入口是 `node` 执行 `.mjs`，而 shared codec 是未构建的 TS workspace export；实际路径/cwd 与输出等价反例已验证。"
+        },
+        {
+          "line": 49,
+          "text": "本批不触碰 schema/save/migration/asset pipeline、公共 API、raw/extracted 生成物或用户可见行为；standalone parser duplication 作为执行方式边界保留并登记。全仓未完成；本批不得关闭未读的 Q3 文件。无下一位 Agent 提示词，继续由 Codex 单 Agent 执行。下一批选择未被活动卡占用的 Q3 pending 或 Q6 非 E2E 工具。"
+        }
+      ],
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
+      "findings": "Full two-file A-H;private offset-only diagnostic refactor,readable metadata fields/reused count;8unchanged process identities+3adjacent reused,real raw output byte-equal,precise STORE business counter. Unified gates pending;files review,no closure.",
+      "currentCardBinding": {
+        "sha256": "76f60a6392d8d68ec8371fe93d049726444c4dfdb481ea8d2a06062c6da3e700",
+        "lines": 49,
+        "scope": "Current card fully read;historical sha/lines above remain frozen inventory fields."
+      }
+    },
+    "currentCounts": {
+      "partial": 56,
+      "pending": 27
+    },
+    "other82RowsUnchanged": true
+  },
+  "scopeSnapshotDelta": {
+    "snapshot": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-pre94-scope.json",
+    "snapshotSha256": "396a66e61ed2dc99a6016359b76ac4028d5cc82fd7544dd655c57607716cd51d",
+    "changedSourceBindings": [
+      {
+        "path": "packages/pal-extract/audit-data-mkf.mjs",
+        "previousSha256": "b6d2040d44b8869648099cb090e0adf8af416c7ca2c0ec66e06e8b621e133f53",
+        "currentSha256": "dc6d386620a54dc8f3036b754f0cc1173fa037a40c9f19e85936cd61f818afc5"
+      }
+    ],
+    "changedArtifactBindings": [
+      "all-cards.json:onlyCODE82currentstate",
+      "code-quality-file-ledger.md:CODE82script evidence/test review+counts",
+      "board:onecurrentrow56/27and15filematrix"
+    ],
+    "limits": "Old scope packet kept byte-frozen;current quick check is expected stale at its first all-cards hash. Only diagnostic source differs among493indexed code paths;all83card source files unchanged. Do not refresh old SHA or redo unaffected file reviews.",
+    "actualOldQuickCheck": {
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "node:assert:150\n  throw new AssertionError(obj);\n  ^\n\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '7853a5110b414ec87ab65698b80700f2408a9f8625ab2313f5520d2e49c3bfb2'\n- '46c783d5ba82dffac4eed2b5ad57e3ae25e30e554724793391cae5bf37a1a6c1'\n\n    at [eval]:1:240\n    at [eval]:1:1078\n    at runScriptInThisContext (node:internal/vm:209:10)\n    at node:internal/process/execution:446:12\n    at [eval]-wrapper:6:24\n    at runScriptInContext (node:internal/process/execution:444:60)\n    at evalFunction (node:internal/process/execution:279:30)\n    at evalTypeScript (node:internal/process/execution:291:3)\n    at node:internal/main/eval_string:74:3 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: '7853a5110b414ec87ab65698b80700f2408a9f8625ab2313f5520d2e49c3bfb2',\n  expected: '46c783d5ba82dffac4eed2b5ad57e3ae25e30e554724793391cae5bf37a1a6c1',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n",
+      "classification": "Expected stale inventory binding,not a passing gate;known sole code delta is recorded above."
+    }
+  },
+  "documentControllerDraftFailure": "One draft documentation heredoc was rejected as non-UTF8 source before execution;subsequent explicit UTF8 file patches applied. No product/source mutation from that failed draft.",
+  "metadataBindings": [
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "path": "docs/ops/board.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "path": "docs/ops/audits/code-quality-file-ledger.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+    }
+  ],
+  "currentScopedState": {
+    "cardsPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+    "id": "82",
+    "expected": {
+      "currentReview": "partial",
+      "currentAcceptance": false,
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
+      "currentCardBinding": {
+        "sha256": "76f60a6392d8d68ec8371fe93d049726444c4dfdb481ea8d2a06062c6da3e700",
+        "lines": 49,
+        "scope": "Current card fully read;historical sha/lines above remain frozen inventory fields."
+      }
+    },
+    "ledgerPath": "docs/ops/audits/code-quality-file-ledger.md",
+    "ledgerRows": [
+      "| `packages/pal-extract/audit-data-mkf.mjs` | product | review | [CODE82八维续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json)；完整源码/Node入口/C结构与原盘byte-equal | 私有offset-only长度诊断、明确字段名/复用计数；保留standalone宿主边界；8定向+3相邻/真实业务反控，统一门待 |",
+      "| `packages/pal-extract/src/audit-data-mkf.test.ts` | test | review | [CODE82八维续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json)；全文8真实Node进程合同、精确身份/原件 | fixture/断言/8身份字节保持；STORE18→20触发指定业务AssertionError，隔离目录finally清理；不以绿灯关闭 |"
+    ],
+    "limits": "Only CODE82 state/rows are current selector bindings;other cards/counts are dated snapshots and may progress without invalidating this file-level proof."
+  },
+  "checks": {
+    "docs": {
+      "command": ["node", "scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:05:09.965531+00:00",
+      "exitCode": 0,
+      "stdout": "docs: 1653 Markdown / 9787 local links / 467 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n",
+      "stderr": ""
+    },
+    "model": {
+      "command": ["node", "scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:05:10.684369+00:00",
+      "exitCode": 0,
+      "stdout": "document model: PASS (8 routes; 1264 body contracts; 0 issues; structure only)\n",
+      "stderr": ""
+    },
+    "phase": {
+      "command": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:05:08.684942+00:00",
+      "exitCode": 0,
+      "stdout": "phase/lore governance: PASS (184 documents)\n",
+      "stderr": ""
+    },
+    "content": {
+      "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:05:09.298324+00:00",
+      "exitCode": 0,
+      "stdout": "content review: PASS (2346 documents; {\"content-reviewed\":2346})\n",
+      "stderr": ""
+    },
+    "lint": {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:05:11.414123+00:00",
+      "exitCode": 0,
+      "stdout": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 5659 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "stderr": ""
+    },
+    "diff": {
+      "command": ["git", "diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:05:08.655055+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "ledger": {
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:05:10.863483+00:00",
+      "exitCode": 0,
+      "stdout": "code-quality ledger: PASS — 3316 files; 234 closed / 121 review / 2961 pending; semantic review still required\n",
+      "stderr": ""
+    }
+  },
+  "currentGateConclusion": "Final directed8green plus unchanged adjacent3reused;raw output/input byte proof and exact business counter preserved. Listed docs/model/phase/content/ledger and lint5659 are0diagnostic. Prior extract tsc0 reused with unchanged TS graph;no new full check/coverage/protected;unified editor/route blockers remain."
+}

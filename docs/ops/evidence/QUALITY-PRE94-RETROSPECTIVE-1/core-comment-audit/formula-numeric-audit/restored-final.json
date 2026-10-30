@@ -1,0 +1,23 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/__tests__/formulas.test.ts",
+    "src/core/battle/__tests__/magic-damage.test.ts",
+    "--reporter=verbose"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T21:40:33.405652+00:00",
+  "completedAt": "2026-10-17T21:40:34.249324+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "restored-final.raw.gz",
+  "rawBytes": 7466,
+  "rawSha256": "0feb516232258b9d339159f3c4d50e940331dd9ff0d4ba6f96ceee8925f7c3e4",
+  "fullUncutMergedStdoutStderr": true
+}

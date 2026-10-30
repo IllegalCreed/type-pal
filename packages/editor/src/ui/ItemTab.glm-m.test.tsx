@@ -105,11 +105,17 @@ describe('M02 ItemTab 交易/说明字段当前合同', () => {
     expect(session.getHistoryVersion()).toBe(before + 3)
     assertProjectSaveValid(session.getState())
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().items[0]).toMatchObject({ sellable: false })
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().items[0]).toMatchObject({ buyPrice: 120, sellPrice: 0 })
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().items[0]).toEqual(item('item-m-a', '桂花糕'))
     // 无关物品的四个交易/说明字段全程零变化。
     expect(session.getState().items[1]).toEqual(item('item-m-b', '糯米'))
@@ -126,7 +132,9 @@ describe('M02 ItemTab 交易/说明字段当前合同', () => {
     expect(session.getState().items[0]?.desc).toEqual([' recover', '第二行', '第三行 '])
     expect(session.getHistoryVersion()).toBe(before + 1)
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().items[0]?.desc).toEqual([])
   })
 })

@@ -2,13 +2,15 @@
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { installReactActEnvironment } from '../../__tests__/react-io-wait.js'
 import { DsDraftNumberField, DsDraftNumberInput, DsNumberField } from './number-inputs.js'
 
 let host: HTMLDivElement
 let root: Root
+let restoreActEnvironment = () => {}
 
 beforeEach(() => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  restoreActEnvironment = installReactActEnvironment()
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
@@ -18,6 +20,7 @@ afterEach(async () => {
   await act(async () => root.unmount())
   host.remove()
   vi.restoreAllMocks()
+  restoreActEnvironment()
 })
 
 function numberInput(): HTMLInputElement {
@@ -290,7 +293,9 @@ describe('DsNumberInput 剩余合同', () => {
   })
 
   test('field chrome links the label, surfaces errors and derives stepper labels', () => {
-    act(() => root.render(<DsNumberField label="尺寸" error="必填" min={0} max={10} value={4} />))
+    act(() =>
+      root.render(<DsNumberField label="尺寸" error="必填" min={0} max={10} defaultValue={4} />),
+    )
     const input = numberInput()
     const label = host.querySelector('label')!
     expect(label.getAttribute('for')).toBe(input.id)

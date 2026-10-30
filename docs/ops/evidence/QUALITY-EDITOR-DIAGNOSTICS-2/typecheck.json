@@ -1,0 +1,7 @@
+{
+  "command": ["pnpm", "--filter", "@type-pal/editor", "typecheck"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exit": 0,
+  "bytes": 189,
+  "sha256": "051fe1ecaef8e8518e7ff4c1a27464a412c6990160e9214d8e838280a3830194"
+}

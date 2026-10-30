@@ -1,0 +1,46 @@
+{
+  "base": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
+  "owner": "Codex single agent",
+  "authorization": "User2026-10-18 explicitly chose A: failed installation rolls back listeners and privacy controls; refresh page to retry. No general telemetry change.",
+  "cases": [
+    {
+      "axis": "SDK js/config failures",
+      "legalPort": "Existing external gtag function throws synchronously at each initialization command",
+      "oracle": "same Error object; both acquired releases once; native consent regrant and page event cannot call recovered SDK",
+      "dedupe": "Existing URL rejection test catches URL only. Both commands are distinct partial-initialization boundaries."
+    },
+    {
+      "axis": "page source subscription fails",
+      "legalPort": "Optional public subscribePage throws before returning release handle",
+      "oracle": "earlier acquired consent subscription releases; no SDK command on later native consent grant",
+      "dedupe": "No existing initialization partial-acquisition test."
+    },
+    {
+      "axis": "initial readPage fails",
+      "legalPort": "readPage throws after js/config returned",
+      "oracle": "same Error object and two acquired subscriptions released; preexisting SDK identity/commands preserved; no post-failure SDK call",
+      "limit": "SDK/global/script side effects already performed are not claimed reversible; no subscriber-installed-then-throws rollback can be guaranteed without returned handle."
+    },
+    {
+      "axis": "actual installation/UI failure",
+      "legalPort": "Real installer, persisted granted choice, native UI/consent/window with owned inert Document and throwing SDK",
+      "oracle": "same Error object, root removed, saved choice preserved, unrelated button responds, later consent does not collect",
+      "dedupe": "Composition layer needed: direct GA tests cannot establish installer UI ownership."
+    }
+  ],
+  "isolation": {
+    "host": "Existing fully-read useGoogleAnalyticsTestHost restores SDK descriptors/owned Document; native consent handler cleanup only after assertions, preventing red-candidate leaks from crossing tests",
+    "storage": "Only exact analytics consent key saved/restored, no localStorage.clear in new spec",
+    "spy": "Native addEventListener call-through used only to recover red-candidate leaked handles after assertions; no product mock or cast",
+    "otherFiles": "Existing15 core/installer and10 consent/UI tests unchanged"
+  },
+  "changes": ["two implementation lifecycle blocks", "one new formal test file"],
+  "notChanged": [
+    "baseline",
+    "retirement registry",
+    "lint/typecheck rules",
+    "save/schema/assets",
+    "public interfaces",
+    "normal payload/dedupe/privacy consent policies"
+  ]
+}

@@ -1,0 +1,536 @@
+{
+  "schemaVersion": 1,
+  "id": "QUALITY-REVIEW-52-CLOSEOUT-1",
+  "base": "0e14c184eed91841ee0f48323b98c98b734a3129",
+  "owner": "Codex",
+  "branch": "codex/code-quality-94-102",
+  "authorization": "用户：下一个阶段完成这52个文件的收口；复用已有证据，不以数量/包绿或旧状态继承验收。",
+  "ledgerAtBase": {
+    "tracked": 3453,
+    "closed": 531,
+    "review": 52,
+    "pending": 2870
+  },
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/actions/item.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "52a7e16669cecf84179ed85d317adc979615c8af3d93833f6e6444bae3c2bbf0",
+      "baseGitBlob": "7c6355d38331eb725d3746519847af60a2043671",
+      "lines": 110,
+      "priorEvidence": "[物品上下文八维/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json)",
+      "priorReason": "已批目标传递修复与注释整改；C返回script pointer/异常等广域生命周期影响未核，整文件保持review，未因门绿关闭"
+    },
+    {
+      "path": "packages/shared/src/events.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "fbe669229da412574ec13a811b077918d97ab3399da5a3adfdcb10c91b5c7d0f",
+      "baseGitBlob": "6c3f45dc08162908bc3cdf267378904e78aa641c",
+      "lines": 189,
+      "priorEvidence": "[shared八维补维与精确counter](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json)",
+      "priorReason": "旧B/E关闭存在错注/运行时伪类型信用；本批纠正并保持review，公共出口未知不代替闭合"
+    },
+    {
+      "path": "packages/shared/src/resources.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "a7d582ce6cbaafadb730790de9cfd2abde2acc23e01e4f68c310a956f1cc0554",
+      "baseGitBlob": "4d17bc60c06b5465010062c60f238e2f84569c37",
+      "lines": 148,
+      "priorEvidence": "[shared八维补维与精确counter](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json)",
+      "priorReason": "旧B/E关闭存在错注/运行时伪类型信用；本批纠正并保持review，公共出口未知不代替闭合"
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "efc0ed3c6cd2b50e002f783a738be1306bde0b727d3f3701a2aee18b55279828",
+      "baseGitBlob": "e2e65fab8ee33a078990e7854e7bff0ba78df3e8",
+      "lines": 628,
+      "priorEvidence": "[shared八维补维与精确counter](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json)",
+      "priorReason": "旧B/E关闭存在错注/运行时伪类型信用；本批纠正并保持review，公共出口未知不代替闭合"
+    },
+    {
+      "path": "packages/shared/src/__tests__/public-contracts.ts",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "9feeacc7e78e6e9a12c47e03779b489426a34c0028e280953fe3c7c243c7f6a4",
+      "baseGitBlob": "a7ad133dd61d38bb4bc04472dd39456c9e6d983a",
+      "lines": 139,
+      "priorEvidence": "[编译合同与旧用例映射](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json)",
+      "priorReason": "14个类型/本地fixture运行时用例转编译检查；缺flags反控已证；统一门仍待"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "ac5f7ffefe6914fb7f097ac584b4a3e110537098bcd30dea3a34a7835fd4ba07",
+      "baseGitBlob": "d603247aed5333a759e3bcc22aa25eab636dc88b",
+      "lines": 94,
+      "priorEvidence": "[CODE3d原明文撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md)；[当前逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/closeout/review.json)",
+      "priorReason": "原回执已撤关闭但live仍旧行；按结果漂移恢复review，当前同窗最终门前不升格"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "20f3c6e594ad9c6667e653cf7d6e6234f897407b05bc02e567fc9b2403989e8c",
+      "baseGitBlob": "809ec01abb8fc977d7a4d5422957a3793c7d5574",
+      "lines": 684,
+      "priorEvidence": "[3c明确撤回与当前复核](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md)",
+      "priorReason": "605585752已撤回整文件关闭；89bf84e16合并恢复旧行形成漂移。仅动画切片核过，整组件仍review"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemies.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "12c0fba0960792c066859a832120c894483d3cdec3d29e0e250db4277573f9b6",
+      "baseGitBlob": "d9dbad217a21267a742f12e4f7c564b88de37559",
+      "lines": 251,
+      "priorEvidence": "[GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json)",
+      "priorReason": "错注已纠正、逐文件八维补核；输入策略/DTO保持，整阶段质量门仍待"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/player-roles.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "faddc5642418cfcf1eb639850bc71fbdde2a8784190263fa022d2af42d03da4d",
+      "baseGitBlob": "644f9a5b8881f6286399f19e47c5429412afdefe",
+      "lines": 276,
+      "priorEvidence": "[GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json)",
+      "priorReason": "错注已纠正、逐文件八维补核；输入策略/DTO保持，整阶段质量门仍待"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/sounds.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "8e46e879621a448028ce3ed3cbd7a4aca5da85659191ea446b395f5d9e1dce64",
+      "baseGitBlob": "bbba630a0b9f34e0f7cf7a4e9212a86a65305a71",
+      "lines": 30,
+      "priorEvidence": "[GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)",
+      "priorReason": "作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed"
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "59df908dd2aeaea470bcc47001ba90634c272652eea7debe38020ccd66dc807a",
+      "baseGitBlob": "488eabdc7bf2b2db2b5b34c855a758c46ec170d7",
+      "lines": 227,
+      "priorEvidence": "[GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)",
+      "priorReason": "作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed"
+    },
+    {
+      "path": "packages/pal-extract/src/events/opcodes.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "82df96903bb56efebc65212dfdb39c0d7368b158c5f80d1a5ba02f7e0d7ca074",
+      "baseGitBlob": "1a7aba29a1545ebdcca012b5b5ca80e613ba61fb",
+      "lines": 311,
+      "priorEvidence": "[GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)",
+      "priorReason": "作者全文证据复用、Codex定向补八维；未修/限制: opcode-type-exports；不升closed"
+    },
+    {
+      "path": "packages/pal-extract/src/font/bdf-to-json.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "4d57203361b505557c165398d580404579c61964014e2b99aac935307d85aa50",
+      "baseGitBlob": "92c241c062382723f5152cda3e7664a7911270fd",
+      "lines": 83,
+      "priorEvidence": "[GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)",
+      "priorReason": "作者全文证据复用、Codex定向补八维；未修/限制: bdf-untrusted-input；不升closed"
+    },
+    {
+      "path": "packages/pal-extract/src/io/word.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "dbcd851a23f10829f2f04ef7fd7ec427c0362ea3d0796714a7186da9f35323a6",
+      "baseGitBlob": "1ba23359c2df1e197e1baf5accc67aa31d71e45b",
+      "lines": 110,
+      "priorEvidence": "[WORD/GBK逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json)；真实CLI/MSG/SDL与raw词条、11组新旧回归",
+      "priorReason": "修CASH/特殊词条注释、私有名与重复解码；flat/分类短输入策略及公共scenes字段保持，旧关闭不继承"
+    },
+    {
+      "path": "packages/migrate/src/pal-source-io.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "b5d50836d6f7b31ea56f34bc46a6aedc4ca7612fe25d1e6c98d30895a34500cf",
+      "baseGitBlob": "f52abdae47a265095c7910698354dad94d990f6e",
+      "lines": 80,
+      "priorEvidence": "直接读取 extracted source partitions/scene and asset callers；发现 generic JSON casts 需后续 schema/source-contract 批次",
+      "priorReason": "不改 generated source"
+    },
+    {
+      "path": "packages/migrate/src/migration-project-io.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "13e4fffa9b47beb089eff15733574cccd8aa5ff21fd9f26294bf0cbdb9d83b0c",
+      "baseGitBlob": "5e76bdd40767127efa188db24000907d94a32bad",
+      "lines": 133,
+      "priorEvidence": "直接读取 managed-file discovery/TOCTOU hash ownership；JSON shape validation 与 content validators 的边界留 Q4",
+      "priorReason": "不改 project output"
+    },
+    {
+      "path": "scripts/docs/check.mjs",
+      "kind": "tool",
+      "initialStatus": "review",
+      "baseSha256": "8ffce288f92eb90c4971cbb64edd77a78516e1d9a80c8ec9748e5ce7aa37d407",
+      "baseGitBlob": "b806cbab16742d86876bc92cca5041bdc1f9ee07",
+      "lines": 383,
+      "priorEvidence": "[Git全路径容量修复](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)；全文/真实CLI，>1MiB合法路径先红后绿",
+      "priorReason": "完整NUL枚举有限16MiB；独立4MiB namespace不改，原检查策略保留，0新关闭"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "kind": "tool",
+      "initialStatus": "review",
+      "baseSha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684",
+      "baseGitBlob": "660a297ad1876f1f9d748626cba5cd294b7187dd",
+      "lines": 586,
+      "priorEvidence": "[本轮精确结构baseline调整](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json)",
+      "priorReason": "新授权重算与现有scope/test保护分开；旧Q6关闭不覆盖新差异，集中门待验"
+    },
+    {
+      "path": "packages/pal-extract/src/utils/gbk.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "cf74eb8e8b37ab04e8746a9c42391c699f85af9cc02b8e4f1b08b7d7c9ea1a8b",
+      "baseGitBlob": "83892fa382af35b2b722eddc6887d21bbb9595ea",
+      "lines": 98,
+      "priorEvidence": "[WORD/GBK逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json)；MSG/WORD caller、独立BIG5九标点与原用户策定",
+      "priorReason": "修字符串/扫描成本误述；映射不变，46处历史核验未重做，不升格为全编码真值"
+    },
+    {
+      "path": "packages/pal-extract/src/io/word.test.ts",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "451ffeb0872156a1ff2660ba039d087642f08efdc596cddf1f38f073e986a760",
+      "baseGitBlob": "418b8aa4a436128ad0e18e9c9eccca857a81845d",
+      "lines": 150,
+      "priorEvidence": "[WORD/GBK逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json)；全文A–H/真实oracle/身份映射与原件",
+      "priorReason": "8→7：4保持/3增强更名/1严格蕴含删除；人物逆序业务反控有效"
+    },
+    {
+      "path": "packages/pal-extract/src/io/word.boundaries.test.ts",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "2f169f1fe001832e42d3483ea6be2dffb07a22cefe5a23ecc8cdd0759f0f8e0b",
+      "baseGitBlob": "2cefed7b2b21b63ba13eb603daff3b3ad20f2e68",
+      "lines": 66,
+      "priorEvidence": "[WORD/GBK逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json)；全文A–H/真实oracle/身份映射与原件",
+      "priorReason": "3合成完整表合同；fixture仅WORD区域核读，raw/synthetic重复轴已说明"
+    },
+    {
+      "path": "packages/pal-extract/src/utils/gbk.test.ts",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "6efac88e323fdeaf028e282874efaf3b8a437665b511d658fa0dbd162f7a0dfe",
+      "baseGitBlob": "9ab507722ebd69a44d9fc44e8647db86ddf4c84b",
+      "lines": 79,
+      "priorEvidence": "[WORD/GBK逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json)；全文A–H/真实oracle/身份映射与原件",
+      "priorReason": "10合同，原一例补齐九标点；A142错误业务反控有效；一标题更正"
+    },
+    {
+      "path": "packages/pal-extract/scripts/extract-videos.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "0c149a276bca4fe592142ddfeef06c2268c1642e03dcf05883f5292cbbc22218",
+      "baseGitBlob": "abb30f3005d6bca2a2a71d67331b7a9f34c3920f",
+      "lines": 136,
+      "priorEvidence": "[输出入口补审](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)；132→136行全文、包脚本/Node IO/真实子进程与六mp4字节oracle",
+      "priorReason": "两共享输出穿透先红后修，复用同一guard且ffmpeg前拒绝；自有增量/raw链接保留，编码/全部失败路径待核"
+    },
+    {
+      "path": "packages/pal-extract/scripts/find-scenes-without-setpartypos.mjs",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "da5d9bc73921f38a2fd5b525761379647a1241ff570021cd8a4dc8e6c11900d9",
+      "baseGitBlob": "77b5b486d1fb0f54ec3c7e5ab8dece360da34358",
+      "lines": 431,
+      "priorEvidence": "scene/event/tilemap BFS 与写盘脚本直接读过",
+      "priorReason": "诊断生成器需后续 path/input 复核"
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03",
+      "baseGitBlob": "29215315461add2c4a42a24d1acb858d97e34da3",
+      "lines": 99,
+      "priorEvidence": "[CODE72真实入口修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)；全文、实际PROD404/迟到200与正常按钮/进场",
+      "priorReason": "catch释放计数已实证；其它analytics/noSW/正常intro入口合同仍待，未把短路径升格全main关闭"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "95e26a03660b32983306c119ee8c072a37a4402bddfa174053f5e2c9ced42b09",
+      "baseGitBlob": "75d0b7fe33ade9d6536b61eab1ce060a71f4ebbc",
+      "lines": 1079,
+      "priorEvidence": "[GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)",
+      "priorReason": "作者全文证据复用、Codex定向补八维；未修/限制: bus-contract-cleanup、large-action-design；不升closed"
+    },
+    {
+      "path": "packages/game/src/core/battle/simulated-magic-target.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "db7bc7ed824786ea2b6faf2450b77682b2e45ff5e2dba0205fc7fa16d5d065a6",
+      "baseGitBlob": "89781b0befff350a0b70ee3717f8fa29d53e812d",
+      "lines": 23,
+      "priorEvidence": "[pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)",
+      "priorReason": "内部模拟选靶共用helper；显式/全体/上次活敌/全灭分支定向已测；统一门仍待"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-parity.test.ts",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "80228bcb04fec4dbab1803868fcc4dc3dd12019ed9c1efda8aac7e3bca2dfcb4",
+      "baseGitBlob": "80ab42d411ffc66e59a7fea3c6d7c55b481cc630",
+      "lines": 303,
+      "priorEvidence": "[pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)",
+      "priorReason": "真实runScript/throw/performMagic及动画driver；合法typed输入、手算伤害、15定向与五精确反控；统一门仍待"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "kind": "fixture",
+      "initialStatus": "review",
+      "baseSha256": "0c3b15371cda3f5a0e936c7c1e73dee516617f239dbc4e3c6a4c3ea3cd9640e0",
+      "baseGitBlob": "1a4352d242ebc7a14eaf31797d77ba078d19c690",
+      "lines": 225,
+      "priorEvidence": "[队列合法工厂复用](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/queue-approved-fix/README.md)；全文核读，makeHRole/Enemy/Field真实caller",
+      "priorReason": "本片只改旧专属头注，复用3个typed工厂；记录型rng其它合同和完整caller未据此接受"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e2-equipment-effects.test.ts",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "e0198efbada6a1068963259b86b9429b03db16732d9fac24d2f444228b9fe26c",
+      "baseGitBlob": "295426e6eb1112240584644b596e9f0ac18ed299",
+      "lines": 93,
+      "priorEvidence": "[QUALITY-GAME-RUNTIME-DIAGNOSTICS-1/C2](../evidence/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1/c2/README.md)；真实 `writeEquipmentEffectField`/`removeEquipmentEffect` caller、完整 stats fixture、SDLPal row/part 边界与 warning oracle",
+      "priorReason": "8 tests；未知 row 999 与越界 no-op 合同；warning 已显式捕获并断言，保留 review 等剩余诊断与统一门"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e4-run-equip-script.test.ts",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "6400e904f3463e4733734e05d5bc7ed8156be6764a5ad8e049eac75ee29dfcb8",
+      "baseGitBlob": "3c72ed14f6371ed733ecac36eb0d68b42cc90b25",
+      "lines": 116,
+      "priorEvidence": "[QUALITY-GAME-RUNTIME-DIAGNOSTICS-1/C2](../evidence/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1/c2/README.md)；公开 `runEquipScript` 入口、全局 label map、`equip-effect.ts` runner 与 typed command fixture",
+      "priorReason": "8 tests；未注册 `L_99999`、goto/end/signExtend/tick limit；warning 已显式捕获并断言，保留 review 等剩余诊断与统一门"
+    },
+    {
+      "path": "packages/editor/src/ui/command-form-control.residual.glm.test.tsx",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "438f11138ab83922f01a54b34dcdb1d59500043ad7da9656014e1f648a96e2a3",
+      "baseGitBlob": "c81b302ce55caa6a70823b7d36d3985f7fe26ac4",
+      "lines": 55,
+      "priorEvidence": "[CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle",
+      "priorReason": "1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证"
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "717e8bd12532609d14aef9b10c91794402666ffc7016bd6701694cd55ed2c69e",
+      "baseGitBlob": "c91efa4606c846e382880f6773d4cde5cff304c6",
+      "lines": 307,
+      "priorEvidence": "[CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle",
+      "priorReason": "3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review"
+    },
+    {
+      "path": "packages/editor/src/ui/ItemTab.glm-m.test.tsx",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "724c32814673c693b4d92149ed9b3c976d6550fbc97b92d8dfe24ef97fa20327",
+      "baseGitBlob": "f7802636f0351a904667cdbe1d729e53a3d0a35b",
+      "lines": 140,
+      "priorEvidence": "[CODE-QUALITY-104 Codex act 生命周期复核](../evidence/CODE-QUALITY-104/codex-current-review.md)；真实 ItemTab/EditSession caller、交易/说明 oracle",
+      "priorReason": "原生 undo 事件已包 act；定向/相邻/全仓 check 零诊断，coverage ratchet/protected 仍受既有 baseline 回退阻塞"
+    },
+    {
+      "path": "packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "e1b8237bbdadad3adc106e113840c39ca5db8f0a1aaae2f67cb7d2d1e50526f4",
+      "baseGitBlob": "1811dd311c74eeb99cdad9217c8df22dbb1cd70a",
+      "lines": 200,
+      "priorEvidence": "[CODE-QUALITY-104 Codex act 生命周期复核](../evidence/CODE-QUALITY-104/codex-current-review.md)；真实 ItemEffectChainEditor/EditSession caller、效果 schema/undo oracle",
+      "priorReason": "原生 click/undo/redo 已包 act；定向/相邻/全仓 check 零诊断，coverage ratchet/protected 仍受既有 baseline 回退阻塞"
+    },
+    {
+      "path": "packages/reforge/src/menu/menu-box.residual.glm.test.ts",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "f390a5fcff69ce0f88104cb904bca5c532f5b039ca64b3f59b0d17ce5f287dda",
+      "baseGitBlob": "1231468f4b09adefd71b131ed4c541732afa102c",
+      "lines": 450,
+      "priorEvidence": "CODE-QUALITY-105；Codex 当前逐文件复核 MenuBox.render 公开 caller、R1/R2/S1/S2/S3 合同与 K1–K5 反控",
+      "priorReason": "25/25 定向通过；menu 相邻 118/118 但 reward-gain 未 await 诊断；coverage/unified 门仍阻塞，保持 review"
+    },
+    {
+      "path": "packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "ff2428d54b2de136c03ba7de6e066a13b6746173f7980d33c8005f6604cc77f1",
+      "baseGitBlob": "e1f010e5309777077e9cb64563fc0a226cd9d80d",
+      "lines": 112,
+      "priorEvidence": "CODE-QUALITY-106；真实 RewardGainQueue.present/handleRewardGainInput caller、Promise resolve/AbortError oracle",
+      "priorReason": "定向5/5、相邻21/118零 stderr；全仓 coverage 仍待批次收口，保持 review"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "60f468590d88560dfd77d04c472cf2f620ae3fcb59b9457b41269f31b832784d",
+      "baseGitBlob": "e028dd0cb79fa5703e191f4a6a4f25eab9521e69",
+      "lines": 102,
+      "priorEvidence": "[GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json)",
+      "priorReason": "既有合同补强；旧绿/新红业务反控成立，统一门仍待"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "7c0719614bf246e4d43ff5b5ccd0222a008551b1bf465bef56c5f554550bdff3",
+      "baseGitBlob": "491ab8a1cf3a4f26b4d299cb4baf0f236db0886a",
+      "lines": 101,
+      "priorEvidence": "[GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json)",
+      "priorReason": "既有合同补强；旧绿/新红业务反控成立，统一门仍待"
+    },
+    {
+      "path": "packages/reforge/src/audio/bgm.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "23de6a662e77b50d58dfbf99c89f24159419b86996da038201cfcff15a784e35",
+      "baseGitBlob": "c8efae71fc437991135d9955748ba527a2847848",
+      "lines": 289,
+      "priorEvidence": "[GLM正文删除与复活返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json)",
+      "priorReason": "按作者有效证据补逐文件八维；文案/授权复活窄修已核，不改其它卡状态"
+    },
+    {
+      "path": "packages/content/src/index.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "f6c304b9d39c9796ef6e281dc244f24bd73a108da0926da38cc534230100c10a",
+      "baseGitBlob": "a9803ad5ebfcac8381c3244cffbae4fd481360e6",
+      "lines": 202,
+      "priorEvidence": "[GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)",
+      "priorReason": "作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed"
+    },
+    {
+      "path": "packages/game/src/core/command-bus.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "df16ed45836068c71835fcbdc8aa979ea37b87f9d256c0a4c9fe4e886d8f7a06",
+      "baseGitBlob": "3e1d474a8da53942a8f5f2778cdace4066358e65",
+      "lines": 89,
+      "priorEvidence": "[GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)",
+      "priorReason": "作者全文证据复用、Codex定向补八维；未修/限制: bus-contract-cleanup；不升closed"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "ad46cb97fa178bb0862f8ccc2b280a635ab783ab59966a8b82a637cd22784288",
+      "baseGitBlob": "ecc4f699f334ea9cce7c6875fbb097ce0e349d29",
+      "lines": 295,
+      "priorEvidence": "[GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)",
+      "priorReason": "作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "2bb82b9b422fb8113a84adb35ec4f5224719e493f09024c2ea34cecb055accad",
+      "baseGitBlob": "4f2cf5c5610049a2ea4cb0be1ffe0f2ad447211b",
+      "lines": 393,
+      "priorEvidence": "[GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)",
+      "priorReason": "作者全文证据复用、Codex定向补八维；未修/限制: poison-compaction；不升closed"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "e9efd9d7960fd97badc1611610ac600d37abb88a4c0bee5f56135e2b15731b33",
+      "baseGitBlob": "2c9db25638641a9736147b4d8c189638d82865a7",
+      "lines": 809,
+      "priorEvidence": "[GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)",
+      "priorReason": "作者全文证据复用、Codex定向补八维；未修/限制: render-clock-design；不升closed"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rix.ts",
+      "kind": "product",
+      "initialStatus": "review",
+      "baseSha256": "769745e4f7e176fa5ef24d7120d0d6aa8e4651718420ae77a135604edf09e91e",
+      "baseGitBlob": "9d8506396d8458e0ac926cf42b6ae16184b563b2",
+      "lines": 16,
+      "priorEvidence": "[GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)",
+      "priorReason": "作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "kind": "tool",
+      "initialStatus": "review",
+      "baseSha256": "4e9e8856de17fe772d72ca8ee24dab9f7b2b44d647b416cadec1b5fa56244e1e",
+      "baseGitBlob": "5762fac300c8aa6cc60b975cac5ac98836486d5c",
+      "lines": 2655,
+      "priorEvidence": "[本窗精确数据与main重绑](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json)；旧five-cards/GLM授权历史保留",
+      "priorReason": "仅当前有限项完整旧摘要、166SHA、四计数及额外回退拒绝；旧条目/算法不变，整文件仍review"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.test.mjs",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "1d02b9d98db14be58e6a462634b574f44e9508202252046a5e5c2d6c2259fbab",
+      "baseGitBlob": "761f26f5dcc432e9a813c9cfe464ec34ae51be85",
+      "lines": 85,
+      "priorEvidence": "[本轮三个合同测试](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json)",
+      "priorReason": "精确迁移、错误/未知输入及额外回退；不计产品覆盖信用"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "kind": "tool",
+      "initialStatus": "review",
+      "baseSha256": "f87270fb2290cb0f232a1fd402a6d0f4e859f8f2fba9e8f24404b520a9b16bf2",
+      "baseGitBlob": "47746629fd01e69eed25d4ce71830b60531e484d",
+      "lines": 725,
+      "priorEvidence": "[五卡精确退役门增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json)",
+      "priorReason": "只核本次2快照/33条73净额和14拒绝轴，旧31授权不继承整文件信用"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "kind": "test",
+      "initialStatus": "review",
+      "baseSha256": "df50605009a95089a4dfbec569b469bb3595da1500e3bacfb82f56b938340f6d",
+      "baseGitBlob": "372034c6948628291fa7022c1431b8405e05f3c9",
+      "lines": 88,
+      "priorEvidence": "[五卡精确退役门增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json)",
+      "priorReason": "只核本次2快照/33条73净额和14拒绝轴，旧31授权不继承整文件信用"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts",
+      "kind": "fixture",
+      "initialStatus": "review",
+      "baseSha256": "855cf2a0031725eb6af1f944c4ad7b7b67082031dd7bea038d6b0054fd915239",
+      "baseGitBlob": "56875c4aa5da8a775d670b5b2437f0744b7db899",
+      "lines": 143,
+      "priorEvidence": "[CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json)",
+      "priorReason": "具体八维缺口维持review；不以统一门全绿或新路径自动关闭"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "kind": "fixture",
+      "initialStatus": "review",
+      "baseSha256": "ef6393d93a79eba8ab3d1cdbc87e8ddcf2ce32887ee920fa99d8970936597dbd",
+      "baseGitBlob": "ba1de37f781b6dfa61dd0dec470a0aba18f98f45",
+      "lines": 161,
+      "priorEvidence": "[CLI/事件当前逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json)",
+      "priorReason": "具体八维缺口维持review；不以统一门全绿或新路径自动关闭"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game
+
+ ❯ src/core/scene-system.test.ts (111 tests | 1 failed) 40ms
+     ✓ press Right → facing=right, dx=16, dy=8(对角非 cardinal) 2ms
+     ✓ press Left → facing=left, dx=-16, dy=-8(对角非 cardinal) 1ms
+     ✓ press Down → facing=down, dx=-16, dy=8(对角非 cardinal) 1ms
+     ✓ press Up → facing=up, dx=16, dy=-8(对角非 cardinal) 1ms
+     ✓ 按住 Right → party.x + 16 / party.y + 8, facing=right (East 右下) 0ms
+     ✓ 走路:清 pose(partyScriptedFrame)但**保留** role0 sprite override(端酒菜持久) 0ms
+     ✓ 按住 Up → party.x + 16 / party.y - 8, facing=up (North 右上) 0ms
+     ✓ M5:队首在左上边缘带边界(col5/row7),按 Left 被 fCheckRange 下边界挡 0ms
+     ✓ 相机边界 clamp:party 越界仍 clamp 到 tilemap max pixel(System A:tile 32×16) 1ms
+     ✓ NPC 阻挡走路:面前像素有 NPC + held=Right,party 不动 0ms
+     ✓ M5:fCheckRange=true 挡 col<5 / row<7 边缘带 0ms
+     ✓ M5:fCheckRange=false(怪物追击/默认)不挡边缘带 0ms
+     ✓ held = [Up, Down](Down 后按)→ facing = down 0ms
+     ✓ held = [Right, Up, Left](Left 后按)→ facing = left 0ms
+     ✓ held = [Confirm, Down](Down 在末尾)→ facing = down(忽略非方向键) 0ms
+     ✓ held = [Up, Confirm](Confirm 在末尾但非方向)→ facing = up(反向找方向键) 0ms
+     ✓ held = [](无键)→ facing 不变,party 不动 0ms
+     ✓ 方向键 + Menu 同帧 → 先移动再开菜单 0ms
+     ✓ 按 UseItem → 开 inventory 子菜单 + mode=menu 0ms
+     ✓ 按 ThrowItem → 开 equip 子菜单 + mode=menu 0ms
+     ✓ 按 Force → 开 in-game-magic 子菜单 + mode=menu 0ms
+     ✓ 按 Status → 开 player-status 子菜单 + mode=menu 0ms
+     ✓ Menu 优先于快捷键(同帧 Menu+UseItem → in-game hub,对齐 play.c else-if 链) 0ms
+     ✓ 面前像素无 NPC + Confirm → 不切 mode 0ms
+     ✓ 面前像素有 NPC + Confirm → mode=event + eventCursor 装载 0ms
+     ✓ 方向性 NPC 被触发时面向 party,并重置站立帧(sdlpal nSpriteFrames>0) 0ms
+     ✓ 非方向性箱子被再次调查时不重置已打开帧(水月宫苗刀箱回归) 0ms
+     ✓ 面前像素 NPC 无 triggerLabel + Confirm → 不切 mode 0ms
+     ✓ triggerLabel 存在但不在 labelMap → warn + 不切 mode 1ms
+     ✓ P2#5:triggerLabel 经全局 labelMap 解析 → 切 event,eventCursor.ip = 全局 ip 0ms
+     ✓ P2#5:全局 labelMap 唯一决定 triggerLabel → ip(ctx.labelMap 不再参与解析) 0ms
+     ✓ party 在 contact 像素(triggerMode=5)→ 自动切 event mode + ip 装载 0ms
+     ✓ party 在 triggerMode=0 装饰像素 → 不触发(保持 explore) 0ms
+     ✓ party 在 triggerMode=2 Confirm-search 像素 → 不自动触发(保持 explore,等 Confirm) 0ms
+     ✓ party 同像素 NPC 无 triggerLabel(triggerMode=5)→ 不切 mode + eventCursor undefined 0ms
+     ✓ party 同像素 NPC triggerLabel 不在 labelMap(triggerMode=5)→ warn + 不切 mode 0ms
+     ✓ triggerMode=3 边界(Confirm-search 段最大值)→ 不自动触发(< CONTACT_MIN) 0ms
+     ✓ triggerMode=4 边界(contact 段最小值)→ 自动触发(=== CONTACT_MIN) 0ms
+     ✓ sVanishTime > 0 → 递减 + 不触发 trigger 0ms
+     ✓ sVanishTime < 0 → 递增 + 不触发 0ms
+     ✓ sState < 0 + viewport 外 → 复活 + scriptedFrame 0 0ms
+     ✓ 触发 trigger zone → NPC 转向面对 party 0ms
+     ✓ PAL_StartFrame 顺序:本帧走进 trigger zone 后下一帧才触发 0ms
+     ✓ 阻挡 NPC 压到 party anchor → 按 NPC 朝向下一方向推离一格(play.c:197-228) 0ms
+     ✓ autoScript 先移动 blocker,NPC 压到 party 后同帧 push party(play.c:169-228) 1ms
+     ✓ 压到 party anchor 但 sState<2 或 spriteNum=0 → 不推离 0ms
+     ✓ 推离首选方向被挡 → 按 SDLPal 四向顺序尝试下一方向 1ms
+     ✓ Confirm 触发 SearchNear NPC → NPC 朝 party 反方向 + scriptedFrame 0 0ms
+     ✓ Confirm 触发 → party 全员 partyScriptedFrame[i] = partyDirNum * 3 0ms
+     ✓ 严格相等:party 与 NPC 同像素 → 触发(legacy 兼容) 1ms
+     ✓ M5.6 W1.b:triggerMode 4 — 距离 = 16 边界不触发(< 16 = false) 1ms
+     ✓ M5.6 W1.b:triggerMode 5 — 距离 = 32 < 48,触发(原简版误判) 1ms
+     ✓ party 在 NPC 旁 (+8, 0) → 距离 = 8 < 16,触发 1ms
+     ✓ party 在 NPC 旁 (0, +4) → 距离 = 0 + 8 = 8 < 16,触发 1ms
+     ✓ triggerMode < 4 不触发即使距离 < 16(只阻挡 NPC,不是 contact 怪) 1ms
+     ✓ triggerMode=4 边界 + 距离 8 → 触发(契合 CONTACT_MIN 与新距离判) 1ms
+     ✓ 装载时按精灵总帧数回填 nSpriteFramesAuto;无 sprite(spriteNum=0)不回填 0ms
+     ✓ 重复装载覆盖旧值(C 每次 kLoadScene 重新回填) 0ms
+     ✓ 切到新 scene → gs.npcs 由 eventObjects 重置;party 不传则不动 1ms
+     ✓ 有 allEventObjects 时按 wNumScene 切全局引用,重进 scene 保留 sState/位置/vanishTime 0ms
+     ✓ 传 partyStart → party 位置 / facing 重写;camera 跟到 party 0ms
+     ✓ partyStart 不传 facing → 沿用当前 facing(只挪坐标) 0ms
+     ✓ loadScene 清 gameOverActive + deathHoldActive(死亡演出退出 → 新场景恢复正常渲染) 0ms
+     ✓ SceneAssetsCache lazy hit:第二次切回同 scene,fetcher 不再调 0ms
+     ✓ contact NPC triggerLabel 经全局 labelMap 解析 → 切 event(loadScene 用 _ctx singleton) 0ms
+     ✓ 全局 label 跨 scene 解析:任意 scene 下同一 triggerLabel 都能切 event(反 per-scene gating) 0ms
+     ✓ 初始 trail 为空 0ms
+     ✓ 成功移动一步 → trail unshift 移动前 leader pos(长度 1) 1ms
+     ✓ 连续移动两步 → trail[0] 是上一步前 leader pos,trail[1] 是更早的 0ms
+     ✓ trail 长度上限 5(移动 7 步后仍为 5 项) 0ms
+     ✓ trail[0] 始终是上一步移动前的 leader pos(最新) 0ms
+     ✓ 撞墙不动 → trail 不变(不 unshift) 0ms
+     ✓ idle(无方向键)→ trail 不变 0ms
+     ✓ 方向变化时,trail 记录各自方向 0ms
+     ✓ 目标像素 /32 /16 取 tile col/row(无残差 → h=0) 0ms
+     ✓ 残差进 h=1 分支(32-xr+yr*2 ∈ [16,48)) 0ms
+     ✓ 残差 xr+yr*2 ≥ 48 → col++,row++ (右下角) 0ms
+     ✓ 残差 32-xr+yr*2 < 16 → col++ (右侧边) 0ms
+     ✓ 残差 32-xr+yr*2 ≥ 48 → row++ (下侧边) 0ms
+     ✓ 越界坐标(col 或 row 超出 tilemap)→ false 0ms
+     ✓ NPC 在目标像素菱形范围内(距离 < 16)→ 阻挡 0ms
+     ✓ selfNpcId 跳过自身 NPC 0ms
+     ✓ contact monster(triggerMode=5)不阻挡走路 0ms
+     ✓ tickSceneSystem:party 往阻挡 tile 走 → 不动 0ms
+     ✓ 初始状态:walking=false, stepFrame=0 0ms
+     ✓ 按住方向键 → walking=true,stepFrame 0→1→2→3→0 循环 0ms
+     ✓ 停按方向键 → walking=false,party.facing 不变 0ms
+     ✓ 撞墙(阻挡 tile)→ walking=false,facing 已转,stepFrame 走站立复位(L5/L30) 0ms
+     ✓ NPC 阻挡 → walking=false,facing 转,stepFrame 走站立复位(L5/L30) 0ms
+     ✓ L5/L30:idle → walking=false,stepFrame 站立复位 &=2;^=2(scene.c:773-774) 0ms
+     ✓ sState=1 的 contact NPC 不阻挡走路 → walking=true 0ms
+     ✓ loadScene 不传 partyStart → 跑 wScriptOnEnter,setPartyPos 把 party 放到指定位 0ms
+     ✓ setPartyPos 坐标: col=41, row=18, h=0 → x=1312, y=288 (scene 1 真实值) 0ms
+     ✓ setPartyPos h=1 → 加 16/8 半 tile 偏移 0ms
+     ✓ setPartyDirection opcode → gs.party.facing 转换(dir=2→up) 0ms
+     ✓ setPartyDirection 4 方向映射: 0=down, 1=left, 2=up, 3=right 1ms
+     ✓ loadScene 传显式 partyStart → override enter script(dev panel manual) 0ms
+     ✓ 未 dump wScriptOnEnter / 空 onEnterLabel → party 留在原坐标(不报错) 0ms
+     ✓ onEnterLabel 在 labelMap 中找不到 → party 留原位(不报错) 0ms
+     ✓ setCamera opcode 真生效 → camera 跟 party 0ms
+     ✓ centerCameraOnParty opcode(0,0 变体)→ camera = party - partyoffset 0ms
+     ✓ playMusic opcode 写 gs.wNumMusic(shell audio 轮询播放) 0ms
+     ✓ setSceneObjectState 缺失目标时告警并跳过，场景仍完成装载 1ms
+     ✓ enter script 含 showDialog → skip(不阻塞,party 位置已设) 0ms
+     ✓ 按住方向键 + 连按 Confirm:有限帧内逃出 TouchFar 半径,不死锁 3ms
+     ✓ 脚本 'end' 切回 explore 的首帧:移动先于触发扫描(sdlpal 同帧 UpdateParty 语义) 1ms
+     ✓ sState>=2 且 triggerMode=5(门卫类)阻挡走路(修前可穿行) 0ms
+     ✓ sState=1 的明雷怪(triggerMode=4)不阻挡(本就不过 blocker 关,踩怪触发不受影响) 0ms
+     × 书案前自动领赏一次，保存恢复并重新载入场景后仍保持消费状态 6ms
+     ✓ 太守图像或进场落点 (1616,968) 不在书案前触发区，不会误触发 1ms
+     ✓ 太守图像或进场落点 (1504,1008) 不在书案前触发区，不会误触发 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/scene-system.test.ts > 扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard) > 书案前自动领赏一次，保存恢复并重新载入场景后仍保持消费状态
+AssertionError: expected undefined to be 5500 // Object.is equality
+
+- Expected:
+5500
+
++ Received:
+undefined
+
+ ❯ src/core/scene-system.test.ts:2061:21
+    2059|     // cutscene 跑完回到 explore,party 仍在原触发区内 → 不能再触发(否则刷后续段对白)
+    2060|     tickEventSystem(gs, snap(), bus)
+    2061|     expect(gs.cash).toBe(5500)
+       |                     ^
+    2062|     await Save.saveSlot(1, parseImportedSave(serializeSave(gs)))
+    2063|     const loaded = await Save.loadSlot(1)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 110 passed (111)
+   Start at  15:57:26
+   Duration  996ms (transform 319ms, setup 21ms, import 367ms, tests 40ms, environment 478ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/scene-system.test.ts --reporter=default

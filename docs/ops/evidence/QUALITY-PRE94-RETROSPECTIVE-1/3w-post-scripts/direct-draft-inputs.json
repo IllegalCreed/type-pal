@@ -1,0 +1,20 @@
+{
+  "scope": "Exact initial direct-run candidate. One new assertion incorrectly expected concrete defeated=false, while real factory uses optional undefined. Corrected to production alive predicate; no product red-first claim.",
+  "rows": [
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "snapshot": "direct-draft-0.source.gz",
+      "sha256": "a6f0a132176769c995fef2cf5c4299d35eb16e8ace3e19ddeeeb0309b030dafa"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "snapshot": "direct-draft-1.source.gz",
+      "sha256": "f350fd812860e5f570d278c64db8ddbd8435327a6b8c994b901893b2cab7ed3e"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+      "snapshot": "direct-draft-2.source.gz",
+      "sha256": "fd6cc12c33e8a37656a5d04b36fd90d8fbcb0ed2e815d7e1e474a94b73896edc"
+    }
+  ]
+}

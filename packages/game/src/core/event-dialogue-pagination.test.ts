@@ -1,6 +1,6 @@
 import type { Command, InputSnapshot } from '@type-pal/shared'
-import { describe, expect, test } from 'vitest'
-import { createCommandBus } from './command-bus.js'
+import { describe, expect, test, vi } from 'vitest'
+
 import { buildLabelMap, tickEventSystem } from './event-system.js'
 import { createInitialGameState } from './game-state.js'
 
@@ -15,12 +15,39 @@ const openingLines = [
 ]
 
 describe('event dialogue page continuation', () => {
+  test('脚本慢速跨样式与姓名保持到下一正文，姓名不改速', () => {
+    const commands: Command[] = [
+      { op: 'showDialog', text: '$10慢~00', messageIndex: 0 },
+      { op: 'setDialogStyleTop', arg0: 0, arg1: 0, arg2: 0 },
+      { op: 'showDialog', text: '李逍遥：', messageIndex: 1 },
+      { op: 'showDialog', text: '天地', messageIndex: 2 },
+      { op: 'end' },
+    ]
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.mode = 'event'
+    gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }
+
+    for (let frame = 0; frame < 20; frame++) {
+      gs.nowMs = 1000 + frame * 200
+      tickEventSystem(gs, {
+        held: new Set(),
+        pressed: new Set(gs.dialogBox?.phase === 'waiting-page-key' ? ['Confirm'] : []),
+        frameNum: frame,
+      })
+      if (gs.dialogBox?.currentLineText === '天地') break
+    }
+    expect(gs.dialogBox?.titleText).toBe('李逍遥：')
+    expect(gs.dialogBox?.currentLineText).toBe('天地')
+    expect(gs.dialogBox?.currentLineRevealAt).toEqual([0, 112])
+    expect(gs.dialogIDelayFrames).toBe(14)
+  })
+
   function run(commands: Command[], fast = false) {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'event'
     gs.nowMs = 1000
     gs.eventCursor = { commands, labelMap: buildLabelMap(commands), ip: 0 }
-    const bus = createCommandBus()
+
     const visible: string[] = []
     for (let tick = 0; tick < 1000 && gs.eventCursor; tick++) {
       const confirm =
@@ -33,7 +60,7 @@ describe('event dialogue page continuation', () => {
         frameNum: tick,
       }
       gs.nowMs += 100
-      tickEventSystem(gs, input, bus)
+      tickEventSystem(gs, input)
       const dialog = gs.dialogBox
       const complete = [
         ...(dialog?.shownLines ?? []),
@@ -92,17 +119,23 @@ describe('event dialogue page continuation', () => {
     { op: 'raw', opcode: 5, operands: [0, 0, 0] },
     { op: 'raw', opcode: 0x8e, operands: [0, 0, 0] },
   ] satisfies Command[])('分页后接 $op/$opcode 完整消费，后续副作用仅一次', (boundary) => {
-    const lines = ['甲一', '甲二', '甲三', '甲四', '甲五', '甲六']
-    const { gs, visible } = run([
-      { op: 'setDialogStyleTop', arg0: 8 },
-      ...lines.map((text, messageIndex): Command => ({ op: 'showDialog', text, messageIndex })),
-      boundary,
-      { op: 'showDialog', text: '乙方最后一句', messageIndex: 8 },
-      { op: 'raw', opcode: 0x1e, operands: [7, 0, 0] },
-      { op: 'end' },
-    ])
-    expect(visible).toEqual([...lines, '乙方最后一句'])
-    expect(gs.dialogHistory?.map((line) => line.text)).toEqual([...lines, '乙方最后一句'])
-    expect(gs.dwCash).toBe(7)
+    const debug = vi.spyOn(console, 'debug')
+    try {
+      const lines = ['甲一', '甲二', '甲三', '甲四', '甲五', '甲六']
+      const { gs, visible } = run([
+        { op: 'setDialogStyleTop', arg0: 8 },
+        ...lines.map((text, messageIndex): Command => ({ op: 'showDialog', text, messageIndex })),
+        boundary,
+        { op: 'showDialog', text: '乙方最后一句', messageIndex: 8 },
+        { op: 'raw', opcode: 0x1e, operands: [7, 0, 0] },
+        { op: 'end' },
+      ])
+      expect(visible).toEqual([...lines, '乙方最后一句'])
+      expect(gs.dialogHistory?.map((line) => line.text)).toEqual([...lines, '乙方最后一句'])
+      expect(gs.dwCash).toBe(7)
+      expect(debug).not.toHaveBeenCalled()
+    } finally {
+      debug.mockRestore()
+    }
   })
 })

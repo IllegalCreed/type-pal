@@ -1,0 +1,12 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor
+
+ ✓ src/ui/ItemUseEffectEditor.residual.glm.test.tsx > TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 > R1 场景有效而实体失效：⚠ 实体保留、场景名经索引解析，同场景改选实体修复并翻转保存门极性 106ms
+ ✓ src/ui/ItemUseEffectEditor.residual.glm.test.tsx > TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 > R3 转入放置实体：默认目标跳过首个无实体场景，完整 schema 单命令落库并联动 scene 目标 45ms
+ ✓ src/ui/ItemUseEffectEditor.residual.glm.test.tsx > TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 场景/实体引用残差 > R5 无可放置实体：类型选项仍提供放置实体，选择失败经公开 notice 精确报错且零提交 24ms
+ ✓ src/ui/command-form-control.residual.glm.test.tsx > 共享脚本悬空 self 场景呈引用失效且实体降级文本，重选合法场景自动改绑首个实体 77ms
+
+ Test Files  2 passed (2)
+      Tests  4 passed (4)
+   Start at  13:21:38
+   Duration  2.81s (transform 1.24s, setup 0ms, import 1.68s, tests 253ms, environment 738ms)

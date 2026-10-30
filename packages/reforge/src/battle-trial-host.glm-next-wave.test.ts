@@ -19,8 +19,8 @@ import { type BattleTrialHostOptions, runBattleTrial } from './battle-trial-host
 
 let browser: ShellHost | undefined
 
-afterEach(() => {
-  browser?.close()
+afterEach(async () => {
+  await browser?.close()
   browser = undefined
   vi.restoreAllMocks()
   vi.unstubAllGlobals()

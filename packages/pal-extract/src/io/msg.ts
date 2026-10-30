@@ -2,8 +2,10 @@ import { decodeGbk } from '../utils/gbk.js'
 
 /**
  * M.MSG is a flat GBK string region. The offset table (in SSS.MKF chunk 3) gives
- * each message's start byte. parseMessages slices it into string[].
- * 参考 sdlpal text.c。
+ * each message's start byte; its final entry is the last message's end, not a
+ * further message. Nondecreasing offsets allow empty messages. Inputs stay
+ * caller-owned and unchanged; decoding/fixups belong to decodeGbk.
+ * 参考 sdlpal text.c::PAL_InitText。
  */
 export function parseMessages(msg: Uint8Array, offsets: Uint32Array): string[] {
   for (let i = 0; i < offsets.length; i++) {

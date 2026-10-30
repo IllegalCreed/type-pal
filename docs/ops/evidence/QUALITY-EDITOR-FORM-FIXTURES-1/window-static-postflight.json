@@ -1,0 +1,26 @@
+{
+  "checks": [
+    {
+      "command": ["pnpm", "check:docs"],
+      "exitCode": 0,
+      "bytes": 11745,
+      "sha256": "f284b973b76d42e0595d933592d5beb61c09fd4262d9a18d64a2445e074e8755"
+    },
+    {
+      "command": ["pnpm", "lint"],
+      "exitCode": 0,
+      "bytes": 199,
+      "sha256": "e67c13925588cb5eeb8bdc8c76153ec2af75f4db13ae31fbc4ba538827eb68a3"
+    }
+  ],
+  "lint": "4235 files; 0 errors / 0 warnings / 0 infos",
+  "docs": "0 issues; 184 phase/lore and 570 semantic documents",
+  "onlyThreeOwnedSemanticEntriesChanged": [
+    "docs/ops/board.md",
+    "docs/ops/evidence/README.md",
+    "docs/ops/tasks/index.md"
+  ],
+  "eightSourceShaStillFrozen": true,
+  "strictDiagnosticGate": "NOT PASSED",
+  "closedThisWindow": []
+}

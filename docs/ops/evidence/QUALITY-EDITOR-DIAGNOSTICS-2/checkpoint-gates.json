@@ -1,0 +1,23 @@
+[
+  {
+    "name": "docs",
+    "exitCode": 0,
+    "rawArtifact": "docs.raw.gz",
+    "bytes": 11732,
+    "sha256": "1b05294db7b49bafdb5832b4078443827bd5fee890073718df07ad9d22fa7385"
+  },
+  {
+    "name": "lint",
+    "exitCode": 0,
+    "rawArtifact": "lint.raw.gz",
+    "bytes": 199,
+    "sha256": "cde59e3f5cec184eda0a78823ff2a8129e494a41bbc260ccfc62c72e2e0a8563"
+  },
+  {
+    "name": "typecheck-final",
+    "exitCode": 0,
+    "rawArtifact": "typecheck-final.raw.gz",
+    "bytes": 189,
+    "sha256": "051fe1ecaef8e8518e7ff4c1a27464a412c6990160e9214d8e838280a3830194"
+  }
+]

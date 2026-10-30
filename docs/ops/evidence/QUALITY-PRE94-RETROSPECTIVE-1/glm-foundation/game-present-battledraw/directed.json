@@ -1,0 +1,893 @@
+{
+  "numTotalTestSuites": 20,
+  "numPassedTestSuites": 20,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 79,
+  "numPassedTests": 79,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792371128838,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
+          "fullName": "G08-D 特效与飘字像素 G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入",
+          "status": "passed",
+          "title": "G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入",
+          "duration": 0.9755000000000109,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
+          "fullName": "G08-D 特效与飘字像素 G08-D02 宽 1 时右移半宽为 0，像素落在锚点列而不是左边一列",
+          "status": "passed",
+          "title": "G08-D02 宽 1 时右移半宽为 0，像素落在锚点列而不是左边一列",
+          "duration": 0.19162499999993088,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
+          "fullName": "G08-D 特效与飘字像素 G08-D03 五位右对齐的个位在 x+24，十位不补零",
+          "status": "passed",
+          "title": "G08-D03 五位右对齐的个位在 x+24，十位不补零",
+          "duration": 0.25329099999999016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
+          "fullName": "G08-D 特效与飘字像素 G08-D04 六位数只留低五位，最高位不画到个位左边第六格",
+          "status": "passed",
+          "title": "G08-D04 六位数只留低五位，最高位不画到个位左边第六格",
+          "duration": 0.24062499999990905,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
+          "fullName": "G08-D 特效与飘字像素 G08-D05 两条飘字各写自己的个位，黄 7 和蓝 3 不互相覆盖",
+          "status": "passed",
+          "title": "G08-D05 两条飘字各写自己的个位，黄 7 和蓝 3 不互相覆盖",
+          "duration": 0.14104199999997036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
+          "fullName": "G08-D 特效与飘字像素 G08-D06 数值 0 仍画一位黄 0，左边不补位",
+          "status": "passed",
+          "title": "G08-D06 数值 0 仍画一位黄 0，左边不补位",
+          "duration": 0.15045899999995527,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-D 特效与飘字像素"],
+          "fullName": "G08-D 特效与飘字像素 G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D",
+          "status": "passed",
+          "title": "G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D",
+          "duration": 146.29375000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371130448,
+      "endTime": 1792371130596.2937,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G08-C 战斗结算像素"],
+          "fullName": "G08-C 战斗结算像素 G08-C01 没有界面帧时经验屏不写像素，屏数据保持原样",
+          "status": "passed",
+          "title": "G08-C01 没有界面帧时经验屏不写像素，屏数据保持原样",
+          "duration": 1.2124999999998636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-C 战斗结算像素"],
+          "fullName": "G08-C 战斗结算像素 G08-C02 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵",
+          "status": "passed",
+          "title": "G08-C02 缺少箭头帧时标签仍是 0xBB，箭头锚点保持哨兵",
+          "duration": 1.8447080000000824,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-C 战斗结算像素"],
+          "fullName": "G08-C 战斗结算像素 G08-C03 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵",
+          "status": "passed",
+          "title": "G08-C03 缺少斜杠帧时体力个位仍画出，斜杠点保持哨兵",
+          "duration": 1.021750000000111,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-C 战斗结算像素"],
+          "fullName": "G08-C 战斗结算像素 G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
+          "status": "passed",
+          "title": "G08-C04 二字名的文字按实际字宽贴上，框右缘仍按钳到 3 的长度",
+          "duration": 0.37420799999995324,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-C 战斗结算像素"],
+          "fullName": "G08-C 战斗结算像素 G08-C05 名字四字、法术六字时 ww=16，单行框和名字一起左移",
+          "status": "passed",
+          "title": "G08-C05 名字四字、法术六字时 ww=16，单行框和名字一起左移",
+          "duration": 0.22804199999995944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371130155,
+      "endTime": 1792371130159.3743,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A01 染色精灵被后排盖住后，第二遍仍把重叠点染回低半字节",
+          "status": "passed",
+          "title": "G08-A01 染色精灵被后排盖住后，第二遍仍把重叠点染回低半字节",
+          "duration": 2.4856250000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A02 召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵",
+          "status": "passed",
+          "title": "G08-A02 召唤隐藏队员时敌方像素仍在，队员锚点保持哨兵",
+          "duration": 0.27679200000011406,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A03 隐身计时大于 0 且无染色时不画队员，计时本身不被消耗",
+          "status": "passed",
+          "title": "G08-A03 隐身计时大于 0 且无染色时不画队员，计时本身不被消耗",
+          "duration": 0.17383399999994253,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A04 隐身期间染色不为 0 仍画出偏移后的低半字节",
+          "status": "passed",
+          "title": "G08-A04 隐身期间染色不为 0 仍画出偏移后的低半字节",
+          "duration": 0.16379200000005767,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A05 负的隐身计时是待激活标记，队员照常画出",
+          "status": "passed",
+          "title": "G08-A05 负的隐身计时是待激活标记，队员照常画出",
+          "duration": 0.16041599999994105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A06 spriteNumOverride 取 player-覆盖号，不用角色战斗图号",
+          "status": "passed",
+          "title": "G08-A06 spriteNumOverride 取 player-覆盖号，不用角色战斗图号",
+          "duration": 0.19237500000008367,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A07 覆盖号 0 不是空值，仍查 player-0",
+          "status": "passed",
+          "title": "G08-A07 覆盖号 0 不是空值，仍查 player-0",
+          "duration": 0.13895800000000236,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A08 已击败且淡出未开始的空槽不画，旁边活敌照画",
+          "status": "passed",
+          "title": "G08-A08 已击败且淡出未开始的空槽不画，旁边活敌照画",
+          "duration": 0.11654199999998127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A09 战斗动画进行时用 currentFrame，不用倒下帧 2",
+          "status": "passed",
+          "title": "G08-A09 战斗动画进行时用 currentFrame，不用倒下帧 2",
+          "duration": 0.4200829999999769,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A10 动画帧号越界时退回第 0 帧，不退回倒下帧",
+          "status": "passed",
+          "title": "G08-A10 动画帧号越界时退回第 0 帧，不退回倒下帧",
+          "duration": 0.1143339999998716,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A11 只有逃跑动画时也读 currentFrame",
+          "status": "passed",
+          "title": "G08-A11 只有逃跑动画时也读 currentFrame",
+          "duration": 0.14108399999986432,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A12 角色资料缺失时跳过该队员，敌方像素保留",
+          "status": "passed",
+          "title": "G08-A12 角色资料缺失时跳过该队员，敌方像素保留",
+          "duration": 0.07766600000013568,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A13 排序更靠前的法术回调盖住未染色敌方像素",
+          "status": "passed",
+          "title": "G08-A13 排序更靠前的法术回调盖住未染色敌方像素",
+          "duration": 0.07074999999986176,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A14 排序更靠后的法术回调被敌方盖住，框外那一点留下",
+          "status": "passed",
+          "title": "G08-A14 排序更靠后的法术回调被敌方盖住，框外那一点留下",
+          "duration": 0.07141699999988305,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-A 战斗精灵像素"],
+          "fullName": "G08-A 战斗精灵像素 G08-A15 绘制不改角色体力，也不改精灵帧里的索引",
+          "status": "passed",
+          "title": "G08-A15 绘制不改角色体力，也不改精灵帧里的索引",
+          "duration": 0.07458299999984774,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371130119,
+      "endTime": 1792371130124.141,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B01 体力正好等于 min(100, maxHP/5) 时合击图标仍是可用灰",
+          "status": "passed",
+          "title": "G08-B01 体力正好等于 min(100, maxHP/5) 时合击图标仍是可用灰",
+          "duration": 2.30404099999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B02 体力比该门槛少 1 时合击图标更暗",
+          "status": "passed",
+          "title": "G08-B02 体力比该门槛少 1 时合击图标更暗",
+          "duration": 0.4017910000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B03 maxHP/5 超过 100 时门槛停在 100，体力 150 的合击仍可用",
+          "status": "passed",
+          "title": "G08-B03 maxHP/5 超过 100 时门槛停在 100，体力 150 的合击仍可用",
+          "duration": 0.5242499999999382,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B04 沉默使法术和合击更暗，杂项保持可用灰，选中的攻击仍是原色",
+          "status": "passed",
+          "title": "G08-B04 沉默使法术和合击更暗，杂项保持可用灰，选中的攻击仍是原色",
+          "duration": 0.5152920000000449,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B05 傀儡不封锁法术，但合击因不健康而更暗",
+          "status": "passed",
+          "title": "G08-B05 傀儡不封锁法术，但合击因不健康而更暗",
+          "duration": 0.5438329999999496,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B06 同伴睡眠使健康人数不够，合击更暗而法术仍可用",
+          "status": "passed",
+          "title": "G08-B06 同伴睡眠使健康人数不够，合击更暗而法术仍可用",
+          "duration": 0.49679200000014134,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B07 没有行动队员时未选图标更暗，选中的攻击仍保持原色",
+          "status": "passed",
+          "title": "G08-B07 没有行动队员时未选图标更暗，选中的攻击仍保持原色",
+          "duration": 0.29808299999990595,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B08 dialogBoxKept 让攻击图标和底部姓名都保持哨兵",
+          "status": "passed",
+          "title": "G08-B08 dialogBoxKept 让攻击图标和底部姓名都保持哨兵",
+          "duration": 0.22412499999995816,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B09 进入物品二级后，父项道具用确认绿 0x2C，邻项仍是 0x4F",
+          "status": "passed",
+          "title": "G08-B09 进入物品二级后，父项道具用确认绿 0x2C，邻项仍是 0x4F",
+          "duration": 1.8040419999999813,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B10 杂项菜单未进入二级时，当前项是闪烁色 0xF9 而不是确认绿",
+          "status": "passed",
+          "title": "G08-B10 杂项菜单未进入二级时，当前项是闪烁色 0xF9 而不是确认绿",
+          "duration": 0.553000000000111,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B11 选友方目标时攻击图标改灰，目标箭头在锚点上移 67",
+          "status": "passed",
+          "title": "G08-B11 选友方目标时攻击图标改灰，目标箭头在锚点上移 67",
+          "duration": 0.3432080000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B12 活人的乱和封落在信息框偏移上",
+          "status": "passed",
+          "title": "G08-B12 活人的乱和封落在信息框偏移上",
+          "duration": 0.16108399999984613,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B13 中毒头像按毒色高半字节重染，不再写出原索引",
+          "status": "passed",
+          "title": "G08-B13 中毒头像按毒色高半字节重染，不再写出原索引",
+          "duration": 0.16154100000017024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B14 物品框阴影把背景 0x13 收成 0x11，本体和小球图标分开",
+          "status": "passed",
+          "title": "G08-B14 物品框阴影把背景 0x13 收成 0x11，本体和小球图标分开",
+          "duration": 0.3936670000000504,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B15 法术网格不画物品数量，假设的个位保持哨兵",
+          "status": "passed",
+          "title": "G08-B15 法术网格不画物品数量，假设的个位保持哨兵",
+          "duration": 0.28712500000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B16 界面帧数不超过 48 时改画文字姓名，不画头像",
+          "status": "passed",
+          "title": "G08-B16 界面帧数不超过 48 时改画文字姓名，不画头像",
+          "duration": 0.2775000000001455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G08-B 战斗界面像素"],
+          "fullName": "G08-B 战斗界面像素 G08-B17 帧数刚到 49 时画头像，底部文字姓名保持哨兵",
+          "status": "passed",
+          "title": "G08-B17 帧数刚到 49 时画头像，底部文字姓名保持哨兵",
+          "duration": 0.12187500000004547,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371130323,
+      "endTime": 1792371130333.2776,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L15 drawBattleSettlement 精确像素"],
+          "fullName": "L15 drawBattleSettlement 精确像素 exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框",
+          "status": "passed",
+          "title": "exp-cash：exp 右对齐 5 位 at (182,74)、cash 中对齐 at y=119、两单行框",
+          "duration": 2.726041000000123,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L15 drawBattleSettlement 精确像素"],
+          "fullName": "L15 drawBattleSettlement 精确像素 level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题",
+          "status": "passed",
+          "title": "level-up：8 行 old→cur + slash + 箭头 + 0xBB 标签 + 标题",
+          "duration": 2.456583000000137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L15 drawBattleSettlement 精确像素"],
+          "fullName": "L15 drawBattleSettlement 精确像素 hidden-exp-up：词表拼 名字+属性+提升，涨点数 x=191（仙剑 maxName=3/maxProp=1）",
+          "status": "passed",
+          "title": "hidden-exp-up：词表拼 名字+属性+提升，涨点数 x=191（仙剑 maxName=3/maxProp=1）",
+          "duration": 0.34837500000003274,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L15 drawBattleSettlement 精确像素"],
+          "fullName": "L15 drawBattleSettlement 精确像素 learn-magic：ww 偏移随字宽收窄框，magicName 色 0x1B",
+          "status": "passed",
+          "title": "learn-magic：ww 偏移随字宽收窄框，magicName 色 0x1B",
+          "duration": 0.23862499999995634,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371130154,
+      "endTime": 1792371130159.4565,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L14 blitFrame 边缘裁剪"],
+          "fullName": "L14 blitFrame 边缘裁剪 8×8 精灵 anchor 右缘（baseX=316）：右侧 4 列被裁，界内 4 列照写、不抛错",
+          "status": "passed",
+          "title": "8×8 精灵 anchor 右缘（baseX=316）：右侧 4 列被裁，界内 4 列照写、不抛错",
+          "duration": 2.6861659999999574,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L14 blitFrame 边缘裁剪"],
+          "fullName": "L14 blitFrame 边缘裁剪 anchor 完全出右界（baseX=320）：全裁剪无写入",
+          "status": "passed",
+          "title": "anchor 完全出右界（baseX=320）：全裁剪无写入",
+          "duration": 0.7402079999999387,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L14 blitFrame 边缘裁剪"],
+          "fullName": "L14 blitFrame 边缘裁剪 anchorY 在顶缘（baseY<0）：顶部裁剪，底部行照写；iColorShift 仍应用",
+          "status": "passed",
+          "title": "anchorY 在顶缘（baseY<0）：顶部裁剪，底部行照写；iColorShift 仍应用",
+          "duration": 0.6251250000000255,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371130119,
+      "endTime": 1792371130122.6252,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L13 drawBattleUI 剩余分支"],
+          "fullName": "L13 drawBattleUI 剩余分支 selectMove：当前行动队员头顶箭头 frame69 at anchor+(-8,-74)",
+          "status": "passed",
+          "title": "selectMove：当前行动队员头顶箭头 frame69 at anchor+(-8,-74)",
+          "duration": 2.1592920000000504,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L13 drawBattleUI 剩余分支"],
+          "fullName": "L13 drawBattleUI 剩余分支 uiState='wait' 或 selectingPlayerIdx 缺省 → 无当前行动箭头",
+          "status": "passed",
+          "title": "uiState='wait' 或 selectingPlayerIdx 缺省 → 无当前行动箭头",
+          "duration": 0.7760000000000673,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L13 drawBattleUI 剩余分支"],
+          "fullName": "L13 drawBattleUI 剩余分支 DL30：selectTargetEnemy 不画主菜单图标；selectMove 选中图标全彩",
+          "status": "passed",
+          "title": "DL30：selectTargetEnemy 不画主菜单图标；selectMove 选中图标全彩",
+          "duration": 0.3810829999999896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371130323,
+      "endTime": 1792371130326.381,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent draw —— 战斗 palette ramp fade 逐帧染色 gs.palette.colors(此前漏调 stepPaletteFade → 战斗 fade 只 snap 不动画)",
+          "status": "passed",
+          "title": "draw —— 战斗 palette ramp fade 逐帧染色 gs.palette.colors(此前漏调 stepPaletteFade → 战斗 fade 只 snap 不动画)",
+          "duration": 1.9369159999998828,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent draw —— 空 assets + 空 commands 不抛错",
+          "status": "passed",
+          "title": "draw —— 空 assets + 空 commands 不抛错",
+          "duration": 0.6716670000000704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent frame.shake → draw 末尾施加屏幕摇晃(偶帧下移 + 顶部填黑)",
+          "status": "passed",
+          "title": "frame.shake → draw 末尾施加屏幕摇晃(偶帧下移 + 顶部填黑)",
+          "duration": 1.7170840000001135,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent 无 frame.shake → 不施加摇晃(顶部仍是 bg)",
+          "status": "passed",
+          "title": "无 frame.shake → 不施加摇晃(顶部仍是 bg)",
+          "duration": 1.1611250000000837,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent draw —— bg + sprite + UI 联合落在 framebuffer",
+          "status": "passed",
+          "title": "draw —— bg + sprite + UI 联合落在 framebuffer",
+          "duration": 0.8159160000000156,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent 战场屏波只波动背景,不卷入精灵/特效(sdlpal PAL_BattleDrawBackground 在 sprite 前 ApplyWave)",
+          "status": "passed",
+          "title": "战场屏波只波动背景,不卷入精灵/特效(sdlpal PAL_BattleDrawBackground 在 sprite 前 ApplyWave)",
+          "duration": 0.6416670000000977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent showDamageNum 命令(enemy target)→ floating nums 写入 framebuffer",
+          "status": "passed",
+          "title": "showDamageNum 命令(enemy target)→ floating nums 写入 framebuffer",
+          "duration": 0.37000000000011823,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent showDamageNum 坐标解析(enemy):x=anchor.x-24, y=clamp(anchor.y-115, 10)",
+          "status": "passed",
+          "title": "showDamageNum 坐标解析(enemy):x=anchor.x-24, y=clamp(anchor.y-115, 10)",
+          "duration": 0.5044579999998859,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent 多 showDamageNum + 跨帧 —— 数字飘上去,旧数字过期",
+          "status": "passed",
+          "title": "多 showDamageNum + 跨帧 —— 数字飘上去,旧数字过期",
+          "duration": 1.4355830000001788,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent 非 showDamageNum 命令(如 playEnemyAttack)被静默跳过",
+          "status": "passed",
+          "title": "非 showDamageNum 命令(如 playEnemyAttack)被静默跳过",
+          "duration": 0.3625000000001819,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent clearFloatingNums —— 清空残留数字",
+          "status": "passed",
+          "title": "clearFloatingNums —— 清空残留数字",
+          "duration": 0.6378750000001219,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent 无对应 BattleField bg —— 跳过 bg 绘制,不抛",
+          "status": "passed",
+          "title": "无对应 BattleField bg —— 跳过 bg 绘制,不抛",
+          "duration": 0.17441699999994853,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent uiState=hidden + 空 players/enemies —— 几乎无写入(只有可能的 bg)",
+          "status": "passed",
+          "title": "uiState=hidden + 空 players/enemies —— 几乎无写入(只有可能的 bg)",
+          "duration": 0.4780000000000655,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— PresentCommand 不影响 state"],
+          "fullName": "BattlePresent —— PresentCommand 不影响 state showDamageNum 多帧累积,合并到一个 floating layer",
+          "status": "passed",
+          "title": "showDamageNum 多帧累积,合并到一个 floating layer",
+          "duration": 0.20158300000002782,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— D17a 动画 overlay"],
+          "fullName": "BattlePresent —— D17a 动画 overlay state.battleAnim.overlay 存在 + effectSprite 注入 → 画 effect 帧到落点",
+          "status": "passed",
+          "title": "state.battleAnim.overlay 存在 + effectSprite 注入 → 画 effect 帧到落点",
+          "duration": 0.11916700000006131,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— D17a 动画 overlay"],
+          "fullName": "BattlePresent —— D17a 动画 overlay 无 battleAnim → 不画 overlay(不抛)",
+          "status": "passed",
+          "title": "无 battleAnim → 不画 overlay(不抛)",
+          "duration": 0.1302499999999327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— D17a 动画 overlay"],
+          "fullName": "BattlePresent —— D17a 动画 overlay battleAnim 有 overlay 但 effectSprite 缺 → no-op(loader 未注入,overlay 不画)",
+          "status": "passed",
+          "title": "battleAnim 有 overlay 但 effectSprite 缺 → no-op(loader 未注入,overlay 不画)",
+          "duration": 0.11345900000014808,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— D17 法术 magic overlays"],
+          "fullName": "BattlePresent —— D17 法术 magic overlays state.battleAnim.overlays(kind=magic)+ magicSprites 注入 → 逐个 blit",
+          "status": "passed",
+          "title": "state.battleAnim.overlays(kind=magic)+ magicSprites 注入 → 逐个 blit",
+          "duration": 0.14837499999998727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— D17 法术 magic overlays"],
+          "fullName": "BattlePresent —— D17 法术 magic overlays magicSprites 缺 → magic overlays no-op,不抛",
+          "status": "passed",
+          "title": "magicSprites 缺 → magic overlays no-op,不抛",
+          "duration": 0.12504200000012133,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— D17 法术 magic overlays"],
+          "fullName": "BattlePresent —— D17 法术 magic overlays 战斗内对话:gs.dialogBox 存在 → 对话覆于战斗场景渲染(framebuffer 差异)",
+          "status": "passed",
+          "title": "战斗内对话:gs.dialogBox 存在 → 对话覆于战斗场景渲染(framebuffer 差异)",
+          "duration": 3.566000000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawBattleSettlement —— D11b 胜利结算演出渲染"],
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 exp-cash 屏:画 box + 经验/文钱数字 → framebuffer 有写入",
+          "status": "passed",
+          "title": "exp-cash 屏:画 box + 经验/文钱数字 → framebuffer 有写入",
+          "duration": 0.6493330000000697,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawBattleSettlement —— D11b 胜利结算演出渲染"],
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 level-up 屏:画主 box + 8 属性 old→cur 数字 + 箭头/斜杠 → framebuffer 有写入",
+          "status": "passed",
+          "title": "level-up 屏:画主 box + 8 属性 old→cur 数字 + 箭头/斜杠 → framebuffer 有写入",
+          "duration": 0.8910000000000764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawBattleSettlement —— D11b 胜利结算演出渲染"],
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 learn-magic 屏:画 box + name/练成/magicName → framebuffer 有写入",
+          "status": "passed",
+          "title": "learn-magic 屏:画 box + name/练成/magicName → framebuffer 有写入",
+          "duration": 0.3668330000000424,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawBattleSettlement —— D11b 胜利结算演出渲染"],
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 无 uiSpriteFrames → 安全 no-op(不抛)",
+          "status": "passed",
+          "title": "无 uiSpriteFrames → 安全 no-op(不抛)",
+          "duration": 0.36474999999995816,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawBattleSettlement —— D11b 胜利结算演出渲染"],
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 BattlePresent.draw:state.settlement active → 结算屏叠加渲染(端到端经 present-battle)",
+          "status": "passed",
+          "title": "BattlePresent.draw:state.settlement active → 结算屏叠加渲染(端到端经 present-battle)",
+          "duration": 2.2781659999998283,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371130451,
+      "endTime": 1792371130471.278,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/battle/__tests__/present-battle.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+
+> @type-pal/game@1.0.0 typecheck /Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game
+> tsc --noEmit
+
+src/core/event-system.glm-event-k06.test.ts(219,81): error TS2740: Type '{ consuming: true; }' is missing the following properties from type 'ItemFlags': usable, equipable, throwable, applyToAll, and 2 more.
+src/core/event-system.glm-event-k06.test.ts(221,81): error TS2740: Type '{ consuming: true; }' is missing the following properties from type 'ItemFlags': usable, equipable, throwable, applyToAll, and 2 more.
+src/core/event-system.glm-event-k06.test.ts(230,79): error TS2740: Type '{ consuming: true; }' is missing the following properties from type 'ItemFlags': usable, equipable, throwable, applyToAll, and 2 more.
+src/core/event-system.test.ts(4156,79): error TS2740: Type '{ consuming: true; }' is missing the following properties from type 'ItemFlags': usable, equipable, throwable, applyToAll, and 2 more.
+src/core/event-system.test.ts(4175,74): error TS2740: Type '{ consuming: true; }' is missing the following properties from type 'ItemFlags': usable, equipable, throwable, applyToAll, and 2 more.
+src/core/event-system.test.ts(4192,75): error TS2740: Type '{ consuming: false; }' is missing the following properties from type 'ItemFlags': usable, equipable, throwable, applyToAll, and 2 more.
+src/core/event-system.test.ts(4202,73): error TS2740: Type '{ consuming: true; }' is missing the following properties from type 'ItemFlags': usable, equipable, throwable, applyToAll, and 2 more.
+/Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/game@1.0.0 typecheck: `tsc --noEmit`
+Exit status 2

@@ -1,0 +1,114 @@
+{
+  "base": "9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2",
+  "scope": "Full original PAL_ColorFade body with typed SDL_Color/globals and palette/video/delay stubs. Canonical GetPalette grid proven statically, no same-byte original-vs-expanded palette identity/visual claim.",
+  "primary": {
+    "path": "reference/sdlpal/palette.c",
+    "sha256": "88a3160fac6bddd28355a28b788b76b848b9853d06eb75b8abe2116b9ee7795d",
+    "ranges": [[461, 592]],
+    "bodySha256": "08f5174ed0f7b9ad7954df74d9a49640682d3d648d983d6aa0e420c5149d35c8"
+  },
+  "sourceSha256": "c41749772e3ccc0bb938875cab304f769e50f41f2dce2adb4597e26a0629d2fd",
+  "runs": [
+    {
+      "label": "native-compile-O0",
+      "command": [
+        "clang",
+        "-std=c11",
+        "-O0",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-colorfade-_1vxbtf7/color.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-colorfade-_1vxbtf7/O0"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:49:59.014753+00:00",
+      "completedAt": "2026-10-17T21:49:59.295954+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "native-compile-O0.raw.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "label": "native-O0",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-colorfade-_1vxbtf7/O0"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:49:59.295986+00:00",
+      "completedAt": "2026-10-17T21:50:00.218688+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "native-O0.raw.gz",
+      "rawBytes": 588788,
+      "rawSha256": "17eeec4be28f5249eaa01a5381343f6ceae7fc70ba225512a4ed26a6ea3f5676",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "label": "native-compile-O2",
+      "command": [
+        "clang",
+        "-std=c11",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-colorfade-_1vxbtf7/color.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-colorfade-_1vxbtf7/O2"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:50:00.236039+00:00",
+      "completedAt": "2026-10-17T21:50:00.340062+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "native-compile-O2.raw.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "label": "native-O2",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-colorfade-_1vxbtf7/O2"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:50:00.340127+00:00",
+      "completedAt": "2026-10-17T21:50:00.674582+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "native-O2.raw.gz",
+      "rawBytes": 588788,
+      "rawSha256": "17eeec4be28f5249eaa01a5381343f6ceae7fc70ba225512a4ed26a6ea3f5676",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "label": "typescript",
+      "command": [
+        "pnpm",
+        "exec",
+        "tsx",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-colorfade-_1vxbtf7/color.mts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:50:00.694581+00:00",
+      "completedAt": "2026-10-17T21:50:03.001857+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "typescript.raw.gz",
+      "rawBytes": 588966,
+      "rawSha256": "95a6915db0edf348572b6ee12369cb6fed7439e59abd625f7627ff291f74976b",
+      "fullUncutMergedStdoutStderr": true
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-colorfade-_1vxbtf7",
+  "tempRemoved": true
+}

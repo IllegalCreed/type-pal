@@ -1,0 +1,41 @@
+{
+  "base": "5d55e2c49a1eb517d4bd51b2814df840dd49052a",
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "sha256": "e6db123378836bff7ae83405dfabbeb641659843405ccd10768b33ad47c8b890",
+      "lines": 487,
+      "readRanges": [[1, 487]],
+      "snapshot": "e6db12337883-minimap.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1",
+      "lines": 1106,
+      "readRanges": [[1, 1106]],
+      "snapshot": "1690410dfda8-tools-panel.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944,
+      "readRanges": [[1, 1944]],
+      "snapshot": "6c02f5c426c7-bootstrap.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sha256": "5583b8ddcf18f3da57a80f6fc84fa71f6e7ea74aeaa2444de4d485c1cf9a59f8",
+      "lines": 189,
+      "readRanges": [[1, 189]],
+      "snapshot": "5583b8ddcf18-minimap.glm-phase1-leaves.test.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.test.ts",
+      "sha256": "5536287e6f7ddc3ce0e7345d206f247d919c4c0356c2f249ff61dbdf433dc5be",
+      "lines": 140,
+      "readRanges": [[1, 140]],
+      "snapshot": "5536287e6f7d-minimap.test.ts.before.gz"
+    }
+  ]
+}

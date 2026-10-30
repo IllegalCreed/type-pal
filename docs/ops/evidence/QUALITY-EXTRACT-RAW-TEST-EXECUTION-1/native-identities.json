@@ -1,0 +1,113 @@
+{
+  "runs": [
+    {
+      "phase": "before",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "list",
+        "src/resources/parsers/__tests__/pre94-raw-list-data-misc.test.ts",
+        "src/resources/parsers/__tests__/pre94-raw-list-misc-mkf.test.ts",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-raw-list-8bh570wl/before.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "nativeSha256": "d1ea068e6abc07259fd9368297bfc17f90d6d5b206fb31d1ae8d04b3b65f5320",
+      "identities": [
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: decodeRgmPortrait > empty chunk(0 byte)→ null",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: decodeRgmPortrait > real RGM.MKF — 92 chunks 多数解码出 width/height/png",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: decodeBallIcon > empty chunk(0 byte)→ null",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: decodeBallIcon > real BALL.MKF — 252 chunks 多数解码出 width/height/png",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > empty buf → frameCount=0, frames=[]",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > returns chunkIndex + frameCount + frames structure",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > fake raw sprite chunk parsed after YJ2 fallback returns valid PNG bytes if frames exist",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > real FIRE.MKF — 55 chunks, sprite groups with frames",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress > chunk 0 decompresses → valid sprite with frames",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseLevelUpExp > parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseLevelUpExp > buf 小于 200 字节时截断处理,不抛错",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseLevelUpMagic > 20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseLevelUpMagic > wMagic = 0 的 entry 仍被保留(不过滤)",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseLevelUpMagic > roleCount = 0 返回空数组",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseBattleEffectIndex > parses WORD array",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseBattleEffectIndex > 40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut > 合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut > framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut > real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 10 battle effect sprite — parseSpriteChunk + framesToOut > 合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 10 battle effect sprite — parseSpriteChunk + framesToOut > real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)"
+      ],
+      "copiedInputSha256": {
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-list-data-misc.test.ts": "c648a80f2dbac5f60e81c3403d3fe4bee939e9dd93a1c6d842cca5ade4f04b3f",
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-list-misc-mkf.test.ts": "c88950903b48533189f49b9081cdb18fd5f517d0e90d3e40bb0b4873308f26cf"
+      }
+    },
+    {
+      "phase": "after",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "list",
+        "src/resources/parsers/__tests__/data-misc.test.ts",
+        "src/resources/parsers/__tests__/misc-mkf.test.ts",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-raw-list-8bh570wl/after.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "nativeSha256": "0d32872e5f1e4ace3e8461a0c67cd1aaa68f33cdc1719e56c2ef65ad326e6063",
+      "identities": [
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: decodeRgmPortrait > empty chunk(0 byte)→ null",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: decodeRgmPortrait > real RGM.MKF — 92 chunks，88张头像身份/尺寸/SDLPal全部RGBA",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: decodeBallIcon > empty chunk(0 byte)→ null",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: decodeBallIcon > real BALL.MKF — 252 chunks，251图标身份/尺寸/SDLPal全部RGBA",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > one-byte raw input preserves chunkIndex and returns no frames",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > fake raw sprite chunk after YJ2 failure returns two exact PNG frames",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > real FIRE.MKF — 55 chunks，837帧身份/尺寸/SDLPal全部RGBA",
+        "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress > chunk 0 decompresses → valid sprite with frames",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseLevelUpExp > parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseLevelUpExp > buf 小于 200 字节时截断处理,不抛错",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseLevelUpMagic > 20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseLevelUpMagic > wMagic = 0 的 entry 仍被保留(不过滤)",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseLevelUpMagic > roleCount = 0 返回空数组",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseBattleEffectIndex > parses WORD array",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: parseBattleEffectIndex > 40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut > 合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut > framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut > real DATA.MKF chunk 9 — 71有效帧与SDLPal全部RGBA",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 10 battle effect sprite — parseSpriteChunk + framesToOut > 合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+        "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 10 battle effect sprite — parseSpriteChunk + framesToOut > real DATA.MKF chunk 10 — 85有效帧与SDLPal全部RGBA"
+      ],
+      "copiedInputSha256": {}
+    }
+  ],
+  "removed": [
+    "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 10 battle effect sprite — parseSpriteChunk + framesToOut > real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)",
+    "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut > real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: decodeBallIcon > real BALL.MKF — 252 chunks 多数解码出 width/height/png",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: decodeRgmPortrait > real RGM.MKF — 92 chunks 多数解码出 width/height/png",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > empty buf → frameCount=0, frames=[]",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > fake raw sprite chunk parsed after YJ2 fallback returns valid PNG bytes if frames exist",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > real FIRE.MKF — 55 chunks, sprite groups with frames",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > returns chunkIndex + frameCount + frames structure"
+  ],
+  "added": [
+    "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 10 battle effect sprite — parseSpriteChunk + framesToOut > real DATA.MKF chunk 10 — 85有效帧与SDLPal全部RGBA",
+    "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts :: project root :: chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut > real DATA.MKF chunk 9 — 71有效帧与SDLPal全部RGBA",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: decodeBallIcon > real BALL.MKF — 252 chunks，251图标身份/尺寸/SDLPal全部RGBA",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: decodeRgmPortrait > real RGM.MKF — 92 chunks，88张头像身份/尺寸/SDLPal全部RGBA",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > fake raw sprite chunk after YJ2 failure returns two exact PNG frames",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > one-byte raw input preserves chunkIndex and returns no frames",
+    "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts :: project root :: parseFirSprite > real FIRE.MKF — 55 chunks，837帧身份/尺寸/SDLPal全部RGBA"
+  ],
+  "netTestCountChange": -1,
+  "retiredBusinessContract": "FIRE empty output preserved by fire.glm-runtime-resource.test.ts; other removals are explicit descriptive renames",
+  "fastRetirementApprovalNeeded": false,
+  "temporaryCopiesRemoved": true
+}

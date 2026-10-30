@@ -1,0 +1,25 @@
+{
+  "base": "52d046f0b",
+  "sources": [
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+      "beforeSha256": "6b0b961b04ecf3577f488b56daa55b638d10101b0f1cae86c8f050d73975a7a9",
+      "fullRead": true,
+      "status": "review, no closure",
+      "currentSha256": "a5822f36c6b35a9762f689edb01b393402d2c9a88c1dea36d251ef4836d54825",
+      "lines": 546
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-fixtures.ts",
+      "beforeSha256": "5d9fe768b3825cbb1cca4c848ea8ca3fa18b6bcc89de749b4414407ae2929391",
+      "fullRead": true,
+      "status": "review, no closure",
+      "currentSha256": "79f8470ad9d688cdd32cb9305ff4495030c6bf774be7abe5ca4dffc72d97eab0",
+      "lines": 337
+    }
+  ],
+  "priorDirectReads": "QUALITY-EDITOR-DIAGNOSTICS-3/next-read-boundaries.json; prior full product/caller hashes reused only after verification",
+  "archivedTask": "docs/ops/archive/tasks/done/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md",
+  "mutationRecipe": "docs/testing/archive/legacy/batches/kimi-editor-workflows/counter-control/injections.mjs: k01-shrink-repairs-dropped (full module read)",
+  "remaining": "Shared host pending navigation and failure-cleanup fault injection remain unverified; unknown cross-file repetitions retained; full module window pending."
+}

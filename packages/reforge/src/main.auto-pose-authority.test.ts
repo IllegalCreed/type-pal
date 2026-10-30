@@ -14,8 +14,8 @@ import { assertCurrentSaveStructure } from './save/current-structure.js'
 import { IndexedDbSaveStore } from './save/store.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 
@@ -830,7 +830,7 @@ test('canonical island dialogue leaves its ambient boat animation running; an ad
     expect(frames('target')).toContain(1)
     unchanged()
     rendered.mockRestore()
-    h.close()
+    await h.close()
     host = undefined
     return heldFrames
   }
@@ -911,7 +911,7 @@ test('a mounted ride preserves the carrier facing through every move; a normal m
     expect(observed.length).toBeGreaterThan(1)
     expect(new Set(observed)).toEqual(new Set([kind === 'ride' ? 'left' : 'up']))
     unchanged()
-    h.close()
+    await h.close()
     host = undefined
   }
 })

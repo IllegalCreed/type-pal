@@ -1,0 +1,369 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex(single Agent)",
+  "base": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+  "scope": "Evidence/task/ledger factual correction only;source/tests/config/baseline unchanged. No file/card promotion.",
+  "runs": [
+    {
+      "id": "docs-final",
+      "command": "pnpm",
+      "args": ["check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:38:37.240Z",
+      "end": "2026-10-22T05:39:26.922Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 30722,
+      "stderrBytes": 0
+    },
+    {
+      "id": "lint-final",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:38:37.240Z",
+      "end": "2026-10-22T05:38:40.659Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0
+    },
+    {
+      "id": "readonly-final",
+      "command": "node",
+      "args": [
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/verify-extra-reachability.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:39:26.585Z",
+      "end": "2026-10-22T05:39:26.694Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 86,
+      "stderrBytes": 0
+    },
+    {
+      "id": "ledger-final",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:39:26.583Z",
+      "end": "2026-10-22T05:39:27.709Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 113,
+      "stderrBytes": 0
+    },
+    {
+      "id": "docs-consumers-final",
+      "command": "node",
+      "args": [
+        "--input-type=module",
+        "-e",
+        "import {spawnSync} from \"node:child_process\"; for (const file of [\"check.mjs\",\"check-document-model.mjs\",\"check-testing.mjs\",\"check-phase-lore-governance.mjs\",\"check-content-review.mjs\",\"report-governance-progress.mjs\"]) { const args=[\"scripts/docs/\"+file,...(file===\"check-content-review.mjs\"?[\"--strict\"]:[])]; const run=spawnSync(process.execPath,args,{stdio:\"inherit\"}); if(run.error||run.signal||run.status!==0) process.exit(run.status||1); }"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:41:38.073Z",
+      "end": "2026-10-22T05:41:43.205Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 469,
+      "stderrBytes": 0
+    },
+    {
+      "id": "scope-final",
+      "command": "node",
+      "args": [
+        "--input-type=module",
+        "-e",
+        "import fs from \"node:fs\"; import assert from \"node:assert/strict\"; import {gunzipSync} from \"node:zlib\"; import {execFileSync} from \"node:child_process\"; const dir=\"docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/\"; const original=\"/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-battle-reachability-WUjAuR/\";for(const name of [\"extra-reachability-native.json.gz\",\"extra-reachability-gates-native.json.gz\"]){const {members}=JSON.parse(gunzipSync(fs.readFileSync(dir+name)));for(const [n,v] of Object.entries(members))assert.deepEqual(fs.readFileSync(original+n),Buffer.from(v),n);}assert.equal(execFileSync(\"git\",[\"diff\",\"HEAD\",\"--\",\"packages\",\"scripts\",\"package.json\",\"pnpm-lock.yaml\"],{encoding:\"utf8\"}),\"\");const a=JSON.parse(execFileSync(\"git\",[\"show\",\"HEAD:docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\"],{encoding:\"utf8\"}));assert.deepEqual(JSON.parse(fs.readFileSync(\"docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\")),a);console.log(\"MATCH original bytes for both native archives; no product/test/config/baseline diff; all83 cards identical\");"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:41:38.071Z",
+      "end": "2026-10-22T05:41:38.159Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 107,
+      "stderrBytes": 0
+    },
+    {
+      "id": "ci-903-coverage",
+      "command": "gh",
+      "args": ["run", "view", "39726067211", "--json", "headSha,status,conclusion,url"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:41:38.071Z",
+      "end": "2026-10-22T05:41:39.587Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 173,
+      "stderrBytes": 0
+    },
+    {
+      "id": "ci-903-docs",
+      "command": "gh",
+      "args": ["run", "view", "39726067202", "--json", "headSha,status,conclusion,url"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:41:38.071Z",
+      "end": "2026-10-22T05:41:40.361Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 173,
+      "stderrBytes": 0
+    },
+    {
+      "id": "lint-publish",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:42:08.274Z",
+      "end": "2026-10-22T05:42:10.956Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0
+    },
+    {
+      "id": "readonly-publish",
+      "command": "node",
+      "args": [
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/verify-extra-reachability.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:42:08.273Z",
+      "end": "2026-10-22T05:42:08.400Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 86,
+      "stderrBytes": 0
+    },
+    {
+      "id": "diff-publish",
+      "command": "git",
+      "args": ["diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:42:08.274Z",
+      "end": "2026-10-22T05:42:08.344Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "9032b775deb9f0f5f0c2c1eb7068053934901938",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "diagnostics": {
+    "docsIssues": 0,
+    "docsToolTests": 125,
+    "docsToolFailures": 0,
+    "lintErrors": 0,
+    "lintWarnings": 0,
+    "lintInfos": 0,
+    "lintFiles": 5815,
+    "allCapturedStderrBytes": 0
+  },
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability-gates-native.json.gz",
+    "sha256": "5d20183834467433a2309ce9ddf79de6f76f137285ffa4fb0bdfd718bf26f021",
+    "members": [
+      {
+        "name": "docs-final.execution.json",
+        "bytes": 408,
+        "sha256": "49ded3a7894c49143f42e75f7e79305c248f43121e6801c052c28a2746995447"
+      },
+      {
+        "name": "docs-final.stdout.raw",
+        "bytes": 30722,
+        "sha256": "5bd4efc02693ca39cbb71f47b7f9ff8f9e04ca70e71ecc74e9ddeae7922f9185"
+      },
+      {
+        "name": "docs-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "lint-final.execution.json",
+        "bytes": 400,
+        "sha256": "8643fb19b82d68d4cf6d9a97a70e4684b0f036f31a8a6380edf99112d6fb6130"
+      },
+      {
+        "name": "lint-final.stdout.raw",
+        "bytes": 193,
+        "sha256": "4238cae112847749d256e499486c9c6fe39a03662f97a7732ddf102b7124883e"
+      },
+      {
+        "name": "lint-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "readonly-final.execution.json",
+        "bytes": 492,
+        "sha256": "f612f9d09abaae2803c545cb07b4b554de63b4cba16b0eaae147e0b97dbd2a56"
+      },
+      {
+        "name": "readonly-final.stdout.raw",
+        "bytes": 86,
+        "sha256": "5e8552939b67c4293030aae1e3687d52f34c2c1f72db80cadcce23c9b810936c"
+      },
+      {
+        "name": "readonly-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ledger-final.execution.json",
+        "bytes": 437,
+        "sha256": "e86e962ffee82693e6ad4bbbb9239a878897e9267e843f0c75a37f048af5dec4"
+      },
+      {
+        "name": "ledger-final.stdout.raw",
+        "bytes": 113,
+        "sha256": "d09e711614ca4779fe469ff82d9b8fdda5479da135d61269e6e51148df4e60a9"
+      },
+      {
+        "name": "ledger-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs-consumers-final.execution.json",
+        "bytes": 912,
+        "sha256": "7da8c8caf469de90de62d6cd8ec00c89424f82bd49c3a9407bc793ccb534ca40"
+      },
+      {
+        "name": "docs-consumers-final.stdout.raw",
+        "bytes": 469,
+        "sha256": "b095d37b91831a158ba81abc785c1f1355eaaf68f44863776450cf4072e4100c"
+      },
+      {
+        "name": "docs-consumers-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "scope-final.execution.json",
+        "bytes": 1597,
+        "sha256": "426336ee712dba6aaaeb1c014b25d5b67a82956046343bf5e33814ec593ccc58"
+      },
+      {
+        "name": "scope-final.stdout.raw",
+        "bytes": 107,
+        "sha256": "35ed6918c4ed7fde7e01c5ecc60d2e3e41b3d9d74917f948a2c3fb1cfbd696eb"
+      },
+      {
+        "name": "scope-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-903-coverage.execution.json",
+        "bytes": 484,
+        "sha256": "16be7401f3adc54a0764d6a47929240ee3cf9874291af00a1adf99faeadae7be"
+      },
+      {
+        "name": "ci-903-coverage.stdout.raw",
+        "bytes": 173,
+        "sha256": "d4ad3980bcbc7e895edecacafc5677e82ede6f56199b09f20ee352b5ecdc9d4f"
+      },
+      {
+        "name": "ci-903-coverage.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-903-docs.execution.json",
+        "bytes": 480,
+        "sha256": "0adee39b836bd903378f383a6347c98f3657e636c10b9b88a7a36c621450b9b4"
+      },
+      {
+        "name": "ci-903-docs.stdout.raw",
+        "bytes": 173,
+        "sha256": "39610855641dd4f715fa8a0ea6b4aca33764c76cb887d2f8f53ce3d356455f5d"
+      },
+      {
+        "name": "ci-903-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "lint-publish.execution.json",
+        "bytes": 402,
+        "sha256": "80ad1bbf4bb1628472fa02c19aa60f7cc020dccf0488717b058ba090807b11c6"
+      },
+      {
+        "name": "lint-publish.stdout.raw",
+        "bytes": 193,
+        "sha256": "79e2180f1bf55e1374b0659066b43ab5f87eb99574ce19a9c507b4e95318140a"
+      },
+      {
+        "name": "lint-publish.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "readonly-publish.execution.json",
+        "bytes": 494,
+        "sha256": "308f133ad8c7a0d5aab46737dc5145b4f6f7f1d3924587c12e3e57d25b802b70"
+      },
+      {
+        "name": "readonly-publish.stdout.raw",
+        "bytes": 86,
+        "sha256": "5e8552939b67c4293030aae1e3687d52f34c2c1f72db80cadcce23c9b810936c"
+      },
+      {
+        "name": "readonly-publish.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "diff-publish.execution.json",
+        "bytes": 414,
+        "sha256": "037084ae048c8c95c7bf79f87b6ab40a08574ce111b3a55d533dfc097715fe18"
+      },
+      {
+        "name": "diff-publish.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "diff-publish.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "limits": "Full docs gate precedes final task wording and gate receipt;final consumers/scoped lint checked afterwards. No product testing/coverage collected in this evidence-only increment. Existing20434 check,finalgame3724,official20040/758 and same-report strict/protected remain same product-source bindings;not a second collection. API reports9032b775d Coverage39726067211 completed/success,not a runtime-diagnostic count.",
+  "processDisclosure": "First private packer wrongly expected JSON issues field in actual plain-text progress output and asserted before writes. Corrected to inspect full real TAP and progress output. Gate raw bytes unchanged;packer failure tool output not saved as a native raw attachment,self-report only.",
+  "validationSequence": "Full125 docs tools reused after final wording/gate additions; six final consumers rerun0 issues. Final5815 lint0/0/0,readonly current verifier,diff and exact original archive bytes verified. Final receipt only appends immutable results and is formatted/quick-verified after packing;no product source changed."
+}

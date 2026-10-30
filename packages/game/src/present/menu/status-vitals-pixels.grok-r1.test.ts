@@ -1,7 +1,7 @@
 /**
  * TEST-GROK-RENDER-HOST-LARGE-1 G06-D。
  * 状态页的真气、五项能力、经验斜杠空位、毒的显示序号和缺名字装备。
- * 不重复 P07 的体力与经验，也不重复 glm 的 runtime 0 回退和缺目录跳过。
+ * 不重复 P07 的体力与经验，也不重复 glm 的真实 runtime 0 保留和缺目录跳过。
  */
 import { afterEach, describe, expect, it } from 'vitest'
 import type { IndexedImage } from '../../assets/png.js'

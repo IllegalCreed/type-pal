@@ -1,0 +1,120 @@
+{
+  "base": "c2fee5a9eb56bf827ac253dcbdb4a4c86b28a30b",
+  "fullReads": [
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+      "lines": 55,
+      "sha256": "1cbe8a602acddb0ae111b9e74fd6113851b0d7b5c5906a69d0980a0ad969e804",
+      "boundary": "full read; reading is not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "lines": 901,
+      "sha256": "38e5801281b5a10b1af8488ca552974b7d6686824ad29e3f4cb2bc668775022f",
+      "boundary": "full read; reading is not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "lines": 220,
+      "sha256": "ba89a0c8797e8640a1fde7b5c310d3fd188e668cf46300870cc5ed3c5a7bbd9a",
+      "boundary": "full read; reading is not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "lines": 504,
+      "sha256": "66856d8df0033d9bdd96f905a092439a04ef94dde029df0176d7b9cdc1271b96",
+      "boundary": "full read; reading is not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "lines": 345,
+      "sha256": "5066f9c44b3d7077262f15090af2274b8f89c456f99b6182df1dea2d292a801f",
+      "boundary": "full read; reading is not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "lines": 171,
+      "sha256": "dae36eb783884bb3481fface786697ce58549c31959464024bde8261cf976679",
+      "boundary": "full read; reading is not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "lines": 409,
+      "sha256": "5cd6056bd38f21205460ca333ae5f1b5789d294576bfbb611d503b8608448395",
+      "boundary": "full read; reading is not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "lines": 163,
+      "sha256": "727d77c4f6ef2609c41e74a4e4190478214d1afc72578702335e74ff1a13ac1f",
+      "boundary": "full read; reading is not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts",
+      "lines": 143,
+      "sha256": "030f51dcf6352c4d9ead72ced3f65e694cb14e75bbad1b5f2949c988263626ef",
+      "boundary": "full read; reading is not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/asset-manifest.ts",
+      "lines": 54,
+      "sha256": "6946220262cdd9f490e5469c26e209554e5e87eb8188fb2d144f46d23b801a4b",
+      "boundary": "full read; reading is not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/font/bdf-to-json.ts",
+      "lines": 81,
+      "sha256": "ee6d5b28275ecf6d26f667171a0e75d3bde8213da33cd5930c7e487f5a4b6a20",
+      "boundary": "full read; reading is not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/io/mkf.ts",
+      "lines": 6,
+      "sha256": "ca53d95c262a6fe6d7b31fe0ec149804e4e759875803b3cf63c8f7c713cb0fd3",
+      "boundary": "full read; reading is not whole-file acceptance"
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/pal-extract/scripts/extract-videos.ts",
+      "ranges": ["20-56"],
+      "sha256": "7bbf45c4ed951015f718fba361b08b760e98865bbd531d52958317bd406c1cce",
+      "wholeFileReadThisSlice": false
+    },
+    {
+      "path": "package.json",
+      "ranges": ["6-7", "39-41", "50-50"],
+      "sha256": "23276788c35ae3803a7562dc1e730f5cb255742822c8446cc5790cb54fa6e7f6",
+      "wholeFileReadThisSlice": false
+    },
+    {
+      "path": "scripts/docs/check.mjs",
+      "ranges": ["1-82"],
+      "sha256": "e3ba09b218b40a529fad94e5b1d42d059e13a84b9b882e0a43ce89c009003291",
+      "wholeFileReadThisSlice": false
+    }
+  ],
+  "localPaths": [
+    {
+      "path": "data",
+      "isLink": false,
+      "resolved": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data",
+      "inspection": "read-only path metadata; no extract command in this tree"
+    },
+    {
+      "path": "data/raw",
+      "isLink": false,
+      "resolved": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/raw",
+      "inspection": "read-only path metadata; no extract command in this tree"
+    },
+    {
+      "path": "data/extracted",
+      "isLink": true,
+      "resolved": "/Users/zhangxu/illegal/type-pal/data/extracted",
+      "inspection": "read-only path metadata; no extract command in this tree"
+    }
+  ],
+  "primary": "https://nodejs.org/api/fs.html#fsrealpathpath-options-callback",
+  "primaryBoundary": "Node docs describe link resolution; actual cleanup observation is the four owned temporary CLI runs, not a generic security claim",
+  "closed": []
+}

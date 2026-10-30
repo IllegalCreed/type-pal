@@ -1,0 +1,36 @@
+{
+  "glm-check.txt": {
+    "sha256": "b8d9b95eedca4326a2c7dfb27e6cf6d14498d27229d64afada8211134f39eddf",
+    "bytes": 1940707,
+    "act": 3489,
+    "navigation": 2,
+    "terminal": "fallback, and dynamic-map domains exactly  11786ms\n ✓ |pal| src/pal-item-scheme-labels.pal.test.ts (2 tests) 907ms\n     ✓ canonical baseline and current author content retain the same 49 rooted schemes  756ms\n ✓ |pal| src/pal-scene-copy-differential.pal.test.ts (1 test) 213ms\n ✓ |pal| src/pal-store-boundary.pal.test.ts (1 test) 9510ms\n     ✓ protects source-owned inventory and alchemy while retaining current author shop commands  9509ms\n ✓ |pal| src/pal-world-sprite-semantic-alias.pal.test.ts (2 tests) 47ms\n\n Test Files  96 passed (96)\n      Tests  739 passed (739)\n   Start at  00:42:07\n   Duration  238.09s (transform 1.12s, setup 0ms, import 4.38s, tests 246.41s, environment 4ms)\n\n\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 4012 files; 0 errors / 0 warnings / 0 infos; complete report\nCHECK_EXIT=0\n"
+  },
+  "glm-r2-ratchet.txt": {
+    "sha256": "2a8aba28e270fd8c9a0bf76e261b3fa1ccf71bdfc7310828bce033d85d1c5ecf",
+    "bytes": 1789693,
+    "act": 3490,
+    "navigation": 2,
+    "terminal": "218)      100.00% (23/23)       97.09% (400/412)      11     131  \ncontent      96.43% (5668/5878)    94.11% (4827/5129)    98.07% (811/827)      97.35% (5061/5199)    56     1498 \npal-extract  69.56% (1058/1521)    78.86% (455/577)      79.71% (110/138)      69.52% (935/1345)     38     272  \nmigrate      90.47% (2345/2592)    90.77% (1622/1787)    93.90% (385/410)      90.78% (2057/2266)    38     671  \nreforge      90.01% (16999/18885)  82.52% (10807/13097)  90.04% (2767/3073)    92.30% (15208/16477)  158    8964 \ngame         86.89% (13490/15526)  78.64% (8883/11296)   81.87% (1517/1853)    88.41% (12049/13629)  136    3497 \neditor       90.21% (30524/33836)  83.49% (24578/29437)  89.69% (7769/8662)    92.38% (27309/29561)  294    4789 \nTOTAL        89.62% (70532/78704)  83.48% (51376/61541)  89.30% (13382/14986)  91.48% (63019/68889)  731    19822\n\n覆盖率与范围均未提升；基线保持不变。\nRATCHET_EXIT=0\n"
+  },
+  "glm-r2-protected.txt": {
+    "sha256": "3b50d0ce484407cf5df334f0ef665b7ce802559f627171dd8aab8e664476f4e3",
+    "bytes": 1862669,
+    "act": 3646,
+    "navigation": 2,
+    "terminal": ".00% (23/23)       97.09% (400/412)      11     131  \ncontent      96.43% (5668/5878)    94.11% (4827/5129)    98.07% (811/827)      97.35% (5061/5199)    56     1498 \npal-extract  69.56% (1058/1521)    78.86% (455/577)      79.71% (110/138)      69.52% (935/1345)     38     272  \nmigrate      90.47% (2345/2592)    90.77% (1622/1787)    93.90% (385/410)      90.78% (2057/2266)    38     671  \nreforge      90.01% (16999/18885)  82.52% (10807/13097)  90.04% (2767/3073)    92.30% (15208/16477)  158    8964 \ngame         86.89% (13490/15526)  78.64% (8883/11296)   81.87% (1517/1853)    88.41% (12049/13629)  136    3497 \neditor       90.21% (30524/33836)  83.49% (24578/29437)  89.69% (7769/8662)    92.38% (27309/29561)  294    4789 \nTOTAL        89.62% (70532/78704)  83.48% (51376/61541)  89.30% (13382/14986)  91.48% (63019/68889)  731    19822\n\n覆盖率门禁通过；相对 fast 基线未下降，提升 0 项。\nPROTECTED_EXIT=0\n"
+  },
+  "manifest": {
+    "records": 30,
+    "shaMismatch": [],
+    "staleFlags": [
+      "packages/game/src/core/menu/menu-mode.test.ts",
+      "packages/game/src/core/menu/inventory-menu.ts",
+      "packages/game/src/core/menu/inventory-menu.test.ts",
+      "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+      "packages/game/src/core/menu/shop-menu.test.ts",
+      "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "packages/game/src/core/menu/__tests__/item-magic-select.test.ts"
+    ]
+  }
+}

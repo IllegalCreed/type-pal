@@ -1,0 +1,622 @@
+{
+  "date": "2026-10-24",
+  "owner": "Codex single agent; authored review disclosed",
+  "branch": "codex/code-quality-3y",
+  "base": "90506b7594265547422dcc42c952fcd72934a528",
+  "codeHead": "3a1335e9a02c58501a643adb02188239d36dd442",
+  "state": "CODE3 original code scope accepted; world phase accepted; CODE3g/CLI remains partial, final unified gates deferred",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/events/slice.ts",
+      "sha256": "5f1640541831116b78bf4fb1c701dd0f70d47b90981599b7bb6a6a5e747b3c8d",
+      "lines": 198,
+      "read": "base全文+当前全部差异/实现全文；既有primary按具体范围复用",
+      "dimensions": {
+        "A": "线性disasm/annotate数组、scene/EO/global真实入口、原C三类控制流及跨文件rewrite核清；前两获批修复、P3非零双返回均有正式红绿和只读raw边界。范围不包含手写结构化树的执行或完整单文件游戏路线。",
+        "B": "模块头说明借用/复制边界；P3零目标/胜利续行注释正确。不把raw往返等价当切片正确性，未冒称所有Command树都由disasm生成。",
+        "C": "共用collectReachable，queue/visited每次自有；来源归属后决定shared，rewrite只复制需要跨文件的goto。没有IO/资源清理或运行态状态写入。",
+        "D": "scene/global共用同一遍历合同；多目标raw7、随机相对边与普通单目标表分别保留，不塞万能模式参数。",
+        "E": "当前四专测35例；旧A2/reset/auto三单红、metadata/计数六正式红及P3两红复用。单位防御轴与生产域分开，不以数量关闭；真实raw收集38780/零遗漏的有限证据保留。",
+        "F": "四私有步骤按raw边/遍历/选择改写/标签解析划分；目前没有收益明确的新拆分，既有小函数与控制流易追踪。",
+        "G": "保留越界/外部标签防御是typed helper边界，不恢复旧字符串扫描。sceneCount重复默认值是可选简洁性偏好，输入与原策略不变，本片不为删除几字符扩接口。",
+        "H": "纯输入/输出、无时钟/RNG/全局状态；真实CLI与独立标签地址oracle可直接驱动，raw只读程序不运行破坏性extract。"
+      },
+      "decision": "accept-code; final whole-pre94 gates deferred",
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json",
+        "reportSha256": "ede4cdf858618a34b440b830ca2a33d14291f796281d1e5a26cada9a46136a40",
+        "previousSourceSha256": "249ef69f1cb4e9e5ed79adbc740c32cd8dd0b7c5cafaf71d6adb79bf43c60e2a",
+        "scope": "Existing complete A-H and native counters reused; specific current changes/limits below."
+      },
+      "readScope": "Current full slice implementation and tests previously read, changed test files fully read now; unchanged annotation A-H/source reused from exact3f pin.",
+      "versionBridge": {
+        "P3": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/review.json",
+        "sourceSha256": "5f1640541831116b78bf4fb1c701dd0f70d47b90981599b7bb6a6a5e747b3c8d",
+        "scope": "Only approved7-line raw7 branch after prior shared traversal; no later algorithm changes."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.test.ts",
+      "sha256": "778a80cb96fa717516e5824f24e4b1662f6bfceaabdbcc3dd54c17690f4a4bb1",
+      "lines": 330,
+      "read": "base全文+当前全部差异/实现全文；既有primary按具体范围复用",
+      "dimensions": {
+        "A": "当前16身份，合法typed场景/EO/Command；前窗P3新增两入口与零地址/敌队号/共享归属同时核，先14绿2业务红再绿，其它14合同保留。",
+        "B": "旧A2/reset/13 opcode来源复用；新计数注释描述为什么要两条边，不冒称回合演出。",
+        "C": "只测纯切片，fixture局部；不mock生产入口或共享持久化状态。",
+        "D": "复用本套件短makeScene；scene/global两入口在同一参数化合同内，不新增万能fixture。",
+        "E": "旧A2/reset误绿三反控中的两针复用，P3两正式业务红复用；exact有序输出、原输入goto不变、无非空弱断言。未新增本轮测试数量。",
+        "F": "有序字面量对应原ip，root参数只选择caller/owner，不计算可达集合当答案。",
+        "G": "旧错误文本扫描用例不在本文件；主测无新增弱覆盖例/skip/only，运行数14（旧12+2）。",
+        "H": "确定性局部图，完整输出可证伪，外部资源/假时钟/共享mock均不需要。"
+      },
+      "decision": "accept-code; final whole-pre94 gates deferred",
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json",
+        "reportSha256": "ede4cdf858618a34b440b830ca2a33d14291f796281d1e5a26cada9a46136a40",
+        "previousSourceSha256": "7d5ce4302ff885a2e41cafd0cab5dd0d198d0615e0a1ff3b14e47df6d1816eb8",
+        "scope": "Existing complete A-H and native counters reused; specific current changes/limits below."
+      },
+      "readScope": "Current full slice implementation and tests previously read, changed test files fully read now; unchanged annotation A-H/source reused from exact3f pin.",
+      "versionBridge": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/review.json"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.boundaries.test.ts",
+      "decision": "accept-code; final whole-pre94 gates deferred",
+      "sha256": "cd6589766f62c3236080b3df551895b405f236b0b2daca590efc2a44b64a1021",
+      "lines": 117,
+      "dimensions": {
+        "A": "Scene4/EO16 raw与声明同步；五例分别全局独达/重合、循环、EO尾区间、raw与goto出口。",
+        "B": "末scene注释指明半开区间；不再用全同end冒称目标身份。",
+        "C": "局部无共享状态；纯slice调用，构造器只承担本套件的输入值。",
+        "D": "scene/global算法两份仍存在，分别核归属；保留短本地fixture不造多模式工厂。",
+        "E": "5例无重复业务原子；EO各ip用真实label区分，错位替换旧5绿/新4绿1指定AssertionError。",
+        "F": "完整有序期望展示EO/enter/teleport来源，比四个匿名end有判别力。",
+        "G": "原5身份保留，数量未增；所有原结果约束仍保留或更强身份等式。",
+        "H": "纯输入/输出无外部IO，无全局/时间/mock；错误切片能因业务等式失败。"
+      },
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json",
+        "reportSha256": "56f9aa12e638e96b03e631a1cd5bceb97441b5d2723d2dc09f61b8389df23cb6",
+        "previousSourceSha256": "cd6589766f62c3236080b3df551895b405f236b0b2daca590efc2a44b64a1021",
+        "scope": "Existing complete A-H and native counters reused; specific current changes/limits below."
+      },
+      "readScope": "Current full slice implementation and tests previously read, changed test files fully read now; unchanged annotation A-H/source reused from exact3f pin."
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+      "sha256": "5a4688db42a86aa0f1763db89cd83e8d20452820979be9a4680d5f90a5e31fc1",
+      "lines": 191,
+      "read": "base全文+当前全部差异/实现全文；既有primary按具体范围复用",
+      "dimensions": {
+        "A": "全文11身份：scene/EO和global归属、end变体、local/外部goto、四metadata反例。EO越界/缺resetTo仅typed helper防御，不称disasm/原盘输入；其它指令保留当前合法字段。",
+        "B": "头注收窄原盘/防御边界；现存标题保持身份，未声称本case能唯一证明visited实现。新增label是精确脚本地址，不复述实现生成期望。",
+        "C": "makeScene/makeEo只造相应记录；纯slice实际调用、每例局部数据，无mock/时间/共享写入。",
+        "D": "四metadata场景×字段族的原正式缺陷合同保留；global归属与scene防御输出所属不同，虽共用遍历器仍有各自public结果，不机械删除。",
+        "E": "原auto入口单红及四metadata正式红复用。全局越界重复/advance/reset由全end数量改为独立L1/L2/L3/L4地址oracle；单点坏global入口0：旧case绿、新case唯一AssertionError红，明确只是该case反控，不称旧全套都误绿。11file×fullName身份保留。",
+        "F": "固定标签对应声明下标，reset的续行3与目标4可区分；工厂参数小且有域名，不引入生成期望的helper。",
+        "G": "没有增删用例/断言或skip，保留防御轴但标适用域；不按共享代码行数虚报重复测试。",
+        "H": "counter仅临时副本、指定一条身份，两侧相同筛选；正式源不改，副本finally清理。正式35全量无skip恢复，过程原件齐。"
+      },
+      "decision": "accept-code; final whole-pre94 gates deferred",
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json",
+        "reportSha256": "ede4cdf858618a34b440b830ca2a33d14291f796281d1e5a26cada9a46136a40",
+        "previousSourceSha256": "638bd917be66aec18addc6ec5baa8e7b4cf4397bf551daaead6f53a337b2acd8",
+        "scope": "Existing complete A-H and native counters reused; specific current changes/limits below."
+      },
+      "readScope": "Current full slice implementation and tests previously read, changed test files fully read now; unchanged annotation A-H/source reused from exact3f pin.",
+      "versionBridge": "This turn labels/oracles and scope comment only; implementation and all11 native identities retained."
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+      "decision": "accept-code; final whole-pre94 gates deferred",
+      "sha256": "4eb43b0557994037de968cddfef022ce4052a54e695de52cddd5eb9fff622f3d",
+      "lines": 49,
+      "dimensions": {
+        "A": "全文3例；外部goto属于Command/schema合法标签、越界target/非正global为helper防御。未声称CLI原盘会生成负入口或重切跨文件输出。",
+        "B": "更正已共用遍历器的旧双循环宣称；分清schema标签合法性与disasm生产域，不再以生产未到达推定整个算法未核。",
+        "C": "局部typed场景/命令，无外部状态；每例直接调用slice，未隔离成假的遍历器。",
+        "D": "scene外部goto与Kimi global归属输出不同；越界target与非正global是不同拒绝层，保留三条，不新增同输入重放。",
+        "E": "3身份不增删；零/负global下同时核scene L1而不是任意end和shared空。其余goto精确对象oracle保留，35全量零诊断；不为每一现有断言重跑反控。",
+        "F": "仅一个场景工厂，输入和输出同屏可见；label0/1使来源明确。",
+        "G": "不新增包裹函数/模式参数，不留无业务执行case。",
+        "H": "纯函数直接驱动，无IO、mock或清理负担；注释字节变化不冒称新生产覆盖。"
+      },
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json",
+        "reportSha256": "56f9aa12e638e96b03e631a1cd5bceb97441b5d2723d2dc09f61b8389df23cb6",
+        "previousSourceSha256": "b5e9d9216141d620da39d60c2c94df873185169d0e3c5b3e8a748db55f116d04",
+        "scope": "Existing complete A-H and native counters reused; specific current changes/limits below."
+      },
+      "readScope": "Current full slice implementation and tests previously read, changed test files fully read now; unchanged annotation A-H/source reused from exact3f pin.",
+      "versionBridge": "Only scope-comment and zero-global scene identity strengthened; three native identities unchanged."
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.ts",
+      "sha256": "ef31df8d85c291cabc2d1ad836bec706c4f70e8de9c6c20d15d1b098ac86e673",
+      "lines": 115,
+      "read": "全文当前实现/测试；既有冻结真值与反控按其输入域复用",
+      "dimensions": {
+        "A": "全文当前现行注释层及真实CLI符号JSON读取、Words/Command类型；parseSymbols只取普通记录的字符串值，丢非字符串；不改变数值id/执行指令。缺名保持原对象，有名才浅拷贝，raw与非三类指令共享原对象；输入不写。无资源/异步取消。",
+        "B": "符号sidecar优先、词表回退/负索引/相对物品索引与命名说明符合实现；没有承诺深克隆。旧src行号不新增，保真依据为DSL/Word与真实消费，不将任意注释表说成SDL机制。",
+        "C": "三个private leaf由整个Symbols收窄为所需item/enemy/scene表；giveItem仍传原words的只读items视图类型，保留??右侧延迟读取，避免提前读取未使用词表。无反向依赖、隐式全局或跨层写入；公共出口/参数不变。",
+        "D": "parseSymbols共用独立过滤器，词表偏移仅giveItem语义，不和enemy/scene造通用模式函数；共享leaf只承担单一元数据字段。",
+        "E": "既有17→16、6单红/3转移及只读证据按冻结3-annotate版本复用；当前16在本包445回归中实际执行。测试名更正为零突变，断言/fixture字节未变，不给深拷贝虚假信用。",
+        "F": "switch只分派三种命令，helper名称表达领域，参数暴露实际依赖；不为小映射再分出框架/文件。",
+        "G": "PERSON/SPELL/ENEMY_OBJ_START目前只有定义无真实消费，登记可改善公共出口清理候选，未获接口清理范围不擅删。原3f仅parseSymbols及sidecar合同可独立完成，广域死导出不据此关闭。",
+        "H": "纯确定性输入输出可直接测，无IO/时间/随机；JSON读取在CLI，当前不为测试增加产品注入入口。"
+      },
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3f/closeout/review.json",
+        "reportSha256": "902175a3861e8060d244d140aabc95e9b942374129e18f40495eb6cb6c799629",
+        "previousSourceSha256": "ef31df8d85c291cabc2d1ad836bec706c4f70e8de9c6c20d15d1b098ac86e673",
+        "scope": "Existing complete A-H and native counters reused; specific current changes/limits below."
+      },
+      "decision": "accept-code; final whole-pre94 gates deferred",
+      "readScope": "Current full slice implementation and tests previously read, changed test files fully read now; unchanged annotation A-H/source reused from exact3f pin.",
+      "versionBridge": "Exact3f source/test bytes; CLI world extraction is independently proven not to change any event/annotation statements."
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.test.ts",
+      "sha256": "3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d",
+      "lines": 119,
+      "read": "全文当前实现/测试；既有冻结真值与反控按其输入域复用",
+      "dimensions": {
+        "A": "全文6例真实parseSymbols；合法普通对象/空值及明确错误类型按过滤政策构造；未把数组当合法符号表。",
+        "B": "标题与三类映射、非法值及missing fallback实际一致；不宣称运行游戏。",
+        "C": "输入/输出每例自有，clone用于输入不变检查而非自比oracle，无spy/环境/异步。",
+        "D": "与GLM词表偏移/零突变分层；原退休/转移已按3-annotate矩阵记录，不恢复弱断言。",
+        "E": "冻结六反控复用，显式字符串内容与键过滤独立；当前6真实运行全绿。未知格式语义不因包绿接受。",
+        "F": "小字面量与明确expected，失败指向具体过滤/覆盖政策。",
+        "G": "没有重复参数变体/skip/只看非空；六例保留不同合同。",
+        "H": "直接调用纯函数，零全局/外部资源，无测设缝。"
+      },
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3f/closeout/review.json",
+        "reportSha256": "902175a3861e8060d244d140aabc95e9b942374129e18f40495eb6cb6c799629",
+        "previousSourceSha256": "3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d",
+        "scope": "Existing complete A-H and native counters reused; specific current changes/limits below."
+      },
+      "decision": "accept-code; final whole-pre94 gates deferred",
+      "readScope": "Current full slice implementation and tests previously read, changed test files fully read now; unchanged annotation A-H/source reused from exact3f pin.",
+      "versionBridge": "Exact3f source/test bytes; CLI world extraction is independently proven not to change any event/annotation statements."
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+      "sha256": "cf18e63bd8be2d9ec4db111d0155bc12c1191975e17d3b1bdf22d500364285e7",
+      "lines": 159,
+      "read": "全文当前实现/测试；既有冻结真值与反控按其输入域复用",
+      "dimensions": {
+        "A": "全文10例：物品绝对索引、缺名/表缺失、词表/sidecar和输入零突变；Command使用合法带类型对象；非法索引专测边界。",
+        "B": "改旧“纯映射产出新对象”标题，实际raw/未知标签可共享；不再冒称全量克隆。",
+        "C": "所有命令/词表/symbols局部创建，before快照只验证输入不变，不替代结果业务断言。无mock或清理句柄。",
+        "D": "与主测parseSymbols过滤合同不同，旧重复精简映射复用。10例不再扩展弱值域重复。",
+        "E": "输出具体_item/_enemyTeam/_scene与输入不变，测试正文和fixture零变化，仅标题更正；当前10真实执行。",
+        "F": "按符号优先/缺名/ownership分组，ITEM_OBJ_START来源明确；未掩盖空字符串优先政策。",
+        "G": "无死helper、无恒真/计数替业务oracle；只读例与索引例各独立。",
+        "H": "确定性原函数无宿主依赖，失败可直接归注释层，不用假引擎。"
+      },
+      "inheritedEightAxes": {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3f/closeout/review.json",
+        "reportSha256": "902175a3861e8060d244d140aabc95e9b942374129e18f40495eb6cb6c799629",
+        "previousSourceSha256": "cf18e63bd8be2d9ec4db111d0155bc12c1191975e17d3b1bdf22d500364285e7",
+        "scope": "Existing complete A-H and native counters reused; specific current changes/limits below."
+      },
+      "decision": "accept-code; final whole-pre94 gates deferred",
+      "readScope": "Current full slice implementation and tests previously read, changed test files fully read now; unchanged annotation A-H/source reused from exact3f pin.",
+      "versionBridge": "Exact3f source/test bytes; CLI world extraction is independently proven not to change any event/annotation statements."
+    },
+    {
+      "path": "packages/pal-extract/src/resources/world-assets.ts",
+      "sha256": "632ef45f448631c94014d169a91464972db0e43c0726d063b894d9e556f1e450",
+      "lines": 123,
+      "readScope": "Full new module, full oldCLI before move, map/scene source and metadata/SSS type ranges; exact move/import proof and actual isolated caller.",
+      "decision": "accept-code; final whole-pre94 gates deferred",
+      "dimensions": {
+        "A": "从CLI原地图/逐场景/全局EO阶段精确搬移；rawRoot/outRoot与场景/对象及可选metadata五参的调用已核。原读取/解码跳过/写出/异常次序不变，元数据不丢；caller先做输出所有权与预检，本模块不清理。",
+        "B": "删295/旧PNG体积/历史日期等噪音，只留rle传输约束、全档非空补收、引用计数从1而场景写出从0的区别及全局id/半开区间。不能把引用计数说成仅收引用地图。",
+        "C": "地图与其场景/EO产物同一写出Owner；两个根与所需数据显式传入，MAP/GOP和计数局部于阶段。无CLI反向导入、全局GS/新缓存、输出清理或解析规则副本。",
+        "D": "调用原parseMap/dumpScene/dumpAllEventObjects/io writer，不再在总装复制写出知识；四路径/读取helper只在阶段内使用，没有通用解码器、可选布尔模式或扩大上下文。",
+        "E": "当前真实隔离CLI基线6与后继六文件39例保持原assertions/timeout，完整6子进程双流保留；exact AST阶段/根替换、四helper及进口绑定证明，未用覆盖率作oracle，不增新重复测试。",
+        "F": "writeWorldAssets名称与三类输出一致；写图→场景→全局表顺序清楚。估计CC12标阅读线索，分支来自原合法空块/解码策略，不为降数拆小壳。",
+        "G": "仅新增一个真实CLI调用的内部阶段出口；不改包公共出口、目录格式/manifest，不为未来扩资源抽框架。已迁helper在CLI删除，其它palette/UI路径仍由CLI自身拥有。",
+        "H": "五输入可对自有临时树直接调用，不必加载固定仓库路径或启动清理；同步句柄由fs调用闭合，局部集合不逃逸。不为测试增加万能依赖对象/核心mock。"
+      }
+    }
+  ],
+  "deltaOnly": [
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "1c7a00699e8c8889e7b516babfdb6f9d3c271ea43c1f8d0eb59de04f57513efa",
+      "lines": 780,
+      "decision": "delta accepted only; whole file remains rework",
+      "readScope": "Current897-line file fully read before move; final exact pure-move delta and remaining runtime checked, not whole-file acceptance.",
+      "dimensions": {
+        "A": "输出guard/预检/清理仍在总装；world五参接线和原进程失败/警告策略不变。英文/修订/其余binary阶段本片不借39绿重签全部策略。",
+        "B": "world知识移到实际Owner，旧路径helper和其长历史注释同步移除；其余资源旧注释债待后续，不冒称本片B整文件完工。",
+        "C": "总装只调用world阶段，不再内联地图/scene/全局EO循环；main仍有数据表、PNG/RNG/FIRE、声音/精灵/背景多资源规则和直接IO，重要结构债继续rework。",
+        "D": "复用已有IO writer，移交精确原阶段而非发明通用decoder；其它资源相似fallback未合并，错误合同分别保留。",
+        "E": "同候选基线6、后继39/6files；主要world合法非空输出/错误链已走，静态完整runtime还原和四变异sanity加核。不是完整真实raw提取或浏览器。",
+        "F": "main用业务阶段名，private tileset helper移除、dataSubdir union收窄；main估计CC66→55仍是线索而非验收指标。",
+        "G": "无死调用/废旧helper留在CLI；new module实际被调用。类型移交不改变原字节算式、schema/save或生产行为。",
+        "H": "world可独立用明确根/data测试；余下大IO编排仍依赖真实CLI进程，后续继续拆有合同的阶段，不因本片更可测就关闭全CLI。"
+      }
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/pal-extract/src/events/opcodes.ts",
+      "sha256": "82df96903bb56efebc65212dfdb39c0d7368b158c5f80d1a5ba02f7e0d7ca074",
+      "lines": 311
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.ts",
+      "sha256": "59df908dd2aeaea470bcc47001ba90634c272652eea7debe38020ccd66dc807a",
+      "lines": 227
+    },
+    {
+      "path": "packages/pal-extract/src/events/recompile.ts",
+      "sha256": "70a5ac15d498c2a9316080ccfaa2333664b9a99e18e186ec8f524086e2fb209f",
+      "lines": 95
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.ts",
+      "sha256": "a1f950905bdeb18baef4086203a4e3590c2b43a71150c7d0a0dca2898842a518",
+      "lines": 208
+    },
+    {
+      "path": "packages/pal-extract/src/resources/map.ts",
+      "sha256": "5695f47064b4c2d83d1cbd7f624450feda2b98fe335a6170d6147e5338d4e678",
+      "lines": 70
+    },
+    {
+      "path": "packages/pal-extract/src/resources/scene.ts",
+      "sha256": "d164c20ab364826c7b198c33cffebc805dfb667d35a072246504548be2157206",
+      "lines": 97
+    },
+    {
+      "path": "packages/pal-extract/src/events/script-corrections.ts",
+      "sha256": "235627c8a17ca5bba8a50ae19a70525c33d6043a9d7305e1bf396d2b85517b0c",
+      "lines": 150
+    },
+    {
+      "path": "packages/pal-extract/src/io/write.ts",
+      "sha256": "664539a20d5a23f296dcaeb08e54d32cba0a4789fc5fc8feb56b7de0bffbda77",
+      "lines": 13
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-host.ts",
+      "sha256": "6da3976c58acf663493472e23bddb6ad7eb9382d11c5257b9a3153445b23ea95",
+      "lines": 122
+    },
+    {
+      "path": "packages/shared/src/events.ts",
+      "sha256": "fbe669229da412574ec13a811b077918d97ab3399da5a3adfdcb10c91b5c7d0f",
+      "lines": 189
+    },
+    {
+      "path": "docs/phase1/05-events-schema.md",
+      "sha256": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+      "lines": 226
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652
+    },
+    {
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "sha256": "1b05cc32c9341086d46975558bfa1e145d81d3a0ee2a8dc26ca99e9cf664491c",
+      "lines": 467
+    },
+    {
+      "path": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "sha256": "f23e419c1849b7c25d4530332bbb071e2830e2431f215c6750da69ab8f4b6d89",
+      "lines": 358
+    },
+    {
+      "path": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "sha256": "acf20e9fda9aa82c66b64734a04344a410ab22cc5b4622727ae7b46966123fdc",
+      "lines": 132
+    },
+    {
+      "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "sha256": "724102f0cc54b03400c287453ef2e3a60a04a946118a0ba636e95e0d30880a21",
+      "lines": 120
+    },
+    {
+      "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "sha256": "586c8987a642a1212d3d690da8775d3df2851c2b736afa3db0a7757ad117b16f",
+      "lines": 188
+    },
+    {
+      "path": "packages/pal-extract/src/cli-entrypoint-paths.test.ts",
+      "sha256": "77d75e081d309cde9a917308ac2407fa136690ce42e71b7bf015c9f4fdbf5519",
+      "lines": 215
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-global-entry-inputs.ts",
+      "sha256": "855cf2a0031725eb6af1f944c4ad7b7b67082031dd7bea038d6b0054fd915239",
+      "lines": 143
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "sha256": "ef6393d93a79eba8ab3d1cdbc87e8ddcf2ce32887ee920fa99d8970936597dbd",
+      "lines": 161
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/yj2-encoder.ts",
+      "sha256": "7fd2291608c9a2581adafb86a37e868c7f16640f693b89b0dcb97d76b83fa215",
+      "lines": 152
+    }
+  ],
+  "inheritedReports": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3f/closeout/review.json",
+      "sha256": "902175a3861e8060d244d140aabc95e9b942374129e18f40495eb6cb6c799629",
+      "lines": 105
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json",
+      "sha256": "56f9aa12e638e96b03e631a1cd5bceb97441b5d2723d2dc09f61b8389df23cb6",
+      "lines": 1519
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/review.json",
+      "sha256": "ede4cdf858618a34b440b830ca2a33d14291f796281d1e5a26cada9a46136a40",
+      "lines": 590
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/review.json",
+      "sha256": "14f5d7e04cff954bc2bf66b410dde878dd0bbd76ef37cbe2f0c65af6667f1280",
+      "lines": 136
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json",
+      "sha256": "0876e9fe84c96c91f799172cadd4f42086c61a8a67e68a4de8e9e60dc84de167",
+      "lines": 1421
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/after-proof.json",
+      "sha256": "2b44d9a907c778cbe9305df256c4e2023210048c18907d53d7b3a29e1e2a1df6",
+      "lines": 862
+    }
+  ],
+  "retainedIdentities": {
+    "slice": 35,
+    "kimi": 11,
+    "runtimeResource": 3,
+    "added": 0,
+    "deleted": 0
+  },
+  "gates": {
+    "slice": "slice-identity-green;4files35, no skips/stderr",
+    "realCLI": "world-baseline;6 before, world-adjacent;6files39 after",
+    "types": "extract-types;exit0/no diagnostics",
+    "static": "changed-static;0/0/0",
+    "unified": "DEFERRED: all pre94 still incomplete"
+  },
+  "counter": "global target forced0 in a temporary production clone; one named case old1green/new1AssertionError red, others equally filtered. Production/spec bytes remain exact and temporary files removed. Not a claim the old full suite misses that mutant.",
+  "worldMoveProof": "world-comment-proof plus current readonly prove-world.mjs; exact stage, root substitution, four private helpers, all remaining CLI runtime and full actual import binding match. Four grouping/literal/const/unary sanity controls; no branch/math/string masks.",
+  "processDisclosures": [
+    "First proof attempted to print nodes from two source files with mismatched positions, causing parse failure; invalid and no acceptance credit.",
+    "Second proof substituted a parameter-like identifier even in a property name, producing a visible assertion failure. Corrected visitor excludes property names; source product not changed to satisfy proof. Both failed producer versions and full raw retained.",
+    "Only isolated suite had temporary observer appended to archive its6 child receipts. Original suite restored byte-for-byte; assertions/timeout/reporter/inputs unchanged. Other5suites have full Vitest raw/native, no claim their individual child streams were separately archived.",
+    "Master currentReviewCounts/lastIncrementalReview had lagged at72/11 after prior actual74/9 cards. Derivative rollups corrected from actual cards, prior snapshots preserved as erratum; no extra credit for this correction.",
+    "First evidence-format pass emitted6 useTemplate infos despite exit0; not accepted. Diagnostic recapture retained, six concatenations fixed explicitly; formatted producer hash rebound after formatter, actual proof rerun."
+  ],
+  "limitations": [
+    "No full real raw CLI extraction; synthetic full pipeline/negative resource fixtures only. Current data/raw ownership untouched.",
+    "No atomic directory transaction, fallback/skip policy or schema/asset format redesign.",
+    "CLI remaining data/images/animations/sprites/sound orchestration stays rework, CODE3g stays partial.",
+    "Full check, official coverage/ratchet/protected, PR/main merge and94–102 not run/expanded."
+  ],
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "20a901b9d10170f5df042973574d2689b45f1db753bba8e30092f3043e8e0f08",
+    "entries": 65,
+    "bytes": 103486
+  },
+  "quantitativeScreen": {
+    "tool": "TypeScript 6.0.3",
+    "method": "1+if/loop/case/catch/ternary/logical decisions, nested functions excluded from parent; reading clue only, not acceptance target",
+    "rows": [
+      {
+        "file": "cli-before",
+        "name": "prepareOutputRoot",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-before",
+        "name": "spriteBlobPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-before",
+        "name": "tilesetBlobRelPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-before",
+        "name": "tilesetBlobPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-before",
+        "name": "imageBattleBgPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-before",
+        "name": "imageUiPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-before",
+        "name": "battleSpriteBlobPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-before",
+        "name": "magicEffectBlobPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-before",
+        "name": "magicFireBlobPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-before",
+        "name": "dataSubdirPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-before",
+        "name": "loadFile",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-before",
+        "name": "loadMkfChunk",
+        "estimatedCC": 2,
+        "flag": false
+      },
+      {
+        "file": "cli-before",
+        "name": "equalBytes",
+        "estimatedCC": 4,
+        "flag": false
+      },
+      {
+        "file": "cli-before",
+        "name": "main",
+        "estimatedCC": 66,
+        "flag": true
+      },
+      {
+        "file": "cli-after",
+        "name": "prepareOutputRoot",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-after",
+        "name": "spriteBlobPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-after",
+        "name": "imageBattleBgPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-after",
+        "name": "imageUiPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-after",
+        "name": "battleSpriteBlobPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-after",
+        "name": "magicEffectBlobPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-after",
+        "name": "magicFireBlobPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-after",
+        "name": "dataSubdirPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-after",
+        "name": "loadFile",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "cli-after",
+        "name": "loadMkfChunk",
+        "estimatedCC": 2,
+        "flag": false
+      },
+      {
+        "file": "cli-after",
+        "name": "equalBytes",
+        "estimatedCC": 4,
+        "flag": false
+      },
+      {
+        "file": "cli-after",
+        "name": "main",
+        "estimatedCC": 55,
+        "flag": true
+      },
+      {
+        "file": "world",
+        "name": "writeWorldAssets",
+        "estimatedCC": 12,
+        "flag": true
+      },
+      {
+        "file": "world",
+        "name": "tilesetBlobRelPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "world",
+        "name": "tilesetBlobPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "world",
+        "name": "dataSubdirPath",
+        "estimatedCC": 1,
+        "flag": false
+      },
+      {
+        "file": "world",
+        "name": "loadFile",
+        "estimatedCC": 1,
+        "flag": false
+      }
+    ]
+  },
+  "proofProducer": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/prove-world.mjs",
+    "sha256": "b36888a39a3e906eda317c7b0445eec6c2ee4999f2831eb7c6f7046d9dfeb2ed",
+    "default": "readonly; no tests/network/output file writes"
+  },
+  "mainSync": {
+    "revision": "b3d35be6172f8a4f5ff8b27b360df3b159fd5773",
+    "scope": "README/en +4screenshots only, no product/test blob changes. Already merged into working candidate; no original/unified test rerun needed. Git merge commit pending static gates."
+  }
+}

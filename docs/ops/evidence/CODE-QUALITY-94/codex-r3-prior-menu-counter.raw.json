@@ -1,0 +1,16 @@
+{
+  "candidate": "5477af1e45a80fffe8afc56502659bc7785823bf",
+  "command": [
+    "pnpm",
+    "exec",
+    "tsx",
+    "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/docs/ops/evidence/CODE-QUALITY-94/codex-r2-menu-counter.mts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 0,
+  "elapsedSeconds": 1.23,
+  "sha256": "de7f7281a0efc395ab3c9608c0fb011cba7de17d2b3da2cfca0c5c54b77c199c",
+  "bytes": 463,
+  "expectedCounter": true,
+  "combinedOutput": "{\n  \"openingCancel\": {\n    \"observedCursor\": 1,\n    \"primaryCursor\": 0,\n    \"primary\": \"SDLPal uigame.c:143-150\",\n    \"sameOpeningObjectRetained\": true\n  },\n  \"outsideMagic\": {\n    \"observedIds\": [\n      300\n    ],\n    \"primaryIds\": [\n      300,\n      305\n    ],\n    \"primary305Enabled\": false,\n    \"primary\": \"SDLPal magicmenu.c:338-372\"\n  },\n  \"conclusion\": \"COUNTER: current assertions miss opening cursor reset and enshrine hiding a disabled learned spell\"\n}\n"
+}

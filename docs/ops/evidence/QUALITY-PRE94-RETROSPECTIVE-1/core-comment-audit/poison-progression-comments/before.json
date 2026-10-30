@@ -1,0 +1,30 @@
+{
+  "base": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+      "lines": 139,
+      "snapshot": "player-poison-state.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1",
+      "lines": 306,
+      "snapshot": "battle-progression.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "sha256": "431898deab2b078912d2acdfcbb6cf3bdd0b84bece7bea09d2bdf2e081bbc05a",
+      "lines": 142,
+      "snapshot": "battle-progression.glm-next-wave.test.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+      "sha256": "9026d071d5fcaf7fdaed9630c59a679388f4e6716f62ddbd1975b3d0e861b615",
+      "lines": 303,
+      "snapshot": "battle-levelup.test.ts.before.gz"
+    }
+  ]
+}

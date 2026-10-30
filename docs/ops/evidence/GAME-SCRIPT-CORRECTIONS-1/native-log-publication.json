@@ -1,0 +1,379 @@
+{
+  "kind": "lossless-native-log-publication",
+  "date": "2026-10-22",
+  "owner": "Codex",
+  "sourceRevision": "b110b68249c6fada85781c1473b765202ec4e5b0",
+  "reason": "Preserve original terminal output byte-for-byte while publishing a whitespace-clean final diff; no output normalization, diagnostic suppression or gate change.",
+  "readCommand": "gzip -cd <path>",
+  "entries": [
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-confirm-guard.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-confirm-guard.txt.gz",
+      "originalSha256": "95b6966c9090e27f59e2a6296cfedd7426b92b35fe91627ea341dfdfa1c0ae07",
+      "sha256": "6703a3b9937d3504bc781de1c5605f1788b58fca07bb94576245c76d958997dd",
+      "nativeBytes": 296,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-initial-green.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-initial-green.txt.gz",
+      "originalSha256": "5334a5ceff1da9cce5d12fc0249d340007ca24fc3a4b6f115ad641602dc8ba2f",
+      "sha256": "d04f3b371d8cc692a966626c8ed327b1ec89d53b12f0ed97e3f922d3965a4aa6",
+      "nativeBytes": 380,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-palace-green.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-palace-green.txt.gz",
+      "originalSha256": "3de39e6a743eacc058dbee2cd57fdaeafd09c6bb39fbeb62e06790565235d35b",
+      "sha256": "5939fa4a2be7781266b0724c1bc19527375a084da86c8d11f5b8cec1d071d900",
+      "nativeBytes": 438,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-preservation-green.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-preservation-green.txt.gz",
+      "originalSha256": "6d1900bef09838cde173aea95a5c90c725a7248c7c1bedb6c1a44f05d59a60b4",
+      "sha256": "fe8456f53dd3fae1a0eb23771401e74235923e1cb9cf7f9ef8bf70e741ef7b4b",
+      "nativeBytes": 330,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-targeted-green.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-targeted-green.txt.gz",
+      "originalSha256": "2f50d2fb411aa7762d47b654ba00ce11b348df151b31317e61058868400e057b",
+      "sha256": "7dd52e9308de418e3cca34d35a55487a1013467f3c67ebc0d610fc63cab84dbb",
+      "nativeBytes": 562,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-typecheck-initial.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-typecheck-initial.txt.gz",
+      "originalSha256": "78678614340c79332075a5b14c9eff4cb58b7e0e7235044bfd67dc4941b6dc12",
+      "sha256": "a9813ebb013e36bfd7e2d09818018f1f3671c453e85cb85b84a419c38eabab50",
+      "nativeBytes": 131,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-typecheck.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-typecheck.txt.gz",
+      "originalSha256": "78678614340c79332075a5b14c9eff4cb58b7e0e7235044bfd67dc4941b6dc12",
+      "sha256": "a9813ebb013e36bfd7e2d09818018f1f3671c453e85cb85b84a419c38eabab50",
+      "nativeBytes": 131,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/correction-plan-final.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/correction-plan-final.txt.gz",
+      "originalSha256": "c9eee888fc9ba786d1fc9fa4981e57b0bfacc985d295bb0e1af1e3f42c597850",
+      "sha256": "ec0f6610e79986c6b7b087b5dbf3ec45449a41d729aef9adec7f92a52b99dbbe",
+      "nativeBytes": 664,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-fast-branch-gap.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-fast-branch-gap.txt.gz",
+      "originalSha256": "5b52a33a463cc2cd88d95bc2bb6e85b55ad4d23868e3077bf75769b83d3571f7",
+      "sha256": "d4dcdb48decbd0b9c0e3153752d2440550f67e11a666256d13c81a5c51aaad2d",
+      "nativeBytes": 182448,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-fast-ratchet.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-fast-ratchet.txt.gz",
+      "originalSha256": "dd9fe10cbf1277fa08de913fe605f422ce36e0465587c1f74942ebdb7e5ea94c",
+      "sha256": "5743b9b0b00d1624db312c0912c861585ed3ee98b794e7672ece69369bb89f50",
+      "nativeBytes": 183117,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-protected-fast.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-protected-fast.txt.gz",
+      "originalSha256": "e5e92ab3e4706644ae08f8e4710e57620432b1d5b5999f35695890d50c2b2a49",
+      "sha256": "2b21fe3916ffb3ea8878671f778625b6218bbf3a1094d99497d1d011ea991258",
+      "nativeBytes": 191094,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-tools.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/coverage-tools.txt.gz",
+      "originalSha256": "e2cfa0b781572cb5c3124919673038db7f311f37a6bac2c0559ee909b03ade16",
+      "sha256": "d6cba2ed1b3975712f32ed6f1f7ebe331c56b413b754914e537d850f5efa916c",
+      "nativeBytes": 21758,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/docs-integration-first.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/docs-integration-first.txt.gz",
+      "originalSha256": "79204e0fb30ab188e24dce6a96adf02c077007f918d2380e278d4ace84ef4813",
+      "sha256": "1558ebe892cbeafb3fae920ad39e4c2ecad95fbb2297613ce724f7f967c7b572",
+      "nativeBytes": 30746,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/editor-reference-current.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/editor-reference-current.txt.gz",
+      "originalSha256": "3a2f499b310a0021438e8be9ca80b325a0e4644915b8b2f2f4de5494b3908734",
+      "sha256": "8bec27bf7b0701b7e6d07628a510f96abe4838925ae125a00c8d4513bf2a08f1",
+      "nativeBytes": 387,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/editor-typecheck-final.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/editor-typecheck-final.txt.gz",
+      "originalSha256": "fe7c86114245f9099c5f04f7a94b41df262933f36d37f86c0dde0497e080fad4",
+      "sha256": "4e545cac32154b0b66b7f93f9f21927c2a59ced4cef420dd5a2b0fb86f831d43",
+      "nativeBytes": 154,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/existing-corrections-regression.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/existing-corrections-regression.txt.gz",
+      "originalSha256": "d8b7aded5e28c8d00244707877c16212f2a2b275f0aa703a77b5d517fcf8a641",
+      "sha256": "6ef95c65138b55ac7116bc5f077a86b6dfbb85c1c5d3f2d9d6862cab2d56c87f",
+      "nativeBytes": 311,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-entrypoint-timeout-recheck.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-entrypoint-timeout-recheck.txt.gz",
+      "originalSha256": "505fbea23c8e56cdb70eee6452ad3e53beb62b049926f9af7bfb0efd5fb684d2",
+      "sha256": "952239e8c0f0cc7cf2b59057d43a0de43f7b90052f4b743028eda7b21cc6d657",
+      "nativeBytes": 883,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-final-current.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-final-current.txt.gz",
+      "originalSha256": "7e1d67dc1305eeb2441ada2cdf2937af08a910c404ee076bc01ae704dea32840",
+      "sha256": "19325cb56c23308ced45fc7eb4458bcef29d3bedc699025bed894cecd0f30449",
+      "nativeBytes": 974,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-final-regressions.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-final-regressions.txt.gz",
+      "originalSha256": "cde3ae6383c5c43328446523b7517cd70e09ab919c1927a3ec5f9e08e56c28bc",
+      "sha256": "ff44bc37d8678984f96aab80c3aba405ace04c3276349b2398967104064ed357",
+      "nativeBytes": 1637,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-typecheck-current.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-typecheck-current.txt.gz",
+      "originalSha256": "da228cbce972618c2134101229d77c4d235b284aeb661c20214bf6e25fc64b69",
+      "sha256": "5aa2dae9dc9b5bf4970ef9ec88a126adeb0a6a659c40ea43600c675e4434b1ea",
+      "nativeBytes": 110,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-typecheck-final.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-typecheck-final.txt.gz",
+      "originalSha256": "da228cbce972618c2134101229d77c4d235b284aeb661c20214bf6e25fc64b69",
+      "sha256": "5aa2dae9dc9b5bf4970ef9ec88a126adeb0a6a659c40ea43600c675e4434b1ea",
+      "nativeBytes": 110,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-typecheck-integrated.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract-typecheck-integrated.txt.gz",
+      "originalSha256": "da228cbce972618c2134101229d77c4d235b284aeb661c20214bf6e25fc64b69",
+      "sha256": "5aa2dae9dc9b5bf4970ef9ec88a126adeb0a6a659c40ea43600c675e4434b1ea",
+      "nativeBytes": 110,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/added-map-green.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/added-map-green.txt.gz",
+      "originalSha256": "8d7f516094d65d58dcca8998b4b338bf599076da32b2e7fd2eb5f399b8f5b438",
+      "sha256": "b553c91c2e8979b8ceb84482ec7f3e6ce7e8e95dc81eb3958122e187ab125a9b",
+      "nativeBytes": 534,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/blade.red.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/blade.red.txt.gz",
+      "originalSha256": "ff8db4992b05c73a13c2f7020a286ed405f0be44080061d9eeaa83ebc4ca8e06",
+      "sha256": "718e3293afc5042af6edb4dff4d34323aacf8133361b53c6a925624d2fa4ec48",
+      "nativeBytes": 2199,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/candy.red.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/candy.red.txt.gz",
+      "originalSha256": "5ab80b9c888089443d62f455470d400abd52e3ccf45e18980ef944ba6269ec25",
+      "sha256": "aec20d98251a8988ac2dfde98766044df06968ce420136be131e0c93f3bc280d",
+      "nativeBytes": 2203,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/cure.red.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/cure.red.txt.gz",
+      "originalSha256": "ec27a4046a294bd0e18cd258fd431854e77a489eca5d49bee49460e5f7fcfe09",
+      "sha256": "7278ebb39c03005b3e281e6bf84e34ccf8d069f837f6b7b0d3f1a7235c1775bd",
+      "nativeBytes": 2387,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/game-caller-clock-green.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/game-caller-clock-green.txt.gz",
+      "originalSha256": "05d535b891b9d0fae03bb372f49354871180b84d7c74536f917b4ab1eee82f60",
+      "sha256": "2d674aa1c4f6200f3651f6d99d8c944946afb34ad1bfd8690ebcdd2a6dc0d438",
+      "nativeBytes": 323,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/game-typecheck.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/game-typecheck.txt.gz",
+      "originalSha256": "cdd67205e4880aff5d4675c9d7a8548f7ef506ddf1b577f6fb76e6d81dee969e",
+      "sha256": "dcc6df52a96d60f04cb0242082a14b91c015d11866a9fdaaf671cdaf9f9b1252",
+      "nativeBytes": 126,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/targeted-green.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/targeted-green.txt.gz",
+      "originalSha256": "cebfb4d7c74d00c4a4616c108aeed472dc35069d865a2b4f4290018f6d4a2de9",
+      "sha256": "f6675c3ec79db8179902747cf6b06909e85854ad70d07c87199a75786512807b",
+      "nativeBytes": 999,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/typecheck.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/typecheck.txt.gz",
+      "originalSha256": "03c05a441190e7601c9905e681e93f80f63c0fc548b759273421a9f705c0c7b2",
+      "sha256": "6342371009dc92ca33b77c4000420e7604faaf73ddb0bfe93e8634a8bb803e07",
+      "nativeBytes": 140,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-real-resource-final.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/game-real-resource-final.txt.gz",
+      "originalSha256": "4a49f494b4b599ebc00d13e9285716d902a97f7bb1a6fb5cf8c6694c45437dab",
+      "sha256": "6a165903c4172b70deb8f96551b5e28afba7ca1adef07932d69d759a5bda257a",
+      "nativeBytes": 291,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/governor-regression.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/governor-regression.txt.gz",
+      "originalSha256": "e0a61ffd1fa6590dc9d32ccd7d693c3acafa8f76d97fd6cd17f70754f90ed4c3",
+      "sha256": "9076eed6cc53416b12c1ccd12a10cd8632547b5e722bda1a2272f6da812a4875",
+      "nativeBytes": 311,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-author-targeted-final.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-author-targeted-final.txt.gz",
+      "originalSha256": "fe4afe69edd31389b0902892f60e9c66a6b9c9cd1f58bbcacd9ef90a68c6bc30",
+      "sha256": "82a68027cca28d474e8dce663c2c769ad3f98dbf15464274d06ea013e61c8ed8",
+      "nativeBytes": 522,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-extract-targeted.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-extract-targeted.txt.gz",
+      "originalSha256": "cf9904801b306f09c3ea85104ac7b1fbe0cc594db28424b49d830a7faac74cc2",
+      "sha256": "ee2f8238f4762a9046ae83e7d09e1e969c2d29a535c80c3705dbf5b24786579d",
+      "nativeBytes": 892,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-game-targeted.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integrated-game-targeted.txt.gz",
+      "originalSha256": "3a57503a5ec9c93e2b53e7c55a2807aefb909e4caad8bd02b37173bc4e79a0e0",
+      "sha256": "a9816d362e1ced525b2ff8bed03ec2de4e00b35a684ed74f9d4bbe0f8873685f",
+      "nativeBytes": 570,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/migrate-full-check.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/migrate-full-check.txt.gz",
+      "originalSha256": "d48b639905522ea83277b77667fa2bbb82afc220543cb6245c7a9df34ff9305d",
+      "sha256": "7ee8eddddca4aace90146a6f857f762e8714ed125dd4bf6ddd546f420ae51473",
+      "nativeBytes": 9920,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/reforge-wine-regression.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/reforge-wine-regression.txt.gz",
+      "originalSha256": "f799ffea65d6d6e2830abffa4daaa1f1f16f8557e2447e0b1f314d4338a7c8c6",
+      "sha256": "2f924d90cbb0ee6b89632929479b9e89ca19576bda0d220f35cda135c4b927f9",
+      "nativeBytes": 311,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime/script-runtime-biome-write.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime/script-runtime-biome-write.txt.gz",
+      "originalSha256": "3285c1e573a45875f1369e95d6ecd291f24ccf8e1c86fd93ae77db888e521da7",
+      "sha256": "8edd8981c6cbcd2c41c66f8e6bb316fa5792c5f688802be78e5c57d7b522f44c",
+      "nativeBytes": 1729,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime/script-runtime-e02-second.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime/script-runtime-e02-second.txt.gz",
+      "originalSha256": "d480d824dd473253a377f7f2ae10aa79d644ca5c7ce3aec465d292945f852a1a",
+      "sha256": "d50a98c66e961350815e70906e14c2c8405e1f7bb6e12dd17352814ee9f4488a",
+      "nativeBytes": 317,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime/script-runtime-green-second.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime/script-runtime-green-second.txt.gz",
+      "originalSha256": "adf61d2762490ea3973a294d20af314de85fd8ed4dd1aad02c7f631c27ba2f66",
+      "sha256": "feccd58e922d7781e154557b30f17bb4edef6ba695c50ed462a2e3c6de6e289a",
+      "nativeBytes": 651,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime/script-runtime-overworld-second.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime/script-runtime-overworld-second.txt.gz",
+      "originalSha256": "d5b0f44b303752f595e41d52b8c2d426e18e64ba562921aa51c8363c70f57473",
+      "sha256": "b73e87daad11b0e494f1163cf44eb910e84356841a9ef3487ade83bbd3740b0e",
+      "nativeBytes": 425,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime/script-runtime-type-fifth.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime/script-runtime-type-fifth.txt.gz",
+      "originalSha256": "ccec02d3c765ea22b031e2fdd72c3eadfabc20c863476828257e8fa6be37e709",
+      "sha256": "55833b38cb9328bc918f8a3b9fafa5ee7de9048b1d04f6c6073a1a998f58d774",
+      "nativeBytes": 126,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime/script-runtime-type-third.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/runtime/script-runtime-type-third.txt.gz",
+      "originalSha256": "ccec02d3c765ea22b031e2fdd72c3eadfabc20c863476828257e8fa6be37e709",
+      "sha256": "55833b38cb9328bc918f8a3b9fafa5ee7de9048b1d04f6c6073a1a998f58d774",
+      "nativeBytes": 126,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/script-governance.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/script-governance.txt.gz",
+      "originalSha256": "959826a18aca55a7157a16602b00abd4379f04a52b6ff6da0bea4b4e77516c8a",
+      "sha256": "987b2b562b2b2b657c3581a35c9441661b49e75a761d65e1d31834282fe43e9f",
+      "nativeBytes": 5742,
+      "exactRoundTrip": true
+    },
+    {
+      "originalPath": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/workspace-check-tail.txt",
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/workspace-check-tail.txt.gz",
+      "originalSha256": "a16e1ab87319848e5916f84313d08ca6ff25c3afdcdec6e9d77e601d550c1d56",
+      "sha256": "101a2e172fb1d3c0abfbed391e620c400b83d995232793c78f35019d0360f2e7",
+      "nativeBytes": 84400,
+      "exactRoundTrip": true
+    }
+  ],
+  "relocatedMetadata": [
+    "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/audit-receipt.json",
+    "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/candidate-files.json",
+    "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/editor-reference-delta.json",
+    "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json",
+    "docs/testing/domains/cross-phase/script-corrections/evidence.json",
+    "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
+  ],
+  "originalMetadata": "Original receipt bytes remain at sourceRevision; only attachment paths/checksums are relocated in the current publication."
+}

@@ -1,0 +1,477 @@
+{
+  "numTotalTestSuites": 19,
+  "numPassedTestSuites": 19,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 41,
+  "numPassedTests": 41,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792327004404,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+          "status": "passed",
+          "title": "过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+          "duration": 1.121042000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 sentinel 槽与计数同域（slot0=count）：纯 sentinel 空容器按计数=1 走帧0 越界",
+          "status": "passed",
+          "title": "sentinel 槽与计数同域（slot0=count）：纯 sentinel 空容器按计数=1 走帧0 越界",
+          "duration": 0.19499999999999318,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 frame0 offset 与表长不一致 / offset 非递增 / offset 越界 逐轴拒绝",
+          "status": "passed",
+          "title": "frame0 offset 与表长不一致 / offset 非递增 / offset 越界 逐轴拒绝",
+          "duration": 0.24712499999998272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 帧尺寸非法（宽 0 / 高超上限）逐轴拒绝；合法双帧严格通过",
+          "status": "passed",
+          "title": "帧尺寸非法（宽 0 / 高超上限）逐轴拒绝；合法双帧严格通过",
+          "duration": 0.9247080000000096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 sentinel 容器：声明数含尾 0 时按 frameCount-1 解析",
+          "status": "passed",
+          "title": "sentinel 容器：声明数含尾 0 时按 frameCount-1 解析",
+          "duration": 0.12854199999998173,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseSpriteChunkStrict：容器结构轴"],
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 严格解析往返：encode → parse 逐帧像素一致（供应容器同构）",
+          "status": "passed",
+          "title": "严格解析往返：encode → parse 逐帧像素一致（供应容器同构）",
+          "duration": 0.1747919999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseIndexedRleChunk：legacy 坏尾三轴"],
+          "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy：尾槽坏 offset 被跳过并计入 skippedLegacyTailSlots",
+          "status": "passed",
+          "title": "legacy：尾槽坏 offset 被跳过并计入 skippedLegacyTailSlots",
+          "duration": 0.3449589999999887,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 parseIndexedRleChunk：legacy 坏尾三轴"],
+          "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）",
+          "status": "passed",
+          "title": "坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）",
+          "duration": 0.17133300000000418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O10 encodeSpriteChunk：上限与空容器"],
+          "fullName": "O10 encodeSpriteChunk：上限与空容器 空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）",
+          "status": "passed",
+          "title": "空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）",
+          "duration": 0.7190420000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792327004554,
+      "endTime": 1792327004557.719,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/shared/src/rle.glm-o.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["rngBlitDelta surface ownership"],
+          "fullName": "rngBlitDelta surface ownership 连续 delta 以同一 surface 累加，第二帧保留第一帧像素",
+          "status": "passed",
+          "title": "连续 delta 以同一 surface 累加，第二帧保留第一帧像素",
+          "duration": 0.971541000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta skip 族（未触字节精确保持）"],
+          "fullName": "rngBlitDelta skip 族（未触字节精确保持） 0x03 + n：dst += (n+1)*2，其后写入落点精确",
+          "status": "passed",
+          "title": "0x03 + n：dst += (n+1)*2，其后写入落点精确",
+          "duration": 0.7740409999999827,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta skip 族（未触字节精确保持）"],
+          "fullName": "rngBlitDelta skip 族（未触字节精确保持） 0x04 + 2byte LE w：dst += (w+1)*2（跨字节 w=0x01FF）",
+          "status": "passed",
+          "title": "0x04 + 2byte LE w：dst += (w+1)*2（跨字节 w=0x01FF）",
+          "duration": 0.7045830000000137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta literal pair 族"],
+          "fullName": "rngBlitDelta literal pair 族 0x07-0x0a 分别写 2/3/4/5 对（0x06=1 已有测试，此处补齐族）",
+          "status": "passed",
+          "title": "0x07-0x0a 分别写 2/3/4/5 对（0x06=1 已有测试，此处补齐族）",
+          "duration": 2.0225420000000156,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta literal pair 族"],
+          "fullName": "rngBlitDelta literal pair 族 0x0b + n：写 (n+1) 对",
+          "status": "passed",
+          "title": "0x0b + n：写 (n+1) 对",
+          "duration": 0.4502909999999929,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta literal pair 族"],
+          "fullName": "rngBlitDelta literal pair 族 0x0c + 2byte LE w：写 (w+1) 对",
+          "status": "passed",
+          "title": "0x0c + 2byte LE w：写 (w+1) 对",
+          "duration": 0.41575000000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta 同对重复族"],
+          "fullName": "rngBlitDelta 同对重复族 0x0e/0x0f/0x10 分别重复 3/4/5 次（0x0d=2 已有测试）",
+          "status": "passed",
+          "title": "0x0e/0x0f/0x10 分别重复 3/4/5 次（0x0d=2 已有测试）",
+          "duration": 1.1965419999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta 同对重复族"],
+          "fullName": "rngBlitDelta 同对重复族 0x11 + n：重复 (n+1) 次",
+          "status": "passed",
+          "title": "0x11 + n：重复 (n+1) 次",
+          "duration": 0.4880420000000072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta 同对重复族"],
+          "fullName": "rngBlitDelta 同对重复族 0x12 + 2byte LE：重复 (w+1) 次（跨字节 w=0x0100）",
+          "status": "passed",
+          "title": "0x12 + 2byte LE：重复 (w+1) 次（跨字节 w=0x0100）",
+          "duration": 0.8637919999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta 终止与混合"],
+          "fullName": "rngBlitDelta 终止与混合 0x13 终止：其后字节被忽略，无写入无错误",
+          "status": "passed",
+          "title": "0x13 终止：其后字节被忽略，无写入无错误",
+          "duration": 0.5524160000000222,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta 终止与混合"],
+          "fullName": "rngBlitDelta 终止与混合 连续帧基面保留：同 surface 上两次 delta，第一次写入保持",
+          "status": "passed",
+          "title": "连续帧基面保留：同 surface 上两次 delta，第一次写入保持",
+          "duration": 0.45308399999998983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta 非法 payload / surface 边界"],
+          "fullName": "rngBlitDelta 非法 payload / surface 边界 变量长度 opcode 缺操作数或 literal 时拒绝",
+          "status": "passed",
+          "title": "变量长度 opcode 缺操作数或 literal 时拒绝",
+          "duration": 0.5872919999999908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta 非法 payload / surface 边界"],
+          "fullName": "rngBlitDelta 非法 payload / surface 边界 固定长度 literal / repeat opcode 缺 payload 时拒绝",
+          "status": "passed",
+          "title": "固定长度 literal / repeat opcode 缺 payload 时拒绝",
+          "duration": 0.4736660000000086,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta 非法 payload / surface 边界"],
+          "fullName": "rngBlitDelta 非法 payload / surface 边界 skip 或写入超过 surface 时在写入前拒绝",
+          "status": "passed",
+          "title": "skip 或写入超过 surface 时在写入前拒绝",
+          "duration": 0.17654099999998607,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRngFrames（合成 sub-MKF 容器链路）"],
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 两帧链：每帧基于上一帧 delta，pixels 为拷贝（帧0 不被帧1 写入污染）",
+          "status": "passed",
+          "title": "两帧链：每帧基于上一帧 delta，pixels 为拷贝（帧0 不被帧1 写入污染）",
+          "duration": 0.6936249999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRngFrames（合成 sub-MKF 容器链路）"],
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 空 sub-chunk 跳过，帧 index 保持 sub-chunk 下标",
+          "status": "passed",
+          "title": "空 sub-chunk 跳过，帧 index 保持 sub-chunk 下标",
+          "duration": 0.13912499999997863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRngFrames（合成 sub-MKF 容器链路）"],
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧",
+          "status": "passed",
+          "title": "非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧",
+          "duration": 129.28812499999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792327004554,
+      "endTime": 1792327004694.288,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/shared/src/rng.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["rngBlitDelta (RLE delta opcodes)"],
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x06 写 1 个 2-byte literal pair",
+          "status": "passed",
+          "title": "0x06 写 1 个 2-byte literal pair",
+          "duration": 1.0249159999999904,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta (RLE delta opcodes)"],
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x02 skip 2 bytes 后再写",
+          "status": "passed",
+          "title": "0x02 skip 2 bytes 后再写",
+          "duration": 0.17425000000000068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta (RLE delta opcodes)"],
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x0d 同 2-byte 重复 2 次",
+          "status": "passed",
+          "title": "0x0d 同 2-byte 重复 2 次",
+          "duration": 0.08370800000000145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta (RLE delta opcodes)"],
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x00 end frame:不再写",
+          "status": "passed",
+          "title": "0x00 end frame:不再写",
+          "duration": 0.15270900000001575,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta (RLE delta opcodes)"],
+          "fullName": "rngBlitDelta (RLE delta opcodes) 未知 opcode 抛错",
+          "status": "passed",
+          "title": "未知 opcode 抛错",
+          "duration": 0.3508329999999944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRngFrames"],
+          "fullName": "decodeRngFrames 空 chunk → 空帧数组",
+          "status": "passed",
+          "title": "空 chunk → 空帧数组",
+          "duration": 0.08587500000001569,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792327004553,
+      "endTime": 1792327004555.3508,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/shared/src/rng.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["decompressYj2 已定义头错误"],
+          "fullName": "decompressYj2 已定义头错误 源 <4 字节拒绝",
+          "status": "passed",
+          "title": "源 <4 字节拒绝",
+          "duration": 1.0743329999999958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decompressYj2 已定义头错误"],
+          "fullName": "decompressYj2 已定义头错误 非空输出没有任何 Huffman 位流时显式失败",
+          "status": "passed",
+          "title": "非空输出没有任何 Huffman 位流时显式失败",
+          "duration": 0.2868750000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decompressYj2 已定义头错误"],
+          "fullName": "decompressYj2 已定义头错误 完整回引 symbol 后缺少位置参数时显式失败",
+          "status": "passed",
+          "title": "完整回引 symbol 后缺少位置参数时显式失败",
+          "duration": 0.21512500000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decompressYj2 非空字面向量"],
+          "fullName": "decompressYj2 非空字面向量 三字面流：输出 = 字面值按序（语义：symbol 0..0xFF 顺序输出）",
+          "status": "passed",
+          "title": "三字面流：输出 = 字面值按序（语义：symbol 0..0xFF 顺序输出）",
+          "duration": 0.5094579999999951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decompressYj2 非空字面向量"],
+          "fullName": "decompressYj2 非空字面向量 uncompLen=0：零长输出（循环不进入）",
+          "status": "passed",
+          "title": "uncompLen=0：零长输出（循环不进入）",
+          "duration": 0.15850000000000364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decompressYj2 回引向量"],
+          "fullName": "decompressYj2 回引向量 字面 ABC + 回引(pos=2,len=4)：重叠顺序复制 → ABCABCA",
+          "status": "passed",
+          "title": "字面 ABC + 回引(pos=2,len=4)：重叠顺序复制 → ABCABCA",
+          "duration": 0.2909999999999968,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decompressYj2 回引向量"],
+          "fullName": "decompressYj2 回引向量 提前结束（pos==0xFFF）：余量保持 Uint8Array 零初始化",
+          "status": "passed",
+          "title": "提前结束（pos==0xFFF）：余量保持 Uint8Array 零初始化",
+          "duration": 0.1517910000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decompressYj2 回引向量"],
+          "fullName": "decompressYj2 回引向量 回引长度超过目标输出剩余空间时显式失败",
+          "status": "passed",
+          "title": "回引长度超过目标输出剩余空间时显式失败",
+          "duration": 0.20454200000000355,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decompressYj2 回引向量"],
+          "fullName": "decompressYj2 回引向量 第一条指令回引尚未产生的输出时显式失败",
+          "status": "passed",
+          "title": "第一条指令回引尚未产生的输出时显式失败",
+          "duration": 0.515749999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792327004553,
+      "endTime": 1792327004556.5159,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/shared/src/yj2.boundaries.test.ts"
+    }
+  ]
+}

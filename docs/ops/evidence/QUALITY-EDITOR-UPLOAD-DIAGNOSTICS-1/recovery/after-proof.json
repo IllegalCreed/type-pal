@@ -1,0 +1,1315 @@
+{
+  "phase": "after",
+  "stage": "final deduplicated candidate",
+  "parentCommit": "d261e1d17a41594f80f08a225ad4d2bbab75a932",
+  "sourceSha256": "b5f61c37d489cba38f44c60fd38f4bbb99d2adb4eb7ae3d025b0930a696eb148",
+  "helperSha256": {
+    "upload-harness.tsx": "cfa3f7e77b7ea886a7dcea8a8c51d1094b332e5ead307209b99df5909cd29c1d",
+    "upload-ui.ts": "36c0677b43ddd885ffb029836b3d9ee5c3c4332d009a23ac612828d102f3911d",
+    "upload-ports.ts": "df23fa214b659a57718192a07916665444f901c212f97a6d7141820bfb20475d"
+  },
+  "testSha256": {
+    "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx": "0339619a2ad3aaa7854d14e68dc3591f1d6d45523a7d692d0299c694b1c77549",
+    "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx": "4c5e06fe231615ed6b19c756bd950f6e27bdbdb0e435b3cc845e511b4b785dc9",
+    "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx": "1232f51d24dad093d0ad132ae4d44a5a8c8fe2704ddd8cfd7a8bd89bc9dc7448"
+  },
+  "variants": {
+    "control": [],
+    "cancel-late-close": [
+      [
+        "const submittingRef = useRef(false)",
+        "const submittingRef = useRef(false)\n  const canceledForProbe = useRef(false)"
+      ],
+      [
+        "if (!submittingRef.current) {\n            selection.active = false",
+        "if (!submittingRef.current) {\n            canceledForProbe.current = true\n            selection.active = false"
+      ],
+      ["bitmap?.close()", "if (!canceledForProbe.current) bitmap?.close()"]
+    ],
+    "submit-lock": [["      submittingRef.current ||\n", ""]],
+    "transfer-cancel-disabled": [
+      [
+        "className=\"sprite-upload-cancel\"\n        disabled={submitting}",
+        "className=\"sprite-upload-cancel\"\n        disabled={false}"
+      ]
+    ],
+    "transfer-reselection-id": [
+      ["      onDone(id)", "      onDone(session.getHistoryVersion() > 1 ? `${id}-wrong` : id)"]
+    ],
+    "diagnostic-original-error-poll": []
+  },
+  "diagnosticCallerReplacement": [
+    "    await wizardClickSubmit(mounted.host, { waitForCommitDigest: true })\n    expect(wizardError(mounted.host)).toContain('精灵定义 id 已存在: once')",
+    "    await wizardClickSubmit(mounted.host)\n    await vi.waitFor(() => {\n      expect(wizardError(mounted!.host)).toContain('精灵定义 id 已存在: once')\n    })"
+  ],
+  "runs": [
+    {
+      "name": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-c10-after-control-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-after-control-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-after-control-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c10-counter-ghrjl9qn/control.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "passed": 28,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-01 四向 3×4：切帧读数 12 帧、入库帧按行优先逐格等于独立量化期望",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-02 文件名派生 id/标签：大写、空格、下划线折叠为小写连字符，扩展名剥除",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-03 仅扩展名文件：id 回落 sprite、标签回落「新精灵」，入库标签落到定义",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-04 默认定格 2×2 源帧：4 帧按行优先入库，布局为 static",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-05 四向 + 1 动作帧行：5 行 10 帧入库，布局只记 framesPerDir",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-06 四向方向标签按行序下/左/上/右，动作行续号为动作1..K",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-07 透明格量化后整帧不透明位全 0；不透明格全 1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-08 解码后切换用途：网格按新用途重算，缩略图数量随之变化，原图读数保留",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-09 id 含斜杠：精确报错、零历史、未 onDone；改正后同一草稿可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-10 id 清空与撞已有定义：各自精确报错且零提交；入库按钮仍可再点",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-01 未选文件直接取消：onDone(null) 恰好一次，会话零历史",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-02 解码在途取消：onDone(null)；放行后位图恰好 close 一次，不出现草稿也不入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-03 解码在途卸载：放行后位图恰好 close 一次，宿主 session 不被写入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-04 色盘迟到：草稿已显示但无缩略图且入库不可点，色盘放行后补全并可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-05 色盘加载失败：错误回显、草稿永不可入库；换回合法 scope 后清错并可重选入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-06 换 session scope：旧草稿被撤下；入库只写新 session，旧 session 零历史",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-07 非图片字节：错误回显且无表单；随后合法 PNG 清错并可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-08 sprite.<id> 与 sprite.<id>.2 已被不同内容占用：新资源取下一个空闲后缀 .3",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-09 内容与既有 catalog 精灵完全一致：新定义复用该资产，不新增 catalog/blob",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-10 宿主传入过期 sprites 列表：命令级撞 id 报错、历史不增、入库按钮复位，改 id 后可成功",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-01 默认定格 4×1 源：读数 4 帧且缩略图 4（真实 slice，非 mock 尺寸）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-02 compress 在途：双点提交仅一次 gzip，取消禁用",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-04 首次入库成功后同挂载再选：第二 id 入库且历史 +1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-05 首次入库前自定义 id/label：定义保存这两个值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-06 同内容第二次入库：共享 assetId，catalog 条目不增",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-07 入库完成后提交门复位：busy false 且可再点",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-08 第二次入库 id 撞车：精确报错且历史不增",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-10 四向用途入库锁期间 kind 切换禁用（不可打断提交）",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "b5f61c37d489cba38f44c60fd38f4bbb99d2adb4eb7ae3d025b0930a696eb148",
+      "copySha256": {
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-control-upload-harness.tsx": "d981c866753d95c4898a1ab497e4a3af8961d23829063f322c9a8afe5d3391ee",
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-control-upload-ui.ts": "2987add4ff4f15b33e3cea12af1206663e14d42ab52ee7668be3df0af0fbb190",
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-control-upload-ports.ts": "df23fa214b659a57718192a07916665444f901c212f97a6d7141820bfb20475d",
+        "packages/editor/src/ui/pre94-c10-after-control-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx": "439420bf1f26e7164e16144ecdd7433452f3a4a85c3c6234a8f5763b088a32d2",
+        "packages/editor/src/ui/pre94-c10-after-control-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx": "b9f21af30da4e3918dfb5bf973d61fe409a00c17e64a7d31f8d815b44004e42d",
+        "packages/editor/src/ui/pre94-c10-after-control-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx": "358ed0d16ae55e745aac24cbd3da3e8da56bf947149b163ca791776be811ae21"
+      },
+      "rawSha256": "9c19ffe76a05337744ed1210d16009ff69c3c54102e0d7b4f1b2dd86144a8e9b",
+      "runnerSha256": "0ce1234b4dcd414dc01f0e2cef44cf073af8650b0d4f210781be228672a81f26",
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0
+    },
+    {
+      "name": "cancel-late-close",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-c10-after-cancel-late-close-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-after-cancel-late-close-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-after-cancel-late-close-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c10-counter-ghrjl9qn/cancel-late-close.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 27,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-01 四向 3×4：切帧读数 12 帧、入库帧按行优先逐格等于独立量化期望",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-02 文件名派生 id/标签：大写、空格、下划线折叠为小写连字符，扩展名剥除",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-03 仅扩展名文件：id 回落 sprite、标签回落「新精灵」，入库标签落到定义",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-04 默认定格 2×2 源帧：4 帧按行优先入库，布局为 static",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-05 四向 + 1 动作帧行：5 行 10 帧入库，布局只记 framesPerDir",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-06 四向方向标签按行序下/左/上/右，动作行续号为动作1..K",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-07 透明格量化后整帧不透明位全 0；不透明格全 1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-08 解码后切换用途：网格按新用途重算，缩略图数量随之变化，原图读数保留",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-09 id 含斜杠：精确报错、零历史、未 onDone；改正后同一草稿可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-10 id 清空与撞已有定义：各自精确报错且零提交；入库按钮仍可再点",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-01 未选文件直接取消：onDone(null) 恰好一次，会话零历史",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-02 解码在途取消：onDone(null)；放行后位图恰好 close 一次，不出现草稿也不入库",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected +0 to be 1 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor/src/ui/pre94-c10-after-cancel-late-close-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx:106:37\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-03 解码在途卸载：放行后位图恰好 close 一次，宿主 session 不被写入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-04 色盘迟到：草稿已显示但无缩略图且入库不可点，色盘放行后补全并可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-05 色盘加载失败：错误回显、草稿永不可入库；换回合法 scope 后清错并可重选入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-06 换 session scope：旧草稿被撤下；入库只写新 session，旧 session 零历史",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-07 非图片字节：错误回显且无表单；随后合法 PNG 清错并可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-08 sprite.<id> 与 sprite.<id>.2 已被不同内容占用：新资源取下一个空闲后缀 .3",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-09 内容与既有 catalog 精灵完全一致：新定义复用该资产，不新增 catalog/blob",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-10 宿主传入过期 sprites 列表：命令级撞 id 报错、历史不增、入库按钮复位，改 id 后可成功",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-01 默认定格 4×1 源：读数 4 帧且缩略图 4（真实 slice，非 mock 尺寸）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-02 compress 在途：双点提交仅一次 gzip，取消禁用",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-04 首次入库成功后同挂载再选：第二 id 入库且历史 +1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-05 首次入库前自定义 id/label：定义保存这两个值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-06 同内容第二次入库：共享 assetId，catalog 条目不增",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-07 入库完成后提交门复位：busy false 且可再点",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-08 第二次入库 id 撞车：精确报错且历史不增",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-10 四向用途入库锁期间 kind 切换禁用（不可打断提交）",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "36056e141753406345ba030f3052a5519d7eb29772dc681ddeb12ba2521abb54",
+      "copySha256": {
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-cancel-late-close-upload-harness.tsx": "0501b09b11bbe64fd25312dc2622873d0768a1362ebea73952fea149b49a149b",
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-cancel-late-close-upload-ui.ts": "dbf26df8ea62ee6a52e027b9f848798a0069fc95a981ef00f62c2809b2853f86",
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-cancel-late-close-upload-ports.ts": "df23fa214b659a57718192a07916665444f901c212f97a6d7141820bfb20475d",
+        "packages/editor/src/ui/pre94-c10-after-cancel-late-close-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx": "f089158dc4b74f9e2c49a21430edffc83790ffc75273802cd73f9849f064b93b",
+        "packages/editor/src/ui/pre94-c10-after-cancel-late-close-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx": "ec4cd73834fef80ae42174a8ef6e0e286a157c7496e071197584d9b3446f8b81",
+        "packages/editor/src/ui/pre94-c10-after-cancel-late-close-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx": "68fc24127040ce346d6606f8ba14bc121935c17e126200fc978c37e2b91fd92f"
+      },
+      "rawSha256": "be429ccb46e0bc26c336f3b1517a8be19f54f9419d7b03b724d75a0e7cb09b4f",
+      "runnerSha256": "0279a5eb6218fc9552888bff8453a4fd0b89dd4e78ffd700855306e9b8bb7635",
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0
+    },
+    {
+      "name": "submit-lock",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-c10-after-submit-lock-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-after-submit-lock-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-after-submit-lock-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c10-counter-ghrjl9qn/submit-lock.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 27,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-01 四向 3×4：切帧读数 12 帧、入库帧按行优先逐格等于独立量化期望",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-02 文件名派生 id/标签：大写、空格、下划线折叠为小写连字符，扩展名剥除",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-03 仅扩展名文件：id 回落 sprite、标签回落「新精灵」，入库标签落到定义",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-04 默认定格 2×2 源帧：4 帧按行优先入库，布局为 static",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-05 四向 + 1 动作帧行：5 行 10 帧入库，布局只记 framesPerDir",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-06 四向方向标签按行序下/左/上/右，动作行续号为动作1..K",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-07 透明格量化后整帧不透明位全 0；不透明格全 1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-08 解码后切换用途：网格按新用途重算，缩略图数量随之变化，原图读数保留",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-09 id 含斜杠：精确报错、零历史、未 onDone；改正后同一草稿可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-10 id 清空与撞已有定义：各自精确报错且零提交；入库按钮仍可再点",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-01 未选文件直接取消：onDone(null) 恰好一次，会话零历史",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-02 解码在途取消：onDone(null)；放行后位图恰好 close 一次，不出现草稿也不入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-03 解码在途卸载：放行后位图恰好 close 一次，宿主 session 不被写入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-04 色盘迟到：草稿已显示但无缩略图且入库不可点，色盘放行后补全并可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-05 色盘加载失败：错误回显、草稿永不可入库；换回合法 scope 后清错并可重选入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-06 换 session scope：旧草稿被撤下；入库只写新 session，旧 session 零历史",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-07 非图片字节：错误回显且无表单；随后合法 PNG 清错并可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-08 sprite.<id> 与 sprite.<id>.2 已被不同内容占用：新资源取下一个空闲后缀 .3",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-09 内容与既有 catalog 精灵完全一致：新定义复用该资产，不新增 catalog/blob",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-10 宿主传入过期 sprites 列表：命令级撞 id 报错、历史不增、入库按钮复位，改 id 后可成功",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-01 默认定格 4×1 源：读数 4 帧且缩略图 4（真实 slice，非 mock 尺寸）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-02 compress 在途：双点提交仅一次 gzip，取消禁用",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected 2 to be 1 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor/src/ui/pre94-c10-after-submit-lock-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:99:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-04 首次入库成功后同挂载再选：第二 id 入库且历史 +1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-05 首次入库前自定义 id/label：定义保存这两个值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-06 同内容第二次入库：共享 assetId，catalog 条目不增",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-07 入库完成后提交门复位：busy false 且可再点",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-08 第二次入库 id 撞车：精确报错且历史不增",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-10 四向用途入库锁期间 kind 切换禁用（不可打断提交）",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "ea932e38866bf8750363df1cc8ed7c6a707877d58414b336c8f9dc2a660b075c",
+      "copySha256": {
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-submit-lock-upload-harness.tsx": "c8493c96088898b4038653c50744991547d49e47c927dc93d7a3fe2f4667d44d",
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-submit-lock-upload-ui.ts": "5715abae5614ea07cab480415cea553a4a85e159b4c6c3d453969c5dad968acc",
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-submit-lock-upload-ports.ts": "df23fa214b659a57718192a07916665444f901c212f97a6d7141820bfb20475d",
+        "packages/editor/src/ui/pre94-c10-after-submit-lock-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx": "2f976eafc5c9e361a9bfda0903bd6ed5713a887b11c3d4750ca61261769793d8",
+        "packages/editor/src/ui/pre94-c10-after-submit-lock-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx": "43e713f3fcabb5c60fcbaa41d4917309c5b183b25d01736e7771133a6161efea",
+        "packages/editor/src/ui/pre94-c10-after-submit-lock-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx": "216f22e72d5c92aef1d0db487c12f1d60552e6a3a9631388ebdeca8e8271626a"
+      },
+      "rawSha256": "f0b350475e25dae4dda0af657bc9286886bace2fbb37f6805ac7eeb73ffd9d67",
+      "runnerSha256": "67bcd1cdec64f787dbb4c726781abc2994ef45e71c15272055a3fbaaa955fed8",
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0
+    },
+    {
+      "name": "transfer-cancel-disabled",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-c10-after-transfer-cancel-disabled-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-after-transfer-cancel-disabled-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-after-transfer-cancel-disabled-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c10-counter-ghrjl9qn/transfer-cancel-disabled.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 27,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-01 四向 3×4：切帧读数 12 帧、入库帧按行优先逐格等于独立量化期望",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-02 文件名派生 id/标签：大写、空格、下划线折叠为小写连字符，扩展名剥除",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-03 仅扩展名文件：id 回落 sprite、标签回落「新精灵」，入库标签落到定义",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-04 默认定格 2×2 源帧：4 帧按行优先入库，布局为 static",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-05 四向 + 1 动作帧行：5 行 10 帧入库，布局只记 framesPerDir",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-06 四向方向标签按行序下/左/上/右，动作行续号为动作1..K",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-07 透明格量化后整帧不透明位全 0；不透明格全 1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-08 解码后切换用途：网格按新用途重算，缩略图数量随之变化，原图读数保留",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-09 id 含斜杠：精确报错、零历史、未 onDone；改正后同一草稿可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-10 id 清空与撞已有定义：各自精确报错且零提交；入库按钮仍可再点",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-01 未选文件直接取消：onDone(null) 恰好一次，会话零历史",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-02 解码在途取消：onDone(null)；放行后位图恰好 close 一次，不出现草稿也不入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-03 解码在途卸载：放行后位图恰好 close 一次，宿主 session 不被写入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-04 色盘迟到：草稿已显示但无缩略图且入库不可点，色盘放行后补全并可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-05 色盘加载失败：错误回显、草稿永不可入库；换回合法 scope 后清错并可重选入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-06 换 session scope：旧草稿被撤下；入库只写新 session，旧 session 零历史",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-07 非图片字节：错误回显且无表单；随后合法 PNG 清错并可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-08 sprite.<id> 与 sprite.<id>.2 已被不同内容占用：新资源取下一个空闲后缀 .3",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-09 内容与既有 catalog 精灵完全一致：新定义复用该资产，不新增 catalog/blob",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-10 宿主传入过期 sprites 列表：命令级撞 id 报错、历史不增、入库按钮复位，改 id 后可成功",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-01 默认定格 4×1 源：读数 4 帧且缩略图 4（真实 slice，非 mock 尺寸）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-02 compress 在途：双点提交仅一次 gzip，取消禁用",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected false to be true // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor/src/ui/pre94-c10-after-transfer-cancel-disabled-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:101:47\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-04 首次入库成功后同挂载再选：第二 id 入库且历史 +1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-05 首次入库前自定义 id/label：定义保存这两个值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-06 同内容第二次入库：共享 assetId，catalog 条目不增",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-07 入库完成后提交门复位：busy false 且可再点",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-08 第二次入库 id 撞车：精确报错且历史不增",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-10 四向用途入库锁期间 kind 切换禁用（不可打断提交）",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "47f65b08e3267268a04030719418fde1a3fffaeafc0ce2d65fa93003355e5550",
+      "copySha256": {
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-transfer-cancel-disabled-upload-harness.tsx": "78349f85700b2b735f9dd7e42b3182d3d9adc9b03de08fb37b20690587eccb85",
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-transfer-cancel-disabled-upload-ui.ts": "853bf3879520be9b9ba524b1c82526f25142c10f9e2d796a4b84b1faecbe164f",
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-transfer-cancel-disabled-upload-ports.ts": "df23fa214b659a57718192a07916665444f901c212f97a6d7141820bfb20475d",
+        "packages/editor/src/ui/pre94-c10-after-transfer-cancel-disabled-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx": "4993b66b5a20f79e281e123d6791ac57fc2805629da3e90485f90fd60fce478b",
+        "packages/editor/src/ui/pre94-c10-after-transfer-cancel-disabled-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx": "a1f211a612ffc163ba2f18f2a4f8a48e460210995558a4ffccdbc311f904b9af",
+        "packages/editor/src/ui/pre94-c10-after-transfer-cancel-disabled-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx": "faa43e46bcc93fee67ee5517ebc44589bc143402e8a38b5a01546a0c3eff43dd"
+      },
+      "rawSha256": "af7775357336cb0ac190dffe87699a527343d668500e4172ce7539cf0ab678ac",
+      "runnerSha256": "1eaa554782f82dc7e0b358e5673d9629a105effe87cb829523addb34d2196b92",
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0
+    },
+    {
+      "name": "transfer-reselection-id",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-c10-after-transfer-reselection-id-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-after-transfer-reselection-id-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-after-transfer-reselection-id-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c10-counter-ghrjl9qn/transfer-reselection-id.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 26,
+      "failed": 2,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-01 四向 3×4：切帧读数 12 帧、入库帧按行优先逐格等于独立量化期望",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-02 文件名派生 id/标签：大写、空格、下划线折叠为小写连字符，扩展名剥除",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-03 仅扩展名文件：id 回落 sprite、标签回落「新精灵」，入库标签落到定义",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-04 默认定格 2×2 源帧：4 帧按行优先入库，布局为 static",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-05 四向 + 1 动作帧行：5 行 10 帧入库，布局只记 framesPerDir",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-06 四向方向标签按行序下/左/上/右，动作行续号为动作1..K",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-07 透明格量化后整帧不透明位全 0；不透明格全 1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-08 解码后切换用途：网格按新用途重算，缩略图数量随之变化，原图读数保留",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-09 id 含斜杠：精确报错、零历史、未 onDone；改正后同一草稿可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-10 id 清空与撞已有定义：各自精确报错且零提交；入库按钮仍可再点",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-01 未选文件直接取消：onDone(null) 恰好一次，会话零历史",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-02 解码在途取消：onDone(null)；放行后位图恰好 close 一次，不出现草稿也不入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-03 解码在途卸载：放行后位图恰好 close 一次，宿主 session 不被写入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-04 色盘迟到：草稿已显示但无缩略图且入库不可点，色盘放行后补全并可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-05 色盘加载失败：错误回显、草稿永不可入库；换回合法 scope 后清错并可重选入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-06 换 session scope：旧草稿被撤下；入库只写新 session，旧 session 零历史",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-07 非图片字节：错误回显且无表单；随后合法 PNG 清错并可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-08 sprite.<id> 与 sprite.<id>.2 已被不同内容占用：新资源取下一个空闲后缀 .3",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-09 内容与既有 catalog 精灵完全一致：新定义复用该资产，不新增 catalog/blob",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-10 宿主传入过期 sprites 列表：命令级撞 id 报错、历史不增、入库按钮复位，改 id 后可成功",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ 'once', 'twice-wrong' ] to deeply equal [ 'once', 'twice' ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor/src/ui/pre94-c10-after-transfer-reselection-id-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx:302:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-01 默认定格 4×1 源：读数 4 帧且缩略图 4（真实 slice，非 mock 尺寸）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-02 compress 在途：双点提交仅一次 gzip，取消禁用",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-04 首次入库成功后同挂载再选：第二 id 入库且历史 +1",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ 'first', 'second-def-wrong' ] to deeply equal [ 'first', 'second-def' ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor/src/ui/pre94-c10-after-transfer-reselection-id-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx:133:22\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-05 首次入库前自定义 id/label：定义保存这两个值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-06 同内容第二次入库：共享 assetId，catalog 条目不增",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-07 入库完成后提交门复位：busy false 且可再点",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-08 第二次入库 id 撞车：精确报错且历史不增",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-10 四向用途入库锁期间 kind 切换禁用（不可打断提交）",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "68d29bd5e38b81773514be349232b02e89ecfe4288e8a2efedde670656c93f61",
+      "copySha256": {
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-transfer-reselection-id-upload-harness.tsx": "816258b6f501129e115fa46383026400e3d78a401b7342a3f70e8f87e692f19a",
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-transfer-reselection-id-upload-ui.ts": "95f425de0f908b4c389695566ac769a11321fbca95afdec32fadd62333728762",
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-transfer-reselection-id-upload-ports.ts": "df23fa214b659a57718192a07916665444f901c212f97a6d7141820bfb20475d",
+        "packages/editor/src/ui/pre94-c10-after-transfer-reselection-id-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx": "6c9c5f6cdbf04a9cb04b7c05fa649f813ecaff9c529895c05de08de73bafcaf8",
+        "packages/editor/src/ui/pre94-c10-after-transfer-reselection-id-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx": "eacf6877ed9b50be4e27640ad03ea0d85c8f4b93938c3ab32d6cb23b9f174744",
+        "packages/editor/src/ui/pre94-c10-after-transfer-reselection-id-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx": "ce2d7b77e11328f0f81358cb544e4fa9c2c5e6d29b0edbf65cb830dd79890164"
+      },
+      "rawSha256": "58f7792fd49b10ad568530852278acbb0a6da512dddb0c7615a625aefb8ec6bf",
+      "runnerSha256": "db5e0f77efd8fb67ba70e15692a73ca1f0a70528a98fa206735f06902b83ad68",
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0
+    },
+    {
+      "name": "diagnostic-original-error-poll",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/pre94-c10-after-diagnostic-original-error-poll-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-after-diagnostic-original-error-poll-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+        "src/ui/pre94-c10-after-diagnostic-original-error-poll-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c10-counter-ghrjl9qn/diagnostic-original-error-poll.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "passed": 28,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-01 四向 3×4：切帧读数 12 帧、入库帧按行优先逐格等于独立量化期望",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-02 文件名派生 id/标签：大写、空格、下划线折叠为小写连字符，扩展名剥除",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-03 仅扩展名文件：id 回落 sprite、标签回落「新精灵」，入库标签落到定义",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-04 默认定格 2×2 源帧：4 帧按行优先入库，布局为 static",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-05 四向 + 1 动作帧行：5 行 10 帧入库，布局只记 framesPerDir",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-06 四向方向标签按行序下/左/上/右，动作行续号为动作1..K",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-07 透明格量化后整帧不透明位全 0；不透明格全 1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-08 解码后切换用途：网格按新用途重算，缩略图数量随之变化，原图读数保留",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-09 id 含斜杠：精确报错、零历史、未 onDone；改正后同一草稿可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+          "fullName": "C03-G01 真实导入管线与用途布局 C03-G01-10 id 清空与撞已有定义：各自精确报错且零提交；入库按钮仍可再点",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-01 未选文件直接取消：onDone(null) 恰好一次，会话零历史",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-02 解码在途取消：onDone(null)；放行后位图恰好 close 一次，不出现草稿也不入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-03 解码在途卸载：放行后位图恰好 close 一次，宿主 session 不被写入",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-04 色盘迟到：草稿已显示但无缩略图且入库不可点，色盘放行后补全并可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-05 色盘加载失败：错误回显、草稿永不可入库；换回合法 scope 后清错并可重选入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-06 换 session scope：旧草稿被撤下；入库只写新 session，旧 session 零历史",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-07 非图片字节：错误回显且无表单；随后合法 PNG 清错并可入库",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-08 sprite.<id> 与 sprite.<id>.2 已被不同内容占用：新资源取下一个空闲后缀 .3",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-09 内容与既有 catalog 精灵完全一致：新定义复用该资产，不新增 catalog/blob",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+          "fullName": "C03-G02 取消、迟到释放与恢复 C03-G02-10 宿主传入过期 sprites 列表：命令级撞 id 报错、历史不增、入库按钮复位，改 id 后可成功",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-01 默认定格 4×1 源：读数 4 帧且缩略图 4（真实 slice，非 mock 尺寸）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-02 compress 在途：双点提交仅一次 gzip，取消禁用",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-04 首次入库成功后同挂载再选：第二 id 入库且历史 +1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-05 首次入库前自定义 id/label：定义保存这两个值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-06 同内容第二次入库：共享 assetId，catalog 条目不增",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-07 入库完成后提交门复位：busy false 且可再点",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-08 第二次入库 id 撞车：精确报错且历史不增",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "fullName": "C03-G07 入库锁与上传后重选 C03-G07-10 四向用途入库锁期间 kind 切换禁用（不可打断提交）",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "b5f61c37d489cba38f44c60fd38f4bbb99d2adb4eb7ae3d025b0930a696eb148",
+      "copySha256": {
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-diagnostic-original-error-poll-upload-harness.tsx": "a390665a935d3d00cc92ce2ac8ef5fa04d0a861016bfdc0650a3796d9e499b48",
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-diagnostic-original-error-poll-upload-ui.ts": "e8816dee235ba6dc0f50395df9f19e7b0e8eb46260411c4508291259a6384f77",
+        "packages/editor/src/__tests__/cursor-asset-r1/pre94-c10-after-diagnostic-original-error-poll-upload-ports.ts": "df23fa214b659a57718192a07916665444f901c212f97a6d7141820bfb20475d",
+        "packages/editor/src/ui/pre94-c10-after-diagnostic-original-error-poll-SpriteUploadWizard.c03-g01.cursor-r1.test.tsx": "8d2f93c10896df15b6c1d47d21b7270661b0fed682f6b3b4ae0a02e4e2645db1",
+        "packages/editor/src/ui/pre94-c10-after-diagnostic-original-error-poll-SpriteUploadWizard.c03-g02.cursor-r1.test.tsx": "89582816b0262c431538d4a360c848098200a487e9409e77c091c78eb4e12ff7",
+        "packages/editor/src/ui/pre94-c10-after-diagnostic-original-error-poll-SpriteUploadWizard.c03-g07.cursor-r1.test.tsx": "3f4f8cb5ccac3b55e59c1f185608c5a41b214ad1abc2a4d2c6211533624304d6"
+      },
+      "rawSha256": "eaf3f36e21ea8743fb18a752b42e1ac85e5ea9595eaca1bc0c8f769a5a0c209e",
+      "runnerSha256": "6b7ab6e9db4937fab92a8768b422d3397c5a8ac7afe0fefc484e3375a360d3c4",
+      "actWarnings": 2,
+      "environmentWarnings": 0,
+      "stderrBlocks": 1
+    }
+  ],
+  "sourceUnchanged": true,
+  "helpersUnchanged": true,
+  "testsUnchanged": true,
+  "copiesRemoved": true
+}

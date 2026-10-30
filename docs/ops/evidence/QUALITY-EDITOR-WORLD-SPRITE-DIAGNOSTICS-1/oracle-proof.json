@@ -1,0 +1,254 @@
+{
+  "sourceCandidate": "cae26b1c7 + 3 scoped files in isolated preparation",
+  "testPath": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+  "sourceSha256": "c9bb3265242871fdff523f05f62240bdaa925e427384f57e4dff10d01d8032c7",
+  "isolatedWorkspace": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+  "noWorkingTreeProductMutation": true,
+  "localPackageCopies": ["editor", "reforge", "content", "shared"],
+  "cleanup": {
+    "exactPrefixAndParentChecked": true,
+    "removed": true
+  },
+  "recipe": {
+    "target": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+    "find": "max={Math.max(1, Math.floor((actualFrameCount ?? 0) / 4))}",
+    "replace": "max={3}"
+  },
+  "runs": [
+    {
+      "label": "oracle-old-fixed-max",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5/oracle-old-fixed-max.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 83175,
+      "rawSha256": "3c7ed7d5bba1bf005b3e5319542f4567ceb89bbd7f4096e58b2e9a897cd7e3ad",
+      "runnerBytes": 3450,
+      "runnerSha256": "a8be5610fad7efecef34463a43c5e3e13bcf4c84b6e3ca069ba260da358c27f3",
+      "testSha256": "98eac49c32f24efe94daec485a0a328c34881a42ca577645bd1ef6d5831b73c4",
+      "executedProductSha256": "c882bdc6010947ca98eadd7828af2eeec38a4207dc86f5b8c09400ef417630c1",
+      "passed": 6,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 proof 绑定真实帧数：解码在途时编辑禁用；新增四向用途默认帧数取 floor(实际帧数/4)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 实际帧数不足 4 时四向入口禁用；默认定格用途经真实 proof 入库且不动 catalog/blob",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 布局编辑与源帧追加串联：reader 重读后每向帧数上限绑新帧数，编辑继续可用，undo 全链还原",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 迟到磁盘读取归属：闸门内旧读取完成后不得盖掉已切换的新选择",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 磁盘字节损坏：真实解码失败 fail-loud 且编辑保持禁用；切走再切回真实重试",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 删除未使用源资源：磁盘端口捕获 undo 字节，撤销后 catalog 与 blob 完整还原",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 204,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "oracle-new-fixed-max",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5/oracle-new-fixed-max.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 2565,
+      "rawSha256": "5feba6d786af34d023b16835a3615ed8acab7b89658f3c15a99ed0c554f9b959",
+      "runnerBytes": 3841,
+      "runnerSha256": "1405bfef926760d2595704f3f5f4cea3d7064a05dad4edbddf229c359f140f29",
+      "testSha256": "301ba3aca35b2602c6d03728e2bf1881d7bad318cd2101b78343f0d2a5af4449",
+      "executedProductSha256": "c882bdc6010947ca98eadd7828af2eeec38a4207dc86f5b8c09400ef417630c1",
+      "passed": 5,
+      "failed": 1,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 proof 绑定真实帧数：解码在途时编辑禁用；新增四向用途默认帧数取 floor(实际帧数/4)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 实际帧数不足 4 时四向入口禁用；默认定格用途经真实 proof 入库且不动 catalog/blob",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 布局编辑与源帧追加串联：reader 重读后每向帧数上限绑新帧数，编辑继续可用，undo 全链还原",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected '3' to be '4' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5/packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx:310:37\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 迟到磁盘读取归属：闸门内旧读取完成后不得盖掉已切换的新选择",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 磁盘字节损坏：真实解码失败 fail-loud 且编辑保持禁用；切走再切回真实重试",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 删除未使用源资源：磁盘端口捕获 undo 字节，撤销后 catalog 与 blob 完整还原",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "oracle-recovery",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+        "src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5/oracle-recovery.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 788,
+      "rawSha256": "d51bcc09f3b78c5ed68ab3eca9217e677b1b3f7309092daad86f125ec6cb44ec",
+      "runnerBytes": 4809,
+      "runnerSha256": "d14354373ca47cbe9ec031ec7551cf6d5b1572f181df8b766bf0813593b2cbee",
+      "testSha256": "301ba3aca35b2602c6d03728e2bf1881d7bad318cd2101b78343f0d2a5af4449",
+      "executedProductSha256": "c9bb3265242871fdff523f05f62240bdaa925e427384f57e4dff10d01d8032c7",
+      "passed": 9,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 删除用途：确认后提交 RemoveSpriteDefinitionCommand，选择回落到兄弟用途",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 删除未使用源资源：catalog 记录与孤立 blob 一并清理，undo 连 bytes 一起恢复",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 布局类型切换提交 UpdateSpriteCommand：directional ↔ static",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 proof 绑定真实帧数：解码在途时编辑禁用；新增四向用途默认帧数取 floor(实际帧数/4)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 实际帧数不足 4 时四向入口禁用；默认定格用途经真实 proof 入库且不动 catalog/blob",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 布局编辑与源帧追加串联：reader 重读后每向帧数上限绑新帧数，编辑继续可用，undo 全链还原",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 迟到磁盘读取归属：闸门内旧读取完成后不得盖掉已切换的新选择",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 磁盘字节损坏：真实解码失败 fail-loud 且编辑保持禁用；切走再切回真实重试",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "name": "K02 WorldSpriteLibrary 真实资源 proof 工作流 删除未使用源资源：磁盘端口捕获 undo 字节，撤销后 catalog 与 blob 完整还原",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    }
+  ],
+  "sharedHostSha256": "edb43815e46e0902fde287e3f31336e6ae7a3ad88853a2d2dd4bde6098e8b326"
+}

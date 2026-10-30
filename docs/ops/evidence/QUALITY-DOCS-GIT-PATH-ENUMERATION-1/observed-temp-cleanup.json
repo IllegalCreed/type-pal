@@ -1,0 +1,10 @@
+{
+  "scope": "Exact fixture roots observable in failed actual child CLI traces; successful fixture names are not printed. All fixtures register exact t.after rm, hook failures would fail native TAP.",
+  "observedRoots": [
+    "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-path-enumeration-BpAdBz",
+    "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-path-enumeration-WwNCIW",
+    "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-path-enumeration-frUnvN",
+    "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-path-enumeration-wfm025"
+  ],
+  "allObservedRootsRemoved": true
+}

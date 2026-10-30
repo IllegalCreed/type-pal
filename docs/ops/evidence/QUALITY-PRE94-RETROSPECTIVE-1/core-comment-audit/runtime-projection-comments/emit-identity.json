@@ -1,0 +1,38 @@
+{
+  "typescript": "6.0.3",
+  "scope": "Only the four selected implementations, same transpile options; not native/gameplay/whole-file acceptance",
+  "rows": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "beforeSha256": "35e9f6089a323ab7764b5ec9a364cb1092106e4480ee885179d796edc0e0ede6",
+      "currentSha256": "9093e29aa326b7c0ee605db826c2dd27e4923bb9081e5b67692efc6ca73f0f91",
+      "removeCommentsJavaScriptSha256": "173370e5cdee1f1bb3ae9172af0aad9c894a6f537c4cfe47fdf4a4e9efe00b4a",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "beforeSha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+      "currentSha256": "130c7398a4f53d5a69b3d36178777ef3c18dfea0a7641f50d53c097493ee33a7",
+      "removeCommentsJavaScriptSha256": "a32ccedcfdbd4616bac36c0eb7fe9b3eccea56795182b9cae8f4694af02d8a71",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "beforeSha256": "fdfe520283d6975bd93573f153ee51f620c3ec424433b2672ff447ba20a2831b",
+      "currentSha256": "6b20017dc7c7ca79c413fdb690cd65a5cdaa38e33d8227d009f1b19ce23fe7ea",
+      "removeCommentsJavaScriptSha256": "7305beaced20fac34bac2d299f855982641a9ca78f605a9b5a6312eafdccb1aa",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "beforeSha256": "ac0b7567b9cc93f0713debc36d37d40cf0fde926e71891b1c77c35b4bf542cca",
+      "currentSha256": "618063b97dabe5d7a06380296493ec33efeb51b19c512d0cf7f957836d08b87c",
+      "removeCommentsJavaScriptSha256": "a5cbb45fa9e64b8524f9839513cb71f5dc7ba1c4f4bd3cdf0d4b32227d07898b",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    }
+  ]
+}

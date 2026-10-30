@@ -1,0 +1,105 @@
+{
+  "base": "835bd059bb4ed815e844a153ee02d577d339af0f",
+  "owner": "Codex single agent",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "lines": 99,
+      "readBoundary": "Full text read in this supplement; own test delta inspected. No whole-file closure from this reading alone."
+    },
+    {
+      "path": "packages/game/src/core/save/indexed-db.ts",
+      "sha256": "a10533a1cd2dda82a8d58a5d01443fd84125760e62bf85904442537971bc7197",
+      "lines": 111,
+      "readBoundary": "Full text read in this supplement; own test delta inspected. No whole-file closure from this reading alone."
+    },
+    {
+      "path": "packages/game/src/core/save/__tests__/api.test.ts",
+      "sha256": "280a4677e76b8ecb6f8b8fdd6918ea93e7b5f68997f6523c9ad455efd4d94b20",
+      "lines": 118,
+      "readBoundary": "Full text read in this supplement; own test delta inspected. No whole-file closure from this reading alone."
+    },
+    {
+      "path": "packages/game/src/core/save/__tests__/indexed-db.test.ts",
+      "sha256": "56867e3d127850d622c6fe2adb584ddea5d744a21933dabd7ad2bbf41138cefe",
+      "lines": 99,
+      "readBoundary": "Full text read in this supplement; own test delta inspected. No whole-file closure from this reading alone."
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.ts",
+      "sha256": "0ef1c7ed2bf3c64cbb6630ddb20a6e28080b10303dc7ad0a0f7c059cd7546c1b",
+      "lines": 93,
+      "readBoundary": "Full text read in this supplement; own test delta inspected. No whole-file closure from this reading alone."
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0",
+      "lines": 61,
+      "readBoundary": "Full text read in this supplement; own test delta inspected. No whole-file closure from this reading alone."
+    },
+    {
+      "path": "packages/pal-extract/src/output-boundary.ts",
+      "sha256": "ec714fb55716cae889f4717e31d73c25c1796b0724897978fbad19513d5d7aa1",
+      "lines": 25,
+      "readBoundary": "Full text read in this supplement; own test delta inspected. No whole-file closure from this reading alone."
+    },
+    {
+      "path": "packages/pal-extract/src/output-boundary.test.ts",
+      "sha256": "4436cc36f607c0a88bb0931bf036c710903100b5be3a47c57de093c0f33c750c",
+      "lines": 50,
+      "readBoundary": "Full text read in this supplement; own test delta inspected. No whole-file closure from this reading alone."
+    },
+    {
+      "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "sha256": "ecd7e946598e91beba2c9b1bd91443d0fcc2186ad0a5d5ee627dad024a861595",
+      "lines": 252,
+      "readBoundary": "Full text read in this supplement; own test delta inspected. No whole-file closure from this reading alone."
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "lines": 11,
+      "readBoundary": "Full text read in this supplement; own test delta inspected. No whole-file closure from this reading alone."
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "lines": 20,
+      "readBoundary": "Full text read in this supplement; own test delta inspected. No whole-file closure from this reading alone."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "f6df365e29c4039cd3bf6ac0b0113883fe6aa20ca0814c637a575407ee485546",
+      "ranges": [[1000, 1044]],
+      "scope": "Only these caller/type/lifecycle ranges are fresh reading here; no full-file reacceptance."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "ranges": [[1102, 1143], [1635, 1685]],
+      "scope": "Only these caller/type/lifecycle ranges are fresh reading here; no full-file reacceptance."
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "601e10d7144d3fc1a8a50bf397c66650a20af2597a18f92cbb9a9afd250bc365",
+      "ranges": [[54, 111], [188, 221], [895, 911]],
+      "scope": "Only these caller/type/lifecycle ranges are fresh reading here; no full-file reacceptance."
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "fdfe520283d6975bd93573f153ee51f620c3ec424433b2672ff447ba20a2831b",
+      "ranges": [[45, 115], [546, 575], [671, 700], [912, 938], [1045, 1073], [1849, 1948]],
+      "scope": "Only these caller/type/lifecycle ranges are fresh reading here; no full-file reacceptance."
+    }
+  ],
+  "historicalComparisons": [
+    "2daed1bb7 save-slot-menu test diff in full; removed six-field roundtrip and read-side clone",
+    "cc8971760 inline output ownership guard, constants/main/catch",
+    "dd341e5f3 CLI/helper diff in full"
+  ],
+  "noNewClosedFiles": true,
+  "sourceSchemaSaveOrCliBehaviorChanged": false
+}

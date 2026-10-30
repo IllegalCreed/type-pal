@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "status": "readonly counters/API candidate; awaiting user decisions; no product change",
+  "base": "eb7435336c319b97d1bfbeae443ac6437c338c38",
+  "native": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz",
+    "sha256": "a73f6dfda6c8ea91be4a50edf8a800c34979c860c79ac6abefc269631cc99c54",
+    "decodedSha256": "f9e1435bae976f51be24ab7ee922b5a607de922ce5285b387cb586ab425b9669",
+    "members": [
+      {
+        "name": "item-inventory-red.stdout.raw",
+        "sha256": "a76ad330fadc5c1e0ac97ad3db84b28cf015d63c4f97d757f05d7ef20f410222"
+      },
+      {
+        "name": "item-inventory-red.stderr.raw",
+        "sha256": "402b1e8c6e0ce03fcff7822c07894a05b4d11e98281826eebcbeaf1940e3ee34"
+      },
+      {
+        "name": "item-inventory-red.execution.json",
+        "sha256": "0e31190ba312f11874b4c7dafcbd869f038776afcfd48c856da63fac0504f12d"
+      },
+      {
+        "name": "item-inventory-red.native.json",
+        "sha256": "98519da7597bc5ed0388a2030eb5273ea2c6ac9ad273fab488e69bc8e9e92124"
+      },
+      {
+        "name": "item-inventory-red-r2.stdout.raw",
+        "sha256": "628d57ba97d229e2d042dbf19a5da8177b3730646068f7754e756d8e97294f37"
+      },
+      {
+        "name": "item-inventory-red-r2.stderr.raw",
+        "sha256": "f5f592adf7658f0d4f48eb0613f58462a249c2ec5a68ef69ef072d2df86725fc"
+      },
+      {
+        "name": "item-inventory-red-r2.execution.json",
+        "sha256": "979cc273c880c00a33716dca055691ae8c28a4dfc92435bcd7bebe42cc533a8d"
+      },
+      {
+        "name": "item-inventory-red-r2.native.json",
+        "sha256": "3e7adfc15e878ac21c58907cabfb0c9e8671d8a91201dd62087781b3dc63b2a3"
+      },
+      {
+        "name": "item-inventory-red-r2.test.ts",
+        "sha256": "5b630e30ba62be9cae6225eadea31633c3c01c6be6912906223d80d77583b5e8"
+      },
+      {
+        "name": "bus-production-inventory.json",
+        "sha256": "efec16080987d694f24874559d78543a1a4924bff87dad7773ec4698c70686ad"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "path": "packages/game/src/core/command-bus.ts",
+      "sha256": "df16ed45836068c71835fcbdc8aa979ea37b87f9d256c0a4c9fe4e886d8f7a06"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item.ts",
+      "sha256": "52a7e16669cecf84179ed85d317adc979615c8af3d93833f6e6444bae3c2bbf0"
+    },
+    {
+      "path": "packages/game/src/core/inventory-state.ts",
+      "sha256": "61bedc73a9a72cd587b7bb202162528b4c2ad5e1bd5dfd9c6d0eea35ec0d8d25"
+    },
+    {
+      "path": "packages/game/src/core/object-script-state.ts",
+      "sha256": "8d805022e2ea3fc951abd83b3c58f22035140069cf79366f744df2e4e3beee32"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "87e0d498f6679d58c4e22b60ba3d543a47819d462afcefe71da0b8fe85385210"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "2aa4ec075feb2ff8e218eb66cc32b376f3edb62a8b3073c0441596029e5bd07c"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "7d22fb11132c0a6b4973b588c8ea1d63056e42a4b85869e91f8ff961f738ae2d"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017"
+    }
+  ],
+  "bus": {
+    "facts": "TypeScript resolved30production emit calls against exact CommandBus declaration:all ExpressionStatement,zero complete calls; no named production cmdId reads; shell reads cmd only",
+    "proposed": [
+      "Remove complete no-op",
+      "Remove cmdId field/allocator and emit number result; retain BusEntry.cmd envelope to avoid unrelated transport reshaping",
+      "Remove exactly four non-emitted command types:clearDialogBox/flashEnemy/flashPlayer/showBattleUI",
+      "Keep actually emitted audio attack/death and showDialogBox/playMagicAnim; do not mistake those for unused opcodes"
+    ],
+    "limits": "Static current repo production callsites, not certification of external reflection/plugin compatibility; public/internal interface choice still user-controlled"
+  },
+  "item": {
+    "facts": "Real startBattle fixture + real runScript + complete seeded Win OBJECT;remove/recreate61 yields2instead of post-script consume1;clear consuming bit yields0instead of1;ordinary last-use retains zero row and passes",
+    "source": "fight.c kBattleActionUseItem reads live item flags and calls PAL_AddItemToInventory after PAL_RunTriggerScript;script.c 0x90 writes exact2+op2 union slot",
+    "proposed": "After script, resolve current inventory entry and current object consuming flag;preserve existing TS zero-row retention, role mapping and script progress;no save-format change",
+    "limits": "Legal small script entrypoint, normal original-story reachability not established; no claim this was reproduced through Save import",
+    "firstRun": "Initial2case-source snapshot was not frozen; raw/native retained as exploratory execution only. R2three-case exact source preserved in packet is the formal counter."
+  }
+}

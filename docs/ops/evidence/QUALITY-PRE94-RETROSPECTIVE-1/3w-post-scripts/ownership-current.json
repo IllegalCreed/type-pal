@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex(single Agent)",
+  "base": "371b00c7d2bb64b8e96a1b4a81b1a38b85dfa15b",
+  "status": "partial; two false headers corrected,known3w counter remains unknown",
+  "proof": {
+    "base": "371b00c7d2bb64b8e96a1b4a81b1a38b85dfa15b",
+    "file": "packages/game/src/core/event-system.ts",
+    "typescript": "6.0.3",
+    "oldSha256": "486e1f091af12dd32d606b1d6a1ae43bf65b5348211187b3c6d0a61e5cba6e5a",
+    "currentSha256": "19bbf2f967f44105db0a9b029ecacaf3735ca2f5782fe3b867b3462849db674e",
+    "parsedEqual": true,
+    "emittedEqual": true,
+    "oldParsedSha256": "d5dc47679092f2e2ab233e19f2c5fb51020562ad4634579ed877451e20dd6e97",
+    "currentParsedSha256": "d5dc47679092f2e2ab233e19f2c5fb51020562ad4634579ed877451e20dd6e97",
+    "oldEmittedSha256": "3d640cb36ac373aaa3cdbe72465db20d92bcda68da82c034ec4f575224cf1454",
+    "currentEmittedSha256": "3d640cb36ac373aaa3cdbe72465db20d92bcda68da82c034ec4f575224cf1454",
+    "scope": "two inaccurate headers only;no implementation/type/import/test/fixture/title/schema/save/behavior change;whole source remainsreview"
+  },
+  "readBoundaries": [
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "ranges": [[1, 85], [1035, 1080], [2880, 3155], [3350, 3435], [4400, 4485]],
+      "credit": "targeted actual reads,not whole current file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "credit": "complete current source"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "credit": "complete current source including tail reread after output truncation"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item.ts",
+      "credit": "complete current source"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "ranges": [[1150, 1205]],
+      "credit": "actual equipment-refresh injection"
+    }
+  ],
+  "classification": {
+    "defect": "B documented invariant false: raw applyRawOpcode can mutate party/inventory/equipment through battleCtx.gs. Old M2/M3 future-handler and showBattleMessage/skip claims also obsolete.",
+    "change": "Only module/runScript headers now describe actual coroutine/local-cursor ownership,shared side effects,dialog queue and termination/error behavior.",
+    "retained": "No cleanup role-domain change,no new algorithm/no guard. Whole event-system,3r/3s/3w remainreview/partial."
+  },
+  "dimensions": {
+    "A": "Code behavior/type/public exports unchanged by parsed AST and emitted JS. Existing caller/failure/raw effects boundaries referenced; arbitrary scripts/intermediate dialogue side-effect equality remainsunproven.",
+    "B": "Two misleading historical implementation-status headers replaced by present ownership/error/queue contract,checked against actual fallback/setParty and callers.",
+    "C": "Local cursor is distinct from shared GameState. Global refresh handler injection remains bootstrap-owned and visible; no new storage/context abstraction. Broader singleton reentrancy remains outside this correction.",
+    "D": "Battle/explore/auto runner differences are explicit; no false equivalence or loop-merging introduced.",
+    "E": "No fixtures/assertions/identities changed. Prior bound game3724 and official20040 reused under identical emitted body; no new red claim for comment repair.",
+    "F": "Entry point responsibilities and effect boundaries are direct,without obsolete milestone lists.",
+    "G": "Removed obsolete future-stage/stub descriptions;implementation,branches,exports and parameters unchanged.",
+    "H": "Explicit data/command/handler seams documented without exposing internals or altering injection API."
+  },
+  "next": "Prove canonical battle party change→old BattleState role Extra write→no subsequent rebuild→cleanup→actual consumer,or a complete impossibility invariant. Garlic now genuinely writes selected role; prior missing context cannot serve as an unreachability proof. Current raw14buffs/onegarlic census alone insufficient.",
+  "limits": "3w new context narrows reading,doesnot close high-risk unknown or confer whole file acceptance."
+}

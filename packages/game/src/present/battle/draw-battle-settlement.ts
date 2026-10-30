@@ -1,3 +1,4 @@
+import { blitUiFrame } from './blit-ui-frame.js'
 /**
  * D11b 战斗胜利结算演出渲染 —— 对照 sdlpal `PAL_BattleWon`(battle.c:991-1373)的多屏 box。
  * 逐帧只画 settlement.screens[index] 当前一屏(sdlpal 每屏 VIDEO_RestoreScreen 清前屏 = 我们每帧
@@ -60,19 +61,11 @@ function wordWidthCols(str: string): number {
   return (w + 8) >> 4
 }
 
-/** SPRITEUI frame 不透明 blit(arrow / slash)。 */
-function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
-  for (let y = 0; y < frame.height; y++) {
-    for (let x = 0; x < frame.width; x++) {
-      const off = y * frame.width + x
-      if (frame.opaque[off]! > 0) fb.writePixel(dstX + x, dstY + y, frame.indices[off]!)
-    }
-  }
-}
-
 export interface DrawBattleSettlementInput {
   fb: Framebuffer
   screen: BattleSettlementScreen
+  /** Live rgwName identities, independent of the cached settlement text. */
+  roleNames?: readonly number[]
   uiSpriteFrames?: IndexedImage[]
   glyphs?: GlyphTable
 }
@@ -81,18 +74,31 @@ export interface DrawBattleSettlementInput {
 export function drawBattleSettlement(input: DrawBattleSettlementInput): void {
   const { fb, screen, uiSpriteFrames, glyphs } = input
   if (!uiSpriteFrames) return
+  const roleName = (data: { roleId: number; name: string }): string =>
+    getWord(input.roleNames?.[data.roleId] ?? -1, data.name)
   switch (screen.kind) {
     case 'exp-cash':
       drawExpCashScreen(fb, screen.expGained, screen.cashGained, uiSpriteFrames, glyphs)
       break
     case 'level-up':
-      drawLevelUpScreen(fb, screen.data, uiSpriteFrames, glyphs)
+      drawLevelUpScreen(fb, { ...screen.data, name: roleName(screen.data) }, uiSpriteFrames, glyphs)
       break
     case 'hidden-exp-up':
-      drawHiddenExpUpScreen(fb, screen.data, uiSpriteFrames, glyphs)
+      drawHiddenExpUpScreen(
+        fb,
+        { ...screen.data, name: roleName(screen.data) },
+        uiSpriteFrames,
+        glyphs,
+      )
       break
     case 'learn-magic':
-      drawLearnMagicScreen(fb, screen.data.name, screen.data.magicName, uiSpriteFrames, glyphs)
+      drawLearnMagicScreen(
+        fb,
+        roleName(screen.data),
+        getWord(screen.data.magicId ?? -1, screen.data.magicName),
+        uiSpriteFrames,
+        glyphs,
+      )
       break
   }
 }
@@ -159,9 +165,9 @@ function drawExpCashScreen(
   // ww1=0(中文 GETEXP 5 字 → w1=8)
   drawSingleLineBox({ fb, x: 83, y: 60, len: 8, uiSpriteFrames: ui })
   drawSingleLineBox({ fb, x: 65, y: 105, len: 10, uiSpriteFrames: ui })
-  renderText(fb, W_GETEXP, 95, 70, 0, glyphs, false)
-  renderText(fb, W_BEATENEMY, 77, 115, 0, glyphs, false)
-  renderText(fb, W_DOLLAR, 197, 115, 0, glyphs, false)
+  renderText(fb, getWord(30, W_GETEXP), 95, 70, 0, glyphs, false)
+  renderText(fb, getWord(9, W_BEATENEMY), 77, 115, 0, glyphs, false)
+  renderText(fb, getWord(10, W_DOLLAR), 197, 115, 0, glyphs, false)
   drawNumber(fb, expGained, 5, { x: 182, y: 74 }, 'yellow', 'right', ui)
   drawNumber(fb, cashGained, 5, { x: 162, y: 119 }, 'yellow', 'mid', ui)
 }
@@ -178,15 +184,23 @@ function drawLevelUpScreen(
   drawBox({ fb, x: 82, y: 32, rows: 7, cols: 8, style: 1, uiSpriteFrames: ui })
 
   // 标题 "{name}修行提升"(battle.c:1132-1133,色 0 无阴影)
-  renderText(fb, `${d.name}${LEVELUP_LABELS[0]}${W_LEVELUP}`, 110, 10, 0, glyphs, false)
+  renderText(
+    fb,
+    `${d.name}${getWord(48, LEVELUP_LABELS[0])}${getWord(32, W_LEVELUP)}`,
+    110,
+    10,
+    0,
+    glyphs,
+    false,
+  )
 
   // 8 箭头(old→cur 指示)+ 8 标签(色 0xBB,有阴影)
   const arrow = ui[SPRITENUM_ARROW]
   for (let j = 0; j < 8; j++) {
-    if (arrow) blitSpriteOpaque(fb, arrow, 180, 48 + 18 * j)
+    if (arrow) blitUiFrame(fb, arrow, 180, 48 + 18 * j)
     renderText(
       fb,
-      LEVELUP_LABELS[j]!,
+      getWord(48 + j, LEVELUP_LABELS[j]!),
       100,
       44 + 18 * j,
       BATTLEWIN_LEVELUP_LABEL_COLOR,
@@ -202,17 +216,17 @@ function drawLevelUpScreen(
   // HP cur"/"max(battle.c:1158-1169)
   drawNumber(fb, d.hp.old, 4, { x: 133, y: 64 }, 'yellow', 'right', ui)
   drawNumber(fb, d.hp.oldMax, 4, { x: 154, y: 68 }, 'blue', 'right', ui)
-  if (slash) blitSpriteOpaque(fb, slash, 156, 66)
+  if (slash) blitUiFrame(fb, slash, 156, 66)
   drawNumber(fb, d.hp.cur, 4, { x: 195, y: 64 }, 'yellow', 'right', ui)
   drawNumber(fb, d.hp.curMax, 4, { x: 216, y: 68 }, 'blue', 'right', ui)
-  if (slash) blitSpriteOpaque(fb, slash, 218, 66)
+  if (slash) blitUiFrame(fb, slash, 218, 66)
   // MP cur"/"max(battle.c:1171-1182)
   drawNumber(fb, d.mp.old, 4, { x: 133, y: 82 }, 'yellow', 'right', ui)
   drawNumber(fb, d.mp.oldMax, 4, { x: 154, y: 86 }, 'blue', 'right', ui)
-  if (slash) blitSpriteOpaque(fb, slash, 156, 84)
+  if (slash) blitUiFrame(fb, slash, 156, 84)
   drawNumber(fb, d.mp.cur, 4, { x: 195, y: 82 }, 'yellow', 'right', ui)
   drawNumber(fb, d.mp.curMax, 4, { x: 216, y: 86 }, 'blue', 'right', ui)
-  if (slash) blitSpriteOpaque(fb, slash, 218, 84)
+  if (slash) blitUiFrame(fb, slash, 218, 84)
   // Attack/Magic/Defense/Dexterity/Flee old→cur(battle.c:1184-1212)
   const rows: [number, number, number][] = [
     [d.attack.old, d.attack.cur, 101],
@@ -236,11 +250,11 @@ function drawLearnMagicScreen(
   glyphs?: GlyphTable,
 ): void {
   const w1 = Math.max(wordWidthCols(name), 3)
-  const w2 = Math.max(wordWidthCols(W_ADDMAGIC), 2)
+  const w2 = Math.max(wordWidthCols(getWord(33, W_ADDMAGIC)), 2)
   const w3 = Math.max(wordWidthCols(magicName), 5)
   const ww = (w1 + w2 + w3 - 10) << 3
   drawSingleLineBox({ fb, x: 65 - ww, y: 105, len: w1 + w2 + w3, uiSpriteFrames: ui })
   renderText(fb, name, 75 - ww, 115, 0, glyphs, false)
-  renderText(fb, W_ADDMAGIC, 75 + 16 * w1 - ww, 115, 0, glyphs, false)
+  renderText(fb, getWord(33, W_ADDMAGIC), 75 + 16 * w1 - ww, 115, 0, glyphs, false)
   renderText(fb, magicName, 75 + 16 * (w1 + w2) - ww, 115, ADDMAGIC_NAME_COLOR, glyphs, false)
 }

@@ -1,0 +1,127 @@
+{
+  "sourceCandidate": "cae26b1c7 + 3 scoped files in isolated preparation",
+  "testPath": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+  "sourceSha256": "2b6f3a3533bbb86ea650690f182a2a171f988860aa5c48b5b24b81dfe23e0ada",
+  "isolatedWorkspace": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+  "noWorkingTreeProductMutation": true,
+  "localPackageCopies": ["editor", "reforge", "content", "shared"],
+  "cleanup": {
+    "exactPrefixAndParentChecked": true,
+    "removed": false,
+    "pending": "after hash-checked promotion; window still frozen"
+  },
+  "recipe": {
+    "target": "packages/editor/src/core/sprite-commands.ts",
+    "find": "assetBlobs[record.path] = this.persistedBytes.slice(0)",
+    "replace": "assetBlobs[record.path] = new ArrayBuffer(this.persistedBytes.byteLength)"
+  },
+  "runs": [
+    {
+      "label": "blob-preliminary-old-zero-bytes",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5/blob-oracle-old-zero-bytes.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 492,
+      "rawSha256": "fe413e6303d9fbc9bde1a4870053fcce2540494c7364bf25a67165a8d2e8d3b3",
+      "runnerBytes": 1850,
+      "runnerSha256": "f9943355d288fc0d49c8d85ff95919262cee518f1b7545df29a0fdbbf262e479",
+      "testSha256": "e0696ae55cd58822a15416888f5754d42a6286303bb3206b5348af6a1798d70a",
+      "executedProductSha256": "88c7996bb037779c87982b363c8c950b28f834b1795bba55dc51d02d7f38e7ff",
+      "passed": 3,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 删除用途：确认后提交 RemoveSpriteDefinitionCommand，选择回落到兄弟用途",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 删除未使用源资源：catalog 记录与孤立 blob 一并清理，undo 连 bytes 一起恢复",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 布局类型切换提交 UpdateSpriteCommand：directional ↔ static",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    },
+    {
+      "label": "blob-preliminary-new-zero-bytes",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5/blob-oracle-new-zero-bytes.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 599,
+      "rawSha256": "9e1ae4f722b56583600dac464b4adb61e7198a63342334d19c4c72103bcbfea3",
+      "runnerBytes": 1850,
+      "runnerSha256": "71f1c1ad754b4a427bba8f18bc7cb5addbfc8a5f131a08da8a154a0a9765b297",
+      "testSha256": "99fa193f055c7ecebf2792364cd3279e50d5fce30816fb2334d889e85d9070b8",
+      "executedProductSha256": "88c7996bb037779c87982b363c8c950b28f834b1795bba55dc51d02d7f38e7ff",
+      "passed": 3,
+      "failed": 0,
+      "pending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 删除用途：确认后提交 RemoveSpriteDefinitionCommand，选择回落到兄弟用途",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 删除未使用源资源：catalog 记录与孤立 blob 一并清理，undo 连 bytes 一起恢复",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+          "name": "U2b WorldSpriteLibrary 残差 布局类型切换提交 UpdateSpriteCommand：directional ↔ static",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0
+    }
+  ],
+  "outcome": "REJECTED preliminary counter: both old/new passed; ArrayBuffer toEqual did not distinguish zero-filled bytes in this test environment. Final oracle will compare Uint8Array contents."
+}

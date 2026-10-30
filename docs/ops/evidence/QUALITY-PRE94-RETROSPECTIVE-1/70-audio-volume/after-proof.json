@@ -1,0 +1,187 @@
+{
+  "phase": "after",
+  "base": "9cd270f26eb07be66deeeb36c416d5daa6437ad7",
+  "formalSha256": {
+    "audio-volume.ts": "3a1e7ba69c8c60366211365fae35cb5e41ab78791e59cac9f486974dd6d92e50",
+    "audio-volume.test.ts": "e624806a16ef3353e5b1d40f780817e4d4ed1d9e89ee36bcc2cdbeeb0e1eb41a",
+    "audio-volume.boundaries.test.ts": "6fe6bc00bc6687dd5b978755e08f5d93ecb8b49835e86ea4803b8c1b84049131"
+  },
+  "variants": {
+    "control": null,
+    "mute-key-ignored": ["const keyMute = opts.keyMute ?? 'tp-muted'", "const keyMute = 'tp-muted'"]
+  },
+  "runs": [
+    {
+      "variant": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-volume70-after-control-audio-volume.test.ts",
+        "src/shell/pre94-volume70-after-control-audio-volume.boundaries.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-volume70-aur5m5zt/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "34b74ecedb9484fae9355b34ba5639e2f1c5b604ced71e9ac1b9448e381fcc19",
+      "runnerSha256": "43d6351611783be870d7869dbb5fabd349c0a09f466dfbf6947564b627f03655",
+      "moduleSha256": "3a1e7ba69c8c60366211365fae35cb5e41ab78791e59cac9f486974dd6d92e50",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-volume70-after-control-audio-volume.ts": "3a1e7ba69c8c60366211365fae35cb5e41ab78791e59cac9f486974dd6d92e50",
+        "packages/game/src/shell/pre94-volume70-after-control-audio-volume.test.ts": "d71660974fdc468f1c008f6c9b199910e546e46b7ddf84632d897e5c58858d04",
+        "packages/game/src/shell/pre94-volume70-after-control-audio-volume.boundaries.test.ts": "00aefacae733509f61d69aaa3b2bcab5dc078714f3b76e9b39c1dd3bf1e450c7"
+      },
+      "passed": 8,
+      "failed": 0,
+      "pending": 0,
+      "errorNames": [],
+      "cases": [
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 NaN 音量不进入 sink 或 localStorage，按 0 处理",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 stored '0' 优先于非零 defaultVolume",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 缺存储时 defaultVolume 0 生效，未指定则使用 0.8",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 三通道 keyVol 各自持久化，不覆盖其它通道",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 三通道共享自定义 keyMute，新实例恢复而存活实例不自动同步",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.test.ts",
+          "fullName": "audio-volume setVolume 钳制上下界与区间内值，同步目标、sink 和持久值",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.test.ts",
+          "fullName": "audio-volume 静音只屏蔽输出，期间更新目标音量后取消静音恢复新值",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.test.ts",
+          "fullName": "audio-volume 启动读回 localStorage(音量 + 静音)并即时应用",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "mute-key-ignored",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-volume70-after-mute-key-ignored-audio-volume.test.ts",
+        "src/shell/pre94-volume70-after-mute-key-ignored-audio-volume.boundaries.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-volume70-typcmwbe/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "0ec1bccb86ece605c314aca6860bc1a77d32f62fe6f1716199b72d6215eae624",
+      "runnerSha256": "15f2b2b3151bd6a31817f8a401a4aa2d8ad087e82ebfd48c10ba3674a1a8bceb",
+      "moduleSha256": "3acfcefae8dfd13882a42ce20322c146d4b44f935d063a7f99a524ed02c8a801",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-volume70-after-mute-key-ignored-audio-volume.ts": "3acfcefae8dfd13882a42ce20322c146d4b44f935d063a7f99a524ed02c8a801",
+        "packages/game/src/shell/pre94-volume70-after-mute-key-ignored-audio-volume.test.ts": "93efdcd792ff0409aaf150180b16e8a1f91fe7a8a8d7c529d174a4d2f39313cb",
+        "packages/game/src/shell/pre94-volume70-after-mute-key-ignored-audio-volume.boundaries.test.ts": "9352237d33e55f47debd9097c26e396fea415fe4d14747df0caaf7fe52c4aaf8"
+      },
+      "passed": 7,
+      "failed": 1,
+      "pending": 0,
+      "errorNames": ["AssertionError"],
+      "cases": [
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 NaN 音量不进入 sink 或 localStorage，按 0 处理",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 stored '0' 优先于非零 defaultVolume",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 缺存储时 defaultVolume 0 生效，未指定则使用 0.8",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 三通道 keyVol 各自持久化，不覆盖其它通道",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 三通道共享自定义 keyMute，新实例恢复而存活实例不自动同步",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected null to be '1' // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-volume70-after-mute-key-ignored-audio-volume.boundaries.test.ts:86:43\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "audio-volume.test.ts",
+          "fullName": "audio-volume setVolume 钳制上下界与区间内值，同步目标、sink 和持久值",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.test.ts",
+          "fullName": "audio-volume 静音只屏蔽输出，期间更新目标音量后取消静音恢复新值",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.test.ts",
+          "fullName": "audio-volume 启动读回 localStorage(音量 + 静音)并即时应用",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    }
+  ],
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

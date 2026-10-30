@@ -1,0 +1,13 @@
+{
+  "command": ["python3", "/tmp/type-pal-rle-calibration-scope.py"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T07:45:14.482332+00:00",
+  "completedAt": "2026-10-18T07:45:14.772601+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "scope.raw.gz",
+  "rawBytes": 149,
+  "rawSha256": "f91713c7ddaddf9ecf9118b3aac303219cc5dd2f00fa21813b88d5a23b75b3f7",
+  "fullUncutMergedStdoutStderr": true
+}

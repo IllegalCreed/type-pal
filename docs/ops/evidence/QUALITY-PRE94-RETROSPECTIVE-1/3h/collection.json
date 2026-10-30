@@ -1,0 +1,351 @@
+{
+  "runs": [
+    {
+      "phase": "before",
+      "kind": "list",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "list",
+        "src/assets/pre94-3h-list-before-png.test.ts",
+        "src/assets/pre94-3h-list-before-png-decode.grok-r1.test.ts",
+        "src/assets/pre94-3h-list-before-png.glm-phase1-leaves.test.ts",
+        "src/present/__tests__/grok-present/pre94-3h-list-before-p10-indexed-png.test.ts",
+        "--maxWorkers=1",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-fn_s2ec7/list.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 2.254,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copiesSha256": {
+        "packages/game/src/assets/pre94-3h-list-before-png.test.ts": "16ff70959cfbf35550f36315a1abeac90cf395cb40bee2024c25ec805eed3609",
+        "packages/game/src/assets/pre94-3h-list-before-png-decode.grok-r1.test.ts": "9a011399a2cd6c7e25f1fd53dc876afc002a8500454869db90b77f39dd0005b9",
+        "packages/game/src/assets/pre94-3h-list-before-png.glm-phase1-leaves.test.ts": "ef673c1ce3b4cb6467793f202eb999f093dd4d29de306d4eaabcfd4453c6c5a0",
+        "packages/game/src/present/__tests__/grok-present/pre94-3h-list-before-p10-indexed-png.test.ts": "8b5b21c5a135c0cc8e680dd21e1e5b0d79999bb82d3ffbf753ea3c6c6909c124"
+      },
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "c17aaa61d2fe5c901384c50906920ef6b31435f345e5f188407bcf4bc6a0f911"
+    },
+    {
+      "phase": "before",
+      "kind": "v8",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/assets/pre94-3h-list-before-png.test.ts",
+        "src/assets/pre94-3h-list-before-png-decode.grok-r1.test.ts",
+        "src/assets/pre94-3h-list-before-png.glm-phase1-leaves.test.ts",
+        "src/present/__tests__/grok-present/pre94-3h-list-before-p10-indexed-png.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--coverage.enabled",
+        "--coverage.provider=v8",
+        "--coverage.include=src/assets/png.ts",
+        "--coverage.reporter=json",
+        "--coverage.reporter=json-summary",
+        "--coverage.reportsDirectory=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-fn_s2ec7/coverage",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-fn_s2ec7/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 2.74,
+      "rawSha256": "c5f8ab7789cbb0881443427f6e57679eb0faf11167c2c9d5f42c62dbe2336d05",
+      "copiesSha256": {
+        "packages/game/src/assets/pre94-3h-list-before-png.test.ts": "16ff70959cfbf35550f36315a1abeac90cf395cb40bee2024c25ec805eed3609",
+        "packages/game/src/assets/pre94-3h-list-before-png-decode.grok-r1.test.ts": "9a011399a2cd6c7e25f1fd53dc876afc002a8500454869db90b77f39dd0005b9",
+        "packages/game/src/assets/pre94-3h-list-before-png.glm-phase1-leaves.test.ts": "ef673c1ce3b4cb6467793f202eb999f093dd4d29de306d4eaabcfd4453c6c5a0",
+        "packages/game/src/present/__tests__/grok-present/pre94-3h-list-before-p10-indexed-png.test.ts": "8b5b21c5a135c0cc8e680dd21e1e5b0d79999bb82d3ffbf753ea3c6c6909c124"
+      },
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "bc2c9c3bfc1b8ca4eaea8c252dd66feff954195c230605461146ba3030cce3bb"
+    },
+    {
+      "phase": "after",
+      "kind": "list",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "list",
+        "src/assets/png.test.ts",
+        "src/assets/png-decode.grok-r1.test.ts",
+        "src/assets/png.glm-phase1-leaves.test.ts",
+        "src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+        "--maxWorkers=1",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-ne1qmyko/list.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 2.165,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copiesSha256": {},
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "0f08fd5c62061f1773e8aa0f9283504598b7f5495ab359362134fe53531c6588"
+    },
+    {
+      "phase": "after",
+      "kind": "v8",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/assets/png.test.ts",
+        "src/assets/png-decode.grok-r1.test.ts",
+        "src/assets/png.glm-phase1-leaves.test.ts",
+        "src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--coverage.enabled",
+        "--coverage.provider=v8",
+        "--coverage.include=src/assets/png.ts",
+        "--coverage.reporter=json",
+        "--coverage.reporter=json-summary",
+        "--coverage.reportsDirectory=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-ne1qmyko/coverage",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-ne1qmyko/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 2.66,
+      "rawSha256": "1bd37deac6280dbb4187835faaaed88600d89894cfe5a3544dccbbe033c038cf",
+      "copiesSha256": {},
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "fd734e209f036ded95f3aef291ef5024ce1e06837710fe7a88bfe22233e3eec5"
+    }
+  ],
+  "snapshots": {
+    "origin/main": {
+      "commit": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+      "files": {
+        "assets/png.test.ts": {
+          "sha256": "16ff70959cfbf35550f36315a1abeac90cf395cb40bee2024c25ec805eed3609",
+          "equalsBefore": true
+        },
+        "assets/png-decode.grok-r1.test.ts": {
+          "sha256": "9a011399a2cd6c7e25f1fd53dc876afc002a8500454869db90b77f39dd0005b9",
+          "equalsBefore": true
+        },
+        "assets/png.glm-phase1-leaves.test.ts": {
+          "sha256": "ef673c1ce3b4cb6467793f202eb999f093dd4d29de306d4eaabcfd4453c6c5a0",
+          "equalsBefore": true
+        },
+        "present/__tests__/grok-present/p10-indexed-png.test.ts": {
+          "sha256": "8b5b21c5a135c0cc8e680dd21e1e5b0d79999bb82d3ffbf753ea3c6c6909c124",
+          "equalsBefore": true
+        }
+      }
+    },
+    "d4cf7f57d": {
+      "commit": "d4cf7f57d237895d920ddee72f69e0278680157a",
+      "files": {
+        "assets/png.test.ts": {
+          "sha256": "16ff70959cfbf35550f36315a1abeac90cf395cb40bee2024c25ec805eed3609",
+          "equalsBefore": true
+        },
+        "assets/png-decode.grok-r1.test.ts": {
+          "sha256": "9a011399a2cd6c7e25f1fd53dc876afc002a8500454869db90b77f39dd0005b9",
+          "equalsBefore": true
+        },
+        "assets/png.glm-phase1-leaves.test.ts": {
+          "sha256": "ef673c1ce3b4cb6467793f202eb999f093dd4d29de306d4eaabcfd4453c6c5a0",
+          "equalsBefore": true
+        },
+        "present/__tests__/grok-present/p10-indexed-png.test.ts": {
+          "sha256": "8b5b21c5a135c0cc8e680dd21e1e5b0d79999bb82d3ffbf753ea3c6c6909c124",
+          "equalsBefore": true
+        }
+      }
+    },
+    "46fb9d5fe": {
+      "commit": "46fb9d5fe254e337143914324edba1a3ab36eced",
+      "files": {
+        "assets/png.test.ts": {
+          "sha256": "16ff70959cfbf35550f36315a1abeac90cf395cb40bee2024c25ec805eed3609",
+          "equalsBefore": true
+        },
+        "assets/png-decode.grok-r1.test.ts": {
+          "sha256": "9a011399a2cd6c7e25f1fd53dc876afc002a8500454869db90b77f39dd0005b9",
+          "equalsBefore": true
+        },
+        "assets/png.glm-phase1-leaves.test.ts": {
+          "sha256": "ef673c1ce3b4cb6467793f202eb999f093dd4d29de306d4eaabcfd4453c6c5a0",
+          "equalsBefore": true
+        },
+        "present/__tests__/grok-present/p10-indexed-png.test.ts": {
+          "sha256": "8b5b21c5a135c0cc8e680dd21e1e5b0d79999bb82d3ffbf753ea3c6c6909c124",
+          "equalsBefore": true
+        }
+      }
+    }
+  },
+  "identities": {
+    "before": {
+      "identities": [
+        "packages/game/src/assets/png-decode.grok-r1.test.ts :: project root :: G02-A decodePngToIndices 通道与上下文 > G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R",
+        "packages/game/src/assets/png-decode.grok-r1.test.ts :: project root :: G02-A decodePngToIndices 通道与上下文 > G02-A02 3×2 图的末像素落在下标 5，宽高不是写死的 2×1",
+        "packages/game/src/assets/png-decode.grok-r1.test.ts :: project root :: G02-A decodePngToIndices 通道与上下文 > G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap",
+        "packages/game/src/assets/png-decode.grok-r1.test.ts :: project root :: G02-A decodePngToIndices 通道与上下文 > G02-A04 4 字节坏 blob 的错误同时带上字节数和 MIME 类型",
+        "packages/game/src/assets/png-decode.grok-r1.test.ts :: project root :: G02-A decodePngToIndices 通道与上下文 > G02-A05 解码失败时把原始异常放在 Error.cause 上",
+        "packages/game/src/assets/png.glm-phase1-leaves.test.ts :: project root :: L23 decodePngToIndices 剩余合同 > alpha=0 → opaque 0（RLE-skip 透明），alpha>0 → opaque 1（palette-0 也保）",
+        "packages/game/src/assets/png.glm-phase1-leaves.test.ts :: project root :: L23 decodePngToIndices 剩余合同 > 坏 blob → 失败上下文带尺寸/类型，不裸抛",
+        "packages/game/src/assets/png.test.ts :: project root :: decodePngToIndices > 从 Blob 解出索引数组(取 R 通道)",
+        "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts :: project root :: P10 PNG消费与释放 > P10 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer",
+        "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts :: project root :: P10 PNG消费与释放 > P10 解码失败不持有bitmap，getImageData或drawImage失败仍关闭"
+      ],
+      "files": [
+        {
+          "file": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+          "testCount": 5,
+          "identityDigest": "978aefb40b45b58a493b116319599673c4c3443a5efc0dedb7153100215f0e39"
+        },
+        {
+          "file": "packages/game/src/assets/png.glm-phase1-leaves.test.ts",
+          "testCount": 2,
+          "identityDigest": "ae803708fa9f8fe2f30bff06fe7b74aaf02172f3db26a5f2bad4749e71370018"
+        },
+        {
+          "file": "packages/game/src/assets/png.test.ts",
+          "testCount": 1,
+          "identityDigest": "c0139b2812040d44eb07e456beee6f6e509e6c8b77ed99411442a182d8ba1cd1"
+        },
+        {
+          "file": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+          "testCount": 2,
+          "identityDigest": "38501f31146a22ea6434b46441c56e6febd1ece3765465a641cb57d8a9a9df44"
+        }
+      ]
+    },
+    "after": {
+      "identities": [
+        "packages/game/src/assets/png-decode.grok-r1.test.ts :: project root :: G02-A decodePngToIndices 通道与上下文 > G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R",
+        "packages/game/src/assets/png-decode.grok-r1.test.ts :: project root :: G02-A decodePngToIndices 通道与上下文 > G02-A02 3×2 完整下标与遮罩按行保存",
+        "packages/game/src/assets/png-decode.grok-r1.test.ts :: project root :: G02-A decodePngToIndices 通道与上下文 > G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap",
+        "packages/game/src/assets/png-decode.grok-r1.test.ts :: project root :: G02-A decodePngToIndices 通道与上下文 > G02-A05 解码失败时把原始异常放在 Error.cause 上",
+        "packages/game/src/assets/png.glm-phase1-leaves.test.ts :: project root :: L23 decodePngToIndices 剩余合同 > alpha=0 → opaque 0（RLE-skip 透明），alpha>0 → opaque 1（palette-0 也保）",
+        "packages/game/src/assets/png.test.ts :: project root :: decodePngToIndices > 保留包含高位下标 200 的完整首行",
+        "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts :: project root :: P10 PNG消费与释放 > P10 drawImage失败仍关闭本次bitmap",
+        "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts :: project root :: P10 PNG消费与释放 > P10 getImageData失败仍关闭本次bitmap",
+        "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts :: project root :: P10 PNG消费与释放 > P10 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer"
+      ],
+      "files": [
+        {
+          "file": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+          "testCount": 4,
+          "identityDigest": "16119a6654a2b67d2886ae0814162e008ca43071d4b243c61044345944ca3290"
+        },
+        {
+          "file": "packages/game/src/assets/png.glm-phase1-leaves.test.ts",
+          "testCount": 1,
+          "identityDigest": "d7224527d2ccf4893eefb5ec6fad84b84b1d11824e99ecd7b6e5092affd7bd86"
+        },
+        {
+          "file": "packages/game/src/assets/png.test.ts",
+          "testCount": 1,
+          "identityDigest": "f7c815653397c6fce0b1981e532ceca4c16ceb02d4eed240e15ed9c714422be0"
+        },
+        {
+          "file": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+          "testCount": 3,
+          "identityDigest": "8a30335d04e81bfef04ef8aff3665439fe6355833a30bfdb06c8dcbecc59684a"
+        }
+      ]
+    }
+  },
+  "coverage": {
+    "before": {
+      "lines": {
+        "total": 18,
+        "covered": 18,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 2,
+        "covered": 2,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 20,
+        "covered": 20,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "after": {
+      "lines": {
+        "total": 18,
+        "covered": 18,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 2,
+        "covered": 2,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 20,
+        "covered": 20,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      }
+    }
+  },
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true,
+  "formalSha256": {
+    "scripts/coverage/approved-test-retirements.mjs": "950c8ec2c45cc51e68c88345d4b7fa3834e7ed8beb70a7bebdbce2597e6f95c0",
+    "scripts/coverage/approved-test-retirements.test.mjs": "b08ead657bd4a56b518bac31ca63fae3f31ed400467f2e7e6140053cfe1e7a67",
+    "packages/game/src/assets/png.ts": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+    "packages/game/src/assets/png.test.ts": "d2cbb355eb350011a8f0a810308adcf4cf8c874aa0ef146f3e93e9782b8c9894",
+    "packages/game/src/assets/png-decode.grok-r1.test.ts": "f5f9376a910a8ca5942e6339f1a5037029d02e9a732be47e3429df6601e75c15",
+    "packages/game/src/assets/png.glm-phase1-leaves.test.ts": "5b087d2c8d8d530a3a5d8b636de3289354441b84abc95da121563eb51ab61428",
+    "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts": "86b33800ea983839dabdb49ed19d38518bed736c1aae7c8d807827c562296e35"
+  }
+}

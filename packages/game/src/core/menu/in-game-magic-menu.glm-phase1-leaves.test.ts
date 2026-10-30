@@ -9,7 +9,8 @@
  * 显示 vs 执行：只核状态机与请求对象；不跑 scriptOnUse/不扣 MP。
  */
 import type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { magicWithCost as mkMagic } from './__tests__/magic-cost-fixture.js'
 import {
   cancelInGameMagic,
   confirmCaster,
@@ -26,6 +27,9 @@ import {
   refreshSpellMenu,
   rememberMagicCasterCursor,
 } from './in-game-magic-menu.js'
+
+beforeEach(() => rememberMagicCasterCursor(0))
+afterEach(() => rememberMagicCasterCursor(0))
 
 function mkRole(id: number, hp: number, mp: number, magic: number[]): PlayerRole {
   return {
@@ -89,28 +93,6 @@ const SPELLS: Spell[] = [
   },
 ]
 
-function mkMagic(id: number, costMP: number): Magic {
-  return {
-    id,
-    effect: 0,
-    type: 'normal',
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    speed: 0,
-    keepEffect: 0,
-    fireDelay: 0,
-    effectTimes: 0,
-    shake: 0,
-    wave: 0,
-    unknown: 0,
-    costMP,
-    baseDamage: 0,
-    elemental: 0,
-    sound: 0,
-  }
-}
-
 const MAGICS: Magic[] = [mkMagic(1, 4), mkMagic(2, 9)]
 
 function roles(): PlayerRoles {
@@ -130,24 +112,19 @@ function pickSpell(state: ReturnType<typeof createInGameMagicMenu>, spellId: num
 }
 
 describe('L02 DL22 施法人光标跨开启记忆（uigame.c:674/719 static w）', () => {
-  it('确认即记忆；再开菜单默认停回上次施法人；队伍变小越界归 0', () => {
-    // 从干净 static 起：显式归 0
-    rememberMagicCasterCursor(0)
+  it('确认即记忆；再开菜单默认停回上次施法人', () => {
     const first = createInGameMagicMenu(roles(), [0, 1], SPELLS, MAGICS)
     expect(first.casterMenu.cursor).toBe(0)
     first.casterMenu.cursor = 1
     confirmCaster(first, roles(), SPELLS, MAGICS) // 确认 role 1 → static=1
     const second = createInGameMagicMenu(roles(), [0, 1], SPELLS, MAGICS)
     expect(second.casterMenu.cursor).toBe(1) // 回放记忆
-    second.casterMenu.cursor = 0
-    confirmCaster(second, roles(), SPELLS, MAGICS) // static=0 收尾，不污染后续用例
   })
 
   it('越界（上次光标 ≥ 队伍人数）→ 保持建表默认 0', () => {
-    rememberMagicCasterCursor(5) // 模拟上次 5 人队尾部
+    rememberMagicCasterCursor(5) // 防御输入：超过当前队伍上界，不宣称生产存在5人队
     const s = createInGameMagicMenu(roles(), [0, 1], SPELLS, MAGICS)
     expect(s.casterMenu.cursor).toBe(0)
-    rememberMagicCasterCursor(0)
   })
 })
 

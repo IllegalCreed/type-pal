@@ -1,0 +1,108 @@
+{
+  "base": "e4656ae0057e1b5b67f5ffc17645ac86a7ff9c0d",
+  "main": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+  "assessment": "build checkpoint, no closure or merge; full gates pending",
+  "stages": [
+    {
+      "stage": "before",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+        "--reporter=default",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "VITEST_MAX_WORKERS": 1,
+      "exitCode": 0,
+      "rawArtifact": "before.raw.gz",
+      "rawBytes": 258023,
+      "rawSha256": "613190f128e44311e67a430656b0033d598cbd2281311cbc0c287325149cde2c",
+      "unwrappedAct": 604,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "testSummary": [" Test Files  1 passed (1)", "      Tests  70 passed (70)"]
+    },
+    {
+      "stage": "mount-only",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+        "--reporter=default",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "VITEST_MAX_WORKERS": 1,
+      "exitCode": 0,
+      "rawArtifact": "mount-only.raw.gz",
+      "rawBytes": 79845,
+      "rawSha256": "efb7eb8e9bdd0fd68dad12843c3e6c38c8fe399de76dabc0887a519213484791",
+      "unwrappedAct": 200,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "testSummary": [" Test Files  1 passed (1)", "      Tests  70 passed (70)"]
+    },
+    {
+      "stage": "lifecycle",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+        "--reporter=default",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "VITEST_MAX_WORKERS": 1,
+      "exitCode": 0,
+      "rawArtifact": "lifecycle.raw.gz",
+      "rawBytes": 342,
+      "rawSha256": "04e53b601cce51ed63c43b3d58182549112b8c8eb1c0f82c5b02ca48dcbccd84",
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "testSummary": [" Test Files  1 passed (1)", "      Tests  70 passed (70)"]
+    },
+    {
+      "stage": "typecheck",
+      "command": ["pnpm", "--filter", "@type-pal/editor", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "VITEST_MAX_WORKERS": 1,
+      "exitCode": 0,
+      "rawArtifact": "typecheck.raw.gz",
+      "rawBytes": 189,
+      "rawSha256": "051fe1ecaef8e8518e7ff4c1a27464a412c6990160e9214d8e838280a3830194",
+      "unwrappedAct": 0,
+      "unsupportedActEnvironment": 0,
+      "navigation": 0,
+      "testSummary": []
+    }
+  ],
+  "stageLimitation": "mount-only is a transitional ablation log, not a frozen business mutant or independent review; before uses base bytes, lifecycle uses hashes below",
+  "sourceFiles": [
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx",
+      "sha256": "e5aaa1b553c3eedee2d2ce56346a57cf7d11ce081ddd393d330301ae50bf3bab"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/kit.ts",
+      "sha256": "4ec97a6aeac9f79c07f5d61b5c4d40db1d1d9a552d8978ec84a09d7c5b66de45"
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "sha256": "ff3c3531c5cf11e1c4991859797d8f339ae8e48fa3d3b7d2056941daaa4da2fc"
+    }
+  ]
+}

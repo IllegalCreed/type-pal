@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --reporter=default --passWithNoTests",
     "check": "pnpm typecheck && pnpm test",
     "extract": "tsx src/cli.ts",
     "extract:videos": "tsx scripts/extract-videos.ts"

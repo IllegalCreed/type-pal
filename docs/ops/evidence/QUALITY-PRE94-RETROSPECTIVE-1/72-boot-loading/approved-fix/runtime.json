@@ -1,0 +1,110 @@
+[
+  {
+    "version": "before",
+    "command": ["node", "/tmp/boot-runtime-probe.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "url": "http://127.0.0.1:50446",
+    "browserVersion": "155.0.8059.85",
+    "realProductionEntry": true,
+    "ioInjection": "Only scene/0 HTTP404 and delayed real glyphs HTTP200; no bootstrap/UI/fetch core mock",
+    "atFailure": {
+      "text": "启动失败:assets: fetch /extracted/data/scene/0.json failed (404)",
+      "width": "0.0148148%",
+      "error": true,
+      "fetchReleased": false,
+      "swSupported": true
+    },
+    "afterLate": {
+      "text": "加载必要资源 11%",
+      "width": "1.37778%",
+      "error": true,
+      "fetchReleased": false,
+      "swSupported": true
+    },
+    "glyphStatus": 200,
+    "glyphFromServiceWorker": false,
+    "screenshot": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/build/dev-screenshots/boot-failure-progress/before.png",
+    "screenshotSha256": "06aaa79f1c7af703dc8ccff0f381c2f01f8d0ef13db8b2111d1c9a26d46fe7ea",
+    "buildSha256": {
+      "index.html": "2dc9942f991af47f92352cc83afe7a3b341b2d0fcd377e5118fec45d718eb32d",
+      "assets/audio-T8kdK6_l.js": "c01250e7105a839d28be1089578d5f74a586185b9743e14b8ce76e1b7f8847ec",
+      "assets/index-D5uBKdaH.js": "c4ae7e506cb4dca1b4f7f297df58bb1bbf2b52c92e4c43ae583a4181ec234f73",
+      "assets/rix-DvAflSRQ.wasm": "40c1a1df2abc0f8d5a4518a50abe281edc219afb937f5e3eb64c3dd4c6815c13",
+      "assets/rix-worklet-8yZToAqI.js": "baaf4612c888e02de40e99864e5408135cb3ba5d7f38035168fbc8e89297b921"
+    },
+    "events": [
+      {
+        "type": "console:error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      },
+      {
+        "type": "console:error",
+        "text": "bootstrap failed: Error: assets: fetch /extracted/data/scene/0.json failed (404)\n    at N (http://127.0.0.1:50446/assets/index-D5uBKdaH.js:1:16819)\n    at async Object.Be [as loadAssets] (http://127.0.0.1:50446/assets/index-D5uBKdaH.js:1:17080)\n    at async Promise.all (index 0)\n    at async $C (http://127.0.0.1:50446/assets/index-D5uBKdaH.js:183:37464)"
+      }
+    ],
+    "assertionError": {
+      "name": "AssertionError",
+      "code": "ERR_ASSERTION",
+      "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '加载必要资源 11%'\n- '启动失败:assets: fetch /extracted/data/scene/0.json failed (404)'\n"
+    },
+    "productionSwRegistrationCodeUnmocked": true,
+    "notClaimed": [
+      "explicit SW activation-state assertion",
+      "offline cache protocol acceptance",
+      "whole game E2E"
+    ],
+    "metadataCorrection": "The probe did not assert registration state; the original literal true flag was overly broad and is replaced with the directly supported unmocked-code statement. Native observation values are unchanged."
+  },
+  {
+    "version": "after",
+    "command": ["node", "/tmp/boot-runtime-probe.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "url": "http://127.0.0.1:50464",
+    "browserVersion": "155.0.8059.85",
+    "realProductionEntry": true,
+    "ioInjection": "Only scene/0 HTTP404 and delayed real glyphs HTTP200; no bootstrap/UI/fetch core mock",
+    "atFailure": {
+      "text": "启动失败:assets: fetch /extracted/data/scene/0.json failed (404)",
+      "width": "0.0444444%",
+      "error": true,
+      "fetchReleased": true,
+      "swSupported": true
+    },
+    "afterLate": {
+      "text": "启动失败:assets: fetch /extracted/data/scene/0.json failed (404)",
+      "width": "0.0444444%",
+      "error": true,
+      "fetchReleased": true,
+      "swSupported": true
+    },
+    "glyphStatus": 200,
+    "glyphFromServiceWorker": false,
+    "screenshot": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/build/dev-screenshots/boot-failure-progress/after.png",
+    "screenshotSha256": "fc43a714b3ed1332642f9dfd0c4d208e55afe894447756ebe6cfd45119eaca38",
+    "buildSha256": {
+      "index.html": "47f308313c263d87aab3580f80507cf709330698dd85ddff61e00777813c2b96",
+      "assets/audio-T8kdK6_l.js": "c01250e7105a839d28be1089578d5f74a586185b9743e14b8ce76e1b7f8847ec",
+      "assets/index-Aak74Pol.js": "d307eb401fd924b0f06deaf2c194be94c78a91fdb57737b9f8a8c187873c2069",
+      "assets/rix-DvAflSRQ.wasm": "40c1a1df2abc0f8d5a4518a50abe281edc219afb937f5e3eb64c3dd4c6815c13",
+      "assets/rix-worklet-8yZToAqI.js": "baaf4612c888e02de40e99864e5408135cb3ba5d7f38035168fbc8e89297b921"
+    },
+    "events": [
+      {
+        "type": "console:error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      },
+      {
+        "type": "console:error",
+        "text": "bootstrap failed: Error: assets: fetch /extracted/data/scene/0.json failed (404)\n    at N (http://127.0.0.1:50464/assets/index-Aak74Pol.js:1:16894)\n    at async Object.Ve [as loadAssets] (http://127.0.0.1:50464/assets/index-Aak74Pol.js:1:17154)\n    at async Promise.all (index 0)\n    at async ew (http://127.0.0.1:50464/assets/index-Aak74Pol.js:183:37463)"
+      }
+    ],
+    "assertionError": null,
+    "productionSwRegistrationCodeUnmocked": true,
+    "notClaimed": [
+      "explicit SW activation-state assertion",
+      "offline cache protocol acceptance",
+      "whole game E2E"
+    ],
+    "metadataCorrection": "The probe did not assert registration state; the original literal true flag was overly broad and is replaced with the directly supported unmocked-code statement. Native observation values are unchanged."
+  }
+]

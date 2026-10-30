@@ -150,7 +150,6 @@ describe('G07-C 菜单框像素', () => {
 
   it('G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7', () => {
     expect(menuTextMaxCols(['EEEEEEEE'], glyphs)).toBe(3)
-    expect(menuTextMaxCols(['EEEEEEEE'], glyphs)).not.toBe(7)
   })
 
   it('G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色', () => {

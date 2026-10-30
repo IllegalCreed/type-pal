@@ -1,0 +1,517 @@
+{
+  "baseSha256": "bc3ea898b34209830400d13a81e6698f2572785b01e8719516902d75c9f38664",
+  "statements": 119,
+  "setupStatements": 7,
+  "assertionCount": 84,
+  "allAssertionTokensUnchanged": true,
+  "groups": [
+    {
+      "name": "preserves entity address census, named cleanup targets and deletion blockers",
+      "baseStatementIndices": [7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+      "sourceRanges": [
+        {
+          "from": 102,
+          "to": 102
+        },
+        {
+          "from": 105,
+          "to": 116
+        },
+        {
+          "from": 117,
+          "to": 126
+        },
+        {
+          "from": 128,
+          "to": 137
+        },
+        {
+          "from": 138,
+          "to": 146
+        },
+        {
+          "from": 147,
+          "to": 158
+        },
+        {
+          "from": 159,
+          "to": 167
+        },
+        {
+          "from": 168,
+          "to": 168
+        },
+        {
+          "from": 171,
+          "to": 181
+        },
+        {
+          "from": 182,
+          "to": 182
+        }
+      ]
+    },
+    {
+      "name": "keeps scene-entry, shop, map and environment reference facts",
+      "baseStatementIndices": [17, 18, 19, 20, 21, 22, 23, 24, 93, 94],
+      "sourceRanges": [
+        {
+          "from": 184,
+          "to": 189
+        },
+        {
+          "from": 190,
+          "to": 190
+        },
+        {
+          "from": 191,
+          "to": 191
+        },
+        {
+          "from": 194,
+          "to": 244
+        },
+        {
+          "from": 245,
+          "to": 250
+        },
+        {
+          "from": 251,
+          "to": 251
+        },
+        {
+          "from": 254,
+          "to": 254
+        },
+        {
+          "from": 255,
+          "to": 255
+        },
+        {
+          "from": 766,
+          "to": 784
+        },
+        {
+          "from": 785,
+          "to": 799
+        }
+      ]
+    },
+    {
+      "name": "matches skill, enemy and poison references against independent collectors",
+      "baseStatementIndices": [25, 26, 27, 28, 29, 30, 31, 32],
+      "sourceRanges": [
+        {
+          "from": 256,
+          "to": 256
+        },
+        {
+          "from": 257,
+          "to": 261
+        },
+        {
+          "from": 262,
+          "to": 266
+        },
+        {
+          "from": 267,
+          "to": 271
+        },
+        {
+          "from": 272,
+          "to": 277
+        },
+        {
+          "from": 278,
+          "to": 284
+        },
+        {
+          "from": 285,
+          "to": 297
+        },
+        {
+          "from": 298,
+          "to": 298
+        }
+      ]
+    },
+    {
+      "name": "preserves actor identities, structural references and deletion impact",
+      "baseStatementIndices": [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47],
+      "sourceRanges": [
+        {
+          "from": 299,
+          "to": 299
+        },
+        {
+          "from": 300,
+          "to": 300
+        },
+        {
+          "from": 301,
+          "to": 301
+        },
+        {
+          "from": 302,
+          "to": 304
+        },
+        {
+          "from": 305,
+          "to": 311
+        },
+        {
+          "from": 312,
+          "to": 312
+        },
+        {
+          "from": 313,
+          "to": 324
+        },
+        {
+          "from": 325,
+          "to": 341
+        },
+        {
+          "from": 342,
+          "to": 342
+        },
+        {
+          "from": 343,
+          "to": 343
+        },
+        {
+          "from": 344,
+          "to": 344
+        },
+        {
+          "from": 345,
+          "to": 357
+        },
+        {
+          "from": 358,
+          "to": 365
+        },
+        {
+          "from": 366,
+          "to": 396
+        },
+        {
+          "from": 397,
+          "to": 422
+        }
+      ]
+    },
+    {
+      "name": "preserves item access categories and external deletion blockers",
+      "baseStatementIndices": [48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
+      "sourceRanges": [
+        {
+          "from": 423,
+          "to": 423
+        },
+        {
+          "from": 424,
+          "to": 424
+        },
+        {
+          "from": 425,
+          "to": 425
+        },
+        {
+          "from": 426,
+          "to": 438
+        },
+        {
+          "from": 439,
+          "to": 441
+        },
+        {
+          "from": 442,
+          "to": 449
+        },
+        {
+          "from": 450,
+          "to": 459
+        },
+        {
+          "from": 460,
+          "to": 460
+        },
+        {
+          "from": 461,
+          "to": 461
+        },
+        {
+          "from": 462,
+          "to": 466
+        }
+      ]
+    },
+    {
+      "name": "preserves world and battle sprite identities, action links and collector parity",
+      "baseStatementIndices": [
+        58, 59, 60, 62, 63, 64, 65, 66, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91,
+        92
+      ],
+      "sourceRanges": [
+        {
+          "from": 467,
+          "to": 467
+        },
+        {
+          "from": 468,
+          "to": 470
+        },
+        {
+          "from": 471,
+          "to": 471
+        },
+        {
+          "from": 473,
+          "to": 473
+        },
+        {
+          "from": 474,
+          "to": 484
+        },
+        {
+          "from": 487,
+          "to": 487
+        },
+        {
+          "from": 488,
+          "to": 514
+        },
+        {
+          "from": 515,
+          "to": 515
+        },
+        {
+          "from": 644,
+          "to": 644
+        },
+        {
+          "from": 645,
+          "to": 645
+        },
+        {
+          "from": 646,
+          "to": 652
+        },
+        {
+          "from": 653,
+          "to": 676
+        },
+        {
+          "from": 677,
+          "to": 687
+        },
+        {
+          "from": 688,
+          "to": 703
+        },
+        {
+          "from": 704,
+          "to": 704
+        },
+        {
+          "from": 705,
+          "to": 722
+        },
+        {
+          "from": 723,
+          "to": 737
+        },
+        {
+          "from": 738,
+          "to": 738
+        },
+        {
+          "from": 739,
+          "to": 739
+        },
+        {
+          "from": 740,
+          "to": 745
+        },
+        {
+          "from": 746,
+          "to": 748
+        },
+        {
+          "from": 749,
+          "to": 757
+        },
+        {
+          "from": 758,
+          "to": 764
+        },
+        {
+          "from": 765,
+          "to": 765
+        }
+      ]
+    },
+    {
+      "name": "preserves asset identities, restored portrait steps and optimized collector parity",
+      "baseStatementIndices": [61, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76],
+      "sourceRanges": [
+        {
+          "from": 472,
+          "to": 472
+        },
+        {
+          "from": 516,
+          "to": 516
+        },
+        {
+          "from": 519,
+          "to": 523
+        },
+        {
+          "from": 524,
+          "to": 599
+        },
+        {
+          "from": 600,
+          "to": 600
+        },
+        {
+          "from": 601,
+          "to": 601
+        },
+        {
+          "from": 602,
+          "to": 603
+        },
+        {
+          "from": 604,
+          "to": 606
+        },
+        {
+          "from": 607,
+          "to": 613
+        },
+        {
+          "from": 614,
+          "to": 628
+        },
+        {
+          "from": 629,
+          "to": 643
+        }
+      ]
+    },
+    {
+      "name": "preserves behavior, hook and parent-scene dependency locators",
+      "baseStatementIndices": [95, 96, 97, 98, 99, 100, 101, 102, 103],
+      "sourceRanges": [
+        {
+          "from": 801,
+          "to": 801
+        },
+        {
+          "from": 802,
+          "to": 821
+        },
+        {
+          "from": 822,
+          "to": 840
+        },
+        {
+          "from": 841,
+          "to": 849
+        },
+        {
+          "from": 850,
+          "to": 868
+        },
+        {
+          "from": 869,
+          "to": 897
+        },
+        {
+          "from": 898,
+          "to": 898
+        },
+        {
+          "from": 899,
+          "to": 899
+        },
+        {
+          "from": 902,
+          "to": 938
+        }
+      ]
+    },
+    {
+      "name": "transports the compact reference snapshot through a fresh worker runtime",
+      "baseStatementIndices": [
+        104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118
+      ],
+      "sourceRanges": [
+        {
+          "from": 939,
+          "to": 939
+        },
+        {
+          "from": 940,
+          "to": 940
+        },
+        {
+          "from": 941,
+          "to": 941
+        },
+        {
+          "from": 942,
+          "to": 942
+        },
+        {
+          "from": 943,
+          "to": 945
+        },
+        {
+          "from": 947,
+          "to": 953
+        },
+        {
+          "from": 954,
+          "to": 954
+        },
+        {
+          "from": 955,
+          "to": 955
+        },
+        {
+          "from": 956,
+          "to": 956
+        },
+        {
+          "from": 957,
+          "to": 957
+        },
+        {
+          "from": 958,
+          "to": 958
+        },
+        {
+          "from": 959,
+          "to": 959
+        },
+        {
+          "from": 960,
+          "to": 960
+        },
+        {
+          "from": 961,
+          "to": 961
+        },
+        {
+          "from": 962,
+          "to": 962
+        }
+      ]
+    }
+  ],
+  "scope": "Pure test organization; original inputs/constants/expressions preserved, independent queries against one beforeAll-owned snapshot; not a product repair."
+}

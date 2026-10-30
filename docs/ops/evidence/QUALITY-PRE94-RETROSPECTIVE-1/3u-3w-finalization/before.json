@@ -1,0 +1,38 @@
+{
+  "base": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "c613002b06e83ccc6a4805c1fc0a3ace2d7107068d2305689ab3e456fe3f2c0c",
+      "lines": 67,
+      "ranges": [[1, 67]],
+      "snapshot": "c613002b06e8-battle-finalization.ts.before.gz",
+      "beforeLiveLedgerStatus": "已验证"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "sha256": "49ba4da01650fa6f467d272b3a0456f7205367566c1245bca5ccf20be4d20b9b",
+      "lines": 80,
+      "ranges": [[1, 80]],
+      "snapshot": "49ba4da01650-battle-finalization.test.ts.before.gz",
+      "beforeLiveLedgerStatus": "已验证"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "d9075c4dcad02f11f4dceaa6bd044706e543f33f08963de64c391105489a4a95",
+      "lines": 98,
+      "ranges": [[1, 98]],
+      "snapshot": "d9075c4dcad0-battle-runtime-context.ts.before.gz",
+      "beforeLiveLedgerStatus": "已验证"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.test.ts",
+      "sha256": "0e6e04ef6357fca2c8bca989846f2d28514f2ca5634837814b71297dc8df57ef",
+      "lines": 75,
+      "ranges": [[1, 75]],
+      "snapshot": "0e6e04ef6357-battle-runtime-context.test.ts.before.gz",
+      "beforeLiveLedgerStatus": "已验证"
+    }
+  ]
+}

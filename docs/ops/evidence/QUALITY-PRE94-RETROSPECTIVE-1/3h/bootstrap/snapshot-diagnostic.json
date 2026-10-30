@@ -1,0 +1,55 @@
+{
+  "collectorExit": 1,
+  "nativeRuns": 0,
+  "reason": "Historical bootstrap test source differs; do not overwrite history or force equal identities.",
+  "snapshots": [
+    {
+      "ref": "origin/main",
+      "file": "shell/bootstrap-resources.test.ts",
+      "sha256": "3fb0c797675d8291b57bfec660db8499a9c0b1e6cfb00ecb2d1f8538baca55f2",
+      "equalsBefore": true,
+      "bytes": 3909,
+      "beforeBytes": 3909
+    },
+    {
+      "ref": "origin/main",
+      "file": "shell/bootstrap-resources.grok-mid-1.test.ts",
+      "sha256": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+      "equalsBefore": true,
+      "bytes": 10148,
+      "beforeBytes": 10148
+    },
+    {
+      "ref": "d4cf7f57d",
+      "file": "shell/bootstrap-resources.test.ts",
+      "sha256": "537a5f44f4ea0f2ad73a48aec5889db407a97ad9845f15dab353251e7cc1eb34",
+      "equalsBefore": false,
+      "bytes": 3436,
+      "beforeBytes": 3909
+    },
+    {
+      "ref": "d4cf7f57d",
+      "file": "shell/bootstrap-resources.grok-mid-1.test.ts",
+      "sha256": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+      "equalsBefore": true,
+      "bytes": 10148,
+      "beforeBytes": 10148
+    },
+    {
+      "ref": "f2529c5fa",
+      "file": "shell/bootstrap-resources.test.ts",
+      "sha256": "3fb0c797675d8291b57bfec660db8499a9c0b1e6cfb00ecb2d1f8538baca55f2",
+      "equalsBefore": true,
+      "bytes": 3909,
+      "beforeBytes": 3909
+    },
+    {
+      "ref": "f2529c5fa",
+      "file": "shell/bootstrap-resources.grok-mid-1.test.ts",
+      "sha256": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b",
+      "equalsBefore": true,
+      "bytes": 10148,
+      "beforeBytes": 10148
+    }
+  ]
+}

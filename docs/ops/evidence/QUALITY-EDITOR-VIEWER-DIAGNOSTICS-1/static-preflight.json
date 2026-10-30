@@ -1,0 +1,57 @@
+{
+  "runs": [
+    {
+      "label": "lint-initial-format-fail",
+      "command": ["pnpm", "lint"],
+      "exit": 1,
+      "bytes": 381,
+      "sha256": "7c10a3d9d2ffd75c3ad226d986515f3437b82356628dea8bf52651891a49f5ae"
+    },
+    {
+      "label": "lint-clean",
+      "command": ["pnpm", "lint"],
+      "exit": 0,
+      "bytes": 199,
+      "sha256": "4fa9efc90dc249d2e213ea42d6661fbd38addf31d9fac79759a34b3454b7c2c0"
+    },
+    {
+      "label": "docs-final",
+      "command": ["pnpm", "check:docs"],
+      "exit": 0,
+      "bytes": 11743,
+      "sha256": "150c17158342ecca00b1f8d1e2d20e878f6b65fd5cfb048a187a3171411e1f2f"
+    },
+    {
+      "label": "ledger",
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "exit": 0,
+      "bytes": 112,
+      "sha256": "685ac274bed3c80f89836cc16b90bed7c0b4ca0f6b4d571694ee65b21e55aaa1"
+    },
+    {
+      "label": "diff-check",
+      "command": ["git", "diff", "--check"],
+      "exit": 0,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "semanticEntriesChanged": [
+    "docs/ops/board.md",
+    "docs/ops/evidence/README.md",
+    "docs/ops/tasks/index.md"
+  ],
+  "thisBatchManifestEntries": 21,
+  "unchangedOtherEntries": 18,
+  "overallContentReviewDocuments": 570,
+  "lintCleanDiagnostics": {
+    "error": 0,
+    "warning": 0,
+    "info": 0
+  },
+  "lintCleanFileCount": 4265,
+  "officialBaselineSha256": "f0d008c301aa4e86b2d08d8ffc292ffdf006f26efc021e8dffb747dbd0d4e790",
+  "nextFullWindowPending": true,
+  "closedFiles": [],
+  "receiptPreparationCorrection": "Earlier assertion confused the 21-entry incremental manifest with the overall 570 reviewed documents; corrected counts, same three owned entries changed."
+}

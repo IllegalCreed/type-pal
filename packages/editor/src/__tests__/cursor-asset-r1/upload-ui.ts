@@ -5,6 +5,7 @@
 import { act } from 'react'
 import { expect, vi } from 'vitest'
 import { loadFilesIntoInput, typeDraft } from './kit.js'
+import { waitForSpriteViewerResources, waitForWizardPalette } from './upload-harness.js'
 
 // ───────── SpriteUploadWizard ─────────
 
@@ -14,8 +15,32 @@ export function wizardFileInput(host: ParentNode): HTMLInputElement {
   return input!
 }
 
-export async function wizardPick(host: ParentNode, file: File): Promise<void> {
-  await loadFilesIntoInput(wizardFileInput(host), [file])
+export interface WizardImageRead {
+  /** The actual hardware call settles even if the wizard has since unmounted. */
+  finished: Promise<void>
+}
+
+export async function wizardPick(
+  host: ParentNode,
+  file: File,
+  options: { waitForDecode?: boolean } = {},
+): Promise<WizardImageRead> {
+  const bitmap = vi.spyOn(globalThis, 'createImageBitmap')
+  const reads: Promise<ImageBitmap>[] = []
+  try {
+    await act(async () => {
+      await loadFilesIntoInput(wizardFileInput(host), [file])
+      expect(bitmap).toHaveBeenCalledExactlyOnceWith(file)
+      const result = bitmap.mock.results[0]
+      if (!result || result.type !== 'return') throw new Error('Wizard image decode did not start')
+      reads.push(result.value)
+      // The component reports failures; negative tests must assert that error UI.
+      if (options.waitForDecode !== false) await Promise.allSettled(reads)
+    })
+  } finally {
+    bitmap.mockRestore()
+  }
+  return { finished: Promise.allSettled(reads).then(() => undefined) }
 }
 
 export function wizardField(host: ParentNode, id: string): HTMLInputElement {
@@ -71,47 +96,58 @@ export function wizardBusy(host: ParentNode): string | null {
 }
 
 /** 等到「已解码 + 色盘就绪 + 网格有效」：入库按钮出现且可点。 */
-export async function wizardWaitReady(host: ParentNode): Promise<void> {
-  await vi.waitFor(() => {
-    const button = host.querySelector<HTMLButtonElement>('.sprite-upload-submit')
-    expect(button, 'submit 出现').not.toBeNull()
-    expect(button!.disabled).toBe(false)
-  })
+export async function wizardWaitReady(host: HTMLElement): Promise<void> {
+  await waitForWizardPalette(host)
+  const button = host.querySelector<HTMLButtonElement>('.sprite-upload-submit')
+  expect(button, 'submit 出现').not.toBeNull()
+  expect(button!.disabled).toBe(false)
 }
 
 /** 等到原图已解码、表单出现（不要求网格有效/入库可点）。 */
-export async function wizardWaitDecoded(host: ParentNode): Promise<void> {
-  await vi.waitFor(() => {
-    expect(host.querySelector('.sprite-upload-submit'), 'submit 出现').not.toBeNull()
-    expect(host.querySelector('.sprite-upload-wizard')?.getAttribute('aria-busy')).toBe('false')
-  })
+export function wizardWaitDecoded(host: ParentNode): void {
+  expect(host.querySelector('.sprite-upload-submit'), 'submit 出现').not.toBeNull()
+  expect(host.querySelector('.sprite-upload-wizard')?.getAttribute('aria-busy')).toBe('false')
 }
 
-export async function wizardClickSubmit(host: ParentNode): Promise<void> {
-  await act(async () => {
-    wizardSubmit(host).click()
-  })
-}
-
-export async function flush(times = 3): Promise<void> {
-  for (let i = 0; i < times; i++) await act(async () => Promise.resolve())
+export async function wizardClickSubmit(
+  host: ParentNode,
+  options: { waitForCommitDigest?: boolean } = {},
+): Promise<void> {
+  // Command failures have no onDone callback. Observe the real final hardware task,
+  // then let act apply catch/finally updates before the caller inspects the DOM.
+  const digest = options.waitForCommitDigest ? vi.spyOn(crypto.subtle, 'digest') : undefined
+  try {
+    await act(async () => {
+      wizardSubmit(host).click()
+      if (digest) {
+        await vi.waitFor(() => expect(digest).toHaveBeenCalledTimes(1))
+        const pending = digest.mock.results[0]
+        if (!pending || pending.type !== 'return')
+          throw new Error('Wizard commit digest did not return its hardware promise')
+        await pending.value
+      }
+    })
+  } finally {
+    digest?.mockRestore()
+  }
 }
 
 /** 等入库完成：onDone 被调用过至少 count 次。 */
 export async function waitDone(done: readonly unknown[], count = 1): Promise<void> {
-  await vi.waitFor(() => {
-    expect(done.length).toBeGreaterThanOrEqual(count)
+  await act(async () => {
+    await vi.waitFor(() => expect(done.length).toBeGreaterThanOrEqual(count))
   })
-  await flush()
 }
 
 // ───────── SpriteResourceViewer ─────────
 
-export async function waitMeta(host: ParentNode, frames: number, consumers: number): Promise<void> {
-  await vi.waitFor(() => {
-    expect((host as HTMLElement).textContent).toContain(`${frames} 帧 · ${consumers} 个用途定义`)
-  })
-  await flush(1)
+export async function waitMeta(
+  host: HTMLElement,
+  frames: number,
+  consumers: number,
+): Promise<void> {
+  await waitForSpriteViewerResources(host)
+  expect(host.textContent).toContain(`${frames} 帧 · ${consumers} 个用途定义`)
 }
 
 export function hiddenImageInputs(host: ParentNode): HTMLInputElement[] {

@@ -17,7 +17,8 @@ import type {
   Spell,
 } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createCommandBus } from '../command-bus.js'
+import { makeRole } from '../../__tests__/coverage85-glm-game/harness.js'
+
 import { setGlobalEvents, tickEventSystem } from '../event-system.js'
 import {
   createInitialGameState,
@@ -25,6 +26,7 @@ import {
   projectRuntimeToBattleRoles,
 } from '../game-state.js'
 import { Save } from '../save/api.js'
+import { magicWithCost } from './__tests__/magic-cost-fixture.js'
 import { createEquipMenu } from './equip-menu.js'
 import { createInGameMagicMenu } from './in-game-magic-menu.js'
 import { createInGameMenu, createSystemMenu } from './in-game-menu.js'
@@ -112,85 +114,23 @@ function mkSpell(id: number, magicNumber: number, over: Partial<Spell> = {}): Sp
 }
 
 function mkMagic(id: number, costMP = 0): Magic {
-  return {
-    id,
-    effect: 1,
-    type: 'normal',
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    speed: 5,
-    keepEffect: 0,
-    fireDelay: 0,
-    effectTimes: 1,
-    shake: 0,
-    wave: 0,
-    unknown: 0,
-    costMP,
-    baseDamage: 0,
-    elemental: 0,
-    sound: 0,
-  }
+  return { ...magicWithCost(id, costMP), effect: 1, speed: 5, effectTimes: 1 }
 }
 
 function typedRoles(): PlayerRoles {
   return {
-    roles: [
-      {
-        id: 0,
-        _name: '甲',
-        avatar: 0,
-        spriteNumInBattle: 0,
-        spriteNum: 0,
-        name: 0,
-        attackAll: 0,
+    roles: ['甲', '乙'].map((_name, id) =>
+      makeRole(id, {
+        _name,
         level: 5,
         maxHP: 100,
-        maxMP: 40,
         hp: 50,
-        mp: 40,
         attackStrength: 10,
         magicStrength: 10,
         defense: 10,
         dexterity: 10,
-        fleeRate: 5,
-        poisonResistance: 0,
-        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-        walkFrames: 0,
-        attackSound: 0,
-        weaponSound: 0,
-        criticalSound: 0,
-        magicSound: 0,
-        deathSound: 0,
-      },
-      {
-        id: 1,
-        _name: '乙',
-        avatar: 0,
-        spriteNumInBattle: 0,
-        spriteNum: 0,
-        name: 0,
-        attackAll: 0,
-        level: 5,
-        maxHP: 100,
-        maxMP: 40,
-        hp: 50,
-        mp: 40,
-        attackStrength: 10,
-        magicStrength: 10,
-        defense: 10,
-        dexterity: 10,
-        fleeRate: 5,
-        poisonResistance: 0,
-        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-        walkFrames: 0,
-        attackSound: 0,
-        weaponSound: 0,
-        criticalSound: 0,
-        magicSound: 0,
-        deathSound: 0,
-      },
-    ],
+      }),
+    ),
   }
 }
 
@@ -206,10 +146,10 @@ function installGlobalScripts(): void {
   setGlobalEvents(commands)
 }
 
-const DEFAULT_CATALOGS = () => ({
+const DEFAULT_CATALOGS = (): Parameters<typeof setMenuCatalogs>[0] => ({
   items: [mkItem(10), mkItem(11)],
-  spells: [] as Spell[],
-  magics: [] as Magic[],
+  spells: [],
+  magics: [],
   playerRoles: typedRoles(),
 })
 
@@ -236,7 +176,7 @@ describe('cov85 requireCatalogs 未注入守卫', () => {
 describe('cov85 dispatchMenuInput 空栈', () => {
   it('menuStack 空 → 直接返回不炸', () => {
     const gs = mkGs()
-    expect(() => dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())).not.toThrow()
+    expect(() => dispatchMenuInput(gs, snap(['Confirm']))).not.toThrow()
   })
 })
 
@@ -256,17 +196,16 @@ describe('cov85 商店买菜单(shop-buy)', () => {
     const gs = mkGs()
     gs.dwCash = 50
     const s = openBuy(gs)
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Down']), bus)
+    dispatchMenuInput(gs, snap(['Down']))
     expect(s.list.cursor).toBe(1)
-    dispatchMenuInput(gs, snap(['Up']), bus)
+    dispatchMenuInput(gs, snap(['Up']))
     expect(s.list.cursor).toBe(0)
     // 贵物买不起:光标移到 1 后 Confirm 无反应
-    dispatchMenuInput(gs, snap(['Down']), bus)
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Down']))
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('list')
     // Menu 关店
-    dispatchMenuInput(gs, snap(['Menu']), bus)
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(gs.menuStack).toHaveLength(0)
   })
 
@@ -274,12 +213,11 @@ describe('cov85 商店买菜单(shop-buy)', () => {
     const gs = mkGs()
     gs.dwCash = 50
     const s = openBuy(gs)
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Right']), bus)
+    dispatchMenuInput(gs, snap(['Right']))
     expect(s.list.cursor).toBe(1)
-    dispatchMenuInput(gs, snap(['Left']), bus)
+    dispatchMenuInput(gs, snap(['Left']))
     expect(s.list.cursor).toBe(0)
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('confirm')
   })
 
@@ -287,17 +225,16 @@ describe('cov85 商店买菜单(shop-buy)', () => {
     const gs = mkGs()
     gs.dwCash = 50
     const s = openBuy(gs)
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.confirmYes).toBe(false)
     // Menu 回 list
-    dispatchMenuInput(gs, snap(['Menu']), bus)
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(s.phase).toBe('list')
     // 再进 confirm,Down → yes
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
-    dispatchMenuInput(gs, snap(['Down']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
+    dispatchMenuInput(gs, snap(['Down']))
     expect(s.confirmYes).toBe(true)
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.dwCash).toBe(40)
     expect(gs.inventory).toEqual([{ itemId: 10, count: 1 }])
     expect(s.phase).toBe('list')
@@ -307,13 +244,12 @@ describe('cov85 商店买菜单(shop-buy)', () => {
     const gs = mkGs()
     gs.dwCash = 50
     const s = openBuy(gs)
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
-    dispatchMenuInput(gs, snap(['Up']), bus) // 竖排两框 toggle
+    dispatchMenuInput(gs, snap(['Confirm']))
+    dispatchMenuInput(gs, snap(['Up'])) // 竖排两框 toggle
     expect(s.confirmYes).toBe(true)
-    dispatchMenuInput(gs, snap(['Left']), bus)
+    dispatchMenuInput(gs, snap(['Left']))
     expect(s.confirmYes).toBe(false)
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.dwCash).toBe(50)
     expect(gs.inventory).toEqual([])
   })
@@ -322,21 +258,25 @@ describe('cov85 商店买菜单(shop-buy)', () => {
     const gs = mkGs()
     gs.dwCash = 50
     const s = openBuy(gs)
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
-    dispatchMenuInput(gs, snap(['Down']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
+    dispatchMenuInput(gs, snap(['Down']))
     expect(s.confirmYes).toBe(true)
     gs.dwCash = 5 // confirm 期间钱被花掉
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.dwCash).toBe(5)
     expect(gs.inventory).toEqual([])
   })
 })
 
 describe('cov85 商店卖菜单(shop-sell)', () => {
+  // C5(2026-10-15)：导航用 11 条库存改为 11 个**不同**合法条目 —— 真实
+  // addItemToInventory 按 id 合并（inventory-state.ts），同 id 重复 push 不是生产库存形态。
   const items = [
     mkItem(10, { price: 10, flags: flags({ sellable: true }), _name: '可卖' }),
     mkItem(11, { price: 10, flags: flags({ sellable: false }), _name: '不可卖' }),
+    ...Array.from({ length: 9 }, (_, i) =>
+      mkItem(12 + i, { price: 10, flags: flags({ sellable: true }), _name: `可卖${12 + i}` }),
+    ),
   ]
   function openSell(gs: GameState): ReturnType<typeof createSellMenu> {
     setMenuCatalogs({ items, spells: [], magics: [], playerRoles: typedRoles() })
@@ -356,26 +296,25 @@ describe('cov85 商店卖菜单(shop-sell)', () => {
   it('list:8 键导航 + PgUp/PgDn/Home/End 精确落点 + Menu 关店(11 条库存,列宽 3)', () => {
     const gs = mkGs()
     stocked(gs)
-    for (let i = 0; i < 9; i++) gs.inventory.push({ itemId: 11, count: 1 }) // 11 条(0..10)
+    for (let i = 0; i < 9; i++) gs.inventory.push({ itemId: 12 + i, count: 1 }) // 11 条不同 id(0..10)
     const s = openSell(gs)
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Down']), bus)
+    dispatchMenuInput(gs, snap(['Down']))
     expect(s.grid.cursor).toBe(3) // Down = +INV_ITEMS_PER_LINE(3)
-    dispatchMenuInput(gs, snap(['Right']), bus)
+    dispatchMenuInput(gs, snap(['Right']))
     expect(s.grid.cursor).toBe(4)
-    dispatchMenuInput(gs, snap(['Left']), bus)
+    dispatchMenuInput(gs, snap(['Left']))
     expect(s.grid.cursor).toBe(3)
-    dispatchMenuInput(gs, snap(['Up']), bus)
+    dispatchMenuInput(gs, snap(['Up']))
     expect(s.grid.cursor).toBe(0)
-    dispatchMenuInput(gs, snap(['End']), bus)
+    dispatchMenuInput(gs, snap(['End']))
     expect(s.grid.cursor).toBe(10) // 末条
-    dispatchMenuInput(gs, snap(['Home']), bus)
+    dispatchMenuInput(gs, snap(['Home']))
     expect(s.grid.cursor).toBe(0)
-    dispatchMenuInput(gs, snap(['PgDn']), bus)
+    dispatchMenuInput(gs, snap(['PgDn']))
     expect(s.grid.cursor).toBe(10) // +21 越界钳到末条
-    dispatchMenuInput(gs, snap(['PgUp']), bus)
+    dispatchMenuInput(gs, snap(['PgUp']))
     expect(s.grid.cursor).toBe(0)
-    dispatchMenuInput(gs, snap(['Menu']), bus)
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(gs.menuStack).toHaveLength(0)
   })
 
@@ -383,16 +322,15 @@ describe('cov85 商店卖菜单(shop-sell)', () => {
     const gs = mkGs()
     stocked(gs)
     const s = openSell(gs)
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Down']), bus) // 到不可卖物
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Down'])) // 到不可卖物
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('list')
-    dispatchMenuInput(gs, snap(['Up']), bus)
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Up']))
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('confirm')
-    dispatchMenuInput(gs, snap(['Right']), bus)
+    dispatchMenuInput(gs, snap(['Right']))
     expect(s.confirmYes).toBe(true)
-    dispatchMenuInput(gs, snap(['Menu']), bus)
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(s.phase).toBe('list')
   })
 
@@ -401,16 +339,15 @@ describe('cov85 商店卖菜单(shop-sell)', () => {
     gs.dwCash = 0
     stocked(gs)
     const s = openSell(gs)
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
-    dispatchMenuInput(gs, snap(['Down']), bus) // yes
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
+    dispatchMenuInput(gs, snap(['Down'])) // yes
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.dwCash).toBe(5)
     expect(gs.inventory[0]!.count).toBe(1)
     // 回 confirm 再选否
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('confirm')
-    dispatchMenuInput(gs, snap(['Confirm']), bus) // 默认 No
+    dispatchMenuInput(gs, snap(['Confirm'])) // 默认 No
     expect(gs.dwCash).toBe(5)
     expect(gs.inventory[0]!.count).toBe(1)
   })
@@ -423,18 +360,17 @@ describe('cov85 系统菜单(system)', () => {
     openMenu(gs, { kind: 'system', state: s })
     return s
   }
-  const bus = () => createCommandBus()
 
   it('music → switch 阶段;方向 toggle;Menu 关整栈;Confirm → fMusicEnabled=开', () => {
     const gs = mkGs()
     const s = openSys(gs)
     s.selection.cursor = 2 // music
     gs.fMusicEnabled = false
-    dispatchMenuInput(gs, snap(['Confirm']), bus())
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('switch')
-    dispatchMenuInput(gs, snap(['Right']), bus()) // toggle 到「开」(右)
+    dispatchMenuInput(gs, snap(['Right'])) // toggle 到「开」(右)
     expect(s.confirmYes).toBe(true)
-    dispatchMenuInput(gs, snap(['Confirm']), bus())
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.fMusicEnabled).toBe(true)
     expect(gs.menuStack).toHaveLength(0)
   })
@@ -444,9 +380,9 @@ describe('cov85 系统菜单(system)', () => {
     const s = openSys(gs)
     s.selection.cursor = 3 // sound
     gs.fSoundEnabled = false
-    dispatchMenuInput(gs, snap(['Confirm']), bus())
-    dispatchMenuInput(gs, snap(['Up']), bus())
-    dispatchMenuInput(gs, snap(['Menu']), bus())
+    dispatchMenuInput(gs, snap(['Confirm']))
+    dispatchMenuInput(gs, snap(['Up']))
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(gs.fSoundEnabled).toBe(false)
     expect(gs.menuStack).toHaveLength(0)
   })
@@ -455,12 +391,12 @@ describe('cov85 系统菜单(system)', () => {
     const gs = mkGs()
     const s = openSys(gs)
     s.selection.cursor = 4 // quit
-    dispatchMenuInput(gs, snap(['Confirm']), bus())
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('confirm')
     // 左右 toggle 后回「否」再确认 → 关整栈
-    dispatchMenuInput(gs, snap(['Down']), bus())
-    dispatchMenuInput(gs, snap(['Up']), bus())
-    dispatchMenuInput(gs, snap(['Confirm']), bus())
+    dispatchMenuInput(gs, snap(['Down']))
+    dispatchMenuInput(gs, snap(['Up']))
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.menuStack).toHaveLength(0)
     // 是 → handler
     const gs2 = mkGs()
@@ -470,9 +406,9 @@ describe('cov85 系统菜单(system)', () => {
     setSystemQuitHandler(() => {
       quitCount++
     })
-    dispatchMenuInput(gs2, snap(['Confirm']), bus())
-    dispatchMenuInput(gs2, snap(['Down']), bus()) // 是
-    dispatchMenuInput(gs2, snap(['Confirm']), bus())
+    dispatchMenuInput(gs2, snap(['Confirm']))
+    dispatchMenuInput(gs2, snap(['Down'])) // 是
+    dispatchMenuInput(gs2, snap(['Confirm']))
     expect(quitCount).toBe(1)
   })
 
@@ -480,19 +416,19 @@ describe('cov85 系统菜单(system)', () => {
     const gs = mkGs()
     const s = openSys(gs)
     const before = s.selection.cursor
-    dispatchMenuInput(gs, snap(['Down']), bus())
+    dispatchMenuInput(gs, snap(['Down']))
     expect(s.selection.cursor).toBe(before + 1)
-    dispatchMenuInput(gs, snap(['Up']), bus())
+    dispatchMenuInput(gs, snap(['Up']))
     expect(s.selection.cursor).toBe(before)
     s.selection.cursor = 0 // save
-    dispatchMenuInput(gs, snap(['Confirm']), bus())
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.menuStack[gs.menuStack.length - 1]?.kind).toBe('save-slot')
-    dispatchMenuInput(gs, snap(['Menu']), bus()) // save-slot in-game 取消 → 关整栈
+    dispatchMenuInput(gs, snap(['Menu'])) // save-slot in-game 取消 → 关整栈
     expect(gs.menuStack).toHaveLength(0)
     const gs2 = mkGs()
     const s2 = openSys(gs2)
     s2.selection.cursor = 1 // load
-    dispatchMenuInput(gs2, snap(['Confirm']), bus())
+    dispatchMenuInput(gs2, snap(['Confirm']))
     expect(gs2.menuStack[gs2.menuStack.length - 1]?.kind).toBe('save-slot')
   })
 
@@ -500,9 +436,9 @@ describe('cov85 系统菜单(system)', () => {
     const gs = mkGs()
     const s = openSys(gs)
     const before = s.selection.cursor
-    dispatchMenuInput(gs, snap(['Right']), bus())
+    dispatchMenuInput(gs, snap(['Right']))
     expect(s.selection.cursor).toBe(before + 1)
-    dispatchMenuInput(gs, snap(['Left']), bus())
+    dispatchMenuInput(gs, snap(['Left']))
     expect(s.selection.cursor).toBe(before)
   })
 })
@@ -515,32 +451,35 @@ describe('cov85 物品一级子菜单(inventory-action)', () => {
     const s = createInventoryActionMenu()
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
     openMenu(gs, { kind: 'inventory-action', state: s })
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Down']), bus)
+    dispatchMenuInput(gs, snap(['Down']))
     expect(s.selection.cursor).toBe(1)
-    dispatchMenuInput(gs, snap(['Up']), bus)
+    dispatchMenuInput(gs, snap(['Up']))
     expect(s.selection.cursor).toBe(0)
-    dispatchMenuInput(gs, snap(['Confirm']), bus) // 装备
+    dispatchMenuInput(gs, snap(['Confirm'])) // 装备
     expect(gs.menuStack[gs.menuStack.length - 1]?.kind).toBe('equip')
     // 回 action 层测使用
     const s2 = createInventoryActionMenu()
     openMenu(gs, { kind: 'inventory-action', state: s2 })
-    dispatchMenuInput(gs, snap(['Down']), bus)
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Down']))
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.menuStack[gs.menuStack.length - 1]?.kind).toBe('inventory')
     // Menu 关整栈
-    dispatchMenuInput(gs, snap(['Menu']), bus)
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(gs.menuStack).toHaveLength(0)
   })
 })
 
 describe('cov85 物品菜单(inventory,use 路由)', () => {
+  // C5(2026-10-15)：导航用 11 条库存改为 11 个**不同**合法条目（真 addItem 按 id 合并）。
   const items = [
     mkItem(10, { scriptOnUse: 5, flags: flags({ usable: true, consuming: true }) }),
     mkItem(12, {
       scriptOnUse: 6,
       flags: flags({ usable: true, applyToAll: true, consuming: true }),
     }),
+    ...Array.from({ length: 9 }, (_, i) =>
+      mkItem(13 + i, { flags: flags({ usable: true, consuming: true }) }),
+    ),
   ]
   function openUse(gs: GameState): ReturnType<typeof createInventoryMenu> {
     const s = createInventoryMenu(gs, items, 'usable')
@@ -551,26 +490,26 @@ describe('cov85 物品菜单(inventory,use 路由)', () => {
 
   it('list 8 键导航精确落点(11 条库存,列宽 3,PgDn=21 钳尾)+ gs.iCurInvMenuItem 写回', () => {
     const gs = mkGs()
-    gs.inventory = items.map((it) => ({ itemId: it.id, count: 1 }))
-    for (let i = 0; i < 9; i++) gs.inventory.push({ itemId: 10, count: 1 }) // 11 条(0..10)
+    // 11 条不同 id：前 2 条取关键物品（单体/全体），后 9 条独立 id 补足网格。
+    gs.inventory = [items[0]!, items[1]!].map((it) => ({ itemId: it.id, count: 1 }))
+    for (let i = 0; i < 9; i++) gs.inventory.push({ itemId: 13 + i, count: 1 }) // 11 条不同 id(0..10)
     const s = openUse(gs)
-    const bus = createCommandBus()
     setMenuCatalogs({ items, spells: [], magics: [], playerRoles: typedRoles() })
-    dispatchMenuInput(gs, snap(['Down']), bus)
+    dispatchMenuInput(gs, snap(['Down']))
     expect(s.cursor).toBe(3)
-    dispatchMenuInput(gs, snap(['Right']), bus)
+    dispatchMenuInput(gs, snap(['Right']))
     expect(s.cursor).toBe(4)
-    dispatchMenuInput(gs, snap(['Left']), bus)
+    dispatchMenuInput(gs, snap(['Left']))
     expect(s.cursor).toBe(3)
-    dispatchMenuInput(gs, snap(['End']), bus)
+    dispatchMenuInput(gs, snap(['End']))
     expect(s.cursor).toBe(10)
-    dispatchMenuInput(gs, snap(['Home']), bus)
+    dispatchMenuInput(gs, snap(['Home']))
     expect(s.cursor).toBe(0)
-    dispatchMenuInput(gs, snap(['PgDn']), bus)
+    dispatchMenuInput(gs, snap(['PgDn']))
     expect(s.cursor).toBe(10)
-    dispatchMenuInput(gs, snap(['PgUp']), bus)
+    dispatchMenuInput(gs, snap(['PgUp']))
     expect(s.cursor).toBe(0)
-    dispatchMenuInput(gs, snap(['Up']), bus)
+    dispatchMenuInput(gs, snap(['Up']))
     expect(s.cursor).toBe(0)
     expect(gs.iCurInvMenuItem).toBe(0)
   })
@@ -579,19 +518,18 @@ describe('cov85 物品菜单(inventory,use 路由)', () => {
     const gs = mkGs()
     gs.inventory = [{ itemId: 10, count: 2 }]
     const s = openUse(gs)
-    const bus = createCommandBus()
     setMenuCatalogs({ items, spells: [], magics: [], playerRoles: typedRoles() })
     installGlobalScripts()
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('use-target')
     expect(s.targetMenu!.cursor).toBe(0) // DL20:use-target 起 cursor=0
-    dispatchMenuInput(gs, snap(['Right']), bus)
+    dispatchMenuInput(gs, snap(['Right']))
     expect(s.targetMenu!.cursor).toBe(1) // 双人队 → wrap 到 1
-    dispatchMenuInput(gs, snap(['Left']), bus)
+    dispatchMenuInput(gs, snap(['Left']))
     expect(s.targetMenu!.cursor).toBe(0)
-    dispatchMenuInput(gs, snap(['Menu']), bus)
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(s.phase).toBe('list')
-    dispatchMenuInput(gs, snap(['Menu']), bus)
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(gs.menuStack).toHaveLength(0)
   })
 
@@ -599,10 +537,9 @@ describe('cov85 物品菜单(inventory,use 路由)', () => {
     const gs = mkGs()
     gs.inventory = [{ itemId: 12, count: 1 }]
     openUse(gs)
-    const bus = createCommandBus()
     setMenuCatalogs({ items, spells: [], magics: [], playerRoles: typedRoles() })
     installGlobalScripts()
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.mode).toBe('event')
     expect(gs.eventCursor?.currentEventObjectId).toBe(0xffff)
     expect(gs.menuStack).toHaveLength(2) // in-game + inventory;关闭由脚本结束 restoreMode 做,不在本帧
@@ -619,22 +556,21 @@ describe('cov85 装备菜单(equip)', () => {
     const s = createEquipMenu(gs, items)
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
     openMenu(gs, { kind: 'equip', state: s })
-    const bus = createCommandBus()
     installGlobalScripts()
-    dispatchMenuInput(gs, snap(['Down']), bus)
-    dispatchMenuInput(gs, snap(['Up']), bus)
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Down']))
+    dispatchMenuInput(gs, snap(['Up']))
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('pick-role')
     expect(gs.wLastUnequippedItem).toBe(20)
     // pick-role:Up/Down 位移(双人队 wrap)
-    dispatchMenuInput(gs, snap(['Down']), bus)
+    dispatchMenuInput(gs, snap(['Down']))
     expect(s.playerCursor).toBe(1)
-    dispatchMenuInput(gs, snap(['Up']), bus)
+    dispatchMenuInput(gs, snap(['Up']))
     expect(s.playerCursor).toBe(0)
     // Menu:pick-role → list 回退 + 重建
-    dispatchMenuInput(gs, snap(['Menu']), bus)
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(s.phase).toBe('list')
-    dispatchMenuInput(gs, snap(['Menu']), bus)
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(gs.menuStack).toHaveLength(0)
   })
 
@@ -645,10 +581,9 @@ describe('cov85 装备菜单(equip)', () => {
     const s = createEquipMenu(gs, items)
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
     openMenu(gs, { kind: 'equip', state: s })
-    const bus = createCommandBus()
     installGlobalScripts()
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
-    dispatchMenuInput(gs, snap(['Confirm']), bus) // 确认角色 0
+    dispatchMenuInput(gs, snap(['Confirm']))
+    dispatchMenuInput(gs, snap(['Confirm'])) // 确认角色 0
     expect(s.selectedItemId).toBe(20) // 脚本无 0x18 → wLastUnequippedItem 保持入口值
     expect(s.phase).toBe('pick-role')
   })
@@ -666,10 +601,9 @@ describe('cov85 装备菜单(equip)', () => {
     const s = createEquipMenu(gs, noFit)
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
     openMenu(gs, { kind: 'equip', state: s })
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('pick-role')
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('pick-role')
     expect(s.selectedItemId).toBe(21)
   })
@@ -716,24 +650,23 @@ describe('cov85 大世界法术菜单(in-game-magic)', () => {
     const gs = mkGs([0])
     seedSolo(gs)
     const s = openMagic(gs)
-    const bus = createCommandBus()
     setMenuCatalogs({ items: [], spells, magics, playerRoles: typedRoles() })
     expect(s.phase).toBe('pick-spell')
-    dispatchMenuInput(gs, snap(['Down']), bus)
+    dispatchMenuInput(gs, snap(['Down']))
     expect(s.spellMenu!.cursor).toBe(1)
-    dispatchMenuInput(gs, snap(['Up']), bus)
+    dispatchMenuInput(gs, snap(['Up']))
     expect(s.spellMenu!.cursor).toBe(0)
-    dispatchMenuInput(gs, snap(['Right']), bus)
-    dispatchMenuInput(gs, snap(['Left']), bus)
-    dispatchMenuInput(gs, snap(['PgDn']), bus)
+    dispatchMenuInput(gs, snap(['Right']))
+    dispatchMenuInput(gs, snap(['Left']))
+    dispatchMenuInput(gs, snap(['PgDn']))
     expect(s.spellMenu!.cursor).toBe(1) // 2 法术,翻页钳到末条
-    dispatchMenuInput(gs, snap(['PgUp']), bus)
+    dispatchMenuInput(gs, snap(['PgUp']))
     expect(s.spellMenu!.cursor).toBe(0)
-    dispatchMenuInput(gs, snap(['End']), bus)
+    dispatchMenuInput(gs, snap(['End']))
     expect(s.spellMenu!.cursor).toBe(1)
-    dispatchMenuInput(gs, snap(['Home']), bus)
+    dispatchMenuInput(gs, snap(['Home']))
     expect(s.spellMenu!.cursor).toBe(0)
-    dispatchMenuInput(gs, snap(['Menu']), bus)
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(gs.menuStack).toHaveLength(0)
   })
 
@@ -743,27 +676,26 @@ describe('cov85 大世界法术菜单(in-game-magic)', () => {
     gs.partyMembers = [0, 1]
     gs.PlayerRolesRuntime.rgwHP[1] = 50
     const s = openMagic(gs)
-    const bus = createCommandBus()
     setMenuCatalogs({ items: [], spells, magics, playerRoles: typedRoles() })
     installGlobalScripts()
     // pick-caster:Down/Up 位移后停在 role 0(有已学法术)Confirm 进 pick-spell
-    dispatchMenuInput(gs, snap(['Down']), bus)
+    dispatchMenuInput(gs, snap(['Down']))
     expect(s.casterMenu.cursor).toBe(1)
-    dispatchMenuInput(gs, snap(['Up']), bus)
+    dispatchMenuInput(gs, snap(['Up']))
     expect(s.casterMenu.cursor).toBe(0)
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('pick-spell')
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('pick-target')
-    dispatchMenuInput(gs, snap(['Left']), bus)
+    dispatchMenuInput(gs, snap(['Left']))
     expect(s.targetCursor).toBe(0)
-    dispatchMenuInput(gs, snap(['Right']), bus)
+    dispatchMenuInput(gs, snap(['Right']))
     expect(s.targetCursor).toBe(1)
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(35)
     expect(s.phase).toBe('pick-target') // MP 仍够,留 picker
     // Menu:pick-target → pick-spell
-    dispatchMenuInput(gs, snap(['Menu']), bus)
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(s.phase).toBe('pick-spell')
   })
 
@@ -773,19 +705,18 @@ describe('cov85 大世界法术菜单(in-game-magic)', () => {
     gs.PlayerRolesRuntime.rgwMagic[0]![0] = 51 // applyToAll 在首位
     gs.PlayerRolesRuntime.rgwMagic[1]![0] = 50
     const s = openMagic(gs)
-    const bus = createCommandBus()
     setMenuCatalogs({ items: [], spells, magics, playerRoles: typedRoles() })
     installGlobalScripts()
-    dispatchMenuInput(gs, snap(['Down']), bus) // 到 51(applyToAll)
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Down'])) // 到 51(applyToAll)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(35)
     expect(s.phase).toBe('pick-spell')
     // MP 压到 5:single-target(50)成功后 newMP(0) < costMP(5) → 退 picker
     gs.PlayerRolesRuntime.rgwMP[0] = 5
-    dispatchMenuInput(gs, snap(['Up']), bus) // 回到 50
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Up'])) // 回到 50
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('pick-target')
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(0)
     expect(s.phase).toBe('pick-spell') // 不够 → cancelInGameMagic 退回
   })
@@ -797,20 +728,19 @@ describe('cov85 角色状态屏(player-status)', () => {
     const s = createPlayerStatus(gs.partyMembers)
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
     openMenu(gs, { kind: 'player-status', state: s })
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Right']), bus)
+    dispatchMenuInput(gs, snap(['Right']))
     expect(s.cursor).toBe(1)
-    dispatchMenuInput(gs, snap(['Down']), bus)
+    dispatchMenuInput(gs, snap(['Down']))
     expect(gs.menuStack).toHaveLength(0) // 越过后关
     const s2 = createPlayerStatus(gs.partyMembers)
     openMenu(gs, { kind: 'player-status', state: s2 })
-    dispatchMenuInput(gs, snap(['Left']), bus)
+    dispatchMenuInput(gs, snap(['Left']))
     expect(gs.menuStack).toHaveLength(0) // 前越界关
     const s3 = createPlayerStatus(gs.partyMembers)
     openMenu(gs, { kind: 'player-status', state: s3 })
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s3.cursor).toBe(1)
-    dispatchMenuInput(gs, snap(['Menu']), bus)
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(gs.menuStack).toHaveLength(0)
   })
 })
@@ -820,15 +750,21 @@ describe('cov85 存档槽菜单(save-slot)', () => {
     const gs = mkGs()
     openMenu(gs, { kind: 'system', state: createSystemMenu() })
     openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('save') })
-    dispatchMenuInput(gs, snap(['Menu']), createCommandBus())
+    dispatchMenuInput(gs, snap(['Menu']))
     expect(gs.menuStack).toHaveLength(0)
 
     const gs2 = mkGs()
-    openMenu(gs2, { kind: 'opening', state: createOpeningMenu() })
-    openMenu(gs2, { kind: 'save-slot', state: createSaveSlotMenu('load') })
-    dispatchMenuInput(gs2, snap(['Menu']), createCommandBus())
+    const opening = createOpeningMenu()
+    openMenu(gs2, { kind: 'opening', state: opening })
+    dispatchMenuInput(gs2, snap(['Down']))
+    expect(opening.selection.cursor).toBe(1)
+    dispatchMenuInput(gs2, snap(['Confirm']))
+    expect(gs2.menuStack.at(-1)?.kind).toBe('save-slot')
+    dispatchMenuInput(gs2, snap(['Menu']))
     expect(gs2.menuStack).toHaveLength(1)
     expect(gs2.menuStack[0]?.kind).toBe('opening')
+    expect(gs2.menuStack[0]?.state).toBe(opening)
+    expect(opening.selection.cursor).toBe(0) // uigame.c:150 cancels back to new game.
   })
 
   it('save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)', () => {
@@ -836,8 +772,7 @@ describe('cov85 存档槽菜单(save-slot)', () => {
     const s = createSaveSlotMenu('save')
     openMenu(gs, { kind: 'system', state: createSystemMenu() })
     openMenu(gs, { kind: 'save-slot', state: s })
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.currentSaveSlot).toBe(1) // uigame.c:718 bCurrentSaveSlot=iSlot(新增 oracle,旧测未证)
     expect(gs.menuStack).toHaveLength(0) // DH9 关整栈(旧测已证 pop;此处 system 下层场景)
   })
@@ -849,14 +784,14 @@ describe('cov85 存档槽菜单(save-slot)', () => {
       slots.push(slot)
     })
     openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('load') })
-    dispatchMenuInput(gs, snap(['Confirm']), createCommandBus())
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(slots).toEqual([1])
 
     _resetLoadGameHandlerForTest()
     const gs2 = mkGs()
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     openMenu(gs2, { kind: 'save-slot', state: createSaveSlotMenu('load') })
-    dispatchMenuInput(gs2, snap(['Confirm']), createCommandBus())
+    dispatchMenuInput(gs2, snap(['Confirm']))
     expect(gs2.menuStack).toHaveLength(0)
     expect(warn).toHaveBeenCalled()
   })
@@ -888,13 +823,13 @@ describe('cov85r3 菜单栈恢复与生命周期', () => {
 
   it('shop 菜单关闭 → resumeAfterMenusClosed 清 shop 等待并切回 event 续跑脚本', () => {
     const gs = openShopWithScript()
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Menu']), bus) // 关店 → 栈空
+
+    dispatchMenuInput(gs, snap(['Menu'])) // 关店 → 栈空
     expect(gs.menuStack).toHaveLength(0)
-    tickMenu(gs, snap(), bus) // 栈空 → resumeAfterMenusClosed
+    tickMenu(gs, snap()) // 栈空 → resumeAfterMenusClosed
     expect(gs.eventCursor?.waiting).toBeUndefined()
     expect(gs.mode).toBe('event')
-    tickEventSystem(gs, snap(), bus) // 续跑 ip1 → 0x1E +77
+    tickEventSystem(gs, snap()) // 续跑 ip1 → 0x1E +77
     expect(gs.dwCash).toBe(127)
   })
 
@@ -922,9 +857,8 @@ describe('cov85r3 菜单栈恢复与生命周期', () => {
     )
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
     openMenu(gs, { kind: 'in-game-magic', state: s })
-    const bus = createCommandBus()
     expect(s.spellMenu?.items[0]?.disabled).toBe(true) // MP 不足 → 灰
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('pick-spell') // 禁用项 no-op
     expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(10) // 未扣
   })
@@ -938,33 +872,61 @@ describe('cov85r3 菜单栈恢复与生命周期', () => {
     const s = createEquipMenu(gs, withItem)
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
     openMenu(gs, { kind: 'equip', state: s })
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Confirm']), bus) // list → pick-role
+    dispatchMenuInput(gs, snap(['Confirm'])) // list → pick-role
     expect(s.phase).toBe('pick-role')
     // catalog 换成空表(确认前物品被移除)
     setMenuCatalogs({ items: [], spells: [], magics: [], playerRoles: typedRoles() })
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('pick-role') // !item → return
     expect(s.selectedItemId).toBe(20) // 不变
   })
 
-  it('save-slot load 异步 handler:fire-and-forget 不阻塞关栈,promise 照常完成(异步生命周期)', async () => {
+  it('save-slot load 异步 handler:立即调用，关栈由 handler 负责，异步状态更新完成', async () => {
     const gs = mkGs()
     let started = false
-    setLoadGameHandler(async (slot) => {
+    let completed: Promise<void> | undefined
+    setLoadGameHandler((slot) => {
       started = true
-      await Promise.resolve()
-      gs.wSavedTimes = slot * 100 // 异步段写状态
+      completed = Promise.resolve().then(() => {
+        gs.wSavedTimes = slot * 100
+      })
+      return completed
     })
     openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('load') })
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(started).toBe(true) // handler 同步启动
     expect(gs.menuStack).toHaveLength(1) // dispatcher 不等 promise;关栈是 handler 职责
-    await new Promise<void>((resolve) => {
-      setTimeout(resolve, 0)
-    })
+    await completed
     expect(gs.wSavedTimes).toBe(100) // 异步段完成
+  })
+
+  // C5(2026-10-15) 补：异步错误/同步 throw 两条 ownership 轴 —— dispatcher 的
+  // fire-and-forget 域（void Promise.resolve(handler).catch(console.error)）：
+  // 异步 reject 被捕获不外泄 unhandled；**同步 throw 不在 catch 域内**（Promise.resolve
+  // 包装只兜 async 域），会同步穿透 dispatchMenuInput —— 钉住当前真实合同，不擅改接口。
+  it('save-slot load handler 异步 reject:记录原错误并收束，栈态不被破坏', async () => {
+    const gs = mkGs()
+    const errLogged = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const failure = new Error('load-io-failed')
+    const rejected = Promise.reject(failure)
+    void rejected.catch(() => {}) // Keep a missing dispatcher catch falsifiable by a business assertion.
+    setLoadGameHandler(() => rejected)
+    openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('load') })
+    expect(() => dispatchMenuInput(gs, snap(['Confirm']))).not.toThrow() // reject 在异步段,dispatcher 不因 handler 失败抛错
+    expect(gs.menuStack).toHaveLength(1) // 关栈是 handler 职责,失败后仍由 handler/caller 域处理
+    await rejected.catch(() => {})
+    expect(errLogged).toHaveBeenCalledExactlyOnceWith('[save] loadSlot failed:', failure)
+    expect(gs.menuStack).toHaveLength(1)
+  })
+
+  it('save-slot load handler 同步 throw:穿透 dispatchMenuInput(Promise.resolve 不裹同步域)', () => {
+    const gs = mkGs()
+    setLoadGameHandler(() => {
+      throw new Error('sync-handler-boom')
+    })
+    openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('load') })
+    expect(() => dispatchMenuInput(gs, snap(['Confirm']))).toThrowError('sync-handler-boom')
+    expect(gs.menuStack).toHaveLength(1) // 关栈未发生(throw 在关栈前)
   })
 
   it('system save 异步落盘:同步关栈,wSavedTimes 在微任务后更新(异步生命周期)', async () => {
@@ -973,15 +935,14 @@ describe('cov85r3 菜单栈恢复与生命周期', () => {
     const logged = vi.spyOn(console, 'log').mockImplementation(() => {})
     openMenu(gs, { kind: 'system', state: createSystemMenu() })
     openMenu(gs, { kind: 'save-slot', state: createSaveSlotMenu('save') })
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(gs.menuStack).toHaveLength(0)
     expect(gs.currentSaveSlot).toBe(1)
-    await new Promise<void>((resolve) => {
-      setTimeout(resolve, 0)
-    })
+    await vi.waitFor(() =>
+      expect(logged).toHaveBeenCalledExactlyOnceWith('[save] saved to slot 1(times=1)'),
+    )
     expect(gs.wSavedTimes).toBe(1) // 内存 fallback:listSlots 空 → max 0 + 1
-    expect(logged).toHaveBeenCalled()
+    expect((await Save.loadSlot(1))?.wSavedTimes).toBe(1)
   })
 
   it('system switch 阶段 Down/Left 也 toggle(535-536 补臂)', () => {
@@ -991,17 +952,16 @@ describe('cov85r3 菜单栈恢复与生命周期', () => {
     openMenu(gs, { kind: 'system', state: s })
     s.selection.cursor = 2 // music
     gs.fMusicEnabled = false
-    const bus = createCommandBus()
-    dispatchMenuInput(gs, snap(['Confirm']), bus)
+    dispatchMenuInput(gs, snap(['Confirm']))
     expect(s.phase).toBe('switch')
     expect(s.confirmYes).toBe(false) // 默认高亮当前态(关)
-    dispatchMenuInput(gs, snap(['Left']), bus) // switch 方向键 = 纯 toggle
+    dispatchMenuInput(gs, snap(['Left'])) // switch 方向键 = 纯 toggle
     expect(s.confirmYes).toBe(true)
-    dispatchMenuInput(gs, snap(['Down']), bus)
+    dispatchMenuInput(gs, snap(['Down']))
     expect(s.confirmYes).toBe(false)
-    dispatchMenuInput(gs, snap(['Up']), bus)
+    dispatchMenuInput(gs, snap(['Up']))
     expect(s.confirmYes).toBe(true)
-    dispatchMenuInput(gs, snap(['Right']), bus)
+    dispatchMenuInput(gs, snap(['Right']))
     expect(s.confirmYes).toBe(false)
   })
 })

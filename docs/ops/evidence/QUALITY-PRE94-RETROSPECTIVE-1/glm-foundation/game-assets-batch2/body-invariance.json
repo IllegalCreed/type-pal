@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "base": "5180789e3f7c77bb2cf729b87060a86b5c91d8bd",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/assets/png.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "5114ef15b6e5a92a636a21f6f618a12dd11016460e87170d62b14f10187ab710",
+        "current": "5114ef15b6e5a92a636a21f6f618a12dd11016460e87170d62b14f10187ab710"
+      },
+      "printedBytes": {
+        "base": 1234,
+        "current": 1234
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/assets/rle-decode.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "96c4a6c463484830e9f327f775cbd9b86098f17cb45e782ec2be66c5ee8a4cb7",
+        "current": "96c4a6c463484830e9f327f775cbd9b86098f17cb45e782ec2be66c5ee8a4cb7"
+      },
+      "printedBytes": {
+        "base": 261,
+        "current": 261
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

@@ -1,0 +1,466 @@
+{
+  "sourceCandidate": "51215be62098796d298d1172a4738d6f8ccf5339",
+  "productPath": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+  "noWorkingTreeProductMutation": true,
+  "isolatedWorkspace": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2",
+  "localPackageCopies": ["editor", "reforge", "content", "shared"],
+  "dependencies": "External runtime symlinks; local @type-pal links and Vite caches isolated",
+  "cleanup": {
+    "exactPrefixAndParentChecked": true,
+    "removed": true
+  },
+  "recipes": [
+    {
+      "name": "pending",
+      "start": "className=\"ds-inspector-actions battle-draft-actions\"",
+      "end": "onClick={() => void applyDefinitionDraft()}",
+      "before": "disabled={!proofReady || !draftLabel.trim() || !draftChanged}",
+      "after": "disabled={!draftLabel.trim() || !draftChanged}"
+    },
+    {
+      "name": "draft",
+      "start": "if (creatingUsage) return\n    setDraftDefinitionId",
+      "end": "}, [creatingUsage, definition])",
+      "before": "setDraftLabel(definition?.label ?? '')",
+      "after": "setDraftLabel((current) => current || definition?.label || '')"
+    }
+  ],
+  "runs": [
+    {
+      "label": "oracle-pending-grow",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2/oracle-pending-grow.json",
+        "--silent=false",
+        "-t",
+        "C02-G01-01"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 2775,
+      "rawSha256": "a1abc2922025a5f7f74eb3de72573d64a0ae74665429287b3fe4ae134537dd5e",
+      "runnerBytes": 4056,
+      "runnerSha256": "0e1883671d7c4b98d3e0fa7ca4b5f564619d067d93b0e922e81abb776840456e",
+      "testSha256": "43951ad480d24a6f28d84773741d3bbdf20d1a632300a444836195dbea740b13",
+      "passed": 0,
+      "failed": 1,
+      "explicitFilteredPending": 8,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-01 草稿未提交时外部增帧替换：证明失效窗口内应用禁用，重解码后重绑并可提交",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected false to be true // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2/packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:110:42\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "unwrappedAct": 0,
+      "recipe": "pending",
+      "sourceSha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+      "mutantSha256": "f667defbd25c4032e14119d2bfc6c9d15b017df1f62a0df5b281d4962b3f8996",
+      "executedMutantSha256": "f667defbd25c4032e14119d2bfc6c9d15b017df1f62a0df5b281d4962b3f8996"
+    },
+    {
+      "label": "oracle-pending-undo",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2/oracle-pending-undo.json",
+        "--silent=false",
+        "-t",
+        "C02-G01-08"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 2756,
+      "rawSha256": "1c2592e80dcc103343cc307b72e134b18683f3bdd6d1f92382f2fe6cbd04289e",
+      "runnerBytes": 4056,
+      "runnerSha256": "40685766832a136818e8cdf06a436817422618b97c2e79b28566ffbb59c76a96",
+      "testSha256": "43951ad480d24a6f28d84773741d3bbdf20d1a632300a444836195dbea740b13",
+      "passed": 0,
+      "failed": 1,
+      "explicitFilteredPending": 8,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-08 外部替换后 undo：证明回绑旧字节，未提交草稿保留并可正常应用",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected false to be true // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2/packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:334:42\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "unwrappedAct": 0,
+      "recipe": "pending",
+      "sourceSha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+      "mutantSha256": "f667defbd25c4032e14119d2bfc6c9d15b017df1f62a0df5b281d4962b3f8996",
+      "executedMutantSha256": "f667defbd25c4032e14119d2bfc6c9d15b017df1f62a0df5b281d4962b3f8996"
+    },
+    {
+      "label": "oracle-old-draft03",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2/oracle-old-draft03.json",
+        "--silent=false",
+        "-t",
+        "C02-G01-03"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 627,
+      "rawSha256": "0c7d66215c7c73ebd83c75ac31494c92a00f84fef60696259ae7b0eb47844cc7",
+      "runnerBytes": 3966,
+      "runnerSha256": "a6d7ed1e3159560892ad4856f07eb59c782524a1886a2f6cbcba9965c44fca18",
+      "testSha256": "c7540c442d470574eee17d4b3b4d3c21f3981aa8da4500d0b36de99ee909b7cc",
+      "passed": 1,
+      "failed": 0,
+      "explicitFilteredPending": 9,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-03 偷窃槽草稿指向第 11 帧，外部缩到 10 帧后草稿不携带越界帧",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0,
+      "recipe": "draft",
+      "sourceSha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+      "mutantSha256": "469f1bde4ddd2c8c4089147bc26983417e891d218075f5e79c635a66db357924",
+      "executedMutantSha256": "469f1bde4ddd2c8c4089147bc26983417e891d218075f5e79c635a66db357924"
+    },
+    {
+      "label": "oracle-retired-draft02",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2/oracle-retired-draft02.json",
+        "--silent=false",
+        "-t",
+        "C02-G01-02"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 2953,
+      "rawSha256": "ce27d3516893af69d419fd972855fd831cf670a98db2e0aaeff3b001f6746012",
+      "runnerBytes": 4404,
+      "runnerSha256": "094ac127abdd96c26a5b5368ea71b4975a7b4c4c519d960af592b30c23c1ac60",
+      "testSha256": "c7540c442d470574eee17d4b3b4d3c21f3981aa8da4500d0b36de99ee909b7cc",
+      "passed": 0,
+      "failed": 1,
+      "explicitFilteredPending": 9,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-02 外部缩帧替换改写消费者对象：未提交的改名草稿回落到规范值且不可应用",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected '甲·将被丢弃' to be '甲战士' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2/packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:101:41\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "unwrappedAct": 0,
+      "recipe": "draft",
+      "sourceSha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+      "mutantSha256": "469f1bde4ddd2c8c4089147bc26983417e891d218075f5e79c635a66db357924",
+      "executedMutantSha256": "469f1bde4ddd2c8c4089147bc26983417e891d218075f5e79c635a66db357924"
+    },
+    {
+      "label": "oracle-merged-draft03",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2/oracle-merged-draft03.json",
+        "--silent=false",
+        "-t",
+        "C02-G01-03"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2",
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 2846,
+      "rawSha256": "9b0d96b88c222b77688c924ad7dd3537856c0141bfaf8f4c946d74f9447a64e3",
+      "runnerBytes": 4078,
+      "runnerSha256": "60aa41174d5ec422828e5446f7bfedd0032865558aaeef63a3f94504773cefc2",
+      "testSha256": "43951ad480d24a6f28d84773741d3bbdf20d1a632300a444836195dbea740b13",
+      "passed": 0,
+      "failed": 1,
+      "explicitFilteredPending": 8,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-03 偷窃槽草稿指向第 11 帧，外部缩到 10 帧后草稿不携带越界帧",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected '甲·将被丢弃' to be '甲战士' // Object.is equality\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2/packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx:152:41\n    at file:///Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "unwrappedAct": 0,
+      "recipe": "draft",
+      "sourceSha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+      "mutantSha256": "469f1bde4ddd2c8c4089147bc26983417e891d218075f5e79c635a66db357924",
+      "executedMutantSha256": "469f1bde4ddd2c8c4089147bc26983417e891d218075f5e79c635a66db357924"
+    },
+    {
+      "label": "oracle-recovery",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+        "src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+        "src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2/oracle-recovery.json",
+        "--silent=false"
+      ],
+      "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c03-oracle-7afmsuw2",
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawBytes": 784,
+      "rawSha256": "23cb5406ee30de4eb6ae0d2e30e40b6a1d1cfa1f0544646c52953816b9c99245",
+      "runnerBytes": 11167,
+      "runnerSha256": "11257403b8279a3de8fe02354a441f50d67c0ea1ec4264d83e59a131a3ff4f4a",
+      "testSha256": "43951ad480d24a6f28d84773741d3bbdf20d1a632300a444836195dbea740b13",
+      "passed": 29,
+      "failed": 0,
+      "explicitFilteredPending": 0,
+      "executed": [
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-01 草稿未提交时外部增帧替换：证明失效窗口内应用禁用，重解码后重绑并可提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-03 偷窃槽草稿指向第 11 帧，外部缩到 10 帧后草稿不携带越界帧",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-04 外部新增共享消费者使替换面板关闭且零提交；重开后确认文案按最新 3 个用途重算",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-05 删帧确认窗口内外部新增共享消费者：缩帧事务拒绝，字节与 catalog 不变",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-06 删帧确认窗口内外部改了消费者 profile：快照不符拒绝且保留外部改动",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-07 会话层：外部替换后沿用旧证明的 ABI 更新被拒且零污染，新证明可提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-08 外部替换后 undo：证明回绑旧字节，未提交草稿保留并可正常应用",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-09 删除玩家共享帧 #3：两个用途在同一事务内重排槽位，撤销整体还原",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+          "fullName": "C02-G01-10 召唤用途删帧无需槽位重排：全帧语义随实际帧数收缩，undo 回到 5 帧",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+          "fullName": "C02-G02-01 取消导入：面板关闭、选择与历史不变，重开后上传器回到空态",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+          "fullName": "C02-G02-02 玩家 9 帧图集导入失败：面板保留、零提交，换 10 帧后同面板恢复并选中新用途",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+          "fullName": "C02-G02-03 损坏的图片文件：上传器报错且无应用入口，换合法图后恢复到可应用",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+          "fullName": "C02-G02-04 单帧图导入为敌人：待机 1 帧、施法/攻击 0 帧，过保存门",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+          "fullName": "C02-G02-05 同字节再导入为召唤：复用同一 AssetId，撤销链只回退定义，最后才移除资产",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+          "fullName": "C02-G02-06 相同前缀与用途、不同图的两次导入：定义 id 依次为 boss-enemy 与 boss-enemy-2",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+          "fullName": "C02-G02-07 纯中文 ID 前缀回退 authored；显示名留空时定义名回退为前缀词干",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+          "fullName": "C02-G02-08 导入后 undo：选择回落到目录首项；redo 恢复资产但不抢回选择",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+          "fullName": "C02-G02-09 用途下拉只提供三种导入类型，选召唤后写入 {kind: summon} 且全帧语义",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+          "fullName": "C02-G02-10 取消后重开保留已填 ID 与显示名；随后导入按保留值落名",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+          "fullName": "C02-G05-01 改名提交→undo→redo：输入框与切换用途列表随规范值回流，应用按钮始终回到禁用",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+          "fullName": "C02-G05-02 玩家施法特效基帧：草稿不动规范值，提交后 undo/redo 在 0↔4 间回流到数字框",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+          "fullName": "C02-G05-03 新增用途→undo 回落首个用途并上报宿主；redo 恢复第三个用途",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+          "fullName": "C02-G05-04 删除用途→undo：回到原索引顺序，切换用途列表恢复，redo 再次移除",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+          "fullName": "C02-G05-05 草稿进行中遇外部 undo：规范值回流并覆盖草稿，不残留可应用的陈旧改动",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+          "fullName": "C02-G05-06 UI 替换源文件增帧后 undo/redo：预览证明随字节重绑到 12↔13 帧",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+          "fullName": "C02-G05-07 三步历史（改名→特效基帧→删用途）逐级 undo 再逐级 redo，快照逐一对齐",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+          "fullName": "C02-G05-08 undo 后新的 UI 提交清空 redo 栈，且最终规范值是新提交",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+          "fullName": "C02-G05-09 追加两帧后选中新末帧再 undo：源帧选择收紧到新末帧，不留越界索引",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+          "fullName": "C02-G05-10 撤销新增用途后再次新增：id 复用 c02-enemy 而非递增，且 redo 栈随之清空",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "unwrappedAct": 0
+    }
+  ]
+}

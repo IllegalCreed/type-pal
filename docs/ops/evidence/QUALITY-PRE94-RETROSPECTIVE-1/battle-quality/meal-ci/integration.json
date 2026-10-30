@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "status": "latest main synchronized and local validation passed; exact new hosted CI pending",
+  "owner": "Codex",
+  "branch": "codex/code-quality-3y",
+  "base": "38502c0467d9739cd2bc418b31d8000c28cd6797",
+  "upstream": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+  "synchronizedHead": "75862dde05ec9bd9a8bf01fe4dc97fb90b74b6ac",
+  "merge": "ordinary merge; previously pushed governance commits retained, no force push or new branch/worktree",
+  "incomingFiles": [
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-app-files.json",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-backup.txt.gz",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-before-files.txt.gz",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-browser-logs.json",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-browser.json",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-closeout-docs.txt.gz",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-closeout-lint.txt.gz",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-deploy.txt.gz",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-portrait.png",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-settings.png",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-postflight.json.gz",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-preflight.txt.gz",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-release.json",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-touch-hidden-reloaded.txt",
+    "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/aliyun-verification.json.gz",
+    "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md"
+  ],
+  "codeInputChanged": false,
+  "protectedBaselineByteIdentical": true,
+  "protectedBaselineSha256": "f2eca6b2c8559e30d541b62589698a6eea04309606463ec96b9033165ed29670",
+  "strictCompareLatestMain": {
+    "regressions": [],
+    "improvements": [],
+    "scopeChanges": [],
+    "removals": []
+  },
+  "collectionRepeated": false,
+  "afterSyncDocs": {
+    "catalogTests": 5,
+    "otherDocToolTestsReused": 120,
+    "allConsumersAndProgressZero": true
+  },
+  "afterSyncLint": {
+    "files": 5794,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0
+  },
+  "ledger": {
+    "inventory": 3355,
+    "closed": 371,
+    "review": 114,
+    "pending": 2870
+  },
+  "native": {
+    "path": "integration-native.json.gz",
+    "sha256": "441d3f436a4e98493f3980fecf1a84cf08a3be287e9330ae48e12f8ed2b3a268",
+    "members": {
+      "meal-after-sync-docs.execution.json": {
+        "bytes": 1210,
+        "sha256": "785d4e9b1d6cbb18be1f897f52ff4e05f7a822379354ef4a1cb677c94ef56c46"
+      },
+      "meal-after-sync-docs.stdout.raw": {
+        "bytes": 782324,
+        "sha256": "ba6183b0f6be662a235f5e94643c4a88702e04715f9afcfa8c134390167d0cfe"
+      },
+      "meal-after-sync-docs.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-after-sync-lint.execution.json": {
+        "bytes": 1107,
+        "sha256": "96f59bcb8307ccd5d839cf1b0c3ace39c646f552e2efa6e0b474f6448d35adc1"
+      },
+      "meal-after-sync-lint.stdout.raw": {
+        "bytes": 193,
+        "sha256": "9975abab63e98e0c0a6acdb940a9ff1cdeff3be94b002518890b8d1ae06628ee"
+      },
+      "meal-after-sync-lint.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-after-sync-ledger.execution.json": {
+        "bytes": 1150,
+        "sha256": "0845dd48ad301758eb6915dcafa076dc460c3129f08a845272cabb1aa35811ee"
+      },
+      "meal-after-sync-ledger.stdout.raw": {
+        "bytes": 113,
+        "sha256": "065f1ac994b5d2672af8d647cfd955cbc05d2b6c79dbf0c10702d509dfee0f56"
+      },
+      "meal-after-sync-ledger.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "sync-receipt.mjs": {
+        "bytes": 3674,
+        "sha256": "f6dd6c13cf9097eaa25f219d7b7910ddd5c4f7d18b053dc336a1c002fdb76369"
+      }
+    }
+  },
+  "limits": "No new full check or coverage collection; preserve prior failures. Actual new main CI must be observed after push. Primary worktree untouched by this task."
+}

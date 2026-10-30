@@ -1,0 +1,218 @@
+{
+  "base": "c4278084be4b04ebbb77fb0633b5a94c1c0eafe2",
+  "candidate": "2a23d88ae4c5e707e094585bbf1d9c76f8b204fb",
+  "scope": "Single loader source structural recount in current module freeze; not a general tolerance.",
+  "entry": {
+    "id": "pre94-ui-frame-index-assembly-recount-20261022",
+    "authority": "User standing authority allows exact coverage recount for justified cleanup, without restoring dead code or weak tests. Approved UI original-index fix removes success-only packing, 1 function/2 statements/2 branches/1 line; all removed counters were covered. Existing three uncovered diagnostic lines are unchanged. Only game counters rebased by the measured single-source delta; all other baseline floors, scope, predicates and configuration unchanged.",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/recount.json",
+    "baselineSha256": "a2beab0a46435a9bd17c877f2e858a787295a1b621689a1d3502d967f07eda3f",
+    "sources": [
+      {
+        "path": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "sha256": "bafbf8a7c6ca9b3197ea764cf112df7a94ca77f010527a264fc93fcd2059e059"
+      },
+      {
+        "path": "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+        "sha256": "590c3f5a389f6267d547e8ab22644eabd435f2eeb47b3727d45b41a4203a9c87"
+      },
+      {
+        "path": "packages/game/src/assets/loader.test.ts",
+        "sha256": "9bfb8abd59603935e60ce8ee2baa2e9510b18a336244dc788bf272e12c01b437"
+      },
+      {
+        "path": "packages/game/src/assets/loader.ts",
+        "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f"
+      },
+      {
+        "path": "packages/game/src/assets/rle-decode.ts",
+        "sha256": "28d312c4792b1cc6c7f2d4f156a764aab80e98f3228a47c567cc40a9a8d1603f"
+      },
+      {
+        "path": "scripts/coverage/approved-test-retirements.mjs",
+        "sha256": "b5b3bbb04edb4bfd9b52fcd929b0f75fa6994ab2a26f1facd88b34392396607a"
+      },
+      {
+        "path": "scripts/coverage/approved-test-retirements.test.mjs",
+        "sha256": "ffd6288b09072d7317308829575ba77d94b43b1d5f503f437fa356346f59b425"
+      }
+    ],
+    "packages": {
+      "game": {
+        "before": {
+          "statements": {
+            "covered": 14785,
+            "total": 16542
+          },
+          "branches": {
+            "covered": 9576,
+            "total": 11892
+          },
+          "functions": {
+            "covered": 1756,
+            "total": 2050
+          },
+          "lines": {
+            "covered": 13184,
+            "total": 14498
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 14783,
+            "total": 16540
+          },
+          "branches": {
+            "covered": 9574,
+            "total": 11890
+          },
+          "functions": {
+            "covered": 1755,
+            "total": 2049
+          },
+          "lines": {
+            "covered": 13183,
+            "total": 14497
+          }
+        }
+      }
+    }
+  },
+  "deltas": {
+    "statements": {
+      "covered": -2,
+      "total": -2
+    },
+    "branches": {
+      "covered": -2,
+      "total": -2
+    },
+    "functions": {
+      "covered": -1,
+      "total": -1
+    },
+    "lines": {
+      "covered": -1,
+      "total": -1
+    }
+  },
+  "uncoveredStatementsUnchanged": [
+    {
+      "oldLine": 307,
+      "newLine": 307,
+      "statement": "console.warn(`assets: magic sprite chunk ${chunk.chunkIndex} load failed, skip:`, err)"
+    },
+    {
+      "oldLine": 333,
+      "newLine": 333,
+      "statement": "console.warn('assets: ui-sprite/spriteui.json 缺失,menu box 渲染将抛 frame missing:', err)"
+    },
+    {
+      "oldLine": 358,
+      "newLine": 358,
+      "statement": "console.warn('assets: items-icons.json 缺失,InventoryMenu 物品图标不显示:', err)"
+    }
+  ],
+  "oldReport": "Previous official local c427 report; CI global table has same counters, not claiming LCOV came from CI download.",
+  "oldFullLcovSha256": "4977245363019942b13b81703467c5594ed3bda12b0ea504442a25aedf7fd362",
+  "localOnly": "54 tests / one source V8 in private reports directory to measure removal before single official full collection. Not official/protected coverage and does not modify baseline.",
+  "liveChecks": {
+    "applied": ["pre94-ui-frame-index-assembly-recount-20261022"],
+    "wrongSource": "rejected",
+    "unknownBaseline": "no adjustment",
+    "unchangedPriorRows": 11,
+    "programAstUnchanged": true,
+    "unadjustedRatioRegressions": [
+      "game.statements: 89.38% (14783/16540) < 89.38% (14785/16542)",
+      "game.branches: 80.52% (9574/11890) < 80.52% (9576/11892)",
+      "game.functions: 85.65% (1755/2049) < 85.66% (1756/2050)",
+      "game.lines: 90.94% (13183/14497) < 90.94% (13184/14498)",
+      "total.statements: 90.19% (71881/79702) < 90.19% (71883/79704)",
+      "total.branches: 83.86% (52101/62132) < 83.86% (52103/62134)",
+      "total.functions: 89.76% (13633/15189) < 89.76% (13634/15190)",
+      "total.lines: 92.04% (64197/69747) < 92.04% (64198/69748)"
+    ]
+  },
+  "artifacts": [
+    {
+      "file": "loader-old.lcov.gz",
+      "bytes": 2411,
+      "sha256": "8a1ac5719b2af76421f467c6c6d6180030600e88e52b004181442275357edb4e",
+      "gzipSha256": "3728523834db848a14990af95919a5d107109c90b6d3920042f388fbae96b3e1"
+    },
+    {
+      "file": "loader-new.lcov.gz",
+      "bytes": 2332,
+      "sha256": "38b14eb45c3bbd82a9b58dd31f934210006110fd2b951aec8d8d453a151c74a2",
+      "gzipSha256": "3e9650f0ebc0bf5a45d070b76f33d0e62bed710873a872552e33bee6780ad0b0"
+    },
+    {
+      "file": "loader-old.summary.json.gz",
+      "bytes": 371,
+      "sha256": "4dfb1aee475581fd679e5154feae92ec901730aa840bc15e1f4cf4e4895a9fb7",
+      "gzipSha256": "41aea81509024ebead5ae1b66524f9439a9cc0edda7b64c53af27cee3b7ee4aa"
+    },
+    {
+      "file": "loader-new.summary.json.gz",
+      "bytes": 371,
+      "sha256": "ab85808e05d2be04311520dda77f5f9062521cba6aa7b07d894f71480a5ab370",
+      "gzipSha256": "054a5e26f56186d74cea1990d8edc80e5c9cc5b21cf05207e0b7b86cb430c1c7"
+    },
+    {
+      "file": "loader-recount.native.json.gz",
+      "bytes": 40293,
+      "sha256": "af00d281d3371cbab9164d75e668c72d9fccf48ef943109050c5c01a3ca01f1c",
+      "gzipSha256": "efe98aa8795103071fecf5e03dc3a0ebe3bf61713faf155d4d2be756bd16f965"
+    },
+    {
+      "file": "loader-recount.execution.json.gz",
+      "bytes": 1326,
+      "sha256": "a21167af49823c557e18760a4a62703ab7634eb861bed0e0f25788eb0622abe1",
+      "gzipSha256": "0c81322f2e8c9afd1901752c823c9be21bbb0ca575459af13f1d5dfc61fc9e74"
+    },
+    {
+      "file": "loader-recount.stdout.raw.gz",
+      "bytes": 856,
+      "sha256": "fa9bb69af5562c2121b8dccd0e9f37a0f5b5c5e895e095ad160c303765c92447",
+      "gzipSha256": "be8d566dd7f682f7a4645db587435366adf91eda73ba15c8c72177a7e8e0c8d0"
+    },
+    {
+      "file": "loader-recount.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "recount-entry.json.gz",
+      "bytes": 2631,
+      "sha256": "8de8610aa0947a9e43ee30f4db4806966c9b545d5fb96bed2de0e4a83c445812",
+      "gzipSha256": "110aa1447cbbe5105ee2284043b48865be275c55d09c57f4b8bc4f366106df10"
+    },
+    {
+      "file": "recount-deltas.json.gz",
+      "bytes": 2007,
+      "sha256": "0e4f8175b005b1c69893f7a6628905e89ea74590e4038324407f4b384b40fffc",
+      "gzipSha256": "e2ef7f92a65caa70683c8e83fbd36601d9518772a995b628a4e6e4fb21a579a3"
+    },
+    {
+      "file": "module-check.execution.json.gz",
+      "bytes": 452,
+      "sha256": "cd7cc093463751088aef8ef09670512f62814c959363636f6104b7ea74308234",
+      "gzipSha256": "1d1a8119879c7a8c1276d812b08a08a9ff2e520bfe07253fa62089cb6289e175"
+    },
+    {
+      "file": "module-check.stdout.raw.gz",
+      "bytes": 15354,
+      "sha256": "3a4bb1ba4b2a12f8901930777fee9614fdb3cd99eec9432bde7b6af34736678c",
+      "gzipSha256": "20e75a553abeaf3471f34fbabd668e842f917a085e1be186b2c5029c81bbb0b8"
+    },
+    {
+      "file": "module-check.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    }
+  ],
+  "fullCheckInterrupted": "Owned docs test Git hash-object --stdin blocked for >4minutes, zero CPU, no completion. Own descendants SIGTERM only, no other tree/process touched. Original streams/termination retained; no pass claimed; retry full entry normally after finite data addition.",
+  "status": "recount data ready; official collection and protected gate pending"
+}

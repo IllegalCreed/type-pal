@@ -1,11 +1,9 @@
 // @vitest-environment jsdom
 /**
  * TEST-CURSOR-ASSET-UI-LARGE-1 C02-G04：未使用战斗帧源（无用途资产）删除生命周期。
- * 排重：BattleSpriteLibrary.test.tsx 只证「删除用途」在引用 fail-closed 下禁用；glm-boundaries 只证
- * DeleteUnusedBattleSpriteAsset 命令的缺席/仍被定义引用恰抛。无任何测试走 UI「删除源文件」。
- * 本文件补：入口可见性、取消零提交、确认后目录/blob/选择、undo 以磁盘字节恢复 blob 后可再解码、
- * 引用未就绪禁用、删除前字节校验失败不丢资产、连续删除与双层撤销、删最后用途再删资产、
- * 被真实引用的 starter 用途不可删。
+ * 真实 reader/cache/解码与 EditSession：覆盖入口互斥、取消、未保存 blob 删除、磁盘字节撤销、
+ * redo、引用 readiness、字节校验失败、双层历史及定义/资产两步生命周期。
+ * 命令层边界与 UI 回流分层核验；用例与相邻文件的审计结论记录在任务卡。
  */
 import type { FileSource } from '@type-pal/reforge'
 import { act } from 'react'
@@ -14,6 +12,10 @@ import {
   decodeBattleAsset,
   loadCursorBattleProject,
 } from '../__tests__/cursor-asset-r1/battle-sprite-fixtures.js'
+import {
+  type MountedBattleSpriteLibrary,
+  waitForBattleSpriteResources,
+} from '../__tests__/cursor-asset-r1/battle-sprite-harness.js'
 import {
   A_ENEMY,
   A_IDLE,
@@ -40,10 +42,16 @@ function replaceSourceButton(host: HTMLElement): HTMLButtonElement | undefined {
   )
 }
 
-async function deleteSelectedAsset(host: HTMLElement): Promise<void> {
+async function deleteSelectedAsset(m: MountedBattleSpriteLibrary, asset: string): Promise<void> {
   await act(async () => {
-    deleteAssetButton(host)!.click()
+    deleteAssetButton(m.host)!.click()
+    // Session state changes before React commits; wait for the actual async deletion,
+    // then let act flush its subscribers and focus effects before reading DOM.
+    await vi.waitFor(() => {
+      expect(m.session.getState().assetCatalog.assets[asset]).toBeUndefined()
+    })
   })
+  await waitForBattleSpriteResources(m.host)
 }
 
 test('C02-G04-01 入口互斥：有用途的帧源只给替换，无用途的帧源只给删除', async () => {
@@ -63,9 +71,11 @@ test('C02-G04-02 确认框选取消：零提交，目录与历史不变', async 
   const m = await suite.mount('c02-g04-02', { view: 'asset', focus: A_IDLE })
   await waitProof(m.host, 4, 0)
   const metas = catalogMetas(m.host)
+  const before = m.session.getState()
   const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
-  await deleteSelectedAsset(m.host)
-  expect(confirm).toHaveBeenCalledWith('永久移除未使用帧源“C02闲置”？')
+  await act(async () => deleteAssetButton(m.host)!.click())
+  expect(confirm).toHaveBeenCalledExactlyOnceWith('永久移除未使用帧源“C02闲置”？')
+  expect(m.session.getState()).toBe(before)
   expect(m.session.getHistoryVersion()).toBe(0)
   expect(m.session.getState().assetCatalog.assets[A_IDLE]).toBeDefined()
   expect(catalogMetas(m.host)).toEqual(metas)
@@ -74,14 +84,21 @@ test('C02-G04-02 确认框选取消：零提交，目录与历史不变', async 
 })
 
 test('C02-G04-03 确认删除：目录、catalog 与 blob 同步移除，选择落到首个其他资产并上报宿主', async () => {
-  const m = await suite.mount('c02-g04-03', { view: 'asset', focus: A_IDLE })
+  const project = await loadCursorBattleProject('c02-g04-03', STANDARD_SPECS)
+  const path = project.state.assetCatalog.assets[A_IDLE]!.path
+  const bytes = await project.source.readBytes(path)
+  // A valid unsaved editor snapshot: the pending blob contains the real authored bytes.
+  // Starting from a disk-only snapshot would make the post-delete blob assertion vacuous.
+  const state = {
+    ...project.state,
+    assetBlobs: { ...project.state.assetBlobs, [path]: bytes },
+  }
+  assertProjectSaveValid(state)
+  const m = await suite.mountProject({ ...project, state }, { view: 'asset', focus: A_IDLE })
   await waitProof(m.host, 4, 0)
-  const path = m.session.getState().assetCatalog.assets[A_IDLE]!.path
+  expect(m.session.getState().assetBlobs[path]).toEqual(bytes)
   vi.spyOn(window, 'confirm').mockReturnValue(true)
-  await deleteSelectedAsset(m.host)
-  await vi.waitFor(() => {
-    expect(m.session.getState().assetCatalog.assets[A_IDLE]).toBeUndefined()
-  })
+  await deleteSelectedAsset(m, A_IDLE)
   expect(m.session.getHistoryVersion()).toBe(1)
   expect(m.session.getState().assetBlobs[path]).toBeUndefined()
   expect(catalogMetas(m.host)).toHaveLength(5)
@@ -92,48 +109,31 @@ test('C02-G04-03 确认删除：目录、catalog 与 blob 同步移除，选择�
   assertProjectSaveValid(m.session.getState())
 })
 
-test('C02-G04-04 删除后 undo：磁盘字节写回 blob，行回到目录且可再次真实解码', async () => {
-  const m = await suite.mount('c02-g04-04', { view: 'asset', focus: A_SPARE })
-  await waitProof(m.host, 3, 0)
-  const record = m.session.getState().assetCatalog.assets[A_SPARE]!
-  vi.spyOn(window, 'confirm').mockReturnValue(true)
-  await deleteSelectedAsset(m.host)
-  await vi.waitFor(() => {
-    expect(m.session.getState().assetCatalog.assets[A_SPARE]).toBeUndefined()
-  })
-  await act(async () => {
-    expect(m.session.undo()).toBe(true)
-  })
-  const restored = m.session.getState().assetCatalog.assets[A_SPARE]!
-  expect(restored).toEqual(record)
-  const blob = m.session.getState().assetBlobs[record.path]
-  expect(blob).toBeDefined()
-  expect(await sha256Hex(blob!.slice(0))).toBe(record.sha256)
-  expect(catalogMetas(m.host)).toContain(A_SPARE)
-  await selectAssetRow(m.host, A_SPARE)
-  await waitProof(m.host, 3, 0)
-  expect((await decodeBattleAsset(m.project, m.session.getState(), A_SPARE)).frames).toHaveLength(3)
-  assertProjectSaveValid(m.session.getState())
-})
-
 test('C02-G04-05 undo/redo 两个方向都过保存门，redo 重新移除 catalog 与 blob', async () => {
   const m = await suite.mount('c02-g04-05', { view: 'asset', focus: A_IDLE })
   await waitProof(m.host, 4, 0)
-  const path = m.session.getState().assetCatalog.assets[A_IDLE]!.path
+  const record = m.session.getState().assetCatalog.assets[A_IDLE]!
+  const path = record.path
+  expect(m.session.getState().assetBlobs[path]).toBeUndefined()
   vi.spyOn(window, 'confirm').mockReturnValue(true)
-  await deleteSelectedAsset(m.host)
-  await vi.waitFor(() => {
-    expect(m.session.getState().assetCatalog.assets[A_IDLE]).toBeUndefined()
-  })
+  await deleteSelectedAsset(m, A_IDLE)
   assertProjectSaveValid(m.session.getState())
   await act(async () => {
     expect(m.session.undo()).toBe(true)
   })
   assertProjectSaveValid(m.session.getState())
-  expect(m.session.getState().assetBlobs[path]).toBeDefined()
+  expect(m.session.getState().assetCatalog.assets[A_IDLE]).toEqual(record)
+  const blob = m.session.getState().assetBlobs[path]
+  expect(blob).toBeDefined()
+  expect(await sha256Hex(blob!.slice(0))).toBe(record.sha256)
+  expect(catalogMetas(m.host)).toContain(A_IDLE)
+  await selectAssetRow(m.host, A_IDLE)
+  await waitProof(m.host, 4, 0)
+  expect((await decodeBattleAsset(m.project, m.session.getState(), A_IDLE)).frames).toHaveLength(4)
   await act(async () => {
     expect(m.session.redo()).toBe(true)
   })
+  await waitForBattleSpriteResources(m.host)
   assertProjectSaveValid(m.session.getState())
   expect(m.session.getState().assetCatalog.assets[A_IDLE]).toBeUndefined()
   expect(m.session.getState().assetBlobs[path]).toBeUndefined()
@@ -175,14 +175,22 @@ test('C02-G04-07 磁盘字节与登记不符：删除前校验拒绝，资产与
     dispose: () => project.source.dispose?.(),
   }
   const m = await suite.mountProject(project, { view: 'asset', focus: A_SPARE, source: corrupt })
+  const before = m.session.getState()
   const confirm = vi.spyOn(window, 'confirm').mockReturnValue(true)
   expect(deleteAssetButton(m.host)!.disabled).toBe(false)
-  await deleteSelectedAsset(m.host)
-  await vi.waitFor(() => {
-    expect(noticeErrors(m.notices).length).toBeGreaterThan(0)
+  await act(async () => {
+    deleteAssetButton(m.host)!.click()
+    await vi.waitFor(() => {
+      expect(noticeErrors(m.notices).length).toBeGreaterThan(0)
+    })
   })
+  await waitForBattleSpriteResources(m.host)
   expect(confirm).toHaveBeenCalledOnce()
-  expect(noticeErrors(m.notices).at(-1)).toContain('删除前校验')
+  expect(noticeErrors(m.notices)).toEqual([`删除前校验 ${A_SPARE}: sha256 不符`])
+  expect(m.session.getState()).toBe(before)
+  expect(m.host.querySelector('[role="alert"]')?.textContent).toBe(
+    `battle-sprite AssetId "${A_SPARE}": sha256 不符`,
+  )
   expect(m.session.getState().assetCatalog.assets[A_SPARE]).toBeDefined()
   expect(m.session.getHistoryVersion()).toBe(0)
 })
@@ -192,16 +200,10 @@ test('C02-G04-08 连续删除两个闲置资产：每次都落首个其他资产
   await waitProof(m.host, 4, 0)
   const original = catalogMetas(m.host)
   vi.spyOn(window, 'confirm').mockReturnValue(true)
-  await deleteSelectedAsset(m.host)
-  await vi.waitFor(() => {
-    expect(m.session.getState().assetCatalog.assets[A_IDLE]).toBeUndefined()
-  })
+  await deleteSelectedAsset(m, A_IDLE)
   await selectAssetRow(m.host, A_SPARE)
   await waitProof(m.host, 3, 0)
-  await deleteSelectedAsset(m.host)
-  await vi.waitFor(() => {
-    expect(m.session.getState().assetCatalog.assets[A_SPARE]).toBeUndefined()
-  })
+  await deleteSelectedAsset(m, A_SPARE)
   expect(catalogMetas(m.host)).toHaveLength(4)
   expect(selectedCatalogAsset(m.host)).toBe(A_ENEMY)
   expect(m.session.getHistoryVersion()).toBe(2)
@@ -223,10 +225,7 @@ test('C02-G04-09 先删最后一个用途再删源文件：两步各自可撤销
   await act(async () => deleteUsageButton(m.host)!.click())
   await waitProof(m.host, 6, 0)
   expect(replaceSourceButton(m.host)).toBeUndefined()
-  await deleteSelectedAsset(m.host)
-  await vi.waitFor(() => {
-    expect(m.session.getState().assetCatalog.assets[A_ENEMY]).toBeUndefined()
-  })
+  await deleteSelectedAsset(m, A_ENEMY)
   expect(m.session.getHistoryVersion()).toBe(2)
   assertProjectSaveValid(m.session.getState())
 

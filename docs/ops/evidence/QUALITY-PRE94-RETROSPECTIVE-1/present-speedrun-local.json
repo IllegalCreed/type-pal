@@ -1,0 +1,3417 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "owner": "Codex",
+  "base": "b7fc0524ad8cfe28a1272206d00410073993acd1",
+  "status": "accepted:12 original cards/36 explicit files; runtime gates clean, final static/metadata records in present-speedrun-gates.json",
+  "priorProgress": {
+    "accept": 15,
+    "partial": 68,
+    "pending": 0
+  },
+  "cards": [
+    {
+      "id": "48",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-48-game-draw-equip.md",
+      "scope": [
+        "packages/game/src/present/menu/draw-equip.ts",
+        "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts"
+      ],
+      "decision": "accept by Codex under original card contract; see final gates receipt for scope/remaining items",
+      "retained": "Context/public-wide files are not implicitly accepted."
+    },
+    {
+      "id": "49",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-49-game-draw-inventory.md",
+      "scope": [
+        "packages/game/src/present/menu/draw-inventory.ts",
+        "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts"
+      ],
+      "decision": "accept by Codex under original card contract; see final gates receipt for scope/remaining items",
+      "retained": "Context/public-wide files are not implicitly accepted."
+    },
+    {
+      "id": "50",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-50-game-draw-magic.md",
+      "scope": [
+        "packages/game/src/present/menu/draw-magic.ts",
+        "packages/game/src/present/menu/draw-magic.test.ts",
+        "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts"
+      ],
+      "decision": "accept by Codex under original card contract; see final gates receipt for scope/remaining items",
+      "retained": "Context/public-wide files are not implicitly accepted."
+    },
+    {
+      "id": "61",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md",
+      "scope": [
+        "packages/game/src/tools/speedrun/store.ts",
+        "packages/game/src/tools/speedrun/store.test.ts",
+        "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts"
+      ],
+      "decision": "accept by Codex under original card contract; see final gates receipt for scope/remaining items",
+      "retained": "Context/public-wide files are not implicitly accepted."
+    },
+    {
+      "id": "62",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-62-game-speedrun-timer-boundary.md",
+      "scope": [
+        "packages/game/src/tools/speedrun/timer.ts",
+        "packages/game/src/tools/speedrun/timer.test.ts",
+        "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts"
+      ],
+      "decision": "accept by Codex under original card contract; see final gates receipt for scope/remaining items",
+      "retained": "Context/public-wide files are not implicitly accepted."
+    },
+    {
+      "id": "63",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-63-game-speedrun-snapshot-boundary.md",
+      "scope": [
+        "packages/game/src/tools/speedrun/snapshot.ts",
+        "packages/game/src/tools/speedrun/snapshot.test.ts"
+      ],
+      "decision": "accept by Codex under original card contract; see final gates receipt for scope/remaining items",
+      "retained": "Context/public-wide files are not implicitly accepted."
+    },
+    {
+      "id": "64",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-64-game-speedrun-detectors-boundary.md",
+      "scope": [
+        "packages/game/src/tools/speedrun/detectors.ts",
+        "packages/game/src/tools/speedrun/detectors.test.ts",
+        "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts"
+      ],
+      "decision": "accept by Codex under original card contract; see final gates receipt for scope/remaining items",
+      "retained": "Context/public-wide files are not implicitly accepted."
+    },
+    {
+      "id": "65",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-65-game-speedrun-index-orchestration.md",
+      "scope": [
+        "packages/game/src/tools/speedrun/index.ts",
+        "packages/game/src/tools/speedrun/index.test.ts",
+        "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts"
+      ],
+      "decision": "accept by Codex under original card contract; see final gates receipt for scope/remaining items",
+      "retained": "Context/public-wide files are not implicitly accepted."
+    },
+    {
+      "id": "66",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-66-game-speedrun-overlay-boundary.md",
+      "scope": [
+        "packages/game/src/tools/speedrun/overlay.ts",
+        "packages/game/src/tools/speedrun/overlay.test.ts",
+        "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts"
+      ],
+      "decision": "accept by Codex under original card contract; see final gates receipt for scope/remaining items",
+      "retained": "Context/public-wide files are not implicitly accepted."
+    },
+    {
+      "id": "67",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-67-game-speedrun-checkpoint-boundary-tests.md",
+      "scope": [
+        "packages/game/src/tools/speedrun/checkpoints.test.ts",
+        "packages/game/src/tools/speedrun/timer.boundaries.test.ts"
+      ],
+      "decision": "accept by Codex under original card contract; see final gates receipt for scope/remaining items",
+      "retained": "Runtime checkpoint coordinate/BGM calibration remains unknown; not part of static tests contract."
+    },
+    {
+      "id": "68",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-68-game-speedrun-countdown-tests.md",
+      "scope": [
+        "packages/game/src/tools/speedrun/countdown.test.ts",
+        "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts"
+      ],
+      "decision": "accept by Codex under original card contract; see final gates receipt for scope/remaining items",
+      "retained": "Context/public-wide files are not implicitly accepted."
+    },
+    {
+      "id": "69",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-69-game-speedrun-time-format-tests.md",
+      "scope": [
+        "packages/game/src/tools/speedrun/time-format.test.ts",
+        "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+        "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts"
+      ],
+      "decision": "accept by Codex under original card contract; see final gates receipt for scope/remaining items",
+      "retained": "Context/public-wide files are not implicitly accepted."
+    }
+  ],
+  "files": [
+    {
+      "path": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+      "sha256": "36fec8d2f4235f47ad51b396af216aab4c32bcaffd7f1b02325e91029769dc77",
+      "lines": 119,
+      "baseSha256": "2772110f569c4d082a82fca6c2636dd52193f95bd4ae3f54830b6d17b1ff0c81",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：[3,1] role位四色、未知装备?777/空槽和缺role防御；与P03六槽/效果和C01单人边界互补；本轮正常world/runtime工厂替代未初始化数值。",
+        "B": "逐项标题/注释限于实际执行；[3,1] role位四色、未知装备?777/空槽和缺role防御；与P03六槽/效果和C01单人边界互补；本轮正常world/runtime工厂替代未初始化数值。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：[3,1] role位四色、未知装备?777/空槽和缺role防御；与P03六槽/效果和C01单人边界互补；本轮正常world/runtime工厂替代未初始化数值。",
+        "E": "[3,1] role位四色、未知装备?777/空槽和缺role防御；与P03六槽/效果和C01单人边界互补；本轮正常world/runtime工厂替代未初始化数值。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "L11 drawEquipMenu 剩余分支 pick-role 非顺序 party [3,1]：equipableBy 按 roleId 位着色，选中高亮按 party 序",
+          "status": "passed"
+        },
+        {
+          "fullName": "L11 drawEquipMenu 剩余分支 已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画",
+          "status": "passed"
+        },
+        {
+          "fullName": "L11 drawEquipMenu 剩余分支 roles 缺 party 中某 roleId：该行跳过不崩，另一行正常",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "sha256": "ad4b54f5a381d4ca5ada430613acd1e47304b516f8e88a270f07c771140ba86d",
+      "lines": 279,
+      "baseSha256": "5484052e78b849af486c88fd5e9a163b6377081ec04abfe99d37a3523c838df1",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "真实 createEquipMenu/confirmEquipItem 进入单人 pick-role；rows=party.length-1，C PAL_EquipItemMenu 传 wMaxPartyMemberIndex；缺目录/光标早退不写状态。",
+        "B": "去掉笼统1:1与固定四人表述，说明单人零内容行；normal库存归零删除与确认正数量门沿用旧证据，零数量夹具仅防御。",
+        "C": "状态变更归 menu-driver；仅读 runtime装备/有效属性、catalog与帧，输出只到 framebuffer；背景/图标由 caller 持有。",
+        "D": "列表复用 drawInventoryMenu，选人页独有布局保留；同名blit局部循环不因外观相同引入万能呈现上下文。",
+        "E": "C01旧业务像素失败，短框修复后通过；P03两人四色/六槽与三叶反例互补。旧不可达数量0不冒充可用路径。",
+        "F": "phase路由、选中物品与角色ID明确；去掉固定人数及整文件完全等价的误导描述。",
+        "G": "仅修高度下限；列表适配器有真实用途，无新增模式开关/死导出；未删跨文件接口。",
+        "H": "真实状态工厂与 literal 像素测试，不mock renderer；时间在用例内恢复，背景/缺帧可直接注入。"
+      },
+      "cases": []
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+      "sha256": "ac6b9b743f291a3af65e23d730ab51abfdafa48f93b7c24062b8f18e7f2495e6",
+      "lines": 96,
+      "baseSha256": "0639c4004e69d77a690e036ca631a0d134a8297195f5c44bea4689e11c4db42b",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：未知catalog选中/混列颜色、缺GS/roles防御入口三个合同；目标确认真实工厂，绘制故意缺参不冒称正常caller。",
+        "B": "逐项标题/注释限于实际执行；未知catalog选中/混列颜色、缺GS/roles防御入口三个合同；目标确认真实工厂，绘制故意缺参不冒称正常caller。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：未知catalog选中/混列颜色、缺GS/roles防御入口三个合同；目标确认真实工厂，绘制故意缺参不冒称正常caller。",
+        "E": "未知catalog选中/混列颜色、缺GS/roles防御入口三个合同；目标确认真实工厂，绘制故意缺参不冒称正常caller。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "L10 drawInventoryMenu 剩余分支 库存条目 itemId 不在 catalog 且被选中：label ?id（tofu 顶行）+ SELECTED_INACTIVE 0x1C",
+          "status": "passed"
+        },
+        {
+          "fullName": "L10 drawInventoryMenu 剩余分支 未知项与可用项混列：未知 0x18（未选中），可用项被选中 0xF9",
+          "status": "passed"
+        },
+        {
+          "fullName": "L10 drawInventoryMenu 剩余分支 use-target 相缺 gs/playerRoles：只画 list，不叠选人层（防御组合不崩）",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "sha256": "dbe556919b3f7130a9d844c79833c8ec1be02d014789477a1fc4c3ccd32a2cd8",
+      "lines": 385,
+      "baseSha256": "8aab3f1f2292dc1a8d610be94825847d5b2c9459197ea1260db94f9f581fd1c3",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "列表仍(+5,+5)阴影；PAL_ItemUseMenu目标框只正常blit；实时库存归零隐藏合同保持，确认/退出归driver。",
+        "B": "新增说明目标框与列表阴影合同不同；旧历史注释不充作全域SDLPal等价性证明。",
+        "C": "不写 inventory/role/menu；IO与脚本执行不在绘制层；资源/状态由 draw-menu caller 注入。",
+        "D": "合法列表共享给装备/卖菜单；目标层与列表阴影策略不同，保留独立调用而非布尔模式改公共blit。",
+        "E": "A01同物品真实确认：列表0x55阴影保留，目标(125,85)保留底色；旧23例恰两红含该例，修改后通过。",
+        "F": "目标 ITEMBOX位置与列表坐标各自命名，分支清楚；本次不为减少行数混并两种业务画法。",
+        "G": "精确删除目标层多余shadow调用，保留仍被列表消费的shadow函数；不引入新兼容或兜底。",
+        "H": "可注入真实framebuffer/帧与catalog；原生canvas例由正确game配置实跑，未改环境/排除测试。"
+      },
+      "cases": []
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+      "sha256": "6809a92780779b772279a90fa9acf775ccb847d0e97f205c1bcd26b353d17846",
+      "lines": 259,
+      "baseSha256": "8e64764ea0ea5c633a7386380eba5eb92f24945a83ed15d97282bdd05d62da00",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：disabled四色仅验证预置snapshot着色、空表/label回退；撤掉未执行的role#id声明及无关夹具，不新增弱tofu测试补数。",
+        "B": "逐项标题/注释限于实际执行；disabled四色仅验证预置snapshot着色、空表/label回退；撤掉未执行的role#id声明及无关夹具，不新增弱tofu测试补数。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：disabled四色仅验证预置snapshot着色、空表/label回退；撤掉未执行的role#id声明及无关夹具，不新增弱tofu测试补数。",
+        "E": "disabled四色仅验证预置snapshot着色、空表/label回退；撤掉未执行的role#id声明及无关夹具，不新增弱tofu测试补数。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "L10 drawInGameMagicMenu 剩余分支 pick-caster：死亡施法人未选中 0x18、被选中 0x1C；活人选中 0xF9",
+          "status": "passed"
+        },
+        {
+          "fullName": "L10 drawInGameMagicMenu 剩余分支 pick-spell：选中+MP不足 0x1C（预置 disabled 着色，不证明判定已执行）",
+          "status": "passed"
+        },
+        {
+          "fullName": "L10 drawInGameMagicMenu 剩余分支 空法术表：只画 grid 框，不画条目不抛错；MP 框 needed 0",
+          "status": "passed"
+        },
+        {
+          "fullName": "L10 drawInGameMagicMenu 剩余分支 spell 不在 catalog：grid 使用 menu item 的完整 label",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.test.ts",
+      "sha256": "288717bce445eef0522536b4fab32905b851929330e82a94fbec1733a56bf0a1",
+      "lines": 190,
+      "baseSha256": "c519e73ebdf32123da34b729e5c88d8a08ab424249dbbba62f4d3b9af5cdd672",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：两个snapshot合同：说明专属区域确有0x3c像素、WIN95 MP只在左；hydrate合法角色，移冗余as与相同Magic字段；不假称选择逻辑覆盖。",
+        "B": "逐项标题/注释限于实际执行；两个snapshot合同：说明专属区域确有0x3c像素、WIN95 MP只在左；hydrate合法角色，移冗余as与相同Magic字段；不假称选择逻辑覆盖。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：两个snapshot合同：说明专属区域确有0x3c像素、WIN95 MP只在左；hydrate合法角色，移冗余as与相同Magic字段；不假称选择逻辑覆盖。",
+        "E": "两个snapshot合同：说明专属区域确有0x3c像素、WIN95 MP只在左；hydrate合法角色，移冗余as与相同Magic字段；不假称选择逻辑覆盖。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "drawInGameMagicMenu pick-spell 画选中仙术 scriptDesc 说明(magicmenu.c:191)",
+          "status": "passed"
+        },
+        {
+          "fullName": "drawInGameMagicMenu L8:pick-spell 用 WIN95 布局 —— MP 在左侧,右侧 MP 区(215~265)无 slash/MP sprite",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.ts",
+      "sha256": "bef155f696ff4ead5bbec2fb32d1ee802821df8b595150ae24dfd6f8306ec222",
+      "lines": 312,
+      "baseSha256": "76059179edbbfceaa0e66401f311b334834724ae9c6f7622b7219035ea1ab49c",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "真实三阶段均接状态/毒依赖；world runtime保留真实0；poison经既有party-slot mapper，HP0盖毒色。渲染不扣MP或执行法术。",
+        "B": "撤省略毒/四状态注释与固定4人/1:1声明；明确world runtime owner，CLASSIC定字对应Paralyzed。",
+        "C": "world adapter组装标量视图，shared叶不引入world→battle反向依赖；资源只读，状态写入仍归core。",
+        "D": "与battle共享同一PAL_CLASSIC信息框，消除两份数值/状态布局；特殊网格与顶部MP仍在本模块。",
+        "E": "三真实菜单流程合同、三阶段漏传依赖红→绿及独立接线单红；已有25例的像素/描述/缺帧合同保留。",
+        "F": "drawAllPlayerInfoBoxes集中读取world值，绘制leaf命名表意；各phase的必需依赖均显式。",
+        "G": "删除world私有重复信息框；保留仍被cursor/slash消费的blit；单人选施法人是防御快照，未借机改clamp。",
+        "H": "真实drawMenuStack/create/confirm推进可直测；shared painter无IO/时钟；不为测试暴露私有菜单状态。"
+      },
+      "cases": []
+    },
+    {
+      "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "sha256": "68fd0d1db984eb1689d4faabc97e011e7ace0a8d1ac512a62d870c7a0225ae21",
+      "lines": 357,
+      "baseSha256": "03b46c33d1868763a634c8ad4607049f8f493c1ece65325db570e02853c5fa36",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：C01单人框改为103底边/111留底；done/缺item/坏cursor是明确防御快照，其余四属性与live库存独立像素；MP合法、runtime显式hydrate。",
+        "B": "逐项标题/注释限于实际执行；C01单人框改为103底边/111留底；done/缺item/坏cursor是明确防御快照，其余四属性与live库存独立像素；MP合法、runtime显式hydrate。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：C01单人框改为103底边/111留底；done/缺item/坏cursor是明确防御快照，其余四属性与live库存独立像素；MP合法、runtime显式hydrate。",
+        "E": "C01单人框改为103底边/111留底；done/缺item/坏cursor是明确防御快照，其余四属性与live库存独立像素；MP合法、runtime显式hydrate。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "G06-C 装备选人像素 G06-C01 一人队伍不加空白内容行，底边在 y=103",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-C 装备选人像素 G06-C02 phase 为 done 时整屏保持底色",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-C 装备选人像素 G06-C03 selectedItemId 未定义时不铺装备背景",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-C 装备选人像素 G06-C04 选中 id 不在目录时同样不铺背景也不画图标",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-C 装备选人像素 G06-C05 角色光标越过队伍时图标已画，攻击数字不画",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-C 装备选人像素 G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-C 装备选人像素 G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-C 装备选人像素 G06-C08 防御预览在 y=58，取防御基础值",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-C 装备选人像素 G06-C09 身法为一位数时只画个位，高位保持底色",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-C 装备选人像素 G06-C10 吉运预览在 y=102",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-C 装备选人像素 G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "sha256": "64dd8c71f90ccd213d485c12a428e808a3af44a9fe4b040ac083f3c3b3d22fff",
+      "lines": 417,
+      "baseSha256": "847ba3cd0594f5578ea7a564df055435fa57b9e4a333f69cd25086f6547a8389",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：A01保留列表阴影并真实确认目标无shadow；live-zero、缺帧/目录/cursor、属性、数量和canvas RGB不同层oracle；正常role以共享live工厂初始化。",
+        "B": "逐项标题/注释限于实际执行；A01保留列表阴影并真实确认目标无shadow；live-zero、缺帧/目录/cursor、属性、数量和canvas RGB不同层oracle；正常role以共享live工厂初始化。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：A01保留列表阴影并真实确认目标无shadow；live-zero、缺帧/目录/cursor、属性、数量和canvas RGB不同层oracle；正常role以共享live工厂初始化。",
+        "E": "A01保留列表阴影并真实确认目标无shadow；live-zero、缺帧/目录/cursor、属性、数量和canvas RGB不同层oracle；正常role以共享live工厂初始化。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "G06-A 物品列表像素 G06-A01 列表物品框保留阴影，使用目标框只画正色不加阴影",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-A 物品列表像素 G06-A02 差额等于 1 时不画青色数量，选中名仍用闪烁色",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-A 物品列表像素 G06-A03 列表数量用 count 减 inUse，4 件占用 2 件只画青色 2",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-A 物品列表像素 G06-A04 图标表没有 bitmap 时图标位保持底色，物品框照画",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-A 物品列表像素 G06-A05 缺少光标帧 69 时名字照画，光标位留着列表框色",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-A 物品列表像素 G06-A06 大世界目标层数量归零时按 SDLPal 隐藏图标/名称/数字",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-A 物品列表像素 G06-A07 用物层选中 id 不在目录时不画属性标签，列表名仍在",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-A 物品列表像素 G06-A08 用物层光标越过队伍时不画体力，队员名仍按未选中色画出",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-A 物品列表像素 G06-A09 缺少斜杠帧 39 时体力数字仍在，斜杠位保持底色",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-A 物品列表像素 G06-A10 过滤为 all 时 usable 为假的物品仍按可选色画，不进暗色",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-A 物品列表像素 G06-A11 用物层灵力是基础加装备效果，武术行仍是武术值",
+          "status": "passed"
+        },
+        {
+          "fullName": "G06-A 物品列表像素 G06-A12 物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "sha256": "5cad30584be5d43a1d2073da5fa3bdf78df3d41d26e07538dfdf460dbcdbda58",
+      "lines": 567,
+      "baseSha256": "53f62ba005536b9017a6fe0f81e688827b42516ad0fcba542d57a665aa34adcc",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：15例独立描述行/列/缺帧/HP上限/MP runtime/头像透明像素；单人pick-caster与缺施法人明确防御，正常案例hydrate且MP域合法，原断言保留。",
+        "B": "逐项标题/注释限于实际执行；15例独立描述行/列/缺帧/HP上限/MP runtime/头像透明像素；单人pick-caster与缺施法人明确防御，正常案例hydrate且MP域合法，原断言保留。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：15例独立描述行/列/缺帧/HP上限/MP runtime/头像透明像素；单人pick-caster与缺施法人明确防御，正常案例hydrate且MP域合法，原断言保留。",
+        "E": "15例独立描述行/列/缺帧/HP上限/MP runtime/头像透明像素；单人pick-caster与缺施法人明确防御，正常案例hydrate且MP域合法，原断言保留。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A01 防御性单人选人快照仍画一行内容框，底边在 y=78",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A02 第二条仙术说明在 y=19，第一条仍在 y=3",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A03 缺少头像帧时头像位保持底色，体力个位仍画出",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A04 缺少斜杠帧时斜杠位保持底色，体力个位仍画出",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A05 缺少上箭头帧时目标光标位保持底色，仙术名仍画出",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A06 防御性缺施法人快照不画顶部真气，仙术名仍画出",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A07 法术目录没有对应 magic 时需要真气画成黄 0，现行真气仍是青 6",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A08 第三列仙术在 x=209，颜色是未选中色",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A09 第二行仙术在 y=72，颜色是未选中色",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A10 信息框真气读运行时 12，不读角色静态真气 99",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A11 体力上限 80 画在 y=173，当前体力 12 仍在 y=170",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A12 缺少光标帧 69 时名字照画，光标位留着格子框色",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A13 头像落在信息框左上外侧，信息框本体仍在 (45,165)",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A14 选人阶段不画仙术格子，体力个位仍画出",
+          "status": "passed"
+        },
+        {
+          "fullName": "G07-A 仙术菜单像素 G07-A15 格子光标的实点是 0x69，中间透明孔留着格子框色",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+      "sha256": "5cb596c0788222fc1fa89981d878c20ae68a19f5fcae329cc5a2a03f8a208b86",
+      "lines": 157,
+      "baseSha256": null,
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：三例由真实menu-stack/create/confirm逐阶段推进；[4,1]party-slot毒色、四字独立mask/坐标、批准的HP0黑白兜底。HP0不冒称真实战斗逃跑路径已跑。",
+        "B": "逐项标题/注释限于实际执行；三例由真实menu-stack/create/confirm逐阶段推进；[4,1]party-slot毒色、四字独立mask/坐标、批准的HP0黑白兜底。HP0不冒称真实战斗逃跑路径已跑。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：三例由真实menu-stack/create/confirm逐阶段推进；[4,1]party-slot毒色、四字独立mask/坐标、批准的HP0黑白兜底。HP0不冒称真实战斗逃跑路径已跑。",
+        "E": "三例由真实menu-stack/create/confirm逐阶段推进；[4,1]party-slot毒色、四字独立mask/坐标、批准的HP0黑白兜底。HP0不冒称真实战斗逃跑路径已跑。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "menu-stack 接线：队序[4,1]按队伍位置取毒，保留头像色阶与透明孔，四级毒不染色",
+          "status": "passed"
+        },
+        {
+          "fullName": "真实runtime角色4的四状态字使用SDLPal独立坐标与颜色",
+          "status": "passed"
+        },
+        {
+          "fullName": "已批准的HP0防御显示：死亡黑白覆盖毒色，保留色阶和透明孔",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/player-info-box.ts",
+      "sha256": "297896c477336d55145626a533c6b8f479c01ee631a7867f9e0764d31fbf8363",
+      "lines": 118,
+      "baseSha256": null,
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "PAL_CLASSIC uibattle.c PAL_PlayerInfoBox：保留阴影字坐标/色阶/透明孔；level<=3与同级后槽优先，HP0黑白。",
+        "B": "注释说明view ownership、0xff全色哨兵与毒色规则，不复述逐像素循环。",
+        "C": "painter只收标量view/帧/glyph；兼容compute函数只读GS并复用core mapper，无生命周期/状态写入。",
+        "D": "world与battle已有两个真实caller共享同一像素合同；不抽象不同布局，不增加模式布尔值。",
+        "E": "原battle56例与world三合同；真实数字/状态/缺帧/透明与poison职责分别由现有tests和新integration支持。",
+        "F": "frame常量、status布局表、blitPortrait命名清楚；各坐标相对pos，单位为像素。",
+        "G": "移除两份重复实现；compute旧签名/body不变，保持battle既有出口。没有未来适配器或全局缓存。",
+        "H": "view可直接供纯framebuffer验证；通过真实world/battle caller，不引入mock/proxy产品状态。"
+      },
+      "cases": []
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.test.ts",
+      "sha256": "892636edd42fbc2de200468950fb83789ad7930818db0bc050299db536a3b363",
+      "lines": 27,
+      "baseSha256": "0263a636b91dbc058e95bc44a8dc7c7fe06be1f78fbd697633c677f37c75c706",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：3例仅静态21个唯一ID/参考线递增、首尾label、banana三格零容差。更名撤PalTimer/运行校准的越权推论；坐标/BGM实跑仍未知。",
+        "B": "逐项标题/注释限于实际执行；3例仅静态21个唯一ID/参考线递增、首尾label、banana三格零容差。更名撤PalTimer/运行校准的越权推论；坐标/BGM实跑仍未知。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：3例仅静态21个唯一ID/参考线递增、首尾label、banana三格零容差。更名撤PalTimer/运行校准的越权推论；坐标/BGM实跑仍未知。",
+        "E": "3例仅静态21个唯一ID/参考线递增、首尾label、banana三格零容差。更名撤PalTimer/运行校准的越权推论；坐标/BGM实跑仍未知。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "checkpoints 正好 21 个,id 唯一,时间单调递增",
+          "status": "passed"
+        },
+        {
+          "fullName": "checkpoints 首尾节点正确",
+          "status": "passed"
+        },
+        {
+          "fullName": "checkpoints 香蕉配置(照抄 PalTimer 3 精确格 + PARTYOFFSET,零容差)",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "sha256": "2abb8449f9eb418542b978538b4709f6104478e211c51032faba7faa82a71eb2",
+      "lines": 38,
+      "baseSha256": "2abb8449f9eb418542b978538b4709f6104478e211c51032faba7faa82a71eb2",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：2例MutationObserver核相同文本无变更，以及无document不触DOM；observer disconnect/stub/mock恢复俱有明确owner，沿用68反控。",
+        "B": "逐项标题/注释限于实际执行；2例MutationObserver核相同文本无变更，以及无document不触DOM；observer disconnect/stub/mock恢复俱有明确owner，沿用68反控。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：2例MutationObserver核相同文本无变更，以及无document不触DOM；observer disconnect/stub/mock恢复俱有明确owner，沿用68反控。",
+        "E": "2例MutationObserver核相同文本无变更，以及无document不触DOM；observer disconnect/stub/mock恢复俱有明确owner，沿用68反控。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "L20 showCountdown 宿主边界 相同文字逐帧刷新时不触发 DOM 变更",
+          "status": "passed"
+        },
+        {
+          "fullName": "L20 showCountdown 宿主边界 无 document 时字符串和 null 调用均不访问 DOM",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.test.ts",
+      "sha256": "a684c34ac598bf934caff399c0616b2f24cc5ce8e3fcaefaa07eb9c300219833",
+      "lines": 29,
+      "baseSha256": "a684c34ac598bf934caff399c0616b2f24cc5ce8e3fcaefaa07eb9c300219833",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：2例真实DOM创建/文本更新/同node、移除/二次移除/重建；与leaf相同文本不写DOM是不同合同。",
+        "B": "逐项标题/注释限于实际执行；2例真实DOM创建/文本更新/同node、移除/二次移除/重建；与leaf相同文本不写DOM是不同合同。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：2例真实DOM创建/文本更新/同node、移除/二次移除/重建；与leaf相同文本不写DOM是不同合同。",
+        "E": "2例真实DOM创建/文本更新/同node、移除/二次移除/重建；与leaf相同文本不写DOM是不同合同。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "showCountdown 传字符串挂出、更新文本",
+          "status": "passed"
+        },
+        {
+          "fullName": "showCountdown 传 null 移除",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "sha256": "c13eaf0ad4f95c7e0d4cddcaa71824b9b685872ff7a3b7098089b8928ea5eacc",
+      "lines": 58,
+      "baseSha256": "97927e4db3f2805e22592fff7f020209b30ca46bd6de478b51a2b3147315e55d",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：默认48/24双向闭边界、atAnySpot多点与自定义enemyId三合同；mixed leave/empty-case已归canonical对应factory，非仅删除。",
+        "B": "逐项标题/注释限于实际执行；默认48/24双向闭边界、atAnySpot多点与自定义enemyId三合同；mixed leave/empty-case已归canonical对应factory，非仅删除。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：默认48/24双向闭边界、atAnySpot多点与自定义enemyId三合同；mixed leave/empty-case已归canonical对应factory，非仅删除。",
+        "E": "默认48/24双向闭边界、atAnySpot多点与自定义enemyId三合同；mixed leave/empty-case已归canonical对应factory，非仅删除。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "L08 detectors 剩余边界 atSpot 默认容差 ±48/±24：恰好边界命中、超出 1px 不命中",
+          "status": "passed"
+        },
+        {
+          "fullName": "L08 detectors 剩余边界 atAnySpot 多点：任一格命中即真；全部未命中/场景不符为假",
+          "status": "passed"
+        },
+        {
+          "fullName": "L08 detectors 剩余边界 caiyiDetector 自定义敌 id：见 72 置位，其消失触发",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.test.ts",
+      "sha256": "23e36b32f9edd8c89bf318ec65b9077d564838048ad0645f386a6499ff48f227",
+      "lines": 93,
+      "baseSha256": "87073fbf0d3748fb909628007c510bc1583fc7bc803f34f83e5b036b5e5dfbcc",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：9例canonical factory；hasItem/bgm各正反独立；移入H07 prev-null/集合/自定义容差/独立mem断言，常量变异恰两业务红。",
+        "B": "逐项标题/注释限于实际执行；9例canonical factory；hasItem/bgm各正反独立；移入H07 prev-null/集合/自定义容差/独立mem断言，常量变异恰两业务红。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：9例canonical factory；hasItem/bgm各正反独立；移入H07 prev-null/集合/自定义容差/独立mem断言，常量变异恰两业务红。",
+        "E": "9例canonical factory；hasItem/bgm各正反独立；移入H07 prev-null/集合/自定义容差/独立mem断言，常量变异恰两业务红。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "detectors enterScene 仅在进入那一帧触发",
+          "status": "passed"
+        },
+        {
+          "fullName": "detectors leaveScene 仅在离开那一帧触发",
+          "status": "passed"
+        },
+        {
+          "fullName": "detectors enterAnyScene 任一进入即触发",
+          "status": "passed"
+        },
+        {
+          "fullName": "detectors atSpot 容差矩形",
+          "status": "passed"
+        },
+        {
+          "fullName": "detectors bossWon 需 boss 在场且全场血≤0",
+          "status": "passed"
+        },
+        {
+          "fullName": "detectors hasItem 只命中背包中的指定物品",
+          "status": "passed"
+        },
+        {
+          "fullName": "detectors bgmIs 只命中指定音乐号",
+          "status": "passed"
+        },
+        {
+          "fullName": "detectors caiyi 两段:先见 71 入场,再等其消失/血≤0",
+          "status": "passed"
+        },
+        {
+          "fullName": "detectors caiyi 第二段:战斗结束(battle=null)也触发",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.ts",
+      "sha256": "c2209367f139dd37dbc77bf11d59c76a63fe687b90de607b35e152d4e48cb60c",
+      "lines": 75,
+      "baseSha256": "781e9ef535ee7603c84a601116e4ebe6bc367bc2ad5804a82a9a15ad8cef57f5",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "场景边沿/闭矩形容差、物品/音乐匹配、boss与caiyi两段按当前快照合同；null边界无读GS。",
+        "B": "纠正纯函数宣称：只读快照但允许改caller-owned mem；删除已不必要的OptionalChain ignore。",
+        "C": "timer为每个节点持有独立mem，检测器不持隐式全局；工厂参数为实际checkpoint使用。",
+        "D": "可组合factory复用场景/容差；boss与caiyi即时/跨帧语义不同，保留各自状态合同。",
+        "E": "恒true原12绿→两指定红，恢复；H07归 canonical factories，自定义id与默认容差仍在leaf。",
+        "F": "inNow用可选链和??false明确返回boolean；其余条件依序命名gone/cleared，非为指标拆函数。",
+        "G": "原接口与输出不变；保留实际checkpoint需要的工厂，移除ignore不降低规则。",
+        "H": "cur/prev/mem显式输入，纯帧序列即可核；不依赖剧情浏览器或共享全局才能测判定。"
+      },
+      "cases": []
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "sha256": "65beee9b2b0d8d5d45305beef9e0076aec111e32d52243ba3c02d2ce63d037ac",
+      "lines": 71,
+      "baseSha256": "bb7e306e566363573d007bb680f00e07dfec6519c246e263c515ab21c4302d05",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：两例解绑后500ms仍running且不多toast，以及disabled无toast/重复解绑；沿用旧有效静默重置反控，清理实际style。",
+        "B": "逐项标题/注释限于实际执行；两例解绑后500ms仍running且不多toast，以及disabled无toast/重复解绑；沿用旧有效静默重置反控，清理实际style。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：两例解绑后500ms仍running且不多toast，以及disabled无toast/重复解绑；沿用旧有效静默重置反控，清理实际style。",
+        "E": "两例解绑后500ms仍running且不多toast，以及disabled无toast/重复解绑；沿用旧有效静默重置反控，清理实际style。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "L21 setupSpeedrunHotkeys 解绑 启用时 F4 重置；解绑后 F4 不改变计时且无新 toast",
+          "status": "passed"
+        },
+        {
+          "fullName": "L21 setupSpeedrunHotkeys 解绑 未启用时按键短路（无 toast）；解绑函数幂等可重复调",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.test.ts",
+      "sha256": "0fe566225d01c12455a9b4f2e5f29881966b630f428651dc676b45180aae7cf7",
+      "lines": 136,
+      "baseSha256": "82881cf80a251e55152535e8a68cc1b73fdda063306e2734f01d969cf83a8252",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：11例真实GS推进/默认参考线/F键/冻结门；fake clock与RAF now一致，解绑/timers/storage/DOM与新建style有清理，未恢复私有timer强转。",
+        "B": "逐项标题/注释限于实际执行；11例真实GS推进/默认参考线/F键/冻结门；fake clock与RAF now一致，解绑/timers/storage/DOM与新建style有清理，未恢复私有timer强转。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：11例真实GS推进/默认参考线/F键/冻结门；fake clock与RAF now一致，解绑/timers/storage/DOM与新建style有清理，未恢复私有timer强转。",
+        "E": "11例真实GS推进/默认参考线/F键/冻结门；fake clock与RAF now一致，解绑/timers/storage/DOM与新建style有清理，未恢复私有timer强转。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "tickSpeedrunTimer 未启用 → 不挂覆盖层、计时不动",
+          "status": "passed"
+        },
+        {
+          "fullName": "tickSpeedrunTimer 启用后起表、挂覆盖层、wall-clock 累加",
+          "status": "passed"
+        },
+        {
+          "fullName": "tickSpeedrunTimer show=0 时不挂覆盖层但仍计时",
+          "status": "passed"
+        },
+        {
+          "fullName": "bests 默认播种 首次读取用 CHECKPOINTS 默认参考线",
+          "status": "passed"
+        },
+        {
+          "fullName": "setupSpeedrunHotkeys F4 启用时重置本局",
+          "status": "passed"
+        },
+        {
+          "fullName": "setupSpeedrunHotkeys F4 未启用时不重置",
+          "status": "passed"
+        },
+        {
+          "fullName": "setupSpeedrunHotkeys F8 启用时暂停本局",
+          "status": "passed"
+        },
+        {
+          "fullName": "setupSpeedrunHotkeys F2 启用时切换覆盖层显隐设置",
+          "status": "passed"
+        },
+        {
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 手动暂停 → true(冻结游戏)",
+          "status": "passed"
+        },
+        {
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 未暂停 → false",
+          "status": "passed"
+        },
+        {
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+      "lines": 116,
+      "baseSha256": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "未启用不推进；启用快照→timer→持久化flags→DOM；F4/F8/F2、解绑与手动冻结门按实际caller。",
+        "B": "F键注释与真实handler一致；测试reset只作测试用途，不把面板打开冒称暂停。",
+        "C": "单例位于编排边界，main-loop/工具面板调用；时钟规则、投影、IO、DOM分别在独立模块。",
+        "D": "共享getTimer惰性播种，不把无关业务并进timer；无新增注入容器或服务locator。",
+        "E": "沿用63–65真实500ms解绑反控；两个真实DOM宿主测试，新增style cleanup不弱化原计时/toast断言。",
+        "F": "每出口以动作命名，flag消费即save/toast，主循环顺序明确。",
+        "G": "当前生产出口均有真实caller；测试reset有现存测试consumer，公共删除需另卡而非按0caller猜测。",
+        "H": "真实GS+localStorage+fake clock+键盘事件可测；解绑函数直接交回owner；bootstrap单页面生命周期另属caller范围。"
+      },
+      "cases": []
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+      "sha256": "44f2d9135e744b3686bde3dc28bf83ab4ae0ad692c1d658878dc164597a5ec54",
+      "lines": 61,
+      "baseSha256": "43ff95ba9098a1c6c7e3577056e7ff3e599b5684858861c62b538d21830cc47d",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：两例只核root复用/文本更新和CSS创建/身份；修实际style ID清理，21槽split合法，不能以样式总数不变冒称创建。",
+        "B": "逐项标题/注释限于实际执行；两例只核root复用/文本更新和CSS创建/身份；修实际style ID清理，21槽split合法，不能以样式总数不变冒称创建。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：两例只核root复用/文本更新和CSS创建/身份；修实际style ID清理，21槽split合法，不能以样式总数不变冒称创建。",
+        "E": "两例只核root复用/文本更新和CSS创建/身份；修实际style ID清理，21槽split合法，不能以样式总数不变冒称创建。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "L21 overlay 原位更新与幂等 render 两次 → 单根节点、文本随数据更新",
+          "status": "passed"
+        },
+        {
+          "fullName": "L21 overlay 原位更新与幂等 injectOverlayStyles 创建指定样式，二次注入保留同一节点",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.test.ts",
+      "sha256": "463f8c9b9b6e77391e3f050708671aa596238141519a9e74c4d534a903c1c5eb",
+      "lines": 62,
+      "baseSha256": "d86f0e655fe1aa45b490ba462a9dd67725bd9769cf2095b560a402140ceda0ef",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：四例21行/时钟/暂停、独立手算差值ETA、真实挂root后hide两次；第二hide合同从无节点leaf迁回此处。",
+        "B": "逐项标题/注释限于实际执行；四例21行/时钟/暂停、独立手算差值ETA、真实挂root后hide两次；第二hide合同从无节点leaf迁回此处。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：四例21行/时钟/暂停、独立手算差值ETA、真实挂root后hide两次；第二hide合同从无节点leaf迁回此处。",
+        "E": "四例21行/时钟/暂停、独立手算差值ETA、真实挂root后hide两次；第二hide合同从无节点leaf迁回此处。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "overlay 渲染 21 行 + 主计时",
+          "status": "passed"
+        },
+        {
+          "fullName": "overlay 暂停加 * 前缀",
+          "status": "passed"
+        },
+        {
+          "fullName": "overlay 已完成节点显示最佳/差值，并用该差值推算预计通关",
+          "status": "passed"
+        },
+        {
+          "fullName": "overlay hideOverlay 移除真实根节点，再次移除保持为空",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.ts",
+      "sha256": "60c44dec89eeb0acf88719ff4cd86c81ff58f00932b3dc15f87ec77e737b9fdc",
+      "lines": 120,
+      "baseSha256": "60c44dec89eeb0acf88719ff4cd86c81ff58f00932b3dc15f87ec77e737b9fdc",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "固定21节点显示、split/best差值与ETA、暂停前缀；DOM通过textContent写，hide去root而样式为页面生命周期。",
+        "B": "根复用不等于行复用：每帧replaceChildren重建有界行，未声称完成历史增量DOM性能设计。",
+        "C": "renderer只消费只读run/checkpoints/bests；root/style由本模块命名，调用开关由index管理。",
+        "D": "复用time-format而非复制格式规则；保留有界直接DOM，不为未测性能瓶颈引入全局row缓存。",
+        "E": "不挂style旧6绿→新指定单红；hide从真实已挂root测试，完整21-slot fixture修正，ETA手算独立。",
+        "F": "四列/foot构建顺序清楚，formatEta回看最近有效split直述公式。",
+        "G": "所有出口有index/直接测试caller；没有新增中间层、模式或dead代码。",
+        "H": "真实DOM节点身份/内容/样式可直接观察，缺CSS反控业务失败，无mock render或仅计调用数。"
+      },
+      "cases": []
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.test.ts",
+      "sha256": "2c1476150e74be767259383e6818a8bc5a1780e3efb76ea076b9d40c3afdc838",
+      "lines": 72,
+      "baseSha256": "2c1476150e74be767259383e6818a8bc5a1780e3efb76ea076b9d40c3afdc838",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：七例分别静态字段/正数量集合、真实战斗工厂阵亡ID/血和、explore/menu/suspend/load/合法fade。沿用63–65修复字节，不重复造假GS。",
+        "B": "逐项标题/注释限于实际执行；七例分别静态字段/正数量集合、真实战斗工厂阵亡ID/血和、explore/menu/suspend/load/合法fade。沿用63–65修复字节，不重复造假GS。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：七例分别静态字段/正数量集合、真实战斗工厂阵亡ID/血和、explore/menu/suspend/load/合法fade。沿用63–65修复字节，不重复造假GS。",
+        "E": "七例分别静态字段/正数量集合、真实战斗工厂阵亡ID/血和、explore/menu/suspend/load/合法fade。沿用63–65修复字节，不重复造假GS。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "buildSnapshot 抽取场景/坐标/音乐/物品(仅 count>0)",
+          "status": "passed"
+        },
+        {
+          "fullName": "buildSnapshot 有战斗时汇总敌人 id 与总血",
+          "status": "passed"
+        },
+        {
+          "fullName": "buildSnapshot.canMove(计时起表门) explore + 无加载/淡入/挂起 → 可移动",
+          "status": "passed"
+        },
+        {
+          "fullName": "buildSnapshot.canMove(计时起表门) 开场菜单(mode!=explore)→ 不可移动",
+          "status": "passed"
+        },
+        {
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但 suspendRaf(boot 预载/开场 CG/梦境)→ 不可移动",
+          "status": "passed"
+        },
+        {
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但场景加载中 → 不可移动",
+          "status": "passed"
+        },
+        {
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但 palette 淡入中 → 不可移动",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.ts",
+      "sha256": "496c27dbc9eedfc5a9e87eb00018ddad506886796b7cf4c4cd46a8784520cd62",
+      "lines": 58,
+      "baseSha256": "d637515cd160e117de898fa472704bb169338f6d9ba9517136aed0aec58ad982",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "真实GameState投影场景/世界坐标/音乐、count>0库存、含defeated的敌ID与HP和；canMove排menu/load/fade/suspend。",
+        "B": "canMove注释与当前字段/移动门相符；旧浏览器观察仅按旧证据范围复用，不冒充本次重跑。",
+        "C": "这是引擎→工具的唯一状态投影；新Set为本帧快照，detector只读，未暴露可改GameState。",
+        "D": "timer/detectors/overlay消费同一轻量协议；没有把整个GS传进每个检测器。",
+        "E": "七例合法默认state/战斗工厂/真实fade构造覆盖提取与各移动门，未用空对象强转代替生命周期。",
+        "F": "字段名对应实际单位（世界像素、场景号、HP和），循环按库存/战斗对象直接表达。",
+        "G": "小而有真实caller；每帧两个有界集合是当前合同，不为猜测负载加跨帧缓存。",
+        "H": "buildSnapshot直接函数输入；无全局/异步依赖，可观察Set和战斗summary而非mock次数。"
+      },
+      "cases": []
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+      "sha256": "25b0d4cf610529a4fc67bf97a1c488a3ce53233883c51a4c0003e987aa349d77",
+      "lines": 60,
+      "baseSha256": "4e0d74618590ef5ebd5e2d476838886c5013d558e292e2ad59333c14615335b8",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：四例仅非法JSON副本、banana与设置坏值、逐键数值域、非record JSON；重复bests往返已归主测，存储每例清理。",
+        "B": "逐项标题/注释限于实际执行；四例仅非法JSON副本、banana与设置坏值、逐键数值域、非record JSON；重复bests往返已归主测，存储每例清理。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：四例仅非法JSON副本、banana与设置坏值、逐键数值域、非record JSON；重复bests往返已归主测，存储每例清理。",
+        "E": "四例仅非法JSON副本、banana与设置坏值、逐键数值域、非record JSON；重复bests往返已归主测，存储每例清理。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "L21 store 坏数据与往返 bests 非法 JSON 返回 defaults 副本",
+          "status": "passed"
+        },
+        {
+          "fullName": "L21 store 坏数据与往返 banana 设置可往返，非法设置值按各键规则回退",
+          "status": "passed"
+        },
+        {
+          "fullName": "L21 store 坏数据与往返 bests 非法数值逐键回退，保留同批合法值与 null，不污染 defaults",
+          "status": "passed"
+        },
+        {
+          "fullName": "L21 store 坏数据与往返 bests 必须是记录对象，合法 JSON 标量或数组仍回退默认副本",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.test.ts",
+      "sha256": "cbedef3506732da37ffe8651638e7611df18cde49044cfb5f09dd1784f2a1e45",
+      "lines": 55,
+      "baseSha256": "a00d04bea44135667710c73f8b0fe84a813e4792ed4c4464012dd00cc2014364",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：5例分别setting默认/往返、defaults非别名、已知键骨架与ghost、小数PB真实timer→save/load。未知键旧oracle归主测，不只对clone本身作比较。",
+        "B": "逐项标题/注释限于实际执行；5例分别setting默认/往返、defaults非别名、已知键骨架与ghost、小数PB真实timer→save/load。未知键旧oracle归主测，不只对clone本身作比较。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：5例分别setting默认/往返、defaults非别名、已知键骨架与ghost、小数PB真实timer→save/load。未知键旧oracle归主测，不只对clone本身作比较。",
+        "E": "5例分别setting默认/往返、defaults非别名、已知键骨架与ghost、小数PB真实timer→save/load。未知键旧oracle归主测，不只对clone本身作比较。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "speedrun store settings 默认:enabled=false, show=true, banana=false",
+          "status": "passed"
+        },
+        {
+          "fullName": "speedrun store saveSetting 往返",
+          "status": "passed"
+        },
+        {
+          "fullName": "speedrun store bests 无记录时返回 defaults 副本",
+          "status": "passed"
+        },
+        {
+          "fullName": "speedrun store bests 往返只覆盖默认骨架中的 key，缺失项保留默认值",
+          "status": "passed"
+        },
+        {
+          "fullName": "speedrun store 保留真实计时器产生的小数毫秒 PB，刷新后不恢复成默认成绩",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "a888866e9555bc9fa58fed28d9e035fcb41d3d90c9fdc6d9eb79ddee0aef5d7a",
+      "lines": 58,
+      "baseSha256": "a888866e9555bc9fa58fed28d9e035fcb41d3d90c9fdc6d9eb79ddee0aef5d7a",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "loadSettings按各键1/0；loadBests复制defaults、只覆盖已知finite非负/null；caller提供合法数值。Storage异常沿既有调用策略传播。",
+        "B": "defaults副本与跨存档localStorage注释符合实际index/tools-panel，不把测试绿当异常全覆盖。",
+        "C": "仅此模块持有存储键/序列化，timer纯逻辑不导入IO；无隐藏缓存或异步取消资源。",
+        "D": "三个设置共享typed键表；bests JSON与setting语义不同，不并入万能存储helper。",
+        "E": "无记录别名反控旧9绿→新单红；JSON坏值/骨架/null/真实小数PB合同仍分别保留，重复往返只留主测。",
+        "F": "load/save与SETTING_KEY意图清楚；原JSON解析 unknown 在类型缩窄后逐键校验。",
+        "G": "每个出口有index/tools-panel实际caller，ls帮助SSR早退；无删除公共签名或新增fallback。",
+        "H": "真实localStorage与timer产生的小数PB可直测；每例清理存储，不mock JSON/持久化结果。"
+      },
+      "cases": []
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+      "sha256": "ce31751bf2f91e1707bea710ae157e7bd15094d802c3757f9c896c1f60d9051f",
+      "lines": 49,
+      "baseSha256": "ce31751bf2f91e1707bea710ae157e7bd15094d802c3757f9c896c1f60d9051f",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：8例整分整小时截断/负数、diff子秒负号、trim与拒绝、308个9总量溢出；沿用原有效二层溢出counter，不混同非finite格式化政策。",
+        "B": "逐项标题/注释限于实际执行；8例整分整小时截断/负数、diff子秒负号、trim与拒绝、308个9总量溢出；沿用原有效二层溢出counter，不混同非finite格式化政策。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：8例整分整小时截断/负数、diff子秒负号、trim与拒绝、308个9总量溢出；沿用原有效二层溢出counter，不混同非finite格式化政策。",
+        "E": "8例整分整小时截断/负数、diff子秒负号、trim与拒绝、308个9总量溢出；沿用原有效二层溢出counter，不混同非finite格式化政策。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "H08 进位与符号边界 formatClock 截断厘秒；整分和整小时前后正确进位",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 formatClock 负数归零",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 formatHms 在整小时边界截断到秒",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 formatHms 负数归零",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 formatDiff 绝对值截断到整秒，保留不足一秒的负号",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 parseHms 允许段内首尾空白",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 parseHms 拒绝负号、空段、非数字、秒越界和错误段数",
+          "status": "passed"
+        },
+        {
+          "fullName": "H08 进位与符号边界 parseHms：总毫秒溢出时拒绝，避免工具面板把 Infinity 持久化成 null",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "sha256": "79411da90343bc7a2346df5e4743c3ab47146df823e15d160e9f20d7ecab5076",
+      "lines": 16,
+      "baseSha256": "79411da90343bc7a2346df5e4743c3ab47146df823e15d160e9f20d7ecab5076",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：2例科学计数法文本拒绝、分钟60且秒合法独立守卫；与主测/边界无重复数值变体，沿用69旧绿新单红。",
+        "B": "逐项标题/注释限于实际执行；2例科学计数法文本拒绝、分钟60且秒合法独立守卫；与主测/边界无重复数值变体，沿用69旧绿新单红。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：2例科学计数法文本拒绝、分钟60且秒合法独立守卫；与主测/边界无重复数值变体，沿用69旧绿新单红。",
+        "E": "2例科学计数法文本拒绝、分钟60且秒合法独立守卫；与主测/边界无重复数值变体，沿用69旧绿新单红。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "L20 time-format 解析拒绝边界 小时字段拒绝科学计数法，即便 Number 能转换它",
+          "status": "passed"
+        },
+        {
+          "fullName": "L20 time-format 解析拒绝边界 分钟为 60 且秒合法时仍拒绝",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+      "sha256": "61046994eb6a6dd74a1fc16df10f6411aa470565fe30d94bbd34fbb174a9be75",
+      "lines": 23,
+      "baseSha256": "61046994eb6a6dd74a1fc16df10f6411aa470565fe30d94bbd34fbb174a9be75",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：4例正常固定字符串/厘秒/小时/parse/带符号；oracle为独立手算literal，与负数/拒绝边界分工。",
+        "B": "逐项标题/注释限于实际执行；4例正常固定字符串/厘秒/小时/parse/带符号；oracle为独立手算literal，与负数/拒绝边界分工。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：4例正常固定字符串/厘秒/小时/parse/带符号；oracle为独立手算literal，与负数/拒绝边界分工。",
+        "E": "4例正常固定字符串/厘秒/小时/parse/带符号；oracle为独立手算literal，与负数/拒绝边界分工。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "time-format formatClock 到厘秒",
+          "status": "passed"
+        },
+        {
+          "fullName": "time-format formatHms 到秒",
+          "status": "passed"
+        },
+        {
+          "fullName": "time-format parseHms 支持 H:MM:SS 与 M:SS",
+          "status": "passed"
+        },
+        {
+          "fullName": "time-format formatDiff 带符号",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+      "sha256": "d23e3b3a2e5cf85515c7769c4c8587b28f65e8ea429da916c7151110349b6d90",
+      "lines": 98,
+      "baseSha256": "a8be3cf29fce0e53aebddb2316b69b11c36f81d029b5af23e39eadf095724648",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：3例只核真实timer：running同now/finished、2999/3000恢复、setStep真暂停/countdown/mem与实例PB隔离；原3个H07迁至detectors。",
+        "B": "逐项标题/注释限于实际执行；3例只核真实timer：running同now/finished、2999/3000恢复、setStep真暂停/countdown/mem与实例PB隔离；原3个H07迁至detectors。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：3例只核真实timer：running同now/finished、2999/3000恢复、setStep真暂停/countdown/mem与实例PB隔离；原3个H07迁至detectors。",
+        "E": "3例只核真实timer：running同now/finished、2999/3000恢复、setStep真暂停/countdown/mem与实例PB隔离；原3个H07迁至detectors。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "H06 SpeedrunTimer 边界 running 同 now 双 tick 不累计，finished 后不再累计",
+          "status": "passed"
+        },
+        {
+          "fullName": "H06 SpeedrunTimer 边界 手动暂停 3 秒倒计时精确边界：2999 未恢复、3000 恢复且恢复帧不计时；justResumed 一次",
+          "status": "passed"
+        },
+        {
+          "fullName": "H06 SpeedrunTimer 边界 setStep 清手动暂停、倒计时和检测记忆，实例状态不串",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+      "sha256": "41a4ca45cfedac0abc4a68c8f3393676238e7a3bb672e2a292d7bfc46c37abad",
+      "lines": 80,
+      "baseSha256": "2113007f0e9db5247e52b432b68f113adda2538222cb2e7a060d9527ec46d0cb",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：两例getter无倒计时/有end未tick/ceil与清除，以及dirty/reset精确PB；原重复null改为真实第二guard，旧键名断言改完整null值。",
+        "B": "逐项标题/注释限于实际执行；两例getter无倒计时/有end未tick/ceil与清除，以及dirty/reset精确PB；原重复null改为真实第二guard，旧键名断言改完整null值。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：两例getter无倒计时/有end未tick/ceil与清除，以及dirty/reset精确PB；原重复null改为真实第二guard，旧键名断言改完整null值。",
+        "E": "两例getter无倒计时/有end未tick/ceil与清除，以及dirty/reset精确PB；原重复null改为真实第二guard，旧键名断言改完整null值。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "L20 SpeedrunTimer 剩余合同 getCountdownRemainingSec：无倒计时或无主时钟返回 null，剩余秒向上取整，到点清除",
+          "status": "passed"
+        },
+        {
+          "fullName": "L20 SpeedrunTimer 剩余合同 consumeBestsDirty 一次性读；reset 保留 bests 只清本局",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.test.ts",
+      "sha256": "7745df1232e6aa9f06b0256fe3fd1d641fb872ba81ab2e75fe44fc4fb5ac61a4",
+      "lines": 195,
+      "baseSha256": "0a1b097b02079e6f2154036319ca66feb0597eb206b0b733b31cb1ce578345cc",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "合法typed输入与实际caller范围：14例起表门、逐节点、setStep/prevSnap、整跑PB、香蕉与手动恢复；修正finished后setStep标题不冒称从未发生的暂停前态。",
+        "B": "逐项标题/注释限于实际执行；14例起表门、逐节点、setStep/prevSnap、整跑PB、香蕉与手动恢复；修正finished后setStep标题不冒称从未发生的暂停前态。",
+        "C": "本文件各例数据独立；状态/资源清理由局部fixture与生命周期hook拥有，未改共享生产状态。",
+        "D": "与相邻主测/leaf/真实caller按具体合同排重：14例起表门、逐节点、setStep/prevSnap、整跑PB、香蕉与手动恢复；修正finished后setStep标题不冒称从未发生的暂停前态。",
+        "E": "14例起表门、逐节点、setStep/prevSnap、整跑PB、香蕉与手动恢复；修正finished后setStep标题不冒称从未发生的暂停前态。；精确file×fullName见cases，数量不是验收依据。",
+        "F": "用例名直接描述输入和可观察结果；当前辅助函数仅组装对应宿主/快照，不隐藏业务oracle。",
+        "G": "旧合同迁移或保留理由见transfers；未以空调用/恒真/clone自比补数，未新增skip/only/ignore/弱化timeout。",
+        "H": "直接调用真实模块，结果由literal像素/字符串/DOM/状态观察，非仅mock次数；需异步资源的hook负责恢复。"
+      },
+      "cases": [
+        {
+          "fullName": "SpeedrunTimer 起表与打点 scene>0 且可移动才起表,之后按 wall-clock 累加",
+          "status": "passed"
+        },
+        {
+          "fullName": "SpeedrunTimer 起表与打点 scene>0 但李逍遥不可移动(标题/开场演出/加载/淡入)→ 不起表",
+          "status": "passed"
+        },
+        {
+          "fullName": "SpeedrunTimer 起表与打点 依序打点,一帧至多推进一个节点",
+          "status": "passed"
+        },
+        {
+          "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 跳过前面节点,从第 N 个起依序检测",
+          "status": "passed"
+        },
+        {
+          "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) 已处于目标条件时(prevSnap 重置)下一帧立即命中 = 认\"读档已到此\"",
+          "status": "passed"
+        },
+        {
+          "fullName": "SpeedrunTimer setStep(手动跳节点,测试用) finished 后 setStep 回到 running",
+          "status": "passed"
+        },
+        {
+          "fullName": "SpeedrunTimer PB 更新 通关破纪录 → 整条覆盖 bests",
+          "status": "passed"
+        },
+        {
+          "fullName": "SpeedrunTimer PB 更新 未破纪录 → 不动 bests",
+          "status": "passed"
+        },
+        {
+          "fullName": "SpeedrunTimer 香蕉暂停 + 拿到直接恢复(无倒计时) 站到香蕉格暂停;拿香蕉直接恢复,不起倒计时",
+          "status": "passed"
+        },
+        {
+          "fullName": "SpeedrunTimer 手动操作 reset 清空本局",
+          "status": "passed"
+        },
+        {
+          "fullName": "SpeedrunTimer 手动操作 setBestsFromCurrentRun / clearBests / setBest",
+          "status": "passed"
+        },
+        {
+          "fullName": "SpeedrunTimer 手动暂停/恢复 暂停停表;恢复起 3 秒倒计时;到点恢复后继续累加(不计暂停期)",
+          "status": "passed"
+        },
+        {
+          "fullName": "SpeedrunTimer 手动暂停/恢复 倒计时恢复中再切 → 取消恢复,留在暂停",
+          "status": "passed"
+        },
+        {
+          "fullName": "SpeedrunTimer 手动暂停/恢复 非 running 态 toggle 无效",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.ts",
+      "sha256": "a5fcf2a7380eca2afc4e93832075b2847671ffba597c5f12e1b8e8a1cf252f2c",
+      "lines": 218,
+      "baseSha256": "fd8335bcaf0aa8a0cc5461d075e2c5f72b2344b108d523e323117d84b8e1315a",
+      "read": "Codex current full/delta plus explicitly reused prior full caller/oracle evidence; semantic findings above are review judgments, not hash-derived.",
+      "dimensions": {
+        "A": "now由RAF/performance同源单调输入；idle/finished、香蕉直接恢复、手动倒计时、顺序打点/PB均由真实快照推进。",
+        "B": "纠正setStep保留已有splits及跳到N不生成finished/PB的说明；本次可执行body不变。",
+        "C": "每实例持有run/prev/mems/bests，index负责IO/DOM；只读getter供已核caller，现有caller不写内部数组。",
+        "D": "固定Checkpoint+Detector协议分离进度条件和计时；不为尚无caller的策略新增抽象。",
+        "E": "无主时钟/重置PB/清mem三变异旧22绿、新各1业务红；2999/3000及恢复帧0dt、PB比较和banana合同保留。",
+        "F": "tick虽较长，按起表/暂停/计时/节点推进顺序对应单一状态转移；复杂度标记仅阅读线索。",
+        "G": "现有paused union和test reset出口未擅删公共接口；setStep输入来自非空select合法index，不扩大为任意数值API承诺。",
+        "H": "纯snapshot+now注入，无DOM/IO；真实公开方法能构造未tick倒计时和mem重置反例，无私有字段强转。"
+      },
+      "cases": []
+    }
+  ],
+  "bindings": [
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "26dbd7a749476bcf9029c3edbf06aa9f1afaa004e12016a5a646d0e25e3eb840"
+    },
+    {
+      "path": "packages/game/src/core/event-system.test.ts",
+      "sha256": "dc235dcc5fdf4e77cd4c7620042918d8f5df8db6db18cef5ef7077ca80512589"
+    },
+    {
+      "path": "packages/game/src/core/event-dialogue-pagination.test.ts",
+      "sha256": "e46ae518cae2f7b7967835d5d7d9808ee10b2fb85bb3ed2a682dc9d7db835f0c"
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-contracts.test.ts",
+      "sha256": "2c6cf987e15c53684158c0a37091e33c6e0aa0e44fd9d30e804ae6a737ad901e"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "a9b335aa4ae48b530acb5cad9e146a5659b22adfcd8cb08c22ec1a303d12e0eb"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "sha256": "78ddfc12ad048965decb88318ef794af708808cf6a54206442e434b2fa1915c8"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "sha256": "94f9d8d2bf8f295ab30faab1e0a4c8740d2bb80e1a37a92d3ca543eca0f09aeb"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/font.ts",
+      "sha256": "b280a039f4ecd1d79b59af8224858a2a62f5afa65d28cf99bec6d9bf6b16fa84"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "sha256": "eda55d7e7faa55923d2df15e2e856e975e4c949af9365b26ec6b292c25f178a0"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/magic-cost-fixture.ts",
+      "sha256": "7fd3bf1ac0c7203c62dc66d316c6da092d2e0dce2a51e1468e76aedef82dd109"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "sha256": "33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "sha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "7b3b23839864c9405e91692b42be697c2baa47f11536ea823acde33e722687a2"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "sha256": "4772de391847ad8f1adc86029a4f6479b2874d97d09cd9bcdc418733642289f1"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "04f2dc31ec175a3b1d478a7a485073db510d2a7cf3d914cbeccbda9947daa34a"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "sha256": "7f0509e12428217023464c69a20abdb7aca49569cb504b0e4a3ea917c6ce715e"
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539"
+    },
+    {
+      "path": "packages/game/src/present/draw-number.ts",
+      "sha256": "29b6f5dbc54d3ec0587de2380cf48e97c1744d3e503e0ec56587ae229a73aebd"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.ts",
+      "sha256": "1b299e0b42266c762c792254892f122a6d1318e70fc9c0383fd34f2ebec79378"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.ts",
+      "sha256": "1496186d3dddd0c818aac769fec34fa4b98cf6b7aef06e8173618b3d65551a62"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.ts",
+      "sha256": "03cd01e6ed78b3acf1979f5a20ed65eefd4a0afa0397c91d49d2cddf9cfcb275"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "3105b7f3b24e6986e035ab023a86d0562673c6174ea13cbf6e7d0341b9d859a1"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "34258414e93e9be05db2866105cb7f0d4af35d91812a1968225c2355f5dde7a7"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e"
+    },
+    {
+      "path": "packages/game/tsconfig.json",
+      "sha256": "3dd47beddd01f2fc24f3389ed59ba5e60184d9952dac0db523dd6d90367c8309"
+    },
+    {
+      "path": "packages/game/package.json",
+      "sha256": "2cecf398149b696cecab75e9bc169026a49c6e993a729b627b06b5c73b5b5718"
+    },
+    {
+      "path": "package.json",
+      "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65"
+    },
+    {
+      "path": "reference/sdlpal/uibattle.c",
+      "sha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3"
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+    },
+    {
+      "path": "reference/sdlpal/magicmenu.c",
+      "sha256": "d3744426d40167d4130aeaa0fac686264df285e44d73cc3648dba56f3645d312"
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc"
+    },
+    {
+      "path": "reference/sdlpal/itemmenu.c",
+      "sha256": "7026d7875f79a57cf21fd80135d13022ff792698720ef6f56de864d208742a74"
+    },
+    {
+      "path": "reference/sdlpal/ui.c",
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-18-speedrun-timer-design.md",
+      "sha256": "319e152a0ea0aab091b33be44b4c139f0d65589f50061851030b082cc08d6e8c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-present-speedrun.mjs",
+      "sha256": "2f555a18f7a9712f56e492b0f24d5bb451967e9b80f65be7f76511b3a0eabc63"
+    },
+    {
+      "path": "biome.json",
+      "sha256": "3d1f3d4d2593635c44a80b717016b6abd634423f749a564c82ddf759e54fff74",
+      "claimScope": "Inherited unchanged static/workspace/compiler configuration; drift requires the relevant static/typecheck review, not automatically new runtime or coverage execution."
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "sha256": "477e6c5f8b033a1ecb7f8919ad2726e4328c7893c4ad6228d62471425b22dbe7",
+      "claimScope": "Inherited unchanged static/workspace/compiler configuration; drift requires the relevant static/typecheck review, not automatically new runtime or coverage execution."
+    },
+    {
+      "path": "tsconfig.base.json",
+      "sha256": "9c29504dad2a45fb1c4e260b590372a8221ef27303f7fff1654554c90b57931c",
+      "claimScope": "Inherited unchanged static/workspace/compiler configuration; drift requires the relevant static/typecheck review, not automatically new runtime or coverage execution."
+    }
+  ],
+  "reuse": [
+    "48/49/50 READMEs and boundaries, actual current full sources/tests and scoped caller delta; prior false whole-gate claims not used.",
+    "61–69 source/caller/oracle reviews; 63-65 valid fixture/unbind counter; 68 MutationObserver counter; 69 independent parse rejection counters.",
+    "Battle pure extraction checkpoint present-playerinfo-refactor-final56 and tsc; only extraction, no whole CODE3l acceptance."
+  ],
+  "transfers": [
+    {
+      "from": "timer.boundaries.test.ts/H07 enterAny",
+      "to": "detectors.test.ts/enterAnyScene",
+      "contract": "集合外→内、集合内不重触、prev=null内/外；另接leaf空集合。"
+    },
+    {
+      "from": "timer.boundaries.test.ts/H07 atSpot+prev",
+      "to": "detectors.test.ts/atSpot,leaveScene,enterScene",
+      "contract": "自定义tol由10/10变10/5，双轴+1/闭边界/错场景；leave-null迁入，enter-null原主测已有。"
+    },
+    {
+      "from": "timer.boundaries.test.ts/H07 caiyi",
+      "to": "detectors.test.ts/caiyi两例",
+      "contract": "未见不触/seen置位/全场清空/消失/独立mem；人工seen=true输入并入真实先见后清空的同一状态。"
+    },
+    {
+      "from": "detectors.glm-phase1-leaves.test.ts/leave+enterAny混合例",
+      "to": "detectors.test.ts/leaveScene,enterAnyScene",
+      "contract": "prev=null、集合外与空集合移回对应工厂；cur不在集合时prev无关，不保留等价tuple副本。"
+    },
+    {
+      "from": "timer.boundaries/H06 dirty与prevSnap重置子段",
+      "to": "timer.glm-phase1-leaves.test.ts/consumeBestsDirty; timer.test.ts/已处于目标条件",
+      "contract": "同一setBest三断言与同scene2→setStep0→再命中完整保留；H06现在真实清caiyi记忆和暂停。"
+    },
+    {
+      "from": "store leaf/ghost与重复saveBests往返",
+      "to": "store.test.ts/bests骨架往返",
+      "contract": "保留a500/bnull与ghost丢弃，经真实save→load；a42是同合法数值类重复变体。leaf仅settings/拒绝域。"
+    },
+    {
+      "from": "overlay leaf/空root第二hide",
+      "to": "overlay.test.ts/hide真实root",
+      "contract": "先挂载且断言存在→hide→null→第二hide不抛且仍null；不把已无节点no-op当移除证明。"
+    },
+    {
+      "from": "draw-magic GLM末例声称角色名回退",
+      "to": "withdrawn claim, not a deleted covered contract",
+      "contract": "原例实际只画spell grid，从未执行caster回退。去无关_name fixture/title；角色名防御策略不因此获得新测试信用。"
+    },
+    {
+      "from": "checkpoints.test.ts/banana标题",
+      "to": "静态三格/零容差标题",
+      "contract": "仅标题纠正，全部6断言原样；不冒称已核PalTimer C#原件或本轮运行时校准。"
+    }
+  ],
+  "runs": [
+    {
+      "id": "present-approved-regression",
+      "member": "present-approved-regression.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 76,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-approved-typecheck",
+      "member": "present-approved-typecheck.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": null,
+      "failed": [],
+      "runtimeErrors": null,
+      "pending": null,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-equip-inventory-green",
+      "member": "present-equip-inventory-green.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 38,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-equip-inventory-red-final",
+      "member": "present-equip-inventory-red-final.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 21,
+      "failed": [
+        {
+          "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C01 一人队伍不加空白内容行，底边在 y=103",
+          "messages": [
+            "AssertionError: expected 17 to be 90 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts:93:31\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A01 列表物品框保留阴影，使用目标框只画正色不加阴影",
+          "messages": [
+            "AssertionError: expected 85 to be 90 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts:95:32\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 1438,
+      "expectedFailures": 2
+    },
+    {
+      "id": "present-equip-inventory-red",
+      "member": "present-equip-inventory-red.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 21,
+      "failed": [
+        {
+          "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C01 一人队伍不加空白内容行，底边在 y=103",
+          "messages": [
+            "AssertionError: expected 17 to be 90 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts:93:31\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A01 列表物品框保留阴影，使用目标框只画正色不加阴影",
+          "messages": [
+            "AssertionError: expected 85 to be 90 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts:93:32\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 1438,
+      "expectedFailures": 2
+    },
+    {
+      "id": "present-final-tests-base-replay",
+      "member": "present-final-tests-base-replay.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 21,
+      "failed": [
+        {
+          "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+          "fullName": "G06-C 装备选人像素 G06-C01 一人队伍不加空白内容行，底边在 y=103",
+          "messages": [
+            "AssertionError: expected 17 to be 90 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts:93:31\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+          "fullName": "G06-A 物品列表像素 G06-A01 列表物品框保留阴影，使用目标框只画正色不加阴影",
+          "messages": [
+            "AssertionError: expected 85 to be 90 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts:103:32\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+          "fullName": "menu-stack 接线：队序[4,1]按队伍位置取毒，保留头像色阶与透明孔，四级毒不染色",
+          "messages": [
+            "AssertionError: expected [ 164, 171, 90, 161 ] to deeply equal [ 52, 59, 90, 161 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:127:10\n    at paint (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:79:5)\n    at drawEachPhase (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:81:3)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:114:3\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        },
+        {
+          "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+          "fullName": "真实runtime角色4的四状态字使用SDLPal独立坐标与颜色",
+          "messages": [
+            "AssertionError: expected [ 90, 90, 90, 90 ] to deeply equal [ 95, 191, 14, 60 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:141:8\n    at paint (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:79:5)\n    at drawEachPhase (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:81:3)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:135:3\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        },
+        {
+          "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+          "fullName": "已批准的HP0防御显示：死亡黑白覆盖毒色，保留色阶和透明孔",
+          "messages": [
+            "AssertionError: expected [ 164, 171, 90 ] to deeply equal [ 4, 11, 90 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:151:80\n    at paint (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:79:5)\n    at drawEachPhase (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:81:3)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:150:3\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 4141,
+      "expectedFailures": 5
+    },
+    {
+      "id": "present-magic-fixture-green",
+      "member": "present-magic-fixture-green.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 28,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-magic-green",
+      "member": "present-magic-green.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "caster-only initial green, not all-phase proof",
+      "passed": 3,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-magic-red-corrected",
+      "member": "present-magic-red-corrected.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 0,
+      "failed": [
+        {
+          "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+          "fullName": "menu-stack 接线：队序[4,1]按队伍位置取毒，保留头像色阶与透明孔，四级毒不染色",
+          "messages": [
+            "AssertionError: expected [ 164, 171, 90, 161 ] to deeply equal [ 52, 59, 90, 161 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:91:6\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+          "fullName": "真实runtime角色4的四状态字使用SDLPal独立坐标与颜色",
+          "messages": [
+            "AssertionError: expected [ 90, 90, 90, 90 ] to deeply equal [ 95, 191, 14, 60 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:103:6\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+          "fullName": "已批准的HP0防御显示：死亡黑白覆盖毒色，保留色阶和透明孔",
+          "messages": [
+            "AssertionError: expected [ 164, 171, 90 ] to deeply equal [ 4, 11, 90 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:112:78\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 2116,
+      "expectedFailures": 3
+    },
+    {
+      "id": "present-magic-red",
+      "member": "present-magic-red.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "not credited: first red had incorrect second-face coordinate",
+      "passed": 0,
+      "failed": [
+        {
+          "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+          "fullName": "menu-stack 接线：队序[4,1]按队伍位置取毒，保留头像色阶与透明孔，四级毒不染色",
+          "messages": [
+            "AssertionError: expected [ 164, 171, 90, 90 ] to deeply equal [ 52, 59, 90, 161 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:91:6\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+          "fullName": "真实runtime角色4的四状态字使用SDLPal独立坐标与颜色",
+          "messages": [
+            "AssertionError: expected [ 90, 90, 90, 90 ] to deeply equal [ 95, 191, 14, 60 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:103:6\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+          "fullName": "已批准的HP0防御显示：死亡黑白覆盖毒色，保留色阶和透明孔",
+          "messages": [
+            "AssertionError: expected [ 164, 171, 90 ] to deeply equal [ 4, 11, 90 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:112:78\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 2123,
+      "expectedFailures": 3
+    },
+    {
+      "id": "present-magic-regression-before-fixture",
+      "member": "present-magic-regression-before-fixture.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "observed fixture regression; not pre-fix red credit",
+      "passed": 24,
+      "failed": [
+        {
+          "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "fullName": "G07-A 仙术菜单像素 G07-A13 头像落在信息框左上外侧，信息框本体仍在 (45,165)",
+          "messages": [
+            "AssertionError: expected 4 to be 164 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts:526:32\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 710,
+      "expectedFailures": 1
+    },
+    {
+      "id": "present-phase-wiring-green",
+      "member": "present-phase-wiring-green.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 3,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-phase-wiring-red",
+      "member": "present-phase-wiring-red.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 1,
+      "failed": [
+        {
+          "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+          "fullName": "menu-stack 接线：队序[4,1]按队伍位置取毒，保留头像色阶与透明孔，四级毒不染色",
+          "messages": [
+            "AssertionError: expected [ 164, 171, 90, 161 ] to deeply equal [ 52, 59, 90, 161 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:127:10\n    at paint (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:79:5)\n    at drawEachPhase (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:84:3)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:114:3\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        },
+        {
+          "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+          "fullName": "真实runtime角色4的四状态字使用SDLPal独立坐标与颜色",
+          "messages": [
+            "AssertionError: expected [ 95, 90, 90, 90 ] to deeply equal [ 95, 191, 14, 60 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:141:8\n    at paint (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:79:5)\n    at drawEachPhase (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:84:3)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:135:3\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 1787,
+      "expectedFailures": 2
+    },
+    {
+      "id": "present-playerinfo-refactor-final",
+      "member": "present-playerinfo-refactor-final.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 56,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-playerinfo-refactor",
+      "member": "present-playerinfo-refactor.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 56,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-poison-wiring-counter",
+      "member": "present-poison-wiring-counter.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "isolated in-memory business counter; see exact failed identities",
+      "passed": 2,
+      "failed": [
+        {
+          "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+          "fullName": "menu-stack 接线：队序[4,1]按队伍位置取毒，保留头像色阶与透明孔，四级毒不染色",
+          "messages": [
+            "AssertionError: expected [ 164, 171, 90, 161 ] to deeply equal [ 52, 59, 90, 161 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:127:10\n    at paint (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:79:5)\n    at drawEachPhase (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:81:3)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/magic-player-info.integration.test.ts:114:3\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 949,
+      "expectedFailures": 1
+    },
+    {
+      "id": "present-refactor-typecheck",
+      "member": "present-refactor-typecheck.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": null,
+      "failed": [],
+      "runtimeErrors": null,
+      "pending": null,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-restore-routing-green",
+      "member": "present-restore-routing-green.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 358,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-restore-routing-red",
+      "member": "present-restore-routing-red.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 334,
+      "failed": [
+        {
+          "file": "packages/game/src/core/event-dialogue-pagination.test.ts",
+          "fullName": "event dialogue page continuation 分页后接 'raw'/142 完整消费，后续副作用仅一次",
+          "messages": [
+            "AssertionError: expected \"debug\" to not be called at all, but actually been called 1 times\n\nReceived:\n\n  1st debug call:\n\n    Array [\n      \"event-system: skip raw opcode=0x008e\",\n      Array [\n        0,\n        0,\n        0,\n      ],\n    ]\n\n\nNumber of calls: 1\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1467:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/event-dialogue-pagination.test.ts:109:25\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+          ]
+        },
+        {
+          "file": "packages/game/src/core/event-system.test.ts",
+          "fullName": "EventSystem 梦境序列:`~` 收尾的 center/bottom 三句遇 0x05/0x8E/end 全程不等键、自动推进(sdlpal nCurrentDialogLine=0)",
+          "messages": [
+            "AssertionError: expected \"debug\" to not be called at all, but actually been called 1 times\n\nReceived:\n\n  1st debug call:\n\n    Array [\n      \"event-system: skip raw opcode=0x008e\",\n      Array [\n        0,\n        0,\n        0,\n      ],\n    ]\n\n\nNumber of calls: 1\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1467:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/event-system.test.ts:420:25\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 1744,
+      "expectedFailures": 2
+    },
+    {
+      "id": "present-restore-scoped-biome",
+      "member": "present-restore-scoped-biome.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": null,
+      "failed": [],
+      "runtimeErrors": null,
+      "pending": null,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-restore-typecheck",
+      "member": "present-restore-typecheck.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": null,
+      "failed": [],
+      "runtimeErrors": null,
+      "pending": null,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-speedrun-final-directed",
+      "member": "present-speedrun-final-directed.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 163,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-speedrun-final-typecheck",
+      "member": "present-speedrun-final-typecheck.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": null,
+      "failed": [],
+      "runtimeErrors": null,
+      "pending": null,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "present-verifier-scoped-biome",
+      "member": "present-verifier-scoped-biome.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": null,
+      "failed": [],
+      "runtimeErrors": null,
+      "pending": null,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "speedrun-detector-constants-new",
+      "member": "speedrun-detector-constants-new.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "isolated in-memory business counter; see exact failed identities",
+      "passed": 11,
+      "failed": [
+        {
+          "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+          "fullName": "detectors hasItem 只命中背包中的指定物品",
+          "messages": [
+            "AssertionError: expected true to be false // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/detectors.test.ts:58:62\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "packages/game/src/tools/speedrun/detectors.test.ts",
+          "fullName": "detectors bgmIs 只命中指定音乐号",
+          "messages": [
+            "AssertionError: expected true to be false // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/detectors.test.ts:63:46\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 1375,
+      "expectedFailures": 2
+    },
+    {
+      "id": "speedrun-detector-constants-old",
+      "member": "speedrun-detector-constants-old.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "isolated in-memory business counter; see exact failed identities",
+      "passed": 12,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "speedrun-final-inventory",
+      "member": "speedrun-final-inventory.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": null,
+      "failed": [],
+      "runtimeErrors": null,
+      "pending": null,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "speedrun-module-green",
+      "member": "speedrun-module-green.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "historical-run",
+      "passed": 87,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "speedrun-overlay-style-new",
+      "member": "speedrun-overlay-style-new.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "isolated in-memory business counter; see exact failed identities",
+      "passed": 5,
+      "failed": [
+        {
+          "file": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+          "fullName": "L21 overlay 原位更新与幂等 injectOverlayStyles 创建指定样式，二次注入保留同一节点",
+          "messages": [
+            "AssertionError: expected null to be an instance of HTMLStyleElement\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1386:15)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts:54:19\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 778,
+      "expectedFailures": 1
+    },
+    {
+      "id": "speedrun-overlay-style-old",
+      "member": "speedrun-overlay-style-old.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "isolated in-memory business counter; see exact failed identities",
+      "passed": 6,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "speedrun-store-alias-new",
+      "member": "speedrun-store-alias-new.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "isolated in-memory business counter; see exact failed identities",
+      "passed": 8,
+      "failed": [
+        {
+          "file": "packages/game/src/tools/speedrun/store.test.ts",
+          "fullName": "speedrun store bests 无记录时返回 defaults 副本",
+          "messages": [
+            "AssertionError: expected { a: 1000, b: 2000 } not to be { a: 1000, b: 2000 } // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/store.test.ts:22:24\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 686,
+      "expectedFailures": 1
+    },
+    {
+      "id": "speedrun-store-alias-old",
+      "member": "speedrun-store-alias-old.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "isolated in-memory business counter; see exact failed identities",
+      "passed": 9,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "speedrun-timer-bests-new",
+      "member": "speedrun-timer-bests-new.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "isolated in-memory business counter; see exact failed identities",
+      "passed": 18,
+      "failed": [
+        {
+          "file": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+          "fullName": "L20 SpeedrunTimer 剩余合同 consumeBestsDirty 一次性读；reset 保留 bests 只清本局",
+          "messages": [
+            "AssertionError: expected { a: 777, b: 777 } to deeply equal { a: null, b: null }\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts:78:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 774,
+      "expectedFailures": 1
+    },
+    {
+      "id": "speedrun-timer-bests-old",
+      "member": "speedrun-timer-bests-old.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "isolated in-memory business counter; see exact failed identities",
+      "passed": 22,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "speedrun-timer-clock-new",
+      "member": "speedrun-timer-clock-new.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "isolated in-memory business counter; see exact failed identities",
+      "passed": 18,
+      "failed": [
+        {
+          "file": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+          "fullName": "L20 SpeedrunTimer 剩余合同 getCountdownRemainingSec：无倒计时或无主时钟返回 null，剩余秒向上取整，到点清除",
+          "messages": [
+            "AssertionError: expected 13 to be null\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts:46:50\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 901,
+      "expectedFailures": 1
+    },
+    {
+      "id": "speedrun-timer-clock-old",
+      "member": "speedrun-timer-clock-old.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "isolated in-memory business counter; see exact failed identities",
+      "passed": 22,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    },
+    {
+      "id": "speedrun-timer-memory-new",
+      "member": "speedrun-timer-memory-new.execution.json",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "kind": "isolated in-memory business counter; see exact failed identities",
+      "passed": 18,
+      "failed": [
+        {
+          "file": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+          "fullName": "H06 SpeedrunTimer 边界 setStep 清手动暂停、倒计时和检测记忆，实例状态不串",
+          "messages": [
+            "AssertionError: expected 'finished' to be 'running' // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/timer.boundaries.test.ts:89:34\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 871,
+      "expectedFailures": 1
+    },
+    {
+      "id": "speedrun-timer-memory-old",
+      "member": "speedrun-timer-memory-old.execution.json",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "kind": "isolated in-memory business counter; see exact failed identities",
+      "passed": 22,
+      "failed": [],
+      "runtimeErrors": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "expectedFailures": 0
+    }
+  ],
+  "nativeArtifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-native.json.gz",
+    "sha256": "4a7dec761eb5253b9c0cb9d7280b3f77e27fe22f45a127a678730f0d423d2227",
+    "members": [
+      {
+        "name": "after-protected.mjs",
+        "bytes": 873,
+        "sha256": "d4b3945b2da3847fadfe57391b24dcb7669aaedacbd8685d84ed5159a29b3852"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 5483,
+        "sha256": "4612a811abc36c3b835c7553ae6d1013bc1627ccaa0d59961d42b476d3c79de6"
+      },
+      {
+        "name": "detector-constants-counter.config.mjs",
+        "bytes": 735,
+        "sha256": "cb757e1c02a49fc557ae839ba42c52a35918f3e73b16cf0d3cf4b64344410d9f"
+      },
+      {
+        "name": "extract-player-info.mjs",
+        "bytes": 5479,
+        "sha256": "8f10b6a40fa3e23bd6bcf7ae4babdfe4963c9ceaf22f31d6b79c3f7a549f0d7e"
+      },
+      {
+        "name": "freeze-refactor.mjs",
+        "bytes": 2555,
+        "sha256": "d953c5078266003c992b717078fb1430b5a256a2ea3fe313614556e1272e9ab7"
+      },
+      {
+        "name": "inventory-comment.before.ts",
+        "bytes": 16427,
+        "sha256": "2c0cc7757daa29bf5320df7f31f55d6da354f670a9c7275ec32ba8a1e534c956"
+      },
+      {
+        "name": "ledger-candidate.json",
+        "bytes": 16578,
+        "sha256": "6afc6e447a8bf9811584e2032f53c719877917a5bf76f422fa599752b6d643a2"
+      },
+      {
+        "name": "ledger-candidate.mjs",
+        "bytes": 2647,
+        "sha256": "d9dc51632f5016f5e7c7d34b563436e17751c79c9b1667bde56d4280830b6161"
+      },
+      {
+        "name": "ledger-row-repair.json",
+        "bytes": 356,
+        "sha256": "7c1a07ba27b4c2f360dbaa88fbfe41069401553bf14e39bd81ba8bfaa2295ef0"
+      },
+      {
+        "name": "magic-poison-wiring-counter.config.mjs",
+        "bytes": 922,
+        "sha256": "3dc0275f192e80d32f1f1433e0cf8dd79e2579ca4c408a30c8eb3b66ebe367a4"
+      },
+      {
+        "name": "overlay-style-counter.config.mjs",
+        "bytes": 635,
+        "sha256": "cdb5eeffff3f5a2e600db3515fd52cd033b8af636352ae15563d5bf56e013335"
+      },
+      {
+        "name": "playerinfo-refactor-proof.json",
+        "bytes": 1179,
+        "sha256": "223ef7ea52228e5e2fcc641cc8b4442b29998eb648b2c6f217ea0af2ccf884ff"
+      },
+      {
+        "name": "playerinfo-refactor.patch",
+        "bytes": 11241,
+        "sha256": "472a68aa8941e5c94eef6133dfa67e5850f9598c51424a7386bd0041fcd2eca3"
+      },
+      {
+        "name": "post-check-comment-proof.json",
+        "bytes": 1130,
+        "sha256": "30199bed181ecc4bd20723f5ce8bcbcc31c25949f08d72bfcfa9bb861dcb4383"
+      },
+      {
+        "name": "present-approved-regression.execution.json",
+        "bytes": 5065,
+        "sha256": "8ba72c0c8974f1ea742658e29b8fb63092d1ec7d42e4f4c69a578dba4f551195"
+      },
+      {
+        "name": "present-approved-regression.native.json",
+        "bytes": 28635,
+        "sha256": "c2aa23c1b2188b91a5c6923c0496dd98b655fef5a96c5e4681174e9e99815364"
+      },
+      {
+        "name": "present-approved-regression.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-approved-regression.stdout.raw",
+        "bytes": 1344,
+        "sha256": "0ec29faef4d524a12f7e5e3c6b3135ecc9dfeef9ecf1ea5a541806cba9f5d295"
+      },
+      {
+        "name": "present-approved-typecheck.execution.json",
+        "bytes": 4062,
+        "sha256": "809590e01f6e8f2ca6a2ea36773a27faad75403274eeb7ccda6ccd742f45e550"
+      },
+      {
+        "name": "present-approved-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-approved-typecheck.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "present-base-products.config.mjs",
+        "bytes": 831,
+        "sha256": "48766ce021120bfb2bb26a0d7adb5533c513bdc15c4a0d49deaf877e1254a327"
+      },
+      {
+        "name": "present-equip-inventory-green.execution.json",
+        "bytes": 4256,
+        "sha256": "24a68287723c2ac9c1c01cc5251d3e244c3a85d65b4495a9f5ab93392156dfdb"
+      },
+      {
+        "name": "present-equip-inventory-green.native.json",
+        "bytes": 14699,
+        "sha256": "cc4b14233bae78b0fc6a45f67585c96703f01ca24da583bf72d98ff54c10a929"
+      },
+      {
+        "name": "present-equip-inventory-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-equip-inventory-green.stdout.raw",
+        "bytes": 919,
+        "sha256": "4361e2fe81ccfbd338107c39a3e7968db74cc38f8940dea1cf4a857d1c5fd68a"
+      },
+      {
+        "name": "present-equip-inventory-red-final.execution.json",
+        "bytes": 3528,
+        "sha256": "3ce8f9e3495321bd2885a3381cf46122f14ce7f3a1a3f7ce1a8ed9f427592804"
+      },
+      {
+        "name": "present-equip-inventory-red-final.native.json",
+        "bytes": 11472,
+        "sha256": "fc17cc5e99baf4f8b8e99dd10e1de2c39054a2d8285493c972f75a53b47b3a83"
+      },
+      {
+        "name": "present-equip-inventory-red-final.stderr.raw",
+        "bytes": 1438,
+        "sha256": "bb0935ff6ed25defbbf52601a7c0860408d710251687864a280670a03fb0b748"
+      },
+      {
+        "name": "present-equip-inventory-red-final.stdout.raw",
+        "bytes": 2460,
+        "sha256": "5a259a93a6292618fc5136cac6471b9e828ff465c5d7798a27dbe1e49d107636"
+      },
+      {
+        "name": "present-equip-inventory-red.execution.json",
+        "bytes": 3504,
+        "sha256": "6976715888f1cc4af766b7fa4d92536aa02d5c90a951e5a2428b107f52750327"
+      },
+      {
+        "name": "present-equip-inventory-red.native.json",
+        "bytes": 11463,
+        "sha256": "a3f474009781e898e59659fda637ad84bdb12005f0d0391bc36881e782c9ff1a"
+      },
+      {
+        "name": "present-equip-inventory-red.stderr.raw",
+        "bytes": 1438,
+        "sha256": "0344f4ec40d115d4ff51480fd92b841f41372bfb0270a2cf75f7356871dbda91"
+      },
+      {
+        "name": "present-equip-inventory-red.stdout.raw",
+        "bytes": 2454,
+        "sha256": "5ac7c87fed95691cbea12cb03357681c551dd5255df072c1d340c412f99f0dde"
+      },
+      {
+        "name": "present-final-tests-base-replay.execution.json",
+        "bytes": 7125,
+        "sha256": "78ebf0dc6c276bb41dcee911a17a6b167cacd4afe07d305b0c700e7b2d080b9f"
+      },
+      {
+        "name": "present-final-tests-base-replay.native.json",
+        "bytes": 17442,
+        "sha256": "6b0c6c0438e7e0bcbb2a2a5a2d5275761f15ab3a592328526020dd815f16dfc9"
+      },
+      {
+        "name": "present-final-tests-base-replay.stderr.raw",
+        "bytes": 4141,
+        "sha256": "777e2d11e1193bf76172c6c52b00d0a6706219798309f40bdea3206eca1366be"
+      },
+      {
+        "name": "present-final-tests-base-replay.stdout.raw",
+        "bytes": 2831,
+        "sha256": "7e6a4a7c0d8059555925b17478cfa587043df115bc0ff29cef201bc664195860"
+      },
+      {
+        "name": "present-magic-fixture-green.execution.json",
+        "bytes": 3162,
+        "sha256": "bb2da060bcf0d3735a5e2b81a37eac1d2fb2a5bf76ffd7003efc83f754ff775a"
+      },
+      {
+        "name": "present-magic-fixture-green.native.json",
+        "bytes": 10875,
+        "sha256": "ea5cacafd038d57f40014807b62239fdaf20d51a061e53ab4e7c93c6b7532d27"
+      },
+      {
+        "name": "present-magic-fixture-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-magic-fixture-green.stdout.raw",
+        "bytes": 725,
+        "sha256": "fc07ec595d0dc95dd6c754123f0dd729874a1a3e8aaac9b9b0f425dd9c202da1"
+      },
+      {
+        "name": "present-magic-green.execution.json",
+        "bytes": 2661,
+        "sha256": "cc28f4a468dd1dfeb29ca15e60cd0aab62687a67c413b8d7be28cf48c3aacc60"
+      },
+      {
+        "name": "present-magic-green.native.json",
+        "bytes": 1646,
+        "sha256": "cec7c2766f0529e9a0ef3c84f8769d804b6f127e4c5b0402b478899b9d1bbd39"
+      },
+      {
+        "name": "present-magic-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-magic-green.stdout.raw",
+        "bytes": 440,
+        "sha256": "c9d447a41e6bc1e55b5693032bd991037eae90cc0c9d297bdbc734b120a04014"
+      },
+      {
+        "name": "present-magic-red-corrected.execution.json",
+        "bytes": 1858,
+        "sha256": "5d2802bcd80fbc92b966128e1fddc563b19c8bf07db34e4fc746b1558762a63d"
+      },
+      {
+        "name": "present-magic-red-corrected.native.json",
+        "bytes": 6291,
+        "sha256": "cb98617f01762484109b04a9bddd53f31fd168a0b1c95a2c4111f6f3f792dece"
+      },
+      {
+        "name": "present-magic-red-corrected.stderr.raw",
+        "bytes": 2116,
+        "sha256": "b1238222e9cdc5f667051306a236656447d7be7d2e26826629dc3c66f5dc2bfc"
+      },
+      {
+        "name": "present-magic-red-corrected.stdout.raw",
+        "bytes": 747,
+        "sha256": "9527a5ec78677bddcaf7e0ffe631b8f2eebf0841a9ef6045d8ab741e0c1f410c"
+      },
+      {
+        "name": "present-magic-red.execution.json",
+        "bytes": 1818,
+        "sha256": "095fcdb6cf65202eb669e098e8d3d225a37e8dfb7990f07ef887daf5d5c757f2"
+      },
+      {
+        "name": "present-magic-red.native.json",
+        "bytes": 6291,
+        "sha256": "b6f4cfab9069f6be625582c0daee322a9bfb2cc91b9a6af00cc5d6f1d03ffa8c"
+      },
+      {
+        "name": "present-magic-red.stderr.raw",
+        "bytes": 2123,
+        "sha256": "ad989e985b005cdaba6b01f9dc1292fee6d3f8b05651046d0ae9edc33523863c"
+      },
+      {
+        "name": "present-magic-red.stdout.raw",
+        "bytes": 737,
+        "sha256": "4bd300088419991e52dfd791f6d49be50294bcf8b20dff5bb235af3f68b1fe35"
+      },
+      {
+        "name": "present-magic-regression-before-fixture.execution.json",
+        "bytes": 2904,
+        "sha256": "5961e898a9ade7c57edb6c03944a1dae7c5beedcdd38c19f51896859e7e4eb01"
+      },
+      {
+        "name": "present-magic-regression-before-fixture.native.json",
+        "bytes": 11222,
+        "sha256": "c20b11f57d7c46e67ca63db0ee11041c15b5e77b20fab50f4f68258d0f2b634e"
+      },
+      {
+        "name": "present-magic-regression-before-fixture.stderr.raw",
+        "bytes": 710,
+        "sha256": "591d6b569d4d3391640729574c85f1cb89b4f09f2bca13689cf3e624145a10eb"
+      },
+      {
+        "name": "present-magic-regression-before-fixture.stdout.raw",
+        "bytes": 1945,
+        "sha256": "0bd13c1d4fb6d9b9493bf70da8b94cbbbcbb0bbffcc501c21bf44a0e0702b2e5"
+      },
+      {
+        "name": "present-phase-wiring-green.execution.json",
+        "bytes": 2689,
+        "sha256": "0ab9d1bcdf6075d37dc3d7dd7f774321859af3b11576a00a1b97ced556b965c1"
+      },
+      {
+        "name": "present-phase-wiring-green.native.json",
+        "bytes": 1646,
+        "sha256": "e4a7d1df5f2d29d48b782459f8bb52859b28e6c8b86dffe6926f726951ac7399"
+      },
+      {
+        "name": "present-phase-wiring-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-phase-wiring-green.stdout.raw",
+        "bytes": 447,
+        "sha256": "5e984b8f0378f20890278c6ad506417bcec0a8a4665af5a01e7f8c4fc6e8da60"
+      },
+      {
+        "name": "present-phase-wiring-red.execution.json",
+        "bytes": 2684,
+        "sha256": "3e4a3c81cfdf05d41868b7b8054547ebed2fe44723f921e78a25015c6193bed9"
+      },
+      {
+        "name": "present-phase-wiring-red.native.json",
+        "bytes": 4857,
+        "sha256": "9cae5a4d1c738ee5752ce27debc2283394b9c06fa1320910c7129f68333d3588"
+      },
+      {
+        "name": "present-phase-wiring-red.stderr.raw",
+        "bytes": 1787,
+        "sha256": "b76be1788de1e714b7d3711684a97f1ebc445ac8ba3bb79b689b8f68f198efd1"
+      },
+      {
+        "name": "present-phase-wiring-red.stdout.raw",
+        "bytes": 758,
+        "sha256": "5ec15da9d946d22a80ec1a846a628de8c6133d2bc923d31a0c876d391af9dff8"
+      },
+      {
+        "name": "present-playerinfo-refactor-final.execution.json",
+        "bytes": 2496,
+        "sha256": "6f249e724638243aef5b7a96f2426b7fa0705f92b08fa4a2abfd419ed059d75d"
+      },
+      {
+        "name": "present-playerinfo-refactor-final.native.json",
+        "bytes": 20271,
+        "sha256": "ce90d8b77a836e5df0b2050d59c8c87e1c08f209ba4d4942cb87e15a80350674"
+      },
+      {
+        "name": "present-playerinfo-refactor-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-playerinfo-refactor-final.stdout.raw",
+        "bytes": 688,
+        "sha256": "845da75cc5c1b45698e05bb0e983b0b5c8664fa7a8fb401028c5add46863dcd9"
+      },
+      {
+        "name": "present-playerinfo-refactor.execution.json",
+        "bytes": 2472,
+        "sha256": "a54ff50b631be8c2f3746b7707f6274de7a2bc7751d4c1684fbc67faee732b77"
+      },
+      {
+        "name": "present-playerinfo-refactor.native.json",
+        "bytes": 20275,
+        "sha256": "8e8dd95ac9fe6540188b1f56a73b01804a87df4801734298e993d7b3dfb109e1"
+      },
+      {
+        "name": "present-playerinfo-refactor.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-playerinfo-refactor.stdout.raw",
+        "bytes": 682,
+        "sha256": "3433cda644cb267fde2dc01a90833d8b8c60cc110138bc85c8558a3ace306fda"
+      },
+      {
+        "name": "present-poison-wiring-counter.execution.json",
+        "bytes": 4450,
+        "sha256": "e44211d0e253c9f362c6c697417470de37bb86586f05ae74dcc2a84d75d67162"
+      },
+      {
+        "name": "present-poison-wiring-counter.native.json",
+        "bytes": 3254,
+        "sha256": "6210c44e2e428e8e52ac692e481faee79fdf8a149ae6990fbed1e9e00c8eec8f"
+      },
+      {
+        "name": "present-poison-wiring-counter.stderr.raw",
+        "bytes": 949,
+        "sha256": "2671ef00ad20caa6e34aa88304e69845105233263c772a9195df2522a0fb663a"
+      },
+      {
+        "name": "present-poison-wiring-counter.stdout.raw",
+        "bytes": 764,
+        "sha256": "09253c36664c5400ee8948b30ad71d15fc777512e437d0890af80605305abcd7"
+      },
+      {
+        "name": "present-refactor-typecheck.execution.json",
+        "bytes": 2009,
+        "sha256": "8dc225b47f61a4f1071a1abc620b5be3f0a3f2d6e84c07ccd387578fbea334a1"
+      },
+      {
+        "name": "present-refactor-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-refactor-typecheck.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "present-restore-routing-green.diagnostics-v2.json",
+        "bytes": 852,
+        "sha256": "b5f3a74ac2c7c5e4a18df2c4ad56313a408085a4e941cb674dd365680cd1b69e"
+      },
+      {
+        "name": "present-restore-routing-green.execution.json",
+        "bytes": 10509,
+        "sha256": "dfe91a3d64784450a01c413a98ac5bfa63e40fff91a9e6d6c512144cb92df4c3"
+      },
+      {
+        "name": "present-restore-routing-green.native.json",
+        "bytes": 148524,
+        "sha256": "fb30facb3d8893b81f3f7a65dc2f021f4290d3bae39331c492e23e11e78d56b8"
+      },
+      {
+        "name": "present-restore-routing-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-restore-routing-green.stdout.raw",
+        "bytes": 569,
+        "sha256": "b75d80e7a47a817d780b75277c05bb711be9eddbf052b3e790a1d82ad646c0fe"
+      },
+      {
+        "name": "present-restore-routing-red.execution.json",
+        "bytes": 10254,
+        "sha256": "cf36a6ae4803688e3a876569724e5345604898466cf1c166a5209af64687adc3"
+      },
+      {
+        "name": "present-restore-routing-red.native.json",
+        "bytes": 142248,
+        "sha256": "1b2e775e2d58b29ccfe8a4395529310cc53cb4094d16776a329c60dbb22e58af"
+      },
+      {
+        "name": "present-restore-routing-red.stderr.raw",
+        "bytes": 1744,
+        "sha256": "3c9a14849ef14f6a3bfa2f58a6119bbbdce1f23ca297d8af45cfae44cefe7667"
+      },
+      {
+        "name": "present-restore-routing-red.stdout.raw",
+        "bytes": 31858,
+        "sha256": "c60d2795a4753ebad97623eaa48efd2c3f1f4148e1d2cb962f5fd83be23ac9a5"
+      },
+      {
+        "name": "present-restore-scoped-biome.execution.json",
+        "bytes": 10379,
+        "sha256": "638f83e3638b6ff7974418836b055afff21ab90ab95e056fbe881f482466269b"
+      },
+      {
+        "name": "present-restore-scoped-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-restore-scoped-biome.stdout.raw",
+        "bytes": 44,
+        "sha256": "828c5a323cd7d5eb3e6b64638c1d78b52a3a0aebb0ec676724e7a1b5714c16d1"
+      },
+      {
+        "name": "present-restore-typecheck.execution.json",
+        "bytes": 10144,
+        "sha256": "acdb328607a0c56a863907904820943c99034c3676bc104874c194675ea8ecae"
+      },
+      {
+        "name": "present-restore-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-restore-typecheck.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "present-speedrun-final-directed.execution.json",
+        "bytes": 8863,
+        "sha256": "30b529b37da3231c945a3945763508edc797f3e73bb8d424cf04a6e513a70b91"
+      },
+      {
+        "name": "present-speedrun-final-directed.native.json",
+        "bytes": 57503,
+        "sha256": "a4c862ee019a13e912c2aaaa6ad5789a509f1fb5c38242b07b79dad6d3d19563"
+      },
+      {
+        "name": "present-speedrun-final-directed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-final-directed.stdout.raw",
+        "bytes": 2495,
+        "sha256": "cf73032a5304dde81514ce6baaf33cbe09f118c0dbfacddee8e594a8cfb16f0e"
+      },
+      {
+        "name": "present-speedrun-final-typecheck.execution.json",
+        "bytes": 7836,
+        "sha256": "3deb2b6e56bce587b3e1c8edc016482bec19ae88a6a50e7cfea1dd2101177f34"
+      },
+      {
+        "name": "present-speedrun-final-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-final-typecheck.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "present-verifier-scoped-biome.execution.json",
+        "bytes": 10387,
+        "sha256": "3a630501a666fcb06fa1e652bfd21a80b6555f0e4a3dccc1a6e14735279c0454"
+      },
+      {
+        "name": "present-verifier-scoped-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-verifier-scoped-biome.stdout.raw",
+        "bytes": 43,
+        "sha256": "4c483b1ac160082a6c6a917381e82511d512ec00b152656ec5727c87673e260e"
+      },
+      {
+        "name": "prior-debug-scan-erratum.json",
+        "bytes": 3933,
+        "sha256": "70738fd9e1c1446ff74c544624dc6e6a8b394c2d9c8c1c8fa7e84032f5b991e5"
+      },
+      {
+        "name": "repair-ledger-table.mjs",
+        "bytes": 1980,
+        "sha256": "28abc4c6e8aade2f1fa6cb5ad74e3c8cf85b4c7a970f66dcd18db031df265041"
+      },
+      {
+        "name": "restore-assertion-proof.cjs",
+        "bytes": 1711,
+        "sha256": "0009591c60c8e715d0e0a3265fab141078f1ec4e042f1ebb5d15b38edde726d4"
+      },
+      {
+        "name": "restore-assertion-proof.json",
+        "bytes": 869,
+        "sha256": "c5846d8a5321f07575c05a9ed9bdb3e2df3885acdfa2032b138b5b5f059c51aa"
+      },
+      {
+        "name": "retirement-proof.json",
+        "bytes": 1104,
+        "sha256": "b5cf76199f3552ef760aea3f4c507907227e4007ac4d086a26e350624299ccf3"
+      },
+      {
+        "name": "review-ancestor-maintenance.json",
+        "bytes": 1200,
+        "sha256": "48585dbd15b3c7a0cb1c43e4fa5f9fc35279a57bb5d0e17b593f3caa5dc995ad"
+      },
+      {
+        "name": "review-format-normalization.json",
+        "bytes": 1309,
+        "sha256": "8af1b6e6171a5a5f756b741341e12fd8685c1442ae524d9779e3612a4ebc2ff7"
+      },
+      {
+        "name": "review-maintenance.json",
+        "bytes": 1155,
+        "sha256": "f422fb3bc9973ed99829bcca42d457aabf060849ba8b696b40f8e9797824c0a3"
+      },
+      {
+        "name": "scan-v2.mjs",
+        "bytes": 2265,
+        "sha256": "bd867c9e610910069cea73ef72e888fcbf0ad75f2163f618553ca062857a1ca9"
+      },
+      {
+        "name": "scan.mjs",
+        "bytes": 2176,
+        "sha256": "0cd64295ea6e0ed0118e6d8baf955dd4eb226ef758233ed517dcac531bcd7c21"
+      },
+      {
+        "name": "snapshot-comment.before.ts",
+        "bytes": 2352,
+        "sha256": "d637515cd160e117de898fa472704bb169338f6d9ba9517136aed0aec58ad982"
+      },
+      {
+        "name": "source-screen.cjs",
+        "bytes": 1586,
+        "sha256": "de8dcbe628b51a3dbabb07cf389da791b61068034d3f94e875879caa25b91141"
+      },
+      {
+        "name": "source-screen.json",
+        "bytes": 974,
+        "sha256": "434c0d95322ff81ac103fbad19bc9b0030e0e880f1d830299ccce02e5ae793aa"
+      },
+      {
+        "name": "speedrun-detector-constants-new.execution.json",
+        "bytes": 5907,
+        "sha256": "7a94d64d4463a091eca4cdc0d7ffa8d2765aedfb491c5dcf38e2ba962c8872b1"
+      },
+      {
+        "name": "speedrun-detector-constants-new.native.json",
+        "bytes": 7482,
+        "sha256": "aeabeb262fcd06c99d65263019c982409da0ad89ed0b1ffbf47751b53fc96e2f"
+      },
+      {
+        "name": "speedrun-detector-constants-new.stderr.raw",
+        "bytes": 1375,
+        "sha256": "bf051cffdb4e9cd2140c5135e9a7cb07796cd5f9c94b294bd06d7f84340dd2b2"
+      },
+      {
+        "name": "speedrun-detector-constants-new.stdout.raw",
+        "bytes": 1008,
+        "sha256": "452e2d3288d63a9d0d73ea95846158bdd28c8981c0b108afb1f765273316f18d"
+      },
+      {
+        "name": "speedrun-detector-constants-old.execution.json",
+        "bytes": 5684,
+        "sha256": "ba696196167924368a0884c749e42f1ab126aa52d7aed7fe40815330d75fa86d"
+      },
+      {
+        "name": "speedrun-detector-constants-old.native.json",
+        "bytes": 4192,
+        "sha256": "cd8ab8677f4cec1511badc8b8f86cf46ffeb23d92ccfb75bf0b4ba312aede074"
+      },
+      {
+        "name": "speedrun-detector-constants-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "speedrun-detector-constants-old.stdout.raw",
+        "bytes": 508,
+        "sha256": "af36d18741fb1eb8a2efc4a9a0034b5c372e3b78fb5beac53c08ea1da8b0deb7"
+      },
+      {
+        "name": "speedrun-final-inventory.execution.json",
+        "bytes": 7984,
+        "sha256": "7c99b2d606fcba350fbe076971cfc7c454c2f346439cd7a5a020c86d6444bb31"
+      },
+      {
+        "name": "speedrun-final-inventory.list.json",
+        "bytes": 19941,
+        "sha256": "dc34409a814a1047cd587f0b82cd00cf8d91b1ee3e3052d1247e2ab9e8093ece"
+      },
+      {
+        "name": "speedrun-final-inventory.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "speedrun-final-inventory.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "speedrun-module-green.execution.json",
+        "bytes": 6826,
+        "sha256": "8674a90bfb6ed7b43fd0783f0b91126b2de5c500750f0c84ba208c32a93cdc04"
+      },
+      {
+        "name": "speedrun-module-green.native.json",
+        "bytes": 29377,
+        "sha256": "a12cb9b6cb1a4ffb2bd8a1f7aa826ee5ac509683c2f8cf5a6d59260a1ca9186e"
+      },
+      {
+        "name": "speedrun-module-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "speedrun-module-green.stdout.raw",
+        "bytes": 1518,
+        "sha256": "8c0bd00ae41915201be045df8dc204196768fb82ea4e6168dd9bac1a3136bb99"
+      },
+      {
+        "name": "speedrun-overlay-style-new.execution.json",
+        "bytes": 5448,
+        "sha256": "71170b5e39d423938d6ffc4cd20acb17cc7e2038711d322080b2532116d276c1"
+      },
+      {
+        "name": "speedrun-overlay-style-new.native.json",
+        "bytes": 4243,
+        "sha256": "1aac1ae3e862c26fd880e00263ab488005bbf02de6b0d145dda5000cba3bf1eb"
+      },
+      {
+        "name": "speedrun-overlay-style-new.stderr.raw",
+        "bytes": 778,
+        "sha256": "0c98c2aed27fa66eec4a98f5a4941465a182d4b6c0a637ba5f104951756b14bb"
+      },
+      {
+        "name": "speedrun-overlay-style-new.stdout.raw",
+        "bytes": 686,
+        "sha256": "f7e3c8a37026879edce18b34b344ed50f19aaf762bd3d2d76380ad82da6136d8"
+      },
+      {
+        "name": "speedrun-overlay-style-old.execution.json",
+        "bytes": 4733,
+        "sha256": "8b0bad78ac673e483e6ef844ce97a0ef2340053d5657ee0f9d5f9a1a20d417ba"
+      },
+      {
+        "name": "speedrun-overlay-style-old.native.json",
+        "bytes": 2461,
+        "sha256": "bd7e4fd95f1636aafca62d742c44ba1a5a993a629061ec0f498b3597f700c528"
+      },
+      {
+        "name": "speedrun-overlay-style-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "speedrun-overlay-style-old.stdout.raw",
+        "bytes": 500,
+        "sha256": "94bcd6ce217f62364da97be47ad4493b542b1192a82603d9a4783d76523b6bb5"
+      },
+      {
+        "name": "speedrun-store-alias-new.execution.json",
+        "bytes": 4721,
+        "sha256": "cae939546b1aac6263ce6af3fb5a4373567b23c885ac1ab79c7a89cfbb297289"
+      },
+      {
+        "name": "speedrun-store-alias-new.native.json",
+        "bytes": 5239,
+        "sha256": "23c2d231c8aa078079424e44d07d283f7183e4654a17ad909e1118e2e508c510"
+      },
+      {
+        "name": "speedrun-store-alias-new.stderr.raw",
+        "bytes": 686,
+        "sha256": "0fa2b986653d2febbdf6e0f0aa2c6480ce2c134d91488085709eb08141474bb8"
+      },
+      {
+        "name": "speedrun-store-alias-new.stdout.raw",
+        "bytes": 825,
+        "sha256": "2109d97d78c6f04c05a672e1ca7aa310aadace1755e29959e6195c606074a61a"
+      },
+      {
+        "name": "speedrun-store-alias-old.execution.json",
+        "bytes": 4456,
+        "sha256": "92634af1ba5c68f6ca4c1aea21b08486b71a82a43bb0c43598607777d122e212"
+      },
+      {
+        "name": "speedrun-store-alias-old.native.json",
+        "bytes": 3697,
+        "sha256": "b5bf23899e53cd70ee2b3c9445782609835d7393e2bf87fb8ee860df5eb6f6ad"
+      },
+      {
+        "name": "speedrun-store-alias-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "speedrun-store-alias-old.stdout.raw",
+        "bytes": 491,
+        "sha256": "89e0a036b1ff7efab7db9c78a83890795befc2f5ea482c8b7758d4fc6f36ce3d"
+      },
+      {
+        "name": "speedrun-timer-bests-new.execution.json",
+        "bytes": 7056,
+        "sha256": "04c94f63aeba3f57e6fcb1c211b2076c817c63e94cd8cdeadc1b2aa5f4545126"
+      },
+      {
+        "name": "speedrun-timer-bests-new.native.json",
+        "bytes": 8857,
+        "sha256": "b3bec52c68e4aa849691994215ac48c2e83697f31d33ec80e6734ed7123ff286"
+      },
+      {
+        "name": "speedrun-timer-bests-new.stderr.raw",
+        "bytes": 774,
+        "sha256": "d52d771c1bbc2af1871e3cec7956ea7fb5d3803be9d8975a9af214ac6286135d"
+      },
+      {
+        "name": "speedrun-timer-bests-new.stdout.raw",
+        "bytes": 788,
+        "sha256": "b3169fd179949efcadbf98ee341c48b1a819d9a19342dfdea3a5481a3580ea33"
+      },
+      {
+        "name": "speedrun-timer-bests-old.execution.json",
+        "bytes": 7054,
+        "sha256": "e8ed2d21d2aee6d0a945631f32209a5201b0dce79e39c8f20381f227c6148a40"
+      },
+      {
+        "name": "speedrun-timer-bests-old.native.json",
+        "bytes": 8472,
+        "sha256": "578147cddcc82ffafa3c669e88d236847fc88473b94f1942f3476e4309f834fa"
+      },
+      {
+        "name": "speedrun-timer-bests-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "speedrun-timer-bests-old.stdout.raw",
+        "bytes": 560,
+        "sha256": "a538f759f9a8d4447ea8f171168c5b0330e5fa8a425f8977be537f9490db26b9"
+      },
+      {
+        "name": "speedrun-timer-clock-new.execution.json",
+        "bytes": 7056,
+        "sha256": "57a1ccc40bd61c735b17fe94913500a9af1ca22a8ef1a9aa21597c0aed5f0801"
+      },
+      {
+        "name": "speedrun-timer-clock-new.native.json",
+        "bytes": 8816,
+        "sha256": "4b6676013be698d959b1ad1c1fb887524c3438a64cee2df1274efd79df6a3937"
+      },
+      {
+        "name": "speedrun-timer-clock-new.stderr.raw",
+        "bytes": 901,
+        "sha256": "f61ea31c0b7a9e8ecd11c713f65bbf1d3d2ada0792e880162f6d51329c17c46d"
+      },
+      {
+        "name": "speedrun-timer-clock-new.stdout.raw",
+        "bytes": 786,
+        "sha256": "d09119087888157a594a8e22da5f4023301889894fa1f6d979b60beff15219bb"
+      },
+      {
+        "name": "speedrun-timer-clock-old.execution.json",
+        "bytes": 7054,
+        "sha256": "5c43b022b583f4a0fffc3c6f7c0f6e808e3f6d2236447080f83f3da06e2882c2"
+      },
+      {
+        "name": "speedrun-timer-clock-old.native.json",
+        "bytes": 8472,
+        "sha256": "970e65d0a594739e070a1583a3801caeb834b51d4801b362b02f3d627f2329d5"
+      },
+      {
+        "name": "speedrun-timer-clock-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "speedrun-timer-clock-old.stdout.raw",
+        "bytes": 560,
+        "sha256": "7c1e9ad11be40cb460822bf82a650a6825b3e47944d73fae5c76418aa091c798"
+      },
+      {
+        "name": "speedrun-timer-memory-new.execution.json",
+        "bytes": 7061,
+        "sha256": "f3bf2f981404bec819678e4bb2ba8cf135abfb4a05cfff6518d3ebb5c52102ce"
+      },
+      {
+        "name": "speedrun-timer-memory-new.native.json",
+        "bytes": 8844,
+        "sha256": "dfdc2dc36f35f4284156fe732a516cbcb5cb7ae9d1d2834b71590bb94de820c5"
+      },
+      {
+        "name": "speedrun-timer-memory-new.stderr.raw",
+        "bytes": 871,
+        "sha256": "ca08b8aacda1a46a65f570dd2b453a3107107f88cf76f75acfbfc17cda889102"
+      },
+      {
+        "name": "speedrun-timer-memory-new.stdout.raw",
+        "bytes": 878,
+        "sha256": "31f4d79f317ca60184f7ffccbde5b6be3ba244e8dc075e680e44ed3e8a5b4c12"
+      },
+      {
+        "name": "speedrun-timer-memory-old.execution.json",
+        "bytes": 7059,
+        "sha256": "8f17a4b06087e63ad6dbb4d7cd0968e4e09b96cc5744b87ab5dd9f713ee525b9"
+      },
+      {
+        "name": "speedrun-timer-memory-old.native.json",
+        "bytes": 8472,
+        "sha256": "a0da227c3a31848687f0ef0d01e23c49be85ca972586aa99515da8834f795dcf"
+      },
+      {
+        "name": "speedrun-timer-memory-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "speedrun-timer-memory-old.stdout.raw",
+        "bytes": 561,
+        "sha256": "4a04332b23da743ff14a44e16f55887e4833eacd81940fadc7ddd3d13b1b203f"
+      },
+      {
+        "name": "store-alias-counter.config.mjs",
+        "bytes": 639,
+        "sha256": "33782b39988a7df4f6cdba7fe54aa38c229eed4e89b806911d504f2f3e68c362"
+      },
+      {
+        "name": "tighten-comment-claims.mjs",
+        "bytes": 2874,
+        "sha256": "d538f27eb1c16600200af534c8c96a522a6824e2f791326938e432d51dcbea75"
+      },
+      {
+        "name": "timer-bests-new.config.mjs",
+        "bytes": 91,
+        "sha256": "77e67a431522c8b7054e118ff31a25f6c264f6c2bc23d20febf2eb9ba9d91a27"
+      },
+      {
+        "name": "timer-bests-old.config.mjs",
+        "bytes": 90,
+        "sha256": "ccaa520cc6be917c8b76f00916901569864b28ad2953bc0a96050f34bec17bdc"
+      },
+      {
+        "name": "timer-clock-new.config.mjs",
+        "bytes": 91,
+        "sha256": "c9260f4304984f949a112c16c51bf396ab75142de78887eff1997539ce7699ca"
+      },
+      {
+        "name": "timer-clock-old.config.mjs",
+        "bytes": 90,
+        "sha256": "19d7881f6a980c33aaafe8e10e973c1009330ef75a36eb6c3ef9410433f98c02"
+      },
+      {
+        "name": "timer-counter-factory.mjs",
+        "bytes": 2028,
+        "sha256": "c5f4af9b309ecdddfac6e01e0c7780aa7292a9012a06b0422b4ccaeb354a1792"
+      },
+      {
+        "name": "timer-memory-new.config.mjs",
+        "bytes": 92,
+        "sha256": "befacca0a1d2fcf8d91af9cf56f3daf1f15b6f369384cacd1926ffcab2ca6ee1"
+      },
+      {
+        "name": "timer-memory-old.config.mjs",
+        "bytes": 91,
+        "sha256": "ecd2205d6a4ff108908717d6e01f55185e1b0dd1adc499fe1698ca7084163c10"
+      },
+      {
+        "name": "wire-world-player-info.mjs",
+        "bytes": 3881,
+        "sha256": "68c70015d418ed24bb609f4c5393652c8918eef62effa119ae461bc678a24778"
+      },
+      {
+        "name": "candidate.patch",
+        "bytes": 119070,
+        "sha256": "a759fb348983291e75f7142cc7c34ad3d3fa17b11f0f291450afef7a8417d7b9"
+      }
+    ]
+  },
+  "retirements": {
+    "base": "b7fc0524ad8cfe28a1272206d00410073993acd1",
+    "rows": [
+      {
+        "file": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+        "previous": 6,
+        "current": 3,
+        "previousIdentityDigest": "663e4d930277b1e9f7c28485439836454d9c19035766385e7560d5747f07ac0c",
+        "currentIdentityDigest": "37a51262d5836e57f22ee399b9ce714585eab39e92ca2a22b7f60aedaca04283",
+        "fileSha256": "d23e3b3a2e5cf85515c7769c4c8587b28f65e8ea429da916c7151110349b6d90"
+      },
+      {
+        "file": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+        "previous": 4,
+        "current": 3,
+        "previousIdentityDigest": "e9d38b19b402b9c9d27a5c4bfbbc09d523beef0622e11327334731bd5cad96a1",
+        "currentIdentityDigest": "cf5817d2ba128fa2454d2414c2e3ce7996ed3198339a9fc1f7099ff606061248",
+        "fileSha256": "c13eaf0ad4f95c7e0d4cddcaa71824b9b685872ff7a3b7098089b8928ea5eacc"
+      }
+    ],
+    "authority": "User complete-pre94 instruction and standing remove-proven-duplicates rule; Codex adjudicates exact entries, not individual human signatures; no matcher/threshold changes."
+  },
+  "visual": "Framebuffer and real jsdom canvas protocol tested; no new browser visual/E2E claimed. Original cards defer menu appearance to concentrated E2E. HP0 is expressly approved defensive display, not a proven escape/revival route.",
+  "notAccepted": [
+    "Whole battle UI/draw-menu/GS/bootstrap/tools-panel/world fixture file are context, not implicitly closed.",
+    "Checkpoint production calibration, nonfinite formatter policy and other pre94 cards remain independently partial/review.",
+    "No94–102 expansion; no schema/save/asset pipeline/public cross-package API change."
+  ],
+  "proofLimits": "Hashes bind inputs; native/raw proves reported execution and specified business failures; A–H design/oracle decisions are semantic review findings. No automatic check proves good architecture or historical reading.",
+  "next": "Finish read-only proof/index, static docs/ledger and concentrated check/official ratchet/protected; only then adjudicate cards/files and commit/push/FF main.",
+  "complexityScreen": {
+    "tool": "TypeScript 6.0.3",
+    "rule": "base1 + if/loops/conditional/catch/case/&&/||/??; nested function bodies excluded per function; only reading flags, not acceptance targets",
+    "rows": [
+      {
+        "path": "packages/game/src/present/menu/draw-equip.ts",
+        "name": "drawEquipPickRole",
+        "cyclomatic": 22
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-inventory.ts",
+        "name": "drawItemUseMenu",
+        "cyclomatic": 19
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-inventory.ts",
+        "name": "drawInventoryMenu",
+        "cyclomatic": 22
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-magic.ts",
+        "name": "drawMagicGrid",
+        "cyclomatic": 12
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/store.ts",
+        "name": "loadBests",
+        "cyclomatic": 12
+      },
+      {
+        "path": "packages/game/src/tools/speedrun/timer.ts",
+        "name": "tick",
+        "cyclomatic": 21
+      }
+    ]
+  },
+  "complexityDisposition": {
+    "drawEquipPickRole": "单页装备投影的有界六槽/五属性/party四色与缺帧早退；无IO/写回，拆为相同宽上下文子函数无已证收益。",
+    "drawItemUseMenu": "八个实参分别是输出、目标快照、catalog、UI帧、glyph、icons、live数值库存、角色名，均真实消费；不以万能context遮蔽依赖。",
+    "drawInventoryMenu": "7×3可见格子与数据/资源守卫；六色判定已有共享pure helper，保留一页绘制职责。",
+    "drawMagicGrid": "15格显示/禁用色/缺目录资源守卫，角色信息框已移共享leaf；不为指标再拆表驱动层。",
+    "loadBests": "不可信JSON的对象/数组/数值/键域显式校验；合并进通用存储helper反而隐藏失败策略。",
+    "tick": "按起表、暂停、dt、节点/PB顺序的一次状态转移；拆阶段会共享更多可变dt/run/flags，保留纯输入可测结构。"
+  },
+  "commentOnlyOverrides": [
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "beforeMember": "inventory-comment.before.ts",
+      "beforeSha256": "2c0cc7757daa29bf5320df7f31f55d6da354f670a9c7275ec32ba8a1e534c956",
+      "afterSha256": "dbe556919b3f7130a9d844c79833c8ec1be02d014789477a1fc4c3ccd32a2cd8",
+      "proof": "Complete TypeScript AST including types/imports is identical with comments removed; no new suppression/directive; ordinary comment repairs only. Reuse actual check/tsc/runtime business results, final static checks still required."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.ts",
+      "beforeMember": "snapshot-comment.before.ts",
+      "beforeSha256": "d637515cd160e117de898fa472704bb169338f6d9ba9517136aed0aec58ad982",
+      "afterSha256": "496c27dbc9eedfc5a9e87eb00018ddad506886796b7cf4c4cd46a8784520cd62",
+      "proof": "Complete TypeScript AST including types/imports is identical with comments removed; no new suppression/directive; ordinary comment repairs only. Reuse actual check/tsc/runtime business results, final static checks still required."
+    }
+  ],
+  "castElision": {
+    "path": "packages/game/src/present/menu/draw-inventory.ts",
+    "beforeCommentMember": "inventory-comment.before.ts",
+    "before": "const sid = (curItem as { scriptDesc?: number } | undefined)?.scriptDesc ?? 0",
+    "after": "const sid = curItem?.scriptDesc ?? 0",
+    "beforeSha256": "4fdfdd46de3c69988c6d7b70ccdd39e2aa690db76f8a08fa9a11b1e192d86d09"
+  },
+  "identityOnlyOverrides": [
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.test.ts",
+      "before": "香蕉配置(照抄 PalTimer 3 精确格 + PARTYOFFSET,零容差)",
+      "after": "香蕉静态配置为三格与零容差，不证明运行时校准"
+    }
+  ],
+  "replayAllowed": [
+    "present-final-tests-base-replay",
+    "present-poison-wiring-counter",
+    "speedrun-store-alias-new",
+    "speedrun-overlay-style-new",
+    "speedrun-detector-constants-new",
+    "speedrun-timer-clock-new",
+    "speedrun-timer-bests-new",
+    "speedrun-timer-memory-new"
+  ]
+}

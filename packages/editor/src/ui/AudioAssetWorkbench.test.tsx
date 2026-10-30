@@ -1,3 +1,4 @@
+import { waitForReact } from '../__tests__/react-io-wait.js'
 // @vitest-environment jsdom
 
 import { act } from 'react'
@@ -50,8 +51,10 @@ beforeEach(() => {
 })
 
 afterEach(async () => {
-  stopEditorAudioPreview()
-  await act(async () => root.unmount())
+  await act(async () => {
+    stopEditorAudioPreview()
+    root.unmount()
+  })
   host.remove()
 })
 
@@ -113,7 +116,7 @@ describe('AudioAssetWorkbench async selection lifecycle', () => {
     expect(musicRows.length).toBeGreaterThan(0)
     expect(musicRows.every((row) => row.dataset.leading === 'none')).toBe(true)
     expect(host.querySelector('.ds-catalog-row__leading')).toBeNull()
-    await vi.waitFor(() => expect(requests).toHaveLength(1))
+    await waitForReact(() => expect(requests).toHaveLength(1))
     expect(requests[0]?.asset).toBe('music.opening')
 
     const row = (title: string): HTMLButtonElement => {
@@ -125,18 +128,18 @@ describe('AudioAssetWorkbench async selection lifecycle', () => {
     }
 
     await act(async () => row('终章音乐').click())
-    await vi.waitFor(() => expect(requests).toHaveLength(2))
+    await waitForReact(() => expect(requests).toHaveLength(2))
     expect(requests[1]?.asset).toBe('music.ending')
 
     await act(async () => row('开场音乐').click())
     expect(requests).toHaveLength(2)
 
     await act(async () => requests[0]!.pending.reject(new DOMException('选择已变化', 'AbortError')))
-    await vi.waitFor(() => expect(requests).toHaveLength(3))
+    await waitForReact(() => expect(requests).toHaveLength(3))
     expect(requests[2]?.asset).toBe('music.opening')
 
     await act(async () => requests[2]!.pending.resolve(activity(9, 1)))
-    await vi.waitFor(() =>
+    await waitForReact(() =>
       expect(host.querySelector('.audio-player__state')?.textContent).toBe('就绪'),
     )
     expect(host.querySelector('.audio-player__time')?.textContent).toContain('0:00 / 0:09')
@@ -190,7 +193,7 @@ describe('AudioAssetWorkbench timeline completion', () => {
         />,
       )
     })
-    await vi.waitFor(() =>
+    await waitForReact(() =>
       expect(host.querySelector('.audio-player__state')?.textContent).toBe('就绪'),
     )
     const soundRows = [...host.querySelectorAll<HTMLElement>('.ds-catalog-row')]
@@ -212,7 +215,7 @@ describe('AudioAssetWorkbench timeline completion', () => {
     expect(host.querySelector('.audio-timeline__progress')?.getAttribute('x1')).toBe('160')
 
     const previousOwner = { stop: vi.fn() }
-    claimEditorAudioPreview(previousOwner)
+    await act(async () => claimEditorAudioPreview(previousOwner))
     await act(async () => {
       host.querySelector<HTMLButtonElement>('[aria-label="播放"]')!.click()
       await Promise.resolve()
@@ -222,7 +225,7 @@ describe('AudioAssetWorkbench timeline completion', () => {
     expect(session.getHistoryVersion()).toBe(0)
 
     const stopsBeforeReplacement = vi.mocked(transport.stop).mock.calls.length
-    claimEditorAudioPreview({ stop: vi.fn() })
+    await act(async () => claimEditorAudioPreview({ stop: vi.fn() }))
     expect(transport.stop).toHaveBeenCalledTimes(stopsBeforeReplacement + 1)
   })
 
@@ -287,7 +290,7 @@ describe('AudioAssetWorkbench timeline completion', () => {
     )
     const historyAfterReference = session.getHistoryVersion()
     await act(async () => pendingBytes.resolve(new ArrayBuffer(4)))
-    await vi.waitFor(() =>
+    await waitForReact(() =>
       expect(host.textContent).toContain('资源 sound.hit 仍被 1 处引用，不能删除'),
     )
 

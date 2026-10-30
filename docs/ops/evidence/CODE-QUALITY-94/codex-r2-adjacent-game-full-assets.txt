@@ -1,0 +1,12 @@
+
+> @type-pal/game@1.0.0 test /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+> vitest run --passWithNoTests
+
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+
+
+ Test Files  312 passed (312)
+      Tests  3525 passed (3525)
+   Start at  10:44:40
+   Duration  176.79s (transform 2.76s, setup 1.75s, import 9.58s, tests 33.75s, environment 108.41s)

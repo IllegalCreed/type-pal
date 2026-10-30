@@ -1,0 +1,408 @@
+{
+  "numTotalTestSuites": 10,
+  "numPassedTestSuites": 10,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 35,
+  "numPassedTests": 35,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792373002756,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O09 lerpTint：t 夹取与分量四舍五入"],
+          "fullName": "O09 lerpTint：t 夹取与分量四舍五入 非整数结果按分量四舍五入（旧中点全整数的真实新轴）",
+          "status": "passed",
+          "title": "非整数结果按分量四舍五入（旧中点全整数的真实新轴）",
+          "duration": 0.9900000000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveSkillExecution / authoredSkillExecutionLayers"],
+          "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers 无 override：两侧都回退公共 effects/animation，prepare 为空",
+          "status": "passed",
+          "title": "无 override：两侧都回退公共 effects/animation，prepare 为空",
+          "duration": 0.290458000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveSkillExecution / authoredSkillExecutionLayers"],
+          "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers 单侧 override：覆盖侧用 override，另一侧回退公共",
+          "status": "passed",
+          "title": "单侧 override：覆盖侧用 override，另一侧回退公共",
+          "duration": 0.17404100000000255,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveSkillExecution / authoredSkillExecutionLayers"],
+          "fullName": "O09 resolveSkillExecution / authoredSkillExecutionLayers authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
+          "status": "passed",
+          "title": "authoredSkillExecutionLayers：base 恒在 + 两个显式 override 按序追加",
+          "duration": 0.24045800000000384,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O09 resolveDialogueIdentity：合法 unbound 透传"],
+          "fullName": "O09 resolveDialogueIdentity：合法 unbound 透传 unbound：speaker/portrait 声明性透传（浅拷贝 portrait）",
+          "status": "passed",
+          "title": "unbound：speaker/portrait 声明性透传（浅拷贝 portrait）",
+          "duration": 0.1839999999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792373002892,
+      "endTime": 1792373002894.2405,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/ambience-skill.glm-o.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G7 validateSkills/validatePoisons 残差"],
+          "fullName": "G7 validateSkills/validatePoisons 残差 最小技能与毒正控通过；execution.player.animation 正控开放",
+          "status": "passed",
+          "title": "最小技能与毒正控通过；execution.player.animation 正控开放",
+          "duration": 1.8976670000000126,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G7 validateSkills/validatePoisons 残差"],
+          "fullName": "G7 validateSkills/validatePoisons 残差 execution.player.animation 音效叶拒绝",
+          "status": "passed",
+          "title": "execution.player.animation 音效叶拒绝",
+          "duration": 0.30637500000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G7 validateSkills/validatePoisons 残差"],
+          "fullName": "G7 validateSkills/validatePoisons 残差 prepare 未知 kind拒绝",
+          "status": "passed",
+          "title": "prepare 未知 kind拒绝",
+          "duration": 0.31808300000000145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G7 validateSkills/validatePoisons 残差"],
+          "fullName": "G7 validateSkills/validatePoisons 残差 remainingResourceDamage 只支持清空剩余 MP拒绝",
+          "status": "passed",
+          "title": "remainingResourceDamage 只支持清空剩余 MP拒绝",
+          "duration": 0.16250000000002274,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G7 validateSkills/validatePoisons 残差"],
+          "fullName": "G7 validateSkills/validatePoisons 残差 animation effectSprite 负数拒绝",
+          "status": "passed",
+          "title": "animation effectSprite 负数拒绝",
+          "duration": 0.16587499999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G7 validateSkills/validatePoisons 残差"],
+          "fullName": "G7 validateSkills/validatePoisons 残差 animation placement 非法拒绝",
+          "status": "passed",
+          "title": "animation placement 非法拒绝",
+          "duration": 0.22966700000000628,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G7 validateSkills/validatePoisons 残差"],
+          "fullName": "G7 validateSkills/validatePoisons 残差 animation xOffset 非有限数拒绝",
+          "status": "passed",
+          "title": "animation xOffset 非有限数拒绝",
+          "duration": 0.17029199999998923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G7 validateSkills/validatePoisons 残差"],
+          "fullName": "G7 validateSkills/validatePoisons 残差 animation keepEffect 非布尔拒绝",
+          "status": "passed",
+          "title": "animation keepEffect 非布尔拒绝",
+          "duration": 0.6887499999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G7 validateSkills/validatePoisons 残差"],
+          "fullName": "G7 validateSkills/validatePoisons 残差 summon/trance 效果正控与新旧字段界",
+          "status": "passed",
+          "title": "summon/trance 效果正控与新旧字段界",
+          "duration": 0.6972920000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792373002962,
+      "endTime": 1792373002966.6973,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/record-skills-poisons.guard-residual.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["validatePoisons · 正控"],
+          "fullName": "validatePoisons · 正控 丰富毒定义（含双 tick/grantItem/halveHp/关系字段）通过并原样返回",
+          "status": "passed",
+          "title": "丰富毒定义（含双 tick/grantItem/halveHp/关系字段）通过并原样返回",
+          "duration": 1.337208000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 正控"],
+          "fullName": "validatePoisons · 正控 非数组输入拒绝",
+          "status": "passed",
+          "title": "非数组输入拒绝",
+          "duration": 0.34666599999999903,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 id 非正",
+          "status": "passed",
+          "title": "id 非正",
+          "duration": 0.13833299999998871,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 id 非整数",
+          "status": "passed",
+          "title": "id 非整数",
+          "duration": 0.07695899999998801,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 name 空白",
+          "status": "passed",
+          "title": "name 空白",
+          "duration": 0.07120800000001282,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 curability 非法值",
+          "status": "passed",
+          "title": "curability 非法值",
+          "duration": 0.06358299999999417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 color 负数",
+          "status": "passed",
+          "title": "color 负数",
+          "duration": 0.10504199999999742,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 lethalWith 非正",
+          "status": "passed",
+          "title": "lethalWith 非正",
+          "duration": 0.11250000000001137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 counters 非整数",
+          "status": "passed",
+          "title": "counters 非整数",
+          "duration": 0.36700000000001864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 playerTicks 空数组",
+          "status": "passed",
+          "title": "playerTicks 空数组",
+          "duration": 0.15233299999999872,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 tick 未知键",
+          "status": "passed",
+          "title": "tick 未知键",
+          "duration": 0.1230409999999722,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 hpDelta 非整数（负数本身合法）",
+          "status": "passed",
+          "title": "hpDelta 非整数（负数本身合法）",
+          "duration": 0.053541999999993095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 halveHp 非正",
+          "status": "passed",
+          "title": "halveHp 非正",
+          "duration": 0.04641699999999105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 grantItem 空串",
+          "status": "passed",
+          "title": "grantItem 空串",
+          "duration": 0.09504199999997809,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 selfCure 非 boolean",
+          "status": "passed",
+          "title": "selfCure 非 boolean",
+          "duration": 0.04579200000000583,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 enemyTicks 同门（hpDelta 非整数）",
+          "status": "passed",
+          "title": "enemyTicks 同门（hpDelta 非整数）",
+          "duration": 0.04429099999998698,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 未知顶层键",
+          "status": "passed",
+          "title": "未知顶层键",
+          "duration": 0.04270800000000463,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validatePoisons · 字段损坏矩阵"],
+          "fullName": "validatePoisons · 字段损坏矩阵 同 id 重复拒绝（禁止 loader 静默覆盖）",
+          "status": "passed",
+          "title": "同 id 重复拒绝（禁止 loader 静默覆盖）",
+          "duration": 0.058250000000015234,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateSkills · 顶层形状边界"],
+          "fullName": "validateSkills · 顶层形状边界 最小合法技能文件通过并返回结构",
+          "status": "passed",
+          "title": "最小合法技能文件通过并返回结构",
+          "duration": 0.29045899999999847,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateSkills · 顶层形状边界"],
+          "fullName": "validateSkills · 顶层形状边界 缺 levelUp 拒绝（requireKeys）",
+          "status": "passed",
+          "title": "缺 levelUp 拒绝（requireKeys）",
+          "duration": 0.0629160000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateSkills · 顶层形状边界"],
+          "fullName": "validateSkills · 顶层形状边界 技能缺 target/effects/animation 任一拒绝且 where 精确",
+          "status": "passed",
+          "title": "技能缺 target/effects/animation 任一拒绝且 where 精确",
+          "duration": 0.16004200000000424,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792373002962,
+      "endTime": 1792373002966.2905,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/validate-skills-poisons.boundaries.test.ts"
+    }
+  ]
+}

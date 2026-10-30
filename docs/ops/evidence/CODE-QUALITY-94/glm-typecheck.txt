@@ -1,0 +1,6 @@
+> pnpm --filter @type-pal/game run typecheck
+
+> @type-pal/game@1.0.0 typecheck
+> tsc --noEmit
+
+exit 0 — 0 errors（GLM 2026-10-15 独立复跑）

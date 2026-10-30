@@ -1,5 +1,9 @@
+import { getWord } from '../../core/word-lookup.js'
+import { drawScriptDescription } from '../menu/draw-description.js'
+import { blitUiFrame } from './blit-ui-frame.js'
 /**
- * 战斗 UI 渲染 —— 1:1 忠实 port sdlpal PAL_CLASSIC `PAL_BattleUIUpdate`(uibattle.c:785-1767)。
+ * 战斗 UI 渲染 —— 以 SDLPal PAL_CLASSIC `PAL_BattleUIUpdate` 为基准；
+ * 法术说明区的布局扩展与对应来源见 drawMagicSelectGrid。
  *
  * 主菜单是 **4 个图标**(攻击/法术/合击/杂项,方向选),物品/防御/逃跑/状态/围攻在**杂项盒**里;
  * 法术/物品选择是 **3 列分页网格 + 灰项 + MP/数量**;target picker 单敌跳选 / 全体即时 commit。
@@ -10,12 +14,13 @@
  *   selectMove + useItem/throwItem→ 4 图标 + 物品网格(itemmenu.c)
  *   selectMove + misc            → 4 图标 + 杂项盒(围攻/道具/防御/逃跑/状态)
  *   selectMove + miscItemSubMenu → 4 图标 + 杂项盒 + 物品二级(使用/投掷)
- *   selectTargetEnemy            → 4 图标(mono)+ 选中敌人 sprite ColorShift
+ *   selectTargetEnemy            → 不画主菜单；选中敌人的 ColorShift 由精灵层绘制
  *   selectTargetPlayer           → 4 图标(mono)+ 选中队员上方箭头
  *   selectTargetEnemyAll/PlayerAll→ 即时 commit 的过渡态(不画目标箭头)
- *   wait / hidden                → 只画底部队员状态栏
+ *   wait                         → 玩家选择已开始且非自动攻击时画状态栏
+ *   hidden                       → 不画 UI
  *
- * 对话显示期间(gs.dialogBox / battleDialogQueue)**隐藏动作菜单**(只画状态栏),对话结束恢复。
+ * 对话显示期间(dialogBox / keptBox / battleDialogQueue)整个 UI 早退，对话结束恢复。
  *
  * sdlpal UI sprite 真值(SPRITEUI / DATA.MKF chunk 9):
  *   40-43 = 战斗图标 ATTACK/MAGIC/COOPMAGIC/MISCMENU(uibattle.h:56-59)
@@ -25,8 +30,9 @@
  * 灰项 / 文字色用 sdlpal `ui.h:29-41` MENUITEM_COLOR_*;像素保真(font / palette)留 user 验。
  */
 
-import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
+import type { Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
+import { isBattleActionValid } from '../../core/battle/action-availability.js'
 import { getPlayerBasePos } from '../../core/battle/battle-positions.js'
 import type { BattleState } from '../../core/battle/battle-state.js'
 import type { GameState } from '../../core/game-state.js'
@@ -43,6 +49,9 @@ import { drawNumber } from '../draw-number.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawBox, drawSingleLineBox, menuTextMaxCols } from '../menu/draw-box.js'
+import { computePlayerFaceColor, drawPlayerInfoBox } from '../player-info-box.js'
+
+export { computePlayerFaceColor } from '../player-info-box.js'
 
 /** PAL 索引 1 —— 白色(底部状态栏文字)。 */
 const UI_TEXT_COLOR = 1
@@ -56,7 +65,6 @@ const SPRITENUM_BATTLE_ARROW_CURRENTPLAYER = 69
 const SPRITENUM_BATTLE_ARROW_CURRENTPLAYER_RED = 68
 const SPRITENUM_CURSOR = 69
 const SPRITENUM_SLASH = 39
-const SPRITENUM_PLAYERINFOBOX = 18 // 队员信息框背景(uibattle.h:SPRITENUM_PLAYERINFOBOX)
 const SPRITENUM_PLAYERFACE_FIRST = 48 // 头像起,+ wPlayerRole(uibattle.c:155)
 const SPRITENUM_ITEMBOX = 70
 
@@ -82,13 +90,13 @@ const MISC_ITEM_X = 16
 const MISC_ITEM_Y0 = 32
 const MISC_ITEM_DY = 18
 /** WORD.DAT 真值(verify lookup/words.json):56围攻 / 57道具 / 58防御 / 59逃跑 / 60状态。 */
-const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
+const DEFAULT_MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
 
 // 物品二级(uibattle.c:471-545):box(30,50) rows1,使用(44,62)/投掷(44,80)
 const MISC_ITEM_SUB_BOX = { x: 30, y: 50, rows: 1 }
 const MISC_ITEM_SUB = [
-  { label: '使用', x: 44, y: 62 }, // WORD.DAT 23
-  { label: '投掷', x: 44, y: 80 }, // WORD.DAT 24
+  { id: 23, label: '使用', x: 44, y: 62 }, // WORD.DAT 23
+  { id: 24, label: '投掷', x: 44, y: 80 }, // WORD.DAT 24
 ] as const
 
 // 法术网格(magicmenu.c:75-80,CN dwWordLength=10):box(10,42) 4×16 style1;item (35,54)+k*87+j*18
@@ -129,7 +137,8 @@ const ITEMBOX_X = 0
 const ITEMBOX_Y = 140
 const ITEM_DESC_COLOR = 0x3c
 
-// 底部队员状态栏(M3 文字版,PAL_PlayerInfoBox sprite 化是独立函数,非本任务范围)
+// 底部队员状态栏 —— 无 sprite 资源(单测)时的文字兜底;sprite 化真值在下方
+//   drawPlayerInfoBoxes(PAL_PlayerInfoBox port,uibattle.c:30-269)。
 const PARTY_STATUS_BASE_X = 5
 const PARTY_STATUS_BASE_Y = 175
 const PARTY_STATUS_STRIDE_X = 60
@@ -139,25 +148,6 @@ const TARGET_ARROW_DX = -8
 const TARGET_ARROW_DY_PLAYER = -67 // 选中友方:uibattle.c:1574 `y - 67`
 const TARGET_ARROW_DY_CURRENT_PLAYER = -74 // 当前行动队员:uibattle.c:1004 `y - 74`
 
-/**
- * 信息框状态文字(sdlpal uibattle.c:240-255 + 66-98 rgwStatusWord/rgStatusPos/rgbStatusColor,CLASSIC)。
- * 只 confused/paralyzed/sleep/silence 有 WORD(buff 类 puppet/bravery/protect/haste/dualAttack word=0 不显示)。
- * WORD.DAT 真值(xxd data/raw/WORD.DAT id N*10):乱=0x1D / 定=0x1B / 眠=0x1C / 封=0x1A(单字)。
- * pos/color 相对框 pos(框原点 91+77*i,165 与 sdlpal 一致 → 直接用 sdlpal 偏移)。
- */
-const BATTLE_STATUS_LABELS: ReadonlyArray<{
-  key: 'confused' | 'paralyzed' | 'sleep' | 'silence'
-  char: string
-  dx: number
-  dy: number
-  color: number
-}> = [
-  { key: 'confused', char: '乱', dx: 35, dy: 19, color: 0x5f },
-  { key: 'paralyzed', char: '定', dx: 44, dy: 12, color: 0xbf },
-  { key: 'sleep', char: '眠', dx: 54, dy: 1, color: 0x0e },
-  { key: 'silence', char: '封', dx: 55, dy: 20, color: 0x3c },
-]
-
 /** 闪烁选中色(sdlpal ui.h:36-39:0xF9 + SDL_GetTicks 周期)。 */
 function selectedColor(): number {
   return (
@@ -165,19 +155,9 @@ function selectedColor(): number {
   )
 }
 
-/** s_iFrame & 1 等价的红/常箭头闪烁(sdlpal uibattle.c:1564-1568 用 s_iFrame,这里用时钟)。 */
+/** s_iFrame & 1 等价的红/常箭头闪烁；这里只控制呈现时钟，不推进战斗状态。 */
 function arrowBlinkRed(): boolean {
   return (Math.floor(Date.now() / 40) & 1) === 1
-}
-
-// ── sprite blit helpers ─────────────────────────────────────────────────────
-function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
-  for (let y = 0; y < frame.height; y++) {
-    for (let x = 0; x < frame.width; x++) {
-      const off = y * frame.width + x
-      if (frame.opaque[off]! > 0) fb.writePixel(dstX + x, dstY + y, frame.indices[off]!)
-    }
-  }
 }
 
 /** ITEMBOX 阴影:按当前背景色降低低 4 bit,对齐 PAL_RLEBlitToSurfaceWithShadow。 */
@@ -230,7 +210,6 @@ function hasBoxFrames(uiSpriteFrames: IndexedImage[] | undefined, style: 0 | 1):
  * 画战斗 UI。每帧调用一次(在 bg + sprites 之上)。
  *
  * @param uiSpriteFrames SPRITEUI 全 frame(图标/box/cursor/箭头/数字);缺省 → 跳过 sprite 相关绘制。
- * @param enemyPos       ENEMYPOS 表(敌方 target 箭头定位);缺省 → fallback 表。
  */
 export function drawBattleUI(
   fb: Framebuffer,
@@ -241,7 +220,6 @@ export function drawBattleUI(
   gs: GameState,
   glyphs?: GlyphTable,
   uiSpriteFrames?: IndexedImage[],
-  _enemyPos?: EnemyPosTable,
   objectPoisons?: Map<number, { level: number; color: number }>,
   itemIcons?: Map<number, IndexedImage>,
 ): void {
@@ -314,7 +292,7 @@ export function drawBattleUI(
       break
     case 'selectTargetPlayer':
       drawMainIcons(fb, state, playerRoles, uiSpriteFrames, false)
-      drawPlayerTargetArrow(fb, state, uiSpriteFrames, /* all= */ false)
+      drawPlayerTargetArrow(fb, state, uiSpriteFrames)
       break
     case 'selectTargetPlayerAll':
       drawMainIcons(fb, state, playerRoles, uiSpriteFrames, false)
@@ -328,8 +306,9 @@ export function drawBattleUI(
 }
 
 /**
- * 底部队员状态栏:每个 party 成员显示 名字 / HP / MP(M3 文字版)。
- * sdlpal PAL_PlayerInfoBox(sprite 头像 + 时间槽)是独立函数,sprite 化非本任务范围。
+ * 底部队员状态栏(文字兜底):每个 party 成员显示 名字 / HP / MP。
+ * 仅在 uiSpriteFrames 不足(单测/缺资源)时由 drawPlayerInfoBoxes 调用;
+ * sprite 版由 drawPlayerInfoBoxes 交给共享 player-info-box 叶绘制。
  */
 function drawPartyStatus(
   fb: Framebuffer,
@@ -342,7 +321,7 @@ function drawPartyStatus(
     if (!role) return
     const x = PARTY_STATUS_BASE_X + i * PARTY_STATUS_STRIDE_X
     const y = PARTY_STATUS_BASE_Y
-    renderText(fb, role._name ?? `P${i + 1}`, x, y, UI_TEXT_COLOR, glyphs)
+    renderText(fb, getWord(role.name, role._name ?? `P${i + 1}`), x, y, UI_TEXT_COLOR, glyphs)
     renderText(fb, `HP:${role.hp}/${role.maxHP}`, x, y + 8, UI_TEXT_COLOR, glyphs)
     renderText(fb, `MP:${role.mp}/${role.maxMP}`, x, y + 16, UI_TEXT_COLOR, glyphs)
   })
@@ -355,35 +334,6 @@ function drawPartyStatus(
  *   中毒头像变色 + 状态字(乱/定/眠/封)已实现;CLASSIC 无 time-meter bar。
  * HP/MP 读 **战斗 playerRoles**(战内活值);无 uiSpriteFrames(单测)→ 文字版兜底。
  */
-/**
- * 头像染色色号 —— port sdlpal `PAL_PlayerInfoBox`(uibattle.c:114-162)bPoisonColor 逻辑:
- *   默认 0xFF(满色,正常 blit);遍历该队员 16 毒槽(gs.rgPoisonStatus 全局)取**最高 level(≤3)**毒的
- *   wColor;死亡 hp==0 强制 0(黑白 mono)。返回 0xFF → 调用方走满色 blit,否则 mono 重染(band=color&0xF0)。
- * level>3 的毒(如 561/562 L4)不影响头像色(sdlpal `wPoisonLevel <= 3` 守卫)。
- */
-export function computePlayerFaceColor(
-  gs: GameState,
-  roleId: number,
-  hp: number,
-  objectPoisons: Map<number, { level: number; color: number }> | undefined,
-): number {
-  let bPoisonColor = 0xff
-  let maxLevel = 0
-  if (objectPoisons) {
-    for (let slot = 0; slot < 16; slot++) {
-      const ps = gs.rgPoisonStatus[`${slot}_${roleId}`]
-      if (!ps || ps.wPoisonID === 0) continue
-      const pd = objectPoisons.get(ps.wPoisonID)
-      if (pd && pd.level <= 3 && pd.level >= maxLevel) {
-        maxLevel = pd.level
-        bPoisonColor = pd.color & 0xff
-      }
-    }
-  }
-  if (hp === 0) bPoisonColor = 0 // 死亡:黑白 mono(uibattle.c:143-151)
-  return bPoisonColor
-}
-
 function drawPlayerInfoBoxes(
   fb: Framebuffer,
   state: BattleState,
@@ -397,43 +347,34 @@ function drawPlayerInfoBoxes(
     drawPartyStatus(fb, state, playerRoles, glyphs) // 无 sprite 资源 → 文字兜底(单测)
     return
   }
-  const box = uiSpriteFrames[SPRITENUM_PLAYERINFOBOX]
-  const slash = uiSpriteFrames[SPRITENUM_SLASH]
   state.players.forEach((p, i) => {
     const role = playerRoles.roles[p.roleId]
     if (!role) return
     const x = PLAYERINFO_X_BASE + i * PLAYERINFO_X_STEP
     const y = PLAYERINFO_Y
-    if (box) blitSpriteOpaque(fb, box, x, y) // 框背景(uibattle.c:108)
-    const face = uiSpriteFrames[SPRITENUM_PLAYERFACE_FIRST + p.roleId]
-    if (face) {
-      const bPoisonColor = computePlayerFaceColor(gs, p.roleId, role.hp, objectPoisons)
-      if (bPoisonColor === 0xff)
-        blitSpriteOpaque(fb, face, x - 2, y - 4) // 满色(uibattle.c:155)
-      else blitSpriteMonoColor(fb, face, x - 2, y - 4, bPoisonColor, 0) // 中毒/死亡单色(uibattle.c:160)
-    }
-    // CLASSIC HP/MP(uibattle.c:210-238)
-    if (slash) blitSpriteOpaque(fb, slash, x + 49, y + 6)
-    drawNumber(fb, role.maxHP, 4, { x: x + 47, y: y + 8 }, 'yellow', 'right', uiSpriteFrames)
-    drawNumber(fb, role.hp, 4, { x: x + 26, y: y + 5 }, 'yellow', 'right', uiSpriteFrames)
-    if (slash) blitSpriteOpaque(fb, slash, x + 49, y + 22)
-    drawNumber(fb, role.maxMP, 4, { x: x + 47, y: y + 24 }, 'cyan', 'right', uiSpriteFrames)
-    drawNumber(fb, role.mp, 4, { x: x + 26, y: y + 21 }, 'cyan', 'right', uiSpriteFrames)
-    // 状态文字(乱/定/眠/封)—— sdlpal uibattle.c:240-255,仅活人,各 status>0 时画单字。
-    if (role.hp > 0) {
-      for (const s of BATTLE_STATUS_LABELS) {
-        if ((p.status[s.key] ?? 0) > 0)
-          renderText(fb, s.char, x + s.dx, y + s.dy, s.color, glyphs, true)
-      }
-    }
+    drawPlayerInfoBox(
+      fb,
+      { x, y },
+      {
+        roleId: p.roleId,
+        hp: role.hp,
+        maxHP: role.maxHP,
+        mp: role.mp,
+        maxMP: role.maxMP,
+        faceColor: computePlayerFaceColor(gs, p.roleId, role.hp, objectPoisons),
+        status: p.status,
+      },
+      uiSpriteFrames,
+      glyphs,
+    )
   })
 }
 
 /**
  * 主菜单 4 图标(uibattle.c:1063-1080)。
  *   selectedAction(highlight 时)= 全彩 blit;可用未选 = MonoColor(0, -4);不可用 = MonoColor(0x10, -4)。
- *   highlight=false(target 状态)→ 全部 MonoColor(0, -4),无高亮。
- * 灰项判定用 selectMove 的 isBattleActionValid(silence / coop healthy)。
+ *   highlight=false(target 状态)无选中全彩；可用/不可用仍分别使用上述两种色带。
+ * 可用性由 core 的 isBattleActionValid 统一判定，本层只选择色带。
  */
 function drawMainIcons(
   fb: Framebuffer,
@@ -447,58 +388,14 @@ function drawMainIcons(
     const icon = MAIN_ICONS[i]!
     const frame = uiSpriteFrames[icon.sprite]
     if (!frame) continue
-    const valid = isBattleActionValidForDraw(state, i, playerRoles)
+    const valid = isBattleActionValid(state, i, playerRoles)
     if (highlight && state.selectedAction === i) {
-      blitSpriteOpaque(fb, frame, icon.x, icon.y) // 选中 = 全彩(uibattle.c:1067-1068)
+      blitUiFrame(fb, frame, icon.x, icon.y) // 选中 = 全彩(uibattle.c:1067-1068)
     } else if (valid) {
       blitSpriteMonoColor(fb, frame, icon.x, icon.y, 0, -4) // 可用 = 灰阶(uibattle.c:1071-1073)
     } else {
       blitSpriteMonoColor(fb, frame, icon.x, icon.y, 0x10, -4) // 不可用 = 更暗(uibattle.c:1076-1078)
     }
-  }
-}
-
-/**
- * 灰项判定(渲染侧)—— 镜像 battle-system isActionValid(uibattle.c:271-341,PAL_CLASSIC):
- *   0攻击/3杂项恒可用;1法术 → 非 silence;2合击 → 本人 healthy 且 healthy 人数 > 1。
- * 渲染层独立实现避免循环依赖 core/battle-system(只读 state,不改)。
- */
-function isBattleActionValidForDraw(
-  state: BattleState,
-  action: number,
-  playerRoles: PlayerRoles,
-): boolean {
-  const idx = state.selectingPlayerIdx
-  // 无有效队员 context → 全部 invalid(镜像 battle-system isActionValid:undefined/缺 role 返回 false)。
-  if (idx === undefined) return false
-  const player = state.players[idx]
-  const role = player ? playerRoles.roles[player.roleId] : undefined
-  if (!player || !role) return false
-  const healthy = (p: typeof player, r: typeof role): boolean => {
-    if (r.hp <= 0 || (r.hp > 0 && r.hp < Math.min(100, Math.floor(r.maxHP / 5)))) return false
-    const st = p.status
-    return (
-      (st.sleep ?? 0) === 0 &&
-      (st.confused ?? 0) === 0 &&
-      (st.silence ?? 0) === 0 &&
-      (st.paralyzed ?? 0) === 0 &&
-      (st.puppet ?? 0) === 0
-    )
-  }
-  switch (action) {
-    case 1:
-      return (player.status.silence ?? 0) === 0
-    case 2: {
-      if (state.players.length <= 1) return false
-      let n = 0
-      state.players.forEach((p) => {
-        const r = playerRoles.roles[p.roleId]
-        if (r && healthy(p, r)) n++
-      })
-      return healthy(player, role) && n > 1
-    }
-    default:
-      return true
   }
 }
 
@@ -510,6 +407,7 @@ function drawMiscMenu(
   uiSpriteFrames: IndexedImage[] | undefined,
   confirmed = false, // L9:进物品二级子层时父菜单当前项用已确认绿 0x2C(uibattle.c:402-405),非闪烁选中色
 ): void {
+  const MISC_LABELS = DEFAULT_MISC_LABELS.map((label, i) => getWord(56 + i, label))
   if (hasBoxFrames(uiSpriteFrames, 0)) {
     drawBox({
       fb,
@@ -550,7 +448,7 @@ function drawMiscItemSubMenu(
       y: MISC_ITEM_SUB_BOX.y,
       rows: MISC_ITEM_SUB_BOX.rows,
       cols: menuTextMaxCols(
-        MISC_ITEM_SUB.map((m) => m.label),
+        MISC_ITEM_SUB.map((m) => getWord(m.id, m.label)),
         glyphs,
       ),
       style: 0,
@@ -559,7 +457,7 @@ function drawMiscItemSubMenu(
   }
   MISC_ITEM_SUB.forEach((it, i) => {
     const color = i === state.miscSubMenuCursor ? selectedColor() : MENUITEM_COLOR
-    renderText(fb, it.label, it.x, it.y, color, glyphs, true)
+    renderText(fb, getWord(it.id, it.label), it.x, it.y, color, glyphs, true)
   })
 }
 
@@ -604,7 +502,7 @@ function drawMagicSelectGrid(
       state.selectingPlayerIdx !== undefined ? state.players[state.selectingPlayerIdx] : undefined
     const currentMp = role ? (gs.PlayerRolesRuntime.rgwMP[role.roleId] ?? 0) : 0
     const slash = uiSpriteFrames[SPRITENUM_SLASH]
-    if (slash) blitSpriteOpaque(fb, slash, MP_SLASH.x, MP_SLASH.y)
+    if (slash) blitUiFrame(fb, slash, MP_SLASH.x, MP_SLASH.y)
     drawNumber(fb, needed, 4, MP_NEEDED, 'yellow', 'right', uiSpriteFrames)
     drawNumber(fb, currentMp, 4, MP_CURRENT, 'cyan', 'right', uiSpriteFrames)
   }
@@ -612,17 +510,7 @@ function drawMagicSelectGrid(
   // 仙术说明(magicmenu.c:191-205 WIN95 path):wScript = rgObject[wMagic].item.wScriptDesc,
   // 0xFFFF 描述行画在 MagicDescMsgPos(102,3)+line*16,DESCTEXT_COLOR。
   const description = getScriptDescLines(selectedSpell?.scriptDesc ?? 0)
-  for (let line = 0; line < description.length; line++) {
-    renderText(
-      fb,
-      description[line]!,
-      MAGIC_DESC_X,
-      MAGIC_DESC_Y + line * 16,
-      MAGIC_DESC_COLOR,
-      glyphs,
-      true,
-    )
-  }
+  drawScriptDescription(fb, description, MAGIC_DESC_X, MAGIC_DESC_Y, 216, MAGIC_DESC_COLOR, glyphs)
 
   drawSelectGridItems(fb, menu, glyphs, uiSpriteFrames, {
     cols: MAGIC_COLS,
@@ -686,15 +574,13 @@ function drawItemSelectGrid(
   const itemBox = uiSpriteFrames?.[SPRITENUM_ITEMBOX]
   if (itemBox) {
     blitSpriteShadow(fb, itemBox, ITEMBOX_X + 5, ITEMBOX_Y + 5)
-    blitSpriteOpaque(fb, itemBox, ITEMBOX_X, ITEMBOX_Y)
+    blitUiFrame(fb, itemBox, ITEMBOX_X, ITEMBOX_Y)
   }
   const icon = itemIcons?.get(item.bitmap)
-  if (icon) blitSpriteOpaque(fb, icon, ITEMBOX_X + 8, ITEMBOX_Y + 7)
+  if (icon) blitUiFrame(fb, icon, ITEMBOX_X + 8, ITEMBOX_Y + 7)
 
   const description = getScriptDescLines(item.scriptDesc)
-  for (let line = 0; line < description.length; line++) {
-    renderText(fb, description[line]!, 71, 151 + line * 16, ITEM_DESC_COLOR, glyphs, true)
-  }
+  drawScriptDescription(fb, description, 71, 151, 240, ITEM_DESC_COLOR, glyphs)
 }
 
 interface GridLayout {
@@ -735,7 +621,7 @@ function drawSelectGridItems(
       else color = it.disabled ? MENUITEM_COLOR_INACTIVE : MENUITEM_COLOR
       const x = lay.itemX0 + k * lay.itemW
       const y = lay.itemY0 + j * lay.lineDy
-      renderText(fb, it.label, x, y, color, glyphs, true)
+      renderText(fb, getWord(it.id, it.label), x, y, color, glyphs, true)
       // 数量(物品网格:if amount>1 cyan right;itemmenu.c:211-215)
       if (lay.amountXOff !== undefined && uiSpriteFrames) {
         const amount = parseRightNumber(it.rightText)
@@ -753,7 +639,7 @@ function drawSelectGridItems(
       }
       if (selected && uiSpriteFrames) {
         const cursor = uiSpriteFrames[SPRITENUM_CURSOR]
-        if (cursor) blitSpriteOpaque(fb, cursor, x + lay.cursorXOff, y + lay.cursorYOff)
+        if (cursor) blitUiFrame(fb, cursor, x + lay.cursorXOff, y + lay.cursorYOff)
       }
       i++
     }
@@ -788,19 +674,18 @@ function drawCurrentPlayerArrow(
   if (!arrow) return
   const anchor = getPlayerBasePos(state.players.length, state.selectingPlayerIdx)
   if (!anchor) return
-  blitSpriteOpaque(fb, arrow, anchor.x + TARGET_ARROW_DX, anchor.y + TARGET_ARROW_DY_CURRENT_PLAYER)
+  blitUiFrame(fb, arrow, anchor.x + TARGET_ARROW_DX, anchor.y + TARGET_ARROW_DY_CURRENT_PLAYER)
 }
 
 /**
  * 友方 target 箭头(uibattle.c:1564-1576)。
- *   sprite 67(常)/ 66(红)闪烁;箭头画在队员头顶(anchor.y - 67)。all=true 为历史 helper,
- *   PAL_CLASSIC 的 PlayerAll 现在即时 commit,不会调用它画全体箭头。
+ *   sprite 67(常)/66(红)闪烁，只绘制 uiCursor 指向的队员。
+ *   PAL_CLASSIC 的 PlayerAll 即时提交，不调用此函数。
  */
 function drawPlayerTargetArrow(
   fb: Framebuffer,
   state: BattleState,
   uiSpriteFrames: IndexedImage[] | undefined,
-  all: boolean,
 ): void {
   if (!uiSpriteFrames) return
   const arrow =
@@ -810,14 +695,7 @@ function drawPlayerTargetArrow(
         : SPRITENUM_BATTLE_ARROW_SELECTEDPLAYER
     ]
   if (!arrow) return
-  const draw = (idx: number): void => {
-    const anchor = getPlayerBasePos(state.players.length, idx)
-    if (!anchor) return
-    blitSpriteOpaque(fb, arrow, anchor.x + TARGET_ARROW_DX, anchor.y + TARGET_ARROW_DY_PLAYER)
-  }
-  if (all) {
-    for (let i = 0; i < state.players.length; i++) draw(i)
-  } else {
-    draw(state.uiCursor)
-  }
+  const anchor = getPlayerBasePos(state.players.length, state.uiCursor)
+  if (!anchor) return
+  blitUiFrame(fb, arrow, anchor.x + TARGET_ARROW_DX, anchor.y + TARGET_ARROW_DY_PLAYER)
 }

@@ -1,0 +1,575 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-SCRIPT-CORRECTIONS-1",
+  "kind": "read-only-binary-inventory",
+  "baselineGit": "84ac104316452a84d01898ea9b9cdc05f0c04e42",
+  "producer": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/audit-diff.py",
+  "sources": [
+    {
+      "path": "data/raw/SSS.MKF",
+      "bytes": 574838,
+      "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+    },
+    {
+      "path": "data/raw/M.MSG",
+      "bytes": 224455,
+      "sha256": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846"
+    },
+    {
+      "path": "data/raw/WORD.DAT",
+      "bytes": 5650,
+      "sha256": "be56e77c7ecd61306133913a1987b1dddf656528ae870c2de1ee8ccda7ff3ebf"
+    },
+    {
+      "path": "data/en/win_files/Sss.mkf",
+      "bytes": 575118,
+      "sha256": "942cb898f14d609475e3bcef0944e4d082ca88f76f4a7171028b451584a5e2ff"
+    },
+    {
+      "path": "data/en/win_files/M.msg",
+      "bytes": 268914,
+      "sha256": "4726a6a29ef59d35399fd3224fa14a398dd76f96cf1e9cfbbe144c4f174449f2"
+    },
+    {
+      "path": "data/en/win_files/Word.dat",
+      "bytes": 5650,
+      "sha256": "36f30f1bc718b95b8b3abfef10fa29971ce460a318ecfb74ea0920d8899bf44e"
+    },
+    {
+      "path": "data/en/win_files/m_eng.slf",
+      "bytes": 1026017,
+      "sha256": "81c4bed62f48ccf30bcd50ae9afc766352c06e0b52b782a9d64d7517af86ef73"
+    },
+    {
+      "path": "data/en/readme.txt",
+      "bytes": 9056,
+      "sha256": "070dd26aedefb99bb89cfaf00cb5dfa6c66e2b04c6f346efdbaf5109a3db94bc"
+    }
+  ],
+  "limits": [
+    "Static binary inventory is not proof of a bug, author intent, original executable behavior, E2E, visual acceptance or coverage.",
+    "Patch-local raw/en inputs remain untracked and must be supplied separately to reproduce."
+  ],
+  "chunks": [
+    {
+      "chunk": 0,
+      "same": false,
+      "beforeBytes": 162464,
+      "afterBytes": 162464,
+      "beforeSha256": "9036ca1814108726e43fc93de74df07742fe4f263bf736c78c2e12edd4f1e5fb",
+      "afterSha256": "44f407eab01da199797ceca160fa77c9d3efe2ceeb347e242babee2494c0b679"
+    },
+    {
+      "chunk": 1,
+      "same": true,
+      "beforeBytes": 2360,
+      "afterBytes": 2360,
+      "beforeSha256": "7f59702b4b09ad5fad8dad2c17b81056db7e411e9e08361a9382f3910f76971f",
+      "afterSha256": "7f59702b4b09ad5fad8dad2c17b81056db7e411e9e08361a9382f3910f76971f"
+    },
+    {
+      "chunk": 2,
+      "same": true,
+      "beforeBytes": 7910,
+      "afterBytes": 7910,
+      "beforeSha256": "778b09793609dca55a363516b1af646022f3ef1bb757b4fa781f5d34dc6b2151",
+      "afterSha256": "778b09793609dca55a363516b1af646022f3ef1bb757b4fa781f5d34dc6b2151"
+    },
+    {
+      "chunk": 3,
+      "same": false,
+      "beforeBytes": 54056,
+      "afterBytes": 54056,
+      "beforeSha256": "89f309847f4af4e677a05a9b41d444be142008015941092438b397ba1011fcd5",
+      "afterSha256": "4557aae240496af370500bc1438e29467edfc0b89146cb6fc54ee5ba4c231ccc"
+    },
+    {
+      "chunk": 4,
+      "same": false,
+      "beforeBytes": 348024,
+      "afterBytes": 348304,
+      "beforeSha256": "241ecddf16642de71eb4ba35f80b42677f7ececd42462c778d44c2e048a0dc70",
+      "afterSha256": "f36cf853873aff254cdca7092e1a03577be01f7f1113bfaef7de0afdfb39e72a"
+    }
+  ],
+  "scriptCounts": {
+    "before": 43503,
+    "after": 43538,
+    "addedNet": 35,
+    "differentPositionsInSharedPrefix": 121,
+    "diffRegions": 37
+  },
+  "regions": [
+    {
+      "region": 1,
+      "dispositionId": "D01",
+      "kind": "replace",
+      "rawRange": [3923, 3924],
+      "patchRange": [3923, 3924],
+      "before": [[65535, 1504, 0, 0]],
+      "after": [[0, 0, 0, 0]]
+    },
+    {
+      "region": 2,
+      "dispositionId": "D02",
+      "kind": "insert",
+      "rawRange": [7568, 7568],
+      "patchRange": [7568, 7569],
+      "before": [],
+      "after": [[10, 7566, 0, 0]]
+    },
+    {
+      "region": 3,
+      "dispositionId": "D02",
+      "kind": "delete",
+      "rawRange": [7569, 7570],
+      "patchRange": [7570, 7570],
+      "before": [[10, 7566, 0, 0]],
+      "after": []
+    },
+    {
+      "region": 4,
+      "dispositionId": "D03",
+      "kind": "replace",
+      "rawRange": [12910, 12911],
+      "patchRange": [12910, 12911],
+      "before": [[0, 0, 0, 0]],
+      "after": [[3, 14039, 0, 0]]
+    },
+    {
+      "region": 5,
+      "dispositionId": "D04",
+      "kind": "replace",
+      "rawRange": [14461, 14462],
+      "patchRange": [14461, 14462],
+      "before": [[5, 0, 0, 0]],
+      "after": [[3, 14465, 0, 0]]
+    },
+    {
+      "region": 6,
+      "dispositionId": "D04",
+      "kind": "replace",
+      "rawRange": [14486, 14487],
+      "patchRange": [14486, 14487],
+      "before": [[10, 14461, 0, 0]],
+      "after": [[10, 43511, 0, 0]]
+    },
+    {
+      "region": 7,
+      "dispositionId": "D05",
+      "kind": "replace",
+      "rawRange": [14972, 14974],
+      "patchRange": [14972, 14974],
+      "before": [[37, 1601, 14990, 0], [37, 1602, 14990, 0]],
+      "after": [[37, 1601, 43514, 0], [37, 1602, 43524, 0]]
+    },
+    {
+      "region": 8,
+      "dispositionId": "D05",
+      "kind": "replace",
+      "rawRange": [14995, 14996],
+      "patchRange": [14995, 14996],
+      "before": [[37, 1600, 14999, 0]],
+      "after": [[37, 1601, 14999, 0]]
+    },
+    {
+      "region": 9,
+      "dispositionId": "D06",
+      "kind": "delete",
+      "rawRange": [16390, 16391],
+      "patchRange": [16390, 16390],
+      "before": [[73, 1883, 0, 0]],
+      "after": []
+    },
+    {
+      "region": 10,
+      "dispositionId": "D06",
+      "kind": "insert",
+      "rawRange": [16474, 16474],
+      "patchRange": [16473, 16474],
+      "before": [],
+      "after": [[73, 1883, 0, 0]]
+    },
+    {
+      "region": 11,
+      "dispositionId": "D07",
+      "kind": "replace",
+      "rawRange": [27448, 27449],
+      "patchRange": [27448, 27449],
+      "before": [[37, 2961, 25096, 0]],
+      "after": [[3, 43507, 0, 0]]
+    },
+    {
+      "region": 12,
+      "dispositionId": "D08",
+      "kind": "replace",
+      "rawRange": [28423, 28424],
+      "patchRange": [28423, 28424],
+      "before": [[32, 152, 36, 0]],
+      "after": [[3, 43534, 0, 0]]
+    },
+    {
+      "region": 13,
+      "dispositionId": "D09",
+      "kind": "replace",
+      "rawRange": [30946, 30948],
+      "patchRange": [30946, 30948],
+      "before": [[89, 226, 0, 0], [70, 43, 75, 1]],
+      "after": [[89, 227, 0, 0], [70, 34, 93, 1]]
+    },
+    {
+      "region": 14,
+      "dispositionId": "D09",
+      "kind": "replace",
+      "rawRange": [30951, 30952],
+      "patchRange": [30951, 30952],
+      "before": [[70, 53, 71, 0]],
+      "after": [[70, 31, 88, 0]]
+    },
+    {
+      "region": 15,
+      "dispositionId": "D09",
+      "kind": "replace",
+      "rawRange": [31046, 31048],
+      "patchRange": [31046, 31048],
+      "before": [[89, 226, 0, 0], [70, 36, 56, 1]],
+      "after": [[89, 227, 0, 0], [70, 53, 71, 0]]
+    },
+    {
+      "region": 16,
+      "dispositionId": "D10",
+      "kind": "replace",
+      "rawRange": [34025, 34026],
+      "patchRange": [34025, 34026],
+      "before": [[70, 36, 65, 1]],
+      "after": [[70, 29, 51, 0]]
+    },
+    {
+      "region": 17,
+      "dispositionId": "D10",
+      "kind": "replace",
+      "rawRange": [34029, 34030],
+      "patchRange": [34029, 34030],
+      "before": [[70, 36, 65, 1]],
+      "after": [[70, 43, 38, 1]]
+    },
+    {
+      "region": 18,
+      "dispositionId": "D10",
+      "kind": "replace",
+      "rawRange": [35092, 35093],
+      "patchRange": [35092, 35093],
+      "before": [[70, 36, 65, 1]],
+      "after": [[70, 29, 51, 0]]
+    },
+    {
+      "region": 19,
+      "dispositionId": "D11",
+      "kind": "replace",
+      "rawRange": [35394, 35395],
+      "patchRange": [35394, 35395],
+      "before": [[73, 4799, 1, 0]],
+      "after": [[73, 4799, 2, 0]]
+    },
+    {
+      "region": 20,
+      "dispositionId": "D12",
+      "kind": "replace",
+      "rawRange": [36936, 36937],
+      "patchRange": [36936, 36937],
+      "before": [[31, 0, 0, 0]],
+      "after": [[31, 164, 0, 0]]
+    },
+    {
+      "region": 21,
+      "dispositionId": "D12",
+      "kind": "replace",
+      "rawRange": [37482, 37483],
+      "patchRange": [37482, 37483],
+      "before": [[31, 0, 0, 0]],
+      "after": [[31, 103, 0, 0]]
+    },
+    {
+      "region": 22,
+      "dispositionId": "D12",
+      "kind": "replace",
+      "rawRange": [37848, 37849],
+      "patchRange": [37848, 37849],
+      "before": [[31, 0, 0, 0]],
+      "after": [[31, 116, 0, 0]]
+    },
+    {
+      "region": 23,
+      "dispositionId": "D13",
+      "kind": "replace",
+      "rawRange": [39352, 39353],
+      "patchRange": [39352, 39353],
+      "before": [[47, 0, 0, 0]],
+      "after": [[47, 3, 0, 0]]
+    },
+    {
+      "region": 24,
+      "dispositionId": "D14",
+      "kind": "replace",
+      "rawRange": [39471, 39472],
+      "patchRange": [39471, 39472],
+      "before": [[94, 558, 0, 0]],
+      "after": [[94, 558, 39473, 0]]
+    },
+    {
+      "region": 25,
+      "dispositionId": "D14",
+      "kind": "replace",
+      "rawRange": [39476, 39477],
+      "patchRange": [39476, 39477],
+      "before": [[94, 560, 0, 0]],
+      "after": [[94, 560, 39478, 0]]
+    },
+    {
+      "region": 26,
+      "dispositionId": "D14",
+      "kind": "replace",
+      "rawRange": [39481, 39482],
+      "patchRange": [39481, 39482],
+      "before": [[94, 555, 0, 0]],
+      "after": [[94, 555, 39483, 0]]
+    },
+    {
+      "region": 27,
+      "dispositionId": "D14",
+      "kind": "replace",
+      "rawRange": [39486, 39487],
+      "patchRange": [39486, 39487],
+      "before": [[94, 557, 0, 0]],
+      "after": [[94, 557, 39488, 0]]
+    },
+    {
+      "region": 28,
+      "dispositionId": "D14",
+      "kind": "replace",
+      "rawRange": [39491, 39492],
+      "patchRange": [39491, 39492],
+      "before": [[94, 559, 0, 0]],
+      "after": [[94, 559, 39493, 0]]
+    },
+    {
+      "region": 29,
+      "dispositionId": "D14",
+      "kind": "replace",
+      "rawRange": [39496, 39497],
+      "patchRange": [39496, 39497],
+      "before": [[94, 556, 0, 0]],
+      "after": [[94, 556, 39498, 0]]
+    },
+    {
+      "region": 30,
+      "dispositionId": "D15",
+      "kind": "replace",
+      "rawRange": [39700, 39701],
+      "patchRange": [39700, 39701],
+      "before": [[23, 16, 21, 98]],
+      "after": [[23, 14, 21, 98]]
+    },
+    {
+      "region": 31,
+      "dispositionId": "D16",
+      "kind": "replace",
+      "rawRange": [40190, 40191],
+      "patchRange": [40190, 40191],
+      "before": [[65535, 12752, 0, 0]],
+      "after": [[0, 0, 0, 0]]
+    },
+    {
+      "region": 32,
+      "dispositionId": "D16",
+      "kind": "replace",
+      "rawRange": [40391, 40392],
+      "patchRange": [40391, 40392],
+      "before": [[65535, 12869, 0, 0]],
+      "after": [[0, 0, 0, 0]]
+    },
+    {
+      "region": 33,
+      "dispositionId": "D17",
+      "kind": "replace",
+      "rawRange": [43041, 43042],
+      "patchRange": [43041, 43042],
+      "before": [[104, 0, 0, 0]],
+      "after": [[104, 43043, 0, 0]]
+    },
+    {
+      "region": 34,
+      "dispositionId": "D17",
+      "kind": "replace",
+      "rawRange": [43049, 43050],
+      "patchRange": [43049, 43050],
+      "before": [[104, 0, 0, 0]],
+      "after": [[104, 43051, 0, 0]]
+    },
+    {
+      "region": 35,
+      "dispositionId": "D17",
+      "kind": "replace",
+      "rawRange": [43055, 43056],
+      "patchRange": [43055, 43056],
+      "before": [[104, 0, 0, 0]],
+      "after": [[104, 43057, 0, 0]]
+    },
+    {
+      "region": 36,
+      "dispositionId": "D18",
+      "kind": "replace",
+      "rawRange": [43134, 43135],
+      "patchRange": [43134, 43135],
+      "before": [[86, 370, 0, 0]],
+      "after": [[86, 370, 1, 0]]
+    },
+    {
+      "region": 37,
+      "dispositionId": "APPEND",
+      "kind": "insert",
+      "rawRange": [43503, 43503],
+      "patchRange": [43503, 43538],
+      "before": [],
+      "after": [
+        [89, 286, 0, 0],
+        [70, 43, 38, 1],
+        [80, 0, 0, 0],
+        [0, 0, 0, 0],
+        [37, 2961, 25096, 0],
+        [73, 2985, 1, 0],
+        [3, 27449, 0, 0],
+        [0, 0, 0, 0],
+        [5, 0, 0, 0],
+        [3, 14462, 0, 0],
+        [0, 0, 0, 0],
+        [65535, 5107, 0, 0],
+        [65535, 5108, 0, 0],
+        [125, 1600, 65504, 0],
+        [5, 0, 0, 0],
+        [36, 1600, 35639, 0],
+        [37, 1600, 14999, 0],
+        [37, 1602, 14999, 0],
+        [1, 0, 0, 0],
+        [3, 14999, 0, 0],
+        [0, 0, 0, 0],
+        [65535, 5107, 0, 0],
+        [65535, 5108, 0, 0],
+        [125, 1600, 65504, 0],
+        [5, 0, 0, 0],
+        [36, 1600, 35639, 0],
+        [37, 1600, 14999, 0],
+        [37, 1601, 14999, 0],
+        [1, 0, 0, 0],
+        [3, 14999, 0, 0],
+        [0, 0, 0, 0],
+        [32, 152, 36, 0],
+        [154, 3658, 3664, 0],
+        [3, 28424, 0, 0],
+        [0, 0, 0, 0]
+      ]
+    }
+  ],
+  "eventObjectChanges": [
+    {
+      "eventIdZeroBased": 2984,
+      "eventIdOneBased": 2985,
+      "sceneIdZeroBased": 182,
+      "dispositionId": "D07",
+      "fields": [
+        {
+          "field": "state",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "eventIdZeroBased": 4841,
+      "eventIdOneBased": 4842,
+      "sceneIdZeroBased": 286,
+      "dispositionId": "D10",
+      "fields": [
+        {
+          "field": "x",
+          "before": 1088,
+          "after": 880
+        },
+        {
+          "field": "y",
+          "before": 464,
+          "after": 840
+        },
+        {
+          "field": "triggerScript",
+          "before": 41999,
+          "after": 43503
+        },
+        {
+          "field": "autoScript",
+          "before": 41099,
+          "after": 0
+        },
+        {
+          "field": "state",
+          "before": 2,
+          "after": 1
+        },
+        {
+          "field": "spriteNum",
+          "before": 548,
+          "after": 0
+        },
+        {
+          "field": "nSpriteFrames",
+          "before": 3,
+          "after": 0
+        }
+      ]
+    }
+  ],
+  "appendedBlockOwnership": [
+    {
+      "range": [43503, 43507],
+      "dispositionId": "D10"
+    },
+    {
+      "range": [43507, 43511],
+      "dispositionId": "D07"
+    },
+    {
+      "range": [43511, 43514],
+      "dispositionId": "D04"
+    },
+    {
+      "range": [43514, 43534],
+      "dispositionId": "D05"
+    },
+    {
+      "range": [43534, 43538],
+      "dispositionId": "D08"
+    }
+  ],
+  "language": {
+    "groups": 4768,
+    "nativeBlocks": 4768,
+    "matchingNativeRanges": 4765,
+    "nonmatchingNativeRanges": [
+      {
+        "messageRange": [1500, 1504],
+        "scriptRange": [3919, 3924]
+      },
+      {
+        "messageRange": [12749, 12752],
+        "scriptRange": [40187, 40191]
+      },
+      {
+        "messageRange": [12866, 12869],
+        "scriptRange": [40388, 40392]
+      }
+    ],
+    "words": 578,
+    "originalWordEntriesWithCjk": 183,
+    "groupsContainingCjk": 20
+  }
+}

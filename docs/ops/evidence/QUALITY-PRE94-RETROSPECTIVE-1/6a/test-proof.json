@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "snapshotHead": "bea19f80c0e1e41586493dff390007c1b26b6905",
+  "mutants": "same-directory untracked copies only; original source/test bytes verified after finally cleanup; no name filters/skips",
+  "sourceHashes": {
+    "scripts/quality/code-quality-ledger.mjs": "ebe8f816babc6ef316a190754f7dcc45dfc645e6c0587164a84304a1e06c29e2",
+    "scripts/quality/code-quality-ledger.test.mjs": "316ae87733dac03c5a6cb14ec40e0ea0067cc65e947bd5a4b57ca26db4d55442",
+    "scripts/quality/code-quality-inventory.mjs": "3506486afd2a30c6182042b9e2c1badb46e8f36465e46541c09057a191265ee2",
+    "scripts/quality/code-quality-inventory.test.mjs": "97a35784f99e1036e20920549deb4388d06fe8272e904d9b87694aad7673fdaa"
+  },
+  "runs": [
+    {
+      "label": "ledger-counter-old",
+      "command": [
+        "node",
+        "--test",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/scripts/quality/.pre94-6a-ledger-counter.test.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 2.46,
+      "rawSha256": "f5590f07bd4a53e56fe84625b2c9928c04a71e3f15bbd37011da3978ddd6a5a3",
+      "counts": {
+        "tests": 9,
+        "pass": 9,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "label": "ledger-counter-new",
+      "command": [
+        "node",
+        "--test",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/scripts/quality/.pre94-6a-ledger-counter.test.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 2.12,
+      "rawSha256": "9035078cc8b0b4c2b3bd411c68c51a7750009ff75f8fdfe7df3ef2d304afcd94",
+      "counts": {
+        "tests": 10,
+        "pass": 9,
+        "fail": 1,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "label": "inventory-counter-old",
+      "command": [
+        "node",
+        "--test",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/scripts/quality/.pre94-6a-inventory-counter.test.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 1.05,
+      "rawSha256": "ac99dc7c102ec86135534ab5a0d0a1cd18f1cd29b14953621fe18746c2e729b5",
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "label": "inventory-counter-new",
+      "command": [
+        "node",
+        "--test",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/scripts/quality/.pre94-6a-inventory-counter.test.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "seconds": 2.29,
+      "rawSha256": "4c7bffb6356f33fc687ef9e60e5edd8a24e2baf97095e81a01cdda2ae36dde37",
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "label": "recovery-targeted",
+      "command": [
+        "node",
+        "--test",
+        "scripts/quality/code-quality-ledger.test.mjs",
+        "scripts/quality/code-quality-inventory.test.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 2.12,
+      "rawSha256": "cec7f2a83b2677478566ee60c6275d2bd11d6ce7e673772dea843ac925add458",
+      "counts": {
+        "tests": 11,
+        "pass": 11,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "label": "quality-tools",
+      "command": ["pnpm", "test:quality-tools"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 2.32,
+      "rawSha256": "fded3ca53c7024bd759a28a662ade15767c0eb8ecd020767a2790c22158a9a08",
+      "counts": {
+        "tests": 38,
+        "pass": 38,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    }
+  ],
+  "temporaryCopiesAbsent": true
+}

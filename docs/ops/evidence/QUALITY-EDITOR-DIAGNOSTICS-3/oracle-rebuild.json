@@ -1,0 +1,231 @@
+{
+  "method": "Independent byte/runner check and fresh source split recipe rebuild after temporary workspace cleanup",
+  "sourceSha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+  "workspaceAbsent": true,
+  "rows": [
+    {
+      "label": "oracle-pending-grow",
+      "passed": 0,
+      "failed": 1,
+      "executed": [
+        {
+          "name": "C02-G01-01 草稿未提交时外部增帧替换：证明失效窗口内应用禁用，重解码后重绑并可提交",
+          "status": "failed",
+          "assertionFailure": true
+        }
+      ],
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true
+    },
+    {
+      "label": "oracle-pending-undo",
+      "passed": 0,
+      "failed": 1,
+      "executed": [
+        {
+          "name": "C02-G01-08 外部替换后 undo：证明回绑旧字节，未提交草稿保留并可正常应用",
+          "status": "failed",
+          "assertionFailure": true
+        }
+      ],
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true
+    },
+    {
+      "label": "oracle-old-draft03",
+      "passed": 1,
+      "failed": 0,
+      "executed": [
+        {
+          "name": "C02-G01-03 偷窃槽草稿指向第 11 帧，外部缩到 10 帧后草稿不携带越界帧",
+          "status": "passed",
+          "assertionFailure": true
+        }
+      ],
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true
+    },
+    {
+      "label": "oracle-retired-draft02",
+      "passed": 0,
+      "failed": 1,
+      "executed": [
+        {
+          "name": "C02-G01-02 外部缩帧替换改写消费者对象：未提交的改名草稿回落到规范值且不可应用",
+          "status": "failed",
+          "assertionFailure": true
+        }
+      ],
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true
+    },
+    {
+      "label": "oracle-merged-draft03",
+      "passed": 0,
+      "failed": 1,
+      "executed": [
+        {
+          "name": "C02-G01-03 偷窃槽草稿指向第 11 帧，外部缩到 10 帧后草稿不携带越界帧",
+          "status": "failed",
+          "assertionFailure": true
+        }
+      ],
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true
+    },
+    {
+      "label": "oracle-recovery",
+      "passed": 29,
+      "failed": 0,
+      "executed": [
+        {
+          "name": "C02-G01-01 草稿未提交时外部增帧替换：证明失效窗口内应用禁用，重解码后重绑并可提交",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G01-03 偷窃槽草稿指向第 11 帧，外部缩到 10 帧后草稿不携带越界帧",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G01-04 外部新增共享消费者使替换面板关闭且零提交；重开后确认文案按最新 3 个用途重算",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G01-05 删帧确认窗口内外部新增共享消费者：缩帧事务拒绝，字节与 catalog 不变",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G01-06 删帧确认窗口内外部改了消费者 profile：快照不符拒绝且保留外部改动",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G01-07 会话层：外部替换后沿用旧证明的 ABI 更新被拒且零污染，新证明可提交",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G01-08 外部替换后 undo：证明回绑旧字节，未提交草稿保留并可正常应用",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G01-09 删除玩家共享帧 #3：两个用途在同一事务内重排槽位，撤销整体还原",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G01-10 召唤用途删帧无需槽位重排：全帧语义随实际帧数收缩，undo 回到 5 帧",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G02-01 取消导入：面板关闭、选择与历史不变，重开后上传器回到空态",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G02-02 玩家 9 帧图集导入失败：面板保留、零提交，换 10 帧后同面板恢复并选中新用途",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G02-03 损坏的图片文件：上传器报错且无应用入口，换合法图后恢复到可应用",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G02-04 单帧图导入为敌人：待机 1 帧、施法/攻击 0 帧，过保存门",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G02-05 同字节再导入为召唤：复用同一 AssetId，撤销链只回退定义，最后才移除资产",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G02-06 相同前缀与用途、不同图的两次导入：定义 id 依次为 boss-enemy 与 boss-enemy-2",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G02-07 纯中文 ID 前缀回退 authored；显示名留空时定义名回退为前缀词干",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G02-08 导入后 undo：选择回落到目录首项；redo 恢复资产但不抢回选择",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G02-09 用途下拉只提供三种导入类型，选召唤后写入 {kind: summon} 且全帧语义",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G02-10 取消后重开保留已填 ID 与显示名；随后导入按保留值落名",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G05-01 改名提交→undo→redo：输入框与切换用途列表随规范值回流，应用按钮始终回到禁用",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G05-02 玩家施法特效基帧：草稿不动规范值，提交后 undo/redo 在 0↔4 间回流到数字框",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G05-03 新增用途→undo 回落首个用途并上报宿主；redo 恢复第三个用途",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G05-04 删除用途→undo：回到原索引顺序，切换用途列表恢复，redo 再次移除",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G05-05 草稿进行中遇外部 undo：规范值回流并覆盖草稿，不残留可应用的陈旧改动",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G05-06 UI 替换源文件增帧后 undo/redo：预览证明随字节重绑到 12↔13 帧",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G05-07 三步历史（改名→特效基帧→删用途）逐级 undo 再逐级 redo，快照逐一对齐",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G05-08 undo 后新的 UI 提交清空 redo 栈，且最终规范值是新提交",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G05-09 追加两帧后选中新末帧再 undo：源帧选择收紧到新末帧，不留越界索引",
+          "status": "passed",
+          "assertionFailure": true
+        },
+        {
+          "name": "C02-G05-10 撤销新增用途后再次新增：id 复用 c02-enemy 而非递增，且 redo 栈随之清空",
+          "status": "passed",
+          "assertionFailure": true
+        }
+      ],
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": false
+    }
+  ]
+}

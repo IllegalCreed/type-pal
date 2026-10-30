@@ -10,7 +10,7 @@ export type RunPhase = 'idle' | 'running' | 'paused' | 'finished'
 export interface RunState {
   phase: RunPhase
   elapsedMs: number
-  stepIndex: number // 0..N;==N 表示全部完成
+  stepIndex: number // 0..N；N 表示没有待检测节点，手动跳到 N 不生成通关/PB
   splits: (number | null)[] // 逐点累计 ms
   bananaPaused: boolean
   manualPaused: boolean // 手动暂停(F8);与 bananaPaused 同样停表,恢复走 3 秒倒计时
@@ -102,10 +102,10 @@ export class SpeedrunTimer {
 
   /**
    * 测试/练习用:把"依序打点"指针跳到第 index 个节点(读档后从某段起测检测,免得从头跑)。
-   * 跳过的节点 splits 留 null(未实际达成);置 running、清手动/香蕉暂停与倒计时;重置全部检测器
+   * 保留已有 splits，不为跳过的节点补造时间；置 running、清手动/香蕉暂停与倒计时；重置全部检测器
    * mem + prevSnap —— 让目标节点从干净态判定:边沿检测器(enterScene 等)在你**已处于该条件**时
    * (prevSnap=null)也会下一帧立即命中(= 认你"读档已到此"),否则等你真正触发那一刻。
-   * index 钳 [0, length](==length 即视为全部完成)。
+   * index 钳 [0, length]；跳到 length 后不再检测节点，但不会生成 finished 或 PB。
    */
   setStep(index: number): void {
     const i = Math.max(0, Math.min(Math.floor(index), this.checkpoints.length))

@@ -1,0 +1,10 @@
+{
+  "base": "30d42c983",
+  "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 0,
+  "seconds": 4.8,
+  "bytes": 131,
+  "sha256": "febd502ffabd8611920f04911e6fa0e88fac6cb8ff063bb009b63b02bf965931",
+  "combinedOutput": "\n> @type-pal/game@1.0.0 typecheck /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game\n> tsc --noEmit\n\n"
+}

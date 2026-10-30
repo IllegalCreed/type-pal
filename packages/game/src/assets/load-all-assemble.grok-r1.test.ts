@@ -1,11 +1,12 @@
 /**
- * G01-A。旧证明只覆盖 loadAll 的泛 404（loader.test.ts「fetch 失败 → 抛错」）。
- * 本组断言真实 RLE/PNG 装配结果、URL 归属和硬表透传，不重复该条。
+ * G01-A。真实 RLE/PNG 装配、URL归属与硬表透传。
+ * HTTP失败由G01-B07核完整URL和请求边界；不在这里重复弱404摘要。
  */
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 import {
   callsEnding,
   installLoadAll,
+  legalRole,
   loadAllScript,
   pngAtlas,
 } from '../__tests__/grok-render-r1/legal-host.js'
@@ -80,16 +81,7 @@ describe('G01-A loadAll 合法装配', () => {
 
   it('G01-A06 队长与两个事件对象共用 sprite 9 时只 fetch 一次', async () => {
     const script = loadAllScript({
-      roles: [
-        {
-          ...loadAllScript().roles[0]!,
-          spriteNum: 9,
-        },
-        {
-          ...loadAllScript().roles[1]!,
-          spriteNum: 9,
-        },
-      ],
+      roles: [legalRole(0, 9), legalRole(1, 9)],
       scene: {
         sceneId: 7,
         mapNum: 12,
@@ -144,7 +136,7 @@ describe('G01-A loadAll 合法装配', () => {
     expect(callsEnding(calls, '/data/magic/fire-09.rle')).toHaveLength(0)
   })
 
-  it('G01-A09 物品图标按 chunkIndex 入 map，UI 帧按 manifest 顺序保留', async () => {
+  it('G01-A09 物品图标按 chunkIndex 入 map，UI 帧保留原编号', async () => {
     const { calls } = installLoadAll(loadAllScript(), pngs)
     const loaded = await loadAll(7)
     expect(callsEnding(calls, '/images/items/003.png')).toHaveLength(1)
@@ -168,6 +160,6 @@ describe('G01-A loadAll 合法装配', () => {
     expect(assets.enemies.map((enemy) => enemy.id)).toEqual([41])
     expect(assets.battleEffectIndex).toEqual([3, 6])
     expect(assets.enemyPos).toEqual({ layouts: [[{ x: 40, y: 80 }]] })
-    expect(assets.objectPlayers.map((row) => row.id)).toEqual([1])
+    expect(assets.objectPlayers).toEqual([{ id: 36, scriptOnFriendDeath: 0, scriptOnDying: 0 }])
   })
 })

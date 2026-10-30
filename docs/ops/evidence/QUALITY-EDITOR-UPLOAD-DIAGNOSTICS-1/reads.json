@@ -1,0 +1,60 @@
+{
+  "candidate": "058e9202d52adf7859b54e1fc981e1b5248b115c",
+  "fullReads": [
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx",
+      "lines": 445,
+      "sha256": "27284e31d8892cc636830e432570efef0d3a5910135c92860e88e6e441380772"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts",
+      "lines": 247,
+      "sha256": "a6417c2d001d5eac1708b96858462544f52be4b0597cc92d4c1be25014847e8d"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "lines": 299,
+      "sha256": "90de1bf5759864150f345c2f1ff7d437236d42650007ce380eff74c030ccca99"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "lines": 245,
+      "sha256": "ab503def3c429f6ea8afc47baf5f167f52dd8dcd8b607a2e1b69930c304fbe99"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteUploadWizard.tsx",
+      "lines": 548,
+      "sha256": "b5f61c37d489cba38f44c60fd38f4bbb99d2adb4eb7ae3d025b0930a696eb148"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteUploader.tsx",
+      "lines": 209,
+      "sha256": "6bbc63231f2cef26c975024fb8c6aef45ad5fc015625aa66e32dff93c9620f3d"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+      "lines": 238,
+      "sha256": "0339619a2ad3aaa7854d14e68dc3591f1d6d45523a7d692d0299c694b1c77549"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+      "lines": 186,
+      "sha256": "a097720c0963087e2e21dd21e633907e732cd5e8f1a2454cd802de0ec93b7820"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts",
+      "lines": 211,
+      "sha256": "87e93524c185cd18ae45ee1b33afaa569a48be3a0f9066828d618d0ddbda7aa9"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md",
+      "lines": 23,
+      "sha256": "c7a010f70a8f438206163b3e8642c41050bd1f7755d3481d08d89154b9c32df2"
+    }
+  ],
+  "partialReads": {
+    "packages/reforge/src/assets.ts": ["1-100"],
+    "packages/editor/src/ui/WorldSpriteLibrary.tsx": ["770-790"]
+  },
+  "closed": []
+}

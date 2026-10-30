@@ -22,6 +22,7 @@ export interface GoogleAnalyticsOptions {
 }
 
 type AnalyticsWindow = Window & {
+  [key: `ga-disable-${string}`]: boolean | undefined
   dataLayer?: Array<IArguments | unknown[]>
   gtag?: (...args: unknown[]) => void
 }
@@ -61,7 +62,7 @@ export function startGoogleAnalytics(options: GoogleAnalyticsOptions): () => voi
   if (!options.enabled || !measurementId) return () => undefined
 
   const analyticsWindow = options.window as AnalyticsWindow
-  const disableKey = `ga-disable-${measurementId}`
+  const disableKey: `ga-disable-${string}` = `ga-disable-${measurementId}`
   let consent = options.readConsent()
   let initialized = false
   let lastPath: string | undefined
@@ -112,13 +113,13 @@ export function startGoogleAnalytics(options: GoogleAnalyticsOptions): () => voi
       })
       lastPath = pagePath
     } catch {
-      // Analytics 是可选能力，任何异常都不得影响游戏启动、输入或渲染。
+      // URL/发送异常保留本场控制器；首次安装异常由下方回滚订阅并向调用者传播。
     }
   }
 
   const applyConsent = (nextConsent: AnalyticsConsent): void => {
     consent = nextConsent
-    ;(analyticsWindow as unknown as Record<string, unknown>)[disableKey] = nextConsent !== 'granted'
+    analyticsWindow[disableKey] = nextConsent !== 'granted'
 
     if (nextConsent === 'granted') {
       initialize()
@@ -129,11 +130,19 @@ export function startGoogleAnalytics(options: GoogleAnalyticsOptions): () => voi
   }
 
   const unsubscribeConsent = options.subscribeConsent(applyConsent)
-  const unsubscribePage = options.subscribePage?.(sendPageView) ?? (() => undefined)
-  applyConsent(consent)
+  let unsubscribePage: (() => void) | undefined
+  try {
+    unsubscribePage = options.subscribePage?.(sendPageView)
+    applyConsent(consent)
+  } catch (error) {
+    // 安装尚未返回stop句柄，本创建者必须释放已取得的订阅；刷新后由新安装重试。
+    unsubscribeConsent()
+    unsubscribePage?.()
+    throw error
+  }
 
   return () => {
     unsubscribeConsent()
-    unsubscribePage()
+    unsubscribePage?.()
   }
 }

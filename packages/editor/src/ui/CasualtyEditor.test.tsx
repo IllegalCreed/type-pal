@@ -2,92 +2,60 @@
 import type { ActorDef, CasualtyScript } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { assertProjectSaveValid } from '../core/project-diagnostics.js'
+import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
+import { installBrowserHardwarePorts } from './__tests__/kimi-editor-workflows/kit.js'
 import { CasualtyEditor } from './CasualtyEditor.js'
 
 let host: HTMLDivElement
 let root: Root
 
 beforeEach(() => {
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
+  installBrowserHardwarePorts()
   host = document.createElement('div')
   document.body.appendChild(host)
 })
 
-afterEach(() => {
-  root?.unmount()
-  host.remove()
+afterEach(async () => {
+  try {
+    await act(async () => root?.unmount())
+  } finally {
+    host.remove()
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+  }
 })
 
-function battlerActor(casualty?: {
-  friendDeath?: CasualtyScript
-  dying?: CasualtyScript
-}): ActorDef {
-  return {
-    id: 'hero',
-    name: 'name.hero',
-    spriteId: 'hero-sprite',
-    battler: {
-      battleSprite: 'hero-battle-sprite',
-      baseStats: {
-        level: 1,
-        hp: 100,
-        maxHP: 100,
-        mp: 10,
-        maxMP: 10,
-        attack: 5,
-        defense: 5,
-        magicAttack: 5,
-        speed: 5,
-        luck: 5,
-      },
-      initialEquipment: {},
-      initialMagic: [],
-      casualty,
+async function state(
+  casualty?: NonNullable<ActorDef['battler']>['casualty'],
+): Promise<EditorState> {
+  const { state: base } = await loadLegalUiProject('casualty-field-commit')
+  const hero = base.actors.find((candidate) => candidate.id === 'hero')
+  if (!hero?.battler) throw new Error('blank project battler hero missing')
+  const battler = hero.battler
+  const current: EditorState = {
+    ...base,
+    actors: base.actors.map((actor) =>
+      actor.id === hero.id
+        ? {
+            ...hero,
+            battler: { ...battler, casualty: structuredClone(casualty) },
+          }
+        : actor,
+    ),
+    locale: {
+      ...base.locale,
+      'dlg.talk.0': '你好',
+      'dlg.changed': '更改后的台词',
+      'dlg.cancelled': '取消的台词',
     },
   }
-}
-
-function state(actor: ActorDef): EditorState {
-  return {
-    manifest: {
-      id: 'test',
-      name: '测试项目',
-      contentVersion: 22,
-      minimumSaveVersion: 12,
-      defaultEntryId: 'main',
-      content: {},
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主要入口',
-          scene: 'scene-a',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-      assets: { catalog: 'assets/index.json', roles: {} },
-    },
-    scenes: [],
-    actors: [actor],
-    skills: [],
-    levelUp: {},
-    items: [],
-    locale: { 'dlg.talk.0': '你好', 'name.hero': '主角' },
-    sprites: [],
-    battleSprites: [],
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    tilesetBlobs: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-    scriptChunks: {},
-    stamps: [],
-    shops: [],
-    poisons: [],
-  } as unknown as EditorState
+  assertProjectSaveValid(current)
+  return current
 }
 
 function Harness(props: { session: EditSession; actor: ActorDef }) {
@@ -96,10 +64,11 @@ function Harness(props: { session: EditSession; actor: ActorDef }) {
     () => props.session.getVersion(),
   )
   const current = props.session.getState()
-  const actor = current.actors.find((a) => a.id === props.actor.id)!
+  const actor = current.actors.find((a) => a.id === props.actor.id)
+  if (!actor?.battler) throw new Error(`battler ${props.actor.id} missing`)
   return (
     <CasualtyEditor
-      actor={actor as ActorDef & { battler: NonNullable<ActorDef['battler']> }}
+      actor={{ ...actor, battler: actor.battler }}
       session={props.session}
       locale={current.locale}
       onClose={() => undefined}
@@ -115,7 +84,7 @@ function button(text: string): HTMLButtonElement {
 
 function gateRow(value: string): HTMLElement {
   return [...host.querySelectorAll<HTMLElement>('.arow')].find(
-    (n) => (n.querySelector('input[type="number"]') as HTMLInputElement | null)?.value === value,
+    (n) => n.querySelector<HTMLInputElement>('input[type="number"]')?.value === value,
   )!
 }
 
@@ -132,7 +101,7 @@ const script: CasualtyScript = {
 
 describe('CasualtyEditor (E18-1)', () => {
   test('渲染槽位数据:gates 概率 + fallback 分支', async () => {
-    const session = new EditSession(state(battlerActor({ friendDeath: script })))
+    const session = new EditSession(await state({ friendDeath: script }))
     await act(async () => {
       root = createRoot(host)
       root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
@@ -145,7 +114,7 @@ describe('CasualtyEditor (E18-1)', () => {
   })
 
   test('选中概率门 → 右列显示该分支台词;台词预览解析 locale', async () => {
-    const session = new EditSession(state(battlerActor({ friendDeath: script })))
+    const session = new EditSession(await state({ friendDeath: script }))
     await act(async () => {
       root = createRoot(host)
       root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
@@ -157,7 +126,7 @@ describe('CasualtyEditor (E18-1)', () => {
   })
 
   test('删除概率门 → 选中态回退 fallback(K1)', async () => {
-    const session = new EditSession(state(battlerActor({ friendDeath: script })))
+    const session = new EditSession(await state({ friendDeath: script }))
     await act(async () => {
       root = createRoot(host)
       root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
@@ -174,7 +143,7 @@ describe('CasualtyEditor (E18-1)', () => {
   })
 
   test('＋台词 → 即时写回 session;移除本槽 → 键删除;两槽全移除 → casualty undefined(K4)', async () => {
-    const session = new EditSession(state(battlerActor({ friendDeath: script, dying: script })))
+    const session = new EditSession(await state({ friendDeath: script, dying: script }))
     await act(async () => {
       root = createRoot(host)
       root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
@@ -184,6 +153,9 @@ describe('CasualtyEditor (E18-1)', () => {
     expect(addLine.lines.length).toBe(1)
     await act(async () => button('移除当前事件').click())
     expect(session.getState().actors[0]!.battler!.casualty!.friendDeath).toBeUndefined()
+    expect(Object.hasOwn(session.getState().actors[0]!.battler!.casualty!, 'friendDeath')).toBe(
+      false,
+    )
     expect(session.getState().actors[0]!.battler!.casualty!.dying).toBeDefined()
     await act(async () => button('自己濒死时').click())
     await act(async () => button('移除当前事件').click())
@@ -191,7 +163,7 @@ describe('CasualtyEditor (E18-1)', () => {
   })
 
   test('未配置槽 → ＋配置 创建默认空脚本(G3)', async () => {
-    const session = new EditSession(state(battlerActor()))
+    const session = new EditSession(await state())
     await act(async () => {
       root = createRoot(host)
       root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
@@ -203,7 +175,7 @@ describe('CasualtyEditor (E18-1)', () => {
     expect(created.fallback).toEqual({ lines: [], effects: [] })
   })
 
-  test('概率门可键盘选择，概率/增益输入只在 blur 时各写入一次整数', async () => {
+  test('概率门为可聚焦按钮，概率/增益输入只在 blur 时各写入一次整数', async () => {
     const withBuff: CasualtyScript = {
       ...script,
       fallback: {
@@ -211,7 +183,7 @@ describe('CasualtyEditor (E18-1)', () => {
         effects: [{ kind: 'tempStatBuff', stat: 'attack', percent: 10 }],
       },
     }
-    const session = new EditSession(state(battlerActor({ friendDeath: withBuff })))
+    const session = new EditSession(await state({ friendDeath: withBuff }))
     await act(async () => {
       root = createRoot(host)
       root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
@@ -257,16 +229,17 @@ describe('CasualtyEditor (E18-1)', () => {
   })
 
   test('台词文本保持本地草稿，Enter + blur 只产生一条命令，Escape 不提交', async () => {
-    const session = new EditSession(state(battlerActor({ friendDeath: script })))
+    const session = new EditSession(await state({ friendDeath: script }))
     await act(async () => {
       root = createRoot(host)
       root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
     })
     await act(async () => gateSelect('75').click())
-    const input = host.querySelector<HTMLInputElement>('input[placeholder^="文本 id"]')!
+    let input = host.querySelector<HTMLInputElement>('input[placeholder^="文本 id"]')!
     const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
     const history = session.getHistoryVersion()
     await act(async () => {
+      input.focus()
       setter.call(input, 'dlg.changed')
       input.dispatchEvent(new Event('input', { bubbles: true }))
     })
@@ -282,8 +255,15 @@ describe('CasualtyEditor (E18-1)', () => {
       session.getState().actors[0]!.battler!.casualty!.friendDeath!.gates[0]!.branch.lines[0]!.text,
     ).toBe('dlg.changed')
 
+    input = host.querySelector<HTMLInputElement>('input[placeholder^="文本 id"]')!
+    await act(async () => {
+      input.focus()
+      input.blur()
+    })
+    expect(session.getHistoryVersion()).toBe(history + 1)
     const committedHistory = session.getHistoryVersion()
     await act(async () => {
+      input.focus()
       setter.call(input, 'dlg.cancelled')
       input.dispatchEvent(new Event('input', { bubbles: true }))
       input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))
@@ -300,7 +280,7 @@ describe('CasualtyEditor (E18-1)', () => {
       ],
       fallback: { lines: [], effects: [] },
     }
-    const session = new EditSession(state(battlerActor({ friendDeath: duplicate })))
+    const session = new EditSession(await state({ friendDeath: duplicate }))
     await act(async () => {
       root = createRoot(host)
       root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
@@ -340,7 +320,7 @@ describe('CasualtyEditor (E18-1)', () => {
       ],
       fallback: { lines: [], effects: [] },
     }
-    const session = new EditSession(state(battlerActor({ friendDeath: ordered })))
+    const session = new EditSession(await state({ friendDeath: ordered }))
     await act(async () => {
       root = createRoot(host)
       root.render(<Harness session={session} actor={session.getState().actors[0]!} />)
@@ -404,7 +384,7 @@ describe('CasualtyEditor (E18-1)', () => {
       ],
       fallback: { lines: [], effects: [] },
     }
-    const session = new EditSession(state(battlerActor({ friendDeath: duplicate })))
+    const session = new EditSession(await state({ friendDeath: duplicate }))
     await act(async () => {
       root = createRoot(host)
       root.render(<Harness session={session} actor={session.getState().actors[0]!} />)

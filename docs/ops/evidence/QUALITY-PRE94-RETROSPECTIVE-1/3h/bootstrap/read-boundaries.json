@@ -1,0 +1,161 @@
+{
+  "base": "f2529c5fa65ba0abd4a737fcb32577888d391335",
+  "fullReads": [
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.ts",
+      "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+      "lines": 67,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "sha256": "4ae59bab77937826270a8f005dd6ad4bd64a5f75668365ac09a1a697b8e1d47b",
+      "lines": 99,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "sha256": "a24ecd452ca31eb32eb012dc3d7517524ab323066549ce746541c6a8236d62f3",
+      "lines": 365,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-boot-mid-1/legal.ts",
+      "sha256": "28dc3195ead8750a41de04ff0b142f89ac62a11cf773f3c21239d96a023dfd89",
+      "lines": 163,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539",
+      "lines": 202,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "f4add3675f3d1b5e9205058d4403face28e0d068a9fb5ec584b1a41b0aa30e64",
+      "lines": 83,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.ts",
+      "sha256": "acece0be9e180b65cb5f86e96bea80072c5640edbb8af25dcc05ec01fa91b1aa",
+      "lines": 71,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.test.ts",
+      "sha256": "f7fafac9dcc5bcd23be1468ad4938cdbd3dabb06230749a5422f35009588fb72",
+      "lines": 80,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+      "sha256": "ecd706cd47380de2411b2c9540f2fb94da083a79abe39c7ae09f5494e6ded39f",
+      "lines": 169,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+      "sha256": "8486e6fc731a787ad7d3ec3bee785a8c999ecebb2db29036c6546bb1b69ea677",
+      "lines": 45,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+      "sha256": "e9fe9e4a87d062c3c56efb0471f7ef14f08a5d8d3fb745622bb6bc3e4db53f09",
+      "lines": 169,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+      "sha256": "2f7cad17228c3b41ad4ee96b0176a28a25e1d04f8c27329912d05f26c90c2e78",
+      "lines": 173,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md",
+      "sha256": "f27f2d45832a0d84efb36c0d279425099143e4e19c7435a21a9c729daab724e9",
+      "lines": 64,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md",
+      "sha256": "6ea68298482ea3acb8f8aaa38e07841dd1ed354c1339e255c68879ab664d7a42",
+      "lines": 23,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "1fc445059f2d36b94208f9f7aaa760c74f84e5995a6f30b7e483c07ba2bc2cfd",
+      "lines": 297,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "53a94bdfc9d227d8eba31da6e51b21b810afdd626eb3420a896426d64494f9c9",
+      "lines": 74,
+      "boundary": "Full read during this slice; reading/executing tests is not whole-file acceptance."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944,
+      "ranges": ["225-335", "465-490", "1860-1895"],
+      "boundary": "Only listed caller/type/context ranges; no whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.ts",
+      "sha256": "118a645461e4ca3dac7583a4ca7fc485149d64f3204f37d5408f21593fe017bc",
+      "lines": 242,
+      "ranges": ["125-164"],
+      "boundary": "Only listed caller/type/context ranges; no whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
+      "lines": 501,
+      "ranges": ["1-220"],
+      "boundary": "Only listed caller/type/context ranges; no whole-file acceptance."
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "c6e4f9cea1f009d74b292198bb706b25f98d5e4de6b651a3d6be99ad4f514a7a",
+      "lines": 641,
+      "ranges": ["482-597"],
+      "boundary": "Only listed caller/type/context ranges; no whole-file acceptance."
+    },
+    {
+      "path": "packages/shared/src/events.ts",
+      "sha256": "973a52b68ef6f5c3ea1dd9701e3987703d8400794ae1c73b55148160debc8f3a",
+      "lines": 192,
+      "ranges": ["144-202"],
+      "boundary": "Only listed caller/type/context ranges; no whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/stats-test-fixtures.ts",
+      "sha256": "270f953dd0c5843f95319b208c4990c7ab86bd232a236dedd13bf6dc8cded652",
+      "lines": 249,
+      "ranges": ["1-88"],
+      "boundary": "Only listed caller/type/context ranges; no whole-file acceptance."
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "sha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+      "lines": 214,
+      "ranges": ["145-166", "185-197"],
+      "boundary": "Only listed caller/type/context ranges; no whole-file acceptance."
+    }
+  ],
+  "previousFullRead": [
+    "packages/game/src/assets/loader.ts at same SHA in parent PNG slice; reread 1-220 here"
+  ],
+  "notClaimed": [
+    "Complete bootstrap/audio/MIDI/browser behavior or source review",
+    "Full TEST-GAME-HOST-BOUNDARIES-1 card; retrieval was truncated and no conclusion relies on it",
+    "Full stats helper; only fixture candidates 1-88 read",
+    "Whole-card acceptance or new file closure"
+  ]
+}

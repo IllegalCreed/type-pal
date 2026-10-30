@@ -1,0 +1,15 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal
+
+································································································································stdout | packages/game/src/core/menu/menu-driver.cov85.test.ts > cov85 存档槽菜单(save-slot) > save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)
+[save] saved to slot 1(times=1)
+
+···························································································································································································stdout | packages/game/src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchSaveSlotMenu > Confirm → close save-slot(pop 一层)
+[save] saved to slot 1(times=1)
+
+······························································
+
+ Test Files  40 passed (40)
+      Tests  377 passed (377)
+   Start at  16:58:12
+   Duration  852ms (transform 2.54s, setup 0ms, import 3.89s, tests 208ms, environment 2ms)

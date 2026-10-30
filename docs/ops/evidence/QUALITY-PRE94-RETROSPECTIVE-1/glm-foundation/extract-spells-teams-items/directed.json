@@ -1,0 +1,930 @@
+{
+  "numTotalTestSuites": 12,
+  "numPassedTestSuites": 12,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 89,
+  "numPassedTests": 89,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792332104803,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems 解出 234 条物品(word 段 235,排除末位 295=梦蛇 法术)",
+          "status": "passed",
+          "title": "解出 234 条物品(word 段 235,排除末位 295=梦蛇 法术)",
+          "duration": 1.042291999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems 第一条带 _name(注释)",
+          "status": "passed",
+          "title": "第一条带 _name(注释)",
+          "duration": 0.15329100000002427,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems id = wObjectID(61..294;295=梦蛇是法术,已排除归 spells.json)",
+          "status": "passed",
+          "title": "id = wObjectID(61..294;295=梦蛇是法术,已排除归 spells.json)",
+          "duration": 0.20458300000001373,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems 至少有一条价格 > 0",
+          "status": "passed",
+          "title": "至少有一条价格 > 0",
+          "duration": 0.06304099999999835,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems 第一条物品价格为 150(item[0])",
+          "status": "passed",
+          "title": "第一条物品价格为 150(item[0])",
+          "duration": 0.07691700000000878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems flags 已拆为 ItemFlags 具名 bool",
+          "status": "passed",
+          "title": "flags 已拆为 ItemFlags 具名 bool",
+          "duration": 0.1677919999999915,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems 至少一条 usable + scriptOnUse 非零(可用品)",
+          "status": "passed",
+          "title": "至少一条 usable + scriptOnUse 非零(可用品)",
+          "duration": 0.13120899999998414,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems scriptDesc 字段被解析(至少一条非零)",
+          "status": "passed",
+          "title": "scriptDesc 字段被解析(至少一条非零)",
+          "duration": 0.055374999999997954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems without words(不传 words)→ 所有 _name undefined,其他字段正常",
+          "status": "passed",
+          "title": "without words(不传 words)→ 所有 _name undefined,其他字段正常",
+          "duration": 0.5703330000000051,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems flag bit 顺序对(fake fixture:usable + equipable)",
+          "status": "passed",
+          "title": "flag bit 顺序对(fake fixture:usable + equipable)",
+          "duration": 0.25645900000000665,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems equipableBy bit 6..11 对(fake fixture:全 6 个 role)",
+          "status": "passed",
+          "title": "equipableBy bit 6..11 对(fake fixture:全 6 个 role)",
+          "duration": 0.464917000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseItems"],
+          "fullName": "parseItems 截断时 throw(T5 review #1 修:与 parseEnemies / parseMagicTable 一致)",
+          "status": "passed",
+          "title": "截断时 throw(T5 review #1 修:与 parseEnemies / parseMagicTable 一致)",
+          "duration": 0.30400000000000205,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) 解出 103 条法术 wrapper(296..397 + 边界法术 295=梦蛇)",
+          "status": "passed",
+          "title": "解出 103 条法术 wrapper(296..397 + 边界法术 295=梦蛇)",
+          "duration": 0.0816250000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) 第一条带 _name(注释)",
+          "status": "passed",
+          "title": "第一条带 _name(注释)",
+          "duration": 0.050583000000017364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) id = wObjectID(296..397,2026-05-29 id 体系统一)",
+          "status": "passed",
+          "title": "id = wObjectID(296..397,2026-05-29 id 体系统一)",
+          "duration": 0.09029100000000767,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) 梦蛇(295)补在末尾:item word 段法术,scriptDesc/magicNumber 从 magic-union 读",
+          "status": "passed",
+          "title": "梦蛇(295)补在末尾:item word 段法术,scriptDesc/magicNumber 从 magic-union 读",
+          "duration": 0.0926669999999774,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) flags 已拆为 SpellFlags 具名 bool",
+          "status": "passed",
+          "title": "flags 已拆为 SpellFlags 具名 bool",
+          "duration": 0.06737500000002683,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) 第一条法术 magicNumber = 33(实测)",
+          "status": "passed",
+          "title": "第一条法术 magicNumber = 33(实测)",
+          "duration": 0.034250000000014325,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) 至少一条 magicNumber > 0(指向 Magic table)",
+          "status": "passed",
+          "title": "至少一条 magicNumber > 0(指向 Magic table)",
+          "duration": 0.05195900000001075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) scriptDesc 读 item-union offset 10(magicmenu.c:191),真数据应有说明脚本",
+          "status": "passed",
+          "title": "scriptDesc 读 item-union offset 10(magicmenu.c:191),真数据应有说明脚本",
+          "duration": 0.05908399999998437,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) without words(不传 words)→ 所有 _name undefined,其他字段正常",
+          "status": "passed",
+          "title": "without words(不传 words)→ 所有 _name undefined,其他字段正常",
+          "duration": 0.1845000000000141,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) SpellFlags bit 顺序对(fake fixture)",
+          "status": "passed",
+          "title": "SpellFlags bit 顺序对(fake fixture)",
+          "duration": 0.1009159999999838,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) applyToAll bit 4(fake fixture)",
+          "status": "passed",
+          "title": "applyToAll bit 4(fake fixture)",
+          "duration": 0.09499999999999886,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseSpells (M3 T6)"],
+          "fullName": "parseSpells (M3 T6) 截断时 throw(与 parseEnemies / parseMagicTable 一致)",
+          "status": "passed",
+          "title": "截断时 throw(与 parseEnemies / parseMagicTable 一致)",
+          "duration": 0.07616600000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic)"],
+          "fullName": "parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic) 覆盖整个 OBJECT 数组(每条 14B)",
+          "status": "passed",
+          "title": "覆盖整个 OBJECT 数组(每条 14B)",
+          "duration": 0.09245799999999349,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic)"],
+          "fullName": "parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic) 法术段 [296..397] 与 parseSpells 逐字段一致(magicNumber/scripts/flags)",
+          "status": "passed",
+          "title": "法术段 [296..397] 与 parseSpells 逐字段一致(magicNumber/scripts/flags)",
+          "duration": 3.662916999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic)"],
+          "fullName": "parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic) object 349(天师符法,0x42 op0 真实引用)→ magicNumber 54",
+          "status": "passed",
+          "title": "object 349(天师符法,0x42 op0 真实引用)→ magicNumber 54",
+          "duration": 0.034207999999978256,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic)"],
+          "fullName": "parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic) object 24(梅花镖/银针/卵 共用,0x42 op0=24)可解析 —— 与原始字节一致",
+          "status": "passed",
+          "title": "object 24(梅花镖/银针/卵 共用,0x42 op0=24)可解析 —— 与原始字节一致",
+          "duration": 0.05783299999998803,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic)"],
+          "fullName": "parseObjectMagics (rgObject magic-union 视图,0x42 SimulateMagic) fake fixture:applyToAll(bit4)+ magicNumber offset 对",
+          "status": "passed",
+          "title": "fake fixture:applyToAll(bit4)+ magicNumber offset 对",
+          "duration": 0.07316699999998377,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison)"],
+          "fullName": "parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison) 覆盖整个 OBJECT 数组(每条 14B)",
+          "status": "passed",
+          "title": "覆盖整个 OBJECT 数组(每条 14B)",
+          "duration": 0.05762500000000159,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison)"],
+          "fullName": "parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison) poison object 551(0x28 op1 真实引用)enemyScript 与原始字节一致",
+          "status": "passed",
+          "title": "poison object 551(0x28 op1 真实引用)enemyScript 与原始字节一致",
+          "duration": 0.04187500000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison)"],
+          "fullName": "parseObjectPoisons (rgObject poison-union 视图,0x28 apply poison) fake fixture:wEnemyScript@8 / wPoisonLevel@0 offset 对",
+          "status": "passed",
+          "title": "fake fixture:wEnemyScript@8 / wPoisonLevel@0 offset 对",
+          "duration": 0.1472919999999931,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPlayers (rgObject player-union 视图,队友死亡/濒死脚本)"],
+          "fullName": "parseObjectPlayers (rgObject player-union 视图,队友死亡/濒死脚本) 解出 6 条 OBJECT_PLAYER(36..41)",
+          "status": "passed",
+          "title": "解出 6 条 OBJECT_PLAYER(36..41)",
+          "duration": 0.10466700000000628,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPlayers (rgObject player-union 视图,队友死亡/濒死脚本)"],
+          "fullName": "parseObjectPlayers (rgObject player-union 视图,队友死亡/濒死脚本) 真实数据含队友死亡/濒死脚本入口",
+          "status": "passed",
+          "title": "真实数据含队友死亡/濒死脚本入口",
+          "duration": 0.062167000000016515,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseObjectPlayers (rgObject player-union 视图,队友死亡/濒死脚本)"],
+          "fullName": "parseObjectPlayers (rgObject player-union 视图,队友死亡/濒死脚本) fake fixture:wScriptOnFriendDeath@4 / wScriptOnDying@6 offset 对",
+          "status": "passed",
+          "title": "fake fixture:wScriptOnFriendDeath@4 / wScriptOnDying@6 offset 对",
+          "duration": 0.061917000000022426,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) 从 DATA.MKF chunk 4 解出 N 条 Magic(每条 32B)",
+          "status": "passed",
+          "title": "从 DATA.MKF chunk 4 解出 N 条 Magic(每条 32B)",
+          "duration": 0.054417000000000826,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) id 从 0 顺序递增",
+          "status": "passed",
+          "title": "id 从 0 顺序递增",
+          "duration": 0.08020799999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) 至少有一条 costMP > 0",
+          "status": "passed",
+          "title": "至少有一条 costMP > 0",
+          "duration": 0.04754099999999539,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) Magic[33].costMP = 6(实测,spell[0] 引用)",
+          "status": "passed",
+          "title": "Magic[33].costMP = 6(实测,spell[0] 引用)",
+          "duration": 0.028540999999989936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) type 字段是 MagicType 具名 string",
+          "status": "passed",
+          "title": "type 字段是 MagicType 具名 string",
+          "duration": 0.7549590000000137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) 至少一条 type = \"normal\"(实测,大部分 Magic 默认 normal)",
+          "status": "passed",
+          "title": "至少一条 type = \"normal\"(实测,大部分 Magic 默认 normal)",
+          "duration": 0.03325000000000955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) 完整 16 字段全部存在",
+          "status": "passed",
+          "title": "完整 16 字段全部存在",
+          "duration": 0.48287500000000705,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) signed 字段(speed / sound)可负(fake fixture:0xFFFF → -1)",
+          "status": "passed",
+          "title": "signed 字段(speed / sound)可负(fake fixture:0xFFFF → -1)",
+          "duration": 0.06625000000002501,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) type 6 / 7 / >9 → \"other\" 兜底(fake fixture)",
+          "status": "passed",
+          "title": "type 6 / 7 / >9 → \"other\" 兜底(fake fixture)",
+          "duration": 0.05320900000000961,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMagicTable (M3 T6)"],
+          "fullName": "parseMagicTable (M3 T6) 截断时 throw",
+          "status": "passed",
+          "title": "截断时 throw",
+          "duration": 0.1002499999999884,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) 解出 154 条 ENEMY 记录(DATA.MKF chunk 1 / 70B)",
+          "status": "passed",
+          "title": "解出 154 条 ENEMY 记录(DATA.MKF chunk 1 / 70B)",
+          "duration": 0.055749999999989086,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) id 从 0 顺序递增",
+          "status": "passed",
+          "title": "id 从 0 顺序递增",
+          "duration": 0.05683300000001168,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) 至少有一条 health > 0",
+          "status": "passed",
+          "title": "至少有一条 health > 0",
+          "duration": 0.10654199999999037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) elemResistance 是 5 个具名字段(wind/thunder/water/fire/earth)",
+          "status": "passed",
+          "title": "elemResistance 是 5 个具名字段(wind/thunder/water/fire/earth)",
+          "duration": 0.12891700000000128,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) signed 字段真能为负(0xFFFF → -1,modifier 语义)",
+          "status": "passed",
+          "title": "signed 字段真能为负(0xFFFF → -1,modifier 语义)",
+          "duration": 0.03195800000000304,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) _name 可通过 OBJECT_ENEMY + words 反向填(对于战斗中真实出现的怪)",
+          "status": "passed",
+          "title": "_name 可通过 OBJECT_ENEMY + words 反向填(对于战斗中真实出现的怪)",
+          "duration": 0.0343329999999753,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) without objBuf/words:所有 _name 都是 undefined,其他字段照常解析",
+          "status": "passed",
+          "title": "without objBuf/words:所有 _name 都是 undefined,其他字段照常解析",
+          "duration": 0.23974999999998658,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemies (M3 D28 全字段)"],
+          "fullName": "parseEnemies (M3 D28 全字段) 完整 30+ 字段全部存在",
+          "status": "passed",
+          "title": "完整 30+ 字段全部存在",
+          "duration": 0.1337910000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) 从 DATA.MKF chunk 2 解出 N 条 EnemyTeam(每条 10B = 5 × WORD)",
+          "status": "passed",
+          "title": "从 DATA.MKF chunk 2 解出 N 条 EnemyTeam(每条 10B = 5 × WORD)",
+          "duration": 0.06208300000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) id 从 0 顺序递增",
+          "status": "passed",
+          "title": "id 从 0 顺序递增",
+          "duration": 0.04208299999999099,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) 每条 team 都是 5 个槽位 tuple",
+          "status": "passed",
+          "title": "每条 team 都是 5 个槽位 tuple",
+          "duration": 7.588875000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) 至少有一条 team 含 0xFFFF 空槽位(对照 sdlpal battle.c:1602)",
+          "status": "passed",
+          "title": "至少有一条 team 含 0xFFFF 空槽位(对照 sdlpal battle.c:1602)",
+          "duration": 0.06641700000000128,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) 至少有一条 team 第一槽位非空(指向 OBJECT_ENEMY 段,398-550)",
+          "status": "passed",
+          "title": "至少有一条 team 第一槽位非空(指向 OBJECT_ENEMY 段,398-550)",
+          "duration": 0.061540999999976975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) 至少一条 team 带 _names(反查成功)",
+          "status": "passed",
+          "title": "至少一条 team 带 _names(反查成功)",
+          "duration": 0.03633400000001075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) without enemyObjectNames:所有 _names 都是 undefined,enemies 仍正常",
+          "status": "passed",
+          "title": "without enemyObjectNames:所有 _names 都是 undefined,enemies 仍正常",
+          "duration": 0.17812499999999432,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) fake fixture:解出 5 槽位 + 0xFFFF 空位 + 名字反查",
+          "status": "passed",
+          "title": "fake fixture:解出 5 槽位 + 0xFFFF 空位 + 名字反查",
+          "duration": 0.10904100000001904,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) fake fixture:0 槽位也被 _names 反查跳过(对照 sdlpal battle.c:1602)",
+          "status": "passed",
+          "title": "fake fixture:0 槽位也被 _names 反查跳过(对照 sdlpal battle.c:1602)",
+          "duration": 0.05079200000000128,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) 截断时 throw(非 10 倍数)",
+          "status": "passed",
+          "title": "截断时 throw(非 10 倍数)",
+          "duration": 0.10400000000001342,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) M3.30 翻译模式:传入 objectIndexToEnemyId 时,enemies tuple 槽位变 enemies.json id",
+          "status": "passed",
+          "title": "M3.30 翻译模式:传入 objectIndexToEnemyId 时,enemies tuple 槽位变 enemies.json id",
+          "duration": 0.07995800000000486,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) M3.30 buildObjectIndexToEnemyIdMap:真原版 OBJECT_ENEMY 段映射非空 + wEnemyID 在 enemies.json 范围内",
+          "status": "passed",
+          "title": "M3.30 buildObjectIndexToEnemyIdMap:真原版 OBJECT_ENEMY 段映射非空 + wEnemyID 在 enemies.json 范围内",
+          "duration": 4.29333299999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseEnemyTeams (M3 T7)"],
+          "fullName": "parseEnemyTeams (M3 T7) M3.30 端到端:用真原版 buildObjectIndexToEnemyIdMap 翻译 enemy-teams 后,所有非空槽位都在 enemies.json id 范围",
+          "status": "passed",
+          "title": "M3.30 端到端:用真原版 buildObjectIndexToEnemyIdMap 翻译 enemy-teams 后,所有非空槽位都在 enemies.json id 范围",
+          "duration": 16.788166999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleFields (M3 T7)"],
+          "fullName": "parseBattleFields (M3 T7) 从 DATA.MKF chunk 5 解出 N 条 BattleField(每条 12B = WORD + SHORT × 5)",
+          "status": "passed",
+          "title": "从 DATA.MKF chunk 5 解出 N 条 BattleField(每条 12B = WORD + SHORT × 5)",
+          "duration": 0.09475000000000477,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleFields (M3 T7)"],
+          "fullName": "parseBattleFields (M3 T7) id 从 0 顺序递增",
+          "status": "passed",
+          "title": "id 从 0 顺序递增",
+          "duration": 0.04174999999997908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleFields (M3 T7)"],
+          "fullName": "parseBattleFields (M3 T7) 每条都含 5 元素 magicEffect(wind/thunder/water/fire/earth)",
+          "status": "passed",
+          "title": "每条都含 5 元素 magicEffect(wind/thunder/water/fire/earth)",
+          "duration": 1.7423749999999814,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleFields (M3 T7)"],
+          "fullName": "parseBattleFields (M3 T7) signed 字段真能为负(fake fixture:0xFFFF → -1,对照 sdlpal SHORT)",
+          "status": "passed",
+          "title": "signed 字段真能为负(fake fixture:0xFFFF → -1,对照 sdlpal SHORT)",
+          "duration": 0.12708299999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleFields (M3 T7)"],
+          "fullName": "parseBattleFields (M3 T7) 截断时 throw(非 12 倍数)",
+          "status": "passed",
+          "title": "截断时 throw(非 12 倍数)",
+          "duration": 0.08279200000001197,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) 解出 6 个 role(MAX_PLAYER_ROLES=6)",
+          "status": "passed",
+          "title": "解出 6 个 role(MAX_PLAYER_ROLES=6)",
+          "duration": 0.051333999999997104,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) id 从 0..5 顺序递增",
+          "status": "passed",
+          "title": "id 从 0..5 顺序递增",
+          "duration": 0.03691699999998832,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) leader spriteNum=2(M2 实施过程发现 #5 实证)",
+          "status": "passed",
+          "title": "leader spriteNum=2(M2 实施过程发现 #5 实证)",
+          "duration": 0.045958000000013044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) 6 个 spriteNum = [2, 3, 7, 525, 5, 26](实测,cli.ts 注释)",
+          "status": "passed",
+          "title": "6 个 spriteNum = [2, 3, 7, 525, 5, 26](实测,cli.ts 注释)",
+          "duration": 0.045667000000008784,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) 队长有合理 level / maxHP / maxMP(非全 0)",
+          "status": "passed",
+          "title": "队长有合理 level / maxHP / maxMP(非全 0)",
+          "duration": 0.04020900000000438,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) elemResistance 是 5 个具名字段(wind/thunder/water/fire/earth)",
+          "status": "passed",
+          "title": "elemResistance 是 5 个具名字段(wind/thunder/water/fire/earth)",
+          "duration": 0.052042000000000144,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) 完整 25+ 字段全部存在(M3 dump 范围)",
+          "status": "passed",
+          "title": "完整 25+ 字段全部存在(M3 dump 范围)",
+          "duration": 0.3362499999999784,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) _name 通过 words.persons 反查填(at least one)",
+          "status": "passed",
+          "title": "_name 通过 words.persons 反查填(at least one)",
+          "duration": 0.03866700000000378,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) without words(不传 words)→ 所有 _name undefined,其他字段正常",
+          "status": "passed",
+          "title": "without words(不传 words)→ 所有 _name undefined,其他字段正常",
+          "duration": 0.22287499999998772,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) signed modifier 字段按 s16 解码(初始数据全正,与 Enemy 不同)",
+          "status": "passed",
+          "title": "signed modifier 字段按 s16 解码(初始数据全正,与 Enemy 不同)",
+          "duration": 0.3377089999999896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) signed modifier 解码逻辑(fake 0xFFFF → -1)",
+          "status": "passed",
+          "title": "signed modifier 解码逻辑(fake 0xFFFF → -1)",
+          "duration": 0.10687500000000227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles (M3 T8)"],
+          "fullName": "parsePlayerRoles (M3 T8) chunk size ≠ 900 时 throw(对 fake .MKF 做 sanity check)",
+          "status": "passed",
+          "title": "chunk size ≠ 900 时 throw(对 fake .MKF 做 sanity check)",
+          "duration": 0.1072499999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseStores (2026-05-29 商店买菜单)"],
+          "fullName": "parseStores (2026-05-29 商店买菜单) 从 DATA.MKF chunk 0 解出 N 条 STORE(每条 18B = WORD × 9)",
+          "status": "passed",
+          "title": "从 DATA.MKF chunk 0 解出 N 条 STORE(每条 18B = WORD × 9)",
+          "duration": 0.060791999999992186,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseStores (2026-05-29 商店买菜单)"],
+          "fullName": "parseStores (2026-05-29 商店买菜单) id 从 0 顺序递增",
+          "status": "passed",
+          "title": "id 从 0 顺序递增",
+          "duration": 0.03079199999999105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseStores (2026-05-29 商店买菜单)"],
+          "fullName": "parseStores (2026-05-29 商店买菜单) items 全是绝对 OBJECT id(61..295,= items.json id 范围)",
+          "status": "passed",
+          "title": "items 全是绝对 OBJECT id(61..295,= items.json id 范围)",
+          "duration": 2.0386669999999754,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseStores (2026-05-29 商店买菜单)"],
+          "fullName": "parseStores (2026-05-29 商店买菜单) 首个 0 截断列表(fake fixture:[100, 95, 0, 99, ...] → [100, 95])",
+          "status": "passed",
+          "title": "首个 0 截断列表(fake fixture:[100, 95, 0, 99, ...] → [100, 95])",
+          "duration": 0.06391599999997766,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseStores (2026-05-29 商店买菜单)"],
+          "fullName": "parseStores (2026-05-29 商店买菜单) 满 9 项无 0(fake fixture:9 个非 0 → 全保留)",
+          "status": "passed",
+          "title": "满 9 项无 0(fake fixture:9 个非 0 → 全保留)",
+          "duration": 0.05962500000001114,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseStores (2026-05-29 商店买菜单)"],
+          "fullName": "parseStores (2026-05-29 商店买菜单) 非 18 整除时 throw(与其他 parser 一致)",
+          "status": "passed",
+          "title": "非 18 整除时 throw(与其他 parser 一致)",
+          "duration": 0.07183299999999804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792332104997,
+      "endTime": 1792332105045.0718,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/tables.test.ts"
+    }
+  ]
+}

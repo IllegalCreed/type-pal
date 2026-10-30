@@ -1,0 +1,736 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-ENGLISH-1",
+  "owner": "english_runtime_audit",
+  "kind": "limited-per-file-eight-dimension-root-canvas-followup",
+  "createdAt": "2026-10-22T13:36:19.618588+00:00",
+  "status": "delivered-for-root-review-with-identified-defect-fixed-in-separate-candidate",
+  "frozenReviewedRevision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+  "rootCommits": ["8230f1940", "a3f7e9aaf", "05e1cfcff", "49b188439", "db75de1a7"],
+  "followupFixCandidate": "40c3c827a09ec14fdf4992395c6f265b3d287965",
+  "scope": "A-H findings for changed responsibilities in28 root product/test paths. Assets language-pack.ts and language-pack.test.ts deferred to separately assigned shell independent review. Read changed functions and actual callers; reuse current-hash source/font/background evidence. No full-file governance ledger closure, full-story/visual approval or final gate credit.",
+  "method": {
+    "newReads": "Specified commit diffs, current/frozen changed functions, actual core/menu/present callers, real WORD identities and text sinks. New small modules/tests read in full. Large existing files reviewed only within affected scope and callers.",
+    "reuse": "canvas-independent-review initial/final file hashes checked against db75; matching files explicitly record samePriorCanvasSha. Description/resolver and shell integration are referenced only for their accepted responsibilities. Equipment width diff49b and new regression read separately.",
+    "notRun": "No new test/full check/coverage/source-font-pixel/browser run for this read-only review. Follow-up literal code repair has its own70-test evidence. Root final gates were not yet run when assigned and remain separately owned."
+  },
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/actions/throw-item.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "70e2a69b3397d1e402f07e57db7832ada38ecfa380694abf4930b80629f16fba",
+      "scope": "New getWord name lookup and existing inventory/script/animation sequence; no reassessment of unrelated throw damage.",
+      "actualCaller": "performBattleAction(kind throw-item) -> performThrowItem -> buildThrowWindupTimeline -> battle-anim-driver -> BattlePresent.renderText",
+      "sourceRefs": [
+        "packages/game/src/core/battle/actions/throw-item.ts:78",
+        "packages/game/src/core/battle/actions/throw-item.ts:106"
+      ],
+      "dimensions": {
+        "A": "Uses item.id, the object/WORD identity, rather than bitmap or scriptOnThrow. Only the windup text argument changes; inventory eligibility, scripts, consumption, damage buffers and animation order remain unchanged.",
+        "B": "Existing windup comment still describes the unchanged timing. Lookup is named getWord; no false claim that animation strings are dialog-control input.",
+        "C": "Catalog identity is resolved at the text-producing boundary; the action still owns gameplay and the timeline owns presentation events. No additional state or IO introduced.",
+        "D": "Reuses getWord and the existing throw timeline rather than introducing translated item catalogs or another animation builder.",
+        "E": "Current English identity/Chinese roundtrip tests and prior actual catalog identity audit support this lookup. No new dedicated English throw browser run is claimed; existing action tests remain the adjacent gameplay evidence.",
+        "F": "The expanded timeline call makes caster index, position, sound and display name explicit; no actionId/bitmap ambiguity.",
+        "G": "One lookup replaces one cached name argument; no helper/export or redundant fallback state. Plain renderText path intentionally remains unescaped.",
+        "H": "Timeline arguments and emitted battleMessage remain observable through the existing real action/bus APIs; no new private test hook."
+      },
+      "reuse": ["CANVAS-NAMES-01"],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/core/battle/anim-timeline.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "6d157c643e6798a672233d03b0fc2c01a4e77def66236ee71fb43c302a647102",
+      "scope": "Only flee-failure label localization; checked message event sink and throw/use text sinks.",
+      "actualCaller": "performFlee -> buildFleeFailTimeline -> applyAnimFrame -> showBattleMessage -> BattlePresent.renderText",
+      "sourceRefs": [
+        "packages/game/src/core/battle/anim-timeline.ts:53",
+        "packages/game/src/core/battle/anim-timeline.ts:72"
+      ],
+      "dimensions": {
+        "A": "localize changes only the failure string; durationMs, fighter frames and positions are unchanged. The string enters showBattleMessage and plain renderText, never parseDialogText.",
+        "B": "Timing/source comments retain 40ms battle-frame units. Header pure function means no mutation of input/state; language is a display preference dependency, not gameplay randomness.",
+        "C": "Timeline remains a value builder with a single display-language read. No subscriber, storage or game-state mutation enters frame construction.",
+        "D": "Reuses the shared language preference and existing battleMessage event shape; does not duplicate flee-action mechanics.",
+        "E": "Existing timeline/action contracts remain applicable to unchanged frames. This limited source review verifies the English literal and sink, without claiming a new animation visual run.",
+        "F": "The localize Chinese/English pair is adjacent and explicit. Existing delayMs keeps durations readable.",
+        "G": "No extra animation phase, menu state or escape transformation; raw message labels remain literal for their painter.",
+        "H": "The output frame list and bus event are still directly observable; locale can be set through the public language API."
+      },
+      "reuse": [],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "d29b0e8932cab9af3d57c509a2109960d039e8c680539d6b1120a259413807a7",
+      "scope": "New English steal-cash/item messages; found literal/control boundary defect in frozen candidate and authored separately approved correction40c3c827a.",
+      "actualCaller": "runScript(runtimeMode battle) -> dispatchBattleOpcode(0x6a) -> battleDialogQueue -> tickBattleDialog -> startDialogLine/parseDialogText",
+      "sourceRefs": [
+        "packages/game/src/core/battle/battle-opcodes.ts:943",
+        "packages/game/src/core/battle/battle-opcodes.ts:993",
+        "packages/game/src/core/battle/battle-opcodes.ts:999"
+      ],
+      "dimensions": {
+        "A": "At db75, numeric rewards/counts remain unchanged and itemId is the right WORD identity, but raw name interpolation loses punctuation to dialog controls. Actual words110 and135 prove valid input. Corrected only at the interpolation boundary in40c3c827a; db75 is not retrospectively marked fixed.",
+        "B": "The follow-up comment explicitly states WORD names are literal. Existing original control-color comments remain valid because surrounding @ is preserved.",
+        "C": "Escaping belongs where the literal enters a control-language string. getWord, shared catalog, plain animation messages and parser semantics remain unchanged.",
+        "D": "No new generic helper or exported API for a single caller; existing getWord and narration queue remain the shared owners.",
+        "E": "Follow-up adds two real runScript-to-host cases with rate0 and a legal enemy caster. Visible names, red0x17 text, inventory+1 and remaining steal count0 are asserted; precise removal counter fails visible text;13+57 adjacent tests pass.",
+        "F": "Inline replace clearly separates literal name contents from intentional surrounding color control. Item identity and translated fallback remain explicit.",
+        "G": "Correction is one interpolation expression and a domain comment, not escaping the whole message or changing gameplay/source data. Original Chinese/theft tests remain.",
+        "H": "Real public script and battle host expose the final parsed text/colors; no mock parser, fake BattleState, type escape or new production test hook."
+      },
+      "reuse": [],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "b316f1ad01e30d1db46861cef7b29c0fb4d7069fffead3d509993b49be18da85",
+      "scope": "Only existing exact expected learn-magic screen objects gain stable magicId349/350.",
+      "actualCaller": "Official game Vitest -> wonFixture -> real settlement assembly",
+      "sourceRefs": [
+        "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts:166",
+        "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts:175"
+      ],
+      "dimensions": {
+        "A": "Expected IDs349/350 match the fixture learn-table entries and role order[1,0]. Added fields strengthen exact screen assertions; rewards/HP/EXP oracles remain intact.",
+        "B": "Existing primary battle.c comments and role-order test title continue to explain the contract; no new unearned execution claim.",
+        "C": "The changed expectations remain in the existing assembly case, rather than duplicating won/progression setup in another test.",
+        "D": "Reuses the established real wonFixture and enterSettlement lifecycle; no new factory or mocked progression.",
+        "E": "No cases removed or assertions weakened. This edit migrates a shape contract for optional display identity, while separate settlement-language test covers its actual renderer/save use.",
+        "F": "The numeric magicId sits next to the human-readable magicName, making identity/name association visible.",
+        "G": "Exactly two expected screen shapes change; no skips, casting, timeout or test-count inflation.",
+        "H": "Exact screen objects are observable production output; the IDs are independent fixture inputs, not values copied from actual output."
+      },
+      "reuse": [],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "f37d735312ba546599694e3d11c426302d36fd9d04027abe3a1554799134f298",
+      "scope": "New name lookup and optional magicId on learned-magic screen data; progression and cleanup unchanged.",
+      "actualCaller": "tickBattle/tickBattleSettlement -> buildBattleWonSettlement -> drawBattleSettlement",
+      "sourceRefs": [
+        "packages/game/src/core/battle/battle-settlement.ts:42",
+        "packages/game/src/core/battle/battle-settlement.ts:130",
+        "packages/game/src/core/battle/battle-settlement.ts:146"
+      ],
+      "dimensions": {
+        "A": "Role labels resolve role.name rather than roleId; magic uses spell object ID. Optional magicId preserves stable identity for a later language change without altering reward/progression results or save version.",
+        "B": "Added magicId comment explains why identity survives cached display strings. Cached name fields remain descriptive fallbacks rather than authoritative gameplay identities.",
+        "C": "Settlement still owns reward/progression assembly; paint-time language resolution is delegated to renderer. No preference stored in GameState.",
+        "D": "Reuses existing screen discriminants and numeric IDs instead of a second translated settlement model.",
+        "E": "Existing assembly expectation now requires349/350; settlement-language real lifecycle/save/render test detects stale cached names. Prior independent counter verified that consumer contract.",
+        "F": "Names and IDs are kept adjacent; the optional field signals compatibility fallback clearly.",
+        "G": "One optional scalar, no migration, language-specific reward path, copied spell catalog or added screen.",
+        "H": "Real assembly and serialize/parse APIs expose identity persistence and unchanged runtime rewards."
+      },
+      "reuse": ["CANVAS-02", "followupRecheck"],
+      "samePriorCanvasSha": true,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "00b9ddfbb6f962cbd54df84757be4ca9fa8ebe45828c3e2648503a521af4eb2b",
+      "scope": "Root new getWord use-item name argument only; dialogue-owner changes separately covered by dialog-review.",
+      "actualCaller": "tickPerformAction -> performBattleAction(kind item) -> buildUseItemTimeline -> showBattleMessage",
+      "sourceRefs": ["packages/game/src/core/battle/battle-system.ts:2881"],
+      "dimensions": {
+        "A": "Uses action.actionId, already checked defined at item-case entry, as item/WORD identity. Only animation label changes; afterComplete retains actionId/target and deferred item consumption.",
+        "B": "Existing L15 comment still identifies display-name use. The fallback -1 is unreachable in this narrowed branch but harmless, not a new gameplay fallback.",
+        "C": "Localization occurs at the message-producing argument; actual action execution remains after animation via perform-item continuation.",
+        "D": "Reuses getWord and buildUseItemTimeline; no new translated runtime item state.",
+        "E": "Existing action/timeline tests support unchanged sequencing. Dialogue changes use accepted dialog-review and70-test follow-up, not this label review as blanket file credit.",
+        "F": "Argument names distinguish itemName from actionId and preserve readable deferred continuation.",
+        "G": "No queue rewrite, duplicate command, new phase or escaping in this plain renderText path.",
+        "H": "Existing timeline/bus/afterComplete observations remain sufficient; no new private testing API."
+      },
+      "reuse": ["dialog-review.json"],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/core/save/v1-battle.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "7f1eb8f53cc847187d3b40e4ceadde61ada01737d82897221cca4a79047b5c77",
+      "scope": "Only optional learned-magic magicId guard; parser/save contract source reviewed.",
+      "actualCaller": "parseImportedSave -> V1 battleState guard -> settlement screen data",
+      "sourceRefs": ["packages/game/src/core/save/v1-battle.ts:211"],
+      "dimensions": {
+        "A": "optional(number) matches optional numeric display identity; old screens without ID remain accepted. Existing screen kind, roleId/name/magicName and settlement guards remain unchanged.",
+        "B": "No version/migration claim added. The producer comment explains identity ownership; this guard mirrors the type rather than inventing semantics.",
+        "C": "Validation remains at external-save boundary; renderer owns display fallback and settlement owns production.",
+        "D": "Reuses optional(number) and the existing variant/object guards; no parallel schema/version.",
+        "E": "Real serializeSave/parseImportedSave settlement test independently expects magicId349. Prior independent review checked both current source and native result; no blanket invalid-save credit.",
+        "F": "The additional field is adjacent to cached magicName in the correct discriminated variant.",
+        "G": "No new required field or rewritten old-save payload; same save version.",
+        "H": "Public unknown-input save parser is exercised by real roundtrip, without bypassing guard or asserting types as runtime tests."
+      },
+      "reuse": ["CANVAS-02", "followupRecheck"],
+      "samePriorCanvasSha": true,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "e8f01ede5466b24f54b711b77f37c64bd675e49742a650aa67f2ce51d6f3deda",
+      "scope": "Full small module, new overlay branch and checked true object/role/menu identities.",
+      "actualCaller": "bootstrap installs source/overlay; all render-time getWord callers",
+      "sourceRefs": [
+        "packages/game/src/core/word-lookup.ts:19",
+        "packages/game/src/core/word-lookup.ts:32"
+      ],
+      "dimensions": {
+        "A": "English nonempty key wins only when effective language en; source table then fallback remain intact. Actual catalog audit supports item/spell IDs and role.name pointers, including swapped Queen/AhNu ordering.",
+        "B": "New overlay comment explicitly preserves source table and numeric identities; legacy getWord prose describes the underlying source fallback, not a changed gameplay contract.",
+        "C": "One read-only overlay reference and shared language getter; no GameState, script, IO or saved preference mutation.",
+        "D": "All root callers use this existing accessor rather than editing _name catalogs or carrying locale branches per menu.",
+        "E": "presentation.test checks WORD40/39 and Chinese table restoration; canvas actual-catalog identity probe supports the broader source domain. Mutable caller-owned maps are not claimed immutable/frozen.",
+        "F": "English lookup precedes the old source lookup in a short readable function.",
+        "G": "No new cache per label, duplicate catalogs or source-table mutation. Empty translated values retain previous fallback behavior.",
+        "H": "Public setters and accessor allow deterministic source/overlay/locale setup and cleanup in existing tests."
+      },
+      "reuse": ["CANVAS-NAMES-01"],
+      "samePriorCanvasSha": true,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/localization/layout.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "4240ea5e629b2f6c65fc9a0fb48e73c418b9ea5aa5ec547b011e0313c3c1bc1c",
+      "scope": "Full24-line module; primary flags/layout evidence reused by matching SHA.",
+      "actualCaller": "bootstrap setEnglishLayout -> drawEquipMenu/drawPlayerStatus layoutPosition/Font/Shadow",
+      "sourceRefs": [
+        "packages/game/src/localization/layout.ts:8",
+        "packages/game/src/localization/layout.ts:12",
+        "packages/game/src/localization/layout.ts:16",
+        "packages/game/src/localization/layout.ts:22"
+      ],
+      "dimensions": {
+        "A": "Applies pack position/font bit0/shadow bit1 only for English; Chinese returns supplied fallback object/font. Flags correspond to reviewed SDL/SLF contract.",
+        "B": "The three separate accessors express the three flag/position responsibilities; no unsupported custom-layout claim.",
+        "C": "Layout owns overlay interpretation only; bootstrap validates/install input, painters choose IDs and framebuffer output.",
+        "D": "Equipment and status share the same preference/flags handling instead of duplicating bit logic.",
+        "E": "Existing presentation test checks exact position and compact glyph bounds plus Chinese identity fallback. Prior independent primary flag/position evidence is reused unchanged.",
+        "F": "Function names state whether position, font or shadow is selected; small integer IDs remain adjacent to caller fallback positions.",
+        "G": "No observers, recomputed asset caches, GameState fields or duplicated layout defaults.",
+        "H": "Direct pure output accessors allow tests without DOM, script execution or mock renderers."
+      },
+      "reuse": ["CANVAS-LAYOUT-01"],
+      "samePriorCanvasSha": true,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/localization/presentation.test.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "07cf03de71dd2477bdfa47c066c0126a0cd16241eb6d1eecd6aa2817f77d0757",
+      "scope": "Full100-line test file; prior first3 cases reused, equipment-width addition independently read.",
+      "actualCaller": "Official game Vitest -> getWord/layout/description/real equip painter",
+      "sourceRefs": [
+        "packages/game/src/localization/presentation.test.ts:21",
+        "packages/game/src/localization/presentation.test.ts:34",
+        "packages/game/src/localization/presentation.test.ts:52",
+        "packages/game/src/localization/presentation.test.ts:62"
+      ],
+      "dimensions": {
+        "A": "Uses literal WORD IDs, framebuffer pixels and a real createEquipMenu->confirmEquipItem transition. UI tile widths22/16/33 match independently reviewed source and define width oracle, not renderer-derived expectation.",
+        "B": "Comments document MSB-left A row and asymmetric sprite widths with103px/87px resulting boundaries; no arbitrary screen-size claim.",
+        "C": "Four cases separate identity, layout/font, full-width separator and equipment-box contracts, with per-test language/table/layout cleanup.",
+        "D": "Reuses existing real menu/scene/item/frame fixtures and production painter. No duplicated layout algorithm or replacement drawBox.",
+        "E": "Boundary assertions distinguish the former4-column defect from correct3-column English and2-column Chinese. Existing separator counter and independent source review support prior cases; current full gate is not prefilled.",
+        "F": "Test names identify observable outcomes; selected foreground/sentinel pixels represent visible box edge rather than internal call counts.",
+        "G": "No tests retired, weakened, skipped or timed out; no type escapes or new generic harness.",
+        "H": "Framebuffer and immutable table values provide real outputs; locale switch uses public API and needs no browser mock."
+      },
+      "reuse": ["CANVAS-FONT-01", "CANVAS-01", "equip-width-source-review.json"],
+      "samePriorCanvasSha": false,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/localization/settlement-language.test.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "a4dd3eba70b418fe11ea837ac20c8c57bb874e77a02fc95e0a450ea64f50729b",
+      "scope": "Full68-line actual lifecycle and render-text observer case; prior independent counter evidence reused.",
+      "actualCaller": "Official game Vitest -> real fixture/buildBattleWonSettlement -> save roundtrip -> painter",
+      "sourceRefs": ["packages/game/src/localization/settlement-language.test.ts:19"],
+      "dimensions": {
+        "A": "Fixture reaches legal won inputs, applies actual EXP learning for role3/WORD40, and uses real saved/imported data. Test checks magicId349 independently and snapshots runtime before display-only locale switch.",
+        "B": "Case name states already-created settlement and reward preservation; no fake full-story/battle visual claim.",
+        "C": "One language-switch-after-construction contract combines required producer, save and consumer outputs rather than broad unrelated axes.",
+        "D": "Reuses startBattle fixture and renderText observer; does not mock settlement/progression/parser.",
+        "E": "Final strings Queen/RuneCast/QueenLvUp and unchanged runtime detect stale cached labels. Existing independent exact counter restored/test source hashes match this frozen candidate.",
+        "F": "WORD40 explicitly distinguishes true name pointer from role3 and learned349 from level/table index.",
+        "G": "One meaningful case; no core casts, broad mocks, timeout changes or test retirement.",
+        "H": "Font spy observes public painter arguments while gameplay assembly and save parsing execute normally; vi/global tables restored after each."
+      },
+      "reuse": ["CANVAS-02", "followupRecheck"],
+      "samePriorCanvasSha": true,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03",
+      "scope": "Only two language imports and startup calls before other UI initialization.",
+      "actualCaller": "Browser entry -> initializeLanguage/localizeStaticShell -> boot/progress/shell/bootstrap",
+      "sourceRefs": ["packages/game/src/main.ts:16", "packages/game/src/main.ts:17"],
+      "dimensions": {
+        "A": "Preference initializes before loading/game shell creation; static text initializes before dynamic progress ownership. Calls occur only under document guard, with gameplay bootstrap unchanged.",
+        "B": "No new behavioral promises in comments; ownership comes from existing static-shell and boot-loading modules.",
+        "C": "Entry point wires language lifecycle; language module owns validation/storage and static-shell owns stable DOM labels.",
+        "D": "Reuses shell-owner APIs instead of replicating DOM translation in main.",
+        "E": "Existing shell-surfaces tests and independently executed English opening/browser cover integration timing; those reports remain their own revision/range, not a new main-only test.",
+        "F": "Two startup calls make order explicit near imports and browser guard.",
+        "G": "No extra event loop, language UI, save data or route. Page-lifetime static-shell subscription matches this entry lifecycle.",
+        "H": "Public initialization functions are separately host-testable; browser entry itself remains same native DOM integration."
+      },
+      "reuse": ["shell-review.json", "opening-browser.json"],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "e7bf2f68bcdf0615a433b1ee31be1268f3eac68cee5c1c872903b46847cc6cb9",
+      "scope": "Full changed name/label path plus existing width consumers; primary old math accepted from prior review.",
+      "actualCaller": "BattlePresent -> drawBattleSettlement(current screen,live rgwName)",
+      "sourceRefs": [
+        "packages/game/src/present/battle/draw-battle-settlement.ts:77",
+        "packages/game/src/present/battle/draw-battle-settlement.ts:86",
+        "packages/game/src/present/battle/draw-battle-settlement.ts:107",
+        "packages/game/src/present/battle/draw-battle-settlement.ts:177"
+      ],
+      "dimensions": {
+        "A": "Uses live roleNames[roleId] and optional magicId at draw time, falling back to legacy cached strings. Label WORD IDs remain correct; does not alter screen data or rewards.",
+        "B": "New roleNames comment identifies cached-text independence. Existing width/reference comments describe source behavior; no exhaustive visual-perfect claim.",
+        "C": "Painter remains framebuffer-only. It receives stable identity from its caller and reads shared lookup rather than rebuilding settlement.",
+        "D": "One roleName closure supports level/hidden/learn screens; labels share getWord instead of extra translation tables.",
+        "E": "Actual settlement-language and precise stale-name counter plus prior primary/pixel evidence support this path. Existing known source-layout overlap limits remain explicit.",
+        "F": "Discriminated screen switch keeps identity lookup near relevant name/magic fallback.",
+        "G": "No cloned gameplay state or new modal; temporary spread only substitutes display name for a single paint call.",
+        "H": "Public painter accepts current screen/live IDs and emits observable text/framebuffer without mutating source."
+      },
+      "reuse": ["CANVAS-02", "followupRecheck"],
+      "samePriorCanvasSha": true,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "b4d1da8c10db3bca67993e34c73eb68af80244e9978106279e7332e2ccc95353",
+      "scope": "New render-time getWord replacements and shared description painter; checked real menu item identities.",
+      "actualCaller": "BattlePresent.draw -> drawBattleUI -> party/misc/item/magic renderers",
+      "sourceRefs": [
+        "packages/game/src/present/battle/draw-battle-ui.ts:333",
+        "packages/game/src/present/battle/draw-battle-ui.ts:463",
+        "packages/game/src/present/battle/draw-battle-ui.ts:513",
+        "packages/game/src/present/battle/draw-battle-ui.ts:566"
+      ],
+      "dimensions": {
+        "A": "Role uses true role.name, misc WORD56..60, subitems23/24, grid entries use item/spell IDs. Sizing and text use the same translated labels; description uses the bounded-width helper; action availability/targets untouched.",
+        "B": "Existing comments retain source WORD and UI positions. DEFAULT_MISC_LABELS distinguishes fallback labels from effective display labels.",
+        "C": "Battle UI paints only; it reads menu state/current names and delegates description parsing/wrapping. No target/input or catalog mutation.",
+        "D": "Reuses shared lookup, menuTextMaxCols and description painter across world/battle; no locale-specific menu controller.",
+        "E": "Existing Chinese battle UI tests retain unchanged state behavior. Prior actual word audit supports identity; no new exhaustive English battle-grid visual run is claimed by this review.",
+        "F": "Fallback definitions preserve labels next to IDs, and sizing maps exactly the labels later rendered.",
+        "G": "No extra frame loop, translated selection model or cached text snapshot; per-frame arrays remain five/two entries.",
+        "H": "Existing public drawBattleUI and framebuffer/text observation can verify output without private UI hooks."
+      },
+      "reuse": ["CANVAS-NAMES-01", "CANVAS-01"],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "868feace88f4996992631e4d09b53fa249d290dbe0b25b34466e4f5a6eb908f0",
+      "scope": "One added live rgwName argument; adjacent message sink inspected for literal audit.",
+      "actualCaller": "bootstrap BattlePresent -> drawBattleSettlement",
+      "sourceRefs": ["packages/game/src/present/battle/present-battle.ts:368"],
+      "dimensions": {
+        "A": "Passes live runtime WORD identities, not role IDs or baseline names, to the current settlement screen painter; no game-state mutation.",
+        "B": "The called interface documents live identity/cached-text distinction; existing render-stage comments remain accurate.",
+        "C": "Presentation orchestrator supplies current state; settlement painter resolves text; producer remains independent of frame redraw.",
+        "D": "Reuses existing DrawBattleSettlementInput optional field, preserving old direct test callers.",
+        "E": "Prior independent source review and settlement-language counter validate the producer/consumer mismatch repair. No new entire BattlePresent lifecycle run added here.",
+        "F": "The one argument sits next to screen and assets, making data direction explicit.",
+        "G": "No cached translated roles or new resources; existing painter call only.",
+        "H": "Runtime name array is already public state and painter input; no new test visibility or subscription."
+      },
+      "reuse": ["CANVAS-02", "followupRecheck"],
+      "samePriorCanvasSha": true,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "1134c80e0808aa838bb3f5d1ea9aa47db616ce26ce3a7cc68114228bafd94f12",
+      "scope": "Full small painter and default labels at invocation time.",
+      "actualCaller": "event confirm, system quit/switch, shop buy/sell -> drawConfirmBox",
+      "sourceRefs": ["packages/game/src/present/menu/draw-confirm.ts:30"],
+      "dimensions": {
+        "A": "Default WORD19/20 are No/Yes; explicit switch WORD17/18 supplies Off/On. Default initializer reevaluates on each call, so existing modal follows language changes; confirmYes/input semantics unchanged.",
+        "B": "Existing comment explicitly limits fixed boxes to short labels. Current real English labelsNo/Yes/Off/On fit that domain.",
+        "C": "Only paints two boxes/text; accepts selection state and optional labels, never alters confirmation result.",
+        "D": "Reuses one painter for script/system/shop; localization does not fork their controllers.",
+        "E": "Existing confirmation/menu tests cover Chinese interaction and root browser setup checks English labels; this source review does not claim arbitrary long-label fitting.",
+        "F": "Left/right labels and colors remain adjacent to matching box positions.",
+        "G": "No additional controls, layout preferences, modal state or dynamic-box abstraction.",
+        "H": "Default and override label paths remain direct public inputs; framebuffer output observable."
+      },
+      "reuse": [],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-description.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "4d06005cabcd67c300540c62898453022fcaafacd00256a99bdb6a6f055fb485",
+      "scope": "Full34-line helper; token semantics reused from accepted dialog resolver and prior glyph correction.",
+      "actualCaller": "drawInventoryMenu/drawMagicDescription/drawBattleUI -> drawScriptDescription",
+      "sourceRefs": [
+        "packages/game/src/present/menu/draw-description.ts:9",
+        "packages/game/src/present/menu/draw-description.ts:2",
+        "packages/game/src/present/menu/draw-description.ts:4"
+      ],
+      "dimensions": {
+        "A": "Chinese executes original16px renderText rows. English wraps display rows at caller width using8px ASCII and parses intentional control tokens before compact rendering; current full-width space glyph preserves16px spacing.",
+        "B": "Header limits compact font behavior to English descriptions and states scripts stay unchanged.",
+        "C": "Helper owns display expansion/color rows only; getScriptDescLines owns source lookup and catalog callers own region positions.",
+        "D": "World inventory/magic and battle grids share the same parser/wrapper/renderer rather than four divergent English loops.",
+        "E": "Accepted description caller scan found zero missing small glyphs afterU+3000 fix; real attribute blank-space counter supports it. No new whole-resource or all-description-height run is claimed.",
+        "F": "Nested source-line/wrapped-row loops retain control order; currentColor and row make persistent rendering state explicit.",
+        "G": "No truncation of text, script edits, expanded instructions or new layout state. Parser speed controls are not gameplay timing in a static description.",
+        "H": "Public helper paints a supplied string list/framebuffer; exact glyph/pixel assertions need no script execution mock."
+      },
+      "reuse": ["CANVAS-01", "followupRecheck", "dialog-review.json"],
+      "samePriorCanvasSha": true,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "a43f540896a97d1833e9ed3bbede943b03fd9c6eca3cde00b95608e15232d5b9",
+      "scope": "Changed English layout/background/name paths and49b width fix; current full relevant painter read.",
+      "actualCaller": "drawMenuStack -> drawEquipMenu -> list or pick-role",
+      "sourceRefs": [
+        "packages/game/src/present/menu/draw-equip.ts:124",
+        "packages/game/src/present/menu/draw-equip.ts:4",
+        "packages/game/src/present/menu/draw-equip.ts:249",
+        "packages/game/src/present/menu/draw-equip.ts:270"
+      ],
+      "dimensions": {
+        "A": "English uses SLF IDs1..26, background cleanup and true item/role WORD identities; Chinese fallback is original layout/background. Role box now derives three columns from WORD36..39 PAL_WordWidth, replacing overwide4; state/eligibility/numbers untouched.",
+        "B": "New width comments cite SDLWordMaxWidth and seven-letter current maximum. Legacy baked-label comments are interpreted as Chinese/default behavior; explicit English branch paints replacements.",
+        "C": "Menu driver owns selection/equipment; painter reads live equipment/stat getters. Layout/background helpers own reusable asset adjustments.",
+        "D": "List phase reuses inventory painter; label flags and lookup use common localization helpers rather than another equip controller.",
+        "E": "Current equipment pixel-edge regression detects3-vs4columns and Chinese restoration; independent primary review proves103px real tile width. Source/background/glyph acceptance reused rather than rerun.",
+        "F": "Default positions and per-layout IDs stay close; width computation states source WORD range instead of unrelated party-role indexes.",
+        "G": "No duplicate snapshots/equip mutations or arbitrary4-column constant. Tiny four-name width calculation occurs only while this menu draws.",
+        "H": "Real createEquipMenu/confirmEquipItem and public painter exercise legitimate pick-role output; no private layout export."
+      },
+      "reuse": [
+        "CANVAS-SOURCE-02",
+        "CANVAS-LIVE-01",
+        "CANVAS-NAMES-01",
+        "equip-width-source-review.json"
+      ],
+      "samePriorCanvasSha": false,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "666328fac00afefa8346f6554ffe0a1f080fc610972ac66d0e6ad27edd42e7a1",
+      "scope": "New stat/member/item WORD lookups and shared description call.",
+      "actualCaller": "drawMenuStack inventory/equip-list/shop-sell -> drawInventoryMenu",
+      "sourceRefs": [
+        "packages/game/src/present/menu/draw-inventory.ts:162",
+        "packages/game/src/present/menu/draw-inventory.ts:215",
+        "packages/game/src/present/menu/draw-inventory.ts:250",
+        "packages/game/src/present/menu/draw-inventory.ts:305",
+        "packages/game/src/present/menu/draw-inventory.ts:2"
+      ],
+      "dimensions": {
+        "A": "Stat IDs48..55, role.name and inventory slot.itemId match real source identities. Description helper preserves Chinese path and permits longer English rows. Eligibility/count/inUse and live HP/MP remain unchanged.",
+        "B": "Existing source/WORD comments still identify each stat/item slot; changed description loop is replaced by the explicitly named helper.",
+        "C": "Framebuffer painter keeps ownership separate from inventory actions, target selection, consumption and runtime script effects.",
+        "D": "Inventory grid continues serving equip/sell; one name accessor and shared description eliminate per-surface translations.",
+        "E": "Existing inventory target/grid tests remain applicable; prior catalog identity and description source checks are reused. No new claim of every item-use panel English visual inspection.",
+        "F": "Lookup IDs derive from named slot/member variables rather than list indexes.",
+        "G": "No rewritten item/state labels, additional loops or cached localized names. Existing page/quantity logic untouched.",
+        "H": "Current public painter/real menu fixtures expose labels/numbers/description pixels, while language setter supplies one display input."
+      },
+      "reuse": ["CANVAS-NAMES-01", "CANVAS-01"],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "c965e7a3968d2c617defe53fa6a9dcbd42f215ec814189adac74a8f0443aa0e1",
+      "scope": "Changed caster sizing/name, spell name and description helper calls; full current module read.",
+      "actualCaller": "drawMenuStack -> drawInGameMagicMenu -> caster/spell/target",
+      "sourceRefs": [
+        "packages/game/src/present/menu/draw-magic.ts:131",
+        "packages/game/src/present/menu/draw-magic.ts:159",
+        "packages/game/src/present/menu/draw-magic.ts:2",
+        "packages/game/src/present/menu/draw-magic.ts:251"
+      ],
+      "dimensions": {
+        "A": "Caster text and measured box width resolve identical role.name values; spells use actual object IDs. MP costs, known spells, target cursor and role vitals remain untouched.",
+        "B": "Existing WIN95 MP/description/source comments still explain area ownership; no contradictory English layout claims.",
+        "C": "Painter reads live runtime and catalogs; language only changes derived text. Shared player-info renderer keeps status/vitals rules outside menu control.",
+        "D": "Reuses menuTextMaxCols, shared lookup, description helper and PlayerInfoBox instead of separate English picker/target models.",
+        "E": "Prior identity/description evidence plus existing world magic menu tests support changed boundaries; no new spell-by-spell battle/world visual claim.",
+        "F": "casterNames array makes width/text source consistent and spells retain visible fallback next to ID.",
+        "G": "Three-column grid, line/page/cursor math unchanged; no extra hotkeys, queues or translated gameplay data.",
+        "H": "Public painter accepts typed real menu/runtime resources; output is deterministic apart from existing selected-color clock."
+      },
+      "reuse": ["CANVAS-NAMES-01", "CANVAS-01"],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "c0c56305f46464b8194bbb0d2a7e04683952b7f01266ec3949602b99c6f51566",
+      "scope": "Render-time menu label refresh, Off/On labels and English save-slot mapping; checked controller IDs.",
+      "actualCaller": "world present.ts -> drawMenuStack -> concrete modal painters",
+      "sourceRefs": [
+        "packages/game/src/present/menu/draw-menu.ts:241",
+        "packages/game/src/present/menu/draw-menu.ts:297",
+        "packages/game/src/present/menu/draw-menu.ts:400"
+      ],
+      "dimensions": {
+        "A": "In-game/system/inventory-action IDs are true WORD3..6/11..15/22..23. Box sizing and labels share getWord. Default save slots1..5 map43..47 only in English; Chinese/custom IDs preserve caller labels. Selection/callback/store logic untouched.",
+        "B": "Existing cash/slot source comments still identify units and IDs. The guarded English slot branch makes preservation of original labels visible.",
+        "C": "Assembly remains framebuffer-only; menu-driver owns state/async saves. It does not rebuild menu states when locale changes.",
+        "D": "Concrete painters and shared getWord/drawConfirmBox are reused; no locale-specific stack dispatch.",
+        "E": "Accepted main-menu locale roundtrip proves existing state repaint without mutation; existing custom save-slot state contract supports guarded mapping. No new broad save workflow claim.",
+        "F": "Translated labels are computed before sizing and rendered by the same identity accessor; save range guard is explicit.",
+        "G": "No localized persistent state, menu rebuild or duplicate save metadata. New root changes are small expression replacements.",
+        "H": "Existing real menu stack and framebuffer APIs permit language roundtrip; no test-only mutation needed."
+      },
+      "reuse": ["CANVAS-LIVE-01"],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "9fcd4810b9675a0840d29d1d7a1040e7cfbe883ebbdfebe0b74e501d04f2aff6",
+      "scope": "Current layout/name/poison changed sections read; prior source/background proof reused.",
+      "actualCaller": "drawMenuStack/player-status shortcut and battle status -> drawPlayerStatus",
+      "sourceRefs": [
+        "packages/game/src/present/menu/draw-player-status.ts:181",
+        "packages/game/src/present/menu/draw-player-status.ts:3",
+        "packages/game/src/present/menu/draw-player-status.ts:315",
+        "packages/game/src/present/menu/draw-player-status.ts:441"
+      ],
+      "dimensions": {
+        "A": "SLF IDs27..74 map role, labels, values, equipment and poison names; numerical sources/getters remain live. WORD identity uses role.name/itemID/poisonID; Chinese returns source layout/background.",
+        "B": "Existing source anchors and poison party-slot comment preserve important identity rules. New explicit layout defaults make translated positions auditable.",
+        "C": "Status painter derives display only; runtime/equipment/poison ownership remains core. Background relocation helper owns source-copy operation.",
+        "D": "Shared layoutPosition/Font/Shadow/getWord avoid per-field language branches; existing stat getters and asset blits reused.",
+        "E": "Prior exact64000-index source relocation and live locale roundtrip match current SHA. Known source-layout one-pixel icon/name overlap remains bounded observation, not new arbitrary redesign.",
+        "F": "IDs are adjacent to DEFAULT_ROLE fields; labels group naturally and true role-name lookup is explicit.",
+        "G": "No tabs, state mutations, duplicated catalogs or recreated status asset per frame due helper cache.",
+        "H": "Public painter accepts known typed state/assets; existing source-backed framebuffer and unchanged-state probes cover this display boundary."
+      },
+      "reuse": ["CANVAS-SOURCE-01", "CANVAS-LAYOUT-01", "CANVAS-LIVE-01", "CANVAS-NAMES-01"],
+      "samePriorCanvasSha": true,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "0f1862745c4f80ba9bd1f7319ae0679e188ad4e947aee3286146e820d50afbe4",
+      "scope": "Full module; changed list name and owned/cash/price WORD labels.",
+      "actualCaller": "drawMenuStack buy/sell -> drawShopMenu/drawSellOverlay",
+      "sourceRefs": [
+        "packages/game/src/present/menu/draw-shop.ts:102",
+        "packages/game/src/present/menu/draw-shop.ts:133",
+        "packages/game/src/present/menu/draw-shop.ts:215"
+      ],
+      "dimensions": {
+        "A": "List IDs come from actual item.id; WORD35/21/25 meanHave/G/Price. Real English item names max10 printable8px characters fit the80px name band before price238. Trade values, owned/equipped counts and half-price remain unchanged.",
+        "B": "Existing buy/sell source-layout comments still describe distinct callers and text/numeric area ownership.",
+        "C": "Painter reads selection/price/current counts; menu controller retains eligibility/confirmation/transaction writes.",
+        "D": "Buy and sell retain their original shared inventory/confirm painters and getWord access, not a second translated trade pipeline.",
+        "E": "Prior actual WORD identity audit and existing shop rendering/transaction tests support identity/count behavior; this read-only pass does not claim a new English shop browser traversal.",
+        "F": "Each translated label remains adjacent to its corresponding amount box and the list item identity.",
+        "G": "Only strings change. No price parsing, selling logic, new dialogs or cached translated inventories.",
+        "H": "Public painters and real menu factories permit inspecting final text/framebuffer while money/inventory remain external inputs."
+      },
+      "reuse": ["CANVAS-NAMES-01"],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/menu/localized-background.test.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "68eb977f4f2d21b870b40c23dfd25226c4da981ec0c478bdb3b320ca92251548",
+      "scope": "Full34-line source-copy/cache pair; prior raw source proof reused.",
+      "actualCaller": "Official game Vitest -> English background copy/cache helpers",
+      "sourceRefs": [
+        "packages/game/src/present/menu/localized-background.test.ts:16",
+        "packages/game/src/present/menu/localized-background.test.ts:26"
+      ],
+      "dimensions": {
+        "A": "Typed320x200 patterned asset supplies nonuniform source values, allowing independent expected copy offsets and source immutability checks.",
+        "B": "Case titles state copy preservation and layout-key cache behavior; no claim that synthetic image is original source.",
+        "C": "Two cases separate equip cleanup from status placement/cache-key; no unrelated gameplay setup.",
+        "D": "Tests directly exercise public pure asset helpers and typed asset shape; no clone of the full C loop as product oracle.",
+        "E": "Selected source offsets are meaningful smoke contracts; prior independent raw64000-byte comparison provides broader source truth and is not replaced by these cases.",
+        "F": "Patterned image and explicit coordinate assertions keep expected source/destination relations inspectable.",
+        "G": "No snapshots, mocked blits, no-op images, skips or widened limits.",
+        "H": "Output byte array and reference equality expose asset copy/cache behavior without browser or hidden state export."
+      },
+      "reuse": ["CANVAS-SOURCE-01", "CANVAS-SOURCE-02"],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/menu/localized-background.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "b879073cd9631bd3b3e2e0342f8771862fbc6812bda65a39f64893f46fe506bc",
+      "scope": "Full63-line helper; primary byte-copy loops not re-executed because prior proof and current hash match.",
+      "actualCaller": "drawPlayerStatus/drawEquipPickRole -> English asset adaptation",
+      "sourceRefs": [
+        "packages/game/src/present/menu/localized-background.ts:7",
+        "packages/game/src/present/menu/localized-background.ts:47"
+      ],
+      "dimensions": {
+        "A": "Both helpers copy indices and leave original Chinese assets unchanged. Status cache key includes all positions; equip cache valid for protected fixed8,8 image box. Prior C/raw comparison proves current source-specific byte equivalence.",
+        "B": "Comments cite SDL source and preservation intent. Explicit acceptance boundary remains: changed custom EquipImageBox requires revisiting omitted relocation loop.",
+        "C": "Asset-only transformations and WeakMap ownership are separated from menu state and language selection in callers.",
+        "D": "One status and one equip helper serve all language redraws without duplicating copy logic inside painters.",
+        "E": "Existing pattern/cache tests and prior full raw comparisons support source preservation/offsets. No repeat source-pixel run in this follow-up.",
+        "F": "Small copy helpers and named caches make copyWithin overlap semantics and layout identity visible.",
+        "G": "WeakMap source lifetimes prevent retaining retired assets; finite installed language layout keeps per-source status cache bounded in this product.",
+        "H": "Pure source-to-asset functions expose byte buffers and cached identity directly; no extra product testing API."
+      },
+      "reuse": ["CANVAS-SOURCE-01", "CANVAS-SOURCE-02"],
+      "samePriorCanvasSha": true,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/player-info-box.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "13167b4e3188bda871356971ef38d9fd1ae8281f602e0ff9845b912de177c73d",
+      "scope": "New four status label WORD identities and exact unchanged geometry/vitals conditions.",
+      "actualCaller": "drawBattleUI/drawInGameMagicMenu -> shared drawPlayerInfoBox",
+      "sourceRefs": [
+        "packages/game/src/present/player-info-box.ts:26",
+        "packages/game/src/present/player-info-box.ts:119"
+      ],
+      "dimensions": {
+        "A": "WORD29/27/28/26 match confused/paralyzed/sleep/silence. Actual English??/<< /zz/XX are two8px glyphs, preserving original16px label footprint; HP0 visibility and poison face tint remain unchanged.",
+        "B": "Existing CLASSIC status comments identify visible counters; wordId makes source identities explicit next to fallback chars.",
+        "C": "Shared painter still accepts scalar status/vitals view; language changes display words only, not runtime status indices.",
+        "D": "Battle and world magic continue using this one painter, preventing divergent English status labels.",
+        "E": "Existing PlayerInfoBox tests cover status visibility/HP0 and common callers. Actual pack values/WORD IDs were read; no new full status-combination visual test is claimed.",
+        "F": "Each status entry groups key, fallback, wordId, offsets and color; no inferred sequential status-word mapping.",
+        "G": "No extra status slots, overlays, branches or counters; just existing text argument lookup.",
+        "H": "Public scalar view and framebuffer allow deterministic status rendering without BattleState fabrication."
+      },
+      "reuse": [],
+      "samePriorCanvasSha": null,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/present/small-font.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "126e1059b63a940419fda70b2354697fc95a0938af65b1bd9482894d82e8fec9",
+      "scope": "New module surface andU+3000 amendment;128 bitmap rows/source verification reused by exact SHA.",
+      "actualCaller": "layoutFont or drawScriptDescription -> SMALL_FONT -> existing font renderer",
+      "sourceRefs": [
+        "packages/game/src/present/small-font.ts:149",
+        "packages/game/src/present/small-font.ts:151"
+      ],
+      "dimensions": {
+        "A": "Prior source audit proves all1288x8 rows and bit orientation; full-width blankU+3000 has16px width/8px height so attribute separators preserve layout without tofu. No glyph source pixel re-test here.",
+        "B": "Existing source attribution and new ideographic-space comment identify why this non-ASCII blank exists; no broad Unicode coverage assertion.",
+        "C": "Owns immutable exposed glyph-table interface only; parser/wrapper and caller layout decisions remain elsewhere.",
+        "D": "Same table serves SLF small labels and English description painter through established GlyphTable contract.",
+        "E": "Prior glyph/source comparison plus actual attribute blank-space regression/counter match current file hash. Nonbasic characters outside this finite domain are not claimed supported.",
+        "F": "ASCII row data is isolated from conversion and exported read-only getter/has facade.",
+        "G": "No copied full font engine or new canvas font dependency; one additional blank glyph fixes actual supported text.",
+        "H": "Existing renderer can inspect glyph bitmap/height and actual framebuffer; no private font mutation hook is exported."
+      },
+      "reuse": ["CANVAS-FONT-01", "CANVAS-01", "followupRecheck"],
+      "samePriorCanvasSha": true,
+      "fullFileGovernanceClosure": false
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "revision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+      "scope": "Root language resource integration and enemyObjects display resource injection only.",
+      "actualCaller": "main -> bootstrap -> resources/language install -> tools/present/core",
+      "sourceRefs": [
+        "packages/game/src/shell/bootstrap.ts:257",
+        "packages/game/src/shell/bootstrap.ts:75",
+        "packages/game/src/shell/bootstrap.ts:1111",
+        "packages/game/src/shell/bootstrap.ts:1886"
+      ],
+      "dimensions": {
+        "A": "Language pack is validated before installation; all three overlays clear atomically on absence/failure and effective fallback leaves stored preference recoverable. Ready flag gates user English choice. Source WORD table/game startup order preserved.",
+        "B": "Existing resource-loading ownership comments remain valid; parallel Promise.all makes optional pack readiness explicit. No claim that English failure aborts gameplay.",
+        "C": "Bootstrap owns IO/install wiring; language module owns preference, loader validates unknown JSON, tools/painters consume typed resources. No save preference field added.",
+        "D": "Reuses existing resource promise/tool setup and overlay setters rather than separate English bootstrap/gameplay pipeline.",
+        "E": "Prior loader/preference finite tests and source review support failure semantics; independent browser opening supports successful integration. Asset loader tests themselves are delegated to shell review for current db75 changes.",
+        "F": "One englishPack result supplies words/groups/layout and ready gating, preventing partial locale state.",
+        "G": "No script/data replacement, extra menu/controller or asynchronous on-demand language reload. Soundfont note only changes display string.",
+        "H": "Loader/preference public APIs and existing bootstrap host enable success/failure observation; no internal mutation hook needed."
+      },
+      "reuse": ["CANVAS-LOADER-01", "shell-review.json", "opening-browser.json"],
+      "samePriorCanvasSha": true,
+      "fullFileGovernanceClosure": false
+    }
+  ],
+  "deferredToIndependentOwner": [
+    "packages/game/src/assets/language-pack.ts",
+    "packages/game/src/assets/language-pack.test.ts"
+  ],
+  "findings": [
+    {
+      "id": "CANVAS-FOLLOWUP-LITERAL-01",
+      "file": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sourceRevision": "db75de1a79c2ebc384fb70536f442f7f834360d0",
+      "stateAtSourceRevision": "confirmed-legal-input-defect",
+      "rejectedInitialTriage": "Actual current enemy table lacking stealItem110/135 does not excuse loss of literal punctuation for publicly legal runtime item identities. Root correctly required the finite fix.",
+      "counter": "getWord110=\"God's Tea\"/135=\"Knock-Out\" interpolated into @name@ yields visible Got Gods Tea/Got KnockOut because parseDialogText consumes controls.",
+      "resolutionCandidate": "40c3c827a09ec14fdf4992395c6f265b3d287965",
+      "resolution": "Only escape name at that narration interpolation; keep outer@ and raw getWord/plain renderText paths unchanged. New real caller tests and exact removal counter in build/english-dialog-literal.",
+      "integrationStatus": "Candidate delivered; root independently accepts/integrates. This report does not retrospectively mark db75 fixed."
+    }
+  ],
+  "retainedBoundaries": [
+    "Existing CANVAS-SOURCE-02 helper acceptance depends on protected source and EquipImageBox8,8; changing custom coordinates invalidates that source-specific equivalence.",
+    "Existing CANVAS nonBlockingObservation of source-layout icon/name pixel overlap is neither a new defect finding nor proof of exhaustive readability.",
+    "Previously active group/short animation strings may retain the language used when created; settlement stable identities permit live redraw as separately tested.",
+    "No all-story English E2E, literal current-route theft trigger, deployment or task-done claim."
+  ],
+  "reviewedDiff": {
+    "path": "build/root-canvas-followup/reviewed-root-commits.patch",
+    "sha256": "db55a1c8b318039ab4aec92ad0ca32ab2e7c5ecf1efba3575869df3316aa8ddd"
+  },
+  "evidenceRefs": [
+    "docs/ops/evidence/GAME-ENGLISH-1/canvas-independent-review.json",
+    "docs/ops/evidence/GAME-ENGLISH-1/equip-width-source-review.json",
+    "docs/ops/evidence/GAME-ENGLISH-1/dialog-review.json",
+    "docs/ops/evidence/GAME-ENGLISH-1/shell-review.json",
+    "docs/ops/evidence/GAME-ENGLISH-1/opening-browser.json"
+  ]
+}

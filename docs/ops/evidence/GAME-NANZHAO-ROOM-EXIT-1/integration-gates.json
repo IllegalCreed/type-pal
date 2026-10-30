@@ -1,0 +1,575 @@
+{
+  "schemaVersion": 1,
+  "id": "GAME-NANZHAO-ROOM-EXIT-1-integration-gates",
+  "template": "evidence-receipt-v1",
+  "owner": "Codex",
+  "recordedAt": "2026-10-27T06:09:30.248767+00:00",
+  "status": "local-feature-and-static-review-accepted-user-experience-pending",
+  "tasks": [
+    "docs/ops/tasks/GAME-NANZHAO-ROOM-EXIT-1.md",
+    "docs/ops/tasks/GAME-INPUT-ROTATION-1.md"
+  ],
+  "featureReceipts": [
+    "docs/ops/evidence/GAME-INPUT-ROTATION-1/review.json",
+    "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
+  ],
+  "results": {
+    "checkDocs": {
+      "command": ["pnpm", "check:docs"],
+      "cwd": "/Users/zhangxu/illegal/type-pal",
+      "startUtc": "2026-10-27T06:07:31.766686+00:00",
+      "endUtc": "2026-10-27T06:08:06.418347+00:00",
+      "elapsedSeconds": 34.651232375,
+      "exitCode": 0,
+      "signal": null,
+      "gitHead": "f150c49222ade116f063ad2d70c510095aff521b",
+      "native": [
+        {
+          "path": "build/map204-integration/docs-complete.stdout",
+          "sha256": "3de5c6b8daecf6e2c84745687614bf267de71d9e144de0347f453283a5f3d19f"
+        },
+        {
+          "path": "build/map204-integration/docs-complete.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    "lint": {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/illegal/type-pal",
+      "startUtc": "2026-10-27T06:06:42.962171+00:00",
+      "endUtc": "2026-10-27T06:06:46.117287+00:00",
+      "elapsedSeconds": 3.154999917,
+      "exitCode": 0,
+      "signal": null,
+      "gitHead": "f150c49222ade116f063ad2d70c510095aff521b",
+      "native": [
+        {
+          "path": "build/map204-integration/lint-repaired.stdout",
+          "sha256": "2234bceeb0cd9897ddafbfc2105125f830f7c6894cb69dad11251b740bda5707"
+        },
+        {
+          "path": "build/map204-integration/lint-repaired.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    "archivesAndBindings": {
+      "command": ["python3", "build/map204-integration/verify-final.py"],
+      "cwd": "/Users/zhangxu/illegal/type-pal",
+      "startUtc": "2026-10-27T06:09:29.315130+00:00",
+      "endUtc": "2026-10-27T06:09:29.500917+00:00",
+      "elapsedSeconds": 0.185673917,
+      "exitCode": 0,
+      "signal": null,
+      "gitHead": "f150c49222ade116f063ad2d70c510095aff521b",
+      "native": [
+        {
+          "path": "build/map204-integration/final-integrity.stdout",
+          "sha256": "79e77d6fd3a657d9463eb428808ffed9b55e100b562fa311937abc055f6ed843"
+        },
+        {
+          "path": "build/map204-integration/final-integrity.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    "typecheck": "Root seven-package complete typecheck exits0; current test-only real-party follow-up additionally has contributor game TC0. No product change since.",
+    "ledger": "3469 tracked implementation/test/tool files;597closed/0review/2872pending, zero new whole-file closures.",
+    "bindingScope": "Only12 document targets and six incoming control edges;18 bindings verified, old history prefixes and all unowned entries preserved. Original previous entries are archived. R93 current metadata kept below unchanged1MiB formatter limit.",
+    "catalogScope": "Twenty entries: original18 identities preserved, correction report updated and input report added; exactly one current reading per entry, prior correction reading retained in history. Nineteen unrelated source entries unchanged against input-docs candidate."
+  },
+  "retainedFailures": [
+    "First full docs command122pass/3fail: duplicate current correction reading and stale19-count test. Fixed current reading by preserving old conclusion in history, and updated the one existing test with independent frozen original18 identity comparison plus exact two new identities. No test/consumer/rule removed.",
+    "Second full docs command125pass/0fail;12 review envelopes missing required evidence.kind. Added actual owned-delta kind and propagated only those incoming hashes. Final complete command passes.",
+    "Initial archive verifier assumed only gzipSha256/archiveSha256 fields; browser receipt uses storedSha256. Corrected reader, all54+143 byte roundtrips verified. No artifact bytes changed.",
+    "A local ignored Python maintenance script could compile from explicit UTF8 text but direct source execution reported an encoding error. Executed its exact decoded source, with no product/tool-rule change."
+  ],
+  "rootOwnedTestDelta": {
+    "path": "scripts/docs/frozen-binding-baseline.test.mjs",
+    "sha256": "a9e480c7b1e0d3232b6fcd567cb34650f4ee6f39d4343e30b8612d6ab2c04518",
+    "scope": "One existing catalog publication contract updates19->20, compares original18 IDs to immutable beforeRevision and exactly asserts correction/input suffix. One name updated; test count125 preserved.",
+    "review": {
+      "A": "Actual immutable Git catalog identity and current consumer/publication oracle; no generated-value self equality.",
+      "B": "Name describes original18 and both intentional additions; no prior scope/date rewritten.",
+      "C": "Test only; registry and consumers unchanged.",
+      "D": "Reuses existing fixed Git source/fixture rather than a second helper or parallel report.",
+      "E": "Initial count failure retained; current125 docs cases pass with both independent model and testing consumers. No weakening or extra duplicated case.",
+      "F": "Small explicit expected identities and local beforeCatalog read.",
+      "G": "Count and identity assertions retained/strengthened; no skip/filter, timeout/rule/baseline change.",
+      "H": "Existing isolated temp Git/CLI fixtures and cleanup retained; no production writes or new debug surface."
+    },
+    "credit": "Finite current delta only; no whole-file quality closure."
+  },
+  "native": [
+    {
+      "path": "native/gate-initial-content-review.stdout.gz",
+      "sourcePath": "build/map204-integration/initial-content-review.stdout",
+      "sourceSha256": "c58e802d648f260d8bb455874fd684c4f3057699d00a33c0e0863d748e2c0b91",
+      "archiveSha256": "323b0694924c2e605808dcebbfcd59d37457842b2ccbd945edcfb36bd8de95d8",
+      "bytes": 65,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-initial-content-review.stderr.gz",
+      "sourcePath": "build/map204-integration/initial-content-review.stderr",
+      "sourceSha256": "8ac3c24a134d108c614bddfd2e7dcfcce286a0b1bcaaddab7b63ad7dfce478a2",
+      "archiveSha256": "865c022ae2bfcedac4ec370f133c1fa588e89b56489982aea89a9803184520a7",
+      "bytes": 556,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-initial-content-review.run.json.gz",
+      "sourcePath": "build/map204-integration/initial-content-review.run.json",
+      "sourceSha256": "52caceea74d065a3a8cd696fe2c533c72b4849efab1515862ba182b1aa58f696",
+      "archiveSha256": "3e312f391f4730a8c70d45307b4957ddbeff4867f78941a837fc525cb19e32f2",
+      "bytes": 716,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-docs.stdout.gz",
+      "sourcePath": "build/map204-integration/final-docs.stdout",
+      "sourceSha256": "f91141d9fefc09d153b2a851f3bc3769c30f42a7e38644b614bb823f65d0bd64",
+      "archiveSha256": "413186ab50182631ca685bf701caa3505558002a352f253870f5ac3801cb345c",
+      "bytes": 32721,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-docs.stderr.gz",
+      "sourcePath": "build/map204-integration/final-docs.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-docs.run.json.gz",
+      "sourcePath": "build/map204-integration/final-docs.run.json",
+      "sourceSha256": "b5986086b5c62c283efeecb2bb42c6a0d3da139736410ae6e9c35ed3ba2cc70f",
+      "archiveSha256": "d5d5c88229a552200f72a80a042244e22b87807e8cf9cd4a21b7bb0c304d350a",
+      "bytes": 656,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-docs-repaired.stdout.gz",
+      "sourcePath": "build/map204-integration/docs-repaired.stdout",
+      "sourceSha256": "b493ede880712bff00e2ccfbe54ccf04c393c6ecd774f75b71da53f1b60ec9b8",
+      "archiveSha256": "a0ec199dce748686713c9366849e06135587759a5c2dbe488fb69c075aad1705",
+      "bytes": 30562,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-docs-repaired.stderr.gz",
+      "sourcePath": "build/map204-integration/docs-repaired.stderr",
+      "sourceSha256": "fe1b25082311fd2fb4414a583f20e856a928b7eebecb53320d995bdef6a9dad5",
+      "archiveSha256": "3d9e42d2902503b62deeadff69929a03c55c23778adc21a3668d006b366ecb73",
+      "bytes": 667,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-docs-repaired.run.json.gz",
+      "sourcePath": "build/map204-integration/docs-repaired.run.json",
+      "sourceSha256": "c02a6264f869afe04f4cb42ca99debf1b87c822fa39d434b3fd3c3cb03eb0864",
+      "archiveSha256": "28f494593c1ca9a30bcffb7c79e1a4478a843e13ceb86327677f5fbec282af90",
+      "bytes": 661,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-docs-complete.stdout.gz",
+      "sourcePath": "build/map204-integration/docs-complete.stdout",
+      "sourceSha256": "3de5c6b8daecf6e2c84745687614bf267de71d9e144de0347f453283a5f3d19f",
+      "archiveSha256": "869badc1b531764c7c5047e75da2ecc57aca439097ee62d7e3f15c5fc7e6532e",
+      "bytes": 30662,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-docs-complete.stderr.gz",
+      "sourcePath": "build/map204-integration/docs-complete.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-docs-complete.run.json.gz",
+      "sourcePath": "build/map204-integration/docs-complete.run.json",
+      "sourceSha256": "a355e2fa275fc0b00c473efc9c2c78e0da4a0f109ad1c4ac44ea90d8b9a8761e",
+      "archiveSha256": "048c31ac203823f3173508618e0bc79539141c54c9fd89284409139eda2b81a2",
+      "bytes": 656,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-lint.stdout.gz",
+      "sourcePath": "build/map204-integration/final-lint.stdout",
+      "sourceSha256": "2234bceeb0cd9897ddafbfc2105125f830f7c6894cb69dad11251b740bda5707",
+      "archiveSha256": "adda80bcaed34d561a54ad7145889488b28c5816464e83a117ef128bd64f0e78",
+      "bytes": 164,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-lint.stderr.gz",
+      "sourcePath": "build/map204-integration/final-lint.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-lint.run.json.gz",
+      "sourcePath": "build/map204-integration/final-lint.run.json",
+      "sourceSha256": "6a15d6739550dd58e6b22919e7d0e6816f7687badb0c9cb300ffb2497dff5368",
+      "archiveSha256": "958e2123c21bd781bb5315f75d1107a87cc1148124a4ac1da2ee4429f61a16f1",
+      "bytes": 643,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-lint-repaired.stdout.gz",
+      "sourcePath": "build/map204-integration/lint-repaired.stdout",
+      "sourceSha256": "2234bceeb0cd9897ddafbfc2105125f830f7c6894cb69dad11251b740bda5707",
+      "archiveSha256": "adda80bcaed34d561a54ad7145889488b28c5816464e83a117ef128bd64f0e78",
+      "bytes": 164,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-lint-repaired.stderr.gz",
+      "sourcePath": "build/map204-integration/lint-repaired.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-lint-repaired.run.json.gz",
+      "sourcePath": "build/map204-integration/lint-repaired.run.json",
+      "sourceSha256": "0fe8d51aeb6c11bb48c7a0a67dec63c3b5716e4423af86e931d0245544789940",
+      "archiveSha256": "178ae30ddda8c482650e995037950c0a443bbc9836a34d9c0e3c9bb5697e2156",
+      "bytes": 649,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-verification.stdout.gz",
+      "sourcePath": "build/map204-integration/final-verification.stdout",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-verification.stderr.gz",
+      "sourcePath": "build/map204-integration/final-verification.stderr",
+      "sourceSha256": "3247409028ad0febcc3536a45829f67c1d7cfbf5e15d7369b47a38a1d77e82d9",
+      "archiveSha256": "e74a656407b782dd3ad439c6ad3ae7f0249513b3ccdc211eb255ae63c353f7f5",
+      "bytes": 406,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-verification.run.json.gz",
+      "sourcePath": "build/map204-integration/final-verification.run.json",
+      "sourceSha256": "236744bb0296cee9d35998e41455103e62b15c875842b3c0ff2c5b19898f266e",
+      "archiveSha256": "3ae3bd11c17589b92275dabbc3dc955767cdd784e6ae75163908774350b4d7f3",
+      "bytes": 707,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-verification-repaired.stdout.gz",
+      "sourcePath": "build/map204-integration/final-verification-repaired.stdout",
+      "sourceSha256": "79e77d6fd3a657d9463eb428808ffed9b55e100b562fa311937abc055f6ed843",
+      "archiveSha256": "198487957653d745976a143f345bd95c7678f61351881a1694e99351aa079da7",
+      "bytes": 280,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-verification-repaired.stderr.gz",
+      "sourcePath": "build/map204-integration/final-verification-repaired.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-verification-repaired.run.json.gz",
+      "sourcePath": "build/map204-integration/final-verification-repaired.run.json",
+      "sourceSha256": "bd3ca3771ccb0bf18d6f85b409e193ae5ee4a6a5c1959cc7c98568705dc23700",
+      "archiveSha256": "aa9859a14c8e0a467a53c079b85543a62ffc5c4ab145bcf86b388b8bf387c8aa",
+      "bytes": 713,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-ledger.stdout.gz",
+      "sourcePath": "build/map204-integration/final-ledger.stdout",
+      "sourceSha256": "4d8d9c4f1985993c7d42e29de358b55dc03486927b092748c8e5eb62e927526c",
+      "archiveSha256": "3619abeecf756bb7583e4e27d74172eba7d0d7193bf151c8eca866801debd2f1",
+      "bytes": 111,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-ledger.stderr.gz",
+      "sourcePath": "build/map204-integration/final-ledger.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-ledger.run.json.gz",
+      "sourcePath": "build/map204-integration/final-ledger.run.json",
+      "sourceSha256": "722debea816aa2e5998ee74b751057bf50808f85639e6568fda95d5ec6d5ed6e",
+      "archiveSha256": "71ca4a1cdbed63f98e9e8d2448f1c533637e208c5dca60aefa7c00c17629b84b",
+      "bytes": 689,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-strict-repaired.stdout.gz",
+      "sourcePath": "build/map204-integration/strict-repaired.stdout",
+      "sourceSha256": "3b0b15882a95d042815fa3dcb89b8a9fee95d0b962e3624081c56d62e567efad",
+      "archiveSha256": "c5fc2f61bb9073fc94e1aadee9f0e23b56fc49ab341482486975f702d9c8d566",
+      "bytes": 65,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-strict-repaired.stderr.gz",
+      "sourcePath": "build/map204-integration/strict-repaired.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-strict-repaired.run.json.gz",
+      "sourcePath": "build/map204-integration/strict-repaired.run.json",
+      "sourceSha256": "6974650612640cb3fc33a30292318a94f32f4b0d02940dfceda724c60cbcb0d4",
+      "archiveSha256": "bd0982299b5fd25dfcdde465abd93d08125f737bd30e10d63167e0a2d6f79996",
+      "bytes": 702,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-integrity.stdout.gz",
+      "sourcePath": "build/map204-integration/final-integrity.stdout",
+      "sourceSha256": "79e77d6fd3a657d9463eb428808ffed9b55e100b562fa311937abc055f6ed843",
+      "archiveSha256": "198487957653d745976a143f345bd95c7678f61351881a1694e99351aa079da7",
+      "bytes": 280,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-integrity.stderr.gz",
+      "sourcePath": "build/map204-integration/final-integrity.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-integrity.run.json.gz",
+      "sourcePath": "build/map204-integration/final-integrity.run.json",
+      "sourceSha256": "4aa7a16c1437a336e0bbefe6b2fbafcf3c4d6929043187297dc64c27f7b23fe3",
+      "archiveSha256": "9d396a8275685d8282ddd659e51bbc5ae606f5637e705de6de4dd9ea6b3075ff",
+      "bytes": 692,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-binding-originals.json.gz",
+      "sourcePath": "build/map204-integration/binding-originals.json",
+      "sourceSha256": "452c94eda270869761fba9089cdea56961a889f36fcab22c4cd0f3f011cfda10",
+      "archiveSha256": "280923107e571fb625d571adbde2e0d53a5bd6b56904a0c29b66a6a3d3aa3c7c",
+      "bytes": 1603415,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-update-bindings.py.gz",
+      "sourcePath": "build/map204-integration/update-bindings.py",
+      "sourceSha256": "d107ef9278a8077d5693c9ac5787fc34d27e7308f60cb3a9f56ca6edd49f481e",
+      "archiveSha256": "72d23bee9fd8d9d9af104a7da7df8649a7e434c9427ed3a00f9d933685a63d31",
+      "bytes": 3870,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-complete-binding-kind.py.gz",
+      "sourcePath": "build/map204-integration/complete-binding-kind.py",
+      "sourceSha256": "a64145409ac2c86296c2906a2620432fa6833522181b977a8680905e657d2049",
+      "archiveSha256": "2d231c548b9c150655dc5394217a75dbad31e4042482f2491a9a126364f32683",
+      "bytes": 1361,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-rebind-catalog.py.gz",
+      "sourcePath": "build/map204-integration/rebind-catalog.py",
+      "sourceSha256": "b81090f2280daa6dea766719cc3a2a61ce7cb46575960ad861796e357c70f2f2",
+      "archiveSha256": "02cd4917f334ab3ded9cb4a56ab49f035a684428d53221e10473e8b01a15f609",
+      "bytes": 1115,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-update-testing.py.gz",
+      "sourcePath": "build/map204-integration/update-testing.py",
+      "sourceSha256": "7b706071c37ade5b60b91a2d922789b8ad343b79f8f1b801acab517417b83d5a",
+      "archiveSha256": "c4be21fa878067829403dac5d1a4fa2a349436573ba18f19a74c48e3c2011fd3",
+      "bytes": 6730,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-verify-final.py.gz",
+      "sourcePath": "build/map204-integration/verify-final.py",
+      "sourceSha256": "371a5841ee269892d7702521270a9b7c92727417034ad2d03798d5aed6e8bb54",
+      "archiveSha256": "f3292bcc50c0495acfe0d089cd2f4c452abc059906762d204c7bd5348f23f631",
+      "bytes": 1867,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-code-quality-inventory.json.gz",
+      "sourcePath": "build/map204-integration/code-quality-inventory.json",
+      "sourceSha256": "e96748f45cd261761902a092b3d31f3bea1e2e4409caee91dd5780a61378c8f6",
+      "archiveSha256": "99d33f16007f854e07966dad12c017c23177fe40829983cb6cd436d917bfad7a",
+      "bytes": 4176986,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-final-verification.json.gz",
+      "sourcePath": "build/map204-integration/final-verification.json",
+      "sourceSha256": "4e1d25d383e74b2e9cd62e324442b1258630c7585554e796a5129a8f9724362d",
+      "archiveSha256": "452a73ba74619735160043042cf2b98af6399c9c60688d22fc379e9c66605860",
+      "bytes": 304,
+      "producer": "Codex integrated-window"
+    },
+    {
+      "path": "native/gate-postflight-doc-links.run.json.gz",
+      "sourcePath": "build/map204-integration/postflight-doc-links.run.json",
+      "sourceSha256": "a80e5fe132b06b846c8665b73ef28179edfd38979854d606f61c85d410507357",
+      "archiveSha256": "3620d2a1e650635ce281aac2b0abf7b3c8dcad8662239054a9f616e3e6412cf8",
+      "bytes": 679,
+      "producer": "Codex final navigation/receipt postflight"
+    },
+    {
+      "path": "native/gate-postflight-doc-links.stdout.gz",
+      "sourcePath": "build/map204-integration/postflight-doc-links.stdout",
+      "sourceSha256": "5a6054ab429a217bd6484e65bb961a3b8a587621b0184a0f7ac2f2868278f0a0",
+      "archiveSha256": "929e8180f7d2134ae30d5d87e582c4edd7cbd9196b04872a93eb78ad972aee1f",
+      "bytes": 93,
+      "producer": "Codex final navigation/receipt postflight"
+    },
+    {
+      "path": "native/gate-postflight-doc-links.stderr.gz",
+      "sourcePath": "build/map204-integration/postflight-doc-links.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0,
+      "producer": "Codex final navigation/receipt postflight"
+    },
+    {
+      "path": "native/gate-postflight-strict.run.json.gz",
+      "sourcePath": "build/map204-integration/postflight-strict.run.json",
+      "sourceSha256": "f3065d2711cd704fefb5b6ad20f5a0ce0b6f2165651967d4dbb346c9d7f2cfd9",
+      "archiveSha256": "8529738eebfc0eea0c12e5ed4d05d24fe8dc99951f4bbe4f23468e6f309ac1a5",
+      "bytes": 706,
+      "producer": "Codex final navigation/receipt postflight"
+    },
+    {
+      "path": "native/gate-postflight-strict.stdout.gz",
+      "sourcePath": "build/map204-integration/postflight-strict.stdout",
+      "sourceSha256": "3b0b15882a95d042815fa3dcb89b8a9fee95d0b962e3624081c56d62e567efad",
+      "archiveSha256": "c5fc2f61bb9073fc94e1aadee9f0e23b56fc49ab341482486975f702d9c8d566",
+      "bytes": 65,
+      "producer": "Codex final navigation/receipt postflight"
+    },
+    {
+      "path": "native/gate-postflight-strict.stderr.gz",
+      "sourcePath": "build/map204-integration/postflight-strict.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0,
+      "producer": "Codex final navigation/receipt postflight"
+    },
+    {
+      "path": "native/gate-postflight-lint.run.json.gz",
+      "sourcePath": "build/map204-integration/postflight-lint.run.json",
+      "sourceSha256": "04c771279d3d0e0d66169dcb8e8482d097bab8605ddc6f8dcea2c4c4d428c3fc",
+      "archiveSha256": "e2bf9fefd06b00dc155cbd2c511e424f64d7dbcc6ecabde1b82cfcce38338ab3",
+      "bytes": 660,
+      "producer": "Codex final navigation/receipt postflight"
+    },
+    {
+      "path": "native/gate-postflight-lint.stdout.gz",
+      "sourcePath": "build/map204-integration/postflight-lint.stdout",
+      "sourceSha256": "2234bceeb0cd9897ddafbfc2105125f830f7c6894cb69dad11251b740bda5707",
+      "archiveSha256": "adda80bcaed34d561a54ad7145889488b28c5816464e83a117ef128bd64f0e78",
+      "bytes": 164,
+      "producer": "Codex final navigation/receipt postflight"
+    },
+    {
+      "path": "native/gate-postflight-lint.stderr.gz",
+      "sourcePath": "build/map204-integration/postflight-lint.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0,
+      "producer": "Codex final navigation/receipt postflight"
+    }
+  ],
+  "notRun": [
+    "Natural-story full E2E/reporter save inspection",
+    "Physical gamepad/touch validation",
+    "Official coverage/full repository test run/protected CI in this local window",
+    "push/merge/deploy/issue messages"
+  ],
+  "next": "User tests local preview. Future publish requires explicit user direction and protected PR/CI; source/native receipts remain stable.",
+  "postflight": {
+    "postflight-doc-links": {
+      "command": ["node", "scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/illegal/type-pal",
+      "startUtc": "2026-10-27T06:10:38.357970+00:00",
+      "endUtc": "2026-10-27T06:10:39.572656+00:00",
+      "elapsedSeconds": 1.2145875,
+      "exitCode": 0,
+      "signal": null,
+      "gitHead": "f150c49222ade116f063ad2d70c510095aff521b",
+      "native": [
+        {
+          "path": "build/map204-integration/postflight-doc-links.stdout",
+          "sha256": "5a6054ab429a217bd6484e65bb961a3b8a587621b0184a0f7ac2f2868278f0a0"
+        },
+        {
+          "path": "build/map204-integration/postflight-doc-links.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    "postflight-strict": {
+      "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/illegal/type-pal",
+      "startUtc": "2026-10-27T06:10:38.357955+00:00",
+      "endUtc": "2026-10-27T06:10:39.036992+00:00",
+      "elapsedSeconds": 0.678938167,
+      "exitCode": 0,
+      "signal": null,
+      "gitHead": "f150c49222ade116f063ad2d70c510095aff521b",
+      "native": [
+        {
+          "path": "build/map204-integration/postflight-strict.stdout",
+          "sha256": "3b0b15882a95d042815fa3dcb89b8a9fee95d0b962e3624081c56d62e567efad"
+        },
+        {
+          "path": "build/map204-integration/postflight-strict.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    "postflight-lint": {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/illegal/type-pal",
+      "startUtc": "2026-10-27T06:10:38.357970+00:00",
+      "endUtc": "2026-10-27T06:10:41.316496+00:00",
+      "elapsedSeconds": 2.9583742500000003,
+      "exitCode": 0,
+      "signal": null,
+      "gitHead": "f150c49222ade116f063ad2d70c510095aff521b",
+      "native": [
+        {
+          "path": "build/map204-integration/postflight-lint.stdout",
+          "sha256": "2234bceeb0cd9897ddafbfc2105125f830f7c6894cb69dad11251b740bda5707"
+        },
+        {
+          "path": "build/map204-integration/postflight-lint.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    }
+  }
+}

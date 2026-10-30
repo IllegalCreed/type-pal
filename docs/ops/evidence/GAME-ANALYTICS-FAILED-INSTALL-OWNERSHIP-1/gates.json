@@ -1,0 +1,151 @@
+{
+  "base": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
+  "status": "Approved finite rollback implemented and verified; no unified integration/whole-file acceptance",
+  "rows": [
+    {
+      "label": "module-final",
+      "receipt": "module-final.json",
+      "files": 7,
+      "direct": 5,
+      "adjacent": 25,
+      "passed": 30,
+      "nativeReport": "module-final.vitest.json.gz",
+      "nativeReportSha256": "907ab5690315744e60f1bde3347a289e77bb10afd012fadffef1749561258018",
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "typecheck-final",
+      "receipt": "typecheck-final.json",
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "browser",
+      "receipt": "browser.json",
+      "diagnostics": {
+        "consoleErrorsWarnings": 0
+      },
+      "scope": "Native browser diagnostic document with actual modules, owned SDK port and inert existing tag; no real GA or whole-game smoke claim"
+    },
+    {
+      "label": "docs-consumers",
+      "receipt": "docs-consumers.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "consumers": 5,
+      "scope": "Actual5 consumer commands, unchanged docs-tool125 reused from37e"
+    },
+    {
+      "label": "ledger",
+      "receipt": "ledger.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "lint",
+      "receipt": "lint.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "files": 5438,
+      "scope": "Earlier candidate before final evidence-repair metadata; superseded by lint-final"
+    },
+    {
+      "label": "scope-verification-current",
+      "receipt": "scope-verification-current.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "lint-final",
+      "receipt": "lint-final.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "files": 5445
+    },
+    {
+      "label": "scope-final-audit",
+      "receipt": "scope-final-audit.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    }
+  ],
+  "tracked": 3317,
+  "closed": 253,
+  "review": 99,
+  "pending": 2965,
+  "newClosed": 0,
+  "newTestReview": 1,
+  "pre94": {
+    "partial": 55,
+    "pending": 28,
+    "accept": 0
+  },
+  "productExecutionChanged": true,
+  "publicInterfaceChanged": false,
+  "mainMerged": false,
+  "mergeAllowed": false,
+  "reuseDocsTools": {
+    "commit": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
+    "receipt": "../QUALITY-DOCS-GIT-PATH-ENUMERATION-1/docs.json",
+    "toolsPassed": 125,
+    "scope": "Exact same docs-tool/test source; only actual five consumer replay here, not rerun complete check:docs"
+  },
+  "notRun": [
+    "whole repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "full game package test",
+    "real Google SDK/network",
+    "whole game bootstrap smoke",
+    "E2E"
+  ],
+  "historicalFailures": [
+    {
+      "receipt": "typecheck.json",
+      "exit": 2,
+      "reason": "New test spy explicit generic TS2344, replaced with inference/closure cleanup. Product unchanged by type repair."
+    },
+    {
+      "receipt": "scope-verification.json",
+      "exit": 1,
+      "reason": "Repeated AX saved no-change diff, raster visual evidence inspected separately; no forged AX"
+    },
+    {
+      "receipt": "scope-verification-final.json",
+      "exit": 1,
+      "reason": "Owned screenshots were untracked; moved exact bytes to prescribed ignored build/dev-screenshots, no new ignore"
+    }
+  ]
+}

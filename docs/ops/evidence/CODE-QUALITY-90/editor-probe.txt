@@ -1,0 +1,42 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/editor
+
+stderr | src/ui/BattleSpriteLibrary.glm-m.test.tsx > M05 BattleSpriteLibrary 敌人计时草稿 > 待机毫秒/帧 40ms 换算入草稿，应用修改单命令提交，放弃修改零提交
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to BattleSpriteLibrary inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/ui/BattleSpriteLibrary.glm-m.test.tsx > M05 BattleSpriteLibrary 敌人计时草稿 > 待机毫秒/帧 40ms 换算入草稿，应用修改单命令提交，放弃修改零提交 348ms
+ ✓ src/ui/BattleSpriteLibrary.glm-m.test.tsx > M05 BattleSpriteLibrary 敌人计时草稿 > 行动毫秒/帧 0ms 落 0 ticks；两字段独立草稿互不覆盖 86ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  12:40:01
+   Duration  2.90s (transform 1.41s, setup 0ms, import 1.76s, tests 435ms, environment 611ms)

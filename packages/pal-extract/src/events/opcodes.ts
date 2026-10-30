@@ -4,10 +4,10 @@
  * 每条指令 8 字节: u16 LE opcode + 3 × u16 LE 操作数。
  * 完整语义: reference/sdlpal/script.c 大 switch。
  *
- * 已具名 opcode 直接反编译为结构化命令;其余 raw 占位,字节层面照常透传。
+ * 具名注册提供字段语义；disasm有专用emit的命令才结构化，其余保号落raw。
  */
 
-export type FieldKind =
+type FieldKind =
   | 'value'
   | 'label'
   | 'message'
@@ -19,7 +19,7 @@ export type FieldKind =
   | 'person'
   | 'sprite'
 
-export interface OpcodeDef {
+interface OpcodeDef {
   /** Verb 名称。未具名为 'raw'。 */
   name: string
   /** 3 个操作数定义,顺序固定。 */
@@ -28,7 +28,7 @@ export interface OpcodeDef {
     { name: string; kind: FieldKind },
     { name: string; kind: FieldKind },
   ]
-  /** true = 已有真实 verb(disasm 输出具名 Command)。 */
+  /** true = 注册了verb及字段；不保证disasm有专用emit（如startBattle仍落raw）。 */
   named: boolean
   /** end 子语义: true = 推进触发器条目至下一行 (0x0001) */
   endAdvance?: boolean
@@ -161,9 +161,9 @@ export const opcodeTable: Record<number, OpcodeDef> = {
   },
 
   // 0x0059: Change to specified scene (script.c:1870) —— sceneId = operand[0]
-  // M3.5(D34/B 路线)真消费:disasm 出具名 LoadSceneCommand,EventSystem handler 是 stub
-  // (no-op skip + console.debug);真 scene 切换由 dev panel 直调 loadScene() 函数。
-  // M5 真做剧情链时升级 handler 为可等待命令。
+  // 消费现状:disasm 产出具名 LoadSceneCommand;game EventSystem handler 为异步等待
+  // (tick 置 cursor.waiting='scene-load',异步 loadScene callback 完成后恢复,见
+  // game event-system.ts loadScene opcode 注释块),非早期 stub。
   89: {
     name: 'loadScene',
     fields: [{ name: 'sceneId', kind: 'scene' }, VALUE, VALUE],

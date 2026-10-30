@@ -1,0 +1,1005 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-20",
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "owner": "Codex evidence-first independent acceptance",
+  "decision": "rework",
+  "integrationBase": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+  "candidate": {
+    "worktree": "/Users/zhangxu/.glm-worktrees/pre94-foundation",
+    "branch": null,
+    "base": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+    "head": "89800a1c1bb9936c68bcf5558211d92a11fe00ae",
+    "commits": [
+      "50704d25e2c8559b2d0ed866eeb4b1357b0f2502",
+      "5d3e98cae9172f4f43c8dbd6d1d88350d85b3932",
+      "12a39b4c94a6e4254d27222201e7fd7cb4e2c6ea",
+      "8e442940c38170bcdee56c39c0053da5e894862d",
+      "33cf347a8736777342a26f8e627ff41306f61bf9",
+      "a693848ddc1779fdd8c94b77d47fe507776e2e4d",
+      "89800a1c1bb9936c68bcf5558211d92a11fe00ae"
+    ],
+    "cleanAtInspection": true
+  },
+  "authorization": "User resumed all83 pre94 remaining review and authorized GLM scoped execution; Codex evidence-first acceptance/integration.94-102 excluded. This record requests only bounded evidence/comment precision rework.",
+  "actualDelta": {
+    "sourceFiles": 4,
+    "testFiles": 3,
+    "evidenceFiles": 18,
+    "paths": [
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/40-60-save-analytics/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/40-60-save-analytics/directed-final.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/40-60-save-analytics/read-boundaries.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/43-54-present-render/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/43-54-present-render/directed-final.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/43-54-present-render/read-boundaries.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/directed-final.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/mutation-dm29-branch-removed.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/mutation-loop-hardcoded-true.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/read-boundaries.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/83-93-menu-core-transaction/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/83-93-menu-core-transaction/directed-final.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/83-93-menu-core-transaction/read-boundaries.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/85-89-menu-shop-equip-magic/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/85-89-menu-shop-equip-magic/directed-final.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/85-89-menu-shop-equip-magic/read-boundaries.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+      "packages/game/src/shell/audio.test.ts",
+      "packages/game/src/shell/audio.ts",
+      "packages/game/src/shell/avi-player.ts",
+      "packages/game/src/shell/input.test.ts",
+      "packages/game/src/shell/input.ts",
+      "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+      "packages/game/src/shell/rng-player.ts"
+    ],
+    "executableChange": "No product behavior change identified in actual diff. input.ts moves independent Set allocation before handler closure creation and narrows an erased type; handlers are attached only in constructor body after fields initialize. Other production changes are comments.",
+    "testIdentityChange": "audio.test.ts adds3 cases and renames one existing musicUrl title to correct line67->69; other test deltas are comments only."
+  },
+  "acceptedFacts": {
+    "identity": "All69 fullReads paths resolve to the claimed Git blob OID and line count; fields currently mislabel these SHA-1 OIDs as sha256.",
+    "nativeResults": {
+      "files": 45,
+      "passed": 345,
+      "uniqueFileFullName": 345,
+      "identityDigestSha256": "57d8d485a929697408f88ea77bd90009725a9e9921e44323b4fc51e753490caa",
+      "reports": [
+        {
+          "group": "73-78-shell-lifecycle",
+          "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/directed-final.json",
+          "files": 11,
+          "passed": 109,
+          "failed": 0,
+          "consoleDiagnostics": "not independently established: complete console raw absent"
+        },
+        {
+          "group": "83-93-menu-core-transaction",
+          "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/83-93-menu-core-transaction/directed-final.json",
+          "files": 12,
+          "passed": 84,
+          "failed": 0,
+          "consoleDiagnostics": "not independently established: complete console raw absent"
+        },
+        {
+          "group": "85-89-menu-shop-equip-magic",
+          "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/85-89-menu-shop-equip-magic/directed-final.json",
+          "files": 11,
+          "passed": 80,
+          "failed": 0,
+          "consoleDiagnostics": "not independently established: complete console raw absent"
+        },
+        {
+          "group": "43-54-present-render",
+          "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/43-54-present-render/directed-final.json",
+          "files": 6,
+          "passed": 51,
+          "failed": 0,
+          "consoleDiagnostics": "not independently established: complete console raw absent"
+        },
+        {
+          "group": "40-60-save-analytics",
+          "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/40-60-save-analytics/directed-final.json",
+          "files": 5,
+          "passed": 21,
+          "failed": 0,
+          "consoleDiagnostics": "not independently established: complete console raw absent"
+        }
+      ]
+    },
+    "mutationObservations": [
+      {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/mutation-dm29-branch-removed.json",
+        "failed": 1,
+        "failures": [
+          {
+            "file": "packages/game/src/shell/audio.test.ts",
+            "fullName": "M6 audio url 映射(纯) pickMusicTrack DM29:入场揭场未完 → 0 静默;非战斗不受 intro 标志影响",
+            "firstFailureLine": "AssertionError: expected 7 to be +0 // Object.is equality"
+          }
+        ],
+        "limits": "Native observations match expected business assertions; exact mutant patch/source fingerprint, process exit/signal, complete console and recovery transcript are not frozen here."
+      },
+      {
+        "report": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/mutation-loop-hardcoded-true.json",
+        "failed": 2,
+        "failures": [
+          {
+            "file": "packages/game/src/shell/audio.test.ts",
+            "fullName": "M6 AudioManager.sync L47 补播还原真实 loop:非循环 track 经 setMusicEnabled 开关后仍以 loop=false 重播",
+            "firstFailureLine": "AssertionError: expected [ 'play 3 false', 'stop', …(1) ] to deeply equal [ 'play 3 false', 'stop', …(1) ]"
+          },
+          {
+            "file": "packages/game/src/shell/audio.test.ts",
+            "fullName": "M6 AudioManager.sync L47 setMusicBackend 注入补播也用记录的 loop=false",
+            "firstFailureLine": "AssertionError: expected [ 'play 3 true' ] to deeply equal [ 'play 3 false' ]"
+          }
+        ],
+        "limits": "Native observations match expected business assertions; exact mutant patch/source fingerprint, process exit/signal, complete console and recovery transcript are not frozen here."
+      }
+    ],
+    "sourceComments": [
+      "avi-player.ts aviplay.c:711 skip mask is correct; prior uigame.c:395 anchor is unrelated.",
+      "rng-player.ts PNG/default-skip comments were stale; correction does not modify playback.",
+      "input.ts multi-key fade discrepancy registration is supported by input.c:213-237/276-287 and palette.c:313-316; this is not approval to repair the behavior or declare the approximation acceptable."
+    ],
+    "addedTests": "DM29 silence checks the production helper fourth argument supplied by bootstrap audio wiring; L47 tests restore loop=false through distinct public methods. No duplicate same-port contract identified in the actual delta or targeted audio search."
+  },
+  "rework": [
+    {
+      "id": "C1",
+      "severity": "blocking evidence coverage",
+      "paths": [
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/README.md",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/83-93-menu-core-transaction/README.md",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/85-89-menu-shop-equip-magic/README.md",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/43-54-present-render/README.md",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/40-60-save-analytics/README.md"
+      ],
+      "finding": "B/C/D/F/G/H are largely module-level paragraphs for multiple source/test files, not per-file conclusions. read-boundaries fingerprints and per-file A production bullets do not fill the missing dimensions or precise caller/oracle traceability.",
+      "required": "Add a compact per-file A-H/claim index over the actual read set, using references to existing evidence for shared reasoning. Include specific ownership/dependency/reuse/deletion/testability arguments and real caller/oracle version anchors. Clarify main-loop-gates full-read versus touched-axes-only boundary. Reuse original review work; do not repeat all22cards or manufacture generic good-code statements."
+    },
+    {
+      "id": "C2",
+      "severity": "bounded identity/wording correction",
+      "paths": [
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/read-boundaries.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/83-93-menu-core-transaction/read-boundaries.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/85-89-menu-shop-equip-magic/read-boundaries.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/43-54-present-render/read-boundaries.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/40-60-save-analytics/read-boundaries.json"
+      ],
+      "finding": "All69 sha256/sha256_at_candidate values are40-character Git blob SHA-1 OIDs. Core-transaction README says8 production files but fullReads has7 including adjacent item-select (plus12tests). input.ts new any-direction-event wording must exclude repeated keydown, which C guards with !fRepeat.",
+      "required": "Correct fingerprint names/algorithm and the7+12 scope count with an explicit correction trail, retaining original report provenance. If touching input docblock, narrow to non-repeated directional keydown or directional keyup. Comments/evidence only; no behavior or fixture/assertion changes."
+    },
+    {
+      "id": "C3",
+      "severity": "blocking execution/evidence claims",
+      "paths": [
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/directed-final.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/83-93-menu-core-transaction/directed-final.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/85-89-menu-shop-equip-magic/directed-final.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/43-54-present-render/directed-final.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/40-60-save-analytics/directed-final.json"
+      ],
+      "finding": "Five native Vitest reports prove45files/345passed and two mutation reports prove1/2expected assertion failures. They contain no complete stdout/stderr or process metadata establishing claimed exit0/zero diagnostics. Static gates and exact mutation/recovery transcripts likewise have no attached original receipts. The loop-hardcoded-true mutant changes two replay sites and has2reds; this is a compound counter, not two independently validated single-red controls under the testing acceptance contract.",
+      "required": "Attach genuine retained originals if available. Otherwise explicitly label unavailable historical console/static/exit data as author-reported and do not recreate them as old originals. Bind current commands/cwd/versions/exit/signal/diagnostics and attachments through a read-only manifest or existing tools. If complete mutation credit is retained, provide exact mutant patches/source/test identities and recovery evidence; missing material may be regenerated as NEW narrowly scoped audio-only runs, without rerunning all45tests, whole check or coverage. For full single-red credit, keep the compound original and split the replay-site changes: enabled replay only=>1designated failure; backend injection replay only=>1designated failure; restore=>20passed. Only the audio20-file suite is needed for these new captures, not45files/345tests."
+    }
+  ],
+  "readingScope": {
+    "method": "Read all25-file actual diff, all5 module README receipts, read-boundaries/native JSON inspection and identity reconstruction. No duplicate whole-file22-card review.",
+    "targetedSource": "input.ts fade handlers/initialization; audio.ts pickMusicTrack/sync/public replay methods; audio.test.ts new3cases and adjacent contracts; bootstrap.ts audio caller.",
+    "primaryRanges": [
+      "reference/sdlpal/input.c:198-305",
+      "reference/sdlpal/palette.c:302-322",
+      "reference/sdlpal/aviplay.c:700-720",
+      "reference/sdlpal/midi.c:58-73"
+    ],
+    "expandReason": "User requested these specific anchor/approximation/test-strength decisions; module-level A-H evidence and missing execution originals were explicit protocol gaps."
+  },
+  "fileBindings": [
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "gitBlob": "f6978ea6e6446d36e8b6104dcc33ec6f0ccdad97",
+      "sha256": "99fa15ce94353f269a14b8e8caae9d469810b1d546402e30acb4d2d8ffad2215",
+      "lines": 166
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "gitBlob": "4b2c9ebc3b24770cdb7b2db23b3b220d6b880113",
+      "sha256": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8",
+      "lines": 181
+    },
+    {
+      "path": "packages/game/src/shell/audio.ts",
+      "gitBlob": "9a602c44aa6d8905c612287d3c9f8996eff698c6",
+      "sha256": "c3532ceba544d6d68319b39af4b0ffc99f552d693d1c274b02d4d8a334d316ba",
+      "lines": 323
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.ts",
+      "gitBlob": "96f8de9a6947ae6a0f1ca6d1cf13445302c0b011",
+      "sha256": "bd617b4af6be77f67f7fd8d28b231837852ca061520305d7010216991737d390",
+      "lines": 267
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.ts",
+      "gitBlob": "7d2eda5831f575c202c1d3e78b4a67d86dcfee12",
+      "sha256": "6e5d15b9a5d5aad927b766e67d38c0ee045d4fb44662aa4726f945dbbf2e027c",
+      "lines": 203
+    },
+    {
+      "path": "packages/game/src/shell/input.test.ts",
+      "gitBlob": "5ce91b04249f6602a5181dbdd1a345994898cc92",
+      "sha256": "b7f66d7995fc17c9c8fc8aa8bb1c8b944eeb277e4f75e7cc79a9ce96bf07bdef",
+      "lines": 223
+    },
+    {
+      "path": "packages/game/src/shell/input.boundaries.test.ts",
+      "gitBlob": "ef39b7cf72ccfdecb5bf323f7844ed020c508062",
+      "sha256": "e81a0927a66bf40ec764e7815af0f25c2080b207a33d9e3865c960b6c403bca4",
+      "lines": 74
+    },
+    {
+      "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "gitBlob": "451884c5ca1bd9e8ae5137813767db4bb47fc2e0",
+      "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00",
+      "lines": 156
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.test.ts",
+      "gitBlob": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+      "sha256": "8b49ad03c314ba12dc7d9f32176b8962839ee09c994bcef50e89541aef268e0e",
+      "lines": 217
+    },
+    {
+      "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "gitBlob": "3b5c0aaff880fd0734280d9af22b693c5b261e6d",
+      "sha256": "667bd9bc6fa79e1ef3b192c1124cc17da874f727b47c0576c0fac6d8f4ba4e65",
+      "lines": 247
+    },
+    {
+      "path": "packages/game/src/shell/audio.test.ts",
+      "gitBlob": "b840748518b3dd562eca3f4eef889d3c81779fdb",
+      "sha256": "c536e97cc6cd46b3a6ab21d4dc8ad8a1f02957c8cc43c18172330784a568ef3e",
+      "lines": 231
+    },
+    {
+      "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+      "gitBlob": "283fd215e71daa562bdf29603d86a5eee21d9bb7",
+      "sha256": "3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3",
+      "lines": 72
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.test.ts",
+      "gitBlob": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+      "sha256": "2efeabdbf6c13c8c2f1105330f2e11e18ebfc534527c4c3734defb0062887082",
+      "lines": 326
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+      "gitBlob": "6f7addc096475ee0bcbc132a2d26a16a7e2694e7",
+      "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae",
+      "lines": 123
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.test.ts",
+      "gitBlob": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+      "sha256": "b11d9337d9829c862cbb475b1a9e73ca04cfda1dce3f3cdcb1749d49cbc23f69",
+      "lines": 152
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+      "gitBlob": "0d5069f24956546d5c2842671f7c222004364c2b",
+      "sha256": "d51a55110d175b45b54284685091e1103b273f32d055a79b4f3b1ad6d3588041",
+      "lines": 156
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "gitBlob": "2fbb41aeb06fa0daca4730a2e602883a07109bd9",
+      "sha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82",
+      "lines": 33
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "gitBlob": "479d4b9ad362b7a4471ee2785bd52846baf6bfc8",
+      "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+      "lines": 32
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.test.ts",
+      "gitBlob": "34e5b16d5f5f8b545a27f54966d0a03a6cbae743",
+      "sha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05",
+      "lines": 89
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.ts",
+      "gitBlob": "00cbc7cd9a0788fe2cc5ac926e6539fbe788a81e",
+      "sha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c",
+      "lines": 141
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "gitBlob": "5cfa3cdcb495ff0f7a88e9040a3722733206f316",
+      "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645",
+      "lines": 130
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+      "gitBlob": "994bf332020528aeebe55f4e9467739ea6f3e276",
+      "sha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3",
+      "lines": 52
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "gitBlob": "1ea9bd7f95b2a424b6c18d0f81f6d7e9b68b55aa",
+      "sha256": "7a8dd000680c268a92be4de9f0b5837636b2931c0a2f38e866eaa56991fb3261",
+      "lines": 74
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "gitBlob": "34d1beceab6050c355738861b3e717a9926f8718",
+      "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d",
+      "lines": 280
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+      "gitBlob": "ecf26404fdc62663b83f7cf701acf082dcfff56f",
+      "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e",
+      "lines": 371
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+      "gitBlob": "16eaa4536d9eb2b96203f8be7fa1fbf9a5f8a06f",
+      "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967",
+      "lines": 107
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+      "gitBlob": "9bcc618447a82d9dbaa30c19d9d9abad6121b8c4",
+      "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072",
+      "lines": 186
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+      "gitBlob": "c50441b641deab7298e8a5a71c4f8724e63d2f6d",
+      "sha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2",
+      "lines": 79
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+      "gitBlob": "41b556121a2d2a0c7f040516b2dc60e216ef0e48",
+      "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4",
+      "lines": 37
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+      "gitBlob": "00f4d70593f8f07e700cae95d844a05be64607d9",
+      "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+      "lines": 47
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.ts",
+      "gitBlob": "ec8812719c591a95d4c32fea033a7291391b2934",
+      "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+      "lines": 139
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.test.ts",
+      "gitBlob": "ffe2bfe9c135aef596ddb784d87e2be15325e51d",
+      "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5",
+      "lines": 161
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+      "gitBlob": "6d68be32362cc27bb4261b4a1a9fa8c1e88a7793",
+      "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff",
+      "lines": 136
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+      "gitBlob": "15216700d35e23c7fd58467d581fe5f17a0fc82a",
+      "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f",
+      "lines": 64
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.ts",
+      "gitBlob": "7452416b59fe35226f4acc186d7bfc0be7b99298",
+      "sha256": "3b71f4a343d2f7fdec75f2651dcb464d3a3f85b2d5388e50335999b9f488cfc7",
+      "lines": 96
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "gitBlob": "62fd9855fdd7323ba79b02c43e37f13ae0895d00",
+      "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+      "lines": 103
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.test.ts",
+      "gitBlob": "108dc374ed791d40b33e37aab94d9f3a9c29fd0c",
+      "sha256": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2",
+      "lines": 180
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "gitBlob": "570615b8158b658f7c7e8a8e062f886d48d106d3",
+      "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90",
+      "lines": 68
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+      "gitBlob": "0c3f2cd9498863d9a3f2a65d2ff23848934a0309",
+      "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2",
+      "lines": 60
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "gitBlob": "20f7701b442d02cf52878a8d0a2dcb25796b0b9e",
+      "sha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69",
+      "lines": 111
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.test.ts",
+      "gitBlob": "3c730ab5c1b2d3e70296ca4360701306628ebcab",
+      "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a",
+      "lines": 231
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+      "gitBlob": "520ed720bd523b2956e6472dff120a02b5ca40e3",
+      "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84",
+      "lines": 101
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "gitBlob": "24d14f2f2a5d0640fb82ff7ca080f143e0f261ad",
+      "sha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9",
+      "lines": 88
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.ts",
+      "gitBlob": "99c6493e4cc0a3b693a3cc745bd10fd14010ea65",
+      "sha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+      "lines": 56
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+      "gitBlob": "0c929c8e3522f4238c8066ef28c10eb694ef0c7e",
+      "sha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26",
+      "lines": 141
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+      "gitBlob": "a04ab28e9cd75cb5d040e35760aff88f8fb383fb",
+      "sha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd",
+      "lines": 138
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "gitBlob": "d01440c97e16e60e412bcb6576ecc593de22f21c",
+      "sha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+      "lines": 306
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+      "gitBlob": "de3fbee470c6da1693dc1e43abf570ce11db3f4a",
+      "sha256": "e8345b4bc17166791060983c3f73c9e0882b055ee6cb02a2da599c9e91814f99",
+      "lines": 498
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+      "gitBlob": "b9feb764915cd437cd0700df444536794c182309",
+      "sha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0",
+      "lines": 177
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "gitBlob": "dbf6732bd70e96b89a02eb7a3f83030376858c54",
+      "sha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9",
+      "lines": 248
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "gitBlob": "35f38fc8c65b2f4b4bf45af9186696152c560c03",
+      "sha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc",
+      "lines": 49
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.test.ts",
+      "gitBlob": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+      "sha256": "785f68010b06ef3714c76b6ec675aa77dc13eb34047ced3dc954786eecff832c",
+      "lines": 85
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "gitBlob": "443455233b469ed2befbb17f5e88134098fbb179",
+      "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539",
+      "lines": 202
+    },
+    {
+      "path": "packages/game/src/present/font.test.ts",
+      "gitBlob": "e4010413ef9e4254e55a89a3a2450984dec5d460",
+      "sha256": "614592161a00c8260f7a7a4b756e0360a76bca49ada54403f96c013985eb4d0f",
+      "lines": 133
+    },
+    {
+      "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+      "gitBlob": "c1203fca4895dfb527659246e094dfdf7797e45d",
+      "sha256": "171c4254704b1715be87e8a524aa1a8445eeea1edacc6e10979700d4a72bf093",
+      "lines": 67
+    },
+    {
+      "path": "packages/game/src/present/follower-render.ts",
+      "gitBlob": "c79ae2a4c83bb89441345609ed3e5a38316985a9",
+      "sha256": "6f750c045df964d1782919c728e751fb46cc2d5faa4a796cc52ea17d58c4b1c2",
+      "lines": 64
+    },
+    {
+      "path": "packages/game/src/present/follower-render.test.ts",
+      "gitBlob": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
+      "sha256": "f8528c719a3993205d859e07c0c7eacf6d2d52e25b77fcc0b586a063523dc350",
+      "lines": 83
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "gitBlob": "9fcacfe86782a5f4bf12f92129c4d51b48031973",
+      "sha256": "6a5b77a7963ded096b9d8b1792dc6823472c65fba8376dbd7ddf25b25abe0166",
+      "lines": 382
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.test.ts",
+      "gitBlob": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+      "sha256": "14b4490b17fc8d0e13ebd0be6b6634d643255d55867789c0da6d8e9e6c5c4a51",
+      "lines": 198
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "gitBlob": "6ee3a215a115f6600f2abaf757c92959875852ec",
+      "sha256": "56e61414a737314b7af68b8b96614ac8756ec4aab7bfda36fb6f9644f757f882",
+      "lines": 195
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "gitBlob": "76ea293d02ce4e660d14da8043433abf28928f48",
+      "sha256": "306968e63cd42b0b2b084f1ccf14e179eac096196c05defcd0db85df0048ffb3",
+      "lines": 26
+    },
+    {
+      "path": "packages/game/src/tools/save-io.test.ts",
+      "gitBlob": "32f8a349a8f57be1fc74a10e4817b2dbc1600fad",
+      "sha256": "81ea83ea67242f8178bcbbc67c5b7a7d00b685bf343496b3e229da7a089b187e",
+      "lines": 29
+    },
+    {
+      "path": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+      "gitBlob": "f50b6433480f75cda0ce330a1ddbf8f23bcb9ab2",
+      "sha256": "db4fa973307d0f6de37116b82af9a66577b3a17de0832e6fd3542414492d9394",
+      "lines": 107
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "gitBlob": "06bca8cdef014a4367b3df2c56b731dffc6d8703",
+      "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0",
+      "lines": 61
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.test.ts",
+      "gitBlob": "1060a9cc38e5d6b6249dee064609d0394c8f9635",
+      "sha256": "c30b44ef27d59af52acd9feb3216b30e8b1fe1ce4a020f51e567e1a49d674c47",
+      "lines": 160
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.ts",
+      "gitBlob": "19622bcd2969a69c54fb8fd311afa898098f300b",
+      "sha256": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8",
+      "lines": 64
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.test.ts",
+      "gitBlob": "737e8cc1a771d5d4d2bc965915ced667e9cb31b1",
+      "sha256": "fffcb0ba4b11e7f8a308f733465e272f1581b4d95532e6bcce0830711b519cce",
+      "lines": 48
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+      "gitBlob": "e39aae5bfe3a5b4e0468775a677d56f79a57ceab",
+      "sha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52",
+      "lines": 124
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+      "gitBlob": "6498ee6676d5d8ffda726deca1a39dd4079bac70",
+      "sha256": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83",
+      "lines": 57
+    }
+  ],
+  "artifactManifest": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/40-60-save-analytics/README.md",
+      "sha256": "d2f98ed3d38b76f270a855f631faa183fe441661d13bd157243cb64ef00c8519",
+      "bytes": 2919
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/40-60-save-analytics/directed-final.json",
+      "sha256": "c7c21af6a404aca937d3d45e6374f52af8e920ecc3399266a79967b37823f610",
+      "bytes": 11186
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/40-60-save-analytics/read-boundaries.json",
+      "sha256": "5e7e26c8d74580e9583ad2924791586800cbf8da40298f2acbd382387554e719",
+      "bytes": 2568
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/43-54-present-render/README.md",
+      "sha256": "c24be18e5eb2bb7aa7d301f96424b7c0eab272dbfcc10037bb0c4e21006b0233",
+      "bytes": 2769
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/43-54-present-render/directed-final.json",
+      "sha256": "9c2f5a685e7c71c543c2632022fce57ef76a727642f94c63b02dc5771d988a69",
+      "bytes": 25328
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/43-54-present-render/read-boundaries.json",
+      "sha256": "589950990d2d6af0dc53bbd59d882aba457bd7b06d5122d0439149753e56fd03",
+      "bytes": 3249
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/README.md",
+      "sha256": "7443ef1c04bc09e379ed9bb64b45e0af2d066c72552992e56f82f5fb917b7365",
+      "bytes": 5946
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/directed-final.json",
+      "sha256": "27d6bf18c8d8160187c0116f4e8c6cb94ba330904a8348f019aa53c3c8747751",
+      "bytes": 54883
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/mutation-dm29-branch-removed.json",
+      "sha256": "ad43eec6221879837d4656cd5c1908335a488d5485b6dd0f99f3768b6e024860",
+      "bytes": 12127
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/mutation-loop-hardcoded-true.json",
+      "sha256": "5ac8fe58dcc381e20bdae5854c2701661ae44dde4ba7347098eac7521d690e88",
+      "bytes": 13612
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/read-boundaries.json",
+      "sha256": "939cac0b54afd591d756ff04a4fbe781f3d2c3e56ded0f30a69fe8ce956f279a",
+      "bytes": 7061
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/83-93-menu-core-transaction/README.md",
+      "sha256": "c7a9bb099733e46f77d4cd2d7ae7779e350f876b5ca1af36c639a4c9a6a15c2f",
+      "bytes": 4170
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/83-93-menu-core-transaction/directed-final.json",
+      "sha256": "c3b0fee05c25d844a0d423e93b799990be734051c3ae4715f6a738c86b992b9b",
+      "bytes": 44475
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/83-93-menu-core-transaction/read-boundaries.json",
+      "sha256": "2d9f69bd6a8c3ef556f8d2696d63020f60d0f55c806cf861f2f261906f623375",
+      "bytes": 4483
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/85-89-menu-shop-equip-magic/README.md",
+      "sha256": "1ccee193713af3018588d594ddc6febe0c0cca24e192dd64681a1e11602b5819",
+      "bytes": 3463
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/85-89-menu-shop-equip-magic/directed-final.json",
+      "sha256": "1f317ce65ee4dc1dff872c7c9c085480b4ad1a2bbcc2e5d5af385a8037dc6900",
+      "bytes": 39880
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/85-89-menu-shop-equip-magic/read-boundaries.json",
+      "sha256": "a8e499e4fc8b8a9b84fc646727094828d051f7e157fda73b45206a727eb493aa",
+      "bytes": 3312
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+      "sha256": "158c6934eea200608f4a7476f3c81c63d7ce661f743a1c308a2d7c3f9e4a6acb",
+      "bytes": 42099
+    },
+    {
+      "path": "packages/game/src/shell/audio.test.ts",
+      "sha256": "c536e97cc6cd46b3a6ab21d4dc8ad8a1f02957c8cc43c18172330784a568ef3e",
+      "bytes": 10011
+    },
+    {
+      "path": "packages/game/src/shell/audio.ts",
+      "sha256": "c3532ceba544d6d68319b39af4b0ffc99f552d693d1c274b02d4d8a334d316ba",
+      "bytes": 14501
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.ts",
+      "sha256": "6e5d15b9a5d5aad927b766e67d38c0ee045d4fb44662aa4726f945dbbf2e027c",
+      "bytes": 7841
+    },
+    {
+      "path": "packages/game/src/shell/input.test.ts",
+      "sha256": "b7f66d7995fc17c9c8fc8aa8bb1c8b944eeb277e4f75e7cc79a9ce96bf07bdef",
+      "bytes": 9508
+    },
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "sha256": "99fa15ce94353f269a14b8e8caae9d469810b1d546402e30acb4d2d8ffad2215",
+      "bytes": 6707
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+      "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae",
+      "bytes": 4397
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.ts",
+      "sha256": "bd617b4af6be77f67f7fd8d28b231837852ca061520305d7010216991737d390",
+      "bytes": 11197
+    }
+  ],
+  "states": {
+    "beforeAndAfter": {
+      "partial": 56,
+      "pending": 27,
+      "accept": 0
+    },
+    "pendingToPartialProposal": "22 card promotions withheld pending C1-C3; supported local facts retained.",
+    "activeUnmodified": [53, 79, 80, 81, 90],
+    "ledger": {
+      "tracked": 3318,
+      "closed": 214,
+      "review": 157,
+      "pending": 2947,
+      "newClosed": 0
+    }
+  },
+  "checks": {
+    "gitFetch": "completed",
+    "ledger": "PASS;3318files/214closed/157review/2947pending",
+    "sourceAndNativeIdentity": "69matched;45files/345native passed;1/2native assertion failures matched",
+    "currentReviewDocsLint": "PASS: final pnpm check:docs, lint-zero, ledger and staged diff; initial incoming-review SHA failure retained, not rewritten.",
+    "reviewOnlyGateRuns": {
+      "docs": {
+        "name": "docs",
+        "command": "pnpm",
+        "args": ["check:docs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "started": "2026-10-20T03:22:17.740Z",
+        "finished": "2026-10-20T03:23:06.991Z",
+        "exit": 1,
+        "signal": null,
+        "spawnError": null,
+        "stdoutBytes": 30573,
+        "stderrBytes": 86,
+        "streams": {
+          "stdout": {
+            "member": "docs.stdout.raw",
+            "sha256": "d806a2dbe8989af9670cb25b5e72ee9e92818402c760cf55872c69452613992b",
+            "bytes": 30573
+          },
+          "stderr": {
+            "member": "docs.stderr.raw",
+            "sha256": "adb5596fff9ae1f861da8c4683a47788739faf66dab8f73b0f93c25f9d07f914",
+            "bytes": 86
+          }
+        }
+      },
+      "docs-final": {
+        "name": "docs-final",
+        "command": "pnpm",
+        "args": ["check:docs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "started": "2026-10-20T03:24:57.729Z",
+        "finished": "2026-10-20T03:25:44.922Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "stdoutBytes": 30514,
+        "stderrBytes": 0,
+        "streams": {
+          "stdout": {
+            "member": "docs-final.stdout.raw",
+            "sha256": "240549074af6d51b46166e13ea9eaf0595c01295b92777a475d09ee670cac874",
+            "bytes": 30514
+          },
+          "stderr": {
+            "member": "docs-final.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        }
+      },
+      "lint": {
+        "name": "lint",
+        "command": "pnpm",
+        "args": ["lint"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "started": "2026-10-20T03:22:17.745Z",
+        "finished": "2026-10-20T03:22:21.573Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "stdoutBytes": 193,
+        "stderrBytes": 0,
+        "streams": {
+          "stdout": {
+            "member": "lint.stdout.raw",
+            "sha256": "8be5b45fe9e4676a9619532b913221d6ce6dfd023388f0643128c65b9df6498c",
+            "bytes": 193
+          },
+          "stderr": {
+            "member": "lint.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        }
+      },
+      "ledger": {
+        "name": "ledger",
+        "command": "node",
+        "args": ["scripts/quality/code-quality-ledger.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "started": "2026-10-20T03:22:17.746Z",
+        "finished": "2026-10-20T03:22:20.002Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "stdoutBytes": 113,
+        "stderrBytes": 0,
+        "streams": {
+          "stdout": {
+            "member": "ledger.stdout.raw",
+            "sha256": "b644532e25cb055b887d5fca716071ec5435cba3f1095035164014884b2af584",
+            "bytes": 113
+          },
+          "stderr": {
+            "member": "ledger.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        }
+      },
+      "diff": {
+        "name": "diff",
+        "command": "git",
+        "args": ["diff", "--cached", "--check"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+        "started": "2026-10-20T03:22:17.748Z",
+        "finished": "2026-10-20T03:22:17.792Z",
+        "exit": 0,
+        "signal": null,
+        "spawnError": null,
+        "stdoutBytes": 0,
+        "stderrBytes": 0,
+        "streams": {
+          "stdout": {
+            "member": "diff.stdout.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          },
+          "stderr": {
+            "member": "diff.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        }
+      }
+    },
+    "diagnostics": {
+      "docsFinal": 0,
+      "lint": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      },
+      "firstDocs": "one after-SHA drift in review-control incoming binding, fixed with scoped provenance; initial command exit1 retained"
+    }
+  },
+  "notRun": [
+    "Contributor45-file345-case rerun",
+    "Mutation rerun",
+    "Product typecheck",
+    "Whole repository check",
+    "Coverage ratchet",
+    "Protected fast",
+    "Browser/E2E/visual"
+  ],
+  "integration": {
+    "candidateCherryPicked": false,
+    "candidatePushed": false,
+    "mainMerged": false,
+    "contributorWorktreeRetained": true,
+    "note": "Review-only record may be pushed to same3y. Candidate remains frozen at89800a1c1 for GLM narrow rework; no integration gate run before evidence admission."
+  },
+  "next": {
+    "owner": "GLM",
+    "scope": "C1-C3 on original candidate, no unrelated product changes; retain previous native files immutable or preserve original bytes in explicit history.",
+    "afterRework": "Codex checks only evidence delta and any narrowly authorized comment delta; if coherent, accept candidate, apply justified central state updates and concentrate integration gates. Continue remaining56partial later;94-102 not expanded."
+  },
+  "nativeArtifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/pending27-review-native.json.gz",
+    "sha256": "79cffdee9d00f1fca754d73ac9b28adcca66e5b90d413c51cd9b4926b417336b",
+    "bytes": 8764,
+    "format": "gzip UTF-8 JSON {schemaVersion:1,members:{memberName:complete UTF-8 original}}",
+    "members": [
+      {
+        "name": "docs.json",
+        "sha256": "bb1f326a6f66488ec03d8b025ef8587fe9407ccec41f0aba8655f3cb33d22157",
+        "bytes": 330
+      },
+      {
+        "name": "docs.stdout.raw",
+        "sha256": "d806a2dbe8989af9670cb25b5e72ee9e92818402c760cf55872c69452613992b",
+        "bytes": 30573
+      },
+      {
+        "name": "docs.stderr.raw",
+        "sha256": "adb5596fff9ae1f861da8c4683a47788739faf66dab8f73b0f93c25f9d07f914",
+        "bytes": 86
+      },
+      {
+        "name": "docs-final.json",
+        "sha256": "d5f4455f104050fc31c88ed6bbf4429075460e485ccba6cf9c01e29072a10233",
+        "bytes": 335
+      },
+      {
+        "name": "docs-final.stdout.raw",
+        "sha256": "240549074af6d51b46166e13ea9eaf0595c01295b92777a475d09ee670cac874",
+        "bytes": 30514
+      },
+      {
+        "name": "docs-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "lint.json",
+        "sha256": "91b8042bd3b252f2746144e5820060ce769779c7b9e68202fa29fcdda283041f",
+        "bytes": 321
+      },
+      {
+        "name": "lint.stdout.raw",
+        "sha256": "8be5b45fe9e4676a9619532b913221d6ce6dfd023388f0643128c65b9df6498c",
+        "bytes": 193
+      },
+      {
+        "name": "lint.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "ledger.json",
+        "sha256": "cee0e6d8512f0e54ca196c90b734d95835b611db8baa1697e5909c6a6a14760b",
+        "bytes": 358
+      },
+      {
+        "name": "ledger.stdout.raw",
+        "sha256": "b644532e25cb055b887d5fca716071ec5435cba3f1095035164014884b2af584",
+        "bytes": 113
+      },
+      {
+        "name": "ledger.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "diff.json",
+        "sha256": "ab38802d2f25d45a87432cb645e43e5fb7593c3966f88928785f7ccdf78774e9",
+        "bytes": 349
+      },
+      {
+        "name": "diff.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "diff.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ],
+    "limits": "Reviewer documentation-only gates. No contributor product test/typecheck/unified gate rerun. Original failure and final run coexist."
+  }
+}

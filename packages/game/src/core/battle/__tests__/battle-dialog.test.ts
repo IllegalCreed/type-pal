@@ -9,30 +9,48 @@
  * (PAL_DialogWaitForKeyWithMaximumSeconds,text.c:1701)。
  */
 
-import type { InputSnapshot } from '@type-pal/shared'
+import type { AbstractKey, InputSnapshot } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import type { GameState } from '../../game-state.js'
-import type { BattleDialogLine, BattleState } from '../battle-state.js'
+import {
+  makeBattleField,
+  makeEnemy,
+  makePlayerRoles,
+} from '../../__tests__/stats/stats-test-fixtures.js'
+import { createInitialGameState, type GameState, loadDefaultGame } from '../../game-state.js'
+import { createSeedableRng } from '../../rng.js'
+import { type BattleDialogLine, type BattleState, createBattleState } from '../battle-state.js'
 import { tickBattleDialog } from '../battle-system.js'
 
-function makeState(queue?: BattleDialogLine[]): BattleState {
-  return { battleDialogQueue: queue, phaseStallTicks: 5 } as any as BattleState
+/** 与真实caller一样，GS及其BattleState属于同一场战斗；不伪造完整对象。 */
+function makeContext(queue?: BattleDialogLine[]) {
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  const playerRoles = makePlayerRoles()
+  loadDefaultGame(gs, playerRoles)
+  const state = createBattleState({
+    gs,
+    playerRoles,
+    enemies: [makeEnemy()],
+    field: makeBattleField(),
+    isBoss: false,
+    rng: createSeedableRng(1),
+  })
+  gs.battleState = state
+  gs.mode = 'battle'
+  state.battleDialogQueue = queue
+  state.phaseStallTicks = 5
+  return { gs, state }
 }
 
-function makeGs(): GameState {
-  return { dialogBox: undefined } as any as GameState
+function input(keys: AbstractKey[] = []): InputSnapshot {
+  return { held: new Set(), pressed: new Set(keys), frameNum: 0 }
 }
 
-function input(keys: string[] = []): InputSnapshot {
-  return { held: new Set(), pressed: new Set(keys), frameNum: 0 } as any as InputSnapshot
-}
-
-/** 驱动 tickBattleDialog 直到条件满足或超 limit(防死循环),返回实际 tick 数。 */
+/** 驱动到指定条件，返回实际tick数；超限立即失败，不把未完成当成功。 */
 function driveUntil(
   state: BattleState,
   gs: GameState,
   cond: () => boolean,
-  keys: string[] = [],
+  keys: AbstractKey[] = [],
   limit = 200,
 ): number {
   let n = 0
@@ -40,20 +58,19 @@ function driveUntil(
     tickBattleDialog(state, gs, input(keys))
     n++
   }
+  if (!cond()) throw new Error('battle dialog test did not reach the requested phase')
   return n
 }
 
 describe('tickBattleDialog —— 战斗内对话 hold', () => {
   it('队列空 + 无 box → 返回 false(不 hold,放行战斗)', () => {
-    const gs = makeGs()
-    const state = makeState()
+    const { gs, state } = makeContext()
     expect(tickBattleDialog(state, gs, input())).toBe(false)
     expect(gs.dialogBox).toBeUndefined()
   })
 
   it('队列有行 + 无 box → startDialogLine 起首行 + 返回 true(暂停战斗)+ 清 phaseStall', () => {
-    const gs = makeGs()
-    const state = makeState([{ text: '哈哈哈', style: 'bottom' }])
+    const { gs, state } = makeContext([{ text: '哈哈哈', style: 'bottom' }])
     const held = tickBattleDialog(state, gs, input())
     expect(held).toBe(true)
     expect(gs.dialogBox).toBeDefined()
@@ -63,8 +80,7 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
   })
 
   it('单行打字完 → 无后续 → waiting-end-key;Confirm 关 box + 返回 true(吃掉关框键防漏进菜单)', () => {
-    const gs = makeGs()
-    const state = makeState([{ text: '哼', style: 'bottom' }])
+    const { gs, state } = makeContext([{ text: '哼', style: 'bottom' }])
     tickBattleDialog(state, gs, input()) // 起行
     driveUntil(state, gs, () => gs.dialogBox?.phase === 'waiting-end-key')
     expect(gs.dialogBox?.phase).toBe('waiting-end-key') // 无后续行 → 等结束键
@@ -78,8 +94,7 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
   })
 
   it('同风格多行 → 行间自动累积(append,不等键)', () => {
-    const gs = makeGs()
-    const state = makeState([
+    const { gs, state } = makeContext([
       { text: 'A', style: 'bottom' },
       { text: 'B', style: 'bottom' },
     ])
@@ -88,34 +103,33 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
     expect(state.battleDialogQueue?.length).toBe(0) // A、B 都消费
     // B 已 append(A 在 shownLines,B 当前行 typing 或已完)
     expect(gs.dialogBox).toBeDefined()
-    expect(gs.dialogBox!.shownLines.length).toBeGreaterThanOrEqual(1)
+    expect(gs.dialogBox?.shownLines).toEqual(['A'])
+    expect(gs.dialogBox?.currentLineText).toBe('B')
+    expect(gs.dialogBoxKept).toBeUndefined()
   })
 
   it('打字中 Confirm → 跳到行末(skip-typing,整行显满)', () => {
-    const gs = makeGs()
-    const state = makeState([{ text: '一二三四五', style: 'bottom' }])
+    const { gs, state } = makeContext([{ text: '一二三四五', style: 'bottom' }])
     tickBattleDialog(state, gs, input()) // 起行(charsRevealed 还没满)
     expect(gs.dialogBox?.phase).toBe('typing')
     tickBattleDialog(state, gs, input(['Confirm'])) // skip-typing
-    expect(gs.dialogBox?.charsRevealed).toBe(gs.dialogBox?.currentLineText?.length)
+    expect(gs.dialogBox?.charsRevealed).toBe(5)
+    expect(gs.dialogBox?.currentLineText).toBe('一二三四五')
   })
 
   it('narration 风格:满 1.4s 自动消失', () => {
-    const gs = makeGs()
-    const state = makeState([{ text: '得到宝物', style: 'narration' }])
+    const { gs, state } = makeContext([{ text: '得到宝物', style: 'narration' }])
     tickBattleDialog(state, gs, input()) // 起 narration(本 tick 不计时)
     // 1400ms / 40ms = 35 ticks 后自消
     const n = driveUntil(state, gs, () => gs.dialogBox === undefined)
     expect(gs.dialogBox).toBeUndefined()
-    expect(n).toBeGreaterThanOrEqual(34) // ~35 tick(1.4s)
-    expect(n).toBeLessThanOrEqual(40)
+    expect(n).toBe(35) // 精确35次40ms推进；起行tick不计时。
   })
 
   it('narration 风格:任意键立即消失(不止 Confirm)', () => {
-    const gs = makeGs()
-    const state = makeState([{ text: '得到宝物', style: 'narration' }])
+    const { gs, state } = makeContext([{ text: '得到宝物', style: 'narration' }])
     tickBattleDialog(state, gs, input()) // 起
-    const held = tickBattleDialog(state, gs, input(['ArrowDown'])) // 任意键
+    const held = tickBattleDialog(state, gs, input(['Down'])) // 任意键
     expect(gs.dialogBox).toBeUndefined()
     // 被按键消掉 → 本 tick 仍 hold(返回 true,吃掉该键防漏进菜单);放行在下一 tick。
     expect(held).toBe(true)
@@ -123,8 +137,7 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
   })
 
   it('clearBefore 行:先结束当前段(等结束键),Confirm 后下段起新框', () => {
-    const gs = makeGs()
-    const state = makeState([
+    const { gs, state } = makeContext([
       { text: '前段', style: 'bottom' },
       { text: '后段', style: 'bottom', clearBefore: true },
     ])
@@ -142,8 +155,7 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
   })
 
   it('风格切换(top→bottom)另起新框(不混页)', () => {
-    const gs = makeGs()
-    const state = makeState([
+    const { gs, state } = makeContext([
       { text: '上', style: 'top' },
       { text: '下', style: 'bottom' },
     ])
@@ -156,8 +168,7 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
 
   // ── 上下同屏共存(user 2026-05-31:林月如 top 不消失,李逍遥 bottom 接出)──────
   it('top↔bottom 切换 → 旧框移入 dialogBoxKept(同屏共存),整段结束清两者', () => {
-    const gs = makeGs()
-    const state = makeState([
+    const { gs, state } = makeContext([
       { text: '让开!', style: 'top', portrait: 1 },
       { text: '你是谁', style: 'bottom', portrait: 0 },
     ])
@@ -181,31 +192,19 @@ describe('tickBattleDialog —— 战斗内对话 hold', () => {
     expect(gs.dialogBoxKept).toBeUndefined() // 整段结束清掉共存框
   })
 
-  it('同位置续行(都 bottom)→ 不进 dialogBoxKept(正常翻页/append)', () => {
-    const gs = makeGs()
-    const state = makeState([
-      { text: 'A', style: 'bottom' },
-      { text: 'B', style: 'bottom' },
-    ])
-    tickBattleDialog(state, gs, input())
-    driveUntil(state, gs, () => (state.battleDialogQueue?.length ?? 0) === 0)
-    expect(gs.dialogBoxKept).toBeUndefined()
-  })
-
   // D26(2b):dialog 序列中的内联可见 effect(0x69 敌逃跑)按位置入队,tickBattleDialog 按序 dispatch。
   it('D26(2b) effect 条目 → dispatch 0x69(set enemyEscapeAnim)+ 消费 + hold,不开 dialog', () => {
-    const gs = makeGs()
-    const state = makeState([{ effect: { opcode: 0x69, operands: [0, 0, 0] } }])
+    const { gs, state } = makeContext([{ effect: { opcode: 0x69, operands: [0, 0, 0] } }])
     const held = tickBattleDialog(state, gs, input())
     expect(held).toBe(true)
     expect(state.enemyEscapeAnim).toEqual({ step: 0 }) // 0x69 PAL_BattleEnemyEscape 触发飞出
+    expect(gs.pendingSounds).toEqual([45])
     expect(state.battleDialogQueue?.length).toBe(0) // effect 已消费
     expect(gs.dialogBox).toBeUndefined() // effect 不开 dialog box
   })
 
   it('D26(2b) 时序:嘲讽对话 → effect(0x69) → narration 按队列顺序处理', () => {
-    const gs = makeGs()
-    const state = makeState([
+    const { gs, state } = makeContext([
       { text: '何方妖孽', style: 'top' },
       { effect: { opcode: 0x69, operands: [0, 0, 0] } },
       { text: '半人蛇妖逃走了', style: 'narration' },

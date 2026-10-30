@@ -107,13 +107,16 @@ describe('U3a CutsceneTab 残差', () => {
     })
     const before = session.getHistoryVersion()
     const input = inputByAccept(host, 'video/mp4,video/webm')
-    await loadFilesIntoInput(input, [mp4File()])
-    await vi.waitFor(() => {
-      expect(
-        Object.keys(session.getState().assetCatalog.assets).filter((id) =>
-          id.startsWith('video.authored.'),
-        ),
-      ).toHaveLength(1)
+    await act(async () => {
+      await loadFilesIntoInput(input, [mp4File()])
+      // WebCrypto completes after the change event; keep its session/UI updates inside act.
+      await vi.waitFor(() => {
+        expect(
+          Object.keys(session.getState().assetCatalog.assets).filter((id) =>
+            id.startsWith('video.authored.'),
+          ),
+        ).toHaveLength(1)
+      })
     })
     const assets = session.getState().assetCatalog.assets
     const ids = Object.keys(assets).filter((id) => id.startsWith('video.authored.'))

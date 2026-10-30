@@ -1,24 +1,20 @@
 /**
  * G02-B。旧 tileset-blob 测试已覆盖完整 gzip 往返、空 gzip、首字节 0x02 的裸 chunk、
- * 偶数宽锚点、indices 复用。本组只补魔数两侧、缺 DecompressionStream、分块拼接和奇数宽。
+ * 偶数宽锚点、两份像素数组借用。本组只补魔数两侧、缺 DecompressionStream、分块拼接和奇数宽。
  */
 import { gzipSync } from 'node:zlib'
-import { parseSpriteChunk } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
-import { twoFrameChunk } from '../__tests__/grok-render-r1/legal-host.js'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { IndexedImage } from './png.js'
-import {
-  decodeTilesetBlob,
-  decompressGzip,
-  framesToCharacterSprite,
-  rleFrameToIndexedImage,
-} from './tileset-blob.js'
+import { decodeTilesetBlob, decompressGzip, framesToCharacterSprite } from './tileset-blob.js'
 
 const unsupported =
   'tileset-blob: DecompressionStream unsupported in this environment ' +
   '(需要 Chrome 80+/Safari 16.4+/Firefox 113+)。可后续引入 fflate 兜底。'
 
 describe('G02-B gzip 魔数与帧锚点', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
   it('G02-B01 只有一个 0x1f 字节时原样返回，不进入解压', async () => {
     const out = await decompressGzip(new Blob([Uint8Array.of(0x1f)]))
     expect(Array.from(out)).toEqual([0x1f])
@@ -30,15 +26,10 @@ describe('G02-B gzip 魔数与帧锚点', () => {
   })
 
   it('G02-B03 环境没有 DecompressionStream 时抛出固定兜底错误', async () => {
-    const saved = globalThis.DecompressionStream
-    Reflect.deleteProperty(globalThis, 'DecompressionStream')
-    try {
-      await expect(decompressGzip(new Blob([gzipSync(Uint8Array.of(1))]))).rejects.toThrow(
-        unsupported,
-      )
-    } finally {
-      globalThis.DecompressionStream = saved
-    }
+    vi.stubGlobal('DecompressionStream', undefined)
+    await expect(decompressGzip(new Blob([gzipSync(Uint8Array.of(1))]))).rejects.toThrow(
+      unsupported,
+    )
   })
 
   it('G02-B04 带魔数但主体损坏时拒绝为 TypeError，不走缺流兜底文案', async () => {
@@ -52,36 +43,22 @@ describe('G02-B gzip 魔数与帧锚点', () => {
   })
 
   it('G02-B05 解压流分成两段时按偏移拼回 [9, 8, 7]', async () => {
-    const saved = globalThis.DecompressionStream
-    class SplitGzip {
-      readonly readable: ReadableStream<Uint8Array>
-      readonly writable: WritableStream<Uint8Array>
-      constructor(_format: string) {
-        this.readable = new ReadableStream({
-          start(controller) {
+    const SplitGzip = class extends TransformStream<BufferSource, Uint8Array<ArrayBuffer>> {
+      constructor(_format: CompressionFormat) {
+        super({
+          // 该例只控制解压后的分块；原生 gzip 正确性由主测试的字节往返核验。
+          transform() {},
+          flush(controller) {
             controller.enqueue(Uint8Array.of(9, 8))
             controller.enqueue(Uint8Array.of(7))
-            controller.close()
           },
         })
-        this.writable = new WritableStream()
       }
-    }
-    globalThis.DecompressionStream = SplitGzip as typeof DecompressionStream
-    try {
-      const out = await decompressGzip(new Blob([gzipSync(Uint8Array.of(1))]))
-      expect(Array.from(out)).toEqual([9, 8, 7])
-    } finally {
-      globalThis.DecompressionStream = saved
-    }
-  })
-
-  it('G02-B06 rleFrameToIndexedImage 复用同一份 opaque 数组', () => {
-    const frame = parseSpriteChunk(twoFrameChunk())[0]
-    if (!frame) throw new Error('fixture frame missing')
-    const image = rleFrameToIndexedImage(frame)
-    expect(image.opaque).toBe(frame.opaque)
-    expect(Array.from(image.opaque)).toEqual([1])
+    } satisfies typeof DecompressionStream
+    vi.stubGlobal('DecompressionStream', SplitGzip)
+    expect(Array.from(await decompressGzip(new Blob([gzipSync(Uint8Array.of(1))])))).toEqual([
+      9, 8, 7,
+    ])
   })
 
   it('G02-B07 首帧宽 7 时 anchorX 为 3，更高的后续帧不改锚点', () => {

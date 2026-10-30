@@ -1,6 +1,6 @@
 /**
  * TEST-GROK-RENDER-HOST-LARGE-1 G04-C。
- * 调用方 present.ts 场景 fade 与 present-battle 入场 fade 都走 applyDitherSteps。
+ * 调用方是 present.ts 场景 fade；战斗入场的整像素切换不调用此 helper。
  * 不重复 dither-fade.test 的 step0→0xA2、outer1 的 +1→0xA3、72 步收敛。
  */
 import { describe, expect, it } from 'vitest'
@@ -10,12 +10,17 @@ describe('G04-C dither 相位与低位回退', () => {
   it('G04-C01 step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4', () => {
     const target = new Uint8Array(6).fill(0xa5)
     const backup = new Uint8Array(6).fill(0x32)
-    const order = [3, 1, 5, 2, 4]
-    for (let n = 0; n < order.length; n++) {
+    const expectedByStep = [
+      [0x32, 0x32, 0x32, 0xa2, 0x32, 0x32],
+      [0x32, 0xa2, 0x32, 0xa2, 0x32, 0x32],
+      [0x32, 0xa2, 0x32, 0xa2, 0x32, 0xa2],
+      [0x32, 0xa2, 0xa2, 0xa2, 0x32, 0xa2],
+      [0x32, 0xa2, 0xa2, 0xa2, 0xa2, 0xa2],
+    ]
+    for (const [n, expected] of expectedByStep.entries()) {
       applyDitherSteps(target, backup, n + 1, n + 2)
-      expect(backup[order[n]!] ?? -1).toBe(0xa2)
+      expect(Array.from(backup)).toEqual(expected)
     }
-    expect(Array.from(backup)).toEqual([0x32, 0xa2, 0xa2, 0xa2, 0xa2, 0xa2])
   })
 
   it('G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动', () => {

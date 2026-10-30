@@ -1,0 +1,7 @@
+{
+  "scope": "Bookkeeping only; not product failure/control credit",
+  "priorReceipt": "scope-verification-before-label-fix.json",
+  "cause": "Relabeled initial docs failure receipt still pointed to final docs raw name. Corrected raw filename binding to preserved before-gates gzip; no raw bytes changed.",
+  "finalReceipt": "scope-verification.json",
+  "result": "All preserved raw byte counts/hashes and final receipts verified."
+}

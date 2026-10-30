@@ -1,0 +1,13 @@
+{
+  "command": ["git", "show", "-s", "--format=%H%n%D%n%s", "origin/main"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T23:11:54.615459+00:00",
+  "completedAt": "2026-10-17T23:11:54.623973+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "main-final.raw.gz",
+  "rawBytes": 144,
+  "rawSha256": "38987edf9eee2816dc689b9a05311c23a0b0cce9a2ff8efd1e9f55fac3a64cd6",
+  "fullUncutMergedStdoutStderr": true
+}

@@ -1,0 +1,49 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/pal-extract
+
+ ❯ src/events/disasm.test.ts (14 tests | 1 failed) 8ms
+     ✓ end(0x0000) 1ms
+     ✓ goto(0x0003) 跳到指令 5,产 label "L_5" 0ms
+     ✓ showDialog(0xFFFF) 内联文本(messageIndex 是 operand[0]) 0ms
+     ✓ giveItem(0x001F) 0ms
+     ✓ 未具名 opcode → raw 0ms
+     ✓ L29:13 个 raw 条件跳转 opcode 的目标会打 L_ 标签 0ms
+     ✓ bytecode 长度不是 8 倍数 → 报错 0ms
+     ✓ 未被跳转的入口 ip 也会打 label 0ms
+     ✓ 四个 setDialogStyle 反汇编为具名 Command 0ms
+     ✓ round-trip 字节级一致 0ms
+     ✓ 非 0 operand 进 arg0/arg1/arg2 并 round-trip 一致 0ms
+     ✓ loadScene opcode 反汇编为具名 Command 0ms
+     ✓ loadScene round-trip 字节级一致 0ms
+   × labels implicit saved entries after advance and checkpoint without changing raw bytes 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/events/disasm.test.ts > labels implicit saved entries after advance and checkpoint without changing raw bytes
+AssertionError: expected undefined to be 'L_1' // Object.is equality
+
+- Expected:
+"L_1"
+
++ Received:
+undefined
+
+ ❯ src/events/disasm.test.ts:188:28
+    186|   const raw = concat(instr(1), instr(8), instr(0))
+    187|   const parsed = disasm(raw, [], [0])
+    188|   expect(parsed[1]?.label).toBe('L_1')
+       |                            ^
+    189|   expect(parsed[2]?.label).toBe('L_2')
+    190|   expect(recompile(parsed, [])).toEqual(raw)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 13 passed (14)
+   Start at  16:43:13
+   Duration  188ms (transform 66ms, setup 0ms, import 81ms, tests 8ms, environment 0ms)
+
+undefined
+/Users/zhangxu/illegal/type-pal/packages/pal-extract:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/events/disasm.test.ts --reporter=default

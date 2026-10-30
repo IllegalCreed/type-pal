@@ -1,0 +1,25 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/scene-system-search.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-search-direct.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T19:58:54.310836+00:00",
+  "completedAt": "2026-10-17T19:58:55.406990+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "direct.raw.gz",
+  "rawBytes": 372,
+  "rawSha256": "397c445f0c828c73cfabd71bda9727bbc2bb53d44607feedd4522215867de3fd",
+  "fullUncutMergedStdoutStderr": true
+}

@@ -1,0 +1,599 @@
+{
+  "phase": "before",
+  "base": "46fb9d5fe254e337143914324edba1a3ab36eced",
+  "formalSha256": {
+    "assets/png.ts": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+    "assets/png.test.ts": "16ff70959cfbf35550f36315a1abeac90cf395cb40bee2024c25ec805eed3609",
+    "assets/png-decode.grok-r1.test.ts": "9a011399a2cd6c7e25f1fd53dc876afc002a8500454869db90b77f39dd0005b9",
+    "assets/png.glm-phase1-leaves.test.ts": "ef673c1ce3b4cb6467793f202eb999f093dd4d29de306d4eaabcfd4453c6c5a0",
+    "present/__tests__/grok-present/p10-indexed-png.test.ts": "8b5b21c5a135c0cc8e680dd21e1e5b0d79999bb82d3ffbf753ea3c6c6909c124"
+  },
+  "variants": {
+    "control": [],
+    "palette-one-loss": [
+      ["indices[i] = img.data[i * 4]!", "indices[i] = img.data[i * 4] === 1 ? 0 : img.data[i * 4]!"]
+    ],
+    "cause-replaced": [["{ cause },", "{ cause: new Error('replaced bitmap cause') },"]],
+    "transfer-error-context": [
+      [
+        "    throw new Error(\n      `decodePngToIndices: failed to decode PNG blob (${source.size}B, type=${source.type})`,\n      { cause },\n    )",
+        "    throw cause"
+      ]
+    ],
+    "transfer-close": [["    bitmap.close()\n", ""]]
+  },
+  "runs": [
+    {
+      "name": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/assets/pre94-3h-before-control-png.test.ts",
+        "src/assets/pre94-3h-before-control-png-decode.grok-r1.test.ts",
+        "src/assets/pre94-3h-before-control-png.glm-phase1-leaves.test.ts",
+        "src/present/__tests__/grok-present/pre94-3h-before-control-p10-indexed-png.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-zofosymz/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 2.821,
+      "moduleSha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+      "copiesSha256": {
+        "packages/game/src/assets/pre94-3h-before-control-png.ts": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+        "packages/game/src/assets/pre94-3h-before-control-png.test.ts": "ef3749a05605c037e35165e5ac682c108e5d65216b65f4f84de736874b1e1ee8",
+        "packages/game/src/assets/pre94-3h-before-control-png-decode.grok-r1.test.ts": "66545cfeb1096bcb7704e9b301c5df0eb526b3a837179f962b6d333f29adfc6a",
+        "packages/game/src/assets/pre94-3h-before-control-png.glm-phase1-leaves.test.ts": "86e18c2bb33c2626cc13079fd165e4470ecc7c1cede18470308fd06b4adbfbec",
+        "packages/game/src/present/__tests__/grok-present/pre94-3h-before-control-p10-indexed-png.test.ts": "2a0f69d1cd16a6639fa3d519c17ff9742874f7c42735ca5697d3d70900ac61f1"
+      },
+      "rawSha256": "f108eea3c944ffd110fd2e4a35f399fe2de9eaa3354aad83cebfb0afdfa01389",
+      "runnerSha256": "3fc943385f25a47be30948b100c4210c0446d81a7fbbf2275a7ae3c4f12ab60d",
+      "passed": 10,
+      "failed": 0,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A02 3×2 图的末像素落在下标 5，宽高不是写死的 2×1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A04 4 字节坏 blob 的错误同时带上字节数和 MIME 类型",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A05 解码失败时把原始异常放在 Error.cause 上",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png.glm-phase1-leaves.test.ts",
+          "fullName": "L23 decodePngToIndices 剩余合同 alpha=0 → opaque 0（RLE-skip 透明），alpha>0 → opaque 1（palette-0 也保）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png.glm-phase1-leaves.test.ts",
+          "fullName": "L23 decodePngToIndices 剩余合同 坏 blob → 失败上下文带尺寸/类型，不裸抛",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png.test.ts",
+          "fullName": "decodePngToIndices 从 Blob 解出索引数组(取 R 通道)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "p10-indexed-png.test.ts",
+          "fullName": "P10 PNG消费与释放 P10 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "p10-indexed-png.test.ts",
+          "fullName": "P10 PNG消费与释放 P10 解码失败不持有bitmap，getImageData或drawImage失败仍关闭",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": []
+    },
+    {
+      "name": "palette-one-loss",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/assets/pre94-3h-before-palette-one-loss-png.test.ts",
+        "src/assets/pre94-3h-before-palette-one-loss-png-decode.grok-r1.test.ts",
+        "src/assets/pre94-3h-before-palette-one-loss-png.glm-phase1-leaves.test.ts",
+        "src/present/__tests__/grok-present/pre94-3h-before-palette-one-loss-p10-indexed-png.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-3ims5ud6/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 2.517,
+      "moduleSha256": "22f3cd3d3fb53e1c05c9ef7cfd5bc7e894fbd696b063dfe1518bb8c744359690",
+      "copiesSha256": {
+        "packages/game/src/assets/pre94-3h-before-palette-one-loss-png.ts": "22f3cd3d3fb53e1c05c9ef7cfd5bc7e894fbd696b063dfe1518bb8c744359690",
+        "packages/game/src/assets/pre94-3h-before-palette-one-loss-png.test.ts": "1f700a7260ae70a3d5e791762e0646733a83065ffeb92f23ae3d17e3279e8e3c",
+        "packages/game/src/assets/pre94-3h-before-palette-one-loss-png-decode.grok-r1.test.ts": "8c40e5d5baf91b43362d370270983d962b08eb7559607b098f23e8ce1d9ccad7",
+        "packages/game/src/assets/pre94-3h-before-palette-one-loss-png.glm-phase1-leaves.test.ts": "66d1cf3fdfe70bf144e744fd71e360172f9b5befc803751870aa71e6b566a984",
+        "packages/game/src/present/__tests__/grok-present/pre94-3h-before-palette-one-loss-p10-indexed-png.test.ts": "e3c5bdc9e1af4cc9ecc06a7dfe4ed32a27b125f571062bf44ea092e68740f590"
+      },
+      "rawSha256": "2ef099bb885be564c13161c05f636f3be2b020aea8ea13b8638e6a2ea1a9a51a",
+      "runnerSha256": "9afb01ff4039c59494996b208686066697c3326b20124bd8cdbfea5dae3eb3fc",
+      "passed": 10,
+      "failed": 0,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A02 3×2 图的末像素落在下标 5，宽高不是写死的 2×1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A04 4 字节坏 blob 的错误同时带上字节数和 MIME 类型",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A05 解码失败时把原始异常放在 Error.cause 上",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png.glm-phase1-leaves.test.ts",
+          "fullName": "L23 decodePngToIndices 剩余合同 alpha=0 → opaque 0（RLE-skip 透明），alpha>0 → opaque 1（palette-0 也保）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png.glm-phase1-leaves.test.ts",
+          "fullName": "L23 decodePngToIndices 剩余合同 坏 blob → 失败上下文带尺寸/类型，不裸抛",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png.test.ts",
+          "fullName": "decodePngToIndices 从 Blob 解出索引数组(取 R 通道)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "p10-indexed-png.test.ts",
+          "fullName": "P10 PNG消费与释放 P10 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "p10-indexed-png.test.ts",
+          "fullName": "P10 PNG消费与释放 P10 解码失败不持有bitmap，getImageData或drawImage失败仍关闭",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": []
+    },
+    {
+      "name": "cause-replaced",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/assets/pre94-3h-before-cause-replaced-png.test.ts",
+        "src/assets/pre94-3h-before-cause-replaced-png-decode.grok-r1.test.ts",
+        "src/assets/pre94-3h-before-cause-replaced-png.glm-phase1-leaves.test.ts",
+        "src/present/__tests__/grok-present/pre94-3h-before-cause-replaced-p10-indexed-png.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-zu7utjk7/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 2.625,
+      "moduleSha256": "ef6393c29d2d4354f3df7f0bbfdb7970f6cb768c67efe5930478cc4a9ddba21b",
+      "copiesSha256": {
+        "packages/game/src/assets/pre94-3h-before-cause-replaced-png.ts": "ef6393c29d2d4354f3df7f0bbfdb7970f6cb768c67efe5930478cc4a9ddba21b",
+        "packages/game/src/assets/pre94-3h-before-cause-replaced-png.test.ts": "66b22ea94776d137ae910d878366eaa07af53d02fd345f7249bb432da5436085",
+        "packages/game/src/assets/pre94-3h-before-cause-replaced-png-decode.grok-r1.test.ts": "4a69ee5ded5cdf5d88032993008da6fe77e48795103c04aec9288623ff206852",
+        "packages/game/src/assets/pre94-3h-before-cause-replaced-png.glm-phase1-leaves.test.ts": "9130b5b5b41081b031950e1c8aa34a30acf144a0e510d13aaa05cac2b2d49db2",
+        "packages/game/src/present/__tests__/grok-present/pre94-3h-before-cause-replaced-p10-indexed-png.test.ts": "0077808530f64e12d86cdb445eb622e76091492c1a029f194bcbb3baeb690588"
+      },
+      "rawSha256": "2fdae7db5ac76f5437217e49e2f3cbc3151f9f115fc81010d79ffb2189776a33",
+      "runnerSha256": "2c562a368880e91cf201d293ab3a9f0d8d1b1ccca980b34d841d7567ecf4b0f9",
+      "passed": 10,
+      "failed": 0,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A02 3×2 图的末像素落在下标 5，宽高不是写死的 2×1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A04 4 字节坏 blob 的错误同时带上字节数和 MIME 类型",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A05 解码失败时把原始异常放在 Error.cause 上",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png.glm-phase1-leaves.test.ts",
+          "fullName": "L23 decodePngToIndices 剩余合同 alpha=0 → opaque 0（RLE-skip 透明），alpha>0 → opaque 1（palette-0 也保）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png.glm-phase1-leaves.test.ts",
+          "fullName": "L23 decodePngToIndices 剩余合同 坏 blob → 失败上下文带尺寸/类型，不裸抛",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png.test.ts",
+          "fullName": "decodePngToIndices 从 Blob 解出索引数组(取 R 通道)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "p10-indexed-png.test.ts",
+          "fullName": "P10 PNG消费与释放 P10 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "p10-indexed-png.test.ts",
+          "fullName": "P10 PNG消费与释放 P10 解码失败不持有bitmap，getImageData或drawImage失败仍关闭",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": []
+    },
+    {
+      "name": "transfer-error-context",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/assets/pre94-3h-before-transfer-error-context-png.test.ts",
+        "src/assets/pre94-3h-before-transfer-error-context-png-decode.grok-r1.test.ts",
+        "src/assets/pre94-3h-before-transfer-error-context-png.glm-phase1-leaves.test.ts",
+        "src/present/__tests__/grok-present/pre94-3h-before-transfer-error-context-p10-indexed-png.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-xu8u_vx5/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 2.482,
+      "moduleSha256": "165a59656c799b42d5f01c8fab1682e4b261e5b33a26c53882e986dd9d2b094d",
+      "copiesSha256": {
+        "packages/game/src/assets/pre94-3h-before-transfer-error-context-png.ts": "165a59656c799b42d5f01c8fab1682e4b261e5b33a26c53882e986dd9d2b094d",
+        "packages/game/src/assets/pre94-3h-before-transfer-error-context-png.test.ts": "2cf1fca1159a0740e293b8e285b358edf83ff297bd20b759c4e7896a18dab731",
+        "packages/game/src/assets/pre94-3h-before-transfer-error-context-png-decode.grok-r1.test.ts": "647f72d4be0f692f4d9a4a124cd4f48a6c48063be4e1e90c66caad28b107f77d",
+        "packages/game/src/assets/pre94-3h-before-transfer-error-context-png.glm-phase1-leaves.test.ts": "22038a4b5a30c646bdec24ac6a0a55b9f7539a9d2651bd3ed85dfe39c6f8d04c",
+        "packages/game/src/present/__tests__/grok-present/pre94-3h-before-transfer-error-context-p10-indexed-png.test.ts": "3503e885d2b1baa2189a7a4d54f0f6896c2d86412b68762f7a94ca67dac82b33"
+      },
+      "rawSha256": "cbfefd8eb5332f989def744f5ef5bd2fa7e51f51a67e0c4603e2a232e1b7487f",
+      "runnerSha256": "2e120fed2ec4239c6f12e3e5293371e337ecb101bf538e7f41e1ba6724035f13",
+      "passed": 6,
+      "failed": 4,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A02 3×2 图的末像素落在下标 5，宽高不是写死的 2×1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A04 4 字节坏 blob 的错误同时带上字节数和 MIME 类型",
+          "status": "failed",
+          "messages": [
+            "Error: expected [Function] to throw error including 'decodePngToIndices: failed to decode …' but got 'Unsupported image type'\n    at _Assertion.__VITEST_REJECTS__ (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1747:17)\n    at _Assertion.propertyGetter (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1570:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1659:22)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/assets/pre94-3h-before-transfer-error-context-png-decode.grok-r1.test.ts:63:42\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+          ]
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A05 解码失败时把原始异常放在 Error.cause 上",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected 'Unsupported image type' to be 'decodePngToIndices: failed to decode …' // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/assets/pre94-3h-before-transfer-error-context-png-decode.grok-r1.test.ts:76:28\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "png.glm-phase1-leaves.test.ts",
+          "fullName": "L23 decodePngToIndices 剩余合同 alpha=0 → opaque 0（RLE-skip 透明），alpha>0 → opaque 1（palette-0 也保）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png.glm-phase1-leaves.test.ts",
+          "fullName": "L23 decodePngToIndices 剩余合同 坏 blob → 失败上下文带尺寸/类型，不裸抛",
+          "status": "failed",
+          "messages": [
+            "Error: expected [Function] to throw error matching /decodePngToIndices: failed to decode/ but got 'Unsupported image type'\n    at _Assertion.__VITEST_REJECTS__ (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1747:17)\n    at _Assertion.propertyGetter (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1570:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1659:22)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/assets/pre94-3h-before-transfer-error-context-png.glm-phase1-leaves.test.ts:33:42\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+          ]
+        },
+        {
+          "file": "png.test.ts",
+          "fullName": "decodePngToIndices 从 Blob 解出索引数组(取 R 通道)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "p10-indexed-png.test.ts",
+          "fullName": "P10 PNG消费与释放 P10 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "p10-indexed-png.test.ts",
+          "fullName": "P10 PNG消费与释放 P10 解码失败不持有bitmap，getImageData或drawImage失败仍关闭",
+          "status": "failed",
+          "messages": [
+            "Error: expected [Function] to throw error matching /decodePngToIndices: failed to decode …/ but got 'Unsupported image type'\n    at _Assertion.__VITEST_REJECTS__ (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1747:17)\n    at _Assertion.propertyGetter (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1570:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1659:22)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/__tests__/grok-present/pre94-3h-before-transfer-error-context-p10-indexed-png.test.ts:88:7\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+          ]
+        }
+      ],
+      "reportedErrors": [
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A04 4 字节坏 blob 的错误同时带上字节数和 MIME 类型",
+          "errorName": "AssertionError"
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A05 解码失败时把原始异常放在 Error.cause 上",
+          "errorName": "AssertionError"
+        },
+        {
+          "file": "png.glm-phase1-leaves.test.ts",
+          "fullName": "L23 decodePngToIndices 剩余合同 坏 blob → 失败上下文带尺寸/类型，不裸抛",
+          "errorName": "AssertionError"
+        },
+        {
+          "file": "p10-indexed-png.test.ts",
+          "fullName": "P10 PNG消费与释放 P10 解码失败不持有bitmap，getImageData或drawImage失败仍关闭",
+          "errorName": "AssertionError"
+        }
+      ]
+    },
+    {
+      "name": "transfer-close",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/assets/pre94-3h-before-transfer-close-png.test.ts",
+        "src/assets/pre94-3h-before-transfer-close-png-decode.grok-r1.test.ts",
+        "src/assets/pre94-3h-before-transfer-close-png.glm-phase1-leaves.test.ts",
+        "src/present/__tests__/grok-present/pre94-3h-before-transfer-close-p10-indexed-png.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-owbafpa6/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 2.898,
+      "moduleSha256": "ec45527cc96f80d848e346997190a80d9de7086abc06ddeba6a116df7486567c",
+      "copiesSha256": {
+        "packages/game/src/assets/pre94-3h-before-transfer-close-png.ts": "ec45527cc96f80d848e346997190a80d9de7086abc06ddeba6a116df7486567c",
+        "packages/game/src/assets/pre94-3h-before-transfer-close-png.test.ts": "2d528ed085a3efcbec14f92ab3f13ba0a02bb65a5cfe25fc566aee840eb958a5",
+        "packages/game/src/assets/pre94-3h-before-transfer-close-png-decode.grok-r1.test.ts": "f5bc350f70b260afc3b0ab008e0142927db1435e3908e39c749377fef7e0eee8",
+        "packages/game/src/assets/pre94-3h-before-transfer-close-png.glm-phase1-leaves.test.ts": "f5451baaccdc5ae6fed803b914a588cee03458cecadf0d8c5980d0eb73e732e2",
+        "packages/game/src/present/__tests__/grok-present/pre94-3h-before-transfer-close-p10-indexed-png.test.ts": "28274dccd30e4d6e15817140c9607b4bf4ea8a4343864608ebb8e0699805d2f6"
+      },
+      "rawSha256": "94ae73b0066cad38fe18c11855e4c070d3e0a357d4ca9dd40f52dff74869e67d",
+      "runnerSha256": "a07da9da1cb2837a94790065dd76da73ce46f25fd3febef81221e202dada5c61",
+      "passed": 8,
+      "failed": 2,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A01 不透明像素的 G 与 B 非零时，索引仍只取 R",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A02 3×2 图的末像素落在下标 5，宽高不是写死的 2×1",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected +0 to be 1 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/assets/pre94-3h-before-transfer-close-png-decode.grok-r1.test.ts:54:22\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A04 4 字节坏 blob 的错误同时带上字节数和 MIME 类型",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A05 解码失败时把原始异常放在 Error.cause 上",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png.glm-phase1-leaves.test.ts",
+          "fullName": "L23 decodePngToIndices 剩余合同 alpha=0 → opaque 0（RLE-skip 透明），alpha>0 → opaque 1（palette-0 也保）",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png.glm-phase1-leaves.test.ts",
+          "fullName": "L23 decodePngToIndices 剩余合同 坏 blob → 失败上下文带尺寸/类型，不裸抛",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "png.test.ts",
+          "fullName": "decodePngToIndices 从 Blob 解出索引数组(取 R 通道)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "p10-indexed-png.test.ts",
+          "fullName": "P10 PNG消费与释放 P10 不透明0、透明孔和不同索引经解码后被drawSprite写进Framebuffer",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "p10-indexed-png.test.ts",
+          "fullName": "P10 PNG消费与释放 P10 解码失败不持有bitmap，getImageData或drawImage失败仍关闭",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected +0 to be 1 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/__tests__/grok-present/pre94-3h-before-transfer-close-p10-indexed-png.test.ts:99:30\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "reportedErrors": [
+        {
+          "file": "png-decode.grok-r1.test.ts",
+          "fullName": "G02-A decodePngToIndices 通道与上下文 G02-A03 2d 上下文缺失时抛固定错误，并关闭已经创建的 bitmap",
+          "errorName": "AssertionError"
+        },
+        {
+          "file": "p10-indexed-png.test.ts",
+          "fullName": "P10 PNG消费与释放 P10 解码失败不持有bitmap，getImageData或drawImage失败仍关闭",
+          "errorName": "AssertionError"
+        }
+      ]
+    }
+  ],
+  "reusedNativeReceipts": [
+    "control",
+    "palette-one-loss",
+    "cause-replaced",
+    "transfer-error-context"
+  ],
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

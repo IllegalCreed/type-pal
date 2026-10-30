@@ -1,0 +1,19 @@
+{
+  "command": [
+    "rg",
+    "-n",
+    "__battle(Resources|RunScript)",
+    "packages/game/src",
+    "--glob",
+    "!*.test.ts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "private-key-production-census.raw.gz",
+  "rawBytes": 379,
+  "rawSha256": "415a396b3bd517fa1eccb8a7ea962f973fcaaba2979ea94f821433fcd4cbacc3",
+  "fullUncutMergedStdoutStderr": true,
+  "scope": "Literal source census only: owning module and one system comment; actual typed production ports were read separately. Not a claim of arbitrary dynamic whole-runtime reachability."
+}

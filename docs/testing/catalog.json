@@ -153,6 +153,26 @@
           "policy": "docs/testing/governance.md#版本适用性",
           "runtimeExecutionPerformed": false
         }
+      ],
+      "publicationReviews": [
+        {
+          "date": "2026-10-20",
+          "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+          "previousReviewBy": "2026-10-18",
+          "reviewBy": "2026-11-03",
+          "status": "proposal",
+          "lastVerified": "2026-10-04",
+          "evidence": "e2e/evidence/e2e-route.json#publicationReviews",
+          "scope": "substantive source/publication review of the route proposal; no browser route execution",
+          "conclusion": "proposal retained; current same-engine predecessor admission, owned checkpoint and exact-input/completion responsibilities remain consistent with the route design. Original runner-missing statements are dated quotations. No current full-game or stage execution inferred.",
+          "notRun": [
+            "browser/runtime route",
+            "new NPC draw/motion or visual acceptance",
+            "checkpoint-chain regeneration",
+            "editor preview start-state acceptance",
+            "capture"
+          ]
+        }
       ]
     },
     {
@@ -210,10 +230,10 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "515-630",
+          "lines": "516-631",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "1968bcb8b8c1bfd45ea4928242b719a04635f84ab9ec4d4728cb7f8888abeb7a"
+          "sha256": "487c80f3a5777d9e24fc23c73a40e1e0919eac602c9947129343cba1959d3f31"
         }
       ],
       "publicCallers": [
@@ -328,10 +348,10 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "515-630",
+          "lines": "516-631",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "1968bcb8b8c1bfd45ea4928242b719a04635f84ab9ec4d4728cb7f8888abeb7a"
+          "sha256": "487c80f3a5777d9e24fc23c73a40e1e0919eac602c9947129343cba1959d3f31"
         }
       ],
       "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
@@ -1971,10 +1991,10 @@
       "sourceRefs": [
         {
           "path": "packages/game/src/core/script-catalog.ts",
-          "lines": "33-40",
-          "anchor": "export function patchGiveItemZeroBugs",
+          "lines": "16",
+          "anchor": "export function setGlobalEvents",
           "role": "owner",
-          "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0"
+          "sha256": "ec8f3713ed670a0af5efdf0d9e1bc940b6a5048a794b344bcd171d99b0617cc1"
         },
         {
           "path": "packages/game/src/core/inventory-state.ts",
@@ -1988,42 +2008,42 @@
           "lines": "6-13",
           "anchor": "export const MAX_PLAYER_EQUIPMENTS",
           "role": "owner",
-          "sha256": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c"
+          "sha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205"
         },
         {
           "path": "packages/game/src/core/player-poison-state.ts",
-          "lines": "12-19",
+          "lines": "11",
           "anchor": "export function setObjectPoisons",
           "role": "owner",
-          "sha256": "074b4318ac0b92d6e9a5621e23ea84303a335056b83a60803e6690a690de214c"
+          "sha256": "840f44416c30932d1044eb9e2f422d6b44ce95542289b84329b1c9968fc499f0"
         },
         {
           "path": "packages/game/src/core/scene-identity.ts",
-          "lines": "6-13",
+          "lines": "6",
           "anchor": "export function getCurrentMapNum",
           "role": "owner",
-          "sha256": "8e47a8b7ff7e1d3b360f5984f819b207e480581b4c2042f98ef1abe0681b89ef"
+          "sha256": "7a3b6d9d9b1686b14e684175f8f54c14ead752c4a110eb67c336ec01ba03c44e"
         },
         {
           "path": "packages/game/src/core/menu/menu-stack.ts",
           "lines": "12-19",
           "anchor": "export function resumeAfterMenusClosed",
           "role": "owner",
-          "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2"
+          "sha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46"
         },
         {
           "path": "packages/game/src/core/dependency-ownership.test.ts",
-          "lines": "26-45",
+          "lines": "26",
           "anchor": "describe('D1 shared-state ownership",
           "role": "oracle",
-          "sha256": "6a514f7752e11dc9fabe9828c954688803060e041ea2898df1753dfc374423ed"
+          "sha256": "7a58919553a2c6849c457f8d8afff9a208c7cdaa3a562eee7b8b5e285b064206"
         },
         {
           "path": "packages/game/src/core/cross-module-boundaries.test.ts",
-          "lines": "45-64",
+          "lines": "25",
           "anchor": "describe('G07",
           "role": "oracle",
-          "sha256": "9359f945fb2d77563326ccaca7f140250d747a0972aef46e15e91c2106a077e4"
+          "sha256": "18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -2039,10 +2059,216 @@
         "minimumSaveVersion": 11,
         "history": [
           {
+            "date": "2026-10-20",
+            "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+            "action": "menu-stack comment binding only",
+            "sourceRef": "packages/game/src/core/menu/menu-stack.ts",
+            "previousSourceSha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+            "sourceSha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46",
+            "scope": "Only correct closeTopMenu timing prose. Emitted JavaScript identical;resumeAfterMenusClosed owner/signature/body unchanged. No new D1 SCC/token/mutant/browser execution;historical status/candidate/versions/dates retained.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+            "notRun": ["historical D1 audit/needles", "new browser/story E2E"]
+          },
+          {
+            "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+            "date": "2026-10-20",
+            "action": "five-card poison-comment binding only",
+            "sourceRef": "packages/game/src/core/player-poison-state.ts",
+            "sourceSha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8",
+            "scope": "Only correct separate cure/heal prose;helper emitted JavaScript and owner signature identical to prior CODE53 proof. No new D1 SCC/token/needles/browser/execution credit;historical publication/versions/candidate/dates retained.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+            "notRun": ["historical D1 audit/needles", "browser/story E2E"],
+            "previousSourceSha256": "3c7ed5879374144001595a6bc1c6d1ef1a71ab63a6407c55fd94bd89ec7bfa5a"
+          },
+          {
+            "date": "2026-10-20",
+            "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+            "action": "GLM29 equipment comment source binding only",
+            "sourceRef": "packages/game/src/core/equipment-state.ts",
+            "previousSourceSha256": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c",
+            "sourceSha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081",
+            "scope": "e0b332b90 removed stale claims that DualAttack/poison cleanup was unimplemented; f263ded94 corrected level>=99 poison commentary and its explicit compression limit. removeComments printed TypeScript bytes identical; owner export/caller contract unchanged. No new D1 SCC/token/mutant/browser/architecture acceptance. Historical versions, runtimeExecution, catalog status and execution dates retained.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+            "notRun": ["D1 historical audit and needles", "browser", "E2E route execution"]
+          },
+          {
+            "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
+            "date": "2026-10-18",
+            "action": "poison-comment-sourceRef-binding-only",
+            "sourceRef": "packages/game/src/core/player-poison-state.ts",
+            "previousSourceSha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+            "sourceSha256": "3c7ed5879374144001595a6bc1c6d1ef1a71ab63a6407c55fd94bd89ec7bfa5a",
+            "scope": "Only comments changed; removeComments JavaScript bytes identical. Existing setObjectPoisons signature/owner binding unchanged. Preserve catalog status/lastVerified/reviewBy, historical candidate/versions/runtimeExecution; no rerun of old D1 SCC/token/browser/needles or new architecture acceptance. Current11 ownership tests are only finite regression at the linked slice.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md",
+            "notRun": [
+              "original D1 audit/needles",
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
+          {
             "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-10-22",
+            "action": "script-correction-ownership-delta",
+            "scope": "Treasure repair moved from runtime catalog into versioned extraction. setGlobalEvents now publishes the supplied corrected array without mutating operands. Finite catalog ownership test updated; historical D1 SCC/token/browser results are not rerun or promoted.",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/script-catalog.ts",
+                "lines": "33-40",
+                "anchor": "export function patchGiveItemZeroBugs",
+                "role": "owner",
+                "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0"
+              },
+              {
+                "path": "packages/game/src/core/dependency-ownership.test.ts",
+                "lines": "26-45",
+                "anchor": "describe('D1 shared-state ownership",
+                "role": "oracle",
+                "sha256": "d483cc817fa920d93c453fef65dd1c6a5dcc59615667ceeeca7b10bafdd186c9"
+              }
+            ],
+            "evidence": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md"
+          },
+          {
+            "date": "2026-10-24",
+            "base": "3609b4d23339bae1f23e6492d9c11cd4a955351e",
+            "action": "approved catalog internal API and typed test delta",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/script-catalog.ts",
+                "lines": "17",
+                "anchor": "export function setGlobalEvents",
+                "role": "owner",
+                "sha256": "d55d22f0fe6106eea3a20ef7180f78a874aa12ef394af04808284a5bf6deeecd"
+              },
+              {
+                "path": "packages/game/src/core/scene-identity.ts",
+                "lines": "6-13",
+                "anchor": "export function getCurrentMapNum",
+                "role": "owner",
+                "sha256": "8e47a8b7ff7e1d3b360f5984f819b207e480581b4c2042f98ef1abe0681b89ef"
+              },
+              {
+                "path": "packages/game/src/core/dependency-ownership.test.ts",
+                "lines": "26",
+                "anchor": "describe('D1 shared-state ownership",
+                "role": "oracle",
+                "sha256": "101d1e8c64d066345bd2a9d51f5e712d689d4fdb01d0ef49e919eb1ec7324b1a"
+              },
+              {
+                "path": "packages/game/src/core/cross-module-boundaries.test.ts",
+                "lines": "45-64",
+                "anchor": "describe('G07",
+                "role": "oracle",
+                "sha256": "9359f945fb2d77563326ccaca7f140250d747a0972aef46e15e91c2106a077e4"
+              }
+            ],
+            "scope": "Only unused GameState parameter/obsolete return types and six real callsites removed under user approval. Scene identity comments only. Typed fixtures and exact ownership assertions replace invalid casts; G07-01 duplicate transfers to retained D1 two-entry history case. Other emitted product JS and single-owner storage unchanged. Existing31 E2E instrumentation cases ran; historical D1 SCC/161-token/needles/browser claims and all publication status/dates/versions remain unchanged. Whole-pre94 unified gates deferred.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md"
+          },
+          {
+            "date": "2026-10-24",
+            "base": "016b6b8f5d58d91f9a1fe04f292cfa310220d4fd",
+            "action": "approved-wear-lifecycle-source-binding",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/equipment-state.ts",
+                "lines": "6-13",
+                "anchor": "export const MAX_PLAYER_EQUIPMENTS",
+                "role": "owner",
+                "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081"
+              },
+              {
+                "path": "packages/game/src/core/player-poison-state.ts",
+                "lines": "12-19",
+                "anchor": "export function setObjectPoisons",
+                "role": "owner",
+                "sha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8"
+              },
+              {
+                "path": "packages/game/src/core/dependency-ownership.test.ts",
+                "lines": "26",
+                "anchor": "describe('D1 shared-state ownership",
+                "role": "oracle",
+                "sha256": "231f97b5936451ddc703629a38f076d1c88b1e5159225c1dbcf5f290c7209f99"
+              }
+            ],
+            "scope": "Only three current sourceRefs and the Wear slot oracle change. User approved stable16-slot compaction, preserve poison continuation/after-hole survivors/global dedup. Historical D1 candidate/version/status/publication dates/SCC/token/browser credit unchanged; whole-pre94 gates deferred.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md"
+          },
+          {
+            "date": "2026-10-24",
+            "base": "c483a9ca470389b19f49d12566075e56592dcd17",
+            "action": "approved-poison-entry-ownership-source-binding",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/player-poison-state.ts",
+                "lines": "12-19",
+                "anchor": "export function setObjectPoisons",
+                "role": "owner",
+                "sha256": "e8600b608a451f684e17d596d9640cdd6a7bdc15a58b13a340f74ec814b61756"
+              }
+            ],
+            "scope": "Only poison sourceRef and its anchor range updated. User-approved entry reservation and same-record Wear movement; owner export/definition Map unchanged. Current11-file491 regression includes D1. Historical D1 SCC/token/needles/browser/publication/status/versions unchanged; whole-pre94 gates deferred.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md"
+          },
+          {
+            "date": "2026-10-25",
+            "revision": "fdbb909f5389ef6a4c4f0a72ccf1b6652d4b4d15",
+            "action": "scene identity comment and successful map-only caller binding",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/scene-identity.ts",
+                "lines": "6",
+                "anchor": "export function getCurrentMapNum",
+                "role": "owner",
+                "sha256": "f27108fbf432c30d52b93481b8dfb253eda4cb142304a9f8898d99c4a9018ca0"
+              }
+            ],
+            "scope": "Only scene-identity comments change; getter/setter typed AST identical. Approved bootstrap map-only publication uses existing setter. Current seven root browser cases are separate evidence; historical D1 SCC/token/needles/browser, catalog dates/status/versions and execution credit remain unchanged.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md"
+          },
+          {
+            "date": "2026-10-25",
+            "revision": "9c95ab64db974c76ff1e811b581fdd75b28048a3",
+            "action": "approved unused tickMenu argument removal",
+            "previousSourceSha256": "47d2389dd91bb6b7d80a1206b6a4acf6f4d832035ad09b85c65fa1225baba72f",
+            "sourceSha256": "5f91ef21c525bbc2f6270f2990725495ea7e9f0b2b8dc5d0d5cb1a2e6574c502",
+            "scope": "Only unused third bus argument removed at the existing D1 caller; expect AST unchanged. Current 50-file407 regression includes this test; historical D1 SCC/token/needles/browser and publication/version/date fields retained.",
+            "evidence": "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json"
+          },
+          {
+            "date": "2026-10-26",
+            "revision": "fa3fe8d79",
+            "action": "review52 equipment pure stat-sharing source binding",
+            "sourceRef": "packages/game/src/core/equipment-state.ts",
+            "previousSourceSha256": "2bb82b9b422fb8113a84adb35ec4f5224719e493f09024c2ea34cecb055accad",
+            "sourceSha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205",
+            "evidence": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json",
+            "scope": "Six effective-stat sums now share a private narrow helper; owner exports/inputs/storage and numeric results retained. Actual44 equipment and36 adjacent tests are finite regression only. No new historical D1 SCC/161-token/needles/browser or E2E claim; catalog dates/status/versions retained."
+          },
+          {
+            "date": "2026-10-26",
+            "action": "review52-approved-unused-event-argument-removal",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/dependency-ownership.test.ts",
+                "lines": "26",
+                "anchor": "describe('D1 shared-state ownership",
+                "role": "oracle",
+                "sha256": "5f91ef21c525bbc2f6270f2990725495ea7e9f0b2b8dc5d0d5cb1a2e6574c502"
+              }
+            ],
+            "evidence": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+            "scope": "Only current oracle sourceRef identity/anchor; actual diff removes unused bus argument/fixture. Preserve historical execution/status/version claims, no re-credit of old SCC or route runs."
           }
         ]
       },
@@ -2054,6 +2280,563 @@
           "retiredReviewBy": "2026-11-04",
           "policy": "docs/testing/governance.md#版本适用性",
           "runtimeExecutionPerformed": false
+        }
+      ]
+    },
+    {
+      "id": "game-script-corrections",
+      "kind": "report",
+      "title": "两阶段脚本纠错与持久入口回归",
+      "status": "active",
+      "phase": ["phase1", "phase2"],
+      "engines": ["pal-extract", "game", "reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex", "script_extract_impl", "script_runtime_impl", "script_author_impl"],
+      "domain": "cross-phase",
+      "module": "script-corrections",
+      "canonical": "domains/cross-phase/script-corrections/report.md",
+      "index": "domains/cross-phase/script-corrections/README.md",
+      "evidence": "domains/cross-phase/script-corrections/evidence.json",
+      "tags": ["script-corrections", "source-integrity", "save", "regression"],
+      "lastVerified": "2026-10-27",
+      "dependsOn": [],
+      "sourceRefs": [
+        {
+          "path": "packages/pal-extract/src/events/script-corrections.ts",
+          "lines": "186",
+          "anchor": "export function correctScripts",
+          "role": "correction-source",
+          "sha256": "05e3cb0844eb8cd24b5f7d64c2b5ca30ab9aef3fe36ecf5a1913b31b5fc4593d"
+        },
+        {
+          "path": "packages/pal-extract/src/events/win-script-corrections.json",
+          "lines": "2",
+          "anchor": "\"version\": \"pal-win-2\"",
+          "role": "reviewed-rule-data",
+          "sha256": "323331dff539ba2fa4dcb6c0aeaa6e834987b3d10699bf39a12b9cd5e05017cd"
+        },
+        {
+          "path": "packages/pal-extract/src/cli.ts",
+          "lines": "138",
+          "anchor": "const corrected = faithful",
+          "role": "caller",
+          "sha256": "a6cf5e24a0a1706d605fd288757035925843854f0aa379b9e963014908528d77"
+        },
+        {
+          "path": "packages/game/src/core/object-script-state.ts",
+          "lines": "63",
+          "anchor": "export function setMagicScriptEntry",
+          "role": "saved-entry-owner",
+          "sha256": "8d805022e2ea3fc951abd83b3c58f22035140069cf79366f744df2e4e3beee32"
+        },
+        {
+          "path": "packages/game/src/core/script-story-corrections.pal.test.ts",
+          "lines": "33",
+          "anchor": "function play",
+          "role": "oracle",
+          "sha256": "7a54e1598563ca79e5db4e82f1e9214fa4c1102c5ecc7d452cdedf0085975df4"
+        },
+        {
+          "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
+          "lines": "59",
+          "anchor": "function portal",
+          "role": "oracle",
+          "sha256": "633033d8faadf015b1e70e2b14b9901bb272b270d37cba435aa34cab0ef64270"
+        },
+        {
+          "path": "packages/reforge/src/pal-story-corrections.test.ts",
+          "lines": "11",
+          "anchor": "test('鬼阴坛告别",
+          "role": "oracle",
+          "sha256": "caa2b63faa2c75691cbc8b4164f8949e63af4f46ce1bf5e9bcb816ed1d5adcf9"
+        },
+        {
+          "path": "packages/reforge/src/battle/pal-cure-status-corrections.test.ts",
+          "lines": "54",
+          "anchor": "test.each",
+          "role": "oracle",
+          "sha256": "2bd2b255958e04579a377b2aadd29e98f18231c624f52af6d23b6b8371a444c5"
+        },
+        {
+          "path": "packages/game/src/core/scene-supplemental-objects.ts",
+          "lines": "20",
+          "anchor": "export function supplySupplementalSceneObjects",
+          "role": "supplement-owner",
+          "sha256": "155e2f84ab3c30a5ff475833b89a8492ab86e3331fd8ff045f58ca9737d51620"
+        },
+        {
+          "path": "packages/game/src/core/scene-loading.ts",
+          "lines": "56",
+          "anchor": "supplySupplementalSceneObjects(gs",
+          "role": "load-scene-caller",
+          "sha256": "0528106e01f6313ca16401d9b2b0f9ea250be09ad1614cde19a976781359bc4f"
+        },
+        {
+          "path": "packages/game/src/shell/bootstrap.ts",
+          "lines": "346",
+          "anchor": "supplySupplementalSceneObjects(gs",
+          "role": "saved-game-caller",
+          "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+        },
+        {
+          "path": "packages/pal-extract/src/resources/scene.ts",
+          "lines": "50",
+          "anchor": "export function dumpAllEventObjects",
+          "role": "native-range-owner",
+          "sha256": "2980e190a4133f2123cee42cab14b942e4ba7661932aa26170ba679cf8dfceee"
+        },
+        {
+          "path": "packages/pal-extract/src/events/slice.ts",
+          "lines": "52",
+          "anchor": "sceneExtraRoots:",
+          "role": "scene-script-root-owner",
+          "sha256": "02326cae203ba0c9ace378f284d77a8c75ba9da88526506b42bd23542390d583"
+        },
+        {
+          "path": "projects/pal/content/scenes/s286.json",
+          "lines": "1100",
+          "anchor": "\"id\": \"palace-isolated-exit\"",
+          "role": "canonical-exit",
+          "sha256": "51b43388fe9c9f51668a9ee39c61820d6df11e9c79402697663728c22f7cba38"
+        },
+        {
+          "path": "packages/game/src/core/scene-supplemental-objects.pal.test.ts",
+          "lines": "92",
+          "anchor": "loaded %s palace save",
+          "role": "save-caller-oracle",
+          "sha256": "1506d5c485ed5396c79f8a7490325b71419400dc5bd25a376b90432dfcf2e8c5"
+        },
+        {
+          "path": "packages/reforge/src/main.pal-palace-exit.test.ts",
+          "lines": "19",
+          "anchor": "canonical palace zone returns",
+          "role": "zone-delivery-oracle",
+          "sha256": "5ab918612be5c6d5607063323d0398286079f8c8dc807f2e7b2676c65d84a43d"
+        },
+        {
+          "path": "packages/pal-extract/src/events/script-entries.ts",
+          "anchor": "export function collectScriptEntries",
+          "lines": "25",
+          "role": "supplemental-root-owner",
+          "sha256": "4ea2e6817e5fc3e7f36dcd2f5e17aa2e08d093a263f06d9ab7a7ae7f1dee9adf"
+        },
+        {
+          "path": "packages/pal-extract/src/resources/scene-supplemental.test.ts",
+          "anchor": "test('supplemental objects publish",
+          "lines": "6",
+          "role": "supplemental-publication-oracle",
+          "sha256": "b01ec8ace3707d39ecd47650c0f7a6ff1e1d715503de5e32b173f822ee528dad"
+        }
+      ],
+      "publicCallers": [
+        "pnpm extract",
+        "pnpm --filter @type-pal/game exec vitest run src/core/script-corrections.pal.test.ts src/core/script-story-corrections.pal.test.ts src/core/script-topology-corrections.pal.test.ts --reporter=default",
+        "pnpm --filter @type-pal/reforge exec vitest run src/pal-story-corrections.test.ts src/pal-court-corrections.test.ts src/pal-trial-portals-corrections.test.ts src/pal-palace-corrections.test.ts src/battle/pal-cure-status-corrections.test.ts --reporter=default",
+        "Save.saveSlot/loadSlot -> serializeSave/parseImportedSave -> loadScene -> actual tickSceneSystem/tickEventSystem; raw-native normal/won/fled and already-published D10 saves",
+        "bootGame -> canonical collision -> real input move/touch zone delivery -> loadScene -> return/reenter; isolated shell IO artwork seam"
+      ],
+      "legalInputs": [
+        "Supported Win SSS.MKF SHA and original M.MSG; default corrected generation after faithful round-trip",
+        "Current typed GameState, real extracted scripts, isolated legal script boundaries",
+        "Canonical PAL author content22 and SAVE12; stable actor/entity identities",
+        "Native5077 event array and unchanged scene ranges; explicit independent scene286 addition5077; prepared legal original-raw save at928,816, not reporter save or natural-story checkpoint"
+      ],
+      "businessOracle": {
+        "type": "paired-script-gameplay-and-source-integrity",
+        "assertions": [
+          "Declining a purchase preserves cash; successful purchase pays exactly twenty; insufficient cash gives nothing",
+          "Cures remove silence while retaining buffs; replacing/removing the blade keeps correct slot bonuses",
+          "Story completion, conditional actor presence, early handover cleanup and portal return routes hold independently in each phase",
+          "Wine God progress belongs to saved OBJECT state, removes Li Xiaoyao magic on use nine, rejects a tenth through normal action validation, resets on new game",
+          "Bad source/prevalue rejects; raw bytes unchanged; generation is repeatable and final byte changes update asset manifest",
+          "New D10 appends stable5077, leaves enemy4841 and every native ID/range unchanged; both all.json and scene286 contain exit root43518; missing old-save object is shared with global state without resetting native progress.",
+          "Old normal/won/fled/published-portal saves exit through real contact, reach scene286 at1392,616 and do not loop; Reforge original team267 enemy remains beside the separate palace-isolated-exit zone, with real touch exit/reentry."
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "packages/game/src/core/event-system.test.ts",
+          "packages/game/src/core/scene-system.test.ts",
+          "packages/reforge/src/battle/r13-six-b-battle.test.ts",
+          "packages/reforge/src/pal-unified-steps-content.test.ts"
+        ],
+        "notes": "Retired two runtime treasure patch tests with their removed helper; extraction rules and real caller tests replace that contract. Existing generic mechanisms retained. Headless runner/effect seams and map connectivity do not grant complete route or visual E2E credit. 2026-10-27 keeps the original topology case and updates its present-era exit identity4841->5077. New save lifecycle, missing-tail/collision and actual shell zone delivery are distinct callers; historical source hash still includes the restored original enemy and removes only the strictly asserted new zone."
+      },
+      "revision": {
+        "currentSha": null,
+        "shaStatus": "missing-in-report",
+        "contentVersion": 22,
+        "minimumSaveVersion": 12,
+        "history": [
+          {
+            "date": "2026-10-22",
+            "action": "two-phase-corrections-implementation-and-regression",
+            "scope": "Working candidate, before final integration commit. Original red logs, corrected green tests and generation receipts retained. Full browser/story E2E not executed."
+          },
+          {
+            "date": "2026-10-22",
+            "action": "english-display-cli-source-reference-maintenance",
+            "sourceCandidate": "05e1cfcff",
+            "scope": "CLI adds SLF display-pack imports/preflight/output; the common faithful/correctScripts call is unchanged and moved from line230 to233. Rebind this current caller only; preserve all historical script-correction execution results, status, source rules and raw/evidence hashes.",
+            "previousSourceRef": {
+              "path": "packages/pal-extract/src/cli.ts",
+              "lines": "230",
+              "anchor": "const corrected = faithful",
+              "role": "caller",
+              "sha256": "9cb15bea656a04f4c5793386df75a1acd67a38c0ca6774fa431a11304141b8b7"
+            },
+            "currentSourceRef": {
+              "path": "packages/pal-extract/src/cli.ts",
+              "lines": "233",
+              "anchor": "const corrected = faithful",
+              "role": "caller",
+              "sha256": "0474cf59a4c0c67d9d08dd088b44099ab44744dc7ef76e39ab122642c2a31c92"
+            },
+            "maintenanceEvidence": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance.json",
+            "newRuntimeClaim": false
+          },
+          {
+            "date": "2026-10-24",
+            "base": "90506b7594265547422dcc42c952fcd72934a528",
+            "action": "world-stage-pure-move-caller-binding",
+            "previousSourceRefs": [
+              {
+                "path": "packages/pal-extract/src/cli.ts",
+                "lines": "233",
+                "anchor": "const corrected = faithful",
+                "role": "caller",
+                "sha256": "0474cf59a4c0c67d9d08dd088b44099ab44744dc7ef76e39ab122642c2a31c92"
+              }
+            ],
+            "scope": "Only CLI caller sourceRef/hash/line changes. Correction preflight and event pipeline runtime exactly retained by independent stage/import and whole-CLI inlining proof. Preserve all old domain publication/status/versions/runtime claims; current39 CLI cases are finite adjacency, not rerun of historical correction/browser acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md"
+          },
+          {
+            "date": "2026-10-24",
+            "base": "4c684dfd2f307e221f983837958d671f734f6132",
+            "action": "resource-stages-pure-refactor-caller-binding",
+            "previousSourceRefs": [
+              {
+                "path": "packages/pal-extract/src/cli.ts",
+                "lines": "211",
+                "anchor": "const corrected = faithful",
+                "role": "caller",
+                "sha256": "1c7a00699e8c8889e7b516babfdb6f9d3c271ea43c1f8d0eb59de04f57513efa"
+              }
+            ],
+            "scope": "Only CLI caller sourceRef/hash/line changes. Correction preflight and event pipeline runtime exactly retained by independent stage/import and whole-CLI inlining proof. Preserve all old domain publication/status/versions/runtime claims; current39 CLI cases are finite adjacency, not rerun of historical correction/browser acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md"
+          },
+          {
+            "date": "2026-10-26",
+            "action": "review52-approved-unused-event-argument-removal",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/script-story-corrections.pal.test.ts",
+                "lines": "33",
+                "anchor": "function play",
+                "role": "oracle",
+                "sha256": "912ae80ee2c9d7f162999488b21b7ea48d350231590e5d660ff147dd2abda192"
+              },
+              {
+                "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
+                "lines": "59",
+                "anchor": "function portal",
+                "role": "oracle",
+                "sha256": "a95ff231f2a7c434c31d1c989f025e52f2dc1152967ce8f9704c371b6890110b"
+              }
+            ],
+            "evidence": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
+            "scope": "Only current oracle sourceRef identity/anchor; actual diff removes unused bus argument/fixture. Preserve historical execution/status/version claims, no re-credit of old SCC or route runs."
+          },
+          {
+            "date": "2026-10-27",
+            "action": "map204-independent-exit-and-old-save-supply",
+            "candidate": "e4a78b9d986902c9b07c1cb0ce485a52434c0d4b",
+            "previousSourceRefs": [
+              {
+                "path": "packages/pal-extract/src/events/script-corrections.ts",
+                "lines": "148",
+                "anchor": "export function correctScripts",
+                "role": "correction-source",
+                "sha256": "235627c8a17ca5bba8a50ae19a70525c33d6043a9d7305e1bf396d2b85517b0c"
+              },
+              {
+                "path": "packages/pal-extract/src/events/win-script-corrections.json",
+                "lines": "2",
+                "anchor": "\"version\": \"pal-win-1\"",
+                "role": "reviewed-rule-data",
+                "sha256": "c345c2a9b823446105369001d6a672d1368a55784c8dcaa6ec5fed87310c7e02"
+              },
+              {
+                "path": "packages/pal-extract/src/cli.ts",
+                "lines": "138",
+                "anchor": "const corrected = faithful",
+                "role": "caller",
+                "sha256": "1e467403d0bce8f169b0d4be83dd8dfdb02c22831ed2929374a711002eb54387"
+              },
+              {
+                "path": "packages/game/src/core/object-script-state.ts",
+                "lines": "63",
+                "anchor": "export function setMagicScriptEntry",
+                "role": "saved-entry-owner",
+                "sha256": "8d805022e2ea3fc951abd83b3c58f22035140069cf79366f744df2e4e3beee32"
+              },
+              {
+                "path": "packages/game/src/core/script-story-corrections.pal.test.ts",
+                "lines": "33",
+                "anchor": "function play",
+                "role": "oracle",
+                "sha256": "7a54e1598563ca79e5db4e82f1e9214fa4c1102c5ecc7d452cdedf0085975df4"
+              },
+              {
+                "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
+                "lines": "59",
+                "anchor": "function portal",
+                "role": "oracle",
+                "sha256": "2c5c4f954b78df9bf8c2f23e159dfe51dbe29f098e71a480fe5d14cc7a5257a6"
+              },
+              {
+                "path": "packages/reforge/src/pal-story-corrections.test.ts",
+                "lines": "11",
+                "anchor": "test('鬼阴坛告别",
+                "role": "oracle",
+                "sha256": "caa2b63faa2c75691cbc8b4164f8949e63af4f46ce1bf5e9bcb816ed1d5adcf9"
+              },
+              {
+                "path": "packages/reforge/src/battle/pal-cure-status-corrections.test.ts",
+                "lines": "54",
+                "anchor": "test.each",
+                "role": "oracle",
+                "sha256": "2bd2b255958e04579a377b2aadd29e98f18231c624f52af6d23b6b8371a444c5"
+              }
+            ],
+            "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json",
+            "scope": "pal-win-2 keeps native5077 IDs/ranges and original enemy4841, appends resource-authored5077 plus owner roots, supplies absent old-save tail only. Both phases tested; original coverage and historical results retain their dates. Full story/device/CI/release remain separate."
+          },
+          {
+            "date": "2026-10-27",
+            "action": "supplemental-root-owner-and-fast-caller-coverage",
+            "previousSourceRefs": [
+              {
+                "path": "packages/pal-extract/src/cli.ts",
+                "lines": "138",
+                "anchor": "const corrected = faithful",
+                "role": "caller",
+                "sha256": "e6920452adb384babd70e681ab0301dc4f89af741b5240119e18023a88e54ad6"
+              }
+            ],
+            "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json",
+            "scope": "Byte-equivalent CLI loop move, two atomic real-caller tests, formal ownership counter and exact restoration. Prior executions and nonfast PAL/CLI limits retained."
+          },
+          {
+            "date": "2026-10-27",
+            "action": "protected-production-release",
+            "candidate": "c42e333385fe464805de88a51b95ab092abb9f6a",
+            "deployedCommit": "bde596695d9c4d90a8031443ddd1ea033edd5245",
+            "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+            "scope": "Actual official20203/812, protected CI, merged fresh build/all deployment, origin+CDN semantics and finite browser smoke. Hardware, full-story and offline activation remain untested."
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "S76-import-retired-deadline-as-history",
+          "previousReviewBy": "2026-11-27",
+          "parallelSourceRevision": "72db417255d8ca4227522420e9185ef468462aa7",
+          "scope": "Original publication status/runtime claims remain at main source time; active calendar deadline is retired, no execution rerun."
+        }
+      ]
+    },
+    {
+      "id": "game-input-rotation",
+      "kind": "report",
+      "title": "第一阶段可选45°方向控制回归",
+      "status": "verified",
+      "phase": ["phase1"],
+      "engines": ["game"],
+      "owner": "Codex",
+      "provenance": ["Codex", "input_rotation"],
+      "domain": "phase1-runtime",
+      "module": "control-rotation",
+      "canonical": "domains/phase1-runtime/control-rotation/report.md",
+      "index": "domains/phase1-runtime/control-rotation/README.md",
+      "evidence": "domains/phase1-runtime/control-rotation/evidence.json",
+      "tags": ["input", "mobile", "gamepad", "regression"],
+      "lastVerified": "2026-10-27",
+      "dependsOn": [],
+      "sourceRefs": [
+        {
+          "path": "packages/game/src/shell/input-direction.ts",
+          "lines": "6",
+          "anchor": "export function inputDirection",
+          "role": "direction-rule",
+          "sha256": "9a7a7159df05493113165a5eac28c20cf6dc4343ade0cdb63c8df9a15a15d104"
+        },
+        {
+          "path": "packages/game/src/shell/input-rotation.ts",
+          "lines": "6",
+          "anchor": "export function isInputRotated",
+          "role": "preference-owner",
+          "sha256": "3607d404261b9012f63cca24f9b60248d242d62deaed9474a6c2c26a24d5d48e"
+        },
+        {
+          "path": "packages/game/src/shell/gamepad-input.ts",
+          "lines": "28",
+          "anchor": "setRotation(rotated: boolean)",
+          "role": "stick-owner",
+          "sha256": "d8bfd6ce3cc90fb3942a3ecf12035ca6bcb2b79a9908f9fcca5f96c2a7d9a2ce"
+        },
+        {
+          "path": "packages/game/src/shell/touch-controls.ts",
+          "lines": "43",
+          "anchor": "const directionButton =",
+          "role": "pointer-owner",
+          "sha256": "025ba5a83f315f0ec97f2161cbf9f6fe083f3aaddec16c5e184f31f51d6f9b56"
+        },
+        {
+          "path": "packages/game/src/shell/game-shell.ts",
+          "lines": "65",
+          "anchor": "const updateRotation =",
+          "role": "visual-caller",
+          "sha256": "84c8ecd98ca521888703ba6bc281eba312bceeed7393125c4a78caa7b43c07bb"
+        },
+        {
+          "path": "packages/game/src/shell/game-shell.css",
+          "lines": "141",
+          "anchor": "/* 45° centers use radius",
+          "role": "visual-geometry",
+          "sha256": "6a34f83dc3302058a85a0489edfd554fd8a0fd2fc25a71878cefb7b98c4ae6b1"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.ts",
+          "lines": "550",
+          "anchor": "toggleRow(parent, '虚拟方向键 / 左摇杆顺时针旋转45°'",
+          "role": "setting-caller",
+          "sha256": "b7f45736b940fa55952d1f28272eabf37c6331090fb14d4b37701df83c5cc596"
+        },
+        {
+          "path": "packages/game/src/localization/ui-text.ts",
+          "lines": "46",
+          "anchor": "'虚拟方向键 / 左摇杆顺时针旋转45°'",
+          "role": "display-label",
+          "sha256": "8da4ef228621a771220c861dd8fe75eba28cfb888d0b295848165b378677513a"
+        },
+        {
+          "path": "packages/game/src/core/scene-system.ts",
+          "lines": "44",
+          "anchor": "const DIR_DELTA:",
+          "role": "movement-oracle",
+          "sha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98"
+        },
+        {
+          "path": "packages/game/src/shell/gamepad-input.test.ts",
+          "lines": "76",
+          "anchor": "it('maps the four screen diagonals clockwise",
+          "role": "oracle",
+          "sha256": "b13e36c479b34b432a02e013d3e42fb9b97a9e821927c1c55f2ce2af0b1cba81"
+        },
+        {
+          "path": "packages/game/src/shell/touch-controls.test.ts",
+          "lines": "186",
+          "anchor": "it('maps four clockwise touch sectors",
+          "role": "oracle",
+          "sha256": "ca06bbe7830122617460dfb9ddd974e060e75713ebac65cd8f7bf02b14682e67"
+        },
+        {
+          "path": "packages/game/src/shell/input-rotation.test.ts",
+          "lines": "10",
+          "anchor": "it('defaults to the original layout",
+          "role": "oracle",
+          "sha256": "b24a2fcc4824f0c074cdf108539be421222dc3d4156cde2e960451b7267b57e7"
+        },
+        {
+          "path": "packages/game/src/shell/game-shell.test.ts",
+          "lines": "143",
+          "anchor": "it('mounts the remembered rotated pad",
+          "role": "integration-oracle",
+          "sha256": "fcdbb4607f369754392d75aca6418db4b68b1a74f601420a73c6dbec1023264d"
+        },
+        {
+          "path": "packages/game/src/tools/tools-panel.mobile.test.ts",
+          "lines": "83",
+          "anchor": "it('remembers clockwise controls",
+          "role": "setting-oracle",
+          "sha256": "772120d2e645e2da776e2bbc3ef05def2b19220f91865455bed6b99169895eda"
+        }
+      ],
+      "publicCallers": [
+        "createGameShell(canvas).connect(KeyboardInputSource) -> bindTouchControls / startGamepadInput; pointer contacts and standard Gamepad axes -> inputDirection -> InputSnapshot.held -> scene-system pickFacing / DIR_DELTA",
+        "setupToolsPanel -> renderSystemTab -> toggleRow -> setInputRotated; input rotation change event updates mounted shell and input adapters",
+        "pnpm --filter @type-pal/game exec vitest run src/shell/gamepad-input.test.ts src/shell/touch-controls.test.ts src/shell/input-rotation.test.ts src/shell/game-shell.test.ts src/shell/input.test.ts src/shell/touch-preference.test.ts src/tools/tools-panel.mobile.test.ts src/tools/tools-panel.english.test.ts src/localization/shell-surfaces.test.ts --reporter=default --reporter=json --outputFile=/Users/zhangxu/.codex/worktrees/input-rotation/type-pal/build/input-rotation/restored.json",
+        "Cua public mobile Settings checkbox/reload/language UI and NE pointer hold350ms at explicit skip-intro dev route; root browser receipt records actual observations"
+      ],
+      "legalInputs": [
+        "Connected standard-mapping typed GamepadState with left axes in[-1,1], normal hardware buttons and multiple device indices; keyboard owns separate contacts",
+        "Primary PointerEvent on buttons created by createTouchButton or circular .tp-dpad; legal coordinates in a stable square bounding rectangle; ordinary pointer up/cancel/capture loss and visibility/blur events",
+        "Browser preference absent, explicit45/on or0/off; unknown persisted string is storage IO input; DOMException storage denial exercises failure fallback only",
+        "Real KeyboardInputSource snapshots and mounted shell/tools UI; jsdom substitutes only browser scheduling/layout/capture/Storage boundaries. Root browser uses real desktop pointer at844x390 and390x844; no physical gamepad/touch fixture"
+      ],
+      "businessOracle": {
+        "type": "screen-direction-and-input-contact-ownership",
+        "assertions": [
+          "Defaultoff preserves original mapping; one remembered optional clockwise45 setting applies jointly to virtual pad and standard left stick; storage failure preserves an effective in-memory choice",
+          "NE/SE/SW/NW input yields Up/Right/Down/Left; independent scene DIR_DELTA means screen NE/SE/SW/NW movement(+16,-8)/(+16,+8)/(-16,+8)/(-16,-8)",
+          "Rotation preserves raw gamepad entry0.35/held0.2 thresholds and circular touch center0.13/rim0.5/held0.75; pad bounds do not rotate",
+          "Changing setting releases old touch/stick contacts; old pointer moves do not resume and each old stick must center before new motion; keyboard/hardware Dpad/other-device ownership remains",
+          "Actual settings UI writes preference and renders it on tab reopen; new shell initializes saved choice; Chinese and English labels identify virtual pad/left stick scope",
+          "Formal quadrant mutant causes exactly one designated AssertionError(expectedLeft,gotRight), with9 neighboring passes/zero skip; exact source restoration returns60 passing assertions",
+          "Root browser shows two mobile layouts, on/reload/off and English/Chinese; real NE pointerhold moves visible party coordinates1312,288 to1328,280 facingup, with logs[]"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-51-retained-9-added-0-retired",
+        "against": [
+          "packages/game/src/shell/gamepad-input.test.ts",
+          "packages/game/src/shell/touch-controls.test.ts",
+          "packages/game/src/shell/input.test.ts",
+          "packages/game/src/shell/game-shell.test.ts",
+          "packages/game/src/shell/touch-preference.test.ts",
+          "packages/game/src/tools/tools-panel.mobile.test.ts",
+          "packages/game/src/tools/tools-panel.english.test.ts",
+          "packages/game/src/localization/shell-surfaces.test.ts"
+        ],
+        "notes": "The selected baseline51 file/fullName contracts remain;9 additions are preference IO2, gamepad mapping/rearm/browser wiring3, touch mapping/reset2, shell initialization/live setting1 and settings reopen1. Existing touch-slide test only moves fixture construction to directionPad; all6 snapshots remain. English case adds one label assertion, not a new test. Different callers/lifecycles distinguish these layers; no formula-mirror oracle or retired/renamed test."
+      },
+      "revision": {
+        "currentSha": "bde596695d9c4d90a8031443ddd1ea033edd5245",
+        "contentVersion": 22,
+        "minimumSaveVersion": 12,
+        "versionScope": "These are the current project publication axes recorded for the paired consumer; this phase1 browser-input preference does not consume content/save schema, change compatibility or authorize phase2 execution.",
+        "history": [
+          {
+            "date": "2026-10-27",
+            "action": "initial-control-rotation-publication",
+            "base": "123595ac3a651957b36061eacced329369c495e5",
+            "candidate": "0b0ce187e70f540ec2de198d671afd82ddaa99c5",
+            "integratedCandidate": "ae9e3226c24f37d1f33c14c9b6e28ba2d72e52ec",
+            "evidence": "docs/ops/evidence/GAME-INPUT-ROTATION-1/review.json",
+            "scope": "Reuse contributor60/native counter/static gates plus root finite browser acceptance. This documentation publication runs no product tests and grants no whole-repository,coverage,hardware,complete-story or deployment credit. Publication remains active pending unified window and user experience."
+          },
+          {
+            "date": "2026-10-27",
+            "action": "protected-production-release",
+            "candidate": "c42e333385fe464805de88a51b95ab092abb9f6a",
+            "deployedCommit": "bde596695d9c4d90a8031443ddd1ea033edd5245",
+            "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
+            "scope": "Actual official20203/812, protected CI, merged fresh build/all deployment, origin+CDN semantics and finite browser smoke. Hardware, full-story and offline activation remain untested."
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "S76-import-retired-deadline-as-history",
+          "previousReviewBy": "2026-11-27",
+          "parallelSourceRevision": "72db417255d8ca4227522420e9185ef468462aa7",
+          "scope": "Original publication status/runtime claims remain at main source time; active calendar deadline is retired, no execution rerun."
         }
       ]
     }
@@ -2081,7 +2864,7 @@
       "packages/editor/src/ui/MapMode.tsx:403-420",
       "packages/game/src/core/dependency-ownership.test.ts:1-45"
     ],
-    "scope": "18 published testing records only. Not a census of all docs/testing files, all 1838 baseline documents, migration completion, or current runtime readiness.",
+    "scope": "20 published testing records (original18 plus two fixed-main publications). Not a census of docs/testing, all governance candidates, or runtime acceptance. S76 imports publication identity/source deltas only; new documents remain separately pending.",
     "publicationRules": [
       "schemaVersion/generatedBy/entries stay at the public top level; generatedBy names the index projection tool, which reads this manually maintained authority.",
       "Entry status is its published report/audit lifecycle. lastVerified/revision/candidate versions retain their original scope; current or verified is not a newly executed SAVE12 E2E pass.",
@@ -2162,6 +2945,14 @@
       {
         "id": "phase1-dependency-ownership",
         "conclusion": "完整D1报告和GameState/game owner源码表明phase1/game；原phase2/reforge纠正留历史。SCC/161函数/8旧测试和最小浏览器不成为当前游戏E2E或SAVE12合同。"
+      },
+      {
+        "id": "game-script-corrections",
+        "conclusion": "2026-10-27有限功能与用户接受、官方20203/812、保护CI及实际应用/资源部署收口；保留原合同和执行身份，真机/自然剧情/离线激活未核。"
+      },
+      {
+        "id": "game-input-rotation",
+        "conclusion": "2026-10-27有限功能与用户接受、官方20203/812、保护CI及实际应用/资源部署收口；保留原合同和执行身份，真机/自然剧情/离线激活未核。"
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",
@@ -2219,6 +3010,13 @@
         "originalFailure": "validateCatalog(today=2026-10-16) rejected e2e-006 reviewBy10-15; original failure retained, not waived",
         "rationale": "Actual full paired publication/evidence/status review rather than formatting; next publication review in7days, no new execution claim",
         "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      {
+        "date": "2026-10-30",
+        "action": "S76-source-aware-parallel-publication-intake",
+        "parallelSourceRevision": "72db417255d8ca4227522420e9185ef468462aa7",
+        "addedPublicationIds": ["game-script-corrections", "game-input-rotation"],
+        "scope": "Retain original18 accepted publication entries and their current stage/history boundaries; add two main publications at original scope; apply non-deadline source changes; no new execution or document migration credit. Former reviewBy values stay in fixed main history, not active fields."
       }
     ],
     "supersedes": [],

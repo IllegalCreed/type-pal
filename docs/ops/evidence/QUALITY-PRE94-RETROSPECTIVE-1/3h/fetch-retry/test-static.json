@@ -1,0 +1,29 @@
+[
+  {
+    "name": "test-format",
+    "command": [
+      "pnpm",
+      "exec",
+      "biome",
+      "check",
+      "--write",
+      "packages/game/src/shell/fetch-retry.test.ts",
+      "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+      "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 0.24,
+    "rawSha256": "c624c7e12756f007408a50a674375aae670394be44aaf205db94c5b20c1a4775",
+    "output": "Checked 3 files in 30ms. Fixed 1 file.\n"
+  },
+  {
+    "name": "game-typecheck",
+    "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 3.58,
+    "rawSha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+    "output": "\n> @type-pal/game@1.0.0 typecheck /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game\n> tsc --noEmit\n\n"
+  }
+]

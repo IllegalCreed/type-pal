@@ -1,0 +1,700 @@
+{
+  "schemaVersion": 1,
+  "template": "evidence-receipt-v1",
+  "id": "map204-input-local-release-gates",
+  "owner": "Codex",
+  "recordedAt": "2026-10-27T07:10:22.507690+00:00",
+  "candidate": "43067cc786aeb1911d0c38a694abdd185f562579",
+  "scope": "Actual complete official fast coverage collection, before protected remote CI. Test/source execution identity included in original summary; no rule/config changes or exclusions. Five-file functional review and original red logs remain in release-preparation.json.",
+  "coverage": {
+    "run": {
+      "command": ["pnpm", "coverage:ratchet"],
+      "cwd": "/Users/zhangxu/illegal/type-pal",
+      "startUtc": "2026-10-27T06:53:00.305124+00:00",
+      "endUtc": "2026-10-27T07:08:54.733586+00:00",
+      "elapsedSeconds": 954.42906625,
+      "exitCode": 0,
+      "signal": null,
+      "gitHead": "43067cc786aeb1911d0c38a694abdd185f562579",
+      "native": [
+        {
+          "path": "build/map204-release/coverage-ratchet-final.stdout",
+          "sha256": "46ebce52bef3486ed35679ce28e8ba685aab3f1342216f89806e6cb2e11c8e93"
+        },
+        {
+          "path": "build/map204-release/coverage-ratchet-final.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    "testCount": 20203,
+    "sourceFileCount": 812,
+    "total": {
+      "statements": {
+        "covered": 72880,
+        "total": 80616
+      },
+      "branches": {
+        "covered": 52658,
+        "total": 62700
+      },
+      "functions": {
+        "covered": 13784,
+        "total": 15355
+      },
+      "lines": {
+        "covered": 65096,
+        "total": 70551
+      }
+    },
+    "packages": {
+      "shared": {
+        "tests": 118,
+        "sources": 12,
+        "metrics": {
+          "statements": {
+            "covered": 468,
+            "total": 475
+          },
+          "branches": {
+            "covered": 218,
+            "total": 227
+          },
+          "functions": {
+            "covered": 31,
+            "total": 31
+          },
+          "lines": {
+            "covered": 419,
+            "total": 421
+          }
+        }
+      },
+      "content": {
+        "tests": 1498,
+        "sources": 56,
+        "metrics": {
+          "statements": {
+            "covered": 5668,
+            "total": 5878
+          },
+          "branches": {
+            "covered": 4827,
+            "total": 5129
+          },
+          "functions": {
+            "covered": 811,
+            "total": 827
+          },
+          "lines": {
+            "covered": 5061,
+            "total": 5199
+          }
+        }
+      },
+      "pal-extract": {
+        "tests": 372,
+        "sources": 55,
+        "metrics": {
+          "statements": {
+            "covered": 1366,
+            "total": 1810
+          },
+          "branches": {
+            "covered": 673,
+            "total": 796
+          },
+          "functions": {
+            "covered": 134,
+            "total": 193
+          },
+          "lines": {
+            "covered": 1199,
+            "total": 1590
+          }
+        }
+      },
+      "migrate": {
+        "tests": 672,
+        "sources": 38,
+        "metrics": {
+          "statements": {
+            "covered": 2338,
+            "total": 2584
+          },
+          "branches": {
+            "covered": 1617,
+            "total": 1781
+          },
+          "functions": {
+            "covered": 385,
+            "total": 410
+          },
+          "lines": {
+            "covered": 2050,
+            "total": 2258
+          }
+        }
+      },
+      "reforge": {
+        "tests": 8994,
+        "sources": 158,
+        "metrics": {
+          "statements": {
+            "covered": 17040,
+            "total": 18888
+          },
+          "branches": {
+            "covered": 10824,
+            "total": 13095
+          },
+          "functions": {
+            "covered": 2779,
+            "total": 3075
+          },
+          "lines": {
+            "covered": 15251,
+            "total": 16483
+          }
+        }
+      },
+      "game": {
+        "tests": 3766,
+        "sources": 199,
+        "metrics": {
+          "statements": {
+            "covered": 15463,
+            "total": 17134
+          },
+          "branches": {
+            "covered": 9921,
+            "total": 12237
+          },
+          "functions": {
+            "covered": 1872,
+            "total": 2154
+          },
+          "lines": {
+            "covered": 13797,
+            "total": 15030
+          }
+        }
+      },
+      "editor": {
+        "tests": 4783,
+        "sources": 294,
+        "metrics": {
+          "statements": {
+            "covered": 30537,
+            "total": 33847
+          },
+          "branches": {
+            "covered": 24578,
+            "total": 29435
+          },
+          "functions": {
+            "covered": 7772,
+            "total": 8665
+          },
+          "lines": {
+            "covered": 27319,
+            "total": 29570
+          }
+        }
+      }
+    },
+    "baselineSha256": "52373929d2909dad91434eed4f8ef04c1f6bca0f11a5c4e3c7a940278576d0ac",
+    "baselineEqualsProducerOutput": true,
+    "allMetricsAtLeastProtectedMain": true,
+    "comparisons": {
+      "shared": {
+        "statements": {
+          "previous": {
+            "covered": 468,
+            "total": 475
+          },
+          "current": {
+            "covered": 468,
+            "total": 475
+          }
+        },
+        "branches": {
+          "previous": {
+            "covered": 218,
+            "total": 227
+          },
+          "current": {
+            "covered": 218,
+            "total": 227
+          }
+        },
+        "functions": {
+          "previous": {
+            "covered": 31,
+            "total": 31
+          },
+          "current": {
+            "covered": 31,
+            "total": 31
+          }
+        },
+        "lines": {
+          "previous": {
+            "covered": 419,
+            "total": 421
+          },
+          "current": {
+            "covered": 419,
+            "total": 421
+          }
+        }
+      },
+      "content": {
+        "statements": {
+          "previous": {
+            "covered": 5668,
+            "total": 5878
+          },
+          "current": {
+            "covered": 5668,
+            "total": 5878
+          }
+        },
+        "branches": {
+          "previous": {
+            "covered": 4827,
+            "total": 5129
+          },
+          "current": {
+            "covered": 4827,
+            "total": 5129
+          }
+        },
+        "functions": {
+          "previous": {
+            "covered": 811,
+            "total": 827
+          },
+          "current": {
+            "covered": 811,
+            "total": 827
+          }
+        },
+        "lines": {
+          "previous": {
+            "covered": 5061,
+            "total": 5199
+          },
+          "current": {
+            "covered": 5061,
+            "total": 5199
+          }
+        }
+      },
+      "pal-extract": {
+        "statements": {
+          "previous": {
+            "covered": 1341,
+            "total": 1785
+          },
+          "current": {
+            "covered": 1366,
+            "total": 1810
+          }
+        },
+        "branches": {
+          "previous": {
+            "covered": 646,
+            "total": 766
+          },
+          "current": {
+            "covered": 673,
+            "total": 796
+          }
+        },
+        "functions": {
+          "previous": {
+            "covered": 132,
+            "total": 191
+          },
+          "current": {
+            "covered": 134,
+            "total": 193
+          }
+        },
+        "lines": {
+          "previous": {
+            "covered": 1177,
+            "total": 1568
+          },
+          "current": {
+            "covered": 1199,
+            "total": 1590
+          }
+        }
+      },
+      "migrate": {
+        "statements": {
+          "previous": {
+            "covered": 2338,
+            "total": 2584
+          },
+          "current": {
+            "covered": 2338,
+            "total": 2584
+          }
+        },
+        "branches": {
+          "previous": {
+            "covered": 1617,
+            "total": 1781
+          },
+          "current": {
+            "covered": 1617,
+            "total": 1781
+          }
+        },
+        "functions": {
+          "previous": {
+            "covered": 385,
+            "total": 410
+          },
+          "current": {
+            "covered": 385,
+            "total": 410
+          }
+        },
+        "lines": {
+          "previous": {
+            "covered": 2050,
+            "total": 2258
+          },
+          "current": {
+            "covered": 2050,
+            "total": 2258
+          }
+        }
+      },
+      "reforge": {
+        "statements": {
+          "previous": {
+            "covered": 17037,
+            "total": 18888
+          },
+          "current": {
+            "covered": 17040,
+            "total": 18888
+          }
+        },
+        "branches": {
+          "previous": {
+            "covered": 10821,
+            "total": 13095
+          },
+          "current": {
+            "covered": 10824,
+            "total": 13095
+          }
+        },
+        "functions": {
+          "previous": {
+            "covered": 2776,
+            "total": 3075
+          },
+          "current": {
+            "covered": 2779,
+            "total": 3075
+          }
+        },
+        "lines": {
+          "previous": {
+            "covered": 15249,
+            "total": 16483
+          },
+          "current": {
+            "covered": 15251,
+            "total": 16483
+          }
+        }
+      },
+      "game": {
+        "statements": {
+          "previous": {
+            "covered": 15396,
+            "total": 17063
+          },
+          "current": {
+            "covered": 15463,
+            "total": 17134
+          }
+        },
+        "branches": {
+          "previous": {
+            "covered": 9885,
+            "total": 12201
+          },
+          "current": {
+            "covered": 9921,
+            "total": 12237
+          }
+        },
+        "functions": {
+          "previous": {
+            "covered": 1861,
+            "total": 2143
+          },
+          "current": {
+            "covered": 1872,
+            "total": 2154
+          }
+        },
+        "lines": {
+          "previous": {
+            "covered": 13739,
+            "total": 14969
+          },
+          "current": {
+            "covered": 13797,
+            "total": 15030
+          }
+        }
+      },
+      "editor": {
+        "statements": {
+          "previous": {
+            "covered": 30537,
+            "total": 33847
+          },
+          "current": {
+            "covered": 30537,
+            "total": 33847
+          }
+        },
+        "branches": {
+          "previous": {
+            "covered": 24578,
+            "total": 29435
+          },
+          "current": {
+            "covered": 24578,
+            "total": 29435
+          }
+        },
+        "functions": {
+          "previous": {
+            "covered": 7772,
+            "total": 8665
+          },
+          "current": {
+            "covered": 7772,
+            "total": 8665
+          }
+        },
+        "lines": {
+          "previous": {
+            "covered": 27319,
+            "total": 29570
+          },
+          "current": {
+            "covered": 27319,
+            "total": 29570
+          }
+        }
+      }
+    }
+  },
+  "staticGates": {
+    "pre-pr-docs": {
+      "command": ["pnpm", "check:docs"],
+      "cwd": "/Users/zhangxu/illegal/type-pal",
+      "startUtc": "2026-10-27T06:56:38.771756+00:00",
+      "endUtc": "2026-10-27T06:57:35.062645+00:00",
+      "elapsedSeconds": 56.290825458,
+      "exitCode": 0,
+      "signal": null,
+      "gitHead": "adaf6ea71a1335677f87450c28b57ffc51bdfe14",
+      "native": [
+        {
+          "path": "build/map204-release/pre-pr-docs.stdout",
+          "sha256": "b5baf78d79207b5fde68eda170014c54209a41a11a50102b8f4d5a6e30794279"
+        },
+        {
+          "path": "build/map204-release/pre-pr-docs.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    "pre-pr-lint": {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/illegal/type-pal",
+      "startUtc": "2026-10-27T06:56:40.065977+00:00",
+      "endUtc": "2026-10-27T06:56:44.712776+00:00",
+      "elapsedSeconds": 4.646545084,
+      "exitCode": 0,
+      "signal": null,
+      "gitHead": "adaf6ea71a1335677f87450c28b57ffc51bdfe14",
+      "native": [
+        {
+          "path": "build/map204-release/pre-pr-lint.stdout",
+          "sha256": "b60f31ccad21bb108b35efdd68e2901c4507acd37d15fa102794898fd5705e39"
+        },
+        {
+          "path": "build/map204-release/pre-pr-lint.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    "pre-pr-types": {
+      "command": ["pnpm", "typecheck"],
+      "cwd": "/Users/zhangxu/illegal/type-pal",
+      "startUtc": "2026-10-27T06:56:41.526387+00:00",
+      "endUtc": "2026-10-27T06:57:16.207265+00:00",
+      "elapsedSeconds": 34.68077625,
+      "exitCode": 0,
+      "signal": null,
+      "gitHead": "adaf6ea71a1335677f87450c28b57ffc51bdfe14",
+      "native": [
+        {
+          "path": "build/map204-release/pre-pr-types.stdout",
+          "sha256": "5a7d8337ffc5fd58d6b10bc4b228846c88d13ebbcd97a1c20c5fcf92ec75e8e4"
+        },
+        {
+          "path": "build/map204-release/pre-pr-types.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    }
+  },
+  "native": [
+    {
+      "path": "native/local-release-gates-summary.json.gz",
+      "sourcePath": "coverage/fast/summary.json",
+      "sourceSha256": "13f91e5600f2b4664807e9f49d4b25adfa241aa3002c5af17d2b0027b98a1638",
+      "archiveSha256": "88f12556712111cbbbb997a84202a8e061c20e4243855ade21aa0f381aea9866",
+      "bytes": 8579815
+    },
+    {
+      "path": "native/local-release-gates-baseline.fast.json.gz",
+      "sourcePath": "scripts/coverage/baseline.fast.json",
+      "sourceSha256": "52373929d2909dad91434eed4f8ef04c1f6bca0f11a5c4e3c7a940278576d0ac",
+      "archiveSha256": "435316399930b4f3f7a4fd17612d411dc65b6d9ec75445fbcc4796fff52a29a9",
+      "bytes": 546662
+    },
+    {
+      "path": "native/local-release-gates-quality-inventory-final.json.gz",
+      "sourcePath": "build/map204-release/quality-inventory-final.json",
+      "sourceSha256": "f56d76435140904d9f7546c279823b593acc18a52095a8cfe6cf79e72bd880a5",
+      "archiveSha256": "71ed089602e985fbf3d7360d40523948edac8a9ae7543313a869f8115cee83dd",
+      "bytes": 111
+    },
+    {
+      "path": "native/local-release-gates-prepare-docs.py.gz",
+      "sourcePath": "build/map204-release/prepare-docs.py",
+      "sourceSha256": "de6f7c7d1fd359958eddd74e54d38b899b8d1d0fc486d6d98f7e5027f059e8cb",
+      "archiveSha256": "620306b2bfd52ba973291a8b1cf1e6012b7ff1c66d4e5f5d94e7c650c6b53721",
+      "bytes": 11277
+    },
+    {
+      "path": "native/local-release-gates-bind-docs.py.gz",
+      "sourcePath": "build/map204-release/bind-docs.py",
+      "sourceSha256": "0eac528d15c48a4e29529713e96cfd0813d2d671b8f9b72b5187478f72c88690",
+      "archiveSha256": "79f9051027cc5e024107e5b618920ae0fb63216c595b6f7a5680b2d54d6c74bc",
+      "bytes": 2411
+    },
+    {
+      "path": "native/local-release-gates-publish-local-gates.py.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/map204-release/publish-local-gates.py",
+      "sourceSha256": "e57dd3d28b00564cfc50d365fed91eaec6a94882b3dafb2787f2ce91166a82f8",
+      "archiveSha256": "b5c899ae5234b6aef83b19e45cdffef489a9ee11c97b93a548a8fcbf2bd382a9",
+      "bytes": 3525
+    },
+    {
+      "path": "native/local-release-gates-coverage-ratchet-final.run.json.gz",
+      "sourcePath": "build/map204-release/coverage-ratchet-final.run.json",
+      "sourceSha256": "f5ac70507767179de58924ad9dcd086932469b42eebbc70500b3db421b66dc6b",
+      "archiveSha256": "70615fcd1d341ee996c4d3fb788c9e5235510039195b467ef8804fa7033cd681",
+      "bytes": 672
+    },
+    {
+      "path": "native/local-release-gates-coverage-ratchet-final.stdout.gz",
+      "sourcePath": "build/map204-release/coverage-ratchet-final.stdout",
+      "sourceSha256": "46ebce52bef3486ed35679ce28e8ba685aab3f1342216f89806e6cb2e11c8e93",
+      "archiveSha256": "650ac764dc15f020d3ae26c54fec7a8cd46cf66bf6f789ad8ba80c7952b56f3d",
+      "bytes": 213969
+    },
+    {
+      "path": "native/local-release-gates-coverage-ratchet-final.stderr.gz",
+      "sourcePath": "build/map204-release/coverage-ratchet-final.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/local-release-gates-pre-pr-docs.run.json.gz",
+      "sourcePath": "build/map204-release/pre-pr-docs.run.json",
+      "sourceSha256": "db669057778173be7402bcb158c346939ccca7226e0583ac2351ac5d54e63d43",
+      "archiveSha256": "c5e4b2ad299b4023f52d511ca11ac459895f2813dabb2013ff83e4278d7e5093",
+      "bytes": 644
+    },
+    {
+      "path": "native/local-release-gates-pre-pr-docs.stdout.gz",
+      "sourcePath": "build/map204-release/pre-pr-docs.stdout",
+      "sourceSha256": "b5baf78d79207b5fde68eda170014c54209a41a11a50102b8f4d5a6e30794279",
+      "archiveSha256": "4355134515149833f96aeb8221a6e46f557349cd64ba6ee65301eb3318226557",
+      "bytes": 30664
+    },
+    {
+      "path": "native/local-release-gates-pre-pr-docs.stderr.gz",
+      "sourcePath": "build/map204-release/pre-pr-docs.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/local-release-gates-pre-pr-lint.run.json.gz",
+      "sourcePath": "build/map204-release/pre-pr-lint.run.json",
+      "sourceSha256": "538a305c7ff33f1e52c9ff52566056bd10e4cacbb9aa73df4930465a42cb7a11",
+      "archiveSha256": "399a900fd250dddccc98e648f225f6ea0f1c2ca34662dbd9b2497ef1d30711bd",
+      "bytes": 637
+    },
+    {
+      "path": "native/local-release-gates-pre-pr-lint.stdout.gz",
+      "sourcePath": "build/map204-release/pre-pr-lint.stdout",
+      "sourceSha256": "b60f31ccad21bb108b35efdd68e2901c4507acd37d15fa102794898fd5705e39",
+      "archiveSha256": "bcd5bf2005da2de7f76e7669cb9d89b6a1c06af0b10bff46bcfaa1e248bbdb56",
+      "bytes": 164
+    },
+    {
+      "path": "native/local-release-gates-pre-pr-lint.stderr.gz",
+      "sourcePath": "build/map204-release/pre-pr-lint.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    },
+    {
+      "path": "native/local-release-gates-pre-pr-types.run.json.gz",
+      "sourcePath": "build/map204-release/pre-pr-types.run.json",
+      "sourceSha256": "027f047963eee0c36fc62c2799b257e949184321feefbbb2029e2f8fafa7e870",
+      "archiveSha256": "7dc081a3b61f2f6162b3ed937d96e3aa3332d787f18d40aa9b5bf83a3d91bfb0",
+      "bytes": 644
+    },
+    {
+      "path": "native/local-release-gates-pre-pr-types.stdout.gz",
+      "sourcePath": "build/map204-release/pre-pr-types.stdout",
+      "sourceSha256": "5a7d8337ffc5fd58d6b10bc4b228846c88d13ebbcd97a1c20c5fcf92ec75e8e4",
+      "archiveSha256": "e97fa9e8b07300067a97b9012f2a52050326612acba880deef800fce64416f77",
+      "bytes": 683
+    },
+    {
+      "path": "native/local-release-gates-pre-pr-types.stderr.gz",
+      "sourcePath": "build/map204-release/pre-pr-types.stderr",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archiveSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 0
+    }
+  ],
+  "notRun": [
+    "Remote required CI, merge, deployment, issue closure in this local receipt",
+    "Natural story E2E or physical gamepad"
+  ]
+}

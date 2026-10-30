@@ -1,9 +1,8 @@
 // @vitest-environment jsdom
 /**
- * TEST-CURSOR-ASSET-UI-LARGE-1 C03-G04：SpriteResourceViewer 迟到 I/O、失败与恢复。
- * 排重：SpriteResourceViewer.test 用 mock deferred 证 alive 标志与失败 workspace；
- * kimi-workflows K02 证 append/replace 命令链。本组只补：磁盘 readBytes 闸门迟到、
- * 真实解码/sha 失败、切资源清错、revision 变更重载、卸载归属与色盘 I/O 失败恢复。
+ * C03-G04：真实 I/O 闸门、解码失败、revision 重载及卸载后迟到交付。
+ * 闸门放行后等待实际任务完成再核 UI/proof；磁盘/色盘/解码故障由产品处理。
+ * 已加载后的顺序切换不声称覆盖快速竞态；相邻用例排重仍需逐项核验。
  */
 import type { AssetId } from '@type-pal/content'
 import {
@@ -12,27 +11,26 @@ import {
   loadStandardPalette,
   quantizeToRleFrame,
 } from '@type-pal/reforge'
+import { act } from 'react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import {
   installBrowserHardwarePorts,
   pngFileOf,
   solidRgba,
 } from '../__tests__/cursor-asset-r1/image-ports.js'
-import {
-  gatedFileSource,
-  loadFilesIntoInput,
-  useActEnvironment,
-} from '../__tests__/cursor-asset-r1/kit.js'
+import { gatedFileSource, loadFilesIntoInput } from '../__tests__/cursor-asset-r1/kit.js'
 import { loadCursorSpriteProject } from '../__tests__/cursor-asset-r1/sprite-fixtures.js'
 import {
   type MountedViewer,
   mountViewer,
   unmountHost,
+  waitForSpriteViewerResources,
 } from '../__tests__/cursor-asset-r1/upload-harness.js'
 import { gatePalette, installGatedBitmapPort } from '../__tests__/cursor-asset-r1/upload-ports.js'
 import { appendInput, waitEditorMessage, waitMeta } from '../__tests__/cursor-asset-r1/upload-ui.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import { ReplaceSpriteAssetCommand } from '../core/commands.js'
+import { loadEditorSprite } from '../core/sprite-assets.js'
 
 const PAIR = [
   {
@@ -52,15 +50,18 @@ const PAIR = [
 let mounted: MountedViewer | undefined
 
 beforeEach(async () => {
-  useActEnvironment()
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
   await installBrowserHardwarePorts()
 })
 
 afterEach(async () => {
-  if (mounted) await unmountHost(mounted)
-  mounted = undefined
-  vi.unstubAllGlobals()
-  vi.restoreAllMocks()
+  try {
+    if (mounted) await unmountHost(mounted)
+  } finally {
+    mounted = undefined
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+  }
 })
 
 describe('C03-G04 迟到、失败与恢复', () => {
@@ -73,10 +74,15 @@ describe('C03-G04 迟到、失败与恢复', () => {
       asset: 'sprite.late.a',
       label: '慢 A',
       source: gated.source,
+      waitForResource: false,
     })
     expect(mounted.host.textContent).toContain('正在解析帧资源 sprite.late.a')
+    const oldRead = loadEditorSprite(mounted.reader, 'sprite.late.a')
     await mounted.setAsset('sprite.late.b', '快 B')
-    hold.resolve()
+    await act(async () => {
+      hold.resolve()
+      await oldRead
+    })
     await waitMeta(mounted.host, 1, 1)
     expect(mounted.host.textContent).toContain('快 B')
     expect(mounted.host.textContent).toContain('1 帧')
@@ -150,28 +156,31 @@ describe('C03-G04 迟到、失败与恢复', () => {
       gzip.byteOffset + gzip.byteLength,
     ) as ArrayBuffer
     const sha = await sha256Hex(bytes)
-    mounted.session.dispatch(
-      new ReplaceSpriteAssetCommand(
-        'late-b',
-        'sprite.late.b',
-        {
-          ...record,
-          sha256: sha,
-          bytes: bytes.byteLength,
-          path: `assets/authored/sprites/${sha}.rle`,
-        },
-        bytes,
-        prevBytes,
-        {
-          asset: 'sprite.late.b',
-          previousSha256: record.sha256,
-          previousFrameCount: 1,
-          nextFrameCount: 3,
-          consumerIds: ['late-b'],
-        },
-        '增帧替换',
-      ),
-    )
+    await act(async () => {
+      mounted!.session.dispatch(
+        new ReplaceSpriteAssetCommand(
+          'late-b',
+          'sprite.late.b',
+          {
+            ...record,
+            sha256: sha,
+            bytes: bytes.byteLength,
+            path: `assets/authored/sprites/${sha}.rle`,
+          },
+          bytes,
+          prevBytes,
+          {
+            asset: 'sprite.late.b',
+            previousSha256: record.sha256,
+            previousFrameCount: 1,
+            nextFrameCount: 3,
+            consumerIds: ['late-b'],
+          },
+          '增帧替换',
+        ),
+      )
+    })
+    await waitForSpriteViewerResources(mounted.host)
     await vi.waitFor(() => {
       expect(mounted!.proofs.at(-1)?.revision).toBe(sha)
       expect(mounted!.proofs.at(-1)?.actualFrameCount).toBe(3)
@@ -187,12 +196,17 @@ describe('C03-G04 迟到、失败与恢复', () => {
       asset: 'sprite.late.a',
       label: 'A',
       source: gated.source,
+      waitForResource: false,
     })
+    const oldRead = loadEditorSprite(mounted.reader, 'sprite.late.a')
     await unmountHost(mounted)
-    hold.resolve()
-    await vi.waitFor(() =>
-      expect(gated.completed).toContain(project.seeded.get('sprite.late.a')!.path),
-    )
+    const mark = mounted.proofs.length
+    await act(async () => {
+      hold.resolve()
+      await oldRead
+    })
+    expect(gated.completed).toContain(project.seeded.get('sprite.late.a')!.path)
+    expect(mounted.proofs.slice(mark).filter(Boolean)).toEqual([])
     expect(mounted.proofs.at(-1)).toBeUndefined()
     mounted = undefined
   })
@@ -204,15 +218,19 @@ describe('C03-G04 迟到、失败与恢复', () => {
       asset: 'sprite.late.b',
       label: 'B',
       assetBase,
+      waitForResource: false,
     })
     await vi.waitFor(() => expect(mounted!.host.textContent).toContain('正在解析'))
-    hold.resolve()
+    await act(async () => {
+      hold.resolve()
+      await waitForSpriteViewerResources(mounted!.host)
+    })
     await waitMeta(mounted.host, 1, 1)
     expect(mounted.host.querySelector('.sprite-resource-frame-grid')).not.toBeNull()
     expect(mounted.proofs.at(-1)?.actualFrameCount).toBe(1)
   })
 
-  test('C03-G04-07 连续快速切换 A→B→A：最终 proof 仍指向 A 且帧数 3', async () => {
+  test('C03-G04-07 依次等待加载后切换 A→B→A：最终 proof 仍指向 A 且帧数 3', async () => {
     const project = await loadCursorSpriteProject('c03-g04-07', PAIR)
     mounted = await mountViewer(project, {
       asset: 'sprite.late.a',
@@ -267,9 +285,15 @@ describe('C03-G04 迟到、失败与恢复', () => {
       label: 'B',
     })
     await waitMeta(mounted.host, 1, 1)
-    await loadFilesIntoInput(appendInput(mounted.host), [
-      pngFileOf('bad-append.png', new Uint8Array([9, 9, 9])),
-    ])
+    const bitmapRead = vi.spyOn(globalThis, 'createImageBitmap')
+    await act(async () => {
+      await loadFilesIntoInput(appendInput(mounted!.host), [
+        pngFileOf('bad-append.png', new Uint8Array([9, 9, 9])),
+      ])
+      const pending = bitmapRead.mock.results.at(-1)
+      if (pending?.type !== 'return') throw new Error('Bitmap port did not return a promise')
+      await Promise.allSettled([pending.value])
+    })
     const message = await waitEditorMessage(mounted.host)
     expect(message.classList.contains('error')).toBe(true)
     expect(mounted.session.getHistoryVersion()).toBe(0)

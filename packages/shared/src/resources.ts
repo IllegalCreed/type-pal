@@ -1,7 +1,7 @@
 export interface TileCell {
-  /** 下层 tile bitmap 索引 + 属性位(从 u32 低 16 bit 切)*/
+  /** Tiles[row][col][0],h=0 错排半格的完整 u32;含底层/覆盖层及属性位。 */
   lower: number
-  /** 上层 tile bitmap 索引 + 属性位(从 u32 低 16 bit 切)*/
+  /** Tiles[row][col][1],h=1 错排半格的完整 u32;不是覆盖层的单独字段。 */
   upper: number
 }
 
@@ -9,7 +9,7 @@ export interface Tilemap {
   /** 单位:逻辑格子。目标游戏固定 64 列 × 128 行(实际渲染会做菱形错排)*/
   width: number
   height: number
-  /** [row][col] = TileCell;长度 = height × width 行 × width 列 */
+  /** [row][col] = TileCell;外层 height 行,每行 width 列。 */
   cells: TileCell[][]
   /**
    * 对应 tileset 资源的相对路径(由 CLI 总装时填)。
@@ -60,7 +60,7 @@ export interface SpriteSet {
  * 字段名沿用 sdlpal 命名(去掉 w/n/s 匈牙利前缀)。
  */
 export interface SceneEventObject {
-  /** 在原 SSS.MKF EventObject 数组里的下标。 */
+  /** 当前全局事件数组下标；原盘对象保留 SSS.MKF 下标，补充对象追加在尾部。 */
   id: number
   /** [1] x —— sdlpal world 像素坐标(M5 P0.0:pixel,非 tile)。 */
   x: number
@@ -74,8 +74,15 @@ export interface SceneEventObject {
   autoLabel?: string
   /** [7] wTriggerMode —— 触发模式(sdlpal `play.c::PAL_PartyWalk` 真值)。 */
   triggerMode: number
-  /** [6] sState (signed i16) —— sdlpal global.h:77-79
-   *      Hidden=0 / Normal=1 / Blocker=2 / Message=3 / Script=4 / Contact 4+;负数也算 hidden。 */
+  /** Corrected resource metadata: consume this proximity trigger after its first activation. */
+  autoTriggerOnce?: boolean
+  /** Optional world-pixel trigger anchor; the sprite retains its original x/y. */
+  autoTriggerAnchorX?: number
+  autoTriggerAnchorY?: number
+  /** Resource-authored addition outside native scene ranges; scene loading supplies it if absent. */
+  supplemental?: boolean
+  /** [6] sState (signed i16)：Hidden=0 / Normal=1 / Blocker=2。
+   *      触发距离由独立的 triggerMode 决定，不属于状态枚举；负数也隐藏。 */
   sState?: number
   /** [3] sLayer (signed i16) —— 渲染 z 层(scene.c:302 sort + scene.c:316 iLayer)。 */
   sLayer?: number
@@ -103,20 +110,20 @@ export interface SceneObjects {
   mapNum: number
   /** scene 进入即跑的脚本入口,作为 label 名;对应 SSS.MKF SCENE.scriptOnEnter ip。 */
   onEnterLabel?: string
-  /** scriptOnTeleport(若存在);M2 不消费。 */
+  /** scriptOnTeleport(若存在)；进入场景时缓存，供 0x38 归隐脱出查询。 */
   onTeleportLabel?: string
   eventObjects: SceneEventObject[]
 }
 
 /**
  * 全局 event object 表 —— 忠实 sdlpal `lprgEventObject[MAX_EVENT_OBJECTS]`。
- * 一个文件含全部 scene 的 event object(下标 = 全局 0-based id)+ 各 scene 的区间。
- * 运行时一次性加载成持久全局数组,gs.npcs = 当前 scene 切片(引用全局元素 → 脚本改动持久)。
+ * 一个文件含全部原盘与补充 event object(下标 = 全局 0-based id)。场景区间仅覆盖原盘对象；
+ * 运行时从当前场景定义补入 supplemental 对象，均引用全局元素以保留脚本改动。
  */
 export interface EventObjectsFile {
-  /** 全部 event object,下标 = 全局 0-based id(= SSS.MKF EventObject 数组下标)。 */
+  /** 全部 event object；原盘下标不变，补充对象占据连续尾部 ID。 */
   eventObjects: SceneEventObject[]
-  /** 各 scene 的 [start, end) event object 区间(键 = scene 0-based index = wNumScene-1)。 */
+  /** 各 scene 的原盘 [start, end) 区间，不包含 supplemental(键 = wNumScene-1)。 */
   sceneRanges: Record<number, [number, number]>
 }
 

@@ -1,0 +1,150 @@
+{
+  "base": "28fcfbe310815bcfd712b2f3da1849e0f4076092",
+  "status": "recorded: 7direct/17adjacent, game typecheck, tool125 plus repaired five docs consumers, lint-zero and ledger pass; original docs exit1 retained; no unified closeout or merge",
+  "rows": [
+    {
+      "label": "baseline",
+      "receipt": "baseline.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      },
+      "passed": 6
+    },
+    {
+      "label": "current",
+      "receipt": "current.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      },
+      "passed": 7
+    },
+    {
+      "label": "module-final",
+      "receipt": "module-final.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      },
+      "passed": 24,
+      "files": 6,
+      "direct": 7,
+      "adjacent": 17,
+      "nativeReport": "module-final.vitest.json.gz",
+      "nativeReportSha256": "3026ede7f830f6554f0b2068590db851f8a96133abf3396a28741c304a00ff1f",
+      "temporaryNativeReportRemoved": true
+    },
+    {
+      "label": "typecheck",
+      "receipt": "typecheck.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "docs-initial",
+      "receipt": "docs.json",
+      "exit": 1,
+      "toolTests": {
+        "passed": 125,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "diagnostics": {
+        "errors": 1,
+        "warnings": 0,
+        "info": 0
+      },
+      "consumerIssue": "New evidence subdirectory missing from parent navigation; remaining consumers not executed in this initial command",
+      "currentStatus": "Historical failed attempt retained, repaired by final five-consumer replay",
+      "supersededBy": "docs-consumers-final"
+    },
+    {
+      "label": "docs-consumers-final",
+      "receipt": "docs-consumers-final.json",
+      "exit": 0,
+      "consumers": 5,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "info": 0
+      },
+      "scope": "Final actual consumer replay after navigation-only repair. Original unchanged tool125 passed in initial command; not a new full pnpm check:docs run."
+    },
+    {
+      "label": "ledger",
+      "receipt": "ledger.json",
+      "exit": 0,
+      "tracked": 3315,
+      "closed": 261,
+      "review": 85,
+      "pending": 2969
+    },
+    {
+      "label": "lint-final",
+      "receipt": "lint-final.json",
+      "exit": 0,
+      "files": 5330,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "info": 0
+      }
+    },
+    {
+      "label": "fetch-final",
+      "receipt": "fetch-final.json",
+      "exit": 0
+    },
+    {
+      "label": "divergence-final",
+      "receipt": "divergence-final.json",
+      "exit": 0,
+      "behind": 0,
+      "ahead": 252,
+      "scope": "Before this batch commit; no main merge"
+    }
+  ],
+  "tracked": 3315,
+  "closed": 261,
+  "review": 85,
+  "pending": 2969,
+  "newClosed": 0,
+  "cards": {
+    "partial": 52,
+    "pending": 31,
+    "accept": 0
+  },
+  "mergeAllowed": false,
+  "productExecutionChanged": false,
+  "notRun": [
+    "whole repository pnpm check",
+    "official coverage ratchet",
+    "protected fast",
+    "full game package test",
+    "real Google endpoint",
+    "production deployment",
+    "browser visual",
+    "E2E"
+  ]
+}

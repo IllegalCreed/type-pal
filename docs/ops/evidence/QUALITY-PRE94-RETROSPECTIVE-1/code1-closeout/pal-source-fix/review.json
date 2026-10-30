@@ -1,0 +1,512 @@
+{
+  "date": "2026-10-25",
+  "owner": "Codex single agent; own review disclosed",
+  "base": "9d57b2f33076f16f439bc9a07f6f20ae9aaff0fb",
+  "branch": "codex/code-quality-3y",
+  "candidate": "base plus explicitly pinned uncommitted source patch; commit identity follows in Git",
+  "state": "CODE1 original finite scope code accepted; unified pre94 gates not yet run",
+  "approval": {
+    "id": "call_50e2479c6c88464ebe4893166d0c08e1",
+    "answer": "批准修复原盘精灵读取（推荐）",
+    "boundary": "PAL/legacy source reads only; author format and all asset/save bytes unchanged"
+  },
+  "files": [
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "85d0f8dc2f2c02e1fb8cf19c8faf0c9753b77d2ceeecb2a77c289421794282fb",
+      "readScope": "全文基点与当前差异；原RLE测试质量/原生来源复用，当前8域1428记录及public caller核证。",
+      "dimensions": {
+        "A": "PAL来源修复0x18444→0x8444及width-dependent literal；canonical原行为保留。两先行业务红及final同spec旧源+仅名字alias的两红成立；164相关例、1428原盘记录仅MGO571多一帧，完整两平面对独立原C一致。",
+        "B": "明确作者/PAL来源、特殊WORD赋值、bitmap前缀与group区别；不再宣称通用codec等于全部PAL。strict仍拒0/128、400尺寸为TS验证合同，不冒称C；未改来源证据为原EXE。",
+        "C": "帧/容器校验继续无IO、DOM、RNG或全局写入；private source format只拥有两个实际源规则。公共调用方选来源，不把资源ID/filename塞codec。pixels/opaque由decoder新建，caller借用。",
+        "D": "两个decoder共用真实相同的命令分类，strict/lenient共用偏移解释；循环仍分开因no-op/失败边界不同，不用模式布尔值万能decoder。三种PAL入口分别有实际bitmap、runtime/extractor和strict migration caller。",
+        "E": "旧59身份/独立oracle及去重账继承，新增4个明确合同：两PAL counter与两author正控。typed真实来源矩阵/PNG/Chrome/原生goldens补足跨包误接线，不用parser自比作为独立真值。",
+        "F": "parsePalSpriteChunk/decodePalRle/parsePalSpriteChunkStrict揭示输入域；isTransparentRun/spriteFrameOffset给两个规则单一命名，原有逐边界控制流保留。",
+        "G": "未新增升级器、fallback、资源ID特判或死测试出口。deprecated world别名仍有Reforge/migrate caller。未借修复删未定错误合同守卫。",
+        "H": "纯Uint8Array输入与完整planes输出；无需新增上下文/mock。真实资源census与native hashes能独立推翻错误源选择。generic最大分配域/过短RangeError保持原策略，生产sprite入口400上限及实际bitmap域已核；不认证任意腐蚀大头的分配容量。"
+      },
+      "decision": "code-accept; full pre94 gates deferred",
+      "baseSha256": "a8f91693c0fc03a3905776dafc7a984cd0fc1d01822263588bbf6ca5b2e74eb7"
+    },
+    {
+      "path": "packages/shared/src/pal-rle.test.ts",
+      "sha256": "eac4155eb3fa9ae64de051ccb49c1edca9ea17a0f268b650f73268941a9f4d92",
+      "readScope": "新文件全文、全部4身份与其输入/oracle；final-counter精确spec版本。",
+      "dimensions": {
+        "A": "手列PAL偏移/高位literal样本合法；author由真实encoder生成合法285×346+1×1及窄透明帧。独立C132像素和偏移规则支撑期望。",
+        "B": "标题只声明所断言的合同；完整encoder字节指纹继承旧domain证据，不冒称unit有Node hash证明。",
+        "C": "所有输入每例自有，无共享状态/IO；Node专属crypto误用已删除且TS归零，无新增types/ignore。",
+        "D": "四case分别是两PAL规则和两author反向域界；不新增通用随机fixture/helper，PAL公开入口在相应规则case共核。",
+        "E": "正式旧公共入口2AssertionError/2绿；最终spec在精确旧源加3个名字alias后仍2业务红/2绿，恢复63绿；不是collection/环境红。完整frame/mask/metadata与author边界长度断言，不以次数代替结果。",
+        "F": "直接bytes/offset/frames名与具体值，无实现公式复制当expected；构造尺寸明确。",
+        "G": "仅4例，无随机覆盖率堆叠；与旧strict尾槽/基础palette0不同轴，不重复原9条已退役身份。",
+        "H": "全纯输入/输出，无fake timers或核心mock；显式default reporter保留诊断，最终四包TC0。"
+      },
+      "decision": "code-accept; new test",
+      "baseSha256": null
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.ts",
+      "sha256": "34fcb9a237909ee81cd001111246d195dc593f9a64a16634784a93976e6fa612",
+      "readScope": "本轮全文与实际caller/出口；复用既有范围八维，重核来源delta。",
+      "dimensions": {
+        "A": "DATA12 base64 caller的PAL解析转发，base64函数未改；42extract/16game相邻与实际809写出闭包支持，未扩大public既有名字/类型。",
+        "B": "注释指向来源规则与已有过滤下标合同；sprite PNG注释仍是索引RGBA而非PAL自带PNG。",
+        "C": "运输/固定网格/PNG职责原边界不动，格式规则只在shared；无跨层状态写入或新全局。",
+        "D": "实际原盘消费者共享PAL入口，自建消费者继续canonical；不把两套业务域强拼统一规则。",
+        "E": "既有专测/fixture/oracle保留；新增source-census和实际生产writer只核本次来源接线，未把自比当native。",
+        "F": "显式PAL import或内部出口alias说明来源；既有字段/固定循环保持，不新增中间loader。",
+        "G": "真实caller仍消费各出口，无新模式flag或备用fallback；未删合法错误路径。",
+        "H": "来源codec可直接测；IO使用既有读取边界。Chrome/真实字节与PNG输出直接观察，不以模拟调用次数给信用。"
+      },
+      "decision": "existing code acceptance refreshed",
+      "baseSha256": "f0f543bc5137a385438ec02ecb3aa62ce073bdae43ffdf00e7f8b27d11c639fb"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "20a8afc7754a956b2b3dd1b395466e39377f51c4aa096ae937765c63baebd517",
+      "readScope": "本轮全文与实际caller/出口；复用既有范围八维，重核来源delta。",
+      "dimensions": {
+        "A": "实际fetch/gzip/PAL→IndexedImage，结局571经真实Chrome绘制；42extract/16game相邻与实际809写出闭包支持，未扩大public既有名字/类型。",
+        "B": "注释指向来源规则与已有过滤下标合同；sprite PNG注释仍是索引RGBA而非PAL自带PNG。",
+        "C": "运输/固定网格/PNG职责原边界不动，格式规则只在shared；无跨层状态写入或新全局。",
+        "D": "实际原盘消费者共享PAL入口，自建消费者继续canonical；不把两套业务域强拼统一规则。",
+        "E": "既有专测/fixture/oracle保留；新增source-census和实际生产writer只核本次来源接线，未把自比当native。",
+        "F": "显式PAL import或内部出口alias说明来源；既有字段/固定循环保持，不新增中间loader。",
+        "G": "真实caller仍消费各出口，无新模式flag或备用fallback；未删合法错误路径。",
+        "H": "来源codec可直接测；IO使用既有读取边界。Chrome/真实字节与PNG输出直接观察，不以模拟调用次数给信用。"
+      },
+      "decision": "existing code acceptance refreshed",
+      "baseSha256": "868c492fc155e8a6becd1ff29ee1be002dd78573964d26c84700ac959f0a9f27"
+    },
+    {
+      "path": "packages/pal-extract/src/io/rle.ts",
+      "sha256": "3c1ec48e9586bf2202f6a4dba57bc9d65e33f0f93ef3f215ba382c4d83421b57",
+      "readScope": "本轮全文与实际caller/出口；复用既有范围八维，重核来源delta。",
+      "dimensions": {
+        "A": "BALL/RGM bitmap和sprite内部出口转发PAL来源；42extract/16game相邻与实际809写出闭包支持，未扩大public既有名字/类型。",
+        "B": "注释指向来源规则与已有过滤下标合同；sprite PNG注释仍是索引RGBA而非PAL自带PNG。",
+        "C": "运输/固定网格/PNG职责原边界不动，格式规则只在shared；无跨层状态写入或新全局。",
+        "D": "实际原盘消费者共享PAL入口，自建消费者继续canonical；不把两套业务域强拼统一规则。",
+        "E": "既有专测/fixture/oracle保留；新增source-census和实际生产writer只核本次来源接线，未把自比当native。",
+        "F": "显式PAL import或内部出口alias说明来源；既有字段/固定循环保持，不新增中间loader。",
+        "G": "真实caller仍消费各出口，无新模式flag或备用fallback；未删合法错误路径。",
+        "H": "来源codec可直接测；IO使用既有读取边界。Chrome/真实字节与PNG输出直接观察，不以模拟调用次数给信用。"
+      },
+      "decision": "existing code acceptance refreshed",
+      "baseSha256": "181195581652f4d2985681490e80a4ec9b7f371280fb71aef320a930aa0726bb"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/map.ts",
+      "sha256": "89b9dc29386b32d04e61bc2b92a25a9f38e9dd976c6963cb8a39248ad5053dc1",
+      "readScope": "本轮全文与实际caller/出口；复用既有范围八维，重核来源delta。",
+      "dimensions": {
+        "A": "固定MAP网格与raw GOP解析，只有来源选择改动；42extract/16game相邻与实际809写出闭包支持，未扩大public既有名字/类型。",
+        "B": "注释指向来源规则与已有过滤下标合同；sprite PNG注释仍是索引RGBA而非PAL自带PNG。",
+        "C": "运输/固定网格/PNG职责原边界不动，格式规则只在shared；无跨层状态写入或新全局。",
+        "D": "实际原盘消费者共享PAL入口，自建消费者继续canonical；不把两套业务域强拼统一规则。",
+        "E": "既有专测/fixture/oracle保留；新增source-census和实际生产writer只核本次来源接线，未把自比当native。",
+        "F": "显式PAL import或内部出口alias说明来源；既有字段/固定循环保持，不新增中间loader。",
+        "G": "真实caller仍消费各出口，无新模式flag或备用fallback；未删合法错误路径。",
+        "H": "来源codec可直接测；IO使用既有读取边界。Chrome/真实字节与PNG输出直接观察，不以模拟调用次数给信用。"
+      },
+      "decision": "existing code acceptance refreshed",
+      "baseSha256": "5695f47064b4c2d83d1cbd7f624450feda2b98fe335a6170d6147e5338d4e678"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.ts",
+      "sha256": "ac5f7ffefe6914fb7f097ac584b4a3e110537098bcd30dea3a34a7835fd4ba07",
+      "readScope": "本轮全文与实际caller/出口；复用既有范围八维，重核来源delta。",
+      "dimensions": {
+        "A": "parser出口选择PAL，PNG/frames实现未改；定向包装仅测试caller；42extract/16game相邻与实际809写出闭包支持，未扩大public既有名字/类型。",
+        "B": "注释指向来源规则与已有过滤下标合同；sprite PNG注释仍是索引RGBA而非PAL自带PNG。",
+        "C": "运输/固定网格/PNG职责原边界不动，格式规则只在shared；无跨层状态写入或新全局。",
+        "D": "实际原盘消费者共享PAL入口，自建消费者继续canonical；不把两套业务域强拼统一规则。",
+        "E": "既有专测/fixture/oracle保留；新增source-census和实际生产writer只核本次来源接线，未把自比当native。",
+        "F": "显式PAL import或内部出口alias说明来源；既有字段/固定循环保持，不新增中间loader。",
+        "G": "只改必要来源选择；sprite的extractCharacterSprites零生产caller旧候选未清理，API删改不借本次批准顺带实施，因此其整文件继续旧review。",
+        "H": "来源codec可直接测；IO使用既有读取边界。Chrome/真实字节与PNG输出直接观察，不以模拟调用次数给信用。"
+      },
+      "decision": "scoped source delta accepted; retain prior whole-file review",
+      "baseSha256": "5ed13fc9c404449f1543fe85474d97a418397b5fb98a5e71af928855e614e96e"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/parser-diagnostics.ts",
+      "sha256": "d954ce7981032757c50ecd5ee7ace2cd0c61416828126db91a5ed29d90ef1191",
+      "readScope": "全文与BALL/RGM负例caller/真实新decoder栈。",
+      "dimensions": {
+        "A": "同步Console捕获完整记录，finally先恢复再断言，流destroy；异常原样回抛，不会让失败变成功。",
+        "B": "说明同步parser IO与完整日志校验，未声称全局静音；新增stack一级按真实ownership解释。",
+        "C": "仅测试helper，串行action拥有临时Console/streams，不改生产日志或异步生命周期。",
+        "D": "两个真实parser共用同一完整warn协议，不给任意字符串ignore；输入仍message+throw来源。",
+        "E": "完整message/所有stack记录消费不变；新前三帧为core→PAL入口→实际parser，较旧两帧更精确；42相关绿。",
+        "F": "ExpectedWarning/errorFrom/游标命名表达协议，未把stack任意包含改为通过。",
+        "G": "无新忽略/过滤/弱断言；所有未解释输出仍导致失败，两个消费者有实用价值。",
+        "H": "测试自身验证真实decoder抛错栈与warning，控制作用域有限，未mock codec；不适用于异步action。"
+      },
+      "decision": "code-accept; new helper closure",
+      "baseSha256": "81e4c3b53d339c6c95a34ca9cd257d7b2a4541dec9be5ea8f3213d0af45e8010"
+    },
+    {
+      "path": "packages/migrate/src/pal-assets.ts",
+      "sha256": "700a76e375020626d5d064ccee5d88bc2ab903cc1ac79990b55b551ef5dfc246",
+      "readScope": "文件全文；只接受PAL来源/4134与29事实同步delta，不授整份迁移/其它IO全质量信用。",
+      "dimensions": {
+        "A": "原571坏尾撤出，帧4134/尾29；bytes1332725和tuple digest不变，636+172真实物化第二次零写的既有集成测试通过。strict effects/tileset只改PAL来源入口。",
+        "B": "571注释改为完整两帧，迁移测试“宽松真值”改称策略一致且非独立真值；不再把两个TS parser互比当一手oracle。",
+        "C": "资源ID仅在源事实门中冻结，不在runtime特判；生成/写入ownership、路径预检与事务逻辑未改。",
+        "D": "复用shared明确PAL入口，不新增升级器/修表生成物/按资源ID修复；格式化专测保留既有fast路由目的。",
+        "E": "18真实定向通过，旧物化/ownership/内容字节合同未删除。新事实来自原C+真实census，不是为放宽断言调数。",
+        "F": "原函数/元数据字段/错误模板保持；帧数与尾数明确命名，无新增抽象。",
+        "G": "只有批准的源事实及读取调用delta；其它宽域导出/IO是否可精简不据此认证，文件总体仍pending。",
+        "H": "读取入口可指向隔离repo；实际测试仅写新temp且afterEach清理，未在主/治理共享产物运行迁移。"
+      },
+      "decision": "delta accepted; whole file remains pending",
+      "baseSha256": "131b101ef065d32bd6b0c76a04ac082eb6b9e56965de211541a198eb7219d5b8"
+    },
+    {
+      "path": "packages/migrate/src/pal-assets.test.ts",
+      "sha256": "59706cf6281de7ec2185e91743fda6d689f585547f48d10d45b8598d81d439f3",
+      "readScope": "文件全文；只接受PAL来源/4134与29事实同步delta，不授整份迁移/其它IO全质量信用。",
+      "dimensions": {
+        "A": "原571坏尾撤出，帧4134/尾29；bytes1332725和tuple digest不变，636+172真实物化第二次零写的既有集成测试通过。strict effects/tileset只改PAL来源入口。",
+        "B": "571注释改为完整两帧，迁移测试“宽松真值”改称策略一致且非独立真值；不再把两个TS parser互比当一手oracle。",
+        "C": "资源ID仅在源事实门中冻结，不在runtime特判；生成/写入ownership、路径预检与事务逻辑未改。",
+        "D": "复用shared明确PAL入口，不新增升级器/修表生成物/按资源ID修复；格式化专测保留既有fast路由目的。",
+        "E": "18真实定向通过，旧物化/ownership/内容字节合同未删除。新事实来自原C+真实census，不是为放宽断言调数。",
+        "F": "原函数/元数据字段/错误模板保持；帧数与尾数明确命名，无新增抽象。",
+        "G": "只有批准的源事实及读取调用delta；其它宽域导出/IO是否可精简不据此认证，文件总体仍pending。",
+        "H": "读取入口可指向隔离repo；实际测试仅写新temp且afterEach清理，未在主/治理共享产物运行迁移。"
+      },
+      "decision": "delta accepted; whole file remains pending",
+      "baseSha256": "6d16822894751cd129ff18f7ce06f62a99a2e99ea2260421d43bea145cb9d60c"
+    },
+    {
+      "path": "packages/migrate/src/pal-sprite-report.fast.test.ts",
+      "sha256": "8c409d579dc501804bbf041103abb86a7801863bfabd5314adbead9dacb57490",
+      "readScope": "文件全文；只接受PAL来源/4134与29事实同步delta，不授整份迁移/其它IO全质量信用。",
+      "dimensions": {
+        "A": "原571坏尾撤出，帧4134/尾29；bytes1332725和tuple digest不变，636+172真实物化第二次零写的既有集成测试通过。strict effects/tileset只改PAL来源入口。",
+        "B": "571注释改为完整两帧，迁移测试“宽松真值”改称策略一致且非独立真值；不再把两个TS parser互比当一手oracle。",
+        "C": "资源ID仅在源事实门中冻结，不在runtime特判；生成/写入ownership、路径预检与事务逻辑未改。",
+        "D": "复用shared明确PAL入口，不新增升级器/修表生成物/按资源ID修复；格式化专测保留既有fast路由目的。",
+        "E": "18真实定向通过，旧物化/ownership/内容字节合同未删除。新事实来自原C+真实census，不是为放宽断言调数。",
+        "F": "原函数/元数据字段/错误模板保持；帧数与尾数明确命名，无新增抽象。",
+        "G": "只有批准的源事实及读取调用delta；其它宽域导出/IO是否可精简不据此认证，文件总体仍pending。",
+        "H": "读取入口可指向隔离repo；实际测试仅写新temp且afterEach清理，未在主/治理共享产物运行迁移。"
+      },
+      "decision": "delta accepted; whole file remains pending",
+      "baseSha256": "d9416fa35ed9ef654787857b026290a2337b28547541f3aeb5616988afa0b8d5"
+    }
+  ],
+  "contextPins": [
+    {
+      "path": "package.json",
+      "sha256": "d03353b2c46b34fd84b6fc233160dcd3636f8e6e8f0e6378582f9aacce35df45"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65"
+    },
+    {
+      "path": "tsconfig.base.json",
+      "sha256": "9c29504dad2a45fb1c4e260b590372a8221ef27303f7fff1654554c90b57931c"
+    },
+    {
+      "path": "packages/shared/tsconfig.json",
+      "sha256": "d17bc3179d3cfb306f1c4babbd1ad85da4985db4be4fb3ae78226256ea28a95c"
+    },
+    {
+      "path": "packages/game/tsconfig.json",
+      "sha256": "3dd47beddd01f2fc24f3389ed59ba5e60184d9952dac0db523dd6d90367c8309"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43"
+    },
+    {
+      "path": "packages/pal-extract/tsconfig.json",
+      "sha256": "c495913f16faed5087b5f04fdf57ea15147633743e2c2b0f4352383a2453ac1b"
+    },
+    {
+      "path": "packages/pal-extract/vitest.config.ts",
+      "sha256": "34a27a3287b44e6986ecc51fa51b18511b677bfb9a13890447adf3bd673b2f64"
+    },
+    {
+      "path": "packages/migrate/tsconfig.json",
+      "sha256": "7a192705b33bbe76f75532908f9f08e80a5061c3168e8808475982aa53a0d5ff"
+    },
+    {
+      "path": "packages/migrate/vitest.config.ts",
+      "sha256": "89b8d09d5d0c08bb7660a408a081fc97e5ea50b1db9d3d9b2f5269193fa090d0"
+    },
+    {
+      "path": "packages/reforge/tsconfig.json",
+      "sha256": "259b6b195023b3c2ae163a8c58b35016156b5e9db9a57523f7609aad966cd3d3"
+    },
+    {
+      "path": "packages/reforge/vite.config.ts",
+      "sha256": "33498bda0c6b6ebd76b21a6f7e14d2518a594da4cb281d95367cbc4db4b3b4fa"
+    },
+    {
+      "path": "packages/shared/src/rle-encode.ts",
+      "sha256": "cb6f970a575f4bbf5634cae5f3836c9c326bf1d2192e9c20d06d47d9e707dbd5"
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "6c8ccd23db2b01611579e30ac005018a6085abb5db6c4fb7f08927ccf1d18d35"
+    },
+    {
+      "path": "packages/reforge/src/assets.ts",
+      "sha256": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025"
+    },
+    {
+      "path": "packages/content/src/asset.ts",
+      "sha256": "bf98283ea72801770b314c9f69c10c0593b268b09cc5fcfc91c03961507d391e"
+    },
+    {
+      "path": "packages/game/src/shell/dos-cutscenes.ts",
+      "sha256": "bd18018aa36e4291c8ef414848d77b98b1806d81214e98ad7c4fb10db48e7df8"
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.ts",
+      "sha256": "9099d346ac0a66353169d940d4b5dbc173f702c7ec22da4fe403c63e01ca3fdc"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite-assets.ts",
+      "sha256": "1769334589117d87db9bf82e2c589a5f5c0897bbb7d090d390bb1f97a84e97af"
+    },
+    {
+      "path": "reference/sdlpal/palcommon.c",
+      "sha256": "919f428112e70c11b8db208e9bba486c8ab056aa4a893a8d4d6bae9b21b9aae6"
+    },
+    {
+      "path": "reference/sdlpal/yj1.c",
+      "sha256": "fdcb5f1c4e14712fe96b2214bac6a12f3fa01abcfeeb88cb096886e306e14a0c"
+    }
+  ],
+  "sourcePatchSha256": "004409e7c938807ab6e6cb01406a78d63a14bef97e704aff2b67f4b34e0e9584",
+  "sourcePatchPaths": [
+    "packages/shared/src/rle.ts",
+    "packages/shared/src/pal-rle.test.ts",
+    "packages/game/src/assets/rle-decode.ts",
+    "packages/game/src/assets/tileset-blob.ts",
+    "packages/pal-extract/src/io/rle.ts",
+    "packages/pal-extract/src/resources/map.ts",
+    "packages/pal-extract/src/resources/sprite.ts",
+    "packages/pal-extract/src/__tests__/parser-diagnostics.ts",
+    "packages/migrate/src/pal-assets.ts",
+    "packages/migrate/src/pal-assets.test.ts",
+    "packages/migrate/src/pal-sprite-report.fast.test.ts"
+  ],
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "74ecabd25f2f874ba5612a234dd49c3536c4f98ee2b4223ef261729ed43448ba"
+  },
+  "screenshot": {
+    "path": "ending-fixed.png",
+    "sha256": "d2800a8404e79d4a318bb51c048da8365d7fb39aa4e46e6aaff4ea63e374c036"
+  },
+  "inheritance": {
+    "code1Review": {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/review.json",
+      "sha256": "b0a9d8d2e22f9aebf2abf8d16df55f0f723774c57edefb506bccc05872f9e60a"
+    },
+    "code1UnchangedContext": [
+      {
+        "path": "packages/editor/src/core/project-reference.pal.test.ts",
+        "sha256": "eadee0a35c76b72fdf267646c18b6c11854aaab18a16ed8fcc3a1c88bb042ed7"
+      },
+      {
+        "path": "packages/editor/src/core/project-reference.ts",
+        "sha256": "c05cdbb27dc252d07117504dd274a781a6d6f8b4a03ead5af469d525d151087a"
+      },
+      {
+        "path": "packages/editor/src/core/project-reference-adapters.ts",
+        "sha256": "c962483e77f4ae26225ae1f6754a61943944057f97656b11c04b171ed788a89f"
+      },
+      {
+        "path": "packages/editor/src/core/project-diagnostics.ts",
+        "sha256": "ce2806133f57e0899b2b27f031880a5eb744e9cd12cc591076c51c253f3f5a01"
+      },
+      {
+        "path": "packages/editor/src/core/editor-derived-core.ts",
+        "sha256": "0ab344726f92137c33d810fa5fa2d7bc9783ea394ddf5fb90afee5ae5d910bd0"
+      },
+      {
+        "path": "packages/editor/src/core/editor-derived-store.ts",
+        "sha256": "e8ed0e39e4d66fac4afbbe1578b47e4b5664e0b81245a69fd1dfc186c5a87949"
+      },
+      {
+        "path": "packages/editor/src/core/editor-derived-contract.ts",
+        "sha256": "e5433d87027bb32457c193d65e93320dce2800f12d914404ff02a397644cfe1a"
+      },
+      {
+        "path": "packages/editor/src/core/project-io.ts",
+        "sha256": "c74ae36b08829570fd5f9e587ddf3ef66b5a4e4f7f1864b8c44c978e67cfa8bf"
+      },
+      {
+        "path": "packages/editor/src/core/editor-asset-references.ts",
+        "sha256": "409293b43c8ff9c4bfd5690e9ab798ed9c3d3ea8659305bcc7ffb0362c5ef0be"
+      },
+      {
+        "path": "packages/editor/src/core/actor-references.ts",
+        "sha256": "6fc2e5f5ea20a7e4a229218dc6d19a319515219a4c8b1fcec5822b52917508d3"
+      },
+      {
+        "path": "packages/editor/src/core/battle-data-references.ts",
+        "sha256": "7fa87bd40f396f997bd7fdba2e073baaa5f1e924fd706483141c7226b2d451e8"
+      },
+      {
+        "path": "packages/editor/src/core/item-references.ts",
+        "sha256": "967f552ebde0b53f3919ca7840af5d2ac5aa8066d279a0297058f3c853987a98"
+      },
+      {
+        "path": "packages/editor/src/core/entity-address-references.ts",
+        "sha256": "b3c17ee293d5822bb25fe2aec064b479e3ef7ee83a4e765791d1881b9078a0dc"
+      },
+      {
+        "path": "packages/reforge/src/project-loader.ts",
+        "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+      },
+      {
+        "path": "packages/reforge/src/file-source.ts",
+        "sha256": "b2881b264bd636164ad20a9daa7944b5d48979b90537efdec22f3595fda388a2"
+      },
+      {
+        "path": "packages/editor/vite.config.ts",
+        "sha256": "c6913c3db24c9b8e49d03dd036860072779f4f1b0449aced55dfe607759ffcc0"
+      },
+      {
+        "path": "packages/editor/tsconfig.json",
+        "sha256": "c070261bee129db1b5ece2040f6833c5b09371ebb762ff4e42c8fe360635c660"
+      },
+      {
+        "path": "packages/editor/package.json",
+        "sha256": "68bee5bb0ea285e9b8d42e100c0c81bb4fc3eb3a0933561d8ac684b0373029bb"
+      },
+      {
+        "path": "pnpm-lock.yaml",
+        "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65"
+      },
+      {
+        "path": "packages/content/src/asset.ts",
+        "sha256": "bf98283ea72801770b314c9f69c10c0593b268b09cc5fcfc91c03961507d391e"
+      }
+    ],
+    "engineering": {
+      "acceptance": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json",
+      "acceptanceSha256": "9772274e5e841e3aa323bec4da5900f793156f824cd6921d75271190146d5e88",
+      "dimensions": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+      "dimensionsSha256": "d9ce332c44c27dd7bb8a7dfbe0190da5eb9dca1171048cd313f6e4afc32da71f",
+      "files": [
+        {
+          "path": "scripts/quality/code-quality-ledger.mjs",
+          "sha256": "76c45b719c241305d59eec611b3584f3ea623494900ae0afd69ccd8e8c2c1157"
+        },
+        {
+          "path": "scripts/quality/code-quality-ledger.test.mjs",
+          "sha256": "cbf61f06d3bb5f8992989580a7f3a354741a272f78ef98a0e5153322f3cb5d1b"
+        },
+        {
+          "path": "scripts/quality/code-quality-inventory.mjs",
+          "sha256": "00c89fee45b176a3f58f51bbe3856c2a5675d48d668e23c1f148c40f1e879158"
+        },
+        {
+          "path": "scripts/quality/code-quality-inventory.test.mjs",
+          "sha256": "bf8019893a5b193dc6e4e5e519cf5ed87230d98a69c5ea6465b49fc9d14fdb85"
+        }
+      ],
+      "scope": "Original CODE1 inventory/ledger record/CLI contract only;6a acceptance is reused, not its superseded partial status. No full Markdown grammar or future symbol graph certification."
+    },
+    "q1b": "packages/editor/src/core/project-reference.pal.test.ts",
+    "rleReview": {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/review.json",
+      "sha256": "822194d5ab23120e2e9b49a3245682e4c4b50da395f3ef4a067a8154fce96892"
+    },
+    "scope": "Engineering4/Q1b539JSON+119statements/84assertions+oldRLE59 quality evidence retained. Changed PAL rules supersede only old format counters; no blind SHA refresh or all-frame native equivalence."
+  },
+  "gates": {
+    "shared": {
+      "id": "shared-final",
+      "passed": 63,
+      "files": 6
+    },
+    "extract": {
+      "id": "extract-adjacent",
+      "passed": 42,
+      "files": 8
+    },
+    "game": {
+      "id": "game-adjacent",
+      "passed": 16,
+      "files": 3
+    },
+    "reforge": {
+      "id": "reforge-adjacent",
+      "passed": 25,
+      "files": 3
+    },
+    "migrate": {
+      "id": "pal-migrate-green",
+      "passed": 18,
+      "files": 2
+    }
+  },
+  "typechecks": [
+    "shared-typecheck-final",
+    "pal-extract-typecheck-final",
+    "migrate-typecheck-final",
+    "game-typecheck-final"
+  ],
+  "businessCounters": {
+    "initial": "pal-red",
+    "final": "final-counter",
+    "passed": 2,
+    "failed": 2,
+    "aliasScope": "Final spec against exact old production body plus only three name aliases, no product code mutation; owned temporary folder removed."
+  },
+  "sourceProof": {
+    "records": 1428,
+    "changed": [
+      {
+        "family": "MGO",
+        "chunk": 571,
+        "beforeFrames": 1,
+        "frames": 2
+      }
+    ],
+    "rawDomains": "GOP/MGO/ABC/F/FIRE/RGM/BALL; DATA only9/10/12",
+    "writerFiles": 809,
+    "secondWriterRunZeroDiff": true,
+    "reforgeFrames": 2,
+    "authorCanonicalFrames": 2,
+    "browserFrame": 200,
+    "browserNonZero": 23036
+  },
+  "retained": {
+    "O1": "Generic maximum allocation policy unchanged; strict/current PAL consumers bounded or frozen actual raw domain. Not host-allocation capacity certification.",
+    "O2": "Invalid short lenient input still rejects with existing RangeError; no unauthorized error-message contract change.",
+    "O3": "PAL special offset implemented by source, no571 runtime ID branch.",
+    "O4": "Prior nine duplicate retirements remain; new four are domain separation contracts.",
+    "spriteWrapper": "extractCharacterSprites remains only-test public wrapper, optional removal outside this source-format approval; whole-file review retained."
+  },
+  "disclosure": [
+    "Initial formal red contained a Node crypto assertion in new browser-independent package; tsc caught missing Node types, dependency removed rather than changing types/rules. Author byte fingerprints reused from exact unchanged encoder source and previous domain proof.",
+    "Final spec adds explicit PAL public-entry positive assertions and renames its new author case to match actual semantic assertion; final isolated counter pins exact final spec.",
+    "Census producer first used wrong archive envelope; first failure/producer retained, fixed to members entry and rerun.",
+    "Only selected raw cohorts compared against old TS; independent original-C goldens certify MGO571 two planes, not all raw/native/EXE.",
+    "Runtime screenshot isolates beast layer at i200, not complete ordinary-story ending/E2E certification.",
+    "Broad migrate files and sprite wrapper not promoted wholesale; no new asset bytes, schema/save or94–102 changes.",
+    "Final publisher guessed an absent shared config and stopped after packing; verifier correctly rejected mismatched pack hash. Original local raw was not saved (tool receipt only); failed producer is retained as record-missing-config.py. Correct actual config paths verified by rg; report now computed before publishing pack. No product/test gate credit assigned to this failure."
+  ],
+  "configurationAbsences": [
+    "packages/shared/vitest.config.ts",
+    "packages/shared/vite.config.ts",
+    "packages/reforge/vitest.config.ts"
+  ]
+}

@@ -1,0 +1,28 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/game
+
+ ❯ src/core/script-story-corrections.raw.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/script-story-corrections.raw.test.ts [ src/core/script-story-corrections.raw.test.ts ]
+TypeError: The URL must be of scheme file
+ ❯ src/core/script-story-corrections.raw.test.ts:12:22
+     10| import { setGlobalEvents } from './script-catalog.js'
+     11|
+     12| const resourceRoot = fileURLToPath(new URL('../../../../data/extracted…
+       |                      ^
+     13| function readResource<T>(path: string): T {
+     14|   return JSON.parse(readFileSync(resolve(resourceRoot, path), 'utf8'))
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  15:59:37
+   Duration  7.55s (transform 1.95s, setup 500ms, import 0ms, tests 0ms, environment 4.47s)
+
+undefined
+/Users/zhangxu/illegal/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/script-story-corrections.raw.test.ts --reporter=default

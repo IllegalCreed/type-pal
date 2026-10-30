@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-ENGLISH-1",
+  "kind": "second-main-sync-release-gates",
+  "owner": "Codex",
+  "recordedAtUtc": "2026-10-22T15:20:05.939Z",
+  "scope": "Incoming d297 test-oracle/retirement changes and production comment clarifications; no executable English change. Repository branch protection configured under explicit user steering.",
+  "parents": {
+    "english": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
+    "main": "d297e64d0a928abb813ce280122d51c2c852bea5"
+  },
+  "sourceFingerprint": {
+    "path": "sync2-native/sync2-source-fingerprint.json.gz",
+    "files": 3711,
+    "sha256": "bfce8bed5944d4b4fe8cd9cfc74e023e45ff6318407fb41862ef57d2f6fb08db"
+  },
+  "gates": {
+    "coverage": {
+      "command": "VITEST_MAX_WORKERS=2 TYPE_PAL_COVERAGE_BASE_REF=d297e64d0 pnpm coverage:ratchet --allow-scope-removal",
+      "exit": 0,
+      "tests": 20176,
+      "sourceFileCount": 774,
+      "total": {
+        "statements": {
+          "covered": 72675,
+          "total": 80469
+        },
+        "branches": {
+          "covered": 52605,
+          "total": 62701
+        },
+        "functions": {
+          "covered": 13730,
+          "total": 15292
+        },
+        "lines": {
+          "covered": 64900,
+          "total": 70412
+        }
+      },
+      "scope": "Official full fast selection; explicit scope-removal confirmation for four independently audited file identities with net5 retired cases. No thresholds, rules, filters or timeouts changed."
+    },
+    "typecheck": {
+      "command": "pnpm typecheck",
+      "exit": 0,
+      "packages": 7,
+      "diagnostics": 0
+    },
+    "docs": {
+      "command": "node --test --test-concurrency=2 scripts/docs/*.test.mjs; then the six unchanged check:docs consumer commands",
+      "exit": 0,
+      "tools": 125,
+      "issues": 0,
+      "note": "Same complete Node test files and consumers; only host test concurrency bounded after a stalled Git fixture child. Not labelled bare pnpm check:docs success."
+    },
+    "lint": {
+      "command": "pnpm lint",
+      "exit": 0,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    }
+  },
+  "retainedFailures": [
+    {
+      "raw": "sync2-native/coverage-sync2.txt.gz",
+      "result": "All20176 tests passed; final scope guard rejected missing explicit --allow-scope-removal. Coverage metrics did not regress."
+    },
+    {
+      "raw": "sync2-native/coverage-sync2-accepted-retirement.txt.gz",
+      "result": "One existing video CLI case exceeded its unchanged5000ms limit;360of361 extract cases passed. Parallel-editor environment flag was set but editor had not yet been scheduled; no causal claim from that flag."
+    },
+    {
+      "raw": "sync2-native/docs-sync2.txt.gz",
+      "result": "Owned git hash-object fixture child stopped progressing for over6minutes. Root verified PID/parent/argv, sentSIGTERM;125tools ended124pass1fail. Preserved full failure and pre-termination native. Same suite with host concurrency2 and every consumer subsequently passed."
+    }
+  ],
+  "independentAcceptance": {
+    "audit": "sync2-native/main-sync2-audit.json.gz",
+    "conclusions": "Two changed production sources are comments-only; third proof boundary source unchanged. Emitted body hashes verified. English runtime/core/present/shell/shared/extractor/config/public unchanged. Actual retirements and retained business oracles independently read. Existing functional/visual evidence remains scoped; fresh cloud build/hash/browser still required.",
+    "qualityInventory": {
+      "tracked": 3402,
+      "closed": 388,
+      "review": 111,
+      "pending": 2903,
+      "wholeFileClosuresFromEnglishFeature": 0
+    }
+  },
+  "firstPrCi": {
+    "head": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
+    "documentation": "https://github.com/IllegalCreed/type-pal/actions/runs/39795880022",
+    "coverage": "https://github.com/IllegalCreed/type-pal/actions/runs/39795880048",
+    "result": "Both successful on first integration; later synced head must pass fresh required checks."
+  },
+  "branchProtection": "branch-protection.json",
+  "artifacts": [
+    {
+      "source": "build/english-release/coverage-sync2.txt",
+      "path": "sync2-native/coverage-sync2.txt.gz",
+      "bytes": 204900,
+      "sha256": "875274947d34f08a10151cd7928df807665ff890a6c35a7740f69ce4662d5988",
+      "gzipSha256": "bba40da02c12608397378e64e551f053449e8a9099f1fac1a0674378f308eae8",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "build/english-release/coverage-sync2-accepted-retirement.txt",
+      "path": "sync2-native/coverage-sync2-accepted-retirement.txt.gz",
+      "bytes": 43315,
+      "sha256": "95ea9eb45cb24b1e5fa3dcf85b60e1249560b61502592ed22f7af349a8b65ea8",
+      "gzipSha256": "332c1777accaa916cab84fe61388efd95944f94a22ac019ab1dd97d969c38296",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "build/english-release/coverage-sync2-final.txt",
+      "path": "sync2-native/coverage-sync2-final.txt.gz",
+      "bytes": 205137,
+      "sha256": "3a37037d3e2aaaf38f4b463d41af816b202cc64b1758a8131e5179f54372c167",
+      "gzipSha256": "cf4ff0f7ddf411b14eb044a2b49631c862b75cd982d1ec5793046a530ba6e400",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "build/english-release/docs-sync2.txt",
+      "path": "sync2-native/docs-sync2.txt.gz",
+      "bytes": 31158,
+      "sha256": "f340766becdeb010a8c4bb6ab3fad9461ed87d3fba3a1b62eca89546fe861e70",
+      "gzipSha256": "7b0d10b9e2cec888f3d20ac099b6af8fe054884ef370ff9bb3af9058f3fa0d30",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "build/english-release/docs-sync2-stalled-before-termination.txt",
+      "path": "sync2-native/docs-sync2-stalled-before-termination.txt.gz",
+      "bytes": 14951,
+      "sha256": "781bba380ecae50eed9eb1175888430d4c97d57700286e67ae623dc8988dcebd",
+      "gzipSha256": "f0b93f2322a4cce7b76a560684914665b046d93ca1693a572517e77a425a6bae",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "build/english-release/docs-sync2-retry.txt",
+      "path": "sync2-native/docs-sync2-retry.txt.gz",
+      "bytes": 30246,
+      "sha256": "c8efe6e565689643da97bbeeb6157ea8879658dad62e2a997636240cb6e9efc9",
+      "gzipSha256": "435baef4a4a6c680c11180058cc9afeb39edceda93f4eac222dd0ea75940923f",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "build/english-release/typecheck-sync2.txt",
+      "path": "sync2-native/typecheck-sync2.txt.gz",
+      "bytes": 683,
+      "sha256": "fc86b11bd48e7847823f062dc205cc8980878255c2c4152595bb83f4e6c403e6",
+      "gzipSha256": "07087cc711d01d5831c44a1a3a4169ccb634b63bbf98e8e1b84f26386cf5657c",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "build/english-release/lint-protection-final.txt",
+      "path": "sync2-native/lint-protection-final.txt.gz",
+      "bytes": 164,
+      "sha256": "795edfc51a3b2342140471b3d063efc7319873cf92ee19279ea8e67ceb99fbbb",
+      "gzipSha256": "1a12513ac8ad7b17509d5d2cb41f7dd3307ea4fe3eeeb2981c5f3b05c707944a",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "build/english-release/main-sync2-audit.json",
+      "path": "sync2-native/main-sync2-audit.json.gz",
+      "bytes": 7596,
+      "sha256": "1ed3ac4bce557cc25a392e506eba014e1e8a44a210cf6e7d8516a1e7b8bd59f6",
+      "gzipSha256": "78e21a2f2130e9c955ce103df4545d68b1d4391adb0aff190432cf592e9a3d54",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "build/english-release/ci-b4dc-green.json",
+      "path": "sync2-native/ci-b4dc-green.json.gz",
+      "bytes": 1069,
+      "sha256": "afd0a3e78efffbc3189e2c286ce73e68f50bd1cf71e62149d2ade1b574d34d5c",
+      "gzipSha256": "60c4f6c8bf83285a7190b42e666bf1debaac0ee000d87b363e09054c76bad1f0",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "build/english-release/ci-b4dc-coverage.txt",
+      "path": "sync2-native/ci-b4dc-coverage.txt.gz",
+      "bytes": 696715,
+      "sha256": "0e695e3b23932eb935b19ff03478bc8e16037b04137f5ca99924637e2c4e24c0",
+      "gzipSha256": "1c849727f5603a6c25a2e405c5b2e5402490dfe0741248dc91c8d826b8393db1",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "build/english-release/ci-b4dc-docs.txt",
+      "path": "sync2-native/ci-b4dc-docs.txt.gz",
+      "bytes": 2252393,
+      "sha256": "20501bc9c746df428946f5b333f4e0556e2abf4c676158c12c571140b6b45d38",
+      "gzipSha256": "eb93dde9abac59420cadb2178338dc519a910dee6f741faa9dee6b03428c27ac",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "build/english-release/sync2-source-fingerprint.json",
+      "path": "sync2-native/sync2-source-fingerprint.json.gz",
+      "bytes": 590474,
+      "sha256": "bfce8bed5944d4b4fe8cd9cfc74e023e45ff6318407fb41862ef57d2f6fb08db",
+      "gzipSha256": "95b29675c86918cd8edaead58c2d516dffdf16bb6566194c23d6c945caaefea3",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "coverage/fast/summary.json",
+      "path": "sync2-native/summary.json.gz",
+      "bytes": 8557425,
+      "sha256": "744a00df11439fdb851c29e672fbdd5bcd0d5ee2a9d8af02d4f9586410aa62a4",
+      "gzipSha256": "61e970e458bd9ce5c0e156d18bc731d24189c701a3acf15e2ec22b8f0f156e8c",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    },
+    {
+      "source": "scripts/coverage/baseline.fast.json",
+      "path": "sync2-native/baseline.fast.json.gz",
+      "bytes": 538748,
+      "sha256": "2130fb857eaf8df2c1f8bb663fd8f10b7ce211cb8a1ef651fec02e319de66a25",
+      "gzipSha256": "d6858d0127626aac31f2eb3e5c59b22110c5b691d01ed8b0a46a7ff5c3ee8e13",
+      "retention": "Lossless source/gate observation; failed executions remain failed, with successor scope recorded separately."
+    }
+  ],
+  "limits": [
+    "No fresh GitHub check, merge, cloud deployment or full-story E2E credit from this local gate receipt.",
+    "Prior frozen evidence and failed runs are retained without rewriting their outcome."
+  ]
+}

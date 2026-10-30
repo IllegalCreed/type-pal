@@ -12,12 +12,13 @@
  */
 
 import type { InputSnapshot, Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
-import type { CommandBus } from '../command-bus.js'
+
 import { runEquipScript } from '../equip-effect.js'
 import { startOverworldItemScript } from '../event-system.js'
 import type { ActiveMenuEntry, GameState } from '../game-state.js'
 import { projectRuntimeToBattleRoles } from '../game-state.js'
 import { addItemToInventory } from '../inventory-state.js'
+import { getItemScriptEntry, setItemScriptEntry } from '../object-script-state.js'
 import { Save } from '../save/api.js'
 import {
   cancelEquipMenu,
@@ -226,6 +227,14 @@ export function _resetStartGameHandlerForTest(): void {
   _startGameHandler = undefined
 }
 
+/** The shell installs the scene; this input route owns asynchronous startup failures. */
+function startNewGame(): void {
+  if (!_startGameHandler) return
+  void Promise.resolve(_startGameHandler({ kind: 'new-game' })).catch((error: unknown) => {
+    console.error('[opening] startGame failed:', error)
+  })
+}
+
 // ── SystemQuitHandler(C2-quit:系统菜单 QUIT 二次确认选「是」)─────────────────
 //
 // sdlpal PAL_QuitGame(uigame.c:2068-2074)选「是」→ PAL_Shutdown(0)(进程退出)。浏览器无进程退出语义,
@@ -266,7 +275,7 @@ export function _resetLoadGameHandlerForTest(): void {
 
 // ── dispatchMenuInput ─────────────────────────────────────────────────────────
 
-export function dispatchMenuInput(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
+export function dispatchMenuInput(gs: GameState, input: InputSnapshot): void {
   const top = gs.menuStack[gs.menuStack.length - 1]
   if (!top) return
 
@@ -284,19 +293,19 @@ export function dispatchMenuInput(gs: GameState, input: InputSnapshot, bus: Comm
       dispatchInventoryActionMenu(gs, top, input)
       break
     case 'inventory':
-      dispatchInventoryMenu(gs, top, input, bus)
+      dispatchInventoryMenu(gs, top, input)
       break
     case 'equip':
-      dispatchEquipMenu(gs, top, input, bus)
+      dispatchEquipMenu(gs, top, input)
       break
     case 'in-game-magic':
-      dispatchInGameMagicMenu(gs, top, input, bus)
+      dispatchInGameMagicMenu(gs, top, input)
       break
     case 'player-status':
       dispatchPlayerStatusMenu(gs, top, input)
       break
     case 'save-slot':
-      dispatchSaveSlotMenu(gs, top, input, bus)
+      dispatchSaveSlotMenu(gs, top, input)
       break
     case 'shop-buy':
       dispatchShopMenu(gs, top, input)
@@ -353,7 +362,7 @@ function applyShopTransaction(
   const item = items.find((it) => it.id === r.itemId)
   if (!item) return
   if (r.mode === 'buy') {
-    // 再判 price<=cash(confirm 期间 cash 不会变,但对齐 sdlpal 真值显式判)。
+    // 确认时按当前现金再判，避免使用弹确认框时的旧余额。
     if (item.price <= gs.dwCash) {
       gs.dwCash -= item.price
       addItemToInventory(gs, item.id, 1)
@@ -430,7 +439,7 @@ function dispatchOpeningMenu(gs: GameState, top: ActiveMenuEntry, input: InputSn
   const s = top.state as OpeningMenuState
   // sdlpal uigame.c:129-136:Cancel = 选新游戏(wItemSelected=0 break)
   if (input.pressed.has('Menu')) {
-    _startGameHandler?.({ kind: 'new-game' })
+    startNewGame()
     return
   }
   // DL21:PAL_ReadMenu 竖排统一 `kKeyUp|kKeyLeft` 上移、`kKeyDown|kKeyRight` 下移(ui.c:486/541)。
@@ -439,14 +448,15 @@ function dispatchOpeningMenu(gs: GameState, top: ActiveMenuEntry, input: InputSn
   if (input.pressed.has('Confirm')) {
     const choice = openingMenuChoice(s)
     if (choice === 'new-game') {
-      _startGameHandler?.({ kind: 'new-game' })
+      startNewGame()
       return
     }
     if (choice === 'load-game') {
       // sdlpal uigame.c:143 真值:VIDEO_BackupScreen → PAL_SaveSlotMenu(1) → Restore。
-      // ts 端 push 'save-slot' kind menu,SaveSlot dispatcher 选完 slot 后由 M6 真做
-      // load(现 stub 在 dispatchSaveSlotMenu 内 console.debug)。Cancel 回 OpeningMenu
-      // = closeTopMenu(save-slot)pop 回 opening — sdlpal uigame.c:146-151 等价。
+      // ts 端 push 'save-slot' kind menu;选完 slot 由 dispatchSaveSlotMenu 调 bootstrap
+      // 注入的 loadGameHandler 真做整套 load(Save.loadSlot + gs 替换 + scene reload)。
+      // Cancel 由 dispatchSaveSlotMenu 弹回 opening 并把光标复位到新游戏
+      // (sdlpal uigame.c:143-150 wDefaultItem=0)。
       const state = createSaveSlotMenu('load')
       void fetchSlotMetas(state)
       openMenu(gs, { kind: 'save-slot', state })
@@ -610,9 +620,8 @@ function dispatchSystemMenu(gs: GameState, top: ActiveMenuEntry, input: InputSna
 //   INVMENU_LABEL_USE=23   → PAL_GameUseItem (play.c:244-325)
 //                               → PAL_ItemSelectMenu(usable) → PAL_ItemUseMenu(wObject)
 //
-// 简版降级:ts equip menu 已嵌内部 ItemSelectMenu(equipable);use 路径走 'inventory' kind
-// (filter='usable')。sdlpal while loop"用完一个继续选下一个"留 follow-up — 当前 ts
-// 选完一次 + cancel 即关菜单回 InGame。
+// 装备列表与使用列表都由 InventoryMenu 建表。单体物品在目标层继续使用；
+// 物品耗尽回列表，列表取消时清整个菜单栈回大世界。
 
 function dispatchInventoryActionMenu(
   gs: GameState,
@@ -653,12 +662,7 @@ function dispatchInventoryActionMenu(
 
 // ── Inventory(物品菜单)─────────────────────────────────────────────────
 
-function dispatchInventoryMenu(
-  gs: GameState,
-  top: ActiveMenuEntry,
-  input: InputSnapshot,
-  _bus: CommandBus,
-): void {
+function dispatchInventoryMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
   const s = top.state as InventoryMenuState
   if (input.pressed.has('Menu')) {
     cancelInventoryMenu(s)
@@ -713,7 +717,7 @@ function dispatchInventoryMenu(
         // PAL_GameUseItem,不像非 applyToAll 在 ItemUseMenu INNER while 循环反复用)。
         // ts:startOverworldItemScript 标 itemUseApplyToAll → 脚本结束 restoreModeAfterScript 关全
         // 物品菜单回 explore,让脚本设的世界 trigger 触发(桂花酒设酒剑仙 proximity → 回 explore 即对话)。
-        startOverworldItemScript(gs, item.id, item.scriptOnUse, 0xffff, item.flags.consuming)
+        startOverworldItemScript(gs, item, 0xffff)
         return
       }
       // 单 target 路径:进 use-target phase
@@ -730,13 +734,7 @@ function dispatchInventoryMenu(
           // ts:**不**清 menuStack;phase 保 'use-target'(confirmInventoryTarget 把 phase 设了
           // 'done',要 revert 回 'use-target' 让 picker 继续);script 跑完 event mode 切 menu
           // 恢复 picker 渲染。
-          const ok = startOverworldItemScript(
-            gs,
-            picked.itemId,
-            item.scriptOnUse,
-            picked.roleId,
-            item.flags.consuming,
-          )
+          const ok = startOverworldItemScript(gs, item, picked.roleId)
           if (ok) {
             // confirmInventoryTarget 把 phase 设了 'done',sdlpal 实际是 INNER loop 继续,
             // 所以这里 revert 回 'use-target' 让 ItemUseMenu picker 继续显示。
@@ -761,16 +759,11 @@ function dispatchInventoryMenu(
 //  - phase='pick-role'(sdlpal `PAL_EquipItemMenu`):Up/Down 切 playerCursor;
 //    Confirm 检 item.equipableBy[role] → 跑 scriptOnEquip(opcode 0x18 真做 swap +
 //    写 gs.wLastUnequippedItem)→ state.selectedItemId = gs.wLastUnequippedItem。
-//    if newSelectedItem == 0 → phase='done'(无旧装备可继续 swap,sdlpal uigame.c:2016 真值)。
+//    if newSelectedItem == 0 → phase='list'(回外层再选装备,uigame.c:2016-2019)。
 //    else 保持 'pick-role' 显示 swap 出来的旧装备 picker。
 //  - Menu key:pick-role → 回 'list' 选下一个 item;list → 'done' 关菜单。
 
-function dispatchEquipMenu(
-  gs: GameState,
-  top: ActiveMenuEntry,
-  input: InputSnapshot,
-  _bus: CommandBus,
-): void {
+function dispatchEquipMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
   const s = top.state as EquipMenuState
   if (input.pressed.has('Menu')) {
     const wasPickRole = s.phase === 'pick-role'
@@ -804,7 +797,7 @@ function dispatchEquipMenu(
   if (input.pressed.has('Confirm')) {
     const catalogs = requireCatalogs()
     if (s.phase === 'list') {
-      confirmEquipItem(s, catalogs.items, menuRoles(gs), gs.partyMembers)
+      confirmEquipItem(s, catalogs.items)
       // DM23:uigame.c:1820 进 PAL_EquipItemMenu 即 `wLastUnequippedItem = wItem`(每帧 :1857-1859
       //   重读)。0x18 只在"已穿不同款"时才改写它(script.c:780-810)—— 不写入口值的话,给已穿 X
       //   再装一件 X 时 :743 读到**上次换装残值**:面板跳成别的物品,残值已不在背包时再确认可
@@ -824,16 +817,16 @@ function dispatchEquipMenu(
         }
         // sdlpal uigame.c:2050-2053 真值 `scriptOnEquip = PAL_RunTriggerScript(scriptOnEquip, role)`
         // scriptOnEquip chain 内有 opcode 0x18(equipItem)真做:swap inventory + gs.wLastUnequippedItem = old
-        const sid = item.scriptOnEquip ?? 0
+        const sid = getItemScriptEntry(gs, item, 'scriptOnEquip')
         if (sid !== 0) {
-          runEquipScript(gs, sid, picked.roleId)
+          setItemScriptEntry(gs, item, 'scriptOnEquip', runEquipScript(gs, sid, picked.roleId))
         }
         // sdlpal uigame.c:1859 真值:下一帧渲染重读 wLastUnequippedItem(0x18 已写)
         s.selectedItemId = gs.wLastUnequippedItem
         // user 2026-06-01 报根因:换装后 0x18 swap 改了背包(新装备出包 / 旧装备入包),
         //   list grid 必须用**当前背包**重建,否则回 list 仍显示装备前旧快照(新装备还在/旧装备没出现)。
         //   sdlpal PAL_GameEquipItem 外层 while 每次回 PAL_ItemSelectMenu(equipable) 都按当前背包重建
-        //   (uigame.c:328-359)→ 无论换没换下东西都刷新。原 ts 只在 selectedItemId===0(空槽)分支刷,漏了真换装。
+        //   (play.c:328-359)→ 无论换没换下东西都刷新。原 ts 只在 selectedItemId===0(空槽)分支刷,漏了真换装。
         s.list = createInventoryMenuRefresh(gs, catalogs.items)
         // sdlpal uigame.c:2016-2019 真值:wItem == 0 → return EquipItemMenu → 回 PAL_GameEquipItem
         //   outer while 再 PAL_ItemSelectMenu;ts 等价:回 phase='list'
@@ -853,12 +846,7 @@ function createInventoryMenuRefresh(gs: GameState, items: Item[]) {
 
 // ── In-Game Magic(大世界法术)─────────────────────────────────────────
 
-function dispatchInGameMagicMenu(
-  gs: GameState,
-  top: ActiveMenuEntry,
-  input: InputSnapshot,
-  _bus: CommandBus,
-): void {
+function dispatchInGameMagicMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
   const s = top.state as InGameMagicMenuState
   if (input.pressed.has('Menu')) {
     cancelInGameMagic(s)
@@ -950,8 +938,7 @@ function dispatchInGameMagicMenu(
 //   kKeyLeft/Up     → iCurrent-- → 上个 party 成员;< 0 关菜单
 //   kKeyRight/Down/Search → iCurrent++ → 下个 party 成员;> max 关菜单
 //
-// v1 ts 简版 Up/Down=切 page、Left/Right=切 player 是错的(用户截图打脸)— sdlpal
-// 没有"属性页 / 装备页 / 法术页"页签,4 方向 + Confirm 都是切 party 成员索引。
+// 状态屏没有属性/装备/法术子页；四方向与Confirm都按party位置切换角色。
 
 function dispatchPlayerStatusMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
   const s = top.state as PlayerStatusState
@@ -972,20 +959,22 @@ function dispatchPlayerStatusMenu(gs: GameState, top: ActiveMenuEntry, input: In
 
 // ── Save Slot(存档/读档槽位)─────────────────────────────────────────────
 
-function dispatchSaveSlotMenu(
-  gs: GameState,
-  top: ActiveMenuEntry,
-  input: InputSnapshot,
-  _bus: CommandBus,
-): void {
+function dispatchSaveSlotMenu(gs: GameState, top: ActiveMenuEntry, input: InputSnapshot): void {
   const s = top.state as SaveSlotMenuState
   const inGameCtx = gs.menuStack.some((m) => m.kind === 'system')
   if (input.pressed.has('Menu')) {
     // DH9:in-game 存/读档槽**取消**在 C 也走 PAL_SystemMenu return TRUE → goto out 关整个菜单
     //   (uigame.c:584/605 的 if 只包住保存/读档动作,CANCELLED 照样落到 :650 return TRUE);
-    //   opening(标题读档)上下文保持 pop 回 opening(uigame.c:146-151)。
+    //   opening(标题读档)取消后 pop，并复位到新游戏(uigame.c:143-150 wDefaultItem=0)。
     if (inGameCtx) gs.menuStack = []
-    else closeTopMenu(gs)
+    else {
+      closeTopMenu(gs)
+      const parent = gs.menuStack.at(-1)
+      if (parent?.kind === 'opening') {
+        const opening = parent.state as OpeningMenuState
+        opening.selection.cursor = 0
+      }
+    }
     return
   }
   if (input.pressed.has('Up') || input.pressed.has('Left')) saveSlotMenuUp(s) // DL21
@@ -1038,10 +1027,4 @@ function dispatchSaveSlotMenu(
       }
     }
   }
-}
-
-// ── helper export(equip / save-slot 用 — W0.e/f task 内引用) ─────────────
-
-export function makeEquipMenuEntry(gs: GameState): ActiveMenuEntry {
-  return { kind: 'equip', state: createEquipMenu(gs, requireCatalogs().items) }
 }

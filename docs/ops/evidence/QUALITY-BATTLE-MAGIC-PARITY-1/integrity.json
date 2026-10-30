@@ -1,0 +1,58 @@
+{
+  "base": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+  "scope": "Codex separate-process structured integrity self-check, not an independent reviewer or product gate",
+  "reviewDeltas": [
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "onlyScopedEntriesChanged": ["docs/ops/board.md", "docs/ops/tasks/index.md"],
+      "nativeConclusionsAndOtherFieldsPreserved": true
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "onlyScopedEntriesChanged": [
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md"
+      ],
+      "nativeConclusionsAndOtherFieldsPreserved": true
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+      "onlyScopedEntriesChanged": ["docs/ops/evidence/README.md"],
+      "nativeConclusionsAndOtherFieldsPreserved": true
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r30-phase1-foundation.json",
+      "onlyScopedEntriesChanged": ["docs/phase1/game-mechanics.md"],
+      "nativeConclusionsAndOtherFieldsPreserved": true
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+      "onlyScopedEntriesChanged": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md"
+      ],
+      "nativeConclusionsAndOtherFieldsPreserved": true
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "onlyScopedEntriesChanged": [
+        "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+      ],
+      "nativeConclusionsAndOtherFieldsPreserved": true
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "onlyScopedEntriesChanged": [
+        "docs/phase-governance/catalog.json",
+        "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+        "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+        "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+        "docs/phase-governance/reviews/20261017-r30-phase1-foundation.json",
+        "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+        "docs/phase-governance/catalog.phase1.json"
+      ],
+      "nativeConclusionsAndOtherFieldsPreserved": true
+    }
+  ],
+  "untouchedOther59Phase1Entries": true,
+  "rawHashesVerified": true
+}

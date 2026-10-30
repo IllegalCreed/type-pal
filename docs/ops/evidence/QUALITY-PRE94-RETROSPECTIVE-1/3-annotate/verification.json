@@ -1,0 +1,179 @@
+{
+  "reviewer": "Codex separate receipt verification process; not third-party acceptance",
+  "baseCommit": "e3cf2cd5a06c5aa1890e645e47bf6b81ed032c8b",
+  "sourceAndTestCopyHashesReconstructed": true,
+  "allTwentyProbeRunsAndOriginalIdentitiesVerified": true,
+  "singleBusinessFailures": [
+    {
+      "mutation": "sequence",
+      "file": "annotate.test.ts",
+      "fullName": "annotate 结构化命令 sequence 递归",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "choice",
+      "file": "annotate.glm-runtime-resource.test.ts",
+      "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "if-then",
+      "file": "annotate.glm-runtime-resource.test.ts",
+      "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：保留条件并递归注释 then",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "ownership",
+      "file": "annotate.glm-runtime-resource.test.ts",
+      "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "symbols-preservation",
+      "file": "annotate.glm-runtime-resource.test.ts",
+      "fullName": "symbols sidecar 输入合同 合法映射保留；空对象合法",
+      "type": "AssertionError"
+    },
+    {
+      "mutation": "symbols-table",
+      "file": "annotate.glm-runtime-resource.test.ts",
+      "fullName": "symbols sidecar 输入合同 各 symbols 表必须是对象映射",
+      "type": "AssertionError"
+    }
+  ],
+  "oracleTransferFailureSets": {
+    "transfer-offset": {
+      "before": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样"
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate wordAt 邻位边界（经合法 itemId 路径） id=ITEM_OBJ_START+1 命中表[1]；symbols 同 id 覆盖优先"
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）"
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)"
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate off-by-61 回归:itemId 当 0-based 索引会取错值,必须减偏移"
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate 结构化命令 sequence 递归"
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate if 命令递归 then/else"
+        }
+      ],
+      "after": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样"
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else if 无 else：保留条件并递归注释 then"
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 词表缺名边界 id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝"
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）"
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)"
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate 结构化命令 sequence 递归"
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate if 命令递归 then/else"
+        }
+      ]
+    },
+    "transfer-priority": {
+      "before": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate wordAt 邻位边界（经合法 itemId 路径） id=ITEM_OBJ_START+1 命中表[1]；symbols 同 id 覆盖优先"
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate symbols.json 优先于 WORD.DAT"
+        }
+      ],
+      "after": [
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate symbols.json 优先于 WORD.DAT"
+        }
+      ]
+    },
+    "transfer-raw": {
+      "before": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样"
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate raw 命令不注释"
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)"
+        }
+      ],
+      "after": [
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate choice 递归与 if 无 else choice：每个 option.then 内命令被递归注释，raw 选项原样"
+        },
+        {
+          "file": "annotate.glm-runtime-resource.test.ts",
+          "fullName": "R06 annotate 输入零突变 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）"
+        },
+        {
+          "file": "annotate.test.ts",
+          "fullName": "annotate 结构化命令 sequence 递归"
+        }
+      ]
+    }
+  },
+  "removedIdentities": 8,
+  "addedIdentities": 7,
+  "support": {
+    "unchangedMatcher": true,
+    "unchangedOtherRows": 24,
+    "rows": 25,
+    "netCount": 59,
+    "nativeDigestsVerified": true,
+    "refusalsVerified": true
+  },
+  "productionBaselineAndScopeUnchanged": [
+    "packages/pal-extract/src/events/annotate.ts",
+    "packages/pal-extract/src/cli.ts",
+    "packages/pal-extract/src/io/word.ts",
+    "packages/shared/src/events.ts",
+    "scripts/coverage/baseline.fast.json",
+    "scripts/coverage/config.mjs"
+  ],
+  "temporaryCopiesRemoved": true,
+  "recoveryReceiptHashesVerified": true,
+  "fullExtractAcceptance": false,
+  "wholeCardAcceptance": false,
+  "newFileClosures": 0
+}

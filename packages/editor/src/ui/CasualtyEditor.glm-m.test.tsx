@@ -1,11 +1,8 @@
 // @vitest-environment jsdom
 /**
- * TEST-GLM-WAVE-M-1 M03（CasualtyEditor.glm-m）：伤亡分支效果链当前合同。
- * 去重：CasualtyEditor.test.tsx（10 例）已证槽位渲染/选中/删除回退/台词增删/移除槽键/
- * 概率 blur/occurrence 选择/重排；glm-leaf-wave 已证槽位隔离与概率 undo。
- * 本文件只补未被任何旧断言触达的效果轴：添加效果默认 heal、恢复对象 hp→mp、
- * 改类 tempStatBuff 默认 attack+10、提升比例 blur 提交，全部 UpdateActorCommand 单命令
- * 可撤销；并补台词样式切换（style 三档）与预览回退文案。
+ * 伤亡分支效果链：添加、切换恢复资源与效果类别、逐次撤销；
+ * 临时增益比例提交/下限以及台词切换旁白后解析 locale 预览。
+ * 与主测试的槽位、概率门、台词增删及重排合同相邻；保留本片两条效果工作流。
  */
 import type { ActorDef, CasualtyScript } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
@@ -22,6 +19,7 @@ import {
 } from '../__tests__/glm-m/kit.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import { CasualtyEditor } from './CasualtyEditor.js'
 
 type BattlerActor = ActorDef & { battler: NonNullable<ActorDef['battler']> }
@@ -48,8 +46,7 @@ function Harness(props: { session: EditSession }) {
     () => props.session.getVersion(),
   )
   const current = props.session.getState()
-  const hero = currentHero(props.session.getState())
-  const actor: BattlerActor = hero
+  const actor = currentHero(current)
   return (
     <CasualtyEditor
       actor={actor}
@@ -64,6 +61,7 @@ let root: Root
 let host: HTMLDivElement
 
 beforeEach(async () => {
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
   await stubNodeTestHost()
   host = document.createElement('div')
   document.body.append(host)
@@ -71,10 +69,13 @@ beforeEach(async () => {
 })
 
 afterEach(async () => {
-  await act(async () => root.unmount())
-  host.remove()
-  vi.restoreAllMocks()
-  vi.unstubAllGlobals()
+  try {
+    await act(async () => root.unmount())
+  } finally {
+    host.remove()
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+  }
 })
 
 const friendDeath: CasualtyScript = {
@@ -90,10 +91,19 @@ describe('M03 CasualtyEditor 效果链当前合同', () => {
   test('添加效果默认 heal hp；恢复对象切真气；改类 tempStatBuff 默认 attack+10；undo 逐步还原', async () => {
     const { state } = await loadLegalProject('glm-wave-m-casualty')
     const hero = currentHero(state)
-    const session = new EditSession({ ...state, actors: [withCasualty(hero, { friendDeath })] })
+    const seeded: EditorState = {
+      ...state,
+      actors: state.actors.map((actor) =>
+        actor.id === hero.id
+          ? withCasualty(hero, { friendDeath: structuredClone(friendDeath) })
+          : actor,
+      ),
+      locale: { ...state.locale, 'dlg.talk.0': '你好' },
+    }
+    assertProjectSaveValid(seeded)
+    const session = new EditSession(seeded)
     await act(async () => {
       root.render(<Harness session={session} />)
-      await Promise.resolve()
     })
     const before = session.getHistoryVersion()
 
@@ -116,11 +126,17 @@ describe('M03 CasualtyEditor 效果链当前合同', () => {
     ])
     expect(session.getHistoryVersion()).toBe(before + 3)
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(actorCasualty(session)!.fallback.effects).toEqual([{ kind: 'heal', resource: 'mp' }])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(actorCasualty(session)!.fallback.effects).toEqual([{ kind: 'heal', resource: 'hp' }])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(actorCasualty(session)!.fallback.effects).toEqual([])
   })
 
@@ -136,14 +152,15 @@ describe('M03 CasualtyEditor 效果链当前合同', () => {
         },
       },
     })
-    const session = new EditSession({
+    const seeded: EditorState = {
       ...state,
-      actors: [scripted],
+      actors: state.actors.map((actor) => (actor.id === hero.id ? scripted : actor)),
       locale: { ...state.locale, 'dlg.talk.0': '你好' },
-    })
+    }
+    assertProjectSaveValid(seeded)
+    const session = new EditSession(seeded)
     await act(async () => {
       root.render(<Harness session={session} />)
-      await Promise.resolve()
     })
     const before = session.getHistoryVersion()
 

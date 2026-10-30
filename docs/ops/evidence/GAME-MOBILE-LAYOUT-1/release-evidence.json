@@ -1,0 +1,551 @@
+{
+  "task": "GAME-MOBILE-LAYOUT-1",
+  "producer": "Codex / native commands and read-only independent review",
+  "owner": "Codex",
+  "date": "2026-10-22",
+  "sourceRevision": "1c0b2acbda49efa4a2070db97355c9046f520953",
+  "mainBase": "9b4df714565a749fd4b69f0f1c7a50bcbb30dc66",
+  "productRevision": "356ac4fad",
+  "sourceFiles": [
+    {
+      "path": "packages/game/index.html",
+      "sha256": "79bd16e28c3578d8082c0c8012543609c4de01c1c00269cb1a124e2ad5a2820f"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+      "sha256": "2eb29b1f1260e85efff0d84ef90e4d8a51956180cf10dbb24346b4f9b870dd36"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.ts",
+      "sha256": "d6021e36310bc459b4b99be7f577bcd61d145bd8795ab584a6bbd7f9f564ea15"
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "d86607b8497b1f98383d62b3f9047e62610e3cdf9d217dce0fe218e1ad96278a"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.ts",
+      "sha256": "3216ea10612c0bda2eda0a44b642f6676070cc6781be94b1b2e1933a7d316f69"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "8de02e1ed153bc067feb91b6ef6b26859dc1ff77e8ffc325a71832cbad4c7cd8"
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.ts",
+      "sha256": "9099d346ac0a66353169d940d4b5dbc173f702c7ec22da4fe403c63e01ca3fdc"
+    },
+    {
+      "path": "packages/game/src/shell/game-shell.css",
+      "sha256": "c776def91aca93f49b4d7f0b04a8df8a04307e465a9348775f16976270a890d4"
+    },
+    {
+      "path": "packages/game/src/shell/game-shell.test.ts",
+      "sha256": "634c327c91917ef8c67699375e476ab8398e67e46a7f9c93f648a4e08f952b69"
+    },
+    {
+      "path": "packages/game/src/shell/game-shell.ts",
+      "sha256": "11925d76f52405eb24091d9f3f8539a1236e614d03ad911c0e2de6c242476dcb"
+    },
+    {
+      "path": "packages/game/src/shell/gamepad-host.test.ts",
+      "sha256": "59dee7078b9806a0d9214fb5ba93f06fb69e61929b36fedc1e5cd2a2add22654"
+    },
+    {
+      "path": "packages/game/src/shell/gamepad-input.test.ts",
+      "sha256": "39b595aa49cd74ca85d4b3dcc7bf9307c919e11e0b251a4d0c5e20a7f800648e"
+    },
+    {
+      "path": "packages/game/src/shell/gamepad-input.ts",
+      "sha256": "3cea4a59a2d553727aa26cfeb1eb2eb5dc8598d9d2137b7cfc7a8edd9567937e"
+    },
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "sha256": "271b6afdb6ff191939562da3cbb06e2f1eb4aab455aee381eb75f2705b078d09"
+    },
+    {
+      "path": "packages/game/src/shell/modal-input.test.ts",
+      "sha256": "a16dbbae880e4a1b72e194e87002b055c32a3f4f68c8d8bbd24bcb9415a2c3ea"
+    },
+    {
+      "path": "packages/game/src/shell/presentation.ts",
+      "sha256": "2c6229b3b85271c52c80d9143d7aa6568aa6e2c507f30a84d4722028f4fa06bd"
+    },
+    {
+      "path": "packages/game/src/shell/splash-fallback.ts",
+      "sha256": "67f2a8b128b07b6faf8da926660473de86d37737c72e4548aa482e1857d947c1"
+    },
+    {
+      "path": "packages/game/src/shell/touch-controls.test.ts",
+      "sha256": "3fee07c28e93e56a4d72c31b1ee50a357905badce484010573b0c59418670c9b"
+    },
+    {
+      "path": "packages/game/src/shell/touch-controls.ts",
+      "sha256": "5dbb19c1749dc5982aa23bc112060b27215f0db3d574c4d90f9dd1d4d61f16b9"
+    },
+    {
+      "path": "packages/game/src/shell/touch-preference.test.ts",
+      "sha256": "de3f8c7130c06325dcf7b83e3d7757a6bec443c993e38863c873df2788dcc077"
+    },
+    {
+      "path": "packages/game/src/shell/touch-preference.ts",
+      "sha256": "2722253cf5fd1e4f644da02a9d5e1af1e77cbff40742c750002da48548a0ab80"
+    },
+    {
+      "path": "packages/game/src/styles.d.ts",
+      "sha256": "ccfc86914e457fcf4348a14cb5d58aaf76bbd50ba136a3246df2e6de493037bb"
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.ts",
+      "sha256": "bed4654ab3f327f099290c1040ced546d15f722735ed76cafb2c678805d927ef"
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.ts",
+      "sha256": "40b509a8ff3c189de5ea70379c9d29bf42fe113a39972985c0d4540e01b77268"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "sha256": "e2e5f5958c305dd0c2b2f433231f3dfc2995583b466fbbe120b38de1515601f9"
+    },
+    {
+      "path": "packages/game/src/tools/mobile-presentation.test.ts",
+      "sha256": "fa9700ec52778e8677df598915053a66edd91e5f256092394a2f73ab1be6d1a1"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "3ed91fc0eba9daa62805e0d0b9d4e098cf55553a3db05b5b7f9f195326365d4b"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.mobile.test.ts",
+      "sha256": "0b9693a5897041a25a67964af5565abcfb3a1e6d52e9c5f8ed9a734f4407f67d"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "2ecb4527339d1199714dad76730254c02ddc7054e962e4659645d4990647aded"
+    }
+  ],
+  "coverage": {
+    "command": "TYPE_PAL_COVERAGE_PARALLEL_EDITOR=1 pnpm coverage:ratchet",
+    "exit": 0,
+    "signal": null,
+    "files": 755,
+    "tests": 20024,
+    "total": {
+      "statements": {
+        "covered": 71884,
+        "total": 79706
+      },
+      "branches": {
+        "covered": 52105,
+        "total": 62132
+      },
+      "functions": {
+        "covered": 13626,
+        "total": 15182
+      },
+      "lines": {
+        "covered": 64198,
+        "total": 69749
+      }
+    },
+    "game": {
+      "statements": {
+        "covered": 14755,
+        "total": 16514
+      },
+      "branches": {
+        "covered": 9557,
+        "total": 11869
+      },
+      "functions": {
+        "covered": 1749,
+        "total": 2044
+      },
+      "lines": {
+        "covered": 13160,
+        "total": 14476
+      }
+    },
+    "raw": "release-coverage.txt",
+    "native": "release-coverage.json.gz",
+    "scope": "Official fast profile only; game binary-data exclusions unchanged. CI will independently check the protected PR base."
+  },
+  "gates": {
+    "typecheck": {
+      "exit": 0,
+      "raw": "release-typecheck.txt"
+    },
+    "productionBuild": {
+      "exit": 0,
+      "raw": "release-build.txt",
+      "scope": "Product bytes at 356ac4fad; 1c0b2acbd only changes test assertions."
+    },
+    "docs": {
+      "exit": 0,
+      "raw": "release-docs.txt",
+      "scope": "Full 125 tool tests and consumers passed before final evidence/card delta; precommit consumers and CI check final docs."
+    },
+    "lint": {
+      "exit": 0,
+      "raw": "release-lint.txt",
+      "scope": "Pre-final-manifest pass; precommit lint rechecks the final set."
+    },
+    "independent": {
+      "raw": "independent-review.txt",
+      "accepted": "1c0b2acbd; product 356ac4fad"
+    },
+    "precommitdocs": {
+      "exit": 0,
+      "raw": "precommit-docs.txt",
+      "sha256": "4f9942c3825a345e4204da546c08838c6065e7a40098a036108a0ef1986f0a90",
+      "scope": "All static documentation consumers after final card/evidence delta; unchanged docs tool tests already passed in full release-docs."
+    },
+    "precommitlint": {
+      "exit": 0,
+      "raw": "precommit-lint.txt",
+      "sha256": "f6254cc00783c3a553c93a5c57a46a123f685d8d0380d61350f5761c5d87df05",
+      "scope": "Final 5777 files; zero errors, warnings and infos."
+    }
+  },
+  "limits": [
+    "No physical controller or phone test",
+    "No Safari safe-area or Bluetooth model certification",
+    "No full-story E2E, production service-worker or Aliyun deployment validation"
+  ],
+  "historicalEvidence": "Prior failed and passed native artifacts retain their original candidate scope; only release-coverage is this final official source run.",
+  "retention": "Keep task evidence for reproducible acceptance; supersede explicitly, do not rewrite historical raw.",
+  "artifacts": [
+    {
+      "path": "browser-geometry.json",
+      "sha256": "463c965d89733e8943f00b44480b29ca882240de7eb433b42917ffdcf6017da1"
+    },
+    {
+      "path": "build.txt",
+      "sha256": "dd9513865bfbc5ed799bdc7a0baa9e2384645de8ee1ace8e3f8600985540de81"
+    },
+    {
+      "path": "control.json",
+      "sha256": "534ccd5e84dfdae52269faa066a1770ae84dbf79404b087777f38e85a00bd60d"
+    },
+    {
+      "path": "control.txt",
+      "sha256": "2429f8462eeee954e0a9a860d936f9e14880815f42be6c5ab8c85b921cad263d"
+    },
+    {
+      "path": "controls-hidden.png",
+      "sha256": "345cb82b90998f0d7c6abb77575d769ff7f3799f393c236517c81cc92f84977f"
+    },
+    {
+      "path": "coverage-before-closed-panel-contract.json.gz",
+      "sha256": "4a3f8ae57bb36ef8939a9b39e50b3f74e1f6d2b2af1dfae028c6aa20cd9b9872"
+    },
+    {
+      "path": "coverage-before-closed-panel-contract.txt",
+      "sha256": "3756b2d30225f10b4cec5e2490e62348f754de2f158a773e5f3baeb4d0a2f6da"
+    },
+    {
+      "path": "coverage-before-keyboard-surface-contract.json.gz",
+      "sha256": "b1a9bcd3eb1b48eb9afab27e0ba9431a114e542e7117865cdb8f2bbcb76bd455"
+    },
+    {
+      "path": "coverage-before-keyboard-surface-contract.txt",
+      "sha256": "8d05c65e0ef2b4ec3044e78bd1f7dea15f39f40d0813b325dca58e4613afcb80"
+    },
+    {
+      "path": "coverage-before-live-tools-fix.json.gz",
+      "sha256": "522aba8d68da854038734dfee2792eb44ec3eed8ca0f18184c94efe316a785ed"
+    },
+    {
+      "path": "coverage-before-live-tools-fix.txt",
+      "sha256": "d123eea4f98db0d7d76abd54abbbcbcab3bfa55ddfd35f478acb066da11c18fd"
+    },
+    {
+      "path": "coverage-before-shell-integration.json.gz",
+      "sha256": "2d9b467742718c4ecf4e32d791e63e01fa01d6d350738148e41f1e79a0277b58"
+    },
+    {
+      "path": "coverage-before-shell-integration.txt",
+      "sha256": "1377392e143fab82521276bf76f59f131cc32eceb6d0f980f65c7148bb05d649"
+    },
+    {
+      "path": "coverage-concurrent-timeout.txt",
+      "sha256": "07bf34a2f477a5cff1783de42b783dd5755265cfdc7aed2adc63a5aa33d0c256"
+    },
+    {
+      "path": "coverage-shell-integration-passed.json.gz",
+      "sha256": "d1695a7108cdc35a024feb30890daa2be4b6c4368e15c3e59d23a19ab439c621"
+    },
+    {
+      "path": "coverage-shell-integration-passed.txt",
+      "sha256": "911f35aca10a6e5c68b9608ca7e0cbd044245a174e99dcc5ecec3ac43d1a1101"
+    },
+    {
+      "path": "docs-before-envelope-restored.txt",
+      "sha256": "5080f5e04fb6fd83d5021848a15501ae2a9d2db5d2ac2878760d57bd7c696b4b"
+    },
+    {
+      "path": "docs-before-link-fix.txt",
+      "sha256": "0559011ca3838621d7183188d01de0935979f7cd52fba96b643a3637572308a7"
+    },
+    {
+      "path": "docs.txt",
+      "sha256": "4daee910efee37787e604c676523f299d2b5cbd9e647e16405ac41127799b9b1"
+    },
+    {
+      "path": "duplicate-click.json",
+      "sha256": "608f57a6291cb5eaddecc0e70fd14834e41f19b6403e58200acca6712ce8592e"
+    },
+    {
+      "path": "duplicate-click.txt",
+      "sha256": "4daf29b6b68c19767d0091258fd2959fc594ea0ea4fe753344ea7e6cc7989782"
+    },
+    {
+      "path": "final-build.txt",
+      "sha256": "cc371cc05c73051aaa1ddb69bc4d3f9062a83cce50d3de08a1a010f2aa26a8fe"
+    },
+    {
+      "path": "final-game-check.txt",
+      "sha256": "262a4750c164f02847229d905bcc9878972a63d55d49ec13c973b90f036e143c"
+    },
+    {
+      "path": "final-touch-tests.txt",
+      "sha256": "ce624a61530d07f33238090d7ef33c5a279824ee9f1c3fd69b40b82798e96c93"
+    },
+    {
+      "path": "frozen-direction.json",
+      "sha256": "67291639fd21c88d09a23d4503aad4293af9096252940fb897c926a1212aaf18"
+    },
+    {
+      "path": "frozen-direction.txt",
+      "sha256": "ba38ac073861b1dc4bc6cccff48e78d9a691d747140104f94c2f821cd9466207"
+    },
+    {
+      "path": "game-check.txt",
+      "sha256": "28f2bfea2d15ff53ae937cba8644d33bfe5881eb6c745a311de4c2b41bc48f4c"
+    },
+    {
+      "path": "game-shell.txt",
+      "sha256": "6b169137bbabcdac2513e1697aafc6661dbe8ea7cd13fdf325cb6230575ddd43"
+    },
+    {
+      "path": "gamepad-build.txt",
+      "sha256": "d2bfd601a188d8138318bbc952dd33662524476acaee23ed944f25f22a24de0d"
+    },
+    {
+      "path": "gamepad-check.txt",
+      "sha256": "da7b4f484866ea0930cd9d382833adc76ccf39660cd6733e941dc55ba7480257"
+    },
+    {
+      "path": "gamepad-control.json",
+      "sha256": "6cc28a4c66857185326a4652369fc006e24053a030e8c38d8092470a406d6a3b"
+    },
+    {
+      "path": "gamepad-control.txt",
+      "sha256": "f5d97aca0aa5b3031a9468a02773f85d8571065ac300015a8f5b1bc36e25c1d5"
+    },
+    {
+      "path": "gamepad-controls.json",
+      "sha256": "ae94343671a2f1aabf3bf7ee11135ed1dd6d8d2981d3b9cf77f57743f842d54f"
+    },
+    {
+      "path": "gamepad-docs.txt",
+      "sha256": "d93848dbb4cb48d825a0e765f61f92b51c5248cb8e4e207f74bd7bce5f2f2fdf"
+    },
+    {
+      "path": "gamepad-host.txt",
+      "sha256": "111321aa697c6576525ad3f815fed560321cdae6ed0e192c39b6566d04924343"
+    },
+    {
+      "path": "gamepad-lint.txt",
+      "sha256": "c8f01d2c459c26bee36a81c87d8c963fa9160bbb7e51b9816f5426e427aa0c37"
+    },
+    {
+      "path": "gamepad-restored.json",
+      "sha256": "948ff5c9d31edad5cf8abb086c411c1c8ca714ca0a4ffaf2d821cb363d57de15"
+    },
+    {
+      "path": "gamepad-restored.txt",
+      "sha256": "454b99a30f941b3778f6fa263a79579101a4d490f509367a2144cacfc3e6bf9d"
+    },
+    {
+      "path": "gamepad-unsupported-mapping.json",
+      "sha256": "b69c9e5ee667a03727055bef91b5805fa7193416ba6a8d177efdedfb8d999cc0"
+    },
+    {
+      "path": "gamepad-unsupported-mapping.txt",
+      "sha256": "ef4ed57e98dd51fbdf52d1d7f62b74978c39c00dd4603db12e39b5b4fdc37b0a"
+    },
+    {
+      "path": "independent-review.txt",
+      "sha256": "8f1158713b269e6eead01a6dde6a64ca22d99feed5d1753bd949817a32a4fc89"
+    },
+    {
+      "path": "input-controls.json",
+      "sha256": "536c5a87904d3313e8e986bc59d19fd920ab2891890ac78544b2d7ffbc6552ae"
+    },
+    {
+      "path": "input-settings.png",
+      "sha256": "9c87fa996532380729afb33e3c95cd3cc2480a543b27c524d1f7c51cb0553e9e"
+    },
+    {
+      "path": "integration-lint.txt",
+      "sha256": "02420d9ca4b795bd7d3a7891b9b92771a8979d6b10da06541c23d46b379f88ee"
+    },
+    {
+      "path": "integration-typecheck.txt",
+      "sha256": "5a7d8337ffc5fd58d6b10bc4b228846c88d13ebbcd97a1c20c5fcf92ec75e8e4"
+    },
+    {
+      "path": "keyboard-activation-evidence.json",
+      "sha256": "beaee64441d241fd83af52fb339c155307caccd31b0d1a93a3691692f61fec5a"
+    },
+    {
+      "path": "keyboard-green.json.gz",
+      "sha256": "907507c5a10f83dd685408f21c1e97713642cd8ecb843ca2f40de46e298fbc30"
+    },
+    {
+      "path": "keyboard-green.txt",
+      "sha256": "4538e2ae9994b564f533213afb29a8c11d09be3c6e0d8e77de32714907e52b81"
+    },
+    {
+      "path": "keyboard-red.json.gz",
+      "sha256": "f83507ba33c936c09a229ce61637e0f686505d1ac982d568ebc6b44a207cbed0"
+    },
+    {
+      "path": "keyboard-red.txt",
+      "sha256": "1d18c960cd0c037ecf2f74d57d47636f9d15a771510586fef1c4f0f3235772e3"
+    },
+    {
+      "path": "keyboard-test-source.txt",
+      "sha256": "3d6156485ff65163f4fe80843251a72aee9b10ee754545bf0b2f18a2198626c5"
+    },
+    {
+      "path": "landscape.png",
+      "sha256": "0c72beb4ad401175c79d4676c2e14aa8d7b816a5d6b082c2459f0eb8551fe498"
+    },
+    {
+      "path": "lint.txt",
+      "sha256": "8671d3734e4ed1529b82a851d0fa63a8948ab81272a7cc3929427c1114b163d4"
+    },
+    {
+      "path": "live-tools-evidence.json",
+      "sha256": "991cd95007debb8c1b49793e2dba8ebad9dd4ab5802371ca089302c665c1c5b8"
+    },
+    {
+      "path": "live-tools-final.json.gz",
+      "sha256": "6a2748f7b86863d487c3a6b67a2b6f4ef6427230cdd5401a23915716db6ad261"
+    },
+    {
+      "path": "live-tools-final.txt",
+      "sha256": "c0129df82459f156ee8351681ae3aca719dfbdea001d838f833569880c3f3bce"
+    },
+    {
+      "path": "live-tools-green.json.gz",
+      "sha256": "038cff42a68b1978f1ea84a02b03a4e198d9289fb70fa3b7ad587eed1c79db2a"
+    },
+    {
+      "path": "live-tools-green.txt",
+      "sha256": "c6c6c59881cebce18c728d008aed4ca2210acf211760c757b851872721ceea29"
+    },
+    {
+      "path": "live-tools-red.json.gz",
+      "sha256": "dc9718a84d19bc7bbe4fb47bc54538e7a9213c7a5c4957fadf8c5ece0b3b9efe"
+    },
+    {
+      "path": "live-tools-red.txt",
+      "sha256": "92cd98c84258062cc73a087f127c64d9d8b88635d49f3d6601879ddde6ef8a03"
+    },
+    {
+      "path": "modal-game-check.txt",
+      "sha256": "b71b32ddf3d9e39519ea4742e34a27beeb06e5243dd7f195497866b6cc33290f"
+    },
+    {
+      "path": "modal-green.json.gz",
+      "sha256": "c1bf38a28033b23be6309097506b6094580ad12ecbbe8916d2ee393097c9b2e1"
+    },
+    {
+      "path": "modal-green.txt",
+      "sha256": "930ebcc1b53061f84e0bcc680b30cbfee824e3e97584204061ff571594af83c3"
+    },
+    {
+      "path": "modal-input-evidence.json",
+      "sha256": "223802a52e4929ced73f9ee4a72b36d0af7b8a44bf4c95b350f0c3558f982b2a"
+    },
+    {
+      "path": "modal-red.json.gz",
+      "sha256": "9e4b64f872329620920dace3c568ec6f8ce99b1623beddcf53881d21b2996bca"
+    },
+    {
+      "path": "modal-red.txt",
+      "sha256": "0d859ff765038ce221878f031e60df8652c20d1888a2478cc3b5752e98d951f5"
+    },
+    {
+      "path": "opening-touch-menu.png",
+      "sha256": "da77f48cadeebe608185553f9a8617b12ff19befa9e83df8f992cad69553bdae"
+    },
+    {
+      "path": "portrait.png",
+      "sha256": "ec69f7ad3fc38d6a635c3a1b0858dc553dd94a988f985200e04de3f5efac9bd2"
+    },
+    {
+      "path": "premerge-full-check.txt",
+      "sha256": "238101cc50284796227736f386d092b1245e8dc86b0b97642004d8dd65e15198"
+    },
+    {
+      "path": "production-build.txt",
+      "sha256": "3251d94c4e014a91ef32813a78308e5f498f019855f89bb10b48703996bb4279"
+    },
+    {
+      "path": "production-keyboard-activation.png",
+      "sha256": "24919d127667f6044e48b7cc486555f07005e9e18d95e78fa7d10421bef2c097"
+    },
+    {
+      "path": "production-touch-status.png",
+      "sha256": "c90b305d2ce45374c3226ebf626a514e16438450965d52e90d50d05b5b23fba0"
+    },
+    {
+      "path": "release-build.txt",
+      "sha256": "6309584784661ea09c964da3dec1c6b3d7a9865c2f3b415d20c129c40e772bcb"
+    },
+    {
+      "path": "release-coverage.json.gz",
+      "sha256": "5b222b767288fa08318c606341d9c652273e0470dbf8d760e3fec840286120c8"
+    },
+    {
+      "path": "release-coverage.txt",
+      "sha256": "e954028cf1380fec4d07559d95ab7df0aef2c95c248f0dc1678f55e3dde28c53"
+    },
+    {
+      "path": "release-docs.txt",
+      "sha256": "9f3af5846dff6d20c99d67633ce1ae86af8bf26c768b7b22db333e1b8c2a033f"
+    },
+    {
+      "path": "release-lint.txt",
+      "sha256": "9e716d33637c4d78c4ad45eb4dd9223e50a95474218d4f162a751a2446744004"
+    },
+    {
+      "path": "release-typecheck.txt",
+      "sha256": "831c17046fee2cd45cfe76b8cf6d45e6a0369e532ca9137da7aabdaedf8bec1b"
+    },
+    {
+      "path": "restored.json",
+      "sha256": "9c3f87e6420dbc150988422726a79d324be35f856e36ed35cdf654b7ca29f1dd"
+    },
+    {
+      "path": "restored.txt",
+      "sha256": "d44ec46c6a2785dc4711a166edfda29d52b2b5612c4fdaa1fb2c5c8f47bf29df"
+    },
+    {
+      "path": "shell-integration-test.txt",
+      "sha256": "3be38ab70716d7c3e5349eb7b01fe85f26b20bbb5b3724c46abb90f29e7f62d8"
+    },
+    {
+      "path": "touch-status.png",
+      "sha256": "81de2625c89d426830e189ec1ffd1bf3264e3e55cfb26ccf0f88df22fb4075fd"
+    },
+    {
+      "path": "window-preview.png",
+      "sha256": "9c27186b95bc456fe12f95718e229ccf3aab5d965c03667db9d0768094c8d364"
+    }
+  ]
+}

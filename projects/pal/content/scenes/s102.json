@@ -833,14 +833,6 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 0,
-                      "target": {
-                        "scene": "s102",
-                        "entity": "e1882"
-                      }
-                    },
-                    {
-                      "kind": "setEntityState",
                       "state": 1,
                       "target": {
                         "scene": "s102",
@@ -1453,6 +1445,16 @@
                             "slot": "top"
                           },
                           "kind": "dialog"
+                        }
+                      ],
+                      "else": [
+                        {
+                          "kind": "setEntityState",
+                          "state": 0,
+                          "target": {
+                            "scene": "s102",
+                            "entity": "e1882"
+                          }
                         }
                       ]
                     }

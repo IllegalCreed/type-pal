@@ -1,0 +1,1253 @@
+{
+  "numTotalTestSuites": 39,
+  "numPassedTestSuites": 39,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 106,
+  "numPassedTests": 106,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792377039361,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["actor condition lifecycle"],
+          "fullName": "actor condition lifecycle victory 战斗终态都清理参战者临时状态并保留不可解毒",
+          "status": "passed",
+          "title": "victory 战斗终态都清理参战者临时状态并保留不可解毒",
+          "duration": 1.411958999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["actor condition lifecycle"],
+          "fullName": "actor condition lifecycle defeat 战斗终态都清理参战者临时状态并保留不可解毒",
+          "status": "passed",
+          "title": "defeat 战斗终态都清理参战者临时状态并保留不可解毒",
+          "duration": 0.3252909999999929,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["actor condition lifecycle"],
+          "fullName": "actor condition lifecycle playerFled 战斗终态都清理参战者临时状态并保留不可解毒",
+          "status": "passed",
+          "title": "playerFled 战斗终态都清理参战者临时状态并保留不可解毒",
+          "duration": 0.14345799999999542,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["actor condition lifecycle"],
+          "fullName": "actor condition lifecycle enemyFled 战斗终态都清理参战者临时状态并保留不可解毒",
+          "status": "passed",
+          "title": "enemyFled 战斗终态都清理参战者临时状态并保留不可解毒",
+          "duration": 0.17633299999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["actor condition lifecycle"],
+          "fullName": "actor condition lifecycle terminated 战斗终态都清理参战者临时状态并保留不可解毒",
+          "status": "passed",
+          "title": "terminated 战斗终态都清理参战者临时状态并保留不可解毒",
+          "duration": 0.18537500000000762,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["actor condition lifecycle"],
+          "fullName": "actor condition lifecycle restore clears all transient conditions from party and reserve",
+          "status": "passed",
+          "title": "restore clears all transient conditions from party and reserve",
+          "duration": 0.1173339999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040258,
+      "endTime": 1792377040260.1853,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/actor-condition-lifecycle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["story actor condition target ownership"],
+          "fullName": "story actor condition target ownership applies to party or reserve through the same stable actor id",
+          "status": "passed",
+          "title": "applies to party or reserve through the same stable actor id",
+          "duration": 1.1455409999999944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["story actor condition target ownership"],
+          "fullName": "story actor condition target ownership fails loudly for a missing or duplicated actor instance",
+          "status": "passed",
+          "title": "fails loudly for a missing or duplicated actor instance",
+          "duration": 0.42633299999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040355,
+      "endTime": 1792377040357.4263,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/actor-condition-runtime.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["AsyncIntentController"],
+          "fullName": "AsyncIntentController 世界失效后，旧 await continuation 在提交前收到 AbortError",
+          "status": "passed",
+          "title": "世界失效后，旧 await continuation 在提交前收到 AbortError",
+          "duration": 1.352209000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["AsyncIntentController"],
+          "fullName": "AsyncIntentController 新 begin 与显式 invalidate 都会作废尚未创建会话的旧启动",
+          "status": "passed",
+          "title": "新 begin 与显式 invalidate 都会作废尚未创建会话的旧启动",
+          "duration": 0.30358299999999616,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["AsyncIntentController"],
+          "fullName": "AsyncIntentController 战斗启动跨多个 await：最后一拍失效后不得挂载旧会话",
+          "status": "passed",
+          "title": "战斗启动跨多个 await：最后一拍失效后不得挂载旧会话",
+          "duration": 0.13091599999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040312,
+      "endTime": 1792377040314.3035,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/async-intent.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["ProjectMap 独立碰撞 lattice"],
+          "fullName": "ProjectMap 独立碰撞 lattice 像素入口精确读取命中的子格",
+          "status": "passed",
+          "title": "像素入口精确读取命中的子格",
+          "duration": 0.9693750000000136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ProjectMap 独立碰撞 lattice"],
+          "fullName": "ProjectMap 独立碰撞 lattice 非 0 值均阻挡；界外恒阻挡",
+          "status": "passed",
+          "title": "非 0 值均阻挡；界外恒阻挡",
+          "duration": 0.22129200000000537,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ProjectMap 独立碰撞 lattice"],
+          "fullName": "ProjectMap 独立碰撞 lattice isBlockedAt 与 buildIsBlocked(gridToPixel) 同源",
+          "status": "passed",
+          "title": "isBlockedAt 与 buildIsBlocked(gridToPixel) 同源",
+          "duration": 1.892167000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ProjectMap 独立碰撞 lattice"],
+          "fullName": "ProjectMap 独立碰撞 lattice 相同 collision 的有无作者态判定逐点一致",
+          "status": "passed",
+          "title": "相同 collision 的有无作者态判定逐点一致",
+          "duration": 0.6770839999999794,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["坐标同格判定"],
+          "fullName": "坐标同格判定 sameLatticeCell 以错排子格为单位",
+          "status": "passed",
+          "title": "sameLatticeCell 以错排子格为单位",
+          "duration": 0.1522499999999809,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["坐标同格判定"],
+          "fullName": "坐标同格判定 sameGrid 忽略 height，但不忽略 col/row",
+          "status": "passed",
+          "title": "sameGrid 忽略 height，但不忽略 col/row",
+          "duration": 0.08562499999999318,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377039821,
+      "endTime": 1792377039825.1523,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/collision.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["dialogue 序列指针"],
+          "fullName": "dialogue 序列指针 startDialogue → 当前是首句",
+          "status": "passed",
+          "title": "startDialogue → 当前是首句",
+          "duration": 0.6942079999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dialogue 序列指针"],
+          "fullName": "dialogue 序列指针 advanceLine → 推进到下一句",
+          "status": "passed",
+          "title": "advanceLine → 推进到下一句",
+          "duration": 0.13758299999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dialogue 序列指针"],
+          "fullName": "dialogue 序列指针 推进到末句后再 advanceLine → null(对话结束)",
+          "status": "passed",
+          "title": "推进到末句后再 advanceLine → null(对话结束)",
+          "duration": 0.08654200000000145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040570,
+      "endTime": 1792377040570.694,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/dialogue.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "planar distance (0,0) preserves the strict half-grid boundary",
+          "status": "passed",
+          "title": "planar distance (0,0) preserves the strict half-grid boundary",
+          "duration": 0.7844580000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "planar distance (0.499,0) preserves the strict half-grid boundary",
+          "status": "passed",
+          "title": "planar distance (0.499,0) preserves the strict half-grid boundary",
+          "duration": 0.0777920000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "planar distance (-0.499,0.499) preserves the strict half-grid boundary",
+          "status": "passed",
+          "title": "planar distance (-0.499,0.499) preserves the strict half-grid boundary",
+          "duration": 0.1154160000000104,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "planar distance (0.5,0) preserves the strict half-grid boundary",
+          "status": "passed",
+          "title": "planar distance (0.5,0) preserves the strict half-grid boundary",
+          "duration": 0.09591700000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "planar distance (0,-0.5) preserves the strict half-grid boundary",
+          "status": "passed",
+          "title": "planar distance (0,-0.5) preserves the strict half-grid boundary",
+          "duration": 0.12037499999999568,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "planar distance (-0.5,0.5) preserves the strict half-grid boundary",
+          "status": "passed",
+          "title": "planar distance (-0.5,0.5) preserves the strict half-grid boundary",
+          "duration": 0.04645800000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "planar distance (0.501,0) preserves the strict half-grid boundary",
+          "status": "passed",
+          "title": "planar distance (0.501,0) preserves the strict half-grid boundary",
+          "duration": 0.0790839999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "missing entities and zero radius fail without using a visibility or height fallback",
+          "status": "passed",
+          "title": "missing entities and zero radius fail without using a visibility or height fallback",
+          "duration": 0.10170900000001382,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040625,
+      "endTime": 1792377040626.1204,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/entity-proximity.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["GameplayClock"],
+          "fullName": "GameplayClock freezes gameplay time and resumes without replaying accumulated real time",
+          "status": "passed",
+          "title": "freezes gameplay time and resumes without replaying accumulated real time",
+          "duration": 1.0585420000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["GameplayClock"],
+          "fullName": "GameplayClock step() advances exactly one tick while frozen real time does not accumulate",
+          "status": "passed",
+          "title": "step() advances exactly one tick while frozen real time does not accumulate",
+          "duration": 0.269791000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040456,
+      "endTime": 1792377040457.2698,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/gameplay-clock.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["resolveMove(菱形轴 GridPos)"],
+          "fullName": "resolveMove(菱形轴 GridPos) 目标开阔 → 走满意图(单轴步进)",
+          "status": "passed",
+          "title": "目标开阔 → 走满意图(单轴步进)",
+          "duration": 0.9195829999999958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveMove(菱形轴 GridPos)"],
+          "fullName": "resolveMove(菱形轴 GridPos) 撞墙(目标被挡) → 原地不动",
+          "status": "passed",
+          "title": "撞墙(目标被挡) → 原地不动",
+          "duration": 0.14895800000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveMove(菱形轴 GridPos)"],
+          "fullName": "resolveMove(菱形轴 GridPos) height 随位置保留(移动不改 height)",
+          "status": "passed",
+          "title": "height 随位置保留(移动不改 height)",
+          "duration": 0.07475000000000165,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveMove(菱形轴 GridPos)"],
+          "fullName": "resolveMove(菱形轴 GridPos) 撞墙保持站位(菱形轴下撞墙即停,无滑行歧义) — 回归: commit e7253ad",
+          "status": "passed",
+          "title": "撞墙保持站位(菱形轴下撞墙即停,无滑行歧义) — 回归: commit e7253ad",
+          "duration": 0.11175000000000068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040499,
+      "endTime": 1792377040500.149,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/movement.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["loadSceneMap 唯一地图链"],
+          "fullName": "loadSceneMap 唯一地图链 稳定 mapId → map index path → ProjectMap.tilesetRefs union → tileset registry",
+          "status": "passed",
+          "title": "稳定 mapId → map index path → ProjectMap.tilesetRefs union → tileset registry",
+          "duration": 1.8189580000000092,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadSceneMap 唯一地图链"],
+          "fullName": "loadSceneMap 唯一地图链 未知 mapId 和未知 tilesetId 都 fail-loud",
+          "status": "passed",
+          "title": "未知 mapId 和未知 tilesetId 都 fail-loud",
+          "duration": 0.6616670000000084,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040026,
+      "endTime": 1792377040027.8188,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/scene-map.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["resolveSceneFacing"],
+          "fullName": "resolveSceneFacing 普通跨场景未显式指定时继承上一场景朝向",
+          "status": "passed",
+          "title": "普通跨场景未显式指定时继承上一场景朝向",
+          "duration": 0.7616249999999951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveSceneFacing"],
+          "fullName": "resolveSceneFacing loadScene 显式朝向优先于继承值",
+          "status": "passed",
+          "title": "loadScene 显式朝向优先于继承值",
+          "duration": 0.09391600000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveSceneFacing"],
+          "fullName": "resolveSceneFacing 命名落点朝向优先于继承值",
+          "status": "passed",
+          "title": "命名落点朝向优先于继承值",
+          "duration": 0.0519999999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveSceneFacing"],
+          "fullName": "resolveSceneFacing 首次启动没有继承值时使用入口默认朝向",
+          "status": "passed",
+          "title": "首次启动没有继承值时使用入口默认朝向",
+          "duration": 0.08899999999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveSceneSpawn"],
+          "fullName": "resolveSceneSpawn 同场景两扇门分别解析到稳定命名落点",
+          "status": "passed",
+          "title": "同场景两扇门分别解析到稳定命名落点",
+          "duration": 0.30749999999999744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveSceneSpawn"],
+          "fullName": "resolveSceneSpawn 显式坐标/朝向覆盖；默认模式继承朝向",
+          "status": "passed",
+          "title": "显式坐标/朝向覆盖；默认模式继承朝向",
+          "duration": 0.25,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveSceneSpawn"],
+          "fullName": "resolveSceneSpawn 缺失命名落点与 entryId+pos 均 fail-loud",
+          "status": "passed",
+          "title": "缺失命名落点与 entryId+pos 均 fail-loud",
+          "duration": 0.3951669999999936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040083,
+      "endTime": 1792377040085.3953,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/scene-transition.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["ScreenHoldTransaction"],
+          "fullName": "ScreenHoldTransaction 正常 hold/reveal 精确配对，重复 reveal fail-loud",
+          "status": "passed",
+          "title": "正常 hold/reveal 精确配对，重复 reveal fail-loud",
+          "duration": 1.1226660000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScreenHoldTransaction"],
+          "fullName": "ScreenHoldTransaction 跨 token reveal fail-loud 且不丢当前事务",
+          "status": "passed",
+          "title": "跨 token reveal fail-loud 且不丢当前事务",
+          "duration": 0.1772499999999937,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScreenHoldTransaction"],
+          "fullName": "ScreenHoldTransaction 二次 begin 接管后，旧 owner cleanup 不能清掉新事务",
+          "status": "passed",
+          "title": "二次 begin 接管后，旧 owner cleanup 不能清掉新事务",
+          "duration": 0.08866700000000094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScreenHoldTransaction"],
+          "fullName": "ScreenHoldTransaction 脚本 abort 使用同一 cancel finalizer",
+          "status": "passed",
+          "title": "脚本 abort 使用同一 cancel finalizer",
+          "duration": 0.05908300000000111,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScreenHoldTransaction"],
+          "fullName": "ScreenHoldTransaction 读档 使用同一 cancel finalizer",
+          "status": "passed",
+          "title": "读档 使用同一 cancel finalizer",
+          "duration": 0.09270800000000179,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScreenHoldTransaction"],
+          "fullName": "ScreenHoldTransaction loadScene 使用同一 cancel finalizer",
+          "status": "passed",
+          "title": "loadScene 使用同一 cancel finalizer",
+          "duration": 0.04433399999999921,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScreenHoldTransaction"],
+          "fullName": "ScreenHoldTransaction renderer error 先执行 finalizer，再保留原错误",
+          "status": "passed",
+          "title": "renderer error 先执行 finalizer，再保留原错误",
+          "duration": 0.5694159999999968,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040427,
+      "endTime": 1792377040429.5693,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/screen-hold-transaction.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["narrationScrollLayout"],
+          "fullName": "narrationScrollLayout 全角获得提示按文字宽度居中展开横向卷轴",
+          "status": "passed",
+          "title": "全角获得提示按文字宽度居中展开横向卷轴",
+          "duration": 0.8773330000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["narrationScrollLayout"],
+          "fullName": "narrationScrollLayout 半角字符参与奇偶补偿，文字仍落在原版单行框坐标",
+          "status": "passed",
+          "title": "半角字符参与奇偶补偿，文字仍落在原版单行框坐标",
+          "duration": 0.18445799999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040640,
+      "endTime": 1792377040641.1846,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/dialog/narration-scroll.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["slot 状态机"],
+          "fullName": "slot 状态机 emptySlots → activeSlot=bottom,两槽空",
+          "status": "passed",
+          "title": "emptySlots → activeSlot=bottom,两槽空",
+          "duration": 0.7530420000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["slot 状态机"],
+          "fullName": "slot 状态机 首段(默认 bottom)→ 进 bottom 槽,activeSlot=bottom",
+          "status": "passed",
+          "title": "首段(默认 bottom)→ 进 bottom 槽,activeSlot=bottom",
+          "duration": 0.1873329999999953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["slot 状态机"],
+          "fullName": "slot 状态机 同 slot 连续 → 覆盖(段2 进 bottom 清掉段1)",
+          "status": "passed",
+          "title": "同 slot 连续 → 覆盖(段2 进 bottom 清掉段1)",
+          "duration": 0.0766659999999959,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["slot 状态机"],
+          "fullName": "slot 状态机 异 slot → 共存(段2 进 top,bottom 段1 留显),activeSlot=top",
+          "status": "passed",
+          "title": "异 slot → 共存(段2 进 top,bottom 段1 留显),activeSlot=top",
+          "duration": 0.12504200000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["slot 状态机"],
+          "fullName": "slot 状态机 显式 slot=top → 进 top 槽",
+          "status": "passed",
+          "title": "显式 slot=top → 进 top 槽",
+          "duration": 0.07770800000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["slot 状态机"],
+          "fullName": "slot 状态机 共存后回到 bottom → 覆盖 bottom 槽,top 留显",
+          "status": "passed",
+          "title": "共存后回到 bottom → 覆盖 bottom 槽,top 留显",
+          "duration": 0.11258300000000077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040385,
+      "endTime": 1792377040386.1873,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/dialog/slot.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "item operation owns the pending slot through cancellation and consumes exactly the original promise",
+          "status": "passed",
+          "title": "item operation owns the pending slot through cancellation and consumes exactly the original promise",
+          "duration": 1.8909999999999911,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "item operation preserves original failure identity and releases the slot after rejection",
+          "status": "passed",
+          "title": "item operation preserves original failure identity and releases the slot after rejection",
+          "duration": 0.5144169999999804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "item operation instances do not share busy or abort ownership",
+          "status": "passed",
+          "title": "item operation instances do not share busy or abort ownership",
+          "duration": 0.1631670000000156,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040241,
+      "endTime": 1792377040244.163,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/menu/item-use-session.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current save operations"],
+          "fullName": "current save operations buildMeta creates the slot summary with injected time",
+          "status": "passed",
+          "title": "buildMeta creates the slot summary with injected time",
+          "duration": 1.0288339999999891,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current save operations"],
+          "fullName": "current save operations the only builder writes SAVE12/content22 without startup-entry identity",
+          "status": "passed",
+          "title": "the only builder writes SAVE12/content22 without startup-entry identity",
+          "duration": 0.5514999999999901,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current save operations"],
+          "fullName": "current save operations restored music never leaks the pre-load track",
+          "status": "passed",
+          "title": "restored music never leaks the pre-load track",
+          "duration": 0.1122919999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current save operations"],
+          "fullName": "current save operations captureThumbnail rejects when 2d context is unavailable",
+          "status": "passed",
+          "title": "captureThumbnail rejects when 2d context is unavailable",
+          "duration": 0.5996250000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040126,
+      "endTime": 1792377040128.5996,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/save/ops.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 0 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 0 without inventing a project scope",
+          "duration": 1.1749580000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 1 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 1 without inventing a project scope",
+          "duration": 0.14791700000000674,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 2 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 2 without inventing a project scope",
+          "duration": 0.07699999999999818,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 3 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 3 without inventing a project scope",
+          "duration": 0.07250000000000512,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 4 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 4 without inventing a project scope",
+          "duration": 0.07541700000000162,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 5 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 5 without inventing a project scope",
+          "duration": 0.060874999999995794,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 6 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 6 without inventing a project scope",
+          "duration": 0.10824999999999818,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 7 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 7 without inventing a project scope",
+          "duration": 0.1105840000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 8 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 8 without inventing a project scope",
+          "duration": 0.4576670000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 9 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 9 without inventing a project scope",
+          "duration": 0.10004200000000196,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 10 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 10 without inventing a project scope",
+          "duration": 0.1192089999999979,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 11 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 11 without inventing a project scope",
+          "duration": 0.04712499999999409,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 12 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 12 without inventing a project scope",
+          "duration": 0.04933300000000429,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 13 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 13 without inventing a project scope",
+          "duration": 0.04087499999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 14 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 14 without inventing a project scope",
+          "duration": 0.04379199999999628,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 15 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 15 without inventing a project scope",
+          "duration": 0.07666700000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 16 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 16 without inventing a project scope",
+          "duration": 0.03912499999999852,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 17 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 17 without inventing a project scope",
+          "duration": 0.03612499999999841,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 18 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 18 without inventing a project scope",
+          "duration": 0.03583399999999415,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 19 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 19 without inventing a project scope",
+          "duration": 0.036417000000000144,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 20 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 20 without inventing a project scope",
+          "duration": 0.03791599999999562,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 21 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 21 without inventing a project scope",
+          "duration": 0.03900000000000148,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 22 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 22 without inventing a project scope",
+          "duration": 0.03829100000000096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 23 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 23 without inventing a project scope",
+          "duration": 0.037499999999994316,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 24 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 24 without inventing a project scope",
+          "duration": 0.037750000000002615,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope captures exact {\"kind\":\"project\",\"projectId\":\" p \"} identity without mutating the caller",
+          "status": "passed",
+          "title": "captures exact {\"kind\":\"project\",\"projectId\":\" p \"} identity without mutating the caller",
+          "duration": 0.37608299999999417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope captures exact {\"kind\":\"workspace\",\"projectId\":\"p\",\"workspaceId\":\" W \"} identity without mutating the caller",
+          "status": "passed",
+          "title": "captures exact {\"kind\":\"workspace\",\"projectId\":\"p\",\"workspaceId\":\" W \"} identity without mutating the caller",
+          "duration": 0.16729200000000333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope project agreement is required before boot or storage",
+          "status": "passed",
+          "title": "project agreement is required before boot or storage",
+          "duration": 0.09879099999999141,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope tagged tuples have no separator/escaping/case/whitespace collisions",
+          "status": "passed",
+          "title": "tagged tuples have no separator/escaping/case/whitespace collisions",
+          "duration": 0.443916999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377039906,
+      "endTime": 1792377039910.4438,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/save/scope.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["decodeGlyph"],
+          "fullName": "decodeGlyph 输出尺寸 = width*height*4",
+          "status": "passed",
+          "title": "输出尺寸 = width*height*4",
+          "duration": 0.7444590000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeGlyph"],
+          "fullName": "decodeGlyph 亮像素填 rgba + α255,暗像素 α0",
+          "status": "passed",
+          "title": "亮像素填 rgba + α255,暗像素 α0",
+          "duration": 0.5035419999999817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeGlyph"],
+          "fullName": "decodeGlyph 跨字节:width=10 → bytesPerRow=2,row1 col9 在第 4 字节(byte[3])",
+          "status": "passed",
+          "title": "跨字节:width=10 → bytesPerRow=2,row1 col9 在第 4 字节(byte[3])",
+          "duration": 0.07466700000003357,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["bundled Unifont BDF"],
+          "fullName": "bundled Unifont BDF 真实 15.1.05 表解析 57,083 字形，并冻结 A / 中 / replacement glyph",
+          "status": "passed",
+          "title": "真实 15.1.05 表解析 57,083 字形，并冻结 A / 中 / replacement glyph",
+          "duration": 164.593792,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["bundled Unifont BDF"],
+          "fullName": "bundled Unifont BDF HTTP 错误与空 BDF 都 fail-loud 且带 chrome URL",
+          "status": "passed",
+          "title": "HTTP 错误与空 BDF 都 fail-loud 且带 chrome URL",
+          "duration": 10.55920900000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377039836,
+      "endTime": 1792377040012.5593,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/text/glyph.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["charsShown"],
+          "fullName": "charsShown 默认 24ms/字",
+          "status": "passed",
+          "title": "默认 24ms/字",
+          "duration": 0.8272080000000059,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["charsShown"],
+          "fullName": "charsShown 慢速 48ms/字",
+          "status": "passed",
+          "title": "慢速 48ms/字",
+          "duration": 0.11729099999999448,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isLineDone"],
+          "fullName": "isLineDone 全字显示前 = 未完成",
+          "status": "passed",
+          "title": "全字显示前 = 未完成",
+          "duration": 0.07237500000000097,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isLineDone"],
+          "fullName": "isLineDone 全字显示后(无 autoAdvance)= 完成",
+          "status": "passed",
+          "title": "全字显示后(无 autoAdvance)= 完成",
+          "duration": 0.054249999999996135,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isLineDone"],
+          "fullName": "isLineDone 有 autoAdvance:全字后还要再等",
+          "status": "passed",
+          "title": "有 autoAdvance:全字后还要再等",
+          "duration": 0.0679580000000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["countChars"],
+          "fullName": "countChars 单 span = 其字符数",
+          "status": "passed",
+          "title": "单 span = 其字符数",
+          "duration": 0.14533300000000082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["countChars"],
+          "fullName": "countChars 多 span 求和(忽略 color,只数 text)",
+          "status": "passed",
+          "title": "多 span 求和(忽略 color,只数 text)",
+          "duration": 0.1112499999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377040526,
+      "endTime": 1792377040527.1453,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/text/typewriter.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "base": "b658febc416ba7fa75c7d00cbd9821f801daba90",
+  "scope": "Two runs-on labels only; no timeout/rule/permission/check command/project Node change. No local full-suite/coverage recollection.",
+  "pins": [
+    {
+      "path": ".github/workflows/coverage.yml",
+      "beforeSha256": "ecffe63c12642aa1a2a59ae779e866170fecbba8485909e0fbf4212697176659",
+      "sha256": "1d1f3e4cf81fbce839a4c7b7c7536497daff82eaa7a8052150f78cee376aa05f"
+    },
+    {
+      "path": ".github/workflows/docs.yml",
+      "beforeSha256": "c36249368ea6e0a50f21b56754968163b12cbac02ae6d207388cde5342158aee",
+      "sha256": "d3fc5b917d0bd7ca3c6e053e539c6cc1e3f823cab8ee51f3e0411bbdc320b668"
+    }
+  ],
+  "proof": {
+    "base": "b658febc416ba7fa75c7d00cbd9821f801daba90",
+    "pins": [
+      {
+        "path": ".github/workflows/coverage.yml",
+        "beforeSha256": "ecffe63c12642aa1a2a59ae779e866170fecbba8485909e0fbf4212697176659",
+        "sha256": "1d1f3e4cf81fbce839a4c7b7c7536497daff82eaa7a8052150f78cee376aa05f",
+        "beforeRunner": "ubuntu-latest",
+        "afterRunner": "ubuntu-24.04",
+        "allOtherBytesEqual": true
+      },
+      {
+        "path": ".github/workflows/docs.yml",
+        "beforeSha256": "c36249368ea6e0a50f21b56754968163b12cbac02ae6d207388cde5342158aee",
+        "sha256": "d3fc5b917d0bd7ca3c6e053e539c6cc1e3f823cab8ee51f3e0411bbdc320b668",
+        "beforeRunner": "ubuntu-latest",
+        "afterRunner": "ubuntu-24.04",
+        "allOtherBytesEqual": true
+      }
+    ],
+    "remoteAtBase": {
+      "documentation": 39894317671,
+      "coverage": 39894317718,
+      "checks": "both success",
+      "projectAndActionDiagnostics": 0,
+      "runnerMigrationNotices": 2,
+      "annotations": [
+        {
+          "kind": "docs",
+          "annotationCapture": "pr-r2-docs-annotations-retry",
+          "count": 1,
+          "rows": [
+            {
+              "path": ".github",
+              "blob_href": "https://github.com/IllegalCreed/type-pal/blob/b658febc416ba7fa75c7d00cbd9821f801daba90/.github",
+              "start_line": 1,
+              "start_column": null,
+              "end_line": 1,
+              "end_column": null,
+              "annotation_level": "notice",
+              "title": "",
+              "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\"",
+              "raw_details": ""
+            }
+          ]
+        },
+        {
+          "kind": "coverage",
+          "annotationCapture": "pr-r2-coverage-annotations-retry",
+          "count": 1,
+          "rows": [
+            {
+              "path": ".github",
+              "blob_href": "https://github.com/IllegalCreed/type-pal/blob/b658febc416ba7fa75c7d00cbd9821f801daba90/.github",
+              "start_line": 1,
+              "start_column": null,
+              "end_line": 1,
+              "end_column": null,
+              "annotation_level": "notice",
+              "title": "",
+              "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\"",
+              "raw_details": ""
+            }
+          ]
+        }
+      ]
+    },
+    "primary": {
+      "url": "https://github.com/actions/runner-images/issues/14748",
+      "bodyCapture": "runner-primary-issue",
+      "scope": "Official mitigation specifies ubuntu-24.04; both actual successful jobs use this image already."
+    },
+    "noOtherWorkflowBytesChanged": true,
+    "scope": "Two runs-on labels only; no timeout/rule/permission/check command/project Node change. No local full-suite/coverage recollection."
+  },
+  "dimensions": {
+    "A": "Both full successful native logs identify ubuntu-24.04; pinning same supported image avoids an implicit OS switch. Actual rerun still required.",
+    "B": "No source comments changed. Historical seven-action-only invariance remains at old freeze; this separate bridge explicitly adds two runs-on labels.",
+    "C": "Each workflow owns runner selection. Commands, Node/pnpm, permissions, required contexts, triggers, concurrency, timeouts and rules remain byte-identical.",
+    "D": "Same existing workflow steps; no shared helper/action or future abstraction introduced.",
+    "E": "No product/test/oracle bytes changed. Reuse successful b658 test-only bridge and original local gates; current runner label must pass required hosted CI.",
+    "F": "Explicit Ubuntu release makes the selected operating system visible.",
+    "G": "Only two labels; no new layer/config suppression.",
+    "H": "Existing real hosted checks are the validation; annotations are inspected through native check-runs API in addition to complete console logs."
+  },
+  "remoteAtBase": {
+    "head": "b658febc416ba7fa75c7d00cbd9821f801daba90",
+    "documentation": {
+      "run": 39894317671,
+      "id": "pr-r2-docs-log",
+      "kind": "docs",
+      "head": "b658febc416ba7fa75c7d00cbd9821f801daba90",
+      "bytes": 2265137,
+      "sha256": "8649460334b526d8325c81efaf598a2d6d7b405b6880c6d7001817e928ab259e",
+      "total": null,
+      "lint": ["lint: PASS — 5940 files; 0 errors / 0 warnings / 0 infos; complete report"],
+      "noticeCount": 0,
+      "notices": [],
+      "limits": "Full untrimmed hosted raw log retained separately; all diagnostic/deprecation annotations checked across all steps, not merely project command exit. API candidate/check/merge status is separate."
+    },
+    "coverage": {
+      "run": 39894317718,
+      "id": "pr-r2-coverage-log",
+      "kind": "coverage",
+      "head": "b658febc416ba7fa75c7d00cbd9821f801daba90",
+      "bytes": 753901,
+      "sha256": "c94bf662cfbfc83f16c6b8033f20e7d14642deaa877beb0b27ac2312e5b137a9",
+      "total": "TOTAL        90.32% (72674/80466)  83.90% (52607/62701)  89.79% (13730/15291)  92.17% (64901/70411)  774    20172",
+      "lint": ["lint: PASS — 5940 files; 0 errors / 0 warnings / 0 infos; complete report"],
+      "noticeCount": 0,
+      "notices": [],
+      "limits": "Full untrimmed hosted raw log retained separately; all diagnostic/deprecation annotations checked across all steps, not merely project command exit. API candidate/check/merge status is separate."
+    },
+    "allPlatformDiagnosticsZero": false,
+    "runnerMigrationNotices": 2,
+    "limit": "Raw-log noticeCount0 only covers console logs; native API contains one notice per workflow. These notices stop zero-platform acceptance and are not waived."
+  },
+  "process": "First merge readiness assertion expected zero annotations, observed1 and stopped before any merge. API initial EOF retries and all originals retained. Old logs and old pending status are historical; new pin has no hosted pass credit yet.",
+  "receipts": {
+    "path": "runner-rework-receipts.json.gz",
+    "sha256": "35564a217b559b97c458527623625c351da5af0350ee4c3cf0f47485e1fdc5ad",
+    "entries": 36
+  },
+  "remaining": "Required PR rerun, complete console log plus native annotations zero, fresh main/protection/head check and ordinary merge. No local fullcheck/coverage recollection."
+}

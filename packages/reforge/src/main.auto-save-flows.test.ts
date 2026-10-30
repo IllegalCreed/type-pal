@@ -34,8 +34,8 @@ function motionState(): DebugMotionSnapshot {
   return hooks.dumpMotionState() as DebugMotionSnapshot
 }
 
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
   vi.useRealTimers()
 })

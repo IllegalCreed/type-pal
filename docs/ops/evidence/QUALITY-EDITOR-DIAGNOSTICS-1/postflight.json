@@ -1,0 +1,43 @@
+{
+  "sourceCandidate": "c8ad9416fc46b7aef3e89b4a106673fbcb9d34b3",
+  "status": "static checks passed; global test diagnostics still block merge",
+  "checks": [
+    {
+      "name": "docs",
+      "command": ["pnpm", "check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "rawArtifact": "post-docs.raw.gz",
+      "sha256": "b002a261ed7aeec5fce90e958b799e90ad30b0a7cc38a17240803224338533f9",
+      "bytes": 11742,
+      "summary": [
+        "docs: PASS (0 issues)",
+        "testing docs: PASS (0 issues)",
+        "phase/lore governance: PASS (184 documents)",
+        "content review: PASS (570 documents; {\"content-reviewed\":570})"
+      ]
+    },
+    {
+      "name": "lint",
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "rawArtifact": "post-lint.raw.gz",
+      "sha256": "c6916ddaf0a758c717f7b6b881dfd6ece973ec811ed9907813303fa0590e79e4",
+      "bytes": 199,
+      "summary": ["lint: PASS — 4142 files; 0 errors / 0 warnings / 0 infos; complete report"]
+    },
+    {
+      "name": "ledger",
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "rawArtifact": "post-ledger.raw.gz",
+      "sha256": "8ac251e4341e50b60a1ddaa071abfc3b7332f63e4bbf0aa36206c363b16358ba",
+      "bytes": 112,
+      "summary": [
+        "code-quality ledger: PASS — 3284 files; 229 closed / 48 review / 3007 pending; semantic review still required"
+      ]
+    }
+  ]
+}

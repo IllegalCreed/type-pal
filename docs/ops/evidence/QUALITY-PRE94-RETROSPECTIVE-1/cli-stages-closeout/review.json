@@ -1,0 +1,456 @@
+{
+  "date": "2026-10-24",
+  "owner": "Codex single agent; authored review disclosed",
+  "branch": "codex/code-quality-3y",
+  "base": "4c684dfd2f307e221f983837958d671f734f6132",
+  "codeHead": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+  "state": "CODE3g code accepted; final unified pre94 gates deferred",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "1e467403d0bce8f169b0d4be83dd8dfdb02c22831ed2929374a711002eb54387",
+      "lines": 269,
+      "readScope": "原CLI全文/已有caller与A证据按4c复用；本次搬移、依赖和最终新模块全文已读。",
+      "dimensions": {
+        "A": "真实pnpm→tsx入口、guard→原SSS/MSG/WORD→roundtrip→correction/English预检→清理→event→资源→最终manifest完整顺序核清。分阶段AST/真实导入还原成立；仅内联唯一省略false参数的私有readChunk包装。异常仍退出1，往返失败2；失败可能留下部分输出是已披露原策略，未新增事务。",
+        "B": "头注现在解释总装ownership/先验后清/最后manifest；删除迁移日期、过时产物数量和大段阶段叙事，保留videos来自独立步骤的约束。未称所有TS回退等同SDL。",
+        "C": "CLI保留argv、物理根、源身份/翻译准入、输出清理、阶段顺序与退出；codec循环/路径写出已归各资源阶段。模块均显式借根，无反向CLI导入/隐式共享OUT或额外eager IO。main余分支是实际选项和准入，不为数字再包一层。",
+        "D": "共同的owned-byte读取抽io/read并由CLI、world与各阶段实际复用；不同空块、YJ2失败、尺寸拒绝、缺字库策略分别保留。没有万能布尔模式或宽上下文。",
+        "E": "复用既有3g宿主/错误/MIDI字节/FBP像素/14hook反控与原件；六原suite39身份不增减，本次一次集中实跑。五host套件33child完整流已逐项核预期错误/降级，entrypoint六例只有Vitest全流与本体业务断言，未冒称另存child。",
+        "F": "主函数按预检/事件/资源/manifest直线排列；每阶段命名为产物用途。根常量只在命令入口拥有，阶段函数不用整个CLI上下文。CC热点只做阅读线索。",
+        "G": "唯一loadMkfChunk私有caller从未请求decompress，已删死模式及一用包装、相应YJ2导入；旧无readerMap已在前窗删除。本次没有新公共包出口、空壳层或退役兼容恢复。",
+        "H": "过程入口由真实隔离源码树/子进程驱动；阶段可直接用指定raw/output根运行，无需暴露状态或mock codec。固定CLI根/不可注入process是命令职责，非跨模块环境依赖。"
+      },
+      "decision": "accept-code; final unified pre94 gates deferred"
+    },
+    {
+      "path": "packages/pal-extract/src/io/read.ts",
+      "sha256": "2dcd57f6a51469b9ce5b50d50a817e0922295e3281ef895c8a03e66a42ce75e2",
+      "lines": 6,
+      "readScope": "原CLI全文/已有caller与A证据按4c复用；本次搬移、依赖和最终新模块全文已读。",
+      "dimensions": {
+        "A": "完整Uint8Array拥有readFileSync结果副本，ENOENT/权限等原生错误不吞。实际caller依赖同一owned bytes合同。",
+        "B": "短注说明owned bytes及路径/准入/失败属于caller，无平台/格式猜测。",
+        "C": "单一同步IO叶，无raw/output根、缓存、状态、策略或反向上层依赖。",
+        "D": "CLI/world/data/animation/bitmap/sprite/sound实际相同读取语义共享，未把JSON/UTF8读取强塞进来。",
+        "E": "不新增镜像实现测试；旧CLI缺输入/格式失败经此叶真实执行，正文与旧owned read的AST/源码证明直接匹配。",
+        "F": "名字readBinary与Uint8Array返回表达实际值，函数没有隐藏参数。",
+        "G": "唯一简单叶有多个真实consumer，删掉将恢复重复owned-byte知识；无未来API或可选模式。",
+        "H": "无内部状态，同步路径输入可用真实临时文件驱动；错误由外部观察。"
+      },
+      "decision": "accept-code; final unified pre94 gates deferred"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/data-assets.ts",
+      "sha256": "e1e1a9cee093d57bfbcf9080b920a75087a0388c0f3f77e5b53ea17e7feeb11d",
+      "lines": 138,
+      "readScope": "原CLI全文/已有caller与A证据按4c复用；本次搬移、依赖和最终新模块全文已读。",
+      "dimensions": {
+        "A": "原DATA/UI/effect/dialog全部runtime、四borrowed OBJECT视图、三路径helper与第二次DATA读取逐句保留。原chunk映射/表parser和UI runtime caller证据复用，不称本轮重审底层RLE/YJ2算法。",
+        "B": "去除M3/M4审计故事/脆弱行号/固定库存数量；保留OBJECT union任意ID、双ID敌队、5角色LEVELUPMAGIC及原UI帧号约束。dialog source产物文字未擅改，size动态。",
+        "C": "阶段拥有DATA写出，CLI借已解析OBJECT与words；局部归一化路径不读CLI全局。ObjectTables仅四实际数据域，不接整游戏或总装状态。",
+        "D": "复用canonical parser与owned read；数据表不与图像失败策略合并。四视图不在新层重新解析/改值。",
+        "E": "原CLI-isolated各表内容/输入失败与全管线、事件global roots保留。整阶段AST与根/依赖绑定证明支撑纯搬移，未用空manifest或文件数量充当表内容正确性。",
+        "F": "表槽位与输出路径放在同一阶段，声明与写入接近；ObjectTables名字明确借用parsed views。",
+        "G": "全函数参数均真实使用；保留第二次DATA读取以维持原IO顺序，删除不确定收益的缓存不在本范围。没有无用导出/测试专用入口。",
+        "H": "五窄输入、同步确定阶段、借只读事实值不改表；真实临时输出可观察所有文件，借由writeJson/parse领域模块隔离职责。"
+      },
+      "decision": "accept-code; final unified pre94 gates deferred"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/animation-assets.ts",
+      "sha256": "ba474bac4b6dc2dcb034f165a92d25186f2a29a6343bad835016ce04e58645b9",
+      "lines": 84,
+      "readScope": "原CLI全文/已有caller与A证据按4c复用；本次搬移、依赖和最终新模块全文已读。",
+      "dimensions": {
+        "A": "RNG原chunk gzip+frame索引manifest；decode失败仅跳当前chunk。FIRE的YJ2异常raw回退、短头空帧与只在有帧时写blob保留。调用仍RNG→RGM→BALL→FIRE，未提前求值IO。",
+        "B": "注释说明原chunk/metadata用途及两失败策略差别，删除迁移日期和体积/库存断言。",
+        "C": "两个真实阶段各拥循环/计数/manifest，根显式输入，无跨阶段状态或额外top-level IO。",
+        "D": "只共享owned read和现有codec/写盘；RNG拒绝与FIRE raw回退不可合成模式helper。",
+        "E": "与基点完整语句/路径helper/实际imports一致、全CLI还原证明；CLI的RNG缺输入与后段到达相邻复跑。底层codec已验合同按原pin复用，不新增弱blob存在测试。",
+        "F": "writeRngAssets/writeFireAssets直接揭示资源族；局部total/frame元数据与各自输出相邻。",
+        "G": "两个出口均有CLI真实caller；无私有全局、互不使用的上下文或为未来抽象。",
+        "H": "显式根可直接在临时目录驱动；失败由真实codec抛出/实际输出观察，不需要核心mock。"
+      },
+      "decision": "accept-code; final unified pre94 gates deferred"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/bitmap-assets.ts",
+      "sha256": "d468feacaf206d7f053d1fec47d23579009678104206bfdcfcfdf0126a6f80d5",
+      "lines": 144,
+      "readScope": "原CLI全文/已有caller与A证据按4c复用；本次搬移、依赖和最终新模块全文已读。",
+      "dimensions": {
+        "A": "RGM/BALL仍调用原parser并保留源chunk号；splash仅3/4且YJ2失败静默；背景逐块warn/尺寸64000拒绝；PAT传整块保留夜半。读写/log顺序由还原proof与真实CLI核对。",
+        "B": "保留splash与背景失败差异、whole PAT夜色、所有有效FBP非静态引用约束；移除M3日期、过时计数和不稳定C行号。",
+        "C": "五个实际产物阶段，无共享mutable根；CLI编排交错顺序，函数自身持IO/metadata，codec仍由原模块持有。",
+        "D": "RGM/BALL虽近似但各parser/返回域不强合；splash背景的错误合同不同保持独立。复用真正相同read/PNG编码。",
+        "E": "原Q10背景PNG独立pngjs全RGBA oracle+尺寸拒绝、字节gzip/全程产物与入口fail测试原合同不改；39集中恢复。AST保留全五阶段而非仅调用个数。",
+        "F": "用途式函数名，局部guard平铺；明确跳块/继续写与fail-loud发生点。",
+        "G": "每个函数均有真实caller；路径helper局限用途，未扩大公共path API；无输出缓存/重复状态。",
+        "H": "输入根可控、文件输出可见，既有CLI临时树真实走相同模块；PNG oracle独立解包。"
+      },
+      "decision": "accept-code; final unified pre94 gates deferred"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite-assets.ts",
+      "sha256": "1769334589117d87db9bf82e2c589a5f5c0897bbb7d090d390bb1f97a84e97af",
+      "lines": 110,
+      "readScope": "原CLI全文/已有caller与A证据按4c复用；本次搬移、依赖和最终新模块全文已读。",
+      "dimensions": {
+        "A": "MGO仍全槽扫描，空跳、YJ2失败warn跳；F先于ABC，非空YJ2失败raw回退不变；两族仍全部解码后才写。最后refs由记录投影，manifest仍延后在背景之后。809实际输出逐字节/172refs/log相等，raw三输入SHA前后相等。",
+        "B": "删历史修复叙事/固定库存与错位行号；保留dump-all原因、两ID空间、raw与MGO拒绝不同、decode-before-write顺序。",
+        "C": "一个记录持battle kind/id/chunk，MGO Map独占有序id/bytes；删Set镜像、字符串Map键与两处非空断言，不让两个容器的同步成为隐式前提。CLI只借最终refs且在旧位置写manifest。",
+        "D": "F/ABC同一合同共用loadBattleMkf，MGO失败策略不同不拼为mode helper；不把ref.kind业务字段误称模式布尔值。",
+        "E": "旧Q10 YJ2/raw/空槽/manifest有序与FBP像素原业务断言本轮绿；额外真实原盘仅验证已声明资源域等价，不充当新机制oracle；未新增重复case。",
+        "F": "entries/record解构直接给ID和字节，无set→map查回或`${kind}:${id}`平行拼接；写出与frame统计仍同循环。",
+        "G": "删两个镜像容器和相应断言；扫描id每档唯一递增，Map插入序等同原Set，kind隔离同ID；refs投影去bytes，避免CLI长期持整个解压缓存。",
+        "H": "两窄root即可直接阶段复验；无时钟/RNG/跨run状态，真实输入比较输出，不mock解压或写盘。"
+      },
+      "decision": "accept-code; final unified pre94 gates deferred"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sound-assets.ts",
+      "sha256": "38a20ddb87e56e7c4a47fe8aeb5253a8fb6f6a9b5c4e915da9d9c2a248b3fb0b",
+      "lines": 26,
+      "readScope": "原CLI全文/已有caller与A证据按4c复用；本次搬移、依赖和最终新模块全文已读。",
+      "dimensions": {
+        "A": "保留先log再读SOUNDS、非空WAV整块复制、全部槽位metadata和写入顺序；不新增RIFF合法性策略。",
+        "B": "说明WIN95整块WAV与空槽metadata，不把固定505/363/142库存当接口。",
+        "C": "声音阶段自有metadata缓冲，CLI管清理/顺序；不改音乐扫描或runtime播放。",
+        "D": "真实owned read/metadata parser/writer共享；不同音乐文件名/optional策略留原music模块，未泛化。",
+        "E": "完整阶段与其余CLI/import还原相同；既有全管线/音乐字节合同复用本轮真实相邻，不称当前重新播放音频。",
+        "F": "函数名和空槽guard直接表达复制意图，输出index保持原序。",
+        "G": "没有死参数/未用导出；soundsBufs仍是metadata parser实际输入，不为行数做流式变化。",
+        "H": "显式根、同步写出可观测；无外部音频设备/异步生命周期。"
+      },
+      "decision": "accept-code; final unified pre94 gates deferred"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/lookup-assets.ts",
+      "sha256": "02edaa5ba40a47fdf7a4590f5da4c4933ba9176ebd0eb9b3ce28130b8963ec28",
+      "lines": 34,
+      "readScope": "原CLI全文/已有caller与A证据按4c复用；本次搬移、依赖和最终新模块全文已读。",
+      "dimensions": {
+        "A": "中文/可选英文lookup值与顺序、BDF存在检查/UTF8读/原warn及字体表输出完整搬移。英文预检仍在清理前CLI执行；本函数不重新翻译或更改合同。",
+        "B": "注释限定borrowed preflighted data和optional font IO错误传播，不称缺字体一概成功或新源兼容。",
+        "C": "只拥lookup/font写出，不接完整sss/总装环境；words/messages/PalLanguagePack为canonical类型，未强转。",
+        "D": "复用原BDF parse/glyph输出、writeJson；二进制owned read不混进UTF8文本读取。",
+        "E": "原字体完整glyph与缺BDF合同两例本轮实跑；lookup与英文接线全stage/import证明，英文产品验收继续引用原主线证据，不虚报重跑浏览器。",
+        "F": "五窄参数均实际用，输出步骤直接排列，不另造状态机或万能任务上下文。",
+        "G": "没有额外optional模式或死接口；BDF_PATH为本函数一次本地值。",
+        "H": "显式根/borrowed值，可用真实临时BDF输出验证，无全局字形缓存/字体设备。"
+      },
+      "decision": "accept-code; final unified pre94 gates deferred"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/world-assets.ts",
+      "sha256": "6618ee3e1129036411230c215e7cfffeb77ab99b00d5b189f1655e615d9d62c7",
+      "lines": 123,
+      "readScope": "原CLI全文/已有caller与A证据按4c复用；本次搬移、依赖和最终新模块全文已读。",
+      "dimensions": {
+        "A": "前窗已逐文件接受，本轮只将new Uint8Array(readFileSync(...))改为同义readBinary(resolve(rawRoot,...))；完整world runtime经展开仍同。地图/EO/metadata处理与caller不改。",
+        "B": "前窗ownership/地图索引/场景字段注释全部继承，没有新增假SDL宣称。",
+        "C": "继续借五窄输入且own world写盘；共同二进制IO叶由多consumer共用，无反向CLI依赖。",
+        "D": "消除相同owned-byte读取共同知识，四world路径helpers与事件写出不强行同构。",
+        "E": "原world阶段独立proof/39相邻/原primary与全切分35证据继承，当前CLI39刷新；不重复整个world codec审查。",
+        "F": "真实路径局部化，readBinary名字直接表达返回域。",
+        "G": "无新增wrapper/模式/死参数，旧五参数仍实际用；world原CC热点范围与既有权衡继承。",
+        "H": "既有显式根/只读借用/临时输出设计保持，真实CLI再次接入相同新IO叶。"
+      },
+      "decision": "accept-code; final unified pre94 gates deferred",
+      "inheritedEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json",
+      "scope": "previous full acceptance plus exact owned-read leaf delta; no new whole-codec credit"
+    }
+  ],
+  "testIdentityPins": [
+    {
+      "path": "packages/pal-extract/src/cli-battle-assets.glm-q.test.ts",
+      "sha256": "acf20e9fda9aa82c66b64734a04344a410ab22cc5b4622727ae7b46966123fdc"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-entrypoint-paths.test.ts",
+      "sha256": "77d75e081d309cde9a917308ac2407fa136690ce42e71b7bf015c9f4fdbf5519"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "sha256": "586c8987a642a1212d3d690da8775d3df2851c2b736afa3db0a7757ad117b16f"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "sha256": "724102f0cc54b03400c287453ef2e3a60a04a946118a0ba636e95e0d30880a21"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "sha256": "f23e419c1849b7c25d4530332bbb071e2830e2431f215c6750da69ab8f4b6d89"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "sha256": "1b05cc32c9341086d46975558bfa1e145d81d3a0ee2a8dc26ca99e9cf664491c"
+    }
+  ],
+  "dependencyPins": [
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-host.ts",
+      "sha256": "6da3976c58acf663493472e23bddb6ad7eb9382d11c5257b9a3153445b23ea95",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-q/cli-pipeline-inputs.ts",
+      "sha256": "ef6393d93a79eba8ab3d1cdbc87e8ddcf2ce32887ee920fa99d8970936597dbd",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/output-boundary.ts",
+      "sha256": "2b7f92f1d5713dd9d1753c14917dca80582add06f304712be857d1cc4e6a0bdd",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/music.ts",
+      "sha256": "dd488c3e3d1485de41f15d8a9fc95866a2c294d34a9fb8d9e0436b649de65926",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/ball.ts",
+      "sha256": "8a8f6de4be9ccaa69e6a50ad1adea06b1b9f20f6503fed8e2f358d0927f09688",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rgm.ts",
+      "sha256": "92883a8e074005d2b9e25ff9ae3bc31e68619ff165dde4fed2c5a08c3e876b65",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/sounds.ts",
+      "sha256": "8e46e879621a448028ce3ed3cbd7a4aca5da85659191ea446b395f5d9e1dce64",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/palette.ts",
+      "sha256": "ad806bc60aa51e5dd61bbb8c9fe50c2c20ae66feed9fa89944393714d3272ba9",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.ts",
+      "sha256": "5ed13fc9c404449f1543fe85474d97a418397b5fb98a5e71af928855e614e96e",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/tables.ts",
+      "sha256": "74df97a4874d86525378189cc4f59d118e8d5a002caa3f852212c50c8a409ccd",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/enemy-pos.ts",
+      "sha256": "2fe29a2a1c485929009f6cffec7ad75a75ac695721e0929418f33edd30910505",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/data-misc.ts",
+      "sha256": "bae489b9c04bc8a4ec85d82419b0b08694c25dfdfdb8a9afdd389a1de5bab5f2",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/font/bdf-to-json.ts",
+      "sha256": "4d57203361b505557c165398d580404579c61964014e2b99aac935307d85aa50",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/events/script-entries.ts",
+      "sha256": "33879340659cd516df13adc41b8f1eca627c88f52eae931f7dc6e2e186ee2c04",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.ts",
+      "sha256": "5f1640541831116b78bf4fb1c701dd0f70d47b90981599b7bb6a6a5e747b3c8d",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.ts",
+      "sha256": "ef31df8d85c291cabc2d1ad836bec706c4f70e8de9c6c20d15d1b098ac86e673",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.ts",
+      "sha256": "59df908dd2aeaea470bcc47001ba90634c272652eea7debe38020ccd66dc807a",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/events/recompile.ts",
+      "sha256": "70a5ac15d498c2a9316080ccfaa2333664b9a99e18e186ec8f524086e2fb209f",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/events/script-corrections.ts",
+      "sha256": "235627c8a17ca5bba8a50ae19a70525c33d6043a9d7305e1bf396d2b85517b0c",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/io/mkf.ts",
+      "sha256": "ca53d95c262a6fe6d7b31fe0ec149804e4e759875803b3cf63c8f7c713cb0fd3",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/io/rle.ts",
+      "sha256": "181195581652f4d2985681490e80a4ec9b7f371280fb71aef320a930aa0726bb",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/io/yj2.ts",
+      "sha256": "b01a32ad4f2a313c52accc8ebecc67e550994fa61c802c031d91a7ad31f126c0",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.ts",
+      "sha256": "a1f950905bdeb18baef4086203a4e3590c2b43a71150c7d0a0dca2898842a518",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.ts",
+      "sha256": "1aeede31eec0e5807ca450c7614d3b9719a2e3c1e8ac5940f8a2dd3a3f092006",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/io/word.ts",
+      "sha256": "dbcd851a23f10829f2f04ef7fd7ec427c0362ea3d0796714a7186da9f35323a6",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/localization/build-language-pack.ts",
+      "sha256": "e55266cd6fcde40b777184118a271ec58adb430d98082e92753bac513410eb88",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/localization/english-revisions.ts",
+      "sha256": "8a88ef573de1c96d1f3f0e766890474dfb63ad6d71304a51bb528130f7b2cad6",
+      "scope": "direct caller/type/parser contract identity; existing specific evidence or current delta, not blanket new full acceptance"
+    },
+    {
+      "path": "packages/shared/src/mkf.ts",
+      "sha256": "7d4504527745800dee8ef1675269c6385ff028896d322f4fb66fde378bfc42cc",
+      "scope": "actual shared codec dependency pin; own pre94 card remains authoritative"
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "91c3091ae09e8e577373a7679328e5a1ceba95e78b8f66736b366ff4f162744e",
+      "scope": "actual shared codec dependency pin; own pre94 card remains authoritative"
+    },
+    {
+      "path": "packages/shared/src/yj2.ts",
+      "sha256": "d26cfe8fc7680330de5f167f30d9b970e74e68dc6a3ddebbc58daa46a7acd0b4",
+      "scope": "actual shared codec dependency pin; own pre94 card remains authoritative"
+    },
+    {
+      "path": "packages/shared/src/rng.ts",
+      "sha256": "b8824d4d228febdb1f0e1994d3bc92c3b0c6892e20d93020e90b5e8c20db961e",
+      "scope": "actual shared codec dependency pin; own pre94 card remains authoritative"
+    }
+  ],
+  "proofChain": [
+    {
+      "base": "4c684dfd2f307e221f983837958d671f734f6132",
+      "candidate": "7f5946aa3053f484b2eabb32004ff99aac2e2f37",
+      "receipt": "data-proof-final",
+      "scope": "full DATA stage/helpers/IO leaf/world runtime/remaining CLI and imports"
+    },
+    {
+      "base": "7f5946aa3053f484b2eabb32004ff99aac2e2f37",
+      "candidate": "182332279490f224694ba6c4450b1caae6c4a951",
+      "receipt": "bitmap-animation-final",
+      "scope": "seven full stages/helpers/remaining CLI and imports"
+    },
+    {
+      "base": "182332279490f224694ba6c4450b1caae6c4a951",
+      "candidate": "653e3656d4968eb80dd99a76e2b2d74500db70b6",
+      "receipt": "sprite-sound-lookup-final",
+      "scope": "five full stage functions, exact two-root and borrowed data calls, return/ref timing, imports"
+    },
+    {
+      "base": "653e3656d4968eb80dd99a76e2b2d74500db70b6",
+      "candidate": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "receipt": "cleanup-proof",
+      "scope": "private singlefalse caller substitution + DATA comments; sprite rewrite separately reviewed and compared"
+    }
+  ],
+  "tests": {
+    "native": "cli-regression.native.json",
+    "passed": 39,
+    "files": 6,
+    "addedOrRemovedIdentities": 0,
+    "childStreams": 33,
+    "childExpectedExitCodes": {
+      "0": 19,
+      "1": 13,
+      "2": 1
+    },
+    "childLimits": "Five cliHost suites save complete detached executions. Six entrypoint-paths cases retain unchanged spawnSync business assertions and full outer Vitest, but do not separately save every child stream. No core mock, fixture/assertion/timeouts changes. Observer finally restores exact test bytes."
+  },
+  "diagnostics": {
+    "vitestOuterStderrBytes": 0,
+    "typecheck": {
+      "errors": 0,
+      "warnings": 0,
+      "info": 0
+    },
+    "scopedBiome": {
+      "errors": 0,
+      "warnings": 0,
+      "info": 0
+    },
+    "childOutputs": "33 complete stderr reviewed: expected ENOENT/format/roundtrip/shared-root rejections and missing BDF/invalid FBP downgrade; counts and each whole raw in archive. No unexpected asynchronous/act/environment diagnostic. This is not a claim child stderr all empty."
+  },
+  "realInputComparison": {
+    "inputFiles": 3,
+    "outputFiles": 809,
+    "battleRefs": 172,
+    "equal": "every relative path/size/SHA + refs + entire logs, zero stderr; all source input SHA unchanged",
+    "limits": "real MGO/F/ABC only; no full CLI extraction/shared output write, audio playback, UI/E2E or arbitrary malformed codec certification"
+  },
+  "failuresPreserved": [
+    {
+      "receipt": "data-proof",
+      "reason": "first printer equality confused formatting with structural identity; corrected full AST checker+four controls succeeds, not product red"
+    },
+    {
+      "receipt": "sprites-before",
+      "reason": "pnpm filter exec changed cwd to package; ENOENT before any resource writer; rerun exact producer from repository root succeeded, not product defect"
+    },
+    {
+      "receipt": "evidence-before-static",
+      "reason": "portable evidence code 1error/5info; prior --write same six diagnostics raw not saved (author disclosure only). This actual repeat complete raw retained; fixed source loop/template style, no rule changes."
+    }
+  ],
+  "reuse": [
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/closeout/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/review.json",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/review.json"
+  ],
+  "limits": [
+    "No new asset policy, raw bytecode, output format, generated product artifact, save or package public API change. All new exports have actual internal CLI callers.",
+    "Not rerunning full codec primary-source review or previously accepted tests; inherited evidence scoped by version and delta.",
+    "Complete pre94/final unified check/official coverage/protected/PR remain deferred; CODE1/3m/42/53/56/57/58 stay partial.",
+    "No new implementation counter required for pure refactor; existing actual product/weak-test counters retained."
+  ],
+  "countsExpected": {
+    "total": 3432,
+    "verified": 460,
+    "review": 84,
+    "pending": 2888,
+    "unclosed": 2972
+  },
+  "fixed83": {
+    "accept": 76,
+    "partial": 7,
+    "pending": 0
+  },
+  "initialScreening": {
+    "tool": "TypeScript 6.0.3",
+    "method": "Control-flow reading proxy:1+if/loops/case/catch/ternary/logical&&||?? per function; excludes nested function bodies. >10 only marks reading hotspots, not acceptance or refactor target.",
+    "baseMain": 55,
+    "currentMain": 24,
+    "currentWorld": 12,
+    "decision": "两个>10热点已定向全文核对。main剩余分支属于argv/source身份/corrections/英文预检及清理准入；资源循环与输出规则已移出，不再为了指标把这些相关预检包成返回十余字段的宽上下文。world12为既有地图/scene/EO写出合同，本次仅同义IO叶，不另拆状态owner。命名/归属、失败顺序和可测性而非下降数字支持接受。",
+    "duplicates": "Owned binary read semantic shared once; MGO Set/Map and battle refs/string Map eliminated; similar resource loops kept distinct for different failure/output contracts. No threshold or duplication metric used as acceptance goal.",
+    "receipt": "complexity.stdout.raw"
+  }
+}

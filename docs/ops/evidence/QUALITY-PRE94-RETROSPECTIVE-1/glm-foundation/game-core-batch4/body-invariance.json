@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "base": "5ce90cd1befd9241b755a365d50e1cc4da2e7ce2",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/player-poison-state.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "31b18bc135665978c40662aef4a8552733dc18db807847b837cb3de516812bbd",
+        "current": "31b18bc135665978c40662aef4a8552733dc18db807847b837cb3de516812bbd"
+      },
+      "printedBytes": {
+        "base": 3711,
+        "current": 3711
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/scene-system-search.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "dfc47a9267d9bdae452b1d05059c5dae924762a61ed63f73c664b92e111e67d4",
+        "current": "dfc47a9267d9bdae452b1d05059c5dae924762a61ed63f73c664b92e111e67d4"
+      },
+      "printedBytes": {
+        "base": 1933,
+        "current": 1933
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/palette-fade.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "c274468fb6f009852cb516b1bdd491b9ecf92c369b8a5ff19d8fe7906494247c",
+        "current": "c274468fb6f009852cb516b1bdd491b9ecf92c369b8a5ff19d8fe7906494247c"
+      },
+      "printedBytes": {
+        "base": 6600,
+        "current": 6600
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/scene-identity.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "9f4bf80f5eb15678b54d30c482fd4066e1244b8ce67c90d1e6a9fc09c6db77fd",
+        "current": "9f4bf80f5eb15678b54d30c482fd4066e1244b8ce67c90d1e6a9fc09c6db77fd"
+      },
+      "printedBytes": {
+        "base": 176,
+        "current": 176
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

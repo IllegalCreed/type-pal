@@ -1,0 +1,61 @@
+[
+  {
+    "phase": "original",
+    "command": "pnpm exec vitest run src/core/menu/in-game-magic-menu.test.ts src/core/menu/in-game-magic-menu.boundaries.test.ts src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts --reporter=json",
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq89-lzAhv0",
+    "exitCode": 0,
+    "signal": null,
+    "sourceSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414"
+  },
+  {
+    "id": "MUT-01",
+    "description": "single-target confirm skips target phase",
+    "command": "pnpm exec vitest run src/core/menu/in-game-magic-menu.test.ts src/core/menu/in-game-magic-menu.boundaries.test.ts src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts --reporter=json",
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq89-lzAhv0",
+    "replacementOccurrences": 1,
+    "mutantExitCode": 1,
+    "mutantSignal": null,
+    "mutantBusinessAssertion": true,
+    "mutantRuntimeError": false,
+    "originalSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+    "mutantSha256": "ad6aebfe73862ac8d5313ffc1c8b77fa577b0a588c323279af0a285d308728b1",
+    "restoredSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+    "sourceRestoredByteIdentical": true,
+    "restoredExitCode": 0,
+    "restoredSignal": null
+  },
+  {
+    "id": "MUT-02",
+    "description": "target cancel no longer returns to spell phase",
+    "command": "pnpm exec vitest run src/core/menu/in-game-magic-menu.test.ts src/core/menu/in-game-magic-menu.boundaries.test.ts src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts --reporter=json",
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq89-lzAhv0",
+    "replacementOccurrences": 1,
+    "mutantExitCode": 1,
+    "mutantSignal": null,
+    "mutantBusinessAssertion": true,
+    "mutantRuntimeError": false,
+    "originalSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+    "mutantSha256": "12221d85b5531fb091e34b38e356ed65ead2ad9736bcbb004f5cdbcbfe68a305",
+    "restoredSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+    "sourceRestoredByteIdentical": true,
+    "restoredExitCode": 0,
+    "restoredSignal": null
+  },
+  {
+    "id": "MUT-03",
+    "description": "outside picker includes battle-only spells",
+    "command": "pnpm exec vitest run src/core/menu/in-game-magic-menu.test.ts src/core/menu/in-game-magic-menu.boundaries.test.ts src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts --reporter=json",
+    "cwd": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cq89-lzAhv0",
+    "replacementOccurrences": 1,
+    "mutantExitCode": 1,
+    "mutantSignal": null,
+    "mutantBusinessAssertion": true,
+    "mutantRuntimeError": false,
+    "originalSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+    "mutantSha256": "e65510edd484bb1e98b83e7dee87707d121a0e7d9e5819f29a792bf60b3c5c92",
+    "restoredSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+    "sourceRestoredByteIdentical": true,
+    "restoredExitCode": 0,
+    "restoredSignal": null
+  }
+]

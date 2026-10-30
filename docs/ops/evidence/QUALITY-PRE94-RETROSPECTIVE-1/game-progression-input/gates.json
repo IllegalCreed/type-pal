@@ -1,0 +1,1694 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "owner": "Codex single agent",
+  "status": "accepted specified contracts; all final statics passed",
+  "base": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+  "sourceCandidate": "a52b7dc3ac22b6d5b24fd81ce8e0e509a4102596",
+  "gateRuns": [
+    {
+      "id": "exp-domain-adjacent",
+      "role": "test",
+      "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/tools/save-io.test.ts",
+        "src/core/save/__tests__/api.test.ts",
+        "src/core/save/__tests__/indexed-db.test.ts",
+        "src/tools/quick-save.test.ts",
+        "src/core/battle/__tests__/battle-levelup.test.ts",
+        "src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/exp-domain-adjacent.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T03:32:18.515Z",
+      "end": "2026-10-22T03:32:20.210Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M packages/game/src/core/save/v1.ts\n M packages/game/src/tools/save-io.test.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/save/v1.ts",
+          "sha256": "92d908ac942928390a6db0229b666f8291b5a8e8a97a5df07871d37054869d2b"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.test.ts",
+          "sha256": "50e69083b4380cea6c57abbc6704c780b76df06d37a1da74a63c564e3898f812"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "exp-domain-adjacent.stdout.raw",
+        "bytes": 772,
+        "sha256": "8cd004a3c898142af96b313f3dc5d5fc978cd37397a5d69ea76b788da712e7d7"
+      },
+      "stderr": {
+        "member": "exp-domain-adjacent.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "progression-final",
+      "role": "test",
+      "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/__tests__/battle-levelup.test.ts",
+        "src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/progression-final.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T03:35:09.016Z",
+      "end": "2026-10-22T03:35:10.379Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts\n M packages/game/src/core/battle/battle-progression.ts\n M packages/game/src/core/save/v1.ts\n M packages/game/src/tools/save-io.test.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+          "sha256": "136e3b6867ca82b1a1b53dfb233f2bec829dbf25e6213a9b57b4fe04be481d7a"
+        },
+        {
+          "path": "packages/game/src/core/battle/battle-progression.ts",
+          "sha256": "d7a3c1253d4a93fd6b1ae993371b15d4cc231f389b447de5a65934f5e8dc8f27"
+        },
+        {
+          "path": "packages/game/src/core/save/v1.ts",
+          "sha256": "92d908ac942928390a6db0229b666f8291b5a8e8a97a5df07871d37054869d2b"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.test.ts",
+          "sha256": "50e69083b4380cea6c57abbc6704c780b76df06d37a1da74a63c564e3898f812"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "progression-final.stdout.raw",
+        "bytes": 554,
+        "sha256": "0781a30c16102b4c818d9c8ed214f5f1223b1e7bfefcba1e9d8798faae20f1ae"
+      },
+      "stderr": {
+        "member": "progression-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "exp-domain-tsc",
+      "role": "typecheck",
+      "command": "pnpm",
+      "args": ["--filter", "@type-pal/game", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T03:32:18.515Z",
+      "end": "2026-10-22T03:32:22.700Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M packages/game/src/core/save/v1.ts\n M packages/game/src/tools/save-io.test.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/save/v1.ts",
+          "sha256": "92d908ac942928390a6db0229b666f8291b5a8e8a97a5df07871d37054869d2b"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.test.ts",
+          "sha256": "50e69083b4380cea6c57abbc6704c780b76df06d37a1da74a63c564e3898f812"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "exp-domain-tsc.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      "stderr": {
+        "member": "exp-domain-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "exp-domain-biome",
+      "role": "scoped-biome",
+      "command": "pnpm",
+      "args": [
+        "exec",
+        "biome",
+        "check",
+        "packages/game/src/core/save/v1.ts",
+        "packages/game/src/tools/save-io.test.ts",
+        "packages/game/src/core/battle/battle-progression.ts",
+        "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T03:36:18.882Z",
+      "end": "2026-10-22T03:36:19.285Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts\n M packages/game/src/core/battle/battle-progression.ts\n M packages/game/src/core/save/v1.ts\n M packages/game/src/tools/save-io.test.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+          "sha256": "136e3b6867ca82b1a1b53dfb233f2bec829dbf25e6213a9b57b4fe04be481d7a"
+        },
+        {
+          "path": "packages/game/src/core/battle/battle-progression.ts",
+          "sha256": "d7a3c1253d4a93fd6b1ae993371b15d4cc231f389b447de5a65934f5e8dc8f27"
+        },
+        {
+          "path": "packages/game/src/core/save/v1.ts",
+          "sha256": "92d908ac942928390a6db0229b666f8291b5a8e8a97a5df07871d37054869d2b"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.test.ts",
+          "sha256": "50e69083b4380cea6c57abbc6704c780b76df06d37a1da74a63c564e3898f812"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "exp-domain-biome.stdout.raw",
+        "bytes": 43,
+        "sha256": "e2eaefaae2c39dda767dc850bf842eb86ff60fdf565a635d9f9bdc79e6d1e255"
+      },
+      "stderr": {
+        "member": "exp-domain-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "item-context-green-r2",
+      "role": "test",
+      "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/actions/item-poison-boundary.test.ts",
+        "src/core/battle/__tests__/actions.test.ts",
+        "src/core/battle/__tests__/battle-anim-integration.test.ts",
+        "src/core/__tests__/stats/e6-resync-battle-role-stats.test.ts",
+        "src/core/battle/__tests__/battle-system.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/item-context-green-r2.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T04:01:20.119Z",
+      "end": "2026-10-22T04:01:21.577Z",
+      "head": "e0b1e0439029f4cee51479f370c8272c779a7cdf",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M packages/game/src/core/battle/actions/item-poison-boundary.test.ts\n M packages/game/src/core/battle/actions/item.ts\n M packages/game/src/core/event-system.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-BATTLE-ITEM-ROLE-CONTEXT-1.md\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+          "sha256": "2f2c8fa75c958784cccb34b478f8150b28bbc2b8c2ea09b2b7f708ed69aa1974"
+        },
+        {
+          "path": "packages/game/src/core/battle/actions/item.ts",
+          "sha256": "f5605552cda050669999ea7b1f2d65eeb83b7c0c33ad5d11b2428334f695825a"
+        },
+        {
+          "path": "packages/game/src/core/event-system.ts",
+          "sha256": "486e1f091af12dd32d606b1d6a1ae43bf65b5348211187b3c6d0a61e5cba6e5a"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "item-context-green-r2.stdout.raw",
+        "bytes": 779,
+        "sha256": "b4feaa18d544b7274a388776bec9812cb4df101d7210abcf4b20d9b372f82b87"
+      },
+      "stderr": {
+        "member": "item-context-green-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "item-context-biome",
+      "role": "scoped-biome",
+      "command": "pnpm",
+      "args": [
+        "exec",
+        "biome",
+        "check",
+        "packages/game/src/core/battle/actions/item.ts",
+        "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+        "packages/game/src/core/event-system.ts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T04:03:06.933Z",
+      "end": "2026-10-22T04:03:07.248Z",
+      "head": "e0b1e0439029f4cee51479f370c8272c779a7cdf",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M packages/game/src/core/battle/actions/item-poison-boundary.test.ts\n M packages/game/src/core/battle/actions/item.ts\n M packages/game/src/core/event-system.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-BATTLE-ITEM-ROLE-CONTEXT-1.md\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+          "sha256": "2f2c8fa75c958784cccb34b478f8150b28bbc2b8c2ea09b2b7f708ed69aa1974"
+        },
+        {
+          "path": "packages/game/src/core/battle/actions/item.ts",
+          "sha256": "f5605552cda050669999ea7b1f2d65eeb83b7c0c33ad5d11b2428334f695825a"
+        },
+        {
+          "path": "packages/game/src/core/event-system.ts",
+          "sha256": "486e1f091af12dd32d606b1d6a1ae43bf65b5348211187b3c6d0a61e5cba6e5a"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "item-context-biome.stdout.raw",
+        "bytes": 43,
+        "sha256": "5e1955a47d7242aeb9191c26606f43ce55685b26c354221f27a9074730a755ba"
+      },
+      "stderr": {
+        "member": "item-context-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "exp-progression-window-check",
+      "role": "check",
+      "command": "pnpm",
+      "args": ["check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T03:40:12.354Z",
+      "end": "2026-10-22T03:55:49.173Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts\n M packages/game/src/core/battle/battle-progression.ts\n M packages/game/src/core/save/v1.ts\n M packages/game/src/tools/save-io.test.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+          "sha256": "136e3b6867ca82b1a1b53dfb233f2bec829dbf25e6213a9b57b4fe04be481d7a"
+        },
+        {
+          "path": "packages/game/src/core/battle/battle-progression.ts",
+          "sha256": "d7a3c1253d4a93fd6b1ae993371b15d4cc231f389b447de5a65934f5e8dc8f27"
+        },
+        {
+          "path": "packages/game/src/core/save/v1.ts",
+          "sha256": "92d908ac942928390a6db0229b666f8291b5a8e8a97a5df07871d37054869d2b"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.test.ts",
+          "sha256": "50e69083b4380cea6c57abbc6704c780b76df06d37a1da74a63c564e3898f812"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "exp-progression-window-check.stdout.raw",
+        "bytes": 372976,
+        "sha256": "791960a660b5c669427b9f62bc4beb6f75da17a33646115fbf4c4917b35b4501"
+      },
+      "stderr": {
+        "member": "exp-progression-window-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "final-game-check-r2",
+      "role": "game-check",
+      "command": "pnpm",
+      "args": ["--filter", "@type-pal/game", "check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T04:01:21.636Z",
+      "end": "2026-10-22T04:02:01.146Z",
+      "head": "e0b1e0439029f4cee51479f370c8272c779a7cdf",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M packages/game/src/core/battle/actions/item-poison-boundary.test.ts\n M packages/game/src/core/battle/actions/item.ts\n M packages/game/src/core/event-system.ts\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-BATTLE-ITEM-ROLE-CONTEXT-1.md\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+          "sha256": "2f2c8fa75c958784cccb34b478f8150b28bbc2b8c2ea09b2b7f708ed69aa1974"
+        },
+        {
+          "path": "packages/game/src/core/battle/actions/item.ts",
+          "sha256": "f5605552cda050669999ea7b1f2d65eeb83b7c0c33ad5d11b2428334f695825a"
+        },
+        {
+          "path": "packages/game/src/core/event-system.ts",
+          "sha256": "486e1f091af12dd32d606b1d6a1ae43bf65b5348211187b3c6d0a61e5cba6e5a"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "final-game-check-r2.stdout.raw",
+        "bytes": 34439,
+        "sha256": "2649d69a677864d7d61c2e4935fcac751c04f06301be461a85b1d5d3fe5b8949"
+      },
+      "stderr": {
+        "member": "final-game-check-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "exp-item-window-fast",
+      "role": "ratchet-protected",
+      "command": "pnpm",
+      "args": ["coverage:ratchet"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {
+        "TYPE_PAL_COVERAGE_PARALLEL_EDITOR": "1",
+        "TYPE_PAL_COVERAGE_BASE_REF": "31c9775ce90ea86112a4345cf9e8286c8a731726"
+      },
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T04:03:07.373Z",
+      "end": "2026-10-22T04:12:05.493Z",
+      "head": "a52b7dc3ac22b6d5b24fd81ce8e0e509a4102596",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-BATTLE-ITEM-ROLE-CONTEXT-1.md\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "exp-item-window-fast.stdout.raw",
+        "bytes": 203495,
+        "sha256": "cfacf9a0d8639e7394f37c8761ab83b57f63b2a23401e2c894e19a3fda5a3987"
+      },
+      "stderr": {
+        "member": "exp-item-window-fast.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "protected-same-report",
+      "role": "probe",
+      "command": "node",
+      "args": [
+        "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/prove-protected.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T04:12:57.547Z",
+      "end": "2026-10-22T04:12:57.784Z",
+      "head": "a52b7dc3ac22b6d5b24fd81ce8e0e509a4102596",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-BATTLE-ITEM-ROLE-CONTEXT-1.md\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "scripts/coverage/baseline.fast.json",
+          "sha256": "e81f2ad2337913756b2b2fba29b3bc8542509e3d74131e9690e7e3c46d932cfb"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "protected-same-report.stdout.raw",
+        "bytes": 209,
+        "sha256": "6e541a4db37da250a0abc46481cd7ef7558be699d2988f18682d7aef39bad70a"
+      },
+      "stderr": {
+        "member": "protected-same-report.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "final-docs",
+      "role": "docs-consumers",
+      "command": "node",
+      "args": [
+        "-e",
+        "const cp=require('node:child_process');for(const args of [['scripts/docs/check.mjs'],['scripts/docs/check-document-model.mjs'],['scripts/docs/check-testing.mjs'],['scripts/docs/check-phase-lore-governance.mjs'],['scripts/docs/check-content-review.mjs','--strict']])cp.execFileSync(process.execPath,args,{stdio:'inherit'})"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T04:22:57.687Z",
+      "end": "2026-10-22T04:22:59.977Z",
+      "head": "a52b7dc3ac22b6d5b24fd81ce8e0e509a4102596",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-BATTLE-ITEM-ROLE-CONTEXT-1.md\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "scripts/coverage/baseline.fast.json",
+          "sha256": "e81f2ad2337913756b2b2fba29b3bc8542509e3d74131e9690e7e3c46d932cfb"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "final-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "969a990ed356ed00744386c8191dbed1176a7e76908bef6dbe7597e76db3d18d"
+      },
+      "stderr": {
+        "member": "final-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "final-progress",
+      "role": "probe",
+      "command": "node",
+      "args": [
+        "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/check-progress.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T04:23:52.007Z",
+      "end": "2026-10-22T04:23:54.977Z",
+      "head": "a52b7dc3ac22b6d5b24fd81ce8e0e509a4102596",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-BATTLE-ITEM-ROLE-CONTEXT-1.md\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "scripts/coverage/baseline.fast.json",
+          "sha256": "e81f2ad2337913756b2b2fba29b3bc8542509e3d74131e9690e7e3c46d932cfb"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "final-progress.stdout.raw",
+        "bytes": 780037,
+        "sha256": "d7ee48e7e1605d512d94949f83373f0cfb011888ec34358b8bef812f3dcecc9d"
+      },
+      "stderr": {
+        "member": "final-progress.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "final-lint",
+      "role": "lint",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T04:24:23.258Z",
+      "end": "2026-10-22T04:24:26.120Z",
+      "head": "a52b7dc3ac22b6d5b24fd81ce8e0e509a4102596",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-BATTLE-ITEM-ROLE-CONTEXT-1.md\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "scripts/coverage/baseline.fast.json",
+          "sha256": "e81f2ad2337913756b2b2fba29b3bc8542509e3d74131e9690e7e3c46d932cfb"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "c27f4bd91c1d48da0f93050d51e294152023ccc758d35d56490dafc0150b19ae"
+      },
+      "stderr": {
+        "member": "final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "final-ledger-r2",
+      "role": "ledger",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T04:20:17.570Z",
+      "end": "2026-10-22T04:20:18.749Z",
+      "head": "a52b7dc3ac22b6d5b24fd81ce8e0e509a4102596",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-BATTLE-ITEM-ROLE-CONTEXT-1.md\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "scripts/coverage/baseline.fast.json",
+          "sha256": "e81f2ad2337913756b2b2fba29b3bc8542509e3d74131e9690e7e3c46d932cfb"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "final-ledger-r2.stdout.raw",
+        "bytes": 113,
+        "sha256": "1c6f5fddc2fcfae87c51d165cf4ad7378236b036cc3ccba1e40b8668cafdbd9f"
+      },
+      "stderr": {
+        "member": "final-ledger-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "final-diff",
+      "role": "diff",
+      "command": "git",
+      "args": ["diff", "--check", "HEAD"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "removedEnvironmentMarkers": [],
+      "reporterPolicy": "Explicit default reporter in all package test commands and official coverage runner; original Codex markers retained; no console interception",
+      "start": "2026-10-22T04:24:23.258Z",
+      "end": "2026-10-22T04:24:23.398Z",
+      "head": "a52b7dc3ac22b6d5b24fd81ce8e0e509a4102596",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "workingTree": "M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/tasks/GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/ops/tasks/index.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review-native.json.gz\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context.json\n?? docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/\n?? docs/ops/tasks/GAME-BATTLE-ITEM-ROLE-CONTEXT-1.md\n?? docs/ops/tasks/GAME-SAVE-EXPERIENCE-DOMAIN-1.md",
+      "codeChanges": [
+        {
+          "path": "scripts/coverage/baseline.fast.json",
+          "sha256": "e81f2ad2337913756b2b2fba29b3bc8542509e3d74131e9690e7e3c46d932cfb"
+        }
+      ],
+      "versions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "final-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "member": "final-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "pendingRuns": [],
+  "sourceBindings": [
+    {
+      "path": "packages/game/src/core/save/v1.ts",
+      "sha256": "92d908ac942928390a6db0229b666f8291b5a8e8a97a5df07871d37054869d2b"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.test.ts",
+      "sha256": "50e69083b4380cea6c57abbc6704c780b76df06d37a1da74a63c564e3898f812"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "d7a3c1253d4a93fd6b1ae993371b15d4cc231f389b447de5a65934f5e8dc8f27"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "sha256": "136e3b6867ca82b1a1b53dfb233f2bec829dbf25e6213a9b57b4fe04be481d7a"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+      "sha256": "0590f0197bbe19f04fa9b4a5fc0aa520d686f5d3b9f60c495d5211c7b4d2d168"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/data-misc.ts",
+      "sha256": "bae489b9c04bc8a4ec85d82419b0b08694c25dfdfdb8a9afdd389a1de5bab5f2"
+    },
+    {
+      "path": "packages/game/src/core/save/v1-shape.ts",
+      "sha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+    },
+    {
+      "path": "packages/game/src/core/save/data.ts",
+      "sha256": "3f12a4c005494bc30d3d24b963d8a342bacf888d3762f34c5a196b80d1dae1af"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "cfe38ef22a36301e06f24ddf76551eeb3c3d05c82a3cbe66cd6876dbeda14ba0"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "2ecb4527339d1199714dad76730254c02ddc7054e962e4659645d4990647aded"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "8de02e1ed153bc067feb91b6ef6b26859dc1ff77e8ffc325a71832cbad4c7cd8"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "e046f2c9fc21fb9c229c33041f47a487536b6f1a7bc1fb42644d4051e567d5a9"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item.ts",
+      "sha256": "f5605552cda050669999ea7b1f2d65eeb83b7c0c33ad5d11b2428334f695825a"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "486e1f091af12dd32d606b1d6a1ae43bf65b5348211187b3c6d0a61e5cba6e5a"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+      "sha256": "2f2c8fa75c958784cccb34b478f8150b28bbc2b8c2ea09b2b7f708ed69aa1974"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b"
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "sha256": "38ec76a9d15ce74f8eba10a911d951a30b37469b78d055a07bb95fee6a40a5c3"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017"
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "e81f2ad2337913756b2b2fba29b3bc8542509e3d74131e9690e7e3c46d932cfb"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "3e8069465c576462caee31500e412b048b0e092ef88b217447c3368b13fa56e7"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684"
+    },
+    {
+      "path": "scripts/coverage/metrics.mjs",
+      "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+    },
+    {
+      "path": "scripts/coverage/inventory.mjs",
+      "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+    }
+  ],
+  "wholeCheck": {
+    "actualInvocations": 1,
+    "actualVitestCases": 20434,
+    "packageCounts": [1498, 114, 3720, 455, 8965, 4943, 739],
+    "nodeTools": "Actual complete TAP results in raw; source unchanged",
+    "diagnostics": {
+      "reactAct": 0,
+      "actEnvironment": 0,
+      "controlledInput": 0,
+      "unimplementedOpcode": 0,
+      "warnings": 0,
+      "navigation": 0,
+      "audioUnavailable": 0,
+      "staticDiagnosticPrefix": 0,
+      "tsErrors": 0,
+      "unhandled": 0,
+      "failedTap": 0,
+      "testStderrBlocks": 0,
+      "stderrBytes": 0
+    },
+    "stdoutClassification": "normal-stdout-classification.json",
+    "laterChange": "Only3game item/dispatcher/test files,not other6packages; affected game TC/full3724 refreshed",
+    "compositeCases": 20438,
+    "proof": "scope-reuse-proof.json",
+    "limits": "No claim a second pnpm check or20438 cases in the first invocation"
+  },
+  "coverage": {
+    "actualCollections": 1,
+    "official": "pnpm coverage:ratchet with fixed TYPE_PAL_COVERAGE_BASE_REF=31c9775ce90ea86112a4345cf9e8286c8a731726",
+    "cases": 20040,
+    "sources": 758,
+    "diagnostics": {
+      "reactAct": 0,
+      "actEnvironment": 0,
+      "controlledInput": 0,
+      "unimplementedOpcode": 0,
+      "warnings": 0,
+      "navigation": 0,
+      "audioUnavailable": 0,
+      "staticDiagnosticPrefix": 0,
+      "tsErrors": 0,
+      "unhandled": 0,
+      "failedTap": 0,
+      "testStderrBlocks": 0,
+      "stderrBytes": 0
+    },
+    "strictProtected": {
+      "head": "a52b7dc3ac22b6d5b24fd81ce8e0e509a4102596",
+      "targetMain": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "officialCommand": "pnpm coverage:ratchet with protected origin/main commit; one official fast sample for the combined experience/progression/item window",
+      "testCount": 20040,
+      "sourceFileCount": 758,
+      "runnerSha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684",
+      "projectionExpressionSha256": "a3e81d5a1053fc8b2f933fb104f14d883b8d6ef9d92517bb9142f3a573153b9d",
+      "baselineBeforeSha256": "35d7d461ce028927d5350f813ba8ddde4a602432336007e4afda9262779c2042",
+      "baselineAfterSha256": "e81f2ad2337913756b2b2fba29b3bc8542509e3d74131e9690e7e3c46d932cfb",
+      "protectedBaselineSha256": "35d7d461ce028927d5350f813ba8ddde4a602432336007e4afda9262779c2042",
+      "strictAgainstFinalBaseline": {
+        "regressions": [],
+        "improvements": []
+      },
+      "strictScope": {
+        "changes": [],
+        "removals": []
+      },
+      "againstProtectedMain": {
+        "regressions": [],
+        "improvements": [
+          "game.statements",
+          "game.branches",
+          "game.functions",
+          "game.lines",
+          "total.statements",
+          "total.branches",
+          "total.functions",
+          "total.lines"
+        ]
+      },
+      "rawAgainstMain": {
+        "regressions": [],
+        "improvements": [
+          "game.statements",
+          "game.branches",
+          "game.functions",
+          "game.lines",
+          "total.statements",
+          "total.branches",
+          "total.functions",
+          "total.lines"
+        ]
+      },
+      "activeApproval": [],
+      "protectedScope": {
+        "changes": [
+          "game: fast test files +0/-0，内容变化 2（3690 -> 3696 tests）",
+          "game: fast test execution config/digest 已变化"
+        ],
+        "removals": []
+      },
+      "metrics": {
+        "statements": {
+          "covered": 71862,
+          "total": 79685
+        },
+        "branches": {
+          "covered": 52088,
+          "total": 62118
+        },
+        "functions": {
+          "covered": 13629,
+          "total": 15185
+        },
+        "lines": {
+          "covered": 64179,
+          "total": 69731
+        }
+      },
+      "limits": "Final candidate verification does not collect a second coverage sample or claim another independent protected-fast test run. Official actual report is exactly canonical final baseline; direct same-report compareCoverage/auditScope confirms strict and protected candidate checks. No baseline/rule edits by this verifier."
+    },
+    "baselineChange": "Only official8 improvements/2 test identity-scope changes; no lowering/new approval/retirement/rule/exclusion change; actual config/runner sources unchanged",
+    "limits": "Canonical final baseline and protected rechecks use the same official report; no second collection"
+  },
+  "progress": {
+    "fixedCards": 83,
+    "accepted": 59,
+    "partial": 24,
+    "pending": 0,
+    "ledger": {
+      "tracked": 3355,
+      "closed": 374,
+      "review": 112,
+      "pending": 2869
+    },
+    "acceptedCards": {
+      "restored": ["59"],
+      "new": ["3x"]
+    },
+    "closedFiles": [
+      "packages/game/src/core/save/v1.ts",
+      "packages/game/src/core/battle/battle-progression.ts",
+      "packages/game/src/core/battle/__tests__/battle-levelup.test.ts"
+    ],
+    "netNewClosedFromPublished31": 2,
+    "wholeItemStillReview": true,
+    "remaining": "3w Extra dynamic lifecycle/PhaseE timing;3r/3s wide dispatcher;RLE format and eventP3 and other24partial,not94–102"
+  },
+  "ci31": {
+    "coverage": "39715003117 success",
+    "documentation": "39715003124 success",
+    "untrimmedLogs": ["main31-log.stdout.raw", "main31-docs-log.stdout.raw"],
+    "diagnostics": "main31-ci-diagnostics.json",
+    "platform": "Each has1 GitHub Node20 action migration platform warning,disclosed separately,not silently reported0",
+    "newCandidate": "New post-push CI must be checked by actual SHA/run,not inferred from31 success"
+  },
+  "failuresDisclosed": [
+    "Initial5-path adjacent request matched3 actual files/43 cases; corrected actual6files66 run.",
+    "Local archive builder duplicate member assertion aborted without rewriting package; original and captured repeat retained,then equal-byte duplicate guard corrected. Not a product red.",
+    "Initial ledger summary still declared371/114/2870 after correctly changing live statuses; captured final-ledger-r1exit1,only own summary updated,final-ledger-r2PASS374/112/2869.",
+    "Item initial4business/transport failures and context-only1snapshot failure are distinct from my missing import ReferenceErrors andTS2552; complete originals retained.",
+    "Preliminary Python doc-edit command stopped atUnicode parser before writes; no product red credit; original tool transcript only,not invented raw."
+  ],
+  "native": {
+    "path": "gates-native.json.gz",
+    "sha256": "bf14129cfa7ca2c2b37fc334b7bc762d56338cdf8fbb043c3ee9293db36001ff",
+    "members": {
+      "baseline.after.json": {
+        "bytes": 531597,
+        "sha256": "e81f2ad2337913756b2b2fba29b3bc8542509e3d74131e9690e7e3c46d932cfb"
+      },
+      "baseline.before.json": {
+        "bytes": 531597,
+        "sha256": "35d7d461ce028927d5350f813ba8ddde4a602432336007e4afda9262779c2042"
+      },
+      "capture-ci.mjs": {
+        "bytes": 1062,
+        "sha256": "f811bd43791953e8a88d3a73debba8600454851eab643f70324574cc9e31d54b"
+      },
+      "capture-module.mjs": {
+        "bytes": 7578,
+        "sha256": "f419f7b922c9ec5bf8890bee154ec90dedcd17894104fa0083876272306d661c"
+      },
+      "capture.mjs": {
+        "bytes": 7513,
+        "sha256": "4eaacab362795a7abbd73445976ae2b985219df60c1ec5cd4bec692b13767918"
+      },
+      "check-progress.mjs": {
+        "bytes": 929,
+        "sha256": "fe242cfe0950f3a147f48ec176f10b9b63e6e377fe4677714bbc5fdbffe9da70"
+      },
+      "classify-stdout.mjs": {
+        "bytes": 2263,
+        "sha256": "e05a31be95505f715982c4409a8cf208fe063ed64250fa805b15d32e63a9c20a"
+      },
+      "data-progression-proof.execution.json": {
+        "bytes": 2550,
+        "sha256": "93e843c11dc439a09e97f55185f335065636b4e5e5e36351e874a95cacd98825"
+      },
+      "data-progression-proof.mts": {
+        "bytes": 2575,
+        "sha256": "cf5a43d014cec7e6169b7434957d88d8a5b30721d4dd59934ec176eafc990bc7"
+      },
+      "data-progression-proof.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "data-progression-proof.stdout.raw": {
+        "bytes": 815,
+        "sha256": "6c299b4206c6f7dec7f6cec7f6183dc90518e68bfa8c3ff78496b970f01ed08b"
+      },
+      "event-system.before-item.ts": {
+        "bytes": 262199,
+        "sha256": "26dbd7a749476bcf9029c3edbf06aa9f1afaa004e12016a5a646d0e25e3eb840"
+      },
+      "exp-child.mts": {
+        "bytes": 3911,
+        "sha256": "a742553f7eccb4b0ae7dfe5976f40592df84016448c9d58e856a17b9562bc804"
+      },
+      "exp-domain-adjacent.execution.json": {
+        "bytes": 2523,
+        "sha256": "ede7f860a14ca3f20dcff24c5b4c4cdb8eecdf96ef4cdaac470716e913020d49"
+      },
+      "exp-domain-adjacent.native.json": {
+        "bytes": 23289,
+        "sha256": "eb89d6fcd99ade547988d6158a079572b2ba784bf9def37d34f3c0d3c2419bb5"
+      },
+      "exp-domain-adjacent.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-domain-adjacent.stdout.raw": {
+        "bytes": 772,
+        "sha256": "8cd004a3c898142af96b313f3dc5d5fc978cd37397a5d69ea76b788da712e7d7"
+      },
+      "exp-domain-biome.execution.json": {
+        "bytes": 2681,
+        "sha256": "dd567f3fc644a518d9313374b3cb423a8dc9972630874379af173993b7505a93"
+      },
+      "exp-domain-biome.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-domain-biome.stdout.raw": {
+        "bytes": 43,
+        "sha256": "e2eaefaae2c39dda767dc850bf842eb86ff60fdf565a635d9f9bdc79e6d1e255"
+      },
+      "exp-domain-green.execution.json": {
+        "bytes": 2441,
+        "sha256": "431f41580d73036de4cf6fb9db410522034587982b75cdcb7d1639c402c21f52"
+      },
+      "exp-domain-green.native.json": {
+        "bytes": 14921,
+        "sha256": "beaf7df54e401c9f9995d127cdba0b37b30f5f93cdba83b97bacba25ac6a3297"
+      },
+      "exp-domain-green.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-domain-green.stdout.raw": {
+        "bytes": 580,
+        "sha256": "61978bb236873784c93a19ae24fe224f2c93f31c34f2a3d97925a8e07e2f9112"
+      },
+      "exp-domain-red.execution.json": {
+        "bytes": 2073,
+        "sha256": "d2eccf99a0610f2f7429c4e06ff13c8bdaa1c80b0ab2ffb719eedbed2613f074"
+      },
+      "exp-domain-red.native.json": {
+        "bytes": 18682,
+        "sha256": "aca63be111241625650b1f14e0513cfba12050b7e4bc3170f3c97739d8d026ee"
+      },
+      "exp-domain-red.stderr.raw": {
+        "bytes": 2789,
+        "sha256": "a072eb1a577245323a609fd1416f806f87c8171fcdeb577a96efd1c6c2e7608b"
+      },
+      "exp-domain-red.stdout.raw": {
+        "bytes": 2658,
+        "sha256": "5d26be02efd6935bd1062cb3bdf50f42ea62ee9c429f6124f64422012e8578a9"
+      },
+      "exp-domain-tsc.execution.json": {
+        "bytes": 1985,
+        "sha256": "bce8fabb0cc30fcbb8c51d0d7ccb3f5815dd5095156a8dcdc927bc1bf6e43d4e"
+      },
+      "exp-domain-tsc.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-domain-tsc.stdout.raw": {
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      "exp-hidden-large.execution.json": {
+        "bytes": 1042,
+        "sha256": "02031373d826c08b83f33444e54b4d148f9a85addb3346261fd2087f4c0f338e"
+      },
+      "exp-hidden-large.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-hidden-large.stdout.raw": {
+        "bytes": 297,
+        "sha256": "89c7fe1b4c5934570dce04152212d063a5b9f513d3287a9dbcfe808c769bf239"
+      },
+      "exp-hidden-word.execution.json": {
+        "bytes": 1147,
+        "sha256": "332fcc1f5d6b05ab1217bc4d1ea67b100a62a1cf627163152a928fdef54db1ad"
+      },
+      "exp-hidden-word.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-hidden-word.stdout.raw": {
+        "bytes": 377,
+        "sha256": "048b49468a47c740f25da175510d9c16b340124ef3cb1834be751c7c807eae09"
+      },
+      "exp-item-window-fast.coverage-summary.json": {
+        "bytes": 8498472,
+        "sha256": "5105e614438f4a21379c2825c06889af2a17e59e790e2cc13aade85ec7115777"
+      },
+      "exp-item-window-fast.diagnostics.json": {
+        "bytes": 81909,
+        "sha256": "29c7055d710df1a32b9e8c8a3927c5b872bae88b020a52aa87e07b0667a06bbc"
+      },
+      "exp-item-window-fast.execution.json": {
+        "bytes": 2242,
+        "sha256": "36f1b7e4f3d32d3b1b0b3d55c1b2ed9754a85c9b8915991434d453420159ea20"
+      },
+      "exp-item-window-fast.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-item-window-fast.stdout.raw": {
+        "bytes": 203495,
+        "sha256": "cfacf9a0d8639e7394f37c8761ab83b57f63b2a23401e2c894e19a3fda5a3987"
+      },
+      "exp-primary-large.execution.json": {
+        "bytes": 1046,
+        "sha256": "c1a222803314331c8e89be8c8ed2d02ad7eeea12eb249b1e0972d6ee52c0d5b5"
+      },
+      "exp-primary-large.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-primary-large.stdout.raw": {
+        "bytes": 299,
+        "sha256": "fce1b5964bd6b1fab2aa7acefe052312314af798b93816f9f18e6ddce76073c6"
+      },
+      "exp-primary-word.execution.json": {
+        "bytes": 1151,
+        "sha256": "fcd0cebbfa67b92e0c6f048cf440e87e94aa55dc5d8b66e38082a962111d6c3b"
+      },
+      "exp-primary-word.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-primary-word.stdout.raw": {
+        "bytes": 379,
+        "sha256": "39e075715e58ac6cd216c8950899575e7cdef5c2f6f34e0e3afd6416c0d9f406"
+      },
+      "exp-progression-window-check.diagnostics.json": {
+        "bytes": 84228,
+        "sha256": "f318756d045236b88f89e468bb66e8503218e87710b6b2a00d5201de0b839ad3"
+      },
+      "exp-progression-window-check.execution.json": {
+        "bytes": 2757,
+        "sha256": "50f892ffbdfa39b96209e88840a5de15e18dcb85e04fe2c5a381026dee5b42de"
+      },
+      "exp-progression-window-check.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-progression-window-check.stdout.raw": {
+        "bytes": 372976,
+        "sha256": "791960a660b5c669427b9f62bc4beb6f75da17a33646115fbf4c4917b35b4501"
+      },
+      "experience-domain-observation.json": {
+        "bytes": 6638,
+        "sha256": "174a34ae71ab30ec12de33acbaefa8af4e1b11ca5a1d172698793a9527c9e8d3"
+      },
+      "experience-observation.execution.json": {
+        "bytes": 1226,
+        "sha256": "d1595e5673095d9f6e135b2b9e150dd64f76ae314720c972bd0f2471faebce4f"
+      },
+      "experience-observation.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "experience-observation.stdout.raw": {
+        "bytes": 545,
+        "sha256": "f646263b6ab56edabb20cf5ad9e5c4ca9e4631e2c50c031433b51e2f80551824"
+      },
+      "final-diff.execution.json": {
+        "bytes": 2457,
+        "sha256": "3afdf7de26da400fcf9f5aa03efed622e76114aa4eedcdd39541b916af7fd063"
+      },
+      "final-diff.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-diff.stdout.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-docs.execution.json": {
+        "bytes": 2770,
+        "sha256": "0458e2689a890ce5e0af0e750a9f2d1493afaad47d0104ae90402de5b63a1e1a"
+      },
+      "final-docs.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-docs.stdout.raw": {
+        "bytes": 311,
+        "sha256": "969a990ed356ed00744386c8191dbed1176a7e76908bef6dbe7597e76db3d18d"
+      },
+      "final-game-check-r2.diagnostics.json": {
+        "bytes": 11757,
+        "sha256": "c07b687b18261f272af73dd4099b1a4f26e8fb014b0cb20cb13ee2911011eb41"
+      },
+      "final-game-check-r2.execution.json": {
+        "bytes": 2789,
+        "sha256": "0c6f83e235434cf96c2e4bdc1738f79a2aa7d6876a317572d4312263e4e79b97"
+      },
+      "final-game-check-r2.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-game-check-r2.stdout.raw": {
+        "bytes": 34439,
+        "sha256": "2649d69a677864d7d61c2e4935fcac751c04f06301be461a85b1d5d3fe5b8949"
+      },
+      "final-game-check.execution.json": {
+        "bytes": 2778,
+        "sha256": "cabc7a1da7dd98eb9fc2d9cb9a029e8a4f051928597a092179845cd24367feb9"
+      },
+      "final-game-check.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-game-check.stdout.raw": {
+        "bytes": 633,
+        "sha256": "443e8066f88d953899c85222c24d017417ca65d9681c83d628a611d7e4edd033"
+      },
+      "final-ledger-r1.execution.json": {
+        "bytes": 2485,
+        "sha256": "ca0a2b1bdc2057dd26684b662ea005c7b4d8796b7e79f8ffca00e214ba86e964"
+      },
+      "final-ledger-r1.stderr.raw": {
+        "bytes": 102,
+        "sha256": "34aff54d3bcc4b74f3aefe7cee42029c1f3e58da919862b53a26d17ef129daf3"
+      },
+      "final-ledger-r1.stdout.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-ledger-r2.execution.json": {
+        "bytes": 2485,
+        "sha256": "cbf604c0731323cf205940e3db05af570ebc5a1acfc8292a0c7da6e562fe033d"
+      },
+      "final-ledger-r2.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-ledger-r2.stdout.raw": {
+        "bytes": 113,
+        "sha256": "1c6f5fddc2fcfae87c51d165cf4ad7378236b036cc3ccba1e40b8668cafdbd9f"
+      },
+      "final-lint.execution.json": {
+        "bytes": 2433,
+        "sha256": "9f741bbd4dba151617207ff3d33ac5e9bce10bdb5196475b8d6e8f4ca0f25d6d"
+      },
+      "final-lint.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-lint.stdout.raw": {
+        "bytes": 193,
+        "sha256": "c27f4bd91c1d48da0f93050d51e294152023ccc758d35d56490dafc0150b19ae"
+      },
+      "final-progress-native.execution.json": {
+        "bytes": 349,
+        "sha256": "370b8b593461b205c27939a6788cdeef675f7db60a7c5690786df93fa11bc9ff"
+      },
+      "final-progress-native.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-progress-native.stdout.raw": {
+        "bytes": 780037,
+        "sha256": "d7ee48e7e1605d512d94949f83373f0cfb011888ec34358b8bef812f3dcecc9d"
+      },
+      "final-progress.execution.json": {
+        "bytes": 2557,
+        "sha256": "f15c9f44b82255db2cd2f0ec826bfdbced1fd7db214e967dc11fb3615bf009d7"
+      },
+      "final-progress.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "final-progress.stdout.raw": {
+        "bytes": 780037,
+        "sha256": "d7ee48e7e1605d512d94949f83373f0cfb011888ec34358b8bef812f3dcecc9d"
+      },
+      "finalize-docs.mjs": {
+        "bytes": 13391,
+        "sha256": "238ef2f1f9dcba3442b5162e9d0d6c636c2fb9e16a85da455e5b95b41856e3ba"
+      },
+      "garlic-role-observation.execution.json": {
+        "bytes": 2849,
+        "sha256": "f685ce0b2fae9566d6eb535600b8f4ff70092fe9f626c808c11aa5ae944e295c"
+      },
+      "garlic-role-observation.mts": {
+        "bytes": 3381,
+        "sha256": "e587e27f8979e6fe01c871c3225b3489ac5bf3c552c7f0350eb2ce3744f2dc9a"
+      },
+      "garlic-role-observation.stderr.raw": {
+        "bytes": 49,
+        "sha256": "e45ae70c65b1fcd32f9fe91ded254dbe471375a956edc87085e96e20303e7361"
+      },
+      "garlic-role-observation.stdout.raw": {
+        "bytes": 827,
+        "sha256": "b8a1eabe837651029bd1fb740ae6e67434f3dd46bad0615627501c625789d11a"
+      },
+      "item-context-biome.execution.json": {
+        "bytes": 2945,
+        "sha256": "f0f2830285b1c87bf6b0fec1edc893f8c536b01bb4e76bedf99b17f188b34bf9"
+      },
+      "item-context-biome.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "item-context-biome.stdout.raw": {
+        "bytes": 43,
+        "sha256": "5e1955a47d7242aeb9191c26606f43ce55685b26c354221f27a9074730a755ba"
+      },
+      "item-context-green-r2.execution.json": {
+        "bytes": 3336,
+        "sha256": "ecf312df89ee1e5478e60201034af2842051c79d5350ae5d76214eab45ed5099"
+      },
+      "item-context-green-r2.native.json": {
+        "bytes": 105789,
+        "sha256": "8bc2db9a0d239059c609ee82840c167ce5b497d558d3b48988da295b6375639c"
+      },
+      "item-context-green-r2.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "item-context-green-r2.stdout.raw": {
+        "bytes": 779,
+        "sha256": "b4feaa18d544b7274a388776bec9812cb4df101d7210abcf4b20d9b372f82b87"
+      },
+      "item-context-green.execution.json": {
+        "bytes": 3329,
+        "sha256": "f6e0ce0b10458b10e6302f05d3d1f931b881c4708d43404e35f7ee208f57c79c"
+      },
+      "item-context-green.native.json": {
+        "bytes": 111914,
+        "sha256": "6586c5db94fac14fe56d8657bcd52bce9c7652f8bca1a87b239619712f3ca351"
+      },
+      "item-context-green.stderr.raw": {
+        "bytes": 2904,
+        "sha256": "d1a8d3ca989b8cd6ae071321b2556aafb71146da4ba4bd2a34d2507312e45f2f"
+      },
+      "item-context-green.stdout.raw": {
+        "bytes": 17696,
+        "sha256": "6384c6bde3bc8de6749ad55546e07ca6fce4fbf7fc5912ac935e5ff78c2eb079"
+      },
+      "item-context-only.execution.json": {
+        "bytes": 2891,
+        "sha256": "57d14fad522e73fa97eae160ad3ee2506b343b2639062c14fc1811c3240799e0"
+      },
+      "item-context-only.native.json": {
+        "bytes": 5331,
+        "sha256": "a736251a1c07a730097e17ce992c86c6820f46c5f106328c60a8fbd940591007"
+      },
+      "item-context-only.stderr.raw": {
+        "bytes": 895,
+        "sha256": "f9df26b627c1301218cc11c3724cee0042d73017c59dcf1cc7a1fa20da900e76"
+      },
+      "item-context-only.stdout.raw": {
+        "bytes": 1260,
+        "sha256": "cc6a81340d266d67c97fe0b2f281fdeec49b87a865733d2054a8b7867090e2fe"
+      },
+      "item-context-proof.execution.json": {
+        "bytes": 2196,
+        "sha256": "fbb025218e257440a88bc0c296e0c2f0bce476cae4c5c74d4a9eb302d1f917f9"
+      },
+      "item-context-proof.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "item-context-proof.stdout.raw": {
+        "bytes": 2326,
+        "sha256": "b5a8923ad5e26265c2fb0a2bb1222922f549ca6ea97ce9363503e497dc4bb93f"
+      },
+      "item-context-red.execution.json": {
+        "bytes": 2679,
+        "sha256": "c5c1a27313d069b3a151b610dc93ca809773892b56684f1b6d5c90e7df076564"
+      },
+      "item-context-red.native.json": {
+        "bytes": 9925,
+        "sha256": "e0a8d78a46061bafc06c0f7126f588a7f360452af38a790cf2a1287252a217f2"
+      },
+      "item-context-red.stderr.raw": {
+        "bytes": 3112,
+        "sha256": "c6c5ee07ce07e96f9f1c4623aad4626acbc38c25a851023af569955e62f61830"
+      },
+      "item-context-red.stdout.raw": {
+        "bytes": 1256,
+        "sha256": "a501acadaa5d9f627527ef648cd7ea5b276a823ac944dff49aa2d6d924728f01"
+      },
+      "item-context-tested.ts": {
+        "bytes": 8421,
+        "sha256": "11ca24d81407786019c4193e8207abd1811857bddee20dd0286e2e9c192223b1"
+      },
+      "item.context-only.ts": {
+        "bytes": 4493,
+        "sha256": "f5605552cda050669999ea7b1f2d65eeb83b7c0c33ad5d11b2428334f695825a"
+      },
+      "local-doc-consumers.execution.json": {
+        "bytes": 3062,
+        "sha256": "e7f998965f5e04403686cf151ce66f48e56ee3b0933c80d5a828ca334b089fd0"
+      },
+      "local-doc-consumers.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "local-doc-consumers.stdout.raw": {
+        "bytes": 311,
+        "sha256": "433412138f9d046991d22c06604a2fd753c3a5b5c2eb1ac1426d42752d15196f"
+      },
+      "local-packet-r1.execution.json": {
+        "bytes": 2820,
+        "sha256": "ccc12cae13b72c73f21117eeeaed23602b6e66868e33274289378e1716f74c75"
+      },
+      "local-packet-r1.stderr.raw": {
+        "bytes": 824,
+        "sha256": "8320f404e1373181c2f855361dabf00b4407c8472e02ac41d6494a1e5610d38b"
+      },
+      "local-packet-r1.stdout.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "main31-ci-diagnostics.json": {
+        "bytes": 2290,
+        "sha256": "4adfdf86263041674519d2ae3f7bc53eae8190b0187bd8611283b5edf2055a29"
+      },
+      "main31-ci.execution.json": {
+        "bytes": 461,
+        "sha256": "1b02cf58a97bfda0f96779b80907c079feee4e854ec63ca2687984a17a4fe9f9"
+      },
+      "main31-ci.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "main31-ci.stdout.raw": {
+        "bytes": 2870,
+        "sha256": "5cfcad21b6a4f14147b92688b7d3759afa9bde56ba537967bf208fc898863595"
+      },
+      "main31-docs-log.execution.json": {
+        "bytes": 398,
+        "sha256": "a5e50425445b7e4c27b864d482a3bbeb797cad9a4f7b7a8152023c96608aebcd"
+      },
+      "main31-docs-log.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "main31-docs-log.stdout.raw": {
+        "bytes": 2248949,
+        "sha256": "4ce1c8487846c0d35fb83f39f0665a8504e03679bf14d6e6ff9e1d581df2fa7a"
+      },
+      "main31-docs.execution.json": {
+        "bytes": 463,
+        "sha256": "f7061fdd84342a45b4b0ed59706c4bacbeaa041aa3d153acd2dc339e8b7f768b"
+      },
+      "main31-docs.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "main31-docs.stdout.raw": {
+        "bytes": 2516,
+        "sha256": "c1e68e99dbb708951e68059f5384fd55e5f3702de7becc87b826efb5de84e5c5"
+      },
+      "main31-log.execution.json": {
+        "bytes": 393,
+        "sha256": "57e1ebce4d8c3178293b3795ffdd1a2436fb1117fc16519209fba5ccc6cc9d45"
+      },
+      "main31-log.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "main31-log.stdout.raw": {
+        "bytes": 684509,
+        "sha256": "e166320429a01712f08e8b5ee624bebf84b4230a194e183ded316329b4e4a6a2"
+      },
+      "metadata.cjs": {
+        "bytes": 3934,
+        "sha256": "a79abf6939076c79c420b7562bfb8c087137ec933e90acece7d64605f32b08ad"
+      },
+      "normal-stdout-classification.json": {
+        "bytes": 4325,
+        "sha256": "efd6d1b4fa626ac74c63e491604a83428c906967dd998db8c5487e615f7fd415"
+      },
+      "observe-exp-domain.mjs": {
+        "bytes": 3400,
+        "sha256": "bfbde89e62e6ffede9870f73850330b2d38c4a4fd37c82fb531e665066f97b68"
+      },
+      "pack-gates.mjs": {
+        "bytes": 5954,
+        "sha256": "9ef3d412f5400c3aa93fdbccd978fb825b2f17989671911784d7f062a366ab78"
+      },
+      "progression-before.ts": {
+        "bytes": 13109,
+        "sha256": "40d5caa83a46734d689defc26178679cac6af82b5127d8739264a7aeb626b0a4"
+      },
+      "progression-final.execution.json": {
+        "bytes": 2833,
+        "sha256": "b6c82c709fff4c826a72ba88a4176fe1a845187bf69d0ffedf231f657f87aa34"
+      },
+      "progression-final.native.json": {
+        "bytes": 7345,
+        "sha256": "ae52125041cd3ef0773421df3c4be7fee7e2b7a6e87200fd9db2d413c1d53f79"
+      },
+      "progression-final.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "progression-final.stdout.raw": {
+        "bytes": 554,
+        "sha256": "0781a30c16102b4c818d9c8ed214f5f1223b1e7bfefcba1e9d8798faae20f1ae"
+      },
+      "progression-nozero.execution.json": {
+        "bytes": 2578,
+        "sha256": "a50c7e0dae0ac25eb677d1ae12ae8a01e0470649355310eda245ec633d2ff8f1"
+      },
+      "progression-nozero.native.json": {
+        "bytes": 7345,
+        "sha256": "b45cb850af92235a4a3e8962f13c93a0ca9dfd4ee50b59129ef9ebe75926c620"
+      },
+      "progression-nozero.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "progression-nozero.stdout.raw": {
+        "bytes": 555,
+        "sha256": "c6c1431b178b6b6dfbaaf6032e60435e960d287d755aa8c1e5a6119dae6b9448"
+      },
+      "progression-refactor-final-proof.execution.json": {
+        "bytes": 2592,
+        "sha256": "7df00fe5c78b2d208f2b52eb0067055d6d30b1daacb26f575741f53ac97ba15a"
+      },
+      "progression-refactor-final-proof.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "progression-refactor-final-proof.stdout.raw": {
+        "bytes": 724,
+        "sha256": "805365986c078d4f0a968477ae6e46436f61cd988d6d989ed492d50631b20772"
+      },
+      "progression-refactor-proof.execution.json": {
+        "bytes": 2315,
+        "sha256": "9dcc022f39eeddcd60d95ed93489dfa1ef3f467fd9ff14ebd5d71403b59542ef"
+      },
+      "progression-refactor-proof.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "progression-refactor-proof.stdout.raw": {
+        "bytes": 724,
+        "sha256": "9c1be716f7d68723b47d2c8da896079c3a3b605b9a8742b4278f29e8a8160a12"
+      },
+      "protected-proof.json": {
+        "bytes": 2340,
+        "sha256": "b431c604fb7c61cf0444160a1173276e8b763b75fa3e5896c23eef6536a28bd8"
+      },
+      "protected-same-report.execution.json": {
+        "bytes": 2576,
+        "sha256": "3213a33d11e01d03d8ba0e6600ec06a9eba8f3ecc748833cc4459f35fe41622f"
+      },
+      "protected-same-report.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "protected-same-report.stdout.raw": {
+        "bytes": 209,
+        "sha256": "6e541a4db37da250a0abc46481cd7ef7558be699d2988f18682d7aef39bad70a"
+      },
+      "prove-item-context.mjs": {
+        "bytes": 4891,
+        "sha256": "e9ee70427441aca975979ea1ba9c8f686a1e6e8b07a2b7f6ae8d734124332504"
+      },
+      "prove-progression-refactor.mjs": {
+        "bytes": 1948,
+        "sha256": "3f71bb4b0f808df5ba8fc0e6f5e3386d0c8ffb6b84574faf6eef9f53bb83f21a"
+      },
+      "prove-protected.mjs": {
+        "bytes": 3730,
+        "sha256": "45c93cdaa740de2912af60e9564419d8722577a93865536c5282b22091c43b0e"
+      },
+      "prove-scope-reuse.mjs": {
+        "bytes": 1990,
+        "sha256": "43a93b94a8499e5b620adbf18fbdb0f1f559ba468f971092010223db4af9ed3d"
+      },
+      "record-ci-diagnostics.mjs": {
+        "bytes": 1455,
+        "sha256": "501f5b5f4215427b7c54a59f285ddc666db12cf4570a51ab1177c4a477ca67c8"
+      },
+      "record-garlic.mjs": {
+        "bytes": 3105,
+        "sha256": "3ee529acc19de82eb0378187d2319ef15a6e832cabad9289b08cab0b6968e254"
+      },
+      "record-local.mjs": {
+        "bytes": 11858,
+        "sha256": "e18dcd3fb7fd03e2c2e034a4965ecfeded7298e5dd286f759a84e736fa36524c"
+      },
+      "record-local.mjs.failed-copy": {
+        "bytes": 11766,
+        "sha256": "77774c19f7e9fbc77358cf8d34c6242f07954efeef8abb7c8b9a91f6e2bb9936"
+      },
+      "record-observation.mjs": {
+        "bytes": 3841,
+        "sha256": "7c9a14584f15927a055e2275d4b21dfec5f4b69910693c4ba51dbb808cab0786"
+      },
+      "record-role-review.mjs": {
+        "bytes": 11209,
+        "sha256": "38a56de332464847d26561f76b83df4d1cb9bbe69c12549665b8bf9d11ea21d1"
+      },
+      "run-data-proof.mjs": {
+        "bytes": 441,
+        "sha256": "34ac309e0ad7d98a2c515717a917fefeeb9d204e1ffb67d177700291f698cbf1"
+      },
+      "run-garlic-proof.mjs": {
+        "bytes": 442,
+        "sha256": "206a4681cf8be30532ff6ab111e69c0286066fe2dc49981500e327132b7f9eb1"
+      },
+      "save-io-tested-red.ts": {
+        "bytes": 12320,
+        "sha256": "99aa97ee19f5d2a60d80a4c274e4fdad2b07a09f65b8c2aeef709a8675371813"
+      },
+      "scan-gates.cjs": {
+        "bytes": 2105,
+        "sha256": "6f7a31a1bcf979b871091218dc94d6d01f20a00f0c51472b9438e7b690d1980f"
+      },
+      "scope-reuse-proof.json": {
+        "bytes": 1320,
+        "sha256": "bcc2104d75324ebe953c52637adf2e3210f66dee8b25feb4bec7d390457f1e7f"
+      },
+      "task-index.candidate.md": {
+        "bytes": 92543,
+        "sha256": "02365771e94b3652ef1da0f4be9e75f29c7d9e6604627f0754347600ee0f6257"
+      },
+      "update-current.mjs": {
+        "bytes": 6483,
+        "sha256": "05c050e9c641f63221680e8f5c7eb2496a51cdb9b7713c9e7c053c58f51f8fdc"
+      },
+      "update-local-docs.mjs": {
+        "bytes": 5542,
+        "sha256": "a11cdfee11de13f2b79089bb6e886131fff1db3816adf2e6e3123ce98e176a94"
+      }
+    }
+  },
+  "integration": "Push governing branch first; fetch/0behind beforeFFmain; exact publication refs recorded after,not future-CI claim"
+}

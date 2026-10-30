@@ -591,7 +591,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "c44a5230436f632c16ee53a8ba7d1ba9a73704e82ff6e6e0bfa4572acea47e1b",
+      "afterSha256": "f9741edda04c5d49e56eb1999dc766a01b064162e0459cb1563109f36d7ae1f1",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/battle-system.ts",
@@ -779,6 +779,39 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
           "afterSha256": "c44a5230436f632c16ee53a8ba7d1ba9a73704e82ff6e6e0bfa4572acea47e1b"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card bounded current erratum",
+          "previousAfterSha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+          "afterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+          "scope": "Only added explicit risk-item/per-party-slot erratum based on raw79/caller facts;prior historical body/sourceRefs/runtime/versions retained. Not a new whole-mechanics acceptance."
+        },
+        {
+          "date": "2026-10-22",
+          "action": "User-approved phase1 hidden growth boundary deviation only",
+          "previousAfterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
+          "afterSha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/review.json",
+          "scope": "Read only added current policy; historical quote/source/status/other contracts unchanged. No new runtime, E2E or visual acceptance."
+        },
+        {
+          "date": "2026-10-25",
+          "action": "User-approved extreme dex policy and positive defense boundary erratum",
+          "previousAfterSha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
+          "afterSha256": "bd6a6cafe5ebee23bebe66d7ac6ad1ded1f2b3ea254c8dd33e90e1e1b3c9806c",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/review.json",
+          "scope": "Only new dated erratum; preserved historical quote/sourceRefs and prior execution limits. No whole mechanics re-review."
+        },
+        {
+          "date": "2026-10-30",
+          "action": "S76 branch integration: preserve S75 quote, keep main dated errata outside quote; no renewed runtime or whole-mechanism acceptance",
+          "previousAfterSha256": "c44a5230436f632c16ee53a8ba7d1ba9a73704e82ff6e6e0bfa4572acea47e1b",
+          "parallelSourceRevision": "72db417255d8ca4227522420e9185ef468462aa7",
+          "parallelAfterSha256": "bd6a6cafe5ebee23bebe66d7ac6ad1ded1f2b3ea254c8dd33e90e1e1b3c9806c",
+          "afterSha256": "f9741edda04c5d49e56eb1999dc766a01b064162e0459cb1563109f36d7ae1f1"
         }
       ],
       "supersedes": [],

@@ -1,0 +1,55 @@
+{
+  "runs": [
+    {
+      "name": "mkf",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/shared",
+        "exec",
+        "vitest",
+        "run",
+        "src/pre94-mkf-counter.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-pre94-mkf-new.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "passed": 10,
+      "failed": 1,
+      "pending": 0,
+      "failure": "readChunk 边界 越界、非整数与 NaN 索引均拒绝且消息含 count",
+      "rawSha256": "37f11113b634972d0dfa6dcb7c2c559b53eab796015b1b0000a616d74253e9c4",
+      "runnerSha256": "ca9d3702af47e4197403c18d80d493071d165257a5a06cc47fc9a5a0461d21e1"
+    },
+    {
+      "name": "rng",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/shared",
+        "exec",
+        "vitest",
+        "run",
+        "src/pre94-rng-counter.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-pre94-rng-new.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "passed": 15,
+      "failed": 1,
+      "pending": 0,
+      "failure": "decodeRngFrames（合成 sub-MKF 容器链路） 非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧",
+      "rawSha256": "ea1d8bdb5356848684d9a72d54cee8e40d394e3007ab95b8eda8d0722427cb46",
+      "runnerSha256": "32508fd5fe9a44aae2bc6eb546458be4b424a887bceeac6c57d21b018674cb36"
+    }
+  ],
+  "temporaryCopiesRemoved": true
+}

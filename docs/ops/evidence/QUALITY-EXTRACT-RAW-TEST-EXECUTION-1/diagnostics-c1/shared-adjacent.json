@@ -1,0 +1,14 @@
+{
+  "name": "shared-adjacent",
+  "command": ["pnpm", "--filter", "@type-pal/shared", "run", "check"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "seconds": 2.44,
+  "rawSha256": "e7a025c270531c8156521ca698e2f95d450d67b2f79cfb701b7e61030e3969f0",
+  "diagnostics": {
+    "act": 0,
+    "environment": 0,
+    "navigation": 0,
+    "stderrBlocks": 0
+  }
+}

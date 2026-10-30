@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex(single Agent)",
+  "base": "371b00c7d2bb64b8e96a1b4a81b1a38b85dfa15b",
+  "status": "accepted specified code/engineering contract; current document statics and integration in separate gate receipt",
+  "card": "3c",
+  "scope": "Original dedicated animation-boundary test only. Not whole Workbench,runner determinism,other editors,or94–102.",
+  "files": [
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
+      "sha256": "3813f3c8c5bcdf7ec7115e24f9f060ca4d839ac8f13c8f9a1aea96c162aa015c",
+      "decision": "accept-current; old2-row restoration error is accounted separately; one test identity/no source changes",
+      "A": "Full94 lines reread. Legal repair-preview input(two real8x8 canvases,positive20/30ms,missing frame9)through actual SemanticFrameShelf; normal runtime binding rejection is not its caller. 0/20/50ms independent pixel/queue/identity oracle and live-unmount70ms covered.",
+      "B": "Only why-comment explains live timer versus already finished empty queue. Title matches fallback+finish; observed cleanup assertion is also real. No stale C-source/testing claims.",
+      "C": "One real React root owns one host; fake timeout/performance/act descriptor/spy ownership is bounded by nested finally. Component owns its timeout; source localAnimatedFrameCanvas/real resolver remain same bytes. No IO or global product state.",
+      "D": "Same JSX reused to remount same action; local frame construction is unique for this lifecycle. Main/C05/GLM tests remain byte-identical and old full-read duplicate analysis applies; no weak extra case/helper needed.",
+      "E": "One identity unchanged. Native before/after controls,three named single AssertionErrors and complete raw/runner bytes revalidated; current20434 check and20040 official each prove this exact file1pass. Green counts are supporting execution,not sole semantic acceptance.",
+      "F": "Time moves0→20→50 then remount→leave→70; names separate activePreview and drawAfterLeave. Each observation follows actual act. Literal RGBA independent of resolver and target pixel inside both drawn sprites.",
+      "G": "No dead export/parameter/test case; source pixel identity plus timer emptiness cover distinct fallback/end/active cleanup requirements. No new tests or assertion deletion.",
+      "H": "Time/random effects isolated:only controlled performance and real setTimeout/clearTimeout; no sleep/network/algorithm mock. Real canvas2D and public component make outcomes observable without exposing private timer state."
+    }
+  ],
+  "bindings": [
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
+      "oldSha256": "20f3c6e594ad9c6667e653cf7d6e6234f897407b05bc02e567fc9b2403989e8c",
+      "currentSha256": "20f3c6e594ad9c6667e653cf7d6e6234f897407b05bc02e567fc9b2403989e8c",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
+      "oldSha256": "3813f3c8c5bcdf7ec7115e24f9f060ca4d839ac8f13c8f9a1aea96c162aa015c",
+      "currentSha256": "3813f3c8c5bcdf7ec7115e24f9f060ca4d839ac8f13c8f9a1aea96c162aa015c",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
+      "oldSha256": "8ee51125f865d088d0146e8dac6e075ee5b778088ad429cd6b93be42cd5441f9",
+      "currentSha256": "8ee51125f865d088d0146e8dac6e075ee5b778088ad429cd6b93be42cd5441f9",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+      "oldSha256": "12621c986427a0e52cc327824c5f523b2517f74feef5f27b044389fdce9af76e",
+      "currentSha256": "12621c986427a0e52cc327824c5f523b2517f74feef5f27b044389fdce9af76e",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.glm-next-wave.test.tsx",
+      "oldSha256": "e32e8c3fdee44d320fc4e99e3afd0ea10edbf618b6fe9dde68e7726a05923921",
+      "currentSha256": "e32e8c3fdee44d320fc4e99e3afd0ea10edbf618b6fe9dde68e7726a05923921",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrames.tsx",
+      "oldSha256": "3e074dd41a2833a66ed027c79e425fb4c00019479d1079319a16fb39ca09762a",
+      "currentSha256": "3e074dd41a2833a66ed027c79e425fb4c00019479d1079319a16fb39ca09762a",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrames.test.tsx",
+      "oldSha256": "e2a7e7052e79904ca98f53898c887e74e96dcd00d2929347c09504e249eb28bc",
+      "currentSha256": "e2a7e7052e79904ca98f53898c887e74e96dcd00d2929347c09504e249eb28bc",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/src/ui/world-sprite-action-preview.ts",
+      "oldSha256": "fda3ac85f6663ca317324e81401b2d3b3122cbc36eb62354c02c8c9fa9215a89",
+      "currentSha256": "fda3ac85f6663ca317324e81401b2d3b3122cbc36eb62354c02c8c9fa9215a89",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/src/ui/battle-sprite-action-preview.ts",
+      "oldSha256": "7468b68dc254a13aebab5b355cccbae3a37df3c6dbebeed79d56938751725d8b",
+      "currentSha256": "7468b68dc254a13aebab5b355cccbae3a37df3c6dbebeed79d56938751725d8b",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+      "oldSha256": "162cbf465da3c9585cca3ff9068b16fcd521536a15e44c62e49063abd768c427",
+      "currentSha256": "162cbf465da3c9585cca3ff9068b16fcd521536a15e44c62e49063abd768c427",
+      "unchanged": true
+    },
+    {
+      "path": "packages/reforge/src/entity-action-player.test.ts",
+      "oldSha256": "41f5d5febabea8c8a9339cd973df6ca3e6e8c1da854b181fdea55d9ce3848ba7",
+      "currentSha256": "41f5d5febabea8c8a9339cd973df6ca3e6e8c1da854b181fdea55d9ce3848ba7",
+      "unchanged": true
+    },
+    {
+      "path": "packages/content/src/sprite.ts",
+      "oldSha256": "41a0318b2c92665a2f3082283a6bd29bd81b2fe7317945221c72a5b586dd1bfd",
+      "currentSha256": "41a0318b2c92665a2f3082283a6bd29bd81b2fe7317945221c72a5b586dd1bfd",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/vite.config.ts",
+      "oldSha256": "c6913c3db24c9b8e49d03dd036860072779f4f1b0449aced55dfe607759ffcc0",
+      "currentSha256": "c6913c3db24c9b8e49d03dd036860072779f4f1b0449aced55dfe607759ffcc0",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/package.json",
+      "oldSha256": "42163ff55b01dc9db58eb1d5d7b730ca79efe853a1cd797c7928da2243033009",
+      "currentSha256": "68bee5bb0ea285e9b8d42e100c0c81bb4fc3eb3a0933561d8ac684b0373029bb",
+      "unchanged": false
+    },
+    {
+      "path": "package.json",
+      "oldSha256": "23276788c35ae3803a7562dc1e730f5cb255742822c8446cc5790cb54fa6e7f6",
+      "currentSha256": "d03353b2c46b34fd84b6fc233160dcd3636f8e6e8f0e6378582f9aacce35df45",
+      "unchanged": false
+    },
+    {
+      "path": "scripts/coverage/environment.mjs",
+      "oldSha256": "a8d8d39731f17344c04550a8828b5b41dc16eb2b24fb4ada1db34ccbc10175d3",
+      "currentSha256": "a8d8d39731f17344c04550a8828b5b41dc16eb2b24fb4ada1db34ccbc10175d3",
+      "unchanged": true
+    },
+    {
+      "path": "packages/reforge/src/entity-action-player.ts",
+      "oldSha256": "aeb4692b99b007e1d32080cf1c531825c8084e499fd162a97606aedddbbb34c7",
+      "currentSha256": "aeb4692b99b007e1d32080cf1c531825c8084e499fd162a97606aedddbbb34c7",
+      "unchanged": true
+    },
+    {
+      "path": "packages/reforge/src/index.ts",
+      "oldSha256": "7b7cedc519b85f96841be1c68d8a1a02c0731083d5d2f8fc555292a7d74b6464",
+      "currentSha256": "7b7cedc519b85f96841be1c68d8a1a02c0731083d5d2f8fc555292a7d74b6464",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "oldSha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc",
+      "currentSha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc",
+      "unchanged": true
+    }
+  ],
+  "controls": [
+    {
+      "name": "control",
+      "rawSha256": "1afd8fe08afaec811434e53bdaf9a70ebec94ecb2bd7063844145ea8839abcf6",
+      "nativeSha256": "bbf76179d8dcbe5431ce5dcb614d5bb7b60739bd690649a5f0c2b4d096e70fc9",
+      "cases": [
+        {
+          "fullName": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "exit": 0
+    },
+    {
+      "name": "fallback",
+      "rawSha256": "dd40a4188f477961f5d3a67c56fb04fd48f86f560047250f5035af0184d54633",
+      "nativeSha256": "594644b5295e7a37a768b19e105fb84fbf7cf26c9061755b51353a350060194f",
+      "cases": [
+        {
+          "fullName": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected \"Mock\" to be called once, but got 0 times\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor/src/ui/pre94-3c-after-fallback.test.tsx:60:18\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "exit": 1
+    },
+    {
+      "name": "finish",
+      "rawSha256": "08400b68cac6b88bb16ffbc97a21830acadcf8480f701b0931cb1072f1c97f63",
+      "nativeSha256": "e74be39f8d66d40aac114b87b305f57bb3d72e998ee334ee0ff54368c1cfa3f6",
+      "cases": [
+        {
+          "fullName": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 1 to be +0 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor/src/ui/pre94-3c-after-finish.test.tsx:69:32\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "exit": 1
+    },
+    {
+      "name": "cleanup",
+      "rawSha256": "23d00ed683b62c4b4570fb0e8eff672845ecf46f38ecc14add359208a6b7a02d",
+      "nativeSha256": "a4136d43b612c5af432ea908221e1de05a7d4f87595a169a454cda4b7e93f1dc",
+      "cases": [
+        {
+          "fullName": "动态预览在缺帧步骤绘制第0帧，并在单次动作终点停止排队",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 1 to be +0 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor/src/ui/pre94-3c-after-cleanup.test.tsx:80:32\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "exit": 1
+    }
+  ],
+  "currentExecution": [
+    {
+      "name": "exp-progression-window-check.stdout.raw",
+      "sha256": "791960a660b5c669427b9f62bc4beb6f75da17a33646115fbf4c4917b35b4501",
+      "matchingLines": [" ✓ src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx (1 test) 133ms"]
+    },
+    {
+      "name": "exp-item-window-fast.stdout.raw",
+      "sha256": "cfacf9a0d8639e7394f37c8761ab83b57f63b2a23401e2c894e19a3fda5a3987",
+      "matchingLines": [" ✓ src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx (1 test) 145ms"]
+    }
+  ],
+  "reusedGate": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/gates.json",
+    "sha256": "42aa4f9a17d2049c803e4ca6218f18e01ff3630720b758c08d44fa6c3fd2b105"
+  },
+  "reusedGateArchive": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/gates-native.json.gz",
+    "sha256": "bf14129cfa7ca2c2b37fc334b7bc762d56338cdf8fbb043c3ee9293db36001ff"
+  },
+  "withdrawalProof": "closeout-native.json.gz:ledger-3c-merge-proof.json",
+  "wholeComponentDecision": "review: old single-branch closure of684-line Workbench was explicitly withdrawn in605585752. Merge89bf84e16 restored old closed row. Current full component has no new whole-file acceptance.",
+  "limits": [
+    "Historical adjacent6act remains in original README/raw; current complete editor4943 result0diagnostics is a later run and does not rewrite old raw.",
+    "No fresh Vitest/coverage collection here: identical production/test/caller bytes permit reuse.",
+    "Current runScript header-only delta has parsedTS/emittedJS identity proof; existing frozen exact-source verifier may correctly report its old raw-file pin stale. Use this bounded delta proof,not a forged old hash.",
+    "No runtime/UI/schema/content or interface change."
+  ],
+  "nativeArchive": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout-native.json.gz",
+    "sha256": "655f59b07eef748488367c768bf66b09fe806e3ef5ca400ed3cb752657ceb981"
+  },
+  "integrationEvidence": "closeout-gates.json"
+}

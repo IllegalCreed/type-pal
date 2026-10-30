@@ -1,0 +1,22 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/battle-system.glm-next-wave.test.ts",
+    "--reporter=default"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T19:25:26.299813+00:00",
+  "completedAt": "2026-10-17T19:25:27.366850+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "h01-final.raw.gz",
+  "rawBytes": 330,
+  "rawSha256": "1be87d739cd7d55e4c99c80801ea2d7f8978974f80b1a57404c52d9a67e37eca",
+  "fullUncutMergedStdoutStderr": true
+}

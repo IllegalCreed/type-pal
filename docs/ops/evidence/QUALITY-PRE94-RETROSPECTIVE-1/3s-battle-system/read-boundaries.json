@@ -1,0 +1,116 @@
+{
+  "base": "d2c5ca463",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+      "lines": 3141,
+      "boundary": "Full implementation read: startBattle, tickBattle guards/holds, phase routing, selection/action queue, animations/dialog/flee/escape, post-action poison/status, settlement boundary, exports."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+      "sha256": "fd16bfb86c5156e05888b32cfd06d92a130d6e4dbcd2f9916ae86c183a76a859",
+      "lines": 4248,
+      "boundary": "Full main lifecycle/UI oracle read: start/phase/queue, menus/targets, actions/animations/dialog, casualty/status/poison, flee/win/loss/cleanup, repeat/throw/summon/wave contracts."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.cov85.test.ts",
+      "sha256": "348bfaecc82391aee2975ca5ea1ebc2325f6b07ba3e0ac71b45bf20afd0d117b",
+      "lines": 330,
+      "boundary": "Full branch/guard/idle/phase/flee/poison/action-sticky contracts; console spy isolation repaired in this slice."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+      "sha256": "0663047d3113842d7fa4937d6c478a69ad6428c12671c843a61ace9e3a9b0fd1",
+      "lines": 122,
+      "boundary": "Full turn-start dialog-clear and terminal-result break contracts."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.test.ts",
+      "sha256": "0e6e04ef6357fca2c8bca989846f2d28514f2ca5634837814b71297dc8df57ef",
+      "lines": 75,
+      "boundary": "Full resource/live-role identity, runner override and cleanup ownership contracts."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "sha256": "49ba4da01650fa6f467d272b3a0456f7205367566c1245bca5ccf20be4d20b9b",
+      "lines": 80,
+      "boundary": "Full state restore, cleanup and post-battle resume contracts."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sha256": "8a2b8f24ecb7ee690e9edbc5419af99a6c1aae146c1e372674055b9dd4e6795a",
+      "lines": 259,
+      "boundary": "Full exp/cash, level-up/hidden-exp/magic screens, timeout, Phase E and half-heal finalization contracts."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "sha256": "d3c40c64832253f554815e2df4236b714dcfa6c11a6b2aae7a950fee05616fd2",
+      "lines": 81,
+      "boundary": "Full null enemy slot, auto-battle seed and player snapshot contracts."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+      "sha256": "c1ae5dbf2fbd93074fddde52d5f0b8980bae77d292cb311363313bf48e4203ba",
+      "lines": 464,
+      "boundary": "Full residual state-machine contracts for dex multipliers, dead queue entries, flee hold, poison, cooperative/auto sticky actions and hiding."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts",
+      "sha256": "99d054907eec2e7952f71c3bc1e628a232e3b16e51baabc82e63ae287372147f",
+      "lines": 504,
+      "boundary": "Full turn boundary contracts for finalization outcomes, action ordering, queue consumption, flee/dead-slot movement and poison delay."
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "96128a2ee924f28d49b4383e6cd521c34b9382d7f353d3b2dd21277a58cdaf15",
+      "lines": 93,
+      "boundary": "Full battle mode dispatch and same-frame lifecycle caller read."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944,
+      "boundary": "Battle start handler/resource projection caller ranges read; full file is outside this slice."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "c613002b06e83ccc6a4805c1fc0a3ace2d7107068d2305689ab3e456fe3f2c0c",
+      "lines": 67,
+      "boundary": "Full cleanup/resume owner read."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6",
+      "lines": 246,
+      "boundary": "Full settlement/Phase E/half-heal owner read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "reference/sdlpal/battle.c",
+      "ranges": ["565-682", "685-988", "991-1372", "1390-1528", "1531-1838"],
+      "boundary": "Battle scene/start/main loop, victory settlement, casualty/flee and start/cleanup primary."
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "ranges": ["740-885", "1080-1190", "1390-1710", "1770-1860"],
+      "boundary": "Casualty scripts, turn/action queue, poison/status and repeat/flee primary."
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "ranges": ["3318-3331"],
+      "boundary": "Battle start opcode and auto-battle reset primary."
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "boundary": "Battle object/status/global ownership declarations used by the reviewed ranges."
+    }
+  ],
+  "notClaimed": [
+    "Current full-repository check/coverage/ratchet/protected-fast acceptance",
+    "Battle-opcodes, formula/status/queue/RNG full-file acceptance",
+    "Save/schema/migration/generated-asset/E2E/visual acceptance",
+    "Product behavior or public-interface change"
+  ]
+}

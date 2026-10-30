@@ -1,0 +1,30 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/editor",
+    "exec",
+    "vitest",
+    "run",
+    "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-c09-final.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-15T15:18:46.586434+00:00",
+  "exit": 0,
+  "seconds": 2.62,
+  "rawBytes": 387,
+  "rawSha256": "e37e5d4abbec2e25562aecbbda3b1e9fa85bc48a6380b414a8ec8ed3bb09756c",
+  "runnerBytes": 3050,
+  "runnerSha256": "f34a8bba021440880541ad8dd9928b0aefa5d1126bc19d2fc6dc29747fe9c82f",
+  "passed": 5,
+  "failed": 0,
+  "pending": 0,
+  "unwrappedAct": 0,
+  "unsupportedActEnvironment": 0,
+  "navigation": 0
+}

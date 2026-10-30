@@ -1,0 +1,28 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/shell/pre94-boot72-approved-replay.test.ts",
+    "--maxWorkers=1",
+    "--silent=false",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/replay.runner.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "specSha256": "bdef5c47e9cbfae675579ba9f5fb9ca236031d3c681f186da5d9edde4863251e",
+  "rawSha256": "bb4aeb41ccba9fd2d98d98857986938c7e67b9492ffacf8f2ec884a42b91728c",
+  "runnerSha256": "628e31ed9532057b8dd1eafe44f8b88fb1d9fa6412b5e6cb52107d92f03ba4e2",
+  "numPassedTests": 1,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "scope": "Exact originally committed real boot/UI composition repro, no bootstrap mock and no source mutation",
+  "exactTemporarySpecRemoved": true
+}

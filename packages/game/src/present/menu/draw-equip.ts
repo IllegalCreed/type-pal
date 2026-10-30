@@ -1,16 +1,20 @@
+import { getWord } from '../../core/word-lookup.js'
+import { getLanguage } from '../../localization/language.js'
+import { layoutFont, layoutPosition, layoutShadow } from '../../localization/layout.js'
+import { englishEquipBackground } from './localized-background.js'
 /**
- * C5(2026-05-28):EquipItemMenu fullscreen UI — sdlpal `uigame.c:1793-2056` 1:1 port。
+ * Classic equipment menu: inventory list, then the selected item and party-role picker.
  *
  * 渲染层布局(sdlpal palcfg.c:307-331 默认 ScreenLayout 真值):
  *  - EquipImageBox     = (8, 8)        item 大图(BALL chunk by item.bitmap)
- *  - EquipRoleListBox  = (2, 95)       4 player names list box
+ *  - EquipRoleListBox  = (2, 95)       current party names
  *  - EquipItemName     = (5, 70)       item 名(MENUITEM_COLOR_CONFIRMED 0x2C)
  *  - EquipItemAmount   = (51, 57)      数量(cyan,2 位 right)
  *  - EquipLabels[6]    = (92, 11+22i)  6 装备槽 label("头" "肩" "身" "手" "脚" "颈")
  *  - EquipNames[6]     = (130, 11+22i) 6 装备槽现装备名(MENUITEM_COLOR 0x4F)
  *  - EquipStatusLabels[5] = (226, 10+22i) 5 stat label(Atk/Mag/Def/Dex/Flee)
  *  - EquipStatusValues[5] = (260, 14+22i) 5 stat 数字 cyan(装备后预览)
- *  - 4 player names    每 18px 起 (15, 13) inside RoleListBox,4-case color
+ *  - Party names       每 18px 起 (15, 13) inside RoleListBox,4-case color
  *
  * 4-case color rule(sdlpal uigame.c:1929-1953):
  *   selected + equipable     → MENUITEM_COLOR_SELECTED_FIRST + tick/100%6(闪烁)
@@ -20,8 +24,8 @@
  *
  * 见 [packages/game/src/core/menu/equip-menu.ts](../../core/menu/equip-menu.ts) state machine。
  *
- * phase='list' UI(sdlpal `PAL_ItemSelectMenu(equipable)`)简版复用 SelectionMenu list；
- * 完整 grid 与 InventoryMenu 共享，留 follow-up（M6 grid statemachine 抽 primitive）。
+ * phase='list' 渲染直接复用 drawInventoryMenu(完整 grid)—— sdlpal 真值装备物品选择
+ * 就是同一个 PAL_ItemSelectMenu,仅 filter 不同(见下方 drawEquipList)。
  */
 
 import type { Item, PlayerRoles } from '@type-pal/shared'
@@ -35,35 +39,30 @@ import {
 } from '../../core/equip-effect.js'
 import type { GameState } from '../../core/game-state.js'
 import type { EquipMenuState } from '../../core/menu/equip-menu.js'
+import {
+  MENUITEM_COLOR,
+  MENUITEM_COLOR_INACTIVE,
+  MENUITEM_COLOR_SELECTED_INACTIVE,
+  selectedMenuItemColor,
+} from '../../core/menu/menu-colors.js'
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import { drawBattleBg } from '../battle/draw-battle-bg.js'
+import { blitSpriteOpaque } from '../blit-indexed-sprite.js'
 import { drawNumber } from '../draw-number.js'
-import { type GlyphTable, renderText } from '../font.js'
+import { type GlyphTable, palWordWidth, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawBox } from './draw-box.js'
 import { drawInventoryMenu } from './draw-inventory.js'
 
-// ── sdlpal ui.h 真值色 ─────────────────────────────────────────────────────
-const MENUITEM_COLOR = 0x4f
-const MENUITEM_COLOR_INACTIVE = 0x18
-const MENUITEM_COLOR_SELECTED_INACTIVE = 0x1c
 const MENUITEM_COLOR_CONFIRMED = 0x2c
-const MENUITEM_COLOR_SELECTED_FIRST = 0xf9
-const MENUITEM_COLOR_SELECTED_TOTAL = 6
-
-function selectedColor(): number {
-  return (
-    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
-  )
-}
 
 // ── sdlpal palcfg.c:307-331 默认 ScreenLayout 真值 ──────────────────────────
-const EQUIP_IMAGE_BOX = { x: 8, y: 8 }
-const EQUIP_ROLE_LIST_BOX = { x: 2, y: 95 }
-const EQUIP_ITEM_NAME = { x: 5, y: 70 }
-const EQUIP_ITEM_AMOUNT = { x: 51, y: 57 }
+const DEFAULT_EQUIP_IMAGE_BOX = { x: 8, y: 8 }
+const DEFAULT_EQUIP_ROLE_LIST_BOX = { x: 2, y: 95 }
+const DEFAULT_EQUIP_ITEM_NAME = { x: 5, y: 70 }
+const DEFAULT_EQUIP_ITEM_AMOUNT = { x: 51, y: 57 }
 // 装备名渲染位置(6 槽)。槽位 label(头戴/肩.../武术 等)在 classic 烤进 FBP 背景图,ts 不画。
-const EQUIP_NAMES = [
+const DEFAULT_EQUIP_NAMES = [
   { x: 130, y: 11 },
   { x: 130, y: 33 },
   { x: 130, y: 55 },
@@ -72,25 +71,13 @@ const EQUIP_NAMES = [
   { x: 130, y: 121 },
 ] as const
 // 5 stat 数字渲染位置(stat label 同样在 FBP 背景图,ts 只画数字值)。
-const EQUIP_STATUS_VALUES = [
+const DEFAULT_EQUIP_STATUS_VALUES = [
   { x: 260, y: 14 },
   { x: 260, y: 36 },
   { x: 260, y: 58 },
   { x: 260, y: 80 },
   { x: 260, y: 102 },
 ] as const
-
-// ── sprite blit(opaque mask)── 复用 draw-inventory 模式
-function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
-  for (let y = 0; y < frame.height; y++) {
-    for (let x = 0; x < frame.width; x++) {
-      const off = y * frame.width + x
-      if (frame.opaque[off]! > 0) {
-        fb.writePixel(dstX + x, dstY + y, frame.indices[off]!)
-      }
-    }
-  }
-}
 
 export interface DrawEquipMenuInput {
   fb: Framebuffer
@@ -125,7 +112,7 @@ function drawEquipList(input: DrawEquipMenuInput): void {
 }
 
 /**
- * phase='pick-role' 渲染 — sdlpal uigame.c:1793-2056 完整 1:1 port。
+ * Selected equipment and party-role picker; state changes remain in the menu driver.
  */
 function drawEquipPickRole(input: DrawEquipMenuInput): void {
   const { fb, state, gs, playerRoles, items, uiSpriteFrames, glyphs, equipBg, itemIcons } = input
@@ -134,8 +121,42 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
   const item = items.find((x) => x.id === wItem)
   if (!item) return
 
+  const EQUIP_IMAGE_BOX = layoutPosition(1, DEFAULT_EQUIP_IMAGE_BOX)
+  const EQUIP_ROLE_LIST_BOX = layoutPosition(2, DEFAULT_EQUIP_ROLE_LIST_BOX)
+  const EQUIP_ITEM_NAME = layoutPosition(3, DEFAULT_EQUIP_ITEM_NAME)
+  const EQUIP_ITEM_AMOUNT = layoutPosition(4, DEFAULT_EQUIP_ITEM_AMOUNT)
+  const EQUIP_NAMES = DEFAULT_EQUIP_NAMES.map((p, i) => layoutPosition(11 + i, p))
+  const EQUIP_STATUS_VALUES = DEFAULT_EQUIP_STATUS_VALUES.map((p, i) => layoutPosition(22 + i, p))
+
   // 1. FBP chunk 1 全屏背景(sdlpal uigame.c:1822-1864)
-  if (equipBg) drawBattleBg(fb, equipBg)
+  if (equipBg) drawBattleBg(fb, getLanguage() === 'en' ? englishEquipBackground(equipBg) : equipBg)
+
+  if (getLanguage() === 'en') {
+    for (let i = 0; i < 6; i++) {
+      const p = layoutPosition(5 + i, { x: 180, y: 11 + i * 30 })
+      renderText(
+        fb,
+        getWord(600 + i),
+        p.x,
+        p.y,
+        MENUITEM_COLOR,
+        layoutFont(5 + i, glyphs),
+        layoutShadow(5 + i),
+      )
+    }
+    for (let i = 0; i < 5; i++) {
+      const p = layoutPosition(17 + i, { x: 110, y: 19 + i * 22 })
+      renderText(
+        fb,
+        getWord(51 + i),
+        p.x,
+        p.y,
+        MENUITEM_COLOR,
+        layoutFont(17 + i, glyphs),
+        layoutShadow(17 + i),
+      )
+    }
+  }
 
   // 2. item icon at EquipImageBox+(8,8)(sdlpal uigame.c:1869-1873)
   if (itemIcons) {
@@ -156,7 +177,7 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
       const namePos = EQUIP_NAMES[slot]!
       renderText(
         fb,
-        eqItem?._name ?? `?${eqItemId}`,
+        getWord(eqItemId, eqItem?._name ?? `?${eqItemId}`),
         namePos.x,
         namePos.y,
         MENUITEM_COLOR,
@@ -214,17 +235,19 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
     uiSpriteFrames,
   )
 
-  // 5. role list box(sdlpal uigame.c:1920)+ 4 player names with 4-case color
+  // PAL_EquipItemMenu uses wMaxPartyMemberIndex rows: one party member needs zero content rows.
   //    box pos = EquipRoleListBox = (2, 95);PAL_WordMaxWidth(36, 4) - 1 列宽
   drawBox({
     fb,
     x: EQUIP_ROLE_LIST_BOX.x,
     y: EQUIP_ROLE_LIST_BOX.y,
-    // sdlpal uigame.c:1920 真值:nColumns = PAL_WordMaxWidth(36, 4) - 1。
-    // 角色名 36-39(李逍遥/赵灵儿/林月如/阿奴)最宽 3 全角字 → (3*16+8)>>4 = 3 → 3-1 = 2。
-    // 之前写死 4 → 框过宽,右边框盖住装备槽文字(user 2026-05-28 发现)。
-    rows: Math.max(1, state.partyMembers.length - 1),
-    cols: 2,
+    // SDLPal uigame.c:1920 sizes WORD 36..39 with PAL_WordMaxWidth - 1.
+    // English uses half-width glyphs: the current seven-letter maximum needs 3 columns.
+    rows: state.partyMembers.length - 1,
+    cols:
+      getLanguage() === 'en'
+        ? Math.max(1, ...[36, 37, 38, 39].map((id) => palWordWidth(getWord(id)) - 1))
+        : 2,
     style: 0,
     uiSpriteFrames,
   })
@@ -237,14 +260,14 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
     const isSelected = i === state.playerCursor
     let color: number
     if (isSelected) {
-      color = canEquip ? selectedColor() : MENUITEM_COLOR_SELECTED_INACTIVE
+      color = canEquip ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR_SELECTED_INACTIVE
     } else {
       color = canEquip ? MENUITEM_COLOR : MENUITEM_COLOR_INACTIVE
     }
     // sdlpal uigame.c:1952-1953 真值:PAL_XY_OFFSET(EquipRoleListBox, 13, 13+18*i),fShadow=TRUE
     renderText(
       fb,
-      role._name ?? `role#${roleId}`,
+      getWord(role.name, role._name ?? `role#${roleId}`),
       EQUIP_ROLE_LIST_BOX.x + 13,
       EQUIP_ROLE_LIST_BOX.y + 13 + 18 * i,
       color,
@@ -257,7 +280,7 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
   if (wItem !== 0) {
     renderText(
       fb,
-      item._name ?? `?${wItem}`,
+      getWord(wItem, item._name ?? `?${wItem}`),
       EQUIP_ITEM_NAME.x,
       EQUIP_ITEM_NAME.y,
       MENUITEM_COLOR_CONFIRMED,

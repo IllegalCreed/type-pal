@@ -1,0 +1,111 @@
+{
+  "scope": "19 actual tests; no coverage/count-based acceptance",
+  "caseContracts": [
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "250ms轮询",
+      "oracleAndDedupe": "actual fake-clock 249+1 boundary and closed/no-battle DOM identity; distinct from populated-battle value changes"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "setup",
+      "oracleAndDedupe": "real root hidden, launcher/style/tab composition; explicit structural claim only"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "反引号 toggle",
+      "oracleAndDedupe": "actual window KeyboardEvent changes the mounted root hidden flag in both directions"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "面板内 Backquote",
+      "oracleAndDedupe": "bubbling event dispatched on tab reaches window; public focus/propagation regression distinct from direct window dispatch"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "关闭与切 tab",
+      "oracleAndDedupe": "actual user path selects battle active class then closes; not a timer polling substitute"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "幂等 setup",
+      "oracleAndDedupe": "two public installs leave one actual root; each created controller remains host-owned"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "场景",
+      "oracleAndDedupe": "complete fresh GameState, explicit scene1/party512,256; assertions certify scene number/coordinates, not map-name runtime navigation"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "快捷键文案",
+      "oracleAndDedupe": "literal sections/caps and context-specific W/F descriptions; only rendered copy, not independent scene/battle input truth"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "对话分组/搜索",
+      "oracleAndDedupe": "typed dialog history in actual insertion order; fixed map-name/order/text oracle and input-event filtering"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "音频组成",
+      "oracleAndDedupe": "three distinct labels; leaves actual volume setter delegation to the dedicated input case"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "音源失败/重试",
+      "oracleAndDedupe": "real MusicSourceController with first rix ready rejection then success; status/retry/storage DOM oracle; host afterEach disposal survives assertion failures"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "视频音量委托",
+      "oracleAndDedupe": "actual range40 input => injected controller.setVolume(0.4)"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "主静音往返",
+      "oracleAndDedupe": "stateful mute controller; three outputs true then false, not a constant always-false mock"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "主静音初值",
+      "oracleAndDedupe": "explicit initially-muted input; verifies initial label before any click, separate from click transitions"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "计时器结构",
+      "oracleAndDedupe": "3 toggles/21 inputs/21 jump options only; does not certify parse/change/persistence handler"
+    },
+    {
+      "file": "tools-panel.test.ts",
+      "axis": "敌人收集值/签名",
+      "oracleAndDedupe": "typed resources + hydrate + createBattleState; collect7/0 exact chips; HP alone77 => named enemy HP77/100; then turn alone1 => second-turn text; unchanged DOM identity"
+    },
+    {
+      "file": "tools-panel.glm-phase1-leaves.test.ts",
+      "axis": "缩放委托",
+      "oracleAndDedupe": "actual range0.75 input => literal316 percent and injected setter argument; no fullscreen/browser mock"
+    },
+    {
+      "file": "tools-panel.glm-phase1-leaves.test.ts",
+      "axis": "全屏委托",
+      "oracleAndDedupe": "click => injected toggleFullscreen exactly once; split from unrelated FPS contract"
+    },
+    {
+      "file": "tools-panel.glm-phase1-leaves.test.ts",
+      "axis": "FPS持久化",
+      "oracleAndDedupe": "initial off then actual checkbox change on/off => storage1/0; no real rAF sampling claim"
+    }
+  ],
+  "isolation": [
+    "call-through window registrations removed with exact type/callback/options after each case",
+    "fake timer/rAF queue cleared and real timers restored",
+    "all music controllers disposed, including overrides and idempotent unused dependencies",
+    "speedrun singleton and FPS sampling reset; DOM/style removed; preferences saved/cleared/restored"
+  ],
+  "fixtureLimits": [
+    "synthetic but typed role/enemy values; not raw game-data accuracy",
+    "default initial state has empty party and resources; battle explicitly seeds both roles and runtime",
+    "reused stats helper read as fixture source, not newly closed as a whole file"
+  ]
+}

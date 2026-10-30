@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "base": "976bb7aae9858f448de521152b43c4fa1f1d0fa4",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/battle/battle-system.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "62b7ee836d775e2c4d3c507446c4ca7d44b3c64e662abb69c25ed70f6a8a3bc8",
+        "current": "62b7ee836d775e2c4d3c507446c4ca7d44b3c64e662abb69c25ed70f6a8a3bc8"
+      },
+      "printedBytes": {
+        "base": 83333,
+        "current": 83333
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

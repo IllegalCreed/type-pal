@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "authority": "Explicit user2026-10-26 finite retirement approvals; standing least-strong-test instruction",
+  "protectedBase": "0e14c184eed91841ee0f48323b98c98b734a3129",
+  "changes": [
+    {
+      "file": "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts",
+      "previous": 16,
+      "current": 15,
+      "previousIdentityDigest": "fa35f09edc8a7c4eed46f61204faf8f6d027004ffc9a50c5d51957367f3ca3be",
+      "currentIdentityDigest": "3891ac1cd63e163a4ad2d00e5252529df678d763e79c34118d8ea5ec6b6cb504",
+      "fileSha256": "229c6433140e78fcb7df5a9e8a4e576698ff7cae3909011316f19718db2d9790",
+      "previousEntry": {
+        "file": "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts",
+        "testCount": 16,
+        "identityDigest": "fa35f09edc8a7c4eed46f61204faf8f6d027004ffc9a50c5d51957367f3ca3be"
+      },
+      "identities": [
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseBdf：位图行非法 hex 回退 0，合法行保真",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseItems：截断精确拒绝（报实测与所需字节数）",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseMap：非 65536 字节精确拒绝",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseSpells：无 words 时不填 _name 注释",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseStores / parseBattleFields：尺寸不整除精确拒绝",
+        "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts :: project root :: KIMI-R1 pal-extract 散落守卫 > parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取"
+      ]
+    },
+    {
+      "file": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+      "previous": 4,
+      "current": 3,
+      "previousIdentityDigest": "e4c4d3dcb8cc086f2825b866b2e8fe9c9177d3abfaf60278710b2a08d82cbc66",
+      "currentIdentityDigest": "6fd045f04a02606659fcd8ee87364fad16b5ab4ea38c82f9ad98c14f362a10d9",
+      "fileSha256": "c02fe8adea672225ac43017baa84d1b0039a23e762d6b24487455890e11acc80",
+      "previousEntry": {
+        "file": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+        "testCount": 4,
+        "identityDigest": "e4c4d3dcb8cc086f2825b866b2e8fe9c9177d3abfaf60278710b2a08d82cbc66"
+      },
+      "identities": [
+        "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts :: project root :: R04 encodeIndexedPng 真解码像素合同 > 带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index",
+        "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts :: project root :: R04 encodeIndexedPng 真解码像素合同 > 缺省 mask：全像素 alpha 255",
+        "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts :: project root :: R04 framesToOut 多帧 > 3 帧容器：index 0/1/2、逐帧尺寸与真解码像素"
+      ]
+    },
+    {
+      "file": "packages/game/src/core/command-bus.test.ts",
+      "previous": 6,
+      "current": 3,
+      "previousIdentityDigest": "736f547d102e1581733d3aadae0328e7ce3d33d9f66d3383a97936a27601a7fe",
+      "currentIdentityDigest": "39245a5a74e429f89967f93523a8027a6762c7d39cdd9d6e3afa867ddf3b4fb2",
+      "fileSha256": "b495592913a8458f125aa6025ee23074959d5b78f0d5325be345acea61989178",
+      "previousEntry": {
+        "file": "packages/game/src/core/command-bus.test.ts",
+        "testCount": 6,
+        "identityDigest": "736f547d102e1581733d3aadae0328e7ce3d33d9f66d3383a97936a27601a7fe"
+      },
+      "identities": [
+        "packages/game/src/core/command-bus.test.ts :: project root :: CommandBus > drain 后 bus 清空",
+        "packages/game/src/core/command-bus.test.ts :: project root :: CommandBus > emit + drain 顺序",
+        "packages/game/src/core/command-bus.test.ts :: project root :: CommandBus > 不同 bus 实例独立持有队列"
+      ]
+    }
+  ],
+  "limits": "Fast net reductions 5 are exact file snapshots; sprite.test.ts 3->1 is outside official fast selection; sprite four removed identities in sprite-retirement.json. Bus old6 -> new3 = four protocol-only removals plus one new isolation case; not seven deleted business contracts. Old bus9->6 authorization retained in Git history.",
+  "receipts": ["freeze-identities-game-r2.json", "freeze-identities-pal-extract-r2.json"]
+}

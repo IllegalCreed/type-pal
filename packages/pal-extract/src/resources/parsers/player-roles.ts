@@ -39,7 +39,7 @@ import { PLAYER_ROLES_NUM } from './_utils.js'
 //                  rgwCriticalSound* / rgwMagicSound*
 //   [PLAYERS × 2]  rgwCoverSound / rgwDyingSound
 //
-// * = signed 语义(同 Enemy D28 + 5 个 sound;sdlpal 内部 SHORT cast)。
+// * = 当前提取器按 signed i16 读取；角色基础属性不等同于敌人的等级 stat modifier。
 //
 // 实测 sizeof(PLAYERROLES):
 //   32 PLAYERS × (6 × 2)   = 384
@@ -62,7 +62,7 @@ const PLAYER_ROLES_BYTES =
   PLAYER_MAGICS * PLAYER_FIELD_SIZE // = 900
 
 /**
- * 从 DATA.MKF chunk 3 解析角色组(PLAYERROLES,M2 半解扩到 M3 战斗子集)。
+ * 从 DATA.MKF chunk 3 按 SoA 布局解析角色组(PLAYERROLES)。
  *
  * 对照 sdlpal `global.h::tagPLAYERROLES`(SoA 布局,sizeof = 900 B),
  * 由 sdlpal `global.c LOAD_DATA(... fpDATA 3)` 加载为一整条 PLAYERROLES 记录。
@@ -70,24 +70,25 @@ const PLAYER_ROLES_BYTES =
  * **数据布局 SoA**(非 AoS):每个 PLAYERS 字段是 6 个 u16 一行(同字段连续),
  * 然后下一个字段又一行。`readPlayers(offset, signed)` 在固定 cursor 处提取一个
  * NUM_ROLES 长的数组。3 个 2D 矩阵(equipment / elemRes / magic)占
- * `N × MAX_PLAYER_ROLES × 2` 字节,本函数仅消费 elemRes(战斗用),其他跳过。
+ * `N × MAX_PLAYER_ROLES × 2` 字节,依序读出装备、抗性与已学法术。
  *
- * **M3 dump 字段子集**(对照 PlayerRole interface):
- * - 战斗 stats / 显示 / 抗性 / 5 个 sound / walkFrames / attackAll
- * - **跳过**:equipment / magic learned / coveredBy / cooperativeMagic /
- *   6 个 sdlpal FIXME unknown / coverSound / dyingSound(留 M5)
+ * **dump 范围(M4 起全字段)**:
+ * 战斗 stats / 显示 / 抗性 / 5 个 sound / walkFrames / attackAll 之外,
+ * equipment / magic learned / coveredBy / cooperativeMagic / 6 个 sdlpal FIXME
+ * unknown / coverSound / dyingSound 全部按真值顺序 dump(下方 cursor 走完全部
+ * 字段并以 sizeof 校验收尾);可选字段仅为兼容旧 fixture,不再是"留 M5"。
  *
  * **leader spriteNum=2 实证**:M2 实施过程发现 #5,parser 实测 6 个 spriteNum =
  * `[2, 3, 7, 525, 5, 26]`(测试断言)。T9 删 cli.ts 里的 `PARTY_LEADER_SPRITE=2`
  * 硬编码后接此 dump。
  *
  * **signed 字段**:`attackStrength / magicStrength / defense / dexterity` 与
- * 5 个 sound 字段(`attackSound / weaponSound / criticalSound / magicSound /
- * deathSound`)按 SHORT 处理,与 Enemy D28 一致。
+ * 7 个 sound 字段(含 coverSound / dyingSound)在本 parser 中按 SHORT 读取。
  *
  * @param dataMkfBytes DATA.MKF 整个 .MKF 字节(本函数内部 openMkf + readChunk 3)
  * @param words        可选;parseWordDat 解出的名称表,用于反向填 `_name`
- *                     (从 `words.persons[i]` 取角色名)
+ *                     (按 rgwName[i] - PERSONS_WORD_OFFSET 索引 words.persons,
+ *                     不按角色序号顺取;缺词时省略 _name)
  */
 export function parsePlayerRoles(dataMkfBytes: Uint8Array, words?: Words): PlayerRoles {
   const mkf = openMkf(dataMkfBytes)
@@ -108,7 +109,7 @@ export function parsePlayerRoles(dataMkfBytes: Uint8Array, words?: Words): Playe
     return arr
   }
 
-  // **按 sdlpal `tagPLAYERROLES` 真字段顺序** cursor(M4 全字段 dump,2025 verified):
+  // 按 sdlpal `tagPLAYERROLES` 字段顺序推进 cursor,含三组二维表。
   let cursor = 0
   const avatar = readPlayers(cursor)
   cursor += PLAYER_FIELD_SIZE

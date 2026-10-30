@@ -1,0 +1,1144 @@
+{
+  "numTotalTestSuites": 22,
+  "numPassedTestSuites": 22,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 110,
+  "numPassedTests": 110,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792337017949,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["System A 对角移动 sanity(4 方向 dx/dy 都非零)"],
+          "fullName": "System A 对角移动 sanity(4 方向 dx/dy 都非零) press Right → facing=right, dx=16, dy=8(对角非 cardinal)",
+          "status": "passed",
+          "title": "press Right → facing=right, dx=16, dy=8(对角非 cardinal)",
+          "duration": 2.00162499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["System A 对角移动 sanity(4 方向 dx/dy 都非零)"],
+          "fullName": "System A 对角移动 sanity(4 方向 dx/dy 都非零) press Left → facing=left, dx=-16, dy=-8(对角非 cardinal)",
+          "status": "passed",
+          "title": "press Left → facing=left, dx=-16, dy=-8(对角非 cardinal)",
+          "duration": 0.7584169999998949,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["System A 对角移动 sanity(4 方向 dx/dy 都非零)"],
+          "fullName": "System A 对角移动 sanity(4 方向 dx/dy 都非零) press Down → facing=down, dx=-16, dy=8(对角非 cardinal)",
+          "status": "passed",
+          "title": "press Down → facing=down, dx=-16, dy=8(对角非 cardinal)",
+          "duration": 0.6092499999999745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["System A 对角移动 sanity(4 方向 dx/dy 都非零)"],
+          "fullName": "System A 对角移动 sanity(4 方向 dx/dy 都非零) press Up → facing=up, dx=16, dy=-8(对角非 cardinal)",
+          "status": "passed",
+          "title": "press Up → facing=up, dx=16, dy=-8(对角非 cardinal)",
+          "duration": 0.6787919999999303,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem 走路"],
+          "fullName": "SceneSystem 走路 按住 Right → party.x + 16 / party.y + 8, facing=right (East 右下)",
+          "status": "passed",
+          "title": "按住 Right → party.x + 16 / party.y + 8, facing=right (East 右下)",
+          "duration": 0.12279200000000401,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem 走路"],
+          "fullName": "SceneSystem 走路 走路:清 pose(partyScriptedFrame)但**保留** role0 sprite override(端酒菜持久)",
+          "status": "passed",
+          "title": "走路:清 pose(partyScriptedFrame)但**保留** role0 sprite override(端酒菜持久)",
+          "duration": 0.11916700000006131,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem 走路"],
+          "fullName": "SceneSystem 走路 按住 Up → party.x + 16 / party.y - 8, facing=up (North 右上)",
+          "status": "passed",
+          "title": "按住 Up → party.x + 16 / party.y - 8, facing=up (North 右上)",
+          "duration": 0.1570000000000391,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem 走路"],
+          "fullName": "SceneSystem 走路 M5:队首在左上边缘带边界(col5/row7),按 Left 被 fCheckRange 下边界挡",
+          "status": "passed",
+          "title": "M5:队首在左上边缘带边界(col5/row7),按 Left 被 fCheckRange 下边界挡",
+          "duration": 0.15229099999999107,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem 走路"],
+          "fullName": "SceneSystem 走路 相机边界 clamp:party 越界仍 clamp 到 tilemap max pixel(System A:tile 32×16)",
+          "status": "passed",
+          "title": "相机边界 clamp:party 越界仍 clamp 到 tilemap max pixel(System A:tile 32×16)",
+          "duration": 0.5364160000000311,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem 走路"],
+          "fullName": "SceneSystem 走路 NPC 阻挡走路:面前像素有 NPC + held=Right,party 不动",
+          "status": "passed",
+          "title": "NPC 阻挡走路:面前像素有 NPC + held=Right,party 不动",
+          "duration": 0.14887499999997544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem 走路"],
+          "fullName": "SceneSystem 走路 M5:fCheckRange=true 挡 col<5 / row<7 边缘带",
+          "status": "passed",
+          "title": "M5:fCheckRange=true 挡 col<5 / row<7 边缘带",
+          "duration": 0.14012500000001182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem 走路"],
+          "fullName": "SceneSystem 走路 M5:fCheckRange=false(怪物追击/默认)不挡边缘带",
+          "status": "passed",
+          "title": "M5:fCheckRange=false(怪物追击/默认)不挡边缘带",
+          "duration": 0.06483300000002146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pickFacing 走 last-press priority(sdlpal input.c:180-189)"],
+          "fullName": "pickFacing 走 last-press priority(sdlpal input.c:180-189) held = [Up, Down](Down 后按)→ facing = down",
+          "status": "passed",
+          "title": "held = [Up, Down](Down 后按)→ facing = down",
+          "duration": 0.07125000000007731,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pickFacing 走 last-press priority(sdlpal input.c:180-189)"],
+          "fullName": "pickFacing 走 last-press priority(sdlpal input.c:180-189) held = [Right, Up, Left](Left 后按)→ facing = left",
+          "status": "passed",
+          "title": "held = [Right, Up, Left](Left 后按)→ facing = left",
+          "duration": 0.060207999999988715,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pickFacing 走 last-press priority(sdlpal input.c:180-189)"],
+          "fullName": "pickFacing 走 last-press priority(sdlpal input.c:180-189) held = [Confirm, Down](Down 在末尾)→ facing = down(忽略非方向键)",
+          "status": "passed",
+          "title": "held = [Confirm, Down](Down 在末尾)→ facing = down(忽略非方向键)",
+          "duration": 0.05620899999996709,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pickFacing 走 last-press priority(sdlpal input.c:180-189)"],
+          "fullName": "pickFacing 走 last-press priority(sdlpal input.c:180-189) held = [Up, Confirm](Confirm 在末尾但非方向)→ facing = up(反向找方向键)",
+          "status": "passed",
+          "title": "held = [Up, Confirm](Confirm 在末尾但非方向)→ facing = up(反向找方向键)",
+          "duration": 0.054832999999916865,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pickFacing 走 last-press priority(sdlpal input.c:180-189)"],
+          "fullName": "pickFacing 走 last-press priority(sdlpal input.c:180-189) held = [](无键)→ facing 不变,party 不动",
+          "status": "passed",
+          "title": "held = [](无键)→ facing 不变,party 不动",
+          "duration": 0.06816700000001674,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["PAL_StartFrame input order(play.c:534-566)"],
+          "fullName": "PAL_StartFrame input order(play.c:534-566) 方向键 + Menu 同帧 → 先移动再开菜单",
+          "status": "passed",
+          "title": "方向键 + Menu 同帧 → 先移动再开菜单",
+          "duration": 0.16408400000000256,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["大世界快捷键直达子菜单(sdlpal play.c:558-584)"],
+          "fullName": "大世界快捷键直达子菜单(sdlpal play.c:558-584) 按 UseItem → 开 inventory 子菜单 + mode=menu",
+          "status": "passed",
+          "title": "按 UseItem → 开 inventory 子菜单 + mode=menu",
+          "duration": 0.31074999999998454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["大世界快捷键直达子菜单(sdlpal play.c:558-584)"],
+          "fullName": "大世界快捷键直达子菜单(sdlpal play.c:558-584) 按 ThrowItem → 开 equip 子菜单 + mode=menu",
+          "status": "passed",
+          "title": "按 ThrowItem → 开 equip 子菜单 + mode=menu",
+          "duration": 0.07520799999997507,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["大世界快捷键直达子菜单(sdlpal play.c:558-584)"],
+          "fullName": "大世界快捷键直达子菜单(sdlpal play.c:558-584) 按 Force → 开 in-game-magic 子菜单 + mode=menu",
+          "status": "passed",
+          "title": "按 Force → 开 in-game-magic 子菜单 + mode=menu",
+          "duration": 0.2717079999999896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["大世界快捷键直达子菜单(sdlpal play.c:558-584)"],
+          "fullName": "大世界快捷键直达子菜单(sdlpal play.c:558-584) 按 Status → 开 player-status 子菜单 + mode=menu",
+          "status": "passed",
+          "title": "按 Status → 开 player-status 子菜单 + mode=menu",
+          "duration": 0.06654200000002675,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["大世界快捷键直达子菜单(sdlpal play.c:558-584)"],
+          "fullName": "大世界快捷键直达子菜单(sdlpal play.c:558-584) Menu 优先于快捷键(同帧 Menu+UseItem → in-game hub,对齐 play.c else-if 链)",
+          "status": "passed",
+          "title": "Menu 优先于快捷键(同帧 Menu+UseItem → in-game hub,对齐 play.c else-if 链)",
+          "duration": 0.06283399999995254,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem NPC 触发"],
+          "fullName": "SceneSystem NPC 触发 面前像素无 NPC + Confirm → 不切 mode",
+          "status": "passed",
+          "title": "面前像素无 NPC + Confirm → 不切 mode",
+          "duration": 0.1319579999999405,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem NPC 触发"],
+          "fullName": "SceneSystem NPC 触发 面前像素有 NPC + Confirm → mode=event + eventCursor 装载",
+          "status": "passed",
+          "title": "面前像素有 NPC + Confirm → mode=event + eventCursor 装载",
+          "duration": 0.17316699999992125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem NPC 触发"],
+          "fullName": "SceneSystem NPC 触发 方向性 NPC 被触发时面向 party,并重置站立帧(sdlpal nSpriteFrames>0)",
+          "status": "passed",
+          "title": "方向性 NPC 被触发时面向 party,并重置站立帧(sdlpal nSpriteFrames>0)",
+          "duration": 0.13345800000001873,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem NPC 触发"],
+          "fullName": "SceneSystem NPC 触发 非方向性箱子被再次调查时不重置已打开帧(水月宫苗刀箱回归)",
+          "status": "passed",
+          "title": "非方向性箱子被再次调查时不重置已打开帧(水月宫苗刀箱回归)",
+          "duration": 0.10891700000001947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem NPC 触发"],
+          "fullName": "SceneSystem NPC 触发 面前像素 NPC 无 triggerLabel + Confirm → 不切 mode",
+          "status": "passed",
+          "title": "面前像素 NPC 无 triggerLabel + Confirm → 不切 mode",
+          "duration": 0.06683399999997164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem NPC 触发"],
+          "fullName": "SceneSystem NPC 触发 triggerLabel 存在但不在 labelMap → warn + 不切 mode",
+          "status": "passed",
+          "title": "triggerLabel 存在但不在 labelMap → warn + 不切 mode",
+          "duration": 1.0890000000000555,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem NPC 触发"],
+          "fullName": "SceneSystem NPC 触发 P2#5:triggerLabel 经全局 labelMap 解析 → 切 event,eventCursor.ip = 全局 ip",
+          "status": "passed",
+          "title": "P2#5:triggerLabel 经全局 labelMap 解析 → 切 event,eventCursor.ip = 全局 ip",
+          "duration": 0.1169999999999618,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneSystem NPC 触发"],
+          "fullName": "SceneSystem NPC 触发 P2#5:全局 labelMap 唯一决定 triggerLabel → ip(ctx.labelMap 不再参与解析)",
+          "status": "passed",
+          "title": "P2#5:全局 labelMap 唯一决定 triggerLabel → ip(ctx.labelMap 不再参与解析)",
+          "duration": 0.08187499999996817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["明雷机制(M3.5 T11 / D32)"],
+          "fullName": "明雷机制(M3.5 T11 / D32) party 在 contact 像素(triggerMode=5)→ 自动切 event mode + ip 装载",
+          "status": "passed",
+          "title": "party 在 contact 像素(triggerMode=5)→ 自动切 event mode + ip 装载",
+          "duration": 0.08637499999997544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["明雷机制(M3.5 T11 / D32)"],
+          "fullName": "明雷机制(M3.5 T11 / D32) party 在 triggerMode=0 装饰像素 → 不触发(保持 explore)",
+          "status": "passed",
+          "title": "party 在 triggerMode=0 装饰像素 → 不触发(保持 explore)",
+          "duration": 0.06737500000008367,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["明雷机制(M3.5 T11 / D32)"],
+          "fullName": "明雷机制(M3.5 T11 / D32) party 在 triggerMode=2 Confirm-search 像素 → 不自动触发(保持 explore,等 Confirm)",
+          "status": "passed",
+          "title": "party 在 triggerMode=2 Confirm-search 像素 → 不自动触发(保持 explore,等 Confirm)",
+          "duration": 0.06166699999994307,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["明雷机制 反例 / edge case(M3.5 T12)"],
+          "fullName": "明雷机制 反例 / edge case(M3.5 T12) party 同像素 NPC 无 triggerLabel(triggerMode=5)→ 不切 mode + eventCursor undefined",
+          "status": "passed",
+          "title": "party 同像素 NPC 无 triggerLabel(triggerMode=5)→ 不切 mode + eventCursor undefined",
+          "duration": 0.06637499999999363,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["明雷机制 反例 / edge case(M3.5 T12)"],
+          "fullName": "明雷机制 反例 / edge case(M3.5 T12) party 同像素 NPC triggerLabel 不在 labelMap(triggerMode=5)→ warn + 不切 mode",
+          "status": "passed",
+          "title": "party 同像素 NPC triggerLabel 不在 labelMap(triggerMode=5)→ warn + 不切 mode",
+          "duration": 0.15475000000003547,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["明雷机制 反例 / edge case(M3.5 T12)"],
+          "fullName": "明雷机制 反例 / edge case(M3.5 T12) triggerMode=3 边界(Confirm-search 段最大值)→ 不自动触发(< CONTACT_MIN)",
+          "status": "passed",
+          "title": "triggerMode=3 边界(Confirm-search 段最大值)→ 不自动触发(< CONTACT_MIN)",
+          "duration": 0.06708400000002257,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["明雷机制 反例 / edge case(M3.5 T12)"],
+          "fullName": "明雷机制 反例 / edge case(M3.5 T12) triggerMode=4 边界(contact 段最小值)→ 自动触发(=== CONTACT_MIN)",
+          "status": "passed",
+          "title": "triggerMode=4 边界(contact 段最小值)→ 自动触发(=== CONTACT_MIN)",
+          "duration": 0.11070900000004258,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)"],
+          "fullName": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) sVanishTime > 0 → 递减 + 不触发 trigger",
+          "status": "passed",
+          "title": "sVanishTime > 0 → 递减 + 不触发 trigger",
+          "duration": 0.07858299999998053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)"],
+          "fullName": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) sVanishTime < 0 → 递增 + 不触发",
+          "status": "passed",
+          "title": "sVanishTime < 0 → 递增 + 不触发",
+          "duration": 0.0695419999999558,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)"],
+          "fullName": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) sState < 0 + viewport 外 → 复活 + scriptedFrame 0",
+          "status": "passed",
+          "title": "sState < 0 + viewport 外 → 复活 + scriptedFrame 0",
+          "duration": 0.10912500000006276,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)"],
+          "fullName": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) 触发 trigger zone → NPC 转向面对 party",
+          "status": "passed",
+          "title": "触发 trigger zone → NPC 转向面对 party",
+          "duration": 0.0907079999999496,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)"],
+          "fullName": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) PAL_StartFrame 顺序:本帧走进 trigger zone 后下一帧才触发",
+          "status": "passed",
+          "title": "PAL_StartFrame 顺序:本帧走进 trigger zone 后下一帧才触发",
+          "duration": 0.2779170000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)"],
+          "fullName": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) 阻挡 NPC 压到 party anchor → 按 NPC 朝向下一方向推离一格(play.c:197-228)",
+          "status": "passed",
+          "title": "阻挡 NPC 压到 party anchor → 按 NPC 朝向下一方向推离一格(play.c:197-228)",
+          "duration": 0.2695410000000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)"],
+          "fullName": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) autoScript 先移动 blocker,NPC 压到 party 后同帧 push party(play.c:169-228)",
+          "status": "passed",
+          "title": "autoScript 先移动 blocker,NPC 压到 party 后同帧 push party(play.c:169-228)",
+          "duration": 0.9360000000000355,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)"],
+          "fullName": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) 压到 party anchor 但 sState<2 或 spriteNum=0 → 不推离",
+          "status": "passed",
+          "title": "压到 party anchor 但 sState<2 或 spriteNum=0 → 不推离",
+          "duration": 0.2028330000000551,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166)"],
+          "fullName": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) 推离首选方向被挡 → 按 SDLPal 四向顺序尝试下一方向",
+          "status": "passed",
+          "title": "推离首选方向被挡 → 按 SDLPal 四向顺序尝试下一方向",
+          "duration": 0.19762500000001637,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T8 PAL_Search 视觉效果(play.c:468-490)"],
+          "fullName": "M5.6 T8 PAL_Search 视觉效果(play.c:468-490) Confirm 触发 SearchNear NPC → NPC 朝 party 反方向 + scriptedFrame 0",
+          "status": "passed",
+          "title": "Confirm 触发 SearchNear NPC → NPC 朝 party 反方向 + scriptedFrame 0",
+          "duration": 0.11879199999998491,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T8 PAL_Search 视觉效果(play.c:468-490)"],
+          "fullName": "M5.6 T8 PAL_Search 视觉效果(play.c:468-490) Confirm 触发 → party 全员 partyScriptedFrame[i] = partyDirNum * 3",
+          "status": "passed",
+          "title": "Confirm 触发 → party 全员 partyScriptedFrame[i] = partyDirNum * 3",
+          "duration": 0.0885000000000673,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e contact 菱形距离触发(sdlpal scene.c:624)"],
+          "fullName": "P0.e contact 菱形距离触发(sdlpal scene.c:624) 严格相等:party 与 NPC 同像素 → 触发(legacy 兼容)",
+          "status": "passed",
+          "title": "严格相等:party 与 NPC 同像素 → 触发(legacy 兼容)",
+          "duration": 1.2797499999999218,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e contact 菱形距离触发(sdlpal scene.c:624)"],
+          "fullName": "P0.e contact 菱形距离触发(sdlpal scene.c:624) M5.6 W1.b:triggerMode 4 — 距离 = 16 边界不触发(< 16 = false)",
+          "status": "passed",
+          "title": "M5.6 W1.b:triggerMode 4 — 距离 = 16 边界不触发(< 16 = false)",
+          "duration": 0.538167000000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e contact 菱形距离触发(sdlpal scene.c:624)"],
+          "fullName": "P0.e contact 菱形距离触发(sdlpal scene.c:624) M5.6 W1.b:triggerMode 5 — 距离 = 32 < 48,触发(原简版误判)",
+          "status": "passed",
+          "title": "M5.6 W1.b:triggerMode 5 — 距离 = 32 < 48,触发(原简版误判)",
+          "duration": 0.4699999999999136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e contact 菱形距离触发(sdlpal scene.c:624)"],
+          "fullName": "P0.e contact 菱形距离触发(sdlpal scene.c:624) party 在 NPC 旁 (+8, 0) → 距离 = 8 < 16,触发",
+          "status": "passed",
+          "title": "party 在 NPC 旁 (+8, 0) → 距离 = 8 < 16,触发",
+          "duration": 0.4940000000000282,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e contact 菱形距离触发(sdlpal scene.c:624)"],
+          "fullName": "P0.e contact 菱形距离触发(sdlpal scene.c:624) party 在 NPC 旁 (0, +4) → 距离 = 0 + 8 = 8 < 16,触发",
+          "status": "passed",
+          "title": "party 在 NPC 旁 (0, +4) → 距离 = 0 + 8 = 8 < 16,触发",
+          "duration": 0.4825420000000804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e contact 菱形距离触发(sdlpal scene.c:624)"],
+          "fullName": "P0.e contact 菱形距离触发(sdlpal scene.c:624) triggerMode < 4 不触发即使距离 < 16(只阻挡 NPC,不是 contact 怪)",
+          "status": "passed",
+          "title": "triggerMode < 4 不触发即使距离 < 16(只阻挡 NPC,不是 contact 怪)",
+          "duration": 0.4867910000000393,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e contact 菱形距离触发(sdlpal scene.c:624)"],
+          "fullName": "P0.e contact 菱形距离触发(sdlpal scene.c:624) triggerMode=4 边界 + 距离 8 → 触发(契合 CONTACT_MIN 与新距离判)",
+          "status": "passed",
+          "title": "triggerMode=4 边界 + 距离 8 → 触发(契合 CONTACT_MIN 与新距离判)",
+          "duration": 0.5137090000000626,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "loadScene × nSpriteFramesAuto 回填(sdlpal res.c:295-298,血池冒泡/血柱动画根因)"
+          ],
+          "fullName": "loadScene × nSpriteFramesAuto 回填(sdlpal res.c:295-298,血池冒泡/血柱动画根因) 装载时按精灵总帧数回填 nSpriteFramesAuto;无 sprite(spriteNum=0)不回填",
+          "status": "passed",
+          "title": "装载时按精灵总帧数回填 nSpriteFramesAuto;无 sprite(spriteNum=0)不回填",
+          "duration": 0.34587500000009186,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "loadScene × nSpriteFramesAuto 回填(sdlpal res.c:295-298,血池冒泡/血柱动画根因)"
+          ],
+          "fullName": "loadScene × nSpriteFramesAuto 回填(sdlpal res.c:295-298,血池冒泡/血柱动画根因) 重复装载覆盖旧值(C 每次 kLoadScene 重新回填)",
+          "status": "passed",
+          "title": "重复装载覆盖旧值(C 每次 kLoadScene 重新回填)",
+          "duration": 0.10887500000001182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadScene(M3.5 T9 / D33)"],
+          "fullName": "loadScene(M3.5 T9 / D33) 切到新 scene → gs.npcs 由 eventObjects 重置;party 不传则不动",
+          "status": "passed",
+          "title": "切到新 scene → gs.npcs 由 eventObjects 重置;party 不传则不动",
+          "duration": 0.7861250000000837,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadScene(M3.5 T9 / D33)"],
+          "fullName": "loadScene(M3.5 T9 / D33) 有 allEventObjects 时按 wNumScene 切全局引用,重进 scene 保留 sState/位置/vanishTime",
+          "status": "passed",
+          "title": "有 allEventObjects 时按 wNumScene 切全局引用,重进 scene 保留 sState/位置/vanishTime",
+          "duration": 0.1455829999999878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadScene(M3.5 T9 / D33)"],
+          "fullName": "loadScene(M3.5 T9 / D33) 传 partyStart → party 位置 / facing 重写;camera 跟到 party",
+          "status": "passed",
+          "title": "传 partyStart → party 位置 / facing 重写;camera 跟到 party",
+          "duration": 0.08799999999996544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadScene(M3.5 T9 / D33)"],
+          "fullName": "loadScene(M3.5 T9 / D33) partyStart 不传 facing → 沿用当前 facing(只挪坐标)",
+          "status": "passed",
+          "title": "partyStart 不传 facing → 沿用当前 facing(只挪坐标)",
+          "duration": 0.07487500000002001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadScene(M3.5 T9 / D33)"],
+          "fullName": "loadScene(M3.5 T9 / D33) loadScene 清 gameOverActive + deathHoldActive(死亡演出退出 → 新场景恢复正常渲染)",
+          "status": "passed",
+          "title": "loadScene 清 gameOverActive + deathHoldActive(死亡演出退出 → 新场景恢复正常渲染)",
+          "duration": 0.06983300000001691,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadScene(M3.5 T9 / D33)"],
+          "fullName": "loadScene(M3.5 T9 / D33) SceneAssetsCache lazy hit:第二次切回同 scene,fetcher 不再调",
+          "status": "passed",
+          "title": "SceneAssetsCache lazy hit:第二次切回同 scene,fetcher 不再调",
+          "duration": 0.1755000000000564,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P2#5 trigger 经全局 labelMap 解析(原 P3.T1)"],
+          "fullName": "P2#5 trigger 经全局 labelMap 解析(原 P3.T1) contact NPC triggerLabel 经全局 labelMap 解析 → 切 event(loadScene 用 _ctx singleton)",
+          "status": "passed",
+          "title": "contact NPC triggerLabel 经全局 labelMap 解析 → 切 event(loadScene 用 _ctx singleton)",
+          "duration": 0.1312919999999167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P2#5 trigger 经全局 labelMap 解析(原 P3.T1)"],
+          "fullName": "P2#5 trigger 经全局 labelMap 解析(原 P3.T1) 全局 label 跨 scene 解析:任意 scene 下同一 triggerLabel 都能切 event(反 per-scene gating)",
+          "status": "passed",
+          "title": "全局 label 跨 scene 解析:任意 scene 下同一 triggerLabel 都能切 event(反 per-scene gating)",
+          "duration": 0.13933400000007623,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift)"],
+          "fullName": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) 初始 trail 为空",
+          "status": "passed",
+          "title": "初始 trail 为空",
+          "duration": 0.04462499999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift)"],
+          "fullName": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) 成功移动一步 → trail unshift 移动前 leader pos(长度 1)",
+          "status": "passed",
+          "title": "成功移动一步 → trail unshift 移动前 leader pos(长度 1)",
+          "duration": 0.22254100000009203,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift)"],
+          "fullName": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) 连续移动两步 → trail[0] 是上一步前 leader pos,trail[1] 是更早的",
+          "status": "passed",
+          "title": "连续移动两步 → trail[0] 是上一步前 leader pos,trail[1] 是更早的",
+          "duration": 0.15833299999997053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift)"],
+          "fullName": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) trail 长度上限 5(移动 7 步后仍为 5 项)",
+          "status": "passed",
+          "title": "trail 长度上限 5(移动 7 步后仍为 5 项)",
+          "duration": 0.1402500000000373,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift)"],
+          "fullName": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) trail[0] 始终是上一步移动前的 leader pos(最新)",
+          "status": "passed",
+          "title": "trail[0] 始终是上一步移动前的 leader pos(最新)",
+          "duration": 0.21358300000008512,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift)"],
+          "fullName": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) 撞墙不动 → trail 不变(不 unshift)",
+          "status": "passed",
+          "title": "撞墙不动 → trail 不变(不 unshift)",
+          "duration": 0.09929200000010496,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift)"],
+          "fullName": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) idle(无方向键)→ trail 不变",
+          "status": "passed",
+          "title": "idle(无方向键)→ trail 不变",
+          "duration": 0.14250000000004093,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift)"],
+          "fullName": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) 方向变化时,trail 记录各自方向",
+          "status": "passed",
+          "title": "方向变化时,trail 记录各自方向",
+          "duration": 0.11258299999997234,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.a 菱形 isometric 碰撞"],
+          "fullName": "P0.a 菱形 isometric 碰撞 目标像素 /32 /16 取 tile col/row(无残差 → h=0)",
+          "status": "passed",
+          "title": "目标像素 /32 /16 取 tile col/row(无残差 → h=0)",
+          "duration": 0.05104100000005474,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.a 菱形 isometric 碰撞"],
+          "fullName": "P0.a 菱形 isometric 碰撞 残差进 h=1 分支(32-xr+yr*2 ∈ [16,48))",
+          "status": "passed",
+          "title": "残差进 h=1 分支(32-xr+yr*2 ∈ [16,48))",
+          "duration": 0.04466700000000401,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.a 菱形 isometric 碰撞"],
+          "fullName": "P0.a 菱形 isometric 碰撞 残差 xr+yr*2 ≥ 48 → col++,row++ (右下角)",
+          "status": "passed",
+          "title": "残差 xr+yr*2 ≥ 48 → col++,row++ (右下角)",
+          "duration": 0.030750000000011823,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.a 菱形 isometric 碰撞"],
+          "fullName": "P0.a 菱形 isometric 碰撞 残差 32-xr+yr*2 < 16 → col++ (右侧边)",
+          "status": "passed",
+          "title": "残差 32-xr+yr*2 < 16 → col++ (右侧边)",
+          "duration": 0.0282919999999649,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.a 菱形 isometric 碰撞"],
+          "fullName": "P0.a 菱形 isometric 碰撞 残差 32-xr+yr*2 ≥ 48 → row++ (下侧边)",
+          "status": "passed",
+          "title": "残差 32-xr+yr*2 ≥ 48 → row++ (下侧边)",
+          "duration": 0.07208399999990434,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.a 菱形 isometric 碰撞"],
+          "fullName": "P0.a 菱形 isometric 碰撞 越界坐标(col 或 row 超出 tilemap)→ false",
+          "status": "passed",
+          "title": "越界坐标(col 或 row 超出 tilemap)→ false",
+          "duration": 0.04004199999997127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.a 菱形 isometric 碰撞"],
+          "fullName": "P0.a 菱形 isometric 碰撞 NPC 在目标像素菱形范围内(距离 < 16)→ 阻挡",
+          "status": "passed",
+          "title": "NPC 在目标像素菱形范围内(距离 < 16)→ 阻挡",
+          "duration": 0.05570799999998144,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.a 菱形 isometric 碰撞"],
+          "fullName": "P0.a 菱形 isometric 碰撞 selfNpcId 跳过自身 NPC",
+          "status": "passed",
+          "title": "selfNpcId 跳过自身 NPC",
+          "duration": 0.04591600000003382,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.a 菱形 isometric 碰撞"],
+          "fullName": "P0.a 菱形 isometric 碰撞 contact monster(triggerMode=5)不阻挡走路",
+          "status": "passed",
+          "title": "contact monster(triggerMode=5)不阻挡走路",
+          "duration": 0.0633340000000544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.a 菱形 isometric 碰撞"],
+          "fullName": "P0.a 菱形 isometric 碰撞 tickSceneSystem:party 往阻挡 tile 走 → 不动",
+          "status": "passed",
+          "title": "tickSceneSystem:party 往阻挡 tile 走 → 不动",
+          "duration": 0.0749590000000353,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)"],
+          "fullName": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) 初始状态:walking=false, stepFrame=0",
+          "status": "passed",
+          "title": "初始状态:walking=false, stepFrame=0",
+          "duration": 0.0498330000000351,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)"],
+          "fullName": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) 按住方向键 → walking=true,stepFrame 0→1→2→3→0 循环",
+          "status": "passed",
+          "title": "按住方向键 → walking=true,stepFrame 0→1→2→3→0 循环",
+          "duration": 0.16383299999995415,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)"],
+          "fullName": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) 停按方向键 → walking=false,party.facing 不变",
+          "status": "passed",
+          "title": "停按方向键 → walking=false,party.facing 不变",
+          "duration": 0.13091700000006767,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)"],
+          "fullName": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) 撞墙(阻挡 tile)→ walking=false,facing 已转,stepFrame 走站立复位(L5/L30)",
+          "status": "passed",
+          "title": "撞墙(阻挡 tile)→ walking=false,facing 已转,stepFrame 走站立复位(L5/L30)",
+          "duration": 0.07987499999990177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)"],
+          "fullName": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) NPC 阻挡 → walking=false,facing 转,stepFrame 走站立复位(L5/L30)",
+          "status": "passed",
+          "title": "NPC 阻挡 → walking=false,facing 转,stepFrame 走站立复位(L5/L30)",
+          "duration": 0.07583299999998871,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)"],
+          "fullName": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) L5/L30:idle → walking=false,stepFrame 站立复位 &=2;^=2(scene.c:773-774)",
+          "status": "passed",
+          "title": "L5/L30:idle → walking=false,stepFrame 站立复位 &=2;^=2(scene.c:773-774)",
+          "duration": 0.1382499999999709,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures)"],
+          "fullName": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) contact NPC(triggerMode >= 4)不阻挡走路 → walking=true",
+          "status": "passed",
+          "title": "contact NPC(triggerMode >= 4)不阻挡走路 → walking=true",
+          "duration": 0.4188329999999496,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e wScriptOnEnter 真跑"],
+          "fullName": "P0.e wScriptOnEnter 真跑 loadScene 不传 partyStart → 跑 wScriptOnEnter,setPartyPos 把 party 放到指定位",
+          "status": "passed",
+          "title": "loadScene 不传 partyStart → 跑 wScriptOnEnter,setPartyPos 把 party 放到指定位",
+          "duration": 0.18895900000006804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e wScriptOnEnter 真跑"],
+          "fullName": "P0.e wScriptOnEnter 真跑 setPartyPos 坐标: col=41, row=18, h=0 → x=1312, y=288 (scene 1 真实值)",
+          "status": "passed",
+          "title": "setPartyPos 坐标: col=41, row=18, h=0 → x=1312, y=288 (scene 1 真实值)",
+          "duration": 0.08558300000004238,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e wScriptOnEnter 真跑"],
+          "fullName": "P0.e wScriptOnEnter 真跑 setPartyPos h=1 → 加 16/8 半 tile 偏移",
+          "status": "passed",
+          "title": "setPartyPos h=1 → 加 16/8 半 tile 偏移",
+          "duration": 0.07520899999997255,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e wScriptOnEnter 真跑"],
+          "fullName": "P0.e wScriptOnEnter 真跑 setPartyDirection opcode → gs.party.facing 转换(dir=2→up)",
+          "status": "passed",
+          "title": "setPartyDirection opcode → gs.party.facing 转换(dir=2→up)",
+          "duration": 0.07008399999995163,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e wScriptOnEnter 真跑"],
+          "fullName": "P0.e wScriptOnEnter 真跑 setPartyDirection 4 方向映射: 0=down, 1=left, 2=up, 3=right",
+          "status": "passed",
+          "title": "setPartyDirection 4 方向映射: 0=down, 1=left, 2=up, 3=right",
+          "duration": 0.8257919999999785,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e wScriptOnEnter 真跑"],
+          "fullName": "P0.e wScriptOnEnter 真跑 loadScene 传显式 partyStart → override enter script(dev panel manual)",
+          "status": "passed",
+          "title": "loadScene 传显式 partyStart → override enter script(dev panel manual)",
+          "duration": 0.08804199999997309,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e wScriptOnEnter 真跑"],
+          "fullName": "P0.e wScriptOnEnter 真跑 未 dump wScriptOnEnter / 空 onEnterLabel → party 留在原坐标(不报错)",
+          "status": "passed",
+          "title": "未 dump wScriptOnEnter / 空 onEnterLabel → party 留在原坐标(不报错)",
+          "duration": 0.06791699999996581,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e wScriptOnEnter 真跑"],
+          "fullName": "P0.e wScriptOnEnter 真跑 onEnterLabel 在 labelMap 中找不到 → party 留原位(不报错)",
+          "status": "passed",
+          "title": "onEnterLabel 在 labelMap 中找不到 → party 留原位(不报错)",
+          "duration": 0.060083000000076936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e wScriptOnEnter 真跑"],
+          "fullName": "P0.e wScriptOnEnter 真跑 setCamera opcode 真生效 → camera 跟 party",
+          "status": "passed",
+          "title": "setCamera opcode 真生效 → camera 跟 party",
+          "duration": 0.07583399999998619,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e wScriptOnEnter 真跑"],
+          "fullName": "P0.e wScriptOnEnter 真跑 centerCameraOnParty opcode(0,0 变体)→ camera = party - partyoffset",
+          "status": "passed",
+          "title": "centerCameraOnParty opcode(0,0 变体)→ camera = party - partyoffset",
+          "duration": 0.0684999999999718,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e wScriptOnEnter 真跑"],
+          "fullName": "P0.e wScriptOnEnter 真跑 playMusic opcode 写 gs.wNumMusic(shell audio 轮询播放)",
+          "status": "passed",
+          "title": "playMusic opcode 写 gs.wNumMusic(shell audio 轮询播放)",
+          "duration": 0.06204200000001947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e wScriptOnEnter 真跑"],
+          "fullName": "P0.e wScriptOnEnter 真跑 setSceneObjectState opcode 不报错(no-op, M5+ field)",
+          "status": "passed",
+          "title": "setSceneObjectState opcode 不报错(no-op, M5+ field)",
+          "duration": 0.3735420000000431,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.e wScriptOnEnter 真跑"],
+          "fullName": "P0.e wScriptOnEnter 真跑 enter script 含 showDialog → skip(不阻塞,party 位置已设)",
+          "status": "passed",
+          "title": "enter script 含 showDialog → skip(不阻塞,party 位置已设)",
+          "duration": 0.12049999999999272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回归)"],
+          "fullName": "TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回归) 按住方向键 + 连按 Confirm:有限帧内逃出 TouchFar 半径,不死锁",
+          "status": "passed",
+          "title": "按住方向键 + 连按 Confirm:有限帧内逃出 TouchFar 半径,不死锁",
+          "duration": 2.405917000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回归)"],
+          "fullName": "TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回归) 脚本 'end' 切回 explore 的首帧:移动先于触发扫描(sdlpal 同帧 UpdateParty 语义)",
+          "status": "passed",
+          "title": "脚本 'end' 切回 explore 的首帧:移动先于触发扫描(sdlpal 同帧 UpdateParty 语义)",
+          "duration": 0.5914169999999785,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DH5:blocker 阻挡只看 sState,无 triggerMode 豁免(scene.c:619-628)"],
+          "fullName": "DH5:blocker 阻挡只看 sState,无 triggerMode 豁免(scene.c:619-628) sState>=2 且 triggerMode=5(门卫类)阻挡走路(修前可穿行)",
+          "status": "passed",
+          "title": "sState>=2 且 triggerMode=5(门卫类)阻挡走路(修前可穿行)",
+          "duration": 0.05995899999993526,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DH5:blocker 阻挡只看 sState,无 triggerMode 豁免(scene.c:619-628)"],
+          "fullName": "DH5:blocker 阻挡只看 sState,无 triggerMode 豁免(scene.c:619-628) sState=1 的明雷怪(triggerMode=4)不阻挡(本就不过 blocker 关,踩怪触发不受影响)",
+          "status": "passed",
+          "title": "sState=1 的明雷怪(triggerMode=4)不阻挡(本就不过 blocker 关,踩怪触发不受影响)",
+          "duration": 0.046333000000004176,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard)"],
+          "fullName": "扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard) 走到书案前触发判定中心(1600,1040)→ 无需 Confirm 自动触发领赏,且触发后不再复触发",
+          "status": "passed",
+          "title": "走到书案前触发判定中心(1600,1040)→ 无需 Confirm 自动触发领赏,且触发后不再复触发",
+          "duration": 1.1877080000000433,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard)"],
+          "fullName": "扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard) 触发判定中心在书案前(非太守 sprite):party 站在太守 sprite 像素 (1616,968) → 不自动触发",
+          "status": "passed",
+          "title": "触发判定中心在书案前(非太守 sprite):party 站在太守 sprite 像素 (1616,968) → 不自动触发",
+          "duration": 1.1670410000000402,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792337018706,
+      "endTime": 1792337018735.167,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/scene-system.test.ts"
+    }
+  ]
+}

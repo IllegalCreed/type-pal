@@ -261,7 +261,9 @@ describe('U2a BattleSpriteLibrary 残差', () => {
       'fighter-a',
       'fighter-b',
     ])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().battleSprites?.find((entry) => entry.id === 'fighter-a')?.label).toBe(
       '甲战士',
     )

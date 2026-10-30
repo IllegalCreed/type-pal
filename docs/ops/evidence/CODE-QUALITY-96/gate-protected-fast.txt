@@ -1,0 +1,527 @@
+
+> type-pal@ coverage:fast /Users/zhangxu/illegal/type-pal-quality-3x
+> pnpm test:coverage-tools && node scripts/coverage/run.mjs fast
+
+
+> type-pal@ test:coverage-tools /Users/zhangxu/illegal/type-pal-quality-3x
+> node --test scripts/coverage/*.test.mjs
+
+TAP version 13
+# Subtest: 批准账只含精确历史/审计文件，运行时不能扩大
+ok 1 - 批准账只含精确历史/审计文件，运行时不能扩大
+  ---
+  duration_ms: 0.919125
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts
+ok 2 - 仅精确历史快照获准：packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.150875
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/pal-authored-overlays.test.ts
+ok 3 - 仅精确历史快照获准：packages/migrate/src/pal-authored-overlays.test.ts
+  ---
+  duration_ms: 0.044125
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts
+ok 4 - 仅精确历史快照获准：packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts
+  ---
+  duration_ms: 0.042209
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/source-facts.boundaries.test.ts
+ok 5 - 仅精确历史快照获准：packages/migrate/src/source-facts.boundaries.test.ts
+  ---
+  duration_ms: 0.043792
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/world-sprite-layout-registry.test.ts
+ok 6 - 仅精确历史快照获准：packages/migrate/src/world-sprite-layout-registry.test.ts
+  ---
+  duration_ms: 0.038
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/render.test.ts
+ok 7 - 仅精确历史快照获准：packages/reforge/src/render.test.ts
+  ---
+  duration_ms: 0.085125
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/content/src/author-flow.guard-residual.test.ts
+ok 8 - 仅精确历史快照获准：packages/content/src/author-flow.guard-residual.test.ts
+  ---
+  duration_ms: 0.035042
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/content/src/author-script-core.test.ts
+ok 9 - 仅精确历史快照获准：packages/content/src/author-script-core.test.ts
+  ---
+  duration_ms: 0.312542
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx
+ok 10 - 仅精确历史快照获准：packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx
+  ---
+  duration_ms: 0.302916
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-compiler-core.test.ts
+ok 11 - 仅精确历史快照获准：packages/reforge/src/script-compiler-core.test.ts
+  ---
+  duration_ms: 0.094625
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-runner-core.test.ts
+ok 12 - 仅精确历史快照获准：packages/reforge/src/script-runner-core.test.ts
+  ---
+  duration_ms: 0.037125
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-world.test.ts
+ok 13 - 仅精确历史快照获准：packages/reforge/src/script-world.test.ts
+  ---
+  duration_ms: 0.024792
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/command-bus.test.ts
+ok 14 - 仅精确历史快照获准：packages/game/src/core/command-bus.test.ts
+  ---
+  duration_ms: 0.022125
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/save/current-save.current-characterization.test.ts
+ok 15 - 仅精确历史快照获准：packages/reforge/src/save/current-save.current-characterization.test.ts
+  ---
+  duration_ms: 0.021
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：未知第六文件
+ok 16 - 退役判据拒绝：未知第六文件
+  ---
+  duration_ms: 0.832167
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：test-file删除不是计数退役
+ok 17 - 退役判据拒绝：test-file删除不是计数退役
+  ---
+  duration_ms: 0.039666
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：生产范围删除不适用
+ok 18 - 退役判据拒绝：生产范围删除不适用
+  ---
+  duration_ms: 0.023167
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：额外删除一例
+ok 19 - 退役判据拒绝：额外删除一例
+  ---
+  duration_ms: 0.023167
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：其它旧数量
+ok 20 - 退役判据拒绝：其它旧数量
+  ---
+  duration_ms: 0.019959
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧身份摘要漂移
+ok 21 - 退役判据拒绝：旧身份摘要漂移
+  ---
+  duration_ms: 0.0185
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：同数替换新身份
+ok 22 - 退役判据拒绝：同数替换新身份
+  ---
+  duration_ms: 0.021667
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：候选数量伪造
+ok 23 - 退役判据拒绝：候选数量伪造
+  ---
+  duration_ms: 0.018541
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧数量伪造
+ok 24 - 退役判据拒绝：旧数量伪造
+  ---
+  duration_ms: 0.019
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧文件不相同
+ok 25 - 退役判据拒绝：旧文件不相同
+  ---
+  duration_ms: 0.019875
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：新文件不相同
+ok 26 - 退役判据拒绝：新文件不相同
+  ---
+  duration_ms: 0.01775
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：文件字节漂移
+ok 27 - 退役判据拒绝：文件字节漂移
+  ---
+  duration_ms: 0.017666
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：缺旧条目
+ok 28 - 退役判据拒绝：缺旧条目
+  ---
+  duration_ms: 0.019041
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：缺新条目
+ok 29 - 退役判据拒绝：缺新条目
+  ---
+  duration_ms: 0.018083
+  type: 'test'
+  ...
+# Subtest: Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+ok 30 - Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+  ---
+  duration_ms: 0.679042
+  type: 'test'
+  ...
+# Subtest: fast 排除所有 PAL test 扩展，full 保留
+ok 31 - fast 排除所有 PAL test 扩展，full 保留
+  ---
+  duration_ms: 0.09375
+  type: 'test'
+  ...
+# Subtest: coverage 测试进程不重复拾取 dist/build 产物
+ok 32 - coverage 测试进程不重复拾取 dist/build 产物
+  ---
+  duration_ms: 0.100125
+  type: 'test'
+  ...
+# Subtest: 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+ok 33 - 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+  ---
+  duration_ms: 0.056875
+  type: 'test'
+  ...
+# Subtest: precise coverage rejects inherited and override cache activation without mutating inputs
+ok 34 - precise coverage rejects inherited and override cache activation without mutating inputs
+  ---
+  duration_ms: 1.402667
+  type: 'test'
+  ...
+# Subtest: fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+ok 35 - fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+  ---
+  duration_ms: 31.9145
+  type: 'test'
+  ...
+# Subtest: full file guard 区分缺失、目录与空文件
+ok 36 - full file guard 区分缺失、目录与空文件
+  ---
+  duration_ms: 11.32025
+  type: 'test'
+  ...
+# Subtest: full JSON guard 在运行测试前拒绝坏 JSON
+ok 37 - full JSON guard 在运行测试前拒绝坏 JSON
+  ---
+  duration_ms: 7.609583
+  type: 'test'
+  ...
+# Subtest: full directory guard 要求真实目录和最低文件数
+ok 38 - full directory guard 要求真实目录和最低文件数
+  ---
+  duration_ms: 3.169542
+  type: 'test'
+  ...
+# Subtest: full JSON contract 拒绝错版本 current 工程与错误 scene identity
+ok 39 - full JSON contract 拒绝错版本 current 工程与错误 scene identity
+  ---
+  duration_ms: 0.301291
+  type: 'test'
+  ...
+# Subtest: full test inventory 必须包含 fast 的每个 identity
+ok 40 - full test inventory 必须包含 fast 的每个 identity
+  ---
+  duration_ms: 1.012834
+  type: 'test'
+  ...
+# Subtest: scope audit 分别报告源码、测试和执行配置变化
+ok 41 - scope audit 分别报告源码、测试和执行配置变化
+  ---
+  duration_ms: 0.230625
+  type: 'test'
+  ...
+# Subtest: 同一测试文件减少 case 会形成显式 removal
+ok 42 - 同一测试文件减少 case 会形成显式 removal
+  ---
+  duration_ms: 0.164333
+  type: 'test'
+  ...
+# Subtest: installed merger is the version-locked patch recorded in manifest and lockfile
+ok 43 - installed merger is the version-locked patch recorded in manifest and lockfile
+  ---
+  duration_ms: 1.576333
+  type: 'test'
+  ...
+# Subtest: native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 44 - native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 102.983041
+  type: 'test'
+  ...
+# Subtest: native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 45 - native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 93.188208
+  type: 'test'
+  ...
+# Subtest: native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 46 - native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 90.416167
+  type: 'test'
+  ...
+# Subtest: native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 47 - native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 92.248916
+  type: 'test'
+  ...
+# Subtest: mixed import and genuine call preserve zero branches and actual method counts in both orders
+ok 48 - mixed import and genuine call preserve zero branches and actual method counts in both orders
+  ---
+  duration_ms: 1.322958
+  type: 'test'
+  ...
+# Subtest: same-range static and instance initialization identities and counts stay separate
+ok 49 - same-range static and instance initialization identities and counts stay separate
+  ---
+  duration_ms: 0.897375
+  type: 'test'
+  ...
+# Subtest: ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+ok 50 - ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+  ---
+  duration_ms: 0.885
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client import-only: actual report method count
+ok 51 - real Vitest ssr/client import-only: actual report method count
+  ---
+  duration_ms: 1520.94625
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client genuine calls: actual report method count
+ok 52 - real Vitest ssr/client genuine calls: actual report method count
+  ---
+  duration_ms: 1842.2035
+  type: 'test'
+  ...
+# Subtest: normalizeMetrics 只接受完整的整数计数
+ok 53 - normalizeMetrics 只接受完整的整数计数
+  ---
+  duration_ms: 1.277542
+  type: 'test'
+  ...
+# Subtest: aggregateMetrics 按 covered/total 汇总，不平均百分比
+ok 54 - aggregateMetrics 按 covered/total 汇总，不平均百分比
+  ---
+  duration_ms: 0.228291
+  type: 'test'
+  ...
+# Subtest: compareRatio 用精确分数识别两位小数看不出的回退
+ok 55 - compareRatio 用精确分数识别两位小数看不出的回退
+  ---
+  duration_ms: 0.108667
+  type: 'test'
+  ...
+# Subtest: compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+ok 56 - compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+  ---
+  duration_ms: 0.7425
+  type: 'test'
+  ...
+# Subtest: ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+ok 57 - ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+  ---
+  duration_ms: 0.273333
+  type: 'test'
+  ...
+# Subtest: 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+ok 58 - 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+  ---
+  duration_ms: 1.42825
+  type: 'test'
+  ...
+# Subtest: 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+ok 59 - 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+  ---
+  duration_ms: 0.431584
+  type: 'test'
+  ...
+1..59
+# tests 59
+# suites 0
+# pass 59
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3981.274917
+
+[coverage:fast] @type-pal/shared
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/shared
+      Coverage enabled with v8
+
+
+ Test Files  16 passed (16)
+      Tests  131 passed (131)
+   Start at  22:50:16
+   Duration  1.48s (transform 85ms, setup 0ms, import 191ms, tests 92ms, environment 1ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 96.13% ( 448/466 )
+Branches     : 93.57% ( 204/218 )
+Functions    : 100% ( 23/23 )
+Lines        : 97.08% ( 400/412 )
+================================================================================
+
+[coverage:fast] @type-pal/content
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/content
+      Coverage enabled with v8
+
+
+ Test Files  149 passed (149)
+      Tests  1498 passed (1498)
+   Start at  22:50:30
+   Duration  14.20s (transform 668ms, setup 0ms, import 2.48s, tests 793ms, environment 6ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 96.42% ( 5668/5878 )
+Branches     : 94.11% ( 4827/5129 )
+Functions    : 98.06% ( 811/827 )
+Lines        : 97.34% ( 5061/5199 )
+================================================================================
+
+[coverage:fast] @type-pal/pal-extract
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/pal-extract
+      Coverage enabled with v8
+
+
+ Test Files  60 passed (60)
+      Tests  280 passed (280)
+   Start at  22:50:49
+   Duration  32.10s (transform 274ms, setup 0ms, import 810ms, tests 26.95s, environment 3ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 69.55% ( 1058/1521 )
+Branches     : 78.85% ( 455/577 )
+Functions    : 79.71% ( 110/138 )
+Lines        : 69.51% ( 935/1345 )
+================================================================================
+
+[coverage:fast] @type-pal/migrate
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/migrate
+      Coverage enabled with v8
+
+
+ Test Files  80 passed (80)
+      Tests  671 passed (671)
+   Start at  22:51:30
+   Duration  38.28s (transform 592ms, setup 0ms, import 3.21s, tests 28.89s, environment 3ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 90.47% ( 2345/2592 )
+Branches     : 90.76% ( 1622/1787 )
+Functions    : 93.9% ( 385/410 )
+Lines        : 90.77% ( 2057/2266 )
+================================================================================
+
+[coverage:fast] @type-pal/reforge
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/reforge
+      Coverage enabled with v8
+
+
+ Test Files  359 passed (359)
+      Tests  8964 passed (8964)
+   Start at  22:53:18
+   Duration  133.28s (transform 8.11s, setup 0ms, import 31.09s, tests 52.29s, environment 18.05s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 90.01% ( 16999/18885 )
+Branches     : 82.51% ( 10807/13097 )
+Functions    : 90.04% ( 2767/3073 )
+Lines        : 92.29% ( 15208/16477 )
+================================================================================
+
+[coverage:fast] @type-pal/game
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/game
+      Coverage enabled with v8
+
+
+ Test Files  310 passed (310)
+      Tests  3541 passed (3541)
+   Start at  22:57:28
+   Duration  165.43s (transform 2.29s, setup 1.20s, import 8.65s, tests 36.16s, environment 89.87s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 88.53% ( 13814/15602 )
+Branches     : 79.72% ( 9067/11373 )
+Functions    : 83.51% ( 1550/1856 )
+Lines        : 90.14% ( 12336/13685 )
+================================================================================
+
+[coverage:fast] @type-pal/editor
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/editor
+      Coverage enabled with v8
+
+
+ Test Files  612 passed (612)
+      Tests  4789 passed (4789)
+   Start at  23:03:47
+   Duration  374.26s (transform 9.01s, setup 0ms, import 97.66s, tests 121.78s, environment 87.80s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 90.21% ( 30524/33836 )
+Branches     : 83.49% ( 24578/29437 )
+Functions    : 89.69% ( 7769/8662 )
+Lines        : 92.38% ( 27309/29561 )
+================================================================================
+
+[coverage:fast] consolidated
+package      statements            branches              functions             lines                 files  tests
+-----------  --------------------  --------------------  --------------------  --------------------  -----  -----
+shared       96.14% (448/466)      93.58% (204/218)      100.00% (23/23)       97.09% (400/412)      11     131
+content      96.43% (5668/5878)    94.11% (4827/5129)    98.07% (811/827)      97.35% (5061/5199)    56     1498
+pal-extract  69.56% (1058/1521)    78.86% (455/577)      79.71% (110/138)      69.52% (935/1345)     38     280
+migrate      90.47% (2345/2592)    90.77% (1622/1787)    93.90% (385/410)      90.78% (2057/2266)    38     671
+reforge      90.01% (16999/18885)  82.52% (10807/13097)  90.04% (2767/3073)    92.30% (15208/16477)  158    8964
+game         88.54% (13814/15602)  79.72% (9067/11373)   83.51% (1550/1856)    90.14% (12336/13685)  136    3541
+editor       90.21% (30524/33836)  83.49% (24578/29437)  89.69% (7769/8662)    92.38% (27309/29561)  294    4789
+TOTAL        89.94% (70856/78780)  83.68% (51560/61618)  89.50% (13415/14989)  91.82% (63306/68945)  731    19874
+已核精确历史退役保护账: packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts 3 -> 2
+
+覆盖率门禁通过；相对 fast 基线未下降，提升 0 项。

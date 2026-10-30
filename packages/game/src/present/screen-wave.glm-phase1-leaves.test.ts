@@ -1,10 +1,4 @@
-/**
- * TEST-GLM-PHASE1-LEAVES-3 L16（screen-wave.ts）— 去重表：
- *  - screen-wave.test（0 态/渐弱累加/自动清零/越界清零/活跃卷动守恒）→ 不重复
- *  - 新差异：advance=false（DM32 fade-only 补帧：像素扭曲但计数/相位不推进）、
- *    卷动循环性（卷出的像素接回行尾、独立手算 shift=trunc(60·w/256)）、
- *    相位跨帧推进（wave[0]→wave[1] 波形滚动）。
- */
+/** 原盘负 progression 收尾、循环回卷和跨帧推进；补帧冻结由 mirror A06/A08 精确断言。 */
 import { describe, expect, it } from 'vitest'
 import { applyScreenWave, resetScreenWavePhase } from './screen-wave.js'
 
@@ -28,23 +22,6 @@ describe('L16 applyScreenWave 剩余合同', () => {
     expect(indices).toEqual(before)
     expect(gs.wScreenWave).toBe(0)
     expect(gs.sWaveProgression).toBe(0)
-  })
-
-  it('advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进', () => {
-    resetScreenWavePhase()
-    const indices = rowPattern()
-    const gs = waveGs(64, 8)
-    applyScreenWave(indices, gs, false)
-    expect(gs.wScreenWave).toBe(64) // 不累加
-    expect(gs.sWaveProgression).toBe(8)
-    // 像素确实被卷动（行 0 不再是恒等图案）
-    let shifted = false
-    for (let x = 0; x < 320; x++)
-      if (indices[x] !== (x & 0xff)) {
-        shifted = true
-        break
-      }
-    expect(shifted).toBe(true)
   })
 
   it('循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾', () => {

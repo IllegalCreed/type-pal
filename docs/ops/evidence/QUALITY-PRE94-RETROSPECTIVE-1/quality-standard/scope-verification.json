@@ -1,0 +1,17 @@
+{
+  "command": [
+    "python3",
+    "-c",
+    "from pathlib import Path; p=Path(\"/tmp/type-pal-quality-norm-verify.py\"); exec(compile(p.read_text(),str(p),\"exec\"))"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T07:30:33.825753+00:00",
+  "completedAt": "2026-10-18T07:30:34.336758+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "scope-verification.raw.gz",
+  "rawBytes": 318,
+  "rawSha256": "08ef486c273a3c58b51f15d88bb841f1835c82d42e77a070fd288c58b9b5efe5",
+  "fullUncutMergedStdoutStderr": true
+}

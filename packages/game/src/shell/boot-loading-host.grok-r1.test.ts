@@ -27,11 +27,17 @@ async function flushRender(): Promise<void> {
 }
 
 beforeEach(() => {
-  globalThis.fetch = (async () => new Response('{}')) as typeof fetch
+  globalThis.fetch = async () => new Response('{}')
 })
 
-afterEach(() => {
-  finishBootLoading()
+afterEach(async () => {
+  restoreBootFetch()
+  if (vi.isFakeTimers()) {
+    await vi.advanceTimersByTimeAsync(16)
+    vi.clearAllTimers()
+  } else {
+    await flushRender()
+  }
   globalThis.fetch = realFetch
   document.body.innerHTML = ''
   vi.useRealTimers()
@@ -57,14 +63,12 @@ describe('G09-C 启动加载宿主', () => {
 
   it('G09-C02 fetch 拒绝后完成数仍加一', async () => {
     mount()
-    globalThis.fetch = (async () => {
-      throw new Error('net')
-    }) as typeof fetch
+    const failure = new Error('net')
+    globalThis.fetch = async () => {
+      throw failure
+    }
     initBootLoading(2)
-    await fetch('/a').then(
-      () => undefined,
-      () => undefined,
-    )
+    await expect(fetch('/a')).rejects.toBe(failure)
     await flushRender()
     expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载资源 1 / 2')
     expect(document.getElementById('boot-loading-fill')?.style.width).toBe('50%')
@@ -139,12 +143,12 @@ describe('G09-C 启动加载宿主', () => {
   it('G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次', async () => {
     mount()
     initBootLoading(4)
-    const orig = globalThis.requestAnimationFrame.bind(globalThis)
+    const orig = globalThis.requestAnimationFrame
     let calls = 0
-    globalThis.requestAnimationFrame = ((cb: FrameRequestCallback) => {
+    globalThis.requestAnimationFrame = (cb: FrameRequestCallback) => {
       calls += 1
-      return orig(cb)
-    }) as typeof requestAnimationFrame
+      return orig.call(globalThis, cb)
+    }
     try {
       setBootLoadingNote('甲')
       setBootLoadingNote('乙')
@@ -154,7 +158,7 @@ describe('G09-C 启动加载宿主', () => {
         '正在加载资源 0 / 4 — 乙',
       )
     } finally {
-      globalThis.requestAnimationFrame = orig as typeof requestAnimationFrame
+      globalThis.requestAnimationFrame = orig
     }
   })
 
@@ -177,11 +181,14 @@ describe('G09-C 启动加载宿主', () => {
       setBootLoadingNote('只等超时')
       expect(queued.length).toBe(1)
       expect(queued[0]?.ms).toBe(16)
-      queued[0]?.run()
+      queued.shift()?.run()
       expect(document.getElementById('boot-loading-status')?.textContent).toBe(
         '正在加载资源 0 / 4 — 只等超时',
       )
     } finally {
+      restoreBootFetch()
+      // A failed assertion can leave our virtual render queued; clear its module flag too.
+      for (const pending of queued.splice(0)) pending.run()
       globalThis.setTimeout = origTimeout
       Object.defineProperty(globalThis, 'requestAnimationFrame', {
         configurable: true,
@@ -207,7 +214,11 @@ describe('G09-C 启动加载宿主', () => {
   it('G09-C11 失败文案是启动失败加原文，并带上错误类', async () => {
     mount()
     initBootLoading(4)
+    const root = document.getElementById('boot-loading')
+    const wrapped = globalThis.fetch
     failBootLoading('磁盘满')
+    expect(globalThis.fetch).not.toBe(wrapped)
+    expect(document.getElementById('boot-loading')).toBe(root)
     expect(document.getElementById('boot-loading-status')?.textContent).toBe('启动失败:磁盘满')
     expect(document.getElementById('boot-loading')?.classList.contains('boot-loading-error')).toBe(
       true,

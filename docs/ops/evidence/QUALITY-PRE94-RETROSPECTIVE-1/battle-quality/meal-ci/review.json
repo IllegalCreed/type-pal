@@ -1,0 +1,728 @@
+{
+  "schemaVersion": 1,
+  "status": "local finite CI fixture repair accepted; remote CI for the new commit pending",
+  "base": "38502c0467d9739cd2bc418b31d8000c28cd6797",
+  "owner": "Codex",
+  "branch": "codex/code-quality-3y",
+  "source": {
+    "path": "packages/reforge/src/pal-meal-shell.test.ts",
+    "sha256": "c25af3c9a5e133403d9e72d3bbe5ec10c4bccd9752aac504491405f66fc0bcf2",
+    "wholeFileGovernanceAcceptance": false,
+    "ledgerStatus": "implicit pending"
+  },
+  "dimensions": {
+    "A": "Only deterministic external input preparation changes; all six case documents and 942 synthetic byte paths each match. Actual boot/loader/renderer/script/source and error paths remain; cache inserts after completed compression+hash only, errors propagate.",
+    "B": "Cache comment states per-fixture ownership and fresh per-asset mutable buffers; no pixel/route acceptance claims added. Source profile numbers are single local samples, not CI timing guarantee.",
+    "C": "Private encoder owns the cache; each project invocation creates two separate factory instances for sprite and tile. Catalog/source remain case-local and no global persistent cache or product changes.",
+    "D": "Two actual callers share encode+gzip+digest and failure/lifetime contract. Fixed frame factories differ, so no boolean mode/universal asset service or copied algorithms.",
+    "E": "Nine identities, bodies, assertions and timeouts AST-identical; all pass. Separate private complete-input and cache ownership/error probes do not count as new gameplay tests or business mutation counters.",
+    "F": "frame-count and frame factory make reuse key/representation explicit; project and rendering stages remain readable, no generic invocation context.",
+    "G": "563 per-case resource encodings reduce to 15 by removing repeated work; redundant per-loop Uint8Array.from removed only after helper guarantees owned copies. No test retirement/dead-code restoration.",
+    "H": "Pure fixture preparation is isolated and directly probed for buffer independence, kind/factory separation and failed-entry retry; real serving/escort/normal input contract still runs unmocked."
+  },
+  "equivalence": {
+    "sourceBefore": "1f5098542d2c7dbbc979f87cc491a679776f4c7b55490ec22092b1a22f58152a",
+    "sourceAfter": "c25af3c9a5e133403d9e72d3bbe5ec10c4bccd9752aac504491405f66fc0bcf2",
+    "caseStatements": 8,
+    "expandedRuntimeIdentities": 9,
+    "allTestCallsBodiesTimeoutsAndTitlesIdentical": true,
+    "unchangedHelperFunctions": ["boot", "items", "rows", "finishDialogs"],
+    "completeInputEqual": true,
+    "cases": [
+      {
+        "caseId": "wine",
+        "documentCount": 9,
+        "binaryPathCount": 942,
+        "sha256": "91e666b97fe8f1d27350dd2ccfa226d560acc952f2e5ab51f0444f825b82a732"
+      },
+      {
+        "caseId": "wrong-position",
+        "documentCount": 9,
+        "binaryPathCount": 942,
+        "sha256": "20e0ab924b9a7169060bacbfc2c37013f8bde237ed0df6e4e1303064395ca304"
+      },
+      {
+        "caseId": "kitchen",
+        "documentCount": 9,
+        "binaryPathCount": 942,
+        "sha256": "a98ff6af62e901df0f1351f9e26983df4a1385ddf68578179641a9ae07c090bb"
+      },
+      {
+        "caseId": "serve",
+        "documentCount": 9,
+        "binaryPathCount": 942,
+        "sha256": "c4f9ad4699c741f6c090886953be7e81b441c72a6e3e5d37b8ff82b1061a881a"
+      },
+      {
+        "caseId": "opening",
+        "documentCount": 9,
+        "binaryPathCount": 942,
+        "sha256": "f633a43a84f490d948209670fd6f62edefbc235a839657749ba4a2f96ab0a9a6"
+      },
+      {
+        "caseId": "inn",
+        "documentCount": 9,
+        "binaryPathCount": 942,
+        "sha256": "6a9162056f01912b0e6e58d15bee338c9a60b293ce32191a825b23eb24cd1449"
+      }
+    ],
+    "ownership": "each synthetic read mutated then reread matched original; direct cache buffer/exception proof separate",
+    "limits": "private fingerprint probes are input equivalence only, not codec or gameplay oracle; one local time sample per variant is descriptive, not CI guarantee"
+  },
+  "ownership": {
+    "fixtureStats": {
+      "buffersIndependent": true,
+      "frameFactoriesIsolated": true,
+      "freshInvocationDidNotReusePriorCache": true,
+      "compressionFailurePropagates": true,
+      "digestFailurePropagates": true,
+      "failedEntriesNotCached": true
+    }
+  },
+  "profiles": {
+    "before": {
+      "fixtureStats": [
+        {
+          "caseId": "serve",
+          "wineCount": 1,
+          "totalMs": 150.477042,
+          "spriteMs": 112.34325,
+          "tileMs": 17.733333,
+          "spriteAssets": 561,
+          "spriteUnique": 13,
+          "tilesetAssets": 2,
+          "tileUnique": 2
+        }
+      ],
+      "projectMs": 150.736625,
+      "loadMs": 67.420917,
+      "bootMs": 872.976291
+    },
+    "after": {
+      "fixtureStats": [
+        {
+          "caseId": "serve",
+          "wineCount": 1,
+          "totalMs": 58.182125,
+          "spriteMs": 13.990167,
+          "tileMs": 21.439333,
+          "spriteAssets": 561,
+          "spriteUnique": 13,
+          "tilesetAssets": 2,
+          "tileUnique": 2
+        }
+      ],
+      "projectMs": 58.4415,
+      "loadMs": 72.09775,
+      "bootMs": 794.564125
+    },
+    "limits": "one sample per variant; production cold boot remains material, timeout causality not fully isolated"
+  },
+  "gates": {
+    "directed": 9,
+    "typecheck": {
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    "freshOfficial": {
+      "kind": "official Reforge package collector refresh plus six unchanged package result reuse",
+      "source": "scripts/coverage/run.mjs",
+      "runnerSha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684",
+      "facadeSha256": "8b65b02eea0cf52ffcd29b66184a2476aacea3c3c87e66001af180a2f07144a5",
+      "allRunnerStatementsUnchangedExceptImportsAndDispatch": true,
+      "officialPackageCount": 8965,
+      "officialPackageSourceFiles": 158,
+      "summaryTestCount": 20032,
+      "summarySourceFiles": 758,
+      "comparison": {
+        "regressions": [],
+        "improvements": []
+      },
+      "scope": {
+        "changes": [],
+        "removals": []
+      },
+      "exactBaselineProjectionExceptPreservedTimestamp": true,
+      "allPackageAndTotalMetricsUnchanged": true,
+      "baselineWritten": false,
+      "protectedRef": "38502c0467d9739cd2bc418b31d8000c28cd6797",
+      "protectedBaselineSha256": "33dd8c7315460e96caca0632fe24080f656935e6f0a11f8944f8b9af21d5c97d",
+      "fullUnifiedCommandRerun": false,
+      "reusedPackages": ["shared", "content", "pal-extract", "migrate", "game", "editor"],
+      "reuseProof": "reuse-proof.json"
+    },
+    "diagnostics": {
+      "reactAct": 0,
+      "actEnvironment": 0,
+      "controlledInput": 0,
+      "unimplementedOpcode": 0,
+      "warnings": 0,
+      "navigation": 0,
+      "audioUnavailable": 0,
+      "staticDiagnosticPrefix": 0,
+      "tsErrors": 0,
+      "unhandled": 0,
+      "failedTap": 0,
+      "testStderrBlocks": 0,
+      "stderrBytes": 0
+    },
+    "ordinaryStdout": {
+      "blocks": 226,
+      "allExactMembersOfPriorAcceptedMessages": true
+    },
+    "fullCheck": {
+      "lastActualHead": "150650c59",
+      "passed": 20430,
+      "currentAffectedCases": 24,
+      "unchangedCasesReused": 20406,
+      "rerun": false,
+      "limits": "Following that full command, H02 five + M05 two + K06 eight + meal nine tests changed; affected tests/current TC and appropriate official collection verified, not a new whole-repository check."
+    },
+    "statics": {
+      "accepted": ["meal-docs-publish", "meal-lint-final", "meal-ledger", "meal-diff-final"],
+      "completeCheckDocsFirstRun": {
+        "id": "meal-docs-final",
+        "exit": 1,
+        "passed": 124,
+        "failed": 1
+      },
+      "correction": {
+        "id": "meal-docs-publish",
+        "catalogTests": 5,
+        "unaffectedDocToolTestsReused": 120,
+        "allFiveConsumersAndProgressZero": true
+      },
+      "limits": "No second full check:docs command; affected five tests and actual consumers/progress rerun after exact shard SHA fix. First failures retained."
+    }
+  },
+  "github385": {
+    "head": "38502c0467d9739cd2bc418b31d8000c28cd6797",
+    "docs": {
+      "run": 39689206973,
+      "conclusion": "success",
+      "repositoryDiagnostics": 0,
+      "platformAnnotations": 2
+    },
+    "coverage": {
+      "run": 39689207073,
+      "conclusion": "failure",
+      "reforgeTests": 8965,
+      "passed": 8964,
+      "failed": 1,
+      "failedTitle": "a normal landing executes the actual serving body, restores the persistent sprite and grants wine once",
+      "failure": "Test timed out in 5000ms",
+      "reproducibleBusinessCounter": false,
+      "reactAct": 0,
+      "actEnvironment": 0,
+      "annotations": [
+        {
+          "path": ".github",
+          "blob_href": "https://github.com/IllegalCreed/type-pal/blob/38502c0467d9739cd2bc418b31d8000c28cd6797/.github",
+          "start_line": 2,
+          "start_column": null,
+          "end_line": 2,
+          "end_column": null,
+          "annotation_level": "warning",
+          "title": "",
+          "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4, pnpm/action-setup@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+          "raw_details": ""
+        },
+        {
+          "path": ".github",
+          "blob_href": "https://github.com/IllegalCreed/type-pal/blob/38502c0467d9739cd2bc418b31d8000c28cd6797/.github",
+          "start_line": 2165,
+          "start_column": null,
+          "end_line": 2165,
+          "end_column": null,
+          "annotation_level": "failure",
+          "title": "",
+          "message": "Process completed with exit code 1.",
+          "raw_details": ""
+        },
+        {
+          "path": ".github",
+          "blob_href": "https://github.com/IllegalCreed/type-pal/blob/38502c0467d9739cd2bc418b31d8000c28cd6797/.github",
+          "start_line": 1,
+          "start_column": null,
+          "end_line": 1,
+          "end_column": null,
+          "annotation_level": "notice",
+          "title": "",
+          "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\"",
+          "raw_details": ""
+        }
+      ]
+    },
+    "limits": "385 failure is preserved and not rerun. New candidate hosted CI must be observed after actual push; this local package optimization does not prove the only cause of the previous timeout."
+  },
+  "wordPolicy": {
+    "userDecisionDate": "2026-10-22",
+    "userAnswer": "保留TS持续增长，明确记录偏离",
+    "phase": "phase1",
+    "scope": "applyHiddenExpGrowth seven base attributes only",
+    "result": "65535+1 remains65536; no WORD wrap/new cap, save/schema/import/main-level cap/phase2 unchanged",
+    "productArithmeticChanged": false,
+    "originalCvsTSCounterPreserved": true,
+    "cardStatus": "done; chosen deviation documented, not numerical behavior fix",
+    "evidence": {
+      "userAnswer": "保留TS持续增长，明确记录偏离",
+      "phase": "phase1",
+      "appliesTo": "applyHiddenExpGrowth seven base attributes",
+      "example": {
+        "from": 65535,
+        "growth": 1,
+        "result": 65536,
+        "sdlpalResult": 0
+      },
+      "arithmeticUnchanged": true,
+      "originalQuoteBytesUnchanged": true,
+      "currentMechanicsSha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
+      "previousMechanicsSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
+      "numericSourceSha256": "40d5caa83a46734d689defc26178679cac6af82b5127d8739264a7aeb626b0a4",
+      "doesNotApprove": [
+        "other WORD fields",
+        "save schema or import policy",
+        "main-level cap",
+        "phase2",
+        "automatic CODE3x acceptance"
+      ]
+    },
+    "source": "docs/ops/tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md",
+    "priorNativeSha256": "17621673ad50effc84606865ec10aa12b78b4516aa6a0657af32645456e856a0",
+    "oldReadOnlyVerifierPendingFieldsAreHistorical": true
+  },
+  "pre94": {
+    "accepted": 57,
+    "partial": 26,
+    "pending": 0,
+    "newClosures": 0,
+    "next": "Return existing private3v draft after actual hosted CI; no94–102."
+  },
+  "ledger": {
+    "inventory": 3355,
+    "closed": 371,
+    "review": 114,
+    "pending": 2870
+  },
+  "native": {
+    "path": "native.json.gz",
+    "format": "gzip JSON members with lossless base64 bytes",
+    "members": {
+      "before-fingerprint.execution.json": {
+        "bytes": 982,
+        "sha256": "fa0987dce7bfbc2a0430eea7c8d86d6f5b23752e99c02d8a626dd2d6bedc098d"
+      },
+      "before-fingerprint.native.json": {
+        "bytes": 1007,
+        "sha256": "6166164e9e45e711f42f608b5159342d2d2365047639998beec4f253aa838122"
+      },
+      "before-fingerprint.result.json": {
+        "bytes": 9607529,
+        "sha256": "c140b407b466dfdf23c2c77317452e8e1c7ed9020106c6e7844abda112bdd76a"
+      },
+      "before-fingerprint.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "before-fingerprint.stdout.raw": {
+        "bytes": 9550361,
+        "sha256": "b05fe3c2b0769bd9f983e78d0a34c7ff8ef20eff6b14725862942484f4241fda"
+      },
+      "before-profile.execution.json": {
+        "bytes": 966,
+        "sha256": "3bce00ce62a710e1c4c9953cb8f25ceea23261bda8bb15d4c10f8ef8db2f017f"
+      },
+      "before-profile.native.json": {
+        "bytes": 3354,
+        "sha256": "dfb9ae6c6bb15da3f57372d21a3495b51f1bd89fd41f3f1bc397ae550e900a54"
+      },
+      "before-profile.result.json": {
+        "bytes": 347,
+        "sha256": "5708ce8a17b59a823224e7d7b3570b80fdd82c1d63158a7309b50a3c2935d2f0"
+      },
+      "before-profile.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "before-profile.stdout.raw": {
+        "bytes": 1284,
+        "sha256": "989cba5145be6431ecbf25caa1b1bf266643e0de9ff32f2fa755ac768d61201f"
+      },
+      "before.ts": {
+        "bytes": 32154,
+        "sha256": "1f5098542d2c7dbbc979f87cc491a679776f4c7b55490ec22092b1a22f58152a"
+      },
+      "candidate-fingerprint.execution.json": {
+        "bytes": 988,
+        "sha256": "cd0e2ed8f1e341f31e68c554af59ea67603a6e5793f342a5a1683a378d6de732"
+      },
+      "candidate-fingerprint.native.json": {
+        "bytes": 1008,
+        "sha256": "a0aa0a16165201770ece8ec01f9989f3b7415a3d706dfaf73b92227166d468e7"
+      },
+      "candidate-fingerprint.result.json": {
+        "bytes": 9607515,
+        "sha256": "256908e017793973d0ba0a5b4bcad52d11f896b949dd32d152bbda688663260c"
+      },
+      "candidate-fingerprint.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "candidate-fingerprint.stdout.raw": {
+        "bytes": 9550350,
+        "sha256": "1738916050a99d6edc6f3e53090010c6d92c2b423d369a825f527ad0de8292f6"
+      },
+      "candidate-ownership.execution.json": {
+        "bytes": 984,
+        "sha256": "d09081d0d53d7932f7624abc5f525eb75b35d8b83fad22e2a05f71442f93eb61"
+      },
+      "candidate-ownership.native.json": {
+        "bytes": 1007,
+        "sha256": "dd2c1be03f747aac1ff7375011e16a0608aac9dd7b1c31ec0a88249c49dedaf2"
+      },
+      "candidate-ownership.result.json": {
+        "bytes": 260,
+        "sha256": "af9b3a270f342da525df8b6d359f162ac30d5a99aa74563e83eb9e11f0b9a4d3"
+      },
+      "candidate-ownership.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "candidate-ownership.stdout.raw": {
+        "bytes": 822,
+        "sha256": "dcd748d0accb9257a22fe633b02092e0228af8cb8cd138f6a8df5e348d2c12d3"
+      },
+      "candidate-profile.execution.json": {
+        "bytes": 972,
+        "sha256": "21cc2b2b51d673f3d7b51d1a9ebdf2080cd6fff763f1629222affe5b53a7162c"
+      },
+      "candidate-profile.native.json": {
+        "bytes": 3346,
+        "sha256": "8f8d3f5f520278b9ff18663a92b4d13f2a3521608523492ce7102bcba73e6ec9"
+      },
+      "candidate-profile.result.json": {
+        "bytes": 342,
+        "sha256": "9d645dfdb2c38fb04ea61a352c845f2db1830d8626b8f119e7e2583cc413ebf6"
+      },
+      "candidate-profile.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "candidate-profile.stdout.raw": {
+        "bytes": 1282,
+        "sha256": "6eae9073b386c1f193762009732fc79bb1a8f8d8bf3b6233b715e99be67144ed"
+      },
+      "candidate.ts": {
+        "bytes": 32702,
+        "sha256": "c25af3c9a5e133403d9e72d3bbe5ec10c4bccd9752aac504491405f66fc0bcf2"
+      },
+      "capture.mjs": {
+        "bytes": 7513,
+        "sha256": "4eaacab362795a7abbd73445976ae2b985219df60c1ec5cd4bec692b13767918"
+      },
+      "check-final-docs.mjs": {
+        "bytes": 781,
+        "sha256": "52f211ec5387c5a46ddea1e48b047209c243e0af5d4a2cccc74f72d08db2c8a5"
+      },
+      "combined-summary.json": {
+        "bytes": 8495024,
+        "sha256": "ed34efa199305f836f6752d4fc48a4b708a9c4d9d09752ed8cfa1023b00ac7a1"
+      },
+      "diagnostic-scan.raw": {
+        "bytes": 65979,
+        "sha256": "b55d9d02eec8030e204949f6b79a807565cf65cb1e24e0e95f078300b0d990c9"
+      },
+      "equivalence.json": {
+        "bytes": 1788,
+        "sha256": "d8cef631a7a53d19f8a98c237c10ea2c8c23cc6fb28a0c140ac95c8fab9193f0"
+      },
+      "fresh-reforge.json": {
+        "bytes": 3344051,
+        "sha256": "93a56a646edea13d641f3f1b10e45dd5bbf1f4722c833e061da89ee2258e002e"
+      },
+      "meal-diff-final.execution.json": {
+        "bytes": 2162,
+        "sha256": "d899c5206b4e2a56ab6454f09928a7820d43bb53a7eda0dba225f217ab1a0b77"
+      },
+      "meal-diff-final.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-diff-final.stdout.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-diff.execution.json": {
+        "bytes": 2105,
+        "sha256": "bcc4c3b097125bf4914cf1425f45f4ffa31a9de2396f7fcb4e1c0f8cbc45bfbc"
+      },
+      "meal-diff.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-diff.stdout.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-docs-corrected.execution.json": {
+        "bytes": 2253,
+        "sha256": "70fbd9266acb1246de23c606aa0fa759af40024fb6fd1b38c04ce43c07afd426"
+      },
+      "meal-docs-corrected.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-docs-corrected.stdout.raw": {
+        "bytes": 782327,
+        "sha256": "1add12eb7a0c1948d51f7665204c06dd3a4519598428e5ff9a675af1c619d4f4"
+      },
+      "meal-docs-final.execution.json": {
+        "bytes": 2112,
+        "sha256": "76bf865e01d7a623938cd83217a4474db4362545da6486f21f4058746fe24745"
+      },
+      "meal-docs-final.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-docs-final.stdout.raw": {
+        "bytes": 31100,
+        "sha256": "f6197e8d545aed31eb1b39c456656e02534570699fcc03a72c8445116e26949e"
+      },
+      "meal-docs-publish.execution.json": {
+        "bytes": 2247,
+        "sha256": "fb2a0000e976c45231f39eda675813911a70b5269bf7740d138ab8df67381fdd"
+      },
+      "meal-docs-publish.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-docs-publish.stdout.raw": {
+        "bytes": 782325,
+        "sha256": "7b00996d84099374631ac0cc1434a0be46388251daaf7e0368ba95b2de9fb3c0"
+      },
+      "meal-ledger.execution.json": {
+        "bytes": 2124,
+        "sha256": "3772f0a6ffb84099963abd4f13020b0d50818b6ebb084450770b4fa69ab57ebe"
+      },
+      "meal-ledger.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-ledger.stdout.raw": {
+        "bytes": 113,
+        "sha256": "065f1ac994b5d2672af8d647cfd955cbc05d2b6c79dbf0c10702d509dfee0f56"
+      },
+      "meal-lint-final.execution.json": {
+        "bytes": 2138,
+        "sha256": "be9d614f6c890a30c427a3bc688979a5ec41991655ae0da0075a1d7ffe68b435"
+      },
+      "meal-lint-final.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-lint-final.stdout.raw": {
+        "bytes": 193,
+        "sha256": "1faaf826d2c9db4dccc357e83c7b8c3d24e890cecdabc8f984a2574fcef41184"
+      },
+      "meal-lint.execution.json": {
+        "bytes": 2081,
+        "sha256": "28b39dc350c9c5330361c4a2dfb23b0cda4eb3bd3fc55c27415b65d542ba37a0"
+      },
+      "meal-lint.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-lint.stdout.raw": {
+        "bytes": 193,
+        "sha256": "1faaf826d2c9db4dccc357e83c7b8c3d24e890cecdabc8f984a2574fcef41184"
+      },
+      "meal-nine.diagnostics.json": {
+        "bytes": 3040,
+        "sha256": "9fd57db005a13578107e13d534692ba760f32c279bd98ba74ee0f6d4add50cb6"
+      },
+      "meal-nine.execution.json": {
+        "bytes": 1838,
+        "sha256": "78ed9d78d5ff35499919c82c391aee36322e02436c5ec302bb01cdb70d017855"
+      },
+      "meal-nine.native.json": {
+        "bytes": 3525,
+        "sha256": "3e0baf40162133b9f37df1756d53260f3fb403ad6cff95cbfb081e9239347b78"
+      },
+      "meal-nine.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-nine.stdout.raw": {
+        "bytes": 3204,
+        "sha256": "ab84581e0f66f03f38ebed2a6c020506da1d9cb4a906c7a5c769400f796dab72"
+      },
+      "meal-official.diagnostics.json": {
+        "bytes": 72555,
+        "sha256": "644b401bc8c0f5d9adc05a4effba860e4572407be13e01650a21a49bbfafb6db"
+      },
+      "meal-official.execution.json": {
+        "bytes": 1646,
+        "sha256": "77d5137600fe7bd3d146855ffbfc3b5cf705476ebbf269e4029a51cac93382fa"
+      },
+      "meal-official.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-official.stdout.raw": {
+        "bytes": 80954,
+        "sha256": "f63f96de829f9865d65217c06957e96cb2a0361e1945e5a8405955a9af58a11a"
+      },
+      "meal-statics-first.execution.json": {
+        "bytes": 2401,
+        "sha256": "8f2c7e0dd6a6d7f2b7db97de4a06da8dd0b498ea360017d847087b25676e2fd8"
+      },
+      "meal-statics-first.stderr.raw": {
+        "bytes": 829,
+        "sha256": "309d967e86b0db93d8fcbb4b165440dffcee6d0f4f0ad09b7677c21751699efe"
+      },
+      "meal-statics-first.stdout.raw": {
+        "bytes": 246,
+        "sha256": "f46dac4ff1f7d7a02ab62b7c953feda1b89e1c751c44d4577d9331b6704aaf85"
+      },
+      "meal-types.diagnostics.json": {
+        "bytes": 564,
+        "sha256": "5618422a0009c782938922fea8bc57f1c593e97554b9ac3b3f50a7eaab6df007"
+      },
+      "meal-types.execution.json": {
+        "bytes": 1576,
+        "sha256": "71dd6dbe5cbe938f8142b2de014e6547e71c8c58d7e5990904674bb820b5c4b3"
+      },
+      "meal-types.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "meal-types.stdout.raw": {
+        "bytes": 131,
+        "sha256": "23b61d2687647ffbf35e3380d272bbc6a8a40cc363941d524e29eb2f1f2dd638"
+      },
+      "metadata.cjs": {
+        "bytes": 4175,
+        "sha256": "5a83f2dc74b534f9d82cf68d09323b3f8b16decb194dd88b7dc80432182f2b14"
+      },
+      "official-facade.mjs": {
+        "bytes": 22903,
+        "sha256": "8b65b02eea0cf52ffcd29b66184a2476aacea3c3c87e66001af180a2f07144a5"
+      },
+      "official-refresh-proof.json": {
+        "bytes": 1106,
+        "sha256": "28e274b4005816c6c25b03636e7dbb5fdb51f3f130574ab07256c3e0c2e234e7"
+      },
+      "ownership-probe.mjs": {
+        "bytes": 6492,
+        "sha256": "e284f0affcfd90d129f4f6f7e381caae8a606e1a8fdfa5497274e243cf74deb8"
+      },
+      "package-evidence.mjs": {
+        "bytes": 8516,
+        "sha256": "4008652576ddc86b44f0a084954e13a4de5bc3009bbb8a2f3fde3b53bbd00b51"
+      },
+      "probe.mjs": {
+        "bytes": 6470,
+        "sha256": "62d928c3dc931e3bf04f0b331508647439caf0b7e11efee865201ea12240e71b"
+      },
+      "prove-equivalence.mjs": {
+        "bytes": 2331,
+        "sha256": "f28613106fa0b970e4038e3f4b957b7fcabd1e037b2ec6939c0312d7e54183d3"
+      },
+      "refresh-official.mjs": {
+        "bytes": 6813,
+        "sha256": "f1786d682edb4899430c97a4c2dca4afa5c1c9f660be7c4f055c0a63f152abbd"
+      },
+      "reuse-proof.json": {
+        "bytes": 1974,
+        "sha256": "b869258e04be1e778c100e6813dc53085f933228d25b71b8bf4fbca313df88a0"
+      },
+      "scan-gates.cjs": {
+        "bytes": 1990,
+        "sha256": "a7adae1ed84ff3e02e3c4a1452dea9c400f91f796448c06babcdcd648abbc484"
+      },
+      "scope.json": {
+        "bytes": 661,
+        "sha256": "1604d3e0b0c3b1a620e32b677b758dad235f26c6162c1126aaac3d07b19d8a9c"
+      },
+      "word-catalog.cjs": {
+        "bytes": 3323,
+        "sha256": "b94a4de7ce56c98e06ae222653938d193f905684033904aa88b387652ee13501"
+      },
+      "word-policy.json": {
+        "bytes": 759,
+        "sha256": "2536aac2a66842ad05bffaa0a6651288b2fbc10822033108751fbb99c1d92eae"
+      },
+      "prior/ci-meal-baseline.execution.json": {
+        "bytes": 1458,
+        "sha256": "a038a79a28fd187579b5a7751556bf4173538c7d01e391349ef655600bfb64e0"
+      },
+      "prior/ci-meal-baseline.stdout.raw": {
+        "bytes": 849,
+        "sha256": "3b50768e99fa43bbac12fd83f3e28871dc21e6e09b068bfa7dab047f5d121bf3"
+      },
+      "prior/ci-meal-baseline.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "prior/ci-meal-baseline.native.json": {
+        "bytes": 3312,
+        "sha256": "801c80aab5acdc09863957e5ea15cd019c33693f24ed5258700e523bcc38ed6a"
+      },
+      "prior/ci-two-tests-final-ratchet.execution.json": {
+        "bytes": 2065,
+        "sha256": "179b6bf3f71648bbbbdf087072c6f6c47ab8df144c2e70fff2eecc3884230c43"
+      },
+      "prior/ci-two-tests-final-ratchet.coverage-summary.json": {
+        "bytes": 8495024,
+        "sha256": "3dfad801e69d282ee42ebe9fb547fffcc477679ba8df3f7b029194d7c50cdd42"
+      },
+      "prior/ci-two-tests-final-ratchet.diagnostics.json": {
+        "bytes": 81915,
+        "sha256": "e4a42840ce93922ec3d9b43941fd531edbecda02f3e30b32b1b5eea87d8a04cb"
+      },
+      "prior/github-repair-main-docs.json": {
+        "bytes": 2431,
+        "sha256": "b3ead6a73bf44156382c4813afac16f69e79cfb56ca5aacd54e44c187a326b37"
+      },
+      "prior/github-repair-main-docs-full.raw": {
+        "bytes": 2249557,
+        "sha256": "fe3b44717cafc0f74cd5f6bbfa3708c5b116a7524bb10e4d58998424367a7e8d"
+      },
+      "prior/github-repair-main-docs-annotations.json": {
+        "bytes": 980,
+        "sha256": "14505d51a9a0c0571ba58b5a7852468dff2890ecda2a4f135d7c6a366c4e7ce6"
+      },
+      "prior/github-repair-main-docs-receipt.json": {
+        "bytes": 984,
+        "sha256": "12f18388c1ac7e9acc0170f95dc5de88b190ed5756fa1d852b09c346d79b25b4"
+      },
+      "prior/github-repair-main-coverage.json": {
+        "bytes": 2785,
+        "sha256": "97fd326049be27baf98bf5288a8279bd188575f2e87d0bd24f70343451d759bf"
+      },
+      "prior/github-repair-main-coverage-full.raw": {
+        "bytes": 426328,
+        "sha256": "68711a802caf6b08aff8b78d20b7591b4881279fd8e31e84c1df24c06941e349"
+      },
+      "prior/github-repair-main-coverage-annotations.json": {
+        "bytes": 1313,
+        "sha256": "55fc1b214dfa806cf2b0907521e384c01f17ed587acc0d194b5fcffc95ea554b"
+      },
+      "official-output/.test-inventory/reforge.fast.json": {
+        "bytes": 2206396,
+        "sha256": "7177a6497b2afd28c67a6f90bd97a51c09453675d11248e6bd95e30aec84704f"
+      },
+      "official-output/reforge/coverage-summary.json": {
+        "bytes": 55112,
+        "sha256": "8c5891cba8cceb0ce366731f9492c21239c8c9ad9a0805ec6afd4664080257e7"
+      }
+    },
+    "sha256": "ea9720403957fbce15e77f7e13d9161ca85245b2aa46ca10074ae388ddb60501"
+  },
+  "limits": [
+    "CI repair only, no entire Reforge test or CODE3x acceptance.",
+    "Six package result reuse is explicit; ignored external inputs are not historically rehashed.",
+    "No newly executed browser/route E2E/visual/full SDLPal or ordinary-story WORD reachability proof.",
+    "No new behavior/schema/save/asset/public API/config/rule/timeout changes."
+  ]
+}

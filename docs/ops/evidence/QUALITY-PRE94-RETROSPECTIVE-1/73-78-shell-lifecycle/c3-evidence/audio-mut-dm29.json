@@ -1,0 +1,256 @@
+{
+  "numTotalTestSuites": 6,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 20,
+  "numPassedTests": 19,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792467742378,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["M6 audio url 映射(纯)"],
+          "fullName": "M6 audio url 映射(纯) sfxUrl → {base}/sounds/{id}.wav",
+          "status": "passed",
+          "title": "sfxUrl → {base}/sounds/{id}.wav",
+          "duration": 0.6902499999999918,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 audio url 映射(纯)"],
+          "fullName": "M6 audio url 映射(纯) musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:69 Musics/%.3d.mid)",
+          "status": "passed",
+          "title": "musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:69 Musics/%.3d.mid)",
+          "duration": 0.15112500000003593,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 audio url 映射(纯)"],
+          "fullName": "M6 audio url 映射(纯) pickMusicTrack:战斗中→wNumBattleMusic,否则→wNumMusic(battle.c:728/1849)",
+          "status": "passed",
+          "title": "pickMusicTrack:战斗中→wNumBattleMusic,否则→wNumMusic(battle.c:728/1849)",
+          "duration": 0.08025000000003502,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 audio url 映射(纯)"],
+          "fullName": "M6 audio url 映射(纯) pickMusicTrack DM29:入场揭场未完 → 0 静默;非战斗不受 intro 标志影响",
+          "status": "failed",
+          "title": "pickMusicTrack DM29:入场揭场未完 → 0 静默;非战斗不受 intro 标志影响",
+          "duration": 2.8532500000000027,
+          "failureMessages": [
+            "AssertionError: expected 7 to be +0 // Object.is equality\n    at /Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/audio.test.ts:38:47\n    at file:///Users/zhangxu/.glm-worktrees/pre94-foundation/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.glm-worktrees/pre94-foundation/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.glm-worktrees/pre94-foundation/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.glm-worktrees/pre94-foundation/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.glm-worktrees/pre94-foundation/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.glm-worktrees/pre94-foundation/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.glm-worktrees/pre94-foundation/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 audio url 映射(纯)"],
+          "fullName": "M6 audio url 映射(纯) battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032)",
+          "status": "passed",
+          "title": "battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032)",
+          "duration": 0.16899999999998272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync drain gs.pendingSounds → 就地清空队列(core 复用同引用)",
+          "status": "passed",
+          "title": "drain gs.pendingSounds → 就地清空队列(core 复用同引用)",
+          "duration": 0.20433399999996027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync BGM:track 变化 → backend.play(track, loop);track=0 → stop;同号 → 不重复",
+          "status": "passed",
+          "title": "BGM:track 变化 → backend.play(track, loop);track=0 → stop;同号 → 不重复",
+          "duration": 0.13408299999997553,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync setMusicEnabled(false) → stop;(true) → 重播当前 track",
+          "status": "passed",
+          "title": "setMusicEnabled(false) → stop;(true) → 重播当前 track",
+          "duration": 0.11408299999999372,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync L47 补播还原真实 loop:非循环 track 经 setMusicEnabled 开关后仍以 loop=false 重播",
+          "status": "passed",
+          "title": "L47 补播还原真实 loop:非循环 track 经 setMusicEnabled 开关后仍以 loop=false 重播",
+          "duration": 0.29683299999999235,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync L47 setMusicBackend 注入补播也用记录的 loop=false",
+          "status": "passed",
+          "title": "L47 setMusicBackend 注入补播也用记录的 loop=false",
+          "duration": 0.1245829999999728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync setMusicBackend 注入时若已有当前 track → 立即起播(补 M6a no-op 期间漏播)",
+          "status": "passed",
+          "title": "setMusicBackend 注入时若已有当前 track → 立即起播(补 M6a no-op 期间漏播)",
+          "duration": 0.12704199999996035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound)"
+          ],
+          "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 敌死 → enemy.deathSound(fight.c:756)",
+          "status": "passed",
+          "title": "敌死 → enemy.deathSound(fight.c:756)",
+          "duration": 0.05170800000001918,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound)"
+          ],
+          "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 敌攻 → enemy.attackSound",
+          "status": "passed",
+          "title": "敌攻 → enemy.attackSound",
+          "duration": 0.02812499999998863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound)"
+          ],
+          "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 我攻 → partyMembers[idx]→role.weaponSound(fight.c:2124)",
+          "status": "passed",
+          "title": "我攻 → partyMembers[idx]→role.weaponSound(fight.c:2124)",
+          "duration": 0.026499999999998636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound)"
+          ],
+          "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 无音:deathSound=0 / weaponSound=0 / 非战斗事件 → 0(不播)",
+          "status": "passed",
+          "title": "无音:deathSound=0 / weaponSound=0 / 非战斗事件 → 0(不播)",
+          "duration": 0.044959000000005744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位)"
+          ],
+          "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) 同号未播完 → 第二次 tryPlay false(去重);markEnded 复位后再放行",
+          "status": "passed",
+          "title": "同号未播完 → 第二次 tryPlay false(去重);markEnded 复位后再放行",
+          "duration": 0.05166700000000901,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位)"
+          ],
+          "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) lastSFX 只压制紧邻同号,异号放行",
+          "status": "passed",
+          "title": "lastSFX 只压制紧邻同号,异号放行",
+          "duration": 0.045000000000015916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位)"
+          ],
+          "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) markEnded 仅当 id 仍是 lastSFX 时复位(被异号覆盖后旧 id 完成不误清)",
+          "status": "passed",
+          "title": "markEnded 仅当 id 仍是 lastSFX 时复位(被异号覆盖后旧 id 完成不误清)",
+          "duration": 0.03241600000001199,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复)"],
+          "fullName": "M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复) 切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)",
+          "status": "passed",
+          "title": "切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)",
+          "duration": 0.27333400000003394,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复)"],
+          "fullName": "M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复) stop:释放当前元素 src",
+          "status": "passed",
+          "title": "stop:释放当前元素 src",
+          "duration": 0.07195799999999508,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792467742760,
+      "endTime": 1792467742766.2734,
+      "status": "failed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/audio.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "source": "complete native runner JSON, not separate vitest list/official baseline execution",
+  "before": {
+    "sss.test.ts": 6,
+    "msg.test.ts": 3,
+    "sss.boundaries.test.ts": 7,
+    "msg.boundaries.test.ts": 4
+  },
+  "after": {
+    "sss.test.ts": 1,
+    "msg.test.ts": 1,
+    "sss.boundaries.test.ts": 7,
+    "msg.boundaries.test.ts": 4
+  },
+  "removedIdentities": [
+    ["msg.test.ts", "parseMessages 包含已知主角名\"逍遥\"出现的对白"],
+    ["msg.test.ts", "parseMessages 至少有 1000 条消息(原版规模)"],
+    ["msg.test.ts", "parseMessages 随便取一条,是字符串"],
+    ["sss.test.ts", "parseSss chunk 0 长度是 EventObject 整数倍(struct size 验证)"],
+    ["sss.test.ts", "parseSss 字节码 chunk 非空"],
+    ["sss.test.ts", "parseSss 字节码长度是 8 的倍数(每指令 8 字节)"],
+    ["sss.test.ts", "parseSss 消息偏移表非空"],
+    ["sss.test.ts", "parseSss 至少有 1 个事件对象"],
+    ["sss.test.ts", "parseSss 至少有 1 个场景"]
+  ],
+  "addedIdentities": [
+    ["msg.test.ts", "parseMessages 原盘固定文本：精确条数、首中末样本、控制标记和输入所有权"],
+    ["sss.test.ts", "parseSss 全原盘结构：每条语义/raw字段、表与完整字节码符合独立LE oracle"]
+  ],
+  "snapshots": [
+    {
+      "revision": "3a9f47043587bf388bfe4199b5d3c435eecd9623",
+      "fileSha256": {
+        "packages/pal-extract/src/io/sss.test.ts": "19d5d8cd80f2e1026d5a7b52da708e7b1051539d5afe1bffc69f0e0bc0816deb",
+        "packages/pal-extract/src/io/msg.test.ts": "73c14c910142e6a1a068413d035855735fbb7a1cb9804a55ac44a6763bb815f0"
+      },
+      "fastEntries": []
+    },
+    {
+      "revision": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+      "fileSha256": {
+        "packages/pal-extract/src/io/sss.test.ts": "19d5d8cd80f2e1026d5a7b52da708e7b1051539d5afe1bffc69f0e0bc0816deb",
+        "packages/pal-extract/src/io/msg.test.ts": "73c14c910142e6a1a068413d035855735fbb7a1cb9804a55ac44a6763bb815f0"
+      },
+      "fastEntries": []
+    },
+    {
+      "revision": "d4cf7f57d237895d920ddee72f69e0278680157a",
+      "fileSha256": {
+        "packages/pal-extract/src/io/sss.test.ts": "19d5d8cd80f2e1026d5a7b52da708e7b1051539d5afe1bffc69f0e0bc0816deb",
+        "packages/pal-extract/src/io/msg.test.ts": "73c14c910142e6a1a068413d035855735fbb7a1cb9804a55ac44a6763bb815f0"
+      },
+      "fastEntries": []
+    }
+  ],
+  "noNewRetirementApproval": true,
+  "currentActualFastSelection": {
+    "command": [
+      "node",
+      "--input-type=module",
+      "-e",
+      "import { coveragePackages, testSelection } from './scripts/coverage/config.mjs'; const pkg=coveragePackages.find(p=>p.id==='pal-extract'); console.log(JSON.stringify(testSelection(pkg,'fast').excludes))"
+    ],
+    "explicitRawExclusions": ["src/io/msg.test.ts", "src/io/sss.test.ts"],
+    "configSha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+  }
+}

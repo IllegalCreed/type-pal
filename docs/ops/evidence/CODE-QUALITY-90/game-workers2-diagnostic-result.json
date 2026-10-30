@@ -1,0 +1,145 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "--config",
+    "vitest.config.ts",
+    "--passWithNoTests",
+    "--exclude",
+    "node_modules/**",
+    "--exclude",
+    "dist/**",
+    "--exclude",
+    "build/**",
+    "--exclude",
+    "coverage/**",
+    "--exclude",
+    "**/*.pal.test.js",
+    "--exclude",
+    "**/*.pal.test.jsx",
+    "--exclude",
+    "**/*.pal.test.ts",
+    "--exclude",
+    "**/*.pal.test.tsx",
+    "--exclude",
+    "**/*.pal.test.mjs",
+    "--exclude",
+    "**/*.pal.test.mts",
+    "--exclude",
+    "**/*.pal.test.cjs",
+    "--exclude",
+    "**/*.pal.test.cts",
+    "--exclude",
+    "src/__tests__/e2e-battle.test.ts",
+    "--exclude",
+    "src/assets/rng-blob-snapshot.test.ts",
+    "--exclude",
+    "src/assets/sprite-blob-snapshot.test.ts",
+    "--exclude",
+    "src/assets/tileset-blob-snapshot.test.ts",
+    "--exclude",
+    "src/dev/dev-panel.test.ts",
+    "--coverage",
+    "--coverage.provider=v8",
+    "--coverage.reportsDirectory=/Users/zhangxu/illegal/type-pal-quality-3x/coverage/code90-game-workers2",
+    "--coverage.reporter=text-summary",
+    "--coverage.reporter=json-summary",
+    "--coverage.reporter=lcov",
+    "--coverage.include",
+    "src/**/*.{ts,tsx}",
+    "--coverage.exclude",
+    "**/__tests__/**",
+    "--coverage.exclude",
+    "**/*.test.ts",
+    "--coverage.exclude",
+    "**/*.test.tsx",
+    "--coverage.exclude",
+    "**/*.spec.ts",
+    "--coverage.exclude",
+    "**/*.spec.tsx",
+    "--coverage.exclude",
+    "**/*.d.ts"
+  ],
+  "environment": {
+    "TYPE_PAL_COVERAGE": "1",
+    "TYPE_PAL_COVERAGE_PROFILE": "fast",
+    "VITEST_MAX_WORKERS": "2",
+    "NODE_DISABLE_COMPILE_CACHE": "1"
+  },
+  "sourceBase": "384394a72743f64e5e4dc4845b91b741935857ff",
+  "exitCode": 0,
+  "officialGate": false,
+  "previousGameMetrics": {
+    "lines": {
+      "total": 13685,
+      "covered": 12333,
+      "skipped": 0,
+      "pct": 90.12
+    },
+    "statements": {
+      "total": 15602,
+      "covered": 13805,
+      "skipped": 0,
+      "pct": 88.48
+    },
+    "functions": {
+      "total": 1856,
+      "covered": 1550,
+      "skipped": 0,
+      "pct": 83.51
+    },
+    "branches": {
+      "total": 11373,
+      "covered": 9058,
+      "skipped": 0,
+      "pct": 79.64
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "sourceHashes": {
+    "magic-script.ts": "eaedbe44b49c45dd83a80ac07ede2a4356a19aa0aa804431361181154bc23c31",
+    "magic-script.test.ts": "e008bd7fb4d52aac26dda06508140269cff0833300f11edbba1b3f6290e07a55"
+  },
+  "currentGameMetrics": {
+    "lines": {
+      "total": 13685,
+      "covered": 12333,
+      "skipped": 0,
+      "pct": 90.12
+    },
+    "statements": {
+      "total": 15602,
+      "covered": 13805,
+      "skipped": 0,
+      "pct": 88.48
+    },
+    "functions": {
+      "total": 1856,
+      "covered": 1550,
+      "skipped": 0,
+      "pct": 83.51
+    },
+    "branches": {
+      "total": 11373,
+      "covered": 9058,
+      "skipped": 0,
+      "pct": 79.64
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "fileDifferences": []
+}

@@ -13,7 +13,7 @@ describe('checkpoints', () => {
     expect(CHECKPOINTS[0]?.name).toBe('见石碑')
     expect(CHECKPOINTS[20]?.name).toBe('通关')
   })
-  it('香蕉配置(照抄 PalTimer 3 精确格 + PARTYOFFSET,零容差)', () => {
+  it('香蕉静态配置为三格与零容差，不证明运行时校准', () => {
     expect(BANANA.scene).toBe(177)
     expect(BANANA.itemId).toBe(291)
     expect(BANANA.cells).toEqual([

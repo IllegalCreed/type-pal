@@ -20,8 +20,9 @@
 
 import type { Command, Enemy, Item, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
-import { getPlayerPoisonResistance } from '../../equip-effect.js'
+import { getPlayerPoisonResistance } from '../../equipment-state.js'
 import type { GameState } from '../../game-state.js'
+import { getItemScriptEntry, setItemScriptEntry } from '../../object-script-state.js'
 import type { SeedableRng } from '../../rng.js'
 import {
   BATTLE_FRAME_TIME,
@@ -30,10 +31,10 @@ import {
   buildPlayerAttackTimeline,
 } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
+import type { RunScriptFn } from '../battle-runtime-context.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import { calcBaseDamage, calcPhysicalAttackDamage } from '../formulas.js'
 import type { ActionQueueItem } from '../turn-queue.js'
-import type { RunScriptFn } from './magic.js'
 
 /**
  * 敌人普攻附带等价物品中毒所需上下文(sdlpal fight.c:5139-5146 wAttackEquivItem)。
@@ -82,7 +83,7 @@ function asShort(n: number): number {
  * 注:`RandomLong(0,5)` 即使 bravery>0 也照样消费一次(C `==0 || bravery` 左操作数先求值),
  *     故 RNG 调用序固定为 jitter→crit→(role0)李逍遥→float,测试脚本化 rng 按此序喂值。
  *
- * @returns damage(钳后)+ fCritical(暴击 flag,供 D17 暴击演出;本批仅用 damage)。
+ * @returns damage(钳后)与fCritical;caller用暴击标记选择攻击音效。
  */
 function applyPlayerAttackModifiers(
   base: number,
@@ -130,21 +131,17 @@ export function performAttack(
 ): void {
   // —— 算 str ——
   let str: number
-  let casterLevel: number
   if (actor.isEnemy) {
     const enemy: Enemy = state.enemies[actor.idx]!.e
     str = asShort(enemy.attackStrength) + (enemy.level + 6) * 6
-    casterLevel = enemy.level
     if (str < 0) str = 0 // sdlpal fight.c:4920
   } else {
     const role = playerRoles.roles[state.players[actor.idx]!.roleId]!
     // str = PAL_GetPlayerAttackStrength(global.c:1757-1764)= rgwAttackStrength + Σ装备,**无 level 项**
-    //   (等级项是敌方专属,fight.c:4917)。role.attackStrength 已 = base+装备(projectRuntimeToBattleRoles
-    //   game-state.ts:1279)→ 直接用,绝不再加 (level+6)*6(M3 误套敌方公式的 bug,2026-06-02 审计核源订正)。
+    //   (等级项是敌方专属,fight.c:4917)。role.attackStrength 已由 projectRuntimeToBattleRoles
+    //   合入 runtime base + 装备效果,直接用,不再加 (level+6)*6(2026-06-02 审计核源订正)。
     str = asShort(role.attackStrength)
-    casterLevel = role.level
   }
-  void casterLevel
 
   // —— 群攻(attackAll 武器):player 且 targetIdx<0(=-1 全体)——
   // sdlpal kBattleActionAttack sTarget==-1 分支(fight.c:3681-3748):
@@ -418,9 +415,12 @@ export function performAttack(
       rate >= state.rng.rangeInclusive(1, 10) &&
       getPlayerPoisonResistance(equivPoison.gs, roleId) < state.rng.rangeInclusive(1, 100)
     ) {
-      const scriptOnUse = equivPoison.items.find((it) => it.id === equivId)?.scriptOnUse ?? 0
-      if (scriptOnUse > 0) {
-        equivPoison.runScript({
+      const poisonItem = equivPoison.items.find((it) => it.id === equivId)
+      const scriptOnUse = poisonItem
+        ? getItemScriptEntry(equivPoison.gs, poisonItem, 'scriptOnUse')
+        : 0
+      if (poisonItem && scriptOnUse > 0) {
+        const nextEntry = equivPoison.runScript({
           commands: equivPoison.commands,
           ip: scriptOnUse,
           bus,
@@ -428,6 +428,7 @@ export function performAttack(
           eventObjectId: roleId, // wEventObjectID = 被打队员 → 脚本 0x29 单体毒之
           battleCtx: { state, target: { type: 'player', idx: targetIdx }, gs: equivPoison.gs },
         })
+        setItemScriptEntry(equivPoison.gs, poisonItem, 'scriptOnUse', nextEntry)
       }
     }
   }

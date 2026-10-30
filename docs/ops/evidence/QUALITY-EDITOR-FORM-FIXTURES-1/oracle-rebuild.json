@@ -1,0 +1,32 @@
+{
+  "method": "Independent split rebuild from untouched CasualtyEditor.tsx after cleanup; raw/runner bytes and every executed identity checked",
+  "workspaceAbsent": true,
+  "rows": [
+    {
+      "label": "oracle-old-own-undefined",
+      "passed": 10,
+      "failed": 0,
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true,
+      "failedNames": []
+    },
+    {
+      "label": "oracle-new-own-undefined",
+      "passed": 9,
+      "failed": 1,
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true,
+      "failedNames": [
+        "CasualtyEditor (E18-1) ＋台词 → 即时写回 session;移除本槽 → 键删除;两槽全移除 → casualty undefined(K4)"
+      ]
+    },
+    {
+      "label": "oracle-recovery",
+      "passed": 14,
+      "failed": 0,
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": false,
+      "failedNames": []
+    }
+  ]
+}

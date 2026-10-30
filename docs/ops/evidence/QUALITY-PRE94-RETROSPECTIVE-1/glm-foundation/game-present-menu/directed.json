@@ -1,0 +1,1769 @@
+{
+  "numTotalTestSuites": 47,
+  "numPassedTestSuites": 47,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 154,
+  "numPassedTests": 154,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792371421375,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
+          "status": "passed",
+          "title": "G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
+          "duration": 1.181374999999889,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24",
+          "status": "passed",
+          "title": "G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24",
+          "duration": 0.2587499999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色",
+          "status": "passed",
+          "title": "G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色",
+          "duration": 0.30745900000010806,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C04 单行框默认阴影落在框身下方，低四位右移一位",
+          "status": "passed",
+          "title": "G07-C04 单行框默认阴影落在框身下方，低四位右移一位",
+          "duration": 0.23937500000010914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗",
+          "status": "passed",
+          "title": "G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗",
+          "duration": 0.1790000000000873,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C06 style 1 缺少 frame 9 时抛错并指名该帧",
+          "status": "passed",
+          "title": "G07-C06 style 1 缺少 frame 9 时抛错并指名该帧",
+          "duration": 0.43841699999984485,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7",
+          "status": "passed",
+          "title": "G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7",
+          "duration": 0.4972090000001117,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色",
+          "status": "passed",
+          "title": "G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色",
+          "duration": 0.15670799999998053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色",
+          "status": "passed",
+          "title": "G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色",
+          "duration": 0.4329999999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C10 不透明且索引为 0 的块仍覆盖底色",
+          "status": "passed",
+          "title": "G07-C10 不透明且索引为 0 的块仍覆盖底色",
+          "duration": 0.14533299999993687,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C11 列数取最长的一项，短项不把列数抬高",
+          "status": "passed",
+          "title": "G07-C11 列数取最长的一项，短项不把列数抬高",
+          "duration": 0.13949999999999818,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-C 菜单框像素"],
+          "fullName": "G07-C 菜单框像素 G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽",
+          "status": "passed",
+          "title": "G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽",
+          "duration": 0.07866600000011204,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371422587,
+      "endTime": 1792371422591.433,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L12 drawBox / drawSingleLineBox 剩余合同"],
+          "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 drawSingleLineBox 缺 44-46 帧 → fail-loud 抛错（指名帧区间）",
+          "status": "passed",
+          "title": "drawSingleLineBox 缺 44-46 帧 → fail-loud 抛错（指名帧区间）",
+          "duration": 1.0810410000000275,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L12 drawBox / drawSingleLineBox 剩余合同"],
+          "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 shadowOffset 0：无阴影，(x+6,y+6) 保持底色",
+          "status": "passed",
+          "title": "shadowOffset 0：无阴影，(x+6,y+6) 保持底色",
+          "duration": 0.5408330000000205,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L12 drawBox / drawSingleLineBox 剩余合同"],
+          "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 box 越出 fb 右/下边界：裁剪不抛错，界内像素照画",
+          "status": "passed",
+          "title": "box 越出 fb 右/下边界：裁剪不抛错，界内像素照画",
+          "duration": 0.289792000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L12 drawBox / drawSingleLineBox 剩余合同"],
+          "fullName": "L12 drawBox / drawSingleLineBox 剩余合同 menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计",
+          "status": "passed",
+          "title": "menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计",
+          "duration": 0.2317920000000413,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L12 solidImage 语义（本队列 fixture 自检）"],
+          "fullName": "L12 solidImage 语义（本队列 fixture 自检） 素色图 opaque 全 1，blit 后整片覆盖",
+          "status": "passed",
+          "title": "素色图 opaque 全 1，blit 后整片覆盖",
+          "duration": 0.09337500000003729,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371423961,
+      "endTime": 1792371423963.2898,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["M5.6 W0.c drawBox"],
+          "fullName": "M5.6 W0.c drawBox 画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit",
+          "status": "passed",
+          "title": "画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit",
+          "duration": 2.805499999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.c drawBox"],
+          "fullName": "M5.6 W0.c drawBox shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel",
+          "status": "passed",
+          "title": "shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel",
+          "duration": 0.8542499999999791,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.c drawBox"],
+          "fullName": "M5.6 W0.c drawBox style 1 → 用 frame 9-17",
+          "status": "passed",
+          "title": "style 1 → 用 frame 9-17",
+          "duration": 0.5186250000000427,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.c drawBox"],
+          "fullName": "M5.6 W0.c drawBox rows=2 cols=4 → 4×6 tile 网格",
+          "status": "passed",
+          "title": "rows=2 cols=4 → 4×6 tile 网格",
+          "duration": 0.48183300000005147,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.c drawBox"],
+          "fullName": "M5.6 W0.c drawBox uiSpriteFrames 不足 9 个 → 抛错",
+          "status": "passed",
+          "title": "uiSpriteFrames 不足 9 个 → 抛错",
+          "duration": 0.9147080000000187,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371423812,
+      "endTime": 1792371423817.9148,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-box.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L09 drawConfirmBox"],
+          "fullName": "L09 drawConfirmBox 默认 否/是：rightSelected=false → 左「否」0xF9、右「是」0x4F；两框体已画",
+          "status": "passed",
+          "title": "默认 否/是：rightSelected=false → 左「否」0xF9、右「是」0x4F；两框体已画",
+          "duration": 1.5424999999999613,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L09 drawConfirmBox"],
+          "fullName": "L09 drawConfirmBox rightSelected=true 高亮换右；fShadow 三影：字亮点右/下/右下为黑 0",
+          "status": "passed",
+          "title": "rightSelected=true 高亮换右；fShadow 三影：字亮点右/下/右下为黑 0",
+          "duration": 0.40733299999999417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L09 drawConfirmBox"],
+          "fullName": "L09 drawConfirmBox 自定义 关/开 标签（PAL_SwitchMenu 复用）：同布局不同字",
+          "status": "passed",
+          "title": "自定义 关/开 标签（PAL_SwitchMenu 复用）：同布局不同字",
+          "duration": 0.3854170000000181,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371424118,
+      "endTime": 1792371424120.4072,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L11 drawEquipMenu 剩余分支"],
+          "fullName": "L11 drawEquipMenu 剩余分支 pick-role 非顺序 party [3,1]：equipableBy 按 roleId 位着色，选中高亮按 party 序",
+          "status": "passed",
+          "title": "pick-role 非顺序 party [3,1]：equipableBy 按 roleId 位着色，选中高亮按 party 序",
+          "duration": 3.463000000000079,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L11 drawEquipMenu 剩余分支"],
+          "fullName": "L11 drawEquipMenu 剩余分支 已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画",
+          "status": "passed",
+          "title": "已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画",
+          "duration": 1.166749999999979,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L11 drawEquipMenu 剩余分支"],
+          "fullName": "L11 drawEquipMenu 剩余分支 roles 缺 party 中某 roleId：该行跳过不崩，另一行正常",
+          "status": "passed",
+          "title": "roles 缺 party 中某 roleId：该行跳过不崩，另一行正常",
+          "duration": 0.503208000000086,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371423759,
+      "endTime": 1792371423763.5032,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L10 drawInventoryMenu 剩余分支"],
+          "fullName": "L10 drawInventoryMenu 剩余分支 库存条目 itemId 不在 catalog 且被选中：label ?id（tofu 顶行）+ SELECTED_INACTIVE 0x1C",
+          "status": "passed",
+          "title": "库存条目 itemId 不在 catalog 且被选中：label ?id（tofu 顶行）+ SELECTED_INACTIVE 0x1C",
+          "duration": 2.796709000000078,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L10 drawInventoryMenu 剩余分支"],
+          "fullName": "L10 drawInventoryMenu 剩余分支 未知项与可用项混列：未知 0x18（未选中），可用项被选中 0xF9",
+          "status": "passed",
+          "title": "未知项与可用项混列：未知 0x18（未选中），可用项被选中 0xF9",
+          "duration": 1.260167000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L10 drawInventoryMenu 剩余分支"],
+          "fullName": "L10 drawInventoryMenu 剩余分支 use-target 相缺 gs/playerRoles：只画 list，不叠选人层（防御组合不崩）",
+          "status": "passed",
+          "title": "use-target 相缺 gs/playerRoles：只画 list，不叠选人层（防御组合不崩）",
+          "duration": 0.7261249999999109,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371423937,
+      "endTime": 1792371423941.726,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L10 drawInGameMagicMenu 剩余分支"],
+          "fullName": "L10 drawInGameMagicMenu 剩余分支 pick-caster：死亡施法人未选中 0x18、被选中 0x1C；活人选中 0xF9",
+          "status": "passed",
+          "title": "pick-caster：死亡施法人未选中 0x18、被选中 0x1C；活人选中 0xF9",
+          "duration": 2.8722909999999047,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L10 drawInGameMagicMenu 剩余分支"],
+          "fullName": "L10 drawInGameMagicMenu 剩余分支 pick-spell：选中+MP不足 0x1C（预置 disabled 着色，不证明判定已执行）",
+          "status": "passed",
+          "title": "pick-spell：选中+MP不足 0x1C（预置 disabled 着色，不证明判定已执行）",
+          "duration": 2.2875839999999243,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L10 drawInGameMagicMenu 剩余分支"],
+          "fullName": "L10 drawInGameMagicMenu 剩余分支 空法术表：只画 grid 框，不画条目不抛错；MP 框 needed 0",
+          "status": "passed",
+          "title": "空法术表：只画 grid 框，不画条目不抛错；MP 框 needed 0",
+          "duration": 0.5368330000001151,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L10 drawInGameMagicMenu 剩余分支"],
+          "fullName": "L10 drawInGameMagicMenu 剩余分支 spell 不在 catalog：grid label 回退 menu item label；施法人缺 _name 回退 role#id",
+          "status": "passed",
+          "title": "spell 不在 catalog：grid label 回退 menu item label；施法人缺 _name 回退 role#id",
+          "duration": 0.42712500000016007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371422703,
+      "endTime": 1792371422709.4272,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["drawInGameMagicMenu"],
+          "fullName": "drawInGameMagicMenu pick-spell 画选中仙术 scriptDesc 说明(magicmenu.c:191)",
+          "status": "passed",
+          "title": "pick-spell 画选中仙术 scriptDesc 说明(magicmenu.c:191)",
+          "duration": 2.602041999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawInGameMagicMenu"],
+          "fullName": "drawInGameMagicMenu L8:pick-spell 用 WIN95 布局 —— MP 在左侧,右侧 MP 区(215~265)无 slash/MP sprite",
+          "status": "passed",
+          "title": "L8:pick-spell 用 WIN95 布局 —— MP 在左侧,右侧 MP 区(215~265)无 slash/MP sprite",
+          "duration": 0.701958999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371422708,
+      "endTime": 1792371422711.702,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-magic.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L09 drawMenuStack 剩余分支"],
+          "fullName": "L09 drawMenuStack 剩余分支 save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）",
+          "status": "passed",
+          "title": "save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）",
+          "duration": 33.18312500000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L09 drawMenuStack 剩余分支"],
+          "fullName": "L09 drawMenuStack 剩余分支 inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动",
+          "status": "passed",
+          "title": "inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动",
+          "duration": 1.362374999999929,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L09 drawMenuStack 剩余分支"],
+          "fullName": "L09 drawMenuStack 剩余分支 system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）",
+          "status": "passed",
+          "title": "system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）",
+          "duration": 1.5874169999999594,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L09 drawMenuStack 剩余分支"],
+          "fullName": "L09 drawMenuStack 剩余分支 shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层",
+          "status": "passed",
+          "title": "shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层",
+          "duration": 18.815124999999853,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L09 drawMenuStack 剩余分支"],
+          "fullName": "L09 drawMenuStack 剩余分支 缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错",
+          "status": "passed",
+          "title": "缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错",
+          "duration": 0.9271249999999327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371422907,
+      "endTime": 1792371422962.9272,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["M5.6 v2 drawMenuStack(sdlpal 真值坐标)"],
+          "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) menuStack 空 → 不画",
+          "status": "passed",
+          "title": "menuStack 空 → 不画",
+          "duration": 3.6715409999999338,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 v2 drawMenuStack(sdlpal 真值坐标)"],
+          "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) In-Game hub → 主菜单 box 在 sdlpal 真值 (3, 37) + cash 框在 (0, 0)",
+          "status": "passed",
+          "title": "In-Game hub → 主菜单 box 在 sdlpal 真值 (3, 37) + cash 框在 (0, 0)",
+          "duration": 3.122250000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 v2 drawMenuStack(sdlpal 真值坐标)"],
+          "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) System menu → box 在 sdlpal 真值 (40, 60)",
+          "status": "passed",
+          "title": "System menu → box 在 sdlpal 真值 (40, 60)",
+          "duration": 2.176917000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 v2 drawMenuStack(sdlpal 真值坐标)"],
+          "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) C2-quit:system phase=confirm → 叠确认框(130,100)/(205,100);menu 阶段不画",
+          "status": "passed",
+          "title": "C2-quit:system phase=confirm → 叠确认框(130,100)/(205,100);menu 阶段不画",
+          "duration": 1.7809579999999414,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 v2 drawMenuStack(sdlpal 真值坐标)"],
+          "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) 两层栈(in-game + system) → 都画 + cash 框在 in-game 时画",
+          "status": "passed",
+          "title": "两层栈(in-game + system) → 都画 + cash 框在 in-game 时画",
+          "duration": 0.4727500000000191,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 v2 drawMenuStack(sdlpal 真值坐标)"],
+          "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) uiSpriteFrames 不足 → drawSingleLineBox 先抛 frame 44-46 missing",
+          "status": "passed",
+          "title": "uiSpriteFrames 不足 → drawSingleLineBox 先抛 frame 44-46 missing",
+          "duration": 0.4252079999999978,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371423744,
+      "endTime": 1792371423756.4253,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-menu.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L12 drawOpeningMenu 剩余合同"],
+          "fullName": "L12 drawOpeningMenu 剩余合同 cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）",
+          "status": "passed",
+          "title": "cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）",
+          "duration": 1.8453339999999798,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L12 drawOpeningMenu 剩余合同"],
+          "fullName": "L12 drawOpeningMenu 剩余合同 cursor 1：高亮换读档行；fallback 词表未载 → fallback 文案（tofu 像素仍可断言色）",
+          "status": "passed",
+          "title": "cursor 1：高亮换读档行；fallback 词表未载 → fallback 文案（tofu 像素仍可断言色）",
+          "duration": 0.6722499999999627,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L12 drawOpeningMenu 剩余合同"],
+          "fullName": "L12 drawOpeningMenu 剩余合同 makeUiFrames 与本渲染无耦合：不传 frames 也能画（无 box 菜单）",
+          "status": "passed",
+          "title": "makeUiFrames 与本渲染无耦合：不传 frames 也能画（无 box 菜单）",
+          "duration": 0.4410410000000411,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371423985,
+      "endTime": 1792371423987.6724,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["openingItemX — 选项 x 公式(uigame.c:107-108)"],
+          "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) 真 label('新的故事'/'旧的回忆',各 4 字)→ w=4 → x=125(回归钉死:对 shipped 数据零变化)",
+          "status": "passed",
+          "title": "真 label('新的故事'/'旧的回忆',各 4 字)→ w=4 → x=125(回归钉死:对 shipped 数据零变化)",
+          "duration": 2.2211249999999154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["openingItemX — 选项 x 公式(uigame.c:107-108)"],
+          "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) 5 字 → w=5 → x=117;6 字 → w=6 → x=109(公式对长文案左移)",
+          "status": "passed",
+          "title": "5 字 → w=5 → x=117;6 字 → w=6 → x=109(公式对长文案左移)",
+          "duration": 0.5025000000000546,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["openingItemX — 选项 x 公式(uigame.c:107-108)"],
+          "fullName": "openingItemX — 选项 x 公式(uigame.c:107-108) w<=4 不左移(8 ASCII → w=4 → x=125,非 length 8)",
+          "status": "passed",
+          "title": "w<=4 不左移(8 ASCII → w=4 → x=125,非 length 8)",
+          "duration": 0.21100000000001273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染"],
+          "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 320×200 全屏背景 blit — center pixel = bg.indices[center]",
+          "status": "passed",
+          "title": "320×200 全屏背景 blit — center pixel = bg.indices[center]",
+          "duration": 10.697415999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染"],
+          "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 2 个 menu item 坐标 (125,95) (125,112) 字像素被写 — 覆盖 bg",
+          "status": "passed",
+          "title": "2 个 menu item 坐标 (125,95) (125,112) 字像素被写 — 覆盖 bg",
+          "duration": 5.294083999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染"],
+          "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 bg 缺失 → 不画背景(fb 保留初始 0)+ 仍画字",
+          "status": "passed",
+          "title": "bg 缺失 → 不画背景(fb 保留初始 0)+ 仍画字",
+          "duration": 1.3336669999999913,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染"],
+          "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 cursor=0 vs cursor=1 — 渲染不抛错且 fb 内容有差异(高亮位置不同)",
+          "status": "passed",
+          "title": "cursor=0 vs cursor=1 — 渲染不抛错且 fb 内容有差异(高亮位置不同)",
+          "duration": 2.965958999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371423626,
+      "endTime": 1792371423649.966,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-opening-menu.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L11 drawPlayerStatus 剩余分支"],
+          "fullName": "L11 drawPlayerStatus 剩余分支 runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）",
+          "status": "passed",
+          "title": "runtime 0 → 保留真实 runtime 0（不回退 base PlayerRoles）",
+          "duration": 6.878667000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L11 drawPlayerStatus 剩余分支"],
+          "fullName": "L11 drawPlayerStatus 剩余分支 runtime 有值优先于 base：hp 41 画 41 非 base 99",
+          "status": "passed",
+          "title": "runtime 有值优先于 base：hp 41 画 41 非 base 99",
+          "duration": 3.80504099999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L11 drawPlayerStatus 剩余分支"],
+          "fullName": "L11 drawPlayerStatus 剩余分支 装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）",
+          "status": "passed",
+          "title": "装备槽 itemId 不在 catalog：该槽图标与名字都跳过（不 `?id`，与 draw-equip 不同合同）",
+          "duration": 0.32454200000006495,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L11 drawPlayerStatus 剩余分支"],
+          "fullName": "L11 drawPlayerStatus 剩余分支 cursor 越界 / roles 缺 roleId：早退不画不崩",
+          "status": "passed",
+          "title": "cursor 越界 / roles 缺 roleId：早退不画不崩",
+          "duration": 0.24149999999997362,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371423750,
+      "endTime": 1792371423761.3245,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["drawPlayerStatus 毒 row(uigame.c:1245-1253)"],
+          "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) level<=3 → 毒名画在 (185,58),色 = wColor+10",
+          "status": "passed",
+          "title": "level<=3 → 毒名画在 (185,58),色 = wColor+10",
+          "duration": 3.3186249999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawPlayerStatus 毒 row(uigame.c:1245-1253)"],
+          "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) level>3(高级/装备毒哨兵)→ 不画",
+          "status": "passed",
+          "title": "level>3(高级/装备毒哨兵)→ 不画",
+          "duration": 1.617291000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawPlayerStatus 毒 row(uigame.c:1245-1253)"],
+          "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) wPoisonID=0(无毒槽)→ 不画",
+          "status": "passed",
+          "title": "wPoisonID=0(无毒槽)→ 不画",
+          "duration": 1.0899999999999181,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawPlayerStatus 毒 row(uigame.c:1245-1253)"],
+          "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) 重复角色队伍：状态页 cursor 2 不复用首个同角色队员的毒槽",
+          "status": "passed",
+          "title": "重复角色队伍：状态页 cursor 2 不复用首个同角色队员的毒槽",
+          "duration": 0.5258749999999281,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawPlayerStatus 毒 row(uigame.c:1245-1253)"],
+          "fullName": "drawPlayerStatus 毒 row(uigame.c:1245-1253) 非顺序 party：SDLPal slot 0 的毒应显示给 partyMembers[0] 的 role",
+          "status": "passed",
+          "title": "非顺序 party：SDLPal slot 0 的毒应显示给 partyMembers[0] 的 role",
+          "duration": 0.2975829999999178,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371423712,
+      "endTime": 1792371423718.526,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-player-status.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L12 drawShopMenu 剩余分支"],
+          "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入",
+          "status": "passed",
+          "title": "ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入",
+          "duration": 5.981916999999953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L12 drawShopMenu 剩余分支"],
+          "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+          "status": "passed",
+          "title": "空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+          "duration": 2.8152919999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L12 drawSellOverlay 剩余分支"],
+          "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画",
+          "status": "passed",
+          "title": "光标项非 sellable：两框照画，售价 label 与数字不画",
+          "duration": 0.8080420000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L12 drawSellOverlay 剩余分支"],
+          "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价",
+          "status": "passed",
+          "title": "cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价",
+          "duration": 0.5785840000000917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371423718,
+      "endTime": 1792371423728.5786,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G06-C 装备选人像素"],
+          "fullName": "G06-C 装备选人像素 G06-C01 一人队伍仍画出一行内容框，底边在 y=111",
+          "status": "passed",
+          "title": "G06-C01 一人队伍仍画出一行内容框，底边在 y=111",
+          "duration": 3.189208000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-C 装备选人像素"],
+          "fullName": "G06-C 装备选人像素 G06-C02 phase 为 done 时整屏保持底色",
+          "status": "passed",
+          "title": "G06-C02 phase 为 done 时整屏保持底色",
+          "duration": 4.40258300000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-C 装备选人像素"],
+          "fullName": "G06-C 装备选人像素 G06-C03 selectedItemId 未定义时不铺装备背景",
+          "status": "passed",
+          "title": "G06-C03 selectedItemId 未定义时不铺装备背景",
+          "duration": 0.4161669999998594,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-C 装备选人像素"],
+          "fullName": "G06-C 装备选人像素 G06-C04 选中 id 不在目录时同样不铺背景也不画图标",
+          "status": "passed",
+          "title": "G06-C04 选中 id 不在目录时同样不铺背景也不画图标",
+          "duration": 0.3137090000000171,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-C 装备选人像素"],
+          "fullName": "G06-C 装备选人像素 G06-C05 角色光标越过队伍时图标已画，攻击数字不画",
+          "status": "passed",
+          "title": "G06-C05 角色光标越过队伍时图标已画，攻击数字不画",
+          "duration": 0.37362499999994725,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-C 装备选人像素"],
+          "fullName": "G06-C 装备选人像素 G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色",
+          "status": "passed",
+          "title": "G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色",
+          "duration": 0.5450829999999769,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-C 装备选人像素"],
+          "fullName": "G06-C 装备选人像素 G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值",
+          "status": "passed",
+          "title": "G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值",
+          "duration": 0.5288330000000769,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-C 装备选人像素"],
+          "fullName": "G06-C 装备选人像素 G06-C08 防御预览在 y=58，取防御基础值",
+          "status": "passed",
+          "title": "G06-C08 防御预览在 y=58，取防御基础值",
+          "duration": 0.3612080000000333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-C 装备选人像素"],
+          "fullName": "G06-C 装备选人像素 G06-C09 身法为一位数时只画个位，高位保持底色",
+          "status": "passed",
+          "title": "G06-C09 身法为一位数时只画个位，高位保持底色",
+          "duration": 0.6301660000001448,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-C 装备选人像素"],
+          "fullName": "G06-C 装备选人像素 G06-C10 吉运预览在 y=102",
+          "status": "passed",
+          "title": "G06-C10 吉运预览在 y=102",
+          "duration": 0.27604199999996126,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-C 装备选人像素"],
+          "fullName": "G06-C 装备选人像素 G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3",
+          "status": "passed",
+          "title": "G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3",
+          "duration": 4.305000000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371422750,
+      "endTime": 1792371422765.305,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
+          "fullName": "G06-B 物品描述与过滤 G06-B01 第二条描述在 y=167，第一条仍在 y=151",
+          "status": "passed",
+          "title": "G06-B01 第二条描述在 y=167，第一条仍在 y=151",
+          "duration": 2.852542000000085,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
+          "fullName": "G06-B 物品描述与过滤 G06-B02 scriptDesc 为 0 时不画 L_0 上的描述，物品名照画",
+          "status": "passed",
+          "title": "G06-B02 scriptDesc 为 0 时不画 L_0 上的描述，物品名照画",
+          "duration": 5.053916000000072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
+          "fullName": "G06-B 物品描述与过滤 G06-B03 列表相 noDesc 为真时省略描述，选中名仍在",
+          "status": "passed",
+          "title": "G06-B03 列表相 noDesc 为真时省略描述，选中名仍在",
+          "duration": 0.4759159999998701,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
+          "fullName": "G06-B 物品描述与过滤 G06-B04 描述跟光标上的物品走，不画另一件的脚本",
+          "status": "passed",
+          "title": "G06-B04 描述跟光标上的物品走，不画另一件的脚本",
+          "duration": 0.6394999999999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
+          "fullName": "G06-B 物品描述与过滤 G06-B05 sellable 过滤把可卖项画成可选色，不可卖项画成暗色",
+          "status": "passed",
+          "title": "G06-B05 sellable 过滤把可卖项画成可选色，不可卖项画成暗色",
+          "duration": 0.4837079999999787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
+          "fullName": "G06-B 物品描述与过滤 G06-B06 第三列数量起点含两格 100 像素，个位落在 x=302",
+          "status": "passed",
+          "title": "G06-B06 第三列数量起点含两格 100 像素，个位落在 x=302",
+          "duration": 0.4673330000000533,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
+          "fullName": "G06-B 物品描述与过滤 G06-B07 potion 过滤只把可用且非投掷的物品画成可选色",
+          "status": "passed",
+          "title": "G06-B07 potion 过滤只把可用且非投掷的物品画成可选色",
+          "duration": 0.2339159999999083,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
+          "fullName": "G06-B 物品描述与过滤 G06-B08 important 过滤把可卖物品画成暗色，不可卖且不可装备的画成可选色",
+          "status": "passed",
+          "title": "G06-B08 important 过滤把可卖物品画成暗色，不可卖且不可装备的画成可选色",
+          "duration": 0.21145799999999326,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
+          "fullName": "G06-B 物品描述与过滤 G06-B09 件数等于占用且不为 0 时选中项是暗选色，不是已装备色",
+          "status": "passed",
+          "title": "G06-B09 件数等于占用且不为 0 时选中项是暗选色，不是已装备色",
+          "duration": 0.652667000000065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-B 物品描述与过滤"],
+          "fullName": "G06-B 物品描述与过滤 G06-B10 差额 10 在第一列同时画出青色十位和个位",
+          "status": "passed",
+          "title": "G06-B10 差额 10 在第一列同时画出青色十位和个位",
+          "duration": 0.2662910000001375,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371422744,
+      "endTime": 1792371422755.6526,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G06-A 物品列表像素"],
+          "fullName": "G06-A 物品列表像素 G06-A01 物品框阴影把底色 0x5A 的低四位右移一位，正色框仍在 (0,140)",
+          "status": "passed",
+          "title": "G06-A01 物品框阴影把底色 0x5A 的低四位右移一位，正色框仍在 (0,140)",
+          "duration": 16.202541999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-A 物品列表像素"],
+          "fullName": "G06-A 物品列表像素 G06-A02 差额等于 1 时不画青色数量，选中名仍用闪烁色",
+          "status": "passed",
+          "title": "G06-A02 差额等于 1 时不画青色数量，选中名仍用闪烁色",
+          "duration": 1.3583329999999023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-A 物品列表像素"],
+          "fullName": "G06-A 物品列表像素 G06-A03 列表数量用 count 减 inUse，4 件占用 2 件只画青色 2",
+          "status": "passed",
+          "title": "G06-A03 列表数量用 count 减 inUse，4 件占用 2 件只画青色 2",
+          "duration": 8.071374999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-A 物品列表像素"],
+          "fullName": "G06-A 物品列表像素 G06-A04 图标表没有 bitmap 时图标位保持底色，物品框照画",
+          "status": "passed",
+          "title": "G06-A04 图标表没有 bitmap 时图标位保持底色，物品框照画",
+          "duration": 0.5909999999998945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-A 物品列表像素"],
+          "fullName": "G06-A 物品列表像素 G06-A05 缺少光标帧 69 时名字照画，光标位留着列表框色",
+          "status": "passed",
+          "title": "G06-A05 缺少光标帧 69 时名字照画，光标位留着列表框色",
+          "duration": 3.5083329999999933,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-A 物品列表像素"],
+          "fullName": "G06-A 物品列表像素 G06-A06 大世界目标层数量归零时按 SDLPal 隐藏图标/名称/数字",
+          "status": "passed",
+          "title": "G06-A06 大世界目标层数量归零时按 SDLPal 隐藏图标/名称/数字",
+          "duration": 1.7670829999999569,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-A 物品列表像素"],
+          "fullName": "G06-A 物品列表像素 G06-A07 用物层选中 id 不在目录时不画属性标签，列表名仍在",
+          "status": "passed",
+          "title": "G06-A07 用物层选中 id 不在目录时不画属性标签，列表名仍在",
+          "duration": 0.4032919999999649,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-A 物品列表像素"],
+          "fullName": "G06-A 物品列表像素 G06-A08 用物层光标越过队伍时不画体力，队员名仍按未选中色画出",
+          "status": "passed",
+          "title": "G06-A08 用物层光标越过队伍时不画体力，队员名仍按未选中色画出",
+          "duration": 0.7386249999999563,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-A 物品列表像素"],
+          "fullName": "G06-A 物品列表像素 G06-A09 缺少斜杠帧 39 时体力数字仍在，斜杠位保持底色",
+          "status": "passed",
+          "title": "G06-A09 缺少斜杠帧 39 时体力数字仍在，斜杠位保持底色",
+          "duration": 1.1303330000000642,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-A 物品列表像素"],
+          "fullName": "G06-A 物品列表像素 G06-A10 过滤为 all 时 usable 为假的物品仍按可选色画，不进暗色",
+          "status": "passed",
+          "title": "G06-A10 过滤为 all 时 usable 为假的物品仍按可选色画，不进暗色",
+          "duration": 0.3034170000000813,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-A 物品列表像素"],
+          "fullName": "G06-A 物品列表像素 G06-A11 用物层灵力是基础加装备效果，武术行仍是武术值",
+          "status": "passed",
+          "title": "G06-A11 用物层灵力是基础加装备效果，武术行仍是武术值",
+          "duration": 0.7616250000000946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-A 物品列表像素"],
+          "fullName": "G06-A 物品列表像素 G06-A12 物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+          "status": "passed",
+          "title": "G06-A12 物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+          "duration": 272.6367499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371422915,
+      "endTime": 1792371423222.6367,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78",
+          "status": "passed",
+          "title": "G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78",
+          "duration": 7.218791999999894,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A02 第二条仙术说明在 y=19，第一条仍在 y=3",
+          "status": "passed",
+          "title": "G07-A02 第二条仙术说明在 y=19，第一条仍在 y=3",
+          "duration": 1.3289999999999509,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A03 缺少头像帧时头像位保持底色，体力个位仍画出",
+          "status": "passed",
+          "title": "G07-A03 缺少头像帧时头像位保持底色，体力个位仍画出",
+          "duration": 0.5628750000000764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A04 缺少斜杠帧时斜杠位保持底色，体力个位仍画出",
+          "status": "passed",
+          "title": "G07-A04 缺少斜杠帧时斜杠位保持底色，体力个位仍画出",
+          "duration": 0.5535420000001068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A05 缺少上箭头帧时目标光标位保持底色，仙术名仍画出",
+          "status": "passed",
+          "title": "G07-A05 缺少上箭头帧时目标光标位保持底色，仙术名仍画出",
+          "duration": 0.4549170000000231,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A06 未选定施法人时不画顶部真气，仙术名仍画出",
+          "status": "passed",
+          "title": "G07-A06 未选定施法人时不画顶部真气，仙术名仍画出",
+          "duration": 0.33333300000003874,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A07 法术目录没有对应 magic 时需要真气画成黄 0，现行真气仍是青 6",
+          "status": "passed",
+          "title": "G07-A07 法术目录没有对应 magic 时需要真气画成黄 0，现行真气仍是青 6",
+          "duration": 0.33875000000011823,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A08 第三列仙术在 x=209，颜色是未选中色",
+          "status": "passed",
+          "title": "G07-A08 第三列仙术在 x=209，颜色是未选中色",
+          "duration": 0.2949579999999514,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A09 第二行仙术在 y=72，颜色是未选中色",
+          "status": "passed",
+          "title": "G07-A09 第二行仙术在 y=72，颜色是未选中色",
+          "duration": 0.6622499999998581,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A10 信息框真气读运行时 12，不读角色静态真气 99",
+          "status": "passed",
+          "title": "G07-A10 信息框真气读运行时 12，不读角色静态真气 99",
+          "duration": 3.0991250000001855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A11 体力上限 80 画在 y=173，当前体力 12 仍在 y=170",
+          "status": "passed",
+          "title": "G07-A11 体力上限 80 画在 y=173，当前体力 12 仍在 y=170",
+          "duration": 0.29683300000010604,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A12 缺少光标帧 69 时名字照画，光标位留着格子框色",
+          "status": "passed",
+          "title": "G07-A12 缺少光标帧 69 时名字照画，光标位留着格子框色",
+          "duration": 0.22250000000008185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A13 头像落在信息框左上外侧，信息框本体仍在 (45,165)",
+          "status": "passed",
+          "title": "G07-A13 头像落在信息框左上外侧，信息框本体仍在 (45,165)",
+          "duration": 0.16429199999993216,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A14 选人阶段不画仙术格子，体力个位仍画出",
+          "status": "passed",
+          "title": "G07-A14 选人阶段不画仙术格子，体力个位仍画出",
+          "duration": 0.1533750000000964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-A 仙术菜单像素"],
+          "fullName": "G07-A 仙术菜单像素 G07-A15 格子光标的实点是 0x69，中间透明孔留着格子框色",
+          "status": "passed",
+          "title": "G07-A15 格子光标的实点是 0x69，中间透明孔留着格子框色",
+          "duration": 0.18441699999993943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371422719,
+      "endTime": 1792371422735.1843,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G07-D 开场与确认像素"],
+          "fullName": "G07-D 开场与确认像素 G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色",
+          "status": "passed",
+          "title": "G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色",
+          "duration": 72.26816600000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-D 开场与确认像素"],
+          "fullName": "G07-D 开场与确认像素 G07-D02 4×4 背景只铺到自己的矩形，外侧保持底色",
+          "status": "passed",
+          "title": "G07-D02 4×4 背景只铺到自己的矩形，外侧保持底色",
+          "duration": 1.8318749999999682,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-D 开场与确认像素"],
+          "fullName": "G07-D 开场与确认像素 G07-D03 光标越过两项时两行都是未选中色",
+          "status": "passed",
+          "title": "G07-D03 光标越过两项时两行都是未选中色",
+          "duration": 3.836500000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-D 开场与确认像素"],
+          "fullName": "G07-D 开场与确认像素 G07-D04 绘制不改光标，也不改词表给出的标签",
+          "status": "passed",
+          "title": "G07-D04 绘制不改光标，也不改词表给出的标签",
+          "duration": 39.89179200000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-D 开场与确认像素"],
+          "fullName": "G07-D 开场与确认像素 G07-D05 左标签两个字仍从 (145,110) 起笔，左右框原点不动",
+          "status": "passed",
+          "title": "G07-D05 左标签两个字仍从 (145,110) 起笔，左右框原点不动",
+          "duration": 0.778583000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-D 开场与确认像素"],
+          "fullName": "G07-D 开场与确认像素 G07-D06 左右标签都是空串时不写字，两框照画",
+          "status": "passed",
+          "title": "G07-D06 左右标签都是空串时不写字，两框照画",
+          "duration": 0.38112499999999727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-D 开场与确认像素"],
+          "fullName": "G07-D 开场与确认像素 G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色",
+          "status": "passed",
+          "title": "G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色",
+          "duration": 0.40625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371423225,
+      "endTime": 1792371423345.4062,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G07-B 商店预览像素"],
+          "fullName": "G07-B 商店预览像素 G07-B01 列表价读 rightText 15，不读目录价 99",
+          "status": "passed",
+          "title": "G07-B01 列表价读 rightText 15，不读目录价 99",
+          "duration": 9.391750000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-B 商店预览像素"],
+          "fullName": "G07-B 商店预览像素 G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)",
+          "status": "passed",
+          "title": "G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)",
+          "duration": 1.6580840000001444,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-B 商店预览像素"],
+          "fullName": "G07-B 商店预览像素 G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出",
+          "status": "passed",
+          "title": "G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出",
+          "duration": 4.3037910000000466,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-B 商店预览像素"],
+          "fullName": "G07-B 商店预览像素 G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画",
+          "status": "passed",
+          "title": "G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画",
+          "duration": 3.2512920000001486,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-B 商店预览像素"],
+          "fullName": "G07-B 商店预览像素 G07-B05 列表阶段不画确认框，选中名仍在",
+          "status": "passed",
+          "title": "G07-B05 列表阶段不画确认框，选中名仍在",
+          "duration": 0.4720420000001013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-B 商店预览像素"],
+          "fullName": "G07-B 商店预览像素 G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色",
+          "status": "passed",
+          "title": "G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色",
+          "duration": 0.45554199999992306,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-B 商店预览像素"],
+          "fullName": "G07-B 商店预览像素 G07-B07 不传图标表时图标位保持底色，物品框照画",
+          "status": "passed",
+          "title": "G07-B07 不传图标表时图标位保持底色，物品框照画",
+          "duration": 0.2533339999999953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-B 商店预览像素"],
+          "fullName": "G07-B 商店预览像素 G07-B08 现有数只加选中物品，另一件的库存 9 不加进去",
+          "status": "passed",
+          "title": "G07-B08 现有数只加选中物品，另一件的库存 9 不加进去",
+          "duration": 12.098208999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-B 商店预览像素"],
+          "fullName": "G07-B 商店预览像素 G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色",
+          "status": "passed",
+          "title": "G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色",
+          "duration": 0.834041999999954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-B 商店预览像素"],
+          "fullName": "G07-B 商店预览像素 G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画",
+          "status": "passed",
+          "title": "G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画",
+          "duration": 0.3387920000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-B 商店预览像素"],
+          "fullName": "G07-B 商店预览像素 G07-B11 售价 1 向下取整成黄 0，十位保持底色",
+          "status": "passed",
+          "title": "G07-B11 售价 1 向下取整成黄 0，十位保持底色",
+          "duration": 0.4952920000000631,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-B 商店预览像素"],
+          "fullName": "G07-B 商店预览像素 G07-B12 无库存时两位队员的手部装备仍把现有数画成黄2",
+          "status": "passed",
+          "title": "G07-B12 无库存时两位队员的手部装备仍把现有数画成黄2",
+          "duration": 0.34629199999994853,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07-B 商店预览像素"],
+          "fullName": "G07-B 商店预览像素 G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+          "status": "passed",
+          "title": "G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E",
+          "duration": 280.31095900000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371422918,
+      "endTime": 1792371423232.311,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D01 当前真气 12 为黄，真气上限 80 为蓝",
+          "status": "passed",
+          "title": "G06-D01 当前真气 12 为黄，真气上限 80 为蓝",
+          "duration": 10.02800000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D02 武术是基础 20 加装备效果 3",
+          "status": "passed",
+          "title": "G06-D02 武术是基础 20 加装备效果 3",
+          "duration": 1.3756670000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D03 灵力是基础 4 加装备效果 10",
+          "status": "passed",
+          "title": "G06-D03 灵力是基础 4 加装备效果 10",
+          "duration": 0.7660000000000764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D04 防御数字在 y=142",
+          "status": "passed",
+          "title": "G06-D04 防御数字在 y=142",
+          "duration": 0.7090410000000702,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D05 身法数字在 y=162",
+          "status": "passed",
+          "title": "G06-D05 身法数字在 y=162",
+          "duration": 0.9539580000000569,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D06 吉运数字在 y=182",
+          "status": "passed",
+          "title": "G06-D06 吉运数字在 y=182",
+          "duration": 0.8584579999999278,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画",
+          "status": "passed",
+          "title": "G06-D07 经验斜杠坐标 (0,0) 不画，体力与真气斜杠照画",
+          "duration": 0.7923750000002201,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色",
+          "status": "passed",
+          "title": "G06-D08 缺少斜杠帧时体力数字仍在，斜杠位保持底色",
+          "duration": 1.053124999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12",
+          "status": "passed",
+          "title": "G06-D09 未提供升级经验表时下一级只画一位青色 0，当前经验仍是 12",
+          "duration": 0.7253339999999753,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
+          "status": "passed",
+          "title": "G06-D10 毒等级等于 3 仍画出，颜色是 wColor 加 10",
+          "duration": 0.39920900000015536,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76",
+          "status": "passed",
+          "title": "G06-D11 空槽和等级大于 3 的毒不占显示行，下一毒上移到 y=76",
+          "duration": 0.34866699999997763,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D12 第 11 条毒不再覆盖第 10 条的颜色",
+          "status": "passed",
+          "title": "G06-D12 第 11 条毒不再覆盖第 10 条的颜色",
+          "duration": 0.24049999999988358,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名",
+          "status": "passed",
+          "title": "G06-D13 第一槽 id 为 0 时跳过，第二槽画出装备名",
+          "duration": 0.2262919999998303,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框",
+          "status": "passed",
+          "title": "G06-D14 物品在目录里但没有名字时，名字位画出 0xBE 的缺字框",
+          "duration": 0.2045419999999467,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G06-D 状态数值与毒"],
+          "fullName": "G06-D 状态数值与毒 G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",
+          "status": "passed",
+          "title": "G06-D15 没有立绘表时头像位保持底色，角色名仍是确认色",
+          "duration": 0.18029100000012477,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371422750,
+      "endTime": 1792371422769.2263,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts"
+    }
+  ]
+}

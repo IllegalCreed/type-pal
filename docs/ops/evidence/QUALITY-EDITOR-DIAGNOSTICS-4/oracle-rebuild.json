@@ -1,0 +1,67 @@
+{
+  "method": "Independent source split rebuild and raw/runner byte check after isolated workspace cleanup",
+  "workspaceAbsent": true,
+  "currentTestSha256": "a5822f36c6b35a9762f689edb01b393402d2c9a88c1dea36d251ef4836d54825",
+  "rows": [
+    {
+      "label": "oracle-old-finite-frame",
+      "passed": 6,
+      "failed": 0,
+      "pending": 0,
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true,
+      "failedNames": []
+    },
+    {
+      "label": "oracle-new-finite-frame",
+      "passed": 5,
+      "failed": 1,
+      "pending": 0,
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true,
+      "failedNames": [
+        "K01 BattleSpriteLibrary 真实源帧工作流 动作阶段槽拖放：非法载荷零提交，合法帧落槽后真实提交并可撤销"
+      ]
+    },
+    {
+      "label": "oracle-old-reuse-asset",
+      "passed": 6,
+      "failed": 0,
+      "pending": 0,
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true,
+      "failedNames": []
+    },
+    {
+      "label": "oracle-new-reuse-asset",
+      "passed": 5,
+      "failed": 1,
+      "pending": 0,
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true,
+      "failedNames": [
+        "K01 BattleSpriteLibrary 真实源帧工作流 追加原始帧：真实切格量化入库，共享双用途与 undo 全链一致"
+      ]
+    },
+    {
+      "label": "oracle-new-shrink-repairs",
+      "passed": 5,
+      "failed": 1,
+      "pending": 0,
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": true,
+      "failedNames": [
+        "K01 BattleSpriteLibrary 真实源帧工作流 删除原始帧走敌人分段 ABI 修复事务；确认取消零提交"
+      ]
+    },
+    {
+      "label": "oracle-recovery",
+      "passed": 6,
+      "failed": 0,
+      "pending": 0,
+      "rawIntegrity": true,
+      "recipeRebuiltAfterCleanup": false,
+      "failedNames": []
+    }
+  ]
+}

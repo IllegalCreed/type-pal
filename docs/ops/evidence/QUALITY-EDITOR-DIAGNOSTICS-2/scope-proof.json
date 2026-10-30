@@ -1,0 +1,30 @@
+{
+  "beforeSha256": "ecdb1e78f35b75914113ad5a7828013a015d115fbe78e9134e62cc56631da13d",
+  "afterSha256": "b7de8663bf2ef950210e329e4d067a0ad2d94ac0ba7c50a6ff8ca227ed5b641f",
+  "beforeCount": 19862,
+  "afterCount": 19861,
+  "sourceFileCount": 736,
+  "scope": {
+    "changes": [
+      "editor: fast test files +0/-0，内容变化 1（4786 -> 4785 tests）",
+      "editor: fast test execution config/digest 已变化"
+    ],
+    "removals": [
+      {
+        "kind": "test-count",
+        "value": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+        "previous": 10,
+        "current": 9
+      }
+    ]
+  },
+  "comparison": {
+    "regressions": [],
+    "improvements": []
+  },
+  "allMetricsExactlyUnchanged": true,
+  "allOtherPackagesExactlyUnchanged": true,
+  "sourceScopesUnchanged": true,
+  "exactApprovedSnapshotMatched": true,
+  "confirmation": "Existing ratchet-only --allow-scope-removal used for this one audited merge; ordinary protected has no such flag"
+}

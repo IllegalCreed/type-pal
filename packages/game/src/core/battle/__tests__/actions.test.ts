@@ -887,6 +887,7 @@ describe('performAttack', () => {
       forceRoll: 1,
     })
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
     gs.PlayerRolesRuntime.rgwPoisonResistance[0] = 0
     performAttack(state, enemyActor, 0, bus, playerRoles, undefined, {
       gs,
@@ -1023,18 +1024,18 @@ describe('performDefend', () => {
 
 describe('performFlee', () => {
   it('fleeRate 远大于 rng 上限(roll 必小)→ 触发逃跑动画(fleeAnim)', () => {
-    const { state, playerRoles, gs } = makeState({
+    const { state, gs } = makeState({
       role: { fleeRate: 9999 },
       enemies: [{ level: 1, dexterity: 0 }],
       forceRoll: 0, // 必摇出 0
     })
-    performFlee(state, gs, 0, playerRoles)
+    performFlee(state, gs, 0)
     // 成功 → 设 fleeAnim(逃跑动画放完才 phase='fleed';不再直接 fleed)
     expect(state.fleeAnim).toBeDefined()
   })
 
   it('fleeRate=0 + 多个高吉运敌人(roll 必大)→ phase 不变', () => {
-    const { state, playerRoles, gs } = makeState({
+    const { state, gs } = makeState({
       role: { fleeRate: 0 },
       enemies: [
         { level: 50, fleeRate: 100 },
@@ -1043,7 +1044,7 @@ describe('performFlee', () => {
       forceRoll: 1, // 任何 >0 的 roll 都击败 str=0
     })
     const before = state.phase
-    performFlee(state, gs, 0, playerRoles)
+    performFlee(state, gs, 0)
     expect(state.phase).toBe(before) // 不变
   })
 
@@ -1051,7 +1052,7 @@ describe('performFlee', () => {
   // user 2026-06-13 选修复):原作 fight.c:4134 误用敌身法 wDexterity,敌吉运 wFleeRate
   // 全引擎死字段。修复后 def = Σ(敌吉运 + (level+6)*4),身法不再参与逃跑抵抗。
   it('修复版:逃跑抵抗 def 用敌吉运 fleeRate,身法 dexterity 不参与', () => {
-    const { state, playerRoles, gs } = makeState({
+    const { state, gs } = makeState({
       role: { fleeRate: 0 },
       enemies: [{ level: 1, fleeRate: 36, dexterity: 9999 }],
     })
@@ -1063,52 +1064,52 @@ describe('performFlee', () => {
         return 0
       },
     }
-    performFlee(state, gs, 0, playerRoles)
+    performFlee(state, gs, 0)
     // def = 敌吉运 36 + (1+6)*4 = 64;dexterity 9999 不计入(原版 bug 行为是 9999+28)
     expect(calls).toEqual([[0, 64]])
   })
 
   it('isBoss=true → 无论 fleeRate 多高都不可逃', () => {
-    const { state, playerRoles, gs } = makeState({
+    const { state, gs } = makeState({
       role: { fleeRate: 99999 },
       enemies: [{ level: 1, dexterity: 0 }],
       isBoss: true,
       forceRoll: 0,
     })
-    performFlee(state, gs, 0, playerRoles)
+    performFlee(state, gs, 0)
     expect(state.fleeAnim).toBeUndefined() // boss 不可逃 → 不触发逃跑动画
     expect(state.phase).not.toBe('fleed')
   })
 
   it('无 enemy 时 def=0 → roll∈[0,0]=0,fleeRate>=0 → 命中', () => {
-    const { state, playerRoles, gs } = makeState({
+    const { state, gs } = makeState({
       role: { fleeRate: 0 },
       enemies: [], // def 累加为 0
       forceRoll: 0,
     })
-    performFlee(state, gs, 0, playerRoles)
+    performFlee(state, gs, 0)
     expect(state.fleeAnim).toBeDefined()
   })
 
   it('def 为 SHORT 负溢出 → clamp 0(sdlpal fight.c:4139)', () => {
-    const { state, playerRoles, gs } = makeState({
+    const { state, gs } = makeState({
       role: { fleeRate: 0 },
       // SHORT(累加结果) < 0 → def=0;rng(0,0)=0;str=0 >= 0 → 命中(修复版字段=敌吉运)
-      enemies: [{ level: 1, fleeRate: -32700 }],
+      enemies: [{ level: 1, fleeRate: 32836 }], // 合法WORD值，SHORT视图为-32700
       forceRoll: 0,
     })
-    performFlee(state, gs, 0, playerRoles)
+    performFlee(state, gs, 0)
     expect(state.fleeAnim).toBeDefined()
   })
 
   it('逃跑失败 → 起失败动画 battleAnim(sdlpal fight.c:4155-4168,3步右下挪+帧1)', () => {
-    const { state, playerRoles, bus, gs } = makeState({
+    const { state, bus, gs } = makeState({
       role: { fleeRate: 0 },
       enemies: [{ level: 50, dexterity: 100 }],
       forceRoll: 1, // roll>0 击败 fleeRate=0 → 失败
     })
     state.players[0]!.posOriginal = { x: 100, y: 100 }
-    performFlee(state, gs, 0, playerRoles, bus)
+    performFlee(state, gs, 0, bus)
     expect(state.fleeAnim).toBeUndefined() // 未成功(无逃离动画)
     expect(state.battleAnim).toBeDefined() // 起了失败动画时间线(per-player 3步+帧1)
     expect(bus.drain().filter((c) => c.cmd.op === 'showBattleMessage')).toHaveLength(0) // 文字不早于失败动作
@@ -1120,20 +1121,20 @@ describe('performFlee', () => {
 
   // ── D12(2026-06-01 W1):装备逃跑率加成生效(sdlpal global.c:1868-1897 PAL_GetPlayerFleeRate)──
   it('装备授逃跑率 → base+装备 决定成功(base 0 单凭装备 50 即可逃)', () => {
-    const { state, playerRoles, gs } = makeState({
+    const { state, gs } = makeState({
       role: { fleeRate: 0 }, // runtime base = 0
       equipFleeRate: 50, // 装备槽 0 授 +50
-      enemies: [{ level: 1, dexterity: 0 }], // def = 0 + (1+6)*4 = 28
+      enemies: [{ level: 1, fleeRate: 0, dexterity: 0 }], // def = 0 + (1+6)*4 = 28
       forceRoll: 28, // roll=28;base-only str=0 < 28 失败,equip-aware str=50 >= 28 成功
     })
-    performFlee(state, gs, 0, playerRoles)
+    performFlee(state, gs, 0)
     // 装备感知:str = getPlayerFleeRate = 0+50 = 50 >= 28 → 成功(若仍用 raw base 0 则失败,fleeAnim undefined)
     expect(state.fleeAnim).toBeDefined()
   })
 
   // ── DM4:def 累加跳过 defeated 空槽(fight.c:4129 `if (wObjectID == 0) continue`)──
   it('DM4:defeated 敌(死敌清槽/0 占位)不计入 def,roll 上限只含活敌', () => {
-    const { state, playerRoles, gs } = makeState({
+    const { state, gs } = makeState({
       role: { fleeRate: 28 },
       enemies: [
         { level: 1, fleeRate: 0 }, // 活敌:def = 0 + (1+6)*4 = 28(修复版字段=敌吉运)
@@ -1142,34 +1143,31 @@ describe('performFlee', () => {
     })
     state.enemies[1]!.defeated = true
     let capturedHi = -1
-    ;(state.rng as { rangeInclusive: (lo: number, hi: number) => number }).rangeInclusive = (
-      _lo,
-      hi,
-    ) => {
+    state.rng.rangeInclusive = (_lo, hi) => {
       capturedHi = hi
       return 0
     }
-    performFlee(state, gs, 0, playerRoles)
+    performFlee(state, gs, 0)
     expect(capturedHi).toBe(28) // 仅活敌 28;若含死敌应为 28+100+(50+6)*4=352
     expect(state.fleeAnim).toBeDefined() // str 28 >= roll 0
   })
 
-  // ── DM5:boss 战逃跑恒消费 RNG 并走失败演出(fight.c:4143 掷骰为 && 左操作数;4155-4170 失败分支)──
+  // ── DM5:boss 战仍请求范围掷骰并走失败演出(fight.c:4143 掷骰为 && 左操作数;4155-4170 失败分支)──
   it('DM5:isBoss 仍消费一次掷骰,走失败动画 + FleeExp.wCount+=2', () => {
-    const { state, playerRoles, bus, gs } = makeState({
+    const { state, bus, gs } = makeState({
       role: { fleeRate: 9999 }, // str 必胜 roll,但 isBoss → 必失败
       enemies: [{ level: 1, dexterity: 0 }],
       isBoss: true,
     })
     state.players[0]!.posOriginal = { x: 100, y: 100 }
     let rolls = 0
-    ;(state.rng as { rangeInclusive: (lo: number, hi: number) => number }).rangeInclusive = () => {
+    state.rng.rangeInclusive = () => {
       rolls++
       return 0
     }
     const before = gs.Exp.rgFleeExp[0]?.wCount ?? 0
-    performFlee(state, gs, 0, playerRoles, bus)
-    expect(rolls).toBe(1) // RandomLong(0,def) 恒消费(原 bug:顶部提前 return 不掷)
+    performFlee(state, gs, 0, bus)
+    expect(rolls).toBe(1) // 非空区间确实发起一次范围请求(原顶部提前return会跳过)
     expect(state.fleeAnim).toBeUndefined() // 不成功
     expect(state.battleAnim).toBeDefined() // 失败演出(3 步右下挪 + 帧1)
     expect(gs.Exp.rgFleeExp[0]?.wCount ?? 0).toBe(before + 2)
@@ -1238,14 +1236,14 @@ function makeObjectMagic(opts: Partial<ObjectMagicView> = {}): ObjectMagicView {
 }
 
 describe('performMagic', () => {
-  it('队员 cast,MP 足够 → 扣 MP + emit playMagicAnim + runScript 被调', () => {
+  it('队员 cast,MP 足够 → 扣 MP 并向脚本传真实目标', () => {
     const { state, playerRoles, bus } = makeState({
       role: { mp: 30, maxMP: 30 },
     })
     const spell = makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 42 })
-    // baseDamage:0 —— 本测专注 MP/anim/runScript 派发,inline 伤害由 magic-inline-damage.test.ts 覆盖
+    // baseDamage:0 —— 本测专注 MP/runScript 上下文,inline 伤害由 magic-inline-damage.test.ts 覆盖
     const magic = makeMagic({ id: 3, costMP: 8, baseDamage: 0 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
     const commands: Command[] = [{ op: 'end' }]
 
     performMagic({
@@ -1266,18 +1264,6 @@ describe('performMagic', () => {
     // 扣 MP
     expect(playerRoles.roles[0]!.mp).toBe(22) // 30 - 8
 
-    // emit playMagicAnim
-    const cmds = bus.drain()
-    expect(cmds).toHaveLength(1)
-    expect(cmds[0]!.cmd).toEqual({
-      op: 'playMagicAnim',
-      magicId: 3,
-      casterType: 'player',
-      casterIdx: 0,
-      targetType: 'enemy',
-      targetIdx: 0,
-    })
-
     // runScript 被调
     expect(runScript).toHaveBeenCalledTimes(1)
     const opts = (runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0]
@@ -1297,7 +1283,7 @@ describe('performMagic', () => {
   it('M6 法术音:队员施法 push 本角色 magicSound + 效果音;敌方施法播 enemy.magicSound', () => {
     // 队员施法 → [role.magicSound(9), 55(magic.sound 效果)]
     {
-      const { state, playerRoles, bus, gs } = makeState({
+      const { state, playerRoles, gs, bus } = makeState({
         role: { mp: 30, maxMP: 30, magicSound: 9 },
       })
       performMagic({
@@ -1319,7 +1305,7 @@ describe('performMagic', () => {
     }
     // 敌方施法 → 播敌人自身 cast 音 enemy.magicSound(62,sdlpal fight.c:4695)+ 效果音(走 enemy 分支,非 role)
     {
-      const { state, playerRoles, bus, gs } = makeState({
+      const { state, playerRoles, gs, bus } = makeState({
         role: { mp: 30, maxMP: 30 },
         enemies: [{ magicSound: 62 }],
       })
@@ -1346,7 +1332,7 @@ describe('performMagic', () => {
   //   fight.c:2497-2502 / 敌方 fight.c:2925-2930),不在演出 dispatch 时。之前 DefMagic/敌方即时
   //   push → 先闻其声后见前摇(user 2026-06-13 报草妖风咒/气疗术)。未建链(上个用例)仍即时播。
   it('玩家 DefMagic 建链:效果音挂特效首帧,不即时 push(气疗术类)', () => {
-    const { state, playerRoles, bus, gs } = makeState({
+    const { state, playerRoles, gs, bus } = makeState({
       role: { mp: 30, maxMP: 30, magicSound: 9 },
     })
     state.players[0]!.posOriginal = { x: 240, y: 170 }
@@ -1386,7 +1372,7 @@ describe('performMagic', () => {
   it('敌方施法建链:效果音挂特效首帧;enemy.magicSound<0 → 效果音静音(WIN95 gate),施法音 abs 照播', () => {
     // magicSound=62(>=0):效果音 55 挂特效首帧,施法音 62 挂 intro 帧
     {
-      const { state, playerRoles, bus, gs } = makeState({
+      const { state, playerRoles, gs, bus } = makeState({
         role: { mp: 30, maxMP: 30 },
         enemies: [{ magicSound: 62 }],
       })
@@ -1419,7 +1405,7 @@ describe('performMagic', () => {
     }
     // magicSound=-62(<0):WIN95 fight.c:2928-2929 效果音不播;施法音 abs(-62)=62 照播(audio.c:529 abs)
     {
-      const { state, playerRoles, bus, gs } = makeState({
+      const { state, playerRoles, gs, bus } = makeState({
         role: { mp: 30, maxMP: 30 },
         enemies: [{ magicSound: -62 }],
       })
@@ -1454,7 +1440,7 @@ describe('performMagic', () => {
   //   队员** → Delay(8)。旧版把 9 帧停顿整段放复位前 → 受击者保持后仰 frame4 + 击退位多 360ms
   //   (user 2026-06-13 报"风咒受击后仰停顿过长";原版后仰仅 ~240ms)。
   it('敌方法术致伤:受击队员复位帧在 320ms 收尾停顿帧上(复位先于停顿,非链终 reset 兜底)', () => {
-    const { state, playerRoles, bus, gs } = makeState({
+    const { state, playerRoles, gs, bus } = makeState({
       // hp 高位:挨一发仍活且不濒死 → 复位帧应为站立 0(死亡/濒死帧值另由 playerRestFrame 同源覆盖)
       role: { mp: 30, maxMP: 30, hp: 1000, maxHP: 1000 },
       enemies: [{ magicSound: 62, magicStrength: 50, level: 5 }],
@@ -1686,7 +1672,7 @@ describe('performMagic', () => {
   })
 
   it('金蝉脱壳 scriptOnUse(0x3A)→ 触发 PlayerEscape 动画,不直接结束战斗', () => {
-    const { state, playerRoles, bus, gs } = makeState({ role: { mp: 99, maxMP: 99 } })
+    const { state, playerRoles, gs, bus } = makeState({ role: { mp: 99, maxMP: 99 } })
     const commands: Command[] = [
       { op: 'end' },
       { op: 'raw', opcode: 0x3a, operands: [43072, 0, 0] },
@@ -1762,7 +1748,7 @@ describe('performMagic', () => {
   })
 
   it('夺魂成功:巫抗 0、掷 0 也命中(0x2E 用 >= 跟进原版后期修复,旧 > 会上限 90% 失败)', () => {
-    const { state, playerRoles, bus, gs } = makeState({ role: { mp: 99, maxMP: 99 } })
+    const { state, playerRoles, gs, bus } = makeState({ role: { mp: 99, maxMP: 99 } })
     state.enemies[0]!.resistanceToSorcery = 0 // 巫抗0:旧 `>` 掷0 抵抗(上限90%);新 `>=` 掷0 命中(100%)
     state.rng.rangeInclusive = () => 0 // 掷出最小值 0
     const commands: Command[] = [
@@ -1792,7 +1778,7 @@ describe('performMagic', () => {
     expect(state.battleDialogQueue?.[0]?.text).not.toBe('失败　没有效果')
   })
 
-  it('scriptOnUse 失败(fScriptSuccess=false)→ MP 仍扣但不 emit 动画 + 不跑 scriptOnSuccess(乾坤一掷没钱/酒神没酒)', () => {
+  it('scriptOnUse 失败(fScriptSuccess=false)→ MP 仍扣但不建动画 + 不跑 scriptOnSuccess(乾坤一掷没钱/酒神没酒)', () => {
     const { state, playerRoles, bus } = makeState({ role: { mp: 30, maxMP: 30 } })
     const spell = makeSpell({ id: 7, magicNumber: 3, scriptOnUse: 42, scriptOnSuccess: 99 })
     const magic = makeMagic({ id: 3, costMP: 8, baseDamage: 0 })
@@ -1800,6 +1786,7 @@ describe('performMagic', () => {
     // scriptOnUse(ip42)模拟 0x41 mark-failed(没钱"钱不够"/没酒"酒不足"分支)→ fScriptSuccess=false
     const runScript: RunScriptFn = vi.fn((opts) => {
       if (opts.ip === 42) gs.fScriptSuccess = false
+      return opts.ip
     })
     performMagic({
       state,
@@ -1817,7 +1804,7 @@ describe('performMagic', () => {
       gs,
     })
     expect(playerRoles.roles[0]!.mp).toBe(22) // MP 仍扣(sdlpal fight.c:4190 总扣)
-    expect(bus.drain().filter((c) => c.cmd.op === 'playMagicAnim')).toHaveLength(0) // 失败 → 无效果动画
+    expect(state.battleAnim).toBeUndefined() // 失败 → 无效果帧链
     const calls = (runScript as ReturnType<typeof vi.fn>).mock.calls
     expect(calls.some((c) => c[0]!.ip === 42)).toBe(true) // scriptOnUse 跑了
     expect(calls.every((c) => c[0]!.ip !== 99)).toBe(true) // scriptOnSuccess 未跑(早退)
@@ -1830,7 +1817,7 @@ describe('performMagic', () => {
     })
     const spell = makeSpell({ id: 1, magicNumber: 1, scriptOnUse: 10 })
     const magic = makeMagic({ id: 1, costMP: 10 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performMagic({
       state,
@@ -1854,13 +1841,13 @@ describe('performMagic', () => {
     warnSpy.mockRestore()
   })
 
-  it('敌人 cast → 不扣 MP(敌人不 track mp) + 仍 emit + 仍 runScript', () => {
+  it('敌人 cast → 不扣队员 MP，仍向脚本传敌方施法上下文', () => {
     const { state, playerRoles, bus } = makeState({
       role: { mp: 30 },
     })
     const spell = makeSpell({ id: 5, magicNumber: 2, scriptOnUse: 88 })
-    const magic = makeMagic({ id: 2, costMP: 999, baseDamage: 0 }) // costMP 巨大验证不扣;baseDamage=0 避开 E2 伤害(本例只测 MP/emit/runScript)
-    const runScript: RunScriptFn = vi.fn()
+    const magic = makeMagic({ id: 2, costMP: 999, baseDamage: 0 }) // costMP 巨大验证不扣;baseDamage=0 避开 E2 伤害(本例只测 MP/runScript)
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performMagic({
       state,
@@ -1879,14 +1866,6 @@ describe('performMagic', () => {
 
     // 队员 mp 不动
     expect(playerRoles.roles[0]!.mp).toBe(30)
-    // 仍 emit
-    const cmds = bus.drain()
-    expect(cmds).toHaveLength(1)
-    expect(cmds[0]!.cmd).toMatchObject({
-      op: 'playMagicAnim',
-      casterType: 'enemy',
-      targetType: 'player',
-    })
     // 仍 runScript
     expect(runScript).toHaveBeenCalledTimes(1)
     const opts = (runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0]
@@ -1914,7 +1893,7 @@ describe('performMagic', () => {
       playerRoles,
       bus,
       commands: [{ op: 'end' }],
-      runScript: () => {},
+      runScript: (opts) => opts.ip,
     })
     expect(playerRoles.roles[0]!.hp).toBeLessThan(500) // 敌方魔法真扣血(autoDefend rng 浮动,断言掉血即可)
     const dmgCmd = bus.drain().find((c) => c.cmd.op === 'showDamageNum')
@@ -1945,7 +1924,7 @@ describe('performMagic', () => {
       playerRoles,
       bus,
       commands: [{ op: 'end' }],
-      runScript: () => {},
+      runScript: (opts) => opts.ip,
     })
     expect(playerRoles.roles[0]!.hp).toBeLessThan(500) // summon 类也结算(type != normal → 全体,这里单队员)
   })
@@ -1953,7 +1932,7 @@ describe('performMagic', () => {
   it('spell id 不存在 → warn + 不 emit + 不 runScript', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { state, playerRoles, bus } = makeState()
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performMagic({
       state,
@@ -1979,7 +1958,7 @@ describe('performMagic', () => {
   it('magic id(spell.magicNumber)不在 magics 表 → warn + 不 emit + 不 runScript', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { state, playerRoles, bus } = makeState()
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performMagic({
       state,
@@ -2009,7 +1988,7 @@ describe('performMagic', () => {
     })
     const spell = makeSpell({ id: 1, magicNumber: 1, scriptOnUse: 50 })
     const magic = makeMagic({ id: 1, costMP: 5, type: 'attackAll' })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performMagic({
       state,
@@ -2026,10 +2005,6 @@ describe('performMagic', () => {
       runScript,
     })
 
-    // emit 时 targetIdx='all'
-    const cmds = bus.drain()
-    expect(cmds[0]!.cmd).toMatchObject({ op: 'playMagicAnim', targetIdx: 'all' })
-
     // runScript 调用,battleCtx.target=undefined
     expect(runScript).toHaveBeenCalledTimes(1)
     const opts = (runScript as ReturnType<typeof vi.fn>).mock.calls[0]![0]
@@ -2037,14 +2012,14 @@ describe('performMagic', () => {
     expect(opts.battleCtx.caster).toEqual({ type: 'player', idx: 0 })
   })
 
-  it('scriptOnUse=0 → 不 runScript,但仍扣 MP + emit 动画(纯动画法术)', () => {
+  it('scriptOnUse=0 → 不 runScript，但仍扣 MP', () => {
     const { state, playerRoles, bus } = makeState({
       role: { mp: 30 },
     })
     const spell = makeSpell({ id: 1, magicNumber: 1, scriptOnUse: 0 }) // 关键
     // baseDamage:0 → 真·纯动画法术(offensive baseDamage>0 会走 inline 伤害,另有专测)
     const magic = makeMagic({ id: 1, costMP: 7, baseDamage: 0 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performMagic({
       state,
@@ -2062,12 +2037,11 @@ describe('performMagic', () => {
     })
 
     expect(playerRoles.roles[0]!.mp).toBe(23) // 仍扣 MP
-    expect(bus.drain()).toHaveLength(1) // 仍 emit 动画
     expect(runScript).not.toHaveBeenCalled() // 但不 runScript
   })
 
   it('梦蛇295:spells 缺项时从 object-magics 解析并在 Trance 闪色末帧切换 sprite', () => {
-    const { state, playerRoles, bus, gs } = makeState({
+    const { state, playerRoles, gs, bus } = makeState({
       role: { mp: 120, maxMP: 120, spriteNumInBattle: 1, magicSound: 9 },
     })
     state.players[0]!.posOriginal = { x: 240, y: 170 }
@@ -2075,6 +2049,7 @@ describe('performMagic', () => {
     state.players[0]!.spriteNumOverride = 1
     const runScript: RunScriptFn = vi.fn((opts) => {
       if (opts.ip === 10) state.players[0]!.spriteNumOverride = 295
+      return opts.ip
     })
 
     performMagic({
@@ -2128,34 +2103,20 @@ describe('performMagic', () => {
       iColorShift: 0,
       spriteNumOverride: 295,
     })
-    expect(
-      bus
-        .drain()
-        .map((c) => c.cmd)
-        .filter((c) => c.op === 'playMagicAnim'),
-    ).toEqual([
-      {
-        op: 'playMagicAnim',
-        magicId: 47,
-        casterType: 'player',
-        casterIdx: 0,
-        targetType: 'player',
-        targetIdx: 'all',
-      },
-    ])
   })
 
   it('斩龙诀式 scriptOnUse 0x35:振屏挂到 OffMagic 起始,不提前写全局 gs.shakeTime', () => {
-    const { state, playerRoles, bus, gs } = makeState({
+    const { state, playerRoles, gs, bus } = makeState({
       role: { mp: 120, maxMP: 120, spriteNumInBattle: 1, magicStrength: 100 },
       enemies: [{ health: 500 }],
     })
     state.players[0]!.posOriginal = { x: 240, y: 170 }
     state.enemies[0]!.posOriginal = { x: 160, y: 80 }
-    const runScript = vi.fn((opts) => {
+    const runScript = vi.fn<RunScriptFn>((opts) => {
       opts.battleCtx!.pendingScreenShake!.time = 14
       opts.battleCtx!.pendingScreenShake!.level = 4
-    }) as RunScriptFn
+      return opts.ip
+    })
 
     performMagic({
       state,
@@ -2250,8 +2211,9 @@ describe('performItem', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 7, count: 3 }])
     const item = makeItem({ id: 7, scriptOnUse: 42 })
-    const runScript: RunScriptFn = vi.fn(() => {
+    const runScript: RunScriptFn = vi.fn((opts) => {
       expect(gs.inventory[0]!.count).toBe(3) // sdlpal fight.c:4392-4399:先跑脚本,后扣 consuming
+      return opts.ip
     })
     const commands: Command[] = [{ op: 'end' }]
 
@@ -2293,7 +2255,7 @@ describe('performItem', () => {
       scriptOnUse: 42,
       flags: { ...makeItem().flags, consuming: false },
     })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,
@@ -2319,7 +2281,7 @@ describe('performItem', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 3, count: 0 }])
     const item = makeItem({ id: 3, scriptOnUse: 10 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,
@@ -2347,7 +2309,7 @@ describe('performItem', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 99, count: 5 }]) // 另一 item
     const item = makeItem({ id: 3, scriptOnUse: 10 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,
@@ -2374,7 +2336,7 @@ describe('performItem', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 1, count: 5 }])
     const item = makeItem({ id: 1, scriptOnUse: 0 }) // 关键
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,
@@ -2399,7 +2361,7 @@ describe('performItem', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 1, count: 5 }])
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,
@@ -2426,7 +2388,7 @@ describe('performItem', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 5, count: 2 }])
     const item = makeItem({ id: 5, scriptOnUse: 50 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,
@@ -2454,7 +2416,7 @@ describe('performItem', () => {
     const { state, playerRoles, bus } = makeState()
     const gs = makeGameState([{ itemId: 5, count: 2 }])
     const item = makeItem({ id: 5, scriptOnUse: 88 })
-    const runScript: RunScriptFn = vi.fn()
+    const runScript: RunScriptFn = vi.fn((opts) => opts.ip)
 
     performItem({
       state,

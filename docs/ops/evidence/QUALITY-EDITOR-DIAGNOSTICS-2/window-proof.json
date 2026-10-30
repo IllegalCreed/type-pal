@@ -1,0 +1,105 @@
+{
+  "sourceCandidate": "7433f71f555e457dd06f56122fa7273033f9bb4e",
+  "protectedMain": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+  "allFiveScopedSourcesFrozen": true,
+  "onlyOfficialBaselineChangedInPackagesAndScripts": true,
+  "sourceSnapshot": [
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts",
+      "sha256": "0ff8f1b5ecf000cd6aee415b32d0ac20231ffbc78563cbc1c064d7c6872a9515"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-harness.tsx",
+      "sha256": "01864a4c900179d9be655eb306eac888ce9b063788e90e630ad478c09322fdf4"
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "sha256": "e967c34abf1c71d590cca61dcfd5ac8df3ba1bf208c8f3c3121b426ae3428927"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "6af3f67d1eaf00fe16e1b709c3fc710c02c10d6dc8d49408a9a3092f1be7d4b2"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "f42a9fd5dff65ac16b982f227c47335e4ccbc55a9605a7d46c0db679aa6761e9"
+    }
+  ],
+  "gates": [
+    {
+      "candidate": "7433f71f555e457dd06f56122fa7273033f9bb4e",
+      "protectedRef": null,
+      "command": ["pnpm", "check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "seconds": 433.65,
+      "bytes": 1345177,
+      "sha256": "8bf1d0729248e596dde62ce4c6b2eb01f1f5dcfbddf41fd5200ac3785f658c81",
+      "rawArtifact": "window-check.raw.gz",
+      "rawEncoding": "gzip; bytes and sha256 describe uncompressed original",
+      "removedReporterDetectionVariables": ["CODEX_THREAD_ID"],
+      "reporterVerification": "{\"isAgent\":false}",
+      "VITEST_MAX_WORKERS": 4,
+      "TYPE_PAL_COVERAGE_PARALLEL_EDITOR": 1,
+      "unwrappedAct": 2049,
+      "unsupportedActEnvironment": 577,
+      "navigationDiagnostics": 2,
+      "G04Diagnostics": 0,
+      "C01Diagnostics": 0,
+      "rawIntegrityVerified": true
+    },
+    {
+      "candidate": "7433f71f555e457dd06f56122fa7273033f9bb4e",
+      "protectedRef": null,
+      "command": ["pnpm", "coverage:ratchet", "--allow-scope-removal"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "seconds": 386.48,
+      "bytes": 1208359,
+      "sha256": "0487e225ca440fcbef74a9dd10406b128f773373e43e2e7733eb4caa13cb0cf7",
+      "rawArtifact": "window-ratchet-confirmed.raw.gz",
+      "rawEncoding": "gzip; bytes and sha256 describe uncompressed original",
+      "removedReporterDetectionVariables": ["CODEX_THREAD_ID"],
+      "reporterVerification": "{\"isAgent\":false}",
+      "VITEST_MAX_WORKERS": 4,
+      "TYPE_PAL_COVERAGE_PARALLEL_EDITOR": 1,
+      "unwrappedAct": 2076,
+      "unsupportedActEnvironment": 584,
+      "navigationDiagnostics": 2,
+      "G04Diagnostics": 0,
+      "C01Diagnostics": 0,
+      "rawIntegrityVerified": true
+    },
+    {
+      "candidate": "7433f71f555e457dd06f56122fa7273033f9bb4e",
+      "protectedRef": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+      "command": ["pnpm", "coverage:fast"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+      "exitCode": 0,
+      "seconds": 407.36,
+      "bytes": 1211030,
+      "sha256": "c131e7ba1f86e98f8f0b0c9d37379083847b3889016daae3498f2c92c91ea28d",
+      "rawArtifact": "window-protected.raw.gz",
+      "rawEncoding": "gzip; bytes and sha256 describe uncompressed original",
+      "removedReporterDetectionVariables": ["CODEX_THREAD_ID"],
+      "reporterVerification": "{\"isAgent\":false}",
+      "VITEST_MAX_WORKERS": 4,
+      "TYPE_PAL_COVERAGE_PARALLEL_EDITOR": 1,
+      "unwrappedAct": 2081,
+      "unsupportedActEnvironment": 584,
+      "navigationDiagnostics": 2,
+      "G04Diagnostics": 0,
+      "C01Diagnostics": 0,
+      "rawIntegrityVerified": true
+    }
+  ],
+  "strictZeroDiagnosticGate": "NOT PASSED",
+  "closedThisBatch": [],
+  "ledger": {
+    "inventory": 3284,
+    "closed": 229,
+    "review": 51,
+    "pending": 3004
+  },
+  "note": "Three diagnostic patterns counted; do not infer absence of other runtime diagnostics. Numeric gates are separate from strict zero diagnostic acceptance."
+}

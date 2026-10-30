@@ -1,0 +1,22 @@
+{
+  "beforeTests": 6,
+  "afterTests": 8,
+  "reason": "split stored0/default0 and volume-key/mute-key axes; muted-target update transferred into existing main mute workflow, not duplicated",
+  "main": [
+    "clamp upper/lower/in-range: exact state, every persisted value and full sink sequence",
+    "mute masks output but preserves target; setVolume while muted then unmute restores latest0.9, exact state/store/sink",
+    "startup stored volume0.3+mute1 immediately applies0 exactly once"
+  ],
+  "boundaries": [
+    "NaN is explicit numeric defensive boundary, normalizes0 in state/sink/storage",
+    "stored0 beats nonzero default0.7",
+    "missing storage uses explicit default0, absent default uses0.8; construction does not persist a value",
+    "three real controllers use independent keyVol and exact channel-specific sink trace",
+    "shared custom keyMute is written/read by new instances; existing controllers keep owned in-memory mute, caller must broadcast"
+  ],
+  "primary": "current public typed controller + bootstrap three-channel injection and tools-panel input/broadcast; tool volume is project extension, no same-shape SDLPal UI oracle",
+  "legalInputs": "numbers for declared clamping/NaN guard; actual jsdom Storage strings/null; public string key override; real controller with only injected output callback observed",
+  "dedupe": "clamp/mute state machine belongs to main; boundary removes duplicate muted-target transition, owns stored/default/key configuration; no core mocks/casts/ignore",
+  "isolation": "fresh local controller and callback trace per test; both files beforeEach+afterEach clear owned jsdom preference profile; no timers or async resources",
+  "uncertainty": "storage access/sink exceptions propagate synchronously in current source; failure policy and playback engine not newly certified by tests"
+}

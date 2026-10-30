@@ -1,140 +1,61 @@
 // @vitest-environment jsdom
 /**
- * TEST-KIMI-EDITOR-WORKFLOWS-1 K01：BattleSpriteLibrary 真实源帧工作流补测。
- *
- * 旧断言去重（只登记缺口，不复制）：
- * - BattleSpriteLibrary.test.tsx 全程 mock BattleSpriteInlinePreview/BattleSpriteUploader，
- *   assetReader/assetBase 为 {} as never——已证引用 fail-closed、深链/筛选、草稿隔离、
- *   拖放合法落槽到草稿（L576）、mock 缩帧收紧（L654）、敌人分段文本（L664）；
- *   未证：真实 PNG→量化→encode→gzip→入库字节链、commitRawFrames 追加/替换/删除、
- *   replaceAsset 缩帧拒绝、undo/redo 后 catalog/blobs/profile 一致。
- * - BattleSpriteLibrary.glm-ui-wave.test.tsx 已证改名提交+undo、删除用途命令——不重复。
- * 本文件全部走真实 InlinePreview/Uploader/EditSession/EditorAssetReader/命令与合法项目，
- * 唯一替身是浏览器硬件端口（见 kit.ts 头部边界说明）。
+ * K01: real PNG/quantization/import and shared raw-frame transactions.
+ * Uses the C02 managed host and real cache/notice completion signals.
+ * Browser hardware ports remain real PNG adapters; no product core is mocked.
  */
 import type { BattleSpriteProfileKind } from '@type-pal/content'
 import {
-  type AssetBase,
   compressGzip,
-  decodeBattleSpriteAssetBytes,
   encodeSpriteChunk,
-  type FileSource,
   loadStandardPalette,
   quantizeToRleFrame,
 } from '@type-pal/reforge'
-import { act, useState, useSyncExternalStore } from 'react'
-import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { act } from 'react'
+import { describe, expect, test, vi } from 'vitest'
+import { decodeBattleAsset } from '../__tests__/cursor-asset-r1/battle-sprite-fixtures.js'
+import {
+  type MountedBattleSpriteLibrary,
+  waitForBattleSpriteResources,
+} from '../__tests__/cursor-asset-r1/battle-sprite-harness.js'
+import {
+  applyAppearance,
+  applyBattleHistory,
+  rawEditorMessage,
+  runRawAction,
+  selectAssetRow as selectBattleAssetRow,
+  setupBattleSuite,
+  waitProof as waitBattleProof,
+} from '../__tests__/cursor-asset-r1/battle-sprite-ui.js'
 import { prepareBattleSpriteImport } from '../core/battle-sprite-import.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import { AddBattleSpriteCommand } from '../core/commands.js'
-import { EditSession } from '../core/edit-session.js'
-import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
-import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import {
   buttonByLabel,
   clickButton,
   loadFilesIntoInput,
-  loadLegalUiProject,
   setInputValue,
-  useActEnvironment,
 } from './__tests__/glm-ui-wave-kit.js'
 import {
   atlasColors,
   dispatchDragEvent,
-  installBrowserHardwarePorts,
   MemoryDataTransfer,
   pngFileOf,
   solidAtlasPng,
   solidRgba,
 } from './__tests__/kimi-editor-workflows/kit.js'
-import { BattleSpriteLibrary } from './BattleSpriteLibrary.js'
 
 const FRAME = 8
 
-interface Mounted {
-  session: EditSession
-  source: FileSource
-  assetBase: AssetBase
-  notices: Array<{ kind: 'info' | 'error'; message: string } | undefined>
-  reader: ReturnType<typeof createEditorAssetReader>
-}
-
-function Harness(props: {
-  session: EditSession
-  source: FileSource
-  assetBase: AssetBase
-  reader: ReturnType<typeof createEditorAssetReader>
-  notices: Mounted['notices']
-}) {
-  useSyncExternalStore(
-    (callback) => props.session.subscribe(callback),
-    () => props.session.getVersion(),
-  )
-  const current = props.session.getState()
-  const [view, setView] = useState<'definition' | 'asset'>('definition')
-  const [focus, setFocus] = useState<string | undefined>(undefined)
-  return (
-    <BattleSpriteLibrary
-      definitions={current.battleSprites}
-      catalog={current.assetCatalog}
-      assetBase={props.assetBase}
-      assetReader={props.reader}
-      session={props.session}
-      tabBar={null}
-      view={view}
-      focusObjectId={focus}
-      onViewChange={(next, objectId) => {
-        setView(next)
-        setFocus(objectId)
-      }}
-      onObjectFocus={setFocus}
-      onWorldDomain={() => undefined}
-      referenceIndex={collectCurrentProjectReferenceIndex(current)}
-      referenceStatus="current"
-      getCurrentReferenceIndex={(state) => collectCurrentProjectReferenceIndex(state)}
-      onStatusNotice={(notice) => props.notices.push(notice)}
-    />
-  )
-}
-
-let root: Root
+type Mounted = MountedBattleSpriteLibrary
+const suite = setupBattleSuite()
 let host: HTMLDivElement
 
-beforeEach(() => {
-  useActEnvironment()
-  installBrowserHardwarePorts()
-  host = document.createElement('div')
-  document.body.append(host)
-  root = createRoot(host)
-})
-
-afterEach(async () => {
-  await act(async () => root.unmount())
-  host.remove()
-  vi.unstubAllGlobals()
-  vi.restoreAllMocks()
-})
-
 async function mountLibrary(): Promise<Mounted> {
-  const legal = await loadLegalUiProject('kimi-k01-library')
-  const session = new EditSession(legal.state)
-  const notices: Mounted['notices'] = []
-  const reader = createEditorAssetReader(legal.source, () => session.getState())
-  await act(async () => {
-    root.render(
-      <Harness
-        session={session}
-        source={legal.source}
-        assetBase={legal.assetBase}
-        reader={reader}
-        notices={notices}
-      />,
-    )
-    await Promise.resolve()
-  })
-  return { session, source: legal.source, assetBase: legal.assetBase, notices, reader }
+  const mounted = await suite.mount('kimi-k01-library', {}, [])
+  host = mounted.host
+  return mounted
 }
 
 /** 真实命令播种：独立编码合法帧 → gzip → prepareBattleSpriteImport → AddBattleSpriteCommand。 */
@@ -142,7 +63,7 @@ async function seedSprite(
   mounted: Mounted,
   input: { hint: string; label: string; kind: BattleSpriteProfileKind; colors: number },
 ) {
-  const palette = await loadStandardPalette(mounted.assetBase)
+  const palette = await loadStandardPalette(mounted.project.assetBase)
   const frames = atlasColors(input.colors).map((color) =>
     quantizeToRleFrame(solidRgba(FRAME, FRAME, color), FRAME, FRAME, palette),
   )
@@ -156,50 +77,31 @@ async function seedSprite(
     frameCount: frames.length,
     reader: mounted.reader,
   })
-  mounted.session.dispatch(
-    new AddBattleSpriteCommand(
-      prepared.definition,
-      prepared.record,
-      prepared.bytes,
-      prepared.frameCount,
-    ),
-  )
+  await act(async () => {
+    mounted.session.dispatch(
+      new AddBattleSpriteCommand(
+        prepared.definition,
+        prepared.record,
+        prepared.bytes,
+        prepared.frameCount,
+      ),
+    )
+  })
+  await waitForBattleSpriteResources(host)
   return { prepared, frames, palette }
 }
 
-/** 以当前 catalog/blob 真实解码（含 sha256/bytes/gzip 校验），不得绕过产品校验。 */
+/** Shared decoder validates the current catalog, blob/disk bytes, SHA and gzip. */
 async function decodeCurrent(mounted: Mounted, asset: string) {
-  const record = mounted.session.getState().assetCatalog.assets[asset]
-  expect(record, `catalog 应有 ${asset}`).toBeDefined()
-  const pending = mounted.session.getState().assetBlobs[record!.path]
-  const bytes = pending ? pending.slice(0) : await mounted.source.readBytes(record!.path)
-  return decodeBattleSpriteAssetBytes(record!, bytes, `K01 断言 ${asset}`)
+  return decodeBattleAsset(mounted.project, mounted.session.getState(), asset)
 }
 
 async function selectAssetRow(asset: string): Promise<void> {
-  await vi.waitFor(() => {
-    const row = [...host.querySelectorAll<HTMLElement>('.sprite-resource-row')].find(
-      (candidate) => candidate.querySelector('.ds-catalog-row__meta')?.textContent === asset,
-    )
-    expect(row, `目录行 ${asset}`).toBeDefined()
-    row!.click()
-  })
-  await act(async () => Promise.resolve())
+  await selectBattleAssetRow(host, asset)
 }
 
-/** 等待真实解码 proof 到位（hero meta 显示实际帧数与用途数）。 */
 async function waitProof(frames: number, consumers: number): Promise<void> {
-  await vi.waitFor(() => {
-    expect(host.textContent).toContain(`${frames} 帧 · ${consumers} 个用途定义`)
-  })
-}
-
-/** 源帧编辑结果消息：成功/失败都先等其出现，再断言内容（反控下必须是 AssertionError 而非超时）。 */
-async function rawEditorMessage(): Promise<HTMLElement> {
-  await vi.waitFor(() => {
-    expect(host.querySelector('.sprite-raw-editor-message')).not.toBeNull()
-  })
-  return host.querySelector<HTMLElement>('.sprite-raw-editor-message')!
+  await waitBattleProof(host, frames, consumers)
 }
 
 function hiddenImageInputs(): HTMLInputElement[] {
@@ -210,7 +112,7 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
   test('真实 PNG 图集导入：catalog/bytes/定义精确入库且 undo/redo 对称', async () => {
     const mounted = await mountLibrary()
     const atlas = solidAtlasPng(FRAME, FRAME, atlasColors(10))
-    const palette = await loadStandardPalette(mounted.assetBase)
+    const palette = await loadStandardPalette(mounted.project.assetBase)
     const expectedFrames = atlasColors(10).map((color) =>
       quantizeToRleFrame(solidRgba(FRAME, FRAME, color), FRAME, FRAME, palette),
     )
@@ -230,12 +132,10 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
       expect(host.textContent).toContain('共 10 帧（横排逐行切）')
     })
     const historyBefore = mounted.session.getHistoryVersion()
-    await clickButton(host, '应用外观')
+    await applyAppearance(mounted)
 
     const asset = `battle-sprite.authored.${expectedSha}`
-    await vi.waitFor(() => {
-      expect(mounted.session.getState().assetCatalog.assets[asset]).toBeDefined()
-    })
+    expect(mounted.session.getState().assetCatalog.assets[asset]).toBeDefined()
     const record = mounted.session.getState().assetCatalog.assets[asset]!
     expect(record.kind).toBe('battle-sprite')
     expect(record.path).toBe(`assets/authored/battle-sprites/${expectedSha}.rle`)
@@ -261,13 +161,13 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
     expect(decoded.frames).toHaveLength(10)
     expect(decoded.frames[5]).toEqual(expectedFrames[5])
 
-    expect(mounted.session.undo()).toBe(true)
+    expect(await applyBattleHistory(mounted, 'undo')).toBe(true)
     expect(mounted.session.getState().assetCatalog.assets[asset]).toBeUndefined()
     expect(mounted.session.getState().assetBlobs[record.path]).toBeUndefined()
     expect(mounted.session.getState().battleSprites.some((entry) => entry.asset === asset)).toBe(
       false,
     )
-    expect(mounted.session.redo()).toBe(true)
+    expect(await applyBattleHistory(mounted, 'redo')).toBe(true)
     expect(mounted.session.getState().assetCatalog.assets[asset]?.sha256).toBe(expectedSha)
     expect(mounted.session.getState().battleSprites.some((entry) => entry.asset === asset)).toBe(
       true,
@@ -283,11 +183,10 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
       colors: 4,
     })
     const asset = seeded.prepared.definition.asset
-    await act(async () => Promise.resolve())
     await selectAssetRow(asset)
     await waitProof(4, 1)
 
-    // 解码未到位时新增用途必须拒绝（真实门）；proof 就绪后放行。
+    // Shared replacement setup: create a real summon consumer only after proof is ready.
     await clickButton(host, '新增用途')
     await clickButton(host, '召唤现身')
     await vi.waitFor(() => {
@@ -309,6 +208,19 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
 
     // 取消侧：confirm=false → 零提交、字节与 catalog 不变。
     const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
+    const pickReplacement = async (file: File, outcome: 'cancel' | 'commit') => {
+      const calls = confirm.mock.calls.length
+      const notices = mounted.notices.length
+      await act(async () => {
+        await loadFilesIntoInput(hiddenImageInputs()[0]!, [file])
+        await vi.waitFor(() => {
+          if (outcome === 'cancel') expect(confirm).toHaveBeenCalledTimes(calls + 1)
+          else
+            expect(mounted.notices.slice(notices).some((notice) => notice !== undefined)).toBe(true)
+        })
+      })
+      await waitForBattleSpriteResources(host)
+    }
     const beforeRecord = mounted.session.getState().assetCatalog.assets[asset]!
     const historyBefore = mounted.session.getHistoryVersion()
     const frameCell = host.querySelector<HTMLElement>('[data-source-frame-index="1"]')
@@ -316,26 +228,20 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
     await act(async () => frameCell!.click())
     await clickButton(host, '替换当前帧')
     const replacement = solidAtlasPng(FRAME, FRAME, [atlasColors(16)[14]!])
-    await loadFilesIntoInput(hiddenImageInputs()[0]!, [
-      pngFileOf('单帧替换.png', replacement.bytes),
-    ])
-    await vi.waitFor(() => {
-      expect(confirm).toHaveBeenCalledWith(
-        expect.stringContaining('替换原始帧 #1 会同时影响 2 个用途'),
-      )
-    })
+    await pickReplacement(pngFileOf('单帧替换.png', replacement.bytes), 'cancel')
+    expect(confirm).toHaveBeenCalledWith(
+      expect.stringContaining('替换原始帧 #1 会同时影响 2 个用途'),
+    )
     expect(mounted.session.getHistoryVersion()).toBe(historyBefore)
     expect(mounted.session.getState().assetCatalog.assets[asset]?.sha256).toBe(beforeRecord.sha256)
 
     // 放行侧：真实重编码入库，双用途 profile 不动，undo 还原字节与 catalog。
     confirm.mockReturnValue(true)
     await clickButton(host, '替换当前帧')
-    await loadFilesIntoInput(hiddenImageInputs()[0]!, [
-      pngFileOf('单帧替换.png', replacement.bytes),
-    ])
-    const message = await rawEditorMessage()
-    expect(message.classList.contains('error')).toBe(false)
-    expect(message.textContent).toBe('替换战斗精灵原始帧 #1；可使用撤销恢复。')
+    await pickReplacement(pngFileOf('单帧替换.png', replacement.bytes), 'commit')
+    const message = rawEditorMessage(host)
+    expect(message?.classList.contains('error')).toBe(false)
+    expect(message?.textContent).toBe('替换战斗精灵原始帧 #1；可使用撤销恢复。')
 
     const expectedCell = quantizeToRleFrame(
       solidRgba(FRAME, FRAME, atlasColors(16)[14]!),
@@ -345,6 +251,7 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
     )
     const decoded = await decodeCurrent(mounted, asset)
     expect(decoded.frames).toHaveLength(4)
+    expect(expectedCell).not.toEqual(seeded.frames[1])
     expect(decoded.frames[1]).toEqual(expectedCell)
     expect(decoded.frames[0]).toEqual(seeded.frames[0])
     expect(decoded.frames[3]).toEqual(seeded.frames[3])
@@ -355,7 +262,7 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
     expect(enemy.profile).toEqual(seeded.prepared.definition.profile)
     expect(after.battleSprites.find((entry) => entry.id === summon.id)?.profile.kind).toBe('summon')
 
-    expect(mounted.session.undo()).toBe(true)
+    expect(await applyBattleHistory(mounted, 'undo')).toBe(true)
     const restored = await decodeCurrent(mounted, asset)
     expect(restored.frames).toHaveLength(4)
     expect(restored.frames[1]).toEqual(seeded.frames[1])
@@ -375,20 +282,26 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
       hint: 'k01-append-summon',
       label: '追加四帧召唤',
       kind: 'summon',
-      bytes: (await compressGzip(encodeSpriteChunk(seeded.frames))).buffer.slice(0) as ArrayBuffer,
+      bytes: seeded.prepared.bytes.slice(0),
       frameCount: seeded.frames.length,
       reader: mounted.reader,
     })
-    // 同一字节 sha → 复用同一 AssetId；第二定义共享同帧源。
-    const reused = {
-      ...second,
-      definition: { ...second.definition, asset, id: 'k01-append-summon', label: '追加四帧召唤' },
-      record: seeded.prepared.record,
-    }
-    mounted.session.dispatch(
-      new AddBattleSpriteCommand(reused.definition, reused.record, seeded.prepared.bytes, 4),
-    )
-    await act(async () => Promise.resolve())
+    expect(second.definition.asset).toBe(asset)
+    expect(second.record).toEqual(seeded.prepared.record)
+    const summonId = second.definition.id
+    await act(async () => {
+      expect(
+        mounted.session.dispatch(
+          new AddBattleSpriteCommand(
+            second.definition,
+            second.record,
+            second.bytes,
+            second.frameCount,
+          ),
+        ),
+      ).toBe(true)
+    })
+    await waitForBattleSpriteResources(host)
     await selectAssetRow(asset)
     await waitProof(4, 2)
 
@@ -410,13 +323,10 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
       expect(panel.textContent).toContain('2 帧，每帧 8×8')
     })
     const historyBefore = mounted.session.getHistoryVersion()
-    await clickButton(host, '确认追加')
-    await vi.waitFor(() => {
-      expect(confirm).toHaveBeenCalledWith(expect.stringContaining('追加 2 帧会更新 2 个用途'))
-    })
-    const message = await rawEditorMessage()
-    expect(message.classList.contains('error')).toBe(false)
-    expect(message.textContent).toBe('追加战斗精灵原始帧 ×2；可使用撤销恢复。')
+    const message = await runRawAction(mounted, '确认追加')
+    expect(confirm).toHaveBeenCalledWith(expect.stringContaining('追加 2 帧会更新 2 个用途'))
+    expect(message?.classList.contains('error')).toBe(false)
+    expect(message?.textContent).toBe('追加战斗精灵原始帧 ×2；可使用撤销恢复。')
     expect(mounted.session.getHistoryVersion()).toBeGreaterThan(historyBefore)
 
     const appendedColors = [atlasColors(16)[10]!, atlasColors(16)[11]!]
@@ -431,12 +341,10 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
     for (const entry of mounted.session.getState().battleSprites)
       if (entry.asset === asset)
         expect(entry.profile).toEqual(
-          entry.id === 'k01-append-summon'
-            ? { kind: 'summon' }
-            : seeded.prepared.definition.profile,
+          entry.id === summonId ? { kind: 'summon' } : seeded.prepared.definition.profile,
         )
 
-    expect(mounted.session.undo()).toBe(true)
+    expect(await applyBattleHistory(mounted, 'undo')).toBe(true)
     const restored = await decodeCurrent(mounted, asset)
     expect(restored.frames).toHaveLength(4)
     expect(mounted.session.getState().assetCatalog.assets[asset]?.sha256).toBe(
@@ -453,7 +361,6 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
       colors: 4,
     })
     const asset = seeded.prepared.definition.asset
-    await act(async () => Promise.resolve())
     await selectAssetRow(asset)
     await waitProof(4, 1)
 
@@ -467,12 +374,11 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
 
     // 放行侧：修复事务同步收紧 idle 分段，消息可撤销。
     confirm.mockReturnValue(true)
-    await clickButton(host, '删除当前帧')
+    const message = await runRawAction(mounted, '删除当前帧')
     expect(confirm).toHaveBeenCalledWith(expect.stringContaining('删除战斗精灵原始帧 #0'))
     expect(confirm).toHaveBeenCalledWith(expect.stringContaining('动作分段 2/0/2 → 1/0/2'))
-    const message = await rawEditorMessage()
-    expect(message.classList.contains('error')).toBe(false)
-    expect(message.textContent).toBe('删除战斗精灵原始帧 #0；可使用撤销恢复。')
+    expect(message?.classList.contains('error')).toBe(false)
+    expect(message?.textContent).toBe('删除战斗精灵原始帧 #0；可使用撤销恢复。')
 
     const decoded = await decodeCurrent(mounted, asset)
     expect(decoded.frames).toHaveLength(3)
@@ -487,7 +393,7 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
       expect(enemy.profile.attack).toEqual({ start: 1, count: 2 })
     }
 
-    expect(mounted.session.undo()).toBe(true)
+    expect(await applyBattleHistory(mounted, 'undo')).toBe(true)
     const restored = await decodeCurrent(mounted, asset)
     expect(restored.frames).toHaveLength(4)
     const restoredEnemy = mounted.session
@@ -505,7 +411,6 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
       colors: 4,
     })
     const asset = seeded.prepared.definition.asset
-    await act(async () => Promise.resolve())
     await selectAssetRow(asset)
     await waitProof(4, 1)
 
@@ -523,7 +428,7 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
       expect(host.textContent).toContain('共 2 帧（横排逐行切）')
     })
     const historyBefore = mounted.session.getHistoryVersion()
-    await clickButton(host, '应用外观')
+    await applyAppearance(mounted, 'error')
     await vi.waitFor(() => {
       expect(
         mounted.notices.some(
@@ -549,13 +454,9 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
       expect(host.textContent).toContain('共 5 帧（横排逐行切）')
     })
     const confirm = vi.spyOn(window, 'confirm').mockReturnValue(true)
-    await clickButton(host, '应用外观')
-    await vi.waitFor(() => {
-      expect(confirm).toHaveBeenCalledWith(expect.stringContaining('替换共享帧源会影响 1 个用途'))
-    })
-    await vi.waitFor(() => {
-      expect(host.textContent).not.toContain('替换当前共享帧源')
-    })
+    await applyAppearance(mounted)
+    expect(confirm).toHaveBeenCalledWith(expect.stringContaining('替换共享帧源会影响 1 个用途'))
+    expect(host.textContent).not.toContain('替换当前共享帧源')
     const decoded = await decodeCurrent(mounted, asset)
     expect(decoded.frames).toHaveLength(5)
     const after = mounted.session.getState().assetCatalog.assets[asset]!
@@ -566,7 +467,7 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
       .battleSprites.find((entry) => entry.asset === asset && entry.profile.kind === 'enemy')!
     expect(enemy.profile).toEqual(seeded.prepared.definition.profile)
 
-    expect(mounted.session.undo()).toBe(true)
+    expect(await applyBattleHistory(mounted, 'undo')).toBe(true)
     const restored = await decodeCurrent(mounted, asset)
     expect(restored.frames).toHaveLength(4)
     expect(mounted.session.getState().assetCatalog.assets[asset]?.sha256).toBe(
@@ -598,23 +499,16 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
     })
     const applyButton = () => buttonByLabel(host, '应用修改')
 
-    // 非法载荷三例：无类型化 payload 的裸文本、越界帧号、非整数；全部零提交。
-    for (const transfer of [
-      Object.assign(new MemoryDataTransfer(), {
-        /* 仅 text/plain 裸文本 */
-      }),
-      (() => {
-        const dt = new MemoryDataTransfer()
-        dt.setData('application/x-type-pal-battle-raw-frame', '999')
-        return dt
-      })(),
-      (() => {
-        const dt = new MemoryDataTransfer()
-        dt.setData('application/x-type-pal-battle-raw-frame', 'x')
-        return dt
-      })(),
-    ]) {
-      if (!transfer.types.length) transfer.setData('text/plain', '7')
+    // Each untrusted payload is isolated; fractional input distinguishes integer validation.
+    const invalidDrops: ReadonlyArray<readonly [string, string]> = [
+      ['text/plain', '7'],
+      ['application/x-type-pal-battle-raw-frame', '999'],
+      ['application/x-type-pal-battle-raw-frame', 'x'],
+      ['application/x-type-pal-battle-raw-frame', '1.5'],
+    ]
+    for (const [type, payload] of invalidDrops) {
+      const transfer = new MemoryDataTransfer()
+      transfer.setData(type, payload)
       await act(async () => dispatchDragEvent(strikeSlot(), 'drop', transfer))
       expect(strikeSlot().textContent).toContain('#9')
       expect(mounted.session.getHistoryVersion()).toBe(historyBefore)
@@ -641,7 +535,7 @@ describe('K01 BattleSpriteLibrary 真实源帧工作流', () => {
       ).toBe(true)
     })
     expect(mounted.session.getHistoryVersion()).toBeGreaterThan(historyBefore)
-    expect(mounted.session.undo()).toBe(true)
+    expect(await applyBattleHistory(mounted, 'undo')).toBe(true)
     const reverted = mounted.session
       .getState()
       .battleSprites.find((entry) => entry.asset === starter)!

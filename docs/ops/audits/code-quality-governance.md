@@ -1,13 +1,24 @@
 # 全仓代码质量治理总纲
 
+2026-10-25用户指定下一阶段收口当前52个review文件；从PR23合并的main0e14、同一治理分支接续。[固定52路径/原状态与当前阶段](../tasks/QUALITY-REVIEW-52-CLOSEOUT-1.md)分开核旧说明、证据缺口与实际返工，不重开全部103+或提升2870pending。当前固定52/52代码与本地统一门接受、0文件仍review；实际远端发布尚待核验，历史门仅按版本/影响域复用，昂贵门留稳定阶段收尾。
+
+2026-10-25当前94–102有限模块本地收口，唯一治理分支codex/code-quality-94-102；20新关闭、34既有关闭桥接，54逐文件八维与统一门完整。唯一采集及精确结构重计原件见[当前窗口](../evidence/CODE-QUALITY-94/approved-closeout/README.md)，远端发布由关联PR/main CI记录。全仓未全部完成，不扩103+。
+
+2026-10-25 pre94以[固定83卡队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)为唯一代码进度，原83范围已accept；[最终本地统一门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)分开记录实际check、单次覆盖率失败／精确重计／同报告保护及待远端发布。下列波次数字保持原时点，不作为当前计数或验收；全仓专项并未全部完成。
+
+
+> 2026-10-18 pre-94 机制返工：三个独立审计 counter 已核实并登记[QUALITY-BATTLE-MAGIC-PARITY-1](../tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md)。0x42目标、0x66裸武术、非伤害敌法术自动防御按先红后绿修复；五项旧闭合记录（两实现/三测试）转review，无新增closed。旧波次门仍rework；本次定向不恢复其全仓/coverage信用。
+
+> 2026-10-18 当前源区间勘误：uibattle.c飘字循环1746–1767、PAL_BattleUIShowNum 1770–1808（EOF1808）；PAL_PlayerLevelUp为global.c:2347–2409（EOF2409）。旧quote/历史快照中的1810/2454仅保留原记录，不是当前有效读取范围；见[直接核对](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/anchor-corrections.json)。未重跑或重签产品/coverage门。
+
 Status: active
-Last reviewed: 2026-10-16
+Last reviewed: 2026-10-25
 Owner: Codex
 Template: plan-status-v1 / 1.0.0
 
 ## 目标与时间范围
 
-本页维护 CODE-QUALITY 专项的路线、批次边界和证据入口。原路线始于2026-10-04的 `b9ba7e0faadf56519da024c0343f5b44b9a5c447`；当前只修正文档事实权与机器账本一致性，不授权新的产品审计、修复或旧测试执行。专项仍未全仓完成。
+本页维护 CODE-QUALITY 专项的路线、批次边界和证据入口。原路线始于2026-10-04的 `b9ba7e0faadf56519da024c0343f5b44b9a5c447`；具体代码审查与改动按当前用户/任务卡准入执行；本文路线不额外授予产品范围。专项仍未全仓完成。
 
 模块地图按 shared 字节/类型、pal-extract 纯解析与IO、game 机制/生命周期/呈现、content canonical、migrate 真源/事务、reforge新架构、editor会话/命令/设计系统及 scripts 工具分域。原八行地图完整保留在历史原稿；它是入口地图，静态依赖和行数不构成缺陷证据，也不代表完整调用图。
 
@@ -32,6 +43,12 @@ Template: plan-status-v1 / 1.0.0
 当前逐路径状态及库存汇总只由[逐文件账本](code-quality-file-ledger.md)保存，由[真实完整性消费者](../../../scripts/quality/code-quality-ledger.mjs)与[追踪清单生成器](../../../scripts/quality/code-quality-inventory.mjs)对账。不能复制原稿多个“当前”数字作为今天进度；通过记录完整性门仍需后继源码语义审查。
 
 生成器实际纳入所有Git tracked的 `packages/` 或 `scripts/` 路径中 `.js/.mjs/.mts/.ts/.tsx/.json` 文件；代码中的七包集合用于domain标记，不是过滤硬门。机器 `scope` 文案与旧总纲七包说法只能作概述，精确输入以该filter为准；输出每项默认待核，不能据此重置账本既有状态。只从显式记录及真实调用证据增量更新，不把机器快照提交成产品源。
+
+## 2026-10-17 94前复审与最新治理分支
+
+当前唯一治理分支为 `codex/code-quality-3y`，已合并 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869`，相对 main 为0 behind。机器账本当前为3307 tracked、231 closed、35 review、3041 pending；这些是逐路径登记计数，不是94前83卡或94–102卡的整卡接受数。
+
+94前编号卡复审仍覆盖全部83张，当前14 partial / 69 pending / 0整卡accept；[逐卡证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)与[fetch取消证据](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)保持未知项待审。取消批次已修复退避期间 signal 取消并通过合并后26例定向、全仓check和lint；official ratchet/protected fast因shared与pal-extract baseline回退失败，game完整包17块stderr、editor运行时诊断仍未清零，因此不合main。
 
 ## 阻塞与决策
 

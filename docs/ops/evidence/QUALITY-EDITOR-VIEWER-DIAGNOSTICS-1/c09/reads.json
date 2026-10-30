@@ -1,0 +1,73 @@
+{
+  "candidate": "c858f4840bfbe4444acf16c370dbd457aa0728c7",
+  "fullReads": [
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+      "lines": 639,
+      "sha256": "0c108b5c4e29f0dd29a31954cd863697857bb45710420dd4a6454c5a38aba25b"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx",
+      "lines": 442,
+      "sha256": "fe07dc0eaf023e45fd6775e5d227117d0bad79654f14fd805c7313e39b4f7e8b"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts",
+      "lines": 247,
+      "sha256": "a6417c2d001d5eac1708b96858462544f52be4b0597cc92d4c1be25014847e8d"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "lines": 581,
+      "sha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc"
+    },
+    {
+      "path": "packages/editor/src/ui/__tests__/kimi-editor-workflows/k02-fixtures.ts",
+      "lines": 117,
+      "sha256": "41d3a808d9b39ed97bdfad129dba3fbb60730bc766925dc161ab77aacf06ef3b"
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/sprite-fixtures.ts",
+      "lines": 147,
+      "sha256": "e7d1580d84771445a3d230f40a0a6c598ff847adcbbae33d13cc133d23c22aa2"
+    },
+    {
+      "path": "packages/editor/src/ui/__tests__/kimi-editor-workflows/kit.ts",
+      "lines": 294,
+      "sha256": "63d89a1152e9830ebd7d603edbf5431f64e4bf58425c2891adc051debd322aba"
+    },
+    {
+      "path": "packages/editor/src/ui/__tests__/glm-ui-wave-kit.ts",
+      "lines": 173,
+      "sha256": "490aea62ef0d7be1d4dacb81c2b3326fff0256746dbbe9df0de104c436a80f9c"
+    },
+    {
+      "path": "packages/editor/src/core/sprite-assets.ts",
+      "lines": 31,
+      "sha256": "9ecff5971e0046e71fd7271608255b4117acdc9e80c7f06ad4203d66f1d3d05f"
+    },
+    {
+      "path": "packages/editor/src/core/editor-asset-reader.ts",
+      "lines": 59,
+      "sha256": "ea6f472fd817f7d932f3249d3a9c4449f2f894569b093b06e8e2012d0e75fbdf"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md",
+      "lines": 155,
+      "sha256": "b3e2ccd65f1cf485a5554bf626c035bead2d22b2530e449e19ff0e192cf1b716"
+    }
+  ],
+  "partialCallers": {
+    "packages/editor/src/ui/WorldSpriteLibrary.tsx": ["770-875"],
+    "packages/editor/src/ui/DataMode.tsx": ["710-775"]
+  },
+  "closed": [],
+  "primarySources": [
+    {
+      "url": "https://react.dev/reference/react/act",
+      "accessedDate": "2026-10-16",
+      "sections": ["await act(async actFn)", "Troubleshooting IS_REACT_ACT_ENVIRONMENT"],
+      "application": "Await actual async work before asserting; retain true environment flag and diagnostics"
+    }
+  ]
+}

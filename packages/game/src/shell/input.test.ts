@@ -32,7 +32,7 @@ describe('codeToAbstractKey', () => {
     expect(codeToAbstractKey('AltRight')).toBe('Menu')
     expect(codeToAbstractKey('Insert')).toBe('Menu')
     expect(codeToAbstractKey('Numpad0')).toBe('Menu')
-    expect(codeToAbstractKey('KeyM')).toBe('Menu')
+    expect(codeToAbstractKey('KeyM')).toBe('Menu') // KeyM = 本项目 dev 追加(sdlpal 键表无 m→Menu)
   })
 
   it('Numpad 方向键(sdlpal input.c:58-65)', () => {
@@ -218,6 +218,76 @@ describe('DM30:fade 抑制按住的方向键(palette.c:313-316)', () => {
       expect(snap.held.has('Up')).toBe(true) // 物理松开重按 → 恢复
     } finally {
       src.detach()
+    }
+  })
+})
+
+describe('scene-fade 后由方向事件恢复当前方向', () => {
+  function down(code: string, repeat = false): void {
+    window.dispatchEvent(new KeyboardEvent('keydown', { code, repeat }))
+  }
+
+  function up(code: string): void {
+    window.dispatchEvent(new KeyboardEvent('keyup', { code }))
+  }
+
+  it('松开后按的方向时，恢复仍按住的另一个方向，不制造 pressed', () => {
+    const source = new KeyboardInputSource(window)
+    try {
+      down('ArrowLeft')
+      down('ArrowRight')
+      source.suppressHeldForFade()
+      expect([...source.nextSnapshot(0).held]).toEqual([])
+
+      up('ArrowRight')
+      const resumed = source.nextSnapshot(1)
+      expect([...resumed.held]).toEqual(['Left'])
+      expect([...resumed.pressed]).toEqual([])
+    } finally {
+      source.detach()
+    }
+  })
+
+  it('非重复方向按下恢复原有方向，保留后按优先和真实新按下边沿', () => {
+    const source = new KeyboardInputSource(window)
+    try {
+      down('ArrowLeft')
+      down('ArrowRight')
+      source.suppressHeldForFade()
+
+      down('ArrowUp')
+      const resumed = source.nextSnapshot(1)
+      expect([...resumed.held]).toEqual(['Left', 'Right', 'Up'])
+      expect([...resumed.pressed]).toEqual(['Up'])
+    } finally {
+      source.detach()
+    }
+  })
+
+  it('repeat、非方向和未知事件不解除抑制；未按住方向的 keyup 仍重算', () => {
+    const source = new KeyboardInputSource(window)
+    try {
+      down('ArrowLeft')
+      down('ArrowRight')
+      source.suppressHeldForFade()
+      down('ArrowLeft', true)
+      down('Space')
+      const nonDirection = source.nextSnapshot(1)
+      expect([...nonDirection.held]).toEqual(['Confirm'])
+      expect([...nonDirection.pressed]).toEqual(['Confirm'])
+
+      up('Space')
+      up('KeyZ')
+      const stillSuppressed = source.nextSnapshot(2)
+      expect([...stillSuppressed.held]).toEqual([])
+      expect([...stillSuppressed.pressed]).toEqual([])
+
+      up('ArrowUp')
+      const resumed = source.nextSnapshot(3)
+      expect([...resumed.held]).toEqual(['Left', 'Right'])
+      expect([...resumed.pressed]).toEqual([])
+    } finally {
+      source.detach()
     }
   })
 })

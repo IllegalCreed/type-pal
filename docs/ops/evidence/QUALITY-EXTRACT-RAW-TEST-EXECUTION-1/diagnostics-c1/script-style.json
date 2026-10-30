@@ -1,0 +1,36 @@
+{
+  "runs": [
+    {
+      "name": "pre-script-style",
+      "command": [
+        "pnpm",
+        "exec",
+        "biome",
+        "check",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/retirement-proof.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "84258edf0480b66498baf8367ea609d15a4b39e6b0ef149061fdd36edbc6b01a",
+      "note": "exit0 with 15 infos is not acceptance"
+    },
+    {
+      "name": "fix-script-style",
+      "command": [
+        "pnpm",
+        "exec",
+        "biome",
+        "check",
+        "--write",
+        "--unsafe",
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/retirement-proof.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "b6705256aa13385be4f8dc22311bebc6c9b2640fed9b51a5d8d517912a35959c",
+      "note": "template literal fixes in new evidence collector only"
+    }
+  ],
+  "initialInfos": 15,
+  "initialPass": false
+}

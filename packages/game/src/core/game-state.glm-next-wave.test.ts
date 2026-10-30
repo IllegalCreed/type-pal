@@ -1,8 +1,7 @@
 /**
  * TEST-GLM-NEW-H-1 / H04 — game-state 当前公开合同补测。
  *
- * getOverworldSpriteNum(present.ts:350/445、bootstrap.ts:550 的现行 caller)在本文件前无直测。
- * 合同 = 三级快照解析:role0 旧字段 partyLeaderSpriteId 覆盖 → runtime rgwSpriteNum>0 → 静态表。
+ * getOverworldSpriteNum由present/bootstrap消费：role0镜像覆盖 → runtime精灵号>0 → 静态表。
  * createInitialPlayerStatus(global.h:522 6×9 全零)同文件补一条布局合同。
  */
 import type { PlayerRoles } from '@type-pal/shared'
@@ -37,10 +36,10 @@ describe('getOverworldSpriteNum 三级快照解析(present/bootstrap 现行 call
     gs.PlayerRolesRuntime.rgwSpriteNum[1] = 42
     expect(getOverworldSpriteNum(gs, 1, staticRoles())).toBe(42)
     gs.PlayerRolesRuntime.rgwSpriteNum[1] = 0
-    expect(getOverworldSpriteNum(gs, 1, staticRoles())).toBe(2) // 0 非法 → 静态表
+    expect(getOverworldSpriteNum(gs, 1, staticRoles())).toBe(2) // 0表示没有runtime覆盖,按公开合同回退静态表
   })
 
-  it('runtime 缺行(旧档归一化前)→ 静态 player-roles.json 兜底;两者皆无 → undefined', () => {
+  it('runtime精灵号为0时回退静态表,未提供静态表则undefined', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     expect(getOverworldSpriteNum(gs, 2, staticRoles())).toBe(3)
     expect(getOverworldSpriteNum(gs, 2)).toBeUndefined() // 无静态表 → undefined(caller 兜底)
@@ -55,5 +54,9 @@ describe('createInitialPlayerStatus(sdlpal global.h:522 布局)', () => {
       expect(row.length).toBe(9)
       expect(row.every((v) => v === 0)).toBe(true)
     }
+    // 形状/全零不足以证明所有权：修改一行不能连带其它角色或下一份初态。
+    st[0]![0] = 3
+    expect(st[1]![0]).toBe(0)
+    expect(createInitialPlayerStatus()[0]![0]).toBe(0)
   })
 })

@@ -4,20 +4,21 @@
  *  - grok-present P06（施法人 HP/仙术页 MP 够与不够色/翻页/目标光标/输入快照）→ 不重复
  *  - 新差异：选中+禁用 0x1C（施法人死亡被选中、法术 MP 不足被选中——预置 disabled 着色，
  *    不冒称 MP 可用性判定已执行）、空法术表只画框+MP needed 0、spell 不在 catalog 时 label
- *    回退 menu item、施法人名 role#id 回退。
+ *    回退 menu item（不冒称执行了施法人名回退）。
  */
 import type { Magic, Spell } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import {
   fixtureGlyphs,
   freezeNow,
-  makeRoles,
+  makeRoles as makeBaseRoles,
   makeUiFrames,
   newFb,
   pixel,
   textDot,
 } from '../../__tests__/glm-phase1-leaves/present-fixtures.js'
-import { createInitialGameState } from '../../core/game-state.js'
+import { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'
+import { magicWithCost } from '../../core/menu/__tests__/magic-cost-fixture.js'
 import type { InGameMagicMenuState } from '../../core/menu/in-game-magic-menu.js'
 import { createInGameMagicMenu } from '../../core/menu/in-game-magic-menu.js'
 import {
@@ -28,26 +29,17 @@ import { drawInGameMagicMenu } from './draw-magic.js'
 
 const glyphs = fixtureGlyphs
 
-function mkMagic(id: number, costMP: number): Magic {
-  return {
-    id,
-    effect: 0,
-    type: 'normal',
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    speed: 0,
-    keepEffect: 0,
-    fireDelay: 0,
-    effectTimes: 0,
-    shake: 0,
-    wave: 0,
-    unknown: 0,
-    costMP,
-    baseDamage: 0,
-    elemental: 0,
-    sound: 0,
-  }
+function makeRoles(): ReturnType<typeof makeBaseRoles> {
+  const roles = makeBaseRoles()
+  for (const role of roles.roles) role.mp = 20
+  return roles
+}
+
+function runtimeState(roles: ReturnType<typeof makeRoles>, party = [0, 1]) {
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  gs.partyMembers = [...party]
+  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, roles)
+  return gs
 }
 
 function mkSpell(id: number, magicNumber: number, name: string | undefined): Spell {
@@ -68,7 +60,7 @@ function mkSpell(id: number, magicNumber: number, name: string | undefined): Spe
 }
 
 const SPELLS: Spell[] = [mkSpell(300, 1, '甲'), mkSpell(301, 2, '乙')]
-const MAGICS: Magic[] = [mkMagic(1, 0), mkMagic(2, 999)]
+const MAGICS: Magic[] = [magicWithCost(1, 0), magicWithCost(2, 999)]
 
 function rolesWithDead(): ReturnType<typeof makeRoles> {
   const roles = makeRoles()
@@ -78,6 +70,7 @@ function rolesWithDead(): ReturnType<typeof makeRoles> {
 
 function pickCasterState(): { state: InGameMagicMenuState; roles: ReturnType<typeof makeRoles> } {
   const roles = makeRoles()
+  roles.roles[0]!.magic = [300, 301]
   const state = createInGameMagicMenu(roles, [0, 1], SPELLS, MAGICS)
   return { state, roles }
 }
@@ -86,7 +79,7 @@ describe('L10 drawInGameMagicMenu 剩余分支', () => {
   it('pick-caster：死亡施法人未选中 0x18、被选中 0x1C；活人选中 0xF9', () => {
     const roles = rolesWithDead()
     const state = createInGameMagicMenu(roles, [0, 1], SPELLS, MAGICS)
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const gs = runtimeState(roles)
     gs.PlayerRolesRuntime.rgwHP[0] = 41
     gs.PlayerRolesRuntime.rgwMaxHP[0] = 58
     gs.PlayerRolesRuntime.rgwMP[0] = 12
@@ -144,7 +137,7 @@ describe('L10 drawInGameMagicMenu 剩余分支', () => {
     state.casterMenu.cursor = 0
     state.phase = 'pick-spell'
     state.selectedCasterId = 0
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const gs = runtimeState(roles)
     gs.PlayerRolesRuntime.rgwMP[0] = 5 // 乙(999) 不可用
     // 手工建 spellMenu（同 buildSpellMenu 结果：法术升序 300,301，301 disabled）；cursor 0
     state.spellMenu = {
@@ -153,7 +146,7 @@ describe('L10 drawInGameMagicMenu 剩余分支', () => {
         { id: 301, label: '乙', rightText: 'MP 999', disabled: true },
       ],
       cursor: 0,
-      pageSize: 8,
+      pageSize: 15,
       pageOffset: 0,
     }
     const fb = newFb()
@@ -202,10 +195,10 @@ describe('L10 drawInGameMagicMenu 剩余分支', () => {
   it('空法术表：只画 grid 框，不画条目不抛错；MP 框 needed 0', () => {
     const roles = makeRoles()
     const state = createInGameMagicMenu(roles, [0], SPELLS, MAGICS)
-    state.spellMenu = { items: [], cursor: 0, pageSize: 8, pageOffset: 0 }
+    state.spellMenu = { items: [], cursor: 0, pageSize: 15, pageOffset: 0 }
     state.phase = 'pick-spell'
     state.selectedCasterId = 0
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const gs = runtimeState(roles, [0])
     gs.PlayerRolesRuntime.rgwMP[0] = 7
     const fb = newFb()
     const restore = freezeNow(0)
@@ -230,21 +223,20 @@ describe('L10 drawInGameMagicMenu 剩余分支', () => {
     expect(pixel(fb, 68, 14)).toBe(0x77)
   })
 
-  it('spell 不在 catalog：grid label 回退 menu item label；施法人缺 _name 回退 role#id', () => {
+  it('spell 不在 catalog：grid 使用 menu item 的完整 label', () => {
     const roles = makeRoles()
-    roles.roles[0]!._name = undefined
     const state = createInGameMagicMenu(roles, [0, 1], SPELLS, MAGICS)
-    // caster 名走 role#0（tofu）；spell 301 不在传入 spells → grid 用 item.label '乙X'
+    // spell 301 不在传入 catalog，第二个字仍须来自完整的 item.label。
     state.casterMenu.cursor = 0
     state.phase = 'pick-spell'
     state.selectedCasterId = 0
     state.spellMenu = {
       items: [{ id: 301, label: '乙乙', rightText: '', disabled: false }],
       cursor: 0,
-      pageSize: 8,
+      pageSize: 15,
       pageOffset: 0,
     }
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const gs = runtimeState(roles)
     const fb = newFb()
     const restore = freezeNow(0)
     try {

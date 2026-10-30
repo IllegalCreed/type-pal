@@ -1,0 +1,310 @@
+{
+  "phase": "before",
+  "base": "ba45329cc912ae3c47ffa01952d42bd8c622c360",
+  "formalSha256": {
+    "tools-panel.test.ts": "dc9ac8800b0fb86fcd2173afa4c88c11dce106da4df6cdab5c2c4a9cf67d0e57",
+    "tools-panel.glm-phase1-leaves.test.ts": "436027071fbe333f1b3656eb04e3482b92100dcd002b020a81d8743f7ed80989"
+  },
+  "productionSha256": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1",
+  "runs": [
+    {
+      "variant": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/pre94-panel58-before-control-tools-panel.test.ts",
+        "src/tools/pre94-panel58-before-control-tools-panel.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-panel58-ev_s78su/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "ee4810718b2612e3f54637c291e843bc410fa82d37394b59daa607e5a593782f",
+      "runnerSha256": "24f8d3108e972335021f58eb9a2332966af5f898f0d9220483e1cb7e243ad3aa",
+      "copiesSha256": {
+        "packages/game/src/tools/pre94-panel58-before-control-tools-panel.test.ts": "dc9ac8800b0fb86fcd2173afa4c88c11dce106da4df6cdab5c2c4a9cf67d0e57",
+        "packages/game/src/tools/pre94-panel58-before-control-tools-panel.glm-phase1-leaves.test.ts": "436027071fbe333f1b3656eb04e3482b92100dcd002b020a81d8743f7ed80989"
+      },
+      "passed": 18,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "tools-panel.glm-phase1-leaves.test.ts",
+          "fullName": "L17 tools-panel 显示区委托 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.glm-phase1-leaves.test.ts",
+          "fullName": "L17 tools-panel 显示区委托 全屏按钮 → toggleFullscreen；FPS 开关 → setFpsEnabled(true) 持久化 tp-fps-show=1",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 setup 挂根节点(默认隐藏) + 唤出印钮 + 6 个左竖 tab + 注入样式",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 反引号 toggle 显隐",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 × 关闭 + 点 tab 切换 active",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 幂等:重复 setup 不重复挂",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 场景 tab:显示场景名 + 主角坐标",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 快捷键 tab:5 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 音乐音源选择通过实际控制器记住偏好，加载失败提供重试",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 系统 tab:视频滑块 input → videoVolume.setVolume(0..1)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 主静音按钮:一键 静音/恢复 音乐+音效+视频",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 主静音按钮:初始已静音 → 显示「已静音」态",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 计时器 tab:渲染开关 + 21 个节点最佳时间输入",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "consecutive-cases",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/pre94-panel58-before-consecutive-cases-tools-panel.test.ts",
+        "src/tools/pre94-panel58-before-consecutive-cases-tools-panel.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-panel58-2pxcx2mh/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "2fb205d8685f66627807eca3c41a5f3ec37c944cbc14df578ca0546d5d6866b9",
+      "runnerSha256": "4f35f8589bb62c0064f9aaf93b5e3d5db2a3790c539fba3a96239a772881a95e",
+      "copiesSha256": {
+        "packages/game/src/tools/pre94-panel58-before-consecutive-cases-tools-panel.test.ts": "efa2bb93baa90fd98b617d32e2d55df21fa8a814e8c9020ffdf36429f5299d91",
+        "packages/game/src/tools/pre94-panel58-before-consecutive-cases-tools-panel.glm-phase1-leaves.test.ts": "436027071fbe333f1b3656eb04e3482b92100dcd002b020a81d8743f7ed80989"
+      },
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "tools-panel.glm-phase1-leaves.test.ts",
+          "fullName": "L17 tools-panel 显示区委托 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.glm-phase1-leaves.test.ts",
+          "fullName": "L17 tools-panel 显示区委托 全屏按钮 → toggleFullscreen；FPS 开关 → setFpsEnabled(true) 持久化 tp-fps-show=1",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 setup 挂根节点(默认隐藏) + 唤出印钮 + 6 个左竖 tab + 注入样式",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 反引号 toggle 显隐",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 × 关闭 + 点 tab 切换 active",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 幂等:重复 setup 不重复挂",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 场景 tab:显示场景名 + 主角坐标",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 快捷键 tab:5 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 音乐音源选择通过实际控制器记住偏好，加载失败提供重试",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 系统 tab:视频滑块 input → videoVolume.setVolume(0..1)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 主静音按钮:一键 静音/恢复 音乐+音效+视频",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 主静音按钮:初始已静音 → 显示「已静音」态",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 计时器 tab:渲染开关 + 21 个节点最佳时间输入",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 window listener ownership probe installs a panel owned by the preceding case",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "tools-panel.test.ts",
+          "fullName": "tools-panel 框架 window listener ownership probe next-case Backquote never reads the preceding panel state",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected \"vi.fn()\" to not be called at all, but actually been called 2 times\n\nReceived:\n\n  1st vi.fn() call:\n\n    Array []\n\n  2nd vi.fn() call:\n\n    Array []\n\n\nNumber of calls: 2\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1467:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/pre94-panel58-before-consecutive-cases-tools-panel.test.ts:428:33\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        }
+      ]
+    }
+  ],
+  "formalSourcesUnchanged": true,
+  "productionUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

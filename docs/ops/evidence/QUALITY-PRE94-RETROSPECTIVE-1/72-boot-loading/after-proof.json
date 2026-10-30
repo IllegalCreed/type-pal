@@ -1,0 +1,652 @@
+{
+  "phase": "after",
+  "base": "0587d87144736201a342ea6f3bc2869e89cf5fce",
+  "formalSha256": {
+    "boot-loading.ts": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845",
+    "boot-loading.test.ts": "faa01deb7af7b24d429c9499f472b3fd797272938100c002f976486ddfc220f3",
+    "boot-loading-host.grok-r1.test.ts": "b9a8943cbdff28b47187317230a46145fa73f4408149c08d973caeb1180d2650"
+  },
+  "variants": {
+    "control": null,
+    "fetch-init-dropped": ["return await orig(...args)", "return await orig(args[0])"],
+    "fetch-error-swallowed": [
+      "return await orig(...args)",
+      "try { return await orig(...args) } catch { return new Response('{}') }"
+    ],
+    "denominator-fixed": ["Math.max(_started, _expected)", "_expected"]
+  },
+  "runs": [
+    {
+      "variant": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-boot72-after-control-boot-loading.test.ts",
+        "src/shell/pre94-boot72-after-control-boot-loading-host.grok-r1.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-boot72-u1_9y0k8/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "534335d60c0fd94baa0f625f8e315cf4d0b0432c050e5141874c0927025f3cb2",
+      "runnerSha256": "a6a0404e925679e345c206be41a68caf3d6e68fe51fdce62a99efa7768fdef97",
+      "moduleSha256": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-boot72-after-control-boot-loading.ts": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845",
+        "packages/game/src/shell/pre94-boot72-after-control-boot-loading.test.ts": "e9904c3f6a8d1500b54eebd7fbe0df3bc52fa6ae1fa0796d9d91bfbc1975cd87",
+        "packages/game/src/shell/pre94-boot72-after-control-boot-loading-host.grok-r1.test.ts": "b26d3a05132cb0e33523402a20d8104222224af9b87adebb724f270d2a65e3fa"
+      },
+      "passed": 20,
+      "failed": 0,
+      "pending": 0,
+      "errorNames": [],
+      "cases": [
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C02 fetch 拒绝后完成数仍加一",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C03 只有状态节点时写入 1 / 4",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C04 只有进度条时宽度写成 25%",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C11 失败文案是启动失败加原文，并带上错误类",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) Request/init 与 Response 身份透传，包装层不丢 headers 或 signal",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) finish 还原 fetch、补满格并在 600ms 过渡后移除 overlay",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 无 overlay 节点时不包装 fetch，公开入口安全",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 重复 init 幂等(不双层包 fetch)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "fetch-init-dropped",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-boot72-after-fetch-init-dropped-boot-loading.test.ts",
+        "src/shell/pre94-boot72-after-fetch-init-dropped-boot-loading-host.grok-r1.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-boot72-5gukg7vl/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "b757a1a17a7fab02f7c25d07b0dc468dc38f8cfb9de9d019a54688f7e49c7191",
+      "runnerSha256": "9c28ac241665c5c8251d62d0a13804ef668a2cd3db127672f593d9895ccea2a7",
+      "moduleSha256": "1b86c61e4d88ff43ecd664b7be671caa67afe9b98ced3dd679b30e3568d42cd8",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-boot72-after-fetch-init-dropped-boot-loading.ts": "1b86c61e4d88ff43ecd664b7be671caa67afe9b98ced3dd679b30e3568d42cd8",
+        "packages/game/src/shell/pre94-boot72-after-fetch-init-dropped-boot-loading.test.ts": "19cc8057d935095b211d637235ec0c3624eb0f0067131298749573c8a952c8c8",
+        "packages/game/src/shell/pre94-boot72-after-fetch-init-dropped-boot-loading-host.grok-r1.test.ts": "643f975b898c1dd3779d9e9fbef16430d37a3bd32aec93f53fa12ccf61f0fb9b"
+      },
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "errorNames": ["AssertionError"],
+      "cases": [
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C02 fetch 拒绝后完成数仍加一",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C03 只有状态节点时写入 1 / 4",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C04 只有进度条时宽度写成 25%",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C11 失败文案是启动失败加原文，并带上错误类",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) Request/init 与 Response 身份透传，包装层不丢 headers 或 signal",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected \"vi.fn()\" to be called with arguments: [ …(2) ]\n\nReceived:\n\n  1st vi.fn() call:\n\n@@ -60,20 +60,6 @@\n        Symbol(kReason): undefined,\n        Symbol(kComposite): false,\n      },\n      Symbol(headers): Headers {},\n    },\n-   {\n-     \"headers\": {\n-       \"X-Boot\": \"resource\",\n-     },\n-     \"signal\": AbortSignal {\n-       Symbol(kEvents): Map {},\n-       Symbol(events.maxEventTargetListeners): 0,\n-       Symbol(events.maxEventTargetListenersWarned): false,\n-       Symbol(kHandlers): Map {},\n-       Symbol(kAborted): false,\n-       Symbol(kReason): undefined,\n-       Symbol(kComposite): false,\n-     },\n-   },\n  ]\n\n\nNumber of calls: 1\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1487:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-boot72-after-fetch-init-dropped-boot-loading.test.ts:91:23\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) finish 还原 fetch、补满格并在 600ms 过渡后移除 overlay",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 无 overlay 节点时不包装 fetch，公开入口安全",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 重复 init 幂等(不双层包 fetch)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "fetch-error-swallowed",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-boot72-after-fetch-error-swallowed-boot-loading.test.ts",
+        "src/shell/pre94-boot72-after-fetch-error-swallowed-boot-loading-host.grok-r1.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-boot72-opwivghl/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "216d26044a31b0c12e3f187de2d72da247a4addfc1d07be836c44e64af0168df",
+      "runnerSha256": "0ddff923e0bb687fe1f785a6c3231a4477b3840a3973538179e7f1a82736910c",
+      "moduleSha256": "92eb32d1a627b93004e5b2fe25f1acb426de94a8969c86bfb8b951f96aed1fe6",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-boot72-after-fetch-error-swallowed-boot-loading.ts": "92eb32d1a627b93004e5b2fe25f1acb426de94a8969c86bfb8b951f96aed1fe6",
+        "packages/game/src/shell/pre94-boot72-after-fetch-error-swallowed-boot-loading.test.ts": "965971af4edba5ade499b0166f285abe70d9d3e4f246c53d83914290e32eb4a9",
+        "packages/game/src/shell/pre94-boot72-after-fetch-error-swallowed-boot-loading-host.grok-r1.test.ts": "71948dad13730111add2e09c13e6d2e828ab1a2f7283ab360ff14fe08b220901"
+      },
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "errorNames": ["AssertionError"],
+      "cases": [
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C02 fetch 拒绝后完成数仍加一",
+          "status": "failed",
+          "failureMessages": [
+            "Error: promise resolved \"Response { status: 200, statusText: '', headers: Headers { 'content-type': 'text/plain;charset=UTF-8' }, body: ReadableStream { locked: false, state: 'readable', supportsBYOB: true }, bodyUsed: false, ok: true, redirected: false, type: 'default', url: '' }\" instead of rejecting\n    at _Assertion.__VITEST_REJECTS__ (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1747:17)\n    at _Assertion.propertyGetter (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1570:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1659:22)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-boot72-after-fetch-error-swallowed-boot-loading-host.grok-r1.test.ts:71:29\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+          ]
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C03 只有状态节点时写入 1 / 4",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C04 只有进度条时宽度写成 25%",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C11 失败文案是启动失败加原文，并带上错误类",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) Request/init 与 Response 身份透传，包装层不丢 headers 或 signal",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) finish 还原 fetch、补满格并在 600ms 过渡后移除 overlay",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 无 overlay 节点时不包装 fetch，公开入口安全",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 重复 init 幂等(不双层包 fetch)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "denominator-fixed",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-boot72-after-denominator-fixed-boot-loading.test.ts",
+        "src/shell/pre94-boot72-after-denominator-fixed-boot-loading-host.grok-r1.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-boot72-df_7v4me/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "c0d01d7b258c6536b9718c88526d889c81c53885522f515bb54716f9d33d0c86",
+      "runnerSha256": "d43d0e25bb8101e63dfc843d682b4646dcf482fcddc365904bb8c814d94f11c0",
+      "moduleSha256": "afe9190f609c8c2a1bc91acdfb3173963c510cc140a1f18a2ffdf843131f822f",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-boot72-after-denominator-fixed-boot-loading.ts": "afe9190f609c8c2a1bc91acdfb3173963c510cc140a1f18a2ffdf843131f822f",
+        "packages/game/src/shell/pre94-boot72-after-denominator-fixed-boot-loading.test.ts": "57c4266d362a202e670b1ca7b6050424b0c5b6f4b09f3ab22a458d2285d8511c",
+        "packages/game/src/shell/pre94-boot72-after-denominator-fixed-boot-loading-host.grok-r1.test.ts": "05664148eadc52084932da399b4e23a2c33690b754e18b12a3a8bdc34497b326"
+      },
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "errorNames": ["AssertionError"],
+      "cases": [
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C02 fetch 拒绝后完成数仍加一",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C03 只有状态节点时写入 1 / 4",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C04 只有进度条时宽度写成 25%",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading-host.grok-r1.test.ts",
+          "fullName": "G09-C 启动加载宿主 G09-C11 失败文案是启动失败加原文，并带上错误类",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected '正在加载资源 4 / 4' to be '正在加载资源 4 / 8' // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-boot72-after-denominator-fixed-boot-loading.test.ts:71:75\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) Request/init 与 Response 身份透传，包装层不丢 headers 或 signal",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) finish 还原 fetch、补满格并在 600ms 过渡后移除 overlay",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 无 overlay 节点时不包装 fetch，公开入口安全",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 重复 init 幂等(不双层包 fetch)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) 未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "boot-loading.test.ts",
+          "fullName": "boot-loading(启动加载覆盖层) PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    }
+  ],
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

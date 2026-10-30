@@ -1,0 +1,27 @@
+{
+  "status": "counter proven; product build awaits user decision",
+  "source": {
+    "path": "packages/pal-extract/scripts/extract-videos.ts",
+    "sha256": "0c149a276bca4fe592142ddfeef06c2268c1642e03dcf05883f5292cbbc22218",
+    "changed": false
+  },
+  "test": {
+    "path": "packages/pal-extract/src/cli-entrypoint-paths.test.ts",
+    "sha256": "c6638879f75148e8bc1b7551d08eac33bb22e2523663c8f5153f38ea4f9b7adc"
+  },
+  "native": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/video-red.json.gz",
+    "sha256": "7730050e2a369f8ca06062b8f8c4f58f220fbfc25305be3224b86299807356e2",
+    "decodedSha256": "0641bccc656ca2d68fa34321596748739326de041215748218f6f63627098d6c"
+  },
+  "facts": [
+    "data/data-extracted guard does not check videos child directory or final mp4 links; both test-owned linked targets overwritten",
+    "child encoder exits7 after writing output; previous published bytes overwritten before main reports failure",
+    "6unchanged entrypoint cases pass;3new cases fail exact business byte assertions; all roots/targets in owned temp; no real extract/output touched"
+  ],
+  "proposal": [
+    "Refuse existing video directory/final output symlinks before invoking encoder; keep input raw links",
+    "Encode to unique owned sibling temporary mp4; replace final file only after successful nonempty output; cleanup temporary path on failure; original bytes retained",
+    "Keep six IDs,codec/parameters/mtime skip,format/normal success behavior; no shared output force option"
+  ]
+}

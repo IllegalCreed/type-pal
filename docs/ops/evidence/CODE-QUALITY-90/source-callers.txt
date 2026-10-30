@@ -1,0 +1,17 @@
+Primary/caller/oracle inventory for CODE-QUALITY-90
+
+reference/sdlpal/script.c:1052-1102
+reference/sdlpal/global.c:2279-2344
+docs/phase1/game-mechanics.md:1453,1483,1517-1539
+packages/game/src/core/menu/magic-script.ts:91-116
+packages/game/src/core/menu/magic-script.test.ts:243-360
+packages/game/src/core/event-opcode-player.ts:170-204
+packages/game/src/core/event-opcode-player.cov85.test.ts:248-280
+packages/game/src/core/menu/menu-driver.ts:902-937
+packages/game/src/core/game-state.ts:1078-1087,1877-1880
+
+Phase distinction only (not audited/closed by CODE90):
+packages/reforge/src/battle/battle-core.ts:107-111,604-624
+packages/content/src/item.ts:36,449-462
+docs/phase2/READ-FIRST.md (full read)
+packages/reforge/src/battle/battle-player-input.ts (full read; phase-distinction caller only)

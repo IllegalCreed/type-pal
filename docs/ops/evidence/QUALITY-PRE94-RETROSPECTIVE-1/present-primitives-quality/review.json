@@ -1,0 +1,2516 @@
+{
+  "base": "4897a215dd3e7fd6987f1082006d9d8cc9f22bb8",
+  "owner": "Codex single Agent",
+  "scope": "CODE3k six primitives + CODE3l first three leaves; 26 full reviewed files + one new shared test helper. No94–102.",
+  "files": [
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060",
+      "lines": 49,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b",
+      "priorEvidenceSha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b",
+      "dimensions": {
+        "A": "构造默认320×200与缩略图自有整数尺寸，写点裁边、清零、缺色黑色和RGBA255；旧A证据同正文，当前负x跨行反控补齐。",
+        "B": "修正indices只读/仅writePixel写的错误说法：readonly只锁引用，真实特效借用可变字节；缩略图尺寸解释保留。",
+        "C": "缓冲实例持有内存，renderer借用；writePixel只处理像素，toImageData只转换，无IO/时钟/全局状态。",
+        "D": "屏幕与缩略图复用尺寸参数有真实bootstrap caller；批量效果直接indices，不抽象成强制逐点写代理。",
+        "E": "两专测六合同：全零/全清、RGBA通道/末像素、真实负x跨行、末角离屏尺寸、缺色回退；新负控旧绿新单红。",
+        "F": "三方法命名和单位明确，width*height和RGBA四通道可直读；不需再拆文件。",
+        "G": "clear/writePixel/toImageData与indices都有生产consumer；可选尺寸非死参，不移除缺色宽容合同。",
+        "H": "纯内存同步函数，用真实ImageData/Uint8Array直接观察，不需要DOM或核心mock。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.test.ts",
+      "sha256": "e4b1f7da98483db3d25a31a2ce65838fd1bd92f045e690e80a9a909b2454a738",
+      "lines": 42,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "6e3c42f30f2301f4ad29382e6b9472c53b96d49c379889c5e1a6094e33b22e9c",
+      "priorEvidenceSha256": "6e3c42f30f2301f4ad29382e6b9472c53b96d49c379889c5e1a6094e33b22e9c",
+      "contracts": "默认全零、真实write+全清、RGBA两像素四通道与末像素；合法Palette tuple不再强转。",
+      "dimensions": {
+        "A": "默认全零、真实write+全清、RGBA两像素四通道与末像素；合法Palette tuple不再强转。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。默认全零、真实write+全清、RGBA两像素四通道与末像素；合法Palette tuple不再强转。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "默认全零、真实write+全清、RGBA两像素四通道与末像素；合法Palette tuple不再强转。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+      "sha256": "79ea8dece3af846c68872168fa2d2f2d5ed01356aea27c30a450ac0ffe4b490e",
+      "lines": 54,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "7998f8a7abefb04d8693231c5ff72a5bfd4fb25b75f3f97966a27125938f114e",
+      "priorEvidenceSha256": "7998f8a7abefb04d8693231c5ff72a5bfd4fb25b75f3f97966a27125938f114e",
+      "contracts": "越界x=-1,y=1跨行可反证、末角离屏RGBA尺寸、缺色黑色；三合同保留，新负x单红。",
+      "dimensions": {
+        "A": "越界x=-1,y=1跨行可反证、末角离屏RGBA尺寸、缺色黑色；三合同保留，新负x单红。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。越界x=-1,y=1跨行可反证、末角离屏RGBA尺寸、缺色黑色；三合同保留，新负x单红。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "越界x=-1,y=1跨行可反证、末角离屏RGBA尺寸、缺色黑色；三合同保留，新负x单红。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake.ts",
+      "sha256": "8bc3671e94d45a19fc8c8d75ed10929aa57fc03638b481fcba5ba0e60f01b755",
+      "lines": 54,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "8bc3671e94d45a19fc8c8d75ed10929aa57fc03638b481fcba5ba0e60f01b755",
+      "priorEvidenceSha256": "8bc3671e94d45a19fc8c8d75ed10929aa57fc03638b481fcba5ba0e60f01b755",
+      "dimensions": {
+        "A": "复用SDL视频矩形搬移真值；实际present/动画caller提供320×200及计时，奇偶、level0/199/200/256和advance均核。",
+        "B": "奇偶方向/黑条/320stride注释与现行实现一致；没有把关断时递减误写成无动作。",
+        "C": "只借用帧字节与最小shake状态，调用方控制是否推进；无IO、反向依赖或隐式时钟。",
+        "D": "与wave只有尺寸常量相同，垂直裁剪和横向环卷不是同一业务合同，保持独立函数。",
+        "E": "主测6→4：两level10数值变体迁移到level4全帧矩形oracle；六边界合同保留。末列破坏旧6绿、新3绿1业务红。",
+        "F": "奇偶两分支直接表达矩形移动；常量局部清楚，没有模式万能helper。",
+        "G": "advance是fade-only真实caller所需，level边界不是死守卫；保留小域分支。",
+        "H": "输入数组/两字段状态直接注入，无时间依赖；Buffer.compare核全部64000字节而非慢逐字断言。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake.test.ts",
+      "sha256": "947d456cc8f6d9aad80bd2f4f590ce0f4b6e94a2ddffe0813171d30ff489e786",
+      "lines": 62,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "51d19a12c63fe6ccf6cf79f0363e68e75ab624a3f0e1f983186780fd12ca2987",
+      "priorEvidenceSha256": "51d19a12c63fe6ccf6cf79f0363e68e75ab624a3f0e1f983186780fd12ca2987",
+      "contracts": "4例：奇/偶全64000字节矩形搬移+黑条、连续5次归零、level0像素保持；旧level10两变体迁移。",
+      "dimensions": {
+        "A": "4例：奇/偶全64000字节矩形搬移+黑条、连续5次归零、level0像素保持；旧level10两变体迁移。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。4例：奇/偶全64000字节矩形搬移+黑条、连续5次归零、level0像素保持；旧level10两变体迁移。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "4例：奇/偶全64000字节矩形搬移+黑条、连续5次归零、level0像素保持；旧level10两变体迁移。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+      "sha256": "21a83adc29a46a08ec200f568e8dd792fbfb7dd81f78842613e6ab2b5aca4304",
+      "lines": 81,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "13aa503486dd427bc29a692b442d504903eaf7e2f3f7c20e57401ec8c08ff16d",
+      "priorEvidenceSha256": "13aa503486dd427bc29a692b442d504903eaf7e2f3f7c20e57401ec8c08ff16d",
+      "contracts": "6例保留199极界奇/偶、200关闭、1最小可见、advance冻结、256冻结；不同分支不按数量强删。",
+      "dimensions": {
+        "A": "6例保留199极界奇/偶、200关闭、1最小可见、advance冻结、256冻结；不同分支不按数量强删。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。6例保留199极界奇/偶、200关闭、1最小可见、advance冻结、256冻结；不同分支不按数量强删。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "6例保留199极界奇/偶、200关闭、1最小可见、advance冻结、256冻结；不同分支不按数量强删。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.ts",
+      "sha256": "2870bdd7ead72b875c3de9c7ab84214f4ac2f41df84b13686a58ffb6b5187484",
+      "lines": 73,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "b0c3751c0f6fe21966a98dff88c507c0acf0e5a345d41d01e95494ff7ec08fde",
+      "priorEvidenceSha256": "b0c3751c0f6fe21966a98dff88c507c0acf0e5a345d41d01e95494ff7ec08fde",
+      "dimensions": {
+        "A": "复用PAL_ApplyWave同正文证据，<=0保持WORD回绕语义，0/256关断/32相位镜像/advance边界由精确像素断言支撑。",
+        "B": "头注纠正负值关断，reset出口改记结局真实caller，不再称测试专用；原公式说明保留。",
+        "C": "模块相位是既有跨帧Owner，结局起播reset；每调用320字节scratch临时，游戏单会话同步渲染，无新增全局。",
+        "D": "不把phase放新公共context破坏caller；结束动画和地图复用同偏移函数，reset职责明确。",
+        "E": "主测300单字段退休给mirror精确256/跨256；弱advance布尔退休给A06/A08；相位/回卷/多集/负progression均保留。",
+        "F": "32项表、200行卷动、最后相位推进分段清晰；复杂度来自真实波形/关断轴，不为指标抽层。",
+        "G": "reset有结局生产调用不能删；两方向镜像和零shift守卫都被合法波幅触达。",
+        "H": "各套测试显式reset，状态/相位通过后继像素观察；不新增私有phase读取API。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.test.ts",
+      "sha256": "aa3c4e54215380dcbfab2919839b9a716c11ebc22156d699fb94734032eeceff",
+      "lines": 59,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "bfd831a4eec3d01d500ff59f8083fc2583c2c97d3eff1671d6ca213a88838895",
+      "priorEvidenceSha256": "bfd831a4eec3d01d500ff59f8083fc2583c2c97d3eff1671d6ca213a88838895",
+      "contracts": "4例：零态、渐弱累加、恰0双字段关闭、200行多集守恒；300弱单字段迁移mirror。",
+      "dimensions": {
+        "A": "4例：零态、渐弱累加、恰0双字段关闭、200行多集守恒；300弱单字段迁移mirror。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。4例：零态、渐弱累加、恰0双字段关闭、200行多集守恒；300弱单字段迁移mirror。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "4例：零态、渐弱累加、恰0双字段关闭、200行多集守恒；300弱单字段迁移mirror。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+      "sha256": "7a0758ed115203df0d0cea41cf5f2beb95120a25985d482a65f00c72f78f7a81",
+      "lines": 51,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "3144143e26fc20ffa68e44f33b50417ca1bfcf2cb6e50418a577eb883d24c1fa",
+      "priorEvidenceSha256": "3144143e26fc20ffa68e44f33b50417ca1bfcf2cb6e50418a577eb883d24c1fa",
+      "contracts": "3例保留真实负progression收尾、回卷30、跨帧86；弱布尔补帧转mirror A06/A08精确轴。",
+      "dimensions": {
+        "A": "3例保留真实负progression收尾、回卷30、跨帧86；弱布尔补帧转mirror A06/A08精确轴。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。3例保留真实负progression收尾、回卷30、跨帧86；弱布尔补帧转mirror A06/A08精确轴。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "3例保留真实负progression收尾、回卷30、跨帧86；弱布尔补帧转mirror A06/A08精确轴。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+      "sha256": "c88372255ff09d81c3d957c9dd729d65a990661b4d38aecae007b41cce179d4a",
+      "lines": 99,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "5b746c7a8aaab328604e38401a3448170ca59d0e6e31137030346bf14e93efca",
+      "priorEvidenceSha256": "5b746c7a8aaab328604e38401a3448170ca59d0e6e31137030346bf14e93efca",
+      "contracts": "8例保留：镜像290、255截断59、4零shift/行7、256冻结、252+4恰256、冻结phase56/112、跨256、非零progression冻结46。",
+      "dimensions": {
+        "A": "8例保留：镜像290、255截断59、4零shift/行7、256冻结、252+4恰256、冻结phase56/112、跨256、非零progression冻结46。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。8例保留：镜像290、255截断59、4零shift/行7、256冻结、252+4恰256、冻结phase56/112、跨256、非零progression冻结46。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "8例保留：镜像290、255截断59、4零shift/行7、256冻结、252+4恰256、冻结phase56/112、跨256、非零progression冻结46。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/dither-fade.ts",
+      "sha256": "590b0675e2853a24f78c439ecd782852d4a07c1aabcd06b072e210e0347136b6",
+      "lines": 45,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "42009a8ec5c5d53b2b0fae61d37a985395fa787eafde86fae1ef96afa87fbb12",
+      "priorEvidenceSha256": "42009a8ec5c5d53b2b0fae61d37a985395fa787eafde86fae1ef96afa87fbb12",
+      "dimensions": {
+        "A": "复用VIDEO_FadeScreen nibble合同，12×6步、低位11次趋近、高位即换；长度/步范围是内部caller前提。",
+        "B": "删除已不存在的battle intro调用宣称，注明target借用/backup就地写与场景caller步数Owner；调用处同步纠正。",
+        "C": "函数不持有时钟或快照，只推进区间；present维护累计步，IO不进入像素循环。",
+        "D": "战斗入场整像素切换与本算法不同，不合并；召唤相似循环属于未接受宿主，当前只记录可共享候选不跨域改写。",
+        "E": "九例保留：顺序改为每步完整六像素，能拒绝提前改完后续相位；升/降/相等/跨度/空区间/11步上限互异。",
+        "F": "outerI/phaseOffset与nibble名直接映射领域单位，数组固定6项，不引入调度类。",
+        "G": "区间参数由低帧率追赶与逐帧推进真实需要；常量出口caller使用，无死入口。",
+        "H": "小TypedArray与手写逐步期望可直接测，反控全文件旧6绿、新5绿1业务红，无mock。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/dither-fade.test.ts",
+      "sha256": "68a0f63b5d4ef2045595ab37af377b26ce22247a346f7911fa544b43142ccfae",
+      "lines": 32,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "68a0f63b5d4ef2045595ab37af377b26ce22247a346f7911fa544b43142ccfae",
+      "priorEvidenceSha256": "68a0f63b5d4ef2045595ab37af377b26ce22247a346f7911fa544b43142ccfae",
+      "contracts": "3例保留首步高位、第二轮低位+1、差不超11的72步收敛；没有扩写任意差均收敛。",
+      "dimensions": {
+        "A": "3例保留首步高位、第二轮低位+1、差不超11的72步收敛；没有扩写任意差均收敛。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。3例保留首步高位、第二轮低位+1、差不超11的72步收敛；没有扩写任意差均收敛。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "3例保留首步高位、第二轮低位+1、差不超11的72步收敛；没有扩写任意差均收敛。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "sha256": "cbeef1074d5ca20c20d60b45ed64035ddb4c5d201cb98c0993daf03296848a50",
+      "lines": 67,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "d7537ef3bfe821968b9687b785f12c3389087652866a178412168fbdf669d06d",
+      "priorEvidenceSha256": "d7537ef3bfe821968b9687b785f12c3389087652866a178412168fbdf669d06d",
+      "contracts": "6例保留相位/降低位/相等/高位下降/stride越6/空区间，C01每步完整数组拒提前改后相位。",
+      "dimensions": {
+        "A": "6例保留相位/降低位/相等/高位下降/stride越6/空区间，C01每步完整数组拒提前改后相位。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。6例保留相位/降低位/相等/高位下降/stride越6/空区间，C01每步完整数组拒提前改后相位。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "6例保留相位/降低位/相等/高位下降/stride越6/空区间，C01每步完整数组拒提前改后相位。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/draw-number.ts",
+      "sha256": "e4fd73911a9e4325d4cf055ea128b82a01683aeed9816f34b18d1e5cb0da4d7e",
+      "lines": 109,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "29b6f5dbc54d3ec0587de2380cf48e97c1744d3e503e0ec56587ae229a73aebd",
+      "priorEvidenceSha256": "29b6f5dbc54d3ec0587de2380cf48e97c1744d3e503e0ec56587ae229a73aebd",
+      "dimensions": {
+        "A": "布局、颜色基址、截断和mask复用ui.c及现行menu/battle caller；非有限输入可达性未闭环，保持review。",
+        "B": "收窄1:1宣称、注明缺帧仍保留间距；修正nLength对中对齐有影响的错注，明确有限非负整数前提而非已验证所有caller。",
+        "C": "只做数字布局与字节绘制，数据校验仍上游；未借治理增加未批准输入策略或修改数值。",
+        "D": "本地digit blit与通用sprite的anchor/类型/失败策略先区别，未凭双循环相似强行合并；测试工厂跨三个真实caller共享。",
+        "E": "主测8→8：重复saved-times数值变体移除，多位mid独立槽位轴新增；矩形全帧oracle与slots的mask/缺位/nLength0保留。",
+        "F": "三align分支、位数、从右到左逐位读取清晰，注释不再掩盖中对齐公式含义。",
+        "G": "颜色/对齐/槽数都有生产caller；不删除0槽既存合同或缺帧降级，不因Infinity未知盲加guard。",
+        "H": "真实Framebuffer和合法IndexedImage直接像素可测；未知入口域不能由这些有限输入测试关闭。"
+      },
+      "decision": "review"
+    },
+    {
+      "path": "packages/game/src/present/draw-number.test.ts",
+      "sha256": "4251c96b758cb2eae081861eada535db545e695e636239cc408e0a795ec03e9e",
+      "lines": 81,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "74162daa2bc5b6cb27796c250b2c7288ef060d91417e78c6b5f116a9e313007d",
+      "priorEvidenceSha256": "74162daa2bc5b6cb27796c250b2c7288ef060d91417e78c6b5f116a9e313007d",
+      "contracts": "8例：0/right、123/right、blue、cyan、left、mid两位新轴、截低位、全缺帧。完整矩形oracle替代左上抽点；saved-times替身不授caller信用。",
+      "dimensions": {
+        "A": "8例：0/right、123/right、blue、cyan、left、mid两位新轴、截低位、全缺帧。完整矩形oracle替代左上抽点；saved-times替身不授caller信用。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。8例：0/right、123/right、blue、cyan、left、mid两位新轴、截低位、全缺帧。完整矩形oracle替代左上抽点；saved-times替身不授caller信用。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "8例：0/right、123/right、blue、cyan、left、mid两位新轴、截低位、全缺帧。完整矩形oracle替代左上抽点；saved-times替身不授caller信用。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "sha256": "c881f7106022bf5070fcf30c65164d450ab656744e8235e9faad94b45f2c00ad",
+      "lines": 75,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "25303de1be6aa2319cc6bd3cbd7843153bf9ab12ca97a5c974f08c0b95e1df49",
+      "priorEvidenceSha256": "25303de1be6aa2319cc6bd3cbd7843153bf9ab12ca97a5c974f08c0b95e1df49",
+      "contracts": "5例mask孔/末行/缺个位保持十位位置/正数0槽/0数字0槽保留；共享6×8工厂，不改测试身份断言。",
+      "dimensions": {
+        "A": "5例mask孔/末行/缺个位保持十位位置/正数0槽/0数字0槽保留；共享6×8工厂，不改测试身份断言。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。5例mask孔/末行/缺个位保持十位位置/正数0槽/0数字0槽保留；共享6×8工厂，不改测试身份断言。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "5例mask孔/末行/缺个位保持十位位置/正数0槽/0数字0槽保留；共享6×8工厂，不改测试身份断言。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos.ts",
+      "sha256": "1a55cf4137c888e12ba3660d9006367fcef8fb82cdff7e4c3ec2a8a0c0397ca6",
+      "lines": 76,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "88886dfc55aeb11ab443dd68d9a31a7fd8f921a8222576ddc877797bc13ed5cf",
+      "priorEvidenceSha256": "88886dfc55aeb11ab443dd68d9a31a7fd8f921a8222576ddc877797bc13ed5cf",
+      "dimensions": {
+        "A": "walking取trail1偏移/避障，静止复用位置、朝向取trail2；sole present碰撞callback只查询，不改walking。旧A证据复用。",
+        "B": "清除位置与朝向双冻结误注；present与GameState同处纠正，V1可选快照明确，保留dir字段而不擅改save。",
+        "C": "输入最小状态视图、callback借用，无IO；walking写caller拥有的frozen数组，场景/脚本负责重置。",
+        "D": "坐标helper由present复用，脚本帧覆盖留在present；不把绘制/资源或整个GS传进helper。",
+        "E": "主10→6、axis10保留；四重复/冒称集成迁移到更强exact结果；两项trail静止fallback改精确位置朝向。",
+        "F": "早退区分三种状态，删除末尾冗余walking判断；方向几何仍保留可读分支，不压成晦涩查表。",
+        "G": "已证非walking分支必返回，实际callback不重入修改标志；去除重复判断，不删序列化dir或fallback。",
+        "H": "纯状态与障碍函数可直接注入；前后同16例V8/结果通过，当前present695相邻含此refactor。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos.test.ts",
+      "sha256": "2c6989647938b42e379a0ffaee99baa64aec72b9544da42a44033c58dfb8576c",
+      "lines": 83,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "00a5b0bc5c846350a1de1d7692a35e46721bf54aa9948718898954685901f6bc",
+      "priorEvidenceSha256": "00a5b0bc5c846350a1de1d7692a35e46721bf54aa9948718898954685901f6bc",
+      "contracts": "6例：walking缓存、静止有缓存位置与当前dir、两trail静止回退、无缓存trail[m]、静止不捕获、短trail null；四重复/伪集成移到更强例。",
+      "dimensions": {
+        "A": "6例：walking缓存、静止有缓存位置与当前dir、两trail静止回退、无缓存trail[m]、静止不捕获、短trail null；四重复/伪集成移到更强例。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。6例：walking缓存、静止有缓存位置与当前dir、两trail静止回退、无缓存trail[m]、静止不捕获、短trail null；四重复/伪集成移到更强例。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "6例：walking缓存、静止有缓存位置与当前dir、两trail静止回退、无缓存trail[m]、静止不捕获、短trail null；四重复/伪集成移到更强例。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "sha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7",
+      "lines": 104,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7",
+      "priorEvidenceSha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7",
+      "contracts": "10例方向解耦、m1右左上、m2两轴、障碍后缓存、旧缓存覆盖、短trail朝向、越成员位置fallback、静止不调用碰撞。",
+      "dimensions": {
+        "A": "10例方向解耦、m1右左上、m2两轴、障碍后缓存、旧缓存覆盖、短trail朝向、越成员位置fallback、静止不调用碰撞。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。10例方向解耦、m1右左上、m2两轴、障碍后缓存、旧缓存覆盖、短trail朝向、越成员位置fallback、静止不调用碰撞。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "10例方向解耦、m1右左上、m2两轴、障碍后缓存、旧缓存覆盖、短trail朝向、越成员位置fallback、静止不调用碰撞。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-bg.ts",
+      "sha256": "03ea731ea200086d53eb7c9f95873c4b8fd5a9d9efc849f3d91aa30cb279b135",
+      "lines": 44,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "03ea731ea200086d53eb7c9f95873c4b8fd5a9d9efc849f3d91aa30cb279b135",
+      "priorEvidenceSha256": "03ea731ea200086d53eb7c9f95873c4b8fd5a9d9efc849f3d91aa30cb279b135",
+      "dimensions": {
+        "A": "旧同版FBP/SDL低nibble染色合同复用；真实present bg按field取表，缺资源由caller处理，小图裁剪保留。",
+        "B": "无透明色、width/height/源stride和染色域注释一致；没有把小图补满屏当实际行为。",
+        "C": "只借用背景数组写指定fb，不持有资源、不推进状态；IO归loader，召唤染色参数由caller给出。",
+        "D": "与opaque精灵不同，index0必须写；不抽统一透明blitter造成语义耦合。",
+        "E": "三个现有例升级完整缓冲：大图所有字节、全零覆底、小图四点及其余区域；既有召唤染色邻域证据保留。",
+        "F": "w/h裁剪和行主序循环可直接读，无中间适配层。",
+        "G": "bgColorShift是召唤实际参数；crop维度与0色均有效合同，不能删为固定屏快捷路径。",
+        "H": "纯Framebuffer/字节输入可测，无mock/time；使用原生全字节比较控制测试成本。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+      "sha256": "5e529b4963fc5d4c283b2cb765cfa3a14ff0600ce7c9948a75e3ac73f55b8877",
+      "lines": 31,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "e1bfee33b2c33f25717305f9ba9d9504e6a419b1e1aabe1fd40e87969e35b1c7",
+      "priorEvidenceSha256": "e1bfee33b2c33f25717305f9ba9d9504e6a419b1e1aabe1fd40e87969e35b1c7",
+      "contracts": "3例完整不透明背景、0色覆底、小图裁剪和未触区；新完整Buffer结果不用额外逐像素expect。",
+      "dimensions": {
+        "A": "3例完整不透明背景、0色覆底、小图裁剪和未触区；新完整Buffer结果不用额外逐像素expect。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。3例完整不透明背景、0色覆底、小图裁剪和未触区；新完整Buffer结果不用额外逐像素expect。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "3例完整不透明背景、0色覆底、小图裁剪和未触区；新完整Buffer结果不用额外逐像素expect。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-effect.ts",
+      "sha256": "d95ea64da7fc96fb29ea6af66e72148c05be8732d6cc6860c7c4ba7c5463a842",
+      "lines": 73,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "d95ea64da7fc96fb29ea6af66e72148c05be8732d6cc6860c7c4ba7c5463a842",
+      "priorEvidenceSha256": "d95ea64da7fc96fb29ea6af66e72148c05be8732d6cc6860c7c4ba7c5463a842",
+      "dimensions": {
+        "A": "底中整数anchor、frame/chunk缺失、opaque来源复用SDL同版；present的effect和magic资源路由逐段核。",
+        "B": "头注说明两资源来源与skip策略匹配；层叠主序由caller负责，未冒称effect函数自己控制UI层。",
+        "C": "两个窄资源入口共享私有blitFrame，资源表借用，画面字节归fb；无缓存/时钟/跨层GS改写。",
+        "D": "真实两个入口已共享相同anchor/mask逻辑；保留各自资源查找合同，不强造带kind参数万能入口。",
+        "E": "七主例保留；缺sprite/缺chunk/整表undefined/越界frame均改全哨兵buffer不变；奇数宽1/3的独立像素域在G08保留。",
+        "F": "查找后早退，双循环只读像素/掩码，baseX/baseY单位明确。",
+        "G": "私有blit是两个真实caller所需；资源缺失降级实际加载caller可达，无死参数或空中间层。",
+        "H": "真实Framebuffer、合法SpriteAsset直接观察；不存在核心替身强转，invalid frame作为明确资源缺失域。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+      "sha256": "5c14b51c85c3168b7efc84584ae6fc158cb8f5910fad8907f56728531d507a9c",
+      "lines": 144,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "1e33dd714f2106718facec7fc48755ae8b6d79bde7786968a968d6a07a4cbedc",
+      "priorEvidenceSha256": "1e33dd714f2106718facec7fc48755ae8b6d79bde7786968a968d6a07a4cbedc",
+      "contracts": "7例两资源路由/偶数anchor/透明保底/资源和frame降级；四no-op补完整哨兵结果，不能仅notThrow或未画锚点。",
+      "dimensions": {
+        "A": "7例两资源路由/偶数anchor/透明保底/资源和frame降级；四no-op补完整哨兵结果，不能仅notThrow或未画锚点。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。7例两资源路由/偶数anchor/透明保底/资源和frame降级；四no-op补完整哨兵结果，不能仅notThrow或未画锚点。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "7例两资源路由/偶数anchor/透明保底/资源和frame降级；四no-op补完整哨兵结果，不能仅notThrow或未画锚点。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "sha256": "1e5db81d8b831cc3f55f8a8f52d25dec26faa8f5e3cbb935769a47a029aed517",
+      "lines": 140,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "1e5db81d8b831cc3f55f8a8f52d25dec26faa8f5e3cbb935769a47a029aed517",
+      "priorEvidenceSha256": "1e5db81d8b831cc3f55f8a8f52d25dec26faa8f5e3cbb935769a47a029aed517",
+      "contracts": "7例原样：奇宽3/1、五位右齐与不补零、截六位、两条独立、0仍画、真实canvas RGB；不能当普通剧情或原版视觉证据。",
+      "dimensions": {
+        "A": "7例原样：奇宽3/1、五位右齐与不补零、截六位、两条独立、0仍画、真实canvas RGB；不能当普通剧情或原版视觉证据。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。7例原样：奇宽3/1、五位右齐与不补零、截六位、两条独立、0仍画、真实canvas RGB；不能当普通剧情或原版视觉证据。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "7例原样：奇宽3/1、五位右齐与不补零、截六位、两条独立、0仍画、真实canvas RGB；不能当普通剧情或原版视觉证据。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-num.ts",
+      "sha256": "bdde541006d64728bb8606ab7bd9127431ad60bdd258da76f4c91f18ab088d6d",
+      "lines": 71,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "189d73f94b9f6e92654aae29d2f26facc03104f38364c744266fc68b3dd562d5",
+      "priorEvidenceSha256": "189d73f94b9f6e92654aae29d2f26facc03104f38364c744266fc68b3dd562d5",
+      "dimensions": {
+        "A": "原生11帧寿命/每帧上移与caller帧号同版，clear由BattlePresent清理入口调用；数字非有限风险继承drawNumber待核不扩大接受。",
+        "B": "收窄drawNumber1:1；count注明是待draw裁剪队列长度，不误称随时自动过期的活对象数。",
+        "C": "每BattlePresent一层，emit只入队，draw裁剪并呈现，clear跨战斗释放；只保留数值无资源引用。",
+        "D": "复用drawNumber，布局不复制到layer；测试三个同6×8工厂合并，G08的1×1采样夹具合同不同保留。",
+        "E": "6→4：写入次数/单独位移合入全帧寿命时间序列，缺图仍过期、clear不复现、三色两位真实像素；最后活帧反控旧6绿新3绿1红。",
+        "F": "emit/draw/clear和frame-age流程直接；常量11/5固定领域单位，有来源。",
+        "G": "count仅测试使用但属于现有公开成员，本片不删接口；其它参数均由实际bus发射，队列每draw清理。",
+        "H": "所有as any和writePixel替身移除，用真实fb控制帧号；无需计时器或暴露nums私有状态。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+      "sha256": "9bfe64fbda591834aa6bb05b1941a9fee98468849c6897e8c0f74984d7621f23",
+      "lines": 75,
+      "read": "Full source/test read; prior A reused only after exact base bytes and current caller ranges checked",
+      "baseSha256": "2c16d296e8f5356e076fd463df8b1b661d846724cfea3200595d797b12eb6c0f",
+      "priorEvidenceSha256": "2c16d296e8f5356e076fd463df8b1b661d846724cfea3200595d797b12eb6c0f",
+      "contracts": "4例保留缺图、寿命、clear、三色；弱emit和位移迁入寿命四时点完整矩形。真实Framebuffer替代as any核心mock。",
+      "dimensions": {
+        "A": "4例保留缺图、寿命、clear、三色；弱emit和位移迁入寿命四时点完整矩形。真实Framebuffer替代as any核心mock。",
+        "B": "标题/注释按真实被测入口收窄；未执行脚本/完整菜单的例不称集成。4例保留缺图、寿命、clear、三色；弱emit和位移迁入寿命四时点完整矩形。真实Framebuffer替代as any核心mock。",
+        "C": "每例新建输入和缓冲；wave显式reset模块phase，其他组不持有跨例写入状态。",
+        "D": "共享只采用相同6×8槽号夹具，1×1采样与特效sprite保持各自合同；无万能模式helper。",
+        "E": "4例保留缺图、寿命、clear、三色；弱emit和位移迁入寿命四时点完整矩形。真实Framebuffer替代as any核心mock。 合同迁移与原生身份见本包；新增/保留逐例核合法域、反例和真实结果。",
+        "F": "小fixture与字面像素/方向/时点期望表达意图，不复制产品控制流当oracle。",
+        "G": "只删除已列明替代断言的重复例；极界、缺资源和不同state ownership不按数量删除。",
+        "H": "直接调用真实被测函数/Framebuffer；计时用传入帧号，未改产品接口或加mock/强转/timeout。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/digit-frames.ts",
+      "sha256": "8be72033de104a3a86d08a34f0d74b1ef99e9d69daa13b44358e4f7368b2b7fd",
+      "lines": 11,
+      "read": "Full new helper and all three direct test consumers",
+      "dimensions": {
+        "A": "66独立帧覆盖19..28/29..38/56..65，6×8/indices等于槽号/opaque1；不把1×1 G08 fixture迁入。",
+        "B": "注释说明槽域、尺寸和每次新缓冲ownership，与实现和三caller一致。",
+        "C": "只造测试数据，无环境/IO/全局缓存；调用者可以改自己的frame或delete槽。",
+        "D": "从数字主测/slots/飘字三个实际同合同工厂提取，移除重复知识，不增加模式布尔值或未来参数。",
+        "E": "三个真实测试文件共17用例使用，颜色/布局/孔/缺帧/寿命结果校验fixture；无单独镜像实现的弱fixture测试。",
+        "F": "createDigitFrames名称明确，Array.from固定尺寸、slot就是预期色值，三处调用可直读。",
+        "G": "单出口有三个caller，66够当前最高槽65，移除原80多余尾帧不影响实际输入域。",
+        "H": "返回新Array和TypedArray，不共享可变实例，直接用于真实Framebuffer测试。"
+      },
+      "decision": "accept; A–H and focused contracts complete, local unified gates passed; publication separate"
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "a95de9032a6fbed6500ea11151b04a010f05ffb6d1ee2fd89dffc2bd2c31a2b5",
+      "lines": 805,
+      "read": "390–435 follower owner/脚本帧覆盖；650–723 fade steps/写buffer/shake以及输出，只有对应注释改动，其它整文件不授信用。"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "lines": 2078,
+      "read": "34–54 FollowerFrozen；770–787字段ownership；1574–1665投影数值候选只读。只接受字段注释delta。"
+    },
+    {
+      "path": "packages/game/src/shell/ending-player.ts",
+      "sha256": "9099d346ac0a66353169d940d4b5dbc173f702c7ec22da4fe403c63e01ca3fdc",
+      "lines": 207,
+      "read": "140–178 production wave reset/new playback state；不重审整播放器。"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+      "lines": 1956,
+      "read": "700–729缩略图自有尺寸；1653–1723真实读档先重建装备，反驳直接保存派生效果的Infinity推断；非整个bootstrap接受。"
+    },
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "e3929e6888b1c9abd49a24d4f7b7068cc01305625bf05e687b8b9b72e41fbf71",
+      "lines": 450,
+      "read": "100–219 emit/resource/order；249–311 overlays/intro；430–452 summon/clear。入场注释纠正不等于宿主全文件审查。"
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f",
+      "lines": 501,
+      "read": "316–330按原frame.index填UI帧，缺槽保留；复用3h已接受同版模块。"
+    },
+    {
+      "path": "packages/game/src/core/save/v1.ts",
+      "sha256": "a4919d656ed2318943f537cb90a7e1f5f53fd10c7fe7cdcdd687c6aa38cbf602",
+      "lines": 270,
+      "read": "角色/equipment有限number与follower可选字段；仅输入域/注释核读，不改save合同。"
+    },
+    {
+      "path": "packages/game/src/core/save/v1-shape.ts",
+      "sha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9",
+      "lines": 73,
+      "read": "number guard定义；当前finite不等同任何后继算术不会溢出。"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "4eb173f96cd19b0bcc1175ad9a96e439cd5a6235d7896550deeec22bf7c5b3e0",
+      "lines": 61,
+      "read": "全文解析入口finite/shape流程，只读input-domain tracing。"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081",
+      "lines": 393,
+      "read": "12–65 effective getters；仅局部潜在算术域，不接受整文件。"
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "988629e03895443fdd49964924f23d1d43cdab7d930a7348f1629553ce000b7f",
+      "lines": 639,
+      "read": "338–418 whole isWalkable only: no walking writes or callbacks; no full source acceptance."
+    }
+  ],
+  "primary": [
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858,
+      "read": "Reused immutable primary range: 50-90, 565-620, 970-990; no repeat full-source reading claim"
+    },
+    {
+      "path": "reference/sdlpal/uibattle.c",
+      "sha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
+      "lines": 1808,
+      "read": "Reused immutable primary range: 1740-1808; no repeat full-source reading claim"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "read": "Reused immutable primary range: 600-720, 2130-2200, 2740-2770; no repeat full-source reading claim"
+    },
+    {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "lines": 903,
+      "read": "Reused immutable primary: ['365-430', '480-490']"
+    },
+    {
+      "path": "reference/sdlpal/video.c",
+      "sha256": "1ccfff8e985db13ab596c852c68c15b290fa33c4ca51415ec10452f8c3a67033",
+      "lines": 1484,
+      "read": "Reused immutable primary: ['571-620']"
+    },
+    {
+      "path": "reference/sdlpal/ui.c",
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242",
+      "lines": 994,
+      "read": "Reused immutable primary: ['640-732']"
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "lines": 757,
+      "read": "Reused immutable primary: ['379-379', '538-539']"
+    }
+  ],
+  "oldToNew": [
+    {
+      "file": "packages/game/src/present/screen-shake.test.ts",
+      "title": "奇帧上移搬运无残留:被搬走的源行被新内容覆盖(连续性自洽)",
+      "replacement": "同文件奇帧level4完整64000字节搬移/尾黑条/计时；bounds B02保留199边界"
+    },
+    {
+      "file": "packages/game/src/present/screen-shake.test.ts",
+      "title": "偶帧下移搬运无残留:第 10 行 = 旧第 0 行,第 199 行 = 旧第 189 行,顶部 0..9 全 0",
+      "replacement": "同文件偶帧level4完整64000字节搬移/头黑条/计时；bounds B04保留199边界"
+    },
+    {
+      "file": "packages/game/src/present/screen-wave.test.ts",
+      "title": "wScreenWave>=256 → 越界清零关闭",
+      "replacement": "mirror A05恰256和A07跨256均同时核像素/波幅/推进量，比300仅清波幅更强"
+    },
+    {
+      "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+      "title": "advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进",
+      "replacement": "mirror A06核两次冻结相位精确56/112，A08核非零progression不累加且精确46像素"
+    },
+    {
+      "file": "packages/game/src/present/follower-pos.test.ts",
+      "title": "walking + 偏移落水:回退 trail[1](scene.c:712 障碍回退,仅 fWalking 分支)",
+      "replacement": "axis G03-C06同输入同位置朝向，另核回退后缓存"
+    },
+    {
+      "file": "packages/game/src/present/follower-pos.test.ts",
+      "title": "回归(刘晋元叫醒后):0x46 黑屏摆位 dir=up,李逍遥(跟随)紧贴队长=trail[1]=队长+(-16,+8),非 2×偏移(user 2026-06-16)",
+      "replacement": "主测静止无快照取trail[m]同时核m1/m2，不按方向重新加偏移；旧例未执行0x46"
+    },
+    {
+      "file": "packages/game/src/present/follower-pos.test.ts",
+      "title": "集成(船划行):划船(ride)每步把 trail 刷成船行方向 → 跟随者朝向跟 trail(=队长),静止位置仍冻结",
+      "replacement": "主测静止有快照用trail方向：冻结up/current down精确位置+朝向；旧例未执行ride"
+    },
+    {
+      "file": "packages/game/src/present/follower-pos.test.ts",
+      "title": "回归(隐龙窟):站立对话时队长 0x15 回头不动 trail → 跟随者保持走来方向(不跟队长转)",
+      "replacement": "主测静止有快照用trail方向；old left==left不能判别冻结方向错误，旧例未执行0x15"
+    },
+    {
+      "file": "packages/game/src/present/draw-number.test.ts",
+      "title": "num=0,nLength=4,right-align 到 (270, 21) — saved times slot 真值",
+      "replacement": "同文件0/6/right完整像素与无前导零；saved times caller未在旧例执行，不授槽位布局信用"
+    },
+    {
+      "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+      "title": "emit + draw 写入像素(UI sprite 数字帧)",
+      "replacement": "same-file lifetime age0 full exact two-digit framebuffer; no writes-count oracle"
+    },
+    {
+      "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+      "title": "数字每帧上移 1px(dy = -age,sdlpal uibattle.c:1760)",
+      "replacement": "same-file lifetime explicit ages0/1/5/10 exact full-frame rectangles retain every old vertical observation"
+    }
+  ],
+  "body": {
+    "base": "4897a215dd3e7fd6987f1082006d9d8cc9f22bb8",
+    "records": [
+      {
+        "file": "packages/game/src/core/game-state.ts",
+        "beforeSha256": "c1e3d93696824b14d0192d226faa79cf62a91a7f2ae08778a3320ee35a9dea8f",
+        "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+        "bodyEqual": true,
+        "undoKnownGuardBodyEqual": true,
+        "normalizedBeforeSha256": "5525ed6908b8211f18b762e2b2c733480e846d19c3f7264ba95334e5ce5c0412",
+        "normalizedAfterSha256": "5525ed6908b8211f18b762e2b2c733480e846d19c3f7264ba95334e5ce5c0412"
+      },
+      {
+        "file": "packages/game/src/present/battle/draw-battle-num.ts",
+        "beforeSha256": "189d73f94b9f6e92654aae29d2f26facc03104f38364c744266fc68b3dd562d5",
+        "sha256": "bdde541006d64728bb8606ab7bd9127431ad60bdd258da76f4c91f18ab088d6d",
+        "bodyEqual": true,
+        "undoKnownGuardBodyEqual": true,
+        "normalizedBeforeSha256": "70c2f3ac0d0d89d6b5896127167cd66a55ee54e727b2a18138e5ef7ce7d6ad19",
+        "normalizedAfterSha256": "70c2f3ac0d0d89d6b5896127167cd66a55ee54e727b2a18138e5ef7ce7d6ad19"
+      },
+      {
+        "file": "packages/game/src/present/battle/present-battle.ts",
+        "beforeSha256": "868feace88f4996992631e4d09b53fa249d290dbe0b25b34466e4f5a6eb908f0",
+        "sha256": "e3929e6888b1c9abd49a24d4f7b7068cc01305625bf05e687b8b9b72e41fbf71",
+        "bodyEqual": true,
+        "undoKnownGuardBodyEqual": true,
+        "normalizedBeforeSha256": "4ce166b55ca3ac4b10336f30ad7339533f8c917a1076ef3abed2fc634f0deea6",
+        "normalizedAfterSha256": "4ce166b55ca3ac4b10336f30ad7339533f8c917a1076ef3abed2fc634f0deea6"
+      },
+      {
+        "file": "packages/game/src/present/dither-fade.ts",
+        "beforeSha256": "42009a8ec5c5d53b2b0fae61d37a985395fa787eafde86fae1ef96afa87fbb12",
+        "sha256": "590b0675e2853a24f78c439ecd782852d4a07c1aabcd06b072e210e0347136b6",
+        "bodyEqual": true,
+        "undoKnownGuardBodyEqual": true,
+        "normalizedBeforeSha256": "f2074f57fb55d4c4b69fb8369f35ac15ac98b291b6723886176a1a1c095bddff",
+        "normalizedAfterSha256": "f2074f57fb55d4c4b69fb8369f35ac15ac98b291b6723886176a1a1c095bddff"
+      },
+      {
+        "file": "packages/game/src/present/draw-number.ts",
+        "beforeSha256": "29b6f5dbc54d3ec0587de2380cf48e97c1744d3e503e0ec56587ae229a73aebd",
+        "sha256": "e4fd73911a9e4325d4cf055ea128b82a01683aeed9816f34b18d1e5cb0da4d7e",
+        "bodyEqual": true,
+        "undoKnownGuardBodyEqual": true,
+        "normalizedBeforeSha256": "63fd79e1466d0e5e431d9a8f6061fb120a13eb173dfdc647cf0af9c3cc8e2916",
+        "normalizedAfterSha256": "63fd79e1466d0e5e431d9a8f6061fb120a13eb173dfdc647cf0af9c3cc8e2916"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos.ts",
+        "beforeSha256": "88886dfc55aeb11ab443dd68d9a31a7fd8f921a8222576ddc877797bc13ed5cf",
+        "sha256": "1a55cf4137c888e12ba3660d9006367fcef8fb82cdff7e4c3ec2a8a0c0397ca6",
+        "bodyEqual": false,
+        "undoKnownGuardBodyEqual": true,
+        "normalizedBeforeSha256": "0ced671009c44743e3278d9fbfa2e9b13b768d46e271a65ce48d54430b077a9d",
+        "normalizedAfterSha256": "64c636e395f6472aa09354943c689e6a01e4e8f13c3db82b508e05a53d7611c8"
+      },
+      {
+        "file": "packages/game/src/present/framebuffer.ts",
+        "beforeSha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b",
+        "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060",
+        "bodyEqual": true,
+        "undoKnownGuardBodyEqual": true,
+        "normalizedBeforeSha256": "e55f50d92be061bfba3620ec11acf580ab7913a41520cb695d443149f84265d7",
+        "normalizedAfterSha256": "e55f50d92be061bfba3620ec11acf580ab7913a41520cb695d443149f84265d7"
+      },
+      {
+        "file": "packages/game/src/present/present.ts",
+        "beforeSha256": "04f2dc31ec175a3b1d478a7a485073db510d2a7cf3d914cbeccbda9947daa34a",
+        "sha256": "a95de9032a6fbed6500ea11151b04a010f05ffb6d1ee2fd89dffc2bd2c31a2b5",
+        "bodyEqual": true,
+        "undoKnownGuardBodyEqual": true,
+        "normalizedBeforeSha256": "221083e9bfe69a1cf85f09af8d4aa4b1b1481496e15b4b52eb73f84fd7a27464",
+        "normalizedAfterSha256": "221083e9bfe69a1cf85f09af8d4aa4b1b1481496e15b4b52eb73f84fd7a27464"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave.ts",
+        "beforeSha256": "b0c3751c0f6fe21966a98dff88c507c0acf0e5a345d41d01e95494ff7ec08fde",
+        "sha256": "2870bdd7ead72b875c3de9c7ab84214f4ac2f41df84b13686a58ffb6b5187484",
+        "bodyEqual": true,
+        "undoKnownGuardBodyEqual": true,
+        "normalizedBeforeSha256": "c30955939768922283e9cfbe660c96ca50fcb704ab8e59de86388c37cf2493c7",
+        "normalizedAfterSha256": "c30955939768922283e9cfbe660c96ca50fcb704ab8e59de86388c37cf2493c7"
+      }
+    ],
+    "limits": "All source edits comments-only except redundant walking check; undo that one check gives identical parsed body. Refactor relies on production isWalkable not mutating walking; caller closure only queries tile/NPC collision."
+  },
+  "retirements": {
+    "baseSha256": "d73ff1d6421ded095acd01370b7136dee5e65d5de5b3a637752f43bd1c10a470",
+    "entries": [
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+        "previous": 6,
+        "current": 4,
+        "previousIdentityDigest": "38150445e96fa2cca4cc74c403bfccced5cb710078e81987c0b944bfb4da9d17",
+        "currentIdentityDigest": "d85730d4dca5aa15f086b4be5d36bbf60ce68acde86aca8048e89b8eab56f074",
+        "fileSha256": "9bfe64fbda591834aa6bb05b1941a9fee98468849c6897e8c0f74984d7621f23"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "previous": 10,
+        "current": 6,
+        "previousIdentityDigest": "f13e4b4b9aee465fa9e971e72855969d1fcd5a18b937919f4bd52d7e2aacb5ab",
+        "currentIdentityDigest": "3bb146a4417fe7ff1cb44734217c648681b7a18ca60cac1298bd81361edfdb49",
+        "fileSha256": "2c6989647938b42e379a0ffaee99baa64aec72b9544da42a44033c58dfb8576c"
+      },
+      {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "previous": 6,
+        "current": 4,
+        "previousIdentityDigest": "af7db43d48d4075af846b424197df1c5d45355f90a13a0445c18a1cab5cf839c",
+        "currentIdentityDigest": "d13d4597f2e42ee8ad27557c649281cc8cd285c5d8c18cfeb1f700d31061b158",
+        "fileSha256": "947d456cc8f6d9aad80bd2f4f590ce0f4b6e94a2ddffe0813171d30ff489e786"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "previous": 4,
+        "current": 3,
+        "previousIdentityDigest": "70528b5a0ff7aacfe8af752c9e5975b539ca626577e262eb5642300af647c418",
+        "currentIdentityDigest": "a45176126d36651bc0adc70e42d04508f008d89837d9d37ccb6e4fb151243fa7",
+        "fileSha256": "7a0758ed115203df0d0cea41cf5f2beb95120a25985d482a65f00c72f78f7a81"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "previous": 5,
+        "current": 4,
+        "previousIdentityDigest": "7848c46807ad12cc7d2b374016f72eb559824047e8ffe214c6dcb06103813bf7",
+        "currentIdentityDigest": "a935519fd611da8df3e47453c7f0890ffa7574a3b8c54a5fe2b5a1e4ffc24063",
+        "fileSha256": "aa3c4e54215380dcbfab2919839b9a716c11ebc22156d699fb94734032eeceff"
+      }
+    ],
+    "currentIdentities": [
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts :: project root :: drawBattleBg > 小于屏的素材不越界 / 不抛错"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts :: project root :: drawBattleBg > 整面 320×200 写入 framebuffer"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts :: project root :: drawBattleBg > 索引 0 也照画(背景不透明)"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts :: project root :: drawBattleEffectOverlay > frameIdx 越界 → no-op,不抛"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts :: project root :: drawBattleEffectOverlay > sprite 缺(loader 未注入)→ no-op,不抛"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts :: project root :: drawBattleEffectOverlay > 画 overlay.frameIdx 帧到落点(底中 anchor:x - w/2, y - h)"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts :: project root :: drawBattleEffectOverlay > 透明像素(opaque=0)不覆盖背景"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts :: project root :: drawBattleMagicOverlay (D17 法术 FIRE.MKF overlay) > chunk 缺(magicSprites 无该 key)→ no-op,不抛"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts :: project root :: drawBattleMagicOverlay (D17 法术 FIRE.MKF overlay) > magicSprites 整个 undefined → no-op,不抛"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts :: project root :: drawBattleMagicOverlay (D17 法术 FIRE.MKF overlay) > 从 magicSprites.get(spriteChunk) 取帧 blit 到落点(底中 anchor)"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts :: project root :: FloatingNumsLayer > clear() 清空"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts :: project root :: FloatingNumsLayer > yellow / blue / cyan 选不同 base frame(sprite index 区分)"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts :: project root :: FloatingNumsLayer > 寿命 11 帧:age 0..10 显示,age=11 清除(sdlpal uibattle.c:1753)"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+        "identity": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts :: project root :: FloatingNumsLayer > 缺 uiSpriteFrames → 不写像素(防御)"
+      },
+      {
+        "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "identity": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts :: project root :: G08-D 特效与飘字像素 > G08-D01 宽 3 的特效锚点只减 1，左缘和多出来的右缘都写入"
+      },
+      {
+        "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "identity": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts :: project root :: G08-D 特效与飘字像素 > G08-D02 宽 1 时右移半宽为 0，像素落在锚点列而不是左边一列"
+      },
+      {
+        "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "identity": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts :: project root :: G08-D 特效与飘字像素 > G08-D03 五位右对齐的个位在 x+24，十位不补零"
+      },
+      {
+        "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "identity": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts :: project root :: G08-D 特效与飘字像素 > G08-D04 六位数只留低五位，最高位不画到个位左边第六格"
+      },
+      {
+        "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "identity": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts :: project root :: G08-D 特效与飘字像素 > G08-D05 两条飘字各写自己的个位，黄 7 和蓝 3 不互相覆盖"
+      },
+      {
+        "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "identity": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts :: project root :: G08-D 特效与飘字像素 > G08-D06 数值 0 仍画一位黄 0，左边不补位"
+      },
+      {
+        "file": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "identity": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts :: project root :: G08-D 特效与飘字像素 > G08-D07 奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D"
+      },
+      {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "identity": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts :: project root :: G04-C dither 相位与低位回退 > G04-C01 step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4"
+      },
+      {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "identity": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts :: project root :: G04-C dither 相位与低位回退 > G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动"
+      },
+      {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "identity": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts :: project root :: G04-C dither 相位与低位回退 > G04-C03 低位已经相等时 outer 1 不加减，只换上 target 高位"
+      },
+      {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "identity": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts :: project root :: G04-C dither 相位与低位回退 > G04-C04 outer 0 把更高的 backup 高位直接换成 target 高位"
+      },
+      {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "identity": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts :: project root :: G04-C dither 相位与低位回退 > G04-C05 长度超过 6 时同一 step 继续处理 k+6"
+      },
+      {
+        "file": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "identity": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts :: project root :: G04-C dither 相位与低位回退 > G04-C06 fromStep 等于 toStep 时不改 backup"
+      },
+      {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "identity": "packages/game/src/present/dither-fade.test.ts :: project root :: applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) > outer>0 低 nibble 朝 target ±1(a低 > b低 → b低+1)"
+      },
+      {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "identity": "packages/game/src/present/dither-fade.test.ts :: project root :: applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) > step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)"
+      },
+      {
+        "file": "packages/game/src/present/dither-fade.test.ts",
+        "identity": "packages/game/src/present/dither-fade.test.ts :: project root :: applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) > 跑满 72 step:低 nibble 差 ≤ 11(11 outer 趟 ±1)→ backup 收敛 = target"
+      },
+      {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "identity": "packages/game/src/present/draw-number-slots.grok-r1.test.ts :: project root :: G05-C draw-number 空位与掩码 > G05-C01 透明孔保留底色，旁边的不透明点写入精灵索引 44"
+      },
+      {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "identity": "packages/game/src/present/draw-number-slots.grok-r1.test.ts :: project root :: G05-C draw-number 空位与掩码 > G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色"
+      },
+      {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "identity": "packages/game/src/present/draw-number-slots.grok-r1.test.ts :: project root :: G05-C draw-number 空位与掩码 > G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置"
+      },
+      {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "identity": "packages/game/src/present/draw-number-slots.grok-r1.test.ts :: project root :: G05-C draw-number 空位与掩码 > G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写"
+      },
+      {
+        "file": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+        "identity": "packages/game/src/present/draw-number-slots.grok-r1.test.ts :: project root :: G05-C draw-number 空位与掩码 > G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6"
+      },
+      {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "identity": "packages/game/src/present/draw-number.test.ts :: project root :: drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port > blue color → base frame 29"
+      },
+      {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "identity": "packages/game/src/present/draw-number.test.ts :: project root :: drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port > cyan color → base frame 56"
+      },
+      {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "identity": "packages/game/src/present/draw-number.test.ts :: project root :: drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port > left-align num=42,nLength=6 — digit 起 (49 - 6 + 6*2 = 55) — 2 在 55,4 在 49"
+      },
+      {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "identity": "packages/game/src/present/draw-number.test.ts :: project root :: drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port > mid-align num=42,nLength=6：两位居中于六位槽，首位在 61，末位在 67"
+      },
+      {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "identity": "packages/game/src/present/draw-number.test.ts :: project root :: drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port > num 超过 nLength → truncate(actualLength = nLength)"
+      },
+      {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "identity": "packages/game/src/present/draw-number.test.ts :: project root :: drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port > num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)"
+      },
+      {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "identity": "packages/game/src/present/draw-number.test.ts :: project root :: drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port > num=123,nLength=6,right-align — 3 digits 末位 3 在 (79, 14),2 在 (73, 14),1 在 (67, 14)"
+      },
+      {
+        "file": "packages/game/src/present/draw-number.test.ts",
+        "identity": "packages/game/src/present/draw-number.test.ts :: project root :: drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port > uiSpriteFrames 缺失对应 base+digit 时跳过 blit 不抛"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "identity": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts :: project root :: G03-C computeFollowerWorldPos 方向与冻结 > G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "identity": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts :: project root :: G03-C computeFollowerWorldPos 方向与冻结 > G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "identity": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts :: project root :: G03-C computeFollowerWorldPos 方向与冻结 > G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "identity": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts :: project root :: G03-C computeFollowerWorldPos 方向与冻结 > G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "identity": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts :: project root :: G03-C computeFollowerWorldPos 方向与冻结 > G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "identity": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts :: project root :: G03-C computeFollowerWorldPos 方向与冻结 > G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "identity": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts :: project root :: G03-C computeFollowerWorldPos 方向与冻结 > G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "identity": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts :: project root :: G03-C computeFollowerWorldPos 方向与冻结 > G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "identity": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts :: project root :: G03-C computeFollowerWorldPos 方向与冻结 > G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "identity": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts :: project root :: G03-C computeFollowerWorldPos 方向与冻结 > G03-C10 静止摆位不调用 isWalkable"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "identity": "packages/game/src/present/follower-pos.test.ts :: project root :: computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) > not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "identity": "packages/game/src/present/follower-pos.test.ts :: project root :: computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) > not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "identity": "packages/game/src/present/follower-pos.test.ts :: project root :: computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) > not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "identity": "packages/game/src/present/follower-pos.test.ts :: project root :: computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) > trail 不足(length<=1)→ null(不画跟随者)"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "identity": "packages/game/src/present/follower-pos.test.ts :: project root :: computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) > walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)"
+      },
+      {
+        "file": "packages/game/src/present/follower-pos.test.ts",
+        "identity": "packages/game/src/present/follower-pos.test.ts :: project root :: computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) > 静止有快照且 trail 只有两项：位置按偏移，朝向回退 trail[1]"
+      },
+      {
+        "file": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+        "identity": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts :: project root :: L16 framebuffer 剩余合同 > toImageData：palette 缺该索引颜色 → fallback [0,0,0]、alpha 恒 255"
+      },
+      {
+        "file": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+        "identity": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts :: project root :: L16 framebuffer 剩余合同 > writePixel 越界（负值/超宽高）静默不写不抛"
+      },
+      {
+        "file": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
+        "identity": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts :: project root :: L16 framebuffer 剩余合同 > 自定义尺寸离屏缓冲的末像素写入与 RGBA 尺寸"
+      },
+      {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "identity": "packages/game/src/present/framebuffer.test.ts :: project root :: Framebuffer > 320×200,初始全 0"
+      },
+      {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "identity": "packages/game/src/present/framebuffer.test.ts :: project root :: Framebuffer > toImageData(palette) —— 索引 → RGBA"
+      },
+      {
+        "file": "packages/game/src/present/framebuffer.test.ts",
+        "identity": "packages/game/src/present/framebuffer.test.ts :: project root :: Framebuffer > writePixel + clear"
+      },
+      {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts :: project root :: G04-B screen-shake 边界与补帧 > G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1"
+      },
+      {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts :: project root :: G04-B screen-shake 边界与补帧 > G04-B02 奇数帧 level=199 只把最后一行抬到顶，其余行填黑"
+      },
+      {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts :: project root :: G04-B screen-shake 边界与补帧 > G04-B03 advance=false 的奇数帧仍上移，shakeTime 保持原值"
+      },
+      {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts :: project root :: G04-B screen-shake 边界与补帧 > G04-B04 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行"
+      },
+      {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts :: project root :: G04-B screen-shake 边界与补帧 > G04-B05 level=1 的奇数帧上移一行，底行填黑"
+      },
+      {
+        "file": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-shake-bounds.grok-r1.test.ts :: project root :: G04-B screen-shake 边界与补帧 > G04-B06 level=256 且 advance=false 时像素和 shakeTime 都不变"
+      },
+      {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "identity": "packages/game/src/present/screen-shake.test.ts :: project root :: applyScreenShake — port sdlpal video.c:571-616 > level=0:无可见偏移(整幅不变),但 shakeTime 仍递减"
+      },
+      {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "identity": "packages/game/src/present/screen-shake.test.ts :: project root :: applyScreenShake — port sdlpal video.c:571-616 > shakeTime 从 N 连调 N 次后归 0(video.c:614 末尾 g_wShakeTime--)"
+      },
+      {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "identity": "packages/game/src/present/screen-shake.test.ts :: project root :: applyScreenShake — port sdlpal video.c:571-616 > 偶帧(shakeTime=2,level=4):整幅下移 4 行,顶部 4 行填黑,shakeTime→1"
+      },
+      {
+        "file": "packages/game/src/present/screen-shake.test.ts",
+        "identity": "packages/game/src/present/screen-shake.test.ts :: project root :: applyScreenShake — port sdlpal video.c:571-616 > 奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts :: project root :: G04-A screen-wave 镜像与关断 > G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts :: project root :: G04-A screen-wave 镜像与关断 > G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts :: project root :: G04-A screen-wave 镜像与关断 > G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts :: project root :: G04-A screen-wave 镜像与关断 > G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts :: project root :: G04-A screen-wave 镜像与关断 > G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts :: project root :: G04-A screen-wave 镜像与关断 > G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts :: project root :: G04-A screen-wave 镜像与关断 > G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts",
+        "identity": "packages/game/src/present/screen-wave-mirror.grok-r1.test.ts :: project root :: G04-A screen-wave 镜像与关断 > G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "identity": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts :: project root :: L16 applyScreenWave 剩余合同 > 循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "identity": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts :: project root :: L16 applyScreenWave 剩余合同 > 相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts",
+        "identity": "packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts :: project root :: L16 applyScreenWave 剩余合同 > 真实 0x71 raw 的负 progression 跨过 0 时立即关断，不用负波幅卷动"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "identity": "packages/game/src/present/screen-wave.test.ts :: project root :: 特效 B screen-wave(PAL_ApplyWave port) > wScreenWave 累加到 0 → 自动清零关闭(wave + progression 都归 0)"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "identity": "packages/game/src/present/screen-wave.test.ts :: project root :: 特效 B screen-wave(PAL_ApplyWave port) > wScreenWave=0 且 sWaveProgression=0 → 无效果,不改像素"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "identity": "packages/game/src/present/screen-wave.test.ts :: project root :: 特效 B screen-wave(PAL_ApplyWave port) > 每帧 wScreenWave += sWaveProgression(渐弱)"
+      },
+      {
+        "file": "packages/game/src/present/screen-wave.test.ts",
+        "identity": "packages/game/src/present/screen-wave.test.ts :: project root :: 特效 B screen-wave(PAL_ApplyWave port) > 活跃波动 → 像素被横向卷动(至少一行发生左移,且像素值集合守恒=循环卷动)"
+      }
+    ]
+  },
+  "recount": {
+    "records": [
+      {
+        "version": "before",
+        "sourceSha256": "88886dfc55aeb11ab443dd68d9a31a7fd8f921a8222576ddc877797bc13ed5cf",
+        "summary": {
+          "statements": {
+            "covered": 24,
+            "total": 24
+          },
+          "functions": {
+            "covered": 1,
+            "total": 1
+          },
+          "branches": {
+            "covered": 27,
+            "total": 28
+          },
+          "lines": {
+            "covered": 21,
+            "total": 21
+          }
+        },
+        "branches": [
+          {
+            "loc": {
+              "start": {
+                "line": 38,
+                "column": 2
+              },
+              "end": {
+                "line": 38,
+                "column": null
+              }
+            },
+            "type": "if",
+            "locations": [
+              {
+                "start": {
+                  "line": 38,
+                  "column": 2
+                },
+                "end": {
+                  "line": 38,
+                  "column": null
+                }
+              },
+              {
+                "start": {},
+                "end": {}
+              }
+            ],
+            "line": 38,
+            "hits": [1, 16]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 42,
+                "column": 17
+              },
+              "end": {
+                "line": 42,
+                "column": null
+              }
+            },
+            "type": "binary-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 42,
+                  "column": 17
+                },
+                "end": {
+                  "line": 42,
+                  "column": 36
+                }
+              },
+              {
+                "start": {
+                  "line": 42,
+                  "column": 36
+                },
+                "end": {
+                  "line": 42,
+                  "column": null
+                }
+              }
+            ],
+            "line": 42,
+            "hits": [16, 2]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 51,
+                "column": 2
+              },
+              "end": {
+                "line": 62,
+                "column": null
+              }
+            },
+            "type": "if",
+            "locations": [
+              {
+                "start": {
+                  "line": 51,
+                  "column": 2
+                },
+                "end": {
+                  "line": 62,
+                  "column": null
+                }
+              },
+              {
+                "start": {},
+                "end": {}
+              }
+            ],
+            "line": 51,
+            "hits": [7, 10]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 53,
+                "column": 4
+              },
+              "end": {
+                "line": 53,
+                "column": null
+              }
+            },
+            "type": "if",
+            "locations": [
+              {
+                "start": {
+                  "line": 53,
+                  "column": 4
+                },
+                "end": {
+                  "line": 53,
+                  "column": null
+                }
+              },
+              {
+                "start": {},
+                "end": {}
+              }
+            ],
+            "line": 53,
+            "hits": [2, 5]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 60,
+                "column": 19
+              },
+              "end": {
+                "line": 60,
+                "column": null
+              }
+            },
+            "type": "binary-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 60,
+                  "column": 19
+                },
+                "end": {
+                  "line": 60,
+                  "column": 33
+                }
+              },
+              {
+                "start": {
+                  "line": 60,
+                  "column": 33
+                },
+                "end": {
+                  "line": 60,
+                  "column": null
+                }
+              }
+            ],
+            "line": 60,
+            "hits": [5, 1]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 67,
+                "column": 2
+              },
+              "end": {
+                "line": 73,
+                "column": null
+              }
+            },
+            "type": "if",
+            "locations": [
+              {
+                "start": {
+                  "line": 67,
+                  "column": 2
+                },
+                "end": {
+                  "line": 73,
+                  "column": null
+                }
+              },
+              {
+                "start": {
+                  "line": 70,
+                  "column": 9
+                },
+                "end": {
+                  "line": 73,
+                  "column": null
+                }
+              }
+            ],
+            "line": 67,
+            "hits": [2, 7]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 68,
+                "column": 11
+              },
+              "end": {
+                "line": 68,
+                "column": null
+              }
+            },
+            "type": "cond-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 68,
+                  "column": 55
+                },
+                "end": {
+                  "line": 68,
+                  "column": 61
+                }
+              },
+              {
+                "start": {
+                  "line": 68,
+                  "column": 61
+                },
+                "end": {
+                  "line": 68,
+                  "column": null
+                }
+              }
+            ],
+            "line": 68,
+            "hits": [1, 1]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 68,
+                "column": 11
+              },
+              "end": {
+                "line": 68,
+                "column": 55
+              }
+            },
+            "type": "binary-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 68,
+                  "column": 11
+                },
+                "end": {
+                  "line": 68,
+                  "column": 34
+                }
+              },
+              {
+                "start": {
+                  "line": 68,
+                  "column": 34
+                },
+                "end": {
+                  "line": 68,
+                  "column": 55
+                }
+              }
+            ],
+            "line": 68,
+            "hits": [2, 1]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 71,
+                "column": 11
+              },
+              "end": {
+                "line": 71,
+                "column": null
+              }
+            },
+            "type": "cond-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 71,
+                  "column": 54
+                },
+                "end": {
+                  "line": 71,
+                  "column": 59
+                }
+              },
+              {
+                "start": {
+                  "line": 71,
+                  "column": 59
+                },
+                "end": {
+                  "line": 71,
+                  "column": null
+                }
+              }
+            ],
+            "line": 71,
+            "hits": [5, 2]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 71,
+                "column": 11
+              },
+              "end": {
+                "line": 71,
+                "column": 54
+              }
+            },
+            "type": "binary-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 71,
+                  "column": 11
+                },
+                "end": {
+                  "line": 71,
+                  "column": 33
+                }
+              },
+              {
+                "start": {
+                  "line": 71,
+                  "column": 33
+                },
+                "end": {
+                  "line": 71,
+                  "column": 54
+                }
+              }
+            ],
+            "line": 71,
+            "hits": [7, 5]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 72,
+                "column": 11
+              },
+              "end": {
+                "line": 72,
+                "column": null
+              }
+            },
+            "type": "cond-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 72,
+                  "column": 52
+                },
+                "end": {
+                  "line": 72,
+                  "column": 56
+                }
+              },
+              {
+                "start": {
+                  "line": 72,
+                  "column": 56
+                },
+                "end": {
+                  "line": 72,
+                  "column": null
+                }
+              }
+            ],
+            "line": 72,
+            "hits": [3, 4]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 72,
+                "column": 11
+              },
+              "end": {
+                "line": 72,
+                "column": 52
+              }
+            },
+            "type": "binary-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 72,
+                  "column": 11
+                },
+                "end": {
+                  "line": 72,
+                  "column": 33
+                }
+              },
+              {
+                "start": {
+                  "line": 72,
+                  "column": 33
+                },
+                "end": {
+                  "line": 72,
+                  "column": 52
+                }
+              }
+            ],
+            "line": 72,
+            "hits": [7, 5]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 77,
+                "column": 2
+              },
+              "end": {
+                "line": 80,
+                "column": null
+              }
+            },
+            "type": "if",
+            "locations": [
+              {
+                "start": {
+                  "line": 77,
+                  "column": 2
+                },
+                "end": {
+                  "line": 80,
+                  "column": null
+                }
+              },
+              {
+                "start": {},
+                "end": {}
+              }
+            ],
+            "line": 77,
+            "hits": [1, 8]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 82,
+                "column": 2
+              },
+              "end": {
+                "line": 82,
+                "column": null
+              }
+            },
+            "type": "if",
+            "locations": [
+              {
+                "start": {
+                  "line": 82,
+                  "column": 2
+                },
+                "end": {
+                  "line": 82,
+                  "column": null
+                }
+              },
+              {
+                "start": {},
+                "end": {}
+              }
+            ],
+            "line": 82,
+            "hits": [9, 0]
+          }
+        ]
+      },
+      {
+        "version": "after",
+        "sourceSha256": "1a55cf4137c888e12ba3660d9006367fcef8fb82cdff7e4c3ec2a8a0c0397ca6",
+        "summary": {
+          "statements": {
+            "covered": 23,
+            "total": 23
+          },
+          "functions": {
+            "covered": 1,
+            "total": 1
+          },
+          "branches": {
+            "covered": 26,
+            "total": 26
+          },
+          "lines": {
+            "covered": 21,
+            "total": 21
+          }
+        },
+        "branches": [
+          {
+            "loc": {
+              "start": {
+                "line": 30,
+                "column": 2
+              },
+              "end": {
+                "line": 30,
+                "column": null
+              }
+            },
+            "type": "if",
+            "locations": [
+              {
+                "start": {
+                  "line": 30,
+                  "column": 2
+                },
+                "end": {
+                  "line": 30,
+                  "column": null
+                }
+              },
+              {
+                "start": {},
+                "end": {}
+              }
+            ],
+            "line": 30,
+            "hits": [1, 16]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 34,
+                "column": 17
+              },
+              "end": {
+                "line": 34,
+                "column": null
+              }
+            },
+            "type": "binary-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 34,
+                  "column": 17
+                },
+                "end": {
+                  "line": 34,
+                  "column": 36
+                }
+              },
+              {
+                "start": {
+                  "line": 34,
+                  "column": 36
+                },
+                "end": {
+                  "line": 34,
+                  "column": null
+                }
+              }
+            ],
+            "line": 34,
+            "hits": [16, 2]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 43,
+                "column": 2
+              },
+              "end": {
+                "line": 54,
+                "column": null
+              }
+            },
+            "type": "if",
+            "locations": [
+              {
+                "start": {
+                  "line": 43,
+                  "column": 2
+                },
+                "end": {
+                  "line": 54,
+                  "column": null
+                }
+              },
+              {
+                "start": {},
+                "end": {}
+              }
+            ],
+            "line": 43,
+            "hits": [7, 10]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 45,
+                "column": 4
+              },
+              "end": {
+                "line": 45,
+                "column": null
+              }
+            },
+            "type": "if",
+            "locations": [
+              {
+                "start": {
+                  "line": 45,
+                  "column": 4
+                },
+                "end": {
+                  "line": 45,
+                  "column": null
+                }
+              },
+              {
+                "start": {},
+                "end": {}
+              }
+            ],
+            "line": 45,
+            "hits": [2, 5]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 52,
+                "column": 19
+              },
+              "end": {
+                "line": 52,
+                "column": null
+              }
+            },
+            "type": "binary-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 52,
+                  "column": 19
+                },
+                "end": {
+                  "line": 52,
+                  "column": 33
+                }
+              },
+              {
+                "start": {
+                  "line": 52,
+                  "column": 33
+                },
+                "end": {
+                  "line": 52,
+                  "column": null
+                }
+              }
+            ],
+            "line": 52,
+            "hits": [5, 1]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 59,
+                "column": 2
+              },
+              "end": {
+                "line": 65,
+                "column": null
+              }
+            },
+            "type": "if",
+            "locations": [
+              {
+                "start": {
+                  "line": 59,
+                  "column": 2
+                },
+                "end": {
+                  "line": 65,
+                  "column": null
+                }
+              },
+              {
+                "start": {
+                  "line": 62,
+                  "column": 9
+                },
+                "end": {
+                  "line": 65,
+                  "column": null
+                }
+              }
+            ],
+            "line": 59,
+            "hits": [2, 7]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 60,
+                "column": 11
+              },
+              "end": {
+                "line": 60,
+                "column": null
+              }
+            },
+            "type": "cond-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 60,
+                  "column": 55
+                },
+                "end": {
+                  "line": 60,
+                  "column": 61
+                }
+              },
+              {
+                "start": {
+                  "line": 60,
+                  "column": 61
+                },
+                "end": {
+                  "line": 60,
+                  "column": null
+                }
+              }
+            ],
+            "line": 60,
+            "hits": [1, 1]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 60,
+                "column": 11
+              },
+              "end": {
+                "line": 60,
+                "column": 55
+              }
+            },
+            "type": "binary-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 60,
+                  "column": 11
+                },
+                "end": {
+                  "line": 60,
+                  "column": 34
+                }
+              },
+              {
+                "start": {
+                  "line": 60,
+                  "column": 34
+                },
+                "end": {
+                  "line": 60,
+                  "column": 55
+                }
+              }
+            ],
+            "line": 60,
+            "hits": [2, 1]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 63,
+                "column": 11
+              },
+              "end": {
+                "line": 63,
+                "column": null
+              }
+            },
+            "type": "cond-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 63,
+                  "column": 54
+                },
+                "end": {
+                  "line": 63,
+                  "column": 59
+                }
+              },
+              {
+                "start": {
+                  "line": 63,
+                  "column": 59
+                },
+                "end": {
+                  "line": 63,
+                  "column": null
+                }
+              }
+            ],
+            "line": 63,
+            "hits": [5, 2]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 63,
+                "column": 11
+              },
+              "end": {
+                "line": 63,
+                "column": 54
+              }
+            },
+            "type": "binary-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 63,
+                  "column": 11
+                },
+                "end": {
+                  "line": 63,
+                  "column": 33
+                }
+              },
+              {
+                "start": {
+                  "line": 63,
+                  "column": 33
+                },
+                "end": {
+                  "line": 63,
+                  "column": 54
+                }
+              }
+            ],
+            "line": 63,
+            "hits": [7, 5]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 64,
+                "column": 11
+              },
+              "end": {
+                "line": 64,
+                "column": null
+              }
+            },
+            "type": "cond-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 64,
+                  "column": 52
+                },
+                "end": {
+                  "line": 64,
+                  "column": 56
+                }
+              },
+              {
+                "start": {
+                  "line": 64,
+                  "column": 56
+                },
+                "end": {
+                  "line": 64,
+                  "column": null
+                }
+              }
+            ],
+            "line": 64,
+            "hits": [3, 4]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 64,
+                "column": 11
+              },
+              "end": {
+                "line": 64,
+                "column": 52
+              }
+            },
+            "type": "binary-expr",
+            "locations": [
+              {
+                "start": {
+                  "line": 64,
+                  "column": 11
+                },
+                "end": {
+                  "line": 64,
+                  "column": 33
+                }
+              },
+              {
+                "start": {
+                  "line": 64,
+                  "column": 33
+                },
+                "end": {
+                  "line": 64,
+                  "column": 52
+                }
+              }
+            ],
+            "line": 64,
+            "hits": [7, 5]
+          },
+          {
+            "loc": {
+              "start": {
+                "line": 69,
+                "column": 2
+              },
+              "end": {
+                "line": 72,
+                "column": null
+              }
+            },
+            "type": "if",
+            "locations": [
+              {
+                "start": {
+                  "line": 69,
+                  "column": 2
+                },
+                "end": {
+                  "line": 72,
+                  "column": null
+                }
+              },
+              {
+                "start": {},
+                "end": {}
+              }
+            ],
+            "line": 69,
+            "hits": [1, 8]
+          }
+        ]
+      }
+    ],
+    "delta": {
+      "statements": {
+        "covered": -1,
+        "total": -1
+      },
+      "functions": {
+        "covered": 0,
+        "total": 0
+      },
+      "branches": {
+        "covered": -1,
+        "total": -2
+      },
+      "lines": {
+        "covered": 0,
+        "total": 0
+      }
+    }
+  },
+  "recountApproval": {
+    "id": "pre94-follower-walking-guard-recount-20261023",
+    "authority": "User standing authority permits exact baseline adjustment for justified refactoring. Current3k removes a redundant walking test after the nonwalking branch returns; sole production collision callback does not mutate walking. Same16 retained tests before/current V8: covered statement -1, branches covered -1/total -2 (the unreachable nonwalking arm), functions/lines unchanged. No thresholds, tolerance, scope, or formulas changed.",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/review.json",
+    "baselineSha256": "9d3d6ab2358d23faa7399097486f1b817706839a57edad8de18670575a3da890",
+    "sources": [
+      {
+        "path": "packages/game/src/present/follower-pos.ts",
+        "sha256": "1a55cf4137c888e12ba3660d9006367fcef8fb82cdff7e4c3ec2a8a0c0397ca6"
+      },
+      {
+        "path": "packages/game/src/present/follower-pos.test.ts",
+        "sha256": "2c6989647938b42e379a0ffaee99baa64aec72b9544da42a44033c58dfb8576c"
+      },
+      {
+        "path": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+        "sha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7"
+      },
+      {
+        "path": "packages/game/src/present/present.ts",
+        "sha256": "a95de9032a6fbed6500ea11151b04a010f05ffb6d1ee2fd89dffc2bd2c31a2b5"
+      }
+    ],
+    "packages": {
+      "game": {
+        "before": {
+          "statements": {
+            "covered": 15289,
+            "total": 17075
+          },
+          "branches": {
+            "covered": 9905,
+            "total": 12276
+          },
+          "functions": {
+            "covered": 1835,
+            "total": 2135
+          },
+          "lines": {
+            "covered": 13628,
+            "total": 14962
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 15288,
+            "total": 17074
+          },
+          "branches": {
+            "covered": 9904,
+            "total": 12274
+          },
+          "functions": {
+            "covered": 1835,
+            "total": 2135
+          },
+          "lines": {
+            "covered": 13628,
+            "total": 14962
+          }
+        }
+      }
+    }
+  },
+  "controls": [
+    "shake-last-column",
+    "dither-early-phases-full",
+    "framebuffer-negative-x-full",
+    "number-last-live-frame-final"
+  ],
+  "controlOldReuse": {
+    "number-last-live-frame-final": "number-last-live-frame-old"
+  },
+  "limits": [
+    "drawNumber non-finite caller reachability remains review; save rebuild defeats naive equipment-payload path, no behavior guard authorized/added.",
+    "No full3l/present/game-state/bootstrap review credit; no browser/E2E/visual evidence.",
+    "Initial two -t counters retained with explicitly filtered pending rows; acceptance uses later entire-file counters with zero pending.",
+    "Two single-source before/current V8 measurements justify only one exact guard recount; final official all-package coverage collected once."
+  ],
+  "progress": {
+    "pre94": {
+      "accept": 65,
+      "partial": 18,
+      "pending": 0
+    },
+    "newClosed": 1,
+    "restoredClosed": 3,
+    "refreshedClosed": 22,
+    "ledger": {
+      "total": 3404,
+      "closed": 409,
+      "review": 103,
+      "pending": 2892
+    },
+    "held": "draw-number.ts input reachability; full3l settlement/sprites/UI/host A-H gaps. Both cards remain partial."
+  },
+  "integration": {
+    "state": "local gates passed; remote publication pending",
+    "localGateIds": [
+      "module-check-final",
+      "same-report-ratchet",
+      "same-report-protected",
+      "module-protected",
+      "recount-policy-unit",
+      "final-static"
+    ],
+    "check": {
+      "packageTests": 20589,
+      "toolTests": 697
+    },
+    "official": {
+      "collectionExit": 1,
+      "reason": "Initial exact recount used raw-file digest; canonical JSON digest corrected. Full native collection retained; original official policy tail replayed on the same summary for ratchet, then fast with protected base, both exit0. No recollection.",
+      "testCount": 20160,
+      "sourceFileCount": 774
+    },
+    "diagnostics": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "protectedReport": "module-protected-report.json",
+    "limits": "One completed official collection; strict/protected reuse the same native summary. Remote required checks and merge tracked separately; no browser/E2E/visual acceptance."
+  },
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "babb4ff51e8856770a28004b3dc884d84e825d97425636a8a350dd896d808e85",
+    "entries": 201
+  },
+  "complexity": {
+    "tool": "TypeScript AST decision screen",
+    "version": "6.0.3",
+    "definition": "1 + if/conditional/for/while/do/case/catch/logical && || ?? per function; nested function bodies excluded. Reading clue only, not acceptance target.",
+    "files": [
+      "packages/game/src/present/framebuffer.ts",
+      "packages/game/src/present/screen-shake.ts",
+      "packages/game/src/present/screen-wave.ts",
+      "packages/game/src/present/dither-fade.ts",
+      "packages/game/src/present/draw-number.ts",
+      "packages/game/src/present/follower-pos.ts",
+      "packages/game/src/present/battle/draw-battle-bg.ts",
+      "packages/game/src/present/battle/draw-battle-effect.ts",
+      "packages/game/src/present/battle/draw-battle-num.ts"
+    ],
+    "functions": [
+      {
+        "file": "packages/game/src/present/framebuffer.ts",
+        "line": 20,
+        "name": "createFramebuffer",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/present/framebuffer.ts",
+        "line": 27,
+        "name": "writePixel",
+        "complexity": 5
+      },
+      {
+        "file": "packages/game/src/present/framebuffer.ts",
+        "line": 32,
+        "name": "clear",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/present/framebuffer.ts",
+        "line": 36,
+        "name": "toImageData",
+        "complexity": 3
+      },
+      {
+        "file": "packages/game/src/present/screen-shake.ts",
+        "line": 28,
+        "name": "applyScreenShake",
+        "complexity": 5
+      },
+      {
+        "file": "packages/game/src/present/screen-wave.ts",
+        "line": 20,
+        "name": "resetScreenWavePhase",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/present/screen-wave.ts",
+        "line": 28,
+        "name": "applyScreenWave",
+        "complexity": 10
+      },
+      {
+        "file": "packages/game/src/present/dither-fade.ts",
+        "line": 24,
+        "name": "applyDitherSteps",
+        "complexity": 6
+      },
+      {
+        "file": "packages/game/src/present/draw-number.ts",
+        "line": 39,
+        "name": "blitDigitSprite",
+        "complexity": 4
+      },
+      {
+        "file": "packages/game/src/present/draw-number.ts",
+        "line": 61,
+        "name": "drawNumber",
+        "complexity": 9
+      },
+      {
+        "file": "packages/game/src/present/follower-pos.ts",
+        "line": 25,
+        "name": "computeFollowerWorldPos",
+        "complexity": 14
+      },
+      {
+        "file": "packages/game/src/present/battle/draw-battle-bg.ts",
+        "line": 28,
+        "name": "drawBattleBg",
+        "complexity": 6
+      },
+      {
+        "file": "packages/game/src/present/battle/draw-battle-effect.ts",
+        "line": 21,
+        "name": "blitFrame",
+        "complexity": 5
+      },
+      {
+        "file": "packages/game/src/present/battle/draw-battle-effect.ts",
+        "line": 49,
+        "name": "drawBattleEffectOverlay",
+        "complexity": 2
+      },
+      {
+        "file": "packages/game/src/present/battle/draw-battle-effect.ts",
+        "line": 65,
+        "name": "drawBattleMagicOverlay",
+        "complexity": 2
+      },
+      {
+        "file": "packages/game/src/present/battle/draw-battle-num.ts",
+        "line": 34,
+        "name": "emit",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/present/battle/draw-battle-num.ts",
+        "line": 51,
+        "name": "draw",
+        "complexity": 3
+      },
+      {
+        "file": "packages/game/src/present/battle/draw-battle-num.ts",
+        "line": 53,
+        "name": "(local callback)",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/present/battle/draw-battle-num.ts",
+        "line": 63,
+        "name": "clear",
+        "complexity": 1
+      },
+      {
+        "file": "packages/game/src/present/battle/draw-battle-num.ts",
+        "line": 68,
+        "name": "count",
+        "complexity": 1
+      }
+    ],
+    "flagged": [
+      {
+        "file": "packages/game/src/present/follower-pos.ts",
+        "line": 25,
+        "name": "computeFollowerWorldPos",
+        "complexity": 14
+      }
+    ],
+    "duplicates": "Three equivalent digit factories merged after input/opacity/slot semantics audit; 1px G08 has different contract and remains separate.",
+    "disposition": "computeFollowerWorldPos14来自静止/行走两个明确生命周期、成员方向表和碰撞回退；已逐段核实际caller/typed输入/16例轴覆盖。拆成间接helper不会减少业务分支，保持单一纯计算入口和明确快照写点。工具只作阅读线索。"
+  },
+  "processCorrections": [
+    {
+      "id": "module-check",
+      "state": "exit1 retained",
+      "cause": "Retirement test had stale53 unique records/107 reductions after this window adds exactly5 records/10 reductions. Update exact expectations58/117; no predicate or tolerance change. Full check stopped at coverage-tools before package tests."
+    },
+    {
+      "id": "verifier-first",
+      "state": "read-only failure retained",
+      "cause": "Vitest JSON fullName uses spaces while list identity joins ancestor/title with >. Correct verifier reconstruction; native cases and assertions unchanged."
+    },
+    {
+      "id": "recount-baseline-fingerprint",
+      "state": "corrected data; original record retained",
+      "cause": "Initial record hashed formatted file bytes; approved-baseline consumer hashes JSON.stringify(parsed baseline). Exact canonical digest corrected; before/after counters, source pins and strict predicate unchanged. Active collector imported the original entry; retain its outcome and reuse generated native summary without recollection if the final policy comparison rejects."
+    }
+  ],
+  "ancillaryDelta": {
+    "scope": "Coverage policy data only; no whole-tool acceptance",
+    "files": [
+      "scripts/coverage/approved-test-retirements.mjs",
+      "scripts/coverage/approved-test-retirements.test.mjs",
+      "scripts/coverage/approved-baseline-adjustments.mjs"
+    ],
+    "proof": "module-protected-report.json + module-protected.mjs: all53 old retirement entries/predicate unchanged, old adjustment array/function tail unchanged, exact5 new snapshots and one measured source-pinned recount. Full tool test106/106, exact frozen length58/unique58/reductions117. No threshold/timeout/config change."
+  }
+}

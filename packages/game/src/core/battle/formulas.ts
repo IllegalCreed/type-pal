@@ -1,7 +1,8 @@
 /**
- * 战斗公式 —— from `reference/sdlpal/fight.c`(PAL_CLASSIC 路径,D30 忠实原版)。
+ * 战斗公式 —— 参考 `reference/sdlpal/fight.c` 的 PAL_CLASSIC 路径。
  *
- * 1:1 port,SHORT 语义保持(JS 用 `(n << 16) >> 16` 模拟 SHORT cast)。
+ * 参考原 C 的公式结构;JS 用 `(n << 16) >> 16` 截取有符号 16 位结果。
+ * 法术随机灵力在可表示的 WORD 中间域复现 C FLOAT 精度;其它数值域不承诺完全等价。
  * 全部纯函数,无 side effect,可在 worker / Node 直接跑。
  *
  * 5 个公式对照 sdlpal `fight.c` 行号:
@@ -15,9 +16,35 @@
  * M3 不实现,源码处用注释标 `// non-classic: M3 不实现`。
  */
 
-/** SHORT cast:把任意整数 cast 成 -32768..32767 范围。 */
+/** 用JS位运算截取有符号16位；不据此承诺C越界浮点转换的行为。 */
 function asShort(n: number): number {
   return (n << 16) >> 16
+}
+
+/** C WORD 参数域;超出此域沿用项目既有 JS 数值,不据此引入回绕策略。 */
+function isWord(value: number): boolean {
+  return Number.isInteger(value) && value >= 0 && value <= 0xffff
+}
+
+/** PAL_CalcMagicDamage 的 FLOAT乘法→WORD赋值→整数除10,不消费随机数。 */
+function randomizeMagicStrength(strength: number, factor: number): number {
+  const randomized = Math.fround(strength * Math.fround(factor * 10))
+  if (isWord(strength) && factor >= 1 && factor <= 1.1 && randomized < 0x10000) {
+    return Math.trunc(Math.trunc(randomized) / 10)
+  }
+  // C 浮点转 WORD 越界没有本次可移植合同;保留 TS 的极大/非整数属性行为。
+  return Math.trunc((strength * factor * 10) / 10)
+}
+
+/** 先按 C FLOAT 精度做抗性除法/减法/乘法,再赋回 SHORT。 */
+function applyElementResistance(damage: number, resistance: number, divisor: number): number {
+  if (isWord(resistance) && isWord(divisor) && divisor > 0) {
+    const multiplier = Math.fround(10 - Math.fround(resistance / divisor))
+    const assigned = Math.trunc(Math.fround(damage * multiplier))
+    if (assigned >= -0x8000 && assigned <= 0x7fff) return assigned
+  }
+  // 未定义的 C 浮点转换域和 TS 扩展输入保持原有结果,不新增钳制或整数回绕。
+  return asShort(Math.trunc(damage * (10 - resistance / divisor)))
 }
 
 /**
@@ -31,7 +58,8 @@ function asShort(n: number): number {
  *   else            → 0
  *
  * 注:sdlpal C 把 float `(SHORT)(x)` 是 truncate-towards-zero;JS 模拟用 `Math.trunc`
- * (而非 `Math.floor`,二者对负值有差异)。但本公式三段保证非负结果,实际等价。
+ * (而非 `Math.floor`,二者对负值有差异)。非负 atk/def 在截取 SHORT 前得到非负值;
+ * 截取后可为负。此处不承诺越出 C SHORT 可表示范围的浮点转换等价。
  */
 export function calcBaseDamage(atk: number, def: number): number {
   if (atk > def) {
@@ -72,7 +100,7 @@ export interface MagicDamageInput {
   elemRes: { wind: number; thunder: number; water: number; fire: number; earth: number }
   /** 受方毒抗。 */
   poisonRes: number
-  /** 抗性除数(sdlpal `wResistanceMultiplier`,默认 10)。 */
+  /** 必填抗性除数;生产 caller 对敌传 1,对玩家传 20。 */
   resistMult: number
   magicData: {
     /** sdlpal `wBaseDamage`。 */
@@ -83,8 +111,9 @@ export interface MagicDamageInput {
   /** 战场加成(每个元素 -10..+10)。 */
   fieldEffect: { wind: number; thunder: number; water: number; fire: number; earth: number }
   /**
-   * 替代 sdlpal `RandomFloat(10, 11) / 10` 的 multiplier(范围 [1.0, 1.1])。
-   * 调用方喂(测试用定值,运行时用 rng);本函数不持 RNG。
+   * TS caller 用 1 + SeedableRng.next() * 0.1,范围 [1.0, 1.1)。
+   * 本函数将倍率还原到 C 的 [10,11] 标度,在 WORD 可表示域按 FLOAT 精度乘法再取整。
+   * 原 C 的 RandomFloat 可取端点11;本函数不持 RNG,不承诺两种 PRNG 同 seed 等价。
    */
   rngFactor: number
 }
@@ -95,7 +124,8 @@ export interface MagicDamageInput {
  * from `reference/sdlpal/fight.c:174-249` —— PAL_CalcMagicDamage。
  *
  * 流程(sdlpal 注释:Formula courtesy of palxex and shenyanduxing):
- *   1. magStr *= RandomFloat(10, 11); magStr /= 10  (本函数用 rngFactor 替代)
+ *   1. C: magStr *= RandomFloat(10, 11); magStr /= 10 (WORD 两次赋值)
+ *      TS: WORD 可表示域复现 FLOAT 乘法/整数赋值;超出此域保留已有增长语义,不新增回绕
  *   2. sDamage = calcBaseDamage(magStr, def) / 4
  *   3. sDamage += magic.baseDamage
  *   4. if elemental != 0:
@@ -110,16 +140,13 @@ export interface MagicDamageInput {
  * 注:sdlpal `WORD wMagicID` 是经 `gpGlobals->g.rgObject[id].magic.wMagicNumber`
  * 解析后的 magic struct;本函数让调用方先解析,只接受 `magicData`。
  *
- * 注:sdlpal C `SHORT *= FLOAT` 顺序里 sDamage 每步都是 SHORT,
- * 这里用 `asShort` 在每个赋值点 truncate 以保 1:1 语义。
+ * 注:原 C 的 sDamage 每次赋值都回到 SHORT;这里保留相应截断步骤,
+ * 随机与抗性乘法在可表示转换域复现 FLOAT 精度;越界/TS扩展输入不承诺全域 1:1。
  */
 export function calcMagicDamage(input: MagicDamageInput): number {
   const NUM_MAGIC_ELEMENTAL = 5
 
-  // step 1: rng-modulated magic strength
-  // sdlpal: wMagicStrength *= RandomFloat(10, 11); wMagicStrength /= 10
-  // WORD 是 uint16,这里中间值不溢出(magStr < 65535 / 11 ≈ 5957 即安全)。
-  const magStr = Math.trunc((input.magStr * input.rngFactor * 10) / 10)
+  const magStr = randomizeMagicStrength(input.magStr, input.rngFactor)
 
   // step 2-3: base / 4 + magic.baseDamage
   let damage = asShort(Math.trunc(calcBaseDamage(magStr, input.def) / 4))
@@ -128,10 +155,10 @@ export function calcMagicDamage(input: MagicDamageInput): number {
   // step 4: elemental modifiers
   const elem = input.magicData.elemental
   if (elem !== 0) {
-    let elemMultiplier: number
+    let resistance: number
     if (elem > NUM_MAGIC_ELEMENTAL) {
       // poison
-      elemMultiplier = 10 - input.poisonRes / input.resistMult
+      resistance = input.poisonRes
     } else {
       const elemArr = [
         input.elemRes.wind,
@@ -140,9 +167,9 @@ export function calcMagicDamage(input: MagicDamageInput): number {
         input.elemRes.fire,
         input.elemRes.earth,
       ]
-      elemMultiplier = 10 - elemArr[elem - 1]! / input.resistMult
+      resistance = elemArr[elem - 1]!
     }
-    damage = asShort(Math.trunc(damage * elemMultiplier))
+    damage = applyElementResistance(damage, resistance, input.resistMult)
     damage = asShort(Math.trunc(damage / 5))
 
     if (elem <= NUM_MAGIC_ELEMENTAL) {
@@ -172,7 +199,9 @@ export interface EnemyDexInput {
  * from `reference/sdlpal/fight.c:289-332` —— PAL_GetEnemyDexterity(PAL_CLASSIC 路径)。
  *
  * 公式(PAL_CLASSIC):
- *   s = (level + 6) * 3 + (SHORT)dexterity
+ *   C先将(level+6)*3赋回SHORT，再累加(SHORT)dexterity。
+ *   TS仅截取输入dexterity，不复制等级运算中的16位中间回绕。
+ *   用户已选择保留TS扩展数值域，极大等级下的负速度不复制。
  *
  * 非 classic 分支额外做(M3 不实现):
  *   - s < 20 → s = 20  lowerbound
@@ -194,12 +223,12 @@ export interface PlayerStatusFlags {
  *
  * from `reference/sdlpal/fight.c:336-389` —— PAL_GetPlayerActualDexterity。
  *
- * `baseDexterity` 来自 sdlpal `PAL_GetPlayerDexterity(role)`(包含 level + 装备 + raw),
- * 由调用方算好;本函数只应用 status / 上限。
+ * `baseDexterity` 对应 PAL_GetPlayerDexterity(role): runtime 基础身法 + 装备效果,无等级项。
+ * TS battle-system 从 projectRuntimeToBattleRoles 的 role.dexterity 传入;本函数只应用 status / 上限。
  *
  * PAL_CLASSIC 路径:
- *   - haste     → dex *= 3
- *   - 上限 999
+ *   - C先将haste三倍速度赋回WORD，再限999；TS当前直接三倍后限999。
+ *   - 用户选择保留TS极值正速度及999上限，不复制WORD回绕；不宣称全域C等价。
  *
  * 非 classic 分支(M3 不实现):
  *   - haste     → dex *= 6/5

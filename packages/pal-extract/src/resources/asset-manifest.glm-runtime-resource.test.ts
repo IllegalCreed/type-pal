@@ -19,8 +19,8 @@ describe('R08 buildManifest 空 entries', () => {
 
   test('全被剔除的表（仅 self 与 .DS_Store）与空表同 version', () => {
     const filtered = buildManifest([
-      { path: 'asset-manifest.json', size: 5 },
-      { path: '.DS_Store', size: 6 },
+      { path: 'asset-manifest.json', size: 5, sha256: '0'.repeat(64) },
+      { path: '.DS_Store', size: 6, sha256: '0'.repeat(64) },
     ])
     expect(filtered).toEqual(buildManifest([]))
   })

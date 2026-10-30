@@ -1,0 +1,40 @@
+[
+  {
+    "name": "adjacent",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/game",
+      "exec",
+      "vitest",
+      "run",
+      "src/tools/speedrun",
+      "src/tools/tools-panel.test.ts",
+      "src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "--maxWorkers=1",
+      "--silent=false",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/69-time-format-tests/adjacent.runner.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "852071c8c56548dbe772d8adb7e9380d1dae11587119c87d108b3143da36173f",
+    "numTotalTests": 108,
+    "numPassedTests": 108,
+    "numFailedTests": 0,
+    "numPendingTests": 0,
+    "files": 20
+  },
+  {
+    "name": "typecheck",
+    "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+  }
+]

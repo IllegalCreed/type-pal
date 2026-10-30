@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "base": "HEAD",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/shell/trademark-fallback.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "1af397bbbc9a741cecc2fd990bd4edfc9a2b24823c7bea539491498501bca7ee",
+        "current": "1af397bbbc9a741cecc2fd990bd4edfc9a2b24823c7bea539491498501bca7ee"
+      },
+      "printedBytes": {
+        "base": 2180,
+        "current": 2180
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

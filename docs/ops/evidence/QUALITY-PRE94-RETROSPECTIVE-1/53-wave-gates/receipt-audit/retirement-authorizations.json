@@ -1,0 +1,205 @@
+{
+  "scope": "Only the six transitions consumed by f544b9b94; original OPQ approval is not inherited by later rows",
+  "instructions": "authorization-instructions.json",
+  "rows": [
+    {
+      "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "previous": 10,
+      "current": 9,
+      "instructionIds": ["standing-test-quality", "warehouse-governance", "editor-review-scope"],
+      "decisionOwner": "Codex",
+      "decisionType": "application of standing human test-quality and active governance scope instruction",
+      "individuallySignedByUser": false,
+      "legacyOpqFiveFileApprovalApplies": false,
+      "additionCommit": "6d2f52f6ff3f415a5c62266e81a27cf08a827ac9",
+      "additionDate": "2026-10-15T23:20:36+09:00",
+      "reason": "G03-10 only renders a host placeholder; actual Viewer call-through positive/absence trace is preserved.",
+      "executionEvidence": "docs/ops/evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md",
+      "exactSnapshotProof": "retirement-proof-before-comments.json",
+      "temporalChecks": [
+        {
+          "instructionId": "standing-test-quality",
+          "instructionTimestampUtc": "2026-10-11T05:19:46.203000+00:00",
+          "predatesAddition": true
+        },
+        {
+          "instructionId": "warehouse-governance",
+          "instructionTimestampUtc": "2026-10-11T05:19:46.248000+00:00",
+          "predatesAddition": true
+        },
+        {
+          "instructionId": "editor-review-scope",
+          "instructionTimestampUtc": "2026-10-15T06:39:18.623000+00:00",
+          "predatesAddition": true
+        }
+      ]
+    },
+    {
+      "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "previous": 10,
+      "current": 8,
+      "instructionIds": ["standing-test-quality", "warehouse-governance", "all-pre94-review-scope"],
+      "decisionOwner": "Codex",
+      "decisionType": "application of standing human test-quality and active governance scope instruction",
+      "individuallySignedByUser": false,
+      "legacyOpqFiveFileApprovalApplies": false,
+      "additionCommit": "65c375e06fa5859dc5121519eb3507589813be35",
+      "additionDate": "2026-10-16T06:01:10+09:00",
+      "reason": "G07-03/09 strict subsets transfer to G07-02/04 after same30 identities are zero-diagnostic; transfer mutants retained.",
+      "executionEvidence": "docs/ops/evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md",
+      "exactSnapshotProof": "retirement-proof-before-comments.json",
+      "temporalChecks": [
+        {
+          "instructionId": "standing-test-quality",
+          "instructionTimestampUtc": "2026-10-11T05:19:46.203000+00:00",
+          "predatesAddition": true
+        },
+        {
+          "instructionId": "warehouse-governance",
+          "instructionTimestampUtc": "2026-10-11T05:19:46.248000+00:00",
+          "predatesAddition": true
+        },
+        {
+          "instructionId": "all-pre94-review-scope",
+          "instructionTimestampUtc": "2026-10-15T15:44:38.480000+00:00",
+          "predatesAddition": true
+        }
+      ]
+    },
+    {
+      "file": "packages/pal-extract/src/events/annotate.test.ts",
+      "previous": 9,
+      "current": 6,
+      "instructionIds": ["standing-test-quality", "warehouse-governance", "all-pre94-review-scope"],
+      "decisionOwner": "Codex",
+      "decisionType": "application of standing human test-quality and active governance scope instruction",
+      "individuallySignedByUser": false,
+      "legacyOpqFiveFileApprovalApplies": false,
+      "additionCommit": "b41dc8d535ab3bd58797136d8e6121cd7762111f",
+      "additionDate": "2026-10-16T03:22:59+09:00",
+      "reason": "Missing-name/raw passthrough contracts move to the stronger boundary/actual-input suite; 9 to6 exact snapshot.",
+      "executionEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md",
+      "exactSnapshotProof": "retirement-proof-before-comments.json",
+      "temporalChecks": [
+        {
+          "instructionId": "standing-test-quality",
+          "instructionTimestampUtc": "2026-10-11T05:19:46.203000+00:00",
+          "predatesAddition": true
+        },
+        {
+          "instructionId": "warehouse-governance",
+          "instructionTimestampUtc": "2026-10-11T05:19:46.248000+00:00",
+          "predatesAddition": true
+        },
+        {
+          "instructionId": "all-pre94-review-scope",
+          "instructionTimestampUtc": "2026-10-15T15:44:38.480000+00:00",
+          "predatesAddition": true
+        }
+      ]
+    },
+    {
+      "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+      "previous": 5,
+      "current": 4,
+      "instructionIds": ["standing-test-quality", "warehouse-governance", "all-pre94-review-scope"],
+      "decisionOwner": "Codex",
+      "decisionType": "application of standing human test-quality and active governance scope instruction",
+      "individuallySignedByUser": false,
+      "legacyOpqFiveFileApprovalApplies": false,
+      "additionCommit": "3bcdaadc3fd173ebd735e396f6147b4c6bc64b13",
+      "additionDate": "2026-10-16T04:25:11+09:00",
+      "reason": "Same bare-prefix bytes/id weaker case transfers to complete PNG oracle; 5 to4 exact snapshot.",
+      "executionEvidence": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md",
+      "exactSnapshotProof": "retirement-proof-before-comments.json",
+      "temporalChecks": [
+        {
+          "instructionId": "standing-test-quality",
+          "instructionTimestampUtc": "2026-10-11T05:19:46.203000+00:00",
+          "predatesAddition": true
+        },
+        {
+          "instructionId": "warehouse-governance",
+          "instructionTimestampUtc": "2026-10-11T05:19:46.248000+00:00",
+          "predatesAddition": true
+        },
+        {
+          "instructionId": "all-pre94-review-scope",
+          "instructionTimestampUtc": "2026-10-15T15:44:38.480000+00:00",
+          "predatesAddition": true
+        }
+      ]
+    },
+    {
+      "file": "packages/shared/src/rle.glm-o.test.ts",
+      "previous": 13,
+      "current": 9,
+      "instructionIds": ["standing-test-quality", "warehouse-governance", "all-pre94-review-scope"],
+      "decisionOwner": "Codex",
+      "decisionType": "application of standing human test-quality and active governance scope instruction",
+      "individuallySignedByUser": false,
+      "legacyOpqFiveFileApprovalApplies": false,
+      "additionCommit": "ceda5bb12d743e83dfc92758a2950c71dbe8f78c",
+      "additionDate": "2026-10-16T01:58:44+09:00",
+      "reason": "Four YJ2 weak cases transfer to canonical byte/negative/determinism oracles; RLE bodies unchanged.",
+      "executionEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md",
+      "exactSnapshotProof": "retirement-proof-before-comments.json",
+      "temporalChecks": [
+        {
+          "instructionId": "standing-test-quality",
+          "instructionTimestampUtc": "2026-10-11T05:19:46.203000+00:00",
+          "predatesAddition": true
+        },
+        {
+          "instructionId": "warehouse-governance",
+          "instructionTimestampUtc": "2026-10-11T05:19:46.248000+00:00",
+          "predatesAddition": true
+        },
+        {
+          "instructionId": "all-pre94-review-scope",
+          "instructionTimestampUtc": "2026-10-15T15:44:38.480000+00:00",
+          "predatesAddition": true
+        }
+      ]
+    },
+    {
+      "file": "packages/shared/src/rng.test.ts",
+      "previous": 7,
+      "current": 6,
+      "instructionIds": ["standing-test-quality", "warehouse-governance", "all-pre94-review-scope"],
+      "decisionOwner": "Codex",
+      "decisionType": "application of standing human test-quality and active governance scope instruction",
+      "individuallySignedByUser": false,
+      "legacyOpqFiveFileApprovalApplies": false,
+      "additionCommit": "8bac3254df405f6539a025f359381be62db2af7a",
+      "additionDate": "2026-10-16T01:40:34+09:00",
+      "reason": "Small-surface delta is contained in full-plane preservation oracle; 7 to6 exact snapshot.",
+      "executionEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md",
+      "exactSnapshotProof": "retirement-proof-before-comments.json",
+      "temporalChecks": [
+        {
+          "instructionId": "standing-test-quality",
+          "instructionTimestampUtc": "2026-10-11T05:19:46.203000+00:00",
+          "predatesAddition": true
+        },
+        {
+          "instructionId": "warehouse-governance",
+          "instructionTimestampUtc": "2026-10-11T05:19:46.248000+00:00",
+          "predatesAddition": true
+        },
+        {
+          "instructionId": "all-pre94-review-scope",
+          "instructionTimestampUtc": "2026-10-15T15:44:38.480000+00:00",
+          "predatesAddition": true
+        }
+      ]
+    }
+  ],
+  "notGranted": [
+    "future count decreases",
+    "identity/file-byte drift",
+    "production scope removal",
+    "global zero-diagnostic acceptance",
+    "individual user signatures"
+  ]
+}

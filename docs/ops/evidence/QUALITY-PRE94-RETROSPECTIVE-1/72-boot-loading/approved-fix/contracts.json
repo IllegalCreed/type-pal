@@ -1,0 +1,32 @@
+{
+  "newCases": [
+    {
+      "file": "precache-ui.test.ts",
+      "input": "necessary phase then fail, late necessary and SW byte progress",
+      "oracle": "exact failure text/error class and unchanged pre-failure width",
+      "dedupe": "earlier fail cases only check immediate class/entered no-op, not late progress",
+      "before": "one selected AssertionError; other tests explicitly deselected"
+    },
+    {
+      "file": "precache-ui.test.ts",
+      "input": "full phase then fail, late necessary and SW byte progress",
+      "oracle": "exact failure text/error class and unchanged pre-failure width",
+      "dedupe": "earlier fail cases only check immediate class/entered no-op, not late progress",
+      "before": "one selected AssertionError; other tests explicitly deselected"
+    },
+    {
+      "file": "boot-loading.test.ts",
+      "input": "typed later fetch layer delegates to real boot wrapper; restore then request",
+      "oracle": "later fetch identity retained, Request delegation exactly once, no callback",
+      "dedupe": "G09-C07 only restores with no later owner; separate owner axis"
+    },
+    {
+      "file": "boot-loading.test.ts",
+      "input": "deferred old Response, restore then new init; new response before old settles",
+      "oracle": "same old Response completes, new-round fractions stay [0.5], old finally cannot add 1",
+      "dedupe": "G09-C07 has no in-flight/new-generation axis; finally always settle"
+    }
+  ],
+  "existingBootContracts": "../contracts.json remains the original20 contract inventory; this revision has22 boot tests",
+  "uiWholeFile": "review: do not certify original composite/timer/dedupe contracts solely from58 green"
+}

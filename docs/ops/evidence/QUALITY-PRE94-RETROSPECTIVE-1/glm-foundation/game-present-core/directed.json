@@ -1,0 +1,1248 @@
+{
+  "numTotalTestSuites": 31,
+  "numPassedTestSuites": 31,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 112,
+  "numPassedTests": 112,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792370793724,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G04-C dither 相位与低位回退"],
+          "fullName": "G04-C dither 相位与低位回退 G04-C01 step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4",
+          "status": "passed",
+          "title": "G04-C01 step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4",
+          "duration": 1.7327920000000177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-C dither 相位与低位回退"],
+          "fullName": "G04-C dither 相位与低位回退 G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动",
+          "status": "passed",
+          "title": "G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动",
+          "duration": 0.15754100000003746,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-C dither 相位与低位回退"],
+          "fullName": "G04-C dither 相位与低位回退 G04-C03 低位已经相等时 outer 1 不加减，只换上 target 高位",
+          "status": "passed",
+          "title": "G04-C03 低位已经相等时 outer 1 不加减，只换上 target 高位",
+          "duration": 0.12495800000010604,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-C dither 相位与低位回退"],
+          "fullName": "G04-C dither 相位与低位回退 G04-C04 outer 0 把更高的 backup 高位直接换成 target 高位",
+          "status": "passed",
+          "title": "G04-C04 outer 0 把更高的 backup 高位直接换成 target 高位",
+          "duration": 0.10487499999999272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-C dither 相位与低位回退"],
+          "fullName": "G04-C dither 相位与低位回退 G04-C05 长度超过 6 时同一 step 继续处理 k+6",
+          "status": "passed",
+          "title": "G04-C05 长度超过 6 时同一 step 继续处理 k+6",
+          "duration": 0.078125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-C dither 相位与低位回退"],
+          "fullName": "G04-C dither 相位与低位回退 G04-C06 fromStep 等于 toStep 时不改 backup",
+          "status": "passed",
+          "title": "G04-C06 fromStep 等于 toStep 时不改 backup",
+          "duration": 0.07704200000011951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792370795157,
+      "endTime": 1792370795160.0781,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/dither-fade-nibble.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+          "status": "passed",
+          "title": "G04-D01 suspendRaf 先于 blackScreenHold 返回，哨兵像素不被清掉",
+          "duration": 2.9953749999999673,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
+          "status": "passed",
+          "title": "G04-D02 sceneLoading 保留哨兵，且不把波幅 40 加上 progression",
+          "duration": 0.39312500000005457,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
+          "status": "passed",
+          "title": "G04-D03 paletteFade freeze 保留哨兵，且不递减 shakeTime",
+          "duration": 0.44183399999997164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵",
+          "status": "passed",
+          "title": "G04-D04 非战斗模式 presentBattleFrame 返回 false 且不清除哨兵",
+          "duration": 0.30925000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
+          "status": "passed",
+          "title": "G04-D05 mode=battle 但没有 battleState 时返回 false 且不清除哨兵",
+          "duration": 0.19612499999993815,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D06 center 等键在 step 1 仍返回同一调色板引用",
+          "status": "passed",
+          "title": "G04-D06 center 等键在 step 1 仍返回同一调色板引用",
+          "duration": 0.6344579999999951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
+          "status": "passed",
+          "title": "G04-D07 黑屏 center 等键恢复文字色，但不轮转 0xF9",
+          "duration": 0.4471249999999145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9",
+          "status": "passed",
+          "title": "G04-D08 flushToCanvas 把索引 9 写成画布上的 RGBA，索引缓冲仍保留 9",
+          "duration": 179.12795800000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-D present 冻屏归属与调色板"],
+          "fullName": "G04-D present 冻屏归属与调色板 G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
+          "status": "passed",
+          "title": "G04-D09 writePixel(300) 截成 44，toImageData 读的是 44 号色",
+          "duration": 0.9372080000000551,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792370795628,
+      "endTime": 1792370795813.9373,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/present-hold.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["cursorless fade completion preserves the actual restored palette"],
+          "fullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (undefined) restores all target colors",
+          "status": "passed",
+          "title": "FadeIn without owning waiter (undefined) restores all target colors",
+          "duration": 7.625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cursorless fade completion preserves the actual restored palette"],
+          "fullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (dialog) restores all target colors",
+          "status": "passed",
+          "title": "FadeIn without owning waiter (dialog) restores all target colors",
+          "duration": 5.304458000000068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cursorless fade completion preserves the actual restored palette"],
+          "fullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (frame-wait) restores all target colors",
+          "status": "passed",
+          "title": "FadeIn without owning waiter (frame-wait) restores all target colors",
+          "duration": 3.591999999999871,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cursorless fade completion preserves the actual restored palette"],
+          "fullName": "cursorless fade completion preserves the actual restored palette palette-fade remains owned by the event system",
+          "status": "passed",
+          "title": "palette-fade remains owned by the event system",
+          "duration": 3.099042000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cursorless fade completion preserves the actual restored palette"],
+          "fullName": "cursorless fade completion preserves the actual restored palette scene-fade remains owned by the event system",
+          "status": "passed",
+          "title": "scene-fade remains owned by the event system",
+          "duration": 3.3715409999999792,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cursorless fade completion preserves the actual restored palette"],
+          "fullName": "cursorless fade completion preserves the actual restored palette cursorless SceneFade still keeps its documented 63/64 endpoint",
+          "status": "passed",
+          "title": "cursorless SceneFade still keeps its documented 63/64 endpoint",
+          "duration": 2.5364589999999225,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话)"
+          ],
+          "fullName": "presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话) mode=menu + menuStack 非空 → drawMenuStack 被调用(正常菜单交互)",
+          "status": "passed",
+          "title": "mode=menu + menuStack 非空 → drawMenuStack 被调用(正常菜单交互)",
+          "duration": 2.5320839999999407,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话)"
+          ],
+          "fullName": "presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话) mode=event + menuStack 非空(物品 use 脚本跑 scriptOnUse 对话)→ drawMenuStack **不**被调用(对话不被列表遮挡)",
+          "status": "passed",
+          "title": "mode=event + menuStack 非空(物品 use 脚本跑 scriptOnUse 对话)→ drawMenuStack **不**被调用(对话不被列表遮挡)",
+          "duration": 2.45904100000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame 无 dialogBox → 不画对话框,不抛错",
+          "status": "passed",
+          "title": "无 dialogBox → 不画对话框,不抛错",
+          "duration": 3.55600000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame 有 dialogBox → 文本绘到 fb(sdlpal upper/center/lower 无 box bg,文本即唯一证据)",
+          "status": "passed",
+          "title": "有 dialogBox → 文本绘到 fb(sdlpal upper/center/lower 无 box bg,文本即唯一证据)",
+          "duration": 6.445459000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame dialogBoxKept + dialogBox → 上下两侧对话同屏绘制",
+          "status": "passed",
+          "title": "dialogBoxKept + dialogBox → 上下两侧对话同屏绘制",
+          "duration": 4.007333000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame deathHoldActive=true → 保持上一帧(不 fb.clear、不重绘世界):预写哨兵像素存活",
+          "status": "passed",
+          "title": "deathHoldActive=true → 保持上一帧(不 fb.clear、不重绘世界):预写哨兵像素存活",
+          "duration": 0.17575000000010732,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame gameOverActive=true + dialogBox → 保持上一帧 + 画死亡对话",
+          "status": "passed",
+          "title": "gameOverActive=true + dialogBox → 保持上一帧 + 画死亡对话",
+          "duration": 3.6679160000001048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame 两者都 false(普通 explore)→ fb.clear()+正常重绘世界:哨兵被清",
+          "status": "passed",
+          "title": "两者都 false(普通 explore)→ fb.clear()+正常重绘世界:哨兵被清",
+          "duration": 2.438374999999951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame blackScreenHold=true → 保持全黑背景,但仍叠加居中文字",
+          "status": "passed",
+          "title": "blackScreenHold=true → 保持全黑背景,但仍叠加居中文字",
+          "duration": 6.759292000000187,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame dialogPlayingRNG=true + rngDialogBackup → 恢复 RNG 动画画面(不重绘世界)+ 叠对话",
+          "status": "passed",
+          "title": "dialogPlayingRNG=true + rngDialogBackup → 恢复 RNG 动画画面(不重绘世界)+ 叠对话",
+          "duration": 2.216458999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame dialogPlayingRNG=true 但无 rngDialogBackup → 退化为正常重绘(防御,不抛错)",
+          "status": "passed",
+          "title": "dialogPlayingRNG=true 但无 rngDialogBackup → 退化为正常重绘(防御,不抛错)",
+          "duration": 1.6131669999999758,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=false → 站立帧:frameIdx = dir * walkFrames (P0.0 既有)",
+          "status": "passed",
+          "title": "walking=false → 站立帧:frameIdx = dir * walkFrames (P0.0 既有)",
+          "duration": 3.708082999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=0 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+          "status": "passed",
+          "title": "walking=true, walkFrames=3, stepFrame=0 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+          "duration": 2.166500000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=1 → iStepFrameLeader=1 → frameIdx=dir*3+1",
+          "status": "passed",
+          "title": "walking=true, walkFrames=3, stepFrame=1 → iStepFrameLeader=1 → frameIdx=dir*3+1",
+          "duration": 1.2291250000000673,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=2 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+          "status": "passed",
+          "title": "walking=true, walkFrames=3, stepFrame=2 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+          "duration": 1.2323750000000473,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=3 → iStepFrameLeader=2 → frameIdx=dir*3+2",
+          "status": "passed",
+          "title": "walking=true, walkFrames=3, stepFrame=3 → iStepFrameLeader=2 → frameIdx=dir*3+2",
+          "duration": 1.178000000000111,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=4 → frameIdx=dir*4+stepFrame",
+          "status": "passed",
+          "title": "walking=true, walkFrames=4 → frameIdx=dir*4+stepFrame",
+          "duration": 3.152749999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) M2:队首 walkFrames 读 PlayerRolesRuntime.rgwWalkFrames,不再固定 ctx.partyWalkFrames=3",
+          "status": "passed",
+          "title": "M2:队首 walkFrames 读 PlayerRolesRuntime.rgwWalkFrames,不再固定 ctx.partyWalkFrames=3",
+          "duration": 1.2320000000001983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) 4 方向 facing 映射:down=0/left=1/up=2/right=3(站立帧验证)",
+          "status": "passed",
+          "title": "4 方向 facing 映射:down=0/left=1/up=2/right=3(站立帧验证)",
+          "duration": 4.670124999999871,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers=[0] 单人 → 不渲染 follower(只有 leader drawSprite)",
+          "status": "passed",
+          "title": "partyMembers=[0] 单人 → 不渲染 follower(只有 leader drawSprite)",
+          "duration": 2.1767919999999776,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 队首/跟随者按各自 rgwSpriteNum 渲染,不回退 role0 partyFrames",
+          "status": "passed",
+          "title": "队首/跟随者按各自 rgwSpriteNum 渲染,不回退 role0 partyFrames",
+          "duration": 2.559458000000177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) M2:跟随队员按自己的 runtime walkFrames 取帧",
+          "status": "passed",
+          "title": "M2:跟随队员按自己的 runtime walkFrames 取帧",
+          "duration": 1.3757089999999152,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 0x15 给跟随者设 partyScriptedFrame(静止演出)→ 跟随者按脚本帧转身,不用 trail 朝向(刘兄「等一下」bug)",
+          "status": "passed",
+          "title": "0x15 给跟随者设 partyScriptedFrame(静止演出)→ 跟随者按脚本帧转身,不用 trail 朝向(刘兄「等一下」bug)",
+          "duration": 1.3403749999999945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 已知队员 spriteNum 但资源未加载时,不把 follower 画成 role0",
+          "status": "passed",
+          "title": "已知队员 spriteNum 但资源未加载时,不把 follower 画成 role0",
+          "duration": 1.232582999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) walking 时渲染 follower 在 trail[1] + 偏移(scene.c:692-707 扇形布局)",
+          "status": "passed",
+          "title": "walking 时渲染 follower 在 trail[1] + 偏移(scene.c:692-707 扇形布局)",
+          "duration": 1.500332999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=left(West) walking: isWS=true→offsetX=+16; isWN=true→offsetY=+8",
+          "status": "passed",
+          "title": "dir=left(West) walking: isWS=true→offsetX=+16; isWN=true→offsetY=+8",
+          "duration": 1.3961669999998776,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=down(South) walking: isWS=true→offsetX=+16; isWN=false→offsetY=-8",
+          "status": "passed",
+          "title": "dir=down(South) walking: isWS=true→offsetX=+16; isWN=false→offsetY=-8",
+          "duration": 1.275416999999834,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=up(North) walking: isWS=false→offsetX=-16; isWN=true→offsetY=+8",
+          "status": "passed",
+          "title": "dir=up(North) walking: isWS=false→offsetX=-16; isWN=true→offsetY=+8",
+          "duration": 1.2511670000001232,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers.length > 1 但 trail.length <= 1 → 不渲染 follower(避免 crash)",
+          "status": "passed",
+          "title": "partyMembers.length > 1 但 trail.length <= 1 → 不渲染 follower(避免 crash)",
+          "duration": 1.272083000000066,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers=[0, 1] 且 trail 为空 → 不渲染 follower",
+          "status": "passed",
+          "title": "partyMembers=[0, 1] 且 trail 为空 → 不渲染 follower",
+          "duration": 1.5274159999999029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palette fade 孤儿自清(香兰报信 cutscene 吞键回归)"],
+          "fullName": "palette fade 孤儿自清(香兰报信 cutscene 吞键回归) 演出游标在(waiting=dialog)+ fade 到时 + 无人等待 → present 自清孤儿",
+          "status": "passed",
+          "title": "演出游标在(waiting=dialog)+ fade 到时 + 无人等待 → present 自清孤儿",
+          "duration": 1.5165839999999662,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palette fade 孤儿自清(香兰报信 cutscene 吞键回归)"],
+          "fullName": "palette fade 孤儿自清(香兰报信 cutscene 吞键回归) waiting=palette-fade(event-system 将 finalize+ip++)→ present 不抢清",
+          "status": "passed",
+          "title": "waiting=palette-fade(event-system 将 finalize+ip++)→ present 不抢清",
+          "duration": 1.5242499999999382,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palette fade 孤儿自清(香兰报信 cutscene 吞键回归)"],
+          "fullName": "palette fade 孤儿自清(香兰报信 cutscene 吞键回归) fade 未到时 → 不清(进行中)",
+          "status": "passed",
+          "title": "fade 未到时 → 不清(进行中)",
+          "duration": 1.3690420000000358,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile)"
+          ],
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 屏内 NPC 正常绘制(基准)",
+          "status": "passed",
+          "title": "屏内 NPC 正常绘制(基准)",
+          "duration": 1.6844590000000608,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile)"
+          ],
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 右侧屏外(left = sx-w/2 ≥ 320)→ 跳过",
+          "status": "passed",
+          "title": "右侧屏外(left = sx-w/2 ≥ 320)→ 跳过",
+          "duration": 1.3065840000001572,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile)"
+          ],
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 左侧完全屏外(left < -width)→ 跳过;部分可见仍绘制",
+          "status": "passed",
+          "title": "左侧完全屏外(left < -width)→ 跳过;部分可见仍绘制",
+          "duration": 2.9282499999999345,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile)"
+          ],
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 下方屏外(vy ≥ 200)→ 跳过;贴底仍绘制",
+          "status": "passed",
+          "title": "下方屏外(vy ≥ 200)→ 跳过;贴底仍绘制",
+          "duration": 3.033625000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile)"
+          ],
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 上方完全屏外(vy < -height)→ 跳过",
+          "status": "passed",
+          "title": "上方完全屏外(vy < -height)→ 跳过",
+          "duration": 1.2102500000000873,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile party.y > npc.y → party 在 NPC 之下方(屏幕),Y-sort 后 NPC 先绘 / party 后绘",
+          "status": "passed",
+          "title": "party.y > npc.y → party 在 NPC 之下方(屏幕),Y-sort 后 NPC 先绘 / party 后绘",
+          "duration": 2.0762079999999514,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile party.y < npc.y → NPC 在 party 之下方,Y-sort 后 party 先绘 / NPC 后绘",
+          "status": "passed",
+          "title": "party.y < npc.y → NPC 在 party 之下方,Y-sort 后 party 先绘 / NPC 后绘",
+          "duration": 1.3973749999997835,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile 3 个 NPC 不同 y — Y-sort 正确(y 小先绘,y 大后绘)",
+          "status": "passed",
+          "title": "3 个 NPC 不同 y — Y-sort 正确(y 小先绘,y 大后绘)",
+          "duration": 1.8022909999999683,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile vanishTime>0 隐藏 NPC;vanishTime<0 仍绘制但由更新层冻结",
+          "status": "passed",
+          "title": "vanishTime>0 隐藏 NPC;vanishTime<0 仍绘制但由更新层冻结",
+          "duration": 2.54037500000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile 非方向性姿势对象 nSpriteFrames=0 + scriptedFrame=13 → 实际绘制 frame 13",
+          "status": "passed",
+          "title": "非方向性姿势对象 nSpriteFrames=0 + scriptedFrame=13 → 实际绘制 frame 13",
+          "duration": 1.6696660000000065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile cover-tile:layer1 tile height>0 且满足条件 → tile 画在 fb 上(sprite 重叠)",
+          "status": "passed",
+          "title": "cover-tile:layer1 tile height>0 且满足条件 → tile 画在 fb 上(sprite 重叠)",
+          "duration": 28.166332999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile cover-tile blit_y 公式 = dy*16 + dh*8 + 7 - bitmap.height(sdlpal scene.c:358 相消化)",
+          "status": "passed",
+          "title": "cover-tile blit_y 公式 = dy*16 + dh*8 + 7 - bitmap.height(sdlpal scene.c:358 相消化)",
+          "duration": 19.176584000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile cover-tile 不画超出范围的 tile(party 远离,height 条件不满足 → tile 不出现)",
+          "status": "passed",
+          "title": "cover-tile 不画超出范围的 tile(party 远离,height 条件不满足 → tile 不出现)",
+          "duration": 3.7632079999998496,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyDialogIconPaletteShift(dialog 箭头 palette 轮转)"],
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 非等键 phase(typing)→ 原样返回 base 同引用",
+          "status": "passed",
+          "title": "非等键 phase(typing)→ 原样返回 base 同引用",
+          "duration": 0.5571250000000418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyDialogIconPaletteShift(dialog 箭头 palette 轮转)"],
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) blackScreenHold + dialog → 保持背景黑色,恢复对话文字色槽",
+          "status": "passed",
+          "title": "blackScreenHold + dialog → 保持背景黑色,恢复对话文字色槽",
+          "duration": 0.8883330000001024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyDialogIconPaletteShift(dialog 箭头 palette 轮转)"],
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) blackScreenHold 文字色不受 nightPalette/nightColors 影响",
+          "status": "passed",
+          "title": "blackScreenHold 文字色不受 nightPalette/nightColors 影响",
+          "duration": 0.41070799999988594,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyDialogIconPaletteShift(dialog 箭头 palette 轮转)"],
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动",
+          "status": "passed",
+          "title": "等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动",
+          "duration": 0.4984580000000278,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyDialogIconPaletteShift(dialog 箭头 palette 轮转)"],
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=0(整圈起点 t=600ms)→ 原样返回 base",
+          "status": "passed",
+          "title": "等键 phase + step=0(整圈起点 t=600ms)→ 原样返回 base",
+          "duration": 0.14420900000004622,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G8 SceneFade 72 帧 dither e2e(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen)"
+          ],
+          "fullName": "G8 SceneFade 72 帧 dither e2e(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen) snapshot backupPixels(clear 前)+ 按 elapsed 推进 0→36→72 + 显示 backupPixels",
+          "status": "passed",
+          "title": "snapshot backupPixels(clear 前)+ 按 elapsed 推进 0→36→72 + 显示 backupPixels",
+          "duration": 48.914625000000115,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792370795514,
+      "endTime": 1792370795738.9146,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/present.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P11 大世界分层"],
+          "fullName": "P11 大世界分层 P11 同屏队首跟随与NPC在sLayer翻转后交换前后，透明孔露出下一层",
+          "status": "passed",
+          "title": "P11 同屏队首跟随与NPC在sLayer翻转后交换前后，透明孔露出下一层",
+          "duration": 11.008000000000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P11 大世界分层"],
+          "fullName": "P11 大世界分层 P11 前景cover盖住后排NPC，前排透明孔见cover色而不见后排",
+          "status": "passed",
+          "title": "P11 前景cover盖住后排NPC，前排透明孔见cover色而不见后排",
+          "duration": 31.1829580000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792370795524,
+      "endTime": 1792370795566.1829,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P12 大世界叠层与补帧"],
+          "fullName": "P12 大世界叠层与补帧 P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+          "status": "passed",
+          "title": "P12 advanceEffects为false时波幅和相位不变，为true时同一行像素改道",
+          "duration": 20.896834000000126,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P12 大世界叠层与补帧"],
+          "fullName": "P12 大世界叠层与补帧 P12 偶数震屏补帧不减计数，再推进后改为上移",
+          "status": "passed",
+          "title": "P12 偶数震屏补帧不减计数，再推进后改为上移",
+          "duration": 11.606833000000051,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P12 大世界叠层与补帧"],
+          "fullName": "P12 大世界叠层与补帧 P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+          "status": "passed",
+          "title": "P12 场景0x4F被remap成0x4E，对话框同索引保持0x4F",
+          "duration": 9.110500000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P12 大世界叠层与补帧"],
+          "fullName": "P12 大世界叠层与补帧 P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在",
+          "status": "passed",
+          "title": "P12 菜单模式盖住左上角，event模式同一菜单栈不盖，对话像素两种模式都在",
+          "duration": 5.91337499999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792370795524,
+      "endTime": 1792370795571.9133,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P13 战斗命令与提示寿命"],
+          "fullName": "P13 战斗命令与提示寿命 P13 后一条战斗消息替换前一条，对话盖住消息且到期后数字仍在上移",
+          "status": "passed",
+          "title": "P13 后一条战斗消息替换前一条，对话盖住消息且到期后数字仍在上移",
+          "duration": 88.15724999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P13 战斗命令与提示寿命"],
+          "fullName": "P13 战斗命令与提示寿命 P13 结算框盖住消息点，演出结束后该点回到消息色",
+          "status": "passed",
+          "title": "P13 结算框盖住消息点，演出结束后该点回到消息色",
+          "duration": 18.102249999999913,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792370795617,
+      "endTime": 1792370795724.1023,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P14 战斗画面渐变与补帧"],
+          "fullName": "P14 战斗画面渐变与补帧 P14 入场切换起点中段终点可区分，重复中段不变且伤害数字在切换之后",
+          "status": "passed",
+          "title": "P14 入场切换起点中段终点可区分，重复中段不变且伤害数字在切换之后",
+          "duration": 93.897334,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P14 战斗画面渐变与补帧"],
+          "fullName": "P14 战斗画面渐变与补帧 P14 召唤crossfade高位立即换低位逐步逼近，重复终点不重开",
+          "status": "passed",
+          "title": "P14 召唤crossfade高位立即换低位逐步逼近，重复终点不重开",
+          "duration": 77.76141599999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P14 战斗画面渐变与补帧"],
+          "fullName": "P14 战斗画面渐变与补帧 P14 战斗补帧不推进屏波，精灵像素留在原位",
+          "status": "passed",
+          "title": "P14 战斗补帧不推进屏波，精灵像素留在原位",
+          "duration": 37.751166999999896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792370795618,
+      "endTime": 1792370795826.7512,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P16 对话框绘制"],
+          "fullName": "P16 对话框绘制 P16 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形",
+          "status": "passed",
+          "title": "P16 旁白数字走黄色精灵，缺UI帧时不画框并把数字当字形",
+          "duration": 5.625249999999824,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P16 对话框绘制"],
+          "fullName": "P16 对话框绘制 P16 立绘不透明0盖住底色，透明孔保留底色，缺立绘资源仍画正文",
+          "status": "passed",
+          "title": "P16 立绘不透明0盖住底色，透明孔保留底色，缺立绘资源仍画正文",
+          "duration": 0.9692089999998643,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P16 对话框绘制"],
+          "fullName": "P16 对话框绘制 P16 presentFrame里立绘透明孔露出地块，不透明0写成0，姓名和正文颜色不同",
+          "status": "passed",
+          "title": "P16 presentFrame里立绘透明孔露出地块，不透明0写成0，姓名和正文颜色不同",
+          "duration": 47.565083000000186,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792370795524,
+      "endTime": 1792370795578.5652,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/__tests__/grok-composition/p16-dialog.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent draw —— 战斗 palette ramp fade 逐帧染色 gs.palette.colors(此前漏调 stepPaletteFade → 战斗 fade 只 snap 不动画)",
+          "status": "passed",
+          "title": "draw —— 战斗 palette ramp fade 逐帧染色 gs.palette.colors(此前漏调 stepPaletteFade → 战斗 fade 只 snap 不动画)",
+          "duration": 2.205458000000135,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent draw —— 空 assets + 空 commands 不抛错",
+          "status": "passed",
+          "title": "draw —— 空 assets + 空 commands 不抛错",
+          "duration": 0.6037499999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent frame.shake → draw 末尾施加屏幕摇晃(偶帧下移 + 顶部填黑)",
+          "status": "passed",
+          "title": "frame.shake → draw 末尾施加屏幕摇晃(偶帧下移 + 顶部填黑)",
+          "duration": 1.6257909999999356,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent 无 frame.shake → 不施加摇晃(顶部仍是 bg)",
+          "status": "passed",
+          "title": "无 frame.shake → 不施加摇晃(顶部仍是 bg)",
+          "duration": 1.125915999999961,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent draw —— bg + sprite + UI 联合落在 framebuffer",
+          "status": "passed",
+          "title": "draw —— bg + sprite + UI 联合落在 framebuffer",
+          "duration": 0.7807080000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent 战场屏波只波动背景,不卷入精灵/特效(sdlpal PAL_BattleDrawBackground 在 sprite 前 ApplyWave)",
+          "status": "passed",
+          "title": "战场屏波只波动背景,不卷入精灵/特效(sdlpal PAL_BattleDrawBackground 在 sprite 前 ApplyWave)",
+          "duration": 1.214708999999857,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent showDamageNum 命令(enemy target)→ floating nums 写入 framebuffer",
+          "status": "passed",
+          "title": "showDamageNum 命令(enemy target)→ floating nums 写入 framebuffer",
+          "duration": 0.6381249999999454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent showDamageNum 坐标解析(enemy):x=anchor.x-24, y=clamp(anchor.y-115, 10)",
+          "status": "passed",
+          "title": "showDamageNum 坐标解析(enemy):x=anchor.x-24, y=clamp(anchor.y-115, 10)",
+          "duration": 0.5632080000000315,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent 多 showDamageNum + 跨帧 —— 数字飘上去,旧数字过期",
+          "status": "passed",
+          "title": "多 showDamageNum + 跨帧 —— 数字飘上去,旧数字过期",
+          "duration": 1.7817919999999958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent 非 showDamageNum 命令(如 playEnemyAttack)被静默跳过",
+          "status": "passed",
+          "title": "非 showDamageNum 命令(如 playEnemyAttack)被静默跳过",
+          "duration": 0.27579100000002654,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent clearFloatingNums —— 清空残留数字",
+          "status": "passed",
+          "title": "clearFloatingNums —— 清空残留数字",
+          "duration": 0.5199589999999716,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent 无对应 BattleField bg —— 跳过 bg 绘制,不抛",
+          "status": "passed",
+          "title": "无对应 BattleField bg —— 跳过 bg 绘制,不抛",
+          "duration": 0.13274999999998727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent"],
+          "fullName": "BattlePresent uiState=hidden + 空 players/enemies —— 几乎无写入(只有可能的 bg)",
+          "status": "passed",
+          "title": "uiState=hidden + 空 players/enemies —— 几乎无写入(只有可能的 bg)",
+          "duration": 0.3466249999999036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— PresentCommand 不影响 state"],
+          "fullName": "BattlePresent —— PresentCommand 不影响 state showDamageNum 多帧累积,合并到一个 floating layer",
+          "status": "passed",
+          "title": "showDamageNum 多帧累积,合并到一个 floating layer",
+          "duration": 0.18358299999999872,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— D17a 动画 overlay"],
+          "fullName": "BattlePresent —— D17a 动画 overlay state.battleAnim.overlay 存在 + effectSprite 注入 → 画 effect 帧到落点",
+          "status": "passed",
+          "title": "state.battleAnim.overlay 存在 + effectSprite 注入 → 画 effect 帧到落点",
+          "duration": 0.11654100000009748,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— D17a 动画 overlay"],
+          "fullName": "BattlePresent —— D17a 动画 overlay 无 battleAnim → 不画 overlay(不抛)",
+          "status": "passed",
+          "title": "无 battleAnim → 不画 overlay(不抛)",
+          "duration": 0.12512500000002547,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— D17a 动画 overlay"],
+          "fullName": "BattlePresent —— D17a 动画 overlay battleAnim 有 overlay 但 effectSprite 缺 → no-op(loader 未注入,overlay 不画)",
+          "status": "passed",
+          "title": "battleAnim 有 overlay 但 effectSprite 缺 → no-op(loader 未注入,overlay 不画)",
+          "duration": 0.12083300000017516,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— D17 法术 magic overlays"],
+          "fullName": "BattlePresent —— D17 法术 magic overlays state.battleAnim.overlays(kind=magic)+ magicSprites 注入 → 逐个 blit",
+          "status": "passed",
+          "title": "state.battleAnim.overlays(kind=magic)+ magicSprites 注入 → 逐个 blit",
+          "duration": 0.24529200000006313,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— D17 法术 magic overlays"],
+          "fullName": "BattlePresent —— D17 法术 magic overlays magicSprites 缺 → magic overlays no-op,不抛",
+          "status": "passed",
+          "title": "magicSprites 缺 → magic overlays no-op,不抛",
+          "duration": 0.12574999999992542,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattlePresent —— D17 法术 magic overlays"],
+          "fullName": "BattlePresent —— D17 法术 magic overlays 战斗内对话:gs.dialogBox 存在 → 对话覆于战斗场景渲染(framebuffer 差异)",
+          "status": "passed",
+          "title": "战斗内对话:gs.dialogBox 存在 → 对话覆于战斗场景渲染(framebuffer 差异)",
+          "duration": 4.988625000000184,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawBattleSettlement —— D11b 胜利结算演出渲染"],
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 exp-cash 屏:画 box + 经验/文钱数字 → framebuffer 有写入",
+          "status": "passed",
+          "title": "exp-cash 屏:画 box + 经验/文钱数字 → framebuffer 有写入",
+          "duration": 0.8241669999999885,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawBattleSettlement —— D11b 胜利结算演出渲染"],
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 level-up 屏:画主 box + 8 属性 old→cur 数字 + 箭头/斜杠 → framebuffer 有写入",
+          "status": "passed",
+          "title": "level-up 屏:画主 box + 8 属性 old→cur 数字 + 箭头/斜杠 → framebuffer 有写入",
+          "duration": 1.526834000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawBattleSettlement —— D11b 胜利结算演出渲染"],
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 learn-magic 屏:画 box + name/练成/magicName → framebuffer 有写入",
+          "status": "passed",
+          "title": "learn-magic 屏:画 box + name/练成/magicName → framebuffer 有写入",
+          "duration": 0.2554170000000795,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawBattleSettlement —— D11b 胜利结算演出渲染"],
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 无 uiSpriteFrames → 安全 no-op(不抛)",
+          "status": "passed",
+          "title": "无 uiSpriteFrames → 安全 no-op(不抛)",
+          "duration": 0.31345900000019356,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawBattleSettlement —— D11b 胜利结算演出渲染"],
+          "fullName": "drawBattleSettlement —— D11b 胜利结算演出渲染 BattlePresent.draw:state.settlement active → 结算屏叠加渲染(端到端经 present-battle)",
+          "status": "passed",
+          "title": "BattlePresent.draw:state.settlement active → 结算屏叠加渲染(端到端经 present-battle)",
+          "duration": 2.6585000000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792370795613,
+      "endTime": 1792370795636.6584,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/battle/__tests__/present-battle.test.ts"
+    }
+  ]
+}

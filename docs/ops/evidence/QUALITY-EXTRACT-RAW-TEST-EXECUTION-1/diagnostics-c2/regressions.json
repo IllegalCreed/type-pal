@@ -1,0 +1,75 @@
+[
+  {
+    "name": "extract-full",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/pal-extract",
+      "exec",
+      "vitest",
+      "run",
+      "--maxWorkers=1",
+      "--silent=false"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 48.166,
+    "rawSha256": "1f1b97ab5ff2db77bd8d733edcd8b62ed413323eb6f0b3be7f31b0c3f8834733",
+    "stderrBlocks": 0
+  },
+  {
+    "name": "shared",
+    "command": ["pnpm", "--filter", "@type-pal/shared", "test"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 0.666,
+    "rawSha256": "d6ae851edd60ed943d492e3a8644b3a20e8f014f744a22a163e98a913b3f1623",
+    "stderrBlocks": 0
+  },
+  {
+    "name": "game-caller",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/game",
+      "exec",
+      "vitest",
+      "run",
+      "src/core/battle/__tests__/battle-system.test.ts",
+      "--maxWorkers=1",
+      "--silent=false"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 1.402,
+    "rawSha256": "45b48cf4fda2515cbca012ac22e5eec417fa064aa7f327b96a236d8156b2f6f7",
+    "stderrBlocks": 0
+  },
+  {
+    "name": "extract-typecheck",
+    "command": ["pnpm", "--filter", "@type-pal/pal-extract", "typecheck"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 0.997,
+    "rawSha256": "faf13fd368a252ffd64775c0ad9baf7070f4fa0b906d29c45d647cd301885440",
+    "stderrBlocks": 0
+  },
+  {
+    "name": "shared-typecheck",
+    "command": ["pnpm", "--filter", "@type-pal/shared", "typecheck"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 0.594,
+    "rawSha256": "7170766449aaa5b66a2c04f973ef245caa95478cf92b4da4bf8dd08974a51cc3",
+    "stderrBlocks": 0
+  },
+  {
+    "name": "coverage-tools",
+    "command": ["pnpm", "test:coverage-tools"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "seconds": 3.116,
+    "rawSha256": "ac4c935117b7a922c1cb923e0c69a47f00a8681e6fc31f6a69ebd829367ebe33",
+    "stderrBlocks": 0
+  }
+]

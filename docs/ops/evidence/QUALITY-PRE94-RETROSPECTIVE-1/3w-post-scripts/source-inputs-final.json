@@ -1,0 +1,31 @@
+{
+  "base": "599d35717d8a5213802f76535eb14ba187f709e5",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "currentSnapshot": "final-0.source.gz",
+      "currentSha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311",
+      "currentLines": 96,
+      "newFile": true
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "currentSnapshot": "final-1.source.gz",
+      "currentSha256": "f350fd812860e5f570d278c64db8ddbd8435327a6b8c994b901893b2cab7ed3e",
+      "currentLines": 379,
+      "beforeSnapshot": "before-1.source.gz",
+      "beforeSha256": "ee5a5f2ac3a1f2cf8a7da6ee90ba797f0add0ea4944633992b05cb7a022adc56",
+      "beforeLines": 347
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+      "currentSnapshot": "final-2.source.gz",
+      "currentSha256": "0bc1b78697959250f568a6afb5c67840386ce6861c366c9f652ed96f5b1a6800",
+      "currentLines": 153,
+      "beforeSnapshot": "before-2.source.gz",
+      "beforeSha256": "62a5f3757bfbf1b3f0427c258bdf1f1233d09a154d6c256b1c687b9edd343cec",
+      "beforeLines": 123
+    }
+  ],
+  "scope": "Final code inputs after typed5-tuple correction; earlier input snapshots/raw retained separately."
+}

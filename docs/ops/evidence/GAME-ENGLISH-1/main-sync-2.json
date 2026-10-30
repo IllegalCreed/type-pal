@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "id": "GAME-ENGLISH-1-main-sync-2",
+  "template": "evidence-receipt-v1",
+  "status": "recorded",
+  "owner": "english_release_docs (Codex delegated documentation owner)",
+  "date": "2026-10-22",
+  "task": "docs/ops/tasks/GAME-ENGLISH-1.md",
+  "parents": {
+    "english": "b4dc2688efec4d7c10bed3f469b3ccd27c9531ba",
+    "main": "d297e64d0a928abb813ce280122d51c2c852bea5"
+  },
+  "scope": "Documentation-only reconciliation of second incoming main. No baseline/config/product/test writes by delegated owner; no new gate/CI/deployment result.",
+  "state": {
+    "task": "review",
+    "userAcceptance": "accepted; release authorized",
+    "currentMergedGates": "pending actual root execution",
+    "remoteCI": "not claimed",
+    "merge": "not claimed",
+    "aliyunDeployment": "not claimed"
+  },
+  "incomingMainFacts": {
+    "reference": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md",
+    "decision": "Retain nine finite file decisions, seven review closures, one RLE source withdrawal and prior source/test identities and artifact originals. No whole3h/3i acceptance.",
+    "tests": "Incoming dedupe and approved retirement changes retained; official collection after merge belongs to root and is not inferred here."
+  },
+  "inventory": {
+    "main": {
+      "tracked": 3374,
+      "closed": 388,
+      "review": 111,
+      "pending": 2875
+    },
+    "englishAdditionalPending": 28,
+    "combined": {
+      "tracked": 3402,
+      "closed": 388,
+      "review": 111,
+      "pending": 2903,
+      "unclosed": 3014
+    }
+  },
+  "preservation": {
+    "histories": "Both parent history and revision.history objects retained; finite current snapshots exclude nested histories.",
+    "envelopes": "All originalPreservation/artifactPreserved/nativeShape fields retained.",
+    "previousGateReceipt": "docs/ops/evidence/GAME-ENGLISH-1/release-gates.json",
+    "previousGateBoundary": "Prior b4dc integrated results retain their frozen scope, not current merged execution."
+  },
+  "publicCallers": [
+    "node scripts/docs/check.mjs",
+    "node scripts/docs/check-content-review.mjs --strict",
+    "node scripts/quality/code-quality-ledger.mjs",
+    "Codex independent merged candidate acceptance"
+  ],
+  "legalInputs": [
+    "Exact b4dc and d297 parent Git blobs",
+    "Existing user acceptance and release authority",
+    "Current merged tracked inventory and incoming ledger rows"
+  ],
+  "businessOracle": [
+    "Preserve incoming finite source decisions and English pending inventory",
+    "Retain both parent histories and artifact envelopes",
+    "Current SHA bindings match formatted target bytes",
+    "No prefilled current tests/coverage/CI/deployment"
+  ],
+  "limitations": [
+    "No current gate or product/browser execution by delegated documentation owner",
+    "Baseline intentionally remains unmerged for root official ratchet",
+    "Full-story English E2E not inferred"
+  ]
+}

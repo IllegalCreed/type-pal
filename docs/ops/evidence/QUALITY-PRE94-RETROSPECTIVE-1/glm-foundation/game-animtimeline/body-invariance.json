@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "base": "d203acdf7bb038b3e4b87f071e6da8e079130842",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/battle/anim-timeline.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "f81c63f32c1a7c5f7a3c93d9d74e630e72baae88c69ad90a7ab8a6c4602eec41",
+        "current": "f81c63f32c1a7c5f7a3c93d9d74e630e72baae88c69ad90a7ab8a6c4602eec41"
+      },
+      "printedBytes": {
+        "base": 48203,
+        "current": 48203
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/battle-anim-driver.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "353bd8c5c5ab97254dcf0e9d4049a1d379fef54395e70fc4110afc0f3b06ee08",
+        "current": "353bd8c5c5ab97254dcf0e9d4049a1d379fef54395e70fc4110afc0f3b06ee08"
+      },
+      "printedBytes": {
+        "base": 5921,
+        "current": 5921
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/turn-queue.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "2c514a884af13852149b52bfb9f8eec69a9aebac1f4f4fde4f255ee31b2f48ac",
+        "current": "2c514a884af13852149b52bfb9f8eec69a9aebac1f4f4fde4f255ee31b2f48ac"
+      },
+      "printedBytes": {
+        "base": 2277,
+        "current": 2277
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

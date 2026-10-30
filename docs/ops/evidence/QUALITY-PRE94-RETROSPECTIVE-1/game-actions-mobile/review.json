@@ -1,0 +1,1299 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "owner": "Codex single agent",
+  "branch": "codex/code-quality-3y",
+  "base": "868323003e52f347a34396d973fd86d74f1adaa3",
+  "status": "accepted; grouped source-window gates passed",
+  "sourceAt": "7eea19e054980e1148c0cee6ec04fae45721b0bf",
+  "scope": "Original3v six targets + seven previously accepted mobile-modified implementations and two existing relevant test files. No94-102/14new-mobile-path acceptance.",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "scope": "whole file; old full-read plus current full source and scoped caller delta",
+      "sha256": "30e61e9fcbf5578391effce111c98e9b73c2d4abeef2934e3441b84d27ae1374",
+      "lines": 610,
+      "prior": "3v-battle-actions/README.md + core-comment-audit/runtime-projection-comments/README.md",
+      "dimensions": {
+        "A": "Preserve previously verified physical/cover/protect/poison/SHORT/timeline contracts. Current real dispatch still passes projected battle roles and optional poison context; named getter is the same equipment-state binding.",
+        "B": "Projection/HP writeback lifecycle counter corrected earlier; that current comment source is retained. No new behavioral or coverage claim in current owner/type-import edits.",
+        "C": "Replace peer-action type dependency with canonical RunScriptOptions; read poison resistance directly from its state owner. Bus animation stays delegated; no shared state ownership transferred.",
+        "D": "Facade and direct import resolve the same getter. Local SHORT leaf stays local; a repeated single operator alone does not justify a new shared business abstraction.",
+        "E": "Existing physical action/oracle axes and current six-file154 run reused with exact token applicability. No new duplicated tests; giant actions suite is only scoped context.",
+        "F": "Named optional enemy-poison context and separate enemy-confused action retain readable responsibilities. Physical attack remains a branching hotspot; metrics alone do not authorize splitting lifecycle owners.",
+        "G": "Unused cross-action type edge removed. No export/algorithm deleted; no speculative fallback retirement. Hotspot decomposition is an optional structure candidate, not a hidden correctness debt.",
+        "H": "Injectable RNG, bus and projected roles support deterministic real function tests. IO/script callback remains a narrow optional port; no actual audio/pixel/E2E credit inferred."
+      },
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack-mate.ts",
+      "scope": "whole unchanged file; exact original3v read boundary hash",
+      "sha256": "217f36879c652d015b3dc26302d6b67db7dcc3c380f8bfa030d4094999458591",
+      "lines": 111,
+      "prior": "3v-battle-actions/read-boundaries.json",
+      "dimensions": {
+        "A": "Validated caller target is a party slot; roleId maps HP through projected roles. Preserve self/dead reroll, no-live-other Pass, protect/defend/clamp and timeline behavior.",
+        "B": "Caller/target/HP ownership and projected stats comments checked; source unchanged from accepted finite primary evidence, no claim of independent full battle initialization.",
+        "C": "Owns one confused-player physical action; animation work stays in timeline/driver. No global GameState dependency introduced.",
+        "D": "Keep distinct confused-enemy contract separate; fixture reuse does not merge damage semantics. Local SHORT conversion has one arithmetic purpose.",
+        "E": "Seven cases retain random self/dead,defend/protect,clamp,no-ally,sound. Existing first case now distinguishes supplied party slot [2,0,1] from valid reroll, with literal HP and pending number oracle.",
+        "F": "Target selection, damage and bus/animation stages read in order; casterIdx/target are explicitly party positions.",
+        "G": "No dead parameter/export found in this contract. No generic action wrapper added. Existing first case was strengthened rather than adding an eighth duplicate.",
+        "H": "Actual typed battle factory replaces fabricated three-field state in direct tests. A one-site target-discard mutant passes old7, fails new exactly one HP AssertionError, then restores7."
+      },
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/defend.ts",
+      "scope": "whole unchanged file; exact original3v read boundary hash",
+      "sha256": "b2240acf6d933b2345cf290adfb58bf7ee3602d9d5b1e3099d843109aae88f60",
+      "lines": 20,
+      "prior": "3v-battle-actions/read-boundaries.json",
+      "dimensions": {
+        "A": "Index absence no-op and defending flag ownership retained. Real dispatch adds defense experience; enemy attack consumes flag; postAction round boundary clears it.",
+        "B": "Current dispatch/round boundary and C fight.c1600-1609/4110-4117 checked; comment does not claim defend itself calculates mitigation.",
+        "C": "Small action owns only flag write; experience accumulation and round reset stay with battle host.",
+        "D": "No helper extraction needed for a guarded flag write; do not conflate enemy mitigation with setting intent.",
+        "E": "Related actions tests cover guarding and damage consumption under real state; no new case or whole host acceptance.",
+        "F": "Guarded lookup and direct assignment state intent without a new abstraction.",
+        "G": "No unused parameters, exports or duplicate intermediate layer found.",
+        "H": "Direct typed state permits deterministic observation without global setup or media IO."
+      },
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/flee.ts",
+      "scope": "whole file; old full-read plus current owner/signature delta",
+      "sha256": "9baeac60c72bfec5c04dfa6e7e534ff1f53c351965025cdbb1a4b544eb6bf463",
+      "lines": 79,
+      "prior": "3v-battle-actions/README.md",
+      "dimensions": {
+        "A": "Keep user-approved enemy fleeRate choice, boss left-side range request, SHORT clamp, success/failure animation and failed growth. Real only production caller and ten direct test calls all updated.",
+        "B": "Clarify range request versus PRNG consumption for def=0; existing deliberate SDL deviation remains explicit. No claim that every request advances PRNG.",
+        "C": "Remove unread fourth playerRoles parameter; live flee strength comes from GameState equipment-state owner. Bus remains optional for direct no-animation contract.",
+        "D": "Direct owner getter replaces reexport path, identical function. No mode boolean, compatibility overload or universal context added.",
+        "E": "Unsigned WORD32836 replaces illegal negative ENEMY value; equipment case fixes fleeRate0 matching asserted upper bound28. All ten direct call identities and assertions retained.",
+        "F": "Four-argument signature now expresses actual dependencies. Main-loop host passes no unused snapshot.",
+        "G": "Unused parameter and two test casts removed. Proof checks one original identifier occurrence, ten mechanical calls and exact emitted body after named elisions.",
+        "H": "RNG port and bus allow legal extreme WORD and boss/animation probes without mocking the flee decision. No hardware or E2E inference."
+      },
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
+      "scope": "whole seven-case file; current full read",
+      "sha256": "9c5df1343e7d51d4ddb0b87ce75cc78c93a208182fa6bca8c953fdef5d0f1c8d",
+      "lines": 115,
+      "prior": "3v-battle-actions/README.md + D native counters",
+      "dimensions": {
+        "A": "Actual makeHBattle/makeHRole build typed state and roles; not an unhydrated fixture pretending to run full settlement.",
+        "B": "Factory comment explicitly denies runtime hydration; one title now identifies preselected party-slot contract.",
+        "C": "Case-owned state/RNG/bus; no retained event/global resources. Existing factory owns shape; local overrides own only action values.",
+        "D": "Reuse identical typed shape via existing H factory, preserve96/64/200/30 inputs. Keep action-specific values local; no universal fixture.",
+        "E": "Old7 count unchanged; literal HP155/200/200 and pendingDamageNums slot1,value45 discriminate role/slot mixup. New6green1HPred vs old7green on the same reroll mutant; restored7.",
+        "F": "Party [2,0,1], actor slot0 and selected slot1 make intent explicit. Discriminated union narrowing removes sound command assertion cast.",
+        "G": "Delete copied Role/Player builders and unsafe BattleState cast. Original random retry case still exercises self/dead/valid path; no duplicate extra test.",
+        "H": "Only RNG results are controlled in legal requested domain; actual action and timeline execute. Exact final-token proof binds private tested file to canonical formatted source."
+      },
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+      "scope": "whole unchanged file; exact original3v read boundary hash",
+      "sha256": "46bc9913fd1ae91d03ed6f923920614bab64aab11a3c1e2e4db24962fa244995",
+      "lines": 64,
+      "prior": "3v-battle-actions/read-boundaries.json",
+      "dimensions": {
+        "A": "Actual attack timeline uses battleEffectIndex flat lookup and missing table path; primary expectations retained.",
+        "B": "Existing two titles and scope read; no false full-host or framebuffer claim added.",
+        "C": "Local typed H factory and drained bus per case; no shared mutation outside owned state.",
+        "D": "Reuses the same H fixture contract as adjacent action tests; keeps hit-frame oracle independent.",
+        "E": "Two existing cases retain exact flat sprite index/scale and missing table fallback assertions; distinct from HP/target contracts.",
+        "F": "Short explicit arrange/perform/timeline observations remain understandable.",
+        "G": "No test addition, deletion, dead setup or redundant new axis found.",
+        "H": "Actual timeline output observable through state; deterministic RNG and explicit missing input avoid mock-only success."
+      },
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "scope": "previous full A-H reused; current mobile delta/full implementation or test checked",
+      "sha256": "271b6afdb6ff191939562da3cbb06e2f1eb4aab455aee381eb75f2705b078d09",
+      "lines": 238,
+      "prior": "input-audio-closeout.json",
+      "dimensions": {
+        "A": "Mobile adds merged action contacts and modal consumption; source fully read, native touch/gamepad/modal review reused at exact mobile version. Keyboard fade/release and replay contracts preserved.",
+        "B": "Old input suppression comment repair and explicit dev KeyM remain. New contacts/pressed ownership names agree with caller; no SDL equivalence asserted for mobile controls.",
+        "C": "Input owns action contacts and one active source; touch/controller adapters send actions, not GameState mutations. detach releases contacts/listeners and active owner only when identical.",
+        "D": "KeyboardInputSource remains one producer of snapshots; touch/gamepad keep different contact lifetimes. Do not merge policy-specific adapters for similar key names.",
+        "E": "Native input/modal/touch mutant evidence at registered mobile83 artifacts parsed/hashed; current input/replay/boundaries/modal run included. No inference from mobile package green alone.",
+        "F": "Contact/action naming and explicit consume boundaries show why modal skip cannot confirm next menu.",
+        "G": "New used methods have concrete touch/gamepad/modal callers; no dead compatibility path removed.14 new code paths remain pending in global ledger.",
+        "H": "Window injection/native events and controller snapshots remain deterministic; no physical-controller or phone-policy claim."
+      },
+      "decision": "accept",
+      "reusedDimensions": {
+        "A": "Real KeyboardEvent source,production main-loop scene-fade caller and reverse-ordered scene consumer checked. Three original C functions establish direction recomputation; next effective direction event releases current-direction suppression; repeat/non-direction do not. Replay/recording and key mapping AST unchanged.",
+        "B": "Replaced inaccurate per-physical-key suppression/equivalence comment with current direction ownership and exact C event boundaries; KeyM remains explicitly dev addition,not SDL truth.",
+        "C": "Keyboard source owns physical key order/pressed edges/direction suppression; main-loop only signals scene-fade,scene consumer chooses facing. One direction flag replaces incorrect per-key suppression set; no core state mutation in event handlers.",
+        "D": "Private isDirectionKey shares the same four-key predicate across down/up/snapshot without broad context or mode helper; Replay and Recording retain different ownership contracts.",
+        "E": "Original17cases preserved byte-for-byte after comment removal; three independently specified held/pressed/order cases failed before fix and pass after. Original boundary/replay cases retained,not inferred from package green.",
+        "F": "directionSuppressed names the actual state; event guards remain linear and recomputation explicit. Existing domain why-comment retained without hiding state transition.",
+        "G": "Incorrect per-key suppression set removed; no new public API or dead export. KeyM product extension retained by scope; no speculative input-model rewrite.",
+        "H": "Window dependency and snapshots permit native event control with finally detach. Actual browser modules+main-loop+scene consumer exercised; no mock of the direction decision."
+      },
+      "priorRecordedSha256": "1798b523ecbb3594a8144697844531d955acb23e0b701f7474d66630f15a0704"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.ts",
+      "scope": "previous full A-H reused; current mobile delta/full implementation or test checked",
+      "sha256": "dcb53dc1f6b4ce8f35208362be06f7edd806b3cd32f195b06bc8170f4e4e2834",
+      "lines": 206,
+      "prior": "shell-lifecycle-local.json",
+      "dimensions": {
+        "A": "Formal regression old source3green2specifiedred; fix re-arms same once callback after each rejection and explicitly removes callback at success/end. Pending click cannot issue parallel play. Skip keys/modal500ms and volume unchanged.",
+        "B": "Comments now explain per-attempt once ownership. Existing autoplay caveat remains accurate; a successful warmup is not a permanent browser permission claim.",
+        "C": "Playback closure owns video,overlay and stable callback. cleanup settles once; late Promise completion cannot install new overlay after settled. No new external singleton/controller.",
+        "D": "One removeClickOverlay used by success and cleanup; one stable callback reused on rejection. Avoid generic retry helper because media gesture and node lifetime are local.",
+        "E": "Two added cases: repeated denial/retry success actual DOM state plus pending IO count; stale detached node no further media request. Existing M1/M2/M4/M5/M8 cover late/cross-video and skip ownership, so redundant draft third case omitted.",
+        "F": "Creation conditional is separate from re-arming; visible overlay and listener lifecycle now read together.",
+        "G": "No retry counter,new timeout,automatic retry,old fallback resurrection or branch for nonexistent modes. Two final added contracts, no old retirement.",
+        "H": "Real DOM and owned media-IO Promise controls; final61 and existing async lifecycle exercise actual production code. No physical autoplay reachability/codec/device acceptance."
+      },
+      "decision": "accept",
+      "reusedDimensions": {
+        "A": "Reuse actual sequential main/bootstrap ending callers and asynchronous-lifecycle host review. Current API defaults Space/Enter/Escape,optional explicit key list; this is the documented web skip-key subset, not a claim of the complete SDL physical keyboard map.",
+        "B": "Correct500ms skip delay,rejection waits for retry,per-play autoplay policy and best-effort warmup claims. Resource/error/permission wording no longer promises immediate resolution or permanent browser unlock.",
+        "C": "One call owns video/overlay/listeners/settled closure; global volume tracks current video with identity-guarded release. Actual production callers await videos sequentially; broad concurrent-media policy not invented.",
+        "D": "Shared cleanup handles end/error/skip idempotently. Warmup and formal playback intentionally differ in DOM,pause,gesture and failure lifetimes; do not merge them behind mode flags.",
+        "E": "Current4files26 pass: original video/skip/volume,controlled autoplay/warmup,async late results and ending host. Warn templates/counts now exact from prior Codex delta. Unused rejected helper mode removed with complete test-module AST proof; cases/assertions unchanged.",
+        "F": "Small named cleanup/overlay/tryPlay closures expose the single-video state machine. No new enum/helper layer required; settled guard and identity are visible where asynchronous outcomes arrive.",
+        "G": "Removed unused private test-only rejected mode, not warmup rejection coverage; that distinct real rejection-handled contract remains. Product500ms timers are bounded,settled cleanup protects current video from later callbacks.",
+        "H": "Real DOM plus controlled HTMLMediaElement play promises/native keyboard events expose output and cleanup; finally settles deferred play. No production pixel/autoplay-eligibility/listening claim from jsdom."
+      },
+      "priorRecordedSha256": "848064b0d0c20f39930754af0686af38f3a1cf032011289cf7f57fad3a553216"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.test.ts",
+      "scope": "previous full A-H reused; current mobile delta/full implementation or test checked",
+      "sha256": "3e7e858605aa0828ac442a31d145ab9864aec8d7bc01651653dacd82297c46f5",
+      "lines": 158,
+      "prior": "shell-lifecycle-local.json",
+      "dimensions": {
+        "A": "Unchanged source; original12 creation,skip/error,idempotence and volume cases retain their explicit contracts against current player.",
+        "B": "Original claims limited to media element lifecycle; current retry additions live in dedicated file, not silently credited here.",
+        "C": "Existing per-case play/pause prototype restoration; real ended events resolve actual player before normal removal.",
+        "D": "Does not copy new deferred retry helper or ownership cases; preserves separate volume/skip axes.",
+        "E": "All12 identities and assertions unchanged; current8file61 includes this file. Exact source hash matches original accepted binding.",
+        "F": "Existing chronological DOM/event checks remain; no readability change required for this unchanged finite contract.",
+        "G": "No new weak test, deletion or repeated retry case added here.",
+        "H": "jsdom media IO mocked at platform boundary; native events and actual player are exercised, not codec or audiovisual timing."
+      },
+      "decision": "accept",
+      "reusedDimensions": {
+        "A": "Video/src,three defaults/custom keys,non-skip key,error and idempotence,volume clamp/current/release; actual implementations execute,typed domain and native result evidence are bounded to these cases.",
+        "B": "Titles/comments read in original file-level E index; specific warning/prototype/fixture/comment deltas independently reviewed; historical labels do not transfer current credit.",
+        "C": "each successful play ends/errors/skips and awaits cleanup; prototype spies restored,DOM residue removed and volume initialized in volume group",
+        "D": "small resolved media port,real DOM/KeyboardEvent; no core lifecycle mock",
+        "E": "Video/src,three defaults/custom keys,non-skip key,error and idempotence,volume clamp/current/release. Evidence: GLM E + prior exact warning/prototype-restore delta; shell-avi-final",
+        "F": "Named cases and factories expose this contract; no implementation-copy oracle or assertion-free wrapper introduced.",
+        "G": "All retained named cases exercise the listed contract; no skip/only/todo,case-count change or assertion deletion in this round. Private unused mode removal is separately proven where applicable.",
+        "H": "External event/time/transport/media ports control nondeterminism; actual core state/renderer/player executes. each successful play ends/errors/skips and awaits cleanup; prototype spies restored,DOM residue removed and volume initialized in volume group"
+      },
+      "priorRecordedSha256": "3e7e858605aa0828ac442a31d145ab9864aec8d7bc01651653dacd82297c46f5"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+      "scope": "previous full A-H reused; current mobile delta/full implementation or test checked",
+      "sha256": "8b154915ffdcb01f7d0d31b761f85a621c4db4c11e4762686b9fb5b4866a08bf",
+      "lines": 253,
+      "prior": "shell-lifecycle-local.json",
+      "dimensions": {
+        "A": "Final5cases=old3 plus2 independent retry/listener contracts. Controlled Promise failures are legal media API results; teardown dispatches ended before removing nodes.",
+        "B": "Remove stale production-freeze header; document repeat-failure scope and explicit adjacent lifecycle reuse.",
+        "C": "Each pending Promise owned/settled in finally; afterEach now closes actual media owner before prototype restore. Overlay reference deliberately retained only to test disposal.",
+        "D": "Extract existing deferred creation for first-only and multi-attempt IO controls; do not restore retired generic rejected mode. Actual player is never mocked.",
+        "E": "Final unchanged five-case suite against frozen old source3green2red; main red is actual visible overlay after successful-intended retry. Second red is a forbidden media IO request from disposed node, supported by disconnected DOM. Final current adjacent61stderr0.",
+        "F": "Named autoplay/firstRetry/secondRetry and literal error messages expose sequence; no fixed sleeps for new tests.",
+        "G": "Draft late-retry rejection case removed before final because M1/M2 cover settled late results; original3identities retained, no historical test retirement.",
+        "H": "Exact warning args/count asserted, deterministic deferred settle and real click/end events. Parent probe exit0 means expected red observed, never a green quality gate."
+      },
+      "decision": "accept",
+      "reusedDimensions": {
+        "A": "Controlled rejection->overlay->native click retry->overlay removal/ended; warmup success pause and actual handled rejection; actual implementations execute,typed domain and native result evidence are bounded to these cases.",
+        "B": "Titles/comments read in original file-level E index; specific warning/prototype/fixture/comment deltas independently reviewed; historical labels do not transfer current credit.",
+        "C": "deferred finally settled; real DOM/prototype IO spy restored and overlay/video residue removed",
+        "D": "stubPlay accepts exactly its actual deferred/resolved calls; separate warmup rejection observer retained,unused rejected mode deleted",
+        "E": "Controlled rejection->overlay->native click retry->overlay removal/ended; warmup success pause and actual handled rejection. Evidence: GLM E + Codex warning delta; test-program-proof and shell-avi-final",
+        "F": "Named cases and factories expose this contract; no implementation-copy oracle or assertion-free wrapper introduced.",
+        "G": "All retained named cases exercise the listed contract; no skip/only/todo,case-count change or assertion deletion in this round. Private unused mode removal is separately proven where applicable.",
+        "H": "External event/time/transport/media ports control nondeterminism; actual core state/renderer/player executes. deferred finally settled; real DOM/prototype IO spy restored and overlay/video residue removed"
+      },
+      "priorRecordedSha256": "4b874a206b4b33aeb97b8656ce57cfb5d7f7472974cea9de6b460421895bef2d"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "scope": "previous full A-H reused; current mobile delta/full implementation or test checked",
+      "sha256": "3ed91fc0eba9daa62805e0d0b9d4e098cf55553a3db05b5b7f9f195326365d4b",
+      "lines": 60,
+      "prior": "present-speedrun-local.json",
+      "dimensions": {
+        "A": "Mobile masks enabled/show at read time, preserving desktop keys, best records and banana rule. Existing loadBests finite/schema/default-clone contract unchanged.",
+        "B": "Desktop default-show comment matches layout masking; no Save or runtime rule ownership claimed.",
+        "C": "Read-only presentation query is separated from storage write API; no core/Save/renderer mutation.",
+        "D": "Uses existing isMobileLayout leaf shared with FPS; does not duplicate media-query detection or invent layout-specific best storage.",
+        "E": "Two mobile-presentation cases assert desktop choices restored after switch and shared1000ms best/banana unchanged; existing store9 axes reused plus exact mobile-source binding.",
+        "F": "Two explicit Boolean guards express layout policy; no branching configuration wrapper.",
+        "G": "No new keys/migration or unused configuration. Preserve existing write interface rather than speculative mode parameter.",
+        "H": "Native localStorage/layout dataset controlled/restored by tests. Canonical61 includes mobile presentation; no actual phone layout claim."
+      },
+      "decision": "accept",
+      "reusedDimensions": {
+        "A": "loadSettings按各键1/0；loadBests复制defaults、只覆盖已知finite非负/null；caller提供合法数值。Storage异常沿既有调用策略传播。",
+        "B": "defaults副本与跨存档localStorage注释符合实际index/tools-panel，不把测试绿当异常全覆盖。",
+        "C": "仅此模块持有存储键/序列化，timer纯逻辑不导入IO；无隐藏缓存或异步取消资源。",
+        "D": "三个设置共享typed键表；bests JSON与setting语义不同，不并入万能存储helper。",
+        "E": "无记录别名反控旧9绿→新单红；JSON坏值/骨架/null/真实小数PB合同仍分别保留，重复往返只留主测。",
+        "F": "load/save与SETTING_KEY意图清楚；原JSON解析 unknown 在类型缩窄后逐键校验。",
+        "G": "每个出口有index/tools-panel实际caller，ls帮助SSR早退；无删除公共签名或新增fallback。",
+        "H": "真实localStorage与timer产生的小数PB可直测；每例清理存储，不mock JSON/持久化结果。"
+      },
+      "priorRecordedSha256": "a888866e9555bc9fa58fed28d9e035fcb41d3d90c9fdc6d9eb79ddee0aef5d7a"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+      "scope": "previous full A-H reused; current mobile delta/full implementation or test checked",
+      "sha256": "2eb29b1f1260e85efff0d84ef90e4d8a51956180cf10dbb24346b4f9b870dd36",
+      "lines": 126,
+      "prior": "analytics-closeout.json",
+      "dimensions": {
+        "A": "New public openPreferences points directly to existing showPanel closure. Existing denied/granted/storage-failure semantics and root cleanup unchanged.",
+        "B": "No new coverage/network claims; existing UI copy and optional analytics policy retained.",
+        "C": "UI owns hidden/preferences state; consent storage and SDK remain separate owners. Exposed closure does not depend on this receiver.",
+        "D": "Reuses showPanel rather than duplicating DOM construction or mount/installing another UI.",
+        "E": "Existing3UI case/counter evidence reused; installer2 strengthened now verifies actual deny→public reopen→unchanged denied storage through real UI.",
+        "F": "Named method matches tools preference action; direct existing closure avoids wrapper state.",
+        "G": "One used method, concrete main/tools callback. No dead export or second panel implementation introduced.",
+        "H": "Actual injected Document/storage events support native DOM states; this round not a new real-browser whole-game occlusion/network check."
+      },
+      "decision": "accept",
+      "reusedDimensions": {
+        "A": "Actual installer provides same-window storage/events and parsed body. Successful writes hide panel; failed writes keep it; preferences reopen; destroy removes owned root. Current real-browser deny/reopen/grant/reopen/cleanup observed; no network or full-game claim.",
+        "B": "No misleading mechanism/coverage comments. Button copy remains product text; no UI layout/policy change.",
+        "C": "Owns only created DOM and view toggles. Storage commit delegated; no SDK or GameState access. Root replacement is existing one-active-UI behavior,not promise that repeated installer calls auto-stop another controller.",
+        "D": "Button style is one local shared leaf used three times; no cross-layer helper or boolean-driven presentation abstraction added.",
+        "E": "3 current tests strengthen actual hidden/preferences state and preserve original focus; two mutants were missed by old3 and each now yields one specified business AssertionError. Destroy,blocked storage and exact saved choice still observed.",
+        "F": "choose/showPanel/showPreferences and named DOM pieces express ownership and action; long body is one linear DOM construction,not independent competing responsibilities.",
+        "G": "All DOM elements/callbacks have current use. No unused options/exports found. Root-removal lifecycle is bounded by page/controller caller; no speculative teardown abstraction.",
+        "H": "Document/storage/event ports isolate side effects. Real browser validates visible workflow; jsdom validates focus/hidden state. Pixel overlap with complete game is not inferred from styles."
+      },
+      "priorRecordedSha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.ts",
+      "scope": "previous full A-H reused; current mobile delta/full implementation or test checked",
+      "sha256": "d6021e36310bc459b4b99be7f577bcd61d145bd8795ab584a6bbd7f9f564ea15",
+      "lines": 62,
+      "prior": "analytics-closeout.json",
+      "dimensions": {
+        "A": "Return method forwards to owned UI; install failure rollback and controller destroy old accepted contracts preserved. Main passes arrow wrapper so no unbound receiver.",
+        "B": "No stale method ownership or live-network guarantee found in delta; existing initialization failure policy remains.",
+        "C": "Installer composes consent/SDK/UI only, keeps UI transitions delegated; main/tools consume returned method, not internal node access.",
+        "D": "Forwards existing UI capability; no duplicate preference state or second consent controller.",
+        "E": "Single no-op forwarding mutation: old2green,new1specifiedUIred,restored2; exact current product/test SHA and full native originals retained.",
+        "F": "One named method and arrow delegation expose intent without extra context dependency.",
+        "G": "New public method has real main/tools caller. No compatibility overload or unused parameter.",
+        "H": "Native UI/storage installer exercised with SDK development gate;7files30analyticsstderr0. No live Google request or privacy-layout claim."
+      },
+      "decision": "accept",
+      "reusedDimensions": {
+        "A": "Actual main prefix installs once and catches optional capability failure. Real window/storage/consent/UI wiring; GA failure removes only installer UI and rethrows same error. Returned destroy stops GA then removes owned UI.",
+        "B": "Existing single rollback comment accurately separates creator responsibilities; no stale line-number/coverage promises.",
+        "C": "Composition root owns UI/controller handles,not consent/SDK/game state. Four explicit inputs and native navigator avoid hidden game context. One Coding Owner and page lifetime at main remain explicit.",
+        "D": "Uses existing BrowserPrivacySignals type; old/new optional fields structurally equal. Reuses consent storage/subscribe/resolve and independent UI/GA modules rather than duplicate policy.",
+        "E": "2 public-entry cases retained; owned inert Document and exact own-key restore replace whole head/body/storage clears. New external-owner cohort proves DOM/storage/SDK descriptors survive; approved failure test covers real installer rollback.",
+        "F": "Short linear setup/try/return structure,meaningful handles. Shared privacy type removes a second name for identical data.",
+        "G": "No unused navigator interface remains. Installation return type describes the public destroy contract and has typed test consumer; not deleted as an allegedly dead export.",
+        "H": "Window/Document/privacy flags injected. SDK fixture reused only for the actual owned Document/global boundary; no new application seam or core mock introduced."
+      },
+      "priorRecordedSha256": "e76892321447f054c4a3adb8085f1e53a59c4e6cbda6018cc73e328db0a65809"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.test.ts",
+      "scope": "previous full A-H reused; current mobile delta/full implementation or test checked",
+      "sha256": "3780e1911f96d60f8ef75cd3cce40909cb116713b31b905a0fd4b321c93bd300",
+      "lines": 70,
+      "prior": "analytics-closeout.json",
+      "dimensions": {
+        "A": "Original two cases/measurement ID regex retained. Deny→installer.openPreferences now must show actual panel and preserve denied storage.",
+        "B": "Rename first title from ambiguous no-network to development SDK DOM and public UI method; old/new identity mapping frozen.",
+        "C": "Original active controller destroy and storage/global isolation retained; new clicks use the same owned native document.",
+        "D": "Use existing real UI/factory; no mocked forwarding or duplicated third case.",
+        "E": "No-op mutation passes old2 but makes new exactly one hidden-state AssertionError; restoration2 and adjacent30green. Existing second DNT/GPC contract preserved.",
+        "F": "Three concrete visible states and literal denied choice describe workflow clearly.",
+        "G": "Two cases unchanged in count; no duplicate UI-only case or toHaveBeenCalled substitute for state correctness.",
+        "H": "Native clicks/storage and actual returned method exercise wiring. Exact unexpected warnings not swallowed; no real network."
+      },
+      "decision": "accept",
+      "reusedDimensions": {
+        "A": "Public installer uses actual consent/UI/GA composition. Development-disabled branch proves UI exists without tag; DNT/GPC branch proves default denial while explanation remains visible.",
+        "B": "Two titles name actual public ID/dev/privacy contracts; no real-network or full-page visual conclusion from inert Document.",
+        "C": "Owned SDK/Document host replaces destructive head/body/storage resets; only consent key touched and restored. Installation destroy in finally; external cohort proves foreign DOM/storage/SDK retained.",
+        "D": "Reuses existing host because SDK descriptors and Document share GA lifecycle. Consent-key restoration stays local; no new application seam or universal fixture.",
+        "F": "host.document distinguishes owned tree from global window source; installation handle and storedConsent reveal teardown responsibilities.",
+        "G": "Both original case identities/intent retained; no new type-only/duplicated runtime test. Public ID still consumed by installation API,not an allegedly dead export.",
+        "H": "Actual installer receives inert Document and real window/storage; normal tests are deterministic and external-owner probe observes host restoration after ordinary lifecycle.",
+        "E": "2 case identities and business contracts retained. Current scoped host no longer deletes foreign head/body/localStorage/SDK. Outside-cohort ordinary ownership assertion: old2+probe=2green1red,new3green; combined two-file native5green2red→7green."
+      },
+      "priorRecordedSha256": "becb3927cd3c7ece6e229c237d7d5721639a899b385e41c5b508a81527bcca87"
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.ts",
+      "scope": "whole current short file; original3j full-read + actual mobile delta",
+      "sha256": "1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6",
+      "lines": 58,
+      "prior": "3j-scale-fps/read-boundaries.json",
+      "dimensions": {
+        "A": "Layout argument delegates sanitized percent to setScale and returns before legacy CSS writes. Bootstrap supplies actual layout controller; one-argument legacy canvas/fullscreen contract preserved.",
+        "B": "Three obsolete fixed960x600 ownership comments corrected to desktop default and optional layout ownership. Generated JS byte-equal before/after.",
+        "C": "Controller owns scale value/storage, layout owns adapted presentation sizing. No reverse import of bootstrap or GameState.",
+        "D": "Narrow structural setScale port instead of importing full shell controller. Shared clamping applies to both paths; no duplicated policy.",
+        "E": "Original finite/clamp/round/fullscreen oracles reused; actual mobile game-shell clamp/delegation tests and source wiring independently reviewed in registered mobile packet.",
+        "F": "Explicit early return separates layout delegation from standalone canvas branch.",
+        "G": "No dead parameter: layout supplied by production bootstrap. No generic mode Boolean or compatibility fallback reintroduced.",
+        "H": "Injected canvas/layout capability and native storage permit deterministic assertions; full-screen delegation does not claim browser grant."
+      },
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.ts",
+      "scope": "whole current short file; original3j full-read + actual mobile delta",
+      "sha256": "a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020",
+      "lines": 112,
+      "prior": "3j-scale-fps/read-boundaries.json",
+      "dimensions": {
+        "A": "Mobile layout returns disabled without overwriting saved desktop preference. Existing per-frame path clears sampling/hides at disabled transition.",
+        "B": "Correct overstrong rAF→CPU diagnosis comment: frame rate signals a symptom, not a unique cause. Generated JS byte-equal before/after.",
+        "C": "FPS keeps its own DOM/sample owner; one read-only shell presentation query is an existing allowed tools→shell dependency, no core state write.",
+        "D": "Reuses isMobileLayout predicate; no duplicated screen-size or storage layout detection.",
+        "E": "Original FPS sample/threshold/enable cases reused plus actual mobile preference switch test in current61; no assertion that passing FPS test proves actual CPU smoothness.",
+        "F": "One Boolean guard expresses mobile policy; existing sample state names/500ms window remain clear.",
+        "G": "No new listener/timer or unused export. No speculative rewrite of singleton diagnostics ownership.",
+        "H": "Injected frame timestamps and native layout/storage are deterministic; no hardware/framerate benchmark inferred."
+      },
+      "decision": "accept"
+    }
+  ],
+  "contextOnly": [
+    {
+      "path": "packages/game/src/core/battle/__tests__/actions.test.ts",
+      "sha256": "0bd0e53f63267b9212b34c7df6162413686eb4ecabee0c5f0b44fd880e5cb31a",
+      "scope": "Only basic-action cluster/two fixture values,ten caller transports/casts; not whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874",
+      "scope": "Actual basic-action dispatch/target/round reset + one Flee caller; not whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "0c3b15371cda3f5a0e936c7c1e73dee516617f239dbc4e3c6a4c3ea3cd9640e0",
+      "scope": "Actual makeHRole/makeHBattle and one comment; no whole-file acceptance"
+    }
+  ],
+  "sourceBindings": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "sha256": "30e61e9fcbf5578391effce111c98e9b73c2d4abeef2934e3441b84d27ae1374"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack-mate.ts",
+      "sha256": "217f36879c652d015b3dc26302d6b67db7dcc3c380f8bfa030d4094999458591"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/defend.ts",
+      "sha256": "b2240acf6d933b2345cf290adfb58bf7ee3602d9d5b1e3099d843109aae88f60"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/flee.ts",
+      "sha256": "9baeac60c72bfec5c04dfa6e7e534ff1f53c351965025cdbb1a4b544eb6bf463"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
+      "sha256": "9c5df1343e7d51d4ddb0b87ce75cc78c93a208182fa6bca8c953fdef5d0f1c8d"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+      "sha256": "46bc9913fd1ae91d03ed6f923920614bab64aab11a3c1e2e4db24962fa244995"
+    },
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "sha256": "271b6afdb6ff191939562da3cbb06e2f1eb4aab455aee381eb75f2705b078d09"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.ts",
+      "sha256": "dcb53dc1f6b4ce8f35208362be06f7edd806b3cd32f195b06bc8170f4e4e2834"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.test.ts",
+      "sha256": "3e7e858605aa0828ac442a31d145ab9864aec8d7bc01651653dacd82297c46f5"
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+      "sha256": "8b154915ffdcb01f7d0d31b761f85a621c4db4c11e4762686b9fb5b4866a08bf"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "3ed91fc0eba9daa62805e0d0b9d4e098cf55553a3db05b5b7f9f195326365d4b"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+      "sha256": "2eb29b1f1260e85efff0d84ef90e4d8a51956180cf10dbb24346b4f9b870dd36"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.ts",
+      "sha256": "d6021e36310bc459b4b99be7f577bcd61d145bd8795ab584a6bbd7f9f564ea15"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.test.ts",
+      "sha256": "3780e1911f96d60f8ef75cd3cce40909cb116713b31b905a0fd4b321c93bd300"
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.ts",
+      "sha256": "1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6"
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.ts",
+      "sha256": "a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/actions.test.ts",
+      "sha256": "0bd0e53f63267b9212b34c7df6162413686eb4ecabee0c5f0b44fd880e5cb31a"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "0c3b15371cda3f5a0e936c7c1e73dee516617f239dbc4e3c6a4c3ea3cd9640e0"
+    }
+  ],
+  "primary": [
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "scope": "Existing3v finite primary ranges3618-3854,4110-4172,4591-4654,4910-5175 reused; no full C-file reread this window"
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "sha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
+      "scope": "Approved enemy fleeRate deviation and latest KEEP hidden-attribute policy; no new mechanism decision"
+    }
+  ],
+  "mobile": {
+    "merge": "7663b30715ce83160af594ad30895502d18ac9cd",
+    "candidate": "9322990af3fe0599234ffd3c8130e9865946010d",
+    "independent": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/independent-review.txt",
+    "artifactHashes": "mobile/mobile-artifacts-validation.json",
+    "artifactCount": 83,
+    "limits": "Existing task independent scoped review plus actual deltas reused; not whole new mobile feature governance. No physical device/controller/Safari/codec/network/deployment evidence."
+  },
+  "validation": {
+    "basic154": "basic/basic-draft-six-adjacent.native.json",
+    "basicApplicability": "basic/canonical-applicability.json",
+    "basicCanonicalFormat": "basic/canonical-format-only.json",
+    "basicCounter": [
+      "basic/old-test-reroll-mutant-green.native.json",
+      "basic/preferred-slot-reroll-mutant-red.native.json",
+      "basic/preferred-slot-restored-green.native.json"
+    ],
+    "aviFormalRed": "mobile/avi-final-old-source-red.native.json",
+    "aviFinalGreen": "mobile/avi-adjacent-final.native.json",
+    "analyticsCounter": [
+      "mobile/privacy-old-noop.native.json",
+      "mobile/privacy-new-noop.native.json",
+      "mobile/privacy-restored-new.native.json"
+    ],
+    "analytics30": "mobile/analytics-adjacent.native.json",
+    "typecheck": "mobile/avi-types.execution.json",
+    "newTests": 2,
+    "existingTestRetirements": 0,
+    "gates": "Full pnpm check20432; final official fast ratchet with fixed main protection; prior metric-rejected sample preserved; strict final candidate checked against same actual report. Full raw in gates.json/native."
+  },
+  "processDisclosures": [
+    "Formal initial6-case draft had one late-result case duplicated by existing M1/M2; omit it in final5-case suite, no historical retirement. Frozen initial red/green originals preserved. Final5 against actual frozen old source still exactly2specifiedred.",
+    "avi-formal-green command supplied two nonexistent filter paths; native actually4files41, not6. Correct final command actually8files61. No no-test parameter used.",
+    "Basic refactor normalizer prototype overreached later test clusters and failed; v1 source preserved but untrimmed first stderr was not saved. Correct AST-scoped proof passed. Initial literal postformat JS equality failed on line wraps; token identity recomputed, not byte equality.",
+    "CI coverage annotations first request failed EOF with empty raw and exit1; second succeeds. Neither repository test failures nor zero annotations."
+  ],
+  "progress": {
+    "acceptedBefore": 56,
+    "partialBefore": 27,
+    "pendingBefore": 0,
+    "ledgerBefore": {
+      "tracked": 3355,
+      "closed": 370,
+      "review": 115,
+      "pending": 2870
+    },
+    "candidateCards": ["3v", "78"],
+    "newClosures": 2,
+    "decision": "Original3v and78 accepted;14existing closed refreshed,2review restored;large context files and new mobile paths not accepted.",
+    "acceptedAfter": 58,
+    "partialAfter": 25,
+    "pendingAfter": 0,
+    "ledgerAfter": {
+      "tracked": 3355,
+      "closed": 372,
+      "review": 113,
+      "pending": 2870
+    },
+    "acceptedFileScopes": 16
+  },
+  "held": [
+    "3w/3x and23other partial (25outside these two candidate decisions) remain unresolved; no broad stop lifted by AVI approval.",
+    "battle-system/actions.test/H harness context not whole-file acceptance.",
+    "14new mobile code paths remain pending; other main/bootstrap/minimap/tools wide files retain current status.",
+    "No source format/Save/schema/asset pipeline or playback500ms policy change; only authorized repeated retry repair."
+  ],
+  "native": {
+    "path": "native.json.gz",
+    "sha256": "693eca75fc33f7fe75c1571fda98054efd909c3a685ad2b11efbd535f7126e50",
+    "members": {
+      "basic/DRAFT-SCOPE.json": {
+        "bytes": 3412,
+        "sha256": "9d5479589a4e19eec27cf202aa8accf2bcc02a5f910a616d73b024edeb7bf525"
+      },
+      "basic/attack-mate-draft-proof.json": {
+        "bytes": 6460,
+        "sha256": "1bbbc67af27d42641bacc510fa5d76e4ed362e852c50b14953829fd142ba12c7"
+      },
+      "basic/basic-canonical-types.execution.json": {
+        "bytes": 2734,
+        "sha256": "cf2a0100b4bc238e3028a2b6d884a83c225bcbd27e2a61bd1394b83c93178cf9"
+      },
+      "basic/basic-canonical-types.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "basic/basic-canonical-types.stdout.raw": {
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      "basic/basic-draft-game-types.execution.json": {
+        "bytes": 2737,
+        "sha256": "81285b5a8c5a4a87c486177c774c9cf136f9eb0efe05de1906c64c8f73a7503e"
+      },
+      "basic/basic-draft-game-types.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "basic/basic-draft-game-types.stdout.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "basic/basic-draft-six-adjacent.execution.json": {
+        "bytes": 3291,
+        "sha256": "8dee5bc551dd9d2a68332314cf20d20350687a8aff93fc88b5b87a454ed21089"
+      },
+      "basic/basic-draft-six-adjacent.native.json": {
+        "bytes": 53669,
+        "sha256": "093ed5626d706ba1c24110de73999589a84ce77c6e2dd766413b3291e8dc4afa"
+      },
+      "basic/basic-draft-six-adjacent.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "basic/basic-draft-six-adjacent.stdout.raw": {
+        "bytes": 873,
+        "sha256": "27c4e0cc5749335f0a8bbefe3b268adf4da4d458737253e1b093b20688fb957c"
+      },
+      "basic/basic-format-proof.execution.json": {
+        "bytes": 2789,
+        "sha256": "86574030dafd9856a5c40874a1b95a3b3bdd6ec26b4c0528bb1db4a6f7e42914"
+      },
+      "basic/basic-format-proof.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "basic/basic-format-proof.stdout.raw": {
+        "bytes": 138,
+        "sha256": "982e8956d125c0e9435008e7a6c586e83ddbdf35c71e25b33d75957fb61f0448"
+      },
+      "basic/basic-refactor-invariance.execution.json": {
+        "bytes": 1477,
+        "sha256": "d5a0ffbb875419031bbaeaa53d8ed481611fa58c9c120ff15cfe9d06bf7d6fe0"
+      },
+      "basic/basic-refactor-invariance.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "basic/basic-refactor-invariance.stdout.raw": {
+        "bytes": 2882,
+        "sha256": "66f3cd12f3d11e4bb254a996eb90c08001086437b41176ff3fe97caad7a61994"
+      },
+      "basic/before-actions.test.ts": {
+        "bytes": 103033,
+        "sha256": "8e41771ac1cb770a69cfee91ee40ebb01971ca2d7ebd02998f4d64ea64e844ae"
+      },
+      "basic/before-attack-mate.test.ts": {
+        "bytes": 6020,
+        "sha256": "698dbe32359e487c5668cb05b823e8bcdf9e597b2a80ff3c5f37583970bc772e"
+      },
+      "basic/before-attack-mate.ts": {
+        "bytes": 5443,
+        "sha256": "217f36879c652d015b3dc26302d6b67db7dcc3c380f8bfa030d4094999458591"
+      },
+      "basic/before-attack.ts": {
+        "bytes": 29237,
+        "sha256": "0b7e853d2b4f24fcb828a505fb372ac61d3fd46b4abe8895b5c073388d0175b5"
+      },
+      "basic/before-battle-system.ts": {
+        "bytes": 148885,
+        "sha256": "a3fed8fc2206af344a9eef7836bfa9ac3e3dd5f9187e92e2cb84d760518dccb5"
+      },
+      "basic/before-flee.ts": {
+        "bytes": 4136,
+        "sha256": "5995eba743a3a36f8344a0b7bb7ca69408b7783c31b3595e4718ff4a79ef6ae0"
+      },
+      "basic/before-harness.ts": {
+        "bytes": 6175,
+        "sha256": "41bc231d86581da71cea2224ad2b66831cd9b0dd1b8b75bb4f2c84c71eed739e"
+      },
+      "basic/canonical-applicability.json": {
+        "bytes": 1654,
+        "sha256": "4e2b3fc6a95478fc78193babdbd92fcd62cdd38994dba955c18fd2ea44079092"
+      },
+      "basic/canonical-format-only.json": {
+        "bytes": 2410,
+        "sha256": "a02f4830ca39d57fc39c23a5f40c303ad413ef1d8af35e6e6a32f7cfb3ff41ca"
+      },
+      "basic/capture.mjs": {
+        "bytes": 7513,
+        "sha256": "4eaacab362795a7abbd73445976ae2b985219df60c1ec5cd4bec692b13767918"
+      },
+      "basic/check-draft-module.mjs": {
+        "bytes": 3351,
+        "sha256": "e0c77e91089a842460a4e0f186efd8ec5c2708f15c7ada9272e72e0dd0bf8456"
+      },
+      "basic/draft-actions.test.ts": {
+        "bytes": 102715,
+        "sha256": "5c6268ba802601720da04df66b755f0f294e49fc43c5fa4fa15b4aa5ef496000"
+      },
+      "basic/draft-attack-mate.test.ts": {
+        "bytes": 5518,
+        "sha256": "50f8ee159081ee10c5bebb2411eb35f7f1ffe27403cb94e27b536ec19d3258f6"
+      },
+      "basic/draft-attack.ts": {
+        "bytes": 29277,
+        "sha256": "ace618f763b6d3ecbb0390ffef322f4ef87afa7631a8bfa834884c920f71d41a"
+      },
+      "basic/draft-battle-system.ts": {
+        "bytes": 148844,
+        "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874"
+      },
+      "basic/draft-flee.ts": {
+        "bytes": 4024,
+        "sha256": "9baeac60c72bfec5c04dfa6e7e534ff1f53c351965025cdbb1a4b544eb6bf463"
+      },
+      "basic/draft-harness.ts": {
+        "bytes": 6297,
+        "sha256": "0c3b15371cda3f5a0e936c7c1e73dee516617f239dbc4e3c6a4c3ea3cd9640e0"
+      },
+      "basic/draft-module-validation.json": {
+        "bytes": 6663,
+        "sha256": "18dbcdd54f61bae01709c5cada24f4b4a34e500ebb2a0ca625d1f15fec8aa633"
+      },
+      "basic/mutant-target-reroll.ts": {
+        "bytes": 5466,
+        "sha256": "1193dd8a4a739ce6f8a3f2219048aa0ec29cc236b0bfaff24898d9014f669559"
+      },
+      "basic/old-test-reroll-mutant-green.execution.json": {
+        "bytes": 952,
+        "sha256": "6acec9995d6d3396073391057ae13af6cf43d1b75e04b4485fc83e6d0edf5b5b"
+      },
+      "basic/old-test-reroll-mutant-green.native.json": {
+        "bytes": 3373,
+        "sha256": "a0444f90adb3a86731cecff0601cd0e442ebc3aaa3a82843a2b86d8f09314e9a"
+      },
+      "basic/old-test-reroll-mutant-green.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "basic/old-test-reroll-mutant-green.stdout.raw": {
+        "bytes": 516,
+        "sha256": "6e8a9131ead18e0cbc887778f4a9380a43f9887de3616d52933e94008032107d"
+      },
+      "basic/preferred-slot-reroll-mutant-red.execution.json": {
+        "bytes": 2751,
+        "sha256": "e1e1e539681d1154a1d8c22eb85d99aac7120820c66c5463cc57dd85fec61d51"
+      },
+      "basic/preferred-slot-reroll-mutant-red.native.json": {
+        "bytes": 4922,
+        "sha256": "33bbc8badbc0adece6e5937c3aefed33c93a8fae08e26d83aaa76bb89a8ae656"
+      },
+      "basic/preferred-slot-reroll-mutant-red.stderr.raw": {
+        "bytes": 919,
+        "sha256": "583dfa88aa0dc97178ddc6737b29ba2dd02afdf184d05e6cd427d04b2008502e"
+      },
+      "basic/preferred-slot-reroll-mutant-red.stdout.raw": {
+        "bytes": 1072,
+        "sha256": "a795fb3b7044599aa1210c70c097b76cb07d4530b4ceb550e806da3eb721d058"
+      },
+      "basic/preferred-slot-restored-green.execution.json": {
+        "bytes": 954,
+        "sha256": "7a1a7f512121a0f9462bbc4a1971e081b016caa40acd0f9165c33fa0fc6fb123"
+      },
+      "basic/preferred-slot-restored-green.native.json": {
+        "bytes": 3359,
+        "sha256": "30f5335f49bca754bb579818de2d9ce20c1810614eaf3ec5ac77640101bd677e"
+      },
+      "basic/preferred-slot-restored-green.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "basic/preferred-slot-restored-green.stdout.raw": {
+        "bytes": 517,
+        "sha256": "e85b2bf6406c6a1002f586f7991fd1e17ed460507895830e06d2be5e03d5cc30"
+      },
+      "basic/prove-attack-mate.mjs": {
+        "bytes": 3947,
+        "sha256": "2e4b35172e97dd9030af667435f9918e8c23949804dad12ad184fec7cd307f63"
+      },
+      "basic/prove-canonical-format.mjs": {
+        "bytes": 1747,
+        "sha256": "94db3545dac3e584800187900dd75b6b321738576986130da53ee842c011d56a"
+      },
+      "basic/prove-refactor-v1.mjs": {
+        "bytes": 4476,
+        "sha256": "bc57d270eae461e6747d6fa59e26e8b42deef0f549f70345daa2532408dea160"
+      },
+      "basic/prove-refactor.mjs": {
+        "bytes": 4945,
+        "sha256": "afcb6a51d2f5bd7dfc80dcccc32465be6110dabd69a3e06b671bc2c78840de26"
+      },
+      "basic/refactor-invariance.json": {
+        "bytes": 3262,
+        "sha256": "463f31e5da0d58f480ab670ce61205ecb8e86f56230db90669f4ac874778a7e4"
+      },
+      "basic/transport-actions.test.ts": {
+        "bytes": 102773,
+        "sha256": "32d979666048c45707a5af95b2f5cafe169e88a2cefc1a461a1ed7f3096a485f"
+      },
+      "basic/typed-baseline-attack-mate.test.ts": {
+        "bytes": 5304,
+        "sha256": "f15624784325df8b7d452568e58e8f4b54eb524a4255854dc34aeff72820014b"
+      },
+      "basic/typed-existing-seven-green.execution.json": {
+        "bytes": 948,
+        "sha256": "77f45ed0d949b525cfceeeb8273b83fe6b1cead94960d04bc460cff707964e43"
+      },
+      "basic/typed-existing-seven-green.native.json": {
+        "bytes": 3368,
+        "sha256": "dc656e5fda70bbfe34eefa1ddabf5cfe1f83453a0d6df534603633e0e811062f"
+      },
+      "basic/typed-existing-seven-green.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "basic/typed-existing-seven-green.stdout.raw": {
+        "bytes": 514,
+        "sha256": "23cf70375599161a9765d9d28ef8a3dbfc6c3d37a7487ac0a45d0f0c96c13a0a"
+      },
+      "mobile/analytics-adjacent.execution.json": {
+        "bytes": 2571,
+        "sha256": "1ecd6a51e70ffb29fe5cd7b57aa4b06ff103eb3a3fd92727539a988c45d4a20a"
+      },
+      "mobile/analytics-adjacent.native.json": {
+        "bytes": 11845,
+        "sha256": "67db79f217f16b7e9b39e63b11cb0a569b714b515289dce81f430a7ff8348210"
+      },
+      "mobile/analytics-adjacent.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "mobile/analytics-adjacent.stdout.raw": {
+        "bytes": 861,
+        "sha256": "4600b5b2cf69398f9248d6b67990869ee8c4857701c1f952b35efcaca71e5e16"
+      },
+      "mobile/avi-adjacent-final.execution.json": {
+        "bytes": 3601,
+        "sha256": "15c2ef76830dc342eba2c72c6698f7ead0c15bcdd69534d8107be8faf25be5a4"
+      },
+      "mobile/avi-adjacent-final.native.json": {
+        "bytes": 23729,
+        "sha256": "38bbe49668ef60e88e0f7d0df333581a68370ccfad1073961bf697d277a649af"
+      },
+      "mobile/avi-adjacent-final.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "mobile/avi-adjacent-final.stdout.raw": {
+        "bytes": 1033,
+        "sha256": "5de966c85c1a9ac5271f6bf564f2eaf9d3ae3fdc937bc6c23dd62def877fa741"
+      },
+      "mobile/avi-before.ts": {
+        "bytes": 7876,
+        "sha256": "3216ea10612c0bda2eda0a44b642f6676070cc6781be94b1b2e1933a7d316f69"
+      },
+      "mobile/avi-final-old-source-red.execution.json": {
+        "bytes": 2081,
+        "sha256": "d11ec9cb44425996c1838cd0c511dd6ac5dd0a37bb00e62361eb6ed5fed5026c"
+      },
+      "mobile/avi-final-old-source-red.native.json": {
+        "bytes": 3956,
+        "sha256": "ffd3b71fb6b844a14e2db8d96703eb27df975cdb594c5cdf8f1a74eb9325d038"
+      },
+      "mobile/avi-final-old-source-red.stderr.raw": {
+        "bytes": 1884,
+        "sha256": "9c97b0343ca0942b3f8948ced49e5530614c6e208ad205e5811458a242ef60a1"
+      },
+      "mobile/avi-final-old-source-red.stdout.raw": {
+        "bytes": 1053,
+        "sha256": "2ac8b508fd52579ff511c80aa435835b90b99f2adc63f8628d6f679272d2d048"
+      },
+      "mobile/avi-final-red-proof.execution.json": {
+        "bytes": 3090,
+        "sha256": "3cd709d1477a68cd2c2f3f57b74414ff4cf6bba46fb41ce1dbdec3ed18058ccd"
+      },
+      "mobile/avi-final-red-proof.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "mobile/avi-final-red-proof.stdout.raw": {
+        "bytes": 395,
+        "sha256": "c163aaf7e28e8e0b4eab54e90c97c9b9258ed385b7aa620f04e839ff31434a24"
+      },
+      "mobile/avi-formal-green.execution.json": {
+        "bytes": 3497,
+        "sha256": "d04a1056d4de0cd390611bae6dd245fd0604c28b7e1aae198e5ff1465a5b4988"
+      },
+      "mobile/avi-formal-green.native.json": {
+        "bytes": 15345,
+        "sha256": "eddc9116267dcc185886a3f91c3c36a5984ca8432a2bdd3cff17033f8f19b35d"
+      },
+      "mobile/avi-formal-green.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "mobile/avi-formal-green.stdout.raw": {
+        "bytes": 796,
+        "sha256": "e6c48fe595b7730fc0492fefd1234ec91c317bff127cd0b81ba1bd791b896b6d"
+      },
+      "mobile/avi-formal-red-r2.execution.json": {
+        "bytes": 3118,
+        "sha256": "e7dd396495aeeaa15d94c30382ba8b264c5e7b63030f48fec0eb63d2c7a68b5d"
+      },
+      "mobile/avi-formal-red-r2.native.json": {
+        "bytes": 4175,
+        "sha256": "acea238b6d198e6cb23773887d8870d1df8a01b8666c18697eb230653a7b350a"
+      },
+      "mobile/avi-formal-red-r2.stderr.raw": {
+        "bytes": 1884,
+        "sha256": "b558b7d8fefd8ac5aaf744751c676b1a6cbe37ee89c44f36eb0b1a2329667d98"
+      },
+      "mobile/avi-formal-red-r2.stdout.raw": {
+        "bytes": 1071,
+        "sha256": "e1a5e81df8fa56a7ba5d4ccd44abb2d34cde80947159d0fa6631afe90d915d5c"
+      },
+      "mobile/avi-formal-red.execution.json": {
+        "bytes": 3106,
+        "sha256": "ae82960e6ad459f0db1ea0982152c12fdfd8e8dfd30dcfe769e12ddce846f167"
+      },
+      "mobile/avi-formal-red.native.json": {
+        "bytes": 3969,
+        "sha256": "d1a371b796376a62b0e597b7f0e187284bfa5ab4d1646849994fb777a724fd2e"
+      },
+      "mobile/avi-formal-red.stderr.raw": {
+        "bytes": 1405,
+        "sha256": "412df76c057bfa989c1525519ab4c722b83e86ce380cb24067a2ddb2f110ac21"
+      },
+      "mobile/avi-formal-red.stdout.raw": {
+        "bytes": 1066,
+        "sha256": "605710ed5d6065feb8a984ef792a5f5caceae44c71dad7d0191b9c9c366032d1"
+      },
+      "mobile/avi-formal-tests-red-r2.ts": {
+        "bytes": 11209,
+        "sha256": "4ca3bbcb38793e4bf9647f188744a8a0344d635a6e9c86b997e60df60464e782"
+      },
+      "mobile/avi-formal-tests-red.ts": {
+        "bytes": 11159,
+        "sha256": "e28e2c554619dd54b09241380f2b8fa5b0c7af1eaedf6031eb8c1bba9e7e6597"
+      },
+      "mobile/avi-repeat-observation.execution.json": {
+        "bytes": 1116,
+        "sha256": "375a66379d7efe2f25c14447dfdfcac4cc4986fb05ee2f4e26917b42b82b392d"
+      },
+      "mobile/avi-repeat-observation.native.json": {
+        "bytes": 1773,
+        "sha256": "21fcf630310399dfde1b213f168b1e527ae739d66b3136b1b982374b6a1d1b8d"
+      },
+      "mobile/avi-repeat-observation.stderr.raw": {
+        "bytes": 1133,
+        "sha256": "0ebfc182cb839df051b295cab6efa7b1c30659e32d4f76cb2b499359301fb698"
+      },
+      "mobile/avi-repeat-observation.stdout.raw": {
+        "bytes": 724,
+        "sha256": "8947bd989ce34a6e540b453eede6af1fcfd02ac5e16e4fdd64dc04b6172db048"
+      },
+      "mobile/avi-repeat-observation.test.ts": {
+        "bytes": 2584,
+        "sha256": "2b31e5f53d9c4ac20288027d5c8ec743298f981197d9165610b08bf6614f5941"
+      },
+      "mobile/avi-repeat-probe.execution.json": {
+        "bytes": 2368,
+        "sha256": "e59b25072bb7a26d54b1e16f7f5fd3f0345f373ec373b91ee75c8200ae61416f"
+      },
+      "mobile/avi-repeat-probe.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "mobile/avi-repeat-probe.stdout.raw": {
+        "bytes": 1023,
+        "sha256": "94d1398a49e066ad88bfb0255bbde14479314bc2015ccb9a5d022a6af2ef3dcf"
+      },
+      "mobile/avi-types.execution.json": {
+        "bytes": 3001,
+        "sha256": "3a9134857eec419217fef6d0616e69f97ed936aad48812483afe9a6fd8074a26"
+      },
+      "mobile/avi-types.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "mobile/avi-types.stdout.raw": {
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      "mobile/build-progress.json": {
+        "bytes": 780037,
+        "sha256": "0ffbcf8d04d41676d37c507f11977eab3e15795ae8870bad5e3c8c96b8fb744f"
+      },
+      "mobile/capture.mjs": {
+        "bytes": 7513,
+        "sha256": "4eaacab362795a7abbd73445976ae2b985219df60c1ec5cd4bec692b13767918"
+      },
+      "mobile/comment-invariance.json": {
+        "bytes": 303,
+        "sha256": "d82d7447a43acdfcaf8a74ba299b4a8f8f5caf3cf14eac34e5ef863dba3c5106"
+      },
+      "mobile/comment-proof.mjs": {
+        "bytes": 1337,
+        "sha256": "1e4db4d3df7fdaf1d84a540c2e07311ab6537fdd979f5c46765f75cb5450d98e"
+      },
+      "mobile/display-scale-after.ts": {
+        "bytes": 2019,
+        "sha256": "1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6"
+      },
+      "mobile/display-scale-before.ts": {
+        "bytes": 1994,
+        "sha256": "bed4654ab3f327f099290c1040ced546d15f722735ed76cafb2c678805d927ef"
+      },
+      "mobile/display-scale-comment-after.ts": {
+        "bytes": 2019,
+        "sha256": "1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6"
+      },
+      "mobile/display-scale-comment-before.ts": {
+        "bytes": 1994,
+        "sha256": "bed4654ab3f327f099290c1040ced546d15f722735ed76cafb2c678805d927ef"
+      },
+      "mobile/docs-before-navigation.execution.json": {
+        "bytes": 3199,
+        "sha256": "e61eb9bce63449e56b0094211f0450c65e7f2b8284a6f8b38063b947145cd2e0"
+      },
+      "mobile/docs-before-navigation.stderr.raw": {
+        "bytes": 1070,
+        "sha256": "f33580aa43cc74d80f945ddbfe8e46a8a4271edcf83a7d39b4ac1f9b36830a4c"
+      },
+      "mobile/docs-before-navigation.stdout.raw": {
+        "bytes": 93,
+        "sha256": "7ceb92b439827e894b78467456d4021c11991ae432c8d9d42d73e44b786026e3"
+      },
+      "mobile/fps-overlay-comment-after.ts": {
+        "bytes": 3846,
+        "sha256": "a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020"
+      },
+      "mobile/fps-overlay-comment-before.ts": {
+        "bytes": 3843,
+        "sha256": "40b509a8ff3c189de5ea70379c9d29bf42fe113a39972985c0d4540e01b77268"
+      },
+      "mobile/install-analytics-before.test.ts": {
+        "bytes": 1973,
+        "sha256": "becb3927cd3c7ece6e229c237d7d5721639a899b385e41c5b508a81527bcca87"
+      },
+      "mobile/mobile-artifacts-validation.json": {
+        "bytes": 21971,
+        "sha256": "b2d976a3b640eda744a9df366c191ac0fd6268cb08588f821cc96fda47927f90"
+      },
+      "mobile/privacy-forwarding-proof.execution.json": {
+        "bytes": 2399,
+        "sha256": "06fc07ac679c62483f143c5dabf0c85032807fa11a7a81ec73991afbfab44a4b"
+      },
+      "mobile/privacy-forwarding-proof.json": {
+        "bytes": 4141,
+        "sha256": "2a575dacc4de7313a6a3dcb568cc99d0d5a2129d149b5d447426a285a313b71f"
+      },
+      "mobile/privacy-forwarding-proof.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "mobile/privacy-forwarding-proof.stdout.raw": {
+        "bytes": 181,
+        "sha256": "343abca05b1716b59eaaa97003f8792cb6bc274a3cd923b241294370749f60d3"
+      },
+      "mobile/privacy-forwarding.mutant.patch": {
+        "bytes": 195,
+        "sha256": "ae63d708167cc90034687bfdf30e23d7fe41b847aeebd6f1081599539ef14640"
+      },
+      "mobile/privacy-new-noop.execution.json": {
+        "bytes": 1023,
+        "sha256": "25422831cb7a9477a13720105db23c2df108c3a9de18556a98d5d0e1d850d373"
+      },
+      "mobile/privacy-new-noop.native.json": {
+        "bytes": 3073,
+        "sha256": "1ffb78b73c582831392caf0a13df73450d7c695af5ba3585cd67b7c497776493"
+      },
+      "mobile/privacy-new-noop.stderr.raw": {
+        "bytes": 800,
+        "sha256": "1df41e94119cc762ce1d532496aa4b5547dcc68b565bafba6a499beabb28ea56"
+      },
+      "mobile/privacy-new-noop.stdout.raw": {
+        "bytes": 709,
+        "sha256": "c626307cdc0cc35dd272b4c8fcf00643af9db7a7d517f9664c580b26f9e17e6f"
+      },
+      "mobile/privacy-old-noop.execution.json": {
+        "bytes": 878,
+        "sha256": "74a2ec0815417f3d0379b39cfbb8f658b0d939aa5722754eeb4b6d836bf618ff"
+      },
+      "mobile/privacy-old-noop.native.json": {
+        "bytes": 1475,
+        "sha256": "9372a71de1d97d253813c3533798b5223de9fcd22782f35b314e8402f54739f0"
+      },
+      "mobile/privacy-old-noop.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "mobile/privacy-old-noop.stdout.raw": {
+        "bytes": 503,
+        "sha256": "c457081e1ed75d9620cc7cf1dfdb608297f1fd2d7414d40e644c5ef98ce51e59"
+      },
+      "mobile/privacy-restored-new.execution.json": {
+        "bytes": 886,
+        "sha256": "f29ec03b13409e28ff135e156d7db9e2745bf91e390d52a9e0958a1660473df7"
+      },
+      "mobile/privacy-restored-new.native.json": {
+        "bytes": 1508,
+        "sha256": "d1a99324c5e89d27d2c442d9b99ea0a71e76bbf730fea0a5fbc5caa5cacceb02"
+      },
+      "mobile/privacy-restored-new.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "mobile/privacy-restored-new.stdout.raw": {
+        "bytes": 507,
+        "sha256": "c18eb3b97758d48d3a6f7d8dd44d7288a20913db49493ca692016ffd958bf14e"
+      },
+      "mobile/probe-avi-repeat.mjs": {
+        "bytes": 5396,
+        "sha256": "1f59153d0e27f059007805d4e09c7895a229c744075405b938f1b1a1ed75b05a"
+      },
+      "mobile/prove-avi-final-red.mjs": {
+        "bytes": 2992,
+        "sha256": "9f99660432e506996a62b2bfe20cf4d97f1430018a5d35d82643bb7c41e5ede8"
+      },
+      "mobile/prove-privacy-forwarding.mjs": {
+        "bytes": 4613,
+        "sha256": "0380ecf0682da47e6b40791c5d3400a2f68482d2ecbb77f4f56e1abec15d5a2a"
+      },
+      "mobile/scope.json": {
+        "bytes": 465,
+        "sha256": "9700b26183e0869531015c5c9d44ea0b1f7b5adc5ef802f5404e483d8a6efb57"
+      },
+      "mobile/screen-structure.mjs": {
+        "bytes": 2073,
+        "sha256": "0475d17d815a501d3fefb62613e4409c73f79974c272d4fbc75bcd59ef87d20d"
+      },
+      "mobile/structure-screen.json": {
+        "bytes": 16364,
+        "sha256": "8c4c530f1b8be39478f375c9bd83a80042055e74bce3f9cdc30ae06039659ccd"
+      },
+      "mobile/two-comment-invariance.json": {
+        "bytes": 710,
+        "sha256": "142c5bf6d9be109866d42986105a18e6fb08024e69e6485b887e25b5bba800c4"
+      },
+      "ci868/github-868-coverage-annotations-r2.raw": {
+        "bytes": 1008,
+        "sha256": "c299aef7973c5b1ae6fb64476dd99a67814d4fb652ed55e535cf9548a4a2a3bf"
+      },
+      "ci868/github-868-coverage-annotations-r2.receipt.json": {
+        "bytes": 461,
+        "sha256": "c4ad396fa678d0f60baffb55e242d2ecad2c0394404b65fe456a7da8b1c1c5cd"
+      },
+      "ci868/github-868-coverage-annotations-r2.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "ci868/github-868-coverage-annotations.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "ci868/github-868-coverage-annotations.receipt.json": {
+        "bytes": 477,
+        "sha256": "4dc3b278bb58c1af123138af1c2ef29667734ff652bf082f4121205d652f568c"
+      },
+      "ci868/github-868-coverage-annotations.stderr.raw": {
+        "bytes": 98,
+        "sha256": "dcb34b743f5d121904f383c07385c7c309dea007e86187a97ea52f0d44f0de6c"
+      },
+      "ci868/github-868-coverage-final.raw": {
+        "bytes": 2711,
+        "sha256": "26f4659758df82fd998756ebdd580f13a00a54c4b3de989ac6da2c9cbb655084"
+      },
+      "ci868/github-868-coverage-final.receipt.json": {
+        "bytes": 491,
+        "sha256": "644db03f1e7319d899dca1280bb87d204101b12d328da90bebc12d99475ab107"
+      },
+      "ci868/github-868-coverage-final.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "ci868/github-868-coverage-full.raw": {
+        "bytes": 685934,
+        "sha256": "0bdeaf39831eb83df0c3029ccc7a6b669abe44ba83b27f4c6fd5be8630f2df25"
+      },
+      "ci868/github-868-coverage-full.receipt.json": {
+        "bytes": 454,
+        "sha256": "e14a5c4a44adb99256766d8adfd66be96ea60bf6f5b402efc175a55413237ec4"
+      },
+      "ci868/github-868-coverage-full.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "ci868/github-868-coverage-status.raw": {
+        "bytes": 2499,
+        "sha256": "6275c87cc4512f9a2a7dcc7354f2a66fc0c102fc554a7ee85c42732e32040cae"
+      },
+      "ci868/github-868-coverage-status.receipt.json": {
+        "bytes": 499,
+        "sha256": "812fbd090aa7c984fee3d7633e778906e0f9fd10a2d9706b79a5e2b249c169c1"
+      },
+      "ci868/github-868-coverage-status.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "ci868/github-868-docs-annotations.raw": {
+        "bytes": 980,
+        "sha256": "6e4424cecd1de81fa255391c2e1334cfaf4f5cf6dcf3e8a659f3d5858a73de5f"
+      },
+      "ci868/github-868-docs-annotations.receipt.json": {
+        "bytes": 486,
+        "sha256": "3b3b35b06d6027766338530b664cf52e4b5d37faafacbc4f651748a8aeec7fd3"
+      },
+      "ci868/github-868-docs-annotations.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "ci868/github-868-docs-full.raw": {
+        "bytes": 2248609,
+        "sha256": "c46cbb0baeaf9a89ccd8a1c2c87d15bad460965334d9feae1397bbc27817f77a"
+      },
+      "ci868/github-868-docs-full.receipt.json": {
+        "bytes": 463,
+        "sha256": "74d3f05a5ded420fc9822e3110ef3ef352c51ca4a3be49e84d99d8526f073bf0"
+      },
+      "ci868/github-868-docs-full.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "ci868/github-868-docs.raw": {
+        "bytes": 2357,
+        "sha256": "f1d3eed91b7f2aad80820614cba74ddd4a327170ec0307908adc122e3f983a03"
+      },
+      "ci868/github-868-docs.receipt.json": {
+        "bytes": 499,
+        "sha256": "1b99f2c1b9456144218767e259d3cb4ea2c4ce1b6fe6bfcd68c09a5eb6b05fb5"
+      },
+      "ci868/github-868-docs.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current/packages/game/src/core/battle/actions/attack.ts": {
+        "bytes": 29277,
+        "sha256": "30e61e9fcbf5578391effce111c98e9b73c2d4abeef2934e3441b84d27ae1374"
+      },
+      "current/packages/game/src/core/battle/actions/attack-mate.ts": {
+        "bytes": 5443,
+        "sha256": "217f36879c652d015b3dc26302d6b67db7dcc3c380f8bfa030d4094999458591"
+      },
+      "current/packages/game/src/core/battle/actions/defend.ts": {
+        "bytes": 806,
+        "sha256": "b2240acf6d933b2345cf290adfb58bf7ee3602d9d5b1e3099d843109aae88f60"
+      },
+      "current/packages/game/src/core/battle/actions/flee.ts": {
+        "bytes": 4024,
+        "sha256": "9baeac60c72bfec5c04dfa6e7e534ff1f53c351965025cdbb1a4b544eb6bf463"
+      },
+      "current/packages/game/src/core/battle/__tests__/attack-mate.test.ts": {
+        "bytes": 5504,
+        "sha256": "9c5df1343e7d51d4ddb0b87ce75cc78c93a208182fa6bca8c953fdef5d0f1c8d"
+      },
+      "current/packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts": {
+        "bytes": 2634,
+        "sha256": "46bc9913fd1ae91d03ed6f923920614bab64aab11a3c1e2e4db24962fa244995"
+      },
+      "current/packages/game/src/shell/input.ts": {
+        "bytes": 9088,
+        "sha256": "271b6afdb6ff191939562da3cbb06e2f1eb4aab455aee381eb75f2705b078d09"
+      },
+      "current/packages/game/src/shell/avi-player.ts": {
+        "bytes": 8008,
+        "sha256": "dcb53dc1f6b4ce8f35208362be06f7edd806b3cd32f195b06bc8170f4e4e2834"
+      },
+      "current/packages/game/src/shell/avi-player.test.ts": {
+        "bytes": 5903,
+        "sha256": "3e7e858605aa0828ac442a31d145ab9864aec8d7bc01651653dacd82297c46f5"
+      },
+      "current/packages/game/src/shell/avi-player.glm-next-wave.test.ts": {
+        "bytes": 10034,
+        "sha256": "8b154915ffdcb01f7d0d31b761f85a621c4db4c11e4762686b9fb5b4866a08bf"
+      },
+      "current/packages/game/src/tools/speedrun/store.ts": {
+        "bytes": 1969,
+        "sha256": "3ed91fc0eba9daa62805e0d0b9d4e098cf55553a3db05b5b7f9f195326365d4b"
+      },
+      "current/packages/game/src/analytics/analytics-consent-ui.ts": {
+        "bytes": 4197,
+        "sha256": "2eb29b1f1260e85efff0d84ef90e4d8a51956180cf10dbb24346b4f9b870dd36"
+      },
+      "current/packages/game/src/analytics/install-analytics.ts": {
+        "bytes": 1844,
+        "sha256": "d6021e36310bc459b4b99be7f577bcd61d145bd8795ab584a6bbd7f9f564ea15"
+      },
+      "current/packages/game/src/analytics/install-analytics.test.ts": {
+        "bytes": 2709,
+        "sha256": "3780e1911f96d60f8ef75cd3cce40909cb116713b31b905a0fd4b321c93bd300"
+      },
+      "current/packages/game/src/tools/display-scale.ts": {
+        "bytes": 2019,
+        "sha256": "1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6"
+      },
+      "current/packages/game/src/tools/fps-overlay.ts": {
+        "bytes": 3846,
+        "sha256": "a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020"
+      },
+      "current/packages/game/src/core/battle/__tests__/actions.test.ts": {
+        "bytes": 102696,
+        "sha256": "0bd0e53f63267b9212b34c7df6162413686eb4ecabee0c5f0b44fd880e5cb31a"
+      },
+      "current/packages/game/src/core/battle/battle-system.ts": {
+        "bytes": 148844,
+        "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874"
+      },
+      "current/packages/game/src/__tests__/glm-next-wave/H/harness.ts": {
+        "bytes": 6297,
+        "sha256": "0c3b15371cda3f5a0e936c7c1e73dee516617f239dbc4e3c6a4c3ea3cd9640e0"
+      }
+    }
+  }
+}

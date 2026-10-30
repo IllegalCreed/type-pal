@@ -1,0 +1,13 @@
+{
+  "command": ["python3", "/tmp/type-pal-post-assets.py"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T06:34:12.031787+00:00",
+  "completedAt": "2026-10-18T06:34:12.108313+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "asset-census-check.raw.gz",
+  "rawBytes": 111,
+  "rawSha256": "04d6d5a5bcb8d469cf3b14b6642f5b7727b34215fb681bf204791e6a44886c8e",
+  "fullUncutMergedStdoutStderr": true
+}

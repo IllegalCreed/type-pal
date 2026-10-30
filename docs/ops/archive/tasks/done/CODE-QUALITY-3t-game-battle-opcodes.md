@@ -1,5 +1,7 @@
 # CODE-QUALITY-3t - game battle-opcodes 战斗脚本解释器逐文件治理
 
+> 2026-10-18 当前 counter：0x66 effective 投影误当裸武术，既有测试未 hydrate runtime，旧“无直接反例”不再构成当前验收。历史 done/原始 quote 原样保留；[后继高风险卡](../../../tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md)已按用户本条处置先红后修，统一门/整文件尚未收口。
+
 Status: done
 Phase: phase1 game
 Capability: ops / code-quality / phase1-mechanics

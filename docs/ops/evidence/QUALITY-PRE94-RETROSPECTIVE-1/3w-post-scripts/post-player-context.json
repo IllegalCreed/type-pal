@@ -1,0 +1,440 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "owner": "Codex(single Agent)",
+  "base": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+  "status": "draft;two state-ownership failures observed;no new product build allowed",
+  "task": "GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1",
+  "pins": [
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "e046f2c9fc21fb9c229c33041f47a487536b6f1a7bc1fb42644d4051e567d5a9"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "b50112e57b47b92cf629560d43e4fc44886958afde9886730100de5599797b86"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "19bbf2f967f44105db0a9b029ecacaf3735ca2f5782fe3b867b3462849db674e"
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "4025164dd238bc88588cef534255dca71d22c187dadde80f4b39756e5a974328"
+    },
+    {
+      "path": "packages/game/src/core/save/v1.ts",
+      "sha256": "92d908ac942928390a6db0229b666f8291b5a8e8a97a5df07871d37054869d2b"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "cfe38ef22a36301e06f24ddf76551eeb3c3d05c82a3cbe66cd6876dbeda14ba0"
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc"
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017"
+    },
+    {
+      "path": "data/raw/SSS.MKF",
+      "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+    },
+    {
+      "path": "data/raw/DATA.MKF",
+      "sha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b"
+    }
+  ],
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-context-native.json.gz",
+    "sha256": "944a8394f60a8f224098b1b48b1fcd76fb3e9bded3ebdff9c04fe899681195d5",
+    "members": [
+      {
+        "name": "post-heal-actual.execution.json",
+        "bytes": 548,
+        "sha256": "f3f95e10e75fb87491fa8db74a8c4bec0f964a755d5f68849ab20e8a232c7276"
+      },
+      {
+        "name": "post-heal-actual.stdout.raw",
+        "bytes": 1004,
+        "sha256": "f389a8f08c71e0d352f8c452260670c293b42bf92e6d54d2e44040ed5c155e30"
+      },
+      {
+        "name": "post-heal-actual.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "post-heal-roles-only.execution.json",
+        "bytes": 564,
+        "sha256": "218e8cde4aaa874cbbee8eda9d0bce098b42beab9c8bc2c429399e3b5fe622af"
+      },
+      {
+        "name": "post-heal-roles-only.stdout.raw",
+        "bytes": 1016,
+        "sha256": "224dbbfa5d659c8b02d636fe0eae4f4f1b282a92fcbc7f5cb41e2c780e70cdc5"
+      },
+      {
+        "name": "post-heal-roles-only.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "c-post-o0-build.execution.json",
+        "bytes": 705,
+        "sha256": "e558dd7281409c9e980bb68820ca40bd14ce9b10d3ab5ed813aae0ac3f9abbf2"
+      },
+      {
+        "name": "c-post-o0-build.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "c-post-o0-build.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "c-post-o2-build.execution.json",
+        "bytes": 705,
+        "sha256": "fa0091d56ded3f5db7d315a66a1e8b0293070d8f9b0a78767793d2d1a2407c92"
+      },
+      {
+        "name": "c-post-o2-build.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "c-post-o2-build.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "c-post-o0-run.execution.json",
+        "bytes": 493,
+        "sha256": "13a931ee84ded329c6a7cdf3e537824f38746e95c745a4d64a0db662214e8dcf"
+      },
+      {
+        "name": "c-post-o0-run.stdout.raw",
+        "bytes": 59,
+        "sha256": "692ed4092936e74e170af00d330b00f93d57bc2cf3fff73356231db0dbaa9afe"
+      },
+      {
+        "name": "c-post-o0-run.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "c-post-o2-run.execution.json",
+        "bytes": 493,
+        "sha256": "4f4c4868b56e8847003d5c188ab24f48f74416af4e42a924044d86cb87c21369"
+      },
+      {
+        "name": "c-post-o2-run.stdout.raw",
+        "bytes": 59,
+        "sha256": "692ed4092936e74e170af00d330b00f93d57bc2cf3fff73356231db0dbaa9afe"
+      },
+      {
+        "name": "c-post-o2-run.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "post-heal-probe.mts",
+        "bytes": 7222,
+        "sha256": "9a2ce2d126ab8fb80218804d7edfc0a4912a3e51183818f87ce5b1685c560010"
+      },
+      {
+        "name": "sdl-post-heal.c",
+        "bytes": 2957,
+        "sha256": "8dacc2a84bba285957154cea9fe1883b21018d69c24089cc7b85d19a866d0be0"
+      },
+      {
+        "name": "c-fragments.json",
+        "bytes": 425,
+        "sha256": "c51bdc71738338c5d60eb984ecce4488f89d65e7873f6652ecd5c98c68efae76"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "id": "post-heal-actual",
+      "command": "./node_modules/.bin/tsx",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/post-heal-probe.mts",
+        "actual"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:59:42.307Z",
+      "end": "2026-10-22T05:59:44.177Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 1004,
+      "stderrBytes": 0
+    },
+    {
+      "id": "post-heal-roles-only",
+      "command": "./node_modules/.bin/tsx",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/post-heal-probe.mts",
+        "roles-context-only"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T05:59:42.307Z",
+      "end": "2026-10-22T05:59:44.177Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 1016,
+      "stderrBytes": 0
+    },
+    {
+      "id": "c-post-o0-build",
+      "command": "clang",
+      "args": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O0",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/sdl-post-heal.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/sdl-post-heal-o0"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:01:51.259Z",
+      "end": "2026-10-22T06:01:51.580Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "c-post-o2-build",
+      "command": "clang",
+      "args": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O2",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/sdl-post-heal.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/sdl-post-heal-o2"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:01:51.258Z",
+      "end": "2026-10-22T06:01:51.580Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "c-post-o0-run",
+      "command": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/sdl-post-heal-o0",
+      "args": [],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:02:09.209Z",
+      "end": "2026-10-22T06:02:10.144Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 59,
+      "stderrBytes": 0
+    },
+    {
+      "id": "c-post-o2-run",
+      "command": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/sdl-post-heal-o2",
+      "args": [],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:02:09.207Z",
+      "end": "2026-10-22T06:02:10.475Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 59,
+      "stderrBytes": 0
+    }
+  ],
+  "actual": {
+    "kind": "actual accepted V1 modified enemy battleEnd -> actual automatic combat -> two post-script calls -> recovery/cleanup;no official Vitest/native SDL/browser proof",
+    "mode": "actual",
+    "modifiedInput": {
+      "party": [0],
+      "hp": 300,
+      "maxHP": 500,
+      "attack": 1000,
+      "dexterity": 1000,
+      "autoBattle": true,
+      "object398BattleEnd": 39554
+    },
+    "ticks": 190,
+    "phase": "won",
+    "defeated": [true, true],
+    "observations": [
+      {
+        "stage": "before",
+        "runtime": 289,
+        "live": 289,
+        "hasRoles": false
+      },
+      {
+        "stage": "after",
+        "runtime": 289,
+        "live": 289,
+        "hasRoles": false
+      },
+      {
+        "stage": "before",
+        "runtime": 289,
+        "live": 289,
+        "hasRoles": false
+      },
+      {
+        "stage": "after",
+        "runtime": 289,
+        "live": 289,
+        "hasRoles": false
+      }
+    ],
+    "final": {
+      "runtimeHP": 394,
+      "liveHP": 289,
+      "mode": "explore",
+      "resourcesReleased": true
+    }
+  },
+  "rolesOnlyControl": {
+    "kind": "actual accepted V1 modified enemy battleEnd -> actual automatic combat -> two post-script calls -> recovery/cleanup;no official Vitest/native SDL/browser proof",
+    "mode": "roles-context-only",
+    "modifiedInput": {
+      "party": [0],
+      "hp": 300,
+      "maxHP": 500,
+      "attack": 1000,
+      "dexterity": 1000,
+      "autoBattle": true,
+      "object398BattleEnd": 39554
+    },
+    "ticks": 190,
+    "phase": "won",
+    "defeated": [true, true],
+    "observations": [
+      {
+        "stage": "before",
+        "runtime": 289,
+        "live": 289,
+        "hasRoles": false
+      },
+      {
+        "stage": "after",
+        "runtime": 289,
+        "live": 500,
+        "hasRoles": false
+      },
+      {
+        "stage": "before",
+        "runtime": 289,
+        "live": 500,
+        "hasRoles": false
+      },
+      {
+        "stage": "after",
+        "runtime": 289,
+        "live": 500,
+        "hasRoles": false
+      }
+    ],
+    "final": {
+      "runtimeHP": 394,
+      "liveHP": 500,
+      "mode": "explore",
+      "resourcesReleased": true
+    }
+  },
+  "nativeCFragment": {
+    "before": 289,
+    "afterTwoHeals": 500,
+    "afterHalfRecovery": 500
+  },
+  "primary": {
+    "raw": "Original SSS39554=0x1B[1,300,0],39555=end. Actual original team0 contains two OBJECT398 slimes. V1 overlay changes their battleEnd only;raw bytecode/resources untouched.",
+    "sdl": "battle.c:1334-1337 calls every enemy battleEnd,1342-1372 half-recovers same global PlayerRoles;script.c:867-892 calls PAL_IncreaseHPMP;global.c:1254-1330 mutates that global SoA. O0/O2 run exact global function and extracted half-recovery statements,not full SDL or script dispatch.",
+    "runtime": "Actual imported V1 ->startBattle->tickByMode automatic combat,190ticks/two enemies actually defeated ->two real post calls ->recovery/cleanup. No manually seeded won/HP during battle and no mock combat/cleanup. Legal modified input has300/500HP,1000attack/dexterity andautoBattle before serialization."
+  },
+  "classification": {
+    "proven": [
+      "settlement omits battleCtx.playerRoles,so0x1B is consumed without a role effect.",
+      "Adding only roles through supported runner makes liveHP500,but runtime stays289 andfinishBattleWon yields394. Both context andstate owner must be solved;do not blindly write a stale projection back."
+    ],
+    "bound": "Canonical10battleEnd leaves contain drops/text/chance only;ordinary story healing at this boundary not proven. This is accepted modified V1 input,not normal original gameplay or browser/nativeSDL battle proof.",
+    "proposal": "If approved,make post-battle script HP/MP changes reach the same authoritative values used by later script instructions and PhaseF half-recovery;preserve in-battle action ownership,drop/dialog order,temporary/equipment cleanup andsave format. First formal business red;design must handle both battle-specific HP writes and raw runtime writes,not just addoneparameter."
+  },
+  "quality": {
+    "A": "New actual context/resource counter prevents closing settlement under a generic all-script equivalence claim. Frozen current extra cleanup fix remains valid.",
+    "B": "Current post-script/half comment has a narrower real runtime reading;do not claim missing HP context or C/TS intermediate trace equal. Two separate battle-system docblocks were found attached before unrelated helpers,finite B repair separate.",
+    "C": "Mutable projection andruntime split ownership now demonstrably loses changes at PhaseE boundary;this is an actual state-owner defect,not preference for rearrangingfiles.",
+    "D": "Main battle andpost-battle lifecycles differ;do not build万能helper or assumepassing same projection equals same ownership. Existing projection/status owners should be reused where their contracts fit.",
+    "E": "Actual parser/Save/combat/runner andsource-extracted native C comparator;two modes isolate missing context vs lost state. No official Vitest red yet;all six captured processes0/stderr0,butthese are probes not product gates.",
+    "F": "Snapshots separate before/after runtime vs live values;hasRoles records the actual caller field,eveninroles-only control where roles are injected afterwards.",
+    "G": "No source/test/config/baseline change or new product abstraction. No duplicate runtime tests added to improve coverage.",
+    "H": "Public runner observes anddelegates real script;control changes only supplied context. Full automatic core combat avoids terminal-state fabrication andallglobals/own memory slot cleared in finally."
+  },
+  "readBoundaries": {
+    "full": [
+      "packages/game/src/core/battle/battle-settlement.ts",
+      "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "packages/game/src/core/battle/battle-runtime-context.ts",
+      "packages/game/src/core/mode.ts"
+    ],
+    "targeted": [
+      "battle-system.ts:startBattle/tickBattle/runEnemyTurnStartScripts/tickBattleDialog",
+      "battle-opcodes.ts:799-820/1027-1102",
+      "event-system.ts:runScript relevant dispatch/fallback",
+      "SDL global.c:1254-1330;script.c:867-918;battle.c:1330-1377/1770-1820"
+    ]
+  },
+  "currentCounts": {
+    "tracked": 3356,
+    "closed": 373,
+    "review": 114,
+    "pending": 2869,
+    "cardAccept": 61,
+    "cardPartial": 22,
+    "newClosed": 0
+  },
+  "validation": "No wholecheck/coverage/protected in this read-only counter. Prior236 local green/TC from09 retained;whole gates deferred. No product/API/schema/save change;new high-risk policy pending.",
+  "replay": "Archive includes probe/C producer plus full native raw. Extract only to caller-owned temp;update original absolute repository prefix to frozen09 source mirror if needed. Rebuild C with recorded flags;TS probe uses current raw read-only andown process memory. It doesnot write repository output. Default task verifier checks immutable bytes/outcomes,not replay.",
+  "currentResolution": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix.json",
+  "snapshotSemantics": "Immutable pre-approval observation at09; draft/status/counts describe that snapshot only. Current approval/repair/status are in currentResolution."
+}

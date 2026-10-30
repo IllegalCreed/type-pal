@@ -1,0 +1,27 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/scene-system.test.ts",
+    "--maxWorkers=1",
+    "-t",
+    "面前像素有 NPC \\+ Confirm|方向性 NPC 被触发|非方向性箱子被再次调查",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-search-adjacent.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T19:59:33.593801+00:00",
+  "completedAt": "2026-10-17T19:59:34.608721+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "adjacent.raw.gz",
+  "rawBytes": 398,
+  "rawSha256": "478006b912a5c9473e37501f18a5ba62fb16ba9ced7bc669fcbbe7bbb4040114",
+  "fullUncutMergedStdoutStderr": true
+}

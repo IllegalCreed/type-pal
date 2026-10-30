@@ -1,0 +1,1732 @@
+{
+  "scope": "CODE3q finite scene quality; eight file contracts; no whole pre94/whole event/UI acceptance",
+  "base": "c6b0c2c19250e8fca3b577b53d59828a7ea4799e",
+  "candidate": "610f747f43dc578289d3f88334e0ad04e6ea02b0",
+  "branch": "codex/code-quality-3y",
+  "versions": {
+    "node": "v22.23.2",
+    "pnpm": "10.29.2",
+    "typescript": "6.0.3",
+    "vitest": "4.1.7"
+  },
+  "adjacentFollowups": [
+    {
+      "path": "packages/game/src/dev/dev-panel.ts",
+      "range": "2319-2322",
+      "classification": "outside current pre94 file whitelist; adjacent comment debt",
+      "finding": "Comment says onEnter is skipped, but loadScene executes it; actual applySceneJump code comment below already says it runs.",
+      "disposition": "recorded only; no full dev-panel file acceptance or unsolicited scope expansion"
+    }
+  ],
+  "files": [
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "5efc09854794f0bd596ed5096bb0f4fd6b92e76fba153c03123c47082816cf4a",
+      "bytes": 20064,
+      "lines": 438,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "复用PAL_GameUpdate/StartFrame真值；完整读原实现，移动/菜单/搜索/vanish/trigger时序保留，私有成功结果仅用于起脚本后的站立与一次性消费。",
+        "B": "更正帧顺序、触发不等于阻挡、生产facade误称兼容工具；删重复方向历史说明，保留异步cursor与原同步循环差异。",
+        "C": "探索帧为状态推进Owner，资源装载和纯碰撞拆出；私有链不再接收不用的场景上下文。模块级context单一Owner；公共旧字段和bus参数未借旧授权删除。",
+        "D": "自动/Confirm共用起脚本语义；碰撞由生产bootstrap和follower/场景共同使用，typed方向分支替代重复Set/Map。未将输入/触发/IO合成万能helper。",
+        "E": "现有111基线、split后111、最终107分域；三项旧绿新单业务红及478实际相邻。没有按包绿关闭本文件。",
+        "F": "模块职责边界直接由文件名和导出表达；private loader返回是否成功，避免用强转读取隐式状态写入效果。",
+        "G": "去除私有死ctx、两重复方向映射及三处强转；既有公开参数保留并登记，未证明为内部可删接口。",
+        "H": "tick可传明确context/input；纯碰撞独立导入，无需装载菜单或事件模块。全局脚本仍由既有setter注入，测试逐例初始化/清理。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/scene-context.ts",
+      "sha256": "f7e35e6dc7901bd617f2b8c187d713a581e35187fd1987925105fe5061741764",
+      "bytes": 766,
+      "lines": 22,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "SceneContext公共类型token不变；override优先、未安装时同错误、setter借用引用的旧合同保留。",
+        "B": "说明唯一模块Owner和发布时点；明确保留旧公共形状，不把字段写入误称脚本解析来源。",
+        "C": "只存取当前资源，不导入事件/菜单/loader；不把每帧推进塞进全局服务。",
+        "D": "bootstrap和显式loader共用同一个context实例槽；没有新增替代setter或两套注册表。",
+        "E": "由loadScene→无override tick的两例实际验证setter消费；其它tick用明确override，避免单测模块顺序依赖。",
+        "F": "activeContext命名替代_ctx，三个小声明职责直接可读。",
+        "G": "没有新生命周期协议/复位API；只导出跨文件实际使用的require/set和旧类型。",
+        "H": "override仍可注入；测试结束写入中性上下文，不为mock引入产品接口。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/scene-collision.ts",
+      "sha256": "1a8e1965d80ec424c753769a953edfc55111abe419e52d466cd5a73944915429",
+      "bytes": 3606,
+      "lines": 90,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "isWalkable/tilemapIsBlocked的类型、默认参数与函数token逐字一致；bit13、菱形四分、范围检查先后、NPC自身排除/sState不变。",
+        "B": "移除错误contact怪豁免说法，写明sState合同；tile完整word不再误称u16。",
+        "C": "纯只读计算，无GS写入、IO、事件或菜单依赖；只借用NpcState及共享几何常量。",
+        "D": "生产walk、bootstrap obstacle hook和follower继续经旧facade使用同一叶函数；没有按caller建模式布尔新变种。",
+        "E": "九纯例及装配例观察固定碰撞结果；忽略tile反控旧例绿/新例红。state×mode矩阵保留三旧合同。",
+        "F": "菱形分支保持与既有真值相同的可读顺序，模块名清楚表达用途。",
+        "G": "无额外包装/状态；未为初筛复杂度14拆成互相依赖的细碎helper。",
+        "H": "所有输入可显式传入，结果确定，不需异步/菜单/global mocks。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/scene-loading.ts",
+      "sha256": "05b80afc53a305ec2eb6f40dddbe44b7686f752dac3475e587ddf624f97389e2",
+      "bytes": 3467,
+      "lines": 80,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "loadScene正文及LoadSceneInput token守恒；先await资源，后设置场景/NPC引用、context/map、onEnter及显式位置覆盖。失败仍向caller传播，无新增取消/回滚行为。",
+        "B": "明确dev显式跳转与bootstrap正常装配不同；更正旧per-scene label解析说明，onEnter先执行再位置覆盖。",
+        "C": "资源请求与场景发布集中在明确装载模块；context下沉避免依赖探索调度，调用方仍负责呈现资源。",
+        "D": "复用真实SceneAssetsCache接口，不新增通用loader/布尔选项；保持公共facade。",
+        "E": "23装载/全局触发例；typed完整资产，onEnter位置覆盖同时断言音乐副作用，消除跳过脚本也能绿。",
+        "F": "原声明和执行顺序完整保留；模块头准确界定真实调用域。",
+        "G": "只搬已有职责，没有新增分支/兼容回退；未凭async关键字新增取消状态机。",
+        "H": "真实cache构造接受async fetcher，可注入资产与错误；现无新设计阻塞，未证明dev并发路径缺陷。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/scene-system.test.ts",
+      "sha256": "7b7d17b3125860363be550b261c900733049d9229c146f89eae6473188182615",
+      "bytes": 58553,
+      "lines": 1458,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "原2121行完整核读后映射全部delta；探索/trigger/菜单/TouchFar/save回入在真实GS/cursor入口执行，合法role经loadDefaultGame初始化。",
+        "B": "更正距离、视口初值、NPC相对方向与过期schema说明；删除把碰撞source当自动触发真值的头注。",
+        "C": "保留跨模块装配合同，纯碰撞/装载下放；所有写入的catalog/context/provider/map/mock均在afterEach清理。",
+        "D": "只共享具有相同数据合同的map/input/asset构造；角色复用现有完整typed factory，不复制生产算法。",
+        "E": "75装配例；精确warning消息/次数，16边界真实达阈值并安装有效脚本；墙体/阻挡不再被范围守卫抢先挡住；trail使用字面五包独立oracle。三项反控均旧绿新单红。",
+        "F": "按责任分组；保留独立Up row7近边界，删除的Right仅固定方向delta由SystemA同向例涵盖。",
+        "G": "精确4冗余合同转入更强矩阵/字面oracle，32迁移；全部111身份映射，无skip/only或未说明删除。",
+        "H": "无any/never/unknown强转；显式脚本初始化，测试结束清理，意外console诊断由完整默认reporter及验收脚本拒绝。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/scene-collision.test.ts",
+      "sha256": "2af714b406498dd2368cb01f0a10cb83bf119f05b46037ce058f22e85a4471cc",
+      "bytes": 5347,
+      "lines": 95,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "真实纯函数输入与完整typed tilemap；upper/lower及四菱形分支、越界、NPC距离/排除覆盖原合同。",
+        "B": "原contact与state同时变化的错误归因改为state×mode矩阵；说明bit13和坐标单位。",
+        "C": "只测碰撞，不混入菜单/资源生命周期；装配墙体例留主测。",
+        "D": "复用同语义map构造；不调用生产函数生成expected。",
+        "E": "9例；矩阵含3/4/5各state1/2，涵盖被合并的两DH5例和原mode偏置例；明确distance16边界。",
+        "F": "直接输入和boolean结果，无大段全局setup。",
+        "G": "两DH5已证重复合并，无未知轴强删；所有新旧身份可映射。",
+        "H": "无spy/global副作用，独立叶导入，测试可隔离运行。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/scene-loading.test.ts",
+      "sha256": "0679e664aaec677135c6baadd4ea33f9e5910b7c2320a6bde8da59140da3ba21",
+      "bytes": 21600,
+      "lines": 495,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "真实cache与loadScene/无override tick；资源/NPC保留、1-based scene、onEnter、camera与显式落点在实际实现验证。",
+        "B": "删除“不跑onEnter”的陈旧说明；位置最后覆盖不再写为脚本不执行；资产完整/借用约束准确。",
+        "C": "装载责任单独组织，cleanup覆盖模块级注册；没有用cast stub替代真实cache。",
+        "D": "共享typed assets/map/input；onEnter安装脚本的helper仅供本文件，未把副作用藏进通用fixture。",
+        "E": "23例；显式override同时保留音乐副作用，绝对镜头与party目标不同，回正前先移开镜头，能区分跳过对应opcode。",
+        "F": "不再夹在两千行探索测试中，所有装载合同集中。",
+        "G": "无新增重复用例；23原身份原封迁移，只有fixture和既有断言补强。",
+        "H": "无any强转，真实async fetcher确定返回；provider和catalog/context在finally/afterEach复位。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/scene.test-fixtures.ts",
+      "sha256": "0ac159b319f3b18f912d18dc68986b38d5611a2a929abdbe3c901841f7da5a85",
+      "bytes": 1749,
+      "lines": 68,
+      "scope": "Full original implementation/test read + complete authored delta; copied nodes tied by token proof, test identities by native mapping.",
+      "status": "review; no new closed",
+      "dimensions": {
+        "A": "map包含声明宽高的完整cells、palette256三元色、SceneEventObject/Command合法类型；没有用空cells伪装完整Tilemap。",
+        "B": "只解释blocked层/bit与mapNum独立测试值，不声称原盘像素或覆盖完整资源。",
+        "C": "只创建输入；无GS修改/全局注册，显式onEnter注册留真实caller测试。",
+        "D": "四helper均有两个或以上实际消费者；blocked map复用flat构造，不引入泛型万能fixture。",
+        "E": "typecheck及107直接合同实际消费；原生产完整角色factory复用，没有测试fixture自比当业务oracle。",
+        "F": "按资源名命名，参数表达尺寸/阻挡/命令；返回类型显式。",
+        "G": "无未用导出、额外模式开关或强转；构造只保留真实消费者所需字段和完整合法资源形状。",
+        "H": "每次调用创建新cells/palette/maps/sets，无共享可变实例和副作用。"
+      }
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "4e20b9dc98a6e88218e4305e80f9d6f5accc5d220d2bc8aab6868b48f61fd17a",
+      "bytes": 2447,
+      "lines": 63,
+      "scope": "explore dispatcher; actual facade caller, inherited full review + current caller query"
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f",
+      "bytes": 20033,
+      "lines": 501,
+      "scope": "SceneAssets/real SceneAssetsCache 404-516; current data types and injection lifecycle"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "bytes": 104527,
+      "lines": 2078,
+      "scope": "GameState/NpcState, constants, initial camera, hydration and scene object references; scoped declarations/callers only"
+    },
+    {
+      "path": "packages/shared/src/resources.ts",
+      "sha256": "a7d582ce6cbaafadb730790de9cfd2abde2acc23e01e4f68c310a956f1cc0554",
+      "bytes": 6043,
+      "lines": 148,
+      "scope": "Full current resource types (Tilemap/Palette/SceneEventObject) read"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.ts",
+      "sha256": "d23f4cceda7b457573c00f64f4ca8c19ce96874e7323cabebc67ac127eaf91e0",
+      "bytes": 104362,
+      "lines": 2347,
+      "scope": "applySceneJump current caller range2303-2360; no full-file acceptance"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+      "bytes": 96147,
+      "lines": 1956,
+      "scope": "current collision/context callers and prior recorded loader ownership; not full bootstrap acceptance"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "40171bdd3ce3617799976dba98cfe622be4bd1e9fb6f71b611d6eee99cfc125c",
+      "bytes": 264297,
+      "lines": 5162,
+      "scope": "runEnterScript/resolve catalog/tick wiring; scoped camera opcode current3638-3680; not event-wide acceptance"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "d909b4b5b99293d88a0d85e41cf77c4283868780ea69c34e5823b28db8c1119e",
+      "bytes": 45948,
+      "lines": 1050,
+      "scope": "MenuCatalogs setter/runtime projection/shortcut dispatch relevant130-220"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3q-scene-system/read-boundaries.json",
+      "sha256": "f22136dbae457577de56c020c3b199ff171c1be904cb643d6c5ce40485fb1f21",
+      "bytes": 3570,
+      "lines": 86,
+      "scope": "prior A-dimension source boundaries reused; historical product SHA is not claimed current"
+    }
+  ],
+  "primary": [
+    {
+      "path": "reference/sdlpal/play.c",
+      "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8",
+      "bytes": 15071,
+      "lines": 682,
+      "scope": "Reused primary ranges 25-238, 362-591"
+    },
+    {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "bytes": 21559,
+      "lines": 903,
+      "scope": "Reused primary ranges 512-847"
+    },
+    {
+      "path": "reference/sdlpal/map.c",
+      "sha256": "0b707730f6e89b2d99f7a8564382c226381c3cec2f13867ad54c816805b1357f",
+      "bytes": 8136,
+      "lines": 418,
+      "scope": "Reused primary ranges 277-299"
+    },
+    {
+      "path": "reference/sdlpal/res.c",
+      "sha256": "5bec5dd52c950fe1a6cdafb7fab414f55cd5958adc7c9ddce4e7f6cbfe3ec9d9",
+      "bytes": 8520,
+      "lines": 439,
+      "scope": "Reused primary ranges 229-301"
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "bytes": 25072,
+      "lines": 757,
+      "scope": "Reused primary ranges 75-121, 512-531"
+    }
+  ],
+  "controlledMetadataDelta": [
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "ad0b4d92f32cc7061a036d325401fcd3ec1a1d9c9985488337a941cf570e1507",
+      "bytes": 35744,
+      "lines": 647,
+      "scope": "Only exact 111-to75 transfer snapshot and immutable count assertions; predicate/old rows/rules unchanged."
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "93ed82c49695a491d077eedf2fab67f3303490675c02b7b8b399056b5dbb69dc",
+      "bytes": 4603,
+      "lines": 86,
+      "scope": "Only exact 111-to75 transfer snapshot and immutable count assertions; predicate/old rows/rules unchanged."
+    }
+  ],
+  "identityMapping": {
+    "oldTotal": 111,
+    "currentTotal": 107,
+    "currentByFile": {
+      "packages/game/src/core/scene-system.test.ts": {
+        "count": 75,
+        "identityDigest": "2f450b9636dcd731c5fb1445ce2147aae9829a21783375cd170ed8c7102a1a77"
+      },
+      "packages/game/src/core/scene-loading.test.ts": {
+        "count": 23,
+        "identityDigest": "d3ac241dfcd41d02b4ef0081ddea29a10110d1ce899c850f8dfee33f3c90ea7d"
+      },
+      "packages/game/src/core/scene-collision.test.ts": {
+        "count": 9,
+        "identityDigest": "e58754ed244df822e256d625e42e06cd659063c130fcf5b63db22d56936f9f48"
+      }
+    },
+    "approval": {
+      "file": "packages/game/src/core/scene-system.test.ts",
+      "previous": 111,
+      "current": 75,
+      "previousIdentityDigest": "83990a58b44244ed68b06125a966cc2dbae7ddcfab70c32eb4b3de8f2b891e18",
+      "currentIdentityDigest": "2f450b9636dcd731c5fb1445ce2147aae9829a21783375cd170ed8c7102a1a77",
+      "fileSha256": "7b7d17b3125860363be550b261c900733049d9229c146f89eae6473188182615"
+    },
+    "mapping": [
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "System A 对角移动 sanity(4 方向 dx/dy 都非零) > press Right → facing=right, dx=16, dy=8(对角非 cardinal)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "System A 对角移动 sanity(4 方向 dx/dy 都非零) > press Right → facing=right, dx=16, dy=8(对角非 cardinal)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "System A 对角移动 sanity(4 方向 dx/dy 都非零) > press Left → facing=left, dx=-16, dy=-8(对角非 cardinal)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "System A 对角移动 sanity(4 方向 dx/dy 都非零) > press Left → facing=left, dx=-16, dy=-8(对角非 cardinal)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "System A 对角移动 sanity(4 方向 dx/dy 都非零) > press Down → facing=down, dx=-16, dy=8(对角非 cardinal)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "System A 对角移动 sanity(4 方向 dx/dy 都非零) > press Down → facing=down, dx=-16, dy=8(对角非 cardinal)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "System A 对角移动 sanity(4 方向 dx/dy 都非零) > press Up → facing=up, dx=16, dy=-8(对角非 cardinal)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "System A 对角移动 sanity(4 方向 dx/dy 都非零) > press Up → facing=up, dx=16, dy=-8(对角非 cardinal)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > 按住 Right → party.x + 16 / party.y + 8, facing=right (East 右下)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "System A 对角移动 sanity(4 方向 dx/dy 都非零) > press Right → facing=right, dx=16, dy=8(对角非 cardinal)"
+        },
+        "kind": "duplicate-transferred-literal-delta-and-facing"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > 走路:清 pose(partyScriptedFrame)但**保留** role0 sprite override(端酒菜持久)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > 走路:清 pose(partyScriptedFrame)但**保留** role0 sprite override(端酒菜持久)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > 按住 Up → party.x + 16 / party.y - 8, facing=up (North 右上)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > 按住 Up → party.x + 16 / party.y - 8, facing=up (North 右上)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > M5:队首在左上边缘带边界(col5/row7),按 Left 被 fCheckRange 下边界挡"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > M5:队首在左上边缘带边界(col5/row7),按 Left 被 fCheckRange 下边界挡"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > 相机边界 clamp:party 越界仍 clamp 到 tilemap max pixel(System A:tile 32×16)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > 相机边界 clamp:party 越界仍 clamp 到 tilemap max pixel(System A:tile 32×16)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > NPC 阻挡走路:面前像素有 NPC + held=Right,party 不动"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > NPC 阻挡走路:面前像素有 NPC + held=Right,party 不动"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > M5:fCheckRange=true 挡 col<5 / row<7 边缘带"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > M5:fCheckRange=true 挡 col<5 / row<7 边缘带"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > M5:fCheckRange=false(怪物追击/默认)不挡边缘带"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem 走路 > M5:fCheckRange=false(怪物追击/默认)不挡边缘带"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "pickFacing 走 last-press priority(sdlpal input.c:180-189) > held = [Up, Down](Down 后按)→ facing = down"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "pickFacing 走 last-press priority(sdlpal input.c:180-189) > held = [Up, Down](Down 后按)→ facing = down"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "pickFacing 走 last-press priority(sdlpal input.c:180-189) > held = [Right, Up, Left](Left 后按)→ facing = left"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "pickFacing 走 last-press priority(sdlpal input.c:180-189) > held = [Right, Up, Left](Left 后按)→ facing = left"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "pickFacing 走 last-press priority(sdlpal input.c:180-189) > held = [Confirm, Down](Down 在末尾)→ facing = down(忽略非方向键)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "pickFacing 走 last-press priority(sdlpal input.c:180-189) > held = [Confirm, Down](Down 在末尾)→ facing = down(忽略非方向键)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "pickFacing 走 last-press priority(sdlpal input.c:180-189) > held = [Up, Confirm](Confirm 在末尾但非方向)→ facing = up(反向找方向键)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "pickFacing 走 last-press priority(sdlpal input.c:180-189) > held = [Up, Confirm](Confirm 在末尾但非方向)→ facing = up(反向找方向键)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "pickFacing 走 last-press priority(sdlpal input.c:180-189) > held = [](无键)→ facing 不变,party 不动"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "pickFacing 走 last-press priority(sdlpal input.c:180-189) > held = [](无键)→ facing 不变,party 不动"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "PAL_StartFrame input order(play.c:534-566) > 方向键 + Menu 同帧 → 先移动再开菜单"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "PAL_StartFrame input order(play.c:534-566) > 方向键 + Menu 同帧 → 先移动再开菜单"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "大世界快捷键直达子菜单(sdlpal play.c:558-584) > 按 UseItem → 开 inventory 子菜单 + mode=menu"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "大世界快捷键直达子菜单(sdlpal play.c:558-584) > 按 UseItem → 开 inventory 子菜单 + mode=menu"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "大世界快捷键直达子菜单(sdlpal play.c:558-584) > 按 ThrowItem → 开 equip 子菜单 + mode=menu"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "大世界快捷键直达子菜单(sdlpal play.c:558-584) > 按 ThrowItem → 开 equip 子菜单 + mode=menu"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "大世界快捷键直达子菜单(sdlpal play.c:558-584) > 按 Force → 开 in-game-magic 子菜单 + mode=menu"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "大世界快捷键直达子菜单(sdlpal play.c:558-584) > 按 Force → 开 in-game-magic 子菜单 + mode=menu"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "大世界快捷键直达子菜单(sdlpal play.c:558-584) > 按 Status → 开 player-status 子菜单 + mode=menu"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "大世界快捷键直达子菜单(sdlpal play.c:558-584) > 按 Status → 开 player-status 子菜单 + mode=menu"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "大世界快捷键直达子菜单(sdlpal play.c:558-584) > Menu 优先于快捷键(同帧 Menu+UseItem → in-game hub,对齐 play.c else-if 链)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "大世界快捷键直达子菜单(sdlpal play.c:558-584) > Menu 优先于快捷键(同帧 Menu+UseItem → in-game hub,对齐 play.c else-if 链)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > 面前像素无 NPC + Confirm → 不切 mode"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > 面前像素无 NPC + Confirm → 不切 mode"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > 面前像素有 NPC + Confirm → mode=event + eventCursor 装载"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > 面前像素有 NPC + Confirm → mode=event + eventCursor 装载"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > 方向性 NPC 被触发时面向 party,并重置站立帧(sdlpal nSpriteFrames>0)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > 方向性 NPC 被触发时面向 party,并重置站立帧(sdlpal nSpriteFrames>0)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > 非方向性箱子被再次调查时不重置已打开帧(水月宫苗刀箱回归)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > 非方向性箱子被再次调查时不重置已打开帧(水月宫苗刀箱回归)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > 面前像素 NPC 无 triggerLabel + Confirm → 不切 mode"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > 面前像素 NPC 无 triggerLabel + Confirm → 不切 mode"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > triggerLabel 存在但不在 labelMap → warn + 不切 mode"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > triggerLabel 存在但不在 labelMap → warn + 不切 mode"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > P2#5:triggerLabel 经全局 labelMap 解析 → 切 event,eventCursor.ip = 全局 ip"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > P2#5:triggerLabel 经全局 labelMap 解析 → 切 event,eventCursor.ip = 全局 ip"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > P2#5:全局 labelMap 唯一决定 triggerLabel → ip(ctx.labelMap 不再参与解析)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "SceneSystem NPC 触发 > P2#5:全局 labelMap 唯一决定 triggerLabel → ip(ctx.labelMap 不再参与解析)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制(M3.5 T11 / D32) > party 在 contact 像素(triggerMode=5)→ 自动切 event mode + ip 装载"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制(M3.5 T11 / D32) > party 在 contact 像素(triggerMode=5)→ 自动切 event mode + ip 装载"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制(M3.5 T11 / D32) > party 在 triggerMode=0 装饰像素 → 不触发(保持 explore)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制(M3.5 T11 / D32) > party 在 triggerMode=0 装饰像素 → 不触发(保持 explore)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制(M3.5 T11 / D32) > party 在 triggerMode=2 Confirm-search 像素 → 不自动触发(保持 explore,等 Confirm)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制(M3.5 T11 / D32) > party 在 triggerMode=2 Confirm-search 像素 → 不自动触发(保持 explore,等 Confirm)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制 反例 / edge case(M3.5 T12) > party 同像素 NPC 无 triggerLabel(triggerMode=5)→ 不切 mode + eventCursor undefined"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制 反例 / edge case(M3.5 T12) > party 同像素 NPC 无 triggerLabel(triggerMode=5)→ 不切 mode + eventCursor undefined"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制 反例 / edge case(M3.5 T12) > party 同像素 NPC triggerLabel 不在 labelMap(triggerMode=5)→ warn + 不切 mode"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制 反例 / edge case(M3.5 T12) > party 同像素 NPC triggerLabel 不在 labelMap(triggerMode=5)→ warn + 不切 mode"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制 反例 / edge case(M3.5 T12) > triggerMode=3 边界(Confirm-search 段最大值)→ 不自动触发(< CONTACT_MIN)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制 反例 / edge case(M3.5 T12) > triggerMode=3 边界(Confirm-search 段最大值)→ 不自动触发(< CONTACT_MIN)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制 反例 / edge case(M3.5 T12) > triggerMode=4 边界(contact 段最小值)→ 自动触发(=== CONTACT_MIN)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "明雷机制 反例 / edge case(M3.5 T12) > triggerMode=4 边界(contact 段最小值)→ 自动触发(=== CONTACT_MIN)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > sVanishTime > 0 → 递减 + 不触发 trigger"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > sVanishTime > 0 → 递减 + 不触发 trigger"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > sVanishTime < 0 → 递增 + 不触发"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > sVanishTime < 0 → 递增 + 不触发"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > sState < 0 + viewport 外 → 复活 + scriptedFrame 0"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > sState < 0 + viewport 外 → 复活 + scriptedFrame 0"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > 触发 trigger zone → NPC 转向面对 party"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > 触发 trigger zone → NPC 转向面对 party"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > PAL_StartFrame 顺序:本帧走进 trigger zone 后下一帧才触发"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > PAL_StartFrame 顺序:本帧走进 trigger zone 后下一帧才触发"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > 阻挡 NPC 压到 party anchor → 按 NPC 朝向下一方向推离一格(play.c:197-228)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > 阻挡 NPC 压到 party anchor → 按 NPC 朝向下一方向推离一格(play.c:197-228)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > autoScript 先移动 blocker,NPC 压到 party 后同帧 push party(play.c:169-228)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > autoScript 先移动 blocker,NPC 压到 party 后同帧 push party(play.c:169-228)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > 压到 party anchor 但 sState<2 或 spriteNum=0 → 不推离"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > 压到 party anchor 但 sState<2 或 spriteNum=0 → 不推离"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > 推离首选方向被挡 → 按 SDLPal 四向顺序尝试下一方向"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T7 PAL_GameUpdate fTrigger 完整真值(play.c:81-166) > 推离首选方向被挡 → 按 SDLPal 四向顺序尝试下一方向"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T8 PAL_Search 视觉效果(play.c:468-490) > Confirm 触发 SearchNear NPC → NPC 朝 party 反方向 + scriptedFrame 0"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T8 PAL_Search 视觉效果(play.c:468-490) > Confirm 触发 SearchNear NPC → NPC 朝 party 反方向 + scriptedFrame 0"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T8 PAL_Search 视觉效果(play.c:468-490) > Confirm 触发 → party 全员 partyScriptedFrame[i] = partyDirNum * 3"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "M5.6 T8 PAL_Search 视觉效果(play.c:468-490) > Confirm 触发 → party 全员 partyScriptedFrame[i] = partyDirNum * 3"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e contact 菱形距离触发(sdlpal scene.c:624) > 严格相等:party 与 NPC 同像素 → 触发(legacy 兼容)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "自动触发的加权距离边界(PAL_GameUpdate) > 严格相等:party 与 NPC 同像素 → 触发(legacy 兼容)"
+        },
+        "kind": "corrected-title-or-responsibility-group"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e contact 菱形距离触发(sdlpal scene.c:624) > M5.6 W1.b:triggerMode 4 — 距离 = 16 边界不触发(< 16 = false)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "自动触发的加权距离边界(PAL_GameUpdate) > M5.6 W1.b:triggerMode 4 — 距离 = 16 边界不触发(< 16 = false)"
+        },
+        "kind": "corrected-title-or-responsibility-group"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e contact 菱形距离触发(sdlpal scene.c:624) > M5.6 W1.b:triggerMode 5 — 距离 = 32 < 48,触发(原简版误判)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "自动触发的加权距离边界(PAL_GameUpdate) > M5.6 W1.b:triggerMode 5 — 距离 = 32 < 48,触发(原简版误判)"
+        },
+        "kind": "corrected-title-or-responsibility-group"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e contact 菱形距离触发(sdlpal scene.c:624) > party 在 NPC 旁 (+8, 0) → 距离 = 8 < 16,触发"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "自动触发的加权距离边界(PAL_GameUpdate) > party 在 NPC 旁 (+8, 0) → mode5距离8<48，触发"
+        },
+        "kind": "corrected-title-or-responsibility-group"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e contact 菱形距离触发(sdlpal scene.c:624) > party 在 NPC 旁 (0, +4) → 距离 = 0 + 8 = 8 < 16,触发"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "自动触发的加权距离边界(PAL_GameUpdate) > party 在 NPC 旁 (0, +4) → mode5距离8<48，触发"
+        },
+        "kind": "corrected-title-or-responsibility-group"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e contact 菱形距离触发(sdlpal scene.c:624) > triggerMode < 4 不触发即使距离 < 16(只阻挡 NPC,不是 contact 怪)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "自动触发的加权距离边界(PAL_GameUpdate) > triggerMode < 4 不触发即使距离 < 16(只阻挡 NPC,不是 contact 怪)"
+        },
+        "kind": "corrected-title-or-responsibility-group"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e contact 菱形距离触发(sdlpal scene.c:624) > triggerMode=4 边界 + 距离 8 → 触发(契合 CONTACT_MIN 与新距离判)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "自动触发的加权距离边界(PAL_GameUpdate) > triggerMode=4 边界 + 距离 8 → 触发(契合 CONTACT_MIN 与新距离判)"
+        },
+        "kind": "corrected-title-or-responsibility-group"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "loadScene × nSpriteFramesAuto 回填(sdlpal res.c:295-298,血池冒泡/血柱动画根因) > 装载时按精灵总帧数回填 nSpriteFramesAuto;无 sprite(spriteNum=0)不回填"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "loadScene × nSpriteFramesAuto 回填(sdlpal res.c:295-298,血池冒泡/血柱动画根因) > 装载时按精灵总帧数回填 nSpriteFramesAuto;无 sprite(spriteNum=0)不回填"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "loadScene × nSpriteFramesAuto 回填(sdlpal res.c:295-298,血池冒泡/血柱动画根因) > 重复装载覆盖旧值(C 每次 kLoadScene 重新回填)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "loadScene × nSpriteFramesAuto 回填(sdlpal res.c:295-298,血池冒泡/血柱动画根因) > 重复装载覆盖旧值(C 每次 kLoadScene 重新回填)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "loadScene(M3.5 T9 / D33) > 切到新 scene → gs.npcs 由 eventObjects 重置;party 不传则不动"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "loadScene(M3.5 T9 / D33) > 切到新 scene → gs.npcs 由 eventObjects 重置;party 不传则不动"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "loadScene(M3.5 T9 / D33) > 有 allEventObjects 时按 wNumScene 切全局引用,重进 scene 保留 sState/位置/vanishTime"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "loadScene(M3.5 T9 / D33) > 有 allEventObjects 时按 wNumScene 切全局引用,重进 scene 保留 sState/位置/vanishTime"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "loadScene(M3.5 T9 / D33) > 传 partyStart → party 位置 / facing 重写;camera 跟到 party"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "loadScene(M3.5 T9 / D33) > 传 partyStart → party 位置 / facing 重写;camera 跟到 party"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "loadScene(M3.5 T9 / D33) > partyStart 不传 facing → 沿用当前 facing(只挪坐标)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "loadScene(M3.5 T9 / D33) > partyStart 不传 facing → 沿用当前 facing(只挪坐标)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "loadScene(M3.5 T9 / D33) > loadScene 清 gameOverActive + deathHoldActive(死亡演出退出 → 新场景恢复正常渲染)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "loadScene(M3.5 T9 / D33) > loadScene 清 gameOverActive + deathHoldActive(死亡演出退出 → 新场景恢复正常渲染)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "loadScene(M3.5 T9 / D33) > SceneAssetsCache lazy hit:第二次切回同 scene,fetcher 不再调"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "loadScene(M3.5 T9 / D33) > SceneAssetsCache lazy hit:第二次切回同 scene,fetcher 不再调"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P2#5 trigger 经全局 labelMap 解析(原 P3.T1) > contact NPC triggerLabel 经全局 labelMap 解析 → 切 event(loadScene 用 _ctx singleton)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P2#5 trigger 经全局 labelMap 解析(原 P3.T1) > contact NPC triggerLabel 经全局 labelMap 解析 → 切 event(loadScene 用 _ctx singleton)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P2#5 trigger 经全局 labelMap 解析(原 P3.T1) > 全局 label 跨 scene 解析:任意 scene 下同一 triggerLabel 都能切 event(反 per-scene gating)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P2#5 trigger 经全局 labelMap 解析(原 P3.T1) > 全局 label 跨 scene 解析:任意 scene 下同一 triggerLabel 都能切 event(反 per-scene gating)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > 初始 trail 为空"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > 初始 trail 为空"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > 成功移动一步 → trail unshift 移动前 leader pos(长度 1)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > 成功移动一步 → trail unshift 移动前 leader pos(长度 1)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > 连续移动两步 → trail[0] 是上一步前 leader pos,trail[1] 是更早的"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > 连续移动两步 → trail[0] 是上一步前 leader pos,trail[1] 是更早的"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > trail 长度上限 5(移动 7 步后仍为 5 项)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > trail保留最新五个移动前位置及方向，按新到旧排序"
+        },
+        "kind": "merged-stronger-literal-five-packet-oracle"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > trail[0] 始终是上一步移动前的 leader pos(最新)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > trail保留最新五个移动前位置及方向，按新到旧排序"
+        },
+        "kind": "merged-stronger-literal-five-packet-oracle"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > 撞墙不动 → trail 不变(不 unshift)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > 撞墙不动 → trail 不变(不 unshift)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > idle(无方向键)→ trail 不变"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > idle(无方向键)→ trail 不变"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > 方向变化时,trail 记录各自方向"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.d 队友 trail(sdlpal scene.c:823-830 rgTrail shift) > 方向变化时,trail 记录各自方向"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > 目标像素 /32 /16 取 tile col/row(无残差 → h=0)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-collision.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > 目标像素 /32 /16 取 tile col/row(无残差 → h=0)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > 残差进 h=1 分支(32-xr+yr*2 ∈ [16,48))"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-collision.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > 残差进 h=1 分支(32-xr+yr*2 ∈ [16,48))"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > 残差 xr+yr*2 ≥ 48 → col++,row++ (右下角)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-collision.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > 残差 xr+yr*2 ≥ 48 → col++,row++ (右下角)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > 残差 32-xr+yr*2 < 16 → col++ (右侧边)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-collision.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > 残差 32-xr+yr*2 < 16 → col++ (右侧边)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > 残差 32-xr+yr*2 ≥ 48 → row++ (下侧边)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-collision.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > 残差 32-xr+yr*2 ≥ 48 → row++ (下侧边)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > 越界坐标(col 或 row 超出 tilemap)→ false"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-collision.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > 越界坐标(col 或 row 超出 tilemap)→ false"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > NPC 在目标像素菱形范围内(距离 < 16)→ 阻挡"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-collision.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > NPC 在目标像素菱形范围内(距离 < 16)→ 阻挡"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > selfNpcId 跳过自身 NPC"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-collision.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > selfNpcId 跳过自身 NPC"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > contact monster(triggerMode=5)不阻挡走路"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-collision.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > NPC阻挡只取决于sState，triggerMode为3/4/5都不构成豁免"
+        },
+        "kind": "state-trigger-matrix-covers-original"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > tickSceneSystem:party 往阻挡 tile 走 → 不动"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "场景碰撞装配 > tickSceneSystem:party 往阻挡 tile 走 → 不动"
+        },
+        "kind": "corrected-title-or-responsibility-group"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > 初始状态:walking=false, stepFrame=0"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > 初始状态:walking=false, stepFrame=0"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > 按住方向键 → walking=true,stepFrame 0→1→2→3→0 循环"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > 按住方向键 → walking=true,stepFrame 0→1→2→3→0 循环"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > 停按方向键 → walking=false,party.facing 不变"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > 停按方向键 → walking=false,party.facing 不变"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > 撞墙(阻挡 tile)→ walking=false,facing 已转,stepFrame 走站立复位(L5/L30)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > 撞墙(阻挡 tile)→ walking=false,facing 已转,stepFrame 走站立复位(L5/L30)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > NPC 阻挡 → walking=false,facing 转,stepFrame 走站立复位(L5/L30)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > NPC 阻挡 → walking=false,facing 转,stepFrame 走站立复位(L5/L30)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > L5/L30:idle → walking=false,stepFrame 站立复位 &=2;^=2(scene.c:773-774)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > L5/L30:idle → walking=false,stepFrame 站立复位 &=2;^=2(scene.c:773-774)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > sState=1 的 contact NPC 不阻挡走路 → walking=true"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > sState=1 的 contact NPC 不阻挡走路 → walking=true"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > loadScene 不传 partyStart → 跑 wScriptOnEnter,setPartyPos 把 party 放到指定位"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > loadScene 不传 partyStart → 跑 wScriptOnEnter,setPartyPos 把 party 放到指定位"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > setPartyPos 坐标: col=41, row=18, h=0 → x=1312, y=288 (scene 1 真实值)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > setPartyPos 坐标: col=41, row=18, h=0 → x=1312, y=288 (scene 1 真实值)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > setPartyPos h=1 → 加 16/8 半 tile 偏移"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > setPartyPos h=1 → 加 16/8 半 tile 偏移"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > setPartyDirection opcode → gs.party.facing 转换(dir=2→up)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > setPartyDirection opcode → gs.party.facing 转换(dir=2→up)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > setPartyDirection 4 方向映射: 0=down, 1=left, 2=up, 3=right"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > setPartyDirection 4 方向映射: 0=down, 1=left, 2=up, 3=right"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > loadScene 传显式 partyStart → override enter script(dev panel manual)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > loadScene 传显式 partyStart → override enter script(dev panel manual)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > 未 dump wScriptOnEnter / 空 onEnterLabel → party 留在原坐标(不报错)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > 未 dump wScriptOnEnter / 空 onEnterLabel → party 留在原坐标(不报错)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > onEnterLabel 在 labelMap 中找不到 → party 留原位(不报错)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > onEnterLabel 在 labelMap 中找不到 → party 留原位(不报错)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > setCamera opcode 真生效 → camera 跟 party"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > setCamera opcode 真生效 → camera 跟 party"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > centerCameraOnParty opcode(0,0 变体)→ camera = party - partyoffset"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > centerCameraOnParty opcode(0,0 变体)→ camera = party - partyoffset"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > playMusic opcode 写 gs.wNumMusic(shell audio 轮询播放)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > playMusic opcode 写 gs.wNumMusic(shell audio 轮询播放)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > setSceneObjectState 缺失目标时告警并跳过，场景仍完成装载"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > setSceneObjectState 缺失目标时告警并跳过，场景仍完成装载"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > enter script 含 showDialog → skip(不阻塞,party 位置已设)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-loading.test.ts",
+          "name": "P0.e wScriptOnEnter 真跑 > enter script 含 showDialog → skip(不阻塞,party 位置已设)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回归) > 按住方向键 + 连按 Confirm:有限帧内逃出 TouchFar 半径,不死锁"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回归) > 按住方向键 + 连按 Confirm:有限帧内逃出 TouchFar 半径,不死锁"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回归) > 脚本 'end' 切回 explore 的首帧:移动先于触发扫描(sdlpal 同帧 UpdateParty 语义)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "TouchFar 自动触发脚本结束后首帧可移动(李大娘死锁回归) > 脚本 'end' 切回 explore 的首帧:移动先于触发扫描(sdlpal 同帧 UpdateParty 语义)"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "DH5:blocker 阻挡只看 sState,无 triggerMode 豁免(scene.c:619-628) > sState>=2 且 triggerMode=5(门卫类)阻挡走路(修前可穿行)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-collision.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > NPC阻挡只取决于sState，triggerMode为3/4/5都不构成豁免"
+        },
+        "kind": "state-trigger-matrix-covers-original"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "DH5:blocker 阻挡只看 sState,无 triggerMode 豁免(scene.c:619-628) > sState=1 的明雷怪(triggerMode=4)不阻挡(本就不过 blocker 关,踩怪触发不受影响)"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-collision.test.ts",
+          "name": "P0.a 菱形 isometric 碰撞 > NPC阻挡只取决于sState，triggerMode为3/4/5都不构成豁免"
+        },
+        "kind": "state-trigger-matrix-covers-original"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard) > 书案前自动领赏一次，保存恢复并重新载入场景后仍保持消费状态"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard) > 书案前自动领赏一次，保存恢复并重新载入场景后仍保持消费状态"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard) > 太守图像或进场落点 (1616,968) 不在书案前触发区，不会误触发"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard) > 太守图像或进场落点 (1616,968) 不在书案前触发区，不会误触发"
+        },
+        "kind": "identity-preserved"
+      },
+      {
+        "before": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard) > 太守图像或进场落点 (1504,1008) 不在书案前触发区，不会误触发"
+        },
+        "after": {
+          "file": "packages/game/src/core/scene-system.test.ts",
+          "name": "扬州太守领赏 bug 修复(走近自动触发 + 一次性 guard) > 太守图像或进场落点 (1504,1008) 不在书案前触发区，不会误触发"
+        },
+        "kind": "identity-preserved"
+      }
+    ]
+  },
+  "continuity": {
+    "movedBodiesAndTypes": [
+      {
+        "name": "tilemapIsBlocked",
+        "file": "scene-collision.ts",
+        "tokensSha256": "f2c88149db770b1c13602e7b612ff7400f05720cff33812ece1c6eac3985e1cc",
+        "equal": true
+      },
+      {
+        "name": "isWalkable",
+        "file": "scene-collision.ts",
+        "tokensSha256": "c20b4af84245de0bbc35b3169cdb4ca85ee34482bdffe2b8f8bd5289245a94ec",
+        "equal": true
+      },
+      {
+        "name": "loadScene",
+        "file": "scene-loading.ts",
+        "tokensSha256": "d0cf8cc6880039ae3d1a23ee5f9dc2cdcb66db16f07084103482b7d72a397b1a",
+        "equal": true
+      },
+      {
+        "name": "LoadSceneInput",
+        "file": "scene-loading.ts",
+        "tokensSha256": "a880f0a13c273ed0fd7bb3e4722411a788b0de35d7cec1e5e2ed9c8fb304243a",
+        "equal": true
+      },
+      {
+        "name": "SceneContext",
+        "file": "scene-context.ts",
+        "tokensSha256": "61706af7c2d5ceb1b304566acd3a7ce1052e441ef21f00750de0355bba5d13bf",
+        "equal": true
+      }
+    ],
+    "unchangedFunctions": [
+      "applySearchVisualEffect",
+      "pushPartyAwayFromBlockingNpcs",
+      "dirNumDelta",
+      "syncCameraToParty",
+      "tickSceneSystem"
+    ],
+    "remainingExplicitDiffs": [
+      "private trigger loader returns success boolean; all production callers enter in explore mode",
+      "unused private context forwarding removed",
+      "pickFacing typed switch replaces redundant lookup/set and casts",
+      "imports/reexports preserve existing facade symbols"
+    ],
+    "metrics": {
+      "method": "AST branch screen (if/loop/case/catch/conditional/short circuit), nested functions excluded; heuristic, not exact CFG metric or acceptance target",
+      "over10": [
+        {
+          "file": "scene-system.ts",
+          "name": "updateEventObjectsAndTrigger",
+          "line": 127,
+          "branchScreen": 27
+        },
+        {
+          "file": "scene-system.ts",
+          "name": "tickSceneInput",
+          "line": 320,
+          "branchScreen": 15
+        },
+        {
+          "file": "scene-collision.ts",
+          "name": "isWalkable",
+          "line": 41,
+          "branchScreen": 14
+        }
+      ]
+    }
+  },
+  "counters": [
+    {
+      "counter": "threshold",
+      "phase": "old",
+      "exit": 0,
+      "failed": [],
+      "passed": 1,
+      "pending": 110
+    },
+    {
+      "counter": "threshold",
+      "phase": "new",
+      "exit": 1,
+      "failed": [
+        {
+          "fullName": "自动触发的加权距离边界(PAL_GameUpdate) M5.6 W1.b:triggerMode 4 — 距离 = 16 边界不触发(< 16 = false)",
+          "failureMessages": [
+            "AssertionError: expected 'event' to be 'explore' // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system.test.ts:927:21\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "passed": 0,
+      "pending": 74
+    },
+    {
+      "counter": "tile",
+      "phase": "old",
+      "exit": 0,
+      "failed": [],
+      "passed": 1,
+      "pending": 110
+    },
+    {
+      "counter": "tile",
+      "phase": "new",
+      "exit": 1,
+      "failed": [
+        {
+          "fullName": "场景碰撞装配 tickSceneSystem:party 往阻挡 tile 走 → 不动",
+          "failureMessages": [
+            "AssertionError: expected 272 to be 256 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system.test.ts:1130:24\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "passed": 0,
+      "pending": 74
+    },
+    {
+      "counter": "on-enter",
+      "phase": "old",
+      "exit": 0,
+      "failed": [],
+      "passed": 1,
+      "pending": 110
+    },
+    {
+      "counter": "on-enter",
+      "phase": "new",
+      "exit": 1,
+      "failed": [
+        {
+          "fullName": "P0.e wScriptOnEnter 真跑 loadScene 传显式 partyStart → override enter script(dev panel manual)",
+          "failureMessages": [
+            "AssertionError: expected +0 to be 31 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-loading.test.ts:397:26\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "passed": 0,
+      "pending": 22
+    }
+  ],
+  "rawArchive": {
+    "path": "receipts.json.gz",
+    "sha256": "6b0d0c2228a6fe414163e731e75033938bfeac3f056a1f4b68cdba74069a6c05",
+    "entries": 97,
+    "bytes": 882940
+  },
+  "gates": {
+    "splitBaseline": {
+      "files": 1,
+      "passed": 111
+    },
+    "adjacent": {
+      "files": 10,
+      "passed": 478,
+      "stderrBytes": 0,
+      "runtimeConsoleDiagnostics": 0
+    },
+    "typecheck": "final-typecheck",
+    "static": "scoped-static",
+    "retirementTools": "retirement-tools",
+    "docs": "docs-final; after owned scope correction six consumers docs-inputs-final (unchanged125 tool tests reused)",
+    "lint": "lint-final",
+    "ledger": "ledger-final",
+    "diff": "diff-final",
+    "unifiedCheck": "DEFERRED by user",
+    "coverage": "DEFERRED by user",
+    "protected": "DEFERRED by user",
+    "PR": "NOT CREATED"
+  },
+  "ledger": {
+    "tracked": 3420,
+    "closed": 414,
+    "review": 115,
+    "pending": 2891,
+    "newClosed": 0
+  },
+  "pre94": {
+    "accept": 67,
+    "partial": 16,
+    "pending": 0
+  },
+  "limitations": [
+    "Only production explore precondition governs private trigger success result; unsupported calling tick with unrelated mode is not newly certified.",
+    "No cancellation/concurrent scene request policy invented; dev concurrent defect not proven.",
+    "Public unused SceneContext script fields and bus parameters retained, API authority not broadened.",
+    "No visual/browser E2E, save schema, pipeline or mechanism changes.",
+    "Current partial cards await all-pre94 frozen gates, no forced closed."
+  ],
+  "processDisclosure": {
+    "nativeCaptured": "All capture.mjs entries in archive; stdout/stderr/JSON preserved, mutation patch and source snapshots present.",
+    "notNativeCaptured": [
+      "initial formatting console output (later read-only static captured)",
+      "first rework-tests.py failed title lookup stdout/stderr (tool transcript only); producer rerun after correcting title, no primary test write before failure",
+      "first evidence verifier Biome check found one assignment-in-condition error (tool transcript only); corrected loop before final lint"
+    ],
+    "formatRace": "first107 run overlapped formatting; final478/typecheck were after formatting and counter restoration, treated as authoritative."
+  }
+}

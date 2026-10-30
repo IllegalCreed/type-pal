@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --config vitest.config.ts",
-    "test:fast": "vitest run --config vitest.config.ts --project unit",
-    "test:pal": "vitest run --config vitest.config.ts --project pal",
+    "test": "vitest run --reporter=default --config vitest.config.ts",
+    "test:fast": "vitest run --reporter=default --config vitest.config.ts --project unit",
+    "test:pal": "vitest run --reporter=default --config vitest.config.ts --project pal",
     "check": "pnpm typecheck && pnpm test",
     "check:fast": "pnpm typecheck && pnpm test:fast",
     "audit:maps": "tsx scripts/audit-project-maps.mts",

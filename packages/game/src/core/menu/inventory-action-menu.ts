@@ -1,28 +1,7 @@
 /**
- * M5.6 T10b 修(2026-05-27 session 3):InventoryMenu 一级子菜单(装备/使用)。
- *
- * sdlpal 真值锚:[`reference/sdlpal/uigame.c:878-919`](../../../reference/sdlpal/uigame.c#L878-L919)
- * `PAL_InventoryMenu`(从 PAL_InGameMenu Confirm "物品" 进入):
- *
- * ```c
- * PAL_InventoryMenu() {
- *   static WORD w = 0;
- *   MENUITEM rgMenuItem[2] = {
- *     { 1, INVMENU_LABEL_EQUIP, TRUE, PAL_XY(43, 73) },        // 22 "装备"
- *     { 2, INVMENU_LABEL_USE,   TRUE, PAL_XY(43, 73 + 18) },   // 23 "使用"
- *   };
- *   PAL_CreateBox(PAL_XY(30, 60), 1, PAL_MenuTextMaxWidth(...) - 1, 0, FALSE);
- *   w = PAL_ReadMenu(NULL, rgMenuItem, 2, w - 1, MENUITEM_COLOR);
- *   switch (w) {
- *     case 1: PAL_GameEquipItem(); break;  // play.c:328-359 → ItemSelectMenu(equipable) → EquipItemMenu
- *     case 2: PAL_GameUseItem();   break;  // play.c:244-325 → ItemSelectMenu(usable)    → ItemUseMenu
- *   }
- * }
- * ```
- *
- * T10b session 1 漏:把 InGameMenu 选"物品"直接连到 fullscreen ItemSelectMenu,
- * 跳过 PAL_InventoryMenu 这一层 box submenu。该修:加 'inventory-action' kind
- * 作为 1 级子菜单(2 项 装备/使用),Confirm 后再开对应全屏 list / equip menu。
+ * 物品一级子菜单：先选装备/使用，再由 menu-driver 打开对应全屏列表。
+ * SDLPal PAL_InventoryMenu（uigame.c:878-919）在主菜单与物品列表之间保留这一层；
+ * 此模块只拥有选项与游标，入栈、动作派发和选择记忆由 caller 负责。
  */
 
 import { getWord } from '../word-lookup.js'

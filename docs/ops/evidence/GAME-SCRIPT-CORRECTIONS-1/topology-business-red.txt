@@ -1,0 +1,82 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/game
+
+ ❯ src/core/script-topology-corrections.raw.test.ts (4 tests | 4 failed) 109ms
+   × trial portal 226/30946 reaches the hidden-gu chest island and its return 30ms
+   × trial portal 225/30950 reaches the hidden-gu chest island and its return 30ms
+   × palace portal 249/34024 reaches room C and can return 25ms
+   × palace portal 285/35091 reaches room C and can return 23ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/script-topology-corrections.raw.test.ts > trial portal 226/30946 reaches the hidden-gu chest island and its return
+AssertionError: expected 226 to be 227 // Object.is equality
+
+- Expected
++ Received
+
+- 227
++ 226
+
+ ❯ src/core/script-topology-corrections.raw.test.ts:77:28
+     75|   const env = environment(source!)
+     76|   portal(env, ip!, owner!)
+     77|   expect(env.gs.wNumScene).toBe(227)
+       |                            ^
+     78|   const map = resource<Tilemap>('data/tilemap/224.json')
+     79|   const chest = env.gs.allEventObjects![3999]!
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/core/script-topology-corrections.raw.test.ts > trial portal 225/30950 reaches the hidden-gu chest island and its return
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/core/script-topology-corrections.raw.test.ts:82:7
+     80|   expect(reachable(map, env.gs.party, (p) => ['down', 'left', 'up', 'r…
+     81|     findSearchableNpc([chest], dir as 'down' | 'left' | 'up' | 'right'…
+     82|   ))).toBe(true)
+       |       ^
+     83|   const exit = env.gs.allEventObjects![3989]!
+     84|   expect(reachable(map, env.gs.party, (p) => Math.abs(p.x - exit.x) + …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/core/script-topology-corrections.raw.test.ts > palace portal 249/34024 reaches room C and can return
+ FAIL  src/core/script-topology-corrections.raw.test.ts > palace portal 285/35091 reaches room C and can return
+AssertionError: expected { x: 1168, y: 1048 } to deeply equal { x: 928, y: 816 }
+
+- Expected
++ Received
+
+  {
+-   "x": 928,
+-   "y": 816,
++   "x": 1168,
++   "y": 1048,
+  }
+
+ ❯ src/core/script-topology-corrections.raw.test.ts:95:52
+     93|   portal(env, ip!, owner!)
+     94|   expect(env.gs.wNumScene).toBe(destination)
+     95|   expect({ x: env.gs.party.x, y: env.gs.party.y }).toEqual({ x: 928, y…
+       |                                                    ^
+     96|   const map = resource<Tilemap>('data/tilemap/204.json')
+     97|   const exit = env.gs.allEventObjects![source === 249 ? 4557 : 4841]!
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed (4)
+   Start at  16:01:51
+   Duration  508ms (transform 219ms, setup 50ms, import 269ms, tests 109ms, environment 0ms)
+
+undefined
+/Users/zhangxu/illegal/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/script-topology-corrections.raw.test.ts --reporter=default

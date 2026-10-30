@@ -18,7 +18,7 @@
  */
 import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { createCommandBus } from './command-bus.js'
+
 import {
   buildLabelMap,
   OP_BUY_MENU,
@@ -57,7 +57,7 @@ describe('K03 opcode 0x27 sellMenu:handler 注入 → mode=sell + waiting=shop +
           calls.push(input)
         })
         loadRaw(gs, commands)
-        tickEventSystem(gs, snap(), createCommandBus())
+        tickEventSystem(gs, snap())
         // 单次调用;mode='sell' 是菜单开卖出侧的唯一依据(PAL_SellMenu 无 operand 合同)
         expect(calls.length).toBe(1)
         expect(calls[0]?.mode).toBe('sell')
@@ -83,7 +83,7 @@ describe('K03 shop opcode 无 handler 注入:两条 opcode 均降级 skip + ip++
     try {
       setShopMenuHandler(null) // 显式置空 = bootstrap 未注入(非 bootstrap 路径/测试)
       loadRaw(gs, commands)
-      tickEventSystem(gs, snap(), createCommandBus())
+      tickEventSystem(gs, snap())
       // 两个 shop op 各 skip + ip++,同 tick 跑到 end → 收尾回 explore(若任一 opcode 停驻
       // waiting='shop',这里会停在 'event' + cursor 残留 —— 即上一测的正控形态)
       expect(gs.mode).toBe('explore')

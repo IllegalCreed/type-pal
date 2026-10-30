@@ -1,0 +1,25 @@
+{
+  "base": "987bdddac38ea3e95d84a3b82dcdeb1ba314556c",
+  "main": {
+    "before": 14,
+    "after": 14,
+    "sameIdentities": 13,
+    "oldTitle": [
+      "classifyTrigger count=0 → item(sdlpal count==0 给 1 个;**绝大多数地图宝物 count=0**,如木鞋)"
+    ],
+    "currentTitle": ["classifyTrigger count=0仍归item(库存helper将0按1处理;不代表原盘道具名称)"],
+    "reason": "Remove unsupported original-map/name claim, body retained; no runtime contract retirement"
+  },
+  "leaves": {
+    "before": 6,
+    "after": 8,
+    "retainedIdentities": 6,
+    "addedIdentities": [
+      "L18 setupMinimap 控制器持久化 widget关闭或焦点在INPUT/TEXTAREA时,快捷键不改缩放也不重绘",
+      "L18 setupMinimap 控制器持久化 widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档"
+    ],
+    "dedupe": "Only the two minimap test files reference computeView/worldToThumb/tp-minimap-zoom in repository search. Both adjacent panel files fully read: display-scale delegation is different from this real minimap canvas/shortcut ownership."
+  },
+  "noBaselineOrRetirementEdits": true,
+  "officialProtectedAndCoverageDeferred": true
+}

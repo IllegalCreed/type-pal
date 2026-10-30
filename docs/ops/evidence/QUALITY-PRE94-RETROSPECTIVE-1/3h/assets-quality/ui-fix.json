@@ -1,0 +1,540 @@
+{
+  "schemaVersion": 1,
+  "base": "da00c610a2a464ab3099dd5ba0b911040542c86b",
+  "owner": "Codex single Agent",
+  "state": "review; full module gates pending",
+  "authorization": "User2026-10-22 explicitly approved original frame IDs; missing box frame still throws, missing number frame still skips.",
+  "sourceBoundary": {
+    "file": "packages/game/src/assets/loader.ts",
+    "previousBlob": "ce59c45c9e5627a91432a1f89c96a87934c0c0d5",
+    "outsideUiBlockByteEqual": true,
+    "publicInterfaces": "all outside UI block; unchanged",
+    "generatedOutputs": "untouched"
+  },
+  "files": [
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "9c3c3a333e5b04d25cd220e17d04863b0ff5c759e273d05c3b82af758756788f",
+      "gitBlobSha1": "3a4bb0cb43987fd85f2711bb6eb128af19618d9f",
+      "dimensions": {
+        "A": "Manifest original index binds successfully decoded image; failures do not compact later frames. State is private to one loadAll, Promise.all completes before any return/caller observes array. Current producer has71 consecutive unique IDs, pinned input; preserves full-success order. Optional HTTP warnings/error propagation unchanged. Old final29/full source review and caller boundaries reused; no new format policy.",
+        "B": "Comment states why original SPRITEUI numbering matters; cache caller comment fixed in preceding quality commit. No blanket no-missing-assets renderability claim.",
+        "C": "UI assembly owns only its local output array; renderer still owns fail/skip policy. Map keys, startup barriers and parallel scene caches untouched. No new global/context/IO dependency.",
+        "D": "Uses existing fetchPng/manifest; no universal helper, mode flag or decoder duplication. Keeps per-resource failure policies explicit.",
+        "E": "Formal3 tests: old1green2business AssertionErrors then exact tests green; real PNG/RLE/Framebuffer consumed. Complete assembly/bounds/recovery and6 real GOP snapshots in216-module native pass; former six-skips gap now resolved only for these pinned inputs.",
+        "F": "Direct index assignment expresses manifest contract; removes intermediate success-only list without non-null casts or implicit offset math.",
+        "G": "No new API or compatibility path. Removed list/filter step was the defect mechanism, not dead behavior restored for coverage. LoadAll IO assembly and cache facade kept because no proven cross-owner coupling requires speculative split.",
+        "H": "Existing fetch/console ports and real canvas/renderer give deterministic tests without exposing private state. No timer/timeouts/core mocks added."
+      }
+    },
+    {
+      "path": "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+      "sha256": "bafbf8a7c6ca9b3197ea764cf112df7a94ca77f010527a264fc93fcd2059e059",
+      "gitBlobSha1": "197d5c42865f0f874cd0659eb1baf16809af247c",
+      "dimensions": {
+        "A": "C01-C09 exact old HTTP/resource outcomes unchanged. C10 now isolates missing UI1 and verifies hole/original0+2; C11 isolates missing item12 and preserves item3 original pixels.",
+        "B": "Names now describe retained index versus keyed omission, not generic original-order wording.",
+        "C": "Local fixture/fetch ownership and afterEach global/mock restoration unchanged; expected warning count is one per independent path.",
+        "D": "Existing legal-host routes/images reused; no new helpers or duplicated decoder.",
+        "E": "Wrong packing oracle explicitly replaced under approval, not silently dropped. Old item absence/pixel assertions move to C11, with request URL and exact diagnostic strengthened. Formal renderer tests add caller-level discrimination; no mock count substitutes pixels.",
+        "F": "Two independent failure inputs are separate cases; each expected message/URL visible next to business result.",
+        "G": "10→11 is split of former unrelated UI/item axes. Old nine titles/body assertions retained, no skip/only or weakened assertions.",
+        "H": "Same real loadAll/PNG/decompression surface and recoverable ports; no design seam added."
+      }
+    },
+    {
+      "path": "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+      "sha256": "590c3f5a389f6267d547e8ab22644eabd435f2eeb47b3727d45b41a4203a9c87",
+      "gitBlobSha1": "345be8e620925d2389f901557580617b465a9179",
+      "dimensions": {
+        "A": "Valid71-image manifest and6x8 PNGs, constant color=original index. Calls real loadAll, drawNumber, drawBox and Framebuffer; controls exactly one HTTP404 at a time. No battle/save/editor domain.",
+        "B": "Fixture comment explains independent color oracle, not production palette equivalence or browser visual acceptance.",
+        "C": "beforeAll image bytes read-only across cases, each fresh local assets/framebuffer. afterEach restores fetch globals and warning spy; awaited work settled.",
+        "D": "Reuses existing PNG encoder and Response/gzip/RLE router, not SUT-generated expected output.",
+        "E": "Complete success preserves all71planes+digit1; missing19 preserves digit1 and skips digit0; missing1 retains required-box error before pixels. Old1green2specified business reds; no collection/timeout failure.",
+        "F": "Fixed palette indices20 and frame IDs19/1 make mismatch readable. Simple per-case input/consumer/result, no broad harness.",
+        "G": "Three distinct consumer/failure contracts, no duplicate standalone unit codec test or new coverage-only case.",
+        "H": "Controlled HTTP with real decode/consumer allows deterministic pixel/error checks; does not claim browser memory or actual full-screen visual validation."
+      }
+    }
+  ],
+  "pins": [
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/legal-host.ts",
+      "sha256": "d3985df5421e4c96c7fab8ef416cfec9ba02ed9f898a29f69925ea0854bc0b2f",
+      "gitBlobSha1": "00de0afaa72e659654e18d4758aba7d7052fe48e"
+    },
+    {
+      "path": "packages/game/src/present/draw-number.ts",
+      "sha256": "29b6f5dbc54d3ec0587de2380cf48e97c1744d3e503e0ec56587ae229a73aebd",
+      "gitBlobSha1": "b2575e70019f83f6d24c0270547caace986d5761"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "sha256": "2ab2d6e4aafcaa9848cab7e74ccfef8ac0669678a4f4fe58c7577ac89bafb4b4",
+      "gitBlobSha1": "f90b1f6dd41e1c894e390daa4c4abe9b2e5763d9"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b",
+      "gitBlobSha1": "78b517c3e477d5600b3eb17e9fa301d3d9aee273"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "8de02e1ed153bc067feb91b6ef6b26859dc1ff77e8ffc325a71832cbad4c7cd8",
+      "gitBlobSha1": "abb6af8ad74321890730a07de64503977cece1ce"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.ts",
+      "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+      "gitBlobSha1": "2737e7dd7eaacab2b02633cc451778ed8e33db6a"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "dae6e19f7dcff0f731a73c90d669a35e7fba0846a24ddad947df51b14c2208ed",
+      "gitBlobSha1": "ce704b5713ae9b0b04a7390a8e5445cc146b65a4"
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+      "gitBlobSha1": "e69aab7ce3afd15c57d86338c3e880a4eed6ddce"
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "91c3091ae09e8e577373a7679328e5a1ceba95e78b8f66736b366ff4f162744e",
+      "gitBlobSha1": "5d7f8e4c2505c9a3e63cf6073f1022b3867e28e2"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "33e00dd6737c5feaa537736b54e1a82795ccc45503586418f5ee97dce79b78b2",
+      "gitBlobSha1": "e7e297e057dd1a49a17197d0d3b894136c26d232"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "data/raw/GOP.MKF",
+      "realpath": "/Users/zhangxu/illegal/type-pal/data/raw/GOP.MKF",
+      "bytes": 16437766,
+      "sha256": "5745d016a8d9c280b90a8b92d2871210a2dd0a0c04a79d4c8e65f4d0396aa04b"
+    },
+    {
+      "path": "data/extracted/data/tileset/1.rle",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/tileset/1.rle",
+      "bytes": 39864,
+      "sha256": "beacbdf0abca55bf4c63c7e3e3a132aa8601c5b26a1b763fef6b3dfe6d6e3751"
+    },
+    {
+      "path": "data/extracted/data/tileset/6.rle",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/tileset/6.rle",
+      "bytes": 18388,
+      "sha256": "f1de11df560cbde4467bccae5924aef83a59f7f91796dd55921f5df13cecf6cf"
+    },
+    {
+      "path": "data/extracted/data/tileset/12.rle",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/tileset/12.rle",
+      "bytes": 25756,
+      "sha256": "9d738a0cbbcf83491634365a73c297be141b272cd1651beb3fb271aa87e1974b"
+    },
+    {
+      "path": "data/extracted/data/tileset/50.rle",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/tileset/50.rle",
+      "bytes": 31792,
+      "sha256": "80d4e545bd28f916e3d9d270f78caa362151e7916dcab61783101a7cc3cb80ad"
+    },
+    {
+      "path": "data/extracted/data/tileset/100.rle",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/tileset/100.rle",
+      "bytes": 29458,
+      "sha256": "99023072eacaf5fa7b7ee3de8a9ef3edb735abf099ef2ee3603dc80f29cf8b0a"
+    },
+    {
+      "path": "data/extracted/data/tileset/200.rle",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/tileset/200.rle",
+      "bytes": 54914,
+      "sha256": "0ba92706a8d401925990efc9bd490602437f1ac9588a223e3206c966b51a7f32"
+    },
+    {
+      "path": "data/extracted/data/ui-sprite/spriteui.json",
+      "realpath": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/extracted/data/ui-sprite/spriteui.json",
+      "bytes": 4968,
+      "sha256": "888ab4d623ee83c5cc7d9d66a4529c0953d4225be56738a84fe7b4da578f1033"
+    }
+  ],
+  "runs": [
+    {
+      "id": "ui-formal-red",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/assets/load-all-ui-frame-identity.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-assets-yotce2of/ui-formal-red.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T08:17:33.268Z",
+      "end": "2026-10-22T08:17:34.782Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "da00c610a2a464ab3099dd5ba0b911040542c86b",
+      "observerTimeout": false,
+      "stdoutBytes": 714,
+      "stderrBytes": 1517,
+      "passed": 1,
+      "failed": 2,
+      "pending": 0,
+      "files": ["packages/game/src/assets/load-all-ui-frame-identity.test.ts"],
+      "failures": [
+        {
+          "file": "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+          "fullName": "loadAll SPRITEUI frame identity frame19失败后数字1仍用frame20，缺失的数字0沿用跳过",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 21 to be 20 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/assets/load-all-ui-frame-identity.test.ts:55:36\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+          "fullName": "loadAll SPRITEUI frame identity 必要边框frame1失败后报原编号缺失，不用frame2补位",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/assets/load-all-ui-frame-identity.test.ts:73:8\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "snapshotTests": []
+    },
+    {
+      "id": "ui-formal-red-formatted",
+      "command": "pnpm",
+      "args": [
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/assets/load-all-ui-frame-identity.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-assets-yotce2of/ui-formal-red-formatted.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T08:17:54.456Z",
+      "end": "2026-10-22T08:17:55.680Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "da00c610a2a464ab3099dd5ba0b911040542c86b",
+      "observerTimeout": false,
+      "stdoutBytes": 1106,
+      "stderrBytes": 1458,
+      "passed": 1,
+      "failed": 2,
+      "pending": 0,
+      "files": ["packages/game/src/assets/load-all-ui-frame-identity.test.ts"],
+      "failures": [
+        {
+          "file": "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+          "fullName": "loadAll SPRITEUI frame identity frame19失败后数字1仍用frame20，缺失的数字0沿用跳过",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 21 to be 20 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/assets/load-all-ui-frame-identity.test.ts:55:36\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+          "fullName": "loadAll SPRITEUI frame identity 必要边框frame1失败后报原编号缺失，不用frame2补位",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [Function] to throw an error\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1552:16)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/assets/load-all-ui-frame-identity.test.ts:82:7\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "snapshotTests": []
+    },
+    {
+      "id": "ui-formal-green",
+      "command": "pnpm",
+      "args": [
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/assets/load-all-ui-frame-identity.test.ts",
+        "src/assets/load-all-recover.grok-r1.test.ts",
+        "src/assets/load-all-assembly.grok-r1.test.ts",
+        "src/assets/load-all-bounds.grok-r1.test.ts",
+        "src/assets/loader.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-assets-yotce2of/ui-formal-green.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T08:18:30.042Z",
+      "end": "2026-10-22T08:18:31.831Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "da00c610a2a464ab3099dd5ba0b911040542c86b",
+      "observerTimeout": false,
+      "stdoutBytes": 639,
+      "stderrBytes": 0,
+      "passed": 28,
+      "failed": 0,
+      "pending": 0,
+      "files": [
+        "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+        "packages/game/src/assets/loader.test.ts"
+      ],
+      "failures": [],
+      "snapshotTests": []
+    },
+    {
+      "id": "assets-module",
+      "command": "pnpm",
+      "args": [
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/assets",
+        "src/shell/bootstrap-resources.test.ts",
+        "src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "src/shell/fetch-retry.test.ts",
+        "src/shell/fetch-retry.boundaries.test.ts",
+        "src/shell/fetch-retry.glm-next-wave.test.ts",
+        "src/present/draw-number.test.ts",
+        "src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-assets-yotce2of/assets-module.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T08:20:03.084Z",
+      "end": "2026-10-22T08:20:14.270Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "da00c610a2a464ab3099dd5ba0b911040542c86b",
+      "observerTimeout": false,
+      "stdoutBytes": 5479,
+      "stderrBytes": 0,
+      "passed": 216,
+      "failed": 0,
+      "pending": 0,
+      "files": [
+        "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+        "packages/game/src/assets/dialog-resources.grok-mid-1.test.ts",
+        "packages/game/src/assets/load-all-assemble.grok-r1.test.ts",
+        "packages/game/src/assets/load-all-bounds.grok-r1.test.ts",
+        "packages/game/src/assets/load-all-recover.grok-r1.test.ts",
+        "packages/game/src/assets/load-all-ui-frame-identity.test.ts",
+        "packages/game/src/assets/loader.test.ts",
+        "packages/game/src/assets/png-decode.grok-r1.test.ts",
+        "packages/game/src/assets/png.glm-phase1-leaves.test.ts",
+        "packages/game/src/assets/png.test.ts",
+        "packages/game/src/assets/rle-decode.test.ts",
+        "packages/game/src/assets/rng-blob-snapshot.test.ts",
+        "packages/game/src/assets/scene-cache.grok-mid-1.test.ts",
+        "packages/game/src/assets/scene-cache.grok-r1.test.ts",
+        "packages/game/src/assets/snapshot-input-boundaries.test.ts",
+        "packages/game/src/assets/sprite-blob-snapshot.test.ts",
+        "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+        "packages/game/src/assets/tileset-blob.test.ts",
+        "packages/game/src/assets/tileset-gzip.grok-r1.test.ts",
+        "packages/game/src/assets/tileset-load.grok-r1.test.ts",
+        "packages/game/src/present/draw-number.test.ts",
+        "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+        "packages/game/src/shell/bootstrap-resources.test.ts",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+        "packages/game/src/shell/fetch-retry.test.ts",
+        "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts"
+      ],
+      "failures": [],
+      "snapshotTests": [
+        {
+          "file": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+          "fullName": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) mapNum=1: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+          "fullName": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) mapNum=6: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+          "fullName": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) mapNum=12: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+          "fullName": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) mapNum=50: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+          "fullName": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) mapNum=100: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "packages/game/src/assets/tileset-blob-snapshot.test.ts",
+          "fullName": "S5 tileset blob 像素一致性(真实 GOP.MKF vs extracted blob) mapNum=200: blob 解出的 tile 像素 == 原 GOP.MKF chunk 直接解出",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "id": "ui-typecheck",
+      "command": "pnpm",
+      "args": ["--filter", "@type-pal/game", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T08:20:14.318Z",
+      "end": "2026-10-22T08:20:18.552Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "da00c610a2a464ab3099dd5ba0b911040542c86b",
+      "observerTimeout": false,
+      "stdoutBytes": 125,
+      "stderrBytes": 0,
+      "failures": [],
+      "snapshotTests": []
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "ui-formal-red.stdout.raw.gz",
+      "bytes": 714,
+      "sha256": "f7439255909afe227f4ae491bb2eacd40718d367bd0927914f4cac185cb37bd1",
+      "gzipSha256": "6d3aac59776898ae76443fefd7c173f4e02c4d72656ae9569484befd344e11ef"
+    },
+    {
+      "file": "ui-formal-red.stderr.raw.gz",
+      "bytes": 1517,
+      "sha256": "83e79ed1ca5ce6eeb2c805534c5e69bd3e09f09837b3ff785852b33fd4f0b281",
+      "gzipSha256": "98b81d5b2c3a1307be72edbfbe330440248ee4a673ae7aacb07cb8d51715b845"
+    },
+    {
+      "file": "ui-formal-red.execution.json.gz",
+      "bytes": 678,
+      "sha256": "b9885d829f2bbbcd13115b54ce59929e554f6b073e98a1b6e63fcc677cc6c4ef",
+      "gzipSha256": "8953688ba06bc145e6631dcaede80d6ea33c78394b29564e221ad1eb923fa277"
+    },
+    {
+      "file": "ui-formal-red.native.json.gz",
+      "bytes": 3127,
+      "sha256": "a47a7846788b482eabb53151ec46ee3227f87e499f1df6d61623e2e101e81f40",
+      "gzipSha256": "bbe4e8505906142e7fa418297fb4a59c01798e6c75a974ddfe64c34c6174c4c8"
+    },
+    {
+      "file": "ui-formal-red-formatted.stdout.raw.gz",
+      "bytes": 1106,
+      "sha256": "4c62fbeba88750f4dcf0e8336a1e575aa8926f6df652d42bc0c8b166035365ec",
+      "gzipSha256": "447a4fa3de00a6b7d7bc86139db022754336d036392435f426cca724c7e96791"
+    },
+    {
+      "file": "ui-formal-red-formatted.stderr.raw.gz",
+      "bytes": 1458,
+      "sha256": "6163cae2dcb779b1964f9f274aab29ea98b18b914d3815cd275613f0640a21ca",
+      "gzipSha256": "6cf26adf7562eae65e921ab914839a30246511f3ffff2f8af09500901cf6763b"
+    },
+    {
+      "file": "ui-formal-red-formatted.execution.json.gz",
+      "bytes": 723,
+      "sha256": "e20212456ffd00270c1bfec41e12551d943a0f66ae4ec73b0a45ac520beffdea",
+      "gzipSha256": "39b0f99e6f93357546d86d8a20e510da7f5c13589cdcc5817587e39464237fbd"
+    },
+    {
+      "file": "ui-formal-red-formatted.native.json.gz",
+      "bytes": 3127,
+      "sha256": "55c1aa022aab1017894e60e98fc4c7a3b27501177af6ff42656192fba26657e9",
+      "gzipSha256": "a98b96791ff2e21b81ffac29a5471b4e424f2a840590268d0191d2ba959683af"
+    },
+    {
+      "file": "ui-formal-green.stdout.raw.gz",
+      "bytes": 639,
+      "sha256": "77dc40a6692308b5b46505c0dbcb47d5e67403923e55ade94ccfae10cd011341",
+      "gzipSha256": "3742823bcf2ab2699c25b32b1ca75c4474ab16835b0a0b92cb6e8a458593f398"
+    },
+    {
+      "file": "ui-formal-green.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "ui-formal-green.execution.json.gz",
+      "bytes": 889,
+      "sha256": "7d13627156a6a6af75ed279ccedbcab4ae7427f8d805062d0d477d8da222746f",
+      "gzipSha256": "d3f7582972dd0b06db967097dd2e9f98d7303647d1550ab8d90e2637c02167e7"
+    },
+    {
+      "file": "ui-formal-green.native.json.gz",
+      "bytes": 10626,
+      "sha256": "c91e6e149b3e834c0568ddcb96fb0d675f57023c8e4e640ee23aeace8084b020",
+      "gzipSha256": "729bc1d94530be9abf04391c5276c4781dca993af0501c962d1dca9bf49d0211"
+    },
+    {
+      "file": "assets-module.stdout.raw.gz",
+      "bytes": 5479,
+      "sha256": "647270fa95df17db8954c877cce9aec368413bf70190061c44e1cf9b9852ebbc",
+      "gzipSha256": "15cb17839d00da318af644e82f6a1a973fdb68512133b7541c5d50ff0036c883"
+    },
+    {
+      "file": "assets-module.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "assets-module.execution.json.gz",
+      "bytes": 999,
+      "sha256": "723d6b85e666a04b7a84ba14bcd64a2f07196ea2d1bbac3695d1a2f7640ef1af",
+      "gzipSha256": "9193b41ea2e7f6db9d0e02ddb460924f5c7c8cf5aa995a32089b2068634f493f"
+    },
+    {
+      "file": "assets-module.native.json.gz",
+      "bytes": 77130,
+      "sha256": "cb9f82f58c5455e062def69b9e61b0b229a247f6e510d0238cdb5d55804a6b19",
+      "gzipSha256": "4fd2d591c9cf6b6bc4228107bad111dc3ac69594deb0bccbeea5b7bdffbc16e5"
+    },
+    {
+      "file": "ui-typecheck.stdout.raw.gz",
+      "bytes": 125,
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+      "gzipSha256": "cfa917f0c8b26c1776c0712d5d9901bedd66eac5267f430cd75f2d59be095d3c"
+    },
+    {
+      "file": "ui-typecheck.stderr.raw.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "file": "ui-typecheck.execution.json.gz",
+      "bytes": 445,
+      "sha256": "5072db3b878fa3f5610d8f5954e0c6b44bfa2ce35e7ccc86d30a50746cf16bf3",
+      "gzipSha256": "1f164e8a61dc3efa7605f8c47ad224d1467b1f5cbe8adb37d72e30b067de1157"
+    }
+  ],
+  "limits": [
+    "Synthetic pixel contracts, not browser/full-screen visual acceptance.",
+    "Directed first command misspelled assembly filter, so actual four files28; module run includes correctly named assemble suite. No fake five-file claim.",
+    "First Biome command had wrong cwd/path and processed0; corrected scoped formatting before formal red; both red originals preserved.",
+    "Whole check/official/protected will run only at frozen related-module closeout. No CODE3h acceptance or pending→closed inferred from216green.",
+    "RLE G1/full-format truth and further tileset/test comment quality are independent remaining3h debt; not resolved here."
+  ]
+}

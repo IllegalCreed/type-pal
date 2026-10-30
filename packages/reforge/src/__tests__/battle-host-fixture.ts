@@ -209,7 +209,7 @@ export async function battleHostFixture(withSound = false) {
       for (const session of sessions) session.cancel()
       for (const release of releases) release()
       await Promise.all(pending)
-      browser.close()
+      await browser.close()
     },
     assertInputs() {
       expect({

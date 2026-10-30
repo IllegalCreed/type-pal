@@ -38,7 +38,7 @@ export const PLAYER_OBJ_START = 36
 export const PLAYER_OBJ_COUNT = 6
 
 // ── OBJECT_ENEMY 字段偏移 (global.h tagOBJECT_ENEMY,5 字段 × 2 字节)──────
-// 0: wEnemyID            — 指向 DATA.MKF chunk 1 ENEMY 数组的 1-based 索引
+// 0: wEnemyID            — 直接索引 DATA.MKF chunk 1 ENEMY 数组，不减一
 // 2: wResistanceToSorcery
 // 4: wScriptOnTurnStart  — 每回合开始跑(B-w2.a AI hook)
 // 6: wScriptOnBattleEnd  — 战斗结束跑

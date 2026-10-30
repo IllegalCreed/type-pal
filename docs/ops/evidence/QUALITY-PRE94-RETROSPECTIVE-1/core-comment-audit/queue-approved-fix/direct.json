@@ -1,0 +1,26 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/__tests__/turn-queue.test.ts",
+    "src/core/battle/__tests__/turn-queue-parity.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-queue-direct.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:16:19.686850+00:00",
+  "completedAt": "2026-10-17T20:16:21.644595+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "direct.raw.gz",
+  "rawBytes": 452,
+  "rawSha256": "fdef0df59e696f82d79bca2385d00e152bd114df96e62a0de482fa45ba4c858e",
+  "fullUncutMergedStdoutStderr": true
+}

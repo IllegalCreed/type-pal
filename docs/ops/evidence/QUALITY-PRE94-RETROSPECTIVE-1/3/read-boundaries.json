@@ -1,0 +1,190 @@
+{
+  "head": "6055857521f5f9b35f38761534edb632e6ce62f6",
+  "files": [
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+      "readMethod": "full-text",
+      "lines": 95,
+      "sha256": "6137eb27b271d2dc417bb1f0fc338681049f007ed962ba5d40bc76829e97eaa4"
+    },
+    {
+      "path": "docs/phase1/05-events-schema.md",
+      "readMethod": "full-text",
+      "lines": 157,
+      "sha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.ts",
+      "readMethod": "full-text",
+      "lines": 239,
+      "sha256": "8b244790fa3989a6801b613a54815f370627bb3682208c795cfb267131fca4b4"
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.ts",
+      "readMethod": "full-text",
+      "lines": 109,
+      "sha256": "13a0203b37fe9f238068a4e7df1f3456323f22750489998425af9ff575ad1c98"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.test.ts",
+      "readMethod": "full-text",
+      "lines": 244,
+      "sha256": "841447bcf388d2dda305f3b04e4fc281de53de78dd80de8d1cdcf9038f0945a9"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.boundaries.test.ts",
+      "readMethod": "full-text",
+      "lines": 113,
+      "sha256": "c893778cedbcfced389912954470a40b4343184ea81b2a2d8a498831dc8ed452"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+      "readMethod": "full-text",
+      "lines": 48,
+      "sha256": "5f7a14bef834cb3b4063aee64d692447662614e53a754041217fdb1b69aaeab9"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+      "readMethod": "full-text",
+      "lines": 205,
+      "sha256": "8646977267536d15cc612a2c857a9036b997785edec24747750e27011e4878e8"
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.test.ts",
+      "readMethod": "full-text",
+      "lines": 106,
+      "sha256": "11ce77b9d69c1afd8384a7be3945e795b87520135524de6073c1bea278196a1d"
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+      "readMethod": "full-text",
+      "lines": 121,
+      "sha256": "89a11a185e0a062b7b15dda9c289575754785e9c02dfd3fbff2eb1f8d9caf235"
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.ts",
+      "readMethod": "full-text",
+      "lines": 239,
+      "sha256": "1850d382e521fd14b00734fb8f963de82046d856e5b348607469e85d844a113e"
+    },
+    {
+      "path": "packages/pal-extract/src/events/recompile.ts",
+      "readMethod": "full-text",
+      "lines": 95,
+      "sha256": "70a5ac15d498c2a9316080ccfaa2333664b9a99e18e186ec8f524086e2fb209f"
+    },
+    {
+      "path": "packages/pal-extract/src/events/roundtrip.ts",
+      "readMethod": "full-text",
+      "lines": 58,
+      "sha256": "06e63ab104777ec60a1317d5f9170f9911ccae45d580ec170c337c951c660906"
+    },
+    {
+      "path": "packages/pal-extract/src/events/roundtrip.test.ts",
+      "readMethod": "full-text",
+      "lines": 20,
+      "sha256": "ee6cfbf035101be7a78b95c8fb09e2902a42f4e61f69d57fdd12c6ba7229daf2"
+    },
+    {
+      "path": "packages/pal-extract/src/events/opcodes.ts",
+      "readMethod": "full-text",
+      "lines": 311,
+      "sha256": "b7b6e7a441a9545ab6ed130b3cb4ef2418ba1de9b192b47dcc50c70e64cb2785"
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.ts",
+      "readMethod": "full-text",
+      "lines": 211,
+      "sha256": "1ad89125c37973426ba0a046ce7be74376ad404430f729bb91e372cf6c4dec46"
+    },
+    {
+      "path": "packages/pal-extract/src/io/word.ts",
+      "readMethod": "full-text",
+      "lines": 109,
+      "sha256": "43edff080324190a151d7b496de3ba3401a04c19344925318336568089bb9ffe"
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.ts",
+      "readMethod": "full-text",
+      "lines": 30,
+      "sha256": "19e388664b8bd602d1b94e6bfe72de00beb8f1fd7f7df476e89a57e8495edc0a"
+    },
+    {
+      "path": "packages/shared/src/events.ts",
+      "readMethod": "full-text",
+      "lines": 192,
+      "sha256": "973a52b68ef6f5c3ea1dd9701e3987703d8400794ae1c73b55148160debc8f3a"
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "readMethod": "full-text",
+      "lines": 98,
+      "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "readMethod": "specified-intervals-only",
+      "intervals": [[1, 325]],
+      "lines": 901,
+      "sha256": "38e5801281b5a10b1af8488ca552974b7d6686824ad29e3f4cb2bc668775022f"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-global-entries.glm-q.test.ts",
+      "readMethod": "specified-intervals-only",
+      "intervals": [[1, 170]],
+      "lines": 409,
+      "sha256": "5cd6056bd38f21205460ca333ae5f1b5789d294576bfbb611d503b8608448395"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "readMethod": "specified-intervals-only",
+      "intervals": [[560, 610], [1160, 1190]],
+      "lines": 1944,
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298"
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "readMethod": "specified-intervals-only",
+      "intervals": [[140, 185]],
+      "lines": 501,
+      "sha256": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "readMethod": "specified-intervals-only",
+      "intervals": [[1280, 1336], [1968, 2035]],
+      "lines": 5117,
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "readMethod": "specified-intervals-only",
+      "intervals": [[3012, 3028], [3070, 3090], [3120, 3270], [3428, 3465], [3505, 3577]],
+      "lines": 3652,
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017"
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "readMethod": "specified-intervals-only",
+      "intervals": [[1, 45], [53, 70]],
+      "lines": 214,
+      "sha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed"
+    },
+    {
+      "path": "docs/ops/agent-workflow.md",
+      "readMethod": "specified-intervals-only",
+      "intervals": [[1, 25]],
+      "lines": 474,
+      "sha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d"
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "readMethod": "specified-intervals-only",
+      "intervals": [[85, 128]],
+      "lines": 757,
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c"
+    }
+  ],
+  "scope": "CODE3 current implementation/test review; full package execution does not accept every file; recorded before the current card addendum",
+  "mechanicsBoundary": "no combat/stat mechanics changed; SDL control-flow excerpts, schema and engineering truth hierarchy apply; no pal.exe execution"
+}

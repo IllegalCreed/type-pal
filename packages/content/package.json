@@ -10,7 +10,7 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --reporter=default --passWithNoTests",
     "check": "pnpm typecheck && pnpm test"
   }
 }

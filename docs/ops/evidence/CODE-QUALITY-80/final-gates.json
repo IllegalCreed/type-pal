@@ -1,0 +1,79 @@
+{
+  "kind": "CODE80 final batch gate receipts",
+  "candidateCommit": "f4cfaa47e719440cd04e49853316e2bb2022f4f0",
+  "branch": "codex/code-quality-3y",
+  "mainHead": "646c8097034e4bd30a3ebde86cd61d46a2382e8a",
+  "gates": [
+    {
+      "name": "pnpm check",
+      "exit": 0,
+      "log": "gate-check-final.txt",
+      "evidence": [
+        "packages/game 313 files / 3545 tests",
+        "packages/pal-extract 70 / 423",
+        "packages/reforge 359 / 8964",
+        "packages/editor 631 / 4951",
+        "packages/migrate 96 / 739",
+        "lint 4006 files 0/0/0"
+      ]
+    },
+    {
+      "name": "pnpm coverage:ratchet",
+      "exit": 0,
+      "log": "gate-ratchet-final.txt",
+      "evidence": [
+        "game 88.05% statements / 79.31% branches / 89.63% lines",
+        "TOTAL 89.85% statements / 83.60% branches / 91.72% lines",
+        "baseline only increased"
+      ]
+    },
+    {
+      "name": "TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast",
+      "exit": 0,
+      "log": "gate-protected-final.txt",
+      "evidence": ["coverage gate passed; no package or total regression"]
+    },
+    {
+      "name": "pnpm check:docs",
+      "exit": 0,
+      "log": "gate-docs-final.txt",
+      "evidence": ["0 issues"]
+    },
+    {
+      "name": "pnpm lint",
+      "exit": 0,
+      "log": "gate-lint-final.txt",
+      "evidence": [
+        "full pnpm check lint: 4006 files; 0 errors / 0 warnings / 0 infos",
+        "post-evidence-commit pnpm lint: 4007 files; 0 errors / 0 warnings / 0 infos"
+      ]
+    },
+    {
+      "name": "node scripts/quality/code-quality-ledger.mjs",
+      "exit": 0,
+      "log": "gate-ledger-final.txt",
+      "evidence": ["3268 files; 338 closed / 10 review / 2920 pending"]
+    },
+    {
+      "name": "post-evidence-commit pnpm lint",
+      "exit": 0,
+      "log": "gate-lint-post-commit.txt",
+      "evidence": ["4007 files; 0 errors / 0 warnings / 0 infos"]
+    }
+  ],
+  "targeted": "4 files / 45 tests passed; game typecheck exit 0",
+  "diagnosticResolution": [
+    "reforge zero-save reload uses restoreable location seam",
+    "editor navigation contract explicitly prevents host default navigation"
+  ],
+  "sourceHashes": {
+    "packages/game/src/dev/dev-panel.ts": "2e01ef32b22c026db79f3814e1f198687a39ba9d5b394b81b3ba748b95e81620",
+    "packages/game/src/dev/dev-panel.glm-next-wave.test.ts": "3eb73e16d7efaf924cfd9849a7787d63774c8ab408a76dbb2c8e92cc01fe3e8c",
+    "packages/game/src/dev/dev-panel-party-lifecycle.test.ts": "f37091d9530844bffa1f98008f4d01f665243e931b8e1b42c53c73dcbda1d099",
+    "packages/reforge/src/main.host-lifecycle-1.test.ts": "ce1ba6f3c0dc91540b2329c0d351871a6d57edb030e626424d430e56bf6900c3",
+    "packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx": "a73e19eea4855fae5bad4e698c55d8ecd4abe16fc14a51cbb02f74f2a85b2ebf"
+  },
+  "closedFiles": [],
+  "remainingRisk": "dev-panel full-file lifecycle risks (global key listener disposer, picker observer/thumbnail cancellation) remain pending; no file was force-closed.",
+  "gateRunAnchor": "f4cfaa47e719440cd04e49853316e2bb2022f4f0 (working tree before closeout commit)"
+}

@@ -1,0 +1,389 @@
+{
+  "phase": "after",
+  "base": "d49de5240d6a616b9e6af4f76646f6c2fb20605f",
+  "formalSha256": {
+    "time-format.ts": "03cd01e6ed78b3acf1979f5a20ed65eefd4a0afa0397c91d49d2cddf9cfcb275",
+    "time-format.test.ts": "61046994eb6a6dd74a1fc16df10f6411aa470565fe30d94bbd34fbb174a9be75",
+    "time-format.boundaries.test.ts": "ce31751bf2f91e1707bea710ae157e7bd15094d802c3757f9c896c1f60d9051f",
+    "time-format.glm-phase1-leaves.test.ts": "79411da90343bc7a2346df5e4743c3ab47146df823e15d160e9f20d7ecab5076"
+  },
+  "variants": {
+    "control": null,
+    "exponent-accepted": ["/^\\d+$/", "/^\\d+(?:e\\d+)?$/"],
+    "minute-unchecked": ["if (m > 59 || sec > 59)", "if (sec > 59)"]
+  },
+  "runs": [
+    {
+      "variant": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/speedrun/pre94-format69-after-control-time-format.test.ts",
+        "src/tools/speedrun/pre94-format69-after-control-time-format.boundaries.test.ts",
+        "src/tools/speedrun/pre94-format69-after-control-time-format.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-format69-p6yrw8j4/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "d6edbec59296d40a93fbfc01df853e0586b3499e79e07611816d1e409fcdeff1",
+      "runnerSha256": "ae3c4707f31c2bf99be833bba58e489e54eb2115185aafaa4cb35d50da726cf3",
+      "moduleSha256": "03cd01e6ed78b3acf1979f5a20ed65eefd4a0afa0397c91d49d2cddf9cfcb275",
+      "copiesSha256": {
+        "packages/game/src/tools/speedrun/pre94-format69-after-control-time-format.ts": "03cd01e6ed78b3acf1979f5a20ed65eefd4a0afa0397c91d49d2cddf9cfcb275",
+        "packages/game/src/tools/speedrun/pre94-format69-after-control-time-format.test.ts": "afc7e0260104e59544ffbe124d5989f8910f88d784e7257fdf17cb592bb0d50d",
+        "packages/game/src/tools/speedrun/pre94-format69-after-control-time-format.boundaries.test.ts": "fa7d9ffb0e4b7bb938662c1b47884cae11d97a86a1995ad27f2606dbac60c2ec",
+        "packages/game/src/tools/speedrun/pre94-format69-after-control-time-format.glm-phase1-leaves.test.ts": "32d1bbcba6c6ecd9f6db1234205051127057700aa93518c2f952db82f78c578d"
+      },
+      "passed": 14,
+      "failed": 0,
+      "pending": 0,
+      "errorNames": [],
+      "cases": [
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatClock 截断厘秒；整分和整小时前后正确进位",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatClock 负数归零",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatHms 在整小时边界截断到秒",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatHms 负数归零",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatDiff 绝对值截断到整秒，保留不足一秒的负号",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 parseHms 允许段内首尾空白",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 parseHms 拒绝负号、空段、非数字、秒越界和错误段数",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 parseHms：总毫秒溢出时拒绝，避免工具面板把 Infinity 持久化成 null",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.glm-phase1-leaves.test.ts",
+          "fullName": "L20 time-format 解析拒绝边界 小时字段拒绝科学计数法，即便 Number 能转换它",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.glm-phase1-leaves.test.ts",
+          "fullName": "L20 time-format 解析拒绝边界 分钟为 60 且秒合法时仍拒绝",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.test.ts",
+          "fullName": "time-format formatClock 到厘秒",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.test.ts",
+          "fullName": "time-format formatHms 到秒",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.test.ts",
+          "fullName": "time-format parseHms 支持 H:MM:SS 与 M:SS",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.test.ts",
+          "fullName": "time-format formatDiff 带符号",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "exponent-accepted",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/speedrun/pre94-format69-after-exponent-accepted-time-format.test.ts",
+        "src/tools/speedrun/pre94-format69-after-exponent-accepted-time-format.boundaries.test.ts",
+        "src/tools/speedrun/pre94-format69-after-exponent-accepted-time-format.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-format69-yqcqnktx/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "0e48ee231fba981a42d498c4e4f70be0978f0b539b69a1c52eb0a51765c4369e",
+      "runnerSha256": "4eecf2d4a8d6947cb71daecb535edc5a828af8d0b14da1569becc1acf23c484a",
+      "moduleSha256": "2d9218581ae9b8f3ba8aec0523b7ea43505c68a25a3ce9cd16ddce271bfd646a",
+      "copiesSha256": {
+        "packages/game/src/tools/speedrun/pre94-format69-after-exponent-accepted-time-format.ts": "2d9218581ae9b8f3ba8aec0523b7ea43505c68a25a3ce9cd16ddce271bfd646a",
+        "packages/game/src/tools/speedrun/pre94-format69-after-exponent-accepted-time-format.test.ts": "6e1adfeb348184a57e6bae868ab3529c10e475d0dc9761950e095963b63b436d",
+        "packages/game/src/tools/speedrun/pre94-format69-after-exponent-accepted-time-format.boundaries.test.ts": "2a1de9d7a2ada5405848c71ee41c69a030719a4503de7c0911e9d6495c4205d8",
+        "packages/game/src/tools/speedrun/pre94-format69-after-exponent-accepted-time-format.glm-phase1-leaves.test.ts": "7a752d5f2f988c18d4041dd4823c6d4d16e33c7ab421d1692bc43a0702eafb06"
+      },
+      "passed": 13,
+      "failed": 1,
+      "pending": 0,
+      "errorNames": ["AssertionError"],
+      "cases": [
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatClock 截断厘秒；整分和整小时前后正确进位",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatClock 负数归零",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatHms 在整小时边界截断到秒",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatHms 负数归零",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatDiff 绝对值截断到整秒，保留不足一秒的负号",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 parseHms 允许段内首尾空白",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 parseHms 拒绝负号、空段、非数字、秒越界和错误段数",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 parseHms：总毫秒溢出时拒绝，避免工具面板把 Infinity 持久化成 null",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.glm-phase1-leaves.test.ts",
+          "fullName": "L20 time-format 解析拒绝边界 小时字段拒绝科学计数法，即便 Number 能转换它",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 360005000 to be null\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/pre94-format69-after-exponent-accepted-time-format.glm-phase1-leaves.test.ts:10:35\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "time-format.glm-phase1-leaves.test.ts",
+          "fullName": "L20 time-format 解析拒绝边界 分钟为 60 且秒合法时仍拒绝",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.test.ts",
+          "fullName": "time-format formatClock 到厘秒",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.test.ts",
+          "fullName": "time-format formatHms 到秒",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.test.ts",
+          "fullName": "time-format parseHms 支持 H:MM:SS 与 M:SS",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.test.ts",
+          "fullName": "time-format formatDiff 带符号",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "minute-unchecked",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/speedrun/pre94-format69-after-minute-unchecked-time-format.test.ts",
+        "src/tools/speedrun/pre94-format69-after-minute-unchecked-time-format.boundaries.test.ts",
+        "src/tools/speedrun/pre94-format69-after-minute-unchecked-time-format.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-format69-htpor57x/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "3400caa44afc6fbad3a8004bed6f82289ba20c7d1576d73acd49695e996a5360",
+      "runnerSha256": "e31d9b0d555359df04aa3cdc67f7b26da8ad86fc1b8daad5ff3809d73d82eb34",
+      "moduleSha256": "8122cb4cf99975447eaff794f311fdcbd640d587b16005fb2b7de0692b12458c",
+      "copiesSha256": {
+        "packages/game/src/tools/speedrun/pre94-format69-after-minute-unchecked-time-format.ts": "8122cb4cf99975447eaff794f311fdcbd640d587b16005fb2b7de0692b12458c",
+        "packages/game/src/tools/speedrun/pre94-format69-after-minute-unchecked-time-format.test.ts": "a332874a7f00333e8dae0683ba7fc14e77cfe1e9d5b6ce983b40f044e41a8973",
+        "packages/game/src/tools/speedrun/pre94-format69-after-minute-unchecked-time-format.boundaries.test.ts": "b1dda2db131dd9bd4a6913619994cc3e1439b1989f05d6798d45946c73b149bc",
+        "packages/game/src/tools/speedrun/pre94-format69-after-minute-unchecked-time-format.glm-phase1-leaves.test.ts": "f6a1a2245fdaf6d0d961d4119c56bb298e2b5681115c7a5f64ad6bf4599e1eef"
+      },
+      "passed": 13,
+      "failed": 1,
+      "pending": 0,
+      "errorNames": ["AssertionError"],
+      "cases": [
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatClock 截断厘秒；整分和整小时前后正确进位",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatClock 负数归零",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatHms 在整小时边界截断到秒",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatHms 负数归零",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 formatDiff 绝对值截断到整秒，保留不足一秒的负号",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 parseHms 允许段内首尾空白",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 parseHms 拒绝负号、空段、非数字、秒越界和错误段数",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.boundaries.test.ts",
+          "fullName": "H08 进位与符号边界 parseHms：总毫秒溢出时拒绝，避免工具面板把 Infinity 持久化成 null",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.glm-phase1-leaves.test.ts",
+          "fullName": "L20 time-format 解析拒绝边界 小时字段拒绝科学计数法，即便 Number 能转换它",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.glm-phase1-leaves.test.ts",
+          "fullName": "L20 time-format 解析拒绝边界 分钟为 60 且秒合法时仍拒绝",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected 7200000 to be null\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/pre94-format69-after-minute-unchecked-time-format.glm-phase1-leaves.test.ts:14:33\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "time-format.test.ts",
+          "fullName": "time-format formatClock 到厘秒",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.test.ts",
+          "fullName": "time-format formatHms 到秒",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.test.ts",
+          "fullName": "time-format parseHms 支持 H:MM:SS 与 M:SS",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "time-format.test.ts",
+          "fullName": "time-format formatDiff 带符号",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    }
+  ],
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

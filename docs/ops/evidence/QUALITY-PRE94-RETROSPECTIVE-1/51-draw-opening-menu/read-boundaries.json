@@ -1,0 +1,72 @@
+{
+  "base": "c6cd416a",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.ts",
+      "sha256": "1e44195ef42a04fc0c2864b5868a25cd3ec23824d4520d372f25ce4a7e97835a",
+      "lines": 70,
+      "boundary": "Full implementation read: background, text source, long-label x formula, colors, shadow and framebuffer ownership."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+      "sha256": "7d46196042f239d83c884abd312c21c5692c0a2199c06f3750975d87d09cfcc8",
+      "lines": 83,
+      "boundary": "Full direct read: coordinate formula, background/missing background, two items and cursor difference contracts."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+      "sha256": "dadd0eead7bd003fe4497930256c6698f5954a1f28e4befdf66eb825b4cde74c",
+      "lines": 76,
+      "boundary": "Full direct leaves read: exact selected/normal colors, shadow, word-table synchronization and frame independence."
+    },
+    {
+      "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "sha256": "1f8640fe2c9d56359fb3161eb6a427061915b1bbd8366192d5b135d1e6c4ef4e",
+      "lines": 177,
+      "boundary": "Full adjacent pixel read: zero/small background, cursor bounds, state/word immutability and confirmation-frame separation."
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.ts",
+      "sha256": "cc81a74d8264afc9cccdc061c32829953da1482c7c0fd7d3124e102949d48e82",
+      "lines": 74,
+      "boundary": "Full state/word lookup read: labels, default cursor, choices and navigation."
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1",
+      "lines": 2076,
+      "ranges": ["42-167"],
+      "boundary": "PAL_OpeningMenu background, labels, positions, default/cancel flow primary."
+    },
+    {
+      "path": "reference/sdlpal/ui.c",
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242",
+      "lines": 994,
+      "ranges": ["458-475"],
+      "boundary": "PAL_ReadMenu text draw, selected/normal colors and shadow primary."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "ranges": ["opening dispatch"],
+      "boundary": "Public opening render entry."
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "ranges": ["opening resource injection"],
+      "boundary": "FBP background injection into menu context."
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "ranges": ["opening dispatch/cancel"],
+      "boundary": "Opening navigation, load cancel and cursor reset caller."
+    }
+  ],
+  "notClaimed": [
+    "Current full-repository check/coverage/ratchet/protected-fast acceptance",
+    "Runtime visual/E2E acceptance",
+    "Audio/fade integration beyond draw caller",
+    "Any product shape or save/schema change"
+  ]
+}

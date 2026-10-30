@@ -1,0 +1,95 @@
+{
+  "base": "ba45329cc",
+  "files": [
+    {
+      "path": "packages/game/src/tools/tools-panel.test.ts",
+      "sha256": "f4b33eca5a33fc65676334d7fef3cdc8b1c80716dcb65ac825af9131ef82a6b8",
+      "lines": 310,
+      "scope": "full file; test fixture/oracle/isolation review"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "sha256": "171f3466d6a8469794263dd7747d98a43ce21367dc8c82d4de1ccb1cbc635d95",
+      "lines": 70,
+      "scope": "full file; test fixture/oracle/isolation review"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+      "sha256": "e8509d85b2fd1b9f51b3ed59029d736aefd20f6e6e35d784517b897334cac083",
+      "lines": 89,
+      "scope": "full file; test fixture/oracle/isolation review"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1",
+      "lines": 1106,
+      "scope": "1-100 dependencies/types; 340-1106 renderers, signatures and actual page-lifetime setup; full source previously read in 58-tools-panel, not recertified by this fixture-only slice"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944,
+      "scope": "1090-1140 actual production installation/dependency injection"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "fdfe520283d6975bd93573f153ee51f620c3ec424433b2672ff447ba20a2831b",
+      "lines": 2111,
+      "scope": "1394-1452 hydratePlayerRolesRuntime; 1881-1960 createInitialGameState"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "ac0b7567b9cc93f0713debc36d37d40cf0fde926e71891b1c77c35b4bf542cca",
+      "lines": 918,
+      "scope": "698-932 CreateBattleStateInput, player/status/enemy ownership and complete state constructor"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.ts",
+      "sha256": "b0febbfa204ee8637cecca4305555e7426a7ec7bc8030254587c55bb56069819",
+      "lines": 399,
+      "scope": "1-370 role/runtime/status/enemy readouts consumed by battle tab"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/stats-test-fixtures.ts",
+      "sha256": "270f953dd0c5843f95319b208c4990c7ab86bd232a236dedd13bf6dc8cded652",
+      "lines": 249,
+      "scope": "full file read; reuses typed makeEnemy, makePlayerRole, makePlayerRoles only, does not recertify whole stats module"
+    },
+    {
+      "path": "packages/game/src/shell/music-source.ts",
+      "sha256": "5ec5f2a68a4214cda4ba75b585d704ef8a32deb5fa26e01b97ac7c9028cfff4e",
+      "lines": 115,
+      "scope": "full file; asynchronous generation/readiness, subscription and dispose ownership"
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.ts",
+      "sha256": "66884943d42398559449bbdc7d7934d0b9e93f35cc0fd6cedbd8b491ab6cfc40",
+      "lines": 110,
+      "scope": "full file; persisted switch and sampling reset ownership"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+      "lines": 116,
+      "scope": "full file; singleton reset, public timer actions"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "sha256": "e6db123378836bff7ae83405dfabbeb641659843405ccd10768b33ad47c8b890",
+      "lines": 487,
+      "scope": "315-450 connected scene surfaces, rAF and window keydown registration"
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "c6e4f9cea1f009d74b292198bb706b25f98d5e4de6b651a3d6be99ad4f514a7a",
+      "lines": 641,
+      "scope": "282-342 Enemy and 482-585 PlayerRole/PlayerRoles input contract"
+    }
+  ],
+  "notClaimed": [
+    "new product/API behavior",
+    "complete tools-panel renderer or save/import acceptance",
+    "runtime gameplay/visual/E2E",
+    "new whole-repository or coverage gate"
+  ]
+}

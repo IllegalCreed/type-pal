@@ -1,0 +1,213 @@
+{
+  "base": "987bdddac38ea3e95d84a3b82dcdeb1ba314556c",
+  "rows": [
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "sha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+      "lines": 487,
+      "ranges": [[1, 487]],
+      "fullRead": true,
+      "snapshot": "c72a685a086d-minimap.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.test.ts",
+      "sha256": "b091cafc94606bae3e8127bc7873947469e5899d9adcfbe719fddf37830e9075",
+      "lines": 161,
+      "ranges": [[1, 161]],
+      "fullRead": true,
+      "snapshot": "b091cafc9460-minimap.test.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sha256": "04fc167be03b045e336bc6f339fb32dd8c87fc973daeb539e2ba5ee4796e1092",
+      "lines": 254,
+      "ranges": [[1, 254]],
+      "fullRead": true,
+      "snapshot": "04fc167be03b-minimap.glm-phase1-leaves.test.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/shared/src/mkf.ts",
+      "sha256": "6f654d1b361a2e979d9b12b14c1e1f0f4b2aeffc9784e228fe8b30776b9947f1",
+      "lines": 55,
+      "ranges": [[1, 55]],
+      "fullRead": true,
+      "snapshot": "6f654d1b361a-mkf.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.ts",
+      "sha256": "1ad89125c37973426ba0a046ce7be74376ad404430f729bb91e372cf6c4dec46",
+      "lines": 211,
+      "ranges": [[1, 211]],
+      "fullRead": true,
+      "snapshot": "1ad89125c379-sss.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/events/disasm.ts",
+      "sha256": "1850d382e521fd14b00734fb8f963de82046d856e5b348607469e85d844a113e",
+      "lines": 239,
+      "ranges": [[1, 239]],
+      "fullRead": true,
+      "snapshot": "1850d382e521-disasm.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/game/src/core/inventory-state.ts",
+      "sha256": "61bedc73a9a72cd587b7bb202162528b4c2ad5e1bd5dfd9c6d0eea35ec0d8d25",
+      "lines": 31,
+      "ranges": [[1, 31]],
+      "fullRead": true,
+      "snapshot": "61bedc73a9a7-inventory-state.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0",
+      "lines": 98,
+      "ranges": [[1, 98]],
+      "fullRead": true,
+      "snapshot": "f58bbfb50322-script-catalog.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test.ts",
+      "sha256": "f4b33eca5a33fc65676334d7fef3cdc8b1c80716dcb65ac825af9131ef82a6b8",
+      "lines": 310,
+      "ranges": [[1, 310]],
+      "fullRead": true,
+      "snapshot": "f4b33eca5a33-tools-panel.test.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "sha256": "171f3466d6a8469794263dd7747d98a43ce21367dc8c82d4de1ccb1cbc635d95",
+      "lines": 70,
+      "ranges": [[1, 70]],
+      "fullRead": true,
+      "snapshot": "171f3466d6a8-tools-panel.glm-phase1-leaves.test.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "lines": 11,
+      "ranges": [[1, 11]],
+      "fullRead": true,
+      "snapshot": "eebb89f531c5-vitest.config.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "lines": 20,
+      "ranges": [[1, 20]],
+      "fullRead": true,
+      "snapshot": "9d1b923f6abc-vitest.setup.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/shared/src/events.ts",
+      "sha256": "973a52b68ef6f5c3ea1dd9701e3987703d8400794ae1c73b55148160debc8f3a",
+      "lines": 192,
+      "ranges": [[1, 89]],
+      "fullRead": false,
+      "snapshot": "973a52b68ef6-events.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "6b20017dc7c7ca79c413fdb690cd65a5cdaa38e33d8227d009f1b19ce23fe7ea",
+      "lines": 2105,
+      "ranges": [[1, 235], [1875, 1946]],
+      "fullRead": false,
+      "snapshot": "6b20017dc7c7-game-state.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "34258414e93e9be05db2866105cb7f0d4af35d91812a1968225c2355f5dde7a7",
+      "lines": 1107,
+      "ranges": [[594, 608], [998, 1015]],
+      "fullRead": false,
+      "snapshot": "34258414e93e-tools-panel.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "0dd4a19a44a92e16cebf95c931bdc33b71b1bf8bcc2e9ba22a8ca89cbc86906c",
+      "lines": 1934,
+      "ranges": [[660, 759], [1103, 1114]],
+      "fullRead": false,
+      "snapshot": "0dd4a19a44a9-bootstrap.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "601e10d7144d3fc1a8a50bf397c66650a20af2597a18f92cbb9a9afd250bc365",
+      "lines": 911,
+      "ranges": [[236, 282]],
+      "fullRead": false,
+      "snapshot": "601e10d7144d-cli.ts.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652,
+      "ranges": [[952, 1015], [1800, 1834]],
+      "fullRead": false,
+      "snapshot": "f5332e015b27-script.c.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "lines": 2409,
+      "ranges": [[1030, 1175]],
+      "fullRead": false,
+      "snapshot": "6e7162374dca-global.c.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "sha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "lines": 279,
+      "ranges": [[80, 108], [137, 164]],
+      "fullRead": false,
+      "snapshot": "e37d7232b6af-engineering-notes.md.read.gz",
+      "scope": "Actual source/caller/oracle read; not whole-domain or native execution acceptance"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "sha256": "42b97e13874649122b736f29e639bc60339fcc7a6d7f2c50510f7e66edd82269",
+      "lines": 382,
+      "ranges": [[87, 158]],
+      "fullRead": false,
+      "snapshot": "42b97e138746-draw-tilemap.ts.read.gz",
+      "scope": "Geometry/caller primary ranges only; no entire-source acceptance"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b",
+      "lines": 49,
+      "ranges": [[1, 24]],
+      "fullRead": false,
+      "snapshot": "eafcf690d4e5-framebuffer.ts.read.gz",
+      "scope": "Geometry/caller primary ranges only; no entire-source acceptance"
+    },
+    {
+      "path": "reference/sdlpal/map.c",
+      "sha256": "0b707730f6e89b2d99f7a8564382c226381c3cec2f13867ad54c816805b1357f",
+      "lines": 418,
+      "ranges": [[102, 130]],
+      "fullRead": false,
+      "snapshot": "0b707730f6e8-map.c.read.gz",
+      "scope": "Geometry/caller primary ranges only; no entire-source acceptance"
+    }
+  ],
+  "rawQuantityScope": "Separate raw-quantity-audit.json; main-tree raw input read-only, no extraction/output writes"
+}

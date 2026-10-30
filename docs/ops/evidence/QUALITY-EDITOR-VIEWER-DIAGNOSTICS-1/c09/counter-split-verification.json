@@ -1,0 +1,51 @@
+{
+  "verifiedBy": "Codex separate post-cleanup process",
+  "sourceTestHelperHashMatch": true,
+  "manifestAndRecipeRebuilt": true,
+  "rawRunnerAndAllFileFullNameStatusFailureMessagesMatch": true,
+  "scratchAbsent": true,
+  "runs": [
+    {
+      "label": "counter-before",
+      "passed": 5,
+      "failed": 0,
+      "pending": 0,
+      "unwrappedAct": 0
+    },
+    {
+      "label": "counter-append-selection-old",
+      "passed": 4,
+      "failed": 1,
+      "pending": 0,
+      "unwrappedAct": 52
+    },
+    {
+      "label": "counter-append-selection-new",
+      "passed": 4,
+      "failed": 1,
+      "pending": 0,
+      "unwrappedAct": 0
+    },
+    {
+      "label": "counter-late-alive-old",
+      "passed": 4,
+      "failed": 1,
+      "pending": 0,
+      "unwrappedAct": 56
+    },
+    {
+      "label": "counter-late-alive-new",
+      "passed": 4,
+      "failed": 1,
+      "pending": 0,
+      "unwrappedAct": 0
+    },
+    {
+      "label": "counter-recovery",
+      "passed": 5,
+      "failed": 0,
+      "pending": 0,
+      "unwrappedAct": 0
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "task": "GAME-MOBILE-LAYOUT-1",
+  "date": "2026-10-22",
+  "scope": "Modal abstract-input completion and browser-host lifecycle; simulated host is not physical hardware.",
+  "before": {
+    "command": "pnpm --filter @type-pal/game exec vitest run src/shell/modal-input.test.ts --reporter=default --reporter=json --outputFile=/tmp/type-pal-modal-red.json",
+    "exit": 1,
+    "files": 1,
+    "passed": 0,
+    "failed": 3,
+    "failures": "Three specified complete=true business AssertionErrors; no collection/runtime failure.",
+    "native": "modal-red.json.gz",
+    "raw": "modal-red.txt",
+    "source": "Before modal patch; AVI/ending/splash from base92e901806; input matches earlier gamepad-controls.json source fingerprint."
+  },
+  "after": {
+    "cwd": "packages/game",
+    "command": "pnpm exec vitest run src/shell/modal-input.test.ts src/shell/input*.test.ts src/shell/gamepad-input.test.ts src/shell/touch-controls.test.ts src/shell/avi-player*.test.ts src/shell/splash-fallback*.test.ts src/shell/trademark-splash.grok-r1.test.ts src/shell/ending-player*.test.ts --reporter=default --reporter=json --outputFile=/tmp/type-pal-modal-green.json",
+    "exit": 0,
+    "files": 14,
+    "passed": 93,
+    "failed": 0,
+    "native": "modal-green.json.gz",
+    "raw": "modal-green.txt"
+  },
+  "sourceSha256": {
+    "packages/game/src/shell/input.ts": "271b6afdb6ff191939562da3cbb06e2f1eb4aab455aee381eb75f2705b078d09",
+    "packages/game/src/shell/avi-player.ts": "3216ea10612c0bda2eda0a44b642f6676070cc6781be94b1b2e1933a7d316f69",
+    "packages/game/src/shell/ending-player.ts": "9099d346ac0a66353169d940d4b5dbc173f702c7ec22da4fe403c63e01ca3fdc",
+    "packages/game/src/shell/splash-fallback.ts": "67f2a8b128b07b6faf8da926660473de86d37737c72e4548aa482e1857d947c1",
+    "packages/game/src/shell/modal-input.test.ts": "a16dbbae880e4a1b72e194e87002b055c32a3f4f68c8d8bbd24bcb9415a2c3ea",
+    "packages/game/src/shell/game-shell.css": "1586b667f7de53474785dfc658928421ddc9cf3f1eb029f81c791dda5dd3c390",
+    "packages/game/src/shell/gamepad-host.test.ts": "59dee7078b9806a0d9214fb5ba93f06fb69e61929b36fedc1e5cd2a2add22654",
+    "packages/game/src/shell/game-shell.test.ts": "6ee2876f49f09aedb62926cee0742e9526460bf3475af2010a010663f15cb7d2"
+  },
+  "artifactsSha256": {
+    "modal-game-check.txt": "b71b32ddf3d9e39519ea4742e34a27beeb06e5243dd7f195497866b6cc33290f",
+    "modal-red.txt": "0d859ff765038ce221878f031e60df8652c20d1888a2478cc3b5752e98d951f5",
+    "modal-green.txt": "930ebcc1b53061f84e0bcc680b30cbfee824e3e97584204061ff571594af83c3",
+    "modal-red.json.gz": "9e4b64f872329620920dace3c568ec6f8ce99b1623beddcf53881d21b2996bca",
+    "modal-green.json.gz": "c1bf38a28033b23be6309097506b6094580ad12ecbbe8916d2ee393097c9b2e1"
+  },
+  "handling": "Native JSON bytes losslessly gzip-compressed; raw stdout/stderr preserved. This manifest alone does not certify the code."
+}

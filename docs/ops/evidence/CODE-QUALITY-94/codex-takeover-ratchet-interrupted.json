@@ -1,0 +1,13 @@
+{
+  "command": ["pnpm", "coverage:ratchet"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "candidate": "0a039271c",
+  "exitCode": null,
+  "signal": "SIGTERM",
+  "reason": "Explicitly cancelled own single-worker agent-reporter gate process group before completion; restart with visible output and bounded four workers",
+  "sha256": "d1a772140656ecdc932061728957e42237d213abce0a5a63767207e6928e6570",
+  "bytes": 16946,
+  "protectedRun": "not started by cancelled chain",
+  "rawArtifact": "docs/ops/evidence/CODE-QUALITY-94/codex-takeover-ratchet.raw.gz",
+  "rawEncoding": "gzip; sha256 and bytes describe decompressed original output"
+}

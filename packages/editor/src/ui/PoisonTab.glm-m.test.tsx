@@ -110,15 +110,23 @@ describe('M04 PoisonTab 逐回合序列与关系当前合同', () => {
     expect(session.getHistoryVersion()).toBe(before + 4)
     assertProjectSaveValid(session.getState())
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(poison(session).playerTicks).toEqual([
       { hpDelta: -25, halveHp: 2, grantItem: 'item-poison-m' },
     ])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(poison(session).playerTicks).toEqual([{ hpDelta: -25, halveHp: 2 }])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(poison(session).playerTicks).toEqual([{ hpDelta: -25 }])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(poison(session).playerTicks).toEqual([{ hpDelta: -10 }])
   })
 
@@ -168,9 +176,13 @@ describe('M04 PoisonTab 逐回合序列与关系当前合同', () => {
     expect(counters.at(-1)?.locator).toEqual({ kind: 'poison', poisonId: 1 })
     assertProjectSaveValid(session.getState())
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(poison(session).counters).toBeUndefined()
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(poison(session).lethalWith).toBeUndefined()
   })
 })

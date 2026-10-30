@@ -1,0 +1,117 @@
+{
+  "base": "6d855d9fe",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "sha256": "f01138f7b86018a085cf9715ddcffb0f8c5ca47dc6a901efe15f3bee09c0fff4",
+      "lines": 325,
+      "boundary": "Full fade implementation read; all six constructors, quantized/approach stepping, finalization, freeze/remap and working-palette ownership."
+    },
+    {
+      "path": "packages/game/src/core/scene-identity.ts",
+      "sha256": "8e47a8b7ff7e1d3b360f5984f819b207e480581b4c2042f98ef1abe0681b89ef",
+      "lines": 13,
+      "boundary": "Full single map identity getter/setter read."
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.ts",
+      "sha256": "4fe9487c9e3618770929f3e11176cd362cbcb0d1c46b38fa63fc50f981cd0883",
+      "lines": 27,
+      "boundary": "Full WORD table injection/read/fallback implementation read."
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0",
+      "lines": 98,
+      "boundary": "Full global command/label catalog, zero-item overlay, cursor override and own-property resolution read."
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.test.ts",
+      "sha256": "a9584a58951886feee79e63b9149f950c5972075ff80e945dadde5f3dae82c5f",
+      "lines": 224,
+      "boundary": "Full direct fade oracle read; constructors, quantization, approach, skip/remap, finalization and integer /31 counterexample."
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.test.ts",
+      "sha256": "0202e00c781e836efdc42ac89db3ead78f8708e7aa18ffde51c6c7c0fee9599a",
+      "lines": 26,
+      "boundary": "Full direct WORD fallback/table-priority/out-of-range oracle read."
+    },
+    {
+      "path": "packages/game/src/core/dependency-ownership.test.ts",
+      "sha256": "d483cc817fa920d93c453fef65dd1c6a5dcc59615667ceeeca7b10bafdd186c9",
+      "lines": 178,
+      "boundary": "Full public entrypoint ownership/catalog/map/poison/equipment isolation oracle read."
+    },
+    {
+      "path": "packages/game/src/core/cross-module-boundaries.test.ts",
+      "sha256": "9359f945fb2d77563326ccaca7f140250d747a0972aef46e15e91c2106a077e4",
+      "lines": 137,
+      "boundary": "Full cross-module scene/history/inventory/equipment-to-battle caller oracle read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242",
+      "lines": 5117,
+      "ranges": ["580-750", "1510-1555", "2510-2640", "3480-3560"],
+      "boundary": "Fade construction/cursorless fallback/auto-fade/catalog caller ranges."
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "9b11dd7e866210a15dc7e57087fa230a2ab22593f64cc6b5eb4d441948ef2f64",
+      "lines": 662,
+      "ranges": ["1-45", "620-650"],
+      "boundary": "Scene identity import/export and loadScene map write ranges."
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "lines": 805,
+      "ranges": ["200-225", "270-290", "630-690"],
+      "boundary": "Palette step/finalize, freeze and dither/palette ownership ranges."
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/present-battle.test.ts",
+      "sha256": "0f2c35aee1df5d9d4d030a7a2260c145af72d399a7268184b5e141f57f7b95ae",
+      "lines": 687,
+      "ranges": ["190-230"],
+      "boundary": "Battle palette fade caller regression range."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944,
+      "ranges": ["250-285", "790-820", "1165-1190", "1545-1570"],
+      "boundary": "WORD/global events/map injection and scene load map ownership ranges."
+    },
+    {
+      "path": "reference/sdlpal/palette.c",
+      "sha256": "88a3160fac6bddd28355a28b788b76b848b9853d06eb75b8abe2116b9ee7795d",
+      "lines": 667,
+      "ranges": ["123-380", "381-590", "595-667"],
+      "boundary": "All six palette fade primary implementations and integer step/finalization semantics."
+    },
+    {
+      "path": "reference/sdlpal/text.c",
+      "sha256": "8e3c1be5111ea6bed1d0a8a480a2818235d0b3c22a6f73540f5701ac26cbc456",
+      "lines": 2569,
+      "ranges": ["966-1000"],
+      "boundary": "PAL_GetWord bounds/empty fallback primary range."
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652,
+      "ranges": ["1052-1102", "3180-3210", "3390-3475"],
+      "boundary": "Revive/catalog script entry and dialog/script lifecycle primary ranges."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3n acceptance",
+    "Full event/scene/present runtime diagnostics",
+    "Schema/save/migration, generated assets or UI-shape changes",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

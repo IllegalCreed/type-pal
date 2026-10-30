@@ -1,0 +1,20 @@
+{
+  "method": "Independent split recipe rebuild after scratch deletion; raw/runner/executed identities and unchanged retirement matcher checked",
+  "workspaceAbsent": true,
+  "rows": [
+    {
+      "label": "controlled-oracle-mutant",
+      "passed": 8,
+      "failed": 1,
+      "rawAndRunnerIntegrity": true,
+      "recipeRebuiltAfterCleanup": true
+    },
+    {
+      "label": "controlled-oracle-recovery",
+      "passed": 19,
+      "failed": 0,
+      "rawAndRunnerIntegrity": true,
+      "recipeRebuiltAfterCleanup": true
+    }
+  ]
+}

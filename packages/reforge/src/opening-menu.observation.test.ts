@@ -5,8 +5,8 @@ import { shellProject } from './__tests__/runtime-shell/project.js'
 import type { OpeningMenuObservation } from './opening-menu.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 

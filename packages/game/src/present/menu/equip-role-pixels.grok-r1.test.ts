@@ -3,6 +3,7 @@
  * 装备选人页的单人框高、结束相、缺目录、越界光标、数量 0 和灵力预览。
  * 不重复 P03 的攻击预览与六槽名，也不重复 glm 的未知已装备 `?id`。
  */
+
 import { afterEach, describe, expect, it } from 'vitest'
 import type { GameState } from '../../core/game-state.js'
 import {
@@ -24,9 +25,8 @@ import {
 import {
   cloneInputs,
   freezeNow,
-  makeGs,
   makeItem,
-  makeRoles,
+  makeLiveScene,
   resetHostSingletons,
 } from '../__tests__/grok-present/world.js'
 import { createFramebuffer } from '../framebuffer.js'
@@ -58,17 +58,15 @@ function openPick(gs: GameState, party: number[]): EquipMenuState {
   gs.partyMembers = party
   gs.inventory = [{ itemId: 60, count: 3 }]
   const items = [sword()]
-  const roles = makeRoles()
   const menu = createEquipMenu(gs, items)
-  confirmEquipItem(menu, items, roles, gs.partyMembers)
+  confirmEquipItem(menu, items)
   return menu
 }
 
 describe('G06-C 装备选人像素', () => {
-  it('G06-C01 一人队伍仍画出一行内容框，底边在 y=111', () => {
-    const gs = makeGs()
+  it('G06-C01 一人队伍不加空白内容行，底边在 y=103', () => {
+    const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const roles = makeRoles()
     const menu = openPick(gs, [0])
     const frames = makeUiFrames()
     const fb = createFramebuffer()
@@ -88,20 +86,20 @@ describe('G06-C 装备选人像素', () => {
       restore()
     }
     const name = textDot('甲', 0, 15, 108)
-    expect(pixel(fb, 2, 111)).toBe(BOX_STYLE0)
-    expect(pixel(fb, 2, 119)).toBe(SENTINEL)
+    expect(menu.phase).toBe('pick-role')
+    expect(pixel(fb, 2, 103)).toBe(BOX_STYLE0)
+    expect(pixel(fb, 2, 111)).toBe(SENTINEL)
     expect(pixel(fb, name.x, name.y)).toBe(0xf9)
   })
 
   it('G06-C02 phase 为 done 时整屏保持底色', () => {
-    const gs = makeGs()
+    const { gs, roles } = makeLiveScene()
     const item = sword()
     const items = [item]
     gs.inventory = [{ itemId: item.id, count: 2 }]
     const menu = createEquipMenu(gs, items)
     menu.phase = 'done'
     const frames = makeUiFrames()
-    const roles = makeRoles()
     const fb = createFramebuffer()
     fillSentinel(fb)
     const before = cloneInputs({ gs, menu, items, roles, frames })
@@ -122,14 +120,13 @@ describe('G06-C 装备选人像素', () => {
   })
 
   it('G06-C03 selectedItemId 未定义时不铺装备背景', () => {
-    const gs = makeGs()
+    const { gs, roles } = makeLiveScene()
     const items = [sword()]
     gs.partyMembers = [0, 1]
     gs.inventory = [{ itemId: 60, count: 1 }]
     const menu = createEquipMenu(gs, items)
     menu.phase = 'pick-role'
     const frames = makeUiFrames()
-    const roles = makeRoles()
     const equipBg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }
     const fb = createFramebuffer()
     fillSentinel(fb)
@@ -149,7 +146,7 @@ describe('G06-C 装备选人像素', () => {
   })
 
   it('G06-C04 选中 id 不在目录时同样不铺背景也不画图标', () => {
-    const gs = makeGs()
+    const { gs, roles } = makeLiveScene()
     const items = [sword()]
     gs.partyMembers = [0, 1]
     gs.inventory = [{ itemId: 60, count: 1 }]
@@ -157,7 +154,6 @@ describe('G06-C 装备选人像素', () => {
     menu.phase = 'pick-role'
     menu.selectedItemId = 404
     const frames = makeUiFrames()
-    const roles = makeRoles()
     const equipBg = { width: 4, height: 4, indices: new Uint8Array(16).fill(0x55) }
     const icons = new Map([[6, iconImage(0x86)]])
     const fb = createFramebuffer()
@@ -178,9 +174,8 @@ describe('G06-C 装备选人像素', () => {
   })
 
   it('G06-C05 角色光标越过队伍时图标已画，攻击数字不画', () => {
-    const gs = makeGs()
+    const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const roles = makeRoles()
     const menu = openPick(gs, [0, 1])
     menu.playerCursor = 5
     gs.PlayerRolesRuntime.rgwAttackStrength[0] = 23
@@ -209,9 +204,8 @@ describe('G06-C 装备选人像素', () => {
   })
 
   it('G06-C06 现行数量为 0 时不画青色数字，物品名仍是确认色', () => {
-    const gs = makeGs()
+    const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const roles = makeRoles()
     const menu = openPick(gs, [0, 1])
     const entry = gs.inventory[0]
     if (!entry) throw new Error('inventory entry missing')
@@ -240,9 +234,8 @@ describe('G06-C 装备选人像素', () => {
   })
 
   it('G06-C07 灵力预览在 y=36，是基础加效果；武术行仍是武术值', () => {
-    const gs = makeGs()
+    const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const roles = makeRoles()
     const menu = openPick(gs, [0, 1])
     gs.PlayerRolesRuntime.rgwAttackStrength[0] = 20
     gs.PlayerRolesRuntime.rgwMagicStrength[0] = 11
@@ -271,9 +264,8 @@ describe('G06-C 装备选人像素', () => {
   })
 
   it('G06-C08 防御预览在 y=58，取防御基础值', () => {
-    const gs = makeGs()
+    const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const roles = makeRoles()
     const menu = openPick(gs, [0, 1])
     gs.PlayerRolesRuntime.rgwDefense[0] = 31
     const frames = makeUiFrames()
@@ -293,9 +285,8 @@ describe('G06-C 装备选人像素', () => {
   })
 
   it('G06-C09 身法为一位数时只画个位，高位保持底色', () => {
-    const gs = makeGs()
+    const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const roles = makeRoles()
     const menu = openPick(gs, [0, 1])
     gs.PlayerRolesRuntime.rgwDexterity[0] = 8
     const frames = makeUiFrames()
@@ -315,9 +306,8 @@ describe('G06-C 装备选人像素', () => {
   })
 
   it('G06-C10 吉运预览在 y=102', () => {
-    const gs = makeGs()
+    const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const roles = makeRoles()
     const menu = openPick(gs, [0, 1])
     gs.PlayerRolesRuntime.rgwFleeRate[0] = 46
     const frames = makeUiFrames()
@@ -337,9 +327,8 @@ describe('G06-C 装备选人像素', () => {
   })
 
   it('G06-C11 数量读 gs 现行库存 8，列表快照仍是确认时的 3', () => {
-    const gs = makeGs()
+    const { gs, roles } = makeLiveScene()
     const items = [sword()]
-    const roles = makeRoles()
     const menu = openPick(gs, [0, 1])
     const entry = gs.inventory[0]
     const snap = menu.list.inventory[0]

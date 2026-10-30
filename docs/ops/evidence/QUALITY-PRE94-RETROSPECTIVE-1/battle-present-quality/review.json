@@ -1,0 +1,667 @@
+{
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "base": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b",
+  "branch": "codex/code-quality-3y",
+  "owner": "Codex single agent",
+  "state": "finite four-slice local closeout; hosted CI and merge recorded separately",
+  "files": [
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+      "sha256": "86e247937a178a7052b7c30ed18fe842ba063b97cfdd27602598de9c2290450e",
+      "lines": 260,
+      "boundary": "full implementation/test and current diff read",
+      "status": "accepted within recorded file/contract scope",
+      "dimensions": {
+        "A": "复用3l-settlement四屏布局与ui.c数字合同；当前roleNames/getWord接线读live身份，未知非有限drawNumber域不附带接受。",
+        "B": "保留中文固定布局和动态名字宽度限制；不再把宿主smoke当作8行像素证据。",
+        "C": "仅消费screen/可选资源，状态推进仍由core settlement；没有IO、timer或反向写角色。",
+        "D": "箭头/斜杠与UI采用完全相同的左上角opaque blit，提取blitUiFrame；不与底中锚/染色/淡出合并。",
+        "E": "L15独立固定坐标覆盖8行与HP/MP最大值，两条宽度与缺帧用例复用G08-C；MP错接旧绿/新单红。",
+        "F": "四个screen专有小函数保留领域名；未为字数减少合成带模式布尔值万能绘制。",
+        "G": "删除本地重复blit实现；hiddenExpUpNumberX仍有真实caller，保留。",
+        "H": "真实Framebuffer与小型独立图块可直接测；词表修改由finally复位。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "sha256": "3fc14745f59a500b8417db1dd0b7757d3279c54df778c91d0874942bbd295540",
+      "lines": 386,
+      "boundary": "full implementation/test and current diff read",
+      "status": "accepted within recorded file/contract scope",
+      "dimensions": {
+        "A": "复用3l-sprites位置/姿态/染色/淡出primary；当前隐藏/target/highlight和overlay caller逐项保持。",
+        "B": "纠正死员消失、旧idle闭式算法与帧资源ownership误导；契约移回drawBattleSprites。",
+        "C": "只消费battle-system的idleFrame与anim-driver currentFrame；无渲染侧闲置时钟算法；fb是唯一输出Owner。",
+        "D": "普通blit和death fade的锚、采样时序、读背景合同不同，保留分开实现。",
+        "E": "Y真实交叠、透明内点、非零idle竞争、倒下帧、边缘完整平面均可区分反例；G08叠加顺序承接弱DM9。",
+        "F": "移除长篇未使用闭式算法，SpriteAsset明确帧选择Owner；排序仍单一Y/X comparator。",
+        "G": "computeIdleFrameIndex全仓只有定义/六测试/旧注释，private game无package出口；删除helper与_currentFrame参数并更新所有静态caller。",
+        "H": "显式BattleState/PlayerRoles输入与Framebuffer可测；随机仅混乱轴且有独立shakeDelta边界测试，不引入新注入框架。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "sha256": "96714e12d8a34a07bf440f39f559d8f74af894c95e526d00a6ba305dd6e4c37c",
+      "lines": 744,
+      "boundary": "full implementation/test and current diff read",
+      "status": "review",
+      "dimensions": {
+        "A": "复用3l-battle-ui primary；CLASSIC选择与已存在WIN95说明区差异明确；对话/逃跑/自动模式早退保持。",
+        "B": "修正选敌图标、hidden、对话保留状态栏、1:1与highlight=false色带错注。",
+        "C": "移除不读取的enemyPos接线；这里只读角色与runtime，不推进菜单。isActionValidForDraw与core私有规则重复仍为结构候选。",
+        "D": "普通图块与结算共用blitUiFrame；shadow读取背景/mono染色合同不同，不合并。",
+        "E": "21主测+G08/P15/L13分别核门控、有效32法术分页、说明、数字、箭头与颜色；无效超量法术夹具与不必要强转已修正。",
+        "F": "保持state×menu分发，私有全体箭头分支移除后单一目标可直读；大函数进一步拆分暂不能只为行数进行。",
+        "G": "删除_enemyPos和all永假分支，限定private app内部签名，不动shared公共出口。",
+        "H": "时间由Date.now spy固定，测试finally/afterEach恢复；帧、字形和状态直接注入，不暴露私有函数。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "75dc24f5a931a4a8642c289e53b8027be9f8da3af480049442c62954c8b6b3e8",
+      "lines": 449,
+      "boundary": "full implementation/test and current diff read",
+      "status": "review",
+      "dimensions": {
+        "A": "现有P13/P14只授直调装配/演出合同；presentBattleFrame先clear与intro快照之间、跨战斗清理未核实，维持review。",
+        "B": "纠正“战斗结束自动调用clear”与“快照必是大世界”的不实注释；明确clear不清召唤/入场缓存。",
+        "C": "只移除两个下游无关实参和冗余类型断言；不改变三处wall-clock推进、palette或队列Owner。",
+        "D": "各叶渲染职责保留；召唤累计fade与敌方闭式fade生命周期不同，不强行共享。",
+        "E": "宿主精灵漏接旧绿/新单红；palette固定时点、数字值/颜色/坐标、跨帧多数字、结算具体像素替代any-write。",
+        "F": "步骤与命令去向明确；生命周期风险在本轮结论登记，不以增加抽象掩盖。",
+        "G": "clearFloatingNums仅直接测试caller，真实退场策略未知，暂不删方法或主动接线；后继先核输入域。",
+        "H": "直接构造真实Framebuffer和资源、固定performance.now；测试不假装浏览器入口/E2E已覆盖。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/blit-ui-frame.ts",
+      "sha256": "7635925cacad5e9642e34ec9b5e487daf4a67ac7ef8ec03e071ebad4f1b19103",
+      "lines": 17,
+      "boundary": "full implementation/test and current diff read",
+      "status": "accepted within recorded file/contract scope",
+      "dimensions": {
+        "A": "原两实现逐字节同循环，mask>0与索引0可不透明保持，越界交Framebuffer。",
+        "B": "头注说明左上定位、借用像素和裁剪Owner，不冒称资源视觉验收。",
+        "C": "仅fb输出与frame输入，无state/IO/生命周期；两个真实生产caller。",
+        "D": "只抽相同UI合同；不增加anchor/color模式参数。",
+        "E": "L13同一3px图块核透明中点和不透明0，结算slash/arrow与G08真实caller直接覆盖。",
+        "F": "blitUiFrame命名表明用途，二维遍历即表达职责。",
+        "G": "17行取代两个同体实现，无未用选项。",
+        "H": "真实Framebuffer和小帧直接可观察，无需mock或新增公开测试seam。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+      "sha256": "7cd301dd7793d46158b3ff2ce9795c685ce6df42e49d38b07a7f668a69b9dc2e",
+      "lines": 671,
+      "boundary": "full implementation/test and current diff read",
+      "status": "accepted within recorded file/contract scope",
+      "dimensions": {
+        "A": "合法typed状态；睡眠和缺帧真正提供idleFrame=1；6人旧notThrow为超支持域smoke退役。",
+        "B": "纠正F3+6、死亡姿态、全局idle时钟及无交叠的伪说明。",
+        "C": "本文件仅叶渲染输入；渲染时间推进不由夹具模拟，核心partial强转已去除。",
+        "D": "重复正常姿态/活敌/常量断言及弱DM9映射到既有强用例；未合并不同透明/淡出策略。",
+        "E": "51→40，11例退役有明确映射；排序/着色mask两枚完整文件单红，零pending。",
+        "F": "几何坐标注释与实际2×2矩形吻合，状态工厂有完整返回类型。",
+        "G": "六例无生产调用idle算法随源退役；不保留常量自证或重复P({})。",
+        "H": "无核心mock，实际Framebuffer像素为oracle；无全仓门替代逐例证明。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+      "sha256": "04ede6eb0d4e913868d4d1f1c211af2495d41cf0598633535af4cbb41d1457bd",
+      "lines": 581,
+      "boundary": "full implementation/test and current diff read",
+      "status": "accepted within recorded file/contract scope",
+      "dimensions": {
+        "A": "毒队伍夹具[0,1]合法；真实startDialogLine替代强转；32法术页替换100法术伪边界。",
+        "B": "删除1:1误称及错误选敌图标标题，当前过渡态准确描述无目标箭头。",
+        "C": "事件表在finally归零、时间afterEach恢复；资源与状态构造仅测试使用。",
+        "D": "31→21：10弱smoke承接到P15/G08/L13真实像素，具体旧→新映射另列。",
+        "E": "固定MP5/0/slash与右侧空域，分页选中/未选/末尾，门控与状态颜色保留实际业务断言。",
+        "F": "删除通用any-write子集，具体合同命名；不依赖spy调用次数当结果。",
+        "G": "移除unknown强转与每次调用自动+40的隐式时钟。",
+        "H": "用小型typed帧及字形，不用输出自身克隆当oracle；未授所有不同字体视觉信用。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/present-battle.test.ts",
+      "sha256": "1867a092d5873b149574fdafb4602b062845ee2487f706de1b2e69f08f258d0d",
+      "lines": 631,
+      "boundary": "full implementation/test and current diff read",
+      "status": "accepted within recorded file/contract scope",
+      "dimensions": {
+        "A": "完整Enemy替代cast；时间固定300ms，半程60/64合同期望93，保留首轮错误96原件。",
+        "B": "组名不再冒称state守恒；非消费命令排除实际消费的showBattleMessage，消息合同由P13承接。",
+        "C": "每例独立BattlePresent/Framebuffer；spy afterEach恢复，没有共享实例污染。",
+        "D": "四结算叶smoke迁L15/G08-C，保留真正宿主接线；重复伤害any-write迁精确坐标例。",
+        "E": "25→20；精灵漏接完整文件单红，数字三条并存/位移与结算具体值，缺资源整平面不变。",
+        "F": "createDigitFrames颜色即槽身份，能区分数值和颜色；不再全部index1。",
+        "G": "删除本地数字工厂和重复叶测试；未伪造退场自动clear信用。",
+        "H": "性能时钟可控，FrameBuffer真实；浏览器生命周期明确不在此直接测试覆盖域。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+      "sha256": "b321f904c77031a3cbbb4b9d5e205bfc3024a6b2e8abea256ad6620adf16b8ca",
+      "lines": 165,
+      "boundary": "full implementation/test and current diff read",
+      "status": "accepted within recorded file/contract scope",
+      "dimensions": {
+        "A": "四屏typed输入，固定独立布局表；词表finally复位。",
+        "B": "修正191误标题为167，短名ww=0不冒称ww动态变化。",
+        "C": "只测叶输入输出，不重建结算状态推进或宿主。",
+        "D": "与G08-C长名/缺帧、公式两专测分工；不再重复公式函数自比。",
+        "E": "4身份保留（两标题更正）；补8行、MP上限/斜杠/箭头，错接HP上限恰一红。",
+        "F": "字面坐标/颜色表直读，注释与实际字段/原子屏合同一致。",
+        "G": "去掉复制drawNumber布局算法的rightDigitX与冗余公式交叉断言。",
+        "H": "微型真实帧像素使错误字段接线可观察，无截图近似或mock计数。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+      "sha256": "2891953e04cfb5200dad7bafb2985fb63a39fb3dd750a70b62c390027810320e",
+      "lines": 45,
+      "boundary": "full implementation/test and current diff read",
+      "status": "accepted within recorded file/contract scope",
+      "dimensions": {
+        "A": "真实Framebuffer右缘、全外、顶缘三合法裁剪输入；320×200屏合同明确。",
+        "B": "去掉“无异常即越界未写”和宿主全管线覆盖宣称。",
+        "C": "直接blitFrame，不构造无关battle状态。",
+        "D": "三不同几何轴保留，不重复姿态或业务死亡测试。",
+        "E": "两弱端点/颜色集合改完整固定期望平面；全外保持每像素哨兵。",
+        "F": "矩形区间字面化，Buffer.compare避免大数组断言深比较成本。",
+        "G": "3例不增不删，无为覆盖率新增无用输入。",
+        "H": "纯真实像素，无时钟或随机，不扩生产seam。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts",
+      "sha256": "6dcd3bc9ca16f22c9daae99bf853452bd641ad5ab9dfcde1c6c1b00debc1ef60",
+      "lines": 144,
+      "boundary": "full implementation/test and current diff read",
+      "status": "accepted within recorded file/contract scope",
+      "dimensions": {
+        "A": "换seedable RNG、选敌提供真实敌槽；wait和缺当前队员都在69可见时点核。",
+        "B": "头注限定箭头与DL30；没有把引用生产anchor算式当独立oracle。",
+        "C": "两时钟spy分别finally恢复；不复用已恢复的restore函数。",
+        "D": "frame69闪烁相位与P15 frame68/人数位置互补；普通main weak例已退役。",
+        "E": "3例保留；wait-arrow旧绿/新单红，透明/不透明0三点及图标精确哨兵有正控。",
+        "F": "固定232/234坐标代替被测getPlayerBasePos派生期望。",
+        "G": "删除always0 RNG替身与重复helper依赖。",
+        "H": "真实UI/Framebuffer，固定时钟、独立像素，不以not-color代替空域。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "sha256": "58af32b51be9a025ea5f12607750cb6cbc7e1850a7782e0db2e3d63417616493",
+      "lines": 139,
+      "boundary": "full implementation/test and current diff read",
+      "status": "accepted within recorded file/contract scope",
+      "dimensions": {
+        "A": "五例缺UI/缺箭头/缺slash/二字名/长字名输入保留。",
+        "B": "不声称191/ww=0重复信用。",
+        "C": "每例独立缓冲，词表finally归零。",
+        "D": "与L15四屏字段布局互补，不合并不同宽度合同。",
+        "E": "缺UI从一个哨兵补为全平面；剩余精确槽/颜色/宽度断言复用。",
+        "F": "G08-C标识稳定、微型字形明确。",
+        "G": "5例不增删，不新增形式化测试。",
+        "H": "无mock业务函数，字体一像素只是布局protocol oracle。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "sha256": "5b63c47a79607ca9100299fbe534fb11657e9972b1423c0fa31fe9b7f494e126",
+      "lines": 373,
+      "boundary": "full implementation/test and current diff read",
+      "status": "accepted within recorded file/contract scope",
+      "dimensions": {
+        "A": "全文15例复用当前读域：隐藏/override/死亡槽/动画/flee/资源/overlay与非零对照。",
+        "B": "G08-A13/14真实前后叠加，承接弱DM9，不扩大其它信用。",
+        "C": "typed工厂局部资源与state，调用前后所有权有限观察。",
+        "D": "只删无用当前帧实参，不重写输入策略；保持现有实际场景组合。",
+        "E": "15身份与断言正文均保持，当前相邻复验；不是仅凭包绿新核。",
+        "F": "paint helper只集中一致调用，不引入万能模式。",
+        "G": "无测试数量变更或未用出口。",
+        "H": "真实Framebuffer与明确overlap，时间固定/恢复，override非null0有反例。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "sha256": "a82d686149c924abd845c4ee62f951f7e3e7166f7025cb997b1ddd67aa8136b9",
+      "lines": 478,
+      "boundary": "full implementation/test and current diff read",
+      "status": "accepted within recorded file/contract scope",
+      "dimensions": {
+        "A": "17例合法阈值/沉默/傀儡/死亡/poison/UI资源与影子合同；魔法rightText改MP2。",
+        "B": "B15注明数字帧可观察，未将空帧哨兵当拒绘判别力。",
+        "C": "paint显式依赖对象，移除enemyPos空位，state所有权不扩。",
+        "D": "与P15多人数/runtime MP、L13闪烁互补，B09/B10承接杂项smoke。",
+        "E": "B15预留青2非透明帧，错走数量路径可写哨兵；其余精确坐标与颜色原件复用。",
+        "F": "独立命名G08编号保留，参数含义不靠undefined占位。",
+        "G": "17例不增删，不加无用场景。",
+        "H": "固定Date.now且afterEach恢复；依赖typed，真实Framebuffer。"
+      }
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "lines": 919,
+      "boundary": "870-889 comment/caller type initialization only; no whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "00b9ddfbb6f962cbd54df84757be4ca9fa8ebe45828c3e2648503a521af4eb2b",
+      "lines": 3142,
+      "boundary": "985-1029 action/healthy predicates; existing core owner implementation unchanged"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+      "lines": 1956,
+      "boundary": "420-560 BattlePresent construction and frame dispatch, no whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "a95de9032a6fbed6500ea11151b04a010f05ffb6d1ee2fd89dffc2bd2c31a2b5",
+      "lines": 805,
+      "boundary": "780-810 real presentBattleFrame early return and clear/draw ordering"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-positions.ts",
+      "sha256": "d068e5b70e39af41d57672c9ccb7d952184e76de8836865756f714657d3e372d",
+      "lines": 93,
+      "boundary": "full 93-line actual anchor domain"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+      "sha256": "572332c4f5f44490243dbac6c1ced8944f64ba3ad3e59a31bd377bedd6fac67f",
+      "lines": 166,
+      "boundary": "full saved read, messages/lifetimes and direct host"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+      "sha256": "bfcc6b45b229f08d3cc5b824ce4eae1cde092b4c3e4980ef638df5dc93b3e8aa",
+      "lines": 219,
+      "boundary": "full saved read; direct host only, does not certify bootstrap wrapper"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+      "sha256": "bbe237b59ca12224e3a3ae290d0723e543e812b61ef4e6b850737fb3674fb429",
+      "lines": 206,
+      "boundary": "full current read; actual number/arrow coordinates and ownership"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "sha256": "9bc08ab91390f30bc14028b6a3e8005221dea4ef1fb9ab2dbdb625d3a95beccc",
+      "lines": 194,
+      "boundary": "full actual typed fixtures"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "sha256": "c812217641915bd0a39935cf4992757e091770859ecd40ab0aa518e5d8487b2c",
+      "lines": 135,
+      "boundary": "full sparse glyph and digit fixture"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea",
+      "lines": 229,
+      "boundary": "full; borrowed test utilities, no broad fixture acceptance"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/digit-frames.ts",
+      "sha256": "8be72033de104a3a86d08a34f0d74b1ef99e9d69daa13b44358e4f7368b2b7fd",
+      "lines": 11,
+      "boundary": "full previously accepted fixture reused"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+      "sha256": "15bf29f89525e52bec6686ba17fcdca42cddc1b00dbf2d32a3680c40066aa45d",
+      "lines": 16,
+      "boundary": "full unchanged two formula contracts retained"
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "sha256": "c264ebc0964f66eac34e2757da4ee6ec324c7b3c10a3e40173ed3df49e3bc589",
+      "lines": 328,
+      "boundary": "25-90,120-180,258-292 existing fade60 integer contract; bounded read"
+    },
+    {
+      "path": "packages/game/package.json",
+      "sha256": "2cecf398149b696cecab75e9bc169026a49c6e993a729b627b06b5c73b5b5718",
+      "lines": 25,
+      "boundary": "private application, no exports; internal module signature cleanup only"
+    }
+  ],
+  "primary": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-settlement/read-boundaries.json",
+      "sha256": "907d27ca2466043a459163662a29834280ef610a6777ca02ff5e1ac6e004313e",
+      "lines": 89,
+      "boundary": "reuse recorded primary ranges only; test-quality claims superseded by current counters"
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858,
+      "boundary": "primary reused ranges: 991-1373",
+      "priorShaMatches": true
+    },
+    {
+      "path": "reference/sdlpal/ui.c",
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242",
+      "lines": 994,
+      "boundary": "primary reused ranges: 640-732",
+      "priorShaMatches": true
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-sprites/read-boundaries.json",
+      "sha256": "891fc724996382444636245d7134a5a233ba76ee17701c2885ed7e5ad8955b93",
+      "lines": 89,
+      "boundary": "reuse recorded primary ranges only; test-quality claims superseded by current counters"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "boundary": "primary reused ranges: 40-60,940-1020,2100-2200",
+      "priorShaMatches": true
+    },
+    {
+      "path": "reference/sdlpal/uibattle.c",
+      "sha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
+      "lines": 1808,
+      "boundary": "primary reused ranges: 1480-1650",
+      "priorShaMatches": true
+    },
+    {
+      "path": "reference/sdlpal/palcommon.c",
+      "sha256": "919f428112e70c11b8db208e9bba486c8ab056aa4a893a8d4d6bae9b21b9aae6",
+      "lines": 1136,
+      "boundary": "primary reused ranges: 380-420",
+      "priorShaMatches": true
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-battle-ui/read-boundaries.json",
+      "sha256": "58e07bdf4e4d96146195b9be441a6032adc51a409ee0b327e91bbef2e1e03336",
+      "lines": 71,
+      "boundary": "reuse recorded primary ranges only; test-quality claims superseded by current counters"
+    },
+    {
+      "path": "reference/sdlpal/magicmenu.c",
+      "sha256": "d3744426d40167d4130aeaa0fac686264df285e44d73cc3648dba56f3645d312",
+      "lines": 484,
+      "boundary": "primary reused ranges: 35-299",
+      "priorShaMatches": true
+    },
+    {
+      "path": "reference/sdlpal/itemmenu.c",
+      "sha256": "7026d7875f79a57cf21fd80135d13022ff792698720ef6f56de864d208742a74",
+      "lines": 466,
+      "boundary": "primary reused ranges: 28-311",
+      "priorShaMatches": true
+    }
+  ],
+  "reusedFullReads": {
+    "candidate": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b",
+    "matched": [
+      {
+        "path": "packages/game/src/present/battle/present-battle.ts",
+        "sha256": "e3929e6888b1c9abd49a24d4f7b7068cc01305625bf05e687b8b9b72e41fbf71",
+        "lines": 450,
+        "blob": "9139c21dd72c8fcac2dd5dbbedadf68945b87b96"
+      },
+      {
+        "path": "packages/game/src/present/battle/__tests__/present-battle.test.ts",
+        "sha256": "0f2c35aee1df5d9d4d030a7a2260c145af72d399a7268184b5e141f57f7b95ae",
+        "lines": 687,
+        "blob": "d865db2e980b0b88a9f7ac31378956eeb6347f49"
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+        "sha256": "e7bf2f68bcdf0615a433b1ee31be1268f3eac68cee5c1c872903b46847cc6cb9",
+        "lines": 269,
+        "blob": "a3185b42a3c9fce2826d4656f93ba234e5aa83c4"
+      },
+      {
+        "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+        "sha256": "15bf29f89525e52bec6686ba17fcdca42cddc1b00dbf2d32a3680c40066aa45d",
+        "lines": 16,
+        "blob": "9ba30eba497c8e225698f327a9e253caa23591c9"
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+        "sha256": "e9fcfc5f8153c8bc7f164b9d2669080804318fe7172b32ea99817ea9861c1a4b",
+        "lines": 156,
+        "blob": "c18468591636358ccf8936210082ab426549e777"
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-sprites.ts",
+        "sha256": "a2e06da4543185fb6da9bf0a747a67ddb087fcc79662b4d54ebd3f7282a25948",
+        "lines": 419,
+        "blob": "d56eb9d78c4b3cbc5b513d66beb9d92fb83df94a"
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "sha256": "b4d1da8c10db3bca67993e34c73eb68af80244e9978106279e7332e2ccc95353",
+        "lines": 762,
+        "blob": "c77c281c42feb5ed59c7f81649c83e5e50c56a51"
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+        "sha256": "572332c4f5f44490243dbac6c1ced8944f64ba3ad3e59a31bd377bedd6fac67f",
+        "lines": 166,
+        "blob": "f86c67c3a805598550eed7d8eec5091584bc376a"
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+        "sha256": "bfcc6b45b229f08d3cc5b824ce4eae1cde092b4c3e4980ef638df5dc93b3e8aa",
+        "lines": 219,
+        "blob": "b40cda6e9ccd36f415e6a395a337a0537f07deab"
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+        "sha256": "9bc08ab91390f30bc14028b6a3e8005221dea4ef1fb9ab2dbdb625d3a95beccc",
+        "lines": 194,
+        "blob": "804c7a476a799a1e77dded6f03498e0123739fe2"
+      },
+      {
+        "path": "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+        "sha256": "0191a2b06f9f36c50d4cf2cb673a8a83ea84d19e021dea35d2d0f188c0347a44",
+        "lines": 139,
+        "blob": "ca54b557aa7ef0e14dacbfeb86bfb51d9038f3c9"
+      },
+      {
+        "path": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "sha256": "b4626b6cd2b3b06cd789b52e2462d49fb5972f10d69ba26bfd124c671cd08f95",
+        "lines": 756,
+        "blob": "b7f1bbdce40e4fcd5d605082f3fedaa9ba314bec"
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+        "sha256": "1837084372269c3e5aeccd5069a565b96d8765ded478d57b6977216c4cf433ca",
+        "lines": 55,
+        "blob": "de33fe852ec000e2b28042cb1555cd77df789f71"
+      },
+      {
+        "path": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+        "sha256": "63a6c093cbdbb80126fe87416e9ee6027d1ded34dc6e9ef1d3f0d964e68b332d",
+        "lines": 373,
+        "blob": "bfb312d1fba0b0858e296483d30f25a07ff7bcc6"
+      }
+    ]
+  },
+  "controls": ["y-sort-omitted", "shift-mask", "wait-arrow", "settlement-mp", "host-sprites"],
+  "retirements": {
+    "authority": "User standing request for proven duplicate/weak test retirement and reasonable baseline adjustments. No generic tolerance or old 20261003 blanket authorization.",
+    "entries": [
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+        "previous": 51,
+        "current": 40,
+        "previousIdentityDigest": "ad981d1daf19bc820424df598189311402fbdb6c5c3537d2cf3652ac7c9aef56",
+        "currentIdentityDigest": "189ff0e5a0f5f6a61faf4c7cb1ff117f98b293fa1a2c5a2978c85fb0e9d2be7b",
+        "fileSha256": "7cd301dd7793d46158b3ff2ce9795c685ce6df42e49d38b07a7f668a69b9dc2e"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+        "previous": 31,
+        "current": 21,
+        "previousIdentityDigest": "aa82218faf15e82bb4436380f9c087b58fe8447b2100cfb39ab7f33fa3a3787f",
+        "currentIdentityDigest": "2f12e8c8f92e6f2e77adb15780750428dc1ee43c7adadfc056dcc9ec1e3ea9d3",
+        "fileSha256": "04ede6eb0d4e913868d4d1f1c211af2495d41cf0598633535af4cbb41d1457bd"
+      },
+      {
+        "file": "packages/game/src/present/battle/__tests__/present-battle.test.ts",
+        "previous": 25,
+        "current": 20,
+        "previousIdentityDigest": "01b1c8c92a9f600c8c89a3a5ea69bb551637092d5ce7ae454e2afffdeea7a427",
+        "currentIdentityDigest": "48eef6b9d9961afd1bafa9f50f22a811ded7a901e6dd262b32e9c74bc36b22ed",
+        "fileSha256": "1867a092d5873b149574fdafb4602b062845ee2487f706de1b2e69f08f258d0d"
+      }
+    ],
+    "netRetired": 26
+  },
+  "remaining": [
+    {
+      "id": "3l-host-boundary",
+      "kind": "unknown",
+      "status": "review",
+      "facts": "presentBattleFrame clears framebuffer before draw intro snapshot; bootstrap retains one BattlePresent with no production clearFloatingNums caller. Need actual battle-entry/exit/save-load path proof before any behavior change. P14 direct draw cannot certify this."
+    },
+    {
+      "id": "3l-ui-action-rule",
+      "kind": "improvable structure",
+      "status": "review",
+      "facts": "isActionValidForDraw repeats core private isActionValid/isPlayerHealthy. Confirmed current formulas same; candidate extraction needs core module/caller coverage and whole-file read boundary, beyond this frozen present-only refactor. No claim that importing core inherently causes a proven cycle."
+    },
+    {
+      "id": "3k-nonfinite",
+      "kind": "unknown upstream domain",
+      "status": "review",
+      "facts": "drawNumber nonfinite reachability remains old card; this window does not invent supported illegal fixtures or change policy."
+    }
+  ],
+  "failuresRetained": [
+    "baseline root --project game was invalid configuration; corrected cwd packages/game before baseline",
+    "first reversed-Y mutant caught old callback ordering; retained, not evidence of old false-green; final omitted-sort mutant isolates real ordering gap",
+    "initial strengthened palette expectation96 and second enemy x200 were wrong; primary fade60/position table establishes93 andx100; raw retained",
+    "UI tiny4px box ends before y90; expected background at empty cell corrected15 to0; raw retained",
+    "First same-report policy reconciliation refused the three test-count retirements without --allow-scope-removal. Repeated only the original post-collection policy with the existing explicit retirement flag; strict protected fast afterwards independently required all three exact fingerprint/identity approvals, no bypass.",
+    "Final documentation check rejected a misplaced board row before the title. Corrected only that row/header and reran docs to zero issues; original 49-byte stderr retained. No product/test/coverage recollection."
+  ],
+  "gates": {
+    "baseline": {
+      "id": "baseline-module",
+      "tests": 187,
+      "files": 17
+    },
+    "adjacent": {
+      "id": "adjacent",
+      "tests": 664,
+      "files": 82
+    },
+    "typecheck": "final-typecheck",
+    "mainCI": ["main-docs-log-retry.audit.json", "main-coverage-log-retry.audit.json"],
+    "unified": "passed",
+    "check": {
+      "id": "module-check",
+      "packageTests": 20563,
+      "toolTests": 700,
+      "diagnostics": 0,
+      "audit": "module-check.audit.json",
+      "stdoutReview": "check-stdout-review.json",
+      "rawSha256": "f1ec111e5441a355f2f22a87b860f6fc4f479e73df49e7a56edbaed9060fa65b"
+    },
+    "collection": {
+      "id": "module-ratchet",
+      "tests": 20134,
+      "sources": 775,
+      "exit": 1,
+      "policy": "exact branches/functions structural recount required; original rejection retained",
+      "runtimeDiagnostics": 0,
+      "rawSha256": "ccd978fda4f3b04ce8cb2fd748c8f2e23ed8ba91409e2a73a251dc21083b91fa"
+    },
+    "ratchet": {
+      "id": "ratchet-recorded-retirements",
+      "sameReport": true,
+      "scope": "only three exact approved test-count retirements; original scope rejection retained"
+    },
+    "protected": {
+      "id": "protected-same-report",
+      "sameReport": true,
+      "base": "402128e6d4ed3be5783abf4fc941e267cc5c3e4b",
+      "strict": true,
+      "scopeBypass": false
+    },
+    "coverageTools": {
+      "id": "coverage-tools-final",
+      "tests": 109,
+      "diagnostics": 0
+    },
+    "finalStatic": {
+      "docs": "docs-final-repaired",
+      "lint": "lint-final",
+      "ledger": "ledger-final",
+      "diff": "diff-final",
+      "diagnostics": 0
+    }
+  },
+  "limitations": "No product mechanism/schema/save/asset policy change. Internal app signatures only. No browser/story/visual E2E run in this finite quality window. Old material remains historical. Hashes bind evidence, not semantic certification.",
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "fdf67b6d1def2ff7ee8203db08684edcf956a6ae97ec16a3a65940a01a9c0ee6",
+    "entries": 206
+  },
+  "structuralProof": "pure-refactor-proof.json within receipts.json.gz",
+  "coverageRecount": "coverage-recount.json within receipts.json.gz",
+  "gateInputs": [
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "346ed1f9b9717acfeaefeca694d9923812e1718af241a3bdf22cb738f9777cce"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "08dfbba7516defe64752ad5f3d30651e01364b527b6b3ed48e9e6d9e29530d03"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "bc6ebb3c6ea74f4fd0301f4a87f0947c351fb46e97d1c0028083310cebc240d0"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+    }
+  ],
+  "ledger": {
+    "tracked": 3405,
+    "closed": 411,
+    "review": 102,
+    "pending": 2892,
+    "deltaFromWindowBase": {
+      "newClosed": 2,
+      "restoredPreviousClosed": 6
+    },
+    "pre94": {
+      "accept": 65,
+      "partial": 18,
+      "pending": 0
+    }
+  },
+  "gateReceipts": {
+    "path": "gates.json.gz",
+    "sha256": "1ee1d79b58b4bd33ec34707ed9eb5565d17dbcb90ef0cbf94b711f6c42bce10e",
+    "entries": 36
+  },
+  "publication": {
+    "state": "awaiting hosted CI and merge",
+    "refactorCommit": "e839865312b3629ef95721305f6efe612b5292ad"
+  }
+}

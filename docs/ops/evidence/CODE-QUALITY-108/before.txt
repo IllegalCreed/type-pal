@@ -1,0 +1,15 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal
+
+stderr | packages/game/src/core/menu/magic-script.test.ts > runMagicScriptSync - 流程控制 > label 不存在 → 返回 false
+runMagicScriptSync: L_99999 不在全局 labelMap
+
+stderr | packages/game/src/core/menu/magic-script.test.ts > castOverworldMagic - 双层 script > scriptOnUse 失败 → 不跑 scriptOnSuccess
+runMagicScriptSync: L_99999 不在全局 labelMap
+
+·····································
+
+ Test Files  1 passed (1)
+      Tests  37 passed (37)
+   Start at  16:57:21
+   Duration  275ms (transform 163ms, setup 0ms, import 198ms, tests 8ms, environment 0ms)

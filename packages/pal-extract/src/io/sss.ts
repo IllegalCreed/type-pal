@@ -57,7 +57,7 @@ export interface EventObject {
   direction: number // [10] wDirection            u16
   currentFrameNum: number // [11] wCurrentFrameNum      u16
   scriptIdleFrame: number // [12] nScriptIdleFrame      u16
-  spritePtrOffset: number // [13] wSpritePtrOffset      u16 (runtime)
+  spritePtrOffset: number // [13] wSpritePtrOffset      u16；SDLPal 也未明确其含义
   nSpriteFramesAuto: number // [14] nSpriteFramesAuto     u16
   scriptIdleFrameCountAuto: number // [15] wScriptIdleFrameCountAuto u16
   raw: Uint16Array
@@ -76,6 +76,7 @@ export interface Sss {
   scenes: Scene[]
   objects: Uint16Array
   messageOffsets: Uint32Array
+  /** 借用输入 chunk4；调用方只读，需要编辑时自行复制。其余数组均为新分配。 */
   bytecode: Uint8Array
 }
 
@@ -99,12 +100,10 @@ function parseEventObjects(chunk: Uint8Array): EventObject[] {
 
   for (let i = 0; i < count; i++) {
     const base = i * EVENT_OBJECT_SIZE
-    // read all 16 u16 slots into raw (use slice for safe alignment)
-    const rawBytes = chunk.slice(base, base + EVENT_OBJECT_SIZE)
-    const rawView = new DataView(rawBytes.buffer, rawBytes.byteOffset, rawBytes.byteLength)
+    // DataView 支持未对齐输入；raw 独立分配，并保留 SHORT 字段的原始无符号位形。
     const raw = new Uint16Array(EVENT_OBJECT_FIELDS)
     for (let f = 0; f < EVENT_OBJECT_FIELDS; f++) {
-      raw[f] = rawView.getUint16(f * 2, true)
+      raw[f] = view.getUint16(base + f * 2, true)
     }
 
     result.push({
@@ -121,7 +120,7 @@ function parseEventObjects(chunk: Uint8Array): EventObject[] {
       direction: readU16(view, base + 20), // [10] wDirection
       currentFrameNum: readU16(view, base + 22), // [11] wCurrentFrameNum
       scriptIdleFrame: readU16(view, base + 24), // [12] nScriptIdleFrame
-      spritePtrOffset: readU16(view, base + 26), // [13] wSpritePtrOffset (runtime ptr)
+      spritePtrOffset: readU16(view, base + 26), // [13] wSpritePtrOffset
       nSpriteFramesAuto: readU16(view, base + 28), // [14] nSpriteFramesAuto
       scriptIdleFrameCountAuto: readU16(view, base + 30), // [15] wScriptIdleFrameCountAuto
       raw,
@@ -143,11 +142,9 @@ function parseScenes(chunk: Uint8Array): Scene[] {
 
   for (let i = 0; i < count; i++) {
     const base = i * SCENE_SIZE
-    const rawBytes = chunk.slice(base, base + SCENE_SIZE)
-    const rawView = new DataView(rawBytes.buffer, rawBytes.byteOffset, rawBytes.byteLength)
     const raw = new Uint16Array(SCENE_FIELDS)
     for (let f = 0; f < SCENE_FIELDS; f++) {
-      raw[f] = rawView.getUint16(f * 2, true)
+      raw[f] = view.getUint16(base + f * 2, true)
     }
 
     result.push({
@@ -166,7 +163,7 @@ function parseObjects(chunk: Uint8Array): Uint16Array {
   if (chunk.byteLength % 2 !== 0) {
     throw new Error(`SSS chunk2: byte length ${chunk.byteLength} is not a multiple of 2`)
   }
-  const count = Math.floor(chunk.byteLength / 2)
+  const count = chunk.byteLength / 2
   const view = new DataView(chunk.buffer, chunk.byteOffset, chunk.byteLength)
   const result = new Uint16Array(count)
   for (let i = 0; i < count; i++) {
@@ -179,7 +176,7 @@ function parseMessageOffsets(chunk: Uint8Array): Uint32Array {
   if (chunk.byteLength % 4 !== 0) {
     throw new Error(`SSS chunk3: byte length ${chunk.byteLength} is not a multiple of 4`)
   }
-  const count = Math.floor(chunk.byteLength / 4)
+  const count = chunk.byteLength / 4
   const view = new DataView(chunk.buffer, chunk.byteOffset, chunk.byteLength)
   const result = new Uint32Array(count)
   for (let i = 0; i < count; i++) {

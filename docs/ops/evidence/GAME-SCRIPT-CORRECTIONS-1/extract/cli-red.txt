@@ -1,0 +1,47 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/pal-extract
+
+ ❯ src/cli-script-corrections.raw.test.ts (2 tests | 1 failed | 1 skipped) 2330ms
+   × default CLI corrects gameplay before every event consumer is emitted 2329ms
+   ↓ default CLI rejects an altered source before corrected event outputs; faithful mode remains explicit
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/cli-script-corrections.raw.test.ts > default CLI corrects gameplay before every event consumer is emitted
+AssertionError: expected { op: 'raw', opcode: 30, …(1) } to match object { op: 'raw', opcode: 10, …(1) }
+
+- Expected
++ Received
+
+  {
+    "op": "raw",
+-   "opcode": 10,
++   "opcode": 30,
+    "operands": [
+-     7566,
+-     0,
++     65516,
++     7573,
+      0,
+    ],
+  }
+
+ ❯ src/cli-script-corrections.raw.test.ts:24:43
+     22|   expect(result.stderr).toContain('DATA.MKF')
+     23|   const all: EventFile = JSON.parse(readFileSync(join(tree, 'data/extr…
+     24|   expect(all.segments[0]?.commands[7568]).toMatchObject({ op: 'raw', o…
+       |                                           ^
+     25|   const shared: EventFile = JSON.parse(readFileSync(join(tree, 'data/e…
+     26|   expect(shared.segments.flatMap((segment) => segment.commands)).toCon…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  15:50:33
+   Duration  2.43s (transform 19ms, setup 0ms, import 27ms, tests 2.33s, environment 0ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/pal-extract:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/cli-script-corrections.raw.test.ts -t default CLI corrects gameplay --reporter=default

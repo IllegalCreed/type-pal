@@ -1,0 +1,120 @@
+{
+  "candidate": "c8ad9416fc46b7aef3e89b4a106673fbcb9d34b3",
+  "protectedRef": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+  "assessment": "review; local C01 diagnostics zero, global zero-diagnostic gate not met; no file closure or merge",
+  "counting": "Independent known diagnostic patterns, not exhaustive console classification. Preceding async headers are localization clues, not causal ownership.",
+  "gates": [
+    {
+      "name": "check",
+      "command": ["pnpm", "check"],
+      "exitCode": 0,
+      "seconds": 461.69,
+      "rawIntegrityVerified": true,
+      "unwrappedAct": 3001,
+      "unsupportedActEnvironment": 577,
+      "navigationDiagnostics": 2,
+      "C01stderrHeaders": 0,
+      "zeroDiagnosticPass": false
+    },
+    {
+      "name": "ratchet",
+      "command": ["pnpm", "coverage:ratchet"],
+      "exitCode": 1,
+      "seconds": 377.77,
+      "rawIntegrityVerified": true,
+      "unwrappedAct": 3048,
+      "unsupportedActEnvironment": 577,
+      "navigationDiagnostics": 2,
+      "C01stderrHeaders": 0,
+      "zeroDiagnosticPass": false
+    },
+    {
+      "name": "ratchet-confirmed",
+      "command": ["pnpm", "coverage:ratchet", "--allow-scope-removal"],
+      "exitCode": 0,
+      "seconds": 372.7,
+      "rawIntegrityVerified": true,
+      "unwrappedAct": 3009,
+      "unsupportedActEnvironment": 577,
+      "navigationDiagnostics": 2,
+      "C01stderrHeaders": 0,
+      "zeroDiagnosticPass": false
+    },
+    {
+      "name": "protected",
+      "command": ["pnpm", "coverage:fast"],
+      "exitCode": 0,
+      "seconds": 368.43,
+      "rawIntegrityVerified": true,
+      "unwrappedAct": 2955,
+      "unsupportedActEnvironment": 577,
+      "navigationDiagnostics": 2,
+      "C01stderrHeaders": 0,
+      "zeroDiagnosticPass": false
+    }
+  ],
+  "fullCheck": {
+    "packageTestFiles": 1640,
+    "packageTests": 20271,
+    "nodeToolTests": [48, 63, 37, 397, 22],
+    "lintSummary": ["lint: PASS — 4133 files; 0 errors / 0 warnings / 0 infos; complete report"]
+  },
+  "sourceStability": [
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/kit.ts",
+      "sha256": "4ec97a6aeac9f79c07f5d61b5c4d40db1d1d9a552d8978ec84a09d7c5b66de45",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx",
+      "sha256": "e5aaa1b553c3eedee2d2ce56346a57cf7d11ce081ddd393d330301ae50bf3bab",
+      "unchanged": true
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "sha256": "3daa2ec60779d95959cbd21fcdbf120e48afe5844b327d45b0aea08da3079d56",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "6150fb0bbc2ad56c792a005ce733752eee4362c314fab164275c78bb21091969",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "38aeb41d3ae26b49c4d32ab7b9db7bd55450858bab04ed4457d5afc47e434ce8",
+      "unchanged": true
+    }
+  ],
+  "officialBaseline": {
+    "beforeSha256": "7e9037ecc38ba8278a0ade15cdbe69afaebc6ea50a997920bd0924ecaf7ce634",
+    "afterSha256": "ecdb1e78f35b75914113ad5a7828013a015d115fbe78e9134e62cc56631da13d",
+    "sourceFileCount": 736,
+    "testCountBefore": 19865,
+    "testCountAfter": 19862,
+    "editorFastTestsBefore": 4789,
+    "editorFastTestsAfter": 4786,
+    "metricChanges": [],
+    "sourceScopeUnchanged": true,
+    "otherPackagesUnchanged": true,
+    "C01Before": {
+      "file": "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "testCount": 70,
+      "identityDigest": "46baea1df50d2f6a042bf0921c9e8d1bb1316a3a85a872893003acc20ba90386"
+    },
+    "C01After": {
+      "file": "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "testCount": 67,
+      "identityDigest": "c85fe64ea13ce0c0b0dd4c0042aada51629b133373157a3f7b4051b667a7e892"
+    },
+    "retirementSourceSha256": "3daa2ec60779d95959cbd21fcdbf120e48afe5844b327d45b0aea08da3079d56",
+    "ratchetConfirmation": "Existing --allow-scope-removal used only after exact sole removal audit; all ratio and source protections retained; ordinary protected fast additionally verified exact approvals."
+  },
+  "ledger": {
+    "inventory": 3284,
+    "closed": 229,
+    "review": 48,
+    "pending": 3007,
+    "newClosures": 0
+  }
+}

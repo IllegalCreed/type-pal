@@ -1,0 +1,16 @@
+CODE-QUALITY-87 protected fast gate
+command: pnpm check:fast
+exit_code: 0
+
+Documentation/tool gates: docs, testing docs, phase/lore governance, content review, coverage-tools, quality-tools, e2e-tools, script-governance all PASS.
+Workspace typecheck: content, shared, game, pal-extract, reforge, editor (including author-check), migrate all PASS.
+Workspace tests:
+- content: 149 files / 1498 tests
+- shared: 16 files / 131 tests
+- game: 314 files / 3552 tests
+- pal-extract: 71 files / 431 tests
+- reforge: 359 files / 8964 tests
+- editor: 631 files / 4951 tests
+- migrate: 96 files / 739 tests
+lint-zero: PASS — 4010 files; 0 errors / 0 warnings / 0 infos.
+No rule, exclusion, or threshold was changed; the ratchet baseline records the two legitimate test scope changes.

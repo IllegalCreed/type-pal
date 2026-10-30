@@ -1,0 +1,27 @@
+{
+  "base": "987bdddac38ea3e95d84a3b82dcdeb1ba314556c",
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "sha256": "aaf2d4b03ac2f83e54f7c9fdf85312d04f2864261577eebaa95a872978ef418e",
+      "lines": 487,
+      "snapshot": "aaf2d4b03ac2-minimap.ts.before.gz",
+      "readRanges": [[1, 487]]
+    },
+    {
+      "path": "packages/game/src/tools/minimap.test.ts",
+      "sha256": "48bdf9825f85ce99c3070dcde996dccddbc61ca664451d4ecf578445ae9aaff1",
+      "lines": 148,
+      "snapshot": "48bdf9825f85-minimap.test.ts.before.gz",
+      "readRanges": [[1, 148]]
+    },
+    {
+      "path": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sha256": "e3ece264dcccd7f09c38f775b2ba91adbbcb3a86e46a80ec30b77808341fa2a0",
+      "lines": 200,
+      "snapshot": "e3ece264dccc-minimap.glm-phase1-leaves.test.ts.before.gz",
+      "readRanges": [[1, 200]]
+    }
+  ]
+}

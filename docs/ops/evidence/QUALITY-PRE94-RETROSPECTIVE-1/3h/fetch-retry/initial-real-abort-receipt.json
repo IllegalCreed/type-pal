@@ -1,0 +1,15 @@
+{
+  "command": [
+    "pnpm",
+    "exec",
+    "tsx",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/real-abort-observer.mjs",
+    "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "seconds": 2.018,
+  "rawSha256": "5612eaed5bf13eb3b9458a032c2e03a2916373e20f887c48e9ab9b5b85f7b35f"
+}

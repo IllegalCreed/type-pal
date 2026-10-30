@@ -1,0 +1,404 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-23",
+  "base": "38d6b2d136dc38589df9729242590bc37a5a27e2",
+  "owner": "Codex single owner",
+  "scope": "CODE3j held checkpoint calibration only; comments and evidence, no runtime/config/test change",
+  "state": "local calibration accepted; candidate publication gates recorded separately",
+  "file": {
+    "path": "packages/game/src/tools/speedrun/checkpoints.ts",
+    "sha256": "2ad3aa9b736ec768d29ea865c98436b7792e6883a9d5896fae3e0e0c22c5cebb",
+    "lines": 139,
+    "decision": "accept",
+    "dimensions": {
+      "A": "复用上一窗口21配置/consumer/生命周期的同正文证据；本增量核冻结PalTimer及原盘字节，七局部信号由当前真实输入/脚本/转场/计时器观察成立。范围止于可达信号与接线，非自然全剧情必经性；原设计容差/入场策略和外挂时刻差异明确保留。",
+      "B": "模块头改为当前局部校准与边界，石碑区分容差先打点和脚本实际站位，BGM指向真实2237地址，香蕉引用冻结commit。无未冻结行号/未执行全流程宣称。",
+      "C": "数据Owner为本模块，timer只读配置与detector，store用id作key；checkpointName仅按语言呈现，不改节点身份/已存PB。当前index/overlay/tools-panel均无配置写入。",
+      "D": "复用detector工厂表达各事件，不把场景/坐标/boss策略合成万能布尔函数；本地t只组织静态默认毫秒。",
+      "E": "原三静态例和相邻caller反控复用未变字节；不堆静态坐标自比用例。新增原始浏览器状态先范围外再真实移动/脚本进入并观察实际split，具体失败准备路线与成功记录共同保存。",
+      "F": "21个配置身份/单位/命名结构不变；注释明确世界像素=视口+(160,112)，read-only快检直接标明7信号及fullStoryE2e=false。",
+      "G": "既有21节点/翻译表均有实际consumer，不删“看起来用不到”的地点或恢复旧坐标兼容分支。",
+      "H": "纯detector测试与实际运行校准各有边界；隔离context通过现有DEV准备位置/练习step，正式输入/事件引擎/计时器保留。仅输出临时证据，自己的context/browser/server有Owner与清理，不开放产品测试专口。"
+    }
+  },
+  "priorEvidence": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json",
+    "reuse": "Other14 files and all corresponding tests/context exact hashes checked; checkpoints implementation AST equal. No new closure credit for reused files. Existing whole-repository check, official ratchet/protected and typechecks reused for unchanged code."
+  },
+  "pins": [
+    {
+      "path": "packages/game/src/tools/toast.ts",
+      "sha256": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa"
+    },
+    {
+      "path": "packages/game/src/tools/map-names.ts",
+      "sha256": "0aaafcb41b643024bc3af6844c12afb87b8d372332dabd852f935120b65d7440"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.ts",
+      "sha256": "ba19622f9f2f969a58e5f88fb6ca5c32983931493915a769afb4f72553c32a92"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.ts",
+      "sha256": "024f25580a64a2893451465ba832cab608089f26513e0584d68277640d461ad3"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.ts",
+      "sha256": "2ad3aa9b736ec768d29ea865c98436b7792e6883a9d5896fae3e0e0c22c5cebb"
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.ts",
+      "sha256": "1485971b96faead4c8ef1acb3e1bdd5257a2c1755595d5f110db3a54e7c84df6"
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.ts",
+      "sha256": "a6487b7d2b6ee2f5fe597d4fdfec11cd9c2ee9407f8fcfff580468b289c98020"
+    },
+    {
+      "path": "packages/game/src/tools/toast.test.ts",
+      "sha256": "6ee3acb3b46be80148823ea83ff18a1bb16a0ebe92ba26c2a9fe3b183db8c644"
+    },
+    {
+      "path": "packages/game/src/tools/map-names.test.ts",
+      "sha256": "6061d03b7442f04f2bc0b560224c4fc414781c3744d67149e7caf0e8cc5ce486"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.test.ts",
+      "sha256": "a684c34ac598bf934caff399c0616b2f24cc5ce8e3fcaefaa07eb9c300219833"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "sha256": "2abb8449f9eb418542b978538b4709f6104478e211c51032faba7faa82a71eb2"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+      "sha256": "61046994eb6a6dd74a1fc16df10f6411aa470565fe30d94bbd34fbb174a9be75"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+      "sha256": "ce31751bf2f91e1707bea710ae157e7bd15094d802c3757f9c896c1f60d9051f"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "sha256": "79411da90343bc7a2346df5e4743c3ab47146df823e15d160e9f20d7ecab5076"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.test.ts",
+      "sha256": "892636edd42fbc2de200468950fb83789ad7930818db0bc050299db536a3b363"
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779"
+    },
+    {
+      "path": "packages/game/src/localization/map-names-en.ts",
+      "sha256": "ef57733e5f7158b80024e6c0dd04f2eacfc8378dbd69a72954af45872dcf0f06"
+    },
+    {
+      "path": "packages/shared/src/pal-authored-map-names.ts",
+      "sha256": "69d57d63ed58dda873776b48878f05f3578e80d3be667e521131065a3293547a"
+    },
+    {
+      "path": "packages/game/src/shell/presentation.ts",
+      "sha256": "2c6229b3b85271c52c80d9143d7aa6568aa6e2c507f30a84d4722028f4fa06bd"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "sha256": "9a3e15aff078041f076a9715ba12592243ce72dc93fcd3a0c9208e1a8ec0905c"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "26f79ca8271020de7f0663698cf52a665cf367e67db475af714167d996c241ad"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.ts",
+      "sha256": "5faaa4fbff490389ccb36d9a24eeaac33fc1807443ca59686da0e81031b94a62"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "3ed91fc0eba9daa62805e0d0b9d4e098cf55553a3db05b5b7f9f195326365d4b"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.ts",
+      "sha256": "a5fcf2a7380eca2afc4e93832075b2847671ffba597c5f12e1b8e8a1cf252f2c"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.ts",
+      "sha256": "c2209367f139dd37dbc77bf11d59c76a63fe687b90de607b35e152d4e48cb60c"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "df6083ef6eeaf958db857a728a7a661185d2975e300bfba28a47c32a75f911de"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "01842b519dd9bc8bee3a221c962d2c9cdec043f7c912f848efd2ef3e1c559847"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.ts",
+      "sha256": "d23f4cceda7b457573c00f64f4ca8c19ce96874e7323cabebc67ac127eaf91e0"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.english.test.ts",
+      "sha256": "8d539ec2b88f18f88c70c7f09e02484a5e0a74bf7bc39e4845a11c6b0d073d45"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+      "sha256": "e8509d85b2fd1b9f51b3ed59029d736aefd20f6e6e35d784517b897334cac083"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json",
+      "sha256": "1ce4cefd424e3db6d12415b53b0ec7ac86528f24dacc044419f8c7557e7c1cb8"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/receipts.json.gz",
+      "sha256": "88d167c9629a648256c7f943a60dcc0c6d36957e43efba947cba5b28078ceca1"
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "988629e03895443fdd49964924f23d1d43cdab7d930a7348f1629553ce000b7f"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "54e838d92e011fd96d4529ecfee4b6374fcf6b25aa86640d49af832227b36d0f"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.ts",
+      "sha256": "496c27dbc9eedfc5a9e87eb00018ddad506886796b7cf4c4cd46a8784520cd62"
+    },
+    {
+      "path": "scripts/e2e/browser-watchdog.mjs",
+      "sha256": "b9905e85e4b7f76e2248f90b3dbfc993f5d3eb2aa7443249351595081e513546"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65"
+    },
+    {
+      "path": "package.json",
+      "sha256": "d03353b2c46b34fd84b6fc233160dcd3636f8e6e8f0e6378582f9aacce35df45"
+    },
+    {
+      "path": "packages/game/vite.config.ts",
+      "sha256": "ca3efa390c3f0d2ea2e2caf4fbc4470d7ec1e5e12558a20f3cbada795bf080da"
+    },
+    {
+      "path": "data/raw/SSS.MKF",
+      "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+    },
+    {
+      "path": "data/extracted/events/all.json",
+      "sha256": "37b55883397bc19664d213a94cb3bb4591b64c07d8c10919392d2a4928b0a885"
+    },
+    {
+      "path": "data/extracted/data/scene/5.json",
+      "sha256": "73565f19865d4d79289e415ee02dc63fe17cf11180328ff19078b10351a569c8"
+    },
+    {
+      "path": "data/extracted/data/scene/11.json",
+      "sha256": "d52172c451e3346a6de53030d670b71cf73a2e30f6433812276fb8abc83a11e4"
+    },
+    {
+      "path": "data/extracted/data/scene/18.json",
+      "sha256": "273cf0cb50478fab982e654993f6784210469bc4c996a30a7f5531c22ecf033c"
+    },
+    {
+      "path": "data/extracted/data/scene/54.json",
+      "sha256": "4afe84ff78f0482aa9b261c647dfbb71872bc8a66f900c7af6966e2daa13ab37"
+    },
+    {
+      "path": "data/extracted/data/scene/61.json",
+      "sha256": "99956db7d430795883c4a52f2962d9b2f3eac26586a727179f5078674db235af"
+    },
+    {
+      "path": "data/extracted/data/scene/145.json",
+      "sha256": "6cde360c5aecb9f3ec26e9dfbf74d6f57abf4a7b171257a9c385857e54da6964"
+    },
+    {
+      "path": "data/extracted/data/scene/162.json",
+      "sha256": "26a0ce5032e6dcb71c360152f1b55ef018d72b3a37143e0f0421e7eac80fbbd8"
+    },
+    {
+      "path": "data/extracted/data/scene/163.json",
+      "sha256": "34c2bcc9abe434ab3e7bc62cebe33aa4bd9f36cdf6fd480683f35def81d9f1d9"
+    },
+    {
+      "path": "data/extracted/data/scene/164.json",
+      "sha256": "2180c6d4b59efbcabb49b9c159a09ee200e51e32abb77cb9178ebc2fa5ade167"
+    },
+    {
+      "path": "data/extracted/data/scene/168.json",
+      "sha256": "c46448f78a05e5e9c48cf497bdb1c3008c46b696a3e2d9ced187d0d018a928e8"
+    },
+    {
+      "path": "data/extracted/data/scene/227.json",
+      "sha256": "eac8da15a98bbb12d8ca9926ff1c3ae923dc67298c49e259730a509feaafc5db"
+    }
+  ],
+  "palTimer": {
+    "repository": "ihouou/PalTimer",
+    "commit": "ba7ca7ccf1cb12968910f7bf717527b6d3b85dfe",
+    "path": "Pal98Timer/仙剑98柔情.cs",
+    "blob": "0284a5d710d73355538db89b5007b10b74e3950c",
+    "read": "55–440 InitCheckPoints/position predicates;1097–1112 banana;1606+ address mapping and2083–2087 field reads. Not entire source read.",
+    "limits": "Reference timer, not original game truth. TS existing design uses radius3/scene entrance where reference differs; no config/data changes."
+  },
+  "primary": {
+    "file": "primary-raw-pins.json",
+    "counts": {
+      "bytecode": 18,
+      "sceneRecords": 11,
+      "eventObjects": 10
+    },
+    "contract": "Independent little-endian byte offsets/words; raw/loadScene extraction matches. Runtime observed world=viewport+(160,112)."
+  },
+  "readScope": {
+    "full": [
+      "checkpoints.ts",
+      "detectors.ts",
+      "snapshot.ts",
+      "index.ts",
+      "timer.ts",
+      "packages/pal-extract/src/resources/scene.ts"
+    ],
+    "ranges": [
+      "scene-system actual walkability/automatic triggers",
+      "bootstrap DEV scene and startNewGameFromPrimary/onEnter wiring",
+      "dev-panel teleport1120–1165",
+      "event-system OP_SET_PARTY_POS3597+ and OP_PLAY_MUSIC3671+",
+      "pal-extract io/sss record layout"
+    ],
+    "limits": "Context ranges only; no whole-file acceptance of bootstrap/dev-panel/scene/event system."
+  },
+  "runs": [
+    "local-calibration",
+    "local-route-calibration",
+    "local-signal-calibration",
+    "local-final-calibration",
+    "pray-calibration"
+  ],
+  "observations": [
+    {
+      "signal": "stele",
+      "receipt": "local-calibration.json",
+      "case": "stele",
+      "oracle": "false outside;actual1856,496/IP5182;real step1 split;earlier tolerance entry1808,520 disclosed"
+    },
+    {
+      "signal": "kungfu",
+      "receipt": "local-signal-calibration.json",
+      "case": "kungfu",
+      "oracle": "ActualEO195/2205 plus normal5dialog confirms;2237 sets86;2239 recorded step2 split"
+    },
+    {
+      "signal": "boat",
+      "receipt": "local-final-calibration.json",
+      "case": "boat-valid-side",
+      "oracle": "Actual1296,1224 outside →1280,1216 true step3 split;space signal only,not boarding plot"
+    },
+    {
+      "signal": "biohazard",
+      "receipt": "local-calibration.json",
+      "case": "biohazard",
+      "oracle": "ActualEO924/9716 scene55→62 world1312,1376 step6 split"
+    },
+    {
+      "signal": "sword",
+      "receipt": "local-route-calibration.json",
+      "case": "sword",
+      "oracle": "ActualEO2804/22603 via six real walkable steps;169→146 world464,1160 step15 split"
+    },
+    {
+      "signal": "pray",
+      "receipt": "pray-calibration.json",
+      "oracle": "DEV primary228,ordinary NewGame/full onEnter32038;world1152,1040/IP32044 step20 split;no GameState target writes"
+    },
+    {
+      "signal": "tower",
+      "receipt": "local-final-calibration.json",
+      "case": "tower-valid-side/tower-pan",
+      "oracle": "Actual163→164 world672,704 step14 split;separate real164→165→147 cinematic,not continuous full-story save"
+    }
+  ],
+  "failedPreparations": [
+    "Initial tower/sword straight movement blocked by real collision; route tower BFS preparation unreachable, retained failure and no credit.",
+    "Initial boat approached EO125 方老板 conversation, not coordinate calibration; separate valid-side attempt used.",
+    "Producer exit0 alone not case success; verifier checks selected rows and failure fields."
+  ],
+  "diagnostics": {
+    "successfulCasesPageerror": 0,
+    "successfulCasesConsoleWarningError": 0
+  },
+  "baseCi": {
+    "receipt": "post-main-ci.json",
+    "head": "38d6b2d136dc38589df9729242590bc37a5a27e2",
+    "documentationRun": 39913781974,
+    "coverageRun": 39913781939,
+    "status": "both completed success; full logs and native App15368 checks annotation0",
+    "testCount": 20170,
+    "sourceFiles": 774,
+    "coverageLogEncoding": "Connector decoded string saved untrimmed UTF-8; not transport ZIP byte claim."
+  },
+  "integration": {
+    "localFullCheckCoverageReruns": 0,
+    "reuse": [
+      "module-check-serial",
+      "same-report-ratchet",
+      "module-protected",
+      "recount-tools",
+      "final-docs",
+      "final-lint",
+      "final-ledger",
+      "final-diff"
+    ],
+    "candidateStatic": {
+      "state": "passed before final receipt packing; frozen direct validators/lint rerun retained in publication receipts",
+      "ids": ["route-docs-first", "route-lint-final", "route-diff", "route-ledger", "route-verify"],
+      "diagnostics": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      },
+      "firstFailure": "route-lint: exactly one formatter diagnostic in all-cards.json; formatted without semantic changes; full original retained",
+      "limits": "Only comments/docs/evidence changed after the prior full module window. No additional local fullcheck/coverage collection."
+    },
+    "candidateHostedCi": "pending push/PR; base CI is not candidate CI"
+  },
+  "progress": {
+    "fixed83": {
+      "accept": 65,
+      "partial": 18,
+      "pending": 0
+    },
+    "ledger": {
+      "total": 3403,
+      "verified": 408,
+      "review": 103,
+      "pending": 2892,
+      "unclosed": 2995
+    },
+    "newlyAcceptedCards": ["3j"],
+    "newlyClosedFiles": ["packages/game/src/tools/speedrun/checkpoints.ts"]
+  },
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "57ac3820298f644a74b032489e16c94915d4896ebdbc33653202416f44050d92",
+    "entries": 82,
+    "format": "gzip JSON map, complete bytes/base64/sha256 per entry"
+  },
+  "limits": [
+    "No complete story E2E or visual/sound asset acceptance.",
+    "No checkpoint/PB/detector/data/API changes. No94–102.",
+    "Legacy evidence remains immutable; old checkpoint exact-hash verifier correctly becomes stale from comments, bridge here proves same body."
+  ],
+  "next": "pre94 CODE3k finite remaining scope; check ownership and reuse accepted evidence before changes",
+  "cleanup": {
+    "devServer": "Owned exec54051 stopped by SIGINT; expected130, not a test failure",
+    "browser": "Each private producer closes its own context/browser and kills only its launched server; page/cleanup errors empty on successful cases",
+    "mainTree": "Read-only; four pre-existing untracked English raw-data entries retained"
+  }
+}

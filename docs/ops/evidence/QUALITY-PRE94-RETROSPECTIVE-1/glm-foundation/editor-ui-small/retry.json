@@ -1,0 +1,60 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 2,
+  "numPassedTests": 2,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792390633109,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["M05 BattleSpriteLibrary 敌人计时草稿"],
+          "fullName": "M05 BattleSpriteLibrary 敌人计时草稿 待机毫秒/帧 40ms 换算入草稿，应用修改单命令提交，放弃修改零提交",
+          "status": "passed",
+          "title": "待机毫秒/帧 40ms 换算入草稿，应用修改单命令提交，放弃修改零提交",
+          "duration": 251.29008399999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M05 BattleSpriteLibrary 敌人计时草稿"],
+          "fullName": "M05 BattleSpriteLibrary 敌人计时草稿 行动毫秒/帧 0ms 落 0 ticks；两字段独立草稿互不覆盖",
+          "status": "passed",
+          "title": "行动毫秒/帧 0ms 落 0 ticks；两字段独立草稿互不覆盖",
+          "duration": 56.93908400000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792390634749,
+      "endTime": 1792390635056.939,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/editor/src/ui/BattleSpriteLibrary.glm-m.test.tsx"
+    }
+  ]
+}

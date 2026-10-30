@@ -12,6 +12,7 @@
 
 import type { Item, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import { makeRole } from '../../__tests__/coverage85-glm-game/harness.js'
 import { createInitialGameState } from '../game-state.js'
 import {
   cancelInventoryMenu,
@@ -32,7 +33,7 @@ import {
   MENUITEM_COLOR_SELECTED_INACTIVE,
   pickItemRowColor,
 } from './inventory-menu.js'
-import { type ItemFilter, matchesFilter } from './item-select.js'
+import { matchesFilter } from './item-select.js'
 
 // ── fixtures ────────────────────────────────────────────────────────────────
 function mkItem(id: number, name: string, flagsPart: Partial<Item['flags']>): Item {
@@ -55,13 +56,16 @@ function mkItem(id: number, name: string, flagsPart: Partial<Item['flags']>): It
       ...flagsPart,
     },
     _name: name,
-  } as unknown as Item
+  }
 }
 
 const ITEMS: Item[] = [
   mkItem(105, '木剑', { equipable: true, equipableBy: [true, false, true, false, false, false] }),
   mkItem(106, '短刀', { equipable: true, equipableBy: [true, false, true, false, false, false] }),
-  mkItem(200, '观音符', { usable: true, applyToAll: true, consuming: true }),
+  // R4(2026-10-15):单体检伤类合成 fixture —— 真实 caller(menu-driver dispatchInventoryMenu)
+  // 只对非 applyToAll 物品进 use-target 选人(applyToAll 直接跑脚本,play.c:268-323 同);
+  // 名字/flags 为合成示意,不声明是 items.json 原始物品属性。
+  mkItem(200, '观音符', { usable: true, consuming: true }),
   mkItem(201, '玉佛珠', {
     equipable: true,
     equipableBy: [false, true, false, false, false, false],
@@ -186,23 +190,6 @@ describe('matchesFilter — sdlpal kItemFlag* 真值', () => {
 // 不是把非匹配项从列表里删掉。
 
 describe('createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤', () => {
-  // 渲染层颜色判定复刻(draw-inventory.ts:276 真值):isUsable = filter 命中 + 可用数量>0。
-  function rowColor(
-    item: Item,
-    slot: { count: number; inUse?: number },
-    filter: ItemFilter,
-    isSelected: boolean,
-  ) {
-    const diff = slot.count - (slot.inUse ?? 0)
-    const isUsable = diff > 0 && matchesFilter(item, filter)
-    return pickItemRowColor({
-      isSelected,
-      isUsable,
-      isEquipped: slot.count === 0,
-      selectedFlashTickMs: 0,
-    })
-  }
-
   it("filter='equip':非可装备项(观音符)仍入列表,不被剔除", () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.inventory = [
@@ -215,7 +202,7 @@ describe('createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不�
     expect(state.filter).toBe('equip')
   })
 
-  it("filter='usable':非可用项(木剑)仍入列表 + 渲染成红色 INACTIVE 0x18", () => {
+  it("filter='usable':非可用项(木剑)仍入列表，filter 保留供 renderer 判色", () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.inventory = [
       { itemId: 105, count: 1 }, // 木剑 not usable — 红色显示
@@ -225,13 +212,7 @@ describe('createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不�
     const state = createInventoryMenu(gs, ITEMS, 'usable')
     // 全部 3 项都在列表(原版全显示)
     expect(state.inventory.map((e) => e.itemId)).toEqual([105, 200, 202])
-    // 非可用(木剑,inv[0])非选中 → INACTIVE 0x18 暗红;可用(观音符,inv[1])→ MENUITEM_COLOR 0x4F
-    expect(rowColor(ITEMS[0]!, state.inventory[0]!, 'usable', false)).toBe(MENUITEM_COLOR_INACTIVE)
-    expect(rowColor(ITEMS[2]!, state.inventory[1]!, 'usable', false)).toBe(MENUITEM_COLOR)
-    // 非可用 + 光标停其上 → SELECTED_INACTIVE 0x1C 橙红
-    expect(rowColor(ITEMS[0]!, state.inventory[0]!, 'usable', true)).toBe(
-      MENUITEM_COLOR_SELECTED_INACTIVE,
-    )
+    expect(state.filter).toBe('usable')
   })
 
   it("L39:filter='usable' 追加全队装备槽里 usable 的已装备物(itemmenu.c:352-376)", () => {
@@ -350,23 +331,24 @@ describe('confirmInventoryItem / cancelInventoryMenu phase', () => {
     return { gs, state: createInventoryMenu(gs, ITEMS, 'usable') }
   }
 
-  it('Confirm usable item → phase=use-target,selectedItemId 写;PlayerRoles 缺则 noop', () => {
+  it('空角色/队伍防御：仍建空 targetMenu 并保留 selectedItemId', () => {
     const { state } = mkState()
-    // 用空 playerRoles 测 selectedItemId 不写(item 命中但无 target)
-    confirmInventoryItem(state, ITEMS, { roles: [] } as never, [])
+    // 公开入口的空列表边界，不冒充真实生产队伍。
+    confirmInventoryItem(state, ITEMS, { roles: [] }, [])
     // 目标 menu 应建好(无 role 也建空 targetMenu)
     expect(state.phase).toBe('use-target')
     expect(state.selectedItemId).toBe(200)
+    expect(state.targetMenu?.items).toEqual([])
   })
 
   it('H2(sdlpal 审查):目标列表不禁选死人 — 死人可选作目标(复活药前提;uigame.c:1383-1495 无 disabled)', () => {
     const { state } = mkState()
-    const roles = {
+    const roles: PlayerRoles = {
       roles: [
-        { id: 0, hp: 100, _name: '李逍遥' },
-        { id: 1, hp: 0, _name: '赵灵儿' }, // 阵亡
+        makeRole(0, { hp: 100, _name: '李逍遥' }),
+        makeRole(1, { hp: 0, _name: '赵灵儿' }), // 阵亡
       ],
-    } as unknown as PlayerRoles
+    }
     confirmInventoryItem(state, ITEMS, roles, [0, 1])
     expect(state.phase).toBe('use-target')
     const deadTarget = state.targetMenu?.items.find((t) => t.id === 1)
@@ -377,8 +359,8 @@ describe('confirmInventoryItem / cancelInventoryMenu phase', () => {
 
   it('Cancel use-target → 回 list;Cancel list → done', () => {
     const { state } = mkState()
-    state.phase = 'use-target'
-    state.selectedItemId = 200
+    confirmInventoryItem(state, ITEMS, { roles: [makeRole(0)] }, [0])
+    expect(state.phase).toBe('use-target')
     cancelInventoryMenu(state)
     expect(state.phase).toBe('list')
     expect(state.selectedItemId).toBeUndefined()

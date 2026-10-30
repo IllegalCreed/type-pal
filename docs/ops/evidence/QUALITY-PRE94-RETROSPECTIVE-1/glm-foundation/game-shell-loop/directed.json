@@ -1,0 +1,1241 @@
+{
+  "numTotalTestSuites": 28,
+  "numPassedTestSuites": 28,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 112,
+  "numPassedTests": 112,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792371684041,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+          "status": "passed",
+          "title": "G09-C01 不传预估总量时，状态文本的分母是 810，进度条为 0%",
+          "duration": 229.39158399999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C02 fetch 拒绝后完成数仍加一",
+          "status": "passed",
+          "title": "G09-C02 fetch 拒绝后完成数仍加一",
+          "duration": 35.78062499999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C03 只有状态节点时写入 1 / 4",
+          "status": "passed",
+          "title": "G09-C03 只有状态节点时写入 1 / 4",
+          "duration": 33.963708000000224,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C04 只有进度条时宽度写成 25%",
+          "status": "passed",
+          "title": "G09-C04 只有进度条时宽度写成 25%",
+          "duration": 37.44499999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
+          "status": "passed",
+          "title": "G09-C05 没有状态节点时失败仍加上错误类，之后的说明不再改条宽",
+          "duration": 34.957374999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
+          "status": "passed",
+          "title": "G09-C06 没有进度条时完成仍淡出并在 600ms 后移除",
+          "duration": 2.0123750000002474,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
+          "status": "passed",
+          "title": "G09-C07 restoreBootFetch 还原 fetch，之后的请求不再回调进度",
+          "duration": 52.20670799999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+          "status": "passed",
+          "title": "G09-C08 同一帧里的两次说明只排一次 rAF，文本留下后一次",
+          "duration": 33.71275000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
+          "status": "passed",
+          "title": "G09-C09 requestAnimationFrame 不是函数时，改用 16ms 的 setTimeout 写出说明",
+          "duration": 18.390709000000243,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
+          "status": "passed",
+          "title": "G09-C10 预估和已发起都是 0 时，进度回调得到 0 且不写 DOM",
+          "duration": 34.384833999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-C 启动加载宿主"],
+          "fullName": "G09-C 启动加载宿主 G09-C11 失败文案是启动失败加原文，并带上错误类",
+          "status": "passed",
+          "title": "G09-C11 失败文案是启动失败加原文，并带上错误类",
+          "duration": 17.9987500000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371686168,
+      "endTime": 1792371686697.9988,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/boot-loading-host.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+          "status": "passed",
+          "title": "init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))",
+          "duration": 16.831874999999854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) 进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)",
+          "status": "passed",
+          "title": "进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)",
+          "duration": 6.8495419999999285,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) Request/init 与 Response 身份透传，包装层不丢 headers 或 signal",
+          "status": "passed",
+          "title": "Request/init 与 Response 身份透传，包装层不丢 headers 或 signal",
+          "duration": 3.469250000000102,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) finish 还原 fetch、补满格并在 600ms 过渡后移除 overlay",
+          "status": "passed",
+          "title": "finish 还原 fetch、补满格并在 600ms 过渡后移除 overlay",
+          "duration": 4.575667000000067,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
+          "status": "passed",
+          "title": "setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)",
+          "duration": 1.8436669999996411,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) 无 overlay 节点时不包装 fetch，公开入口安全",
+          "status": "passed",
+          "title": "无 overlay 节点时不包装 fetch，公开入口安全",
+          "duration": 1.2708330000000387,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) 重复 init 幂等(不双层包 fetch)",
+          "status": "passed",
+          "title": "重复 init 幂等(不双层包 fetch)",
+          "duration": 0.8264580000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) 释放计数时保留后来安装的 fetch 层及其请求透传",
+          "status": "passed",
+          "title": "释放计数时保留后来安装的 fetch 层及其请求透传",
+          "duration": 1.256832999999915,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) 释放后在途请求照常完成，不计入随后新建的启动轮次",
+          "status": "passed",
+          "title": "释放后在途请求照常完成，不计入随后新建的启动轮次",
+          "duration": 3.980916999999863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) 未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill",
+          "status": "passed",
+          "title": "未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill",
+          "duration": 1.399916999999732,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["boot-loading(启动加载覆盖层)"],
+          "fullName": "boot-loading(启动加载覆盖层) PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
+          "status": "passed",
+          "title": "PROD 模式(传 onProgress)→ render 回调 fraction、不写 #boot-loading DOM",
+          "duration": 0.9807080000000497,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371686145,
+      "endTime": 1792371686187.9807,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/boot-loading.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
+          "fullName": "G09-A 输入回放与按键归属 G09-A01 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位",
+          "status": "passed",
+          "title": "G09-A01 未松开的 Up 再次 keydown 会把 Up 挪到 held 末位",
+          "duration": 1.9177079999999478,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
+          "fullName": "G09-A 输入回放与按键归属 G09-A02 已经按住的 Up 再次 keydown 不再写入 pressed",
+          "status": "passed",
+          "title": "G09-A02 已经按住的 Up 再次 keydown 不再写入 pressed",
+          "duration": 0.5013749999998254,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
+          "fullName": "G09-A 输入回放与按键归属 G09-A03 未知键的 keydown 不改已按住的 Right",
+          "status": "passed",
+          "title": "G09-A03 未知键的 keydown 不改已按住的 Right",
+          "duration": 0.24554200000011406,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
+          "fullName": "G09-A 输入回放与按键归属 G09-A04 ControlRight 不是确认键",
+          "status": "passed",
+          "title": "G09-A04 ControlRight 不是确认键",
+          "duration": 0.07941699999992125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
+          "fullName": "G09-A 输入回放与按键归属 G09-A05 拆掉一个键盘源后，另一个源仍接收后续按键",
+          "status": "passed",
+          "title": "G09-A05 拆掉一个键盘源后，另一个源仍接收后续按键",
+          "duration": 0.4552500000004329,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
+          "fullName": "G09-A 输入回放与按键归属 G09-A06 clearPressed 不解除方向键的 fade 抑制",
+          "status": "passed",
+          "title": "G09-A06 clearPressed 不解除方向键的 fade 抑制",
+          "duration": 0.26004199999988487,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
+          "fullName": "G09-A 输入回放与按键归属 G09-A07 回放耗尽时，空快照的帧号等于本次入参",
+          "status": "passed",
+          "title": "G09-A07 回放耗尽时，空快照的帧号等于本次入参",
+          "duration": 0.140625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
+          "fullName": "G09-A 输入回放与按键归属 G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到",
+          "status": "passed",
+          "title": "G09-A08 回放游标越过末帧后，调用方再追加的快照不会被读到",
+          "duration": 0.11937500000021828,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
+          "fullName": "G09-A 输入回放与按键归属 G09-A09 录制源返回的就是内层那一个快照对象",
+          "status": "passed",
+          "title": "G09-A09 录制源返回的就是内层那一个快照对象",
+          "duration": 0.362999999999829,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
+          "fullName": "G09-A 输入回放与按键归属 G09-A10 getRecording 一直是同一个数组，第二次快照追加在后面",
+          "status": "passed",
+          "title": "G09-A10 getRecording 一直是同一个数组，第二次快照追加在后面",
+          "duration": 0.12816700000030323,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-A 输入回放与按键归属"],
+          "fullName": "G09-A 输入回放与按键归属 G09-A11 键盘快照的帧号原样使用主循环传入的帧号",
+          "status": "passed",
+          "title": "G09-A11 键盘快照的帧号原样使用主循环传入的帧号",
+          "duration": 0.13516600000002654,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371686134,
+      "endTime": 1792371686138.363,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/input-replay.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["H02 KeyboardInputSource 宿主边界"],
+          "fullName": "H02 KeyboardInputSource 宿主边界 真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）",
+          "status": "passed",
+          "title": "真实 Window 事件驱动；两个 snapshot Set 防别名（改返回集合不动内部）",
+          "duration": 5.316291999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H02 KeyboardInputSource 宿主边界"],
+          "fullName": "H02 KeyboardInputSource 宿主边界 未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除",
+          "status": "passed",
+          "title": "未知 keyup 不清合法 held；fade 抑制只针对方向键且物理松开解除",
+          "duration": 0.7802090000000135,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H02 KeyboardInputSource 宿主边界"],
+          "fullName": "H02 KeyboardInputSource 宿主边界 detach 后真实事件不再进入",
+          "status": "passed",
+          "title": "detach 后真实事件不再进入",
+          "duration": 0.44612499999993815,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371686129,
+      "endTime": 1792371686135.7803,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/input.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey 方向键映射",
+          "status": "passed",
+          "title": "方向键映射",
+          "duration": 0.8836249999999382,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey WASD = sdlpal 原义(input.c:84-90),不是方向",
+          "status": "passed",
+          "title": "WASD = sdlpal 原义(input.c:84-90),不是方向",
+          "duration": 0.17537499999980355,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey 确认 / 菜单(sdlpal input.c:66-74 真值)",
+          "status": "passed",
+          "title": "确认 / 菜单(sdlpal input.c:66-74 真值)",
+          "duration": 0.19145800000023883,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey Numpad 方向键(sdlpal input.c:58-65)",
+          "status": "passed",
+          "title": "Numpad 方向键(sdlpal input.c:58-65)",
+          "duration": 0.07508299999972223,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey 翻页 / Home/End(sdlpal input.c:75-82)",
+          "status": "passed",
+          "title": "翻页 / Home/End(sdlpal input.c:75-82)",
+          "duration": 0.10920800000030795,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey 战斗 / 大世界专用键(sdlpal input.c:83-90)",
+          "status": "passed",
+          "title": "战斗 / 大世界专用键(sdlpal input.c:83-90)",
+          "duration": 0.1031249999996362,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["codeToAbstractKey"],
+          "fullName": "codeToAbstractKey 未知键 → null",
+          "status": "passed",
+          "title": "未知键 → null",
+          "duration": 0.10341699999980847,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KeyboardInputSource"],
+          "fullName": "KeyboardInputSource keydown/keyup 维护 held;snapshot 后 pressed 清空",
+          "status": "passed",
+          "title": "keydown/keyup 维护 held;snapshot 后 pressed 清空",
+          "duration": 0.7254579999998896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KeyboardInputSource"],
+          "fullName": "KeyboardInputSource clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留",
+          "status": "passed",
+          "title": "clearPressed 清掉未消费的 pressed(等价 sdlpal PAL_ClearKeyState),held 保留",
+          "duration": 0.851292000000285,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KeyboardInputSource", "last-press priority (sdlpal input.c:180-189)"],
+          "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up 然后 Down → held Set 末位 = Down",
+          "status": "passed",
+          "title": "Up 然后 Down → held Set 末位 = Down",
+          "duration": 0.794709000000239,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KeyboardInputSource", "last-press priority (sdlpal input.c:180-189)"],
+          "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)",
+          "status": "passed",
+          "title": "Up,keyup Up,再按 Up → 末位还是 Up(delete-then-add 刷新顺序)",
+          "duration": 0.4732910000002448,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KeyboardInputSource", "last-press priority (sdlpal input.c:180-189)"],
+          "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) e.repeat=true 不刷新 held order(sdlpal input.c:213)",
+          "status": "passed",
+          "title": "e.repeat=true 不刷新 held order(sdlpal input.c:213)",
+          "duration": 0.24833300000000236,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KeyboardInputSource", "last-press priority (sdlpal input.c:180-189)"],
+          "fullName": "KeyboardInputSource last-press priority (sdlpal input.c:180-189) repeat 也不污染 pressed(只在初次按下时 add pressed)",
+          "status": "passed",
+          "title": "repeat 也不污染 pressed(只在初次按下时 add pressed)",
+          "duration": 0.09229200000027049,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ReplayInputSource"],
+          "fullName": "ReplayInputSource 按帧顺序回放",
+          "status": "passed",
+          "title": "按帧顺序回放",
+          "duration": 0.35945799999990413,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ReplayInputSource"],
+          "fullName": "ReplayInputSource 超出序列 → 空快照",
+          "status": "passed",
+          "title": "超出序列 → 空快照",
+          "duration": 0.08912499999996726,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["RecordingInputSource"],
+          "fullName": "RecordingInputSource 装饰任意 source,把每帧 snapshot 留档",
+          "status": "passed",
+          "title": "装饰任意 source,把每帧 snapshot 留档",
+          "duration": 0.31179100000008475,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DM30:fade 抑制按住的方向键(palette.c:313-316)"],
+          "fullName": "DM30:fade 抑制按住的方向键(palette.c:313-316) suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清",
+          "status": "passed",
+          "title": "suppressHeldForFade 后按住的方向键不进 held,keyup 重按恢复;pressed 被清",
+          "duration": 0.5337919999997212,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371686161,
+      "endTime": 1792371686168.5337,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/input.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G09-B 主循环门控"],
+          "fullName": "G09-B 主循环门控 G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false",
+          "status": "passed",
+          "title": "G09-B01 dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false",
+          "duration": 1.4377920000001723,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-B 主循环门控"],
+          "fullName": "G09-B 主循环门控 G09-B02 battleAnim 在未到逻辑间隔时仍 present",
+          "status": "passed",
+          "title": "G09-B02 battleAnim 在未到逻辑间隔时仍 present",
+          "duration": 0.3526249999999891,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-B 主循环门控"],
+          "fullName": "G09-B 主循环门控 G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器",
+          "status": "passed",
+          "title": "G09-B03 dt 150 只 tick 一次，并把 50ms 余量留在累加器",
+          "duration": 0.48220900000023903,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-B 主循环门控"],
+          "fullName": "G09-B 主循环门控 G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
+          "status": "passed",
+          "title": "G09-B04 dt 200 结转后余量正好等于间隔，不丢弃",
+          "duration": 0.23591699999997218,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-B 主循环门控"],
+          "fullName": "G09-B 主循环门控 G09-B05 冻结时不足一个间隔的余量保留，且不 present",
+          "status": "passed",
+          "title": "G09-B05 冻结时不足一个间隔的余量保留，且不 present",
+          "duration": 0.45579200000020137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-B 主循环门控"],
+          "fullName": "G09-B 主循环门控 G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent",
+          "status": "passed",
+          "title": "G09-B06 逻辑 tick 把 bus.drain 的那一条命令交给 onPresent",
+          "duration": 0.5389170000003105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-B 主循环门控"],
+          "fullName": "G09-B 主循环门控 G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳",
+          "status": "passed",
+          "title": "G09-B07 发生逻辑 tick 时 nowMs 写成这一帧的时间戳",
+          "duration": 0.22558299999991505,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-B 主循环门控"],
+          "fullName": "G09-B 主循环门控 G09-B08 dump 使用调用方给出的 partyWalkFrames 4",
+          "status": "passed",
+          "title": "G09-B08 dump 使用调用方给出的 partyWalkFrames 4",
+          "duration": 0.23629100000016479,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-B 主循环门控"],
+          "fullName": "G09-B 主循环门控 G09-B09 未给 partyWalkFrames 时 dump 使用 3",
+          "status": "passed",
+          "title": "G09-B09 未给 partyWalkFrames 时 dump 使用 3",
+          "duration": 0.8570419999996375,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-B 主循环门控"],
+          "fullName": "G09-B 主循环门控 G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present",
+          "status": "passed",
+          "title": "G09-B10 没有 suppressHeldForFade 的输入源在 scene-fade 里仍按 fadeState present",
+          "duration": 0.21824999999989814,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-B 主循环门控"],
+          "fullName": "G09-B 主循环门控 G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量",
+          "status": "passed",
+          "title": "G09-B11 探索累到 90 后切战斗，同一时间戳用 40ms 间隔 tick 一次并清掉超额余量",
+          "duration": 0.2804999999998472,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-B 主循环门控"],
+          "fullName": "G09-B 主循环门控 G09-B12 tickN(0) 不 present，帧号保持 0",
+          "status": "passed",
+          "title": "G09-B12 tickN(0) 不 present，帧号保持 0",
+          "duration": 0.09704099999999016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-B 主循环门控"],
+          "fullName": "G09-B 主循环门控 G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧",
+          "status": "passed",
+          "title": "G09-B13 startRafLoop 的取消函数取消的是刚刚排上的那一帧",
+          "duration": 0.2274579999998423,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371686554,
+      "endTime": 1792371686560.2805,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/main-loop-gates.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["tickN"],
+          "fullName": "tickN 跑 N tick,每 tick 调 onPresent",
+          "status": "passed",
+          "title": "跑 N tick,每 tick 调 onPresent",
+          "duration": 1.799750000000131,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickN"],
+          "fullName": "tickN Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)",
+          "status": "passed",
+          "title": "Replay 向右走 3 步 → party.x + 3*16, party.y + 3*8 (East 右下)",
+          "duration": 0.3674999999998363,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["advanceRafFrame / logicIntervalMs(M1 三不变量)"],
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ① logicIntervalMs:battle 40 / 否则 100",
+          "status": "passed",
+          "title": "① logicIntervalMs:battle 40 / 否则 100",
+          "duration": 0.271541999999954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["advanceRafFrame / logicIntervalMs(M1 三不变量)"],
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码",
+          "status": "passed",
+          "title": "② accumulator clamp:dt 巨大(>3×interval)→ 单 tick(非 catch-up 多 tick)+ 修 while-后死代码",
+          "duration": 0.23308300000007875,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["advanceRafFrame / logicIntervalMs(M1 三不变量)"],
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢",
+          "status": "passed",
+          "title": "④ 稳态节奏:60Hz 显示器下 battle 应 25 tick/s(40ms/tick),不被累积器丢余量拖慢",
+          "duration": 0.5484590000000935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["advanceRafFrame / logicIntervalMs(M1 三不变量)"],
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present",
+          "status": "passed",
+          "title": "③ present 门控:无 tick + 无 fade → 不 present;有 paletteFade → present",
+          "duration": 0.3916659999999865,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["advanceRafFrame / logicIntervalMs(M1 三不变量)"],
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)",
+          "status": "passed",
+          "title": "⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)",
+          "duration": 0.3217500000000655,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["advanceRafFrame / logicIntervalMs(M1 三不变量)"],
+          "fullName": "advanceRafFrame / logicIntervalMs(M1 三不变量) ⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)",
+          "status": "passed",
+          "title": "⑥ frozen=true:累积达 interval 也不 tick(速通手动暂停冻结世界)",
+          "duration": 0.27083300000003874,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["渐变吞键仅限 scene-fade(palette.c 真值边界)"],
+          "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)",
+          "status": "passed",
+          "title": "waiting='scene-fade'(0x93/0x80-update)→ 每 rAF 抑制按键(C 每步清键)",
+          "duration": 0.6225420000000668,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["渐变吞键仅限 scene-fade(palette.c 真值边界)"],
+          "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)",
+          "status": "passed",
+          "title": "waiting='palette-fade'(0x50/0x51/0x8C/0x4F)→ 不抑制(C 不清键,按键应累积)",
+          "duration": 0.1700829999999769,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["渐变吞键仅限 scene-fade(palette.c 真值边界)"],
+          "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)",
+          "status": "passed",
+          "title": "无游标的自动渐入(战后/进场 PAL_FadeIn)→ 不抑制(战后卡键根因)",
+          "duration": 0.3768329999998059,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["渐变吞键仅限 scene-fade(palette.c 真值边界)"],
+          "fullName": "渐变吞键仅限 scene-fade(palette.c 真值边界) 无渐变 → 不抑制",
+          "status": "passed",
+          "title": "无渐变 → 不抑制",
+          "duration": 0.0965000000001055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371686554,
+      "endTime": 1792371686560.0964,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/main-loop.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-MENU-SAVE-IO-1 菜单 modal 输入锁(tickN 整链)"],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 菜单 modal 输入锁(tickN 整链) MSIO-A1 菜单打开期间按住右:party 冻结在原地,hub 光标吃掉输入(cursor 0→1)",
+          "status": "passed",
+          "title": "MSIO-A1 菜单打开期间按住右:party 冻结在原地,hub 光标吃掉输入(cursor 0→1)",
+          "duration": 1.96487500000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-MENU-SAVE-IO-1 菜单 modal 输入锁(tickN 整链)"],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 菜单 modal 输入锁(tickN 整链) MSIO-A2 菜单按 Menu 关闭后,下一 tick 起方向输入恢复驱动 party(2 步 East)",
+          "status": "passed",
+          "title": "MSIO-A2 菜单按 Menu 关闭后,下一 tick 起方向输入恢复驱动 party(2 步 East)",
+          "duration": 0.6807079999998678,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371686553,
+      "endTime": 1792371686555.6807,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/menu-input-lock.glm-msio.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
+          "status": "passed",
+          "title": "G09-D01 总字节为 0 时小组件百分比和条宽都是 0",
+          "duration": 214.9892920000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D02 半兆字节按四舍五入写成 1MB，百分比取 floor",
+          "status": "passed",
+          "title": "G09-D02 半兆字节按四舍五入写成 1MB，百分比取 floor",
+          "duration": 4.282624999999825,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D02a 小组件忽略非有限字节，不把 NaN 写入 DOM",
+          "status": "passed",
+          "title": "G09-D02a 小组件忽略非有限字节，不把 NaN 写入 DOM",
+          "duration": 3.306916999999885,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D03 playableFraction 0.25 把虚线放在 25%，必要资源满格也停在 25%",
+          "status": "passed",
+          "title": "G09-D03 playableFraction 0.25 把虚线放在 25%，必要资源满格也停在 25%",
+          "duration": 2.937083000000257,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D04 负数的必要进度钳到 0%",
+          "status": "passed",
+          "title": "G09-D04 负数的必要进度钳到 0%",
+          "duration": 1.3638750000000073,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D05 大于 1 的必要进度钳到虚线 12%",
+          "status": "passed",
+          "title": "G09-D05 大于 1 的必要进度钳到虚线 12%",
+          "duration": 1.2507920000002741,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D05a 非有限必要进度不污染单调状态，后续合法进度仍可更新",
+          "status": "passed",
+          "title": "G09-D05a 非有限必要进度不污染单调状态，后续合法进度仍可更新",
+          "duration": 0.7300839999998061,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D06 过了虚线之后 setNecessaryProgress 不再改文案",
+          "status": "passed",
+          "title": "G09-D06 过了虚线之后 setNecessaryProgress 不再改文案",
+          "duration": 0.795708999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D07 第二次 markPlayable 不调用 onEnter",
+          "status": "passed",
+          "title": "G09-D07 第二次 markPlayable 不调用 onEnter",
+          "duration": 1.2737090000000535,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D08 没有进入按钮容器时 markPlayable 立刻放行",
+          "status": "passed",
+          "title": "G09-D08 没有进入按钮容器时 markPlayable 立刻放行",
+          "duration": 1.387583000000177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D09 有容器但没有按钮时立刻放行，容器保持 hidden",
+          "status": "passed",
+          "title": "G09-D09 有容器但没有按钮时立刻放行，容器保持 hidden",
+          "duration": 1.2112080000001697,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D10 全量阶段总字节为 0 时条宽停在虚线，文案是 0/0MB",
+          "status": "passed",
+          "title": "G09-D10 全量阶段总字节为 0 时条宽停在虚线，文案是 0/0MB",
+          "duration": 1.2952919999997903,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D10a 非有限全量字节被忽略，后续合法进度仍可更新",
+          "status": "passed",
+          "title": "G09-D10a 非有限全量字节被忽略，后续合法进度仍可更新",
+          "duration": 0.6172499999997854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D11 第二次 enterGame 不再多挂一个小组件",
+          "status": "passed",
+          "title": "G09-D11 第二次 enterGame 不再多挂一个小组件",
+          "duration": 6.585833000000093,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D12 没有记过总字节时，小组件保持占位文案",
+          "status": "passed",
+          "title": "G09-D12 没有记过总字节时，小组件保持占位文案",
+          "duration": 2.7607920000000377,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D13 进入之后 fail 不再给覆盖层加错误类",
+          "status": "passed",
+          "title": "G09-D13 进入之后 fail 不再给覆盖层加错误类",
+          "duration": 3.0746659999999792,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D14 没有状态节点时 fail 仍加上错误类",
+          "status": "passed",
+          "title": "G09-D14 没有状态节点时 fail 仍加上错误类",
+          "duration": 0.29595800000015515,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D15 必要阶段收到的全量字节在 enterGame 时写进小组件",
+          "status": "passed",
+          "title": "G09-D15 必要阶段收到的全量字节在 enterGame 时写进小组件",
+          "duration": 2.489458999999897,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D16 没有进度条时必要进度仍写状态文案",
+          "status": "passed",
+          "title": "G09-D16 没有进度条时必要进度仍写状态文案",
+          "duration": 0.2801249999997708,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D17 没有状态节点时必要进度仍写 6% 条宽",
+          "status": "passed",
+          "title": "G09-D17 没有状态节点时必要进度仍写 6% 条宽",
+          "duration": 0.1959580000002461,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D18 进入按钮的 click 只触发一次 onEnter",
+          "status": "passed",
+          "title": "G09-D18 进入按钮的 click 只触发一次 onEnter",
+          "duration": 0.7263749999997344,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D19 没有覆盖层时 enterGame 仍挂上占位小组件",
+          "status": "passed",
+          "title": "G09-D19 没有覆盖层时 enterGame 仍挂上占位小组件",
+          "duration": 1.4075830000001588,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09-D 预缓存宿主"],
+          "fullName": "G09-D 预缓存宿主 G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除",
+          "status": "passed",
+          "title": "G09-D20 done 立刻把透明度设为 0，599ms 仍在，600ms 移除",
+          "duration": 4.2971669999997175,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371686166,
+      "endTime": 1792371686423.297,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/precache-ui-host.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["createPrecacheWidget"],
+          "fullName": "createPrecacheWidget 挂到 document.body,update 写百分比与 MB,done 后淡出移除",
+          "status": "passed",
+          "title": "挂到 document.body,update 写百分比与 MB,done 后淡出移除",
+          "duration": 72.70024999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi 虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退",
+          "status": "passed",
+          "title": "虚线前 setNecessaryProgress 映射到 0→虚线(12%),单调不回退",
+          "duration": 3.785541000000194,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi necessary 阶段失败后迟到进度保留错误文本和条宽",
+          "status": "passed",
+          "title": "necessary 阶段失败后迟到进度保留错误文本和条宽",
+          "duration": 4.760499999999865,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi full 阶段失败后迟到进度保留错误文本和条宽",
+          "status": "passed",
+          "title": "full 阶段失败后迟到进度保留错误文本和条宽",
+          "duration": 1.3856249999998909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter",
+          "status": "passed",
+          "title": "markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter",
+          "duration": 1.7196669999998448,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi 虚线后 setFullProgress = SW 真实进度 bytes/total,单调不回退;necessary 段不响应",
+          "status": "passed",
+          "title": "虚线后 setFullProgress = SW 真实进度 bytes/total,单调不回退;necessary 段不响应",
+          "duration": 1.0358329999999114,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi enterGame 移除覆盖层并建右上角 widget,之后 setFullProgress 走 widget",
+          "status": "passed",
+          "title": "enterGame 移除覆盖层并建右上角 widget,之后 setFullProgress 走 widget",
+          "duration": 6.622334000000137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi 进入前 SW 已 done(竞速等满 100%)→ enterGame 不建右上角 widget",
+          "status": "passed",
+          "title": "进入前 SW 已 done(竞速等满 100%)→ enterGame 不建右上角 widget",
+          "duration": 0.7745829999998932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["createUnifiedProgressUi"],
+          "fullName": "createUnifiedProgressUi enterGame 用最后进度初始化 widget,消除空白瞬间",
+          "status": "passed",
+          "title": "enterGame 用最后进度初始化 widget,消除空白瞬间",
+          "duration": 4.931082999999944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371686162,
+      "endTime": 1792371686259.9312,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/precache-ui.test.ts"
+    }
+  ]
+}

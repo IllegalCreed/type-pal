@@ -1,0 +1,1162 @@
+{
+  "phase": "after",
+  "baseCommit": "8843d459b0c7e99380baef9f57aa77462dd62a75",
+  "sourceSha256": {
+    "sss.ts": "1ad89125c37973426ba0a046ce7be74376ad404430f729bb91e372cf6c4dec46",
+    "msg.ts": "19e388664b8bd602d1b94e6bfe72de00beb8f1fd7f7df476e89a57e8495edc0a"
+  },
+  "testSha256": {
+    "sss.boundaries.test.ts": "8c0beace34fb5233805f291a9a86269690a4588149d376adb91094496bb4b215",
+    "msg.boundaries.test.ts": "fcdce8e656c2fb289e79a5f0181043885304111de80e0d36d3eb18bc5e41721f",
+    "sss.test.ts": "19d5d8cd80f2e1026d5a7b52da708e7b1051539d5afe1bffc69f0e0bc0816deb",
+    "msg.test.ts": "73c14c910142e6a1a068413d035855735fbb7a1cb9804a55ac44a6763bb815f0"
+  },
+  "variants": {
+    "control": null,
+    "prefix-ownership": [
+      "sss.ts",
+      "  const mkf = openMkf(buf)",
+      "  new Uint8Array(buf.buffer).fill(0, 0, buf.byteOffset)\n  const mkf = openMkf(buf)"
+    ],
+    "suffix-ownership": [
+      "sss.ts",
+      "  const mkf = openMkf(buf)",
+      "  new Uint8Array(buf.buffer).fill(0, buf.byteOffset + buf.byteLength)\n  const mkf = openMkf(buf)"
+    ],
+    "second-eo-field": [
+      "sss.ts",
+      "x: readU16(view, base + 2),",
+      "x: readU16(view, base + 2) + (i === 1 ? 1 : 0),"
+    ],
+    "second-scene-field": [
+      "sss.ts",
+      "mapNum: readU16(view, base + 0),",
+      "mapNum: readU16(view, base + 0) + (i === 1 ? 1 : 0),"
+    ],
+    "message-ownership": ["msg.ts", "  return out", "  msg.fill(0)\n  return out"],
+    "offsets-ownership": ["msg.ts", "  return out", "  offsets.fill(0)\n  return out"]
+  },
+  "runs": [
+    {
+      "name": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/io/pre94-3b-after-control-sss.boundaries.test.ts",
+        "src/io/pre94-3b-after-control-msg.boundaries.test.ts",
+        "src/io/pre94-3b-after-control-sss.test.ts",
+        "src/io/pre94-3b-after-control-msg.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3b-report-r89so48v/control.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "passed": 20,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 四条精确（含空条）；末 offset 是末条终点，不另产消息；GBK 双字节轴",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 合法 [0] 单 offset → 零消息",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset越界'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset倒序'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 至少有 1000 条消息(原版规模)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 随便取一条,是字符串",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 包含已知主角名\"逍遥\"出现的对白",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF 非对称 16 字段 EO 逐字段精确；signed（vanishTime/layer/state）与 unsigned 高位分开",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF scene 四字段精确；chunk2 WORD / chunk3 DWORD / chunk4 字节完整",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk+0 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk1 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk2 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk3 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk4 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码 chunk 非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码长度是 8 的倍数(每指令 8 字节)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个场景",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个事件对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 消息偏移表非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss chunk 0 长度是 EventObject 整数倍(struct size 验证)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": null,
+      "copySha256": {
+        "packages/pal-extract/src/io/pre94-3b-after-control-sss.boundaries.test.ts": "8c0beace34fb5233805f291a9a86269690a4588149d376adb91094496bb4b215",
+        "packages/pal-extract/src/io/pre94-3b-after-control-msg.boundaries.test.ts": "fcdce8e656c2fb289e79a5f0181043885304111de80e0d36d3eb18bc5e41721f",
+        "packages/pal-extract/src/io/pre94-3b-after-control-sss.test.ts": "19d5d8cd80f2e1026d5a7b52da708e7b1051539d5afe1bffc69f0e0bc0816deb",
+        "packages/pal-extract/src/io/pre94-3b-after-control-msg.test.ts": "73c14c910142e6a1a068413d035855735fbb7a1cb9804a55ac44a6763bb815f0"
+      },
+      "rawSha256": "9685c92824fb104f3562f44cf5c60ff926ae53367ede1c5b7b00a1e072dc8f17",
+      "runnerSha256": "f40c530f2f21c0dff1aefe15bbcdaf2bf2ef550d71bf235f26c4839382df45bb",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "prefix-ownership",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/io/pre94-3b-after-prefix-ownership-sss.boundaries.test.ts",
+        "src/io/pre94-3b-after-prefix-ownership-msg.boundaries.test.ts",
+        "src/io/pre94-3b-after-prefix-ownership-sss.test.ts",
+        "src/io/pre94-3b-after-prefix-ownership-msg.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3b-report-r89so48v/prefix-ownership.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 四条精确（含空条）；末 offset 是末条终点，不另产消息；GBK 双字节轴",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 合法 [0] 单 offset → 零消息",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset越界'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset倒序'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 至少有 1000 条消息(原版规模)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 随便取一条,是字符串",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 包含已知主角名\"逍遥\"出现的对白",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF 非对称 16 字段 EO 逐字段精确；signed（vanishTime/layer/state）与 unsigned 高位分开",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected Uint8Array[ 0, 0, 0, 24, 0, 0, 0, …(79) ] to deeply equal Uint8Array[ 238, 238, 238, 24, 0, …(167) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/io/pre94-3b-after-prefix-ownership-sss.boundaries.test.ts:68:21\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF scene 四字段精确；chunk2 WORD / chunk3 DWORD / chunk4 字节完整",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk+0 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk1 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk2 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk3 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk4 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码 chunk 非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码长度是 8 的倍数(每指令 8 字节)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个场景",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个事件对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 消息偏移表非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss chunk 0 长度是 EventObject 整数倍(struct size 验证)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "58e0a960bcc3411f6c05c6f8e30d5c245a867cb18b2a13294de307186c7a25ac",
+      "copySha256": {
+        "packages/pal-extract/src/io/pre94-3b-after-prefix-ownership-sss.boundaries.test.ts": "e7f32d6fee152c147974f801586f1389dba1cb9efbd9d89cb747fe5b5f5dd3ea",
+        "packages/pal-extract/src/io/pre94-3b-after-prefix-ownership-msg.boundaries.test.ts": "fcdce8e656c2fb289e79a5f0181043885304111de80e0d36d3eb18bc5e41721f",
+        "packages/pal-extract/src/io/pre94-3b-after-prefix-ownership-sss.test.ts": "5e81021ccf019c825ae994a2da5d2ff6ab05033e01acc2c43ba9c365d950ced7",
+        "packages/pal-extract/src/io/pre94-3b-after-prefix-ownership-msg.test.ts": "0198b6871ff85f69385bf81d7960732c5d1d964a596b5ff52f4610ebf5c91fe0"
+      },
+      "rawSha256": "7840ac608aca3b56b24c6d880104c0e252af733ba0af17b39d55457494c163aa",
+      "runnerSha256": "a8a1a51ce60728fa6ef710fcce941a61892899e7ce5cb6cbc2e485cebdad96d5",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "suffix-ownership",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/io/pre94-3b-after-suffix-ownership-sss.boundaries.test.ts",
+        "src/io/pre94-3b-after-suffix-ownership-msg.boundaries.test.ts",
+        "src/io/pre94-3b-after-suffix-ownership-sss.test.ts",
+        "src/io/pre94-3b-after-suffix-ownership-msg.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3b-report-r89so48v/suffix-ownership.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 四条精确（含空条）；末 offset 是末条终点，不另产消息；GBK 双字节轴",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 合法 [0] 单 offset → 零消息",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset越界'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset倒序'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 至少有 1000 条消息(原版规模)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 随便取一条,是字符串",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 包含已知主角名\"逍遥\"出现的对白",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF 非对称 16 字段 EO 逐字段精确；signed（vanishTime/layer/state）与 unsigned 高位分开",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected Uint8Array[ 238, 238, 238, 24, 0, …(167) ] to deeply equal Uint8Array[ 238, 238, 238, 24, 0, …(167) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/io/pre94-3b-after-suffix-ownership-sss.boundaries.test.ts:68:21\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF scene 四字段精确；chunk2 WORD / chunk3 DWORD / chunk4 字节完整",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk+0 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk1 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk2 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk3 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk4 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码 chunk 非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码长度是 8 的倍数(每指令 8 字节)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个场景",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个事件对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 消息偏移表非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss chunk 0 长度是 EventObject 整数倍(struct size 验证)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "cc21b7e5f19425a6a06790934c65b5c44d8e9832eebfbe3894de9e2698484ec0",
+      "copySha256": {
+        "packages/pal-extract/src/io/pre94-3b-after-suffix-ownership-sss.boundaries.test.ts": "86387c226cc06585402fc9c539c52ad310a5b559a02f0c8104854e35a5148277",
+        "packages/pal-extract/src/io/pre94-3b-after-suffix-ownership-msg.boundaries.test.ts": "fcdce8e656c2fb289e79a5f0181043885304111de80e0d36d3eb18bc5e41721f",
+        "packages/pal-extract/src/io/pre94-3b-after-suffix-ownership-sss.test.ts": "034ad401e620160209758d8ed1dac15795eedae78b3e503c32f5ae27c6bf48ee",
+        "packages/pal-extract/src/io/pre94-3b-after-suffix-ownership-msg.test.ts": "2bbf756b10ffed40d7a6b49066808be9ba3bf313803f5ee2eec0e1588d477b53"
+      },
+      "rawSha256": "f9b60933effabd20621d15cd9dc344fd7c1785107580598110f3faf040d9b54c",
+      "runnerSha256": "5b8b0b8341c139ef84274137c91c0d142c830574907fdcba1100731113c8ac58",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "second-eo-field",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/io/pre94-3b-after-second-eo-field-sss.boundaries.test.ts",
+        "src/io/pre94-3b-after-second-eo-field-msg.boundaries.test.ts",
+        "src/io/pre94-3b-after-second-eo-field-sss.test.ts",
+        "src/io/pre94-3b-after-second-eo-field-msg.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3b-report-r89so48v/second-eo-field.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 四条精确（含空条）；末 offset 是末条终点，不另产消息；GBK 双字节轴",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 合法 [0] 单 offset → 零消息",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset越界'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset倒序'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 至少有 1000 条消息(原版规模)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 随便取一条,是字符串",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 包含已知主角名\"逍遥\"出现的对白",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF 非对称 16 字段 EO 逐字段精确；signed（vanishTime/layer/state）与 unsigned 高位分开",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { vanishTime: -32768, …(16) }, …(1) ] to strictly equal [ { vanishTime: -32768, …(16) }, …(1) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/io/pre94-3b-after-second-eo-field-sss.boundaries.test.ts:23:30\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF scene 四字段精确；chunk2 WORD / chunk3 DWORD / chunk4 字节完整",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk+0 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk1 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk2 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk3 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk4 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码 chunk 非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码长度是 8 的倍数(每指令 8 字节)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个场景",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个事件对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 消息偏移表非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss chunk 0 长度是 EventObject 整数倍(struct size 验证)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "313714cfc66996970a7c6c946f503a7a4232b2ca385c2ec392cc0407d2d993cf",
+      "copySha256": {
+        "packages/pal-extract/src/io/pre94-3b-after-second-eo-field-sss.boundaries.test.ts": "16b2377825a8fc0873c2e8541691ac5069236850081ec532b3763cd35f12ba9a",
+        "packages/pal-extract/src/io/pre94-3b-after-second-eo-field-msg.boundaries.test.ts": "fcdce8e656c2fb289e79a5f0181043885304111de80e0d36d3eb18bc5e41721f",
+        "packages/pal-extract/src/io/pre94-3b-after-second-eo-field-sss.test.ts": "c045bdb9bc5bf1ce1d89c1acb790c230d648943db3c750e27a61144faf6363dd",
+        "packages/pal-extract/src/io/pre94-3b-after-second-eo-field-msg.test.ts": "462cbf773f3931426cc09ac553b9a2ea0a7029668911b9334198610fc331b231"
+      },
+      "rawSha256": "ebf880902cf7edbb3bf19dc4247d97c0161a3b9bcc3063781c79865616e6ec36",
+      "runnerSha256": "aeacc0476f1bc0537dee4cbeb3d7f47100bf2a93e7a629428cc3b83a959a3a97",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "second-scene-field",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/io/pre94-3b-after-second-scene-field-sss.boundaries.test.ts",
+        "src/io/pre94-3b-after-second-scene-field-msg.boundaries.test.ts",
+        "src/io/pre94-3b-after-second-scene-field-sss.test.ts",
+        "src/io/pre94-3b-after-second-scene-field-msg.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3b-report-r89so48v/second-scene-field.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 四条精确（含空条）；末 offset 是末条终点，不另产消息；GBK 双字节轴",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 合法 [0] 单 offset → 零消息",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset越界'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset倒序'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 至少有 1000 条消息(原版规模)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 随便取一条,是字符串",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 包含已知主角名\"逍遥\"出现的对白",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF 非对称 16 字段 EO 逐字段精确；signed（vanishTime/layer/state）与 unsigned 高位分开",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF scene 四字段精确；chunk2 WORD / chunk3 DWORD / chunk4 字节完整",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected [ { mapNum: 258, …(4) }, …(1) ] to strictly equal [ { mapNum: 258, …(4) }, …(1) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/io/pre94-3b-after-second-scene-field-sss.boundaries.test.ts:73:24\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk+0 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk1 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk2 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk3 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk4 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码 chunk 非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码长度是 8 的倍数(每指令 8 字节)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个场景",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个事件对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 消息偏移表非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss chunk 0 长度是 EventObject 整数倍(struct size 验证)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "1d71f3691101d0c46b37dbc4e315ba6462c77874f4ef29616cade28977d7e5ae",
+      "copySha256": {
+        "packages/pal-extract/src/io/pre94-3b-after-second-scene-field-sss.boundaries.test.ts": "703e59e7f2236afb891c551fe6a0a663bb1d39e189e59b3568d210c660078320",
+        "packages/pal-extract/src/io/pre94-3b-after-second-scene-field-msg.boundaries.test.ts": "fcdce8e656c2fb289e79a5f0181043885304111de80e0d36d3eb18bc5e41721f",
+        "packages/pal-extract/src/io/pre94-3b-after-second-scene-field-sss.test.ts": "88717c13128c05a8e0e0b7219839ed4b450c441db8109afb1273ad548d6041a1",
+        "packages/pal-extract/src/io/pre94-3b-after-second-scene-field-msg.test.ts": "91337f1a95cec6249328c94eabd571911f7e8262d71fe40a3a40a14321cc1650"
+      },
+      "rawSha256": "cc775e01b20b17aa67cd26c8418242b78eaab2c6084f2c4fb0d145d51d2f8367",
+      "runnerSha256": "80a941dd39fda5a3207b5228527df57a9c3cd10c55b08f30a1b53c39130a069a",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "message-ownership",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/io/pre94-3b-after-message-ownership-sss.boundaries.test.ts",
+        "src/io/pre94-3b-after-message-ownership-msg.boundaries.test.ts",
+        "src/io/pre94-3b-after-message-ownership-sss.test.ts",
+        "src/io/pre94-3b-after-message-ownership-msg.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3b-report-r89so48v/message-ownership.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 四条精确（含空条）；末 offset 是末条终点，不另产消息；GBK 双字节轴",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected Uint8Array[ 1, 2, 3, 4, 0, 0, 0, …(29) ] to deeply equal Uint8Array[ 1, 2, 3, 4, 188, 215, …(-181) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/io/pre94-3b-after-message-ownership-msg.boundaries.test.ts:29:25\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 合法 [0] 单 offset → 零消息",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset越界'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset倒序'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 至少有 1000 条消息(原版规模)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 随便取一条,是字符串",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 包含已知主角名\"逍遥\"出现的对白",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF 非对称 16 字段 EO 逐字段精确；signed（vanishTime/layer/state）与 unsigned 高位分开",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF scene 四字段精确；chunk2 WORD / chunk3 DWORD / chunk4 字节完整",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk+0 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk1 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk2 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk3 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk4 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码 chunk 非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码长度是 8 的倍数(每指令 8 字节)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个场景",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个事件对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 消息偏移表非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss chunk 0 长度是 EventObject 整数倍(struct size 验证)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "8073dcaa8b1560f1b3420de11ce43d144aa4fc4fef4e5a71fb3f965c6e1fe020",
+      "copySha256": {
+        "packages/pal-extract/src/io/pre94-3b-after-message-ownership-sss.boundaries.test.ts": "8c0beace34fb5233805f291a9a86269690a4588149d376adb91094496bb4b215",
+        "packages/pal-extract/src/io/pre94-3b-after-message-ownership-msg.boundaries.test.ts": "39867d5a22bb5609b3d8f2991e62e9183bb887671c3346189f7f1a6557c4cebb",
+        "packages/pal-extract/src/io/pre94-3b-after-message-ownership-sss.test.ts": "19d5d8cd80f2e1026d5a7b52da708e7b1051539d5afe1bffc69f0e0bc0816deb",
+        "packages/pal-extract/src/io/pre94-3b-after-message-ownership-msg.test.ts": "865aea36bf73617d0f8ee5ed5d4f96f749b322b1b33af15d4725977686a4fc71"
+      },
+      "rawSha256": "fd0a915799ea4509538e06698d92abd7162a896a4fdac7e11bc6fbe1c2d42ef7",
+      "runnerSha256": "91da4fc28b9c73f2010811fffb25d0539f4c091b23bc9d51ce51320af88c1cf2",
+      "stderrBlocks": 0
+    },
+    {
+      "name": "offsets-ownership",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/io/pre94-3b-after-offsets-ownership-sss.boundaries.test.ts",
+        "src/io/pre94-3b-after-offsets-ownership-msg.boundaries.test.ts",
+        "src/io/pre94-3b-after-offsets-ownership-sss.test.ts",
+        "src/io/pre94-3b-after-offsets-ownership-msg.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3b-report-r89so48v/offsets-ownership.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 四条精确（含空条）；末 offset 是末条终点，不另产消息；GBK 双字节轴",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected Uint8Array[ 167, 167, 167, 167, …(-134) ] to deeply equal Uint8Array[ 167, 167, 167, 167, …(-134) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract/src/io/pre94-3b-after-offsets-ownership-msg.boundaries.test.ts:30:27\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 合法 [0] 单 offset → 零消息",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset越界'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.boundaries.test.ts",
+          "fullName": "P03 parseMessages 已知字节切片 'offset倒序'：显式失败并指出实际索引和值",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 至少有 1000 条消息(原版规模)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 随便取一条,是字符串",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "msg.test.ts",
+          "fullName": "parseMessages 包含已知主角名\"逍遥\"出现的对白",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF 非对称 16 字段 EO 逐字段精确；signed（vanishTime/layer/state）与 unsigned 高位分开",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF scene 四字段精确；chunk2 WORD / chunk3 DWORD / chunk4 字节完整",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk+0 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk1 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk2 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk3 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.boundaries.test.ts",
+          "fullName": "P01 parseSss 合成 5-chunk MKF chunk4 非结构对齐：其余chunk合法，错误定位当前chunk",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码 chunk 非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 字节码长度是 8 的倍数(每指令 8 字节)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个场景",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 至少有 1 个事件对象",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss 消息偏移表非空",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sss.test.ts",
+          "fullName": "parseSss chunk 0 长度是 EventObject 整数倍(struct size 验证)",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "moduleSha256": "4a045f2fd17e31846adf82b81732a8c491b7dcddd129effebe88dc1a73062125",
+      "copySha256": {
+        "packages/pal-extract/src/io/pre94-3b-after-offsets-ownership-sss.boundaries.test.ts": "8c0beace34fb5233805f291a9a86269690a4588149d376adb91094496bb4b215",
+        "packages/pal-extract/src/io/pre94-3b-after-offsets-ownership-msg.boundaries.test.ts": "06f71b0f7784e5e848f1bb5c8739f3a4914979a59a9659ee2d0de972107aae44",
+        "packages/pal-extract/src/io/pre94-3b-after-offsets-ownership-sss.test.ts": "19d5d8cd80f2e1026d5a7b52da708e7b1051539d5afe1bffc69f0e0bc0816deb",
+        "packages/pal-extract/src/io/pre94-3b-after-offsets-ownership-msg.test.ts": "8c3fdc82cccfbdefaa3d6a9e06e81e0e235112decf069c48a4b7e5dfef15ef01"
+      },
+      "rawSha256": "a95063c12e30b65f3cd529d1608e1f63a5dffc983a6643a6ba027249fae12fdf",
+      "runnerSha256": "d03be031024dfe16fab9bbeb8822ba96dd02cfcbae61f55852b30a77978f7fc3",
+      "stderrBlocks": 0
+    }
+  ],
+  "sourcesUnchanged": true,
+  "testsUnchanged": true,
+  "copiesRemoved": true
+}

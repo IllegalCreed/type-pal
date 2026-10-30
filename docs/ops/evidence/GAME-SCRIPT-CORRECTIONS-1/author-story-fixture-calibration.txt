@@ -1,0 +1,101 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge
+
+ ❯ src/pal-story-corrections.test.ts (6 tests | 6 failed) 11ms
+   × 鬼阴坛告别只演一次，离场回访及正式保存恢复都不重演 7ms
+   × 剑圣离场：实际雇用秀才=true 才能触发随队告别 2ms
+   × 剑圣离场：实际雇用秀才=false 才能触发随队告别 1ms
+   × 桃源林演出阿奴默认不站场，选择剧情入口后在揭场前显示，结束及回访仍隐藏 0ms
+   × 提前交虫 35 只：不足不清场，交足后盖罗娇全队离开且读档不复现 0ms
+   × 提前交虫 36 只：不足不清场，交足后盖罗娇全队离开且读档不复现 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/pal-story-corrections.test.ts > 鬼阴坛告别只演一次，离场回访及正式保存恢复都不重演
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/pal-story-corrections.test.ts:15:28
+     13|   run.enter('s078')
+     14|   run.enter('s077')
+     15|   expect(await run.hook()).toBe(false)
+       |                            ^
+     16|   expect(run.effects).toEqual([])
+     17|   const restored = await run.restore()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  src/pal-story-corrections.test.ts > 剑圣离场：实际雇用秀才=true 才能触发随队告别
+TypeError: Cannot read properties of undefined (reading 's102')
+ ❯ Object.gates src/pal-corrections-harness.ts:33:32
+     31|       staticHidden: definition.hidden, staticCollide: definition.colli…
+     32|       entityState: world.script?.entityState[target.scene]?.[target.en…
+     33|       lifecycle: world.script?.lifecycle[target.scene]?.[target.entity…
+       |                                ^
+     34|     })
+     35|   }
+ ❯ src/pal-story-corrections.test.ts:30:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  src/pal-story-corrections.test.ts > 剑圣离场：实际雇用秀才=false 才能触发随队告别
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/pal-story-corrections.test.ts:28:51
+     26|   run.effects.length = 0
+     27|   await run.activate('e1883')
+     28|   expect(dialogueTexts(run).includes('dlg.5714')).toBe(hired)
+       |                                                   ^
+     29|   expect(run.effects.some((command) => command.kind === 'setFollowers'…
+     30|   expect(run.gates({ scene: 's102', entity: 'e1882' }).visible).toBe(f…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/pal-story-corrections.test.ts > 桃源林演出阿奴默认不站场，选择剧情入口后在揭场前显示，结束及回访仍隐藏
+TypeError: Cannot read properties of undefined (reading 's182')
+ ❯ Object.gates src/pal-corrections-harness.ts:33:32
+     31|       staticHidden: definition.hidden, staticCollide: definition.colli…
+     32|       entityState: world.script?.entityState[target.scene]?.[target.en…
+     33|       lifecycle: world.script?.lifecycle[target.scene]?.[target.entity…
+       |                                ^
+     34|     })
+     35|   }
+ ❯ src/pal-story-corrections.test.ts:36:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  src/pal-story-corrections.test.ts > 提前交虫 35 只：不足不清场，交足后盖罗娇全队离开且读档不复现
+ FAIL  src/pal-story-corrections.test.ts > 提前交虫 36 只：不足不清场，交足后盖罗娇全队离开且读档不复现
+TypeError: Cannot read properties of undefined (reading 's215')
+ ❯ Object.gates src/pal-corrections-harness.ts:33:32
+     31|       staticHidden: definition.hidden, staticCollide: definition.colli…
+     32|       entityState: world.script?.entityState[target.scene]?.[target.en…
+     33|       lifecycle: world.script?.lifecycle[target.scene]?.[target.entity…
+       |                                ^
+     34|     })
+     35|   }
+ ❯ src/pal-story-corrections.test.ts:54:36
+ ❯ src/pal-story-corrections.test.ts:54:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed (6)
+   Start at  15:50:41
+   Duration  2.82s (transform 1.94s, setup 0ms, import 2.74s, tests 11ms, environment 0ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/pal-story-corrections.test.ts --reporter=default

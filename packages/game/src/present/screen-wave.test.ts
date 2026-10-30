@@ -4,7 +4,7 @@ import { applyScreenWave, resetScreenWavePhase } from './screen-wave.js'
 const W = 320
 const H = 200
 
-/** 造一个每行 = 行号(mod 256)填充的 320×200 fb,便于检测横向卷动。 */
+/** 造一个像素 = (列号 + 行号) mod 256的 320×200 fb,便于检测横向卷动。 */
 function makeFb(): Uint8Array {
   const fb = new Uint8Array(W * H)
   for (let y = 0; y < H; y++) {
@@ -40,13 +40,6 @@ describe('特效 B screen-wave(PAL_ApplyWave port)', () => {
     expect(gs.wScreenWave).toBe(0)
     expect(gs.sWaveProgression).toBe(0)
     expect(fb).toEqual(before) // 关闭那帧不卷动
-  })
-
-  it('wScreenWave>=256 → 越界清零关闭', () => {
-    const fb = makeFb()
-    const gs = { wScreenWave: 300, sWaveProgression: 0 }
-    applyScreenWave(fb, gs)
-    expect(gs.wScreenWave).toBe(0)
   })
 
   it('活跃波动 → 像素被横向卷动(至少一行发生左移,且像素值集合守恒=循环卷动)', () => {

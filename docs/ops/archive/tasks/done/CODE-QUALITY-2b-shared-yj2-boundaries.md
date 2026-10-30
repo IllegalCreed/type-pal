@@ -1,5 +1,7 @@
 # CODE-QUALITY-2b - shared YJ2 位流与回引边界
 
+> 2026-10-21当前复审accept：[逐文件八维/有效证据/完整门](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/evidence.json)。复用原native，补归约独立单红与RNG重复精简；shared114/extract18/game31、20386check、official ratchet/protected各19988零诊断。O-5限制与RLE未决保留；下文为历史时点，不继承旧计数或旧门。
+
 Status: done
 Phase: phase1 shared
 Capability: ops / code-quality

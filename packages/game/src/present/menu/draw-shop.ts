@@ -1,6 +1,7 @@
+import { getWord } from '../../core/word-lookup.js'
 /**
- * 商店买 / 卖菜单渲染 — sdlpal `uigame.c:1503 PAL_BuyMenu_OnItemChange` + `uigame.c:1615 PAL_BuyMenu`
- * 1:1 port。
+ * 商店买入绘制与卖出叠层。布局参考 SDLPal PAL_BuyMenu_OnItemChange / PAL_BuyMenu
+ * 和 PAL_SellMenu_OnItemChange;菜单状态转换、交易和完整叠层由各 caller 管理。
  *
  * sdlpal PAL_BuyMenu 真值布局:
  *  - 列表 box: PAL_CreateBox(PAL_XY(122, 8), 8, 8, 1, FALSE)
@@ -12,24 +13,23 @@
  *    - "现有" 单行框@(20,100) len5;label@(30,110) color0 无影;数@(69,115) yellow right 6
  *    - "金钱" 单行框@(20,141) len5;label@(30,151);dwCash@(69,156) yellow right 6
  *
- * 卖菜单(0x0027 PAL_SellMenu)sdlpal 真值复用 fullscreen PAL_ItemSelectMenu;此处用同一紧凑布局
- * 渲染(list=可卖物品,价=售价 price/2),功能等价 — 视觉非 sdlpal fullscreen picker(已向 user 说明)。
+ * 买入入口 drawShopMenu 使用上述紧凑布局。卖出由 drawMenuStack 先画全屏物品网格
+ * (drawInventoryMenu,noDesc=true),再叠 drawSellOverlay 的金钱/售价,最后按 phase 叠确认框。
+ * 卖出不复用买入列表;物品网格保留不可卖项并灰显,确认由 sellSelectItem 检查。
  */
 
 import type { Item } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
 import type { GameState } from '../../core/game-state.js'
+import { MENUITEM_COLOR, selectedMenuItemColor } from '../../core/menu/menu-colors.js'
 import type { ShopMenuState } from '../../core/menu/shop-menu.js'
+import { blitSpriteOpaque } from '../blit-indexed-sprite.js'
 import { drawNumber } from '../draw-number.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawBox, drawSingleLineBox } from './draw-box.js'
 import { drawConfirmBox } from './draw-confirm.js'
 
-// sdlpal ui.h 真值色
-const MENUITEM_COLOR = 0x4f
-const MENUITEM_COLOR_SELECTED_FIRST = 0xf9
-const MENUITEM_COLOR_SELECTED_TOTAL = 6
 const SPRITENUM_ITEMBOX = 70 // ui.h:110
 
 // sdlpal uigame.c PAL_BuyMenu / OnItemChange 真值坐标
@@ -41,22 +41,6 @@ const PREVIEW_ITEMBOX = { x: 40, y: 8 }
 const PREVIEW_ICON = { x: 48, y: 15 }
 const OWNED_BOX = { x: 20, y: 100, len: 5 }
 const CASH_BOX = { x: 20, y: 141, len: 5 }
-
-function selectedColor(): number {
-  return (
-    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
-  )
-}
-
-/** opaque blit(同 draw-inventory)。 */
-function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
-  for (let y = 0; y < frame.height; y++) {
-    for (let x = 0; x < frame.width; x++) {
-      const off = y * frame.width + x
-      if (frame.opaque[off]! > 0) fb.writePixel(dstX + x, dstY + y, frame.indices[off]!)
-    }
-  }
-}
 
 /** shadow blit — palCalcShadowColor(curr)(sdlpal palcommon.c:201)。 */
 function blitSpriteShadow(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
@@ -114,8 +98,8 @@ export function drawShopMenu(input: DrawShopInput): void {
   // 2. 列表项名 + 价(sdlpal uigame.c:1665-1669 价 DrawNumber;PAL_ReadMenu 画名)
   list.items.forEach((it, i) => {
     const y = ITEM_NAME.yBase + i * ITEM_NAME.lineH
-    const color = i === list.cursor ? selectedColor() : MENUITEM_COLOR
-    renderText(fb, it.label, ITEM_NAME.x, y, color, glyphs, true)
+    const color = i === list.cursor ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
+    renderText(fb, getWord(it.id, it.label), ITEM_NAME.x, y, color, glyphs, true)
     const price = Number(it.rightText ?? '0')
     drawNumber(
       fb,
@@ -146,7 +130,7 @@ export function drawShopMenu(input: DrawShopInput): void {
 
   // "现有" 框 + 数(BUYMENU_LABEL_CURRENT=35 WORD.DAT="现有")
   drawSingleLineBox({ fb, x: OWNED_BOX.x, y: OWNED_BOX.y, len: OWNED_BOX.len, uiSpriteFrames })
-  renderText(fb, '现有', OWNED_BOX.x + 10, OWNED_BOX.y + 10, 0, glyphs, false)
+  renderText(fb, getWord(35, '现有'), OWNED_BOX.x + 10, OWNED_BOX.y + 10, 0, glyphs, false)
   const owned = selItem ? ownedCount(gs, selItem.id) : 0
   drawNumber(
     fb,
@@ -160,7 +144,7 @@ export function drawShopMenu(input: DrawShopInput): void {
 
   // "金钱" 框 + dwCash(CASH_LABEL=21 WORD.DAT="金钱")
   drawSingleLineBox({ fb, x: CASH_BOX.x, y: CASH_BOX.y, len: CASH_BOX.len, uiSpriteFrames })
-  renderText(fb, '金钱', CASH_BOX.x + 10, CASH_BOX.y + 10, 0, glyphs, false)
+  renderText(fb, getWord(21, '金钱'), CASH_BOX.x + 10, CASH_BOX.y + 10, 0, glyphs, false)
   drawNumber(
     fb,
     gs.dwCash,
@@ -193,7 +177,7 @@ export interface DrawSellOverlayInput {
   glyphs?: GlyphTable
 }
 
-/** sdlpal `PAL_SellMenu_OnItemChange`(uigame.c:1709-1752)1:1 port。 */
+/** 全屏卖出网格之上的金额叠层,坐标/半价参考 PAL_SellMenu_OnItemChange;不执行交易。 */
 export function drawSellOverlay(input: DrawSellOverlayInput): void {
   const { fb, gs, items, cursorItemId, uiSpriteFrames, glyphs } = input
 
@@ -205,7 +189,7 @@ export function drawSellOverlay(input: DrawSellOverlayInput): void {
     len: SELL_CASH_BOX.len,
     uiSpriteFrames,
   })
-  renderText(fb, '金钱', SELL_CASH_BOX.x + 10, SELL_CASH_BOX.y + 10, 0, glyphs, false)
+  renderText(fb, getWord(21, '金钱'), SELL_CASH_BOX.x + 10, SELL_CASH_BOX.y + 10, 0, glyphs, false)
   drawNumber(
     fb,
     gs.dwCash,
@@ -226,7 +210,15 @@ export function drawSellOverlay(input: DrawSellOverlayInput): void {
   })
   const item = cursorItemId !== undefined ? items.find((it) => it.id === cursorItemId) : undefined
   if (item?.flags.sellable) {
-    renderText(fb, '售价', SELL_PRICE_BOX.x + 10, SELL_PRICE_BOX.y + 10, 0, glyphs, false)
+    renderText(
+      fb,
+      getWord(25, '售价'),
+      SELL_PRICE_BOX.x + 10,
+      SELL_PRICE_BOX.y + 10,
+      0,
+      glyphs,
+      false,
+    )
     drawNumber(
       fb,
       Math.floor(item.price / 2),

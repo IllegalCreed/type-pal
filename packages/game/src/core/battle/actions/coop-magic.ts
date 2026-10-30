@@ -29,6 +29,7 @@ import {
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import { applyMagicDamage, magicForcesAllTarget, resolveObjectMagic } from '../magic-damage.js'
+import { isPlayerHealthy } from '../player-condition.js'
 import type { ActionQueueItem } from '../turn-queue.js'
 import { performAttack } from './attack.js'
 
@@ -80,32 +81,6 @@ function asShort(n: number): number {
   return (n << 16) >> 16
 }
 
-/** sdlpal `PAL_IsPlayerDying`(fight.c:29-48):hp < min(100, maxHP/5)。 */
-function isDying(role: { hp: number; maxHP: number }): boolean {
-  return role.hp > 0 && role.hp < Math.min(100, Math.floor(role.maxHP / 5))
-}
-
-/** sdlpal `PAL_IsPlayerHealthy`(fight.c:69-76):非濒死 + 无 sleep/confused/silence/paralyzed/puppet。 */
-function isHealthy(
-  role: { hp: number; maxHP: number },
-  status: {
-    sleep?: number
-    confused?: number
-    silence?: number
-    paralyzed?: number
-    puppet?: number
-  },
-): boolean {
-  if (role.hp <= 0 || isDying(role)) return false
-  return (
-    (status.sleep ?? 0) === 0 &&
-    (status.confused ?? 0) === 0 &&
-    (status.silence ?? 0) === 0 &&
-    (status.paralyzed ?? 0) === 0 &&
-    (status.puppet ?? 0) === 0
-  )
-}
-
 export function performCoopMagic(input: PerformCoopMagicInput): void {
   const {
     state,
@@ -133,7 +108,7 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
   const contributors: number[] = []
   state.players.forEach((p, i) => {
     const role = playerRoles.roles[p.roleId]
-    if (role && isHealthy(role, p.status)) contributors.push(i)
+    if (role && isPlayerHealthy(role, p.status)) contributors.push(i)
   })
   // healthy <= 1 → sdlpal 退化普通攻击(fight.c:3374-3378),不是静默 no-op。
   if (contributors.length <= 1) {

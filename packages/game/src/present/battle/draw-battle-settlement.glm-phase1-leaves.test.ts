@@ -1,10 +1,7 @@
 /**
- * TEST-GLM-PHASE1-LEAVES-3 L15（draw-battle-settlement.ts）— 去重表：
- *  - draw-battle-settlement.test（hiddenExpUpNumberX 公式 191/单行公式差）→ 不重复
- *  - present-battle.test 结算屏（box+数字"有写入"松断言、BattlePresent 端到端）→ 不重复
- *  - 新差异：drawBattleSettlement 直调的精确像素——exp-cash 双单行框+exp 右对齐/cash 中对齐
- *    数字、level-up 8 行 old→cur 数字+slash+箭头+0xBB 标签色+标题、hidden-exp-up 词表拼字+
- *    涨点数 x=191、learn-magic ww 偏移+magicName 0x1B 色。
+ * 结算四类屏的直接像素合同；宿主接线另见 present-battle.test。
+ * 长名字 ww=16 和缺帧策略见 G08-C；本文件短名字 ww=0。
+ * 微型字体/图块仅验证布局与颜色协议，不代替原盘视觉验收。
  */
 import { describe, expect, it } from 'vitest'
 import {
@@ -13,13 +10,12 @@ import {
   makeUiFrames,
   newFb,
   pixel,
-  rightDigitX,
   textDot,
   yellowDigit,
 } from '../../__tests__/glm-phase1-leaves/present-fixtures.js'
 import type { LevelUpScreenData } from '../../core/battle/battle-settlement.js'
 import { setWordTable } from '../../core/word-lookup.js'
-import { drawBattleSettlement, hiddenExpUpNumberX } from './draw-battle-settlement.js'
+import { drawBattleSettlement } from './draw-battle-settlement.js'
 
 const glyphs = fixtureGlyphs
 
@@ -54,9 +50,9 @@ describe('L15 drawBattleSettlement 精确像素', () => {
       restore()
     }
     // exp 120 → 个位 0/十位 2/百位 1（右对齐）
-    expect(pixel(fb, rightDigitX(182, 5, 0), 74)).toBe(yellowDigit(0))
-    expect(pixel(fb, rightDigitX(182, 5, 1), 74)).toBe(yellowDigit(2))
-    expect(pixel(fb, rightDigitX(182, 5, 2), 74)).toBe(yellowDigit(1))
+    expect(pixel(fb, 206, 74)).toBe(yellowDigit(0))
+    expect(pixel(fb, 200, 74)).toBe(yellowDigit(2))
+    expect(pixel(fb, 194, 74)).toBe(yellowDigit(1))
     // cash 7 中对齐：midOnesX(162,5,1)=162-6+3*(5+1)=174
     expect(pixel(fb, 174, 119)).toBe(yellowDigit(7))
     // 两个单行框内部 style0
@@ -77,36 +73,49 @@ describe('L15 drawBattleSettlement 精确像素', () => {
     } finally {
       restore()
     }
-    // Level old 4 → cur 5（y=47）
-    expect(pixel(fb, rightDigitX(133, 4, 0), 47)).toBe(yellowDigit(4))
-    expect(pixel(fb, rightDigitX(195, 4, 0), 47)).toBe(yellowDigit(5))
-    // HP old 41（y=64）/ oldMax 58 蓝（154,68）/ cur 88（195,64）/ curMax 105 蓝（216,68）
-    expect(pixel(fb, rightDigitX(133, 4, 0), 64)).toBe(yellowDigit(1))
-    expect(pixel(fb, rightDigitX(154, 4, 1), 68)).toBe(0xd5)
-    expect(pixel(fb, rightDigitX(195, 4, 0), 64)).toBe(yellowDigit(8))
-    expect(pixel(fb, rightDigitX(216, 4, 2), 68)).toBe(0xd1)
-    // slash 精灵 39 at (156,66)/(218,66)
-    expect(pixel(fb, 156, 66)).toBe(0x39)
-    expect(pixel(fb, 218, 66)).toBe(0x39)
-    // flee cur 9（195,173）
-    expect(pixel(fb, rightDigitX(195, 4, 0), 173)).toBe(yellowDigit(9))
-    // 8 个箭头 sprite 47 at (180, 48+18j)
-    expect(pixel(fb, 180, 48)).toBe(0x47)
-    expect(pixel(fb, 180, 48 + 18 * 7)).toBe(0x47)
-    // 标签 tofu 顶行首像素 = 0xBB（100,44+18j）
-    expect(pixel(fb, 100, 44)).toBe(0xbb)
+    // 固定期望来自本例输入和已核 SDLPal 行位；不调用产品数字/行表计算 oracle。
+    for (const [y, oldOnes, curOnes] of [
+      [47, 4, 5],
+      [64, 1, 8],
+      [82, 2, 5],
+      [101, 0, 3],
+      [119, 0, 4],
+      [137, 0, 2],
+      [155, 8, 1],
+      [173, 7, 9],
+    ]) {
+      expect(pixel(fb, 151, y!)).toBe(yellowDigit(oldOnes!))
+      expect(pixel(fb, 213, y!)).toBe(yellowDigit(curOnes!))
+    }
+    // HP 最大值58/105，MP最大值34/66，各位与两对斜杠独立辨识。
+    for (const [x, y, color] of [
+      [166, 68, 0xd5],
+      [172, 68, 0xd8],
+      [222, 68, 0xd1],
+      [228, 68, 0xd0],
+      [234, 68, 0xd5],
+      [166, 86, 0xd3],
+      [172, 86, 0xd4],
+      [228, 86, 0xd6],
+      [234, 86, 0xd6],
+      [156, 66, 0x39],
+      [218, 66, 0x39],
+      [156, 84, 0x39],
+      [218, 84, 0x39],
+    ])
+      expect(pixel(fb, x!, y!)).toBe(color)
+    for (const y of [48, 66, 84, 102, 120, 138, 156, 174]) expect(pixel(fb, 180, y)).toBe(0x47)
+    for (const y of [44, 62, 80, 98, 116, 134, 152, 170]) expect(pixel(fb, 100, y)).toBe(0xbb)
     // 标题「甲修行提升」第 1 字 = fixture 甲（色 0 无影）at (110+16+4, 10+4)
     expect(pixel(fb, textDot('甲修行提升', 0, 110, 10).x, 14)).toBe(0)
   })
 
-  it('hidden-exp-up：词表拼 名字+属性+提升，涨点数 x=191（仙剑 maxName=3/maxProp=1）', () => {
+  it('hidden-exp-up：单字词表的涨点数 x=167，名字与属性相贴', () => {
     const flat: string[] = []
     for (let id = 36; id <= 41; id++) flat[id] = '甲' // 6 角色名各 1 全宽 → maxName=1
     for (let id = 48; id <= 55; id++) flat[id] = '乙' // 8 标签各 1 → maxProp=1-1=0
     setWordTable(flat)
     try {
-      // 公式交叉验证：183 + (1+0-3)*8 = 167
-      expect(hiddenExpUpNumberX(1, 0)).toBe(167)
       const fb = newFb()
       const restore = freezeNow(0)
       try {
@@ -123,8 +132,8 @@ describe('L15 drawBattleSettlement 精确像素', () => {
         restore()
       }
       // delta 12 → 个位 2/十位 1 at rightDigitX(167,5,·), y=74
-      expect(pixel(fb, rightDigitX(167, 5, 0), 74)).toBe(yellowDigit(2))
-      expect(pixel(fb, rightDigitX(167, 5, 1), 74)).toBe(yellowDigit(1))
+      expect(pixel(fb, 191, 74)).toBe(yellowDigit(2))
+      expect(pixel(fb, 185, 74)).toBe(yellowDigit(1))
       // 名字「甲」at (90,70) 色 0；属性标签「乙」紧贴 nameW=1 → x=106
       expect(pixel(fb, textDot('甲', 0, 90, 70).x, 74)).toBe(0)
       expect(pixel(fb, textDot('乙', 0, 106, 70).x, 74)).toBe(0)
@@ -133,7 +142,7 @@ describe('L15 drawBattleSettlement 精确像素', () => {
     }
   })
 
-  it('learn-magic：ww 偏移随字宽收窄框，magicName 色 0x1B', () => {
+  it('learn-magic：短名字 ww=0，magicName 色 0x1B', () => {
     const fb = newFb()
     const restore = freezeNow(0)
     try {

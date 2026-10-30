@@ -1,0 +1,68 @@
+{
+  "base": "298136f19c9b5acb51867a5d96275fe5438c06a7",
+  "owner": "Codex single agent",
+  "rows": [
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "6fe1be286a934a364e48bd19907b44c6fb5df19aa54538fd8d2954084a3bad94",
+      "lines": 919,
+      "ranges": [[1, 919]],
+      "fullRead": true,
+      "snapshot": "read-0.source.gz"
+    },
+    {
+      "path": "packages/pal-extract/src/output-boundary.ts",
+      "sha256": "2b7f92f1d5713dd9d1753c14917dca80582add06f304712be857d1cc4e6a0bdd",
+      "lines": 25,
+      "ranges": [[1, 25]],
+      "fullRead": true,
+      "snapshot": "read-1.source.gz"
+    },
+    {
+      "path": "packages/pal-extract/scripts/extract-videos.ts",
+      "sha256": "0c149a276bca4fe592142ddfeef06c2268c1642e03dcf05883f5292cbbc22218",
+      "lines": 136,
+      "ranges": [[1, 136]],
+      "fullRead": true,
+      "snapshot": "read-2.source.gz"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-entrypoint-paths.test.ts",
+      "sha256": "d28da7569253ba4964d6708e41ffb3fb6b8f8e36156d9bfb2ab016be86e6d5c5",
+      "lines": 191,
+      "ranges": [[1, 191]],
+      "fullRead": true,
+      "snapshot": "read-3.source.gz"
+    },
+    {
+      "path": "packages/pal-extract/src/output-boundary.test.ts",
+      "sha256": "4436cc36f607c0a88bb0931bf036c710903100b5be3a47c57de093c0f33c750c",
+      "lines": 50,
+      "ranges": [[1, 50]],
+      "fullRead": true,
+      "snapshot": "read-4.source.gz"
+    },
+    {
+      "path": "packages/pal-extract/package.json",
+      "sha256": "95ee7652070927b0af6014f8bb41af2985f7d869a65b96ea7aca510be6cd2277",
+      "lines": 23,
+      "ranges": [[1, 23]],
+      "fullRead": true,
+      "snapshot": "read-5.source.gz"
+    },
+    {
+      "path": "packages/pal-extract/tsconfig.json",
+      "sha256": "c495913f16faed5087b5f04fdf57ea15147633743e2c2b0f4352383a2453ac1b",
+      "lines": 10,
+      "ranges": [[1, 10]],
+      "fullRead": true,
+      "snapshot": "read-6.source.gz"
+    }
+  ],
+  "adjacentReadCredit": "cli-error-exits caller/setup and case tail read, unchanged; other neighboring files only exercised, no full-file acceptance.",
+  "primary": [
+    "https://nodejs.org/docs/latest-v22.x/api/fs.html#fsrealpathsyncpath-options",
+    "https://nodejs.org/docs/latest-v22.x/api/fs.html#fslstatsyncpath-options"
+  ],
+  "limits": "Phase1 tool output/entry ownership only, no SDLPal mechanism, original codec, save/schema or phase2 change."
+}

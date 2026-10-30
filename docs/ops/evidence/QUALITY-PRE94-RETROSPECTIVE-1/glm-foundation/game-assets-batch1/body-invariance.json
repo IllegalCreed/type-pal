@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "base": "4a0030bce045eff8a686556a9f3e91330471a1d8",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/assets/loader.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "b85ba71e897a608c296c54bae9710229b594e82d816dcad9fe745361966baa61",
+        "current": "b85ba71e897a608c296c54bae9710229b594e82d816dcad9fe745361966baa61"
+      },
+      "printedBytes": {
+        "base": 12892,
+        "current": 12892
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/assets/dialog-assets.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "eb2c47bef3f0a1aa0577ca1744e6dd75e6d74ebaaa23db3028492962115bb685",
+        "current": "eb2c47bef3f0a1aa0577ca1744e6dd75e6d74ebaaa23db3028492962115bb685"
+      },
+      "printedBytes": {
+        "base": 3118,
+        "current": 3118
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/assets/tileset-blob.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "b97a9814a91b70dfe98cb934e3b09fe27e146bcbde67e8749221e23bcab8468f",
+        "current": "b97a9814a91b70dfe98cb934e3b09fe27e146bcbde67e8749221e23bcab8468f"
+      },
+      "printedBytes": {
+        "base": 2916,
+        "current": 2916
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

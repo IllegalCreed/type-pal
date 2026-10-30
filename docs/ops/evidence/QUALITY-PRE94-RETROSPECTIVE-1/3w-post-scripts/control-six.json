@@ -1,0 +1,195 @@
+{
+  "base": "599d35717d8a5213802f76535eb14ba187f709e5",
+  "owner": "Codex single agent",
+  "scope": "Exact copied game/src plus actual dependencies, whole unfiltered test file per experiment. Product worktree sources never mutated; no new git branch/worktree. Shared dependency sources unchanged.",
+  "controls": [
+    {
+      "id": "r2-terminated-resumes-as-fled",
+      "source": "packages/game/src/core/battle/battle-opcodes.ts",
+      "spec": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sourceSha256": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66",
+      "mutantSha256": "20e6ac825cf441f78bc4144aa778dca044c7a1fdbfa55b75278104462dd2e3cf",
+      "expectedOldCount": 8,
+      "expectedCurrentCount": 13,
+      "expectedNewFailureNameContains": "result=+0不跑",
+      "runs": {
+        "old": {
+          "command": [
+            "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+            "run",
+            "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/r2-terminated-resumes-as-fled.old.json"
+          ],
+          "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game",
+          "startedAt": "2026-10-18T06:43:59.657776+00:00",
+          "completedAt": "2026-10-18T06:44:00.891812+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "specSha256": "ee5a5f2ac3a1f2cf8a7da6ee90ba797f0add0ea4944633992b05cb7a022adc56",
+          "raw": "r2-terminated-resumes-as-fled.old.raw.gz",
+          "rawBytes": 1896,
+          "rawSha256": "1eb4792e085da6dbd48669306bc652df1b9c19f11186f441b195b14427158cc3",
+          "fullUncutMergedStdoutStderr": true,
+          "nativeReport": "r2-terminated-resumes-as-fled.old.vitest.json.gz",
+          "nativeSha256": "a05965cb8fc181473211508c552682a20d7492682482580b7bc40e022ccd88cf",
+          "cases": [
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "won首tick的结算装配 先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "won首tick的结算装配 按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "逐屏输入与时间边界 每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "逐屏输入与时间边界 isBoss=false:超时前一tick不翻页,下一tick翻页并清stall",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "逐屏输入与时间边界 isBoss=true:超时前一tick不翻页,下一tick翻页并清stall",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "Phase E→对话→恢复与释放 真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "Phase E→对话→恢复与释放 无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放",
+              "status": "passed"
+            }
+          ],
+          "mirrorSourceRestoredSha256": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66",
+          "mirrorSpecRestoredSha256": "f350fd812860e5f570d278c64db8ddbd8435327a6b8c994b901893b2cab7ed3e",
+          "mirrorRestoredByteForByte": true,
+          "canonicalSourcesUnchanged": true
+        },
+        "current": {
+          "command": [
+            "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+            "run",
+            "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/r2-terminated-resumes-as-fled.current.json"
+          ],
+          "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game",
+          "startedAt": "2026-10-18T06:44:00.892502+00:00",
+          "completedAt": "2026-10-18T06:44:01.887500+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "specSha256": "f350fd812860e5f570d278c64db8ddbd8435327a6b8c994b901893b2cab7ed3e",
+          "raw": "r2-terminated-resumes-as-fled.current.raw.gz",
+          "rawBytes": 3921,
+          "rawSha256": "e671082275f821937e5732d32c277fa3914e1bebc176d2be64062c9debb4004b",
+          "fullUncutMergedStdoutStderr": true,
+          "nativeReport": "r2-terminated-resumes-as-fled.current.vitest.json.gz",
+          "nativeSha256": "53c809eae1927c3b1c58baaba6dd69bf19a0df2768ada63676dc564a2c53229d",
+          "cases": [
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "won首tick的结算装配 先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "won首tick的结算装配 按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "逐屏输入与时间边界 每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "逐屏输入与时间边界 isBoss=false:超时前一tick不翻页,下一tick翻页并清stall",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "逐屏输入与时间边界 isBoss=true:超时前一tick不翻页,下一tick翻页并清stall",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "Phase E→对话→恢复与释放 真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "Phase E→对话→恢复与释放 无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=21,掉落1棵止血草,分支只执行一次",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=22,掉落+0棵止血草,分支只执行一次",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=+0不跑战后掉落/半恢复,接回ip5",
+              "status": "failed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=1不跑战后掉落/半恢复,接回ip6",
+              "status": "passed"
+            },
+            {
+              "file": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+              "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=65535不跑战后掉落/半恢复,接回ip7",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected { ip: 7, commands: [ …(8) ], …(8) } to match object { Object (ip, currentEventObjectId, ...) }\n(7 matching properties omitted from actual)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1283:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts:368:30\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)"
+          ],
+          "mirrorSourceRestoredSha256": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66",
+          "mirrorSpecRestoredSha256": "f350fd812860e5f570d278c64db8ddbd8435327a6b8c994b901893b2cab7ed3e",
+          "mirrorRestoredByteForByte": true,
+          "canonicalSourcesUnchanged": true
+        }
+      }
+    }
+  ],
+  "sourceInputs": [
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "snapshot": "control-six-input-0.source.gz",
+      "sha256": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66"
+    }
+  ],
+  "temporaryRoot": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-norf0jdl",
+  "temporaryRootRemoved": true,
+  "canonicalSourcesUnchanged": true
+}

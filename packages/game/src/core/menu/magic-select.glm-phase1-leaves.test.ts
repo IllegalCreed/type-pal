@@ -6,31 +6,10 @@
  *    全空法术槽、costMP=0 在 MP=0 时仍可选、pageSize 覆写。
  * 显示 vs 执行：本组只核建表/禁用位；不跑 magic-script，不证明治疗/扣 MP 已发生。
  */
-import type { Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
+import type { PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import { magicWithCost as mkMagic } from './__tests__/magic-cost-fixture.js'
 import { createMagicSelectMenu } from './magic-select.js'
-
-function mkMagic(id: number, costMP: number): Magic {
-  return {
-    id,
-    effect: 0,
-    type: 'normal',
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    speed: 0,
-    keepEffect: 0,
-    fireDelay: 0,
-    effectTimes: 0,
-    shake: 0,
-    wave: 0,
-    unknown: 0,
-    costMP,
-    baseDamage: 0,
-    elemental: 0,
-    sound: 0,
-  }
-}
 
 function mkSpell(id: number, magicNumber: number, name: string | undefined): Spell {
   return {

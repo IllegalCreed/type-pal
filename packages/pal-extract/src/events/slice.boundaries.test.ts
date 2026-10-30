@@ -16,7 +16,7 @@ function makeScene(scriptOnEnter: number, eventObjectIndex: number, teleport = 0
     scriptOnEnter: scriptOnEnter,
     scriptOnTeleport: teleport,
     eventObjectIndex,
-    raw: new Uint16Array(),
+    raw: new Uint16Array([0, scriptOnEnter, teleport, eventObjectIndex]),
   }
 }
 
@@ -38,7 +38,7 @@ function makeEo(triggerScript: number, autoScript: number): EventObject {
     spritePtrOffset: 0,
     nSpriteFramesAuto: 0,
     scriptIdleFrameCountAuto: 0,
-    raw: new Uint16Array(),
+    raw: new Uint16Array([0, 0, 0, 0, triggerScript, autoScript, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
   }
 }
 
@@ -46,13 +46,17 @@ describe('R06 sliceByScene globalEntries 归属', () => {
   test('globalEntries 独达（任何 scene 都不可达）→ 强制 shared', () => {
     // scene0 enter=2 只达指令 2；指令 1 仅 globalEntries 可达（入口号必须 >0）
     const result = sliceByScene(
-      [{ op: 'end' }, { op: 'end' }, { op: 'end' }],
+      [
+        { op: 'end', label: 'L_0' },
+        { op: 'end', label: 'L_1' },
+        { op: 'end', label: 'L_2' },
+      ],
       [makeScene(2, 0)],
       [],
       [1],
     )
-    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end' }])
-    expect(result.shared.segments[0]!.commands).toEqual([{ op: 'end' }])
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end', label: 'L_2' }])
+    expect(result.shared.segments[0]!.commands).toEqual([{ op: 'end', label: 'L_1' }])
   })
   test('globalEntries 与单 scene 重合 → 仍 shared（sceneCount 强制 ≥2）', () => {
     const result = sliceByScene([{ op: 'end' }, { op: 'end' }], [makeScene(1, 0)], [], [1])
@@ -76,20 +80,20 @@ describe('R06 sliceByScene globalEntries 归属', () => {
     const eos = [makeEo(1, 0), makeEo(3, 0), makeEo(4, 0)]
     const scenes = [makeScene(0, 0), makeScene(2, 1, 5)]
     const commands: Command[] = [
-      { op: 'end' }, // 0 不可达
-      { op: 'end' }, // 1 scene0 EO
-      { op: 'end' }, // 2 scene1 enter
-      { op: 'end' }, // 3 scene1 EO[1]
-      { op: 'end' }, // 4 scene1 EO[2]（开区间到末尾）
-      { op: 'end' }, // 5 scene1 teleport
+      { op: 'end', label: 'L_0' }, // 0 不可达
+      { op: 'end', label: 'L_1' }, // 1 scene0 EO
+      { op: 'end', label: 'L_2' }, // 2 scene1 enter
+      { op: 'end', label: 'L_3' }, // 3 scene1 EO[1]
+      { op: 'end', label: 'L_4' }, // 4 scene1 EO[2]（开区间到末尾）
+      { op: 'end', label: 'L_5' }, // 5 scene1 teleport
     ]
     const result = sliceByScene(commands, scenes, eos)
-    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end' }])
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end', label: 'L_1' }])
     expect(result.scenes[1]!.segments[0]!.commands).toEqual([
-      { op: 'end' },
-      { op: 'end' },
-      { op: 'end' },
-      { op: 'end' },
+      { op: 'end', label: 'L_2' },
+      { op: 'end', label: 'L_3' },
+      { op: 'end', label: 'L_4' },
+      { op: 'end', label: 'L_5' },
     ])
     expect(result.shared.segments[0]!.commands).toEqual([])
   })

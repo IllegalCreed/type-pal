@@ -1,4 +1,4 @@
-// detectors.ts —— 速通打点检测原语。每个工厂返回一个纯函数 Detector,只读快照。
+// 速通检测器只读快照；跨帧记忆由 timer 逐节点持有，检测器可更新传入的 mem。
 import type { ProgressSnapshot } from './snapshot.js'
 
 export type DetectorMem = Record<string, unknown>
@@ -63,8 +63,7 @@ export function bgmIs(musicId: number): Detector {
 /** 过彩依两段:第一段等 boss(71)入场置位,第二段等其消失(含战斗结束)或全场血≤0。 */
 export function caiyiDetector(enemyId = 71): Detector {
   return (cur, _prev, mem) => {
-    // biome-ignore lint/complexity/useOptionalChain: 同 bossWon — `!= null &&` 保 inNow 为 boolean
-    const inNow = cur.battle != null && cur.battle.enemyIds.has(enemyId)
+    const inNow = cur.battle?.enemyIds.has(enemyId) ?? false
     if (!mem.seen) {
       if (inNow) mem.seen = true
       return false

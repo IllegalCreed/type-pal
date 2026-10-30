@@ -1,0 +1,103 @@
+{
+  "base": "9bc478671044f2dff222581b6326884694e5b9e2",
+  "status": "Finite settlement/comment/test slice recorded; whole-card and unified gates not accepted",
+  "rows": [
+    {
+      "label": "module-final",
+      "receipt": "module-final.json",
+      "files": 7,
+      "passed": 229,
+      "direct": 8,
+      "adjacent": 221,
+      "nativeReport": "module-final.vitest.json.gz",
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "typecheck",
+      "receipt": "typecheck.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "docs-consumers",
+      "receipt": "docs-consumers.json",
+      "exit": 0,
+      "consumers": 5,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "scope": "Actual five consumers; unchanged125 docs-tool tests from37e2cd7c9 reused, no fresh full check:docs"
+    },
+    {
+      "label": "ledger",
+      "receipt": "ledger.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "lint",
+      "receipt": "lint.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "files": 5464
+    },
+    {
+      "label": "scope-verification",
+      "receipt": "scope-verification.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    }
+  ],
+  "regressionControls": 6,
+  "tracked": 3317,
+  "closed": 251,
+  "review": 101,
+  "pending": 2965,
+  "newClosed": 0,
+  "reopenedReview": 2,
+  "cards": {
+    "partial": 55,
+    "pending": 28,
+    "accept": 0
+  },
+  "productExecutionChanged": false,
+  "mergeAllowed": false,
+  "reuseDocsTools": {
+    "sourceCommit": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
+    "receipt": "../../QUALITY-DOCS-GIT-PATH-ENUMERATION-1/docs.json",
+    "toolsPassed": 125,
+    "scope": "Tool/test bytes unchanged; actual five consumers are run separately, not a fresh whole check:docs."
+  },
+  "notRun": [
+    "whole repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "full game package",
+    "original game runtime",
+    "browser visual",
+    "E2E"
+  ]
+}

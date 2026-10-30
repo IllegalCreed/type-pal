@@ -1,0 +1,39 @@
+{
+  "runs": [
+    {
+      "command": [
+        "node",
+        "--test",
+        "scripts/coverage/protected-baseline.test.mjs",
+        "scripts/coverage/inventory.test.mjs",
+        "scripts/coverage/metrics.test.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 0.06,
+      "rawSha256": "32be901451de83b3e9553d688c67ba966adeb8eac2f5042db097e7c7b39dfee2",
+      "counts": {
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "command": ["pnpm", "test:coverage-tools"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 3.53,
+      "rawSha256": "f440481fe9c1ee6aa63f24a1d7fe9e29a773eae0e6c55dd3f1a2b9c0c53908ca",
+      "counts": {
+        "tests": 67,
+        "pass": 67,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    }
+  ],
+  "newFullCoverageGate": false
+}

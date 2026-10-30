@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/game/src/present/present.ts",
+      "status": "code-accepted",
+      "sha256": "c4c6f411857d99c5f8e850bf5172c3e42f04181a64df0ce2a697fe1ec90569f9",
+      "lines": 810,
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+        "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123"
+      },
+      "dimensions": {
+        "A": "当前全文809行与实际shell呈现顺序补读；hold在palette后、清屏前，dither快照在clear前、菜单在dither后。两个palette clock reads及其event等待归属均不改；独立场景/战斗owner不混并。",
+        "B": "纠正role0镜像为旧档专用、NPC默认1/帧数推断与screen Y隐含中心四处失实注释；冻结偏移明确walking捕获和事件/场景重置，不凭空归因反序列化。",
+        "C": "碰撞调用改向scene-collision纯计算叶，断开present→scene-system→event/menu/加载依赖；真实scene-system原样reexport证明同函数。同步seam scratch每次全清、无await/外部callback，不存语义状态，保留有界复用。",
+        "D": "partyFrameIndex/follower/render/tile/seam/dither等已有真实共享；gameOver与常规remap位置不同、overlay时序不同，不因相似小循环机械抽万能渲染器。",
+        "E": "旧全文与composition112/root319原件按原域复用且不相加；当前六实际文件92绿/无stderr。补核现有时钟/hold/真实像素、只对绘制帧选择使用spy；正文证明除同函数import外零运行变化，无新增镜像测试。",
+        "F": "持序的层级编排需要显式短路，复杂度85只作线索；位置/姿态/遮挡已交窄helper。当前不为减指标把冻结与正常路径绕进布尔helper；clock调用点直接可见。",
+        "G": "去掉已为Uint8Array的冗余强转；五公开入口及context字段由shell与相邻实际调用消费，无本次死出口。旧render-clock-design是设计候选，本次实证决议保留现有平台时钟边界，无新兼容层或永久豁免。",
+        "H": "Framebuffer/Context直接可控，既有performance.now spy+afterEach restore能区分600ms终点、auto/awaited与dither0/36/72，动画时钟无需新公共注入接口。Canvas仅flush适配，真实像素与命令调用分层；不声称新视觉/E2E。"
+      },
+      "currentReview": "Full current target read; old full A/oracles retained at their exact scope, current design/clock/caller/test gaps read and adjudicated.",
+      "remaining": "No blocking eight-axis gap; render-clock-design resolved by explicit retention decision with controllable existing clock tests. Unified phase gates/publication pending.",
+      "changes": "Direct collision leaf dependency, misleading comments corrected, redundant assertion removed",
+      "verification": [
+        "6 actual files/92 identities green/0 stderr",
+        "emitted whole module equal after sole exact-reexport import normalization",
+        "existing clock/hold pixel contracts reused; no new browser/visual claim"
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "path": "packages/game/src/core/scene-collision.ts",
+      "sha256": "1a8e1965d80ec424c753769a953edfc55111abe419e52d466cd5a73944915429"
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906"
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "sha256": "c32b60762cfc573fa28e6a372a6e3dafb8710216582e5c0cf565ddfaa06ec38e"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "7d22fb11132c0a6b4973b588c8ea1d63056e42a4b85869e91f8ff961f738ae2d"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos.ts",
+      "sha256": "1a55cf4137c888e12ba3660d9006367fcef8fb82cdff7e4c3ec2a8a0c0397ca6"
+    },
+    {
+      "path": "packages/game/src/present/follower-render.ts",
+      "sha256": "fe1bc4db16a6e3732cadaecc8247028c12209974ab8d03f4aa4432af7ce00e29"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "fdd25deedeb33da252d5efa9392bc5af088365a2a6dab3129c2b373aeeb0e060"
+    },
+    {
+      "path": "packages/game/src/present/dialog-text.ts",
+      "sha256": "6e7bb20e1e0e651b9cf89445dd7587c7eaa025b0dadb2fe7d162db8f0cbd7bff"
+    },
+    {
+      "path": "packages/game/src/present/dither-fade.ts",
+      "sha256": "590b0675e2853a24f78c439ecd782852d4a07c1aabcd06b072e210e0347136b6"
+    },
+    {
+      "path": "packages/game/src/core/scene-collision.test.ts",
+      "sha256": "2af714b406498dd2368cb01f0a10cb83bf119f05b46037ce058f22e85a4471cc"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "sha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7"
+    },
+    {
+      "path": "packages/game/src/present/present-hold.grok-r1.test.ts",
+      "sha256": "7a66896feeafa7c18cf80de459dbc464a7b60f7b94dd589cab97e643da891587"
+    },
+    {
+      "path": "packages/game/src/present/present.test.ts",
+      "sha256": "dfaac185e846e88b5aa829531ca6cfc2d59b1f01bcf3d05b7ba71e9af7185fbf"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p11-world-layers.test.ts",
+      "sha256": "61705a1a3d9fe61ff5140a12847cc8c56d59d763a0dc2a971e69f401a6b08e79"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p12-overlays.test.ts",
+      "sha256": "16cde13a55876fa10c0744876d2c6ce7d1c34d0e1d496ea6809443c8d0b73972"
+    }
+  ],
+  "native": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/presentation-native.json.gz",
+    "sha256": "e71ccda9a7d33f986af8790e53f5f6a99ac53652b5cc5fb0a8cb41a97df5f3e6",
+    "decodedSha256": "58a933e7014a7dd5243d7e09e87dbe1c3741b995eb0d82f69dfd5e1d2d3d5fd3",
+    "members": [
+      {
+        "name": "present-body-proof.json",
+        "sha256": "e3ad7a727140b28599a69d1b141df220deaf19af440a844ed5f73a1e0cfe8a90",
+        "bytes": 530
+      },
+      {
+        "name": "present-current.execution.json",
+        "sha256": "6c9f0195c1d4119096c9dda4c6f2196f030113b7cc394dbc846245e6d3184e5d",
+        "bytes": 1102
+      },
+      {
+        "name": "present-current.native.json",
+        "sha256": "cd799628cbc29cfbe10aa94a85ae2b83874e636928e738cc260b11983f935faf",
+        "bytes": 35549
+      },
+      {
+        "name": "present-current.stdout.raw",
+        "sha256": "3dabd7730413c795e4b35603e63dda77cd18b4bb6bef92a420902dc608e48061",
+        "bytes": 769
+      },
+      {
+        "name": "present-current.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "present-game-types.execution.json",
+        "sha256": "22a810685f248dedc8ffdcad283701f66489d226b030fe86e7a83e6627c6a72a",
+        "bytes": 467
+      },
+      {
+        "name": "present-game-types.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "present-game-types.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "presentation-docs.execution.json",
+        "sha256": "fa318bf5ec178102e3358605f5e8c42bd9317ad05a8343b492d8e2ad6f2220ec",
+        "bytes": 419
+      },
+      {
+        "name": "presentation-docs.stdout.raw",
+        "sha256": "8fffae925a526b2d2152a4a2be442605f3bc90e2b4f6f9c75a02a2829e1274b1",
+        "bytes": 93
+      },
+      {
+        "name": "presentation-docs.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "presentation-lint.execution.json",
+        "sha256": "1e7fb09f863da398934c5fad878cd10221a1138f9b323bdd30fd8af38c4289ec",
+        "bytes": 426
+      },
+      {
+        "name": "presentation-lint.stdout.raw",
+        "sha256": "264c8aa34c6b48362135c6e8a4bc3cef9869e2b28e1b032d3bbbfe7e95d38c72",
+        "bytes": 76
+      },
+      {
+        "name": "presentation-lint.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  },
+  "limits": [
+    "Existing unchanged clock tests are used as a deterministic port; no new clock/public API or product timing choice.",
+    "Whole presentation test files are not newly accepted through this target-source review; old112 and319 are overlapping and not summed."
+  ]
+}

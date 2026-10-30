@@ -7,7 +7,7 @@
     "dev": "vite --port 6005 --strictPort",
     "build": "vite build",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --reporter=default --passWithNoTests",
     "check": "pnpm typecheck && pnpm test"
   },
   "dependencies": {
@@ -18,6 +18,7 @@
     "@types/node": "^25.9.1",
     "@vitejs/plugin-basic-ssl": "2.3.0",
     "canvas": "^3.2.3",
+    "fake-indexeddb": "6.2.5",
     "jsdom": "^29.1.1",
     "vite": "^8.0.14"
   }

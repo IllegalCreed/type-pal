@@ -1,0 +1,65 @@
+{
+  "counts": {
+    "total": 3424,
+    "verified": 447,
+    "review": 89,
+    "pending": 2888,
+    "unclosed": 2977
+  },
+  "newClosed": [
+    {
+      "path": "packages/game/src/core/scene-system-search.ts",
+      "before": "review"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "before": "review"
+    },
+    {
+      "path": "packages/game/src/core/dialog-history.test.ts",
+      "before": "review"
+    },
+    {
+      "path": "packages/game/src/core/scene-system-search.test.ts",
+      "before": "review"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+      "before": "review"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+      "before": "review"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-equipment-lifecycle.test.ts",
+      "before": "review"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.test.ts",
+      "before": "implicit-pending"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test-fixtures.ts",
+      "before": "review"
+    }
+  ],
+  "acceptedFiles": [
+    "packages/game/src/core/dialog-history.ts",
+    "packages/game/src/core/mode.ts",
+    "packages/game/src/core/scene-system-search.ts",
+    "packages/game/src/core/player-poison-state.ts",
+    "packages/game/src/core/event-opcode-player.ts",
+    "packages/game/src/core/dialog-history.test.ts",
+    "packages/game/src/core/mode.test.ts",
+    "packages/game/src/core/scene-system-search.test.ts",
+    "packages/game/src/core/event-opcode-player.test.ts",
+    "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+    "packages/game/src/core/event-opcode-player.cov85.test.ts",
+    "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+    "packages/game/src/core/player-poison-equipment-lifecycle.test.ts",
+    "packages/game/src/core/equip-effect.test.ts",
+    "packages/game/src/core/event-opcode-player.test-fixtures.ts"
+  ],
+  "deltaOnly": ["packages/game/src/status-poison-equip.glm-q.test.ts"]
+}

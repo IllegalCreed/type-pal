@@ -1,0 +1,33 @@
+{
+  "base": "384f068ee",
+  "fullReads": [
+    {
+      "path": "packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx",
+      "beforeSha256": "e6e36550a22ca7b1a24b60c8b32f5194263e942a5e90df8a32252d039adf14e9",
+      "lines": 268,
+      "currentSha256": "0ea63f9e60135a5deade4011729bf1f3f8bd5f8a7dfa831d8ee4c203ad891dff",
+      "currentLines": 301,
+      "status": "review, no closure"
+    },
+    {
+      "path": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+      "beforeSha256": "c97b0b80ad1d7e2445daff4a390617d1f69dbc90a64d8426b471770fc9c94ff5",
+      "lines": 354,
+      "currentSha256": "648a935cb7e750499896e07ce7b40b48657d36c4ea9da5ec179c87bfa870bd6b",
+      "currentLines": 365,
+      "status": "review, no closure"
+    }
+  ],
+  "priorFullProductReads": "QUALITY-EDITOR-DIAGNOSTICS-3/next-read-boundaries.json (navigation, EditorAppHeader, dom-host)",
+  "partialReads": [
+    {
+      "path": "packages/editor/src/ui/App.tsx",
+      "range": "2194-2225"
+    },
+    {
+      "path": "packages/reforge/src/main.ts",
+      "range": "2232-2250; global location read/write consumers also searched"
+    }
+  ],
+  "unverified": "Full App/main and test-only character-search public contract are not closed by this slice."
+}

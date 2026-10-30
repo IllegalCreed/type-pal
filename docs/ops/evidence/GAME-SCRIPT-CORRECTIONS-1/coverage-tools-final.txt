@@ -1,0 +1,578 @@
+
+> type-pal@ test:coverage-tools /Users/zhangxu/illegal/type-pal
+> node --test scripts/coverage/*.test.mjs
+
+TAP version 13
+# Subtest: an exact approved structural removal changes only its package counters, retaining scope and raw baseline
+ok 1 - an exact approved structural removal changes only its package counters, retaining scope and raw baseline
+  ---
+  duration_ms: 4.495083
+  type: 'test'
+  ...
+# Subtest: changed source or stale approval counters fail closed; unknown baseline receives no adjustment
+ok 2 - changed source or stale approval counters fail closed; unknown baseline receives no adjustment
+  ---
+  duration_ms: 0.572209
+  type: 'test'
+  ...
+# Subtest: approval never accepts an extra regression in the adjusted package or in another package
+ok 3 - approval never accepts an extra regression in the adjusted package or in another package
+  ---
+  duration_ms: 0.252042
+  type: 'test'
+  ...
+# Subtest: 批准账只含精确历史/审计文件，运行时不能扩大
+ok 4 - 批准账只含精确历史/审计文件，运行时不能扩大
+  ---
+  duration_ms: 2.325125
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/event-system.test.ts
+ok 5 - 仅精确历史快照获准：packages/game/src/core/event-system.test.ts
+  ---
+  duration_ms: 0.576083
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/shared/src/rng.boundaries.test.ts
+ok 6 - 仅精确历史快照获准：packages/shared/src/rng.boundaries.test.ts
+  ---
+  duration_ms: 0.232792
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/shell/audio.test.ts
+ok 7 - 仅精确历史快照获准：packages/game/src/shell/audio.test.ts
+  ---
+  duration_ms: 0.466792
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/present/draw-sprite-clip.grok-r1.test.ts
+ok 8 - 仅精确历史快照获准：packages/game/src/present/draw-sprite-clip.grok-r1.test.ts
+  ---
+  duration_ms: 0.220625
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/present/follower-render-gap.grok-r1.test.ts
+ok 9 - 仅精确历史快照获准：packages/game/src/present/follower-render-gap.grok-r1.test.ts
+  ---
+  duration_ms: 0.0695
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/present/font-width.grok-r1.test.ts
+ok 10 - 仅精确历史快照获准：packages/game/src/present/font-width.grok-r1.test.ts
+  ---
+  duration_ms: 0.1185
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/present/font.test.ts
+ok 11 - 仅精确历史快照获准：packages/game/src/present/font.test.ts
+  ---
+  duration_ms: 0.039958
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts
+ok 12 - 仅精确历史快照获准：packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.342166
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/present/menu/draw-opening-menu.test.ts
+ok 13 - 仅精确历史快照获准：packages/game/src/present/menu/draw-opening-menu.test.ts
+  ---
+  duration_ms: 1.348958
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts
+ok 14 - 仅精确历史快照获准：packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts
+  ---
+  duration_ms: 0.218917
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/tools/speedrun/timer.boundaries.test.ts
+ok 15 - 仅精确历史快照获准：packages/game/src/tools/speedrun/timer.boundaries.test.ts
+  ---
+  duration_ms: 0.058208
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts
+ok 16 - 仅精确历史快照获准：packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.03175
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/menu/__tests__/item-magic-select.test.ts
+ok 17 - 仅精确历史快照获准：packages/game/src/core/menu/__tests__/item-magic-select.test.ts
+  ---
+  duration_ms: 0.023708
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/menu/magic-script.test.ts
+ok 18 - 仅精确历史快照获准：packages/game/src/core/menu/magic-script.test.ts
+  ---
+  duration_ms: 0.021917
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/dev/dev-panel.glm-next-wave.test.ts
+ok 19 - 仅精确历史快照获准：packages/game/src/dev/dev-panel.glm-next-wave.test.ts
+  ---
+  duration_ms: 0.020584
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/battle/battle-state.glm-next-wave.test.ts
+ok 20 - 仅精确历史快照获准：packages/game/src/core/battle/battle-state.glm-next-wave.test.ts
+  ---
+  duration_ms: 0.020958
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts
+ok 21 - 仅精确历史快照获准：packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.019958
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/pal-authored-overlays.test.ts
+ok 22 - 仅精确历史快照获准：packages/migrate/src/pal-authored-overlays.test.ts
+  ---
+  duration_ms: 0.019625
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts
+ok 23 - 仅精确历史快照获准：packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts
+  ---
+  duration_ms: 0.020541
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/source-facts.boundaries.test.ts
+ok 24 - 仅精确历史快照获准：packages/migrate/src/source-facts.boundaries.test.ts
+  ---
+  duration_ms: 0.02275
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/migrate/src/world-sprite-layout-registry.test.ts
+ok 25 - 仅精确历史快照获准：packages/migrate/src/world-sprite-layout-registry.test.ts
+  ---
+  duration_ms: 0.019584
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/render.test.ts
+ok 26 - 仅精确历史快照获准：packages/reforge/src/render.test.ts
+  ---
+  duration_ms: 0.018958
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts
+ok 27 - 仅精确历史快照获准：packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.019083
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts
+ok 28 - 仅精确历史快照获准：packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.021417
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/menu/save-slot-menu.test.ts
+ok 29 - 仅精确历史快照获准：packages/game/src/core/menu/save-slot-menu.test.ts
+  ---
+  duration_ms: 0.019417
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/content/src/author-flow.guard-residual.test.ts
+ok 30 - 仅精确历史快照获准：packages/content/src/author-flow.guard-residual.test.ts
+  ---
+  duration_ms: 0.019833
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/content/src/author-script-core.test.ts
+ok 31 - 仅精确历史快照获准：packages/content/src/author-script-core.test.ts
+  ---
+  duration_ms: 0.019833
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx
+ok 32 - 仅精确历史快照获准：packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx
+  ---
+  duration_ms: 0.019958
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-compiler-core.test.ts
+ok 33 - 仅精确历史快照获准：packages/reforge/src/script-compiler-core.test.ts
+  ---
+  duration_ms: 0.020042
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-runner-core.test.ts
+ok 34 - 仅精确历史快照获准：packages/reforge/src/script-runner-core.test.ts
+  ---
+  duration_ms: 0.027334
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/script-world.test.ts
+ok 35 - 仅精确历史快照获准：packages/reforge/src/script-world.test.ts
+  ---
+  duration_ms: 0.020417
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/core/command-bus.test.ts
+ok 36 - 仅精确历史快照获准：packages/game/src/core/command-bus.test.ts
+  ---
+  duration_ms: 0.018875
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/reforge/src/save/current-save.current-characterization.test.ts
+ok 37 - 仅精确历史快照获准：packages/reforge/src/save/current-save.current-characterization.test.ts
+  ---
+  duration_ms: 0.019
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/shell/audio.glm-phase1-leaves.test.ts
+ok 38 - 仅精确历史快照获准：packages/game/src/shell/audio.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.021166
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx
+ok 39 - 仅精确历史快照获准：packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx
+  ---
+  duration_ms: 0.022375
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx
+ok 40 - 仅精确历史快照获准：packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx
+  ---
+  duration_ms: 0.01925
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx
+ok 41 - 仅精确历史快照获准：packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx
+  ---
+  duration_ms: 0.01975
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx
+ok 42 - 仅精确历史快照获准：packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx
+  ---
+  duration_ms: 0.020416
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/shared/src/rng.test.ts
+ok 43 - 仅精确历史快照获准：packages/shared/src/rng.test.ts
+  ---
+  duration_ms: 0.018667
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/shared/src/rle.glm-o.test.ts
+ok 44 - 仅精确历史快照获准：packages/shared/src/rle.glm-o.test.ts
+  ---
+  duration_ms: 0.064375
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/pal-extract/src/events/annotate.test.ts
+ok 45 - 仅精确历史快照获准：packages/pal-extract/src/events/annotate.test.ts
+  ---
+  duration_ms: 0.028417
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts
+ok 46 - 仅精确历史快照获准：packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts
+  ---
+  duration_ms: 0.023
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx
+ok 47 - 仅精确历史快照获准：packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx
+  ---
+  duration_ms: 0.053458
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/assets/png-decode.grok-r1.test.ts
+ok 48 - 仅精确历史快照获准：packages/game/src/assets/png-decode.grok-r1.test.ts
+  ---
+  duration_ms: 0.020875
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/assets/png.glm-phase1-leaves.test.ts
+ok 49 - 仅精确历史快照获准：packages/game/src/assets/png.glm-phase1-leaves.test.ts
+  ---
+  duration_ms: 0.02025
+  type: 'test'
+  ...
+# Subtest: 仅精确历史快照获准：packages/game/src/shell/bootstrap-resources.test.ts
+ok 50 - 仅精确历史快照获准：packages/game/src/shell/bootstrap-resources.test.ts
+  ---
+  duration_ms: 0.020791
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：未批准的其它文件
+ok 51 - 退役判据拒绝：未批准的其它文件
+  ---
+  duration_ms: 0.040417
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：test-file删除不是计数退役
+ok 52 - 退役判据拒绝：test-file删除不是计数退役
+  ---
+  duration_ms: 0.019708
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：生产范围删除不适用
+ok 53 - 退役判据拒绝：生产范围删除不适用
+  ---
+  duration_ms: 0.020875
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：额外删除一例
+ok 54 - 退役判据拒绝：额外删除一例
+  ---
+  duration_ms: 0.019125
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：其它旧数量
+ok 55 - 退役判据拒绝：其它旧数量
+  ---
+  duration_ms: 0.018709
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧身份摘要漂移
+ok 56 - 退役判据拒绝：旧身份摘要漂移
+  ---
+  duration_ms: 0.02275
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：同数替换新身份
+ok 57 - 退役判据拒绝：同数替换新身份
+  ---
+  duration_ms: 0.018292
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：候选数量伪造
+ok 58 - 退役判据拒绝：候选数量伪造
+  ---
+  duration_ms: 0.018958
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧数量伪造
+ok 59 - 退役判据拒绝：旧数量伪造
+  ---
+  duration_ms: 0.076709
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：旧文件不相同
+ok 60 - 退役判据拒绝：旧文件不相同
+  ---
+  duration_ms: 0.020625
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：新文件不相同
+ok 61 - 退役判据拒绝：新文件不相同
+  ---
+  duration_ms: 0.019917
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：文件字节漂移
+ok 62 - 退役判据拒绝：文件字节漂移
+  ---
+  duration_ms: 0.020708
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：缺旧条目
+ok 63 - 退役判据拒绝：缺旧条目
+  ---
+  duration_ms: 0.018666
+  type: 'test'
+  ...
+# Subtest: 退役判据拒绝：缺新条目
+ok 64 - 退役判据拒绝：缺新条目
+  ---
+  duration_ms: 0.019084
+  type: 'test'
+  ...
+# Subtest: Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+ok 65 - Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests
+  ---
+  duration_ms: 0.9885
+  type: 'test'
+  ...
+# Subtest: fast 排除所有 PAL test 扩展，full 保留
+ok 66 - fast 排除所有 PAL test 扩展，full 保留
+  ---
+  duration_ms: 0.229041
+  type: 'test'
+  ...
+# Subtest: coverage 测试进程不重复拾取 dist/build 产物
+ok 67 - coverage 测试进程不重复拾取 dist/build 产物
+  ---
+  duration_ms: 0.286959
+  type: 'test'
+  ...
+# Subtest: 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+ok 68 - 重型编辑器静态门禁仅从 coverage 进程排除，生产源码 include 不缩窄
+  ---
+  duration_ms: 0.300917
+  type: 'test'
+  ...
+# Subtest: precise coverage rejects inherited and override cache activation without mutating inputs
+ok 69 - precise coverage rejects inherited and override cache activation without mutating inputs
+  ---
+  duration_ms: 1.73875
+  type: 'test'
+  ...
+# Subtest: fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+ok 70 - fresh coverage subprocess starts with compile cache disabled and unrelated environment intact
+  ---
+  duration_ms: 39.250292
+  type: 'test'
+  ...
+# Subtest: full file guard 区分缺失、目录与空文件
+ok 71 - full file guard 区分缺失、目录与空文件
+  ---
+  duration_ms: 14.331958
+  type: 'test'
+  ...
+# Subtest: full JSON guard 在运行测试前拒绝坏 JSON
+ok 72 - full JSON guard 在运行测试前拒绝坏 JSON
+  ---
+  duration_ms: 10.910542
+  type: 'test'
+  ...
+# Subtest: full directory guard 要求真实目录和最低文件数
+ok 73 - full directory guard 要求真实目录和最低文件数
+  ---
+  duration_ms: 7.45
+  type: 'test'
+  ...
+# Subtest: full JSON contract 拒绝错版本 current 工程与错误 scene identity
+ok 74 - full JSON contract 拒绝错版本 current 工程与错误 scene identity
+  ---
+  duration_ms: 0.788625
+  type: 'test'
+  ...
+# Subtest: full test inventory 必须包含 fast 的每个 identity
+ok 75 - full test inventory 必须包含 fast 的每个 identity
+  ---
+  duration_ms: 0.668292
+  type: 'test'
+  ...
+# Subtest: scope audit 分别报告源码、测试和执行配置变化
+ok 76 - scope audit 分别报告源码、测试和执行配置变化
+  ---
+  duration_ms: 0.215083
+  type: 'test'
+  ...
+# Subtest: 同一测试文件减少 case 会形成显式 removal
+ok 77 - 同一测试文件减少 case 会形成显式 removal
+  ---
+  duration_ms: 0.207542
+  type: 'test'
+  ...
+# Subtest: installed merger is the version-locked patch recorded in manifest and lockfile
+ok 78 - installed merger is the version-locked patch recorded in manifest and lockfile
+  ---
+  duration_ms: 1.937333
+  type: 'test'
+  ...
+# Subtest: native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 79 - native import: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 111.041625
+  type: 'test'
+  ...
+# Subtest: native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 80 - native construct: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 101.88825
+  type: 'test'
+  ...
+# Subtest: native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 81 - native valid: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 111.085208
+  type: 'test'
+  ...
+# Subtest: native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+ok 82 - native reject: class/anonymous/nested/plain actual calls survive two/three-way merges and order
+  ---
+  duration_ms: 107.602667
+  type: 'test'
+  ...
+# Subtest: mixed import and genuine call preserve zero branches and actual method counts in both orders
+ok 83 - mixed import and genuine call preserve zero branches and actual method counts in both orders
+  ---
+  duration_ms: 1.618792
+  type: 'test'
+  ...
+# Subtest: same-range static and instance initialization identities and counts stay separate
+ok 84 - same-range static and instance initialization identities and counts stay separate
+  ---
+  duration_ms: 1.134792
+  type: 'test'
+  ...
+# Subtest: ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+ok 85 - ordinary functions still merge by range, not arbitrary names; empty/single input stay valid
+  ---
+  duration_ms: 0.959875
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client import-only: actual report method count
+ok 86 - real Vitest ssr/client import-only: actual report method count
+  ---
+  duration_ms: 1412.4335
+  type: 'test'
+  ...
+# Subtest: real Vitest ssr/client genuine calls: actual report method count
+ok 87 - real Vitest ssr/client genuine calls: actual report method count
+  ---
+  duration_ms: 1482.25575
+  type: 'test'
+  ...
+# Subtest: normalizeMetrics 只接受完整的整数计数
+ok 88 - normalizeMetrics 只接受完整的整数计数
+  ---
+  duration_ms: 0.793125
+  type: 'test'
+  ...
+# Subtest: aggregateMetrics 按 covered/total 汇总，不平均百分比
+ok 89 - aggregateMetrics 按 covered/total 汇总，不平均百分比
+  ---
+  duration_ms: 0.204292
+  type: 'test'
+  ...
+# Subtest: compareRatio 用精确分数识别两位小数看不出的回退
+ok 90 - compareRatio 用精确分数识别两位小数看不出的回退
+  ---
+  duration_ms: 0.098541
+  type: 'test'
+  ...
+# Subtest: compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+ok 91 - compareCoverage 同时守住每包与全仓，不能用别包提升掩盖回退
+  ---
+  duration_ms: 1.700667
+  type: 'test'
+  ...
+# Subtest: ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+ok 92 - ratchet 可在全仓比例不下降时接纳新 package，普通比较仍拒绝
+  ---
+  duration_ms: 0.768459
+  type: 'test'
+  ...
+# Subtest: 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+ok 93 - 目标分支尚无 coverage 设施时允许唯一一次 bootstrap
+  ---
+  duration_ms: 0.411875
+  type: 'test'
+  ...
+# Subtest: 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+ok 94 - 目标分支有 baseline 时必须比较，只有配置没有 baseline 时 fail-closed
+  ---
+  duration_ms: 0.193791
+  type: 'test'
+  ...
+1..94
+# tests 94
+# suites 0
+# pass 94
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3600.307666

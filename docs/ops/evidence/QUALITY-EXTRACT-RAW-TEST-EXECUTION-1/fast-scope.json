@@ -1,0 +1,21 @@
+{
+  "snapshots": [
+    {
+      "ref": "HEAD",
+      "baselineSha256": "f0d008c301aa4e86b2d08d8ffc292ffdf006f26efc021e8dffb747dbd0d4e790",
+      "bothRawTestsPresentInFastInventory": false
+    },
+    {
+      "ref": "origin/main",
+      "baselineSha256": "2f11c74cf65f5da4bf347ce40023fe858cd8dd3b3494eea65b8d0e4e5c713088",
+      "bothRawTestsPresentInFastInventory": false
+    },
+    {
+      "ref": "d4cf7f57d",
+      "baselineSha256": "b6fee7230bf4d63f4ea559b3eb090777a685a97a545e91f0a0bbad162d0b89fc",
+      "bothRawTestsPresentInFastInventory": false
+    }
+  ],
+  "existingExclusionsUnchanged": true,
+  "newRetirementApprovalNeeded": false
+}

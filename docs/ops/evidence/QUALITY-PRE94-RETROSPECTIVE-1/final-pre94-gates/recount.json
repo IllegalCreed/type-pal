@@ -1,0 +1,709 @@
+{
+  "date": "2026-10-25",
+  "authority": "User standing authority: justified structural refactoring may update exact baseline; no dead-code restoration, weak tests or metric tolerance. Nine-file CLI stage split has whole-body reconstruction proofs, unchanged 39 real CLI contracts/child execution and byte-identical 809 output files. Parent V8 does not instrument CLI child processes. Only structural statement/function/line deltas rebased; events/slice behavioral gains and branch floor are preserved. One original official collection retained, no recollection.",
+  "baselineSha256": "251bd24327f3fd792aaa706e49a8325dea990e4b50f1d4d78def03a48dc3394a",
+  "oldCollection": {
+    "generatedAt": "2026-10-24T01:30:36.760Z",
+    "sourceFileCount": 777,
+    "testCount": 20147
+  },
+  "currentCollection": {
+    "generatedAt": "2026-10-25T02:53:25.546Z",
+    "sourceFileCount": 807,
+    "testCount": 20180
+  },
+  "sourceFreeze": "87d8caca04c48b185012bbc4deb7be05667b56fc4179aa88e4ad663bfadaa60e",
+  "structuralFiles": [
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "old": {
+        "lines": {
+          "total": 351,
+          "covered": 80,
+          "skipped": 0,
+          "pct": 22.79
+        },
+        "functions": {
+          "total": 21,
+          "covered": 2,
+          "skipped": 0,
+          "pct": 9.52
+        },
+        "statements": {
+          "total": 383,
+          "covered": 80,
+          "skipped": 0,
+          "pct": 20.88
+        },
+        "branches": {
+          "total": 98,
+          "covered": 15,
+          "skipped": 0,
+          "pct": 15.3
+        }
+      },
+      "new": {
+        "lines": {
+          "total": 98,
+          "covered": 62,
+          "skipped": 0,
+          "pct": 63.26
+        },
+        "functions": {
+          "total": 6,
+          "covered": 2,
+          "skipped": 0,
+          "pct": 33.33
+        },
+        "statements": {
+          "total": 103,
+          "covered": 62,
+          "skipped": 0,
+          "pct": 60.19
+        },
+        "branches": {
+          "total": 53,
+          "covered": 14,
+          "skipped": 0,
+          "pct": 26.41
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": -18,
+          "total": -280
+        },
+        "branches": {
+          "covered": -1,
+          "total": -45
+        },
+        "functions": {
+          "covered": 0,
+          "total": -15
+        },
+        "lines": {
+          "covered": -18,
+          "total": -253
+        }
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/io/read.ts",
+      "old": null,
+      "new": {
+        "lines": {
+          "total": 1,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "functions": {
+          "total": 1,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "statements": {
+          "total": 1,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "branches": {
+          "total": 0,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 100
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": 0,
+          "total": 1
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 1
+        },
+        "lines": {
+          "covered": 0,
+          "total": 1
+        }
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/resources/animation-assets.ts",
+      "old": null,
+      "new": {
+        "lines": {
+          "total": 35,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "functions": {
+          "total": 7,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "statements": {
+          "total": 40,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "branches": {
+          "total": 4,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": 0,
+          "total": 40
+        },
+        "branches": {
+          "covered": 0,
+          "total": 4
+        },
+        "functions": {
+          "covered": 0,
+          "total": 7
+        },
+        "lines": {
+          "covered": 0,
+          "total": 35
+        }
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/resources/bitmap-assets.ts",
+      "old": null,
+      "new": {
+        "lines": {
+          "total": 71,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "functions": {
+          "total": 12,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "statements": {
+          "total": 85,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "branches": {
+          "total": 14,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": 0,
+          "total": 85
+        },
+        "branches": {
+          "covered": 0,
+          "total": 14
+        },
+        "functions": {
+          "covered": 0,
+          "total": 12
+        },
+        "lines": {
+          "covered": 0,
+          "total": 71
+        }
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/resources/data-assets.ts",
+      "old": null,
+      "new": {
+        "lines": {
+          "total": 50,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "functions": {
+          "total": 6,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "statements": {
+          "total": 51,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "branches": {
+          "total": 0,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 100
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": 0,
+          "total": 51
+        },
+        "branches": {
+          "covered": 0,
+          "total": 0
+        },
+        "functions": {
+          "covered": 0,
+          "total": 6
+        },
+        "lines": {
+          "covered": 0,
+          "total": 50
+        }
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/resources/lookup-assets.ts",
+      "old": null,
+      "new": {
+        "lines": {
+          "total": 12,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "functions": {
+          "total": 1,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "statements": {
+          "total": 13,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "branches": {
+          "total": 6,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": 0,
+          "total": 13
+        },
+        "branches": {
+          "covered": 0,
+          "total": 6
+        },
+        "functions": {
+          "covered": 0,
+          "total": 1
+        },
+        "lines": {
+          "covered": 0,
+          "total": 12
+        }
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sound-assets.ts",
+      "old": null,
+      "new": {
+        "lines": {
+          "total": 14,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "functions": {
+          "total": 2,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "statements": {
+          "total": 17,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "branches": {
+          "total": 2,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": 0,
+          "total": 17
+        },
+        "branches": {
+          "covered": 0,
+          "total": 2
+        },
+        "functions": {
+          "covered": 0,
+          "total": 2
+        },
+        "lines": {
+          "covered": 0,
+          "total": 14
+        }
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite-assets.ts",
+      "old": null,
+      "new": {
+        "lines": {
+          "total": 44,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "functions": {
+          "total": 10,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "statements": {
+          "total": 52,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "branches": {
+          "total": 4,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": 0,
+          "total": 52
+        },
+        "branches": {
+          "covered": 0,
+          "total": 4
+        },
+        "functions": {
+          "covered": 0,
+          "total": 10
+        },
+        "lines": {
+          "covered": 0,
+          "total": 44
+        }
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/resources/world-assets.ts",
+      "old": null,
+      "new": {
+        "lines": {
+          "total": 48,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "functions": {
+          "total": 5,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "statements": {
+          "total": 55,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        },
+        "branches": {
+          "total": 12,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 0
+        }
+      },
+      "delta": {
+        "statements": {
+          "covered": 0,
+          "total": 55
+        },
+        "branches": {
+          "covered": 0,
+          "total": 12
+        },
+        "functions": {
+          "covered": 0,
+          "total": 5
+        },
+        "lines": {
+          "covered": 0,
+          "total": 48
+        }
+      }
+    }
+  ],
+  "excludedBehaviorChange": {
+    "path": "packages/pal-extract/src/events/slice.ts",
+    "old": {
+      "lines": {
+        "total": 67,
+        "covered": 67,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 13,
+        "covered": 13,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 89,
+        "covered": 89,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 62,
+        "covered": 60,
+        "skipped": 0,
+        "pct": 96.77
+      }
+    },
+    "new": {
+      "lines": {
+        "total": 72,
+        "covered": 72,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 13,
+        "covered": 13,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 96,
+        "covered": 96,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 68,
+        "covered": 66,
+        "skipped": 0,
+        "pct": 97.05
+      }
+    },
+    "delta": {
+      "statements": {
+        "covered": 7,
+        "total": 7
+      },
+      "branches": {
+        "covered": 6,
+        "total": 6
+      },
+      "functions": {
+        "covered": 0,
+        "total": 0
+      },
+      "lines": {
+        "covered": 5,
+        "total": 5
+      }
+    }
+  },
+  "structuralDeltas": {
+    "statements": {
+      "covered": -18,
+      "total": 34
+    },
+    "functions": {
+      "covered": 0,
+      "total": 29
+    },
+    "lines": {
+      "covered": -18,
+      "total": 22
+    }
+  },
+  "before": {
+    "statements": {
+      "covered": 1361,
+      "total": 1741
+    },
+    "branches": {
+      "covered": 643,
+      "total": 758
+    },
+    "functions": {
+      "covered": 133,
+      "total": 161
+    },
+    "lines": {
+      "covered": 1199,
+      "total": 1540
+    }
+  },
+  "approvedComparisonAfter": {
+    "statements": {
+      "covered": 1343,
+      "total": 1775
+    },
+    "branches": {
+      "covered": 643,
+      "total": 758
+    },
+    "functions": {
+      "covered": 133,
+      "total": 190
+    },
+    "lines": {
+      "covered": 1181,
+      "total": 1562
+    }
+  },
+  "measuredCurrent": {
+    "statements": {
+      "covered": 1350,
+      "total": 1782
+    },
+    "branches": {
+      "covered": 648,
+      "total": 761
+    },
+    "functions": {
+      "covered": 133,
+      "total": 190
+    },
+    "lines": {
+      "covered": 1186,
+      "total": 1567
+    }
+  },
+  "reusedBodyProofChain": [
+    {
+      "base": "4c684dfd2f307e221f983837958d671f734f6132",
+      "candidate": "7f5946aa3053f484b2eabb32004ff99aac2e2f37",
+      "receipt": "data-proof-final",
+      "scope": "full DATA stage/helpers/IO leaf/world runtime/remaining CLI and imports"
+    },
+    {
+      "base": "7f5946aa3053f484b2eabb32004ff99aac2e2f37",
+      "candidate": "182332279490f224694ba6c4450b1caae6c4a951",
+      "receipt": "bitmap-animation-final",
+      "scope": "seven full stages/helpers/remaining CLI and imports"
+    },
+    {
+      "base": "182332279490f224694ba6c4450b1caae6c4a951",
+      "candidate": "653e3656d4968eb80dd99a76e2b2d74500db70b6",
+      "receipt": "sprite-sound-lookup-final",
+      "scope": "five full stage functions, exact two-root and borrowed data calls, return/ref timing, imports"
+    },
+    {
+      "base": "653e3656d4968eb80dd99a76e2b2d74500db70b6",
+      "candidate": "b3dc6d12a98aaa3ae901c1a9776ba4998bc7de75",
+      "receipt": "cleanup-proof",
+      "scope": "private singlefalse caller substitution + DATA comments; sprite rewrite separately reviewed and compared"
+    }
+  ],
+  "reusedEvidence": "../cli-stages-closeout/review.json",
+  "testRetirements": {
+    "new": [
+      {
+        "file": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "previous": 13,
+        "current": 12,
+        "previousIdentityDigest": "16800c9fcd0d82decff30d83e1b96334e318c89618fe216c66e5f810a7fa6480",
+        "currentIdentityDigest": "ac2379ec430460fc1ab5b6f2c13672192b3ef5930ac12a7c4bb1adf3c1a4a97b",
+        "fileSha256": "a91059d33c007b149b7ada27401f85952aa7dd5f6acb523f1273e9f42a4d7b0c"
+      },
+      {
+        "file": "packages/game/src/present/dialog-box.test.ts",
+        "previous": 69,
+        "current": 68,
+        "previousIdentityDigest": "f6d9ffd17c974be20f3ec3f3582735926eac4be082e46ee0c61dcdc3a394fe2d",
+        "currentIdentityDigest": "b4234ba5b207bef23640e8280bd55b65bef884176645266f9b0e3bf0868d2470",
+        "fileSha256": "bb5f191093ab1ed738bd4df29af5a18c3add9a88f07b0725f97a610bc052c6fe"
+      }
+    ],
+    "mapping": [
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D13 物品框占位矩形是 (8,80,304,48)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogBoxRect 4 styles 返回不同 y 坐标"
+      }
+    ],
+    "reason": "Only test-only unused getDialogBoxRect placeholder API. No production/E2E references or published package export; main renderer and chrome pixel assertions retained. Official count reconciliation deferred to final pre94 window; no baseline changed.",
+    "oldDigestCorrections": [
+      {
+        "file": "packages/game/src/core/battle/__tests__/status.test.ts",
+        "oldRegistryLiteral": "{\n      file: 'packages/game/src/core/battle/__tests__/status.test.ts',\n      previous: 7,\n      current: 6,\n      previousIdentityDigest: '1f95c2cb88e3d8c93e43de80d5147f78689862c5f1617119c3aa48d6ed515ca8',\n      currentIdentityDigest: '3969cfad224c5c270d5e1e504721ea2f0ec82e54fec58deca4146ad90d6236d1',\n      fileSha256: 'c32e47925d130c69912c81fafb7bd705ee1930bd5f967ca449d1986826441332',\n    }",
+        "corrected": {
+          "file": "packages/game/src/core/battle/__tests__/status.test.ts",
+          "previous": 7,
+          "current": 6,
+          "previousIdentityDigest": "1f95c2cb88e3d8c93e43de80d5147f78689862c5f1617119c3aa48d6ed515ca8",
+          "currentIdentityDigest": "45304ac5e9e9f9e2585e43044c735be396fbb6c9ee41395ebca6939f787a8026",
+          "fileSha256": "c6db00a9d1c3963487abda7a03d7bc49e90065eee560029062050ee8a8d6aca3"
+        },
+        "identityAgreement": "Current official full names equal retained old adjacent.vitest.json assertion fullNames; prior stored digest used native reporter fullName with space separators, not the official list identity with > separators. No new identity retirement. status file gained only one comment in d7ba0b3b9, cross-module bytes unchanged.",
+        "historicalReporterSpaceDigest": "3969cfad224c5c270d5e1e504721ea2f0ec82e54fec58deca4146ad90d6236d1",
+        "cause": "Old record used native assertion.fullName (space separator), official Vitest list uses ancestor > leaf. Old native identities equal current official ancestor/title components; exact current official digests replace mistaken old fields, no new retirement."
+      },
+      {
+        "file": "packages/game/src/core/cross-module-boundaries.test.ts",
+        "oldRegistryLiteral": "{\n      file: 'packages/game/src/core/cross-module-boundaries.test.ts',\n      previous: 4,\n      current: 3,\n      previousIdentityDigest: 'a37e666648b00c40c4a54d437302c013d4beb32cf977edd8173cfd48f49848d6',\n      currentIdentityDigest: '73601accd59f22cd7ee6bb3396a29c0da3bb3173f35058bba71bdcd75712ebb1',\n      fileSha256: '18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4',\n    }",
+        "corrected": {
+          "file": "packages/game/src/core/cross-module-boundaries.test.ts",
+          "previous": 4,
+          "current": 3,
+          "previousIdentityDigest": "a37e666648b00c40c4a54d437302c013d4beb32cf977edd8173cfd48f49848d6",
+          "currentIdentityDigest": "e2a7fe63737fff4194259ab6816da594b10219ae9dcd5649e30e88e9baf9cb4f",
+          "fileSha256": "18349e6552d9b5bf181d60db94a207b9a055bf4c2d76bbb72337e4d5575887c4"
+        },
+        "identityAgreement": "Current official full names equal retained old adjacent.vitest.json assertion fullNames; prior stored digest used native reporter fullName with space separators, not the official list identity with > separators. No new identity retirement. status file gained only one comment in d7ba0b3b9, cross-module bytes unchanged.",
+        "historicalReporterSpaceDigest": "73601accd59f22cd7ee6bb3396a29c0da3bb3173f35058bba71bdcd75712ebb1",
+        "cause": "Old record used native assertion.fullName (space separator), official Vitest list uses ancestor > leaf. Old native identities equal current official ancestor/title components; exact current official digests replace mistaken old fields, no new retirement."
+      }
+    ],
+    "scope": "Only exact official old/new identities+file SHA, predicate unchanged; no deleted assertions restored for coverage."
+  },
+  "productionChangesInThisRecount": [],
+  "limitations": "Structural recount is a finite data migration, not a code-quality certification. Original official policy exit1 retained. Child coverage remains absent; child behavior/output is independently verified by existing exact CLI contracts and real extraction evidence."
+}

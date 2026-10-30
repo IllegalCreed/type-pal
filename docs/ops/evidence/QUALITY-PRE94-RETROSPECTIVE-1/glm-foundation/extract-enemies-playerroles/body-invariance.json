@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "base": "c596dc89f0bb8d0b838c4ef64aa1079abc8f36e5",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/pal-extract/src/resources/parsers/enemies.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "f24fafb71cf5a5f0439a4b8ee779d4e7d6d0096ca3ec9be9cab846d3b3b96a18",
+        "current": "f24fafb71cf5a5f0439a4b8ee779d4e7d6d0096ca3ec9be9cab846d3b3b96a18"
+      },
+      "printedBytes": {
+        "base": 5809,
+        "current": 5809
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/resources/parsers/player-roles.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "ed230d4b17093016ea6791dcd7ec57ef4b4051dbb27cbd92e6505007edf9d32b",
+        "current": "ed230d4b17093016ea6791dcd7ec57ef4b4051dbb27cbd92e6505007edf9d32b"
+      },
+      "printedBytes": {
+        "base": 6518,
+        "current": 6518
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/shared/src/tables.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "7e1ffa4d1e01d76374e0f0a4839fcb1c7143d2fbc6cce93f8922558900c3e1ac",
+        "current": "7e1ffa4d1e01d76374e0f0a4839fcb1c7143d2fbc6cce93f8922558900c3e1ac"
+      },
+      "printedBytes": {
+        "base": 4801,
+        "current": 4801
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

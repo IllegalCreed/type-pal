@@ -1,0 +1,157 @@
+{
+  "base": "8dabfd49976f818364d451635f155af08a41b9a9",
+  "status": "recorded: finite comments/test slice verified, no numerical build or unified acceptance",
+  "rows": [
+    {
+      "label": "baseline",
+      "receipt": "baseline.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "stdoutBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "current",
+      "receipt": "current.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "stdoutBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "restored",
+      "receipt": "restored.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "stdoutBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "restored-final",
+      "receipt": "restored-final.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "stdoutBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "adjacent",
+      "receipt": "adjacent.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "stdoutBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "typecheck",
+      "receipt": "typecheck.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "stdoutBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "ledger",
+      "receipt": "ledger.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "stdoutBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "caller-lifecycle",
+      "receipt": "caller-lifecycle.json",
+      "exit": 0,
+      "scope": "Same counter after setting gs.battleState and gs.mode=battle as production ownership; not full startBattle/animation/assets run."
+    },
+    {
+      "label": "docs",
+      "receipt": "docs.json",
+      "exit": 0,
+      "tests": {
+        "passed": 125,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "info": 0
+      },
+      "consumers": [
+        "docs links/index",
+        "document model",
+        "testing docs",
+        "phase/lore",
+        "content review"
+      ],
+      "scope": "Static docs structure/metadata consumers only, not product/runtime/visual/coverage."
+    },
+    {
+      "label": "lint",
+      "receipt": "lint.json",
+      "exit": 0,
+      "files": 5250,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "info": 0
+      }
+    }
+  ],
+  "notRun": [
+    "whole repository pnpm check",
+    "official coverage ratchet",
+    "protected fast",
+    "visual",
+    "E2E"
+  ],
+  "counts": {
+    "tracked": 3315,
+    "closed": 267,
+    "review": 75,
+    "pending": 2973
+  },
+  "newClosed": 0,
+  "callerLifecycleTemporaryFileRemoved": true,
+  "mergeAllowed": false,
+  "numericalBehaviorChanged": false,
+  "userNumericalDecision": "pending"
+}

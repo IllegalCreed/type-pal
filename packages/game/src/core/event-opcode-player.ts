@@ -12,6 +12,7 @@ import {
   curePlayerPoisonByKind,
   curePlayerPoisonByLevel,
 } from './player-poison-state.js'
+import { OP_ADD_MAGIC } from './script-opcode-ids.js'
 
 export const OP_SET_PLAYER_EXTRA_ATTR = 0x0017
 export const OP_EQUIP_ITEM = 0x0018
@@ -32,7 +33,7 @@ export const OP_SET_PLAYER_STATUS = 0x002d
 export const OP_SET_ENEMY_STATUS = 0x002e
 export const OP_REMOVE_PLAYER_STATUS = 0x002f
 export const OP_MARK_SCRIPT_FAILED = 0x0041
-export const OP_ADD_MAGIC = 0x0055
+export { OP_ADD_MAGIC } from './script-opcode-ids.js'
 export const OP_REMOVE_MAGIC = 0x0056
 export const OP_INCREASE_PLAYER_LEVEL = 0x008d
 
@@ -184,11 +185,7 @@ export function applyPlayerOpcode(input: PlayerOpcodeInput): boolean {
     case OP_REVIVE_PLAYER: {
       const applyAll = (operands[0] ?? 0) !== 0
       const ratioTenths = operands[1] ?? 0
-      const targets = applyAll
-        ? gs.partyMembers
-        : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
-          ? [currentEventObjectId]
-          : []
+      const targets = playerTargets(gs, currentEventObjectId, applyAll)
       let revivedAny = false
       for (const roleId of targets) {
         const currentHP = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
@@ -235,11 +232,7 @@ export function applyPlayerOpcode(input: PlayerOpcodeInput): boolean {
     case OP_POISON_PLAYER: {
       const applyAll = (operands[0] ?? 0) !== 0
       const poisonId = operands[1] ?? 0
-      const targets = applyAll
-        ? gs.partyMembers
-        : currentEventObjectId !== undefined && currentEventObjectId !== 0xffff
-          ? [currentEventObjectId]
-          : []
+      const targets = playerTargets(gs, currentEventObjectId, applyAll)
       for (const roleId of targets) {
         if (Math.floor(Math.random() * 100) + 1 <= getPlayerPoisonResistance(gs, roleId)) continue
         addPoisonForPlayer(gs, roleId, poisonId, (ip) => runPlayerPoisonEntry(gs, roleId, ip))
@@ -316,6 +309,7 @@ export function applyPlayerOpcode(input: PlayerOpcodeInput): boolean {
   }
 }
 
+/** 治疗/复活/施解毒：缺单体角色时没有目标；状态 opcode 缺角色时改为全队，不能混用。 */
 function playerTargets(
   gs: GameState,
   currentEventObjectId: number | undefined,

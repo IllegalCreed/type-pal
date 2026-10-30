@@ -70,7 +70,8 @@
         "height": 0
       },
       "sprite": "anu",
-      "facing": "left"
+      "facing": "left",
+      "hidden": true
     },
     {
       "id": "e2985",
@@ -188,6 +189,14 @@
                         "kind": "use",
                         "value": "legacy-001"
                       }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s182",
+                        "entity": "e2984"
+                      },
+                      "state": 1
                     }
                   ],
                   "reveal": {

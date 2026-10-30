@@ -9,7 +9,7 @@
  * - 仙剑原 OPL/MIDI 偏干 → CC91 混响 = 0 并 lockController(防 MIDI 自带 CC91 拉高)
  * - skipToFirstNoteOn: false —— 曲头静音是作曲者设的循环间隔,跳掉会循环显赶
  * - autoplay:play 记 last,ctx 解锁(用户手势 resume)后补播;resume 防重入
- * - 懒初始化:首次 play 才拉 worklet+soundfont —— 不放曲的工程(demo)零开销
+ * - 合成器/worklet/soundfont在首次play时加载;播放器建立时仍创建AudioContext
  */
 import type { AssetId, AssetKind, AssetRole } from '@type-pal/content'
 import { initializeBrowserSpessaSynth } from './spessa-browser-runtime.js'
@@ -129,13 +129,30 @@ export function createBgmPlayerWithRuntime(
   let ready = false
   let last: { asset: AssetId; loop: boolean; fadeInMs: number } | undefined
   let playing: AssetId | undefined
-  /** K5:进行中的换曲目标(readBytes/fade-out 窗口);同曲守卫命中时用于取消换向其他曲的请求。 */
-  let inflightTarget: AssetId | undefined
   let resuming = false
   let enabled = true // 音乐开关(系统菜单);关时 play 只记账不出声
   let requestSerial = 0
   let disposed = false
   let disposal: Promise<void> | undefined
+  let finishFadeWait: (() => void) | undefined
+
+  // A superseded/disposed request releases its timer and settles its waiter;
+  // the existing serial guard then prevents that continuation from committing.
+  const nextRequest = (): number => {
+    const serial = ++requestSerial
+    finishFadeWait?.()
+    return serial
+  }
+  const waitForFade = (ms: number): Promise<void> =>
+    new Promise((resolve) => {
+      const finish = (): void => {
+        clearTimeout(timer)
+        finishFadeWait = undefined
+        resolve()
+      }
+      const timer = setTimeout(finish, ms)
+      finishFadeWait = finish
+    })
 
   const isCurrent = (serial: number, asset: AssetId, loop: boolean): boolean =>
     serial === requestSerial && enabled && last?.asset === asset && last.loop === loop
@@ -147,7 +164,6 @@ export function createBgmPlayerWithRuntime(
     fadeInMs: number,
   ): Promise<void> {
     if (!seq || !enabled) return
-    inflightTarget = asset
     if (ctx.state === 'suspended') await ctx.resume().catch(() => {})
     if (!isCurrent(serial, asset, loop)) return
     let binary: ArrayBuffer
@@ -161,7 +177,6 @@ export function createBgmPlayerWithRuntime(
     const swap = (): void => {
       const sequencer = seq
       if (!sequencer) return
-      inflightTarget = undefined
       sequencer.loadNewSongList([{ binary, fileName: asset }])
       sequencer.loopCount = loop ? Infinity : 0
       sequencer.play()
@@ -177,7 +192,7 @@ export function createBgmPlayerWithRuntime(
       return
     }
     seq.fadeTo(0, fadeInMs)
-    await new Promise<void>((resolve) => setTimeout(resolve, fadeInMs))
+    await waitForFade(fadeInMs)
     if (!isCurrent(serial, asset, loop)) return // 被新请求接管:放弃换曲(新请求自行处理)
     swap()
   }
@@ -185,12 +200,12 @@ export function createBgmPlayerWithRuntime(
   function playCurrent(): void {
     if (!seq || !enabled || !last) return
     const current = last
-    const serial = ++requestSerial
+    const serial = nextRequest()
     void doPlay(current.asset, current.loop, serial, current.fadeInMs)
   }
 
-  // 懒初始化:首次真要播才拉合成器库 + worklet + soundfont(~6MB)——不放曲的工程(demo)
-  // 零开销,放曲工程首屏 bundle 也不背合成器。
+  // 首次播放才加载合成器库、worklet和soundfont;AudioContext由runtime提前持有,
+  // 不把后端按需加载误认为播放器建立时没有资源开销。
   let initP: Promise<void> | null = null
   const ensureInit = (): Promise<void> => {
     initP ??= runtime
@@ -217,8 +232,7 @@ export function createBgmPlayerWithRuntime(
         last = { asset, loop, fadeInMs }
         // 同曲也是一次完整接管：取消换曲/stop 的旧 serial 与仍在 AudioParam 上的 ramp，
         // 恢复全增益，但绝不 reload/restart 当前 MIDI。
-        requestSerial++
-        if (inflightTarget !== undefined) inflightTarget = undefined
+        nextRequest()
         seq?.cancelFade()
         seq?.fadeTo(1, 0)
         return // 同曲不重启(场景间共曲不打断)
@@ -230,8 +244,7 @@ export function createBgmPlayerWithRuntime(
     },
     stop(fadeOutMs = 0) {
       if (disposed) return
-      const serial = ++requestSerial
-      inflightTarget = undefined
+      const serial = nextRequest()
       last = undefined
       if (!seq || playing === undefined || fadeOutMs <= 0) {
         if (seq) seq.pause()
@@ -240,7 +253,7 @@ export function createBgmPlayerWithRuntime(
       }
       // 淡出后停;完成回调过 serial 门(K2a)——期间新 play 接管则不停旧曲。
       seq.fadeTo(0, fadeOutMs)
-      void new Promise<void>((resolve) => setTimeout(resolve, fadeOutMs)).then(() => {
+      void waitForFade(fadeOutMs).then(() => {
         if (serial === requestSerial && seq && playing !== undefined) {
           seq.pause()
           playing = undefined
@@ -252,8 +265,7 @@ export function createBgmPlayerWithRuntime(
       if (on === enabled) return // 幂等:无变化不重启/不重停(一阶段同款守卫)
       enabled = on
       if (!on) {
-        requestSerial++
-        inflightTarget = undefined
+        nextRequest()
         seq?.cancelFade() // G2:fade 期间关音乐不残留 ramp
         seq?.fadeTo(0, 0)
         seq?.pause()
@@ -280,10 +292,9 @@ export function createBgmPlayerWithRuntime(
       if (disposal) return disposal
       disposed = true
       enabled = false
-      requestSerial++
+      nextRequest()
       last = undefined
       playing = undefined
-      inflightTarget = undefined
       seq?.cancelFade()
       seq?.pause()
       disposal = Promise.resolve().then(() => runtime.dispose?.())

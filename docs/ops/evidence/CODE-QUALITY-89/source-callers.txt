@@ -1,0 +1,22 @@
+CODE-QUALITY-89 source / caller / oracle index
+
+Whitelist full reads:
+- packages/game/src/core/menu/in-game-magic-menu.ts:1-306
+- packages/game/src/core/menu/in-game-magic-menu.test.ts:1-493
+- packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts:1-127
+- packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts:1-248
+
+Production callers and ownership:
+- packages/game/src/core/menu/menu-driver.ts:190-205,856-950; opens from shortcut/hub with `menuRoles(gs)` runtime projection; dispatch owns script execution, MP deduction, menu stack close and refresh after success.
+- packages/game/src/core/game-state.ts:1394-1484,1577-1681; hydrate/project copies runtime MP/HP/magic slots and preserves party role identity.
+- packages/game/src/core/menu/magic-script.ts:225-251; `castOverworldMagic` runs scriptOnUse then scriptOnSuccess and returns success; it does not deduct MP.
+- packages/game/src/present/menu/draw-magic.ts:220-359; renderer consumes phase/state and catalog, without owning selection or script side effects.
+- packages/game/src/core/menu/magic-select.ts and primitives.ts; spell list construction and cursor semantics are adjacent CODE-QUALITY-88 contracts.
+
+Primary source:
+- reference/sdlpal/uigame.c:653-875 — single-party fast path, HP caster gate, spell loop, target picker, script/MP order, cancel and MP exhaustion return.
+- reference/sdlpal/magicmenu.c:301-484,35-116 — learned magic collection/sort/MP and outside flag, default cursor, disabled row and grid clamp.
+
+Oracle / risk result:
+- phase transitions, non-sequential party role ids, caster cursor memory, target clamp, cancel idempotence, empty list navigation, battle-only filtering and MP refresh are observed through public state/request values.
+- No direct production defect or public/schema/save/resource/user-visible behavior change found; dispatcher/script/draw/battle files remain adjacent pending scope.

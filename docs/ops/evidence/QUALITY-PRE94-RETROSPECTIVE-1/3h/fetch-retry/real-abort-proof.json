@@ -1,0 +1,49 @@
+{
+  "node": "v22.23.2",
+  "sourceSha256": "acece0be9e180b65cb5f86e96bea80072c5640edbb8af25dcc05ec01fa91b1aa",
+  "cases": [
+    {
+      "name": "native-preaborted-request",
+      "rejectedSameReason": true,
+      "serverRequests": 0
+    },
+    {
+      "name": "init-abort-during-backoff",
+      "atAbort": {
+        "settled": false,
+        "nativeCalls": 1,
+        "heldBackoffs": 1,
+        "serverRequests": 1
+      },
+      "afterRelease": {
+        "settled": true,
+        "nativeCalls": 2,
+        "backoffs": 1,
+        "heldBackoffs": 0,
+        "serverRequests": 1,
+        "rejectedSameReason": true
+      }
+    },
+    {
+      "name": "request-preaborted-custom-reason",
+      "atAbort": {
+        "settled": false,
+        "nativeCalls": 1,
+        "heldBackoffs": 1,
+        "serverRequests": 0
+      },
+      "afterRelease": {
+        "settled": true,
+        "nativeCalls": 3,
+        "backoffs": 2,
+        "heldBackoffs": 0,
+        "serverRequests": 0,
+        "rejectedSameReason": true
+      }
+    }
+  ],
+  "sourceUnchanged": true,
+  "globalsRestored": true,
+  "serverClosed": true,
+  "liveBackoffTimers": 0
+}

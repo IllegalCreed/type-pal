@@ -1,0 +1,9 @@
+
+> @type-pal/game@1.0.0 typecheck /Users/zhangxu/illegal/type-pal/packages/game
+> tsc --noEmit
+
+src/core/object-script-state.ts(41,26): error TS2304: Cannot find name 'state'.
+src/core/object-script-state.ts(42,10): error TS2304: Cannot find name 'state'.
+/Users/zhangxu/illegal/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/game@1.0.0 typecheck: `tsc --noEmit`
+Exit status 2

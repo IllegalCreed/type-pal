@@ -1,0 +1,45 @@
+{
+  "base": "28fcfbe310815bcfd712b2f3da1849e0f4076092",
+  "oldCounts": {
+    "main": 3,
+    "boundaries": 3
+  },
+  "currentCounts": {
+    "main": 3,
+    "boundaries": 4
+  },
+  "netTests": 1,
+  "policy": "No whole-case retirement or baseline edit; strengthen/split/move the exact storage/order/signal/unknown-event contracts, not a claim of identical test fullNames",
+  "transfers": [
+    {
+      "from": "main case1 blocked storage write returns false",
+      "to": "H04 persistence-failure case",
+      "evidence": "Exact false return retained; add exact key/value/count and native dispatch zero."
+    },
+    {
+      "from": "main case2 granted storage/broadcast and invalid external detail",
+      "to": ["main default-host commit-before-notify case", "H04 unknown external event case"],
+      "evidence": "Granted/denied exact stored state observed inside native callback; duplicate invalid/bogus strings both use the same isStoredConsent membership guard, keep one unknown-detail representative."
+    },
+    {
+      "from": "main case3 DNT/GPC positives and stored granted priority",
+      "to": "main case3",
+      "evidence": "Retain both pure positives and DNT fallback/granted priority; add false signals, GPC-only fallback, stored denied with/without signals moved from H04."
+    },
+    {
+      "from": "H04 case1 getter exception and throwing getItem; title falsely claimed no window",
+      "to": ["H04 browser-storage case", "main read case"],
+      "evidence": "Typed hostile getter removes as never; actual undefined-window IO branch now executed. Throwing getItem already has identical catch-all branch in main, error message is not inspected."
+    },
+    {
+      "from": "H04 case2 dispatch exception returns true and exact key/value; stored denied priority",
+      "to": ["H04 broadcast-failure case", "main case3"],
+      "evidence": "Native EventTarget with narrowly failing dispatch replaces unknown double cast, same true return and exact committed tuple retained; independent stored-denied contract moved to main."
+    },
+    {
+      "from": "H04 case3 external events, unsubscribe and typeof default-write boolean",
+      "to": ["H04 external-event case", "main default-host case"],
+      "evidence": "Exact granted/unset/unset trace and zero callbacks after unsubscribe retained; typeof boolean replaced by exact true, storage key/value and callback-at-commit result. finally cleanup added."
+    }
+  ]
+}

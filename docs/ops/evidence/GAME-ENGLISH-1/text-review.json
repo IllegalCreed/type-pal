@@ -1,0 +1,469 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-ENGLISH-1",
+  "kind": "contributor-text-pipeline-evidence",
+  "reviewer": "english_patch_audit",
+  "status": "ready-for-Codex-independent-acceptance",
+  "base": "557e8fab57e9a38c7bcd3fae5c75e81dc6178788",
+  "codeCandidate": "36483c30869c09b29e8a7a7eba8d6745a45a7381",
+  "createdAt": "2026-10-22T12:24:50.893145+00:00",
+  "scope": "First-stage display-only optional English SLF pipeline, selected project translation additions, CLI integration and scoped tests; no runtime shell/editor/gameplay/save changes.",
+  "files": [
+    {
+      "path": "data/en/README.md",
+      "sha256": "539c921e708218db35f04b6a1b8a82ad10fc7f0bbc748cc43e2e96307be50c88",
+      "dimensions": {
+        "A": "Documents exact supported file/hash, optional/explicit behavior, common corrected script hash meaning, no English SSS loading and no license inference from SDLPal GPL credits.",
+        "B": "Explains why source0 is restored and why D16 is only a range mapping; includes original translator/maintainer attribution.",
+        "C": "Local acquisition/build input instructions only; task status and gameplay truth remain canonical elsewhere.",
+        "D": "Uses existing pnpm extract/--english-slf, no bespoke manual generated-file editing.",
+        "E": "Commands align with CLI help; actual-source parse/hash/glyph verification executed; document gate status recorded separately.",
+        "F": "Concise Chinese resource setup instructions and provenance boundary.",
+        "G": "No bundled SLF/M.MSG/WORD/SSS/EXE; selected project corrections only.",
+        "H": "Known source SHA and output paths let an independent reviewer reproduce from user-provided patch."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/cli-localization.pal.test.ts",
+      "sha256": "fbbc7bd02587a23cdb6044afa0dc400c031cd7d917a6d14fe68cb3a2a6675e88",
+      "dimensions": {
+        "A": "Exercises the real exported parser/builder or actual CLI process against its legal input contract; malformed/missing inputs are explicit rejection cases. No product code replaced by mocks.",
+        "B": "Comments identify source-audit fixture or preflight boundary where relevant; test names identify expected business behavior.",
+        "C": "Parser/builder tests remain pure; CLI resource ownership uses existing createCliTestHost and finally/onTestFinished cleanup, no shared output path.",
+        "D": "Reuses typed fixture builders and CLI host rather than inventing another subprocess/lifecycle helper.",
+        "E": "See testContracts for per-file caller/legal-input/oracle/dedupe rationale. All 19 new tests plus 2 existing adjacent correction tests pass; two finite business-assertion controls restore exactly.",
+        "F": "Small named fixture and focused cases; negative axes share structure only where same rejection contract applies.",
+        "G": "No redundant line-count/coverage assertions, no fixed third-party text snapshot, no unsafe cast or new skip/timeout/config exclusion.",
+        "H": "Deterministic in-memory fixtures or isolated temporary tree; process disposal remains in finally/onTestFinished."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/cli-localization.test.ts",
+      "sha256": "50245b7c4afa91a9fa12e8c7f7d03a45690953870eda9d5091304bf1c29c2d46",
+      "dimensions": {
+        "A": "Exercises the real exported parser/builder or actual CLI process against its legal input contract; malformed/missing inputs are explicit rejection cases. No product code replaced by mocks.",
+        "B": "Comments identify source-audit fixture or preflight boundary where relevant; test names identify expected business behavior.",
+        "C": "Parser/builder tests remain pure; CLI resource ownership uses existing createCliTestHost and finally/onTestFinished cleanup, no shared output path.",
+        "D": "Reuses typed fixture builders and CLI host rather than inventing another subprocess/lifecycle helper.",
+        "E": "See testContracts for per-file caller/legal-input/oracle/dedupe rationale. All 19 new tests plus 2 existing adjacent correction tests pass; two finite business-assertion controls restore exactly.",
+        "F": "Small named fixture and focused cases; negative axes share structure only where same rejection contract applies.",
+        "G": "No redundant line-count/coverage assertions, no fixed third-party text snapshot, no unsafe cast or new skip/timeout/config exclusion.",
+        "H": "Deterministic in-memory fixtures or isolated temporary tree; process disposal remains in finally/onTestFinished."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "0474cf59a4c0c67d9d08dd088b44099ab44744dc7ef76e39ab122642c2a31c92",
+      "dimensions": {
+        "A": "Optional default SLF presence advertises zh-CN/en; absence remains Chinese. Explicit missing path/invalid syntax/unreviewed fingerprint fail before cleanup. Faithful is Chinese-only and rejects explicit English combination. Raw script corrections, Chinese words/messages and save semantics unchanged.",
+        "B": "Help documents optional path and faithful boundary; inline comment distinguishes corrected-bytecode SHA from raw SSS archive SHA.",
+        "C": "CLI owns file IO/output cleanup only; grammar, range matching and revisions stay separate.",
+        "D": "Reuses parseSlf/buildLanguagePack and manifest collection; no new loading/deploy pipeline.",
+        "E": "Real CLI preflight tests retain prior sentinel output for malformed, unsupported and missing source. Synthetic faithful full pipeline writes Chinese availability, no en file; existing 2 correction CLI regressions pass. Root will own successful full real extraction.",
+        "F": "Single explicit optional-path block precedes existing cleanup boundary; output additions are adjacent to existing lookup output.",
+        "G": "Extra disasm is a bounded preflight over current common bytecode, not retained duplicated runtime commands; no new dependency or lockfile change.",
+        "H": "Existing createCliTestHost uses isolated copied sources and real child processes; no mocked fs or corrected-script implementation."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/io/slf.test.ts",
+      "sha256": "aff66e474f04957e907c216c97c6b7513ce489563d5382d85b7e78566ff9e271",
+      "dimensions": {
+        "A": "Exercises the real exported parser/builder or actual CLI process against its legal input contract; malformed/missing inputs are explicit rejection cases. No product code replaced by mocks.",
+        "B": "Comments identify source-audit fixture or preflight boundary where relevant; test names identify expected business behavior.",
+        "C": "Parser/builder tests remain pure; CLI resource ownership uses existing createCliTestHost and finally/onTestFinished cleanup, no shared output path.",
+        "D": "Reuses typed fixture builders and CLI host rather than inventing another subprocess/lifecycle helper.",
+        "E": "See testContracts for per-file caller/legal-input/oracle/dedupe rationale. All 19 new tests plus 2 existing adjacent correction tests pass; two finite business-assertion controls restore exactly.",
+        "F": "Small named fixture and focused cases; negative axes share structure only where same rejection contract applies.",
+        "G": "No redundant line-count/coverage assertions, no fixed third-party text snapshot, no unsafe cast or new skip/timeout/config exclusion.",
+        "H": "Deterministic in-memory fixtures or isolated temporary tree; process disposal remains in finally/onTestFinished."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/io/slf.ts",
+      "sha256": "8fb323f2cf828200e51ec6753677f0208a631e7cd436455fa01f3e5e83f5132c",
+      "dimensions": {
+        "A": "UTF-8 string section state rejects malformed/nested/unterminated sections, duplicate words/layout, reversed/overlapping message ranges, unsafe identities and dangling escapes. Message whitespace/control text stays literal; CLEAR becomes null; WORD escapes are decoded including paired backslashes.",
+        "B": "Comments distinguish literal message escapes and SDL layout 81/82 description-row counts from screen coordinates.",
+        "C": "Pure parser imports shared display types only; no filesystem, corrections, gameplay state or runtime dependency.",
+        "D": "One parser handles WORDS/MESSAGE/LAYOUT data; UI settings/credits remain explicit non-gameplay metadata, not guessed translations.",
+        "E": "slf.test.ts legal CRLF+BOM sample independently specifies words, clear boundary, blank/comment body lines and flags; 9 malformed samples exercise distinct diagnostics. Clear-null mutation causes the positive deep equality assertion to fail.",
+        "F": "Section/message state and line-numbered fail() express the file grammar directly.",
+        "G": "Only runtime-relevant words/groups/positions are retained; source SETTING/CREDITS/DESCRIPTIONS are not copied to player assets.",
+        "H": "Direct string input/output permits deterministic format and failure checks without IO mocks."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/localization/build-language-pack.test.ts",
+      "sha256": "e81fcb46ceb3880f16c90254f4a34f6f636b6f2c47ad42f51bd9ec3ba60d2ca3",
+      "dimensions": {
+        "A": "Exercises the real exported parser/builder or actual CLI process against its legal input contract; malformed/missing inputs are explicit rejection cases. No product code replaced by mocks.",
+        "B": "Comments identify source-audit fixture or preflight boundary where relevant; test names identify expected business behavior.",
+        "C": "Parser/builder tests remain pure; CLI resource ownership uses existing createCliTestHost and finally/onTestFinished cleanup, no shared output path.",
+        "D": "Reuses typed fixture builders and CLI host rather than inventing another subprocess/lifecycle helper.",
+        "E": "See testContracts for per-file caller/legal-input/oracle/dedupe rationale. All 19 new tests plus 2 existing adjacent correction tests pass; two finite business-assertion controls restore exactly.",
+        "F": "Small named fixture and focused cases; negative axes share structure only where same rejection contract applies.",
+        "G": "No redundant line-count/coverage assertions, no fixed third-party text snapshot, no unsafe cast or new skip/timeout/config exclusion.",
+        "H": "Deterministic in-memory fixtures or isolated temporary tree; process disposal remains in finally/onTestFinished."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/localization/build-language-pack.ts",
+      "sha256": "e55266cd6fcde40b777184118a271ec58adb430d98082e92753bac513410eb88",
+      "dimensions": {
+        "A": "Exact SLF fingerprint plus each word/message before-value guard; two explicit aliases normalize only message identities. Every common corrected-script group must match once, every reviewed rule must be consumed, original words 0..564 must exist, final pack rejects Han characters. Inputs are not rewritten.",
+        "B": "MESSAGE_GetSpan reference and range-alias direction are documented; CLI states scriptSha is corrected instruction bytes.",
+        "C": "Pure construction separates project revision data, source parsing and filesystem orchestration; owns only cloned pack data and local range sets.",
+        "D": "Shared pack is reusable by overworld, battle and item/magic description consumers; no alternate script interpreter or bespoke gameplay translation patch.",
+        "E": "5 legal-fixture tests independently specify variable line count/CLEAR, alias end, nonincrementing adjacent IDs, fingerprint/per-entry guards, missing coverage/words and residual untranslated text. Normalized-end mutation fails expected group end assertion.",
+        "F": "Named remaining/usedRevisions/usedAliases expose completeness checks; messageRanges is isolated from revision application.",
+        "G": "No instruction insertion/deletion, offset remap or original text modification. Fixed 565 identity loop is the measured Win WORD contract, not speculative locale abstraction.",
+        "H": "Caller supplies parsed SLF/common Command[]/source identities/revisions; test fixtures use complete legal 565-word records and typed commands, no unsafe cast."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/localization/english-message-revisions.json",
+      "sha256": "56c8b451e2aa63a4fec581cf336363e180d356e128083334a07c5f7ce28e3aeb",
+      "dimensions": {
+        "A": "21 guarded groups: 4 Eight Immortals rhymes, 14 White Snake opera groups, drunken swordsman verse/name, ordinary Lin Tiannan lines 6640..6644, plus group0 restoring Xiaoyao call instead of translation-credit insertion. Null boundary in 6640 retained.",
+        "B": "N/A inline comments in JSON; selected changes and provenance are explained in input README, before arrays preserve source context.",
+        "C": "Text-only arrays use shared null/line contract; no script sequencing or effects changed.",
+        "D": "Uses same generic group-revision path for poetry, ordinary dialogue and opening correction.",
+        "E": "Actual source exact before arrays match; final 4768 groups cover common scripts; all 364 source clear boundaries remain; glyph scan finds no missing codepoints.",
+        "F": "After text follows the source meaning, including character titles and opera speakers; no claim to a complete re-edit of the old translation.",
+        "G": "Only selected residual untranslated material and group0 are included; no full third-party English script is committed.",
+        "H": "Exact before arrays protect against silently applying edits to a different patch; builder negative before-array case demonstrates detection."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/localization/english-revisions.ts",
+      "sha256": "8a88ef573de1c96d1f3f0e766890474dfb63ad6d71304a51bb528130f7b2cad6",
+      "dimensions": {
+        "A": "Pins supplied Win v3.3 SHA and exactly D16 12749:12751->12749:12752, 12866:12868->12866:12869; D01 requires no alias after common corrections.",
+        "B": "Comment names project-authored additions, original patch maintainer and release date.",
+        "C": "Connects project revision JSON to generic builder through LanguageRevisions without IO or runtime globals.",
+        "D": "One explicit revision source is shared by CLI; does not duplicate correction-plan rules.",
+        "E": "Actual source verification consumes all 183 word/21 message rules and 2 aliases, with zero unmatched groups.",
+        "F": "Visible source hash and before/after range direction prevent confusing translation line count with message IDs.",
+        "G": "Only release-specific data assembly lives here; does not add a second raw archive or second gameplay path.",
+        "H": "Typechecks imported JSON against LanguageRevisions and is exercised by actual source build."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/localization/english-word-revisions.json",
+      "sha256": "5890ffcc042561f44125c25291e909bb7037083420b565b9bf3209a8b0a584c8",
+      "dimensions": {
+        "A": "183 before values match all supplied Han WORD entries: 30 special/enemy spells and all 153 enemies. Project-authored English names are ASCII and at most 10 characters; original identity keys retained.",
+        "B": "N/A inline comments in JSON; maintainer/release/identity and authorship scope live in english-revisions.ts and data/en/README.md.",
+        "C": "Declarative text data, no embedded effects, opcode rules or resource-loader behavior.",
+        "D": "Central before/after mapping is applied once; names do not require enemy- or ability-specific runtime branches.",
+        "E": "Actual supplied source passes every before assertion, complete final 578 words have no Han/over-10 names, and current BDF covers all characters.",
+        "F": "Explicit before/after entries preserve Chinese naming intent while using compact readable forms consistent with existing 10-column names.",
+        "G": "No unchanged third-party English word table is committed; contains only 183 project additions and their preconditions.",
+        "H": "Each row is independently falsifiable by modifying its original value; generic builder precondition test exercises failure behavior."
+      }
+    }
+  ],
+  "testContracts": [
+    {
+      "file": "packages/pal-extract/src/io/slf.test.ts",
+      "publicCaller": "cli.ts -> parseSlf",
+      "legalInputs": "UTF-8 decoded SLF with BOM/CRLF, escaped WORD names, ordinary/empty/# literal message lines, CLEAR marker and SDL layout IDs; explicit malformed negatives.",
+      "oracle": "Independent expected word strings, message line/null sequence and screen positions; specific grammar diagnostic substrings.",
+      "dedupe": "New external SLF grammar, not duplicate legacy fixed-byte WORD/M.MSG codecs.",
+      "counter": "clear-boundary"
+    },
+    {
+      "file": "packages/pal-extract/src/localization/build-language-pack.test.ts",
+      "publicCaller": "cli.ts -> buildLanguagePack",
+      "legalInputs": "Typed common Command[] and complete generated 565-word legal Win table, synthetic independent SLF group/revision data.",
+      "oracle": "Literal intended translated group end and line queue, unchanged Chinese command identity, exact failure contracts for fingerprint/prevalues/coverage/translation.",
+      "dedupe": "Tests language assembly/range completeness, distinct from parser syntax and runtime consumer behavior.",
+      "counter": "normalized-span"
+    },
+    {
+      "file": "packages/pal-extract/src/cli-localization.test.ts",
+      "publicCaller": "real cli.ts main process",
+      "legalInputs": "Existing buildSssArchive fixture declares message length9 and receives exact HELLO MSG9 bytes; complete legal tail pipeline; faithful source-audit mode.",
+      "oracle": "Process exit0, languages.json exactly zh-CN, en.json absent. Expected fixture-only missing-BDF warning is asserted explicitly, not presented as production clean runtime.",
+      "dedupe": "Availability/output wiring is a new contract; does not reassert every codec/table output."
+    },
+    {
+      "file": "packages/pal-extract/src/cli-localization.pal.test.ts",
+      "publicCaller": "real cli.ts main process with supported original Win SSS/M.MSG/WORD input",
+      "legalInputs": "Original supported local raw data + malformed/unreviewed/missing optional English source. Original resource dependency is explicit .pal.test partition, no skip added.",
+      "oracle": "Diagnostic from English preflight, exit1, previous exact sentinel bytes retained and no new events/all.json.",
+      "dedupe": "Owns language preflight-before-cleanup; existing cli-script-corrections.pal.test owns script source/old-value/faithful correction behavior."
+    }
+  ],
+  "validation": {
+    "node": "v22.23.2",
+    "pnpm": "10.29.2",
+    "targeted": {
+      "command": "pnpm --filter @type-pal/pal-extract exec vitest run src/io/slf.test.ts src/localization/build-language-pack.test.ts src/cli-localization.test.ts src/cli-localization.pal.test.ts src/cli-script-corrections.pal.test.ts --reporter=json --outputFile=../../build/english-text/tests-restored-final.json",
+      "cwd": "/Users/zhangxu/.codex/worktrees/english-text/type-pal",
+      "exitCode": 0,
+      "tests": 21,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0
+    },
+    "typecheck": {
+      "command": "pnpm --filter @type-pal/pal-extract run typecheck",
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 0,
+      "info": 0
+    },
+    "lint": {
+      "command": "pnpm exec biome check packages/pal-extract/src/io/slf.ts packages/pal-extract/src/io/slf.test.ts packages/pal-extract/src/localization packages/pal-extract/src/cli.ts packages/pal-extract/src/cli-localization.test.ts packages/pal-extract/src/cli-localization.pal.test.ts",
+      "exitCode": 0,
+      "files": 10,
+      "errors": 0,
+      "warnings": 0,
+      "info": 0
+    },
+    "actualSource": {
+      "source": {
+        "slfSha256": "81c4bed62f48ccf30bcd50ae9afc766352c06e0b52b782a9d64d7517af86ef73",
+        "scriptSha256": "9adb46c70a8cfcd5fba345e774d99e983c22803ca70e004d324a86e4b5be1942",
+        "messageSha256": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846"
+      },
+      "wordCount": 578,
+      "groupCount": 4768,
+      "clearBoundaries": 364,
+      "missingGlyphs": [],
+      "longWords": [],
+      "supplementWords": 183,
+      "supplementGroups": 21,
+      "aliases": [
+        {
+          "start": 12749,
+          "end": 12752,
+          "lines": [
+            "Made with black materials,",
+            "high sharpness but heavy.",
+            "Str+70 Agi\\-20 Mag\\-15 Def+9"
+          ]
+        },
+        {
+          "start": 12866,
+          "end": 12869,
+          "lines": [
+            "Grows in cold area and",
+            "the size of a coin. Max",
+            "Atk up 2, Def up 2, Mag up 2"
+          ]
+        }
+      ],
+      "opening": {
+        "start": 0,
+        "end": 0,
+        "lines": ["$10Xiaoyao! Xiaoyao!~30"]
+      },
+      "ordinaryDialog": {
+        "start": 6640,
+        "end": 6644,
+        "lines": [
+          "Lin Tiannan:",
+          "Enough. Let us stop arguing.",
+          "I know you will not listen.",
+          null,
+          "Master Li, may we speak",
+          "in private for a moment?"
+        ]
+      }
+    },
+    "negativeControls": [
+      {
+        "case": "clear-boundary",
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/pal-extract",
+          "exec",
+          "vitest",
+          "run",
+          "src/io/slf.test.ts",
+          "-t",
+          "SLF preserves flexible message lines",
+          "--reporter=json",
+          "--outputFile=../../build/english-text/counter-clear-boundary.json"
+        ],
+        "exitCode": 1,
+        "failedTest": "SLF preserves flexible message lines and clear boundaries, but unescapes word names",
+        "failureKind": "business AssertionError",
+        "beforeSha256": "8fb323f2cf828200e51ec6753677f0208a631e7cd436455fa01f3e5e83f5132c",
+        "result": "counter-clear-boundary.json",
+        "restoredSha256": "8fb323f2cf828200e51ec6753677f0208a631e7cd436455fa01f3e5e83f5132c"
+      },
+      {
+        "case": "normalized-span",
+        "command": [
+          "pnpm",
+          "--filter",
+          "@type-pal/pal-extract",
+          "exec",
+          "vitest",
+          "run",
+          "src/localization/build-language-pack.test.ts",
+          "-t",
+          "language construction binds flexible text",
+          "--reporter=json",
+          "--outputFile=../../build/english-text/counter-normalized-span.json"
+        ],
+        "exitCode": 1,
+        "failedTest": "language construction binds flexible text to common message spans without rewriting scripts",
+        "failureKind": "business AssertionError",
+        "beforeSha256": "e55266cd6fcde40b777184118a271ec58adb430d98082e92753bac513410eb88",
+        "result": "counter-normalized-span.json",
+        "restoredSha256": "e55266cd6fcde40b777184118a271ec58adb430d98082e92753bac513410eb88"
+      }
+    ],
+    "docs": {
+      "status": "incomplete-terminated-stalled-existing-fixture",
+      "command": "pnpm check:docs",
+      "exitCode": null,
+      "signal": "SIGTERM (owned process tree)",
+      "nativePath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/docs-check.txt",
+      "observed": "First 58 subtests passed; frozen-binding-baseline.test.mjs child git hash-object -t blob -w --stdin stalled for 4m41s with no CPU/new output. Does not establish a product failure or a passed docs gate. Root integration owns retry."
+    },
+    "actualSourceCommand": "pnpm exec tsx build/english-text/verify-source.ts"
+  },
+  "nativeArtifacts": {
+    "tests-restored-final.json": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/tests-restored-final.json",
+      "bytes": 7526,
+      "sha256": "49823b28c2683be545ba1f1c8e318afd66abf86c06e99da20bea8196c79818b0"
+    },
+    "tests-restored-final.txt": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/tests-restored-final.txt",
+      "bytes": 122,
+      "sha256": "f0c7ecb53f87820a437fe26d0de4674c57a97c7360687c6950be9b5611d790b9"
+    },
+    "negative-controls.json": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/negative-controls.json",
+      "bytes": 1537,
+      "sha256": "f4b27671b782a93d3950f0f4b6a814fa29bb674ccce0abdfedcf5c4ad9836f1c"
+    },
+    "counter-clear-boundary.json": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/counter-clear-boundary.json",
+      "bytes": 4552,
+      "sha256": "863c063ecf0d9e803b54b69e97d1f5973b4564d3e5b8b6d23c75af1dacdbde97"
+    },
+    "counter-clear-boundary.txt": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/counter-clear-boundary.txt",
+      "bytes": 436,
+      "sha256": "ac5a887fa79ec20d1c06f641e174388a193e80069dd3494699bfc7c0aee50cc3"
+    },
+    "counter-normalized-span.json": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/counter-normalized-span.json",
+      "bytes": 3540,
+      "sha256": "e85f859b59e7c0d72003225ef24e5bb64e8ddfa2c43be9371a1f62556bd52771"
+    },
+    "counter-normalized-span.txt": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/counter-normalized-span.txt",
+      "bytes": 469,
+      "sha256": "a8c798ed9e7cc16f7957fb7beb6dcbcbba7c928c16c156e773bb3193afd29e08"
+    },
+    "source-verification-final.json": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/source-verification-final.json",
+      "bytes": 1210,
+      "sha256": "ef85d757af052e5efbf6daca4c18b3b85cbfefc3dadce3cdac52f16e482aa383"
+    },
+    "source-verification-final.stderr.txt": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/source-verification-final.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "typecheck-final.txt": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/typecheck-final.txt",
+      "bytes": 132,
+      "sha256": "e5c0dfb46286869c4173c8eb9e1a094eff7637190c7b80ca931078d94adac292"
+    },
+    "lint-final.txt": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/lint-final.txt",
+      "bytes": 44,
+      "sha256": "a7e7735efc0433f3cbc2361c68aa4d982ca440fcaf640047b07e05a42f36ab15"
+    },
+    "tests-final.json": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/tests-final.json",
+      "bytes": 14248,
+      "sha256": "d2f615cf91de5f4e2ad1cc14024997b897ada45bdd06045c8f053a283ad967c5"
+    },
+    "tests-final.txt": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/tests-final.txt",
+      "bytes": 520,
+      "sha256": "7d11b15543cbfc47f301895da1886bf3dbbc02d24ed435afa64628bc60fc8439"
+    },
+    "typecheck-first.txt": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/typecheck-first.txt",
+      "bytes": 669,
+      "sha256": "af6c124af8212241cb0166dc499a568c92030257e00bf5b9596777fbc7628ff8"
+    },
+    "docs-check.txt": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/docs-check.txt",
+      "bytes": 13833,
+      "sha256": "e55bd616b46d592da8fb357c084c9a25fc2f5ea41e0d47b64f1d8a2471da5470"
+    },
+    "docs-stall-processes.txt": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/docs-stall-processes.txt",
+      "bytes": 171191,
+      "sha256": "06673dba4914e588674a9c9dd52765a8c1fd8aa92ef0bc009a9d7b553158b423"
+    },
+    "docs-stall-receipt.json": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/docs-stall-receipt.json",
+      "bytes": 2400,
+      "sha256": "59eb4b9a5e681ed1436edec64f63bf5fb2c54e874e967057ad6ec15b0c572e0b"
+    },
+    "verify-source.ts": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/verify-source.ts",
+      "bytes": 2563,
+      "sha256": "087ba962a5a64c32cc4c00958520818fd7a2215aea7884e9e9c8cb81dba69963"
+    },
+    "negative-controls.py": {
+      "path": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/negative-controls.py",
+      "bytes": 1861,
+      "sha256": "58ead7c114396b46c6b80220c379416d16803dcdcd7470c0d1cfcb9b6663bce8"
+    }
+  },
+  "developmentFailures": [
+    {
+      "record": "typecheck-first.txt",
+      "kind": "5 TS18047 null narrowing diagnostics",
+      "resolution": "Named never-returning fail function permits proper TS control-flow narrowing; final typecheck zero diagnostics."
+    },
+    {
+      "record": "tests-final.json",
+      "kind": "5 environment failures: requested local raw files missing because tracked data/raw directory meant initial raw symlink was nested rather than replacing directory.",
+      "resolution": "Removed only own nested symlink, linked three local raw inputs individually; all 21 tests then pass. This is not a product-regression/counter proof."
+    },
+    {
+      "record": null,
+      "kind": "Initial CLI synthetic M.MSG fixture had 5 bytes with an existing 9-byte offset table; first failed development report was overwritten during iteration.",
+      "resolution": "Corrected fixture to its documented legal 9-byte HELLO MSG; no original-failure proof claimed."
+    }
+  ],
+  "limitations": [
+    "No complete extraction performed in contributor worktree; root owns normal extraction, idempotence and gameplay-byte comparison.",
+    "No browser, full-story E2E, UI visual or deployment credit; contributor validates text pipeline and BDF codepoint presence only.",
+    "Existing patch translation outside selected 21 groups is not re-edited or claimed linguistically perfect.",
+    "Input README records attribution, not a verified third-party translation license. Original patch stays local/untracked; en.json full translated output remains ignored.",
+    "Full-package coverage/quality inventory and integrated shared/shell/runtime checks belong to root stable integration window.",
+    "Untracked node_modules symlinks are temporary test dependencies, not delivery files; remove after native report delivery."
+  ],
+  "recheck": {
+    "fastReadOnly": [
+      "git show --stat 36483c30869c09b29e8a7a7eba8d6745a45a7381",
+      "Verify per-file SHA256 and nativeArtifacts hashes.",
+      "Read tests-restored-final.json status/identity set and negative-controls.json restoration hashes."
+    ],
+    "invalidatedBy": [
+      "Any parser grammar or message/word escape change",
+      "Common corrected script group/span or source patch revision change",
+      "Shared PalLanguagePack/schema or runtime consumer contract change",
+      "Project before/after revision or font/source changes"
+    ],
+    "entryAudit": "Independent runtime owner has checked 5316 labeled common script entrances and found 0 middle-of-group entries; their own receipt is separate, not reproduced here."
+  }
+}

@@ -150,7 +150,9 @@ describe('M01 SkillTab 效果分支字段当前合同', () => {
       detail: '施加毒',
     })
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().skills[0]!.effects).toEqual([{ kind: 'applyPoison', poisonId: '' }])
     expect(
       collectBattleDataReferences(session.getState(), 'poison', { includeScriptCommands: false }),
@@ -176,15 +178,21 @@ describe('M01 SkillTab 效果分支字段当前合同', () => {
       { kind: 'removeStatus', statuses: ['sleep'] },
     ])
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().skills[0]!.effects).toEqual([
       { kind: 'removeStatus', statuses: ['confused', 'sleep'] },
     ])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().skills[0]!.effects).toEqual([
       { kind: 'removeStatus', statuses: ['confused'] },
     ])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().skills[0]!.effects).toEqual([{ kind: 'removeStatus', statuses: [] }])
   })
 
@@ -219,9 +227,13 @@ describe('M01 SkillTab 效果分支字段当前合同', () => {
     })
     expect(session.getHistoryVersion()).toBe(before + 3)
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().skills[0]!.effects[0]).toMatchObject({ duration: 3 })
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().skills[0]!.effects[0]).toMatchObject({ duration: 'battle' })
   })
 
@@ -250,13 +262,21 @@ describe('M01 SkillTab 效果分支字段当前合同', () => {
     })
     expect(session.getHistoryVersion()).toBe(before + 4)
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().skills[0]!.effects[0]).toMatchObject({ elemental: 0 })
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().skills[0]!.effects[0]).toMatchObject({ den: 5 })
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().skills[0]!.effects[0]).toMatchObject({ num: 2 })
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().skills[0]!.effects[0]).toMatchObject({ maxSpend: 5000 })
   })
 })

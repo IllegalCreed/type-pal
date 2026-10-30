@@ -1,0 +1,13 @@
+{
+  "command": ["python3", "/tmp/type-pal-settlement-docs-consumers.py"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T06:46:05.408798+00:00",
+  "completedAt": "2026-10-18T06:46:07.643206+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "docs-consumers.raw.gz",
+  "rawBytes": 1177,
+  "rawSha256": "008082268eb470c4e47d677c2887692420c454c823c887cd9669bc60aabce245",
+  "fullUncutMergedStdoutStderr": true
+}

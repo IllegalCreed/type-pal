@@ -1,0 +1,38 @@
+{
+  "runs": [
+    {
+      "label": "final-targeted",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/shared",
+        "exec",
+        "vitest",
+        "run",
+        "src/mkf.boundaries.test.ts",
+        "src/rng.boundaries.test.ts",
+        "src/rng.test.ts",
+        "--maxWorkers=1",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "d92799d5c7ce6c35a960ecbeee525ef22b3ccb581797531be8861f4c4410fa51"
+    },
+    {
+      "label": "final-shared-check",
+      "command": ["pnpm", "--filter", "@type-pal/shared", "run", "check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "48eaf1c7bdbd19776bb3dbdbbca78b783388195815ee5130d0aea45090e737d8"
+    },
+    {
+      "label": "coverage-tools",
+      "command": ["pnpm", "test:coverage-tools"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "81818649822fd29b2ba3f5b8a8e022779799930e945447b797418ea71fddff7c"
+    }
+  ],
+  "testPrecision": "MKF11 + RNG boundaries16 + RNG main6 =33 targeted; shared130; coverage-tools68; adjacent30 previously run against byte-identical production implementations"
+}

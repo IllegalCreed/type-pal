@@ -6,8 +6,9 @@
  *   第 1 遍:翻指令 → Command;收集跳转目标(指令下标)。
  *   第 2 遍:对所有被跳转的指令打 label 字段。
  *
- * M1 策略:只对 end / goto / showDialog / giveItem 产出具名 Command;
- * 其余具名 opcode 及未具名 opcode 均落 RawCommand,保证字节层面可逆。
+ * 具名产出范围(逐步扩大,非仅 M1 初版):end / goto / showDialog / giveItem /
+ * loadScene / setPalette / setDialogStyle×4;其余具名 opcode 及未具名 opcode 均落
+ * RawCommand,保证字节层面可逆。
  */
 
 import type {
@@ -55,6 +56,10 @@ export function disasm(
     const o1 = view.getUint16(i * 8 + 4, true)
     const o2 = view.getUint16(i * 8 + 6, true)
 
+    // These instructions return/save the following numeric entry. Label it for
+    // the overworld item/equipment/magic callers when they resume after loading.
+    if (op === 0x0001 || op === 0x0008) labelTargets.add(i + 1)
+
     const def = opcodeTable[op]
 
     if (!def?.named) {
@@ -79,7 +84,7 @@ export function disasm(
       }
     }
 
-    commands.push(emitCommand(def, operands, messages))
+    commands.push(emitCommand(op, def, operands, messages))
   }
 
   // 第 2 遍:对跳转目标 + entry ips 都打 label
@@ -89,7 +94,7 @@ export function disasm(
   }
   for (const target of allLabelTargets) {
     if (target >= 0 && target < commands.length) {
-      commands[target] = { ...commands[target]!, label: `L_${target}` } as Command
+      commands[target] = { ...commands[target]!, label: `L_${target}` }
     }
   }
 
@@ -98,14 +103,14 @@ export function disasm(
 
 // ── 单条指令产出 ──────────────────────────────────────────────────────────────
 
-type DefLike = {
-  name: string
-  fields: { name: string; kind: string }[]
-  endAdvance?: boolean
-  endReset?: boolean
-}
+type OpcodeDefinition = (typeof opcodeTable)[number]
 
-function emitCommand(def: DefLike, operands: number[], messages: string[]): Command {
+function emitCommand(
+  opcode: number,
+  def: OpcodeDefinition,
+  operands: number[],
+  messages: string[],
+): Command {
   switch (def.name) {
     case 'end':
       return emitEnd(def, operands)
@@ -128,12 +133,12 @@ function emitCommand(def: DefLike, operands: number[], messages: string[]): Comm
     case 'setDialogStyleNarration':
       return emitSetDialogStyle('setDialogStyleNarration', operands)
     default:
-      // 其余具名 opcode —— M1 落 raw 保证字节可逆
-      return emitRawFallback(def, operands)
+      // Preserve the scanned opcode directly; a shared verb must not change its identity.
+      return { op: 'raw', opcode, operands: [operands[0]!, operands[1]!, operands[2]!] }
   }
 }
 
-function emitEnd(def: DefLike, operands: number[]): EndCommand {
+function emitEnd(def: OpcodeDefinition, operands: number[]): EndCommand {
   const c: EndCommand = { op: 'end' }
   if (def.endAdvance) c.advance = true
   if (def.endReset) {
@@ -180,7 +185,7 @@ type SetDialogStyleCommand =
  * 非 0 时 recompile 必须按原样写回,确保 round-trip 字节一致。
  */
 function emitSetDialogStyle(op: SetDialogStyleOp, operands: number[]): SetDialogStyleCommand {
-  const c: SetDialogStyleCommand = { op } as SetDialogStyleCommand
+  const c: SetDialogStyleCommand = { op }
   if (operands[0]! !== 0) c.arg0 = operands[0]!
   if (operands[1]! !== 0) c.arg1 = operands[1]!
   if (operands[2]! !== 0) c.arg2 = operands[2]!
@@ -214,26 +219,4 @@ function emitSetPalette(operands: number[]): SetPaletteCommand {
     op: 'setPalette',
     paletteIndex: operands[0]!,
   }
-}
-
-/** 具名但 M1 未完整处理的 opcode —— 找回原始 opcode 数值后落 raw */
-function emitRawFallback(def: DefLike, operands: number[]): Command {
-  const opcode = findOpcodeByName(def.name)
-  return {
-    op: 'raw',
-    opcode,
-    operands: [operands[0] ?? 0, operands[1] ?? 0, operands[2] ?? 0],
-  }
-}
-
-/** 反向查 opcodeTable —— 取 verb 对应的最小 opcode 编号 */
-function findOpcodeByName(name: string): number {
-  let found: number | undefined
-  for (const [opStr, d] of Object.entries(opcodeTable)) {
-    if (d.named && d.name === name) {
-      const n = Number(opStr)
-      if (found === undefined || n < found) found = n
-    }
-  }
-  return found ?? 0
 }

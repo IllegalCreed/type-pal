@@ -1,10 +1,9 @@
 /**
- * TEST-GLM-PHASE1-LEAVES-3 L12（draw-opening-menu.ts）— 去重表：
- *  - draw-opening-menu.test（openingItemX 公式/背景 blit/两 item 坐标/bg 缺失/cursor 差异）→ 不重复
- *  - 新差异：选中/非选中的精确色值（冻结时钟 0xF9 vs 0x4F）、fShadow 三影黑点、
- *    词表载入后 label 同步渲染（getWord 单一源）。
+ * 开场文字的精确颜色、完整四字词条、阴影与六色闪烁。
+ * 主测试保留布局/背景合同；相邻 Grok 像素例覆盖背景裁剪、词条区分和对角阴影。
+ * “无需frames”旧例的第四字断言已迁入首例，独立覆盖其真实绘制合同。
  */
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   fixtureGlyphs,
   freezeNow,
@@ -38,6 +37,8 @@ describe('L12 drawOpeningMenu 剩余合同', () => {
     const row1 = textDot('乙乙乙乙', 0, 125, 112)
     expect(pixel(fb, row0.x, row0.y)).toBe(0xf9)
     expect(pixel(fb, row1.x, row1.y)).toBe(0x4f)
+    expect(pixel(fb, 177, 99)).toBe(0xf9)
+    expect(pixel(fb, 177, 116)).toBe(0x4f)
     // fShadow：主点右侧/下侧黑 0
     expect(pixel(fb, row0.x + 1, row0.y)).toBe(0)
     expect(pixel(fb, row0.x, row0.y + 1)).toBe(0)
@@ -58,19 +59,33 @@ describe('L12 drawOpeningMenu 剩余合同', () => {
     expect(pixel(fb, 125, 112)).toBe(0xf9)
   })
 
-  it('makeUiFrames 与本渲染无耦合：不传 frames 也能画（无 box 菜单）', () => {
+  it('选中色按100ms推进六色，600ms回到首色，未选项保持常态色', () => {
     const flat: string[] = []
     flat[7] = '丙丙丙丙'
     flat[8] = '丁丁丁丁'
     setWordTable(flat)
     const state = createOpeningMenu()
     const fb = newFb()
-    const restore = freezeNow(0)
+    const now = vi.spyOn(Date, 'now')
     try {
-      drawOpeningMenu({ fb, state, glyphs, bg: undefined })
+      for (const { ms, color } of [
+        { ms: 0, color: 0xf9 },
+        { ms: 99, color: 0xf9 },
+        { ms: 100, color: 0xfa },
+        { ms: 200, color: 0xfb },
+        { ms: 300, color: 0xfc },
+        { ms: 400, color: 0xfd },
+        { ms: 500, color: 0xfe },
+        { ms: 599, color: 0xfe },
+        { ms: 600, color: 0xf9 },
+      ]) {
+        now.mockReturnValue(ms)
+        drawOpeningMenu({ fb, state, glyphs })
+        expect(pixel(fb, 129, 99)).toBe(color)
+        expect(pixel(fb, 129, 116)).toBe(0x4f)
+      }
     } finally {
-      restore()
+      now.mockRestore()
     }
-    expect(pixel(fb, textDot('丙丙丙丙', 3, 125, 95).x, 95 + 4)).toBe(0xf9)
   })
 })

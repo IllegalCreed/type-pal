@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "base": "53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/pal-extract/src/resources/parsers/rix.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "7c74d6956aee714bb55b60ea9e80bda31bf02eb53f6a149f19fe209179d70f80",
+        "current": "7c74d6956aee714bb55b60ea9e80bda31bf02eb53f6a149f19fe209179d70f80"
+      },
+      "printedBytes": {
+        "base": 579,
+        "current": 579
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/resources/parsers/sounds.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "31652bde181a701d818abeb079f24932095616bb9168bc6928d152e128706fb5",
+        "current": "31652bde181a701d818abeb079f24932095616bb9168bc6928d152e128706fb5"
+      },
+      "printedBytes": {
+        "base": 482,
+        "current": 482
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/resources/parsers/rng-frames.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "25b2d5c201950f0c17f436a46e6e5f71d52fe95f492e511a3b7e2fdd10a50cfa",
+        "current": "25b2d5c201950f0c17f436a46e6e5f71d52fe95f492e511a3b7e2fdd10a50cfa"
+      },
+      "printedBytes": {
+        "base": 667,
+        "current": 667
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/resources/parsers/data-misc.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "db37d369a88476e06a561b4fd6acde5b5725057c9ebe659978980f1c03fc3546",
+        "current": "db37d369a88476e06a561b4fd6acde5b5725057c9ebe659978980f1c03fc3546"
+      },
+      "printedBytes": {
+        "base": 1503,
+        "current": 1503
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

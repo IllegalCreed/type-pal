@@ -1,0 +1,90 @@
+{
+  "scope": "Same extracted C functions and typed minimal context as numeric-counter.json; one independent hand/native oracle for the existing poison-resistance leaf case. Not full gameplay.",
+  "sourceSha256": "eb967b94357830404d0b4942b355b520bbfb70bec30a664190911fa8ca98e155",
+  "runs": [
+    {
+      "label": "poison-compile-O0",
+      "command": [
+        "clang",
+        "-std=c11",
+        "-O0",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-ffp-contract=off",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-map-6g2waebv/map.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-map-6g2waebv/O0"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:40:28.360665+00:00",
+      "completedAt": "2026-10-17T21:40:28.573615+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "poison-compile-O0.raw.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "label": "poison-native-O0",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-map-6g2waebv/O0"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:40:28.573666+00:00",
+      "completedAt": "2026-10-17T21:40:29.444967+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "poison-native-O0.raw.gz",
+      "rawBytes": 12,
+      "rawSha256": "a291a5c87047efbc8e1c968b9f58ac450923064236ddb997cc55d5a9d20f2b65",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "label": "poison-compile-O2",
+      "command": [
+        "clang",
+        "-std=c11",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-ffp-contract=off",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-map-6g2waebv/map.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-map-6g2waebv/O2"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:40:29.445008+00:00",
+      "completedAt": "2026-10-17T21:40:29.502293+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "poison-compile-O2.raw.gz",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "label": "poison-native-O2",
+      "command": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-map-6g2waebv/O2"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T21:40:29.502319+00:00",
+      "completedAt": "2026-10-17T21:40:29.815900+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "poison-native-O2.raw.gz",
+      "rawBytes": 12,
+      "rawSha256": "a291a5c87047efbc8e1c968b9f58ac450923064236ddb997cc55d5a9d20f2b65",
+      "fullUncutMergedStdoutStderr": true
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-map-6g2waebv",
+  "tempRemoved": true
+}

@@ -63,7 +63,6 @@ describe('P14 战斗画面渐变与补帧', () => {
     const fb = createFramebuffer()
     const commands = [
       {
-        cmdId: 1,
         cmd: {
           op: 'showDamageNum' as const,
           target: { kind: 'enemy' as const, idx: 0 },

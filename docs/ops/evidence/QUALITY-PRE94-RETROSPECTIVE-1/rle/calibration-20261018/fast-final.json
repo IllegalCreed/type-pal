@@ -1,0 +1,16 @@
+{
+  "command": [
+    "python3",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/verify.py"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T07:48:30.224537+00:00",
+  "completedAt": "2026-10-18T07:48:30.458517+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "fast-final.raw.gz",
+  "rawBytes": 219,
+  "rawSha256": "d5f1e29ab127b32756ffeead7a8017bd6430ba5dc7658dde867e3a6746167ffb",
+  "fullUncutMergedStdoutStderr": true
+}

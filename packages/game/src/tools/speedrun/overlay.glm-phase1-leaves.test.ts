@@ -2,7 +2,7 @@
  * TEST-GLM-PHASE1-LEAVES-3 L21（overlay.ts）— 去重表：
  *  - overlay.test（渲染 21 行+主计时/暂停 * 前缀/hideOverlay 移除）→ 不重复
  *  - 新差异：renderOverlay 二次调用原位更新（单根节点不重复建）、样式注入幂等、
- *    hideOverlay 幂等（二次移除不抛）。
+ *    hideOverlay 二次移除归回主测的真实挂载合同。
  */
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { CHECKPOINTS } from './checkpoints.js'
@@ -10,22 +10,21 @@ import { hideOverlay, injectOverlayStyles, renderOverlay } from './overlay.js'
 import type { BestTimes } from './store.js'
 
 const ROOT_ID = 'tp-speedrun-overlay'
+const STYLE_ID = 'tp-speedrun-style'
 
-beforeEach(() => {
-  document.body.innerHTML = ''
-  document.getElementById('tp-speedrun-overlay-style')?.remove()
-})
-
-afterEach(() => {
+function cleanupOverlay() {
   hideOverlay()
-})
+  document.getElementById(STYLE_ID)?.remove()
+}
+beforeEach(cleanupOverlay)
+afterEach(cleanupOverlay)
 
 function run(): Parameters<typeof renderOverlay>[0] {
   return {
     phase: 'running',
     elapsedMs: 65_432,
     stepIndex: 1,
-    splits: [12_345, null],
+    splits: [12_345, ...CHECKPOINTS.slice(1).map(() => null)],
     bananaPaused: false,
     manualPaused: false,
     hasUnCheated: false,
@@ -48,12 +47,15 @@ describe('L21 overlay 原位更新与幂等', () => {
     expect(first.textContent).toContain('1:39.99') // 99999ms → 1:39.99
   })
 
-  it('injectOverlayStyles 幂等；hideOverlay 二次调用不抛', () => {
+  it('injectOverlayStyles 创建指定样式，二次注入保留同一节点', () => {
+    expect(document.getElementById(STYLE_ID)).toBeNull()
     injectOverlayStyles()
-    const styles = document.querySelectorAll('style').length
+    const style = document.getElementById(STYLE_ID)
+    expect(style).toBeInstanceOf(HTMLStyleElement)
+    expect(style?.textContent).toContain('#tp-speedrun-overlay')
+    expect(style?.textContent).toContain('pointer-events:none')
     injectOverlayStyles()
-    expect(document.querySelectorAll('style').length).toBe(styles)
-    hideOverlay()
-    expect(() => hideOverlay()).not.toThrow()
+    expect(document.querySelectorAll(`#${STYLE_ID}`)).toHaveLength(1)
+    expect(document.getElementById(STYLE_ID)).toBe(style)
   })
 })

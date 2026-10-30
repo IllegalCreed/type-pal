@@ -1,0 +1,336 @@
+{
+  "phase": "after",
+  "base": "a2ee3650c8e7c0970751bec1f5c85c1e55c8c816",
+  "formalSha256": {
+    "index.ts": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+    "snapshot.test.ts": "2c1476150e74be767259383e6818a8bc5a1780e3efb76ea076b9d40c3afdc838",
+    "index.test.ts": "82881cf80a251e55152535e8a68cc1b73fdda063306e2734f01d969cf83a8252",
+    "index.glm-phase1-leaves.test.ts": "bb7e306e566363573d007bb680f00e07dfec6519c246e263c515ab21c4302d05"
+  },
+  "variants": {
+    "control": false,
+    "silent-reset-after-unbind": true
+  },
+  "runs": [
+    {
+      "variant": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/speedrun/pre94-speedrun6365-after-control-snapshot.test.ts",
+        "src/tools/speedrun/pre94-speedrun6365-after-control-index.test.ts",
+        "src/tools/speedrun/pre94-speedrun6365-after-control-index.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-speedrun6365-mrp91n96/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "5278dfc6d00764214599424c6e82c4e781f993aea79fc0c836314f56b28e7cd0",
+      "runnerSha256": "7a73c016a23fa8bbfcbcb8f4dcd4e7c63ab7a39c72f9b5fa296ef063bb1900d8",
+      "moduleSha256": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+      "copiesSha256": {
+        "packages/game/src/tools/speedrun/pre94-speedrun6365-after-control-index.ts": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+        "packages/game/src/tools/speedrun/pre94-speedrun6365-after-control-snapshot.test.ts": "2c1476150e74be767259383e6818a8bc5a1780e3efb76ea076b9d40c3afdc838",
+        "packages/game/src/tools/speedrun/pre94-speedrun6365-after-control-index.test.ts": "999608481901bf0a642c7e893c4f2b03ab54282f1bd4e1ddf8541e37d2b9b7e2",
+        "packages/game/src/tools/speedrun/pre94-speedrun6365-after-control-index.glm-phase1-leaves.test.ts": "ba3612ed22f736e576b9a954f796bdd2c03583ee324b5c67d4eac22401e92b66"
+      },
+      "passed": 20,
+      "failed": 0,
+      "pending": 0,
+      "errorNames": [],
+      "cases": [
+        {
+          "file": "index.glm-phase1-leaves.test.ts",
+          "fullName": "L21 setupSpeedrunHotkeys 解绑 启用时 F4 重置；解绑后 F4 不改变计时且无新 toast",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.glm-phase1-leaves.test.ts",
+          "fullName": "L21 setupSpeedrunHotkeys 解绑 未启用时按键短路（无 toast）；解绑函数幂等可重复调",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "tickSpeedrunTimer 未启用 → 不挂覆盖层、计时不动",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "tickSpeedrunTimer 启用后起表、挂覆盖层、wall-clock 累加",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "tickSpeedrunTimer show=0 时不挂覆盖层但仍计时",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "bests 默认播种 首次读取用 CHECKPOINTS 默认参考线",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "setupSpeedrunHotkeys F4 启用时重置本局",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "setupSpeedrunHotkeys F4 未启用时不重置",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "setupSpeedrunHotkeys F8 启用时暂停本局",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "setupSpeedrunHotkeys F2 启用时切换覆盖层显隐设置",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 手动暂停 → true(冻结游戏)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 未暂停 → false",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot 抽取场景/坐标/音乐/物品(仅 count>0)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot 有战斗时汇总敌人 id 与总血",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot.canMove(计时起表门) explore + 无加载/淡入/挂起 → 可移动",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot.canMove(计时起表门) 开场菜单(mode!=explore)→ 不可移动",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但 suspendRaf(boot 预载/开场 CG/梦境)→ 不可移动",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但场景加载中 → 不可移动",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但 palette 淡入中 → 不可移动",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "silent-reset-after-unbind",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/speedrun/pre94-speedrun6365-after-silent-reset-after-unbind-snapshot.test.ts",
+        "src/tools/speedrun/pre94-speedrun6365-after-silent-reset-after-unbind-index.test.ts",
+        "src/tools/speedrun/pre94-speedrun6365-after-silent-reset-after-unbind-index.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-speedrun6365-u61m3jl3/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "3e4998e3e8e4570382bb767995ffb0df1e47a21fb4fe8366a97527f08affb7de",
+      "runnerSha256": "13298e0a1c26b51b7365ecc8ab8ccdc3fc23948d60c76350dfb8fcfd206a410c",
+      "moduleSha256": "44e89a0cb940cb752ad7f3b870eb15bb4ac3af77e0355dcf9db1ce0167b56bd0",
+      "copiesSha256": {
+        "packages/game/src/tools/speedrun/pre94-speedrun6365-after-silent-reset-after-unbind-index.ts": "44e89a0cb940cb752ad7f3b870eb15bb4ac3af77e0355dcf9db1ce0167b56bd0",
+        "packages/game/src/tools/speedrun/pre94-speedrun6365-after-silent-reset-after-unbind-snapshot.test.ts": "2c1476150e74be767259383e6818a8bc5a1780e3efb76ea076b9d40c3afdc838",
+        "packages/game/src/tools/speedrun/pre94-speedrun6365-after-silent-reset-after-unbind-index.test.ts": "cb61621937c7c4a6d8af0f41afb2a6efb03aff760da2937e5165b4f002d347e8",
+        "packages/game/src/tools/speedrun/pre94-speedrun6365-after-silent-reset-after-unbind-index.glm-phase1-leaves.test.ts": "d186bc9a2ee0a59f7a1e324d5aa8ab3dcfc4a9d91bdd42392bcfed7a36863d49"
+      },
+      "passed": 19,
+      "failed": 1,
+      "pending": 0,
+      "errorNames": ["AssertionError"],
+      "cases": [
+        {
+          "file": "index.glm-phase1-leaves.test.ts",
+          "fullName": "L21 setupSpeedrunHotkeys 解绑 启用时 F4 重置；解绑后 F4 不改变计时且无新 toast",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected +0 to be 500 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/pre94-speedrun6365-after-silent-reset-after-unbind-index.glm-phase1-leaves.test.ts:56:40\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "index.glm-phase1-leaves.test.ts",
+          "fullName": "L21 setupSpeedrunHotkeys 解绑 未启用时按键短路（无 toast）；解绑函数幂等可重复调",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "tickSpeedrunTimer 未启用 → 不挂覆盖层、计时不动",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "tickSpeedrunTimer 启用后起表、挂覆盖层、wall-clock 累加",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "tickSpeedrunTimer show=0 时不挂覆盖层但仍计时",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "bests 默认播种 首次读取用 CHECKPOINTS 默认参考线",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "setupSpeedrunHotkeys F4 启用时重置本局",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "setupSpeedrunHotkeys F4 未启用时不重置",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "setupSpeedrunHotkeys F8 启用时暂停本局",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "setupSpeedrunHotkeys F2 启用时切换覆盖层显隐设置",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 手动暂停 → true(冻结游戏)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 未暂停 → false",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "index.test.ts",
+          "fullName": "isSpeedrunPaused (主循环冻结门控) 香蕉树暂停 → false(不冻结,否则走不过去捡香蕉)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot 抽取场景/坐标/音乐/物品(仅 count>0)",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot 有战斗时汇总敌人 id 与总血",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot.canMove(计时起表门) explore + 无加载/淡入/挂起 → 可移动",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot.canMove(计时起表门) 开场菜单(mode!=explore)→ 不可移动",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但 suspendRaf(boot 预载/开场 CG/梦境)→ 不可移动",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但场景加载中 → 不可移动",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "snapshot.test.ts",
+          "fullName": "buildSnapshot.canMove(计时起表门) explore 但 palette 淡入中 → 不可移动",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    }
+  ],
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

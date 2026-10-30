@@ -1,0 +1,8 @@
+{
+  "positiveControlSlot1": true,
+  "abortedSlot2": true,
+  "saveSlotResolvedDespiteAbort": true,
+  "slot2Persisted": false,
+  "conclusion": "COUNTER: request success was reported as save success before transaction commit",
+  "limitation": "spec-compatible fake-indexeddb 6.2.5 fault injection; no claim of natural browser quota reproduction"
+}

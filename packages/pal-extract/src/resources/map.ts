@@ -6,12 +6,12 @@
  *
  * 参考 reference/sdlpal/map.c::PAL_LoadMap。
  * 布局:map->Tiles[128][64][2]。
- *   - [row][col][0] = lower layer u32
- *   - [row][col][1] = upper layer u32
+ *   - [row][col][0] = h=0 半格的完整 u32
+ *   - [row][col][1] = h=1 半格的完整 u32；每个 u32 各自包含底层/覆盖层信息
  */
 
 import type { TileCell, Tilemap } from '@type-pal/shared'
-import { parseSpriteChunk, type RleFrame } from '@type-pal/shared'
+import { parsePalSpriteChunk, type RleFrame } from '@type-pal/shared'
 
 const MAP_WIDTH_TILES = 64 // sdlpal map.c: Tiles[128][64][2]
 const MAP_HEIGHT_TILES = 128
@@ -56,7 +56,7 @@ export function parseMap(mapBytes: Uint8Array, gopBytes: Uint8Array): MapResult 
 
   // GOP.MKF chunk = raw sprite chunk (frame array), no YJ2 decompression needed.
   // 只解帧(便宜),不再 framesToOut 编 PNG —— tileset 改存 gzip 原始 chunk(见 cli.ts)。
-  const tiles = parseSpriteChunk(gopBytes)
+  const tiles = parsePalSpriteChunk(gopBytes)
 
   return {
     tilemap: {

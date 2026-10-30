@@ -1,0 +1,132 @@
+{
+  "baseCommit": "d0151242f024116bab97e8866e6aa6364b0a64d9",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/__tests__/parser-diagnostics.ts",
+      "method": "full-text",
+      "sha256": "81e4c3b53d339c6c95a34ca9cd257d7b2a4541dec9be5ea8f3213d0af45e8010",
+      "lines": 67,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+      "method": "full-text",
+      "sha256": "1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83",
+      "lines": 85,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts",
+      "method": "full-text",
+      "sha256": "cf730e725e7131806402f962e5f390a2d21bbb828ae510e330bfeb97754ea1f4",
+      "lines": 263,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/ball.ts",
+      "method": "full-text",
+      "sha256": "8a8f6de4be9ccaa69e6a50ad1adea06b1b9f20f6503fed8e2f358d0927f09688",
+      "lines": 51,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rgm.ts",
+      "method": "full-text",
+      "sha256": "92883a8e074005d2b9e25ff9ae3bc31e68619ff165dde4fed2c5a08c3e876b65",
+      "lines": 55,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.ts",
+      "method": "full-text",
+      "sha256": "f4992df3d9c1b2e278cdb82808c03afbab19f39c99b6c28125bd84a57450c34a",
+      "lines": 94,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/tables.ts",
+      "method": "full-text",
+      "sha256": "74df97a4874d86525378189cc4f59d118e8d5a002caa3f852212c50c8a409ccd",
+      "lines": 43,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/tables.test.ts",
+      "method": "full-text",
+      "sha256": "7988ed742762aa0a13c1423c1ca2fbf44059143fe325d3276cc1ea67c20fa4f9",
+      "lines": 864,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.ts",
+      "method": "full-text",
+      "sha256": "eb8369584d1ea80317fca82764ef9c0a88f653b9bcf6d8808b5cb92e41c8f5b0",
+      "lines": 111,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+      "method": "full-text",
+      "sha256": "b22465fac6e4b2376bb88ed20d615ec3eb3d9464211367eb3f8472bd653cc7dc",
+      "lines": 62,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "method": "full-text",
+      "sha256": "0fc1d1c37d118bf3fced22d140804e0f395ab7a3156deaeabede3a41d796000a",
+      "lines": 261,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "method": "full-text",
+      "sha256": "1f57cc76c709ba70437764c39ed206e551784a5c8c522bdda726b119ec2d6f18",
+      "lines": 262,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "method": "full-text",
+      "sha256": "117fae80fa2e8702107d02547608081f725d1dcbcf7a0744b633c7b8baf19393",
+      "lines": 72,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "method": "ranges",
+      "ranges": [[60, 130]],
+      "sha256": "900a5de4bb4f680a8858a6c31ad222037b2f33ee96890b04fba14e1c3f0de1b5",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "method": "ranges",
+      "ranges": [[320, 347], [452, 500]],
+      "sha256": "38e5801281b5a10b1af8488ca552974b7d6686824ad29e3f4cb2bc668775022f",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "method": "ranges",
+      "ranges": [[75, 130]],
+      "sha256": "ba89a0c8797e8640a1fde7b5c310d3fd188e668cf46300870cc5ed3c5a7bbd9a",
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "method": "ranges",
+      "ranges": [[135, 175]],
+      "sha256": "66856d8df0033d9bdd96f905a092439a04ef94dde029df0176d7b9cdc1271b96",
+      "wholeFileAccepted": false
+    }
+  ],
+  "installedCoveragePrimary": {
+    "path": "node_modules/.pnpm/@vitest+coverage-v8@4.1.7_vitest@4.1.7/node_modules/@vitest/coverage-v8/dist/index.js",
+    "method": "full-text",
+    "contract": "Current worker inspector startPreciseCoverage/takePreciseCoverage; child process coverage is not automatically collected",
+    "sha256": "be14126e3dc6e83461555879c53945dd8adbce254d6ffba32e4e83ee04e270e7"
+  },
+  "priorPrimaryAndContext": "../read-boundaries.json",
+  "notClaimed": "C2 tables and enemy fixture read is not whole-file semantic acceptance. Raw/SDL pixel proofs remain previous finite slice."
+}

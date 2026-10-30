@@ -1,0 +1,2 @@
+
+C5 门禁附注：ratchet 首跑 fail-closed 于 scope 删除（3 文件 test-count 下降=已证重复退役），按门指示 --allow-scope-removal 后基线更新（提升 4/范围 2）；protected 首跑 fail-closed 于候选基线 vs main 保护账，三条退役按精确保护账规则入 approved-test-retirements（count/两端 identityDigest/fileSha256，授权源=用户 2026-10-15 C5 指令+Codex R2 裁定）后复跑 exit 0。act 警告计数：check 3574/ratchet 3518/protected 3572（editor 存量，归属已量化，非干净项如实登记）。

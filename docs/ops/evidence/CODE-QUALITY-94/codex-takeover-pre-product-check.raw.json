@@ -1,0 +1,12 @@
+{
+  "command": ["pnpm", "check"],
+  "exitCode": null,
+  "signal": "SIGTERM",
+  "reason": "User approved two product fixes while gate was running; stopped own isolated gate before source edits; final candidate will run one consolidated window",
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "candidate": "0a039271c",
+  "sha256": "bccef66a1f93930e1fdead4da02e9b370b509e11a1f985f0b2491f2eca2c51a4",
+  "bytes": 169346,
+  "rawArtifact": "docs/ops/evidence/CODE-QUALITY-94/codex-takeover-pre-product-check.raw.gz",
+  "rawEncoding": "gzip; sha256 and bytes describe decompressed original output"
+}

@@ -104,7 +104,7 @@ describe('DsListHeader 剩余合同', () => {
   test('menu keyboard cycling covers enabled items only and Escape restores trigger focus', async () => {
     renderHeader()
     const triggerButton = menuTrigger()
-    triggerButton.focus()
+    await act(async () => triggerButton.focus())
     await key(triggerButton, 'ArrowDown')
     expect(triggerButton.getAttribute('aria-expanded')).toBe('true')
     expect(document.activeElement?.textContent).toBe('重命名')

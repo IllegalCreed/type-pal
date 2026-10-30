@@ -1,0 +1,114 @@
+# QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口
+
+Status: done
+Phase: phase1 / phase2 / ops（逐文件区分）
+Capability: fixed-cohort code-quality closeout
+Coding Owner: Codex（单Agent）
+Generation Owner: N/A
+Reviewer: Codex（据证验收与必要返工）
+Visual Verification Timing: mixed（按实际修改；旧有效现场复用）
+Branch: codex/code-quality-94-102
+
+## 目标
+
+用户明确指定下一阶段完成账本剩余52个review文件。复用有效全文八维、caller、primary、反控和原生门证据，补缺口及必要返工，区分代码接受、统一门和发布。旧“等待覆盖率/act诊断”不能直接当当前阻塞，卡片accept也不自动授予整文件accept。
+
+## 范围
+
+- 固定基点为PR23合并后的`0e14c184eed91841ee0f48323b98c98b734a3129`。[52路径及原状态/理由/源码身份](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/scope.json)为唯一分母；以首次live机器表枚举，不读历史comment表。
+- 覆盖pal-extract19、game12、scripts6、editor5、shared4、reforge3、migrate2、content1。28产品、17测试、4工具、3fixture。
+- 相关caller/测试只核实际影响；若需新增/移动/删除，保留合同映射并单列库存增量，不偷换固定52分母。
+- 现纳入52中的103–106遗留测试；不因此重开全部103+任务或已接受的pre94/94–102文件。2870个pending、ED-ENTITY-STATE-PLAN-1、其它活动GLM/E2E实现不抢写。
+- 主工作树只读，四处未跟踪英文资源保持；不新建治理分支或worktree。
+
+## 前提真值门
+
+### 工程前提与反证
+
+`review`只表示已读或局部整改而未完成整文件验收。历史原因可能已过时，但不能由全仓绿推定八维完整。若旧证据缺维、当前源码/caller/合同漂移、反控不成立或记录只覆盖切片，继续review并补核；未知不为了达到0而强关。
+
+| 方向 | 本阶段约束与来源 |
+|---|---|
+| primary | 每文件既有真值/真实caller/oracle先按版本核用；一阶段必要时读原盘/SDLPal，原版与参考分开。 |
+| phase1 | CLAUDE与game-mechanics约束机制/可见行为；允许有证据的结构治理，纯重构与行为修复分提交。 |
+| phase2 | READ-FIRST与当前canonical优先；不靠一阶段保真给editor/reforge/content设计授信用。 |
+| 本阶段 | 52个整文件各具A–H结论、明确旧→新合同及未修项；再按集中门/真实CI完成发布。 |
+
+新schema/save/migration/资产管线、接口删除或用户可见取舍不从本卡概括授权。先证事实、保留正式失败反例，沿原停止线另作有限准入；只暂停受影响项，其余继续。既有用户明确裁决按原范围复用，不重复请示。
+
+## 上下文锚点与推进次序
+
+长期合同：[工程质量](../code-quality.md)、[当前工作流](../agent-workflow.md)、[文档模型](../guides/documentation-model.md)、[测试治理](../../testing/governance.md)。[唯一阶段证据入口](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md)记录实际进度，不复制旧章节的过期数字。
+
+1. 固定记录解析/文本链9文件：enemy/role四文件、WORD/GBK五文件；先核旧全文/反控与当前差异。
+2. shared类型/编译合同4文件；补公共出口与消费者，不用运行时fixture冒充类型测试。
+3. extract格式/CLI/IO余10文件；失败与写盘所有权另核，产物不代替上游。
+4. game战斗、启动、装备、呈现12文件；补整文件职责与生命周期余域。
+5. 第二阶段11文件；editor5、reforge3、migrate2、content1按当前canonical和真实宿主核八维。
+6. 治理工具6文件；证据生成与规则消费分别核，不通过放宽判据获得完成。
+
+## 验收与低成本复验
+
+- 逐文件记录A正确性/边界、B注释、C职责/所有权、D共享取舍、E测试、F可读性、G无多余部分、H可测试性；复用与实际补读分开。
+- 快检默认只读，核源/依赖版本、原件与原生结果、合同映射；设计结论不冒充机器证明。变化仅使受影响claim失效。
+- 定向/相邻/必要TC随实际变更安排；已有效同候选结果复用。无改动的证据收口不重跑相同产品测试。
+- 多个相关切片完成后才集中全仓check、官方覆盖率/ratchet/protected；一次采集合理结构重计须保留原件，规则/断言/超时/范围不放宽。
+- 诊断error/warning/info清零；只通过受保护PR合main，PR/main实际CI和日志单独核验。不直接推main，不管理员绕过。
+
+## 当前模式推进记录
+
+Codex build allowed：限固定52的审查、证据校准、注释/测试/行为保持的必要结构整改；单一Owner和同一隔离分支已核。新产品取舍依上方停止线。当前机器3453tracked／531closed／52review／2870pending，0新增关闭；逐文件审查和所有新阶段门尚未完成，不预填pass。
+
+## 设计与风险
+
+- 先处理证据仍完整的有限文件，再补真实缺口，避免把52条状态理解为52个bug或52次从头重审。
+- source bytes相同也须核caller/输入/生命周期；“统一门待”消失不等于原来缺失的C/D/E/F/G/H自动补齐。
+- 保留原卡/原件作为历史；当前状态变更写回live账本及本阶段索引，必要时更新相关原卡的当前段，不涂改旧执行事实。
+
+## 实施、审查与交接
+
+- 2026-10-25 Codex：fetch后与origin/main同点0e14，工作树干净；固定52清单与源blob。未改产品、生成物或规则，未运行新全仓/coverage。下一步按模块据证验收并补必要返工。
+- 代码/本地门准入：全部52有实质处置且集中门零诊断。卡面done只记录这两个事实；实际发布以关联PR/main工作流为准，远端未通过不得宣布阶段集成完成。
+- 无下一位Agent提示词；由Codex继续，不要求用户搬运或重复全文复审。
+
+- 2026-10-25首组：13个整文件代码接受，39个仍review。八维复用原全文与有效counter，补当前CLI→DATA编排、MSG、共享出口/类型和资源消费者；修四源码注释（AST不变），136相关与两个TC零诊断，未跑全仓/coverage。新计数3453／544／39／2870；原路径分母不变，剩余extract10→game12→phase2十一→tools6。
+
+- 2026-10-26 同一提取模块子提交：用户批准移除 extractCharacterSprites/CharacterSpriteOut 及专属测试，并将 FieldKind/OpcodeDef 私有化。保留生产帧包装/PNG和已有三场景产物连通性；三个测试文件23→19、精确四身份退役。disasm复用registry推导类型并去两处多余强转，四源码发射JS不变；17相邻文件110例及extract TC0，未跑重门。另诊断脚本两正式字节/退出红已核，下一独立行为提交处理；视频新三红继续单项停止线，不纳本纯重构提交。
+
+- 2026-10-26 诊断工具独立行为提交：合法全阻挡地图与缺地图两条真实CLI反例先为退出码业务断言红，再以partyStart空值guard恢复三绿；caller后的[5,6,1]保持176/104。新测试只把固定/tmp报告写重定向到自有临时树，不替换遍历/BFS逻辑。报告明确为直线扫描启发式，BFS实际取首个>100点区域中位，不冒称最大区域/全可达脚本真值。产品/生成资源字节不改，统一门仍等全52。
+
+- 2026-10-26 纯清理续项：视频main移除只push从未读取的results集合；收窄无损/固定耗时等无证注释。补正实际caller邻接_utils的enemyId 1-based错注、map的half-cell/layer混淆及已接收player-role模块头的modifier误述；只改对应注释，不借相邻文件扩展整文件接受。原counter/27绿保持，同窗证据后续统一桥接，不再跑重门。
+
+- 2026-10-26提取模块收口：固定23/52代码接受，剩game12/phase2十一/tools6，共29；新诊断专测1单列且已接受，current3454／555／29／2870。17文件110与输出/诊断4文件27有1文件/6身份重叠，机械核得20文件131身份出现项，未合称137独立合同；原红/退役正文/七源JS不变证据齐。八维与raw补入同一阶段索引，未跑重门、未推/合main。下一范围game bus/装备与动作/宿主真实生命周期，保持同一分支。
+
+- 2026-10-26 装备四文件有限整改：六getter相同base+七槽求和抽为私有窄输入helper，毒抗clamp仍由独立getter所有；同步runner仅纠错注/去冗余tuple强转。E2用非零前像验证写0；E4使用真实全局地址并以10+128=138核256步。两枚精确变异均旧绿、新恰一条业务红、恢复绿，临时树已移除；当前3实际文件44绿、game TC0，原件暂存阶段external/equipment-*，待同一game证据包桥接。纯重构/测试补强，本提交不改产品行为、接口、存档或账本状态；重门未跑。
+
+- 2026-10-26 测试工厂独立修复：脚本化RNG原来把非法值钳制并错误消费空区间，默认复制RNG也已漂移。正式7例先1绿6业务红，再复用生产createSeedableRng并拒绝坏fixture，6实际文件35绿、game TC0；只改测试工厂，不改产品RNG/分布/抽样次数。源码与原生红绿将在game模块证据冻结。三个无caller视图helper留至下一纯清理提交。
+
+- 2026-10-26 测试工厂纯清理：移除仅定义、全仓无引用的asHEnemy/hPlayers/hEnemies三个测试视图helper和相应type imports；不属于生产公开接口。makeHBattle/default/recordingRng正文保持上一修复候选；当前最终字节正是35绿/TC0采集版本，不为删除无caller代码重跑相同测试。
+
+- 2026-10-26 game七文件八维代码接受：固定30/52、余22；新增H专测接受、item正式红spec待裁决，单列。live3456／563／23／2870由机器复核。旧poison压缩等待项已由实际批准与当前实现解除；法术pair15例及五旧counter复用，未授整个actions/magic.ts信用。game TC0及44/36/35回归见game-equipment-fixtures.json；未跑重门、未推合。
+
+- 2026-10-26 BGM资源所有权修复：两个真实公开fade路径dispose后仍各留1timer，正式2原绿/2指定业务红。当前request统一拥有一个可兑现的fade waiter，新请求/停播/关闭/释放会清timer并兑现旧等待，旧serial门保持禁止迟到提交；原正常300ms过渡/接口不变。五实际BGM文件26绿、reforge TC0；不作真硬件听感信用，无全仓/coverage。本提交与纯文案及证据收口分离。
+
+- 2026-10-26 第二阶段八文件代码接受：四editor与两个menu专测按旧全文/原件及当前未变caller验收，不重复执行；content默认进场错含具体剧情角色名已纠正且JS不变。BGM timer资源红绿独立提交后纳入八维，旧dispose专测刷新不重复加closed。固定38/52、余14；机器3456／571／15／2870。原P1 puppet选项仍原卡，不夹修、不赋该轴信用。未跑本阶段全仓/coverage/新视觉，未推合；下一game5、workbench1、migrate2、tools6。
+
+- 2026-10-26 启动/来源两固定文件代码接受：main99行及新语言/mobile shell owner补核；旧boot真实入口证据限仍相同的两catch/onPlayable，未泛化新视觉。pal-source IO的输入边界核为当前本仓提取器固定文件、发布前validator独立；复用private读取，未增类型强转/格式/写入。五guard末例从任意错误补为精确soundfont ENOENT，整文件八维另记额外pending关闭1。固定40/52、余12；3456／574／13／2869。7实际文件42绿、补强5绿/TC0；旧script-index发现待有限裁决，未跑统一门/coverage/未推合。
+
+- 2026-10-26 magic职责重组：旧1079行拆为动作433行左右、动画约675行与纯共享合同26行；原公开接口/MP/脚本/RNG/反馈序保持。14实际文件226身份前后相同、七迁移函数正文/剩余动作/dispatch证明齐，TC0；新增编译合同真实加GS会唯一TS2344，独占temp恢复0并删除。三新内部代码/合同各完整八维接受，计数3459／577／13／2869；固定仍40/52，magic本身G空通知API未获裁决不关闭。原7文件旧证据仅桥接受影响magic源binding，不改历史raw。未跑重门、未推/合main。
+
+- 2026-10-26 呈现层整文件代码接受：当前全文、shell路由和时钟/hold/collision/follower owner补核；present直接依赖碰撞叶、纠正五处误导说明并去冗余强转。平台时钟保留现有spy可控边界，两处读时机/等待者归属/绘制顺序经发射JS证明保持，非以复杂度阈值强拆。六实际文件92绿/无stderr，既有112与319重叠不相加。固定41/52，机器3459／578／12／2869；未跑重门/coverage、未推合。
+
+- 2026-10-26 coverage工具结构子提交：run.mjs只提取原有包调度至窄collectPackages，实际报告/子进程仍由原runner持有；if/else正文仅绑定outputRoot后完全相同，三条顺序/等待/缺editor反例控制通过。可选并行失败所有权继续核查，不关闭runner/新helper/新专测，不启动覆盖率采集。工作台焦点资源修复仍在同树独立WIP，不混入本纯重构。
+
+- 2026-10-26 治理工具六个整文件代码接受：docs checker、coverage runner、两个精确批准表及两专测补齐八维；五未改文件与main逐字节同一，20完整旧baseline/全部有限源pin与72退役tuple按实际reader/保护caller核定，历史产品证据复用而非逐例重跑。调度纯提取先独立提交，随后两正式业务红修拒绝与在途报告所有权，105相邻工具绿/0stderr；先前118门保留独立身份不相加。新调度叶/专测2另计已接受，固定47/52、余5；机器3461／586／6／2869。批准表/官方baseline未更改，sprite四项精确退役与可能结构重计留最终冻结，未跑全仓/official/ratchet/protected或推合。
+
+- 2026-10-26 工作台生命周期独立修复：真实picker点击后卸载，RAF/timeout各一资源红（应0实际1）；当前Set由同一effect回收，已执行项即删除。旧测试同步RAF改为真实下一帧排队，并恢复prototype descriptor/时钟/全局。五相邻文件21绿、最终修改两文件7绿、editor TC0；首跑配置路径错误完整披露，不作反例。新增focus2例文件与此前未登整文件的主测5例各八维接受，两个额外路径单列，固定仍47/52，3462／588／6／2868。工作台G的readSpriteFrameDragPayload退役/保留尚待用户，main impl仍review；不新增视觉/保存/ED实体状态或资产格式信用。本阶段全仓/coverage/protected未跑、未推合。
+
+- 2026-10-26 用户一次明确批准五项剩余边界：bus空协议与两通知、脚本后live库存/flag、旧script index停止托管、workbench两测试专用reader包装退役。单一Codex实施，原反例/范围复用；不需重复裁决，统一门仍等全52稳定。
+
+- 2026-10-26 最后五文件与相邻四专测逐维代码接受：bus协议/两空通知、脚本后live库存/flags、退役脚本不托管、工作台reader删除均按本次明确批准；源码/测试/行为提交分离。game35实际文件795绿、物品11/迁移36/编辑器21分别记录不相加；game/migrate/editor TC0。两测试夸大标题按真实oracle收窄，测试正文不改。固定52/52、0仍review；机器3462／597／0／2865。全部pending不随包绿关闭；统一门/official/protected/PR仍待本次集中冻结。原错误路径/机械清理失败/原业务红完整保留，不改写历史。
+
+- 2026-10-26 本地统一门收口：52/52代码接受；全仓20620产品＋721工具／七包TC、lint6137文件0/0/0，完整stderr空；唯一official20185／809全部测试绿、原旧比率拒绝如实保留。按用户既有授权仅pal-extract的死包装与视频CLI保护两文件精确重计，六其它包收益保留；同一报告原policy重放ratchet/protected均exit0，三项精确退役匹配。完整原件与低成本复验见父52证据uniform.json；当前尚未推送/PR/合并，卡面done为代码与本地门，发布以真实GitHub状态另核。
+
+- 2026-10-26 PR25首轮Coverage真实失败：scene-thumbnail并发复合例在5000ms超时，Documentation通过。只修该已接受测试，保持合法大图/真PNG/默认5秒，拆两个独立合同并精确500清理未完成请求；四原正文不变。6插桩绿/一去重业务AssertionError反控/TC0，官方game3754单包重采、六包逐指纹复用，20186／809且生产四计数不变；原policy ratchet/protected0。原整仓20620＋721按单测试delta桥接，不重跑无变化六包，原失败完整保留；52分母与账本597／0／2865不变。此处为本地修复回执，PR重试和main CI尚待，未冒称发布成功。

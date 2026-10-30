@@ -1,25 +1,72 @@
 /**
- * TEST-GLM-PHASE1-LEAVES-3 L18（minimap.ts）— 去重表：
- *  - minimap.test（worldToThumb/computeView 全图-缩放-clamp/classifyTrigger 全分支/
- *    collectEventKinds/collectMinimapData 基础）→ 不重复
- *  - 新差异：drawMinimap 真实 canvas 2D 像素（暗底、toggle 显隐、玩家白点在手算坐标）、
- *    setupMinimap 控制器 toggle 显隐与 localStorage 持久、非法持久值回默认、坏 zoom 钳默认。
- * 真实 canvas 2D（jsdom + canvas 包），自有 GameState；不移动真实玩家。
+ * L18 minimap:与minimap.test的纯几何/分类合同分层,本文件核真实canvas与控制器IO。
+ * 像素坐标/颜色为独立手算;裁剪用自有图像。不借被测变换或DOT_COLORS生成oracle。
+ * 原六例加两例真实widget快捷键:用实际canvas绘制调用核缩放/两端钳制与输入焦点/关闭守卫。
+ * getter只证开关读写；非法zoom字符串经真实快捷键核默认档，不外推任意外部输入。每例释放自有宿主。
  */
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createInitialGameState } from '../core/game-state.js'
-import type { MinimapData } from './minimap.js'
-import { DOT_COLORS, drawMinimap, setupMinimap, worldToThumb } from './minimap.js'
+import { getCurrentMapNum, setCurrentMapNum } from '../core/scene-system.js'
+import {
+  drawMinimap,
+  type MinimapController,
+  type MinimapData,
+  type MinimapDeps,
+  type MinimapToggles,
+  setupMinimap,
+} from './minimap.js'
 
 const LS = ['tp-minimap-widget', 'tp-minimap-npc', 'tp-minimap-items', 'tp-minimap-zoom']
+const controllers: MinimapController[] = []
+let releaseHost = (): void => {}
 
 beforeEach(() => {
-  for (const k of LS) localStorage.removeItem(k)
+  const saved = new Map<string, string | null>()
+  for (const key of LS) {
+    saved.set(key, localStorage.getItem(key))
+    localStorage.removeItem(key)
+  }
+  const oldMap = getCurrentMapNum()
+  setCurrentMapNum(0)
+  const existing = new Set(Array.from(document.body.children))
+  vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame'] })
+  const listeners = vi.spyOn(window, 'addEventListener') // 默认穿透,不替换真实接线
+  releaseHost = () => {
+    try {
+      for (const ctl of controllers) ctl.setWidgetEnabled(false)
+      for (const child of Array.from(document.body.children)) {
+        if (!existing.has(child)) child.remove()
+      }
+      vi.runOnlyPendingTimers()
+      expect(vi.getTimerCount()).toBe(0)
+    } finally {
+      for (const [type, listener, options] of listeners.mock.calls) {
+        window.removeEventListener(type, listener, options)
+      }
+      listeners.mockRestore()
+      controllers.length = 0
+      vi.clearAllTimers()
+      vi.useRealTimers()
+      vi.unstubAllGlobals()
+      setCurrentMapNum(oldMap)
+      for (const [key, value] of saved) {
+        if (value === null) localStorage.removeItem(key)
+        else localStorage.setItem(key, value)
+      }
+    }
+  }
 })
+afterEach(() => releaseHost())
 
-afterEach(() => {
-  for (const k of LS) localStorage.removeItem(k)
-})
+function createController(deps: MinimapDeps): MinimapController {
+  const ctl = setupMinimap(deps)
+  controllers.push(ctl)
+  return ctl
+}
+
+function pixel(ctx: CanvasRenderingContext2D, x: number, y: number): number[] {
+  return Array.from(ctx.getImageData(x, y, 1, 1).data)
+}
 
 function mkData(): MinimapData {
   return {
@@ -30,69 +77,57 @@ function mkData(): MinimapData {
   }
 }
 
-/** 画布像素是否接近目标 RGB（canvas 反走样留 ±60 容差）。 */
-function near(data: Uint8ClampedArray, i: number, rgb: [number, number, number]): boolean {
-  return (
-    Math.abs(data[i]! - rgb[0]) <= 60 &&
-    Math.abs(data[i + 1]! - rgb[1]) <= 60 &&
-    Math.abs(data[i + 2]! - rgb[2]) <= 60
-  )
-}
-
 describe('L18 drawMinimap 真实 canvas', () => {
   it('暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐', () => {
-    const canvas = document.createElement('canvas')
-    canvas.width = 64
-    canvas.height = 64
-    const view = { sx: 0, sy: 0, sw: 640 }
-    drawMinimap(canvas, null, mkData(), { showNpc: true, showItems: true }, view)
-    const ctx = canvas.getContext('2d')!
-    const img = ctx.getImageData(0, 0, 64, 64).data
-    // 底色 #0d0b08（无 base → 占位）
-    expect(near(img, 0, [13, 11, 8])).toBe(true)
-    // 玩家点：worldToThumb(1000,1000) → display px = thumb * 64/640
-    const [tx, ty] = worldToThumb(1000, 1000)
-    const px = Math.round(tx * (64 / 640))
-    const py = Math.round(ty * (64 / 640))
-    const fill = DOT_COLORS.player.fill
-    const rgb: [number, number, number] = [
-      parseInt(fill.slice(1, 3), 16),
-      parseInt(fill.slice(3, 5), 16),
-      parseInt(fill.slice(5, 7), 16),
-    ]
-    expect(near(img, (py * 64 + px) * 4, rgb)).toBe(true)
-    // 宝物金色点：整图扫描（小圆点抗锯齿下取中心判定过脆）
-    const itemRgb: [number, number, number] = [0xf0, 0xc0, 0x40]
-    const hasColor = (data: Uint8ClampedArray, rgb: [number, number, number]): boolean => {
-      for (let i = 0; i < data.length; i += 4) if (near(data, i, rgb)) return true
-      return false
+    const draw = (toggles: MinimapToggles): CanvasRenderingContext2D => {
+      const canvas = document.createElement('canvas')
+      canvas.width = canvas.height = 320
+      drawMinimap(canvas, null, mkData(), toggles, { sx: 0, sy: 0, sw: 640 })
+      return canvas.getContext('2d')!
     }
-    expect(hasColor(img, itemRgb)).toBe(true)
-    // 关掉宝物 toggle → 整图无金色
-    const canvas2 = document.createElement('canvas')
-    canvas2.width = 64
-    canvas2.height = 64
-    drawMinimap(canvas2, null, mkData(), { showNpc: true, showItems: false }, view)
-    const img2 = canvas2.getContext('2d')!.getImageData(0, 0, 64, 64).data
-    expect(hasColor(img2, itemRgb)).toBe(false)
+    // (world+16)*320/2080:玩家(156.31,156.31),宝物(233.23,79.38),NPC(79.38,233.23)。
+    // 320画布使这些采样格完全在填充圆内,无需抗锯齿容差/整图颜色扫描。
+    const all = draw({ showNpc: true, showItems: true })
+    expect(pixel(all, 0, 0)).toEqual([13, 11, 8, 255])
+    expect(pixel(all, 156, 156)).toEqual([255, 255, 255, 255])
+    expect(pixel(all, 233, 79)).toEqual([240, 192, 64, 255])
+    expect(pixel(all, 79, 233)).toEqual([95, 208, 224, 255])
+    const noItems = draw({ showNpc: true, showItems: false })
+    expect(pixel(noItems, 233, 79)).toEqual([13, 11, 8, 255])
+    expect(pixel(noItems, 79, 233)).toEqual([95, 208, 224, 255])
+    const noNpc = draw({ showNpc: false, showItems: true })
+    expect(pixel(noNpc, 79, 233)).toEqual([13, 11, 8, 255])
+    expect(pixel(noNpc, 233, 79)).toEqual([240, 192, 64, 255])
   })
 
-  it('worldToThumb (wx+16)*SCALE 单调且原点偏移一个相机半格', () => {
-    const [x1, y1] = worldToThumb(0, 0)
-    const [x2] = worldToThumb(320, 0)
-    expect(x2).toBeGreaterThan(x1)
-    expect(x1).toBeCloseTo(16 * (640 / 2080), 6) // CAM_OFF=16, SCALE=BASE_PX/2080
-    expect(y1).toBeCloseTo(16 * (640 / 2080), 6)
+  it('非全图 view 使用指定底图裁剪区域', () => {
+    const base = document.createElement('canvas')
+    base.width = base.height = 640
+    const source = base.getContext('2d')!
+    source.fillStyle = '#102030'
+    source.fillRect(0, 0, 640, 640)
+    source.fillStyle = '#123abc'
+    source.fillRect(100, 120, 320, 320)
+    const canvas = document.createElement('canvas')
+    canvas.width = canvas.height = 64
+    const offscreen = { x: -1000, y: -1000 }
+    drawMinimap(
+      canvas,
+      base,
+      { player: offscreen, camera: offscreen, npcs: [], items: [] },
+      { showNpc: false, showItems: false },
+      { sx: 100, sy: 120, sw: 320 },
+    )
+    // 输出(5,5)采样源窗口内部蓝色;若误画整图,此处落在窗口外暗底。
+    expect(pixel(canvas.getContext('2d')!, 5, 5)).toEqual([18, 58, 188, 255])
   })
 })
 
 describe('L18 setupMinimap 控制器持久化', () => {
-  it('默认 NPC/宝物显、widget 关；setShowNpc(false) 立即生效并持久化；非法持久值回默认', () => {
-    const deps = {
-      getGs: () => createInitialGameState({ x: 0, y: 0, facing: 'down' }),
-      getMapThumbnail: async () => null,
-    }
-    const ctl = setupMinimap(deps)
+  it('默认开关、setShowNpc写存储；按保存值重建控制器读回', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const deps = { getGs: () => gs, getMapThumbnail: async () => null }
+    const ctl = createController(deps)
     expect(ctl.isShowNpc()).toBe(true)
     expect(ctl.isShowItems()).toBe(true)
     expect(ctl.isWidgetEnabled()).toBe(false)
@@ -102,8 +137,10 @@ describe('L18 setupMinimap 控制器持久化', () => {
     ctl.setWidgetEnabled(true)
     expect(ctl.isWidgetEnabled()).toBe(true)
     expect(localStorage.getItem('tp-minimap-widget')).toBe('1')
-    // 重建控制器读回持久态
-    const ctl2 = setupMinimap(deps)
+    const savedWidget = localStorage.getItem('tp-minimap-widget')!
+    ctl.setWidgetEnabled(false) // 旧宿主不再跑,再用实际保存值模拟下次启动
+    localStorage.setItem('tp-minimap-widget', savedWidget)
+    const ctl2 = createController(deps)
     expect(ctl2.isShowNpc()).toBe(false)
     expect(ctl2.isWidgetEnabled()).toBe(true)
   })
@@ -111,11 +148,129 @@ describe('L18 setupMinimap 控制器持久化', () => {
   it("持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关", () => {
     localStorage.setItem('tp-minimap-npc', 'yes')
     localStorage.setItem('tp-minimap-widget', 'true')
-    const ctl = setupMinimap({
-      getGs: () => createInitialGameState({ x: 0, y: 0, facing: 'down' }),
-      getMapThumbnail: async () => null,
+    localStorage.setItem('tp-minimap-zoom', 'not-a-number')
+    const gs = createInitialGameState({ x: 1024, y: 1024, facing: 'down' })
+    const ctl = createController({ getGs: () => gs, getMapThumbnail: async () => null })
+    expect(ctl.isShowNpc()).toBe(true)
+    expect(ctl.isWidgetEnabled()).toBe(false)
+    setCurrentMapNum(1)
+    ctl.setWidgetEnabled(true)
+    const canvas = document.querySelector<HTMLCanvasElement>('#tp-minimap-widget canvas')!
+    const rect = vi.spyOn(canvas.getContext('2d')!, 'strokeRect')
+    try {
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Minus' }))
+      // 非数值持久项恢复默认档2，再缩小一次到档1；180px画布的白框宽为320*180/1280。
+      expect(localStorage.getItem('tp-minimap-zoom')).toBe('1')
+      expect(rect).toHaveBeenCalledTimes(1)
+      expect(rect.mock.calls[0]![2]).toBeCloseTo(45, 6)
+    } finally {
+      rect.mockRestore()
+    }
+  })
+
+  it('widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档', () => {
+    setCurrentMapNum(1)
+    const gs = createInitialGameState({ x: 1024, y: 1024, facing: 'down' })
+    const ctl = createController({ getGs: () => gs, getMapThumbnail: async () => null })
+    ctl.setWidgetEnabled(true)
+    const canvas = document.querySelector<HTMLCanvasElement>('#tp-minimap-widget canvas')!
+    expect(canvas.width).toBe(180)
+    expect(canvas.height).toBe(180)
+    const rect = vi.spyOn(canvas.getContext('2d')!, 'strokeRect') // 穿透真实canvas绘制
+    try {
+      const press = (code: string, index: number, expected: readonly number[]): void => {
+        rect.mockClear()
+        window.dispatchEvent(new KeyboardEvent('keydown', { code }))
+        expect(localStorage.getItem('tp-minimap-zoom')).toBe(String(index))
+        expect(rect).toHaveBeenCalledTimes(1)
+        const actual = rect.mock.calls[0]!
+        expected.forEach((value, i) => expect(actual[i]).toBeCloseTo(value, 6))
+      }
+      // 180px画布;默认960→640。相机=主角-(160,112),白框世界宽高320×200。
+      press('Equal', 3, [45, 58.5, 90, 56.25])
+      press('Equal', 3, [45, 58.5, 90, 56.25])
+      press('Minus', 2, [60, 69, 60, 37.5])
+      press('Minus', 1, [67.5, 74.25, 45, 28.125])
+      press('Minus', 0, [990 / 13, 1044 / 13, 360 / 13, 225 / 13])
+      press('Minus', 0, [990 / 13, 1044 / 13, 360 / 13, 225 / 13])
+    } finally {
+      rect.mockRestore()
+    }
+  })
+
+  it('widget关闭或焦点在INPUT/TEXTAREA时,快捷键不改缩放也不重绘', () => {
+    setCurrentMapNum(1)
+    const gs = createInitialGameState({ x: 1024, y: 1024, facing: 'down' })
+    const ctl = createController({ getGs: () => gs, getMapThumbnail: async () => null })
+    ctl.setWidgetEnabled(true)
+    const canvas = document.querySelector<HTMLCanvasElement>('#tp-minimap-widget canvas')!
+    const rect = vi.spyOn(canvas.getContext('2d')!, 'strokeRect')
+    try {
+      for (const tag of ['input', 'textarea']) {
+        const input = document.createElement(tag)
+        document.body.appendChild(input)
+        input.dispatchEvent(new KeyboardEvent('keydown', { code: 'Equal', bubbles: true }))
+        expect(localStorage.getItem('tp-minimap-zoom')).toBeNull()
+        expect(rect).not.toHaveBeenCalled()
+      }
+      ctl.setWidgetEnabled(false)
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Equal' }))
+      expect(localStorage.getItem('tp-minimap-zoom')).toBeNull()
+      expect(rect).not.toHaveBeenCalled()
+    } finally {
+      rect.mockRestore()
+    }
+  })
+
+  it('底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map', async () => {
+    let pendingSurface: HTMLCanvasElement | undefined
+    const PendingImage = vi.fn(function decodeImage() {
+      // Image解码是IO端口；返回真实CanvasImageSource，保留drawImage像素路径。
+      const surface = document.createElement('canvas')
+      surface.width = surface.height = 640
+      const context = surface.getContext('2d')!
+      context.fillStyle = '#123abc'
+      context.fillRect(0, 0, 640, 640)
+      pendingSurface = surface
+      return surface
     })
-    expect(ctl.isShowNpc()).toBe(true) // 仅 '0' 隐藏
-    expect(ctl.isWidgetEnabled()).toBe(false) // 仅 '1' 开
+    vi.stubGlobal('Image', PendingImage)
+    setCurrentMapNum(1)
+    const url = document.createElement('canvas').toDataURL('image/png')
+    const getMapThumbnail = vi.fn(async () => url)
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctl = createController({ getGs: () => gs, getMapThumbnail })
+    ctl.mountSceneView(document.createElement('div'), 64)
+    await vi.waitFor(() => expect(pendingSurface).toBeDefined())
+    ctl.mountSceneView(document.createElement('div'), 64)
+    expect(getMapThumbnail).toHaveBeenCalledTimes(1)
+    pendingSurface!.dispatchEvent(new Event('load'))
+    const afterLoad = document.createElement('div')
+    ctl.mountSceneView(afterLoad, 64)
+    expect(getMapThumbnail).toHaveBeenCalledTimes(1)
+    const canvas = afterLoad.querySelector('canvas')!
+    expect(pixel(canvas.getContext('2d')!, 30, 30)).toEqual([18, 58, 188, 255])
+  })
+
+  it('Image 解码失败后标记 map failed，不在后续帧反复请求', async () => {
+    class FailingImage {
+      static last: FailingImage | undefined
+      onload: (() => void) | null = null
+      onerror: (() => void) | null = null
+      constructor() {
+        FailingImage.last = this
+      }
+      set src(_value: string) {} // 坏URL由本例显式触发IO失败
+    }
+    vi.stubGlobal('Image', FailingImage)
+    setCurrentMapNum(1)
+    const getMapThumbnail = vi.fn(async () => 'data:image/png;base64,INVALID')
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const ctl = createController({ getGs: () => gs, getMapThumbnail })
+    ctl.mountSceneView(document.createElement('div'), 64)
+    await vi.waitFor(() => expect(FailingImage.last).toBeDefined())
+    FailingImage.last!.onerror!()
+    ctl.mountSceneView(document.createElement('div'), 64)
+    expect(getMapThumbnail).toHaveBeenCalledTimes(1)
   })
 })

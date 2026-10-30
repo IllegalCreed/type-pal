@@ -7,11 +7,11 @@
  * Object store schema:
  *   db name: 'type-pal'
  *   store: 'save-slots',keyPath = slot id(number)
- *   value: { gs: GameState, meta: SlotMeta }
+ *   value: { gs: SaveSnapshot, meta: SlotMeta }（数据快照，不承诺完整运行态）
  */
 
-import type { GameState } from '../game-state.js'
 import type { SlotMeta } from './api.js'
+import type { SaveSnapshot } from './data.js'
 
 const DB_NAME = 'type-pal'
 // P2#5(2026-05-29):脚本游标 ip 从 per-scene 切片本地下标改成单一全局数组下标。旧档持久化的
@@ -22,7 +22,7 @@ const STORE = 'save-slots'
 
 interface StoredSlot {
   id: number
-  gs: GameState
+  gs: SaveSnapshot
   meta: SlotMeta
 }
 
@@ -33,7 +33,7 @@ function openDb(): Promise<IDBDatabase> {
   if (typeof indexedDB === 'undefined') {
     return Promise.reject(new Error('IndexedDB 不可用(测试环境 / SSR);走 in-memory api.ts'))
   }
-  _dbPromise = new Promise((resolve, reject) => {
+  const pending = new Promise<IDBDatabase>((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION)
     req.onupgradeneeded = () => {
       const db = req.result
@@ -43,10 +43,26 @@ function openDb(): Promise<IDBDatabase> {
       }
       db.createObjectStore(STORE, { keyPath: 'id' })
     }
-    req.onsuccess = () => resolve(req.result)
+    req.onsuccess = () => {
+      const db = req.result
+      db.onversionchange = () => {
+        // Other clients cannot upgrade/delete until this connection is released.
+        db.close()
+        invalidate()
+      }
+      db.onclose = invalidate
+      resolve(db)
+    }
     req.onerror = () => reject(req.error)
   })
-  return _dbPromise
+  // An old open/close completion must not retire a newer cached connection.
+  const invalidate = (): void => {
+    if (_dbPromise === pending) _dbPromise = null
+  }
+  _dbPromise = pending
+  // Callers still receive the original rejection; the next operation may open afresh.
+  void pending.catch(invalidate)
+  return pending
 }
 
 function txStore(db: IDBDatabase, mode: IDBTransactionMode): IDBObjectStore {
@@ -60,14 +76,30 @@ function asPromise<T>(req: IDBRequest<T>): Promise<T> {
   })
 }
 
+/** Request success can still be followed by abort. Only complete confirms a committed write.
+ * Request errors retain their default abort behavior; abort propagates the original transaction error.
+ */
+function commitWrite(db: IDBDatabase, write: (store: IDBObjectStore) => void): Promise<void> {
+  const store = txStore(db, 'readwrite')
+  const transaction = store.transaction
+  return new Promise((resolve, reject) => {
+    transaction.oncomplete = () => resolve()
+    transaction.onabort = () =>
+      reject(transaction.error ?? new DOMException('IndexedDB write aborted', 'AbortError'))
+    write(store) // A synchronous request-creation error rejects this Promise as well.
+  })
+}
+
 export const IndexedDbSave = {
-  async saveSlot(slot: number, gs: GameState, meta: SlotMeta): Promise<void> {
+  async saveSlot(slot: number, gs: SaveSnapshot, meta: SlotMeta): Promise<void> {
     const db = await openDb()
     const value: StoredSlot = { id: slot, gs, meta }
-    await asPromise(txStore(db, 'readwrite').put(value))
+    await commitWrite(db, (store) => {
+      store.put(value)
+    })
   },
 
-  async loadSlot(slot: number): Promise<{ gs: GameState; meta: SlotMeta } | null> {
+  async loadSlot(slot: number): Promise<{ gs: SaveSnapshot; meta: SlotMeta } | null> {
     const db = await openDb()
     const r = await asPromise<StoredSlot | undefined>(txStore(db, 'readonly').get(slot))
     return r ? { gs: r.gs, meta: r.meta } : null
@@ -83,11 +115,21 @@ export const IndexedDbSave = {
 
   async deleteSlot(slot: number): Promise<void> {
     const db = await openDb()
-    await asPromise(txStore(db, 'readwrite').delete(slot))
+    await commitWrite(db, (store) => {
+      store.delete(slot)
+    })
   },
 }
 
-/** 测试 / hot-reload 时重置 db 连接句柄(单例缓存清理)。 */
+/** 测试收尾释放当前连接；尚未完成的open也由本次清理负责关闭。 */
 export function _resetDbConnectionForTest(): void {
+  const pending = _dbPromise
   _dbPromise = null
+  if (pending) {
+    // A failed open is already reported to its caller; cleanup only owns a possible connection.
+    void pending.then(
+      (db) => db.close(),
+      () => {},
+    )
+  }
 }

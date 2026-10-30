@@ -1,0 +1,33 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+
+ ❯ src/core/menu/menu-driver.test.ts (37 tests | 1 failed | 36 skipped) 23ms
+     × 用后 phase revert use-target(非 done) — INNER loop picker 不关 21ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/menu/menu-driver.test.ts > C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel) > 用后 phase revert use-target(非 done) — INNER loop picker 不关
+AssertionError: expected 'menu' to be 'event' // Object.is equality
+
+Expected: "event"
+Received: "menu"
+
+ ❯ src/core/menu/menu-driver.test.ts:596:21
+    594|     tickMenu(gs, snap(['Confirm']), createCommandBus()) // use-target …
+    595|     expect(inv.phase).toBe('use-target') // 非 'done'(INNER loop 继续)
+    596|     expect(gs.mode).toBe('event') // 必须真的启动脚本，空 targetMenu 的 no-op 不能算…
+       |                     ^
+    597|     expect(gs.eventCursor).toBeDefined()
+    598|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 36 skipped (37)
+   Start at  14:38:59
+   Duration  956ms (transform 314ms, setup 21ms, import 361ms, tests 23ms, environment 456ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/menu/menu-driver.test.ts -t INNER loop picker

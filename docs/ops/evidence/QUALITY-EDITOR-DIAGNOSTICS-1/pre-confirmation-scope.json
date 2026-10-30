@@ -1,0 +1,23 @@
+{
+  "scope": {
+    "changes": [
+      "editor: fast test files +0/-0，内容变化 1（4789 -> 4786 tests）",
+      "editor: fast test execution config/digest 已变化"
+    ],
+    "removals": [
+      {
+        "kind": "test-count",
+        "value": "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+        "previous": 70,
+        "current": 67
+      }
+    ]
+  },
+  "comparison": {
+    "regressions": [],
+    "improvements": []
+  },
+  "summarySha256": "34aeb15ad1579084fd6d602d68f08e5c3c6fd8f8d369b5adde82f52af0241cb2",
+  "unchangedBaselineSha256": "7e9037ecc38ba8278a0ade15cdbe69afaebc6ea50a997920bd0924ecaf7ce634",
+  "reason": "Only the three directly proven duplicate tests retired; standing user test-quality instruction and current three-file audit authorize precision work. Existing official one-time ratchet scope confirmation; coverage floors, source protection and protected exact retirement matcher remain unchanged."
+}

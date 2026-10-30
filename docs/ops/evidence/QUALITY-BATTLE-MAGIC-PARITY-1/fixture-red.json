@@ -1,0 +1,18 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/battle-system.glm-next-wave.test.ts",
+    "--reporter=default"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 1,
+  "raw": "fixture-red.raw.gz",
+  "rawSha256": "3e917e6cd5bfffb827188ba8a511b055cfdc3448f9bf69211d118b2f4bc682d8",
+  "specSha256": "fe5dd4dd09d16b7ec6750c7d9976dce4ba8cf4e813d02bf982e68c4655d4f879",
+  "scope": "Declared single enemy should not invent a second missing id; pre-fix source and warn preserved."
+}

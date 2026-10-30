@@ -11,8 +11,8 @@ import { IndexedDbSaveStore } from './save/store.js'
 import type { ScriptHost } from './script-runner.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
   vi.useRealTimers()
 })

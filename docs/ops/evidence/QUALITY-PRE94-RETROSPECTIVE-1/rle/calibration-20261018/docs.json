@@ -1,0 +1,19 @@
+{
+  "command": ["pnpm", "check:docs"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T07:44:07.812994+00:00",
+  "completedAt": "2026-10-18T07:44:52.508164+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "docs.raw.gz",
+  "rawBytes": 30525,
+  "rawSha256": "8554a2f7a1e9235ae33d8c00884746319b335c4eae39416c14c001f498de1cbf",
+  "fullUncutMergedStdoutStderr": true,
+  "diagnostics": {
+    "error": 0,
+    "warning": 0,
+    "info": 0,
+    "basis": "125/125 TAP no failure; five actual consumers report zero issues, no warning/error/info diagnostic lines. Scope is documentation."
+  }
+}

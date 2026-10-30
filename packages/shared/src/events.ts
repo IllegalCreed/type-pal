@@ -28,11 +28,7 @@ export interface GotoCommand {
   label?: string
 }
 
-/** 对话框样式 —— 由前置 opcode 0x003B-0x003E 设置(M2 新具名,见 D26)。
- *  注:M2 设计文档原把此类型归在 resources.ts,但因被 SetDialogStyleCommand
- *  + ShowDialogCommand.box 直接使用,实施时提前放在 events.ts。Task 2 实施
- *  resources.ts 时无需重复定义。
- */
+/** 对话框样式,由 0x003B-0x003E 或物品框命令设置,与对话命令共用。 */
 // 'item-box' = L1 紫金葫芦炼丹物品框(opcode 0x34 / SPRITENUM_ITEMBOX,script.c:1480-1512):
 //   屏幕居中 ITEMBOX 精灵 + 物品 BALL 图标 + 2 行居中文字,复用 narration 1.4s 自动关时序。
 export type DialogBoxStyle = 'top' | 'center' | 'bottom' | 'narration' | 'item-box'
@@ -72,9 +68,10 @@ export interface StartBattleCommand {
 /** Scene 切换命令 —— 对应 sdlpal opcode 0x0059(script.c:1870 "Change to the specified scene")。
  *  字节布局:operand[0] = sceneId(目标场景号);operand[1] / [2] sdlpal 该 case 未读。
  *
- *  **运行时语义**:M3.5 内 EventSystem handler 是 stub(no-op skip + console.debug);
- *  真 scene 切换通过 dev panel 直调 `loadScene()` 函数实现(D34/B 路线)。M5 真做剧情链时
- *  升级 handler 为可等待命令(emit + Shell 处理 async loadScene + complete cmdId)。
+ *  **运行时语义**:EventSystem handler 异步切场景——tick 在本 opcode 上置
+ *  `cursor.waiting='scene-load'` 并让出,由注入的异步 loadScene callback 完成后
+ *  恢复执行(见 game event-system.ts 的 loadScene opcode 注释块);不再是早期
+ *  M3.5 的 stub 跳过。
  */
 export interface LoadSceneCommand {
   op: 'loadScene'
@@ -89,9 +86,9 @@ export interface LoadSceneCommand {
  * (0x003B kDialogCenter / 0x003C kDialogUpper / 0x003D kDialogLower /
  *  0x003E kDialogCenterWindow;见 reference/sdlpal/script.c:3389-3426)。
  *
- * arg0/arg1/arg2 = 原始 operand 三元组,**仅**用于字节级 round-trip;
- * 各 operand 语义见上述 script.c 区段。M2 EventSystem 不读这些字段,
- * 留待 M5+ 真有消费者时再做具名解析(避免现在锁定可能错的字段名)。
+ * arg0/arg1/arg2 保留原始 operand 以支持字节级 round-trip;EventSystem 同时消费:
+ * top/bottom 的 arg0=头像、arg1=字色、arg2=RNG 对话态;
+ * center/narration 的 arg0=字色,其余操作数不参与这两种样式。
  */
 export interface SetDialogStyleTopCommand {
   op: 'setDialogStyleTop'
@@ -150,8 +147,8 @@ export interface ChoiceCommand {
 /** 切换调色板命令 —— 对应 sdlpal opcode 0x008B(script.c:2571 "change the current palette")。
  *  字节布局:operand[0] = paletteIndex;operand[1] / [2] sdlpal 该 case 未读。
  *
- *  **运行时语义**:EventSystem handler 调 fetchPalette(paletteIndex) 后更新 gs.palette,
- *  渲染层下一帧 flushToCanvas 自动使用新调色板。
+ *  **运行时语义**:更新调色板编号并优先读取注入的同步源，未命中才异步获取。
+ *  basePalette 保存新基色；仅非 needToFadeIn 时更新当前 palette，供渲染层使用。
  */
 export interface SetPaletteCommand {
   op: 'setPalette'

@@ -11,90 +11,36 @@
  * 期望值全部手算(rngFactor=1.0 固定)对照 sdlpal 公式。
  */
 
-import type { BattleField, Enemy, ObjectMagicView, PlayerRole, PlayerRoles } from '@type-pal/shared'
+import type { BattleField, Enemy, ObjectMagicView, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import {
+  makeHBattle,
+  makeHEnemy,
+  makeHField,
+  makeHRole,
+} from '../../../__tests__/glm-next-wave/H/harness.js'
+import {
+  createInitialGameState,
+  hydratePlayerRolesRuntime,
+  projectRuntimeToBattleRoles,
+} from '../../game-state.js'
 import { createSeedableRng } from '../../rng.js'
-import type { BattleEnemy, BattleState } from '../battle-state.js'
+import { type BattleState, createBattleState } from '../battle-state.js'
 import { applyEnemyMagicDamage, applyMagicDamage, resolveObjectMagic } from '../magic-damage.js'
-
-function makeEnemy(opts: Partial<Enemy> = {}): Enemy {
-  return {
-    id: 100,
-    _name: 'TestEnemy',
-    idleFrames: 0,
-    magicFrames: 0,
-    attackFrames: 0,
-    idleAnimSpeed: 0,
-    actWaitFrames: 0,
-    yPosOffset: 0,
-    attackSound: 0,
-    actionSound: 0,
-    magicSound: 0,
-    deathSound: 0,
-    callSound: 0,
-    health: 100,
-    exp: 10,
-    cash: 30,
-    level: 5,
-    magic: 0,
-    magicRate: 0,
-    attackEquivItem: 0,
-    attackEquivItemRate: 0,
-    stealItem: 0,
-    stealItemCount: 0,
-    attackStrength: 0,
-    magicStrength: 0,
-    defense: 30,
-    dexterity: 20,
-    fleeRate: 5,
-    poisonResistance: 0,
-    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    physicalResistance: 1,
-    dualMove: 0,
-    collectValue: 0,
-    ...opts,
-  }
-}
 
 function makeState(
   enemies: Partial<Enemy>[],
   fieldEffect?: BattleField['magicEffect'],
 ): BattleState {
-  const field: BattleField = {
-    id: 0,
-    screenWave: 0,
-    magicEffect: fieldEffect ?? { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-  }
-  const battleEnemies: BattleEnemy[] = enemies.map((e) => ({
-    e: makeEnemy(e),
-    status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-    prevHp: makeEnemy(e).health,
-    scriptOnTurnStart: 0,
-    scriptOnBattleEnd: 0,
-    scriptOnReady: 0,
-  }))
-  return {
-    players: [],
-    enemies: battleEnemies,
-    field,
-    isBoss: false,
-    phase: 'performAction',
-    turn: 1,
-    actionQueue: [],
-    currentActionIndex: 0,
-    pendingActions: new Map(),
-    uiState: 'hidden',
-    menuState: 'main',
-    selectedAction: 0,
-    miscMenuCursor: 0,
-    miscSubMenuCursor: 0,
-    uiCursor: 0,
-    expGained: 0,
-    cashGained: 0,
-    // rngFactor 现由伤害函数循环内逐目标 next() 掷;注入 next:()=>0 → 全目标 rngFactor 固定 1.0(等价旧 rngFactor:1.0 手算)。
-    rng: { ...createSeedableRng(1), next: () => 0 },
-    phaseStallTicks: 0,
-  }
+  const { state } = makeHBattle({
+    roles: [],
+    party: [],
+    enemies: enemies.map((enemy) => makeHEnemy({ health: 100, defense: 30, ...enemy })),
+  })
+  if (fieldEffect) state.field.magicEffect = fieldEffect
+  // Direct arithmetic tests fix one legal normalized draw; RNG sequencing is checked separately.
+  state.rng = { ...createSeedableRng(1), next: () => 0 }
+  return state
 }
 
 describe('applyMagicDamage', () => {
@@ -216,8 +162,12 @@ describe('applyMagicDamage', () => {
       magicData: { baseDamage: 80, elemental: 1 },
       minDamage: 1,
     })
+    // Native formula: effective defense74; strengths640/697 -> base1162/1276 -> damages740/798.
     expect(calls).toBe(2) // 每个存活目标各掷一次(非全体共用一次)
-    expect(results[0]!.damage).not.toBe(results[1]!.damage) // 独立 rngFactor → 相同敌人伤害不同
+    expect(results.map(({ damage, hpAfter }) => [damage, hpAfter])).toEqual([
+      [740, 9259],
+      [798, 9201],
+    ]) // 独立 rngFactor → 相同敌人伤害不同
   })
 })
 
@@ -293,41 +243,81 @@ function makeEnemyMagicState(
   players: PRoleCfg[],
   rangeVal = 1, // 默认 !=0 → 不自卫
 ): { state: BattleState; playerRoles: PlayerRoles } {
-  const state = makeState([{ magicStrength: caster.magicStrength, level: caster.level }])
-  state.players = players.map((p, i) => ({
-    roleId: i,
-    prevHp: 0,
-    prevMp: 0,
-    defending: p.defending ?? false,
-    status: {
-      sleep: p.status?.sleep ?? 0,
-      paralyzed: p.status?.paralyzed ?? 0,
-      confused: p.status?.confused ?? 0,
-      protect: p.status?.protect ?? 0,
-      haste: 0,
-      slow: 0,
-    },
-  }))
-  // next:()=>0 → rngFactor 固定 1.0(逐队员掷,值恒定);range 控 autoDefend。
-  state.rng = { ...createSeedableRng(1), next: () => 0, range: () => rangeVal }
-  const roles: PlayerRole[] = players.map(
-    (p, i) =>
-      ({
-        id: i,
-        hp: p.hp,
-        defense: p.defense ?? 0,
-        level: p.level ?? 0,
-        poisonResistance: p.poisonResistance ?? 0,
-        elemResistance: { wind: p.windRes ?? 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      }) as any as PlayerRole,
+  const roles = players.map((player, id) =>
+    makeHRole(id, {
+      hp: player.hp,
+      maxHP: Math.max(500, player.hp),
+      defense: player.defense ?? 0,
+      level: player.level ?? 1,
+      poisonResistance: player.poisonResistance ?? 0,
+      elemResistance: { wind: player.windRes ?? 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+    }),
   )
-  return { state, playerRoles: { roles } }
+  const { state, playerRoles } = makeHBattle({
+    roles,
+    enemies: [makeHEnemy(caster)],
+  })
+  for (const [index, player] of players.entries()) {
+    const slot = state.players[index]!
+    slot.defending = player.defending ?? false
+    Object.assign(slot.status, player.status)
+  }
+  state.rng = { ...createSeedableRng(1), next: () => 0, range: () => rangeVal }
+  return { state, playerRoles }
 }
 
 describe('applyEnemyMagicDamage', () => {
+  it('正防御跨过 SHORT 边界仍抵挡基础伤害，保留扩展域旧结果及 RNG 序', () => {
+    const results = [32767, 32768, 65535, 65536].map((defense) => {
+      const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs.partyMembers = [0]
+      const baseline = { roles: [makeHRole(0, { hp: 500, defense })] }
+      hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, baseline)
+      const playerRoles = projectRuntimeToBattleRoles(
+        gs.PlayerRolesRuntime,
+        baseline,
+        gs.rgEquipmentEffect,
+      )
+      const rng = createSeedableRng(42)
+      const state = createBattleState({
+        gs,
+        playerRoles,
+        enemies: [makeHEnemy({ magicStrength: 0, level: 0 })],
+        field: makeHField(),
+        isBoss: false,
+        rng,
+      })
+      const damage = applyEnemyMagicDamage({
+        state,
+        casterEnemyIdx: 0,
+        target: 0,
+        magicData: { baseDamage: 50, elemental: 0 },
+        playerRoles,
+      })
+      return { defense: playerRoles.roles[0]!.defense, damage, rngState: rng.getState() }
+    })
+    // SDLPal uses positive WORD defense: strength < defense*0.6, so only baseDamage50 remains.
+    // 65536 is outside that domain; this repair deliberately retains its existing TS result.
+    expect(results).toEqual(
+      [32767, 32768, 65535, 65536].map((defense) => ({
+        defense,
+        damage: [
+          {
+            playerIdx: 0,
+            damage: defense === 65536 ? 68 : 50,
+            hpBefore: 500,
+            hpAfter: defense === 65536 ? 432 : 450,
+            autoDefend: false,
+          },
+        ],
+        rngState: 3663131668,
+      })),
+    )
+  })
+
   // P0#3(2026-06-02 审计核源):玩家 def = PAL_GetPlayerDefense(global.c:1800-1828)= rgwDefense + Σ装备,
   //   **无 level 项**(等级项是敌方被打才有,fight.c:4012)。此前 ts 误加 (level+6)*4(M3 简化把敌方公式套玩家)。
-  //   role.defense 已是 projected(base+装备,game-state.ts:1281)→ 直接用,改后玩家 def 不随 level 变。
+  //   role.defense 已是 projectRuntimeToBattleRoles 的投影值(base+装备)→ 直接用,改后玩家 def 不随 level 变。
   it('P0#3:玩家 def 不含 level 项(level 5 vs 99 同 defense → 同伤害)', () => {
     const dmgAt = (lvl: number): number => {
       const { state, playerRoles } = makeEnemyMagicState({ magicStrength: 28, level: 0 }, [
@@ -341,8 +331,7 @@ describe('applyEnemyMagicDamage', () => {
         playerRoles,
       })[0]!.damage
     }
-    expect(dmgAt(5)).toBe(dmgAt(99)) // def=role.defense(30),与 level 无关
-    expect(dmgAt(5)).toBe(65) // def=30:calcBase(64,30) 走 atk>def 分支=80;/4=20;+45=65;wind*5/5=65(旧 bug def=74→50)
+    expect([dmgAt(5), dmgAt(99)]).toEqual([65, 65]) // def=30:calcBase(64,30) 走 atk>def 分支=80;/4=20;+45=65;wind*5/5=65(旧 bug def=74→50)
   })
 
   // magStr = 28 + (0+6)*6 = 64(敌 magStr 含 level,正确);player def = 30(无 level 项);baseDmg45 wind(elem1)windRes0
@@ -536,7 +525,10 @@ describe('applyEnemyMagicDamage', () => {
       playerRoles,
     })
     expect(calls).toBe(2) // 每个存活队员各掷一次(非全队共用一次)
-    expect(r[0]!.damage).not.toBe(r[1]!.damage) // 独立 rngFactor → 相同队员伤害不同
+    expect(r.map(({ damage, hpAfter }) => [damage, hpAfter])).toEqual([
+      [65, 9934],
+      [67, 9932],
+    ]) // 独立 rngFactor → 相同队员伤害不同
   })
 
   it('L20:敌方单体先掷 autoDefend RandomLong,再掷伤害 RandomFloat', () => {

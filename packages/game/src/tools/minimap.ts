@@ -1,245 +1,46 @@
-// 小地图(场景 tab 主视图 + 右下角常驻 widget)。canvas 外纯前端,生产保留。
-//   底图复用 renderMapThumbnail(64×128 地图 → 96×96 缩略图,见 bootstrap);叠加主角/NPC/宝物
-//   定位点 + 可视区白框。坐标:实体世界像素 → 缩略图像素,与缩略图同一 camera(-16,-16)/降采样变换。
-import type { Command } from '@type-pal/shared'
-import {
-  getGlobalCommands,
-  getGlobalLabelMap,
-  OP_ADD_CASH,
-  OP_ADD_ITEM,
-  OP_ADD_MAGIC,
-} from '../core/event-system.js'
+/** Page-owned minimap controller: preferences, image/cache lifecycle, DOM and animation frames. */
+
 import type { GameState, NpcState } from '../core/game-state.js'
-import { getCurrentMapNum } from '../core/scene-system.js'
+import { getCurrentMapNum } from '../core/scene-identity.js'
+import { getGlobalCommands, getGlobalLabelMap } from '../core/script-catalog.js'
+import { localize } from '../localization/language.js'
+import { LAYOUT_CHANGE, presentationKey } from '../shell/presentation.js'
+import { drawMinimap, type MinimapToggles } from './minimap-draw.js'
+import {
+  collectEventKinds,
+  collectMinimapData,
+  computeView,
+  DEFAULT_ZOOM_INDEX,
+  type EventKind,
+  WHOLE_VIEW,
+  ZOOM_WORLD_WIDTHS,
+} from './minimap-model.js'
 
-// ── 世界像素 → 底图像素 变换(与 bootstrap.renderMapThumbnail 1:1) ──────────────
-//   地图恒 64×128 tile(map.c 硬编码),tile 32×16 → 世界 2048×2048;缩略图 framebuffer
-//   bufW=(64+1)*32=2080,camera=(-16,-16),降采样到 BASE_PX 宽。BASE_PX 用较高分辨率
-//   (高于 dev 96)→ 场景 tab 近 1:1 不糊、widget 放大裁剪也清晰。
-const TILE_W = 32
-const TILE_H = 16
-const BUF_W = (64 + 1) * TILE_W // 2080
-export const BASE_PX = 640 // 底图渲染分辨率(px;= worldToThumb 值域 + bootstrap getMapThumbnail outW)。高→各缩放档皆降采样=清晰
-const SCALE = BASE_PX / BUF_W // 底图像素 / 世界像素
-const CAM_OFF_X = TILE_W / 2 // 16(缩略图 camera.x = -16)
-const CAM_OFF_Y = TILE_H // 16(缩略图 camera.y = -16)
-const VIEW_W = 320 // viewport 世界像素宽(framebuffer.ts SCREEN_W)
-const VIEW_H = 200 // viewport 世界像素高(SCREEN_H)
+export {
+  DOT_COLORS,
+  drawMinimap,
+  type MinimapToggles,
+} from './minimap-draw.js'
+export {
+  BASE_PX,
+  classifyTrigger,
+  collectEventKinds,
+  collectMinimapData,
+  computeView,
+  DEFAULT_ZOOM_INDEX,
+  type EventKind,
+  type MinimapData,
+  type MinimapView,
+  worldToThumb,
+  ZOOM_WORLD_WIDTHS,
+} from './minimap-model.js'
 
-/** 世界像素 → 底图像素(0..BASE_PX)。 */
-export function worldToThumb(wx: number, wy: number): [number, number] {
-  return [(wx + CAM_OFF_X) * SCALE, (wy + CAM_OFF_Y) * SCALE]
-}
-
-// ── 视图(底图源方形;缩放/居中) ─────────────────────────────────────────────
-//   widget 缩放档(index 小→大 = 缩小→放大):视野世界宽度(px)。白框(320 世界px)占容器比例 = 320/视野宽:
-//   2080→全图正好铺满 widget(最小缩放), 1280→1/4框, 960→1/3框(默认), 640→1/2框(最大放大)。
-//   地图恒 64×128(2048²世界px)→ 档位对所有地图统一。场景 tab 恒全图(不受此影响)。
-export const ZOOM_WORLD_WIDTHS = [2080, 1280, 960, 640] as const
-export const DEFAULT_ZOOM_INDEX = 2
-export interface MinimapView {
-  sx: number
-  sy: number
-  sw: number
-}
-const WHOLE_VIEW: MinimapView = { sx: 0, sy: 0, sw: BASE_PX }
-
-/** 缩放视图(底图源方形):以世界点(cx,cy)为中心、targetWorldWidth 宽,clamp 到底图边界;>=全图→全图。 */
-export function computeView(targetWorldWidth: number, cx: number, cy: number): MinimapView {
-  const sw = Math.min(BASE_PX, targetWorldWidth * SCALE)
-  if (sw >= BASE_PX) return WHOLE_VIEW
-  const [pcx, pcy] = worldToThumb(cx, cy)
-  const clamp = (c: number): number => Math.max(sw / 2, Math.min(BASE_PX - sw / 2, c))
-  return { sx: clamp(pcx) - sw / 2, sy: clamp(pcy) - sw / 2, sw }
-}
-
-// ── 定位点配色(draw + 图例共用) ──────────────────────────────────────────────
-export const DOT_COLORS = {
-  player: { fill: '#ffffff', stroke: '#a01e1e' },
-  npc: { fill: '#5fd0e0', stroke: '#13484f' },
-  item: { fill: '#f0c040', stroke: '#6e5210' },
-} as const
-
-// ── 道具触发脚本扫描(宝物点) ─────────────────────────────────────────────────
-export type EventKind = 'item' | 'teleport' | 'other'
-
-/** triggerLabel → 全局命令下标:优先 labelMap,缺则按 `L_<n>` 直解(identity,n 即全局 ip)。 */
-function resolveLabelIp(
-  labelMap: Readonly<Record<string, number>>,
-  label: string | undefined,
-): number | undefined {
-  if (!label) return undefined
-  const mapped = labelMap[label]
-  if (mapped !== undefined) return mapped
-  const m = /^L_(\d+)$/.exec(label)
-  return m ? Number(m[1]) : undefined
-}
-
-/**
- * 线性扫 label 起的 trigger 脚本到 'end' 判类别:
- *   含「给予」opcode → 'item'(宝物):giveItem/0x1F 道具、0x1E 加钱(正额)、0x55 学法术(都是地图可拾宝物,
- *   sdlpal script.c:952/970/1816);否则含 loadScene(0x59 传送) → 'teleport'(不标);否则 'other'。
- * item 优先(先命中即返回)。仅线性流(不跟 goto/call),~95% 覆盖。
- */
-export function classifyTrigger(
-  commands: readonly Command[],
-  labelMap: Readonly<Record<string, number>>,
-  label: string | undefined,
-): { kind: EventKind; name?: string } {
-  const start = resolveLabelIp(labelMap, label)
-  if (start === undefined) return { kind: 'other' }
-  const LIMIT = 400 // 安全上限:防异常脚本无 'end' 走飞
-  let teleport = false
-  for (let i = start; i < commands.length && i < start + LIMIT; i++) {
-    const c = commands[i]
-    if (!c) break
-    // count >= 0 = 给道具(sdlpal count==0 → 给 1 个,global.c:1094;**绝大多数地图宝物就是 count=0**);负=扣除不算。
-    if (c.op === 'giveItem' && c.count >= 0 && c.itemId > 0) return { kind: 'item', name: c._item }
-    if (c.op === 'raw') {
-      const op = c.opcode
-      const a0 = c.operands[0] ?? 0
-      if (op === OP_ADD_ITEM && a0 > 0) return { kind: 'item' } // 0x1F operand[0]=itemId(remove 是 0x20)
-      if (op === OP_ADD_CASH && a0 > 0 && a0 < 0x8000) return { kind: 'item', name: '金钱' } // 正额=获得(负=花钱)
-      if (op === OP_ADD_MAGIC && a0 > 0) return { kind: 'item', name: '法术' }
-    }
-    if (c.op === 'loadScene') teleport = true
-    if (c.op === 'end') break
-  }
-  return { kind: teleport ? 'teleport' : 'other' }
-}
-
-/** 扫当前 scene 全 event object,返回 id → 类别(item/teleport/other,+ 宝物名)。 */
-export function collectEventKinds(
-  gs: GameState,
-  commands: readonly Command[],
-  labelMap: Readonly<Record<string, number>>,
-): Map<number, { kind: EventKind; name?: string }> {
-  const out = new Map<number, { kind: EventKind; name?: string }>()
-  for (const npc of gs.npcs ?? [])
-    out.set(npc.id, classifyTrigger(commands, labelMap, npc.triggerLabel))
-  return out
-}
-
-// ── 数据采集 ───────────────────────────────────────────────────────────────
-/** present.ts:456 绘制可见性:sState 隐藏(0/负)或 sVanishTime>0 → 不在图上。 */
-function npcVisible(npc: NpcState): boolean {
-  return (npc.sState === undefined || npc.sState > 0) && (npc.sVanishTime ?? 0) <= 0
-}
-
-export interface MinimapData {
-  player: { x: number; y: number }
-  camera: { x: number; y: number }
-  npcs: { x: number; y: number }[]
-  items: { x: number; y: number; name?: string }[]
-}
-
-/** 从 gs 抽小地图实体(世界像素)。kinds = collectEventKinds 结果。传送门(teleport)不标。 */
-export function collectMinimapData(
-  gs: GameState,
-  kinds: Map<number, { kind: EventKind; name?: string }>,
-): MinimapData {
-  const npcs: MinimapData['npcs'] = []
-  const items: MinimapData['items'] = []
-  for (const npc of gs.npcs ?? []) {
-    if (!npcVisible(npc)) continue
-    const k = kinds.get(npc.id)
-    if (k?.kind === 'teleport') continue // 传送门不标
-    if (k?.kind === 'item')
-      items.push({ x: npc.x, y: npc.y, name: k.name }) // 宝物(含无 sprite 的走过即拾)
-    else if (npc.spriteNum > 0) npcs.push({ x: npc.x, y: npc.y }) // NPC:可见且有 sprite
-  }
-  return {
-    player: { x: gs.party?.x ?? 0, y: gs.party?.y ?? 0 },
-    camera: { x: gs.camera?.x ?? 0, y: gs.camera?.y ?? 0 },
-    npcs,
-    items,
-  }
-}
-
-// ── 绘制 ──────────────────────────────────────────────────────────────────
-function dot(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  r: number,
-  fill: string,
-  stroke: string,
-  lw = 1,
-): void {
-  ctx.beginPath()
-  ctx.arc(x, y, r, 0, Math.PI * 2)
-  ctx.fillStyle = fill
-  ctx.fill()
-  ctx.lineWidth = lw
-  ctx.strokeStyle = stroke
-  ctx.stroke()
-}
-
-/** 显隐开关:NPC 点 / 宝物点 各自独立(可视白框 + 主角点恒画)。 */
-export interface MinimapToggles {
-  showNpc: boolean
-  showItems: boolean
-}
-
-/**
- * 画小地图到方形 canvas(W=H,display 像素)。view=底图源方形(全图或主角居中缩放裁剪);
- * base=底图(null→暗底占位);toggles 控制 NPC/宝物点显隐;主角点 + 可视白框恒画。定位点用画布相对尺寸(不随缩放变形)。
- */
-export function drawMinimap(
-  canvas: HTMLCanvasElement,
-  base: CanvasImageSource | null,
-  data: MinimapData,
-  toggles: MinimapToggles,
-  view: MinimapView = WHOLE_VIEW,
-): void {
-  const ctx = canvas.getContext('2d')
-  if (!ctx) return
-  const W = canvas.width
-  const { sx, sy, sw } = view
-  const s = W / sw // display 像素 / 底图像素(缩放后)
-  ctx.clearRect(0, 0, W, W)
-  ctx.fillStyle = '#0d0b08'
-  ctx.fillRect(0, 0, W, W)
-  if (base) {
-    ctx.imageSmoothingEnabled = true
-    ctx.imageSmoothingQuality = 'high'
-    ctx.drawImage(base, sx, sy, sw, sw, 0, 0, W, W)
-  }
-  const toPx = (wx: number, wy: number): [number, number] => {
-    const [tx, ty] = worldToThumb(wx, wy)
-    return [(tx - sx) * s, (ty - sy) * s]
-  }
-  // 可视区白框
-  const [bx, by] = toPx(data.camera.x, data.camera.y)
-  ctx.strokeStyle = 'rgba(255,255,255,0.9)'
-  ctx.lineWidth = Math.max(1, W * 0.008)
-  ctx.strokeRect(bx, by, VIEW_W * SCALE * s, VIEW_H * SCALE * s)
-  // 定位点半径:画布相对(全图视图房间小,点要小才不糊成一团)
-  const rItem = Math.max(1.5, W * 0.01)
-  const rNpc = Math.max(1.4, W * 0.009)
-  const rPlayer = Math.max(2, W * 0.014)
-  if (toggles.showItems) {
-    for (const it of data.items) {
-      const [x, y] = toPx(it.x, it.y)
-      dot(ctx, x, y, rItem, DOT_COLORS.item.fill, DOT_COLORS.item.stroke)
-    }
-  }
-  if (toggles.showNpc) {
-    for (const n of data.npcs) {
-      const [x, y] = toPx(n.x, n.y)
-      dot(ctx, x, y, rNpc, DOT_COLORS.npc.fill, DOT_COLORS.npc.stroke)
-    }
-  }
-  const [px, py] = toPx(data.player.x, data.player.y)
-  dot(ctx, px, py, rPlayer, DOT_COLORS.player.fill, DOT_COLORS.player.stroke, 2)
-}
-
-// ── 控制器(底图缓存 + 类别缓存 + rAF 自更新 + 右下 widget 缩放) ─────────────────
-const LS_WIDGET = 'tp-minimap-widget' // '1' = 右下角常驻显示(默认关)
-const LS_NPC = 'tp-minimap-npc' // '0' = 隐藏 NPC 点(默认显)
-const LS_ITEMS = 'tp-minimap-items' // '0' = 隐藏宝物点(默认显)
-const LS_ZOOM = 'tp-minimap-zoom' // widget 缩放档 index(默认 DEFAULT_ZOOM_INDEX)
-const WIDGET_PX = 180
+// 控制器随页面存活；tab移除只停止对应surface重绘，不拆页面的键盘/布局监听。
+const LS_WIDGET = 'tp-minimap-widget' // '1'为显示；此项按布局分键，默认关。
+const LS_NPC = 'tp-minimap-npc' // '0'为隐藏；定位点与缩放偏好在两布局间共用。
+const LS_ITEMS = 'tp-minimap-items' // '0'为隐藏，默认显示。
+const LS_ZOOM = 'tp-minimap-zoom' // widget缩放档index，缺省DEFAULT_ZOOM_INDEX。
+const WIDGET_PX = 180 // CSS尺寸；backing另按DPR配置。
 
 export interface MinimapDeps {
   getGs: () => GameState
@@ -267,7 +68,7 @@ const clampZoom = (i: number): number =>
 export function setupMinimap(deps: MinimapDeps): MinimapController {
   let showNpc = localStorage.getItem(LS_NPC) !== '0'
   let showItems = localStorage.getItem(LS_ITEMS) !== '0'
-  let widgetEnabled = localStorage.getItem(LS_WIDGET) === '1'
+  let widgetEnabled = localStorage.getItem(presentationKey(LS_WIDGET)) === '1'
   const zStored = localStorage.getItem(LS_ZOOM)
   let widgetZoom = clampZoom(zStored === null ? DEFAULT_ZOOM_INDEX : Number(zStored))
 
@@ -288,25 +89,31 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
         .then((url) => {
           if (!url) {
             baseFailed.add(mapNum) // 无缩略图(如缺 tilemap)→ 标记失败,别逐帧重取
+            baseLoading.delete(mapNum)
             return
           }
           const img = new Image()
           img.onload = (): void => {
             baseCache.set(mapNum, img)
+            baseLoading.delete(mapNum)
+          }
+          img.onerror = (): void => {
+            baseFailed.add(mapNum)
+            baseLoading.delete(mapNum)
           }
           img.src = url
         })
         .catch(() => {
           baseFailed.add(mapNum)
+          baseLoading.delete(mapNum)
         })
-        .finally(() => baseLoading.delete(mapNum))
     }
     return null
   }
 
   // event object 类别缓存。**按 gs.npcs 数组引用**判失效(非 wNumScene):切场景时 wNumScene 比 gs.npcs
   //   先更新,若按 wNumScene 重算会抓到旧场景的 npc → 标错位置(user 2026-06-15 报);loadScene 换新
-  //   npcs 数组时引用变,正好在新 npcs 就绪时重算。scene 内 npc 移动不换数组引用 → kinds(按 triggerLabel)不变,不必重算。
+  //   npcs数组时引用变即重算;同数组内移动不重算。该缓存也不监听原地triggerLabel/脚本表变化,不是实时脚本解释器。
   let kindsNpcs: readonly NpcState[] | null = null
   let kindsMap = new Map<number, { kind: EventKind; name?: string }>()
   const currentKinds = (gs: GameState): Map<number, { kind: EventKind; name?: string }> => {
@@ -367,9 +174,9 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     const dpr = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 2)
     widgetCanvas.width = Math.round(WIDGET_PX * dpr)
     widgetCanvas.height = Math.round(WIDGET_PX * dpr)
-    // 显式 inline 尺寸:覆盖 index.html 全局 `canvas{width:960px;height:600px}`。
-    widgetCanvas.style.width = `${WIDGET_PX}px`
-    widgetCanvas.style.height = `${WIDGET_PX}px`
+    // CSS尺寸与DPR backing分开，布局样式可覆盖--tp-minimap-size。
+    widgetCanvas.style.width = `var(--tp-minimap-size, ${WIDGET_PX}px)`
+    widgetCanvas.style.height = `var(--tp-minimap-size, ${WIDGET_PX}px)`
     const zoomBox = document.createElement('div')
     zoomBox.className = 'tp-mm-zoom'
     const mkBtn = (txt: string, title: string, onClick: () => void): void => {
@@ -379,21 +186,26 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
       b.addEventListener('click', onClick)
       zoomBox.appendChild(b)
     }
-    mkBtn('＋', '放大 (=)', () => setZoom(widgetZoom + 1))
-    mkBtn('－', '缩小 (-),最小=全图', () => setZoom(widgetZoom - 1))
+    mkBtn('＋', localize('放大 (=)', 'Zoom in (=)'), () => setZoom(widgetZoom + 1))
+    mkBtn('－', localize('缩小 (-),最小=全图', 'Zoom out (-), minimum: full map'), () =>
+      setZoom(widgetZoom - 1),
+    )
     widget.append(widgetCanvas, zoomBox) // zoomBox 绝对定位浮于 canvas 右上角(在小地图内)
     document.body.appendChild(widget)
   }
   const syncWidget = (): void => {
+    const inScene = ['explore', 'event'].includes(deps.getGs().mode) && getCurrentMapNum() > 0
     if (!widgetEnabled) {
       if (widget) widget.style.display = 'none'
       return
     }
     ensureWidget()
-    const m = deps.getGs()?.mode
+    const zoomButtons = widget!.querySelectorAll('button')
+    if (zoomButtons[0]) zoomButtons[0].title = localize('放大 (=)', 'Zoom in (=)')
+    if (zoomButtons[1])
+      zoomButtons[1].title = localize('缩小 (-),最小=全图', 'Zoom out (-), minimum: full map')
     // 场景态(含剧情对话);battle/menu 隐藏。再加「有有效地图」门:boot 期 mode 默认 explore 但
     // currentMapNum=0(未进场景),不守这道会在标题/加载屏就显出空 widget(user 2026-06-22 报)。
-    const inScene = (m === 'explore' || m === 'event') && getCurrentMapNum() > 0
     widget!.style.display = inScene ? 'block' : 'none' // block:zoomBox 绝对定位浮于右上角,widget 只裹 canvas
     if (inScene && widgetCanvas) drawWidget(widgetCanvas)
   }
@@ -437,16 +249,21 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
 
   // 刷新后若 localStorage 记得已启用 widget,立即起循环显示(不必先开工具面板)。
   if (widgetEnabled) ensureLoop()
+  window.addEventListener(LAYOUT_CHANGE, () => {
+    widgetEnabled = localStorage.getItem(presentationKey(LS_WIDGET)) === '1'
+    syncWidget()
+    ensureLoop()
+  })
 
   return {
     mountSceneView(container, sizePx, onTick) {
       const canvas = document.createElement('canvas')
-      // backing 按 DPR 放大(retina 清晰;640 底图够用),CSS 仍 sizePx;drawMinimap 用 canvas.width=backing。
+      // backing按DPR(上限2)配置,CSS仍sizePx;drawMinimap按backing绘制,不保证裁剪区只缩不放。
       const dpr = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 2)
       canvas.width = Math.round(sizePx * dpr)
       canvas.height = Math.round(sizePx * dpr)
       canvas.className = 'tp-minimap-canvas'
-      // 显式 inline 尺寸:覆盖 index.html 全局 `canvas{width:960px;height:600px}`(否则被拉伸变形)。
+      // 保持调用方指定的CSS尺寸，不把DPR backing尺寸当成布局尺寸。
       canvas.style.width = `${sizePx}px`
       canvas.style.height = `${sizePx}px`
       container.appendChild(canvas)
@@ -458,7 +275,7 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
     },
     setWidgetEnabled(on) {
       widgetEnabled = on
-      localStorage.setItem(LS_WIDGET, on ? '1' : '0')
+      localStorage.setItem(presentationKey(LS_WIDGET), on ? '1' : '0')
       syncWidget()
       ensureLoop()
     },

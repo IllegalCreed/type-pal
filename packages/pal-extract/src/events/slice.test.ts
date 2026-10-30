@@ -1,3 +1,4 @@
+import type { Command } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { sliceByScene } from './slice.js'
 
@@ -7,32 +8,51 @@ function makeScene(scriptOnEnter: number, eventObjectIndex: number): import('../
     scriptOnEnter,
     scriptOnTeleport: 0,
     eventObjectIndex,
-    raw: new Uint16Array(),
+    raw: new Uint16Array([0, scriptOnEnter, 0, eventObjectIndex]),
   }
 }
 
 describe('sliceByScene', () => {
+  it('explicit extra roots belong only to their owning scene without adding native event objects', () => {
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'loadScene', sceneId: 3, label: 'L_1' },
+      { op: 'end' },
+    ]
+    const result = sliceByScene(commands, [makeScene(0, 0), makeScene(0, 0)], [], [], { 1: [1] })
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual([])
+    expect(result.scenes[1]!.segments[0]!.commands).toEqual(commands.slice(1))
+    expect(result.shared.segments[0]!.commands).toEqual([])
+  })
   it('单场景:可达的命令进 scene-0;不可达不出现', () => {
     // commands: [padding, end, end] — scene 0 scriptOnEnter=1, index 2 unreachable
     const result = sliceByScene(
-      [{ op: 'end' }, { op: 'end' }, { op: 'end' }],
+      [
+        { op: 'end', label: 'L_0' },
+        { op: 'end', label: 'L_1' },
+        { op: 'end', label: 'L_2' },
+      ],
       [makeScene(1, 0)],
       [],
     )
     // index 1 reachable (end → stops); index 2 unreachable
-    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end' }])
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end', label: 'L_1' }])
     expect(result.shared.segments[0]!.commands).toEqual([])
   })
 
   it('两场景独占的命令分别进 scene-0 / scene-1', () => {
     // scene 0 scriptOnEnter=1 (index 1), scene 1 scriptOnEnter=2 (index 2)
     const result = sliceByScene(
-      [{ op: 'end' }, { op: 'end' }, { op: 'end' }],
+      [
+        { op: 'end', label: 'L_0' },
+        { op: 'end', label: 'L_1' },
+        { op: 'end', label: 'L_2' },
+      ],
       [makeScene(1, 0), makeScene(2, 0)],
       [],
     )
-    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end' }])
-    expect(result.scenes[1]!.segments[0]!.commands).toEqual([{ op: 'end' }])
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end', label: 'L_1' }])
+    expect(result.scenes[1]!.segments[0]!.commands).toEqual([{ op: 'end', label: 'L_2' }])
     expect(result.shared.segments[0]!.commands).toEqual([])
   })
 
@@ -49,13 +69,85 @@ describe('sliceByScene', () => {
       [makeScene(1, 0), makeScene(2, 0)],
       [],
     )
-    expect(result.shared.segments[0]!.commands).toContainEqual({ label: 'L_3', op: 'end' })
-    expect((result.scenes[0]!.segments[0]!.commands[0] as { op: string; to: string }).to).toBe(
-      'shared#L_3',
+    expect(result.shared.segments[0]!.commands).toEqual([{ label: 'L_3', op: 'end' }])
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'goto', to: 'shared#L_3' }])
+    expect(result.scenes[1]!.segments[0]!.commands).toEqual([{ op: 'goto', to: 'shared#L_3' }])
+  })
+
+  it.each([
+    'scene',
+    'global',
+  ] as const)('%s 的计数 goto 同时收跳转和计数结束续行，零计数不收续行', (owner) => {
+    const commands: Command[] = [
+      { op: 'end', label: 'L_0' },
+      { op: 'goto', to: 'L_4', frameDelay: 2, label: 'L_1' },
+      { op: 'giveItem', itemId: 61, count: 1, label: 'L_2' },
+      { op: 'end', label: 'L_3' },
+      { op: 'goto', to: 'L_4', frameDelay: 0, label: 'L_4' },
+      { op: 'end', label: 'L_5' },
+    ]
+    // 0x0003 op1=2 有两条控制边；L_4 的 op1=0 恒跳自身，L_5 不可达。
+    const result = sliceByScene(
+      commands,
+      [makeScene(owner === 'scene' ? 1 : 0, 0)],
+      [],
+      owner === 'global' ? [1] : [],
     )
-    expect((result.scenes[1]!.segments[0]!.commands[0] as { op: string; to: string }).to).toBe(
-      'shared#L_3',
+    const expected: Command[] = [
+      { op: 'goto', to: owner === 'scene' ? 'L_4' : 'shared#L_4', frameDelay: 2, label: 'L_1' },
+      { op: 'giveItem', itemId: 61, count: 1, label: 'L_2' },
+      { op: 'end', label: 'L_3' },
+      { op: 'goto', to: owner === 'scene' ? 'L_4' : 'shared#L_4', frameDelay: 0, label: 'L_4' },
+    ]
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual(owner === 'scene' ? expected : [])
+    expect(result.shared.segments[0]!.commands).toEqual(owner === 'global' ? expected : [])
+  })
+
+  it.each([
+    'scene',
+    'global',
+  ] as const)('%s 的战斗收胜利续行与非零战败/逃跑分支，零目标和敌队编号不制造入口', (owner) => {
+    const commands: Command[] = [
+      { op: 'end', label: 'L_0' },
+      { op: 'raw', opcode: 0x0007, operands: [3, 4, 6], label: 'L_1' },
+      { op: 'end', label: 'L_2' }, // 胜利续行，阻断顺序抵达后两个分支。
+      { op: 'end', label: 'L_3' }, // 敌队编号不是脚本入口。
+      { op: 'goto', to: 'L_6', label: 'L_4' }, // 战败分支再接逃跑分支。
+      { op: 'end', label: 'L_5' }, // 无计数goto不收续行。
+      { op: 'giveItem', itemId: 61, count: 1, label: 'L_6' },
+      { op: 'end', label: 'L_7' },
+    ]
+    const scenes = [makeScene(owner === 'scene' ? 1 : 0, 0)]
+    const entries = owner === 'global' ? [1] : []
+    const result = sliceByScene(commands, scenes, [], entries)
+    const expected: Command[] = [
+      { op: 'raw', opcode: 0x0007, operands: [3, 4, 6], label: 'L_1' },
+      { op: 'end', label: 'L_2' },
+      { op: 'goto', to: owner === 'scene' ? 'L_6' : 'shared#L_6', label: 'L_4' },
+      { op: 'giveItem', itemId: 61, count: 1, label: 'L_6' },
+      { op: 'end', label: 'L_7' },
+    ]
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual(owner === 'scene' ? expected : [])
+    expect(result.shared.segments[0]!.commands).toEqual(owner === 'global' ? expected : [])
+    expect(commands[4]).toEqual({ op: 'goto', to: 'L_6', label: 'L_4' })
+
+    const noBranch = sliceByScene(
+      [
+        { op: 'end', label: 'L_0' },
+        { op: 'raw', opcode: 0x0007, operands: [3, 0, 0], label: 'L_1' },
+        { op: 'end', label: 'L_2' },
+        { op: 'end', label: 'L_3' },
+      ],
+      scenes,
+      [],
+      entries,
     )
+    const onlyVictory: Command[] = [
+      { op: 'raw', opcode: 0x0007, operands: [3, 0, 0], label: 'L_1' },
+      { op: 'end', label: 'L_2' },
+    ]
+    expect(noBranch.scenes[0]!.segments[0]!.commands).toEqual(owner === 'scene' ? onlyVictory : [])
+    expect(noBranch.shared.segments[0]!.commands).toEqual(owner === 'global' ? onlyVictory : [])
   })
 
   it('goto 目标在同一场景内不改写', () => {
@@ -65,16 +157,21 @@ describe('sliceByScene', () => {
       [makeScene(1, 0)],
       [],
     )
-    expect((result.scenes[0]!.segments[0]!.commands[0] as { op: string; to: string }).to).toBe(
-      'L_2',
-    )
-    expect(result.scenes[0]!.segments[0]!.commands).toHaveLength(2)
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual([
+      { op: 'goto', to: 'L_2' },
+      { label: 'L_2', op: 'end' },
+    ])
+    expect(result.shared.segments[0]!.commands).toEqual([])
   })
 
   it('eventObject triggerScript 作为入口参与 BFS', () => {
     // scene 0 scriptOnEnter=0 (no direct entry), eventObject triggerScript=2
     const result = sliceByScene(
-      [{ op: 'end' }, { op: 'end' }, { op: 'end' }],
+      [
+        { op: 'end', label: 'L_0' },
+        { op: 'end', label: 'L_1' },
+        { op: 'end', label: 'L_2' },
+      ],
       [makeScene(0, 0)],
       [
         {
@@ -94,16 +191,16 @@ describe('sliceByScene', () => {
           spritePtrOffset: 0,
           nSpriteFramesAuto: 0,
           scriptIdleFrameCountAuto: 0,
-          raw: new Uint16Array(),
+          raw: new Uint16Array([0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
         },
       ],
     )
     // index 2 reachable from triggerScript; indices 0,1 unreachable
-    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end' }])
+    expect(result.scenes[0]!.segments[0]!.commands).toEqual([{ op: 'end', label: 'L_2' }])
   })
 
   it('objects 文件 M1 下为空', () => {
-    const result = sliceByScene([{ op: 'end' }], [makeScene(1, 0)], [])
+    const result = sliceByScene([{ op: 'end' }], [makeScene(0, 0)], [])
     expect(result.objects.segments).toEqual([])
   })
 
@@ -142,15 +239,21 @@ describe('sliceByScene', () => {
     const result = sliceByScene(
       [
         { op: 'end' }, // 0: padding
-        { op: 'end', reset: true, resetTo: 3, idleFrames: 0 }, // 1: scene 0 entry → 跳 3 + i+1=2
+        { op: 'end', reset: true, resetTo: 3, idleFrames: 30 }, // 1: 未满计数跳 3；计数满后推进 2
         { op: 'end' }, // 2: fall-through 续行
         { label: 'L_3', op: 'raw', opcode: 0x14, operands: [9, 0, 0] }, // 3: resetTo 目标,必须被收
+        { op: 'end' }, // 4: resetTo 路径终点
       ],
       [makeScene(1, 0)],
       [],
     )
     const cmds = result.scenes[0]!.segments[0]!.commands
-    expect(cmds).toContainEqual({ label: 'L_3', op: 'raw', opcode: 0x14, operands: [9, 0, 0] })
+    expect(cmds).toEqual([
+      { op: 'end', reset: true, resetTo: 3, idleFrames: 30 },
+      { op: 'end' },
+      { label: 'L_3', op: 'raw', opcode: 0x14, operands: [9, 0, 0] },
+      { op: 'end' },
+    ])
   })
 
   // ── 条件跳转 opcode 目标收集(2026-05-28 A2)──────────────────────────────────
@@ -174,17 +277,22 @@ describe('sliceByScene', () => {
       [
         { op: 'end' }, // 0 padding
         { op: 'raw', opcode: 0xa2, operands: [3, 0, 0] }, // 1 entry — 目标 i+1..i+3 = 2,3,4
-        { op: 'raw', opcode: 0x35, operands: [1, 0, 0] }, // 2
-        { op: 'raw', opcode: 0x35, operands: [2, 0, 0] }, // 3
-        { op: 'raw', opcode: 0x35, operands: [3, 0, 0] }, // 4
+        { label: 'L_2', op: 'end' }, // 2: 阻断普通续行，不能靠顺序执行覆盖其后两个随机目标
+        { label: 'L_3', op: 'end' }, // 3: 仅由随机边到达
+        { label: 'L_4', op: 'raw', opcode: 0x35, operands: [3, 0, 0] }, // 4: 仅由随机边到达
         { op: 'end' }, // 5
       ],
       [makeScene(1, 0)],
       [],
     )
     const cmds = result.scenes[0]!.segments[0]!.commands
-    expect(cmds).toContainEqual({ op: 'raw', opcode: 0x35, operands: [2, 0, 0] }) // i+2 收集
-    expect(cmds).toContainEqual({ op: 'raw', opcode: 0x35, operands: [3, 0, 0] }) // i+3 收集
+    expect(cmds).toEqual([
+      { op: 'raw', opcode: 0xa2, operands: [3, 0, 0] },
+      { label: 'L_2', op: 'end' },
+      { label: 'L_3', op: 'end' },
+      { label: 'L_4', op: 'raw', opcode: 0x35, operands: [3, 0, 0] },
+      { op: 'end' },
+    ])
   })
 
   // L29:13 个条件跳转 opcode 的跳转目标(rgwOperand[N])此前不在 JUMP_TARGET_OPERAND 表,

@@ -1,0 +1,358 @@
+{
+  "state": "Scoped publication gates passed; final pre94 integration deferred",
+  "runs": [
+    {
+      "id": "docs-final",
+      "command": "node",
+      "args": ["scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T12:33:01.176Z",
+      "end": "2026-10-24T12:33:02.191Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8c96291751aafc10c4ec09f32257e8cf58ce42cd",
+      "observerTimeout": false,
+      "stdoutBytes": 93,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "docs-final.execution.json",
+          "sha256": "6a0b28f138323c5e1b005885ec18031df6c6e28fe4c8dc323d0e75a22807e6b8"
+        },
+        "stdout.raw": {
+          "member": "docs-final.stdout.raw",
+          "sha256": "32272b38b3faffda643fe7c42f11a6c5009efcf27113da4bd37693c360054407"
+        },
+        "stderr.raw": {
+          "member": "docs-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "model-final",
+      "command": "node",
+      "args": ["scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T12:33:01.176Z",
+      "end": "2026-10-24T12:33:02.804Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8c96291751aafc10c4ec09f32257e8cf58ce42cd",
+      "observerTimeout": false,
+      "stdoutBytes": 79,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "model-final.execution.json",
+          "sha256": "192c24acabdf80fa7d64f39e972add06269faffeced8c2a898fa7e6e8c18f02a"
+        },
+        "stdout.raw": {
+          "member": "model-final.stdout.raw",
+          "sha256": "ffc94083fd593e60e88a4f322ba62257d6625eb40729e176e1de8faf7db3594b"
+        },
+        "stderr.raw": {
+          "member": "model-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "testing-final",
+      "command": "node",
+      "args": ["scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T12:33:01.176Z",
+      "end": "2026-10-24T12:33:01.376Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8c96291751aafc10c4ec09f32257e8cf58ce42cd",
+      "observerTimeout": false,
+      "stdoutBytes": 30,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "testing-final.execution.json",
+          "sha256": "125cdf5a1d666471742da4e8225bb930f79762227478625e14a165513328ee12"
+        },
+        "stdout.raw": {
+          "member": "testing-final.stdout.raw",
+          "sha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c"
+        },
+        "stderr.raw": {
+          "member": "testing-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "phase-final",
+      "command": "node",
+      "args": ["scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T12:33:01.176Z",
+      "end": "2026-10-24T12:33:01.300Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8c96291751aafc10c4ec09f32257e8cf58ce42cd",
+      "observerTimeout": false,
+      "stdoutBytes": 44,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "phase-final.execution.json",
+          "sha256": "c7004a9749575e54ec27f63623245206bdde156279293ac776fa6f93c0bc3f5b"
+        },
+        "stdout.raw": {
+          "member": "phase-final.stdout.raw",
+          "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c"
+        },
+        "stderr.raw": {
+          "member": "phase-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "content-final",
+      "command": "node",
+      "args": ["scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T12:33:01.176Z",
+      "end": "2026-10-24T12:33:01.856Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8c96291751aafc10c4ec09f32257e8cf58ce42cd",
+      "observerTimeout": false,
+      "stdoutBytes": 65,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "content-final.execution.json",
+          "sha256": "035bf1a5f77a0bc99221169ea337f7403224f1ef6272490d7225beef5d6fb42b"
+        },
+        "stdout.raw": {
+          "member": "content-final.stdout.raw",
+          "sha256": "3b0b15882a95d042815fa3dcb89b8a9fee95d0b962e3624081c56d62e567efad"
+        },
+        "stderr.raw": {
+          "member": "content-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "progress-final",
+      "command": "node",
+      "args": ["scripts/docs/report-governance-progress.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T12:33:01.176Z",
+      "end": "2026-10-24T12:33:04.509Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8c96291751aafc10c4ec09f32257e8cf58ce42cd",
+      "observerTimeout": false,
+      "stdoutBytes": 158,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "progress-final.execution.json",
+          "sha256": "ba063a6ec039a63a0d10599f8fad438f2906f7d98ddad1e835ac01cf121c5ea2"
+        },
+        "stdout.raw": {
+          "member": "progress-final.stdout.raw",
+          "sha256": "5d9d60b6652b051d518ef04578d2c81df95a864fca5ac397b535fc8d326d424e"
+        },
+        "stderr.raw": {
+          "member": "progress-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "typecheck-final",
+      "command": "pnpm",
+      "args": ["--filter", "@type-pal/game", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T12:33:01.176Z",
+      "end": "2026-10-24T12:33:05.450Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8c96291751aafc10c4ec09f32257e8cf58ce42cd",
+      "observerTimeout": false,
+      "stdoutBytes": 125,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "typecheck-final.execution.json",
+          "sha256": "57a91c0dcd652fd1bc717c9da35b93c2bf319651208d47b0b536644e779f6370"
+        },
+        "stdout.raw": {
+          "member": "typecheck-final.stdout.raw",
+          "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+        },
+        "stderr.raw": {
+          "member": "typecheck-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "lint-final",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T12:34:53.328Z",
+      "end": "2026-10-24T12:34:56.020Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8c96291751aafc10c4ec09f32257e8cf58ce42cd",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "lint-final.execution.json",
+          "sha256": "548638201032a2f18c07b9d21ef398c2d282e16d97e6098842b8fa300b57f56f"
+        },
+        "stdout.raw": {
+          "member": "lint-final.stdout.raw",
+          "sha256": "a17834b43683f22ac7f9d1b8f3dffc25ea7b235d579d6894e5d8beaeabf4f724"
+        },
+        "stderr.raw": {
+          "member": "lint-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "ledger-final",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T12:34:56.056Z",
+      "end": "2026-10-24T12:34:56.904Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8c96291751aafc10c4ec09f32257e8cf58ce42cd",
+      "observerTimeout": false,
+      "stdoutBytes": 112,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "ledger-final.execution.json",
+          "sha256": "d9133d269beef61f3762cb16ca472b72d71b9b0dd1401a23603ffc583c4669ff"
+        },
+        "stdout.raw": {
+          "member": "ledger-final.stdout.raw",
+          "sha256": "846cb4adf819c8fad327cf7ed52d8fd1737cfeb440825f6cdd31c54ef6be0f47"
+        },
+        "stderr.raw": {
+          "member": "ledger-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "diff-final",
+      "command": "git",
+      "args": ["diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T12:34:56.935Z",
+      "end": "2026-10-24T12:34:56.975Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8c96291751aafc10c4ec09f32257e8cf58ce42cd",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "diff-final.execution.json",
+          "sha256": "f6f91115bf6ac39570eec330f2d9c328ff1316add271f730ae164ec3b5408d80"
+        },
+        "stdout.raw": {
+          "member": "diff-final.stdout.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr.raw": {
+          "member": "diff-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "delivery-static",
+      "command": "pnpm",
+      "args": [
+        "exec",
+        "biome",
+        "check",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/review.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/static.json",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/verify.mjs",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/prove-split.mjs",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/prove-bindings.mjs",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T12:37:39.701Z",
+      "end": "2026-10-24T12:37:39.957Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "8c96291751aafc10c4ec09f32257e8cf58ce42cd",
+      "observerTimeout": false,
+      "stdoutBytes": 43,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "delivery-static.execution.json",
+          "sha256": "08148181cc95b41124495d8d2896fb3ed29a4766fa33f4b5e092a1cdcb144a9b"
+        },
+        "stdout.raw": {
+          "member": "delivery-static.stdout.raw",
+          "sha256": "24acf49fe6ddc79f3953805a53f642526d7e22101df6aa6e7e40137025ac1cc6"
+        },
+        "stderr.raw": {
+          "member": "delivery-static.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    }
+  ],
+  "diagnostics": {
+    "hardStatic": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "runtime": "No error/warning/act/environment diagnostics; five normal dev-panel console.log installation messages explicitly retained in54case output. Never claiming empty stdout."
+  },
+  "priorRejected": [
+    "split-static-initial:1error/1warning",
+    "minimap-test-static:noConstructorReturn error; local8cd not ready for publication",
+    "opcode-id-static:export organization error",
+    "bindings-static:import organization error",
+    "bindings-proof:source quote mismatch, proof error",
+    "evidence-static-before:exit0 with6infos, not pass",
+    "verify-first:missing hash field assumption in old packet, corrected by explicit frozen Git pins"
+  ],
+  "notRun": [
+    "whole repository check",
+    "official coverage/ratchet/protected",
+    "browser/E2E visual acceptance",
+    "PR/main merge"
+  ],
+  "reuse": "Old nine discrimination controls reused under current exact pure functions and keyed callbacks; unchanged125docs tools not rerun, six actual consumers executed."
+}

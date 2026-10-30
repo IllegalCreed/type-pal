@@ -1,0 +1,184 @@
+{
+  "base": "28fcfbe310815bcfd712b2f3da1849e0f4076092",
+  "scope": "Finite consent comment/test/read/raw/control/three new live review and one-card queue delta; no whole-card/native/real-network/UI/unified closeout",
+  "rawPairs": [
+    {
+      "receipt": "module-final.json",
+      "raw": "module-final.raw.gz",
+      "sha256": "ccc5cc236fe0634f6b9a00f57a9ecb8009ada6ea90f9c0d238b06fb913753051",
+      "exit": 0,
+      "initialDocsFailurePreserved": false
+    },
+    {
+      "receipt": "fetch-final.json",
+      "raw": "fetch-final.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit": 0,
+      "initialDocsFailurePreserved": false
+    },
+    {
+      "receipt": "docs-consumers-final.json",
+      "raw": "docs-consumers-final.raw.gz",
+      "sha256": "4f7ef75a4ccb28de8f889ee77a872f4ef71127e681611caafb16bd40bc14b366",
+      "exit": 0,
+      "initialDocsFailurePreserved": false
+    },
+    {
+      "receipt": "docs.json",
+      "raw": "docs.raw.gz",
+      "sha256": "c9482331d3f27f0213d0e2047809b0fbba9111e8c44e7fa76675d3a4c965b794",
+      "exit": 1,
+      "initialDocsFailurePreserved": true
+    },
+    {
+      "receipt": "lint-final.json",
+      "raw": "lint-final.raw.gz",
+      "sha256": "922ff4ad586caf6be5c42cf48634668d1592e5969fd0c0ed27e769a294ccf8a1",
+      "exit": 0,
+      "initialDocsFailurePreserved": false
+    },
+    {
+      "receipt": "baseline.json",
+      "raw": "baseline.raw.gz",
+      "sha256": "ca5de17174c270b2c2f5b4b9e0c29bbdc5ff5e49308fccb239a73ca75ac24b37",
+      "exit": 0,
+      "initialDocsFailurePreserved": false
+    },
+    {
+      "receipt": "current.json",
+      "raw": "current.raw.gz",
+      "sha256": "a86cea1780f6cca2671ad9078e1bffe59f27ab0cd85e3d61b16ba2621ff0a619",
+      "exit": 0,
+      "initialDocsFailurePreserved": false
+    },
+    {
+      "receipt": "typecheck.json",
+      "raw": "typecheck.raw.gz",
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+      "exit": 0,
+      "initialDocsFailurePreserved": false
+    },
+    {
+      "receipt": "divergence-final.json",
+      "raw": "divergence-final.raw.gz",
+      "sha256": "36967dff2b39de63298352ac57272e7563f320f3303562b184127f4c5fa85ee5",
+      "exit": 0,
+      "initialDocsFailurePreserved": false
+    },
+    {
+      "receipt": "ledger.json",
+      "raw": "ledger.raw.gz",
+      "sha256": "3528f0708c907ed59e7645e31c83814a53103d9c9f88e586c64b92e55ec37db8",
+      "exit": 0,
+      "initialDocsFailurePreserved": false
+    }
+  ],
+  "controls": [
+    {
+      "id": "publish-before-persistence",
+      "oldFullFilePassed": 3,
+      "currentFullFilePassed": 2,
+      "specifiedBusinessAssertionErrors": 1,
+      "restored": true
+    },
+    {
+      "id": "dnt-zero-treated-as-signal",
+      "oldFullFilePassed": 3,
+      "currentFullFilePassed": 2,
+      "specifiedBusinessAssertionErrors": 1,
+      "restored": true
+    },
+    {
+      "id": "default-write-host-missing",
+      "oldFullFilePassed": 3,
+      "currentFullFilePassed": 2,
+      "specifiedBusinessAssertionErrors": 1,
+      "restored": true
+    },
+    {
+      "id": "notify-after-storage-failure",
+      "oldFullFilePassed": 3,
+      "currentFullFilePassed": 3,
+      "specifiedBusinessAssertionErrors": 1,
+      "restored": true
+    },
+    {
+      "id": "browserless-falls-back-to-global-storage",
+      "oldFullFilePassed": 3,
+      "currentFullFilePassed": 3,
+      "specifiedBusinessAssertionErrors": 1,
+      "restored": true
+    }
+  ],
+  "all7CurrentDirectIdentitiesPassedInFormalNative": true,
+  "readBoundariesAndShaExact": true,
+  "implementationCommentOnly": true,
+  "ledgerOldRowsAndHistoricalFenceExact": true,
+  "newLiveReviewRows": [
+    "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+    "packages/game/src/analytics/analytics-consent.test.ts",
+    "packages/game/src/analytics/analytics-consent.ts"
+  ],
+  "newClosed": 0,
+  "queueDelta": {
+    "onlyCard": "3y",
+    "before": "pending",
+    "after": "partial",
+    "allOther82ObjectsExact": true,
+    "scopeConfirmed": false,
+    "historicalHashesAndPayloadsExact": true,
+    "partial": 52,
+    "pending": 31,
+    "accept": 0
+  },
+  "reviewBindings": [
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "targets": ["docs/ops/board.md"],
+      "allOtherNativeVerdictsAndHistoricalObjectsExact": true,
+      "addedBoundedHistoryItem": 1
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "targets": ["docs/ops/audits/code-quality-file-ledger.md"],
+      "allOtherNativeVerdictsAndHistoricalObjectsExact": true,
+      "addedBoundedHistoryItem": 1
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "targets": [
+        "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+        "docs/phase-governance/reviews/20261016-historical-cards-d.json"
+      ],
+      "allOtherNativeVerdictsAndHistoricalObjectsExact": true,
+      "addedBoundedHistoryItem": 1
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "targets": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"],
+      "allOtherNativeVerdictsAndHistoricalObjectsExact": true,
+      "addedBoundedHistoryItem": 1
+    }
+  ],
+  "unchangedIndexRootReportAndOriginalCards": [
+    "docs/ops/tasks/index.md",
+    "docs/ops/archive/tasks/done/CODE-QUALITY-3y-game-analytics-consent.md",
+    "docs/ops/tasks/CODE-QUALITY-109-game-analytics-install-review.md"
+  ],
+  "noBaselineRetirementOrCatalogEdits": true,
+  "allowedTrackedChanges": [
+    "docs/ops/audits/code-quality-file-ledger.md",
+    "docs/ops/board.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md",
+    "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+    "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+    "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+    "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+    "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+    "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+    "packages/game/src/analytics/analytics-consent.test.ts",
+    "packages/game/src/analytics/analytics-consent.ts"
+  ]
+}

@@ -1,0 +1,675 @@
+{
+  "base": "599d35717d8a5213802f76535eb14ba187f709e5",
+  "scope": "Read-only raw SSS.MKF chunk2/4 cross-check against extracted153 objects/all instructions. No extractor execution/output writes/arbitrary external save/original-runtime claim.",
+  "inputs": [
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/data/raw/SSS.MKF",
+      "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756",
+      "bytes": 574838
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/data/extracted/data/enemy-objects.json",
+      "sha256": "3d7dc243d6e28a25fbcf44e66b1e414c4f3205e08463f11d65bd6ca6f87b626f",
+      "bytes": 28989
+    },
+    {
+      "path": "/Users/zhangxu/illegal/type-pal/data/extracted/events/all.json",
+      "sha256": "3f54bc1aba2eb82653f71d7384260f6de4e3e5e1977ee48ffdbb31a27c409c8d",
+      "bytes": 5470901
+    }
+  ],
+  "mkfOffsets": [24, 162488, 164848, 172758, 226814, 574838],
+  "objectsCompared": 153,
+  "allInstructionCount": 43503,
+  "battleEndEntries": [
+    {
+      "entry": 41008,
+      "objects": [
+        {
+          "objectIndex": 402,
+          "enemyId": 5,
+          "name": "凤梨小妖",
+          "objectRawHex": "05000000000030a067a600000000"
+        }
+      ],
+      "instructions": [
+        {
+          "ip": 41008,
+          "rawWords": [31, 104, 0, 0],
+          "rawHex": "1f00680000000000",
+          "command": {
+            "op": "giveItem",
+            "itemId": 104,
+            "count": 0,
+            "label": "L_41008",
+            "_item": "鼠儿果"
+          }
+        },
+        {
+          "ip": 41009,
+          "rawWords": [62, 0, 0, 0],
+          "rawHex": "3e00000000000000",
+          "command": {
+            "op": "setDialogStyleNarration"
+          }
+        },
+        {
+          "ip": 41010,
+          "rawWords": [65535, 13115, 0, 0],
+          "rawHex": "ffff3b3300000000",
+          "command": {
+            "op": "showDialog",
+            "messageIndex": 13115,
+            "text": "捡到一颗鼠儿果"
+          }
+        },
+        {
+          "ip": 41011,
+          "rawWords": [0, 0, 0, 0],
+          "rawHex": "0000000000000000",
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "entry": 41012,
+      "objects": [
+        {
+          "objectIndex": 401,
+          "enemyId": 4,
+          "name": "烂香菇",
+          "objectRawHex": "04000000000034a0000000000000"
+        }
+      ],
+      "instructions": [
+        {
+          "ip": 41012,
+          "rawWords": [6, 20, 0, 0],
+          "rawHex": "0600140000000000",
+          "command": {
+            "op": "raw",
+            "opcode": 6,
+            "operands": [20, 0, 0],
+            "label": "L_41012"
+          }
+        },
+        {
+          "ip": 41013,
+          "rawWords": [31, 87, 0, 0],
+          "rawHex": "1f00570000000000",
+          "command": {
+            "op": "giveItem",
+            "itemId": 87,
+            "count": 0,
+            "_item": "雄黄"
+          }
+        },
+        {
+          "ip": 41014,
+          "rawWords": [62, 0, 0, 0],
+          "rawHex": "3e00000000000000",
+          "command": {
+            "op": "setDialogStyleNarration"
+          }
+        },
+        {
+          "ip": 41015,
+          "rawWords": [65535, 13116, 0, 0],
+          "rawHex": "ffff3c3300000000",
+          "command": {
+            "op": "showDialog",
+            "messageIndex": 13116,
+            "text": "得到一颗雄黄"
+          }
+        },
+        {
+          "ip": 41016,
+          "rawWords": [0, 0, 0, 0],
+          "rawHex": "0000000000000000",
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "entry": 41017,
+      "objects": [
+        {
+          "objectIndex": 400,
+          "enemyId": 3,
+          "name": "黑毛球",
+          "objectRawHex": "03000000000039a0000000000000"
+        }
+      ],
+      "instructions": [
+        {
+          "ip": 41017,
+          "rawWords": [6, 22, 0, 0],
+          "rawHex": "0600160000000000",
+          "command": {
+            "op": "raw",
+            "opcode": 6,
+            "operands": [22, 0, 0],
+            "label": "L_41017"
+          }
+        },
+        {
+          "ip": 41018,
+          "rawWords": [31, 99, 0, 0],
+          "rawHex": "1f00630000000000",
+          "command": {
+            "op": "giveItem",
+            "itemId": 99,
+            "count": 0,
+            "_item": "止血草"
+          }
+        },
+        {
+          "ip": 41019,
+          "rawWords": [62, 0, 0, 0],
+          "rawHex": "3e00000000000000",
+          "command": {
+            "op": "setDialogStyleNarration"
+          }
+        },
+        {
+          "ip": 41020,
+          "rawWords": [65535, 13117, 0, 0],
+          "rawHex": "ffff3d3300000000",
+          "command": {
+            "op": "showDialog",
+            "messageIndex": 13117,
+            "text": "获得一棵止血草"
+          }
+        },
+        {
+          "ip": 41021,
+          "rawWords": [0, 0, 0, 0],
+          "rawHex": "0000000000000000",
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "entry": 41022,
+      "objects": [
+        {
+          "objectIndex": 404,
+          "enemyId": 7,
+          "name": "蛹",
+          "objectRawHex": "0700000000003ea0000000000000"
+        }
+      ],
+      "instructions": [
+        {
+          "ip": 41022,
+          "rawWords": [6, 16, 0, 0],
+          "rawHex": "0600100000000000",
+          "command": {
+            "op": "raw",
+            "opcode": 6,
+            "operands": [16, 0, 0],
+            "label": "L_41022"
+          }
+        },
+        {
+          "ip": 41023,
+          "rawWords": [31, 131, 0, 0],
+          "rawHex": "1f00830000000000",
+          "command": {
+            "op": "giveItem",
+            "itemId": 131,
+            "count": 0,
+            "_item": "蜂王蜜"
+          }
+        },
+        {
+          "ip": 41024,
+          "rawWords": [62, 0, 0, 0],
+          "rawHex": "3e00000000000000",
+          "command": {
+            "op": "setDialogStyleNarration"
+          }
+        },
+        {
+          "ip": 41025,
+          "rawWords": [65535, 13118, 0, 0],
+          "rawHex": "ffff3e3300000000",
+          "command": {
+            "op": "showDialog",
+            "messageIndex": 13118,
+            "text": "得到蜂王蜜"
+          }
+        },
+        {
+          "ip": 41026,
+          "rawWords": [0, 0, 0, 0],
+          "rawHex": "0000000000000000",
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "entry": 41027,
+      "objects": [
+        {
+          "objectIndex": 403,
+          "enemyId": 6,
+          "name": "蜜蜂",
+          "objectRawHex": "06000000000043a0000000000000"
+        }
+      ],
+      "instructions": [
+        {
+          "ip": 41027,
+          "rawWords": [6, 12, 0, 0],
+          "rawHex": "06000c0000000000",
+          "command": {
+            "op": "raw",
+            "opcode": 6,
+            "operands": [12, 0, 0],
+            "label": "L_41027"
+          }
+        },
+        {
+          "ip": 41028,
+          "rawWords": [31, 115, 0, 0],
+          "rawHex": "1f00730000000000",
+          "command": {
+            "op": "giveItem",
+            "itemId": 115,
+            "count": 0,
+            "_item": "蜂巢"
+          }
+        },
+        {
+          "ip": 41029,
+          "rawWords": [62, 0, 0, 0],
+          "rawHex": "3e00000000000000",
+          "command": {
+            "op": "setDialogStyleNarration"
+          }
+        },
+        {
+          "ip": 41030,
+          "rawWords": [65535, 13119, 0, 0],
+          "rawHex": "ffff3f3300000000",
+          "command": {
+            "op": "showDialog",
+            "messageIndex": 13119,
+            "text": "获得一个蜂巢"
+          }
+        },
+        {
+          "ip": 41031,
+          "rawWords": [0, 0, 0, 0],
+          "rawHex": "0000000000000000",
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "entry": 41032,
+      "objects": [
+        {
+          "objectIndex": 409,
+          "enemyId": 12,
+          "name": "菜刀婆婆",
+          "objectRawHex": "0c00000014a048a01da000000000"
+        }
+      ],
+      "instructions": [
+        {
+          "ip": 41032,
+          "rawWords": [31, 97, 0, 0],
+          "rawHex": "1f00610000000000",
+          "command": {
+            "op": "giveItem",
+            "itemId": 97,
+            "count": 0,
+            "label": "L_41032",
+            "_item": "孟婆汤"
+          }
+        },
+        {
+          "ip": 41033,
+          "rawWords": [62, 0, 0, 0],
+          "rawHex": "3e00000000000000",
+          "command": {
+            "op": "setDialogStyleNarration"
+          }
+        },
+        {
+          "ip": 41034,
+          "rawWords": [65535, 13120, 0, 0],
+          "rawHex": "ffff403300000000",
+          "command": {
+            "op": "showDialog",
+            "messageIndex": 13120,
+            "text": "得到孟婆汤"
+          }
+        },
+        {
+          "ip": 41035,
+          "rawWords": [0, 0, 0, 0],
+          "rawHex": "0000000000000000",
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "entry": 42416,
+      "objects": [
+        {
+          "objectIndex": 524,
+          "enemyId": 126,
+          "name": "智修大师",
+          "objectRawHex": "7e000a000000b0a52ba700000000"
+        }
+      ],
+      "instructions": [
+        {
+          "ip": 42416,
+          "rawWords": [31, 214, 0, 0],
+          "rawHex": "1f00d60000000000",
+          "command": {
+            "op": "giveItem",
+            "itemId": 214,
+            "count": 0,
+            "label": "L_42416",
+            "_item": "罗汉袍"
+          }
+        },
+        {
+          "ip": 42417,
+          "rawWords": [62, 0, 0, 0],
+          "rawHex": "3e00000000000000",
+          "command": {
+            "op": "setDialogStyleNarration"
+          }
+        },
+        {
+          "ip": 42418,
+          "rawWords": [65535, 13333, 0, 0],
+          "rawHex": "ffff153400000000",
+          "command": {
+            "op": "showDialog",
+            "messageIndex": 13333,
+            "text": "得到罗汉袍"
+          }
+        },
+        {
+          "ip": 42419,
+          "rawWords": [0, 0, 0, 0],
+          "rawHex": "0000000000000000",
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "entry": 42420,
+      "objects": [
+        {
+          "objectIndex": 494,
+          "enemyId": 96,
+          "name": "剑老头",
+          "objectRawHex": "60000a0043a6b4a5000000000000"
+        }
+      ],
+      "instructions": [
+        {
+          "ip": 42420,
+          "rawWords": [31, 216, 0, 0],
+          "rawHex": "1f00d80000000000",
+          "command": {
+            "op": "giveItem",
+            "itemId": 216,
+            "count": 0,
+            "label": "L_42420",
+            "_item": "天师道袍"
+          }
+        },
+        {
+          "ip": 42421,
+          "rawWords": [62, 0, 0, 0],
+          "rawHex": "3e00000000000000",
+          "command": {
+            "op": "setDialogStyleNarration"
+          }
+        },
+        {
+          "ip": 42422,
+          "rawWords": [65535, 13334, 0, 0],
+          "rawHex": "ffff163400000000",
+          "command": {
+            "op": "showDialog",
+            "messageIndex": 13334,
+            "text": "得到天师道袍"
+          }
+        },
+        {
+          "ip": 42423,
+          "rawWords": [0, 0, 0, 0],
+          "rawHex": "0000000000000000",
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "entry": 42424,
+      "objects": [
+        {
+          "objectIndex": 519,
+          "enemyId": 121,
+          "name": "明王",
+          "objectRawHex": "79000a00fda4b8a590a500000000"
+        }
+      ],
+      "instructions": [
+        {
+          "ip": 42424,
+          "rawWords": [31, 230, 0, 0],
+          "rawHex": "1f00e60000000000",
+          "command": {
+            "op": "giveItem",
+            "itemId": 230,
+            "count": 0,
+            "label": "L_42424",
+            "_item": "菩提袈裟"
+          }
+        },
+        {
+          "ip": 42425,
+          "rawWords": [62, 0, 0, 0],
+          "rawHex": "3e00000000000000",
+          "command": {
+            "op": "setDialogStyleNarration"
+          }
+        },
+        {
+          "ip": 42426,
+          "rawWords": [65535, 13335, 0, 0],
+          "rawHex": "ffff173400000000",
+          "command": {
+            "op": "showDialog",
+            "messageIndex": 13335,
+            "text": "得到菩提袈裟"
+          }
+        },
+        {
+          "ip": 42427,
+          "rawWords": [0, 0, 0, 0],
+          "rawHex": "0000000000000000",
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "entry": 42828,
+      "objects": [
+        {
+          "objectIndex": 465,
+          "enemyId": 68,
+          "name": "金蟾",
+          "objectRawHex": "4400040000004ca7000000000000"
+        },
+        {
+          "objectIndex": 490,
+          "enemyId": 92,
+          "name": "五毒巨蝎",
+          "objectRawHex": "5c00020000004ca7000000000000"
+        },
+        {
+          "objectIndex": 492,
+          "enemyId": 94,
+          "name": "五毒蜈蚣",
+          "objectRawHex": "5e00020000004ca7000000000000"
+        },
+        {
+          "objectIndex": 498,
+          "enemyId": 99,
+          "name": "黑蜘蛛精",
+          "objectRawHex": "6300020000004ca7000000000000"
+        },
+        {
+          "objectIndex": 536,
+          "enemyId": 138,
+          "name": "土蜘蛛",
+          "objectRawHex": "8a00000000004ca7000000000000"
+        },
+        {
+          "objectIndex": 550,
+          "enemyId": 153,
+          "name": "紫九头蛇",
+          "objectRawHex": "9900000000004ca7000000000000"
+        }
+      ],
+      "instructions": [
+        {
+          "ip": 42828,
+          "rawWords": [31, 152, 0, 0],
+          "rawHex": "1f00980000000000",
+          "command": {
+            "op": "giveItem",
+            "itemId": 152,
+            "count": 0,
+            "label": "L_42828",
+            "_item": "傀儡虫"
+          }
+        },
+        {
+          "ip": 42829,
+          "rawWords": [62, 0, 0, 0],
+          "rawHex": "3e00000000000000",
+          "command": {
+            "op": "setDialogStyleNarration"
+          }
+        },
+        {
+          "ip": 42830,
+          "rawWords": [65535, 13349, 0, 0],
+          "rawHex": "ffff253400000000",
+          "command": {
+            "op": "showDialog",
+            "messageIndex": 13349,
+            "text": "获得一只傀儡虫"
+          }
+        },
+        {
+          "ip": 42831,
+          "rawWords": [0, 0, 0, 0],
+          "rawHex": "0000000000000000",
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    }
+  ],
+  "setBattleResultSites": [
+    {
+      "ip": 41494,
+      "rawWords": [137, 0, 0, 0],
+      "command": {
+        "op": "raw",
+        "opcode": 137,
+        "operands": [0, 0, 0]
+      }
+    },
+    {
+      "ip": 41511,
+      "rawWords": [137, 0, 0, 0],
+      "command": {
+        "op": "raw",
+        "opcode": 137,
+        "operands": [0, 0, 0]
+      }
+    },
+    {
+      "ip": 41553,
+      "rawWords": [137, 0, 0, 0],
+      "command": {
+        "op": "raw",
+        "opcode": 137,
+        "operands": [0, 0, 0]
+      }
+    },
+    {
+      "ip": 42235,
+      "rawWords": [137, 0, 0, 0],
+      "command": {
+        "op": "raw",
+        "opcode": 137,
+        "operands": [0, 0, 0]
+      }
+    }
+  ],
+  "setObjectScriptSites": [
+    {
+      "ip": 21806,
+      "rawWords": [144, 435, 0, 0],
+      "command": {
+        "op": "raw",
+        "opcode": 144,
+        "operands": [435, 0, 0]
+      }
+    },
+    {
+      "ip": 41279,
+      "rawWords": [144, 454, 0, 0],
+      "command": {
+        "op": "raw",
+        "opcode": 144,
+        "operands": [454, 0, 0]
+      }
+    },
+    {
+      "ip": 41365,
+      "rawWords": [144, 485, 0, 0],
+      "command": {
+        "op": "raw",
+        "opcode": 144,
+        "operands": [485, 0, 0]
+      }
+    }
+  ],
+  "conclusion": "10 straight leaves/15 owners: giveItem(count0), narration0x3E and optional0x06 jump0. No HP/status writes/calls/other jumps in these leaves. Four0x89 sites terminate(result0), none result3. Three0x90 sites write word2(turnStart), none word3(battleEnd). External saves/debug may differ and are not accepted here.",
+  "authoringNote": "Initial interactive census draft assumed narration0x3C and failed at41009 actualopcode62. Corrected to0x3E after raw/C script.c:3419-3428 check; no production issue or product red-first claim."
+}

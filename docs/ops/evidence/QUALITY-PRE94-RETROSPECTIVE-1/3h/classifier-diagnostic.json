@@ -1,0 +1,17 @@
+{
+  "kind": "probe assertion classifier false negative; not a product/test execution failure",
+  "toolExit": 1,
+  "line": 74,
+  "cause": "Vitest 4.1.7 .rejects rewrites error.stack from a preallocated Error; JSON failureMessages stack prefix differs from default reporter actual AssertionError name",
+  "completedNativeRuns": 4,
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true,
+  "resume": "Reuse four exact native receipts; add per-file/fullName default reporter error names; execute only missing close transfer",
+  "originalProbeSha256": "b553bd9bf42a175057b0b9ab0c5174d5df53caba918bfe921edf80e91929c910",
+  "resumePreparation": {
+    "firstExit": 1,
+    "cause": "JSON tuples deserialize as lists; normalize representation before comparing exact replacement pairs",
+    "newNativeRuns": 0,
+    "formalSourcesChanged": false
+  }
+}

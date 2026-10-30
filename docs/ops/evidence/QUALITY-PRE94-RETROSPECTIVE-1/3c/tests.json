@@ -1,0 +1,86 @@
+{
+  "runs": [
+    {
+      "name": "editor-module",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/editor",
+        "exec",
+        "vitest",
+        "run",
+        "src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
+        "src/ui/SpriteFrameWorkbench.test.tsx",
+        "src/ui/SpriteFrameWorkbench.c05-g07.cursor-r1.test.tsx",
+        "src/ui/SpriteFrameWorkbench.glm-next-wave.test.tsx",
+        "src/ui/SpriteFrames.test.tsx",
+        "src/ui/BattleSpriteInlinePreview.test.tsx",
+        "src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
+        "src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3c-recovery-qsbqwssg/editor-module.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 6.936,
+      "rawSha256": "b7574c11b48c1a5c317d52823a7c1a1ed86961bdefe2143bc511e2dc284f8bed",
+      "diagnostics": {
+        "act": 6,
+        "environment": 0,
+        "navigation": 0
+      },
+      "passed": 36,
+      "failed": 0,
+      "pending": 0,
+      "runnerSha256": "36a14266363bb02a04224b5d1e1c6a1dab6ce9852a01ed3b95daf9e281560b70"
+    },
+    {
+      "name": "reforge-adjacent",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "exec",
+        "vitest",
+        "run",
+        "src/entity-action-player.test.ts",
+        "src/entity-action-player.boundaries.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3c-recovery-qsbqwssg/reforge-adjacent.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 0.71,
+      "rawSha256": "06d8d242d1a3ca8bd10f30fe610ebefa7b1cff9c6c71db6777dc5afe9a1af79d",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      },
+      "passed": 22,
+      "failed": 0,
+      "pending": 0,
+      "runnerSha256": "f9722cfb40ae6c74b3234fd3e3846593d29625e875481f3d04fb2bf8a3c62df5"
+    },
+    {
+      "name": "editor-typecheck",
+      "command": ["pnpm", "--filter", "@type-pal/editor", "run", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "seconds": 14.977,
+      "rawSha256": "576fd568143eed9c8c92c8e31e41ff2ebf7cb1d135cabbf89fe86b5b99d9bc12",
+      "diagnostics": {
+        "act": 0,
+        "environment": 0,
+        "navigation": 0
+      }
+    }
+  ],
+  "fullCoverageGate": false
+}

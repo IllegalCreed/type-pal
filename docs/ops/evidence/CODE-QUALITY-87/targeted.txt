@@ -1,0 +1,12 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/game
+
+·····································stdout | src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchSaveSlotMenu > Confirm → close save-slot(pop 一层)
+[save] saved to slot 1(times=1)
+
+·····································
+
+ Test Files  7 passed (7)
+      Tests  74 passed (74)
+   Start at  04:42:37
+   Duration  1.29s (transform 1.39s, setup 194ms, import 1.66s, tests 83ms, environment 4.89s)

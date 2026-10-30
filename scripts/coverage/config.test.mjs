@@ -1,12 +1,22 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
+import gameConfig from '../../packages/game/vitest.config.ts'
 import reforgeConfig from '../../packages/reforge/vite.config.ts'
 import { coveragePackages, testSelection } from './config.mjs'
 
 const editor = coveragePackages.find((entry) => entry.id === 'editor')
 
+test('game raster tests keep their environment, scope and default deadlines with one worker', () => {
+  assert.deepEqual(gameConfig.test, {
+    maxWorkers: 1,
+    environment: 'jsdom',
+    setupFiles: ['./vitest.setup.ts'],
+    exclude: ['node_modules', 'dist', 'build', 'e2e/**'],
+  })
+})
+
 test('Reforge runner bounds concurrent cold host loads without widening timeouts or excluding tests', () => {
-  assert.deepEqual(reforgeConfig.test, { maxWorkers: 2 })
+  assert.deepEqual(reforgeConfig.test, { maxWorkers: 1 })
   const reforge = coveragePackages.find((entry) => entry.id === 'reforge')
   assert.deepEqual(reforge.include, ['src/**/*.{ts,tsx}'])
   assert.deepEqual(testSelection(reforge, 'fast').args, ['--passWithNoTests'])

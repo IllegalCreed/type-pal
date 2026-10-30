@@ -1,0 +1,17 @@
+{
+  "method": "TypeScript transpileModule with removeComments; exact emitted JS equality",
+  "source": "packages/game/src/core/battle/battle-settlement.ts",
+  "labels": ["base", "six-controls-input", "final"],
+  "sourceHashes": [
+    "881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6",
+    "eac9aa3e405ea1b56782c4161b3803f5c2c264dbf7b6cfe14a2a35567af011e6",
+    "7951c6967057b40827e206b028601580214d46fa4b13e96f8bb45ec054399dd0"
+  ],
+  "emittedHashes": [
+    "a91e376f00314cedff6319dea1408cea2e16a7642c8e625b2beda9752496cabe",
+    "a91e376f00314cedff6319dea1408cea2e16a7642c8e625b2beda9752496cabe",
+    "a91e376f00314cedff6319dea1408cea2e16a7642c8e625b2beda9752496cabe"
+  ],
+  "equal": true,
+  "publicTypeText": "Only comments changed; diff verified separately"
+}

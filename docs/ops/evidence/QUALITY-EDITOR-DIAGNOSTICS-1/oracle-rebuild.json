@@ -1,0 +1,30 @@
+{
+  "method": "Rebuilt independently from unchanged production source after isolated tree removal; no product file write",
+  "sourceSha256": "c9bb3265242871fdff523f05f62240bdaa925e427384f57e4dff10d01d8032c7",
+  "recipes": [
+    {
+      "case": "C01-G04-08",
+      "locator": "unique statement",
+      "before": "const suffix = nextKind === 'directional' ? 'walk' : nextKind",
+      "after": "const suffix = nextKind === 'directional' ? 'walk' : 'broken'",
+      "independentlyRebuiltSha256": "56d340559ff030283efd1af194d383dbac9b2721067e83a3b676649a741a78d4",
+      "matchesExecutedMutant": true
+    },
+    {
+      "case": "C01-G05-10",
+      "locator": "first disabled property after id=\"world-sprite-layout-kind\", before options",
+      "before": "disabled={!loadedProof}",
+      "after": "disabled={false}",
+      "independentlyRebuiltSha256": "b49cd49802153669cf0d1e567ad57183159293d33bdedd2324172b2ff8ecd604",
+      "matchesExecutedMutant": true
+    },
+    {
+      "case": "C01-G07-07",
+      "locator": "unique statement",
+      "before": "count={assets.length}",
+      "after": "count={0}",
+      "independentlyRebuiltSha256": "44069ac2129a4a6495e9d2b4b4244b867398344629396ea6468bb54ac3f66574",
+      "matchesExecutedMutant": true
+    }
+  ]
+}

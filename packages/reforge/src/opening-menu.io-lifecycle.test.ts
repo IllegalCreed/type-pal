@@ -19,8 +19,8 @@ import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './save/stor
 import { type SaveMeta, type SlotId, slotKind } from './save/types.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 

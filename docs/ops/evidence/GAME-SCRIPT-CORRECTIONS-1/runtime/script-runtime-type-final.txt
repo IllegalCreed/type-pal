@@ -1,0 +1,10 @@
+
+> @type-pal/game@1.0.0 typecheck /Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game
+> tsc --noEmit
+
+src/core/object-script-state.ts(34,3): error TS2322: Type 'ObjectStateMutable | undefined' is not assignable to type 'ObjectStateMutable'.
+  Type 'undefined' is not assignable to type 'ObjectStateMutable'.
+src/core/object-script-state.ts(82,3): error TS2532: Object is possibly 'undefined'.
+/Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/game@1.0.0 typecheck: `tsc --noEmit`
+Exit status 2

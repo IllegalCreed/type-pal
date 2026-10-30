@@ -1,0 +1,50 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/game
+
+ ❯ src/core/script-story-corrections.pal.test.ts (10 tests | 1 failed | 9 skipped) 34ms
+     ↓ orders one beating demand before each answer and repeats only after denial
+     ↓ opening the gate through guard 1599 moves it only once
+     ↓ opening the gate through guard 1600 moves it only once
+     ↓ opening the gate through guard 1601 moves it only once
+   ↓ completes the altar farewell onEnter without replaying it on the next visit
+   ↓ keeps the scholar hiring state 0 until his dialogue decision
+   ↓ keeps the scholar hiring state 2 until his dialogue decision
+   ↓ hides the Peach Forest Anu instance until its entrance preparation reveals her
+   ↓ handing over thirty-six worms clears Gai Luojiao and her retinue on the early route
+   × repairs the original corrupt farewell text without adding a garbage question-mark line 33ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/script-story-corrections.pal.test.ts > repairs the original corrupt farewell text without adding a garbage question-mark line
+AssertionError: expected [ Array(4) ] to deeply equal [ Array(3) ]
+
+- Expected
++ Received
+
+  [
+    "呵．．怎么可能嘛，不要放",
+    "在心上，大概是我老眼昏花",
+-   "看错了",
++   "看错痢?",
++   "?",
+  ]
+
+ ❯ src/core/script-story-corrections.pal.test.ts:181:26
+    179|   for (let attempt = 0; attempt < 2; attempt++) {
+    180|     const result = play(env, 3919, 188)
+    181|     expect(result.lines).toEqual(['呵．．怎么可能嘛，不要放', '在心上，大概是我老眼昏花', '看错了…
+       |                          ^
+    182|   }
+    183| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 skipped (10)
+   Start at  16:16:50
+   Duration  429ms (transform 204ms, setup 50ms, import 255ms, tests 34ms, environment 0ms)
+
+undefined
+/Users/zhangxu/illegal/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/script-story-corrections.pal.test.ts -t original corrupt --reporter=default

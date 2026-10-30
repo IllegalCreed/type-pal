@@ -1,0 +1,370 @@
+{
+  "state": "Scoped static gates accepted; unified fullcheck/official/protected deferred allpre94",
+  "gates": [
+    {
+      "id": "docs-final",
+      "command": "node",
+      "args": ["scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T15:30:19.256Z",
+      "end": "2026-10-24T15:30:20.512Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+      "observerTimeout": false,
+      "stdoutBytes": 93,
+      "stderrBytes": 0
+    },
+    {
+      "id": "model-final",
+      "command": "node",
+      "args": ["scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T15:30:19.284Z",
+      "end": "2026-10-24T15:30:21.667Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+      "observerTimeout": false,
+      "stdoutBytes": 79,
+      "stderrBytes": 0
+    },
+    {
+      "id": "testing-final",
+      "command": "node",
+      "args": ["scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T15:30:19.286Z",
+      "end": "2026-10-24T15:30:19.453Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+      "observerTimeout": false,
+      "stdoutBytes": 30,
+      "stderrBytes": 0
+    },
+    {
+      "id": "lore-final",
+      "command": "node",
+      "args": ["scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T15:30:19.272Z",
+      "end": "2026-10-24T15:30:19.373Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+      "observerTimeout": false,
+      "stdoutBytes": 44,
+      "stderrBytes": 0
+    },
+    {
+      "id": "content-final",
+      "command": "node",
+      "args": ["scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T15:30:19.284Z",
+      "end": "2026-10-24T15:30:19.931Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+      "observerTimeout": false,
+      "stdoutBytes": 65,
+      "stderrBytes": 0
+    },
+    {
+      "id": "progress-final",
+      "command": "node",
+      "args": ["scripts/docs/report-governance-progress.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T15:30:19.269Z",
+      "end": "2026-10-24T15:30:23.544Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+      "observerTimeout": false,
+      "stdoutBytes": 158,
+      "stderrBytes": 0
+    },
+    {
+      "id": "lint-final",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T15:30:19.269Z",
+      "end": "2026-10-24T15:30:22.473Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0
+    },
+    {
+      "id": "diff-final",
+      "command": "git",
+      "args": ["diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T15:30:19.293Z",
+      "end": "2026-10-24T15:30:19.371Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "ledger-first",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T15:28:41.147Z",
+      "end": "2026-10-24T15:28:42.389Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+      "observerTimeout": false,
+      "stdoutBytes": 112,
+      "stderrBytes": 0
+    },
+    {
+      "id": "fetch-final",
+      "command": "git",
+      "args": ["-c", "http.version=HTTP/1.1", "fetch", "--ipv4", "origin", "--prune"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T15:30:19.291Z",
+      "end": "2026-10-24T15:30:24.331Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "proof-style-first",
+      "command": "pnpm",
+      "args": [
+        "exec",
+        "biome",
+        "check",
+        "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/prove-recompose.cjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T15:22:17.089Z",
+      "end": "2026-10-24T15:22:17.410Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+      "observerTimeout": false,
+      "stdoutBytes": 72,
+      "stderrBytes": 9047
+    }
+  ],
+  "lint": {
+    "files": 6063,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "complete": true
+  },
+  "ledger": {
+    "tracked": 3445,
+    "closed": 487,
+    "review": 74,
+    "pending": 2884
+  },
+  "disclosure": "proof-style-first1error7infos retained then repaired; all final scoped gates0. Documentation migration-progress1845pending is separate status, not full acceptance.",
+  "archive": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/static-receipts.json.gz",
+    "sha256": "4d055887f53342de685dbafc836896500020cf961d54cf3762ca9114df69ea7a",
+    "members": [
+      {
+        "name": "docs-final.execution.json",
+        "bytes": 417,
+        "sha256": "2ba71bb100b281e81a838e4ba6800eb8f9a7afe23c847d4a7b892534899091d9"
+      },
+      {
+        "name": "docs-final.stdout.raw",
+        "bytes": 93,
+        "sha256": "a6d360e03cd5f85fc4b8c70b0f24fc3bb72eacd1e963b0a590f99b5efb4ae346"
+      },
+      {
+        "name": "docs-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "model-final.execution.json",
+        "bytes": 433,
+        "sha256": "1519e640451d15a18e64a148e039bb70757d8a570d9e233b9819a28355a247aa"
+      },
+      {
+        "name": "model-final.stdout.raw",
+        "bytes": 79,
+        "sha256": "ffc94083fd593e60e88a4f322ba62257d6625eb40729e176e1de8faf7db3594b"
+      },
+      {
+        "name": "model-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "testing-final.execution.json",
+        "bytes": 428,
+        "sha256": "74b8acd78e89350a9c1aeb9307748cd9ef57db762b9c858f9d7b797ac63c8323"
+      },
+      {
+        "name": "testing-final.stdout.raw",
+        "bytes": 30,
+        "sha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c"
+      },
+      {
+        "name": "testing-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "lore-final.execution.json",
+        "bytes": 439,
+        "sha256": "03d96482f1a9503fd48168052f271da1d8ffefb1cef830fc95590c6521375dd8"
+      },
+      {
+        "name": "lore-final.stdout.raw",
+        "bytes": 44,
+        "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c"
+      },
+      {
+        "name": "lore-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "content-final.execution.json",
+        "bytes": 451,
+        "sha256": "63e65d55ca7a3d2e146a44dc1b03ac78ba5b90eaf28416c7488e8481507cc004"
+      },
+      {
+        "name": "content-final.stdout.raw",
+        "bytes": 65,
+        "sha256": "3b0b15882a95d042815fa3dcb89b8a9fee95d0b962e3624081c56d62e567efad"
+      },
+      {
+        "name": "content-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "progress-final.execution.json",
+        "bytes": 443,
+        "sha256": "206012bcb2ba7ad5665362363ef58dcda3e5a4df911f037696955a8d84cf0cf3"
+      },
+      {
+        "name": "progress-final.stdout.raw",
+        "bytes": 158,
+        "sha256": "1e3c0e1c8c48d2a8a1d929b5de3dafabce7bba96f1d318f4ab623d2e21c4312f"
+      },
+      {
+        "name": "progress-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "lint-final.execution.json",
+        "bytes": 400,
+        "sha256": "fdb6914ecde332223568a2b889a668a2c1483afc8603ec7ee98dcdec5aa8f9ba"
+      },
+      {
+        "name": "lint-final.stdout.raw",
+        "bytes": 193,
+        "sha256": "3f25a8f75fbbcc4b955956ec96cf66b901a75eaa2ca905fdba8cecf1779d8343"
+      },
+      {
+        "name": "lint-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "diff-final.execution.json",
+        "bytes": 412,
+        "sha256": "6940d81c7f1de3e6e3e868b5b6cdfa7d487b1bc6ab2eeef8469fdf6945f03eef"
+      },
+      {
+        "name": "diff-final.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "diff-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ledger-first.execution.json",
+        "bytes": 437,
+        "sha256": "812a10da4bb507299ffbff8b7b1c1c74ef68fe9d6c5b7016d1ba8fa50804b253"
+      },
+      {
+        "name": "ledger-first.stdout.raw",
+        "bytes": 112,
+        "sha256": "917e82e3498f5305be6450b0296319de20ca49a1984657a8b9a06d058126c841"
+      },
+      {
+        "name": "ledger-first.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "fetch-final.execution.json",
+        "bytes": 481,
+        "sha256": "76029dbf4a4ebbca505ebca2570a9a11a71f9e2a01a3da3368b6972591064626"
+      },
+      {
+        "name": "fetch-final.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "fetch-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "proof-style-first.execution.json",
+        "bytes": 528,
+        "sha256": "94e14b8d7dc6e0df1a47ea4c614e3e61897ef25b90191e96a82ee95c2c197b70"
+      },
+      {
+        "name": "proof-style-first.stdout.raw",
+        "bytes": 72,
+        "sha256": "5cbca82892f6bfda7a10b28fa488e733c5d12b6dd2a2b4dc5308c3b967e20169"
+      },
+      {
+        "name": "proof-style-first.stderr.raw",
+        "bytes": 9047,
+        "sha256": "179b4db20f6f4f6e09943d7e5e81c01462ae3fd4568d5fa769bf6b8a8046d68b"
+      },
+      {
+        "name": "projections.cjs",
+        "bytes": 4464,
+        "sha256": "70e57f8cf31cf26233b4741fdb3e32bb4a965b6a5960ea26cf244b489c0ad1e1"
+      },
+      {
+        "name": "metadata.cjs",
+        "bytes": 6989,
+        "sha256": "6c5f8f0e11cdea707fa4b0d725ba66b2d8d0d2c049c314e75e2f507060ff4ce0"
+      }
+    ]
+  }
+}

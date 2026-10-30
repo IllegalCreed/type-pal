@@ -1,0 +1,3531 @@
+{
+  "numTotalTestSuites": 69,
+  "numPassedTestSuites": 69,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 323,
+  "numPassedTests": 323,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792377693370,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["B1 同 id 的 timing 缓存隔离"],
+          "fullName": "B1 同 id 的 timing 缓存隔离 auto/interactive 两键互不复用；元数据与显式产物逐项精确",
+          "status": "passed",
+          "title": "auto/interactive 两键互不复用；元数据与显式产物逐项精确",
+          "duration": 1.9205829999999935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B2 缺失脚本与非法 digest"],
+          "fullName": "B2 缺失脚本与非法 digest 缺 id 精确拒绝；非法 digest 拒绝；两独立 resolver 同 id 各自正文",
+          "status": "passed",
+          "title": "缺 id 精确拒绝；非法 digest 拒绝；两独立 resolver 同 id 各自正文",
+          "duration": 0.649124999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B3 编译产物不污染真正传入的输入"],
+          "fullName": "B3 编译产物不污染真正传入的输入 命令数组编译后逐值不变（深快照同一输入对象）",
+          "status": "passed",
+          "title": "命令数组编译后逐值不变（深快照同一输入对象）",
+          "duration": 0.30529200000000856,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B3 编译产物不污染真正传入的输入"],
+          "fullName": "B3 编译产物不污染真正传入的输入 共享脚本库经 resolver 编译后原库逐值不变（库对象就是实际传入对象）",
+          "status": "passed",
+          "title": "共享脚本库经 resolver 编译后原库逐值不变（库对象就是实际传入对象）",
+          "duration": 0.5200839999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B3 编译产物不污染真正传入的输入"],
+          "fullName": "B3 编译产物不污染真正传入的输入 编译产物修改后嵌套 cue/参数仍与实际输入隔离（cond/entry 别名试验）",
+          "status": "passed",
+          "title": "编译产物修改后嵌套 cue/参数仍与实际输入隔离（cond/entry 别名试验）",
+          "duration": 0.31987500000001035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377695015,
+      "endTime": 1792377695019.3198,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/runtime-script-compiler.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current script compiler/runtime host"],
+          "fullName": "current script compiler/runtime host retains actor condition leaves through the current compiler and host",
+          "status": "passed",
+          "title": "retains actor condition leaves through the current compiler and host",
+          "duration": 2.431916000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current script compiler/runtime host"],
+          "fullName": "current script compiler/runtime host retained moveEntity forwards the endpoint commit control through the current host",
+          "status": "passed",
+          "title": "retained moveEntity forwards the endpoint commit control through the current host",
+          "duration": 0.49262500000000387,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current script compiler/runtime host"],
+          "fullName": "current script compiler/runtime host preserves lifecycle leaves through branch, loop, and shared-script control flow",
+          "status": "passed",
+          "title": "preserves lifecycle leaves through branch, loop, and shared-script control flow",
+          "duration": 1.3908330000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current script compiler/runtime host"],
+          "fullName": "current script compiler/runtime host rejects unknown targets before mutating any world authority",
+          "status": "passed",
+          "title": "rejects unknown targets before mutating any world authority",
+          "duration": 0.6184999999999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current script compiler/runtime host"],
+          "fullName": "current script compiler/runtime host abort before commit writes nothing; abort after commit prevents the next leaf",
+          "status": "passed",
+          "title": "abort before commit writes nothing; abort after commit prevents the next leaf",
+          "duration": 0.6311659999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current script compiler/runtime host"],
+          "fullName": "current script compiler/runtime host base author compiler stays closed while runtime rejects removed vanishEntity",
+          "status": "passed",
+          "title": "base author compiler stays closed while runtime rejects removed vanishEntity",
+          "duration": 0.2034579999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current script compiler/runtime host"],
+          "fullName": "current script compiler/runtime host loaded current project can be handed directly to ScriptProjectRuntime",
+          "status": "passed",
+          "title": "loaded current project can be handed directly to ScriptProjectRuntime",
+          "duration": 0.4742080000000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694797,
+      "endTime": 1792377694803.474,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/runtime-script-project.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["internal lineage uses actual live membership"],
+          "fullName": "internal lineage uses actual live membership same runtime/exact signal/coordinator borrows live activity and cleans registration",
+          "status": "passed",
+          "title": "same runtime/exact signal/coordinator borrows live activity and cleans registration",
+          "duration": 1.0825000000000102,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["internal lineage uses actual live membership"],
+          "fullName": "internal lineage uses actual live membership different runtime waits as an independent root",
+          "status": "passed",
+          "title": "different runtime waits as an independent root",
+          "duration": 0.8234160000000088,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["internal lineage uses actual live membership"],
+          "fullName": "internal lineage uses actual live membership different signal waits as an independent root",
+          "status": "passed",
+          "title": "different signal waits as an independent root",
+          "duration": 0.25641600000000153,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["internal lineage uses actual live membership"],
+          "fullName": "internal lineage uses actual live membership different coordinator waits as an independent root",
+          "status": "passed",
+          "title": "different coordinator waits as an independent root",
+          "duration": 0.196708000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["internal lineage uses actual live membership"],
+          "fullName": "internal lineage uses actual live membership registration refuses closed lease before body",
+          "status": "passed",
+          "title": "registration refuses closed lease before body",
+          "duration": 0.6965000000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["internal lineage uses actual live membership"],
+          "fullName": "internal lineage uses actual live membership registration refuses foreign lease before body",
+          "status": "passed",
+          "title": "registration refuses foreign lease before body",
+          "duration": 0.21520900000000154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["internal lineage uses actual live membership"],
+          "fullName": "internal lineage uses actual live membership registration refuses forged lease before body",
+          "status": "passed",
+          "title": "registration refuses forged lease before body",
+          "duration": 0.19183300000000258,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["internal lineage uses actual live membership"],
+          "fullName": "internal lineage uses actual live membership registration refuses forged-persistent lease before body",
+          "status": "passed",
+          "title": "registration refuses forged-persistent lease before body",
+          "duration": 0.19849999999999568,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["internal lineage uses actual live membership"],
+          "fullName": "internal lineage uses actual live membership closed lease with pending finally cannot enter after ready, nor impersonate its replacement",
+          "status": "passed",
+          "title": "closed lease with pending finally cannot enter after ready, nor impersonate its replacement",
+          "duration": 0.5112499999999898,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["internal lineage uses actual live membership"],
+          "fullName": "internal lineage uses actual live membership overlapping registrations settle out of order without erasing the live sibling",
+          "status": "passed",
+          "title": "overlapping registrations settle out of order without erasing the live sibling",
+          "duration": 0.12591700000000117,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["internal lineage uses actual live membership"],
+          "fullName": "internal lineage uses actual live membership failed activity releases membership and does not strand later snapshots",
+          "status": "passed",
+          "title": "failed activity releases membership and does not strand later snapshots",
+          "duration": 0.1965409999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["internal lineage uses actual live membership"],
+          "fullName": "internal lineage uses actual live membership abort before registration or while waiting never invokes the body",
+          "status": "passed",
+          "title": "abort before registration or while waiting never invokes the body",
+          "duration": 0.7672910000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["nested persistent leases preserve save and owner boundaries"],
+          "fullName": "nested persistent leases preserve save and owner boundaries child/grandchild keep the barrier pending even if parent closes first",
+          "status": "passed",
+          "title": "child/grandchild keep the barrier pending even if parent closes first",
+          "duration": 0.6752919999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["nested persistent leases preserve save and owner boundaries"],
+          "fullName": "nested persistent leases preserve save and owner boundaries a busy owner is not duplicated; unrelated existing roots also block ready",
+          "status": "passed",
+          "title": "a busy owner is not duplicated; unrelated existing roots also block ready",
+          "duration": 0.10162499999999852,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["nested persistent leases preserve save and owner boundaries"],
+          "fullName": "nested persistent leases preserve save and owner boundaries begin rejects closed parent even while gate is open",
+          "status": "passed",
+          "title": "begin rejects closed parent even while gate is open",
+          "duration": 0.12700000000000955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["nested persistent leases preserve save and owner boundaries"],
+          "fullName": "nested persistent leases preserve save and owner boundaries begin rejects foreign parent even while gate is open",
+          "status": "passed",
+          "title": "begin rejects foreign parent even while gate is open",
+          "duration": 0.05370800000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["nested persistent leases preserve save and owner boundaries"],
+          "fullName": "nested persistent leases preserve save and owner boundaries begin rejects forged parent even while gate is open",
+          "status": "passed",
+          "title": "begin rejects forged parent even while gate is open",
+          "duration": 0.04662500000000591,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["nested persistent leases preserve save and owner boundaries"],
+          "fullName": "nested persistent leases preserve save and owner boundaries epoch invalidation does not kill live lineage, but never commits its stale cursor",
+          "status": "passed",
+          "title": "epoch invalidation does not kill live lineage, but never commits its stale cursor",
+          "duration": 0.13212500000000205,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694335,
+      "endTime": 1792377694341.132,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-activity-lineage.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["B04 script-chunk-store 剩余合同"],
+          "fullName": "B04 script-chunk-store 剩余合同 二次 resolve 命中缓存：reads 仍为 1，body/ref 完整且 unused sibling chunk 未读",
+          "status": "passed",
+          "title": "二次 resolve 命中缓存：reads 仍为 1，body/ref 完整且 unused sibling chunk 未读",
+          "duration": 8.558250000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377695321,
+      "endTime": 1792377695329.5583,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-chunk-store.cursor-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["MemoryScriptResolver current semantics"],
+          "fullName": "MemoryScriptResolver current semantics 提示 chunk 命中时返回该 chunk 的正文，ref 归一到实际 chunk 且 release 幂等",
+          "status": "passed",
+          "title": "提示 chunk 命中时返回该 chunk 的正文，ref 归一到实际 chunk 且 release 幂等",
+          "duration": 2.1893340000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MemoryScriptResolver current semantics"],
+          "fullName": "MemoryScriptResolver current semantics 错误 hint 不掩盖正文：按稳定 id 重推导命中另一 chunk",
+          "status": "passed",
+          "title": "错误 hint 不掩盖正文：按稳定 id 重推导命中另一 chunk",
+          "duration": 0.3400000000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MemoryScriptResolver current semantics"],
+          "fullName": "MemoryScriptResolver current semantics chunk 不存在与 script id 不存在分别给出显式诊断",
+          "status": "passed",
+          "title": "chunk 不存在与 script id 不存在分别给出显式诊断",
+          "duration": 0.6569169999999929,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MemoryScriptResolver current semantics"],
+          "fullName": "MemoryScriptResolver current semantics 已中止的 signal 进入即拒，不读取任何 chunk",
+          "status": "passed",
+          "title": "已中止的 signal 进入即拒，不读取任何 chunk",
+          "duration": 0.40304199999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MemoryScriptResolver current semantics"],
+          "fullName": "MemoryScriptResolver current semantics 解析输入不携带正文的空 chunks 表时按 chunk 缺失拒绝",
+          "status": "passed",
+          "title": "解析输入不携带正文的空 chunks 表时按 chunk 缺失拒绝",
+          "duration": 0.4327090000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377695220,
+      "endTime": 1792377695224.4326,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-chunk-store.glm-large-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前脚本分片读取的租约与故障边界"],
+          "fullName": "当前脚本分片读取的租约与故障边界 合法双场景分片超预算时保护在用租约；释放后淘汰旧片，再访问须真实重读",
+          "status": "passed",
+          "title": "合法双场景分片超预算时保护在用租约；释放后淘汰旧片，再访问须真实重读",
+          "duration": 2.4895000000000067,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前脚本分片读取的租约与故障边界"],
+          "fullName": "当前脚本分片读取的租约与故障边界 底层读取忽略 abort 并迟到交付时，分片仍在缓存入口前拒绝且零租约",
+          "status": "passed",
+          "title": "底层读取忽略 abort 并迟到交付时，分片仍在缓存入口前拒绝且零租约",
+          "duration": 0.6844580000000065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377695299,
+      "endTime": 1792377695302.6846,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-chunk-store.residual.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["ScriptChunkStore"],
+          "fullName": "ScriptChunkStore 作者脚本按需加载：场景 imports 只取实际依赖 shard，不加载全库",
+          "status": "passed",
+          "title": "作者脚本按需加载：场景 imports 只取实际依赖 shard，不加载全库",
+          "duration": 1.7687080000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptChunkStore"],
+          "fullName": "ScriptChunkStore ref.chunk 只是提示：错误提示下按稳定 id 重推导并命中",
+          "status": "passed",
+          "title": "ref.chunk 只是提示：错误提示下按稳定 id 重推导并命中",
+          "duration": 0.3855829999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptChunkStore"],
+          "fullName": "ScriptChunkStore chunk 缺失与 script id 缺失分别给出显式诊断",
+          "status": "passed",
+          "title": "chunk 缺失与 script id 缺失分别给出显式诊断",
+          "duration": 0.6250419999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptChunkStore"],
+          "fullName": "ScriptChunkStore abort 会取消未完成读取，且不会回填缓存",
+          "status": "passed",
+          "title": "abort 会取消未完成读取，且不会回填缓存",
+          "duration": 0.6315000000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptChunkStore"],
+          "fullName": "ScriptChunkStore 同一 chunk 并发加载只登记一次缓存字节，lease 分别释放",
+          "status": "passed",
+          "title": "同一 chunk 并发加载只登记一次缓存字节，lease 分别释放",
+          "duration": 0.23866700000000662,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377695007,
+      "endTime": 1792377695010.6316,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-chunk-store.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["canonical script compiler"],
+          "fullName": "canonical script compiler auto and interactive lower the same explicit structured commands without hidden timing",
+          "status": "passed",
+          "title": "auto and interactive lower the same explicit structured commands without hidden timing",
+          "duration": 2.622124999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical script compiler"],
+          "fullName": "canonical script compiler binds compiled shared scripts to timing and canonical digest without boundary variants",
+          "status": "passed",
+          "title": "binds compiled shared scripts to timing and canonical digest without boundary variants",
+          "duration": 0.7350409999999954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical script compiler"],
+          "fullName": "canonical script compiler rejects dangling explicit step exits before lowering",
+          "status": "passed",
+          "title": "rejects dangling explicit step exits before lowering",
+          "duration": 0.12258299999999167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377695199,
+      "endTime": 1792377695202.1226,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-compiler-core.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "M01 refused activations never touch the capture port; a real activation captures exactly once",
+          "status": "passed",
+          "title": "M01 refused activations never touch the capture port; a real activation captures exactly once",
+          "duration": 2.114709000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "M02 mutating a handed-out view wrapper never leaks into the next view or the final answer",
+          "status": "passed",
+          "title": "M02 mutating a handed-out view wrapper never leaks into the next view or the final answer",
+          "duration": 0.2591250000000116,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "M03 an early default-No submit stays false through the pending window",
+          "status": "passed",
+          "title": "M03 an early default-No submit stays false through the pending window",
+          "duration": 0.18808299999999178,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "M04 two presented frames without a submit keep the answer pending until an explicit submit",
+          "status": "passed",
+          "title": "M04 two presented frames without a submit keep the answer pending until an explicit submit",
+          "duration": 0.2888329999999968,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "M05 cancelling the middle queued request before activation preserves first and third in FIFO order",
+          "status": "passed",
+          "title": "M05 cancelling the middle queued request before activation preserves first and third in FIFO order",
+          "duration": 0.6421659999999889,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "M06 every settlement path removes exactly its own registered abort listener once",
+          "status": "passed",
+          "title": "M06 every settlement path removes exactly its own registered abort listener once",
+          "duration": 0.7961250000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "M07 a late abort of a settled first request leaves the truly active second request intact",
+          "status": "passed",
+          "title": "M07 a late abort of a settled first request leaves the truly active second request intact",
+          "duration": 0.24012500000000614,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "M08 an abort landing between the enqueue pre-check and listener registration still rejects cleanly",
+          "status": "passed",
+          "title": "M08 an abort landing between the enqueue pre-check and listener registration still rejects cleanly",
+          "duration": 0.20599999999998886,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694525,
+      "endTime": 1792377694530.2402,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 token 在多次请求间严格单调递增，激活顺序为 FIFO",
+          "status": "passed",
+          "title": "Q01 token 在多次请求间严格单调递增，激活顺序为 FIFO",
+          "duration": 1.2845409999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 空闲视图为 undefined；激活后视图逐字段反映 prompt 状态",
+          "status": "passed",
+          "title": "Q01 空闲视图为 undefined；激活后视图逐字段反映 prompt 状态",
+          "duration": 0.5745830000000041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 预取消信号入队同步拒绝：不入队、不占 pending、无请求可激活",
+          "status": "passed",
+          "title": "Q01 预取消信号入队同步拒绝：不入队、不占 pending、无请求可激活",
+          "duration": 0.4909579999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 无活动请求时 toggle/submit/submitNo/presented 全部 no-op",
+          "status": "passed",
+          "title": "Q01 无活动请求时 toggle/submit/submitNo/presented 全部 no-op",
+          "duration": 0.3810410000000033,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 canActivate=false 或已有活动请求时 activate 不动队列",
+          "status": "passed",
+          "title": "Q01 canActivate=false 或已有活动请求时 activate 不动队列",
+          "duration": 0.2130420000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 队头取消即离队：pendingCount 同步收缩，激活命中下一个；captureFrame 只替换被激活项",
+          "status": "passed",
+          "title": "Q01 队头取消即离队：pendingCount 同步收缩，激活命中下一个；captureFrame 只替换被激活项",
+          "duration": 0.2924999999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 captureFrame 缺席时保留入队时的原始 frame",
+          "status": "passed",
+          "title": "Q01 captureFrame 缺席时保留入队时的原始 frame",
+          "duration": 0.16587499999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 会话替换拒绝排队未激活请求，默认与自定义文案都可观测",
+          "status": "passed",
+          "title": "Q01 会话替换拒绝排队未激活请求，默认与自定义文案都可观测",
+          "duration": 0.21266699999999616,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 结算后移除 abort 监听：迟到的信号取消不再改变已 resolve 的结果",
+          "status": "passed",
+          "title": "Q01 结算后移除 abort 监听：迟到的信号取消不再改变已 resolve 的结果",
+          "duration": 0.41816700000001106,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 提交后、两帧门满足前 toggle/再次提交/提交否不得改写答案",
+          "status": "passed",
+          "title": "Q01 提交后、两帧门满足前 toggle/再次提交/提交否不得改写答案",
+          "duration": 0.09650000000000603,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 中止活动请求后宿主须显式再激活；队列其余项不受牵连",
+          "status": "passed",
+          "title": "Q01 中止活动请求后宿主须显式再激活；队列其余项不受牵连",
+          "duration": 0.24762499999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 已提交答案但帧门未满足时被取消：拒绝而非兑现，且无视图残留",
+          "status": "passed",
+          "title": "Q01 已提交答案但帧门未满足时被取消：拒绝而非兑现，且无视图残留",
+          "duration": 0.10795900000000813,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694901,
+      "endTime": 1792377694905.2476,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-confirm-modal.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["ScriptConfirmModalQueue"],
+          "fullName": "ScriptConfirmModalQueue is FIFO, defaults to No and settles only after two presented frames",
+          "status": "passed",
+          "title": "is FIFO, defaults to No and settles only after two presented frames",
+          "duration": 1.549042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptConfirmModalQueue"],
+          "fullName": "ScriptConfirmModalQueue Esc is always No and double-submit cannot change the answer",
+          "status": "passed",
+          "title": "Esc is always No and double-submit cannot change the answer",
+          "duration": 0.21945800000000304,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptConfirmModalQueue"],
+          "fullName": "ScriptConfirmModalQueue aborting active and queued requests rejects without choosing either branch",
+          "status": "passed",
+          "title": "aborting active and queued requests rejects without choosing either branch",
+          "duration": 0.4611670000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptConfirmModalQueue"],
+          "fullName": "ScriptConfirmModalQueue session replacement rejects every request and late input is inert",
+          "status": "passed",
+          "title": "session replacement rejects every request and late input is inert",
+          "duration": 0.3014579999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377695370,
+      "endTime": 1792377695372.4612,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-confirm-modal.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "K1 stages executable refuses a cursor naming an absent stage",
+          "status": "passed",
+          "title": "K1 stages executable refuses a cursor naming an absent stage",
+          "duration": 1.6829579999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K1 a legally ended resume at the exact body end yields an empty location and no shared read",
+          "status": "passed",
+          "title": "K1 a legally ended resume at the exact body end yields an empty location and no shared read",
+          "duration": 0.6407080000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 branch else descent returns the real compiled leaf inside the else arm",
+          "status": "passed",
+          "title": "K2 branch else descent returns the real compiled leaf inside the else arm",
+          "duration": 0.35054099999999266,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 confirm onNo descent returns the real compiled leaf inside onNo",
+          "status": "passed",
+          "title": "K2 confirm onNo descent returns the real compiled leaf inside onNo",
+          "duration": 0.39074999999999704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a loop settled at test phase reports its control frame as a detached clone",
+          "status": "passed",
+          "title": "K2 a loop settled at test phase reports its control frame as a detached clone",
+          "duration": 0.5532089999999954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 startBattle onLose descent returns the real compiled leaf of that outcome arm",
+          "status": "passed",
+          "title": "K2 startBattle onLose descent returns the real compiled leaf of that outcome arm",
+          "duration": 0.2202920000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 startBattle onFlee descent returns the real compiled leaf of that outcome arm",
+          "status": "passed",
+          "title": "K2 startBattle onFlee descent returns the real compiled leaf of that outcome arm",
+          "duration": 0.1358330000000052,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 teleportOut failure descent returns the real compiled leaf inside onFail",
+          "status": "passed",
+          "title": "K2 teleportOut failure descent returns the real compiled leaf inside onFail",
+          "duration": 0.11299999999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a loop child under a non-body phase rejects",
+          "status": "passed",
+          "title": "K2 a loop child under a non-body phase rejects",
+          "duration": 0.5310000000000059,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a loop child without its control frame rejects",
+          "status": "passed",
+          "title": "K2 a loop child without its control frame rejects",
+          "duration": 0.15212499999999807,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a branch child without its selection rejects",
+          "status": "passed",
+          "title": "K2 a branch child without its selection rejects",
+          "duration": 0.16662499999999625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a startBattle child without an outcome arm rejects",
+          "status": "passed",
+          "title": "K2 a startBattle child without an outcome arm rejects",
+          "duration": 0.094333000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K2 a teleportOut child settled as succeeded rejects",
+          "status": "passed",
+          "title": "K2 a teleportOut child settled as succeeded rejects",
+          "duration": 0.07683399999999097,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a shared child without any resolver rejects",
+          "status": "passed",
+          "title": "K3 a shared child without any resolver rejects",
+          "duration": 0.07945899999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a resolver pinned to another content digest rejects",
+          "status": "passed",
+          "title": "K3 a resolver pinned to another content digest rejects",
+          "duration": 0.1986660000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a none-self shared script refuses an explicit command self",
+          "status": "passed",
+          "title": "K3 a none-self shared script refuses an explicit command self",
+          "duration": 0.10758300000000531,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a required-self shared script without any inherited self rejects",
+          "status": "passed",
+          "title": "K3 a required-self shared script without any inherited self rejects",
+          "duration": 0.1266250000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a required-self shared script inherits the caller self as a detached clone with caller timing",
+          "status": "passed",
+          "title": "K3 a required-self shared script inherits the caller self as a detached clone with caller timing",
+          "duration": 0.13758399999998971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 an optional-self shared script prefers the explicit command self over the inherited one",
+          "status": "passed",
+          "title": "K3 an optional-self shared script prefers the explicit command self over the inherited one",
+          "duration": 0.12999999999999545,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K3 a none-self shared script drops the inherited self from its resolved location",
+          "status": "passed",
+          "title": "K3 a none-self shared script drops the inherited self from its resolved location",
+          "duration": 0.08095799999999542,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K4 a pre-aborted signal rejects before any shared resolution",
+          "status": "passed",
+          "title": "K4 a pre-aborted signal rejects before any shared resolution",
+          "duration": 0.38495899999999494,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K4 aborting while the resolver is pending rejects the walk without a resolved location",
+          "status": "passed",
+          "title": "K4 aborting while the resolver is pending rejects the walk without a resolved location",
+          "duration": 0.12387499999999818,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K4 a successful nested validation leaves executable, cursor and resume byte-identical",
+          "status": "passed",
+          "title": "K4 a successful nested validation leaves executable, cursor and resume byte-identical",
+          "duration": 0.09508300000000247,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K4 mutating the returned location never reaches back into the resume or the inherited self",
+          "status": "passed",
+          "title": "K4 mutating the returned location never reaches back into the resume or the inherited self",
+          "duration": 0.16229200000000787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377693901,
+      "endTime": 1792377693908.385,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-continuation.kimi-mid-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "在场地址臂:setEntityPos/setEntityPosRelParty/setEntityFrame 逐参派发到宿主",
+          "status": "passed",
+          "title": "在场地址臂:setEntityPos/setEntityPosRelParty/setEntityFrame 逐参派发到宿主",
+          "duration": 2.0067499999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "跨场景过滤臂:位移/帧/接管/挂载/骑乘类命令的宿主零调用不抛",
+          "status": "passed",
+          "title": "跨场景过滤臂:位移/帧/接管/挂载/骑乘类命令的宿主零调用不抛",
+          "duration": 0.8584999999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "chasePlayer 在场臂:self 解析在场才派发,缺省参数原样透传",
+          "status": "passed",
+          "title": "chasePlayer 在场臂:self 解析在场才派发,缺省参数原样透传",
+          "duration": 0.24212499999998727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "chasePlayer 跨场景臂:self 不在场时零调用",
+          "status": "passed",
+          "title": "chasePlayer 跨场景臂:self 不在场时零调用",
+          "duration": 0.18274999999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "演出缺省臂:ditherScreen 缺省 720ms;increaseHpMp 缺省 both",
+          "status": "passed",
+          "title": "演出缺省臂:ditherScreen 缺省 720ms;increaseHpMp 缺省 both",
+          "duration": 0.12975000000000136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "playEntityAction 相位臂:startAtMs 透传,单次动作缺省阻塞至宿主完成",
+          "status": "passed",
+          "title": "playEntityAction 相位臂:startAtMs 透传,单次动作缺省阻塞至宿主完成",
+          "duration": 0.17062500000000114,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "playEntityAction 后台失败臂:循环动作非 abort 失败经 report 观测不抛",
+          "status": "passed",
+          "title": "playEntityAction 后台失败臂:循环动作非 abort 失败经 report 观测不抛",
+          "duration": 1.4539999999999935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "playEntityAction 后台失败臂:非 Error 拒绝值按 String() 文本观测",
+          "status": "passed",
+          "title": "playEntityAction 后台失败臂:非 Error 拒绝值按 String() 文本观测",
+          "duration": 1.269709000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "releaseEntity 双臂:无 target 归还全部,target 在场只还该实体",
+          "status": "passed",
+          "title": "releaseEntity 双臂:无 target 归还全部,target 在场只还该实体",
+          "duration": 0.5357919999999865,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "setSceneMapOverride 提交控制臂:当前场景重载缺同步提交控制时 fail-loud",
+          "status": "passed",
+          "title": "setSceneMapOverride 提交控制臂:当前场景重载缺同步提交控制时 fail-loud",
+          "duration": 0.6768749999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "setSceneMapOverride 提交臂:宿主 reloadMap 收到同拍提交控制并完成重载",
+          "status": "passed",
+          "title": "setSceneMapOverride 提交臂:宿主 reloadMap 收到同拍提交控制并完成重载",
+          "duration": 0.19016700000000242,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "宿主能力缺席臂:holdScreen/revealScreen 未实现时 fail-loud",
+          "status": "passed",
+          "title": "宿主能力缺席臂:holdScreen/revealScreen 未实现时 fail-loud",
+          "duration": 0.2587919999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "世界持久类叶零派发臂:状态写入类命令不触碰画面宿主",
+          "status": "passed",
+          "title": "世界持久类叶零派发臂:状态写入类命令不触碰画面宿主",
+          "duration": 0.08937500000000398,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "loadScene 落点臂:三字段全缺席派发空 spawn,缺省无过渡直调宿主",
+          "status": "passed",
+          "title": "loadScene 落点臂:三字段全缺席派发空 spawn,缺省无过渡直调宿主",
+          "duration": 0.07029200000000912,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "setActorAppearance 部分补丁臂:仅改单维度时其余键缺席",
+          "status": "passed",
+          "title": "setActorAppearance 部分补丁臂:仅改单维度时其余键缺席",
+          "duration": 0.06304199999999582,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "setSceneMapOverride 状态宿主臂:无 reloadMap 的宿主直接同拍提交持久 override",
+          "status": "passed",
+          "title": "setSceneMapOverride 状态宿主臂:无 reloadMap 的宿主直接同拍提交持久 override",
+          "duration": 0.07524999999999693,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "playEntityAction 后台取消臂:runner 取消后的失败不再上报宿主",
+          "status": "passed",
+          "title": "playEntityAction 后台取消臂:runner 取消后的失败不再上报宿主",
+          "duration": 1.3129999999999882,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "mountParty 在场缺省臂:偏移缺席按 0 派发宿主",
+          "status": "passed",
+          "title": "mountParty 在场缺省臂:偏移缺席按 0 派发宿主",
+          "duration": 0.16195900000001018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "endBattle 拒绝臂:非战斗演出上下文直接 fail-loud",
+          "status": "passed",
+          "title": "endBattle 拒绝臂:非战斗演出上下文直接 fail-loud",
+          "duration": 0.12212499999999693,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "loadScene 落点臂:pos+facing 落点与 source 过渡原样透传宿主",
+          "status": "passed",
+          "title": "loadScene 落点臂:pos+facing 落点与 source 过渡原样透传宿主",
+          "duration": 0.17412500000000364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "setActorAppearance 三维臂:spriteId 与 portrait 维度分别派发",
+          "status": "passed",
+          "title": "setActorAppearance 三维臂:spriteId 与 portrait 维度分别派发",
+          "duration": 0.07316600000000051,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377693886,
+      "endTime": 1792377693896.174,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-host-adapter.c85-arms.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["E4 立即类分支：完整参数/默认值/非目标零调用"],
+          "fullName": "E4 立即类分支：完整参数/默认值/非目标零调用 dialog/clear/wait + give/lose/playSound/music/ambience 全参数与 count 默认 1",
+          "status": "passed",
+          "title": "dialog/clear/wait + give/lose/playSound/music/ambience 全参数与 count 默认 1",
+          "duration": 2.368333000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E5 await 类分支：时序/同 signal/错误传播/明确返回"],
+          "fullName": "E5 await 类分支：时序/同 signal/错误传播/明确返回 openShop 挂起时后续 leaf 不执行；resolve 后继续并收到同 signal",
+          "status": "passed",
+          "title": "openShop 挂起时后续 leaf 不执行；resolve 后继续并收到同 signal",
+          "duration": 0.3531250000000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E5 await 类分支：时序/同 signal/错误传播/明确返回"],
+          "fullName": "E5 await 类分支：时序/同 signal/错误传播/明确返回 playVideo 拒绝 → 派发拒绝且错误原样传播；正常路径明确返回",
+          "status": "passed",
+          "title": "playVideo 拒绝 → 派发拒绝且错误原样传播；正常路径明确返回",
+          "duration": 1.0542499999999961,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E5 await 类分支：时序/同 signal/错误传播/明确返回"],
+          "fullName": "E5 await 类分支：时序/同 signal/错误传播/明确返回 playFrameAnimation/cameraPan 全参数派发（帧区间与帧率原样）",
+          "status": "passed",
+          "title": "playFrameAnimation/cameraPan 全参数派发（帧区间与帧率原样）",
+          "duration": 0.2927089999999879,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E6 跨分支输入保真与可选缺席"],
+          "fullName": "E6 跨分支输入保真与可选缺席 命令对象派发前后保真深快照不变；可选项缺席以显式键形态传递",
+          "status": "passed",
+          "title": "命令对象派发前后保真深快照不变；可选项缺席以显式键形态传递",
+          "duration": 0.1667499999999933,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694906,
+      "endTime": 1792377694910.2927,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-host-adapter.current-dispatch.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "生存周期命令:读档/战败/等待/回标题按 signal 与参数派发宿主",
+          "status": "passed",
+          "title": "生存周期命令:读档/战败/等待/回标题按 signal 与参数派发宿主",
+          "duration": 1.9607079999999968,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "全队增益与装备命令:复活/学艺/卸装按角色参数派发宿主",
+          "status": "passed",
+          "title": "全队增益与装备命令:复活/学艺/卸装按角色参数派发宿主",
+          "duration": 0.24349999999999739,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "runEntityTrigger 直派拒绝:adapter 层 fail-loud,必须由调用桥执行",
+          "status": "passed",
+          "title": "runEntityTrigger 直派拒绝:adapter 层 fail-loud,必须由调用桥执行",
+          "duration": 0.9550830000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "队伍与镜头命令:瞬移/朝向/坐骑/镜头/帧动画清屏逐参派发",
+          "status": "passed",
+          "title": "队伍与镜头命令:瞬移/朝向/坐骑/镜头/帧动画清屏逐参派发",
+          "duration": 0.602209000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "全队与氛围命令:setParty/setFollowers/toggleDayNight/halveMoney 逐参派发且金额减半按查询余额",
+          "status": "passed",
+          "title": "全队与氛围命令:setParty/setFollowers/toggleDayNight/halveMoney 逐参派发且金额减半按查询余额",
+          "duration": 0.1493329999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "vanishEntity 三态:显式在场派发,缺省回落 self,跨场景目标零派发",
+          "status": "passed",
+          "title": "vanishEntity 三态:显式在场派发,缺省回落 self,跨场景目标零派发",
+          "duration": 0.24662499999999454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694630,
+      "endTime": 1792377694634.2466,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current script host adapter"],
+          "fullName": "current script host adapter faceEntityToParty cannot turn a namesake in a different scene or take control implicitly",
+          "status": "passed",
+          "title": "faceEntityToParty cannot turn a namesake in a different scene or take control implicitly",
+          "duration": 2.175541999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current script host adapter"],
+          "fullName": "current script host adapter forwards actor condition commands to the canonical gameplay host",
+          "status": "passed",
+          "title": "forwards actor condition commands to the canonical gameplay host",
+          "duration": 0.7267079999999879,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current script host adapter"],
+          "fullName": "current script host adapter forwards source scene transition and transient screen commands",
+          "status": "passed",
+          "title": "forwards source scene transition and transient screen commands",
+          "duration": 0.7139580000000052,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current script host adapter"],
+          "fullName": "current script host adapter forwards canonical fade direction and duration to the runtime host",
+          "status": "passed",
+          "title": "forwards canonical fade direction and duration to the runtime host",
+          "duration": 0.46674999999999045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current script host adapter"],
+          "fullName": "current script host adapter unwraps active-scene EntityAddress and ignores transient effects for other scenes",
+          "status": "passed",
+          "title": "unwraps active-scene EntityAddress and ignores transient effects for other scenes",
+          "duration": 0.47795899999999847,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current script host adapter"],
+          "fullName": "current script host adapter keeps persistent-only selection commands out of the legacy host",
+          "status": "passed",
+          "title": "keeps persistent-only selection commands out of the legacy host",
+          "duration": 0.30358300000000327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current script host adapter"],
+          "fullName": "current script host adapter uses the current scene only for immediate map reload",
+          "status": "passed",
+          "title": "uses the current scene only for immediate map reload",
+          "duration": 0.8791250000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694823,
+      "endTime": 1792377694828.8792,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-host-adapter.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["W2-A A01 wave2 派发臂"],
+          "fullName": "W2-A A01 wave2 派发臂 wave2 未测 leaf 全参数派发：显式值与缺省值逐参核对",
+          "status": "passed",
+          "title": "wave2 未测 leaf 全参数派发：显式值与缺省值逐参核对",
+          "duration": 3.6440410000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A01 wave2 派发臂"],
+          "fullName": "W2-A A01 wave2 派发臂 跨场景 target 被 activeEntity 过滤：宿主零调用且不抛",
+          "status": "passed",
+          "title": "跨场景 target 被 activeEntity 过滤：宿主零调用且不抛",
+          "duration": 0.20999999999999375,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A01 wave2 派发臂"],
+          "fullName": "W2-A A01 wave2 派发臂 setMultiEntityState 跨场景在前、在场在后：find 选中首个在场 target 单次派发",
+          "status": "passed",
+          "title": "setMultiEntityState 跨场景在前、在场在后：find 选中首个在场 target 单次派发",
+          "duration": 0.1442909999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A01 wave2 派发臂"],
+          "fullName": "W2-A A01 wave2 派发臂 可选宿主成员缺席：setEntityPos/shakeScreen 可选链跳过、零调用不抛",
+          "status": "passed",
+          "title": "可选宿主成员缺席：setEntityPos/shakeScreen 可选链跳过、零调用不抛",
+          "duration": 0.35387500000000216,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A01 wave2 派发臂"],
+          "fullName": "W2-A A01 wave2 派发臂 playEntityAction wait 模式后台失败原样经 await 传播（不吞不改写）",
+          "status": "passed",
+          "title": "playEntityAction wait 模式后台失败原样经 await 传播（不吞不改写）",
+          "duration": 0.2464999999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A01 wave2 派发臂"],
+          "fullName": "W2-A A01 wave2 派发臂 playEntityAction 后台模式失败只经 host.report 观测、不抛且不误吞",
+          "status": "passed",
+          "title": "playEntityAction 后台模式失败只经 host.report 观测、不抛且不误吞",
+          "duration": 0.47229099999999846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694687,
+      "endTime": 1792377694692.4724,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-host-adapter.wave2.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "L01 a rejected body on a borrowed lease keeps the same reason, drops the registration and never closes the lease",
+          "status": "passed",
+          "title": "L01 a rejected body on a borrowed lease keeps the same reason, drops the registration and never closes the lease",
+          "duration": 1.1885000000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "L02 the latest scope settling first falls lookup back to the earlier live lease",
+          "status": "passed",
+          "title": "L02 the latest scope settling first falls lookup back to the earlier live lease",
+          "duration": 0.21595800000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "L03 a closed latest lease with a pending finally is skipped for the earlier live one and its finally keeps that registration",
+          "status": "passed",
+          "title": "L03 a closed latest lease with a pending finally is skipped for the earlier live one and its finally keeps that registration",
+          "duration": 0.164709000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "L04 two coordinators each return only their own registered lease for the same key and signal",
+          "status": "passed",
+          "title": "L04 two coordinators each return only their own registered lease for the same key and signal",
+          "duration": 0.17433400000000177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "L05 a rejected scope on one signal leaves the other signal lineage borrowable and cleanable",
+          "status": "passed",
+          "title": "L05 a rejected scope on one signal leaves the other signal lineage borrowable and cleanable",
+          "duration": 0.1943330000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "L06 a pending async body keeps its own transient live and the barrier waiting; rejection releases both with the same reason",
+          "status": "passed",
+          "title": "L06 a pending async body keeps its own transient live and the barrier waiting; rejection releases both with the same reason",
+          "duration": 0.44700000000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "L07 a pre-aborted signal surfaces its own exact reason and a gate-wait abort surfaces the coordinator reason with no late body",
+          "status": "passed",
+          "title": "L07 a pre-aborted signal surfaces its own exact reason and a gate-wait abort surfaces the coordinator reason with no late body",
+          "duration": 0.8122500000000059,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "L08 re-entering the same lineage after a failed scope borrows a fresh live lease, never the closed one",
+          "status": "passed",
+          "title": "L08 re-entering the same lineage after a failed scope borrows a fresh live lease, never the closed one",
+          "duration": 0.3657079999999979,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694577,
+      "endTime": 1792377694581.3657,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["W2-A A03 core 命令落地"],
+          "fullName": "W2-A A03 core 命令落地 setVar/addVar/setScreenWave/setEntityState/setEntityPos 写入真值且逐命令恰一次通知",
+          "status": "passed",
+          "title": "setVar/addVar/setScreenWave/setEntityState/setEntityPos 写入真值且逐命令恰一次通知",
+          "duration": 3.802458999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A03 core 命令落地"],
+          "fullName": "W2-A A03 core 命令落地 setMultiEntityState 逐 target 全量写入后命令级一次通知",
+          "status": "passed",
+          "title": "setMultiEntityState 逐 target 全量写入后命令级一次通知",
+          "duration": 1.1067079999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A03 core 命令落地"],
+          "fullName": "W2-A A03 core 命令落地 addVar 在已有值上累加；setVar 覆写同变量",
+          "status": "passed",
+          "title": "addVar 在已有值上累加；setVar 覆写同变量",
+          "duration": 0.258624999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A05 moveEntity 提交控制（未证缺口补测）"],
+          "fullName": "W2-A A05 moveEntity 提交控制（未证缺口补测） 宿主未提交时 effect 结束后自动提交端点并通知一次",
+          "status": "passed",
+          "title": "宿主未提交时 effect 结束后自动提交端点并通知一次",
+          "duration": 0.2650420000000082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A05 moveEntity 提交控制（未证缺口补测）"],
+          "fullName": "W2-A A05 moveEntity 提交控制（未证缺口补测） 宿主提交后 committed 幂等：二次 commit 不再写也不重复通知",
+          "status": "passed",
+          "title": "宿主提交后 committed 幂等：二次 commit 不再写也不重复通知",
+          "duration": 0.23375000000000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A05 moveEntity 提交控制（未证缺口补测）"],
+          "fullName": "W2-A A05 moveEntity 提交控制（未证缺口补测） 提交前 abort：端点零写入零通知",
+          "status": "passed",
+          "title": "提交前 abort：端点零写入零通知",
+          "duration": 0.6454579999999908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A05 moveEntity 提交控制（未证缺口补测）"],
+          "fullName": "W2-A A05 moveEntity 提交控制（未证缺口补测） 提交时场景漂移（scene 变化）：AbortError、端点零写入",
+          "status": "passed",
+          "title": "提交时场景漂移（scene 变化）：AbortError、端点零写入",
+          "duration": 0.30929199999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A05 moveEntity 提交控制（未证缺口补测）"],
+          "fullName": "W2-A A05 moveEntity 提交控制（未证缺口补测） 提交时会话漂移（session 变化、scene 不变）：AbortError、端点零写入",
+          "status": "passed",
+          "title": "提交时会话漂移（session 变化、scene 不变）：AbortError、端点零写入",
+          "duration": 0.18433400000000688,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A05 moveEntity 提交控制（未证缺口补测）"],
+          "fullName": "W2-A A05 moveEntity 提交控制（未证缺口补测） 提交后 abort：端点保留不回滚、通知已发、后续命令停止",
+          "status": "passed",
+          "title": "提交后 abort：端点保留不回滚、通知已发、后续命令停止",
+          "duration": 0.8479579999999913,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A05 宿主等待方法"],
+          "fullName": "W2-A A05 宿主等待方法 wait 纯委托：ms 与 signal 状态原样到达宿主选项（abort 语义属宿主实现）",
+          "status": "passed",
+          "title": "wait 纯委托：ms 与 signal 状态原样到达宿主选项（abort 语义属宿主实现）",
+          "duration": 0.17866699999999014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-A A05 宿主等待方法"],
+          "fullName": "W2-A A05 宿主等待方法 evalCondition 委托 script-world 条件求值（flag/var 算子）",
+          "status": "passed",
+          "title": "evalCondition 委托 script-world 条件求值（flag/var 算子）",
+          "duration": 0.21520900000000154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694742,
+      "endTime": 1792377694750.215,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-project-core.wave2.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Q04 非法光标组合"],
+          "fullName": "Q04 非法光标组合 stage cursor 指向不存在 stage 时精确报错",
+          "status": "passed",
+          "title": "stage cursor 指向不存在 stage 时精确报错",
+          "duration": 2.1274999999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
+          "fullName": "Q04 commandOutcome 与 callScript 门 无 resolver 时 callScript 前置拒绝",
+          "status": "passed",
+          "title": "无 resolver 时 callScript 前置拒绝",
+          "duration": 0.5700420000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
+          "fullName": "Q04 commandOutcome 与 callScript 门 callScript 自递归在深度 128 处精确熔断",
+          "status": "passed",
+          "title": "callScript 自递归在深度 128 处精确熔断",
+          "duration": 2.643125000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
+          "fullName": "Q04 commandOutcome 与 callScript 门 resolver 返回错误 script id 时拒绝",
+          "status": "passed",
+          "title": "resolver 返回错误 script id 时拒绝",
+          "duration": 0.23050000000000637,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
+          "fullName": "Q04 commandOutcome 与 callScript 门 shared executable digest/timing/boundary 任一过期都拒绝",
+          "status": "passed",
+          "title": "shared executable digest/timing/boundary 任一过期都拒绝",
+          "duration": 0.4846250000000083,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 commandOutcome 与 callScript 门"],
+          "fullName": "Q04 commandOutcome 与 callScript 门 self=none 禁显式 self；self=required 缺 self 拒绝",
+          "status": "passed",
+          "title": "self=none 禁显式 self；self=required 缺 self 拒绝",
+          "duration": 0.3957499999999925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 其它公开守卫"],
+          "fullName": "Q04 其它公开守卫 host 未实现 revealSceneEntry 时 scene entry fail-loud",
+          "status": "passed",
+          "title": "host 未实现 revealSceneEntry 时 scene entry fail-loud",
+          "duration": 0.25950000000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 其它公开守卫"],
+          "fullName": "Q04 其它公开守卫 while 循环先判条件再执行体：条件即假时体零执行",
+          "status": "passed",
+          "title": "while 循环先判条件再执行体：条件即假时体零执行",
+          "duration": 0.8777919999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 其它公开守卫"],
+          "fullName": "Q04 其它公开守卫 合法 shared 调用在同 digest/timing 下放行并执行体",
+          "status": "passed",
+          "title": "合法 shared 调用在同 digest/timing 下放行并执行体",
+          "duration": 0.49824999999999875,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q04 其它公开守卫"],
+          "fullName": "Q04 其它公开守卫 当前编译器版本标识为常量且被 executable 记录",
+          "status": "passed",
+          "title": "当前编译器版本标识为常量且被 executable 记录",
+          "duration": 0.11691700000000083,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694442,
+      "endTime": 1792377694450.4983,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-runner-core.gates.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["HL1 续跑控制帧"],
+          "fullName": "HL1 续跑控制帧 confirm 相位帧重放已选臂,宿主 confirm 不再询问",
+          "status": "passed",
+          "title": "confirm 相位帧重放已选臂,宿主 confirm 不再询问",
+          "duration": 2.9609999999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["HL1 续跑控制帧"],
+          "fullName": "HL1 续跑控制帧 startBattle 已知战败相位只重放 onLose,不重开战斗",
+          "status": "passed",
+          "title": "startBattle 已知战败相位只重放 onLose,不重开战斗",
+          "duration": 0.5197920000000096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["HL1 续跑控制帧"],
+          "fullName": "HL1 续跑控制帧 teleportOut 已知失败相位只重放 onFail,不再传出",
+          "status": "passed",
+          "title": "teleportOut 已知失败相位只重放 onFail,不再传出",
+          "duration": 0.5849999999999937,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["HL1 自动单步检查点"],
+          "fullName": "HL1 自动单步检查点 settle 相位写入续跑帧,宿主迟到回执静默不再发布",
+          "status": "passed",
+          "title": "settle 相位写入续跑帧,宿主迟到回执静默不再发布",
+          "duration": 0.5117500000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["HL1 自动单步检查点"],
+          "fullName": "HL1 自动单步检查点 活发布窗口内的检查点 stop 被吞没,真实错误按原样穿透宿主提交批",
+          "status": "passed",
+          "title": "活发布窗口内的检查点 stop 被吞没,真实错误按原样穿透宿主提交批",
+          "duration": 0.4480000000000075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["HL1 自动单步检查点"],
+          "fullName": "HL1 自动单步检查点 宿主持有的检查点在空执行帧上请求变更走 setCheckpointReady 的 wait 门",
+          "status": "passed",
+          "title": "宿主持有的检查点在空执行帧上请求变更走 setCheckpointReady 的 wait 门",
+          "duration": 0.40216599999999403,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["HL1 自动单步检查点"],
+          "fullName": "HL1 自动单步检查点 setCheckpointReady 返回 stop 时空帧变更令本次激活干净收尾且不提交游标",
+          "status": "passed",
+          "title": "setCheckpointReady 返回 stop 时空帧变更令本次激活干净收尾且不提交游标",
+          "duration": 0.42549999999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["HL1 执行帧深"],
+          "fullName": "HL1 执行帧深 嵌套分支超过 256 执行帧时精确熔断",
+          "status": "passed",
+          "title": "嵌套分支超过 256 执行帧时精确熔断",
+          "duration": 70.97683299999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694130,
+      "endTime": 1792377694207.9768,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["optional command debugger hook"],
+          "fullName": "optional command debugger hook waits exactly at authored commands, keeping stage and final host gates",
+          "status": "passed",
+          "title": "waits exactly at authored commands, keeping stage and final host gates",
+          "duration": 4.04025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["optional command debugger hook"],
+          "fullName": "optional command debugger hook checks abort after a suspended debugger hook and never emits or executes the command",
+          "status": "passed",
+          "title": "checks abort after a suspended debugger hook and never emits or executes the command",
+          "duration": 1.9299999999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["optional command debugger hook"],
+          "fullName": "optional command debugger hook a host modal closing during debugger pause still blocks execution after release",
+          "status": "passed",
+          "title": "a host modal closing during debugger pause still blocks execution after release",
+          "duration": 2.821708000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["optional command debugger hook"],
+          "fullName": "optional command debugger hook debugger failure preserves the error and executes no command",
+          "status": "passed",
+          "title": "debugger failure preserves the error and executes no command",
+          "duration": 0.5762920000000094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptRunnerCore flow semantics"],
+          "fullName": "ScriptRunnerCore flow semantics a completed stage executes once, commits only after settlement, and becomes inert",
+          "status": "passed",
+          "title": "a completed stage executes once, commits only after settlement, and becomes inert",
+          "duration": 2.3994579999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptRunnerCore flow semantics"],
+          "fullName": "ScriptRunnerCore flow semantics abort before implicit or explicit settlement never manufactures completion",
+          "status": "passed",
+          "title": "abort before implicit or explicit settlement never manufactures completion",
+          "duration": 0.48075000000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptRunnerCore flow semantics"],
+          "fullName": "ScriptRunnerCore flow semantics stage next commits its stable cursor and ends the activation",
+          "status": "passed",
+          "title": "stage next commits its stable cursor and ends the activation",
+          "duration": 0.6196659999999952,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptRunnerCore flow semantics"],
+          "fullName": "ScriptRunnerCore flow semantics a terminal completed stage never replays the one-shot body",
+          "status": "passed",
+          "title": "a terminal completed stage never replays the one-shot body",
+          "duration": 0.3619579999999871,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptRunnerCore flow semantics"],
+          "fullName": "ScriptRunnerCore flow semantics host execution gate freezes commands and empty-flow safe-points",
+          "status": "passed",
+          "title": "host execution gate freezes commands and empty-flow safe-points",
+          "duration": 0.43529100000000653,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptRunnerCore flow semantics"],
+          "fullName": "ScriptRunnerCore flow semantics a completed body settles through its modal safe-point gate, not its closed gameplay gate",
+          "status": "passed",
+          "title": "a completed body settles through its modal safe-point gate, not its closed gameplay gate",
+          "duration": 1.4180419999999856,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptRunnerCore flow semantics"],
+          "fullName": "ScriptRunnerCore flow semantics abort during a suspended safe-point gate never commits the cursor",
+          "status": "passed",
+          "title": "abort during a suspended safe-point gate never commits the cursor",
+          "duration": 1.4727499999999907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptRunnerCore flow semantics"],
+          "fullName": "ScriptRunnerCore flow semantics finishStep stay explicitly preserves the persistent step",
+          "status": "passed",
+          "title": "finishStep stay explicitly preserves the persistent step",
+          "duration": 0.23562499999999886,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptRunnerCore flow semantics"],
+          "fullName": "ScriptRunnerCore flow semantics shared calls inherit composite self and the caller timing",
+          "status": "passed",
+          "title": "shared calls inherit composite self and the caller timing",
+          "duration": 0.30108300000000554,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptRunnerCore flow semantics"],
+          "fullName": "ScriptRunnerCore flow semantics scene entry executes prepare, reveal and body exactly once when requested",
+          "status": "passed",
+          "title": "scene entry executes prepare, reveal and body exactly once when requested",
+          "duration": 0.19387499999999136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ScriptRunnerCore flow semantics"],
+          "fullName": "ScriptRunnerCore flow semantics scene entry waits for prepare commands before revealing the target frame",
+          "status": "passed",
+          "title": "scene entry waits for prepare commands before revealing the target frame",
+          "duration": 52.06816699999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694021,
+      "endTime": 1792377694091.068,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-runner-core.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "演出缺省臂:fade 缺省 300ms、ditherScreen 缺省 720ms 原样落宿主",
+          "status": "passed",
+          "title": "演出缺省臂:fade 缺省 300ms、ditherScreen 缺省 720ms 原样落宿主",
+          "duration": 1.5697079999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "B8 缺省臂:无宿主实体的 chasePlayer 以空 self 派发缺省 range/speed/floating",
+          "status": "passed",
+          "title": "B8 缺省臂:无宿主实体的 chasePlayer 以空 self 派发缺省 range/speed/floating",
+          "duration": 0.23362500000001774,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "B8 缺省臂:vanishEntity 无 entity 时回落触发者自身,seconds 缺省 2",
+          "status": "passed",
+          "title": "B8 缺省臂:vanishEntity 无 entity 时回落触发者自身,seconds 缺省 2",
+          "duration": 0.12587500000000773,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "0x13 缺省臂:setEntityPos 的 height 缺省落 0 并持久写 world.entityPos",
+          "status": "passed",
+          "title": "0x13 缺省臂:setEntityPos 的 height 缺省落 0 并持久写 world.entityPos",
+          "duration": 0.255333999999948,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "0x98 清空臂:setFollowers 空表把 world.followers 归 undefined",
+          "status": "passed",
+          "title": "0x98 清空臂:setFollowers 空表把 world.followers 归 undefined",
+          "duration": 0.11812500000002046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "循环动作后台失败臂:非 abort 错误按复合引用上报宿主,不中断后续命令",
+          "status": "passed",
+          "title": "循环动作后台失败臂:非 abort 错误按复合引用上报宿主,不中断后续命令",
+          "duration": 1.7876660000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "循环动作后台失败臂:runner 已取消时不把 abort 上报为宿主错误",
+          "status": "passed",
+          "title": "循环动作后台失败臂:runner 已取消时不把 abort 上报为宿主错误",
+          "duration": 1.4430419999999913,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "0x2E/0x63/0x6E 缺省臂:loseItem count 缺省 1、mountParty 偏移缺省 0、addVar 缺省累加底数 0",
+          "status": "passed",
+          "title": "0x2E/0x63/0x6E 缺省臂:loseItem count 缺省 1、mountParty 偏移缺省 0、addVar 缺省累加底数 0",
+          "duration": 0.15299999999996317,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "setSceneMapOverride 持久臂:指定 scene 直接写 world,不触碰当前场景",
+          "status": "passed",
+          "title": "setSceneMapOverride 持久臂:指定 scene 直接写 world,不触碰当前场景",
+          "duration": 0.5081659999999601,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "setSceneMapOverride 当前场景臂:宿主无 reloadMap 时只落持久 override",
+          "status": "passed",
+          "title": "setSceneMapOverride 当前场景臂:宿主无 reloadMap 时只落持久 override",
+          "duration": 0.15308299999998098,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "setSceneMapOverride 当前场景臂:无 sceneId 查询的宿主保持零写入",
+          "status": "passed",
+          "title": "setSceneMapOverride 当前场景臂:无 sceneId 查询的宿主保持零写入",
+          "duration": 0.14800000000002456,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "脚本绑定双臂:setEntityAuto/setEntityTrigger 分别以 script 引用与 stages 内联派发",
+          "status": "passed",
+          "title": "脚本绑定双臂:setEntityAuto/setEntityTrigger 分别以 script 引用与 stages 内联派发",
+          "duration": 0.3819169999999872,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "场景覆写残留臂:onTeleport/clearSceneScripts 对全新场景各自建立 override 槽",
+          "status": "passed",
+          "title": "场景覆写残留臂:onTeleport/clearSceneScripts 对全新场景各自建立 override 槽",
+          "duration": 0.07970899999997982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "战斗配置臂:startBattle 透传 choreography 且按字段缺席裁剪",
+          "status": "passed",
+          "title": "战斗配置臂:startBattle 透传 choreography 且按字段缺席裁剪",
+          "duration": 0.08650000000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "节拍臂:paceMs>0 时每条命令后按拍等待宿主 wait",
+          "status": "passed",
+          "title": "节拍臂:paceMs>0 时每条命令后按拍等待宿主 wait",
+          "duration": 0.14350000000001728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "runStages 空段臂:空 stages 绑定安静收尾,不建阶段不抛错",
+          "status": "passed",
+          "title": "runStages 空段臂:空 stages 绑定安静收尾,不建阶段不抛错",
+          "duration": 0.12212500000003956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "runStages 宿主臂:entry 段遇无 revealSceneEntry 宿主 fail-loud",
+          "status": "passed",
+          "title": "runStages 宿主臂:entry 段遇无 revealSceneEntry 宿主 fail-loud",
+          "duration": 0.5109999999999673,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "条件残留臂:缺席 flag 按 false 求值,ownsItem 缺省 atLeast=1",
+          "status": "passed",
+          "title": "条件残留臂:缺席 flag 按 false 求值,ownsItem 缺省 atLeast=1",
+          "duration": 0.1404579999999669,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "条件残留臂:var 六比较算子按数值语义求值",
+          "status": "passed",
+          "title": "条件残留臂:var 六比较算子按数值语义求值",
+          "duration": 0.1469589999999812,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "条件残留臂:缺席 var 按默认 0 参与比较;not/all/any 组合臂齐走",
+          "status": "passed",
+          "title": "条件残留臂:缺席 var 按默认 0 参与比较;not/all/any 组合臂齐走",
+          "duration": 0.16270799999995234,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "条件残留臂:currentScene 缺当前场景查询时 fail-loud",
+          "status": "passed",
+          "title": "条件残留臂:currentScene 缺当前场景查询时 fail-loud",
+          "duration": 0.09483299999999417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "条件残留臂:entityState 用 NaN 哨兵拒绝缺席实体,facingEntity/items 走宿主查询",
+          "status": "passed",
+          "title": "条件残留臂:entityState 用 NaN 哨兵拒绝缺席实体,facingEntity/items 走宿主查询",
+          "duration": 0.09724999999997408,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "条件残留臂:entitiesNear 透传 range,chance 用注入 random 定率",
+          "status": "passed",
+          "title": "条件残留臂:entitiesNear 透传 range,chance 用注入 random 定率",
+          "duration": 0.07974999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "命令残留臂:fleeBattle/holdScreen/revealScreen/shakeScreen 等直通宿主能力",
+          "status": "passed",
+          "title": "命令残留臂:fleeBattle/holdScreen/revealScreen/shakeScreen 等直通宿主能力",
+          "duration": 0.22266700000000128,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "宿主能力缺席臂:holdScreen/revealScreen 未实现时 fail-loud",
+          "status": "passed",
+          "title": "宿主能力缺席臂:holdScreen/revealScreen 未实现时 fail-loud",
+          "duration": 0.17145900000002712,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "call 重抛臂:callee 内非 returnScript 错误穿透 callScript 原样上抛",
+          "status": "passed",
+          "title": "call 重抛臂:callee 内非 returnScript 错误穿透 callScript 原样上抛",
+          "duration": 0.1940829999999778,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "endBattle 拒绝臂:大世界 runner 拒绝战斗演出专属命令",
+          "status": "passed",
+          "title": "endBattle 拒绝臂:大世界 runner 拒绝战斗演出专属命令",
+          "duration": 0.10874999999998636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "vanish 双回落臂:无 entity 且无 selfId 时以空实体 id 派发宿主",
+          "status": "passed",
+          "title": "vanish 双回落臂:无 entity 且无 selfId 时以空实体 id 派发宿主",
+          "duration": 0.04916600000001381,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "后台失败上报臂:非 Error 拒绝值按 String() 文本上报",
+          "status": "passed",
+          "title": "后台失败上报臂:非 Error 拒绝值按 String() 文本上报",
+          "duration": 1.2514590000000112,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "脚本绑定 stages 臂:setEntityAuto 内联段与 onEnter 全新槽各自落位",
+          "status": "passed",
+          "title": "脚本绑定 stages 臂:setEntityAuto 内联段与 onEnter 全新槽各自落位",
+          "duration": 0.09758300000004283,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "后台失败静默臂:未取消 runner 收到 AbortError 型拒绝同样静默不上报",
+          "status": "passed",
+          "title": "后台失败静默臂:未取消 runner 收到 AbortError 型拒绝同样静默不上报",
+          "duration": 1.2475000000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "场景覆写 stages 臂:setSceneOnTeleport 内联段落到全新场景槽",
+          "status": "passed",
+          "title": "场景覆写 stages 臂:setSceneOnTeleport 内联段落到全新场景槽",
+          "duration": 0.05249999999995225,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377693758,
+      "endTime": 1792377693770.2476,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-runner.c85-arms.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前编辑器预览 ScriptRunner 的组合条件读取"],
+          "fullName": "当前编辑器预览 ScriptRunner 的组合条件读取 六种数值比较精确使用同一世界变量；未登记变量只在当前投影按 0 读",
+          "status": "passed",
+          "title": "六种数值比较精确使用同一世界变量；未登记变量只在当前投影按 0 读",
+          "duration": 1.5602919999999898,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前编辑器预览 ScriptRunner 的组合条件读取"],
+          "fullName": "当前编辑器预览 ScriptRunner 的组合条件读取 场景/实体/朝向条件保留稳定身份与缺省距离；缺场景查询 fail-loud",
+          "status": "passed",
+          "title": "场景/实体/朝向条件保留稳定身份与缺省距离；缺场景查询 fail-loud",
+          "duration": 0.6634580000000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前编辑器预览 ScriptRunner 的组合条件读取"],
+          "fullName": "当前编辑器预览 ScriptRunner 的组合条件读取 装备、背包、拥有数、金钱、满血与队伍条件各调用自己的 live 查询而不串源",
+          "status": "passed",
+          "title": "装备、背包、拥有数、金钱、满血与队伍条件各调用自己的 live 查询而不串源",
+          "duration": 0.8357910000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前编辑器预览 ScriptRunner 的组合条件读取"],
+          "fullName": "当前编辑器预览 ScriptRunner 的组合条件读取 all/any/not 保持短路，未知实体状态不被 0 误认并可读取显式 0",
+          "status": "passed",
+          "title": "all/any/not 保持短路，未知实体状态不被 0 误认并可读取显式 0",
+          "duration": 0.20862499999999784,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377695117,
+      "endTime": 1792377695120.2087,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-runner.conditions.residual.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前编辑器预览 ScriptRunner 命令分发剩余合同"],
+          "fullName": "当前编辑器预览 ScriptRunner 命令分发剩余合同 批量状态仅通知宿主一次；绝对定位、图层和屏波只改各自世界键",
+          "status": "passed",
+          "title": "批量状态仅通知宿主一次；绝对定位、图层和屏波只改各自世界键",
+          "duration": 2.5842909999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前编辑器预览 ScriptRunner 命令分发剩余合同"],
+          "fullName": "当前编辑器预览 ScriptRunner 命令分发剩余合同 可选 clean 宿主能力各收自己的实参，不把 HP/MP、复活、仙术或装备槽串源",
+          "status": "passed",
+          "title": "可选 clean 宿主能力各收自己的实参，不把 HP/MP、复活、仙术或装备槽串源",
+          "duration": 0.6490830000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前编辑器预览 ScriptRunner 命令分发剩余合同"],
+          "fullName": "当前编辑器预览 ScriptRunner 命令分发剩余合同 追逐和暂离默认绑定当前 self，显式实体与参数不受前条命令污染",
+          "status": "passed",
+          "title": "追逐和暂离默认绑定当前 self，显式实体与参数不受前条命令污染",
+          "duration": 0.3148750000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前编辑器预览 ScriptRunner 命令分发剩余合同"],
+          "fullName": "当前编辑器预览 ScriptRunner 命令分发剩余合同 角色三维形象只转交声明过的 patch；不支持该能力时不伪写世界状态",
+          "status": "passed",
+          "title": "角色三维形象只转交声明过的 patch；不支持该能力时不伪写世界状态",
+          "duration": 0.23562499999999886,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前编辑器预览 ScriptRunner 命令分发剩余合同"],
+          "fullName": "当前编辑器预览 ScriptRunner 命令分发剩余合同 半钱按执行时余额取整，商店 Promise 未完成前不得执行下一条世界命令",
+          "status": "passed",
+          "title": "半钱按执行时余额取整，商店 Promise 未完成前不得执行下一条世界命令",
+          "duration": 52.070417000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前编辑器预览 ScriptRunner 命令分发剩余合同"],
+          "fullName": "当前编辑器预览 ScriptRunner 命令分发剩余合同 战斗主动逃跑只走 onFlee 臂，不落穿 onLose 或战斗后的错误分支",
+          "status": "passed",
+          "title": "战斗主动逃跑只走 onFlee 臂，不落穿 onLose 或战斗后的错误分支",
+          "duration": 1.0372500000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前编辑器预览 ScriptRunner 命令分发剩余合同"],
+          "fullName": "当前编辑器预览 ScriptRunner 命令分发剩余合同 当前场景缺席不落地图覆写；有场景但无重载能力时只写当前场景键",
+          "status": "passed",
+          "title": "当前场景缺席不落地图覆写；有场景但无重载能力时只写当前场景键",
+          "duration": 0.255457999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前编辑器预览 ScriptRunner 命令分发剩余合同"],
+          "fullName": "当前编辑器预览 ScriptRunner 命令分发剩余合同 黑屏配对命令在缺少对应宿主能力时 fail-loud，未偷跑后续世界命令",
+          "status": "passed",
+          "title": "黑屏配对命令在缺少对应宿主能力时 fail-loud，未偷跑后续世界命令",
+          "duration": 0.7547910000000115,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694415,
+      "endTime": 1792377694472.755,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-runner.dispatch-residual.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["HL1 残留命令分发"],
+          "fullName": "HL1 残留命令分发 生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主",
+          "status": "passed",
+          "title": "生存周期命令:loadLastSave/gameOver/wait 按各自参数与 runner signal 派发宿主",
+          "duration": 1.5535840000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["HL1 残留命令分发"],
+          "fullName": "HL1 残留命令分发 实体与队伍走位命令:朝向/帧号/移动/坐骑逐参派发,异步项携带 signal",
+          "status": "passed",
+          "title": "实体与队伍走位命令:朝向/帧号/移动/坐骑逐参派发,异步项携带 signal",
+          "duration": 0.4031669999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["HL1 残留命令分发"],
+          "fullName": "HL1 残留命令分发 镜头与帧动画命令:cameraPan/cameraSnap/clearFrameAnimation 逐参派发",
+          "status": "passed",
+          "title": "镜头与帧动画命令:cameraPan/cameraSnap/clearFrameAnimation 逐参派发",
+          "duration": 0.18900000000000716,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["HL1 残留命令分发"],
+          "fullName": "HL1 残留命令分发 setEntityPos 宿主能力缺席:跳过宿主派发仍持久写世界",
+          "status": "passed",
+          "title": "setEntityPos 宿主能力缺席:跳过宿主派发仍持久写世界",
+          "duration": 0.2605000000000075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["HL1 残留命令分发"],
+          "fullName": "HL1 残留命令分发 setSceneOnEnter 对既有槽覆写而不新建槽",
+          "status": "passed",
+          "title": "setSceneOnEnter 对既有槽覆写而不新建槽",
+          "duration": 0.4276669999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["HL1 调用与跳转生命周期"],
+          "fullName": "HL1 调用与跳转生命周期 callScript 内 returnScript 只终止被调脚本,调用方从调用点继续",
+          "status": "passed",
+          "title": "callScript 内 returnScript 只终止被调脚本,调用方从调用点继续",
+          "duration": 0.21087500000000148,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["HL1 调用与跳转生命周期"],
+          "fullName": "HL1 调用与跳转生命周期 jumpScript 在跳转处理前已取消:以 AbortError 拒绝且不解析目标",
+          "status": "passed",
+          "title": "jumpScript 在跳转处理前已取消:以 AbortError 拒绝且不解析目标",
+          "duration": 0.8114169999999916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694304,
+      "endTime": 1792377694308.8115,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-runner.host-lifecycle-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "场景脚本覆写:双槽独立设置,both-zero 写入 null tombstone",
+          "status": "passed",
+          "title": "场景脚本覆写:双槽独立设置,both-zero 写入 null tombstone",
+          "duration": 1.468416999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "结局命令调用宿主回标题",
+          "status": "passed",
+          "title": "结局命令调用宿主回标题",
+          "duration": 0.19999999999998863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "setFollowers 先预载再原子提交；失败与 abort 都不污染世界",
+          "status": "passed",
+          "title": "setFollowers 先预载再原子提交；失败与 abort 都不污染世界",
+          "duration": 1.172124999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "setParty 必须等待宿主事务完成；reject/abort 后不执行下一条命令",
+          "status": "passed",
+          "title": "setParty 必须等待宿主事务完成；reject/abort 后不执行下一条命令",
+          "duration": 0.7224580000000174,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "角色状态命令按序等待宿主完成并保留明确意图",
+          "status": "passed",
+          "title": "角色状态命令按序等待宿主完成并保留明确意图",
+          "duration": 0.203125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "顺序执行 + 世界状态写入(flags/vars/entityState 双写)",
+          "status": "passed",
+          "title": "顺序执行 + 世界状态写入(flags/vars/entityState 双写)",
+          "duration": 0.19629100000003064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "0x6E clean nudgeParty 保留层号并兼容缺省 layer=0",
+          "status": "passed",
+          "title": "0x6E clean nudgeParty 保留层号并兼容缺省 layer=0",
+          "duration": 0.1519999999999868,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "loadScene 命名落点原样交给 host，不降级成默认或临时坐标",
+          "status": "passed",
+          "title": "loadScene 命名落点原样交给 host，不降级成默认或临时坐标",
+          "duration": 0.07970799999998235,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "R13-6B 黑屏配对与 source 场景过渡原样交给 host",
+          "status": "passed",
+          "title": "R13-6B 黑屏配对与 source 场景过渡原样交给 host",
+          "duration": 0.38262500000001864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "过场编排:playVideo 命令按稳定 AssetId 阻塞播放",
+          "status": "passed",
+          "title": "过场编排:playVideo 命令按稳定 AssetId 阻塞播放",
+          "duration": 0.09391699999997627,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "过场编排:playFrameAnimation 按 AssetId 传递区间与帧率",
+          "status": "passed",
+          "title": "过场编排:playFrameAnimation 按 AssetId 传递区间与帧率",
+          "duration": 0.12383299999999053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "setAmbience(W6 昼夜)→ host 分发氛围 id",
+          "status": "passed",
+          "title": "setAmbience(W6 昼夜)→ host 分发氛围 id",
+          "duration": 0.05708300000003419,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["精灵预制动作命令"],
+          "fullName": "精灵预制动作命令 单次缺省阻塞至 host 完成，并完整透传复合引用与相位",
+          "status": "passed",
+          "title": "单次缺省阻塞至 host 完成，并完整透传复合引用与相位",
+          "duration": 0.11874999999997726,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["精灵预制动作命令"],
+          "fullName": "精灵预制动作命令 后台单次与循环不阻塞后续命令，stop 显式透传 reset",
+          "status": "passed",
+          "title": "后台单次与循环不阻塞后续命令，stop 显式透传 reset",
+          "duration": 0.07925000000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["演出预览钩子(编辑器):onStep 路径上报 + 单步门"],
+          "fullName": "演出预览钩子(编辑器):onStep 路径上报 + 单步门 onStep 逐命令上报嵌套路径(branch then 臂 / confirm onNo 臂)",
+          "status": "passed",
+          "title": "onStep 逐命令上报嵌套路径(branch then 臂 / confirm onNo 臂)",
+          "duration": 0.24450000000001637,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["演出预览钩子(编辑器):onStep 路径上报 + 单步门"],
+          "fullName": "演出预览钩子(编辑器):onStep 路径上报 + 单步门 单步门:每条命令执行前 await gate(嵌套臂内同样过门)",
+          "status": "passed",
+          "title": "单步门:每条命令执行前 await gate(嵌套臂内同样过门)",
+          "duration": 0.0696659999999838,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["演出预览钩子(编辑器):onStep 路径上报 + 单步门"],
+          "fullName": "演出预览钩子(编辑器):onStep 路径上报 + 单步门 宿主提交门在 void 命令后阻止下一命令与 stage cursor 提前推进",
+          "status": "passed",
+          "title": "宿主提交门在 void 命令后阻止下一命令与 stage cursor 提前推进",
+          "duration": 0.14229199999999764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "0x15/0x65 演出命令分发:姿势帧透传 gesture/member,换装走 setActorSprite",
+          "status": "passed",
+          "title": "0x15/0x65 演出命令分发:姿势帧透传 gesture/member,换装走 setActorSprite",
+          "duration": 0.05750000000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["stages 阶段机"],
+          "fullName": "stages 阶段机 advance 推进 → reset 回跳 → stay 缺省",
+          "status": "passed",
+          "title": "advance 推进 → reset 回跳 → stay 缺省",
+          "duration": 0.09587499999997817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["stages 阶段机"],
+          "fullName": "stages 阶段机 stage 越界钳到末段",
+          "status": "passed",
+          "title": "stage 越界钳到末段",
+          "duration": 0.043457999999986896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["stages 阶段机"],
+          "fullName": "stages 阶段机 已取消的空 stage 不得推进阶段",
+          "status": "passed",
+          "title": "已取消的空 stage 不得推进阶段",
+          "duration": 0.1501660000000129,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["stages 阶段机"],
+          "fullName": "stages 阶段机 scene onEnter 严格按 Prepare → Reveal → Body 执行",
+          "status": "passed",
+          "title": "scene onEnter 严格按 Prepare → Reveal → Body 执行",
+          "duration": 0.17404199999998582,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["stages 阶段机"],
+          "fullName": "stages 阶段机 非 onEnter 上下文执行 entry fail-loud",
+          "status": "passed",
+          "title": "非 onEnter 上下文执行 entry fail-loud",
+          "duration": 0.10341700000003584,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["stopScript 跳转臂终止(原版跳转命中链到 END 不落穿)"],
+          "fullName": "stopScript 跳转臂终止(原版跳转命中链到 END 不落穿) 嵌套臂内 stop 穿透终止全脚本:臂后命令不跑、阶段不转移",
+          "status": "passed",
+          "title": "嵌套臂内 stop 穿透终止全脚本:臂后命令不跑、阶段不转移",
+          "duration": 0.11379199999998946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["stopScript 跳转臂终止(原版跳转命中链到 END 不落穿)"],
+          "fullName": "stopScript 跳转臂终止(原版跳转命中链到 END 不落穿) 不命中走落穿路径,自然收尾照常转移阶段",
+          "status": "passed",
+          "title": "不命中走落穿路径,自然收尾照常转移阶段",
+          "duration": 0.06216699999998809,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "abort:await 间隙取消,后续命令不再执行",
+          "status": "passed",
+          "title": "abort:await 间隙取消,后续命令不再执行",
+          "duration": 0.1276250000000232,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "并发 runner 的新 fade 连续接管画面，但旧 runner 不得继续提交副作用",
+          "status": "passed",
+          "title": "并发 runner 的新 fade 连续接管画面，但旧 runner 不得继续提交副作用",
+          "duration": 0.40337500000003956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "当前场景换底图只在重载成功后提交；reject/abort 均保留原 override",
+          "status": "passed",
+          "title": "当前场景换底图只在重载成功后提交；reject/abort 均保留原 override",
+          "duration": 0.40295900000000984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "当前场景换底图由 host 同拍提交运行态和持久态，提交后的 microtask abort 不得撕裂",
+          "status": "passed",
+          "title": "当前场景换底图由 host 同拍提交运行态和持久态，提交后的 microtask abort 不得撕裂",
+          "duration": 0.16900000000003956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "多个 runner 只携带各自 signal；重启旧 auto 不误杀其他 runner",
+          "status": "passed",
+          "title": "多个 runner 只携带各自 signal；重启旧 auto 不误杀其他 runner",
+          "duration": 0.29108300000001464,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "全局停止分别取消全部 runner，所有延迟提交均为零",
+          "status": "passed",
+          "title": "全局停止分别取消全部 runner，所有延迟提交均为零",
+          "duration": 0.3353749999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M3b 分支 / 条件 / 战斗 / 确认"],
+          "fullName": "M3b 分支 / 条件 / 战斗 / 确认 branch:chance 注入 random 定率;then/else 二选一",
+          "status": "passed",
+          "title": "branch:chance 注入 random 定率;then/else 二选一",
+          "duration": 0.07883300000003146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M3b 分支 / 条件 / 战斗 / 确认"],
+          "fullName": "M3b 分支 / 条件 / 战斗 / 确认 branch:hasMoney/inParty/entityState/not 组合走 query/world",
+          "status": "passed",
+          "title": "branch:hasMoney/inParty/entityState/not 组合走 query/world",
+          "duration": 0.12691599999999426,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M3b 分支 / 条件 / 战斗 / 确认"],
+          "fullName": "M3b 分支 / 条件 / 战斗 / 确认 branch:allFullHp/itemEquipped 走 query(0x74 洪大夫治伤门 / 0x86 玉佛珠门禁)",
+          "status": "passed",
+          "title": "branch:allFullHp/itemEquipped 走 query(0x74 洪大夫治伤门 / 0x86 玉佛珠门禁)",
+          "duration": 0.06779199999999719,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M3b 分支 / 条件 / 战斗 / 确认"],
+          "fullName": "M3b 分支 / 条件 / 战斗 / 确认 startBattle:victory 直走;defeat 走 onLose 臂",
+          "status": "passed",
+          "title": "startBattle:victory 直走;defeat 走 onLose 臂",
+          "duration": 0.07970900000003667,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M3b 分支 / 条件 / 战斗 / 确认"],
+          "fullName": "M3b 分支 / 条件 / 战斗 / 确认 startBattle 透传一次性 fieldId/music(特殊战场绑本战;override 已退役)",
+          "status": "passed",
+          "title": "startBattle 透传一次性 fieldId/music(特殊战场绑本战;override 已退役)",
+          "duration": 0.05691699999999855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M3b 分支 / 条件 / 战斗 / 确认"],
+          "fullName": "M3b 分支 / 条件 / 战斗 / 确认 startBattle 收到构造该 runner 的同一 AbortSignal",
+          "status": "passed",
+          "title": "startBattle 收到构造该 runner 的同一 AbortSignal",
+          "duration": 0.04949999999996635,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M3b 分支 / 条件 / 战斗 / 确认"],
+          "fullName": "M3b 分支 / 条件 / 战斗 / 确认 teleportOut:成功(有出口)直走;失败(无出口)走 onFail 臂",
+          "status": "passed",
+          "title": "teleportOut:成功(有出口)直走;失败(无出口)走 onFail 臂",
+          "duration": 0.07216700000003584,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M3b 分支 / 条件 / 战斗 / 确认"],
+          "fullName": "M3b 分支 / 条件 / 战斗 / 确认 confirm:是 → 直走;否 → onNo 臂",
+          "status": "passed",
+          "title": "confirm:是 → 直走;否 → onNo 臂",
+          "duration": 0.06762500000002092,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "E6b takeEntity/releaseEntity 派发到 host",
+          "status": "passed",
+          "title": "E6b takeEntity/releaseEntity 派发到 host",
+          "duration": 1.1107079999999883,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "ditherScreen 阻塞后续命令，host 收口 Promise 后 abort 不会落穿",
+          "status": "passed",
+          "title": "ditherScreen 阻塞后续命令，host 收口 Promise 后 abort 不会落穿",
+          "duration": 0.20987499999995407,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["分片脚本 call/jump"],
+          "fullName": "分片脚本 call/jump call 返回调用点；callee 内 jump 尾转移后仍返回 caller",
+          "status": "passed",
+          "title": "call 返回调用点；callee 内 jump 尾转移后仍返回 caller",
+          "duration": 1.5283749999999827,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["分片脚本 call/jump"],
+          "fullName": "分片脚本 call/jump 嵌套 branch 内 jump 穿透父体，父体后续不落穿",
+          "status": "passed",
+          "title": "嵌套 branch 内 jump 穿透父体，父体后续不落穿",
+          "duration": 1.3152919999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["分片脚本 call/jump"],
+          "fullName": "分片脚本 call/jump 深 call 链的 lease 覆盖全部活动调用帧",
+          "status": "passed",
+          "title": "深 call 链的 lease 覆盖全部活动调用帧",
+          "duration": 0.10083399999996345,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["分片脚本 call/jump"],
+          "fullName": "分片脚本 call/jump 作者 shared/user 脚本复用同一受控调用栈并继承 self",
+          "status": "passed",
+          "title": "作者 shared/user 脚本复用同一受控调用栈并继承 self",
+          "duration": 0.07241599999997561,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["分片脚本 call/jump"],
+          "fullName": "分片脚本 call/jump call/jump 的 self 跨引用生效并在返回后恢复",
+          "status": "passed",
+          "title": "call/jump 的 self 跨引用生效并在返回后恢复",
+          "duration": 0.06749999999999545,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["分片脚本 call/jump"],
+          "fullName": "分片脚本 call/jump 连续访问 100 个跨场景脚本后，存档不携带已加载脚本体",
+          "status": "passed",
+          "title": "连续访问 100 个跨场景脚本后，存档不携带已加载脚本体",
+          "duration": 0.8727910000000065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["分片脚本 call/jump"],
+          "fullName": "分片脚本 call/jump 真实 call 递归超过受控深度时给出目标诊断",
+          "status": "passed",
+          "title": "真实 call 递归超过受控深度时给出目标诊断",
+          "duration": 1.101541999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["分片脚本 call/jump"],
+          "fullName": "分片脚本 call/jump 缺 resolver 明确报错；纯 jump 自环可 abort 且不会同步占死",
+          "status": "passed",
+          "title": "缺 resolver 明确报错；纯 jump 自环可 abort 且不会同步占死",
+          "duration": 10.075041999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377693765,
+      "endTime": 1792377693791.075,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-runner.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "a frame waits for immediate continuations and outer cleanup, not an arbitrary number of Promise hops",
+          "status": "passed",
+          "title": "a frame waits for immediate continuations and outer cleanup, not an arbitrary number of Promise hops",
+          "duration": 2.0164160000000066,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a nested sequential signal parks once and wakes before its movement continuation",
+          "status": "passed",
+          "title": "a nested sequential signal parks once and wakes before its movement continuation",
+          "duration": 0.23541600000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "readiness is rechecked in the same stack as drawing when a new root races with drain",
+          "status": "passed",
+          "title": "readiness is rechecked in the same stack as drawing when a new root races with drain",
+          "duration": 0.3710000000000093,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cached IO stays in the current turn while cold aggregated IO yields and abort releases its exact receipt",
+          "status": "passed",
+          "title": "cached IO stays in the current turn while cold aggregated IO yields and abort releases its exact receipt",
+          "duration": 3.6047080000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "the real frame grants touch ownership before motion wake, drains input effects, and moves once",
+          "status": "passed",
+          "title": "the real frame grants touch ownership before motion wake, drains input effects, and moves once",
+          "duration": 0.7304170000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377695092,
+      "endTime": 1792377695099.7305,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-work-queue.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "page 缺席臂:entity 无 pages 时解析与切换都安静返回 undefined",
+          "status": "passed",
+          "title": "page 缺席臂:entity 无 pages 时解析与切换都安静返回 undefined",
+          "duration": 1.0898750000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "page 缺席臂:initialPage 指向不存在页时 fail-loud",
+          "status": "passed",
+          "title": "page 缺席臂:initialPage 指向不存在页时 fail-loud",
+          "duration": 0.3574160000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "behavior 注册表臂:页引用的行为 id 不在注册表时 fail-loud",
+          "status": "passed",
+          "title": "behavior 注册表臂:页引用的行为 id 不在注册表时 fail-loud",
+          "duration": 0.16979200000000105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "selectEntityBehavior inherit 臂:显式继承清除该通道的手动选择",
+          "status": "passed",
+          "title": "selectEntityBehavior inherit 臂:显式继承清除该通道的手动选择",
+          "duration": 0.2582079999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "auto bump 臂:页切换改变 auto 行为时 bump auto owner",
+          "status": "passed",
+          "title": "auto bump 臂:页切换改变 auto 行为时 bump auto owner",
+          "duration": 0.475166999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "trigger activation 校验臂:range 非法即 fail-loud,合法值落世界态",
+          "status": "passed",
+          "title": "trigger activation 校验臂:range 非法即 fail-loud,合法值落世界态",
+          "duration": 0.1988330000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "scene hook 校验臂:空 selection 与未知变体 fail-loud;undefined 槽位安静跳过",
+          "status": "passed",
+          "title": "scene hook 校验臂:空 selection 与未知变体 fail-loud;undefined 槽位安静跳过",
+          "duration": 0.33183300000000315,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "scene hook inherit 臂:继承清空手动选择且同 id 游标保留",
+          "status": "passed",
+          "title": "scene hook inherit 臂:继承清空手动选择且同 id 游标保留",
+          "duration": 0.12358399999999392,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "resolveSceneHook 缺槽臂:场景无 onTeleport 槽返回 undefined",
+          "status": "passed",
+          "title": "resolveSceneHook 缺槽臂:场景无 onTeleport 槽返回 undefined",
+          "duration": 0.35387500000000216,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "租约停机臂:closed 租约与 epoch 失效租约的 checkpoint 都返回 stop",
+          "status": "passed",
+          "title": "租约停机臂:closed 租约与 epoch 失效租约的 checkpoint 都返回 stop",
+          "duration": 0.4205830000000077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "checkpoint 等待臂:save barrier 未就绪时 ready=false 返回 wait,ready=true 返回 continue",
+          "status": "passed",
+          "title": "checkpoint 等待臂:save barrier 未就绪时 ready=false 返回 wait,ready=true 返回 continue",
+          "duration": 0.2447080000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "barrier 句柄臂:未 ready release 即 throw,双重 release 与 cancel 都按失效句柄处理",
+          "status": "passed",
+          "title": "barrier 句柄臂:未 ready release 即 throw,双重 release 与 cancel 都按失效句柄处理",
+          "duration": 0.32058399999999665,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "barrier cancel 臂:Error 原样透传,字符串原因包成 Error",
+          "status": "passed",
+          "title": "barrier cancel 臂:Error 原样透传,字符串原因包成 Error",
+          "duration": 0.2611660000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "activation gate 中止臂:等待期间与已中止 signal 都以 AbortError 拒绝",
+          "status": "passed",
+          "title": "activation gate 中止臂:等待期间与已中止 signal 都以 AbortError 拒绝",
+          "duration": 0.5602499999999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "owner idle 臂:已空闲即解析;活动期等待并在租约关闭后唤醒;中止拒绝",
+          "status": "passed",
+          "title": "owner idle 臂:已空闲即解析;活动期等待并在租约关闭后唤醒;中止拒绝",
+          "duration": 0.27079200000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694198,
+      "endTime": 1792377694203.5603,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-world.c85-arms.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "completed identity remains resolvable but cannot acquire a lease; real selection changes reset it",
+          "status": "passed",
+          "title": "completed identity remains resolvable but cannot acquire a lease; real selection changes reset it",
+          "duration": 2.9357499999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical script world authority"],
+          "fullName": "canonical script world authority page selection clears overrides atomically and preserves only matching cursors",
+          "status": "passed",
+          "title": "page selection clears overrides atomically and preserves only matching cursors",
+          "duration": 0.2951670000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical script world authority"],
+          "fullName": "canonical script world authority inherit does not pin the current initial page",
+          "status": "passed",
+          "title": "inherit does not pin the current initial page",
+          "duration": 0.16241600000000744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical script world authority"],
+          "fullName": "canonical script world authority single-slot selection preserves the other channel and bumps only on effective changes",
+          "status": "passed",
+          "title": "single-slot selection preserves the other channel and bumps only on effective changes",
+          "duration": 0.20591699999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical script world authority"],
+          "fullName": "canonical script world authority trigger activation inherit follows the selected page",
+          "status": "passed",
+          "title": "trigger activation inherit follows the selected page",
+          "duration": 0.12083299999999042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical script world authority"],
+          "fullName": "canonical script world authority scene hook selection validates the whole transaction before writing",
+          "status": "passed",
+          "title": "scene hook selection validates the whole transaction before writing",
+          "duration": 0.29504199999999514,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical script world authority"],
+          "fullName": "canonical script world authority activation leases CAS cursor commits against behavior epochs",
+          "status": "passed",
+          "title": "activation leases CAS cursor commits against behavior epochs",
+          "duration": 0.16387499999999022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical script world authority"],
+          "fullName": "canonical script world authority a current activation commits a behavior-guarded stable cursor",
+          "status": "passed",
+          "title": "a current activation commits a behavior-guarded stable cursor",
+          "duration": 0.18300000000000693,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical script world authority"],
+          "fullName": "canonical script world authority one persistent owner has at most one live activation lease",
+          "status": "passed",
+          "title": "one persistent owner has at most one live activation lease",
+          "duration": 0.4034160000000071,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical script world authority"],
+          "fullName": "canonical script world authority save barrier closes the activation gate until all live flows reach a safe-point",
+          "status": "passed",
+          "title": "save barrier closes the activation gate until all live flows reach a safe-point",
+          "duration": 0.2548749999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical script world authority"],
+          "fullName": "canonical script world authority transient activities share the persistent active registry used by save barriers",
+          "status": "passed",
+          "title": "transient activities share the persistent active registry used by save barriers",
+          "duration": 0.15874999999999773,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical script world authority"],
+          "fullName": "canonical script world authority condition evaluation uses composite entity addresses",
+          "status": "passed",
+          "title": "condition evaluation uses composite entity addresses",
+          "duration": 0.49937500000000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377694021,
+      "endTime": 1792377694026.4993,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/script-world.test.ts"
+    }
+  ]
+}

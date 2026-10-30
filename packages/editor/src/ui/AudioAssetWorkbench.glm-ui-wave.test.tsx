@@ -15,6 +15,7 @@ import { webcrypto } from 'node:crypto'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 import { stopEditorAudioPreview } from '../core/audio-preview-session.js'
 import { UpsertAssetCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
@@ -154,7 +155,7 @@ describe('U3c AudioAssetWorkbench 残差', () => {
     })
     const input = inputByAriaLabel<HTMLInputElement>(document, '导入音效')
     await loadFilesIntoInput(input, [wavFile()])
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(
         Object.keys(session.getState().assetCatalog.assets).filter((id) =>
           id.startsWith('sound.authored.'),
@@ -190,7 +191,7 @@ describe('U3c AudioAssetWorkbench 残差', () => {
     })
     const input = inputByAriaLabel<HTMLInputElement>(document, '替换音效')
     await loadFilesIntoInput(input, [wavFile('hit-new.wav', 40)])
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(session.getHistoryVersion()).toBe(before + 1)
     })
     const record = session.getState().assetCatalog.assets['sound.hit']!

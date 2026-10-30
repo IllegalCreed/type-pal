@@ -1,0 +1,952 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "owner": "Codex",
+  "base": "8ebcb70f0e054038f52e6a3b3f7b35a1f6e536b8",
+  "branch": "codex/code-quality-94-102",
+  "status": "build; scoped regressions green; integration gates deferred",
+  "scope": "94 original30 + 97–102 unique23; CODE96 historical retirement retained. No new editor/103+ work.",
+  "files": [
+    {
+      "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "baseSha256": "ea9a22b9f58621ad3ac06ed0cd2a394292e1f29dbd086127daef819970ca89d6",
+      "sha256": "ea9a22b9f58621ad3ac06ed0cd2a394292e1f29dbd086127daef819970ca89d6",
+      "lines": 222,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/primitives.test.ts",
+      "baseSha256": "6b47c482db8b9521de87db4478819442a1bc5478100cae308e817f00f52be0e2",
+      "sha256": "6b47c482db8b9521de87db4478819442a1bc5478100cae308e817f00f52be0e2",
+      "lines": 195,
+      "changed": false,
+      "priorLedgerStatus": "review",
+      "priorEvidence": "CODE-QUALITY-107；Selection/Confirm/Triple/Switch 主干与公开 helper oracle",
+      "currentDisposition": "review",
+      "caller": "primitives public constructors/navigation",
+      "oracle": "literal cursor/offset/selection against current original18 identities",
+      "dimensions": {
+        "A": "真实构造/移动，disabled可停和环绕由字面值区别，page4例保留等待接口决定。",
+        "B": "标题明确状态转移；历史M阶段名不充当真值证据。",
+        "C": "全部局部state无共享setup/global，逐结构分describe。",
+        "D": "分页长表只在4相关case复用，未造统一fixture框架。",
+        "E": "18用例与leaf/boundary逐合同比较；page轴不强保活，确认/Triple/Switch的结果断言真实。",
+        "F": "每例输入→移动→字面结果可读，少量同函数序列证明循环。",
+        "G": "未新增弱例；4旧分页专测随获批删除时精确退役，当前保留。",
+        "H": "纯函数无mock/timer，不需新测试出口。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+      "baseSha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84",
+      "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84",
+      "lines": 101,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "baseSha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9",
+      "sha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9",
+      "lines": 88,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.test.ts",
+      "baseSha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a",
+      "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a",
+      "lines": 231,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "baseSha256": "4772de391847ad8f1adc86029a4f6479b2874d97d09cd9bcdc418733642289f1",
+      "sha256": "4772de391847ad8f1adc86029a4f6479b2874d97d09cd9bcdc418733642289f1",
+      "lines": 111,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+      "baseSha256": "be6d3c92e120609fa7f78413d9acc2560e2a20f2d1935de27ff703d72954e219",
+      "sha256": "be6d3c92e120609fa7f78413d9acc2560e2a20f2d1935de27ff703d72954e219",
+      "lines": 160,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "baseSha256": "927a9fc1ee6696b4d632a7932b04847c72dd74d13df6788274b61a4b44da2abe",
+      "sha256": "927a9fc1ee6696b4d632a7932b04847c72dd74d13df6788274b61a4b44da2abe",
+      "lines": 225,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+      "baseSha256": "2448a923a06960f0461c4a0c3a65edbba38e0f40b063268dd819be7cf9492188",
+      "sha256": "2448a923a06960f0461c4a0c3a65edbba38e0f40b063268dd819be7cf9492188",
+      "lines": 481,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "baseSha256": "33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f",
+      "sha256": "33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f",
+      "lines": 306,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+      "baseSha256": "af352cee89772ea59adf77c0b127250d837f9e84faf6751435a60bd313f1497e",
+      "sha256": "af352cee89772ea59adf77c0b127250d837f9e84faf6751435a60bd313f1497e",
+      "lines": 52,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "baseSha256": "3b2cfe9179561746f790cb72a67cfa33762b19c8d2565c5ee26d14ae20eb5a55",
+      "sha256": "3b2cfe9179561746f790cb72a67cfa33762b19c8d2565c5ee26d14ae20eb5a55",
+      "lines": 74,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "baseSha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645",
+      "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645",
+      "lines": 130,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.ts",
+      "baseSha256": "0252edd4a38dff6612decf42ef4d61d36fa689c0aa5471ab41b36be3115bc480",
+      "sha256": "0252edd4a38dff6612decf42ef4d61d36fa689c0aa5471ab41b36be3115bc480",
+      "lines": 141,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+      "baseSha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+      "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+      "lines": 47,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+      "baseSha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4",
+      "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4",
+      "lines": 37,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+      "baseSha256": "f809ecede6a78cb803df3b23615fd7eaa2b910d76b9b16e756d2ed26064831fd",
+      "sha256": "f809ecede6a78cb803df3b23615fd7eaa2b910d76b9b16e756d2ed26064831fd",
+      "lines": 58,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+      "baseSha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967",
+      "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967",
+      "lines": 107,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+      "baseSha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072",
+      "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072",
+      "lines": 186,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+      "baseSha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e",
+      "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e",
+      "lines": 371,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "baseSha256": "4ed0e50d54faf012079cf9d6d2ee01357698d07f9e3ba5d8f324b84e3bf28f2b",
+      "sha256": "4ed0e50d54faf012079cf9d6d2ee01357698d07f9e3ba5d8f324b84e3bf28f2b",
+      "lines": 287,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[renderer逐文件A–H/合同迁移/集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts",
+      "baseSha256": "707517e73012cf52d139c2e13e3115ef075f6d7b34adb0924cdaf06eccdadb1b",
+      "sha256": "707517e73012cf52d139c2e13e3115ef075f6d7b34adb0924cdaf06eccdadb1b",
+      "lines": 161,
+      "changed": false,
+      "priorLedgerStatus": "review",
+      "priorEvidence": "CODE-QUALITY-107；filter 真值、目录外 id、缺名、空库存、奇数卖价 oracle",
+      "currentDisposition": "review",
+      "caller": "matchesFilter plus zero-production createItemSelectMenu",
+      "oracle": "literal flag truth table and item IDs/price49",
+      "dimensions": {
+        "A": "typed flags含equipableBy6槽，否决位合法；目录外id是明确missing-item防御，不冒充原盘。",
+        "B": "头部sell价锚只关算术，不证明当前工厂被生产消费；旧排重表需随接口结果同步。",
+        "C": "局部fresh items；important/sellable/all混例与空库存/pageSize混例为E原子性欠账。",
+        "D": "局部mkItem合同与其它库构造默认值不同，未仅按外形强合。",
+        "E": "potion单因否决、battle正反值成立；混合同待拆/工厂待删，保持review。",
+        "F": "具名cases表达业务位；注释较长与旧修复历史待收敛。",
+        "G": "无新增保活例；工厂5例删除准入未获得前不擅自移除。",
+        "H": "直接公开函数/字面oracle，不mock核心；无需浏览器宿主。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.ts",
+      "baseSha256": "3b71f4a343d2f7fdec75f2651dcb464d3a3f85b2d5388e50335999b9f488cfc7",
+      "sha256": "3b71f4a343d2f7fdec75f2651dcb464d3a3f85b2d5388e50335999b9f488cfc7",
+      "lines": 96,
+      "changed": false,
+      "priorLedgerStatus": "review",
+      "priorEvidence": "[GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)",
+      "currentDisposition": "review",
+      "caller": "matchesFilter→equip-menu/sell-menu/draw-inventory; factory only tests",
+      "oracle": "GLM29 item-select A–H reused; CODE107 flag oracle and current caller census",
+      "dimensions": {
+        "A": "7类flag predicate是工程分类；important不是SDL flag，真实调用为equip/sellable/usable。",
+        "B": "既有注释诚实区分工程近似/恒可选工厂与真实全屏UI，无新格式声明。",
+        "C": "filter纯叶与零生产工厂同文件；IO/库存写入没有侵入。",
+        "D": "filter实际3caller可共享，带count/inUse的真实inventory不应被旧工厂代替。",
+        "E": "直接flag表独立否决位有效；建表测试只证明无生产出口现状。",
+        "F": "filter switch与具名flag可读；旧mode builder拟删除，不造万能helper替代。",
+        "G": "createItemSelectMenu/相关types/rightText为已证零生产面，删除需既有接口裁决；matchesFilter保留。",
+        "H": "确定性typed目录与inventory入参，无异步隐藏依赖；无需再增公开测试面。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+      "baseSha256": "01c9290e0f87266e70e33bc91336ba96031d0a73275ca064b13358d99fea7484",
+      "sha256": "01c9290e0f87266e70e33bc91336ba96031d0a73275ca064b13358d99fea7484",
+      "lines": 120,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+      "baseSha256": "7426d25723fe5e8b006ffcd1d04c900e8cc0bb51da80c86bb07865f3b3c9521d",
+      "sha256": "7426d25723fe5e8b006ffcd1d04c900e8cc0bb51da80c86bb07865f3b3c9521d",
+      "lines": 117,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.ts",
+      "baseSha256": "60898f2b0a25d9aabf965cb247d2f7d00defad9f3450967259ea7ace0efe6fbb",
+      "sha256": "60898f2b0a25d9aabf965cb247d2f7d00defad9f3450967259ea7ace0efe6fbb",
+      "lines": 56,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.cov85.test.ts",
+      "baseSha256": "80b99e958e6d384c805356ccb3b325499276e9381648ad59ba5a625818a8612c",
+      "sha256": "1ff0e83ef55a522c37e5287ed3d14ca17655725d2f4451d34471951b1853ef32",
+      "lines": 999,
+      "changed": true,
+      "priorLedgerStatus": "pending",
+      "priorEvidence": null,
+      "currentDisposition": "review",
+      "caller": "tickMenu and public setter/factories; real typed catalogs",
+      "oracle": "GLM full-file author proof reused; current actual diff + fixture-value proof + native directed",
+      "dimensions": {
+        "A": "原37身份/断言均保留；非顺序队伍使用生产索引，真实driver状态可观察。",
+        "B": "fixture/domain说明与实际输入一致，不把native Vitest JSON称浏览器验收。",
+        "C": "callback/目录通过现有公开setup建立；beforeEach重建目录/状态，文件runner隔离为singleton边界。",
+        "D": "重复Role/Magic对象复用现有typed工厂；逐字段/嵌套fresh proof，Item默认合同不同保留。",
+        "E": "原逻辑断言未删；原装备/法术/save/取消case仍断言真实终态；无新模拟聚合oracle。",
+        "F": "少掉重复对象噪音，保留必要业务覆盖字段，不从多层helper猜默认值。",
+        "G": "未新增重复case，37原身份一一保持。",
+        "H": "真实公开router与callbacks可测；fixture proof只证明输入保持，不替代业务oracle或重新授作者全局审查信用。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.test.ts",
+      "baseSha256": "7cbe225dae84eabb0a55cf3ba41640fd933f39e6ff6ad03ed5bb50645eae8a1e",
+      "sha256": "ce7dce746df9d03c8b04349210c6fec8ead959468ae9425b3c340fa9dbfaccfc",
+      "lines": 658,
+      "changed": true,
+      "priorLedgerStatus": "pending",
+      "priorEvidence": null,
+      "currentDisposition": "review",
+      "caller": "tickMenu and public setter/factories; real typed catalogs",
+      "oracle": "GLM full-file author proof reused; current actual diff + fixture-value proof + native directed",
+      "dimensions": {
+        "A": "原37→39，含两正式async-reject业务红→绿；非顺序队伍使用生产索引，真实driver状态可观察。",
+        "B": "fixture/domain说明与实际输入一致，不把native Vitest JSON称浏览器验收。",
+        "C": "callback/目录通过现有公开setup建立；afterEach现在统一恢复handlers和spy，断言失败也清理。",
+        "D": "重复Role/Magic对象复用现有typed工厂；逐字段/嵌套fresh proof，Item默认合同不同保留。",
+        "E": "原逻辑断言未删；新增两个公开路由拒绝case保留mode/stack并可重试，旧缺catch产生指定console业务断言失败。",
+        "F": "少掉重复对象噪音，保留必要业务覆盖字段，不从多层helper猜默认值。",
+        "G": "未新增重复case，两个case分别覆盖独立Confirm/Menu入口。",
+        "H": "真实公开router与callbacks可测；fixture proof只证明输入保持，不替代业务oracle或重新授作者全局审查信用。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "baseSha256": "d909b4b5b99293d88a0d85e41cf77c4283868780ea69c34e5823b28db8c1119e",
+      "sha256": "549eee3063bd8bbd5d22a0cffc128b1400221e924391ff5b6e9d6216754eaaa5",
+      "lines": 1057,
+      "changed": true,
+      "priorLedgerStatus": "review",
+      "priorEvidence": "[GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)",
+      "currentDisposition": "review",
+      "caller": "tickMenuMode→dispatchMenuInput; bootstrap catalog/start/load/system callbacks",
+      "oracle": "GLM29 full driver/tests plus current full driver/caller diff; uigame title oracle reused",
+      "dimensions": {
+        "A": "新游戏Confirm/Menu的Promise拒绝现在被实际owner观察；不吞Save失败、不自动重放IO。同步throw保持原合同。",
+        "B": "修正使用物品退出层/空装备回list/play.c归属/确认时再核当前余额四处注释。",
+        "C": "输入/栈/意图落地的单router，纯规则留状态机，IO/装场交shell回调；one-page单app目录注入边界核清，不为行数强建工厂。",
+        "D": "Confirm/Menu共用私有startNewGame失败收束；inventory/equip/sell有不同栈/脚本合同，不强并成mode布尔万能函数。",
+        "E": "原37+37与author旧证据复用；两新真实回调失败例先业务红，恢复后断言既有菜单与可重试路径。",
+        "F": "按菜单domain分dispatch，case分发直接；复杂装备/法术段控制真实业务序列，保留具名结构，不以圈复杂度强拆。",
+        "G": "makeEquipMenuEntry与4路bus死参/confirmEquipItem死参在原接口候选中，未擅改公开面。",
+        "H": "公开setter使callback可控且afterEach复位；无核心实现替身。目录singleton仅单app所有，未授并发多app安全信用。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.test.ts",
+      "baseSha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05",
+      "sha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05",
+      "lines": 89,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "baseSha256": "bb7a60e8d2f1660b96502b0361f996e84dca32ecadbb24326bab8e78af4d3d94",
+      "sha256": "bb7a60e8d2f1660b96502b0361f996e84dca32ecadbb24326bab8e78af4d3d94",
+      "lines": 33,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "baseSha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46",
+      "sha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46",
+      "lines": 32,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts",
+      "baseSha256": "28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46",
+      "sha256": "28c3ba868156fd1db229dd152f030b5bb7e4b0e228e511a4beec88df974bea46",
+      "lines": 35,
+      "changed": false,
+      "priorLedgerStatus": "pending",
+      "priorEvidence": null,
+      "currentDisposition": "review",
+      "caller": "setWordTable + public opening factory/labels/choice",
+      "oracle": "literal injected labels/ids and missing selection→undefined",
+      "dimensions": {
+        "A": "2现有case为词表同步/缺选择防御；空表不是普通开机输入，已标直造防御域。",
+        "B": "去重表与当前主测6个方向/标签合同相符，旧choice重复删除记录保留。",
+        "C": "afterEach恢复词表，state局部；无异步残留。",
+        "D": "调用产品词表缝隙，不mock getWord或复制实现。",
+        "E": "同一公开注入后分别验证menu与present-facing labels字面值，不是互相比相等。",
+        "F": "两例标题/输入/结果直接，无跨层判断。",
+        "G": "两个case都保留，未重复fallback反例。",
+        "H": "公开词表缝隙已有且可复位，无新测试专用产品入口。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.test.ts",
+      "baseSha256": "60bbd3908ce49764d23e522dfdef450a474235f71068a34086dac3825d41c0c2",
+      "sha256": "33876ff331c8154363bde2c35894284c2c692132313b6319747920388d2d2812",
+      "lines": 55,
+      "changed": true,
+      "priorLedgerStatus": "pending",
+      "priorEvidence": null,
+      "currentDisposition": "review",
+      "caller": "opening menu public APIs and draw-facing labels",
+      "oracle": "WORD7/8 exact fallbacks; old8green vs new7green1AssertionError mutant",
+      "dimensions": {
+        "A": "6身份不变；真实状态导航，不以mock次数代替choice。",
+        "B": "各方向标题与输入一致；兜底文案现在直接断言，不只非空。",
+        "C": "局部新建state无global写入；词表注入由独立leaf文件隔离。",
+        "D": "真实工厂复用，未另写标签模型。",
+        "E": "Down+Up证明从1非环绕Up，不能被0的wrap替代；6例均有独立合同。",
+        "F": "字面二标签数组比两条非空更明确。",
+        "G": "原6身份/数量不变，未增覆盖率例。",
+        "H": "隔离temp源只改fallback，旧8全绿/新恰一AssertionError且临时树删除；失败setup不记信用。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.ts",
+      "baseSha256": "cc81a74d8264afc9cccdc061c32829953da1482c7c0fd7d3124e102949d48e82",
+      "sha256": "fbd519602825bbb894f3aeb548c82a383ebae902d75708569d8cddb034a41f47",
+      "lines": 73,
+      "changed": true,
+      "priorLedgerStatus": "pending",
+      "priorEvidence": null,
+      "currentDisposition": "review",
+      "caller": "bootstrap create; driver choice/up/down; draw-opening labels",
+      "oracle": "CODE98 SDL ui.h WORD7/8 and uigame title contract reused",
+      "dimensions": {
+        "A": "固定两项、按id映射choice、空项undefined；取消光标复位仍属于driver已获批路径。",
+        "B": "更正大世界首菜单和旧W3编号噪音；保留WORD字节/兜底和渲染ownership解释。",
+        "C": "只建/移动选择state；启动/读档/场景安装由driver与shell负责，坐标留present。",
+        "D": "共用SelectionMenu/getWord；labels与items都来自一份OPENING_LABELS，非重复业务知识。",
+        "E": "原6主测+2leaf；fallback精确字面值加强，旧绿新指定一红证明强度。",
+        "F": "choice union及具名表、短函数清晰，无需为74行再拆文件。",
+        "G": "5出口各有真实caller，未为覆盖率保留死分支。",
+        "H": "词表公开注入可复位，无IO/timer；测试直达状态结果。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/player-status.test.ts",
+      "baseSha256": "c110a3a98cea0600b5b7d43be63b93d6f85ee2c9b37bed76fef5b17c0bd9e1e4",
+      "sha256": "ed55e022ab92de24680f822449ac82ccf6acaac60fc95aeebbcf4a21ee5c7732",
+      "lines": 71,
+      "changed": true,
+      "priorLedgerStatus": "pending",
+      "priorEvidence": null,
+      "currentDisposition": "review",
+      "caller": "public status factory/prev/next/cancel/currentRoleId",
+      "oracle": "fixed nonordered role list2,0,4 and cursor/done outputs",
+      "dimensions": {
+        "A": "6原身份保留；fixture改生产0..5角色索引，保持slot与role可区分。",
+        "B": "头注不再以角色ObjectID混淆索引，描述与当前caller一致。",
+        "C": "各例自持state无global；同一next序列覆盖走到边界的单合同。",
+        "D": "无需大型GameState fixture测试纯状态；party值形状与生产一致。",
+        "E": "数组副本identity、空队、双方向越界、cancel、done幂等均独立；query删后迁断言待授权。",
+        "F": "少量明确非顺序数字即可识别错用cursor，未靠虚构大ID。",
+        "G": "无新例/断言删除，6身份一一保持。",
+        "H": "直接state输出可测，当前query被用不等于生产需维持它。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/player-status.ts",
+      "baseSha256": "6f531c53952accde2f9990e9a815e945508fa307140b0dcbdc6ecb30d9218f37",
+      "sha256": "7cf2fe49e6114601fb1d1e4e25fb5e07973561f3f4163bde1a2dcfb984db82a5",
+      "lines": 54,
+      "changed": true,
+      "priorLedgerStatus": "pending",
+      "priorEvidence": null,
+      "currentDisposition": "review",
+      "caller": "driver status input, battle-system opening status; draw-player-status",
+      "oracle": "CODE98 linear SDL party slot traversal, pre94 current renderer evidence",
+      "dimensions": {
+        "A": "cursor是party位置，越界done、空队done；状态写入限本state，done后导航幂等。",
+        "B": "删历史截图/错页噪音与对绘制1:1的过宽声明；保留单屏而非子页的领域解释。",
+        "C": "只存party快照/cursor/done；栈关闭及battle/event恢复归driver/stack。",
+        "D": "与法术目标clamp边界不同，不共享为万能导航。",
+        "E": "6现有状态例用0..5非顺序合法索引，不用10/20/30冒充生产。",
+        "F": "prev/next/cancel意图直白，复制party数组体现snapshot所有权。",
+        "G": "currentRoleId test-only公开query等待删除决策；其它转换实际调用。",
+        "H": "纯状态，测试可见cursor/done/party；不需要query专门暴露更多私有状态。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+      "baseSha256": "239a14e47bc1e8f9746857b94704ae62ed6b34648299dcd811ddab430dfe6c29",
+      "sha256": "d226e8139e06098a2d26d7dc6cde21cf874b07323f7bfd5f314c55d72bdb3013",
+      "lines": 45,
+      "changed": true,
+      "priorLedgerStatus": "review",
+      "priorEvidence": "CODE-QUALITY-107；空表/单项/跨页视窗/输入不改写 oracle",
+      "currentDisposition": "review",
+      "caller": "createSelectionMenu and moveSelection public APIs",
+      "oracle": "fixed empty/single state and viewport values; before-call item snapshot",
+      "dimensions": {
+        "A": "空表/单项/输入未变/跨页窗内回退均实际调用；数组snapshot在调用前建立，不是clone自比。",
+        "B": "头注区分不覆盖page APIs，未把现状叫SDL真值。",
+        "C": "四例分别持空表/单项/借用输入不变/视窗合同，无IO/global；原混合第一例已按三个独立合同拆开。",
+        "D": "局部entry仅造typed item；不与游戏Item混用。",
+        "E": "原业务断言完整迁到对应新例；直接比较调用后的items与调用前snapshot，避免多余clone。",
+        "F": "每个标题只对应一个输入轴或ownership不变量，viewport序列仍保持同一合同。",
+        "G": "无实现副本；不为覆盖率扩大case。",
+        "H": "可直接观察state和入参，后续拆例不需产品测试缝隙。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+      "baseSha256": "05af4f49fa95cd19b9e4ff84047188ad4824035130334a5d0a1a16a74dae7b0c",
+      "sha256": "c9173bf218b04469f9f2d725ca807026f0dc60c71520bae88ef2aebb12962382",
+      "lines": 137,
+      "changed": true,
+      "priorLedgerStatus": "review",
+      "priorEvidence": "CODE-QUALITY-107；pageUp/down 现状、全 disabled、负 cursor、identity oracle",
+      "currentDisposition": "review",
+      "caller": "public primitive functions incl test-only pages",
+      "oracle": "CODE107 existing counters plus literal branch results/identity",
+      "dimensions": {
+        "A": "负defaultCursor、上界current、空selected等工厂防御域与生产默认域分开。",
+        "B": "翻页现状和方向不对称有准确注释，不冒称原版产品需求。",
+        "C": "每例局部state；Confirm message与Switch initial已分成独立case，不再混两个API。",
+        "D": "复用真实工厂，没用统一mock；页面4例仅待接口裁决。",
+        "E": "旧10→11，只有混合例一分二，原断言保留；page4现状例待接口决定。",
+        "F": "输入与结果直接表达边界，过长历史更正段可随分页退休收敛。",
+        "G": "4分页例随候选删除；无新重复测试。",
+        "H": "纯state无时间，能以单业务分支反控；现不重复旧针。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.ts",
+      "baseSha256": "787c0c72a3cad074ac459c0108ea67a088dd21ae465e92a21e33a4f14eb80c88",
+      "sha256": "65ed97794ba6a8bb9f2ea2b0d56addfb56856fc733dd63964360b0b741eb5027",
+      "lines": 176,
+      "changed": true,
+      "priorLedgerStatus": "review",
+      "priorEvidence": "CODE-QUALITY-107；SDLPal ui.c:510-572 cursor、真实 menu/battle/inventory caller、E-4 test-only page API",
+      "currentDisposition": "review",
+      "caller": "opening/shop/save-slot/battle selection callers; menu/in-game-menu",
+      "oracle": "CODE107 prior full caller/SDLPAL evidence; current source and 3 tests",
+      "dimensions": {
+        "A": "逐项移动停disabled，确认门属于各业务菜单；空表/视窗和默认位沿用既有真值。page APIs无生产调用，非原版合同。",
+        "B": "改掉未来Step3渲染接入注释；保留disabled原因及test-only分页不保证可选的限制。",
+        "C": "仅持列表/确认/三选/开关的状态和光标；无IO，具体确认资格及栈由caller持有。",
+        "D": "实用的共享原语，未把inventory的二维clamp与一维wrap合并。",
+        "E": "现有主干18、boundaries4、leaf11；两混合例按独立合同拆开，断言去向完整；page现状例只作测试特征，不授产品信用。",
+        "F": "数据结构/移动名称可读；遗留分页的查找加钳制较绕，随接口裁决处置。",
+        "G": "pageUp/down和私有findNextSelectable为已证零生产caller，删除请求待用户；其它出口实际消费。",
+        "H": "确定性显式state；无时间/资源。item数组借用由identity用例记录，未改成无依据深拷贝。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+      "baseSha256": "2e3c437b357204d67787d107be3bbbff7d83eced855d8640a437a5c5b7c43a7e",
+      "sha256": "2e3c437b357204d67787d107be3bbbff7d83eced855d8640a437a5c5b7c43a7e",
+      "lines": 55,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[CODE-QUALITY-100 Codex当前独立复核](../evidence/CODE-QUALITY-100/codex-current-review.md)；公开工厂同步合同与 sdlpal defaultSlot oracle",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.test.ts",
+      "baseSha256": "2610dfa32d96d4b3034bd7398fb2a81995365a98a48d70c99a34658b7654c90b",
+      "sha256": "5a5dbbf360731197f763bd93921e968db9b6602d64ba681597d935942636ff41",
+      "lines": 196,
+      "changed": true,
+      "priorLedgerStatus": "review",
+      "priorEvidence": "[补审排重勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)；2daed1bb7删例与Save API合同逐项对照",
+      "currentDisposition": "review",
+      "caller": "public synchronous slot builder/navigation and fetchSlotMetas→Save",
+      "oracle": "literal slot/metadata values + exact warning + API transfer mapping",
+      "dimensions": {
+        "A": "原15→14，只移除直Save元数据case；菜单异步拉取/缺槽warning保持。",
+        "B": "明确IO组是无indexedDB的内存路径，不称真实浏览器持久化。",
+        "C": "同步导航与IO组分开，IO before/after清Map与globals/mocks。",
+        "D": "直接Save savedTimes断言迁API已有listSlots例，不让menu测试重复存储职责。",
+        "E": "迁出42仍在API字面oracle；six-field往返和读侧克隆保留在pre94已补API用例，未再删。",
+        "F": "精确warning消息/参数/一次，非任意warn遮蔽其它错误。",
+        "G": "恰一身份迁出；现有文件特定批准行已换当前15→14两端digest/SHA，69文件/净196总数和执行predicate不变；旧快照在Git/本记录保留。",
+        "H": "fail-list由既有公开API seam注入，核心选择实现真实运行；teardown即使失败也恢复。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.ts",
+      "baseSha256": "0ef1c7ed2bf3c64cbb6630ddb20a6e28080b10303dc7ad0a0f7c059cd7546c1b",
+      "sha256": "0ef1c7ed2bf3c64cbb6630ddb20a6e28080b10303dc7ad0a0f7c059cd7546c1b",
+      "lines": 93,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[CODE-QUALITY-100 Codex当前独立复核](../evidence/CODE-QUALITY-100/codex-current-review.md)；menu-driver 标题/系统 save-load caller、draw-menu SlotMeta oracle、Save API/IDB 边界、sdlpal uigame.c:169-242",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "baseSha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90",
+      "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90",
+      "lines": 68,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+      "baseSha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2",
+      "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2",
+      "lines": 60,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.test.ts",
+      "baseSha256": "3a05fc9e29925a77e57e0ef21f11a166505f1e5f2406f6bcaae055312d4e073c",
+      "sha256": "3a05fc9e29925a77e57e0ef21f11a166505f1e5f2406f6bcaae055312d4e073c",
+      "lines": 180,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "baseSha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+      "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+      "lines": 103,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[pre94菜单逐文件A–H](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/core/save/__tests__/api.test.ts",
+      "baseSha256": "280a4677e76b8ecb6f8b8fdd6918ea93e7b5f68997f6523c9ad455efd4d94b20",
+      "sha256": "4c5183d3a560b9a9a9f9a497679f7d323bfd759dd331b62a3e1c03b9994447a6",
+      "lines": 136,
+      "changed": true,
+      "priorLedgerStatus": "review",
+      "priorEvidence": "[补审漏迁修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)；完整Save实现/9合同、真实caller及双向克隆oracle",
+      "currentDisposition": "review",
+      "caller": "actual Save facade using memory fallback",
+      "oracle": "literal six field roundtrip, read/write clone, slot/metadata values",
+      "dimensions": {
+        "A": "保留9原case及六字段/读侧克隆，新增返回meta mutate后重读不变的单合同。",
+        "B": "文件标题清楚memory fallback，不授IDB事务信用。",
+        "C": "beforeEach强制undefinedIDB、清Map，afterEach清Map并还原globals。",
+        "D": "42元数据断言并入已有列表case，非再添重复API用例。",
+        "E": "新meta red9绿1AssertionError→13文件147恢复；存侧/读侧互不等价，各自保留。",
+        "F": "先存/改returned value/再读的流程揭示ownership。",
+        "G": "10身份，旧9未删；仅新增必要的alias反例。",
+        "H": "真实factory/Save，不mock facade；负例槽号目前只旧0/6，等待正式合同。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/save/__tests__/indexed-db.test.ts",
+      "baseSha256": "56867e3d127850d622c6fe2adb584ddea5d744a21933dabd7ad2bbf41138cefe",
+      "sha256": "c7e621b489f91cfb14dab66b68bba5769786d880d28f45068d419c3d7d8c0c51",
+      "lines": 174,
+      "changed": true,
+      "priorLedgerStatus": "pending",
+      "priorEvidence": null,
+      "currentDisposition": "review",
+      "caller": "real Save→IndexedDbSave with private fake-indexeddb factory",
+      "oracle": "actual commit/abort, committed cash321; connectionInvalidState and second-client blocked event",
+      "dimensions": {
+        "A": "原3事务测试保留，新增4连接合同；无写用户数据库。",
+        "B": "明确fake IndexedDB，close fault注入的6.2.5声明错误及调用方式已披露。",
+        "C": "每例factory独立、所有已开连接跟踪关闭、reset/global/spy清理；升级blocked反控也释放并await结束。",
+        "D": "沿用state构造和真实事务观察，不复制openDb业务模型。",
+        "E": "修订red3绿4指定AssertionError；初次jsdom Event runtime错误不给信用；新绿7个case均实际读写/连接状态oracle。",
+        "F": "每例对应一种连接失效路径，无超时充当业务oracle。",
+        "G": "7身份，4新增各自生命周期，非按覆盖率加例。",
+        "H": "官方外部fault injector仅造close故障；Reflect.apply适配已证第三方坏声明，不改变产品类型/规则/断言。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "baseSha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b",
+      "sha256": "28c45570390d14c7ef1fb087d27280020c0cdae6bbf886c5916a8063b57399f1",
+      "lines": 99,
+      "changed": true,
+      "priorLedgerStatus": "review",
+      "priorEvidence": "[CODE-QUALITY-101 Codex当前逐文件复核](../evidence/CODE-QUALITY-101/codex-current-review.md)；Save API 双路径 caller、MAX_SAVE_SLOTS=5、内存/IndexedDB 边界",
+      "currentDisposition": "review",
+      "caller": "menu-driver/save-slot/quick-save/bootstrap",
+      "oracle": "existing memory+IDB Save contracts; metadata alias formal red and literal values",
+      "dimensions": {
+        "A": "内存list返回meta副本，不再让UI改写保存预览；save/load双侧clone原合同保留。NaN/fraction输入裁决仍未实施。",
+        "B": "partyLevel实际取角色0，纠正队长误称；不偷偷改值为party首人。",
+        "C": "门面只选存储/快照/元数据；hydrate在加载层，连接/事务在IDB叶。",
+        "D": "meta仅5个数值，浅拷贝足够；不新建通用序列化框架。",
+        "E": "10当前内存case含六字段往返、两方向GS隔离和metadata独立；输入负例待合同。",
+        "F": "路径与返回类型表达快照而非完整runtime，已有用户类型分离不恢复强转。",
+        "G": "4公共存储原语都有生产caller；测试Map清理出口为现有隔离面。",
+        "H": "每例隔离无IDB，真实Map路径可直测；外部IO错误不降级成静默内存成功。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/save/indexed-db.ts",
+      "baseSha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97",
+      "sha256": "87f3f66db9595314df1756609dd73f8f00d355b4f34c0c002ff6dbf849a3ebb1",
+      "lines": 135,
+      "changed": true,
+      "priorLedgerStatus": "review",
+      "priorEvidence": "[CODE-QUALITY-101 Codex当前逐文件复核](../evidence/CODE-QUALITY-101/codex-current-review.md)；真实事务测试、IndexedDB 生命周期与公共 Save caller",
+      "currentDisposition": "review",
+      "caller": "Save facade only; cleanup for tests",
+      "oracle": "W3C IndexedDB2.1.1/4.4/5.2 and real-driver fake-IDB transactions/lifecycle",
+      "dimensions": {
+        "A": "失败open撤缓存、versionchange主动close、异常close撤缓存；identity防旧completion清新缓存；reset负责关闭已开/迟到连接。",
+        "B": "说明调用者仍收到原拒绝，下次可新开，不自动重放未提交写；不把连接修复写成迁移。",
+        "C": "单一pending promise是连接owner；tx commit仍独立负责complete/abort；未动DB_VERSION/schema/旧store重建。",
+        "D": "同一invalidate供失败/close/versionchange，保持identity约束；不引入全局重试控制器。",
+        "E": "原3真实事务case保留；4新生命周期正式业务红→绿。pending-reset race靠实际所有权推导，未声称已有独立case。",
+        "F": "open建立后就近绑定close责任；cleanup Promise rejection明确无新增unhandled。",
+        "G": "无新公共API；现有reset不再只遗忘句柄。其他数据操作均有caller。",
+        "H": "私有fake factory观测真实驱动不mock核心；未宣称浏览器跨页/升级全部演练。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.test.ts",
+      "baseSha256": "40d768ddf911de1ebca4a172ef2448e2a5e777e009cf630e5c11c62b019501a1",
+      "sha256": "40d768ddf911de1ebca4a172ef2448e2a5e777e009cf630e5c11c62b019501a1",
+      "lines": 192,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[CODE59/60逐文件A–H与冻结门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)",
+      "currentDisposition": "retain-accepted"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "baseSha256": "9a3e15aff078041f076a9715ba12592243ce72dc93fcd3a0c9208e1a8ec0905c",
+      "sha256": "9a3e15aff078041f076a9715ba12592243ce72dc93fcd3a0c9208e1a8ec0905c",
+      "lines": 77,
+      "changed": false,
+      "priorLedgerStatus": "已验证",
+      "priorEvidence": "[CODE-QUALITY-102 Codex独立复核](../evidence/CODE-QUALITY-102/codex-current-review.md)；bootstrap setupQuickSave真实注入、Save API/IDB caller、quick-save/toast tests",
+      "currentDisposition": "retain-accepted"
+    }
+  ],
+  "readingBoundary": "Original30 accepted per-file A–H and final pre94 gates reused. Current driver, Save/IDB, opening/status and helper sources fully read; current changed test slices/fixtures read with prior GLM whole-test evidence, not a second full driver-test review. Fingerprints bind bytes, not reading.",
+  "reusedEvidence": [
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/review.json"
+  ],
+  "changes": {
+    "pureQuality": [
+      "Opening exact fallback oracle; production-domain nonordered role fixtures; existing typed Role/Magic factories replace duplicate literals; afterEach owns injected callbacks; metadata assertion transfers from menu test to API; stale source/task comments corrected."
+    ],
+    "behavior": [
+      "IndexedDB failed/closed connection cache ownership and cleanup.",
+      "Opening async start callback rejection observed by dispatcher; caller may retry using existing route.",
+      "Memory Save.listSlots returns independent primitive metadata values, matching IndexedDB value semantics."
+    ],
+    "noChange": [
+      "No save JSON/schema/DB version/upgrader/clearing change.",
+      "No slot guard tightening or public helper deletion while decisions are pending.",
+      "No source-manifest historical SHA/boolean refresh; no coverage baseline update yet; existing exact retirement-data snapshot refreshed without rule change."
+    ]
+  },
+  "stopLines": [
+    {
+      "id": "GAME-MENU-HELPER-API-1",
+      "state": "waiting-for-user-choice",
+      "scope": "pageUp/pageDown and private-only search; unused createItemSelectMenu/types, makeEquipMenuEntry, currentRoleId. Keep matchesFilter live callers. No deletion implemented."
+    },
+    {
+      "id": "GAME-SAVE-INPUT-DOMAIN-1",
+      "state": "waiting-for-user-choice",
+      "scope": "Public Save save/load/delete finite integer1..5 guard. Observation proves NaN memory-vs-IDB mismatch; no implementation tightening yet."
+    }
+  ],
+  "gates": {
+    "directed": "menu-save-related-r2:13files/147tests; explicit default+JSON reporter; exit0/stderr0. Later source edits are comments only.",
+    "typecheck": "game-typecheck-3:exit0,stderr0 after helper atomic splits",
+    "scopedStatic": "scoped-final-before-pins:19files,0diagnostics,stderr0",
+    "whole": "not run: deferred until pending choices and related modifications settle",
+    "officialCoverage": "not run; no new baseline yet",
+    "protected": "not run",
+    "remote": "not pushed/PR/merged at evidence creation",
+    "helperDirected": "helper-quality-r1:5files/51tests, exit0/stderr0; split assertions only, no new production execution path.",
+    "retirementTools": "retirement-tools:84node tests passed,stderr0; executable predicate unchanged"
+  },
+  "ledger": {
+    "before": {
+      "tracked": 3452,
+      "closed": 511,
+      "review": 63,
+      "pending": 2878
+    },
+    "newClosed": 0,
+    "eightNewReview": [
+      "core/menu/menu-driver.test.ts",
+      "core/menu/menu-driver.cov85.test.ts",
+      "core/menu/opening-menu.ts",
+      "core/menu/opening-menu.test.ts",
+      "core/menu/opening-menu.glm-phase1-leaves.test.ts",
+      "core/menu/player-status.ts",
+      "core/menu/player-status.test.ts",
+      "core/save/__tests__/indexed-db.test.ts"
+    ],
+    "afterReviewRegistration": {
+      "tracked": 3452,
+      "closed": 511,
+      "review": 71,
+      "pending": 2870
+    }
+  },
+  "claimEvidence": {
+    "IDB_CONNECTION": {
+      "red": "idb-lifecycle-red-r2",
+      "expectedFailedFullNames": [
+        "Save IndexedDB connection ownership a failed initial open does not poison the next save attempt",
+        "Save IndexedDB connection ownership reset releases the owned connection before a fresh connection is used",
+        "Save IndexedDB connection ownership a close signal invalidates the cached handle without losing committed data",
+        "Save IndexedDB connection ownership versionchange releases the old connection instead of blocking another client"
+      ],
+      "green": "menu-save-related-r2",
+      "oracle": "actual reopened load cash321, prior closed handleInvalidStateError, private second-client upgrade not blocked"
+    },
+    "OPENING_REJECTION": {
+      "red": "opening-handler-red",
+      "expectedFailedFullNames": [
+        "M5.6 T17 dispatchOpeningMenu Confirm 启动失败由路由收束，保留标题以便重试",
+        "M5.6 T17 dispatchOpeningMenu Menu 启动失败由路由收束，保留标题以便重试"
+      ],
+      "green": "menu-save-related-r2",
+      "oracle": "exact one logged failure/error object, title stack/mode retained, later actual injected callback successfully exits title"
+    },
+    "META_VALUE": {
+      "red": "save-meta-red",
+      "expectedFailedFullNames": [
+        "Save API memory fallback listSlots returns independent metadata values"
+      ],
+      "green": "menu-save-related-r2",
+      "oracle": "returned metadata mutation999 must not change retained100/7 or saved cash100"
+    },
+    "OPENING_LABEL": {
+      "red": "opening-new-mutant",
+      "expectedFailedFullNames": [
+        "opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu openingMenuLabels 暴露 2 项 + 真 WORD id 7/8 给渲染层(ui.h:48-49 MAINMENU_LABEL)"
+      ],
+      "oldGreen": "opening-old-mutant",
+      "green": "opening-status-directed",
+      "oracle": "Wrong fallback nonempty still passes old8; exact new expected Chinese fallback fails exactly one assertion."
+    }
+  },
+  "processDisclosures": [
+    "opening-control first setup used missing package-local binary; next temp layout missed root dependencies/config; neither has business counter credit. Correct workspace-shaped temp copy gave old8green/new7green1specifiedAssertionError and was removed.",
+    "First IDB close probe used incompatible jsdom Event with fake-indexeddb dispatcher: not a valid business counter. Official forceCloseDatabase probe replaced it; four revised failures are AssertionErrors.",
+    "fake-indexeddb6.2.5 forceCloseDatabase declaration mistakenly accepts constructor while JS accepts instance; Reflect.apply invokes the documented external fault injector, no product types or runner rules changed. These are fake IndexedDB tests, not browser storage acceptance.",
+    "First fixture proof had ESM package resolution failure; createRequire from project package fixed producer resolution, original error retained.",
+    "A manual early scoped Biome check reported one unused import; removed before subsequent zero-diagnostic check. No raw original saved for this manual invocation; do not claim byte-complete raw for it.",
+    "No whole repo/coverage result inherited as the current changed-source result. Prior PR22 CI applies to the unchanged base/reused files only.",
+    "New evidence first doc check found missing parent-directory navigation (1 issue); first verifier static check found2import errors/3template infos. Navigation/import/template code corrected; raw failures retained. No rule changed."
+  ],
+  "dispositions": {
+    "retainAccepted": 34,
+    "review": 19,
+    "newClosed": 0
+  },
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "2a016a3c871b17e757a4ccd79d2d8067450c024c97ed6d4fdb54222159937670",
+    "originalFiles": 107,
+    "producer": "capture.mjs captures uncut stdout/stderr and process result with wx; native Vitest reporters alongside explicit default; compressor only embeds original byte text plus digest."
+  },
+  "identityMapping": {
+    "saveMetadataTransfer": {
+      "from": {
+        "file": "packages/game/src/core/menu/save-slot-menu.test.ts",
+        "fullName": "SlotMeta.savedTimes — sdlpal uigame.c:589-597 真值 savedTimes 从 gs.wSavedTimes 取(extractMeta 真值)"
+      },
+      "to": {
+        "file": "packages/game/src/core/save/__tests__/api.test.ts",
+        "fullName": "Save API memory fallback listSlots:返回已存槽位 + meta"
+      },
+      "assertion": "gs1.wSavedTimes=42; first.meta.savedTimes===42. Real menu metadata rendering/list integration remains in menu suite.",
+      "authority": "User2026-10-25 quality repair + standing proven-dedup authority. Only the existing file-specific exact snapshot replaced; length69/delta196 and predicate unchanged.",
+      "oldCount": 15,
+      "currentCount": 14,
+      "previousApprovalSnapshot": "    {\n      file: 'packages/game/src/core/menu/save-slot-menu.test.ts',\n      previous: 15,\n      current: 14,\n      previousIdentityDigest: 'f8c83187e00a0e5bf0f71a81659c7d4aa219a17414f0851499cd440b2caf6581',\n      currentIdentityDigest: '6490d967d5d342759dd36c5ee94f33b235394a5dd23d320da2b98b479ed52fda',\n      fileSha256: 'e2292069dcf1c6b57cf31810d2ee10effa88a996746481fb16dd0ffd0f8c8174',\n    },",
+      "currentIdentityDigest": "f6a16d9a1cc984e5883367385e63e5417fae61b51a39366aac5c47eda15a582c",
+      "previousIdentityDigest": "4338d808cd9f5745822ba6621d8a53a07ed8306eda97dd13d8d63e21ea808f63",
+      "fileSha256": "5a5dbbf360731197f763bd93921e968db9b6602d64ba681597d935942636ff41",
+      "identityConvention": "Official inventory: file :: project root :: ancestor titles joined by > plus leaf; native fullName uses spaces. Current14 native assertions + removed exact source name reproduce main baseline digest4338d808."
+    },
+    "primitiveSplits": [
+      {
+        "file": "packages/game/src/core/menu/primitives.boundaries.test.ts",
+        "from": "空表 cursor/pageOffset 均 0；单项 defaultCursor 越界 clamp 到 0；入参 items 不被改写",
+        "to": [
+          "空表 cursor/pageOffset 均 0",
+          "单项 defaultCursor 越界 clamp 到 0",
+          "建表和移动不改写借用的 items 数组"
+        ],
+        "assertions": "All old expected values retained; compare actual items against prior snapshot instead of cloning actual result. Removed an unobserved extra constructor call."
+      },
+      {
+        "file": "packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts",
+        "from": "ConfirmMenu 保存原文 message；SwitchMenu 保留非零初始 current",
+        "to": ["ConfirmMenu 保存原文 message", "SwitchMenu 保留非零初始 current"],
+        "assertions": "Two original expect expressions unchanged; independent contracts separated."
+      }
+    ],
+    "unchanged": ["opening6", "status6", "driver cov85 37"],
+    "addedBusinessCases": [
+      "opening Confirm/Menu async handler reject2",
+      "IDB connection lifecycle4",
+      "metadata independence1"
+    ]
+  },
+  "primarySource": {
+    "indexedDB": "https://w3c.github.io/IndexedDB/ (2.1.1 versionchange;4.4 close;5.2 closing semantics); consulted2026-10-25. No browser implementation claim.",
+    "menu": "Existing CODE94/98/107 SDLPal sources/primary/caller anchors reused; no new product-mechanism comparison."
+  },
+  "sourceInvalidation": "Any changed implementation/caller/interface/input-domain for a listed file requires targeted claim revalidation. Formatting/process-only updates do not demand rerunning unchanged whole repo/coverage. Atomic-split tests invalidate only their identity mapping and helper directed run. Pending approvals remain review.",
+  "codeCandidate": "575be9604c79d3d4f8c4114e565d59aaa6a7cc23",
+  "pureCommit": "e4c23fd715e08958235525692448b67b30b5b10b"
+}

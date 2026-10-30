@@ -11,7 +11,19 @@
  * Integration(scriptOnEquip 真接通 → rgEquipmentEffect 写)留 menu-driver.test.ts。
  */
 
-import type { Item } from '@type-pal/shared'
+/**
+ * EquipMenu state machine 防回归单测 — sdlpal uigame.c:1793-2056 真值。
+ *
+ * 覆盖:
+ *  - createEquipMenu .list 必须是 InventoryMenuState(防退回简版 SelectionMenu)
+ *  - confirmEquipItem list → pick-role
+ *  - confirmEquipRole 返回 {itemId, roleId}
+ *  - cancelEquipMenu pick-role → list / list → done
+ *  - equipMoveUp/Down playerCursor wrap(sdlpal uigame.c:2021-2035)
+ *
+ * Integration(scriptOnEquip 真接通 → rgEquipmentEffect 写)留 menu-driver.test.ts。
+ */
+import type { Item, ItemFlags } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { createInitialGameState } from '../game-state.js'
 import {
@@ -23,7 +35,12 @@ import {
   equipMoveUp,
 } from './equip-menu.js'
 
-function mkItem(id: number, name: string, equipable: boolean, equipableBy: boolean[]): Item {
+function mkItem(
+  id: number,
+  name: string,
+  equipable: boolean,
+  equipableBy: ItemFlags['equipableBy'],
+): Item {
   return {
     id,
     bitmap: id,
@@ -42,7 +59,7 @@ function mkItem(id: number, name: string, equipable: boolean, equipableBy: boole
       equipableBy,
     },
     _name: name,
-  } as unknown as Item
+  }
 }
 
 const ITEMS: Item[] = [
@@ -104,9 +121,10 @@ describe('createEquipMenu', () => {
 
 describe('confirmEquipItem list → pick-role', () => {
   it('从 list cursor 取 itemId 进 pick-role', () => {
-    const state = createEquipMenu(mkGs(), ITEMS)
+    const gs = mkGs()
+    const state = createEquipMenu(gs, ITEMS)
     state.list.cursor = 1 // 短刀 id 106
-    confirmEquipItem(state, ITEMS, {} as never, [])
+    confirmEquipItem(state, ITEMS)
     expect(state.phase).toBe('pick-role')
     expect(state.selectedItemId).toBe(106)
     expect(state.playerCursor).toBe(0)
@@ -119,7 +137,7 @@ describe('confirmEquipItem list → pick-role', () => {
     const state = createEquipMenu(gs, ITEMS)
     // 列表 = [105, 106, 200, 201];观音符 200 在 index 2
     state.list.cursor = 2
-    confirmEquipItem(state, ITEMS, {} as never, [])
+    confirmEquipItem(state, ITEMS)
     expect(state.phase).toBe('list')
     expect(state.selectedItemId).toBeUndefined()
   })
@@ -129,15 +147,16 @@ describe('confirmEquipItem list → pick-role', () => {
     gs.inventory = []
     gs.partyMembers = [0]
     const state = createEquipMenu(gs, ITEMS)
-    confirmEquipItem(state, ITEMS, {} as never, [])
+    confirmEquipItem(state, ITEMS)
     expect(state.phase).toBe('list')
   })
 
   it('phase=pick-role 时 confirmEquipItem 不再变 phase', () => {
-    const state = createEquipMenu(mkGs(), ITEMS)
+    const gs = mkGs()
+    const state = createEquipMenu(gs, ITEMS)
     state.phase = 'pick-role'
     state.selectedItemId = 999
-    confirmEquipItem(state, ITEMS, {} as never, [])
+    confirmEquipItem(state, ITEMS)
     expect(state.phase).toBe('pick-role')
     expect(state.selectedItemId).toBe(999) // 没被覆盖
   })

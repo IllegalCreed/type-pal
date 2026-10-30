@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "base": "c9ea5cf269c83eb3dcc8703488bf584e0e6c960c",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/battle/actions/item.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "d9f32109102ca506c0caf86a1f671f2102c7183fc1c2ef4d194fc861d06946da",
+        "current": "d9f32109102ca506c0caf86a1f671f2102c7183fc1c2ef4d194fc861d06946da"
+      },
+      "printedBytes": {
+        "base": 2175,
+        "current": 2175
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/actions/magic.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "7bd7a070582656f5ef6f16805382a12fb1d12e3b3cb2c7b9b22362ef4e5da128",
+        "current": "7bd7a070582656f5ef6f16805382a12fb1d12e3b3cb2c7b9b22362ef4e5da128"
+      },
+      "printedBytes": {
+        "base": 29405,
+        "current": 29405
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/actions/throw-item.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "b057af76301cc9305b6836ff9a1a917c779000cd7edae57043ede73d1d1022e3",
+        "current": "b057af76301cc9305b6836ff9a1a917c779000cd7edae57043ede73d1d1022e3"
+      },
+      "printedBytes": {
+        "base": 3759,
+        "current": 3759
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/actions/coop-magic.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "61f82a71ce2677e39c325cb372c385726a4dcc9211a2e8938cad08b8d4ffdef4",
+        "current": "61f82a71ce2677e39c325cb372c385726a4dcc9211a2e8938cad08b8d4ffdef4"
+      },
+      "printedBytes": {
+        "base": 11065,
+        "current": 11065
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

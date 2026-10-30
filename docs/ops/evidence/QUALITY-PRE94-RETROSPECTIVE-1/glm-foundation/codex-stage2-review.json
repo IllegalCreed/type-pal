@@ -1,0 +1,2071 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-19",
+  "reviewer": "Codex; evidence-first acceptance, no second full-file governance",
+  "decision": "rework; candidate changes/evidence not yet integrated; no new file/card closure",
+  "integrationBase": "53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02",
+  "candidate": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+  "candidateWorktree": "/Users/zhangxu/.glm-worktrees/pre94-foundation",
+  "integrationBranch": "codex/code-quality-3y",
+  "scope": {
+    "commits": 93,
+    "changedTrackedPaths": 211,
+    "newModuleReceipts": 64,
+    "changedSourceFiles": 41,
+    "commentOnlyPrintedEqual": 35,
+    "nonCommentChanges": [
+      "packages/game/src/core/battle/actions/attack.ts",
+      "packages/game/src/core/battle/battle-opcodes.ts",
+      "packages/game/src/core/menu/magic-script.ts",
+      "packages/game/src/core/scene-system.ts",
+      "packages/reforge/src/audio/bgm.ts",
+      "packages/shared/src/tables.ts"
+    ],
+    "testImplementationChanges": 0,
+    "rulesLockSchemaChanges": 0
+  },
+  "whatRemainsSupported": [
+    "Actual41-file diff inspected;35source bodies invariant after comment removal. Six noncomment deltas are visible dead-code/state/void or duplicate-interface removals, not hidden under comment-only credit.",
+    "Native reports parsed directly; paths point to the GLM candidate tree. Green results are retained at execution/identity scope.",
+    "No new skip/only/fixture/assertion weakening in this checkpoint: no test implementation changed.",
+    "No new concrete product behavior defect established by this evidence review. Failure of acceptance evidence does not invalidate every old product conclusion."
+  ],
+  "findings": [
+    {
+      "id": "S2-R1",
+      "priority": 2,
+      "title": "Package summaries do not establish per-file A-H acceptance or completion of the83cards",
+      "anchors": [
+        {
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-large/README.md",
+          "lines": "1-23"
+        },
+        {
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-large/README.md",
+          "lines": "1-20"
+        },
+        {
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/migrate-all/README.md",
+          "lines": "1-27"
+        }
+      ],
+      "observed": "These receipts declare full A-H/package completion but provide selected functional descriptions and package test totals. No paired per-file eight-axis/claim index or83card-to-product-and-test-disposition map is delivered. The actual scope also frequently says production files; this cannot establish review of historical test-file outcomes.",
+      "impact": "Do not upgrade package/file/card states from these broad claims; code reading and valid existing results keep their limited credit. This is an evidence/acceptance gap, not proof that GLM did not read the files or that unchanged implementations are defective.",
+      "required": "Using existing reading notes, provide one compact aggregate index for this frozen checkpoint: exact file/symbol/revision, A-H facts or explicit N/A/unknown, caller and ownership/design tradeoff, E test/oracle/dedupe or specific still-valid old evidence, unresolved item/disposition and83card mapping. Common evidence may be linked across rows. Do not invent missing conclusions; only reread the precise unsupported dimension when needed. Replace present whole-package completion wording with evidence-supported scope."
+    },
+    {
+      "id": "S2-R2",
+      "priority": 2,
+      "title": "WORD.DAT suite did not execute;14/14 does not establish word.ts tests passed",
+      "anchors": [
+        {
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-io-word-gbk/README.md",
+          "lines": "10,19"
+        },
+        {
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-io-word-gbk/directed.json",
+          "fields": ["success=false", "numFailedTestSuites=1", "word.test.ts status=failed"]
+        }
+      ],
+      "observed": "Native report has14passed assertions but success=false;src/io/word.test.ts failed to load with ENOENT data/raw/WORD.DAT. The README says four files14/14 with zero failures and credits the flat real-data oracle. Two tables reports have the same collection failure; later89/89 tables run corrects those two, but does not cover the missing word.test.ts.",
+      "required": "Retain all original failure bytes; correct each affected scope and explicitly link the later tables recovery. For word.test.ts supply an already retained same-candidate valid execution if available; otherwise run only the missed word test/necessary adjacent slice after read-only raw input availability is fixed. Save native+full console+command/cwd/exit/diagnostic/source identity. No whole extract rerun required."
+    },
+    {
+      "id": "S2-R3",
+      "priority": 2,
+      "title": "Frozen candidate has one formatter error despite zero-diagnostic claim",
+      "anchors": [
+        {
+          "path": "packages/game/src/core/game-state.ts",
+          "lines": "76-83"
+        },
+        {
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-gamestate/README.md",
+          "claim": "scoped biome0/0/0"
+        }
+      ],
+      "observed": "Independent scoped Biome over the41changed source files exits1:game-state.ts InventoryEntry top-level comment/export has2extra indentation spaces. Exactly1error,0fixes applied.",
+      "required": "GLM formats this file without rule changes; retain current failed receipt and append current scoped source check with complete output. No product test rerun needed for this formatting-only delta."
+    },
+    {
+      "id": "S2-R4",
+      "priority": 2,
+      "title": "Passing reruns do not identify the cause of the editor M05 failure",
+      "anchors": [
+        {
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-small/README.md",
+          "lines": "12-16"
+        },
+        {
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-medium/directed.json",
+          "fields": ["same sha/startTime as editor-ui-small"]
+        },
+        {
+          "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-large/directed.json",
+          "fields": ["success=true", "2505passed"]
+        }
+      ],
+      "observed": "Initial run fails a business assertion at BattleSpriteLibrary.glm-m.test.tsx:170. A single-file retry passes and a later full run passes2505/2505. Small/medium reports are identical bytes from one reused run, not two independent failures/executions. This demonstrates intermittent observation, not a proven parallel-interference root cause.",
+      "required": "Keep original failure, retry and later full green; classify cause as unresolved unless an actual isolation/causal observation exists. Credit the later run at its real scope; do not dismiss the failure as fake or nonregression solely because no source changed. Do not blindly repeat2505tests; use targeted diagnosis only if claiming a cause/fix. Index runs once by identity and reference reuse."
+    },
+    {
+      "id": "S2-R5",
+      "priority": 2,
+      "title": "New production comments include approval-process noise and unsubstantiated design finality",
+      "anchors": [
+        {
+          "path": "packages/shared/src/index.ts",
+          "lines": "28-33"
+        },
+        {
+          "path": "packages/game/src/shell/bootstrap.ts",
+          "lines": "610-611"
+        }
+      ],
+      "observed": "FRAME_MS_FADE comment explains keeping an export by Codex approval rather than a runtime/compatibility contract. bootstrap changes a known empty npcSprites interface/current closure into a finalized architecture claim without a decision/source anchor. Neither is needed to describe actual code behavior.",
+      "required": "Keep the verified deprecated/no-caller fade explanation, move the approval/deletion decision to the governance candidate record. Describe npcSprites as the current implementation/ownership arrangement and retain any structure candidate; use finalized-design wording only with an actual decision source. No API deletion or architecture change authorized by this comment cleanup."
+    }
+  ],
+  "audit": {
+    "base": "53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02",
+    "candidate": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+    "receipts": [
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-authorcore/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-core5/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-domain/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-item/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-medium1/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-medium2/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-script-asset/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-small/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-validators/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-large/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-medium/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-small/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-large/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-medium/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-small/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-cli-tail/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-enemies-playerroles/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-events-core/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-font-scene-map/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-io-word-gbk/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-parsers-small/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-spells-teams-items/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-actions-batch1/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-actions-batch2/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-animtimeline/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-assets-batch1/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-assets-batch2/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battlecore-misc/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battleopcodes/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battlestate-ctx/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battlesystem/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-batch3/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-batch4/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-gamestate/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-residual/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-scenesystem/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-dev/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-eventsystem/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-inspect-save-analytics/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-menu-driver/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-menu-large/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-menu-small/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-present-battledraw/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-present-core/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-present-menu/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-present-root/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-shell-audio/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-shell-bootstrap/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-shell-loop/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-shell-players/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-tools/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/migrate-all/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-audio/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-battle/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-debug-tools/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-dialogbox-menu/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-main/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-medium-tail/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-project/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-root-small/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-save-dialog-menu/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-script/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-world-render/README.md",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/shared-types/README.md"
+    ],
+    "native": [
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-authorcore/directed.json",
+        "success": true,
+        "files": 2,
+        "total": 35,
+        "passed": 35,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 35
+        },
+        "startTime": 1792375823238,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/author-script-core.cursor-pure-wave2.test.ts",
+        "sha256": "f1d814de20330efb2e4766fe59ef47e6da32696f0ca17460f457c864a59ec4b8"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-core5/directed.json",
+        "success": true,
+        "files": 4,
+        "total": 47,
+        "passed": 47,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 47
+        },
+        "startTime": 1792375627933,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/enemy-ai.test.ts",
+        "sha256": "c87a0afc75d2511684ab3bdd1a251b2c934cff7ed9abbd9a8fc6394f09d6204b"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-domain/directed.json",
+        "success": true,
+        "files": 11,
+        "total": 80,
+        "passed": 80,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 80
+        },
+        "startTime": 1792375418527,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/enemy-team.contracts.test.ts",
+        "sha256": "65d2b548283c222e251ceb35ca168acb23972c9a434456fb77e2dbb39723cefd"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-item/directed.json",
+        "success": true,
+        "files": 2,
+        "total": 57,
+        "passed": 57,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 57
+        },
+        "startTime": 1792375765331,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/item.external.background.test.ts",
+        "sha256": "9eaba63ee36cdc564cba48ef3a5558836daf460c93aac2a63a44b50d8aacfbd3"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-medium1/directed-skills.json",
+        "success": true,
+        "files": 3,
+        "total": 35,
+        "passed": 35,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 35
+        },
+        "startTime": 1792373002756,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/ambience-skill.glm-o.test.ts",
+        "sha256": "3a88b0a705630ec22c74f68811349eb03ecc3dd905cb06dc43c3f7bc0585dbeb"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-medium1/directed.json",
+        "success": true,
+        "files": 9,
+        "total": 51,
+        "passed": 51,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 51
+        },
+        "startTime": 1792372994941,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/author-dialogue.contracts.test.ts",
+        "sha256": "0658f3d52e0a32a2b289323d242ab8791943b33cd6d6aab952dc01b77bf6072b"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-medium2/directed.json",
+        "success": true,
+        "files": 12,
+        "total": 125,
+        "passed": 125,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 125
+        },
+        "startTime": 1792375304232,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/actor-condition.boundaries.test.ts",
+        "sha256": "ce691d2dc4549fe4d832ec2ea77477c3b5e5d5baf93fcd2d8ab4107cdf5ded9f"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-script-asset/directed.json",
+        "success": true,
+        "files": 2,
+        "total": 54,
+        "passed": 54,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 54
+        },
+        "startTime": 1792375715600,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/asset-catalog.contracts.test.ts",
+        "sha256": "4c3f9b466619fef9c923dd2f3383804bb31f6ede70dd92bf3c256692e8e7deb8"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-small/directed.json",
+        "success": true,
+        "files": 11,
+        "total": 85,
+        "passed": 85,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 85
+        },
+        "startTime": 1792372940481,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/ambience-skill.glm-o.test.ts",
+        "sha256": "b444443cb3de143d873bfd732674f6fa32c21fcb1cf1d40461b4dc2174cfc32b"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-validators/directed.json",
+        "success": true,
+        "files": 2,
+        "total": 140,
+        "passed": 140,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 140
+        },
+        "startTime": 1792375875492,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/validate-refs.test.ts",
+        "sha256": "ddeb6f217f92d7a9fc5b86bcd415373a729d583eb220008fed55e452f7db0614"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-large/directed.json",
+        "success": true,
+        "files": 270,
+        "total": 2331,
+        "passed": 2331,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 2331
+        },
+        "startTime": 1792390249586,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/editor/src/core/actor-commands.glm-boundaries.test.ts",
+        "sha256": "4624f6beed6d26919d7e612b78dd3057f24f2a1493c3e30f31ce2cf7f93173f5"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-medium/directed.json",
+        "success": true,
+        "files": 270,
+        "total": 2331,
+        "passed": 2331,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 2331
+        },
+        "startTime": 1792389378454,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/editor/src/core/actor-commands.glm-boundaries.test.ts",
+        "sha256": "fd5d44e05dfd2dee0b47d23eac1b3d63083cf74411f5fdec69a42d6c19333bf6"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-small/directed.json",
+        "success": true,
+        "files": 277,
+        "total": 2366,
+        "passed": 2366,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 2366
+        },
+        "startTime": 1792388974292,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/editor/src/play.test.ts",
+        "sha256": "cd55b152b242e0b5cd9925ff79dfaf4a2356aba03f1c6267156ac7dadb3ac3eb"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-large/directed.json",
+        "success": true,
+        "files": 341,
+        "total": 2505,
+        "passed": 2505,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 2505
+        },
+        "startTime": 1792391250427,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/editor/src/ui/ActorMode.glm-authoring.test.tsx",
+        "sha256": "66f7c45fc751353911ecf67b52bf24415438db06ac987872fae1947ba19d190f"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-medium/directed.json",
+        "success": false,
+        "files": 341,
+        "total": 2505,
+        "passed": 2504,
+        "failed": 1,
+        "failedSuites": 2,
+        "statuses": {
+          "passed": 2504,
+          "failed": 1
+        },
+        "startTime": 1792390496507,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/editor/src/ui/ActorMode.glm-authoring.test.tsx",
+        "sha256": "514bd23b0c45b838fc6d26040a5af1aa1a6855fc80164f12d28182394d398937"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-small/directed.json",
+        "success": false,
+        "files": 341,
+        "total": 2505,
+        "passed": 2504,
+        "failed": 1,
+        "failedSuites": 2,
+        "statuses": {
+          "passed": 2504,
+          "failed": 1
+        },
+        "startTime": 1792390496507,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/editor/src/ui/ActorMode.glm-authoring.test.tsx",
+        "sha256": "514bd23b0c45b838fc6d26040a5af1aa1a6855fc80164f12d28182394d398937"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-small/retry.json",
+        "success": true,
+        "files": 1,
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 2
+        },
+        "startTime": 1792390633109,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/editor/src/ui/BattleSpriteLibrary.glm-m.test.tsx",
+        "sha256": "0f87b9bf2c2fb50b501c8983397d0383d502d0022a9cd6c091b4e5fc37c5c36f"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-cli-tail/directed.json",
+        "success": true,
+        "files": 4,
+        "total": 24,
+        "passed": 24,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 24
+        },
+        "startTime": 1792332791459,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/cli-entrypoint-paths.test.ts",
+        "sha256": "f34bd647ff86113b50bb99fe687a7601da108b8476dd212d7820fed772a1a894"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-enemies-playerroles/directed.json",
+        "success": false,
+        "files": 4,
+        "total": 14,
+        "passed": 14,
+        "failed": 0,
+        "failedSuites": 1,
+        "statuses": {
+          "passed": 14
+        },
+        "startTime": 1792331710190,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/tables.test.ts",
+        "sha256": "f5142ade66b913fe3f1ce6de712fdf8da517a49d3b93975682ee5368607c3b4c"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-events-core/directed.json",
+        "success": true,
+        "files": 12,
+        "total": 77,
+        "passed": 77,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 77
+        },
+        "startTime": 1792329988346,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/events/annotate.test.ts",
+        "sha256": "513a1abbd30e25f56fdd2374a12dcc23980052ce61cd937717a24f1287278e77"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-font-scene-map/directed.json",
+        "success": true,
+        "files": 6,
+        "total": 23,
+        "passed": 23,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 23
+        },
+        "startTime": 1792330836385,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts",
+        "sha256": "217b918e252b96edc544934a6dec2d470f4ed8cc39a1f3cfa3bf5e203199d0f3"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-io-word-gbk/directed.json",
+        "success": false,
+        "files": 4,
+        "total": 14,
+        "passed": 14,
+        "failed": 0,
+        "failedSuites": 1,
+        "statuses": {
+          "passed": 14
+        },
+        "startTime": 1792330299072,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/io/msg.test.ts",
+        "sha256": "ea614d179f56bdafc39cc1144eb7487bbdb9204e7ba4e9b752d4651d00550d17"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-parsers-small/directed.json",
+        "success": false,
+        "files": 4,
+        "total": 34,
+        "passed": 34,
+        "failed": 0,
+        "failedSuites": 1,
+        "statuses": {
+          "passed": 34
+        },
+        "startTime": 1792331367486,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/tables.test.ts",
+        "sha256": "765cc37b750be035346c1438acd8a2c6281f9cfd1cb9c237cd3045fd0b69aa5d"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-spells-teams-items/directed.json",
+        "success": true,
+        "files": 1,
+        "total": 89,
+        "passed": 89,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 89
+        },
+        "startTime": 1792332104803,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/tables.test.ts",
+        "sha256": "6f697fee7fef7c24f6a2fe509c9410d4f6937a6ca4077037b82b147c5eea4b3a"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-actions-batch1/baseline-before-deletion.json",
+        "success": true,
+        "files": 3,
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 8
+        },
+        "startTime": 1792340701406,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+        "sha256": "834bc7d3b05f538f15610292bcf6ed7c58d5305b15f0efc5057fae58baebf905"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-actions-batch1/directed.json",
+        "success": true,
+        "files": 5,
+        "total": 32,
+        "passed": 32,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 32
+        },
+        "startTime": 1792340818052,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+        "sha256": "4d2a37bd1d39e81e046393a5b2d79675daebf14c260882888a32109bec147370"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-actions-batch2/directed.json",
+        "success": true,
+        "files": 5,
+        "total": 25,
+        "passed": 25,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 25
+        },
+        "startTime": 1792341385057,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/battle-action-error-arms.glm-q.test.ts",
+        "sha256": "2b36e0a54faf54c42e208e2e5862bdeaf432e0a663680823b7597c5248a0ba5c"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-animtimeline/directed.json",
+        "success": true,
+        "files": 4,
+        "total": 44,
+        "passed": 44,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 44
+        },
+        "startTime": 1792342587929,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/anim-timeline.glm-next-wave.test.ts",
+        "sha256": "594744929c4a3f0808ad2c0bd9f022217077467b2607c6cfdcaac34375fbe881"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-assets-batch1/directed.json",
+        "success": true,
+        "files": 6,
+        "total": 44,
+        "passed": 38,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 38,
+          "skipped": 6
+        },
+        "startTime": 1792333245506,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+        "sha256": "928c9193ef56710af1441b37e1577d83c8960d4b227f69a79da81da2961c1830"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-assets-batch2/directed.json",
+        "success": true,
+        "files": 4,
+        "total": 12,
+        "passed": 12,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 12
+        },
+        "startTime": 1792333628501,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/assets/png-decode.grok-r1.test.ts",
+        "sha256": "9aa33beea8d2bb2d9f004ad1514ebe436328b29d3277fab46f1e95455b9e12b2"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battlecore-misc/directed.json",
+        "success": true,
+        "files": 5,
+        "total": 90,
+        "passed": 90,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 90
+        },
+        "startTime": 1792342897381,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+        "sha256": "0364cce96b828360bb718ef696f99a4800e451d648acd404ba3b792c78ac4756"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battleopcodes/directed.json",
+        "success": true,
+        "files": 2,
+        "total": 61,
+        "passed": 61,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 61
+        },
+        "startTime": 1792341653874,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+        "sha256": "d8bc166f5d795392ab1f1781418dcfe6c23ba7cb47e67b56b481f4558deb288e"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battlestate-ctx/directed.json",
+        "success": true,
+        "files": 4,
+        "total": 25,
+        "passed": 25,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 25
+        },
+        "startTime": 1792342222701,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-finalization.test.ts",
+        "sha256": "89d5aca115288af08cbe7c2f3f637dbedc13f0d57b5c0543d26fdb90ec90335f"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battlesystem/directed-2.json",
+        "success": true,
+        "files": 3,
+        "total": 29,
+        "passed": 29,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 29
+        },
+        "startTime": 1792340131516,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/battle-action-error-arms.glm-q.test.ts",
+        "sha256": "233d84054bca934ecba652bee6d149041cb5bdbe3e3310b0b09630bbad6be510"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battlesystem/directed.json",
+        "success": true,
+        "files": 3,
+        "total": 39,
+        "passed": 39,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 39
+        },
+        "startTime": 1792339833050,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+        "sha256": "70060fbc09ae7508466979bac6ba57ef991841b1c28d755a4a8aec3de7595c36"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-batch3/directed.json",
+        "success": true,
+        "files": 3,
+        "total": 20,
+        "passed": 20,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 20
+        },
+        "startTime": 1792334055600,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/dialog-history.test.ts",
+        "sha256": "26e74abf3991d404558587ea65191bb647b999e9b1ecae4b0fa7e583c24f320c"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-batch4/directed.json",
+        "success": true,
+        "files": 3,
+        "total": 90,
+        "passed": 90,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 90
+        },
+        "startTime": 1792334797620,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/game-state.test.ts",
+        "sha256": "936968eb07d106cf5d54f892e69d2246a2bb4d06c128facd16d8738bb3db6025"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-gamestate/directed.json",
+        "success": true,
+        "files": 2,
+        "total": 71,
+        "passed": 71,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 71
+        },
+        "startTime": 1792336550706,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/game-state.test.ts",
+        "sha256": "405c5d2cc1ae8d1b7250806f42fc19939300a12adfe419f899d0d70180e73bd1"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-residual/directed.json",
+        "success": true,
+        "files": 10,
+        "total": 127,
+        "passed": 127,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 127
+        },
+        "startTime": 1792372556211,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/command-bus.test.ts",
+        "sha256": "c527257091a4cd7978dbb5be2ca25fc66917425c1d8b721ec1efb74d31bbd2db"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-scenesystem/baseline-before-deletion.json",
+        "success": true,
+        "files": 1,
+        "total": 110,
+        "passed": 110,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 110
+        },
+        "startTime": 1792337017949,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/scene-system.test.ts",
+        "sha256": "1fe88948dd7b389374aa80480df0b75bb852185f1eed51f38c679b57b3b7b246"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-scenesystem/directed.json",
+        "success": true,
+        "files": 3,
+        "total": 132,
+        "passed": 132,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 132
+        },
+        "startTime": 1792337180751,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/mode.test.ts",
+        "sha256": "c87801c4f201827b099c825cf04a91ef198b307ac346701516460b08bde41050"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-eventsystem/directed.json",
+        "success": true,
+        "files": 1,
+        "total": 326,
+        "passed": 326,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 326
+        },
+        "startTime": 1792338198521,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/event-system.test.ts",
+        "sha256": "a564536cfcc46f46e2533bddcc7a507c8789bc66088f8b1089de21b5be890134"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-inspect-save-analytics/directed.json",
+        "success": true,
+        "files": 9,
+        "total": 50,
+        "passed": 50,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 50
+        },
+        "startTime": 1792372651250,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/analytics/analytics-consent-ui.test.ts",
+        "sha256": "bb6701d7e709d4dd8ad334860d886febc977a637b8dec23ee68470e938f312f2"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-menu-driver/directed.json",
+        "success": true,
+        "files": 4,
+        "total": 83,
+        "passed": 83,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 83
+        },
+        "startTime": 1792372381483,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/menu-driver.cov85.test.ts",
+        "sha256": "35bbff94e69e19cd1a54ab98016c98f47c16325b405b28d0e242af40ffeaf366"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-menu-large/directed.json",
+        "success": true,
+        "files": 8,
+        "total": 110,
+        "passed": 110,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 110
+        },
+        "startTime": 1792372324113,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+        "sha256": "e7e4e9381a8bf7dc8757a2d280a46229b192d0ec1c3f48f52796aa10ca1b52f8"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-menu-small/directed.json",
+        "success": true,
+        "files": 27,
+        "total": 340,
+        "passed": 340,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 340
+        },
+        "startTime": 1792372260879,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+        "sha256": "91f34ccb2f32b21039cdc8f0ec5d0d3fa01a8a488ebcc46025c3800fcf54df02"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-present-battledraw/directed.json",
+        "success": true,
+        "files": 8,
+        "total": 79,
+        "passed": 79,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 79
+        },
+        "startTime": 1792371128838,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+        "sha256": "a94f54ca293bc7ffc36ced30fa80139a9d038f74847c734949dd6cdcdaf28060"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-present-core/directed.json",
+        "success": true,
+        "files": 9,
+        "total": 112,
+        "passed": 112,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 112
+        },
+        "startTime": 1792370793724,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+        "sha256": "86c8839bf47d9b5341da114b275aeed40936d0fc9a85c237210337402cc6aea9"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-present-menu/directed.json",
+        "success": true,
+        "files": 22,
+        "total": 154,
+        "passed": 154,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 154
+        },
+        "startTime": 1792371421375,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+        "sha256": "ae2bc0e9b32acea5be9835abd3b0c052eef7bf3dda15d50c2f2d4ba2d0b63dbf"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-present-root/directed.json",
+        "success": true,
+        "files": 27,
+        "total": 319,
+        "passed": 319,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 319
+        },
+        "startTime": 1792371309609,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+        "sha256": "dd4b69b21980e8d70463671632975ad75673782c819763e84fcb9677fe8f9db0"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-shell-audio/directed.json",
+        "success": true,
+        "files": 13,
+        "total": 72,
+        "passed": 72,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 72
+        },
+        "startTime": 1792371501733,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/audio-midi.test.ts",
+        "sha256": "c3ab15537af865206f8c080a14c20af2253bd526b859915105172f156421aa0b"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-shell-bootstrap/directed.json",
+        "success": true,
+        "files": 8,
+        "total": 41,
+        "passed": 41,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 41
+        },
+        "startTime": 1792371781320,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/audio-volume.test.ts",
+        "sha256": "e2cdcfa1cd519a20fdf35ec1551a76c791b1479fa7ac35deac5c3fc5c2257db6"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-shell-loop/directed.json",
+        "success": true,
+        "files": 10,
+        "total": 112,
+        "passed": 112,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 112
+        },
+        "startTime": 1792371684041,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+        "sha256": "4d5f84e7628ef33b436287608c512d6458c73920d44a870d4d272cf978c4dee9"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-shell-players/directed.json",
+        "success": true,
+        "files": 14,
+        "total": 73,
+        "passed": 73,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 73
+        },
+        "startTime": 1792371609127,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/avi-player.async-lifecycle.test.ts",
+        "sha256": "34abb33ea3278dcca95923f2df026e1476cbde0637c3100b522f22e070d33da2"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-tools/directed.json",
+        "success": true,
+        "files": 21,
+        "total": 106,
+        "passed": 106,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 106
+        },
+        "startTime": 1792372736043,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/tools/quick-save.test.ts",
+        "sha256": "71638ca4ff90b68d2488c7106c8ded1514b7d583dc0af0490e35f7c7f21b9855"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/migrate-all/directed.json",
+        "success": true,
+        "files": 96,
+        "total": 739,
+        "passed": 739,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 739
+        },
+        "startTime": 1792376234836,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/migrate/src/bake-indexed-rgba.test.ts",
+        "sha256": "2ea02867caada3f944064de070162162205da8446a192215695571ee556aed41"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-audio/directed.json",
+        "success": true,
+        "files": 17,
+        "total": 95,
+        "passed": 95,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 95
+        },
+        "startTime": 1792377518392,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
+        "sha256": "dbd6420483300507dc704433fb882207178283ffb65c9f403aae2ff558f24ac0"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-battle/directed.json",
+        "success": true,
+        "files": 57,
+        "total": 518,
+        "passed": 518,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 518
+        },
+        "startTime": 1792376836298,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/battle-trial-assets.glm-n.test.ts",
+        "sha256": "b804f5fd4a770a6ed494f7690e81eb8abe98f2c3d1b9569fff79f53aa494fc94"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-debug-tools/directed.json",
+        "success": true,
+        "files": 8,
+        "total": 71,
+        "passed": 71,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 71
+        },
+        "startTime": 1792388375539,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/debug-tools.battle.test.ts",
+        "sha256": "ba7852e8f49ca1b6f892cf250d683a9d6d05ba2d4b8f027ae583084397696ce0"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-dialogbox-menu/directed.json",
+        "success": true,
+        "files": 2,
+        "total": 25,
+        "passed": 25,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 25
+        },
+        "startTime": 1792377371749,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/dialog/dialog-box.test.ts",
+        "sha256": "628bd62f298a8ab4137b2d5ffe4089f653aab2ec91408ad7fc4624b88ea1b129"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-main/directed.json",
+        "success": true,
+        "files": 25,
+        "total": 216,
+        "passed": 216,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 216
+        },
+        "startTime": 1792388546218,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/main.auto-pose-authority.test.ts",
+        "sha256": "90cb07ff7a1ecb23a9f5b54a091d0ddd8181649638f164aacf88f8d75e70c7ef"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-medium-tail/directed.json",
+        "success": true,
+        "files": 47,
+        "total": 337,
+        "passed": 337,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 337
+        },
+        "startTime": 1792388271417,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/battle-trial-assets.glm-n.test.ts",
+        "sha256": "1719ce8b8e3c9d1e725931bbbcc69f2338254af335245bac38950b74c4524101"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-project/directed.json",
+        "success": true,
+        "files": 32,
+        "total": 243,
+        "passed": 243,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 243
+        },
+        "startTime": 1792388099904,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/file-source.cancel-windows.test.ts",
+        "sha256": "4e82b4adb3e1d0673ae8014dd1b1c9eb6e73a60585d013037a86e1159fc1d294"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-root-small/directed.json",
+        "success": true,
+        "files": 18,
+        "total": 106,
+        "passed": 106,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 106
+        },
+        "startTime": 1792377039361,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/actor-condition-lifecycle.test.ts",
+        "sha256": "8a503398c70b87bce1164dfbeff82c3dd1330a4b35b71503153188223c9f3343"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-save-dialog-menu/directed.json",
+        "success": true,
+        "files": 12,
+        "total": 182,
+        "passed": 182,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 182
+        },
+        "startTime": 1792377198388,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/save-lineage.chain.test.ts",
+        "sha256": "ad69d596d4e80f4c0f35b4bd6f76e997e7d3dbd40b62b4811908307fdde445a6"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-script/directed.json",
+        "success": true,
+        "files": 30,
+        "total": 323,
+        "passed": 323,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 323
+        },
+        "startTime": 1792377693370,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/runtime-script-compiler.boundaries.test.ts",
+        "sha256": "ed229e6f31fb72334a4ca0732878ce65b51d96fd5725121cefb68bb3d9b5b7cb"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-world-render/directed.json",
+        "success": true,
+        "files": 34,
+        "total": 363,
+        "passed": 363,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 363
+        },
+        "startTime": 1792387910869,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/assets-decode-gates.glm-q.test.ts",
+        "sha256": "9ff59a44866fa347ac674332699fd5763f56449ae2ebd5844ee79d2de85f28c6"
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/shared-types/directed.json",
+        "success": true,
+        "files": 16,
+        "total": 128,
+        "passed": 128,
+        "failed": 0,
+        "failedSuites": 0,
+        "statuses": {
+          "passed": 128
+        },
+        "startTime": 1792329180321,
+        "firstPath": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/shared/src/events.test.ts",
+        "sha256": "d678cac488c31b18119a6cb918d9dabc98dc047726bce2d9bd9dfb3b3da37fc4"
+      }
+    ],
+    "nativeExecutionSum": 21811,
+    "distinctFileFullName": 11586,
+    "failed": [
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-medium/directed.json",
+        "file": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/editor/src/ui/BattleSpriteLibrary.glm-m.test.tsx",
+        "test": "M05 BattleSpriteLibrary 敌人计时草稿 待机毫秒/帧 40ms 换算入草稿，应用修改单命令提交，放弃修改零提交",
+        "messages": [
+          "AssertionError: expected true to be false // Object.is equality\n    at /Users/zhangxu/.glm-worktrees/pre94-foundation/packages/editor/src/ui/BattleSpriteLibrary.glm-m.test.tsx:170:28\n    at file:///Users/zhangxu/.glm-worktrees/pre94-foundation/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ]
+      },
+      {
+        "artifact": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-small/directed.json",
+        "file": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/editor/src/ui/BattleSpriteLibrary.glm-m.test.tsx",
+        "test": "M05 BattleSpriteLibrary 敌人计时草稿 待机毫秒/帧 40ms 换算入草稿，应用修改单命令提交，放弃修改零提交",
+        "messages": [
+          "AssertionError: expected true to be false // Object.is equality\n    at /Users/zhangxu/.glm-worktrees/pre94-foundation/packages/editor/src/ui/BattleSpriteLibrary.glm-m.test.tsx:170:28\n    at file:///Users/zhangxu/.glm-worktrees/pre94-foundation/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+        ]
+      }
+    ]
+  },
+  "bodyProof": {
+    "command": [
+      "node",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/prove-body-invariance.mjs",
+      "--base",
+      "53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02",
+      "packages/content/src/index.ts",
+      "packages/game/src/assets/loader.ts",
+      "packages/game/src/core/battle/actions/attack.ts",
+      "packages/game/src/core/battle/actions/magic.ts",
+      "packages/game/src/core/battle/battle-opcodes.ts",
+      "packages/game/src/core/battle/battle-state.ts",
+      "packages/game/src/core/battle/battle-system.ts",
+      "packages/game/src/core/command-bus.ts",
+      "packages/game/src/core/equip-effect.ts",
+      "packages/game/src/core/equipment-state.ts",
+      "packages/game/src/core/event-system.ts",
+      "packages/game/src/core/game-state.ts",
+      "packages/game/src/core/menu/item-select.ts",
+      "packages/game/src/core/menu/magic-script.ts",
+      "packages/game/src/core/menu/menu-driver.ts",
+      "packages/game/src/core/scene-system.ts",
+      "packages/game/src/dev/dev-panel.ts",
+      "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "packages/game/src/present/battle/draw-battle-ui.ts",
+      "packages/game/src/present/battle/present-battle.ts",
+      "packages/game/src/present/dialog-box.ts",
+      "packages/game/src/present/draw-tilemap.ts",
+      "packages/game/src/present/menu/draw-equip.ts",
+      "packages/game/src/present/menu/draw-player-status.ts",
+      "packages/game/src/present/present.ts",
+      "packages/game/src/shell/bootstrap.ts",
+      "packages/game/src/shell/trademark-fallback.ts",
+      "packages/pal-extract/src/cli.ts",
+      "packages/pal-extract/src/events/disasm.ts",
+      "packages/pal-extract/src/events/opcodes.ts",
+      "packages/pal-extract/src/font/bdf-to-json.ts",
+      "packages/pal-extract/src/io/word.ts",
+      "packages/pal-extract/src/resources/parsers/enemies.ts",
+      "packages/pal-extract/src/resources/parsers/player-roles.ts",
+      "packages/pal-extract/src/resources/parsers/rix.ts",
+      "packages/pal-extract/src/resources/parsers/sounds.ts",
+      "packages/reforge/src/audio/bgm.ts",
+      "packages/shared/src/events.ts",
+      "packages/shared/src/index.ts",
+      "packages/shared/src/resources.ts",
+      "packages/shared/src/tables.ts"
+    ],
+    "cwd": "/Users/zhangxu/.glm-worktrees/pre94-foundation",
+    "exitCode": 1,
+    "expectedExitExplanation": "allEqual=false for6explicit noncomment changes; not represented as41-file body invariance",
+    "statusBeforeAfterEqual": true,
+    "native": {
+      "schemaVersion": 1,
+      "base": "53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02",
+      "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+      "files": [
+        {
+          "file": "packages/content/src/index.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "4a05c16156edb2b598113a5e0531e64ab7e2483a11ee3dcfacb662f922bc291e",
+            "current": "4a05c16156edb2b598113a5e0531e64ab7e2483a11ee3dcfacb662f922bc291e"
+          },
+          "printedBytes": {
+            "base": 3707,
+            "current": 3707
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/assets/loader.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "b85ba71e897a608c296c54bae9710229b594e82d816dcad9fe745361966baa61",
+            "current": "b85ba71e897a608c296c54bae9710229b594e82d816dcad9fe745361966baa61"
+          },
+          "printedBytes": {
+            "base": 12892,
+            "current": 12892
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/core/battle/actions/attack.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "5e58b7648c89e5c82cac82be723f32f57cdc80d1124f8329ff53ca7182824e53",
+            "current": "c8c54acf6f1a4a7a0946c4ac9f0ed0bddd3e95321db98d3e11195eb8afeb38e4"
+          },
+          "printedBytes": {
+            "base": 17147,
+            "current": 17027
+          },
+          "printedEqual": false
+        },
+        {
+          "file": "packages/game/src/core/battle/actions/magic.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "7bd7a070582656f5ef6f16805382a12fb1d12e3b3cb2c7b9b22362ef4e5da128",
+            "current": "7bd7a070582656f5ef6f16805382a12fb1d12e3b3cb2c7b9b22362ef4e5da128"
+          },
+          "printedBytes": {
+            "base": 29405,
+            "current": 29405
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-opcodes.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "c982fb7b034b15d73f75137728bbc9d1140e2777572f894800c6b1261d51d39e",
+            "current": "8e2f145e192636d2352f49b52f4d615b20d879a80002888d62f63acf3217f25b"
+          },
+          "printedBytes": {
+            "base": 49589,
+            "current": 49558
+          },
+          "printedEqual": false
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-state.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "cae74355c7287c461392aa132b8d92881dd8c0f4420ecb09b53817e460ce205b",
+            "current": "cae74355c7287c461392aa132b8d92881dd8c0f4420ecb09b53817e460ce205b"
+          },
+          "printedBytes": {
+            "base": 12513,
+            "current": 12513
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-system.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "62b7ee836d775e2c4d3c507446c4ca7d44b3c64e662abb69c25ed70f6a8a3bc8",
+            "current": "62b7ee836d775e2c4d3c507446c4ca7d44b3c64e662abb69c25ed70f6a8a3bc8"
+          },
+          "printedBytes": {
+            "base": 83333,
+            "current": 83333
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/core/command-bus.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "02ac6a1855a1484609f7743f5f5c9fdce162cc36cdb3fb4b38310279a36b80a2",
+            "current": "02ac6a1855a1484609f7743f5f5c9fdce162cc36cdb3fb4b38310279a36b80a2"
+          },
+          "printedBytes": {
+            "base": 1940,
+            "current": 1940
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "bcc5eb26ad8ccd0900cbcb967ed318df80a101093936a5b61dc601593fff24e8",
+            "current": "bcc5eb26ad8ccd0900cbcb967ed318df80a101093936a5b61dc601593fff24e8"
+          },
+          "printedBytes": {
+            "base": 7114,
+            "current": 7114
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/core/equipment-state.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "250db9bb1cf8c8792e1748ddda5c043bf114696a98a6c74be8a06dcf8c9fc71b",
+            "current": "250db9bb1cf8c8792e1748ddda5c043bf114696a98a6c74be8a06dcf8c9fc71b"
+          },
+          "printedBytes": {
+            "base": 11025,
+            "current": 11025
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/core/event-system.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "f4b9782470b02d4932ab38eca69a1a7efa83d9c4cd077c14fea4cd382820ed14",
+            "current": "f4b9782470b02d4932ab38eca69a1a7efa83d9c4cd077c14fea4cd382820ed14"
+          },
+          "printedBytes": {
+            "base": 119892,
+            "current": 119892
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/core/game-state.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "8f07bad93390fd7beb780ae9428b32b3a555dbbbe6be7cc1291a7fdc7d2fcc82",
+            "current": "8f07bad93390fd7beb780ae9428b32b3a555dbbbe6be7cc1291a7fdc7d2fcc82"
+          },
+          "printedBytes": {
+            "base": 29562,
+            "current": 29562
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/core/menu/item-select.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "0e8c483a3a061e55d8ab6363d6342e331335d6708ba17ac7a39996f9461574fd",
+            "current": "0e8c483a3a061e55d8ab6363d6342e331335d6708ba17ac7a39996f9461574fd"
+          },
+          "printedBytes": {
+            "base": 2159,
+            "current": 2159
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/core/menu/magic-script.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "e23052c6dd3c71c010a4c0e2ec5d15d3024db90657eccc98403f46d7b74a0148",
+            "current": "d0c128f1bbd8bbf213e9fb9a72994e58e6defb4e084ac0670d90424cb44b44fd"
+          },
+          "printedBytes": {
+            "base": 5948,
+            "current": 5897
+          },
+          "printedEqual": false
+        },
+        {
+          "file": "packages/game/src/core/menu/menu-driver.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "cbf9e6e0dac55badd44ad9cd94ce8015b0bed458ff6a8f757f7da3ec7942a86b",
+            "current": "cbf9e6e0dac55badd44ad9cd94ce8015b0bed458ff6a8f757f7da3ec7942a86b"
+          },
+          "printedBytes": {
+            "base": 27333,
+            "current": 27333
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/core/scene-system.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "e804a108b66f9f4033c6f9a3cef6962bdd4e8dcb7dc655bed140712ff8214cef",
+            "current": "c9887fa921bdb7cb019c93d3c065366afab163e6d0a322d25ae935992a86d1c6"
+          },
+          "printedBytes": {
+            "base": 13872,
+            "current": 13260
+          },
+          "printedEqual": false
+        },
+        {
+          "file": "packages/game/src/dev/dev-panel.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "55efdcadb603a2d9faa785cc0dcbdcb3c4a0a3e7aeb8c9e9e7b6016fc5c5c6ae",
+            "current": "55efdcadb603a2d9faa785cc0dcbdcb3c4a0a3e7aeb8c9e9e7b6016fc5c5c6ae"
+          },
+          "printedBytes": {
+            "base": 79690,
+            "current": 79690
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/present/battle/draw-battle-sprites.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "55b23cbcfa8c96431d91213707839ccd2cbcd4e3e8dfe7e4bc204bd2ab0c2221",
+            "current": "55b23cbcfa8c96431d91213707839ccd2cbcd4e3e8dfe7e4bc204bd2ab0c2221"
+          },
+          "printedBytes": {
+            "base": 8794,
+            "current": 8794
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/present/battle/draw-battle-ui.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "3538ee4945a179e632740e030b16c34c77b1ba7cf844a3925ba99d75de34d9c3",
+            "current": "3538ee4945a179e632740e030b16c34c77b1ba7cf844a3925ba99d75de34d9c3"
+          },
+          "printedBytes": {
+            "base": 22355,
+            "current": 22355
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/present/battle/present-battle.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "d57b10039bdf8b59fa34dc7b3366f579f31925fd148d9b3c8ba9c074d0b4c070",
+            "current": "d57b10039bdf8b59fa34dc7b3366f579f31925fd148d9b3c8ba9c074d0b4c070"
+          },
+          "printedBytes": {
+            "base": 10942,
+            "current": 10942
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/present/dialog-box.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "cec4b9cca56d3f0cff69fdd78f7aefcfe3a9bf69f4128c79036a64aaaf9f47d2",
+            "current": "cec4b9cca56d3f0cff69fdd78f7aefcfe3a9bf69f4128c79036a64aaaf9f47d2"
+          },
+          "printedBytes": {
+            "base": 20204,
+            "current": 20204
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/present/draw-tilemap.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "ee8ba51e8a10f3830345e1aae32d5c9b35298693031b89706c3750c03bd1c2c2",
+            "current": "ee8ba51e8a10f3830345e1aae32d5c9b35298693031b89706c3750c03bd1c2c2"
+          },
+          "printedBytes": {
+            "base": 8064,
+            "current": 8064
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/present/menu/draw-equip.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "7e6276350fa41c9859a26a9396c5aa3f537208c2c2ae574ff1eabcf27df2d369",
+            "current": "7e6276350fa41c9859a26a9396c5aa3f537208c2c2ae574ff1eabcf27df2d369"
+          },
+          "printedBytes": {
+            "base": 5863,
+            "current": 5863
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/present/menu/draw-player-status.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "bad5f75e301b08a8e510fefa27d65ba1c1d183728af7c4d6aa97c28d91f1b089",
+            "current": "bad5f75e301b08a8e510fefa27d65ba1c1d183728af7c4d6aa97c28d91f1b089"
+          },
+          "printedBytes": {
+            "base": 7727,
+            "current": 7727
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/present/present.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "221083e9bfe69a1cf85f09af8d4aa4b1b1481496e15b4b52eb73f84fd7a27464",
+            "current": "221083e9bfe69a1cf85f09af8d4aa4b1b1481496e15b4b52eb73f84fd7a27464"
+          },
+          "printedBytes": {
+            "base": 17493,
+            "current": 17493
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/shell/bootstrap.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "ca49273d37c2fd217e36fe37943ec85fb9e48683d14b569ed094e86c8edb2da8",
+            "current": "ca49273d37c2fd217e36fe37943ec85fb9e48683d14b569ed094e86c8edb2da8"
+          },
+          "printedBytes": {
+            "base": 53291,
+            "current": 53291
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/game/src/shell/trademark-fallback.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "1af397bbbc9a741cecc2fd990bd4edfc9a2b24823c7bea539491498501bca7ee",
+            "current": "1af397bbbc9a741cecc2fd990bd4edfc9a2b24823c7bea539491498501bca7ee"
+          },
+          "printedBytes": {
+            "base": 2180,
+            "current": 2180
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/pal-extract/src/cli.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "561d6a4cc4932ed817f00c1e0616f564305d53c32e1597725fd550a861b2f718",
+            "current": "561d6a4cc4932ed817f00c1e0616f564305d53c32e1597725fd550a861b2f718"
+          },
+          "printedBytes": {
+            "base": 28401,
+            "current": 28401
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/pal-extract/src/events/disasm.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "bfeda80228d8b6f82f1e55af770d8bc9ea9fc6a9c367b048f9f47469620e0c1f",
+            "current": "bfeda80228d8b6f82f1e55af770d8bc9ea9fc6a9c367b048f9f47469620e0c1f"
+          },
+          "printedBytes": {
+            "base": 5740,
+            "current": 5740
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/pal-extract/src/events/opcodes.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "6b257a0448e029b93397a4c642eee6ea7ebc6edffc6d7f7f6489dd5c5b6d4215",
+            "current": "6b257a0448e029b93397a4c642eee6ea7ebc6edffc6d7f7f6489dd5c5b6d4215"
+          },
+          "printedBytes": {
+            "base": 5232,
+            "current": 5232
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/pal-extract/src/font/bdf-to-json.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "90a6657ff4f1c468fae4820c92a494066ef17bfc3f932653aa2a7cda9542799e",
+            "current": "90a6657ff4f1c468fae4820c92a494066ef17bfc3f932653aa2a7cda9542799e"
+          },
+          "printedBytes": {
+            "base": 2452,
+            "current": 2452
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/pal-extract/src/io/word.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "64d7f187c7baf6b1be141978f144c7c39e2efd1bd41415887c26af7f28011256",
+            "current": "64d7f187c7baf6b1be141978f144c7c39e2efd1bd41415887c26af7f28011256"
+          },
+          "printedBytes": {
+            "base": 2083,
+            "current": 2083
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/pal-extract/src/resources/parsers/enemies.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "f24fafb71cf5a5f0439a4b8ee779d4e7d6d0096ca3ec9be9cab846d3b3b96a18",
+            "current": "f24fafb71cf5a5f0439a4b8ee779d4e7d6d0096ca3ec9be9cab846d3b3b96a18"
+          },
+          "printedBytes": {
+            "base": 5809,
+            "current": 5809
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/pal-extract/src/resources/parsers/player-roles.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "ed230d4b17093016ea6791dcd7ec57ef4b4051dbb27cbd92e6505007edf9d32b",
+            "current": "ed230d4b17093016ea6791dcd7ec57ef4b4051dbb27cbd92e6505007edf9d32b"
+          },
+          "printedBytes": {
+            "base": 6518,
+            "current": 6518
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/pal-extract/src/resources/parsers/rix.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "7c74d6956aee714bb55b60ea9e80bda31bf02eb53f6a149f19fe209179d70f80",
+            "current": "7c74d6956aee714bb55b60ea9e80bda31bf02eb53f6a149f19fe209179d70f80"
+          },
+          "printedBytes": {
+            "base": 579,
+            "current": 579
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/pal-extract/src/resources/parsers/sounds.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "31652bde181a701d818abeb079f24932095616bb9168bc6928d152e128706fb5",
+            "current": "31652bde181a701d818abeb079f24932095616bb9168bc6928d152e128706fb5"
+          },
+          "printedBytes": {
+            "base": 482,
+            "current": 482
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/reforge/src/audio/bgm.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "984734d57d09ee150ff903b9669d7307f182098ee3a3f458de8a744a987de181",
+            "current": "ca127da98c84634ff3308003d2fd7484c2f72f7efa75a09f9f8599741be33dfb"
+          },
+          "printedBytes": {
+            "base": 9440,
+            "current": 9101
+          },
+          "printedEqual": false
+        },
+        {
+          "file": "packages/shared/src/events.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "35f15ffa00b770d395a0324bfe3aaaf46da85c0d18b53f9e02c88fb4300c219d",
+            "current": "35f15ffa00b770d395a0324bfe3aaaf46da85c0d18b53f9e02c88fb4300c219d"
+          },
+          "printedBytes": {
+            "base": 2734,
+            "current": 2734
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/shared/src/index.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "cdc2e5e63d5d810d2329ba7b1622dafce3ebf0eab7794a3d8203cadd780e1a07",
+            "current": "cdc2e5e63d5d810d2329ba7b1622dafce3ebf0eab7794a3d8203cadd780e1a07"
+          },
+          "printedBytes": {
+            "base": 458,
+            "current": 458
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/shared/src/resources.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "f1b7e3970851f0670d02aa093088d4e62e704c089739db262bbc6f46441feb7c",
+            "current": "f1b7e3970851f0670d02aa093088d4e62e704c089739db262bbc6f46441feb7c"
+          },
+          "printedBytes": {
+            "base": 1661,
+            "current": 1661
+          },
+          "printedEqual": true
+        },
+        {
+          "file": "packages/shared/src/tables.ts",
+          "titleCallCount": {
+            "base": 0,
+            "current": 0
+          },
+          "printedSha256": {
+            "base": "18ed6a095730dd49208250e68125f37bee6a55a5447c479c6f3e792529032fb8",
+            "current": "7e1ffa4d1e01d76374e0f0a4839fcb1c7143d2fbc6cce93f8922558900c3e1ac"
+          },
+          "printedBytes": {
+            "base": 4878,
+            "current": 4801
+          },
+          "printedEqual": false
+        }
+      ],
+      "allEqual": false
+    }
+  },
+  "scopedStaticFailure": {
+    "command": [
+      "node_modules/.bin/biome",
+      "check",
+      "packages/content/src/index.ts",
+      "packages/game/src/assets/loader.ts",
+      "packages/game/src/core/battle/actions/attack.ts",
+      "packages/game/src/core/battle/actions/magic.ts",
+      "packages/game/src/core/battle/battle-opcodes.ts",
+      "packages/game/src/core/battle/battle-state.ts",
+      "packages/game/src/core/battle/battle-system.ts",
+      "packages/game/src/core/command-bus.ts",
+      "packages/game/src/core/equip-effect.ts",
+      "packages/game/src/core/equipment-state.ts",
+      "packages/game/src/core/event-system.ts",
+      "packages/game/src/core/game-state.ts",
+      "packages/game/src/core/menu/item-select.ts",
+      "packages/game/src/core/menu/magic-script.ts",
+      "packages/game/src/core/menu/menu-driver.ts",
+      "packages/game/src/core/scene-system.ts",
+      "packages/game/src/dev/dev-panel.ts",
+      "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "packages/game/src/present/battle/draw-battle-ui.ts",
+      "packages/game/src/present/battle/present-battle.ts",
+      "packages/game/src/present/dialog-box.ts",
+      "packages/game/src/present/draw-tilemap.ts",
+      "packages/game/src/present/menu/draw-equip.ts",
+      "packages/game/src/present/menu/draw-player-status.ts",
+      "packages/game/src/present/present.ts",
+      "packages/game/src/shell/bootstrap.ts",
+      "packages/game/src/shell/trademark-fallback.ts",
+      "packages/pal-extract/src/cli.ts",
+      "packages/pal-extract/src/events/disasm.ts",
+      "packages/pal-extract/src/events/opcodes.ts",
+      "packages/pal-extract/src/font/bdf-to-json.ts",
+      "packages/pal-extract/src/io/word.ts",
+      "packages/pal-extract/src/resources/parsers/enemies.ts",
+      "packages/pal-extract/src/resources/parsers/player-roles.ts",
+      "packages/pal-extract/src/resources/parsers/rix.ts",
+      "packages/pal-extract/src/resources/parsers/sounds.ts",
+      "packages/reforge/src/audio/bgm.ts",
+      "packages/shared/src/events.ts",
+      "packages/shared/src/index.ts",
+      "packages/shared/src/resources.ts",
+      "packages/shared/src/tables.ts"
+    ],
+    "cwd": "/Users/zhangxu/.glm-worktrees/pre94-foundation",
+    "recordedAt": "2026-10-19T12:21:38.226973+00:00",
+    "exitCode": 1,
+    "stdout": "Checked 41 files in 76ms. No fixes applied.\nFound 1 error.\n",
+    "stderr": "packages/game/src/core/game-state.ts format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n  × Formatter would have printed the following content:\n  \n      74   74 │   }\n      75   75 │   \n      76      │ - ··/**\n      77      │ - ···*·背包物品条目(itemId·=·OBJECT·全局·wObjectID,61..294;count·归·0·不剔除,\n      78      │ - ···*·由·add/sub·命令决定)。原版同字段最多·5·名队员在队,与本条目无关(此注防误挂)。\n      79      │ - ···*/\n      80      │ - ··export·interface·InventoryEntry·{\n      81      │ - ····itemId:·number\n      82      │ - ····count:·number\n      83      │ - ··}\n           76 │ + /**\n           77 │ + ·*·背包物品条目(itemId·=·OBJECT·全局·wObjectID,61..294;count·归·0·不剔除,\n           78 │ + ·*·由·add/sub·命令决定)。原版同字段最多·5·名队员在队,与本条目无关(此注防误挂)。\n           79 │ + ·*/\n           80 │ + export·interface·InventoryEntry·{\n           81 │ + ··itemId:·number\n           82 │ + ··count:·number\n           83 │ + }\n      84   84 │   \n      85   85 │   export interface NpcState {\n  \n\ncheck ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n  × Some errors were emitted while running checks.\n  \n\n"
+  },
+  "executionCounting": {
+    "nativeFiles": 68,
+    "distinctNativeBytes": 67,
+    "assertionRowsCountingArtifactCopies": 21811,
+    "assertionRowsWithoutByteIdenticalCopy": 19306,
+    "distinctFileFullName": 11586,
+    "limits": "These are identity/execution counts, not accepted test contracts or independent quality evidence; overlapping suites and baseline runs are reused."
+  },
+  "limits": [
+    "Did not repeat full source/caller/primary review of hundreds of claimed files. Detailed R1 completeness finding is anchored in named receipts and delivered artifact inventory, not an assertion that every other claim is absent.",
+    "Vitest native JSON supplies assertion/status/failure identity; missing console means runtime/act/environment zero diagnostics cannot be independently certified. No historical raw is reconstructed.",
+    "No product tests, product typecheck, whole repository check, official coverage ratchet, protected fast, runtime/E2E/visual executed by Codex in this review.",
+    "No mutation in main, other owners trees or GLM candidate tree; no new branch, no candidate cherry-pick and no main merge.",
+    "Review documentation check-testing currently blocks on unrelated e2e-route reviewBy2026-10-18 expiry at2026-10-19. Do not extend its date without the owning review."
+  ],
+  "ledger": {
+    "tracked": 3319,
+    "closed": 245,
+    "review": 109,
+    "pending": 2965,
+    "newClosed": 0,
+    "newCardAccept": 0
+  },
+  "nextOwner": "GLM; append focused corrective commits in the same foundation worktree, preserve93unaccepted commits. Do not switch/reset to the integration branch and lose candidate work. Fetch and inspect upstream delta; Codex review-only documentation may be read without discarding the candidate.",
+  "nextDelivery": "One stage correction package addressing S2-R1..R5, plus precise remaining83card/test scopes; continue independent authorized work without per-file user relays. No new full readonly pilot, no blanket reread, no redundant whole-repository/coverage rerun.",
+  "checks": [
+    {
+      "command": ["node", "scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:24:42.793999+00:00",
+      "exitCode": 0,
+      "stdout": "docs: 1589 Markdown / 9558 local links / 467 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n",
+      "stderr": ""
+    },
+    {
+      "command": ["node", "scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:24:43.864773+00:00",
+      "exitCode": 0,
+      "stdout": "document model: PASS (8 routes; 1264 body contracts; 0 issues; structure only)\n",
+      "stderr": ""
+    },
+    {
+      "command": ["node", "scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:24:43.892560+00:00",
+      "exitCode": 1,
+      "stdout": "testing docs: FAIL (1 issues)\n",
+      "stderr": "- e2e-route: reviewBy 2026-10-18 is before 2026-10-19\n"
+    }
+  ],
+  "ownerDecision": {
+    "userInstruction": "返工你来做",
+    "date": "2026-10-19",
+    "currentCodingOwner": "Codex for checkpoint5af1b6372 corrective work/integration",
+    "supersedes": "GLM nextOwner/nextDelivery instructions above; retained as original review-time recommendation",
+    "method": "Preserve GLM checkpoint, incorporate on existing3y, correct supported issues; missing semantic evidence remains review/unknown rather than invented acceptance."
+  }
+}

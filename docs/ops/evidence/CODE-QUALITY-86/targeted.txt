@@ -1,0 +1,18 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/game
+
+···························································stderr | src/core/__tests__/stats/e2-equipment-effects.test.ts > E2: 装备效果层字段写入与卸下保真 > E2-03 越界部位索引与未知行静默安全退出，无关域保持纯净
+writeEquipmentEffectField: row 999 未支持(装备 effect 真值)
+
+stderr | src/core/__tests__/stats/e4-run-equip-script.test.ts > E4: 装备脚本执行器 runEquipScript > E4-03 scriptOnEquip === 0 或 labelMap 未命中时安全返回
+runEquipScriptSync: L_99999 不在全局 labelMap
+
+·····························stdout | src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchSaveSlotMenu > Confirm → close save-slot(pop 一层)
+[save] saved to slot 1(times=1)
+
+·······································
+
+ Test Files  12 passed (12)
+      Tests  127 passed (127)
+   Start at  03:40:56
+   Duration  2.03s (transform 2.68s, setup 397ms, import 3.50s, tests 152ms, environment 11.34s)

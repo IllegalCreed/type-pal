@@ -1,0 +1,207 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal/packages/editor
+
+ ❯ src/core/project-reference.pal.test.ts (1 test | 1 failed) 3016ms
+     × keeps blocker parity, named-entry/shop/map facts and compact worker payload 3015ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/project-reference.pal.test.ts > ED-3 PAL project reference index > keeps blocker parity, named-entry/shop/map facts and compact worker payload
+AssertionError: expected [ { sceneId: 's001', …(3) }, …(22667) ] to have a length of 22660 but got 22668
+
+- Expected
++ Received
+
+- 22660
++ 22668
+
+ ❯ src/core/project-reference.pal.test.ts:102:54
+    100|     // Current automatic-loop compression and withdrawn island hold ch…
+    101|     // Recount through the production loader/projection; retain the in…
+    102|     expect.soft(diagnostics.entityAddressReferences).toHaveLength(22_6…
+       |                                                      ^
+    103|     expect.soft(
+    104|       diagnostics.entityAddressReferences.filter(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  src/core/project-reference.pal.test.ts > ED-3 PAL project reference index > keeps blocker parity, named-entry/shop/map facts and compact worker payload
+AssertionError: expected [ …(4376) ] to have a length of 4368 but got 4376
+
+- Expected
++ Received
+
+- 4368
++ 4376
+
+ ❯ src/core/project-reference.pal.test.ts:157:39
+    155|       ),
+    156|     ).toHaveLength(5) // Four pose targets plus the unchanged post-pic…
+    157|     expect.soft(actualEntityBlockers).toHaveLength(4_368)
+       |                                       ^
+    158|
+    159|     expect.soft(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  src/core/project-reference.pal.test.ts > ED-3 PAL project reference index > keeps blocker parity, named-entry/shop/map facts and compact worker payload
+AssertionError: expected [ { id: 1232, …(6) }, …(795) ] to have a length of 795 but got 796
+
+- Expected
++ Received
+
+- 795
++ 796
+
+ ❯ src/core/project-reference.pal.test.ts:164:7
+    162|           edge.relation.kind === 'command-target' && edge.relation.use…
+    163|       ),
+    164|     ).toHaveLength(795)
+       |       ^
+    165|     const shopEdges = edges.filter((edge) => edge.target.kind === 'sho…
+    166|     expect.soft(shopEdges).toHaveLength(31)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  src/core/project-reference.pal.test.ts > ED-3 PAL project reference index > keeps blocker parity, named-entry/shop/map facts and compact worker payload
+AssertionError: expected [ …(1001) ] to have a length of 1002 but got 1001
+
+- Expected
++ Received
+
+- 1002
++ 1001
+
+ ❯ src/core/project-reference.pal.test.ts:227:82
+    225|     ).toHaveLength(2)
+    226|     expect.soft(edges.filter((edge) => edge.relation.kind === 'battle-…
+    227|     expect.soft(edges.filter((edge) => edge.relation.kind === 'enemy-t…
+       |                                                                                  ^
+    228|     expect.soft(edges.filter((edge) => edge.relation.kind === 'ambienc…
+    229|     const battleDataEdges = edges.filter((edge) => edge.relation.kind …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  src/core/project-reference.pal.test.ts > ED-3 PAL project reference index > keeps blocker parity, named-entry/shop/map facts and compact worker payload
+AssertionError: expected [ { id: 5708, …(7) }, …(3833) ] to have a length of 3835 but got 3834
+
+- Expected
++ Received
+
+- 3835
++ 3834
+
+ ❯ src/core/project-reference.pal.test.ts:446:35
+    444|     const battleSpriteEdges = edges.filter((edge) => edge.relation.kin…
+    445|     const assetEdges = edges.filter((edge) => edge.relation.kind === '…
+    446|     expect.soft(worldSpriteEdges).toHaveLength(3_835)
+       |                                   ^
+    447|     expect.soft(index.referencesTo({ kind: 'world-sprite', id: 'sprite…
+    448|       {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+ FAIL  src/core/project-reference.pal.test.ts > ED-3 PAL project reference index > keeps blocker parity, named-entry/shop/map facts and compact worker payload
+AssertionError: expected [ { id: 10122, …(6) }, …(5967) ] to have a length of 5969 but got 5968
+
+- Expected
++ Received
+
+- 5969
++ 5968
+
+ ❯ src/core/project-reference.pal.test.ts:489:29
+    487|     )
+    488|     expect.soft(battleSpriteEdges).toHaveLength(180)
+    489|     expect.soft(assetEdges).toHaveLength(5_969)
+       |                             ^
+    490|     // The restored Xiulan/Ling'er follow-ups add one portrait each, a…
+    491|     // adds both speakers' portraits. Preserve exact canonical ownersh…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯
+
+ FAIL  src/core/project-reference.pal.test.ts > ED-3 PAL project reference index > keeps blocker parity, named-entry/shop/map facts and compact worker payload
+AssertionError: expected 4234 to be 4235 // Object.is equality
+
+- Expected
++ Received
+
+- 4235
++ 4234
+
+ ❯ src/core/project-reference.pal.test.ts:718:7
+    716|         0,
+    717|       ),
+    718|     ).toBe(4_235)
+       |       ^
+    719|     expect.soft(new Set(oldBattleSpriteReferences.map((reference) => r…
+    720|       171,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯
+
+ FAIL  src/core/project-reference.pal.test.ts > ED-3 PAL project reference index > keeps blocker parity, named-entry/shop/map facts and compact worker payload
+AssertionError: expected [ { id: 16090, …(6) }, …(4451) ] to have a length of 4451 but got 4452
+
+- Expected
++ Received
+
+- 4451
++ 4452
+
+ ❯ src/core/project-reference.pal.test.ts:774:86
+    772|     ])
+    773|
+    774|     expect.soft(edges.filter((edge) => edge.relation.kind === 'behavio…
+       |                                                                                      ^
+    775|     expect.soft(
+    776|       index.referencesTo({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯
+
+ FAIL  src/core/project-reference.pal.test.ts > ED-3 PAL project reference index > keeps blocker parity, named-entry/shop/map facts and compact worker payload
+AssertionError: expected [ …(25222) ] to have a length of 25215 but got 25222
+
+- Expected
++ Received
+
+- 25215
++ 25222
+
+ ❯ src/core/project-reference.pal.test.ts:912:53
+    910|       },
+    911|     ])
+    912|     expect.soft(diagnostics.projectReferences.rows).toHaveLength(25_21…
+       |                                                     ^
+    913|     expect.soft(diagnostics.projectReferences.targetEdgeIds).toHaveLen…
+    914|     expect.soft('targetKeys' in diagnostics.projectReferences).toBe(fa…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯
+
+ FAIL  src/core/project-reference.pal.test.ts > ED-3 PAL project reference index > keeps blocker parity, named-entry/shop/map facts and compact worker payload
+AssertionError: expected [ 3709, 3736, 3737, 3745, …(28130) ] to have a length of 28121 but got 28134
+
+- Expected
++ Received
+
+- 28121
++ 28134
+
+ ❯ src/core/project-reference.pal.test.ts:913:62
+    911|     ])
+    912|     expect.soft(diagnostics.projectReferences.rows).toHaveLength(25_21…
+    913|     expect.soft(diagnostics.projectReferences.targetEdgeIds).toHaveLen…
+       |                                                              ^
+    914|     expect.soft('targetKeys' in diagnostics.projectReferences).toBe(fa…
+    915|     expect.soft(diagnostics.projectReferences.sources.every((source) =…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/10]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  17:54:45
+   Duration  7.07s (transform 2.88s, setup 0ms, import 3.84s, tests 3.02s, environment 0ms)
+
+undefined
+/Users/zhangxu/illegal/type-pal/packages/editor:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/project-reference.pal.test.ts --reporter=default --maxWorkers 1

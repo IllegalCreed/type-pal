@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "base": "d5da2fee7b4d8d79ab4fdce39614ad70ee9d0a0e",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/game-state.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "8f07bad93390fd7beb780ae9428b32b3a555dbbbe6be7cc1291a7fdc7d2fcc82",
+        "current": "8f07bad93390fd7beb780ae9428b32b3a555dbbbe6be7cc1291a7fdc7d2fcc82"
+      },
+      "printedBytes": {
+        "base": 29562,
+        "current": 29562
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

@@ -1,0 +1,25 @@
+{
+  "base": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
+  "branch": "codex/code-quality-3y",
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/game/src/analytics/google-analytics.ts",
+      "sha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+      "lines": 139,
+      "snapshot": "4c21dd24ac7f-google-analytics.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.ts",
+      "sha256": "ff1c2c7d18175a282c011c8e72bb2d33ef898c0151631ada0b97577b92c1f375",
+      "lines": 57,
+      "snapshot": "ff1c2c7d1817-install-analytics.ts.before.gz"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md",
+      "sha256": "458f73e97ae659f8bb5d5a0a6bcdad140cd4dc38580d3d68c61ef1c06110c457",
+      "lines": 91,
+      "snapshot": "458f73e97ae6-GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md.before.gz"
+    }
+  ]
+}

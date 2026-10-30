@@ -1,0 +1,127 @@
+{
+  "base": "65c375e06fa5859dc5121519eb3507589813be35",
+  "fullReads": [
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+      "sha256": "82433966134db0afc3b50642dbf8e264a2ef52c26b790ac2355cf87f4b5c743c",
+      "lines": 65,
+      "boundary": "full read; edited files initial full text and final diff; not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.ts",
+      "sha256": "5ed13fc9c404449f1543fe85474d97a418397b5fb98a5e71af928855e614e96e",
+      "lines": 95,
+      "boundary": "full read; edited files initial full text and final diff; not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+      "sha256": "a1fb4b2867d8e5c9474b7a9c3c90552091afacc13dd600fa83f9ef26976c2846",
+      "lines": 40,
+      "boundary": "full read; edited files initial full text and final diff; not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.test.ts",
+      "sha256": "be8a95d5e98feada634ef12735e52f2c7f74a15784a615fe8158bc55c8c14e99",
+      "lines": 90,
+      "boundary": "full read; edited files initial full text and final diff; not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+      "sha256": "6ccd95ba1fb17c57787645dbda3b52741f8855a4fadaf81adfd817885bc5b351",
+      "lines": 116,
+      "boundary": "full read; edited files initial full text and final diff; not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/ball.ts",
+      "sha256": "8a8f6de4be9ccaa69e6a50ad1adea06b1b9f20f6503fed8e2f358d0927f09688",
+      "lines": 51,
+      "boundary": "full read; edited files initial full text and final diff; not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rgm.ts",
+      "sha256": "92883a8e074005d2b9e25ff9ae3bc31e68619ff165dde4fed2c5a08c3e876b65",
+      "lines": 55,
+      "boundary": "full read; edited files initial full text and final diff; not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/rng-frames.ts",
+      "sha256": "9a4b1431e8a8d683795b9b5ca1b28e6bc0f22a408cc0cf02c4663ae431f99094",
+      "lines": 36,
+      "boundary": "full read; edited files initial full text and final diff; not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/fire.ts",
+      "sha256": "0cfc135544de7ae6e1a2571fdb643333eac35833649e17a4e1b57a167849ac76",
+      "lines": 62,
+      "boundary": "full read; edited files initial full text and final diff; not whole-file acceptance"
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+      "lines": 49,
+      "boundary": "full read; edited files initial full text and final diff; not whole-file acceptance"
+    },
+    {
+      "path": "node_modules/.pnpm/pngjs@7.0.0/node_modules/pngjs/lib/packer-sync.js",
+      "sha256": "1b516238168a42704e62ba44528406188864a6ddda2ae92d1b91e5e078cdaa2d",
+      "lines": 56,
+      "boundary": "full read; edited files initial full text and final diff; not whole-file acceptance"
+    },
+    {
+      "path": "packages/pal-extract/package.json",
+      "sha256": "95ee7652070927b0af6014f8bb41af2985f7d869a65b96ea7aca510be6cd2277",
+      "lines": 23,
+      "boundary": "full read; edited files initial full text and final diff; not whole-file acceptance"
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "ranges": ["353-391", "603-631", "835-864"],
+      "sha256": "38e5801281b5a10b1af8488ca552974b7d6686824ad29e3f4cb2bc668775022f",
+      "wholeFileReadThisSlice": false
+    },
+    {
+      "path": "reference/sdlpal/palcommon.c",
+      "ranges": ["75-279", "803-866"],
+      "sha256": "919f428112e70c11b8db208e9bba486c8ab056aa4a893a8d4d6bae9b21b9aae6",
+      "wholeFileReadThisSlice": false
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "ranges": ["117-139"],
+      "sha256": "900a5de4bb4f680a8858a6c31ad222037b2f33ee96890b04fba14e1c3f0de1b5",
+      "wholeFileReadThisSlice": false
+    },
+    {
+      "path": "node_modules/.pnpm/pngjs@7.0.0/node_modules/pngjs/lib/png.js",
+      "ranges": ["1-68"],
+      "sha256": "e02cecbd36327829758386dc3f0ca4a36a2339ccb5d5e824ca3556e2c3f89726",
+      "wholeFileReadThisSlice": false
+    }
+  ],
+  "primaryBoundary": "PNG transport is type-pal contract; SDL only RLE/frame lookup semantics, no SDL PNG encoder claim",
+  "missingPrimaryReference": {
+    "fileExists": false,
+    "PAL_LoadSpriteCMatches": 0
+  },
+  "callerSearch": {
+    "command": [
+      "rg",
+      "-n",
+      "extractCharacterSprites",
+      "packages",
+      "scripts",
+      "--glob",
+      "*.ts",
+      "--glob",
+      "*.tsx",
+      "--glob",
+      "*.mjs"
+    ],
+    "exit": 0,
+    "rawSha256": "45f747d65bd14465d238d732f963cd90885e735877266043b42f79b6a406dea0",
+    "observation": "extractCharacterSprites found only definition and tests, no production caller in searched repository source; candidate remains review, no API removal"
+  },
+  "closed": []
+}

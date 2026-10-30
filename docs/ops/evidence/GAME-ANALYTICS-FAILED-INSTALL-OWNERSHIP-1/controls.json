@@ -1,0 +1,311 @@
+{
+  "base": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
+  "scope": "Current final spec unfiltered; old-source replay is five-error red reconfirmation, two single-failure controls, then restored5 green. Not original chronological red; original red-final proves pre-edit failures.",
+  "rows": [
+    {
+      "id": "old-source-final-spec",
+      "expectedFailed": 5,
+      "expectedFailureNameContains": null,
+      "sourceSha256": {
+        "packages/game/src/analytics/google-analytics.ts": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+        "packages/game/src/analytics/install-analytics.ts": "ff1c2c7d18175a282c011c8e72bb2d33ef898c0151631ada0b97577b92c1f375"
+      },
+      "specSha256": "de91bf99ddbd52f54dda813436d5386a338768cca7ee9129493c74899c1d98f1",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/analytics/google-analytics.install-failure.test.ts",
+        "--reporter=verbose",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-failure-controls-832mquoz/old-source-final-spec.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T05:39:41.263941+00:00",
+      "completedAt": "2026-10-18T05:39:42.309447+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "raw": "old-source-final-spec.raw.gz",
+      "rawBytes": 7411,
+      "rawSha256": "d66c703fc86b31a801cd69278007673d7fda3e94773b3f2afcbdb8319a9a6dd1",
+      "fullUncutMergedStdoutStderr": true,
+      "nativeReport": "old-source-final-spec.vitest.json.gz",
+      "nativeSha256": "106b1372bec50cce86d07e543b30c2a363835a7960f0e52f19eeff0899995fa1",
+      "cases": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership SDK js failure releases both acquired subscriptions",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected { consent: +0, page: +0 } to deeply equal { consent: 1, page: 1 }\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts:85:22\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+          ]
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership SDK config failure releases both acquired subscriptions",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected { consent: +0, page: +0 } to deeply equal { consent: 1, page: 1 }\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts:85:22\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+          ]
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership page subscription failure releases the earlier consent subscription",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected { consent: +0, page: +0 } to deeply equal { consent: 1, page: +0 }\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts:105:22\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership initial page-read failure releases subscriptions without deleting the shared SDK",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected { consent: +0, page: +0 } to deeply equal { consent: 1, page: 1 }\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts:122:22\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership installer rolls back its UI and listener while preserving the saved choice and game DOM",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected <div data-analytics-consent-root>…(2)</div> to be null\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts:149:74\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "restoredSha256": {
+        "packages/game/src/analytics/google-analytics.ts": "67c410a135d434ee7b75881578e6c117221685cbe0a01fd7eab8fc3ff6950cbe",
+        "packages/game/src/analytics/install-analytics.ts": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8",
+        "packages/game/src/analytics/google-analytics.install-failure.test.ts": "de91bf99ddbd52f54dda813436d5386a338768cca7ee9129493c74899c1d98f1"
+      },
+      "restoredByteExact": true
+    },
+    {
+      "id": "page-subscribe-outside-transaction",
+      "expectedFailed": 1,
+      "expectedFailureNameContains": "page subscription failure",
+      "sourceSha256": {
+        "packages/game/src/analytics/google-analytics.ts": "c1899db6b967b979c844955ddf92ba3404a6141bec9e52f9d533d253a7f266d6",
+        "packages/game/src/analytics/install-analytics.ts": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8"
+      },
+      "specSha256": "de91bf99ddbd52f54dda813436d5386a338768cca7ee9129493c74899c1d98f1",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/analytics/google-analytics.install-failure.test.ts",
+        "--reporter=verbose",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-failure-controls-832mquoz/page-subscribe-outside-transaction.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T05:39:42.309940+00:00",
+      "completedAt": "2026-10-18T05:39:43.150907+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "raw": "page-subscribe-outside-transaction.raw.gz",
+      "rawBytes": 2676,
+      "rawSha256": "f4633d6457de80f33ff03c7f6268f63bc2d17e1b8af74c41778bb6afa74c80cd",
+      "fullUncutMergedStdoutStderr": true,
+      "nativeReport": "page-subscribe-outside-transaction.vitest.json.gz",
+      "nativeSha256": "e9bd339d7296710e304183dfbf454d7a7572b82bfa21d2a4e19c8fc39c3d2db3",
+      "cases": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership SDK js failure releases both acquired subscriptions",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership SDK config failure releases both acquired subscriptions",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership page subscription failure releases the earlier consent subscription",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected { consent: +0, page: +0 } to deeply equal { consent: 1, page: +0 }\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts:105:22\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership initial page-read failure releases subscriptions without deleting the shared SDK",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership installer rolls back its UI and listener while preserving the saved choice and game DOM",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "restoredSha256": {
+        "packages/game/src/analytics/google-analytics.ts": "67c410a135d434ee7b75881578e6c117221685cbe0a01fd7eab8fc3ff6950cbe",
+        "packages/game/src/analytics/install-analytics.ts": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8",
+        "packages/game/src/analytics/google-analytics.install-failure.test.ts": "de91bf99ddbd52f54dda813436d5386a338768cca7ee9129493c74899c1d98f1"
+      },
+      "restoredByteExact": true
+    },
+    {
+      "id": "ui-rollback-removed",
+      "expectedFailed": 1,
+      "expectedFailureNameContains": "installer rolls back",
+      "sourceSha256": {
+        "packages/game/src/analytics/google-analytics.ts": "67c410a135d434ee7b75881578e6c117221685cbe0a01fd7eab8fc3ff6950cbe",
+        "packages/game/src/analytics/install-analytics.ts": "c84794f2c013c1f20b9d705a22a4420f39dd9664288c194035fab9e264ceefcd"
+      },
+      "specSha256": "de91bf99ddbd52f54dda813436d5386a338768cca7ee9129493c74899c1d98f1",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/analytics/google-analytics.install-failure.test.ts",
+        "--reporter=verbose",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-failure-controls-832mquoz/ui-rollback-removed.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T05:39:43.151353+00:00",
+      "completedAt": "2026-10-18T05:39:44.035246+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "raw": "ui-rollback-removed.raw.gz",
+      "rawBytes": 4489,
+      "rawSha256": "630dda97e49c7fd5c223e915e47b2580f1db9d81aa31e166582e9db015d798dd",
+      "fullUncutMergedStdoutStderr": true,
+      "nativeReport": "ui-rollback-removed.vitest.json.gz",
+      "nativeSha256": "04d798518c2454a4e306de4197ee60c0b30e411a6f9d81e51b7e41c892a530b5",
+      "cases": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership SDK js failure releases both acquired subscriptions",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership SDK config failure releases both acquired subscriptions",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership page subscription failure releases the earlier consent subscription",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership initial page-read failure releases subscriptions without deleting the shared SDK",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership installer rolls back its UI and listener while preserving the saved choice and game DOM",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected <div data-analytics-consent-root>…(2)</div> to be null\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts:149:74\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "restoredSha256": {
+        "packages/game/src/analytics/google-analytics.ts": "67c410a135d434ee7b75881578e6c117221685cbe0a01fd7eab8fc3ff6950cbe",
+        "packages/game/src/analytics/install-analytics.ts": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8",
+        "packages/game/src/analytics/google-analytics.install-failure.test.ts": "de91bf99ddbd52f54dda813436d5386a338768cca7ee9129493c74899c1d98f1"
+      },
+      "restoredByteExact": true
+    },
+    {
+      "id": "restored-current",
+      "expectedFailed": 0,
+      "expectedFailureNameContains": null,
+      "sourceSha256": {
+        "packages/game/src/analytics/google-analytics.ts": "67c410a135d434ee7b75881578e6c117221685cbe0a01fd7eab8fc3ff6950cbe",
+        "packages/game/src/analytics/install-analytics.ts": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8"
+      },
+      "specSha256": "de91bf99ddbd52f54dda813436d5386a338768cca7ee9129493c74899c1d98f1",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/analytics/google-analytics.install-failure.test.ts",
+        "--reporter=verbose",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-failure-controls-832mquoz/restored-current.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T05:39:44.035681+00:00",
+      "completedAt": "2026-10-18T05:39:44.874502+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "restored-current.raw.gz",
+      "rawBytes": 1276,
+      "rawSha256": "018cf4edc30ad54b34fe1df67718de90e1145ac1d1a4ac134848546bb7c02dec",
+      "fullUncutMergedStdoutStderr": true,
+      "nativeReport": "restored-current.vitest.json.gz",
+      "nativeSha256": "5021dc5aa03f66f0b2bd2e8dc3a7d618947c84cc24b24831d94ca1d4e82a0460",
+      "cases": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership SDK js failure releases both acquired subscriptions",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership SDK config failure releases both acquired subscriptions",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership page subscription failure releases the earlier consent subscription",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership initial page-read failure releases subscriptions without deleting the shared SDK",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.install-failure.test.ts",
+          "fullName": "failed analytics installation ownership installer rolls back its UI and listener while preserving the saved choice and game DOM",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ],
+      "restoredSha256": {
+        "packages/game/src/analytics/google-analytics.ts": "67c410a135d434ee7b75881578e6c117221685cbe0a01fd7eab8fc3ff6950cbe",
+        "packages/game/src/analytics/install-analytics.ts": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8",
+        "packages/game/src/analytics/google-analytics.install-failure.test.ts": "de91bf99ddbd52f54dda813436d5386a338768cca7ee9129493c74899c1d98f1"
+      },
+      "restoredByteExact": true
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-failure-controls-832mquoz",
+  "tempDirectoryRemoved": true,
+  "restoredByteExact": true
+}

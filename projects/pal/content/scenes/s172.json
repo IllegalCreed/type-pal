@@ -1340,6 +1340,62 @@
                       "kind": "loseItem"
                     },
                     {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3657"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3658"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3659"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3660"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3661"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3662"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3663"
+                      },
+                      "state": 0
+                    },
+                    {
                       "dir": "out",
                       "kind": "fade",
                       "ms": 600

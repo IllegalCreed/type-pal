@@ -1,0 +1,73 @@
+{
+  "sourceSha256": "900a5de4bb4f680a8858a6c31ad222037b2f33ee96890b04fba14e1c3f0de1b5",
+  "mutation": "rethrow decoder errors in permissive parser catch; isolated module and four copied suites, imports only rebound to module; no production source changed",
+  "runs": [
+    {
+      "label": "catch-baseline",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/shared",
+        "exec",
+        "vitest",
+        "run",
+        "src/pre94-rle-counter-0.test.ts",
+        "src/pre94-rle-counter-1.test.ts",
+        "src/pre94-rle-counter-2.test.ts",
+        "src/pre94-rle-counter-3.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-catch-baseline.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "65896cc99cc7f6bb249ef6d96744fd12e804663a79f2df98a282d8a18483cf41",
+      "runnerSha256": "b08e218031674568473f4b9d1252abe8ec998b2cb85f4ee6dbae5d100c24d7ab",
+      "counts": {
+        "numTotalTests": 54,
+        "numPassedTests": 54,
+        "numFailedTests": 0,
+        "numPendingTests": 0
+      }
+    },
+    {
+      "label": "catch-mutant",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/shared",
+        "exec",
+        "vitest",
+        "run",
+        "src/pre94-rle-counter-0.test.ts",
+        "src/pre94-rle-counter-1.test.ts",
+        "src/pre94-rle-counter-2.test.ts",
+        "src/pre94-rle-counter-3.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-catch-mutant.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "21a8c7fbb061a3c5bbc7374c5202729269d06bed863c4491abf84517c802b423",
+      "runnerSha256": "7d181a452cc05b7f5a92579fa39c40fe2610aae97bcb6c8c5a220ffaea805a1b",
+      "counts": {
+        "numTotalTests": 54,
+        "numPassedTests": 54,
+        "numFailedTests": 0,
+        "numPendingTests": 0
+      }
+    }
+  ],
+  "sharedCheck": {
+    "command": ["pnpm", "--filter", "@type-pal/shared", "run", "check"],
+    "exit": 0,
+    "rawSha256": "05e8ed2e01f9ed8178f1c2620c2420f7727c0f70949797ba7fdfb495ffce1831"
+  },
+  "sourceUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

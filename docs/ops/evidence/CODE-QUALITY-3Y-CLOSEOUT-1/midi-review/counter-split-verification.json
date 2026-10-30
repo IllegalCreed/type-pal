@@ -1,0 +1,31 @@
+{
+  "checkedBy": "Codex separate post-cleanup process",
+  "originalMainBytesUnchanged": true,
+  "recipeRebuilt": true,
+  "allRawAndRunnerSha256Match": true,
+  "allFileFullNameStatusAndFailuresMatch": true,
+  "scratchAbsent": true,
+  "runs": [
+    {
+      "label": "counter-before",
+      "exit": 0,
+      "passed": 12,
+      "failed": 0,
+      "pending": 0
+    },
+    {
+      "label": "counter-mutant",
+      "exit": 1,
+      "passed": 11,
+      "failed": 1,
+      "pending": 0
+    },
+    {
+      "label": "counter-recovery",
+      "exit": 0,
+      "passed": 12,
+      "failed": 0,
+      "pending": 0
+    }
+  ]
+}

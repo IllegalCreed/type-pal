@@ -1,0 +1,112 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge
+
+ ❯ src/pal-story-corrections.test.ts (6 tests | 4 failed) 18ms
+   × 鬼阴坛告别只演一次，离场回访及正式保存恢复都不重演 9ms
+   ✓ 剑圣离场：实际雇用秀才=true 才能触发随队告别 2ms
+   × 剑圣离场：实际雇用秀才=false 才能触发随队告别 2ms
+   × 桃源林演出阿奴默认不站场，选择剧情入口后在揭场前显示，结束及回访仍隐藏 1ms
+   ✓ 提前交虫 35 只：不足不清场，交足后盖罗娇全队离开且读档不复现 2ms
+   × 提前交虫 36 只：不足不清场，交足后盖罗娇全队离开且读档不复现 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/pal-story-corrections.test.ts > 鬼阴坛告别只演一次，离场回访及正式保存恢复都不重演
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/pal-story-corrections.test.ts:15:28
+     13|   run.enter('s078')
+     14|   run.enter('s077')
+     15|   expect(await run.hook()).toBe(false)
+       |                            ^
+     16|   expect(run.effects).toEqual([])
+     17|   const restored = await run.restore()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/pal-story-corrections.test.ts > 剑圣离场：实际雇用秀才=false 才能触发随队告别
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/pal-story-corrections.test.ts:28:51
+     26|   run.effects.length = 0
+     27|   await run.activate('e1883')
+     28|   expect(dialogueTexts(run).includes('dlg.5714')).toBe(hired)
+       |                                                   ^
+     29|   expect(run.effects.some((command) => command.kind === 'setFollowers'…
+     30|   expect(run.gates({ scene: 's102', entity: 'e1882' }).visible).toBe(f…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/pal-story-corrections.test.ts > 桃源林演出阿奴默认不站场，选择剧情入口后在揭场前显示，结束及回访仍隐藏
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/pal-story-corrections.test.ts:36:34
+     34|   const run = correctionRuntime('s182')
+     35|   const anu = { scene: 's182', entity: 'e2984' }
+     36|   expect(run.gates(anu).visible).toBe(false)
+       |                                  ^
+     37|   await run.runtime.runCommands([{
+     38|     kind: 'selectSceneHooks', scene: 's182', selection: { onEnter: { k…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/pal-story-corrections.test.ts > 提前交虫 36 只：不足不清场，交足后盖罗娇全队离开且读档不复现
+AssertionError: expected [ true, true, true, true, true, …(2) ] to deeply equal [ false, false, false, false, …(3) ]
+
+- Expected
++ Received
+
+  [
+-   false,
+-   false,
+-   false,
+-   false,
+-   false,
+-   false,
+-   false,
++   true,
++   true,
++   true,
++   true,
++   true,
++   true,
++   true,
+  ]
+
+ ❯ src/pal-story-corrections.test.ts:54:60
+     52|   const group = Array.from({ length: 7 }, (_, index) => ({ scene: 's21…
+     53|   expect(run.world.inventory.find((item) => item.itemId === '152')?.co…
+     54|   expect(group.map((target) => run.gates(target).visible)).toEqual(Arr…
+       |                                                            ^
+     55|   expect(run.effects.some((command) => command.kind === 'loadScene' &&…
+     56|   const restored = await run.restore()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 2 passed (6)
+   Start at  15:51:07
+   Duration  3.83s (transform 2.64s, setup 0ms, import 3.72s, tests 18ms, environment 0ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/pal-story-corrections.test.ts --reporter=default

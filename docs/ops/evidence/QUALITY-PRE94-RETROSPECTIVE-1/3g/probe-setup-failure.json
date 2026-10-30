@@ -1,0 +1,14 @@
+{
+  "kind": "actual first tool exec failure before first child process; not a product counter",
+  "command": [
+    "python3",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/output-boundary-probe.py"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 1,
+  "initialProbeSha256": "36ea0400ef064a87467ad5cbea360b03558cbb8dae7421923e4ee5d191ba9a29",
+  "rawSha256": "f597a890b6543947f57438d2b8a7cbe17300349056f63a36e8634520f1ae9f35",
+  "cause": "macOS /var TemporaryDirectory path alias differs from resolved /private/var target; canonicalize owned outer path before containment comparison",
+  "productCliStarted": false,
+  "remainingOwnedTemporaryTrees": 0
+}

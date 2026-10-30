@@ -8,15 +8,16 @@ describe('Framebuffer', () => {
     expect(fb.width).toBe(320)
     expect(fb.height).toBe(200)
     expect(fb.indices.length).toBe(320 * 200)
-    expect(fb.indices[0]).toBe(0)
+    expect(fb.indices.every((value) => value === 0)).toBe(true)
   })
 
   it('writePixel + clear', () => {
     const fb = createFramebuffer()
     fb.writePixel(10, 5, 42)
     expect(fb.indices[5 * 320 + 10]).toBe(42)
+    fb.indices.fill(42)
     fb.clear()
-    expect(fb.indices[5 * 320 + 10]).toBe(0)
+    expect(fb.indices.every((value) => value === 0)).toBe(true)
   })
 
   it('toImageData(palette) —— 索引 → RGBA', () => {
@@ -28,16 +29,14 @@ describe('Framebuffer', () => {
         [0, 0, 0],
         [100, 0, 0],
         [0, 100, 0],
-        ...Array.from({ length: 253 }, () => [0, 0, 0] as [number, number, number]),
+        ...Array.from({ length: 253 }, (): [number, number, number] => [0, 0, 0]),
       ],
       cycles: [],
     }
     const img = fb.toImageData(palette)
     expect(img.width).toBe(320)
     expect(img.height).toBe(200)
-    expect(img.data[0]).toBe(100)
-    expect(img.data[3]).toBe(255)
-    expect(img.data[4]).toBe(0)
-    expect(img.data[5]).toBe(100)
+    expect(Array.from(img.data.subarray(0, 8))).toEqual([100, 0, 0, 255, 0, 100, 0, 255])
+    expect(Array.from(img.data.subarray(-4))).toEqual([0, 0, 0, 255])
   })
 })

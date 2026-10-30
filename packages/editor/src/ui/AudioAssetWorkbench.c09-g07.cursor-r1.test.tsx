@@ -15,6 +15,7 @@ import {
   installManualAnimationFrames,
 } from '../__tests__/cursor-asset-r1/c09-fixtures.js'
 import { loadFilesIntoInput, stubNodeTestHost } from '../__tests__/cursor-asset-r1/kit.js'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 import { stopEditorAudioPreview } from '../core/audio-preview-session.js'
 import { authoredSoundId } from './SoundTab.js'
 
@@ -53,7 +54,7 @@ describe('C09-G07 真实 wrapper 导入与试听', () => {
     const file = fileOfBytes('c09-hit.wav', 'audio/wav', wav)
     const input = mounted.host.querySelector<HTMLInputElement>('input[aria-label="导入音效"]')!
     await loadFilesIntoInput(input, [file])
-    await vi.waitFor(() =>
+    await waitForReact(() =>
       expect(
         Object.keys(mounted!.session.getState().assetCatalog.assets).some((id) =>
           id.startsWith('sound.authored.'),
@@ -68,7 +69,7 @@ describe('C09-G07 真实 wrapper 导入与试听', () => {
     await loadFilesIntoInput(mounted.host.querySelector('input[aria-label="导入音效"]')!, [
       fileOfBytes('c09-hit.wav', 'audio/wav', wav),
     ])
-    await vi.waitFor(() => expect(mounted!.host.textContent).toContain('PCM 波形'))
+    await waitForReact(() => expect(mounted!.host.textContent).toContain('PCM 波形'))
   })
 
   test('C09-G07-05 同字节 WAV 再导入覆盖稳定 sound.authored id', async () => {
@@ -77,7 +78,7 @@ describe('C09-G07 真实 wrapper 导入与试听', () => {
     const file = fileOfBytes('a.wav', 'audio/wav', wav)
     const input = mounted.host.querySelector<HTMLInputElement>('input[aria-label="导入音效"]')!
     await loadFilesIntoInput(input, [file])
-    await vi.waitFor(() => expect(mounted!.session.getHistoryVersion()).toBeGreaterThan(0))
+    await waitForReact(() => expect(mounted!.session.getHistoryVersion()).toBeGreaterThan(0))
     const id = authoredSoundId(
       mounted.session.getState().assetCatalog.assets[
         Object.keys(mounted.session.getState().assetCatalog.assets).find((k) =>
@@ -86,7 +87,7 @@ describe('C09-G07 真实 wrapper 导入与试听', () => {
       ]!.sha256,
     )
     await loadFilesIntoInput(input, [fileOfBytes('b.wav', 'audio/wav', wav)])
-    await vi.waitFor(() =>
+    await waitForReact(() =>
       expect(mounted!.session.getState().assetCatalog.assets[id]).toBeDefined(),
     )
   })
@@ -97,12 +98,12 @@ describe('C09-G07 真实 wrapper 导入与试听', () => {
     await loadFilesIntoInput(mounted.host.querySelector('input[aria-label="导入音效"]')!, [
       fileOfBytes('c09-play.wav', 'audio/wav', wav),
     ])
-    await vi.waitFor(() => expect(mounted!.host.textContent).toContain('PCM 波形'))
+    await waitForReact(() => expect(mounted!.host.textContent).toContain('PCM 波形'))
     await act(async () => {
       mounted!.host.querySelector<HTMLButtonElement>('[aria-label="播放"]')!.click()
       await Promise.resolve()
     })
-    await vi.waitFor(() => expect(audioPort.contexts[0]?.resumeCalls).toBeGreaterThan(0))
+    await waitForReact(() => expect(audioPort.contexts[0]?.resumeCalls).toBeGreaterThan(0))
   })
 
   test('C09-G07-07 非法 WAV 导入零提交且显示错误', async () => {
@@ -111,7 +112,7 @@ describe('C09-G07 真实 wrapper 导入与试听', () => {
     await loadFilesIntoInput(mounted.host.querySelector('input[aria-label="导入音效"]')!, [
       fileOfBytes('bad.wav', 'audio/wav', new Uint8Array(8)),
     ])
-    await vi.waitFor(() => expect(mounted!.host.textContent).toContain('不是有效 WAV'))
+    await waitForReact(() => expect(mounted!.host.textContent).toContain('不是有效 WAV'))
     expect(mounted!.session.getHistoryVersion()).toBe(before)
   })
 
@@ -121,7 +122,7 @@ describe('C09-G07 真实 wrapper 导入与试听', () => {
     await loadFilesIntoInput(musicMounted.host.querySelector('input[aria-label="导入音乐"]')!, [
       fileOfBytes('theme.mid', 'audio/midi', C09_THEME_MIDI),
     ])
-    await vi.waitFor(() =>
+    await waitForReact(() =>
       expect(
         Object.values(musicMounted.session.getState().assetCatalog.assets).some(
           (record) => record.kind === 'music',
@@ -136,7 +137,7 @@ describe('C09-G07 真实 wrapper 导入与试听', () => {
     await loadFilesIntoInput(mounted.host.querySelector('input[aria-label="导入音效"]')!, [
       fileOfBytes('c09-base.wav', 'audio/wav', wav),
     ])
-    await vi.waitFor(() => expect(mounted!.session.getHistoryVersion()).toBe(1))
+    await waitForReact(() => expect(mounted!.session.getHistoryVersion()).toBe(1))
     const id = Object.keys(mounted!.session.getState().assetCatalog.assets).find((k) =>
       k.startsWith('sound.authored.'),
     )!
@@ -150,7 +151,7 @@ describe('C09-G07 真实 wrapper 导入与试听', () => {
     await loadFilesIntoInput(replaceInput, [
       fileOfBytes('new.wav', 'audio/wav', encodeWavPcm16([0.1, -0.1, 0.2])),
     ])
-    await vi.waitFor(() => expect(mounted!.session.getHistoryVersion()).toBeGreaterThan(1))
+    await waitForReact(() => expect(mounted!.session.getHistoryVersion()).toBeGreaterThan(1))
     expect(mounted!.session.getState().assetCatalog.assets[id]).toBeDefined()
   })
 
@@ -163,7 +164,7 @@ describe('C09-G07 真实 wrapper 导入与试听', () => {
     await loadFilesIntoInput(input, [
       fileOfBytes('b.wav', 'audio/wav', encodeWavPcm16([0.25, -0.25])),
     ])
-    await vi.waitFor(() =>
+    await waitForReact(() =>
       expect(mounted!.host.querySelectorAll('.ds-catalog-row').length).toBeGreaterThan(1),
     )
     const second = mounted!.host.querySelectorAll<HTMLButtonElement>('.ds-catalog-row')[1]!

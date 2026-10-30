@@ -3,7 +3,7 @@
  * 商标淡出的系数夹紧、终帧黑像素、默认 1000ms 与 chunk 6；卷轴窄图与停在 1。
  */
 import type { Palette } from '@type-pal/shared'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { dumpFramebuffer } from '../__tests__/grok-render-r1/dump-evidence.js'
 import { legalPalette } from '../__tests__/grok-render-r1/legal-host.js'
 import type { IndexedImage } from '../assets/png.js'
@@ -45,22 +45,28 @@ function crane() {
   return { frames: [full(1, 1, 1)], anchorX: 0, anchorY: 0 }
 }
 
-afterEach(() => {
-  vi.restoreAllMocks()
-  vi.useRealTimers()
+beforeEach(() => vi.useFakeTimers())
+afterEach(async () => {
+  try {
+    // 失败中的卷轴也要先收到退出键、结局 Promise，再交回时钟和画布观察器。
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space' }))
+    await vi.runAllTimersAsync()
+  } finally {
+    vi.restoreAllMocks()
+    vi.useRealTimers()
+  }
 })
 
 describe('G10-B 商标淡出与卷轴停点', () => {
   it('G10-B01 时间回退时淡出系数夹在 1，画布仍是调色板 RGB', async () => {
-    vi.useFakeTimers()
     const fb = createFramebuffer()
     const ctx = realCtx()
     const written: Uint8ClampedArray[] = []
     const orig = ctx.putImageData.bind(ctx)
-    ctx.putImageData = ((image: ImageData, dx: number, dy: number) => {
+    vi.spyOn(ctx, 'putImageData').mockImplementation((image, dx, dy) => {
       written.push(new Uint8ClampedArray(image.data))
       orig(image, dx, dy)
-    }) as typeof ctx.putImageData
+    })
     let tick = 0
     const samples = [0, -600, 600]
     const pending = playTrademarkFallback({
@@ -90,7 +96,7 @@ describe('G10-B 商标淡出与卷轴停点', () => {
   it('G10-B02 淡出时长 0 的最终像素是黑，索引仍是 200', async () => {
     const fb = createFramebuffer()
     const ctx = realCtx()
-    await playTrademarkFallback({
+    const pending = playTrademarkFallback({
       fb,
       canvasCtx: ctx,
       palette: palette200(),
@@ -100,6 +106,8 @@ describe('G10-B 商标淡出与卷轴停点', () => {
       fadeOutMs: 0,
       nowFn: () => 0,
     })
+    await vi.runAllTimersAsync()
+    await pending
     expect(Array.from(ctx.getImageData(0, 0, 1, 1).data)).toEqual([0, 0, 0, 255])
     expect(fb.indices[0]).toBe(200)
     const finalSnap = ctx.getImageData(0, 0, 320, 200)
@@ -109,7 +117,6 @@ describe('G10-B 商标淡出与卷轴停点', () => {
   })
 
   it('G10-B03 默认淡出前等待 1000 毫秒', async () => {
-    vi.useFakeTimers()
     const spy = vi.spyOn(globalThis, 'setTimeout')
     const pending = playTrademarkFallback({
       fb: createFramebuffer(),
@@ -127,7 +134,7 @@ describe('G10-B 商标淡出与卷轴停点', () => {
 
   it('G10-B04 playRng 固定 chunk 6', async () => {
     const seen: number[] = []
-    await playTrademarkFallback({
+    const pending = playTrademarkFallback({
       fb: createFramebuffer(),
       canvasCtx: realCtx(),
       palette: palette200(),
@@ -140,12 +147,13 @@ describe('G10-B 商标淡出与卷轴停点', () => {
       fadeOutMs: 0,
       nowFn: () => 0,
     })
+    await vi.runAllTimersAsync()
+    await pending
     expect(seen).toEqual([6])
   })
 
   it('G10-B05 窄图只拷贝自身宽度', async () => {
-    vi.useFakeTimers()
-    vi.spyOn(Math, 'random').mockReturnValue(1)
+    vi.spyOn(Math, 'random').mockReturnValue(0.9999999999999999)
     const fb = createFramebuffer()
     const pending = playSplashFallback({
       fb,
@@ -164,8 +172,7 @@ describe('G10-B 商标淡出与卷轴停点', () => {
   })
 
   it('G10-B06 卷轴停在 iImgPos 1，底行仍是下图', async () => {
-    vi.useFakeTimers()
-    vi.spyOn(Math, 'random').mockReturnValue(1)
+    vi.spyOn(Math, 'random').mockReturnValue(0.9999999999999999)
     const fb = createFramebuffer()
     const pending = playSplashFallback({
       fb,

@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "owner": "Codex",
+  "base": "0f6423ef1ccefb28aaf4dc046f8d22fa849f3625",
+  "card": "3f",
+  "state": "original card contract accepted;explicit broader limits retained",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/events/annotate.ts",
+      "sha256": "ef31df8d85c291cabc2d1ad836bec706c4f70e8de9c6c20d15d1b098ac86e673",
+      "lines": 115,
+      "read": "全文当前实现/测试；既有冻结真值与反控按其输入域复用",
+      "dimensions": {
+        "A": "全文当前现行注释层及真实CLI符号JSON读取、Words/Command类型；parseSymbols只取普通记录的字符串值，丢非字符串；不改变数值id/执行指令。缺名保持原对象，有名才浅拷贝，raw与非三类指令共享原对象；输入不写。无资源/异步取消。",
+        "B": "符号sidecar优先、词表回退/负索引/相对物品索引与命名说明符合实现；没有承诺深克隆。旧src行号不新增，保真依据为DSL/Word与真实消费，不将任意注释表说成SDL机制。",
+        "C": "三个private leaf由整个Symbols收窄为所需item/enemy/scene表；giveItem仍传原words的只读items视图类型，保留??右侧延迟读取，避免提前读取未使用词表。无反向依赖、隐式全局或跨层写入；公共出口/参数不变。",
+        "D": "parseSymbols共用独立过滤器，词表偏移仅giveItem语义，不和enemy/scene造通用模式函数；共享leaf只承担单一元数据字段。",
+        "E": "既有17→16、6单红/3转移及只读证据按冻结3-annotate版本复用；当前16在本包445回归中实际执行。测试名更正为零突变，断言/fixture字节未变，不给深拷贝虚假信用。",
+        "F": "switch只分派三种命令，helper名称表达领域，参数暴露实际依赖；不为小映射再分出框架/文件。",
+        "G": "PERSON/SPELL/ENEMY_OBJ_START目前只有定义无真实消费，登记可改善公共出口清理候选，未获接口清理范围不擅删。原3f仅parseSymbols及sidecar合同可独立完成，广域死导出不据此关闭。",
+        "H": "纯确定性输入输出可直接测，无IO/时间/随机；JSON读取在CLI，当前不为测试增加产品注入入口。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.test.ts",
+      "sha256": "3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d",
+      "lines": 119,
+      "read": "全文当前实现/测试；既有冻结真值与反控按其输入域复用",
+      "dimensions": {
+        "A": "全文6例真实parseSymbols；合法普通对象/空值及明确错误类型按过滤政策构造；未把数组当合法符号表。",
+        "B": "标题与三类映射、非法值及missing fallback实际一致；不宣称运行游戏。",
+        "C": "输入/输出每例自有，clone用于输入不变检查而非自比oracle，无spy/环境/异步。",
+        "D": "与GLM词表偏移/零突变分层；原退休/转移已按3-annotate矩阵记录，不恢复弱断言。",
+        "E": "冻结六反控复用，显式字符串内容与键过滤独立；当前6真实运行全绿。未知格式语义不因包绿接受。",
+        "F": "小字面量与明确expected，失败指向具体过滤/覆盖政策。",
+        "G": "没有重复参数变体/skip/只看非空；六例保留不同合同。",
+        "H": "直接调用纯函数，零全局/外部资源，无测设缝。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+      "sha256": "cf18e63bd8be2d9ec4db111d0155bc12c1191975e17d3b1bdf22d500364285e7",
+      "lines": 159,
+      "read": "全文当前实现/测试；既有冻结真值与反控按其输入域复用",
+      "dimensions": {
+        "A": "全文10例：物品绝对索引、缺名/表缺失、词表/sidecar和输入零突变；Command使用合法带类型对象；非法索引专测边界。",
+        "B": "改旧“纯映射产出新对象”标题，实际raw/未知标签可共享；不再冒称全量克隆。",
+        "C": "所有命令/词表/symbols局部创建，before快照只验证输入不变，不替代结果业务断言。无mock或清理句柄。",
+        "D": "与主测parseSymbols过滤合同不同，旧重复精简映射复用。10例不再扩展弱值域重复。",
+        "E": "输出具体_item/_enemyTeam/_scene与输入不变，测试正文和fixture零变化，仅标题更正；当前10真实执行。",
+        "F": "按符号优先/缺名/ownership分组，ITEM_OBJ_START来源明确；未掩盖空字符串优先政策。",
+        "G": "无死helper、无恒真/计数替业务oracle；只读例与索引例各独立。",
+        "H": "确定性原函数无宿主依赖，失败可直接归注释层，不用假引擎。"
+      }
+    }
+  ],
+  "priorEvidence": [
+    "3-annotate/README.md",
+    "3-annotate/read-boundaries.json",
+    "3-annotate/before-proof.json",
+    "3-annotate/after-proof.json"
+  ],
+  "runs": ["four-card-directed", "four-card-extract-full", "multi-card-tsc"],
+  "limitations": [
+    "原3f合同仅parseSymbols与CLI sidecar，广域annotate死公共导出保持候选，不在当前擅改。",
+    "原历史输入/反控按其冻结版本适用，未重复全部变异运行。"
+  ],
+  "refactor": "仅三个私有函数依赖收窄；公开签名、metadata政策、数值id与浅拷贝ownership保持。",
+  "quantitativeTriage": {
+    "member": "additional-complexity.json",
+    "function": "parseSymbols",
+    "score": 11,
+    "threshold": 10,
+    "conclusion": "复杂度11来自外层对象、五类值表、逐值类型校验及空值兼容；业务合同不同且错误带具体key，层次有限，未发现值得另造解释器的职责耦合。",
+    "notAcceptanceMetric": true
+  },
+  "gates": {
+    "state": "passed",
+    "owner": "3b/closeout/evidence.json",
+    "fullCheck": 20390,
+    "officialRatchet": 19992,
+    "protectedFast": 19992,
+    "diagnostics": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    }
+  },
+  "acceptedFiles": [
+    "packages/pal-extract/src/events/annotate.ts",
+    "packages/pal-extract/src/events/annotate.test.ts",
+    "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts"
+  ],
+  "newClosures": [
+    {
+      "path": "packages/pal-extract/src/events/annotate.test.ts",
+      "from": "review"
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+      "from": "review"
+    }
+  ]
+}

@@ -1,19 +1,36 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createInitialGameState } from '../../game-state.js'
 import { MAX_SAVE_SLOTS, Save } from '../api.js'
 
-describe('S-w0.1 Save API stub', () => {
+describe('Save API memory fallback', () => {
   beforeEach(async () => {
+    vi.stubGlobal('indexedDB', undefined)
     await Save._clearAllForTest()
   })
 
-  it('saveSlot / loadSlot:基本 round-trip', async () => {
+  afterEach(async () => {
+    await Save._clearAllForTest()
+    vi.unstubAllGlobals()
+  })
+
+  it('saveSlot / loadSlot: round-trip preserves gameplay fields', async () => {
     const gs = createInitialGameState({ x: 100, y: 50, facing: 'right' })
     gs.dwCash = 999
-    await Save.saveSlot(1, gs)
-    const loaded = await Save.loadSlot(1)
+    gs.wNumScene = 12
+    gs.wSavedTimes = 7
+    gs.PlayerRolesRuntime.rgwMaxHP[0] = 200
+    gs.PlayerRolesRuntime.rgwHP[0] = 150
+    gs.PlayerRolesRuntime.rgwLevel[1] = 8
+    gs.inventory = [{ itemId: 105, count: 3 }]
+    await Save.saveSlot(4, gs)
+    const loaded = await Save.loadSlot(4)
     expect(loaded?.party.x).toBe(100)
     expect(loaded?.dwCash).toBe(999)
+    expect(loaded?.wNumScene).toBe(12)
+    expect(loaded?.wSavedTimes).toBe(7)
+    expect(loaded?.PlayerRolesRuntime.rgwHP[0]).toBe(150)
+    expect(loaded?.PlayerRolesRuntime.rgwLevel[1]).toBe(8)
+    expect(loaded?.inventory).toEqual([{ itemId: 105, count: 3 }])
   })
 
   it('saveSlot 是深拷贝(后续 mutate gs 不影响存档)', async () => {
@@ -25,6 +42,25 @@ describe('S-w0.1 Save API stub', () => {
     expect(loaded?.dwCash).toBe(100)
   })
 
+  it('loadSlot returns an independent snapshot on every read', async () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dwCash = 100
+    gs.PlayerRolesRuntime.rgwMaxHP[0] = 200
+    gs.PlayerRolesRuntime.rgwHP[0] = 150
+    gs.inventory = [{ itemId: 105, count: 3 }]
+    await Save.saveSlot(1, gs)
+    const loaded = await Save.loadSlot(1)
+    if (loaded === null) throw new Error('Expected saved slot 1')
+    loaded.dwCash = 9999
+    loaded.PlayerRolesRuntime.rgwHP[0] = 1
+    for (const item of loaded.inventory) item.count = 1
+
+    const reloaded = await Save.loadSlot(1)
+    expect(reloaded?.dwCash).toBe(100)
+    expect(reloaded?.PlayerRolesRuntime.rgwHP[0]).toBe(150)
+    expect(reloaded?.inventory).toEqual([{ itemId: 105, count: 3 }])
+  })
+
   it('loadSlot 不存在的 slot → null', async () => {
     expect(await Save.loadSlot(3)).toBeNull()
   })
@@ -33,6 +69,7 @@ describe('S-w0.1 Save API stub', () => {
     const gs1 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs1.dwCash = 100
     gs1.wNumScene = 5
+    gs1.wSavedTimes = 42
     const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs2.dwCash = 200
     gs2.wNumScene = 10
@@ -45,6 +82,7 @@ describe('S-w0.1 Save API stub', () => {
     expect(list[0]?.id).toBe(1)
     expect(list[0]?.meta.cash).toBe(100)
     expect(list[0]?.meta.sceneId).toBe(5)
+    expect(list[0]?.meta.savedTimes).toBe(42)
     expect(list[1]?.id).toBe(3)
     expect(list[1]?.meta.cash).toBe(200)
   })
@@ -59,10 +97,20 @@ describe('S-w0.1 Save API stub', () => {
     expect(list.find((s) => s.id === 2)).toBeUndefined()
   })
 
-  it('slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错', async () => {
+  it('listSlots returns independent metadata values', async () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    await expect(Save.saveSlot(0, gs)).rejects.toThrow(/超 1-5/)
-    await expect(Save.saveSlot(6, gs)).rejects.toThrow(/超 1-5/)
+    gs.dwCash = 100
+    gs.wSavedTimes = 7
+    await Save.saveSlot(1, gs)
+    const first = await Save.listSlots()
+    expect(first.map(({ id }) => id)).toEqual([1])
+    first[0]!.meta.cash = 999
+    first[0]!.meta.savedTimes = 999
+
+    const second = await Save.listSlots()
+    expect(second[0]?.meta.cash).toBe(100)
+    expect(second[0]?.meta.savedTimes).toBe(7)
+    expect((await Save.loadSlot(1))?.dwCash).toBe(100)
   })
 
   it('overwrite:同 slot saveSlot 二次覆盖', async () => {

@@ -1,0 +1,7 @@
+{
+  "command": ["pnpm", "test:coverage-tools"],
+  "exit": 1,
+  "bytes": 15302,
+  "sha256": "c9e540dfc0f6b535a30eac397a41a98171dbddbf41a16fa7635d978f9862833f",
+  "reason": "two exact approved tables union to 22 entries/net51; fixed-count test still at21/net50; no matcher changes"
+}

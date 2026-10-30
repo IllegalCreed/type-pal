@@ -1,0 +1,40 @@
+{
+  "changedSourcePaths": [
+    "packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx",
+    "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx"
+  ],
+  "productsAndBaselineUnchanged": [
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.tsx",
+      "sha256": "6cd374b82635729aae5f090f5b764dca70479b366f4002e16b21a2b160a343bc"
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.tsx",
+      "sha256": "c9bb3265242871fdff523f05f62240bdaa925e427384f57e4dff10d01d8032c7"
+    },
+    {
+      "path": "packages/editor/src/core/sprite-assets.ts",
+      "sha256": "9ecff5971e0046e71fd7271608255b4117acdc9e80c7f06ad4203d66f1d3d05f"
+    },
+    {
+      "path": "packages/editor/src/core/editor-asset-reader.ts",
+      "sha256": "ea6f472fd817f7d932f3249d3a9c4449f2f894569b093b06e8e2012d0e75fbdf"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "f0d008c301aa4e86b2d08d8ffc292ffdf006f26efc021e8dffb747dbd0d4e790"
+    }
+  ],
+  "currentTestAndHelper": [
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx",
+      "sha256": "27284e31d8892cc636830e432570efef0d3a5910135c92860e88e6e441380772",
+      "lines": 445
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+      "sha256": "fafb3bd34dfdb04437769f0936f0d4d59e69c51feae7658d3fc9587f24e1d341",
+      "lines": 532
+    }
+  ]
+}

@@ -1,0 +1,2235 @@
+{
+  "kind": "directed-production-collision-and-map-component-analysis",
+  "limits": [
+    "Map-only 4-direction connectivity excludes dynamic NPC and trigger consequences; not a legal end-to-end save route."
+  ],
+  "scenes": [
+    {
+      "sid": 225,
+      "map": 223,
+      "sizes": [
+        5909, 3112, 160, 220, 227, 231, 119, 156, 120, 144, 126, 91, 114, 250, 169, 210, 156, 150,
+        250, 240, 242, 80
+      ],
+      "collisionDifferences": 0,
+      "entry": {
+        "x": 240,
+        "y": 1592,
+        "walkable": true,
+        "reforgeWalkable": true,
+        "component": 0
+      },
+      "landings": [
+        {
+          "ip": 30946,
+          "x": 1392,
+          "y": 1208,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "ip": 31046,
+          "x": 1168,
+          "y": 904,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        }
+      ],
+      "candidates": [],
+      "entities": [
+        {
+          "id": "e3925",
+          "trigger": "L_30870",
+          "state": 1,
+          "x": 720,
+          "y": 664,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3926",
+          "trigger": "L_30874",
+          "state": 1,
+          "x": 592,
+          "y": 1192,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3927",
+          "trigger": "L_30878",
+          "state": 1,
+          "x": 1120,
+          "y": 464,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3928",
+          "trigger": "L_30882",
+          "state": 1,
+          "x": 1472,
+          "y": 1552,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3929",
+          "trigger": "L_30886",
+          "state": 1,
+          "x": 1600,
+          "y": 224,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3930",
+          "trigger": "L_30890",
+          "state": 1,
+          "x": 1600,
+          "y": 1488,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3931",
+          "trigger": "L_30894",
+          "state": 1,
+          "x": 1632,
+          "y": 864,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3932",
+          "trigger": "L_30898",
+          "state": 1,
+          "x": 512,
+          "y": 992,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3933",
+          "trigger": "L_30902",
+          "state": 1,
+          "x": 1328,
+          "y": 328,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3934",
+          "trigger": "L_30906",
+          "state": 1,
+          "x": 1424,
+          "y": 504,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3935",
+          "trigger": "L_30910",
+          "state": 1,
+          "x": 928,
+          "y": 432,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3936",
+          "trigger": "L_30914",
+          "state": 1,
+          "x": 1104,
+          "y": 1224,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3937",
+          "trigger": "L_31070",
+          "state": 1,
+          "x": 704,
+          "y": 1696,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3938",
+          "trigger": "L_30918",
+          "state": 1,
+          "x": 432,
+          "y": 1592,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3939",
+          "trigger": "L_31098",
+          "state": 1,
+          "x": 1136,
+          "y": 776,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3940",
+          "trigger": "L_31102",
+          "state": 1,
+          "x": 592,
+          "y": 1288,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3941",
+          "trigger": "L_31106",
+          "state": 1,
+          "x": 1072,
+          "y": 744,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3942",
+          "trigger": "L_31110",
+          "state": 1,
+          "x": 720,
+          "y": 1352,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3943",
+          "trigger": "L_31090",
+          "state": 1,
+          "x": 1200,
+          "y": 808,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3944",
+          "trigger": "L_31094",
+          "state": 1,
+          "x": 656,
+          "y": 1320,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3945",
+          "trigger": "L_31066",
+          "state": 1,
+          "x": 416,
+          "y": 416,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3946",
+          "trigger": "L_30926",
+          "state": 1,
+          "x": 1360,
+          "y": 1368,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3947",
+          "trigger": "L_30934",
+          "state": 1,
+          "x": 1568,
+          "y": 704,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3948",
+          "trigger": "L_30942",
+          "state": 1,
+          "x": 1184,
+          "y": 896,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3949",
+          "trigger": "L_30950",
+          "state": 1,
+          "x": 1376,
+          "y": 1200,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3950",
+          "trigger": "L_30958",
+          "state": 1,
+          "x": 1392,
+          "y": 360,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3951",
+          "trigger": "L_31026",
+          "state": 1,
+          "x": 1456,
+          "y": 392,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3952",
+          "trigger": "L_31038",
+          "state": 1,
+          "x": 928,
+          "y": 1456,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3953",
+          "trigger": "L_31042",
+          "state": 1,
+          "x": 1184,
+          "y": 896,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3954",
+          "trigger": "L_31054",
+          "state": 1,
+          "x": 1376,
+          "y": 1200,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3955",
+          "trigger": "L_31058",
+          "state": 1,
+          "x": 608,
+          "y": 944,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3956",
+          "trigger": "L_31062",
+          "state": 1,
+          "x": 400,
+          "y": 856,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3957",
+          "sprite": "sprite-10",
+          "trigger": "L_37977",
+          "state": 2,
+          "x": 1680,
+          "y": 264,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3958",
+          "sprite": "sprite-10",
+          "trigger": "L_37929",
+          "state": 2,
+          "x": 496,
+          "y": 264,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3959",
+          "sprite": "sprite-10",
+          "trigger": "L_37935",
+          "state": 2,
+          "x": 928,
+          "y": 672,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3960",
+          "sprite": "sprite-10",
+          "trigger": "L_37935",
+          "state": 2,
+          "x": 1424,
+          "y": 776,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3961",
+          "sprite": "sprite-10",
+          "trigger": "L_37935",
+          "state": 2,
+          "x": 336,
+          "y": 968,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3962",
+          "sprite": "sprite-10",
+          "trigger": "L_38007",
+          "state": 2,
+          "x": 1536,
+          "y": 1520,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3963",
+          "sprite": "sprite-10",
+          "trigger": "L_38007",
+          "state": 2,
+          "x": 1040,
+          "y": 1768,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3964",
+          "sprite": "sprite-10",
+          "trigger": "L_37671",
+          "state": 2,
+          "x": 576,
+          "y": 1520,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        }
+      ]
+    },
+    {
+      "sid": 226,
+      "map": 224,
+      "sizes": [
+        9028, 477, 288, 69, 180, 162, 42, 72, 66, 219, 162, 24, 70, 24, 156, 144, 63, 40, 39, 39,
+        120, 430, 268, 20, 62, 32, 63, 32, 66
+      ],
+      "collisionDifferences": 0,
+      "entry": {
+        "x": 1408,
+        "y": 512,
+        "walkable": false,
+        "reforgeWalkable": false,
+        "component": null
+      },
+      "landings": [
+        {
+          "ip": 30950,
+          "x": 1696,
+          "y": 1136,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 15
+        }
+      ],
+      "candidates": [
+        {
+          "ip": 30946,
+          "x": 1104,
+          "y": 1496,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 20
+        },
+        {
+          "ip": 30950,
+          "x": 992,
+          "y": 1408,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 20
+        },
+        {
+          "ip": 31046,
+          "x": 1696,
+          "y": 1136,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 15
+        }
+      ],
+      "entities": [
+        {
+          "id": "e3965",
+          "trigger": "L_31122",
+          "state": 1,
+          "x": 1088,
+          "y": 752,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 2
+        },
+        {
+          "id": "e3966",
+          "trigger": "L_30922",
+          "state": 1,
+          "x": 784,
+          "y": 936,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 9
+        },
+        {
+          "id": "e3967",
+          "trigger": "L_30930",
+          "state": 1,
+          "x": 368,
+          "y": 1144,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 9
+        },
+        {
+          "id": "e3968",
+          "trigger": "L_30938",
+          "state": 1,
+          "x": 208,
+          "y": 840,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 6
+        },
+        {
+          "id": "e3969",
+          "trigger": "L_30946",
+          "state": 1,
+          "x": 1712,
+          "y": 1144,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 15
+        },
+        {
+          "id": "e3970",
+          "trigger": "L_30954",
+          "state": 1,
+          "x": 1472,
+          "y": 1264,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 15
+        },
+        {
+          "id": "e3971",
+          "trigger": "L_30962",
+          "state": 1,
+          "x": 896,
+          "y": 1712,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 21
+        },
+        {
+          "id": "e3972",
+          "trigger": "L_30966",
+          "state": 1,
+          "x": 848,
+          "y": 1240,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 14
+        },
+        {
+          "id": "e3973",
+          "trigger": "L_30970",
+          "state": 1,
+          "x": 672,
+          "y": 1616,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 21
+        },
+        {
+          "id": "e3974",
+          "trigger": "L_30974",
+          "state": 1,
+          "x": 1184,
+          "y": 1072,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 10
+        },
+        {
+          "id": "e3975",
+          "trigger": "L_30978",
+          "state": 1,
+          "x": 464,
+          "y": 1512,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 21
+        },
+        {
+          "id": "e3976",
+          "trigger": "L_30982",
+          "state": 1,
+          "x": 1536,
+          "y": 912,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 5
+        },
+        {
+          "id": "e3977",
+          "trigger": "L_30986",
+          "state": 1,
+          "x": 304,
+          "y": 1432,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 21
+        },
+        {
+          "id": "e3978",
+          "trigger": "L_30990",
+          "state": 1,
+          "x": 880,
+          "y": 600,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3979",
+          "trigger": "L_30994",
+          "state": 1,
+          "x": 1760,
+          "y": 800,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 5
+        },
+        {
+          "id": "e3980",
+          "trigger": "L_30998",
+          "state": 1,
+          "x": 1248,
+          "y": 688,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 3
+        },
+        {
+          "id": "e3981",
+          "trigger": "L_31002",
+          "state": 1,
+          "x": 1360,
+          "y": 968,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 10
+        },
+        {
+          "id": "e3982",
+          "trigger": "L_31006",
+          "state": 1,
+          "x": 1232,
+          "y": 1304,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 19
+        },
+        {
+          "id": "e3983",
+          "trigger": "L_31010",
+          "state": 1,
+          "x": 768,
+          "y": 384,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3984",
+          "trigger": "L_31014",
+          "state": 1,
+          "x": 960,
+          "y": 864,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 4
+        },
+        {
+          "id": "e3985",
+          "trigger": "L_31018",
+          "state": 1,
+          "x": 1392,
+          "y": 312,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e3986",
+          "trigger": "L_31022",
+          "state": 1,
+          "x": 1152,
+          "y": 608,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 2
+        },
+        {
+          "id": "e3987",
+          "trigger": "L_31030",
+          "state": 1,
+          "x": 1296,
+          "y": 1688,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 22
+        },
+        {
+          "id": "e3988",
+          "trigger": "L_31034",
+          "state": 1,
+          "x": 1744,
+          "y": 1464,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 22
+        },
+        {
+          "id": "e3989",
+          "trigger": "L_31046",
+          "state": 1,
+          "x": 1120,
+          "y": 1488,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 20
+        },
+        {
+          "id": "e3990",
+          "trigger": "L_31050",
+          "state": 1,
+          "x": 976,
+          "y": 1416,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 20
+        },
+        {
+          "id": "e3991",
+          "trigger": "L_31078",
+          "state": 1,
+          "x": 1152,
+          "y": 1840,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 21
+        },
+        {
+          "id": "e3992",
+          "trigger": "L_31082",
+          "state": 1,
+          "x": 576,
+          "y": 1296,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 18
+        },
+        {
+          "id": "e3993",
+          "trigger": "L_31086",
+          "state": 1,
+          "x": 288,
+          "y": 976,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 8
+        },
+        {
+          "id": "e3994",
+          "sprite": "sprite-10",
+          "trigger": "L_37671",
+          "state": 2,
+          "x": 576,
+          "y": 832,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 8
+        },
+        {
+          "id": "e3995",
+          "sprite": "sprite-10",
+          "trigger": "L_37671",
+          "state": 2,
+          "x": 576,
+          "y": 1040,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 9
+        },
+        {
+          "id": "e3996",
+          "sprite": "sprite-10",
+          "trigger": "L_37977",
+          "state": 2,
+          "x": 720,
+          "y": 1368,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 18
+        },
+        {
+          "id": "e3997",
+          "sprite": "sprite-389",
+          "trigger": "L_37113",
+          "state": 2,
+          "x": 1392,
+          "y": 1384,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 19
+        },
+        {
+          "id": "e3998",
+          "sprite": "sprite-389",
+          "trigger": "L_37251",
+          "state": 2,
+          "x": 528,
+          "y": 648,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 4
+        },
+        {
+          "id": "e3999",
+          "sprite": "sprite-10",
+          "trigger": "L_37983",
+          "state": 2,
+          "x": 1040,
+          "y": 1448,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 20
+        },
+        {
+          "id": "e4000",
+          "sprite": "sprite-10",
+          "trigger": "L_38085",
+          "state": 2,
+          "x": 1008,
+          "y": 1128,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 14
+        },
+        {
+          "id": "e4001",
+          "sprite": "sprite-10",
+          "trigger": "L_37971",
+          "state": 2,
+          "x": 1088,
+          "y": 224,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4002",
+          "sprite": "sprite-10",
+          "trigger": "L_37977",
+          "state": 2,
+          "x": 1568,
+          "y": 528,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 3
+        },
+        {
+          "id": "e4003",
+          "sprite": "sprite-10",
+          "trigger": "L_37983",
+          "state": 2,
+          "x": 1152,
+          "y": 320,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4004",
+          "sprite": "sprite-10",
+          "trigger": "L_37641",
+          "state": 2,
+          "x": 1600,
+          "y": 1616,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 22
+        },
+        {
+          "id": "e4005",
+          "sprite": "sprite-10",
+          "trigger": "L_37629",
+          "state": 2,
+          "x": 1408,
+          "y": 1520,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 22
+        },
+        {
+          "id": "e4006",
+          "sprite": "sprite-10",
+          "trigger": "L_37641",
+          "state": 2,
+          "x": 608,
+          "y": 1648,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 21
+        },
+        {
+          "id": "e4007",
+          "sprite": "sprite-10",
+          "trigger": "L_37629",
+          "state": 2,
+          "x": 752,
+          "y": 1576,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 21
+        }
+      ]
+    },
+    {
+      "sid": 249,
+      "map": 203,
+      "sizes": [12437, 647, 735],
+      "collisionDifferences": 0,
+      "entry": {
+        "x": 864,
+        "y": 512,
+        "walkable": true,
+        "reforgeWalkable": true,
+        "component": 1
+      },
+      "landings": [
+        {
+          "ip": 34028,
+          "x": 1168,
+          "y": 1048,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        }
+      ],
+      "candidates": [
+        {
+          "ip": 34028,
+          "x": 1392,
+          "y": 616,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        }
+      ],
+      "entities": [
+        {
+          "id": "e4394",
+          "trigger": "L_33969",
+          "state": 1,
+          "x": 304,
+          "y": 680,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4395",
+          "trigger": "L_33977",
+          "state": 1,
+          "x": 1040,
+          "y": 696,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4396",
+          "sprite": "sprite-613",
+          "state": 1,
+          "x": 1040,
+          "y": 712,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4397",
+          "trigger": "L_34000",
+          "state": 1,
+          "x": 816,
+          "y": 488,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4398",
+          "trigger": "L_34008",
+          "state": 1,
+          "x": 624,
+          "y": 584,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4399",
+          "trigger": "L_34016",
+          "state": 1,
+          "x": 1216,
+          "y": 480,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4400",
+          "trigger": "L_34024",
+          "state": 1,
+          "x": 1440,
+          "y": 592,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4401",
+          "trigger": "L_34032",
+          "state": 1,
+          "x": 1664,
+          "y": 704,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4402",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 224,
+          "y": 688,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4403",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 592,
+          "y": 616,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4404",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 784,
+          "y": 520,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4405",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 1104,
+          "y": 440,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e4406",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 1328,
+          "y": 552,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e4407",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 1552,
+          "y": 664,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        }
+      ]
+    },
+    {
+      "sid": 260,
+      "map": 204,
+      "sizes": [12587, 677, 258, 342],
+      "collisionDifferences": 0,
+      "entry": {
+        "x": 1600,
+        "y": 1584,
+        "walkable": true,
+        "reforgeWalkable": true,
+        "component": 3
+      },
+      "landings": [
+        {
+          "ip": 34024,
+          "x": 1168,
+          "y": 1048,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "ip": 34032,
+          "x": 1168,
+          "y": 1048,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        }
+      ],
+      "candidates": [
+        {
+          "ip": 34024,
+          "x": 928,
+          "y": 816,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 2
+        }
+      ],
+      "entities": [
+        {
+          "id": "e4553",
+          "trigger": "L_34004",
+          "state": 1,
+          "x": 1648,
+          "y": 1608,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4554",
+          "trigger": "L_34012",
+          "state": 1,
+          "x": 1360,
+          "y": 1752,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4555",
+          "trigger": "L_34020",
+          "state": 1,
+          "x": 624,
+          "y": 728,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4556",
+          "trigger": "L_34036",
+          "state": 1,
+          "x": 1104,
+          "y": 1080,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4557",
+          "trigger": "L_34028",
+          "state": 1,
+          "x": 880,
+          "y": 840,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4558",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 640,
+          "y": 624,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e4559",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 1168,
+          "y": 360,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e4560",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 1840,
+          "y": 696,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        }
+      ]
+    },
+    {
+      "sid": 285,
+      "map": 203,
+      "sizes": [12437, 647, 735],
+      "collisionDifferences": 0,
+      "entry": {
+        "x": 864,
+        "y": 512,
+        "walkable": true,
+        "reforgeWalkable": true,
+        "component": 1
+      },
+      "landings": [],
+      "candidates": [
+        {
+          "ip": 34028,
+          "x": 1392,
+          "y": 616,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        }
+      ],
+      "entities": [
+        {
+          "id": "e4807",
+          "trigger": "L_35059",
+          "state": 1,
+          "x": 304,
+          "y": 680,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4808",
+          "trigger": "L_35440",
+          "state": 1,
+          "x": 1040,
+          "y": 696,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4809",
+          "sprite": "sprite-614",
+          "state": 1,
+          "x": 1040,
+          "y": 712,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4810",
+          "trigger": "L_35067",
+          "state": 1,
+          "x": 816,
+          "y": 488,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4811",
+          "trigger": "L_35075",
+          "state": 1,
+          "x": 624,
+          "y": 584,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4812",
+          "trigger": "L_35083",
+          "state": 1,
+          "x": 1216,
+          "y": 480,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4813",
+          "trigger": "L_35091",
+          "state": 1,
+          "x": 1440,
+          "y": 592,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4814",
+          "trigger": "L_35095",
+          "state": 1,
+          "x": 1664,
+          "y": 704,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4815",
+          "sprite": "sprite-549",
+          "trigger": "L_41949",
+          "state": 2,
+          "x": 1040,
+          "y": 456,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4816",
+          "sprite": "sprite-548",
+          "trigger": "L_41939",
+          "state": 2,
+          "x": 1648,
+          "y": 840,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4817",
+          "sprite": "sprite-548",
+          "trigger": "L_41937",
+          "state": 2,
+          "x": 928,
+          "y": 704,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4818",
+          "sprite": "sprite-549",
+          "trigger": "L_41943",
+          "state": 2,
+          "x": 1136,
+          "y": 696,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4819",
+          "sprite": "sprite-11",
+          "trigger": "L_42037",
+          "state": 2,
+          "x": 1408,
+          "y": 896,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 2
+        },
+        {
+          "id": "e4820",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 224,
+          "y": 688,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4821",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 592,
+          "y": 616,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4822",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 784,
+          "y": 520,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4823",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 1104,
+          "y": 440,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e4824",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 1328,
+          "y": 552,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e4825",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 1552,
+          "y": 664,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        }
+      ]
+    },
+    {
+      "sid": 286,
+      "map": 204,
+      "sizes": [12587, 677, 258, 342],
+      "collisionDifferences": 0,
+      "entry": {
+        "x": 1600,
+        "y": 1584,
+        "walkable": true,
+        "reforgeWalkable": true,
+        "component": 3
+      },
+      "landings": [
+        {
+          "ip": 35091,
+          "x": 1168,
+          "y": 1048,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "ip": 35095,
+          "x": 1168,
+          "y": 1048,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        }
+      ],
+      "candidates": [
+        {
+          "ip": 34024,
+          "x": 928,
+          "y": 816,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 2
+        }
+      ],
+      "entities": [
+        {
+          "id": "e4826",
+          "trigger": "L_35071",
+          "state": 1,
+          "x": 1648,
+          "y": 1608,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4827",
+          "trigger": "L_35079",
+          "state": 1,
+          "x": 1360,
+          "y": 1752,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4828",
+          "trigger": "L_35087",
+          "state": 1,
+          "x": 624,
+          "y": 728,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4829",
+          "trigger": "L_35099",
+          "state": 1,
+          "x": 1104,
+          "y": 1080,
+          "walkable": false,
+          "reforgeWalkable": false,
+          "component": null
+        },
+        {
+          "id": "e4830",
+          "sprite": "sprite-549",
+          "trigger": "L_42007",
+          "state": 2,
+          "x": 1392,
+          "y": 1656,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 3
+        },
+        {
+          "id": "e4831",
+          "sprite": "sprite-548",
+          "trigger": "L_41993",
+          "state": 2,
+          "x": 1488,
+          "y": 1560,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 3
+        },
+        {
+          "id": "e4832",
+          "sprite": "sprite-549",
+          "trigger": "L_42045",
+          "state": 2,
+          "x": 1152,
+          "y": 800,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 2
+        },
+        {
+          "id": "e4833",
+          "sprite": "sprite-492",
+          "trigger": "L_42017",
+          "state": 2,
+          "x": 1168,
+          "y": 680,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 2
+        },
+        {
+          "id": "e4834",
+          "sprite": "sprite-548",
+          "trigger": "L_42003",
+          "state": 2,
+          "x": 1040,
+          "y": 696,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 2
+        },
+        {
+          "id": "e4835",
+          "sprite": "sprite-548",
+          "trigger": "L_41989",
+          "state": 2,
+          "x": 1024,
+          "y": 752,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 2
+        },
+        {
+          "id": "e4836",
+          "sprite": "sprite-549",
+          "trigger": "L_41935",
+          "state": 2,
+          "x": 1792,
+          "y": 720,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4837",
+          "sprite": "sprite-549",
+          "trigger": "L_41991",
+          "state": 2,
+          "x": 1712,
+          "y": 664,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4838",
+          "sprite": "sprite-549",
+          "trigger": "L_41943",
+          "state": 2,
+          "x": 1632,
+          "y": 640,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4839",
+          "sprite": "sprite-492",
+          "trigger": "L_42019",
+          "state": 2,
+          "x": 1184,
+          "y": 400,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4840",
+          "sprite": "sprite-548",
+          "trigger": "L_41937",
+          "state": 2,
+          "x": 1104,
+          "y": 424,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4841",
+          "sprite": "sprite-548",
+          "trigger": "L_41999",
+          "state": 2,
+          "x": 1088,
+          "y": 464,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4842",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 640,
+          "y": 624,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e4843",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 1168,
+          "y": 360,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e4844",
+          "sprite": "sprite-619",
+          "state": 1,
+          "x": 1840,
+          "y": 696,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e4845",
+          "sprite": "sprite-10",
+          "trigger": "L_37647",
+          "state": 2,
+          "x": 1248,
+          "y": 704,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 2
+        },
+        {
+          "id": "e4846",
+          "sprite": "sprite-10",
+          "trigger": "L_37581",
+          "state": 2,
+          "x": 1152,
+          "y": 656,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 2
+        },
+        {
+          "id": "e4847",
+          "sprite": "sprite-10",
+          "trigger": "L_37671",
+          "state": 2,
+          "x": 1808,
+          "y": 712,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4848",
+          "sprite": "sprite-10",
+          "trigger": "L_37551",
+          "state": 2,
+          "x": 1200,
+          "y": 408,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4849",
+          "sprite": "sprite-10",
+          "trigger": "L_37563",
+          "state": 2,
+          "x": 1312,
+          "y": 1552,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 3
+        }
+      ]
+    },
+    {
+      "sid": 281,
+      "map": 194,
+      "sizes": [11812, 1698, 140, 100],
+      "collisionDifferences": 0,
+      "entry": {
+        "x": 1664,
+        "y": 1456,
+        "walkable": true,
+        "reforgeWalkable": true,
+        "component": 1
+      },
+      "landings": [],
+      "candidates": [],
+      "entities": [
+        {
+          "id": "e4792",
+          "trigger": "L_35151",
+          "state": 1,
+          "x": 592,
+          "y": 1624,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4793",
+          "trigger": "L_35155",
+          "state": 1,
+          "x": 464,
+          "y": 1224,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4794",
+          "trigger": "L_35163",
+          "state": 1,
+          "x": 1328,
+          "y": 1704,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4795",
+          "trigger": "L_35171",
+          "state": 1,
+          "x": 1696,
+          "y": 1440,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4796",
+          "trigger": "L_35179",
+          "state": 1,
+          "x": 960,
+          "y": 1056,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4797",
+          "trigger": "L_35187",
+          "state": 1,
+          "x": 1344,
+          "y": 1248,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4798",
+          "sprite": "sprite-562",
+          "hidden": true,
+          "state": 0,
+          "x": 1024,
+          "y": 1408,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4799",
+          "sprite": "sprite-562",
+          "hidden": true,
+          "state": 0,
+          "x": 1040,
+          "y": 1400,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4800",
+          "hidden": true,
+          "trigger": "L_35464",
+          "state": 0,
+          "x": 1120,
+          "y": 1360,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4801",
+          "sprite": "anu",
+          "hidden": true,
+          "state": 0,
+          "x": 1296,
+          "y": 1288,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4802",
+          "sprite": "sprite-38",
+          "hidden": true,
+          "state": 0,
+          "x": 1072,
+          "y": 1384,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        },
+        {
+          "id": "e4803",
+          "sprite": "li-xiaoyao",
+          "hidden": true,
+          "state": 0,
+          "x": 1088,
+          "y": 1376,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 1
+        }
+      ]
+    },
+    {
+      "sid": 81,
+      "map": 84,
+      "sizes": [14096],
+      "collisionDifferences": 0,
+      "entry": {
+        "x": 544,
+        "y": 912,
+        "walkable": true,
+        "reforgeWalkable": true,
+        "component": 0
+      },
+      "landings": [],
+      "candidates": [],
+      "entities": [
+        {
+          "id": "e1517",
+          "trigger": "L_13041",
+          "state": 1,
+          "x": 848,
+          "y": 1336,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1518",
+          "sprite": "sprite-382",
+          "trigger": "L_15293",
+          "state": 1,
+          "x": 1616,
+          "y": 968,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1519",
+          "sprite": "sprite-90",
+          "state": 2,
+          "x": 1648,
+          "y": 1000,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1520",
+          "sprite": "sprite-98",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1504,
+          "y": 976,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1521",
+          "sprite": "sprite-98",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1648,
+          "y": 1048,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1522",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1472,
+          "y": 976,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1523",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1440,
+          "y": 992,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1524",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1408,
+          "y": 1008,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1525",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1376,
+          "y": 1024,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1526",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1344,
+          "y": 1040,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1527",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1312,
+          "y": 1056,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1528",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1280,
+          "y": 1072,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1529",
+          "sprite": "sprite-134",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1248,
+          "y": 1104,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1530",
+          "sprite": "sprite-134",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1392,
+          "y": 1176,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1531",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1648,
+          "y": 1064,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1532",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1616,
+          "y": 1080,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1533",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1584,
+          "y": 1096,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1534",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1552,
+          "y": 1112,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1535",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1488,
+          "y": 1144,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1536",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1456,
+          "y": 1160,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1537",
+          "sprite": "sprite-137",
+          "trigger": "L_15291",
+          "state": 2,
+          "x": 1424,
+          "y": 1176,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1538",
+          "sprite": "sprite-390",
+          "state": 1,
+          "x": 1504,
+          "y": 1056,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1539",
+          "sprite": "sprite-391",
+          "state": 1,
+          "x": 1504,
+          "y": 1040,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1540",
+          "sprite": "sprite-392",
+          "state": 1,
+          "x": 1552,
+          "y": 1064,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1541",
+          "sprite": "lin-yueru",
+          "hidden": true,
+          "state": 0,
+          "x": 1728,
+          "y": 1024,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1542",
+          "sprite": "sprite-386",
+          "hidden": true,
+          "state": 0,
+          "x": 1552,
+          "y": 1032,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1543",
+          "sprite": "sprite-106",
+          "hidden": true,
+          "trigger": "L_14980",
+          "state": 0,
+          "x": 1440,
+          "y": 1024,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        },
+        {
+          "id": "e1544",
+          "sprite": "sprite-117",
+          "hidden": true,
+          "trigger": "L_14984",
+          "state": 0,
+          "x": 1472,
+          "y": 1008,
+          "walkable": true,
+          "reforgeWalkable": true,
+          "component": 0
+        }
+      ]
+    }
+  ]
+}

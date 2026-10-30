@@ -1,0 +1,67 @@
+{
+  "status": "exact mapping; official scope/baseline unchanged until complete52 freeze",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts",
+      "previous": 16,
+      "current": 15,
+      "removed": [
+        "KIMI-R1 pal-extract 散落守卫 extractCharacterSprites：spriteIds 中的缺 chunk 项 warn 后 skip"
+      ],
+      "kept": [
+        "KIMI-R1 pal-extract 散落守卫 parseMap：非 65536 字节精确拒绝",
+        "KIMI-R1 pal-extract 散落守卫 parseMap：合法 65536B 全零图 + sprite chunk → 全 0 cell 与帧列表",
+        "KIMI-R1 pal-extract 散落守卫 decodePalette：短缓冲三通道 `?? 0` 回退为全黑且无夜色",
+        "KIMI-R1 pal-extract 散落守卫 parseWordDat：短缓冲 flat 在越界处 break，分类切片仍按偏移读取",
+        "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行非法 hex 回退 0，合法行保真",
+        "KIMI-R1 pal-extract 散落守卫 parseBdf：位图行循环内遇 ENDCHAR 提前截断（rowIdx < height 即 break）",
+        "KIMI-R1 pal-extract 散落守卫 parseBdf：零宽字形 bytesPerRow=0，位图行循环零次进入",
+        "KIMI-R1 pal-extract 散落守卫 buildManifest：相同 path 排序稳定（comparator 相等臂）且排除自身与 .DS_Store",
+        "KIMI-R1 pal-extract 散落守卫 buildEnemyObjectNameMap / buildObjectIndexToEnemyIdMap：短缓冲提前返回空 map",
+        "KIMI-R1 pal-extract 散落守卫 parseItems：截断精确拒绝（报实测与所需字节数）",
+        "KIMI-R1 pal-extract 散落守卫 decodeRgmPortrait：0 宽 / 0 高帧返回 null（不写 PNG）",
+        "KIMI-R1 pal-extract 散落守卫 parseSpells：无 words 时不填 _name 注释",
+        "KIMI-R1 pal-extract 散落守卫 parseStores / parseBattleFields：尺寸不整除精确拒绝",
+        "KIMI-R1 pal-extract 散落守卫 parseLevelUpMagic：roleCount<=0 与短缓冲均返回空",
+        "KIMI-R1 pal-extract 散落守卫 parseEnemyTeams：槽位查无名字不进 _names；全无名不设 _names 键"
+      ],
+      "currentSha256": "229c6433140e78fcb7df5a9e8a4e576698ff7cae3909011316f19718db2d9790",
+      "authority": "User2026-10-26 approved these old sprite exports and their dedicated tests",
+      "reason": "No production caller for retired wrapper; retained production encoder/frame/connection contracts unchanged",
+      "proof": "extract-rework-native.json.gz:retained-test-body-proof.json"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+      "previous": 4,
+      "current": 3,
+      "removed": ["R04 extractCharacterSprites 多 id 输入 id 顺序保留；每 sprite 帧独立解码"],
+      "kept": [
+        "R04 encodeIndexedPng 真解码像素合同 带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index",
+        "R04 encodeIndexedPng 真解码像素合同 缺省 mask：全像素 alpha 255",
+        "R04 framesToOut 多帧 3 帧容器：index 0/1/2、逐帧尺寸与真解码像素"
+      ],
+      "currentSha256": "c02fe8adea672225ac43017baa84d1b0039a23e762d6b24487455890e11acc80",
+      "authority": "User2026-10-26 approved these old sprite exports and their dedicated tests",
+      "reason": "No production caller for retired wrapper; retained production encoder/frame/connection contracts unchanged",
+      "proof": "extract-rework-native.json.gz:retained-test-body-proof.json"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.test.ts",
+      "previous": 3,
+      "current": 1,
+      "removed": [
+        "extractCharacterSprites 给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧",
+        "extractCharacterSprites 未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)"
+      ],
+      "kept": [
+        "M3.5 T5 character sprite extraction loops scene chain 既有场景 1/14/17 引用的非零 sprite 均有 canonical .rle 产物"
+      ],
+      "currentSha256": "03b9a0a2172040c0fca3e823956029d1b45196dad6f3e460e4bb1fed555e803f",
+      "authority": "User2026-10-26 approved these old sprite exports and their dedicated tests",
+      "reason": "No production caller for retired wrapper; retained production encoder/frame/connection contracts unchanged",
+      "proof": "extract-rework-native.json.gz:retained-test-body-proof.json"
+    }
+  ],
+  "retiredTotal": 4,
+  "keptTotal": 19
+}

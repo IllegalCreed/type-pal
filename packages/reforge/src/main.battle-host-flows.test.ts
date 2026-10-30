@@ -23,7 +23,7 @@ afterEach(async () => {
     await active.done.catch(() => undefined)
     await drain()
   }
-  host?.close()
+  await host?.close()
   host = undefined
 })
 async function finish(h: ShellHost) {

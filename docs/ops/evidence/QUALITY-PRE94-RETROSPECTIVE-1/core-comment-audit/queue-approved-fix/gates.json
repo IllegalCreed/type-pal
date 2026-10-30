@@ -1,0 +1,114 @@
+{
+  "base": "c3d943ddeba9c05d01a752c0c22f8d3e78d724a8",
+  "scope": "User-approved phase1 queue behavior repair; 4 related code/test files, no whole-file closure",
+  "userDecision": "2026-10-18 批准对齐 SDLPal（推荐）",
+  "officialInitialRed": {
+    "failed": 7,
+    "runtimeErrorSuites": 0,
+    "receipt": "red.json",
+    "limitation": "Three initial boundary vectors used unreachable high player dex; no production-caller credit for them. Ordinary tie and real Confirm were legal before first production edit."
+  },
+  "finalLegalSpecOldSourceReplay": {
+    "failed": 7,
+    "runtimeErrorSuites": 0,
+    "receipt": "red-replay.json",
+    "scope": "Only queue.ts reverted to c3; not whole old checkout."
+  },
+  "direct": {
+    "currentParityPassed": 7,
+    "existingUnitPassed": 9,
+    "receipts": ["direct-current.json", "direct.json"],
+    "diagnostics": 0
+  },
+  "adjacent": {
+    "files": 38,
+    "passed": 942,
+    "stderrBlocks": 0,
+    "receipt": "adjacent.json",
+    "laterDelta": "Only three numeric boundary fixtures changed after this full run. Same final production source; reran affected7, direct-current.json. Unchanged935 not repeated."
+  },
+  "controls": {
+    "preciseSelectedBusinessErrors": 6,
+    "runtimeErrorSuites": 0,
+    "receipt": "controls.json",
+    "unselectedPerRun": 6,
+    "unselectedCredit": false
+  },
+  "nativeC": {
+    "staticFinalCaseOracles": 6,
+    "extraCallerWordVector": 1,
+    "compilerWarnings": 0,
+    "receipt": "native-oracles-current.json",
+    "scope": "Exact native original sort body and speed-ffff stop predicate in minimal context, not full SDLPal/assets/browser."
+  },
+  "fixtureOracleIntegrity": {
+    "exit": 0,
+    "receipt": "oracle-verification.json",
+    "scope": "Only final static fixtures/native expected outputs/source-fragment/raw hash identity."
+  },
+  "typecheck": {
+    "exit": 0,
+    "diagnostics": 0,
+    "receipt": "typecheck-current.json"
+  },
+  "docs": {
+    "exit": 0,
+    "diagnostics": 0,
+    "toolTestsPassed": 125,
+    "receipt": "docs.json",
+    "consumers": "docs/model/testing/phase-lore/content all zero issues; no runtime/browser claim",
+    "currentTextConsumer": {
+      "exit": 0,
+      "issues": 0,
+      "receipt": "docs-current.json",
+      "scope": "Final text/link/task consumer only; unchanged125 tool tests not rerun."
+    }
+  },
+  "lint": {
+    "exit": 0,
+    "files": 5151,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "receipt": "lint.json"
+  },
+  "ledger": {
+    "exit": 0,
+    "tracked": 3315,
+    "closed": 278,
+    "review": 63,
+    "pending": 2974,
+    "receipt": "ledger.json",
+    "semanticReviewStillRequired": true
+  },
+  "diff": {
+    "exit": 0,
+    "diagnostics": 0,
+    "receipt": "diff.json",
+    "scope": "Owned staged paths; final update restaged and checked again before commit."
+  },
+  "newClosed": 0,
+  "remaining": [
+    "nonfinite/fractional/out-of-capacity public input domain",
+    "caller extreme SHORT and float-to-WORD conversion",
+    "legacy omitted-dex2 approximation",
+    "protected fullName migration at real large closeout",
+    "browser/action-animation and unified diagnostics"
+  ],
+  "notRun": [
+    "whole-repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "browser visual",
+    "E2E"
+  ],
+  "notRunReason": "User explicitly batches expensive whole-repo/coverage gates at large-task closeout; no rules/retirement payload/baseline changed.",
+  "merged": false,
+  "metadataInspection": {
+    "initialExit": 1,
+    "initialReceipt": "final-inspection.json",
+    "failure": "Only recorded battle-state.ts range730-945 exceeded actual EOF918; corrected to730-918, original read-boundaries gzip retained. No product/test source changes or semantic acceptance credit.",
+    "currentReceipt": "final-inspection-current.json",
+    "currentExit": 0
+  }
+}

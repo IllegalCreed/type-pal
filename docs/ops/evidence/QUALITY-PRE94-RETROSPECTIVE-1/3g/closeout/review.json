@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "owner": "Codex",
+  "base": "0f6423ef1ccefb28aaf4dc046f8d22fa849f3625",
+  "card": "3g",
+  "state": "five-file test-host slice accepted;wholeCLI card remainspartial",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "sha256": "4b00dec25c948419a6b35e0d278b5b4995e48473b040503999c2e6d2e9f638b7",
+      "lines": 188,
+      "read": "全文当前实现/测试；既有冻结真值与反控按其输入域复用",
+      "dimensions": {
+        "A": "真实Node+tsx执行临时副本CLI，原盘/生成物只在各自隔离树；返回close后的退出值/完整双流，不把退出0当诊断净。 本文件9例：roundtrip、输入缺失/损坏、两共享链接拒绝。",
+        "B": "头注不再冒称全量真实原盘；每例标题对应其具体输入/错误/输出。预期错误是业务反例，不给全仓静态豁免。",
+        "C": "宿主只拥有树与进程；fixture仍各suite拥有；afterAll统一dispose等待进程close后再删树；mkdtemp即登记，setup失败不漏树。",
+        "D": "三处重复spawn/copy/late registration集中到唯一测试宿主，输入政策/bytes不搬入万能helper，不按模式布尔值合并三类业务。",
+        "E": "原17个业务身份/fixture与旧断言保留，完整stderr按各例核对。清单增加独立文件系统census不是复制实现作oracle；单点漏项旧6绿、新恰1业务红。 9例原具体路径/错误断言保留。",
+        "F": "fixture和业务断言留在用例侧，runCli/createTree命名直接，无重复执行协议。",
+        "G": "删除三个宿主副本，未删未知业务例；现有floor断言保留并加完整census，不以mock次数代业务结果。",
+        "H": "真实进程与临时文件有清晰生命周期，测试无需改公共产品API；不把测试宿主当生产抽取API。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "sha256": "1f0d45af78ff0b4026e6553138dd13e35dec5ff26dc03c5060988d237f6abc62",
+      "lines": 457,
+      "read": "全文当前实现/测试；既有冻结真值与反控按其输入域复用",
+      "dimensions": {
+        "A": "真实Node+tsx执行临时副本CLI，原盘/生成物只在各自隔离树；返回close后的退出值/完整双流，不把退出0当诊断净。 本文件6例：隔离完整管线、必要输入缺失与损坏；manifest与实际目录逐项比对。",
+        "B": "头注不再冒称全量真实原盘；每例标题对应其具体输入/错误/输出。预期错误是业务反例，不给全仓静态豁免。",
+        "C": "宿主只拥有树与进程；fixture仍各suite拥有；afterAll统一dispose等待进程close后再删树；mkdtemp即登记，setup失败不漏树。",
+        "D": "三处重复spawn/copy/late registration集中到唯一测试宿主，输入政策/bytes不搬入万能helper，不按模式布尔值合并三类业务。",
+        "E": "原17个业务身份/fixture与旧断言保留，完整stderr按各例核对。清单增加独立文件系统census不是复制实现作oracle；单点漏项旧6绿、新恰1业务红。 原清单>10保留，另核exact files/fileCount/totalBytes；不执行生产buildManifest求expected。",
+        "F": "fixture和业务断言留在用例侧，runCli/createTree命名直接，无重复执行协议。",
+        "G": "删除三个宿主副本，未删未知业务例；现有floor断言保留并加完整census，不以mock次数代业务结果。",
+        "H": "真实进程与临时文件有清晰生命周期，测试无需改公共产品API；不把测试宿主当生产抽取API。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "sha256": "ded6e69d721824c14c15d74ed51af4ff57b1900d5bfd13d31ff563a58d4b2c4b",
+      "lines": 120,
+      "read": "全文当前实现/测试；既有冻结真值与反控按其输入域复用",
+      "dimensions": {
+        "A": "真实Node+tsx执行临时副本CLI，原盘/生成物只在各自隔离树；返回close后的退出值/完整双流，不把退出0当诊断净。 本文件2例：有BDF必无stderr、缺BDF仅精确唯一可选警告。",
+        "B": "头注不再冒称全量真实原盘；每例标题对应其具体输入/错误/输出。预期错误是业务反例，不给全仓静态豁免。",
+        "C": "宿主只拥有树与进程；fixture仍各suite拥有；afterAll统一dispose等待进程close后再删树；mkdtemp即登记，setup失败不漏树。",
+        "D": "三处重复spawn/copy/late registration集中到唯一测试宿主，输入政策/bytes不搬入万能helper，不按模式布尔值合并三类业务。",
+        "E": "原17个业务身份/fixture与旧断言保留，完整stderr按各例核对。清单增加独立文件系统census不是复制实现作oracle；单点漏项旧6绿、新恰1业务红。 将仅“不含某warn”加强为stderr空，另例精确唯一warn，字形输出断言不减。",
+        "F": "fixture和业务断言留在用例侧，runCli/createTree命名直接，无重复执行协议。",
+        "G": "删除三个宿主副本，未删未知业务例；现有floor断言保留并加完整census，不以mock次数代业务结果。",
+        "H": "真实进程与临时文件有清晰生命周期，测试无需改公共产品API；不把测试宿主当生产抽取API。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-host.ts",
+      "sha256": "6da3976c58acf663493472e23bddb6ad7eb9382d11c5257b9a3153445b23ea95",
+      "lines": 122,
+      "read": "全文当前实现/测试；既有冻结真值与反控按其输入域复用",
+      "dimensions": {
+        "A": "全文生命周期：mkdtemp后即归属Set，runCli注册ChildProcess到close promise，spawn error在close后reject，UTF8流解码跨chunk。dispose先SIGTERM/await close再删所有树，删除错误聚合抛出；dispose后拒新工作。",
+        "B": "注释说明setup前登记、UTF8分块、detached receipts和fixture归suite。没有宣称任意敌意子进程都有限时退出。",
+        "C": "只管测试source-copy/进程/完整回执，无业务文件值/产品状态。一个宿主所有权边界清楚，重复dispose共用promise，导出仅测试目录。",
+        "D": "三套真实相同生命周期复用，返回数据统一；不提供注入fake进程或业务模式；测试fixture在suite。",
+        "E": "正常真实退出+spawn ENOENT+活跃进程三例分别验证接收/错误/清理顺序；去await单点反控恰1AssertionError，正式源码未留变异。",
+        "F": "树/进程/回执三命名集合明确；runCli/copy/dispose各单责任，无类层级/万能context。",
+        "G": "新增约118行替换三套重复宿主，实际3个caller；receipt getter由审计采集实际使用，非为未来需求死接口。",
+        "H": "以真实外部程序接口检验过程，资源记录可读取detached副本；无隐藏全局spy，故障可由缺cwd/可控复制子程序确定触发。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-host.test.ts",
+      "sha256": "9095e62d4768e00a0ce374685e39f1e807c0ea674735c2be6941881f95ae4177",
+      "lines": 111,
+      "read": "全文当前实现/测试；既有冻结真值与反控按其输入域复用",
+      "dimensions": {
+        "A": "全文3例：真实失败CLI、实际spawn ENOENT、受控信号子进程。受控cli只写隔离复制文件，明确不冒充产品真值。",
+        "B": "标题/注释准确限定树/receipt/close/进程ownership，不声称游戏功能。",
+        "C": "每例独立host，onTestFinished从创建前登记兜底，正常finally dispose；观察器/AbortSignal监听随watcher.close解除。就绪用原子marker+原生FS事件，取消/超时reject等待并进入finally，不依赖固定1秒启动预算。PID和真实FS核回收。",
+        "D": "只测宿主生命周期，17个产品CLI合同仍在原suite，不重复整套业务。",
+        "E": "全部23个旧expect matcher AST多重集保留，445业务身份不变；r3去await反控恰1AssertionError，正式源还原。另一次真实5000ms默认超时确认树和PID消失，仅资源失败证据，不算业务反控。",
+        "F": "受控source注释明确fixture目的，路径与PID均来自本例，无手列固定系统PID。",
+        "G": "三个独立合同少而精，无skip/only或重复exit smoke；默认waitFor只等完整PID就绪不放大超时。",
+        "H": "通过真实进程/文件事件及Vitest4.1.7原生test signal取消，无全局超时/规则/产品变化；启动时间不再是假业务oracle。"
+      }
+    }
+  ],
+  "context": {
+    "path": "packages/pal-extract/src/cli.ts",
+    "sha256": "c9a67cc73e40584b99fab28dd7f5cbd4acd218894db2daf7cb96bd1464dca9f6",
+    "read": "既有全文/边界证据复用，本轮实际读对应raw/lookup/manifest/main.catch段；未改900行CLI实现"
+  },
+  "runs": [
+    "cli-audit-restored",
+    "four-card-extract-full",
+    "multi-card-tsc",
+    "manifest-before",
+    "manifest-after",
+    "host-calibration",
+    "host-no-wait",
+    "host-no-wait-r3",
+    "host-cancel",
+    "four-card-extract-sealed",
+    "four-card-tsc-sealed"
+  ],
+  "rawChildRuns": {
+    "counts": [9, 6, 2],
+    "members": [
+      "cli-error-exits.kimi-r1.test.ts.children.json",
+      "cli-isolated.glm-q.test.ts.children.json",
+      "cli-font-lookup.glm-q.test.ts.children.json"
+    ],
+    "scope": "副本仅附加afterAll观察hook；完整流真实采集。采集早于后续manifest/stderr断言加强，后者由最终445实跑，不虚称旧观察副本已执行新断言。"
+  },
+  "limitations": [
+    "3g整卡还包括900行CLI主编排及其公共/输出链，当前仅测试宿主切片完成，不因17绿关闭整卡或cli.ts。",
+    "SIGTERM回收按当前tsx/CLI合作退出生命周期核定，不宣称任意恶意进程的终止保证。"
+  ],
+  "collectionFailure": "four-card-directed临时观察hook首版转义错误导致3suite collection失败，其余46通过；不是产品反控。修hook后独立17绿，最终正式75文件445绿；失败原件保留。",
+  "counters": [
+    {
+      "id": "manifest-before",
+      "passed": 6,
+      "failed": 0,
+      "meaning": "复制CLI单点漏manifest条目，旧业务断言未能发现"
+    },
+    {
+      "id": "manifest-after",
+      "passed": 5,
+      "failed": 1,
+      "meaning": "同漏项触发唯一full pipeline业务断言"
+    },
+    {
+      "id": "host-no-wait",
+      "passed": 2,
+      "failed": 1,
+      "meaning": "去await close单点破坏，唯一cleanup-order AssertionError"
+    }
+  ],
+  "quantitativeTriage": {
+    "member": "additional-complexity.json",
+    "definition": "每函数排除其内部回调后单独计数；新宿主无>10项；不作为验收分数"
+  },
+  "currentFinalRun": {
+    "id": "four-card-extract-sealed",
+    "files": 75,
+    "passed": 445,
+    "failed": 0,
+    "pending": 0,
+    "stderrBytes": 0
+  },
+  "testReadinessOverlay": {
+    "path": "packages/pal-extract/src/__tests__/cli-host.test.ts",
+    "beforeGlobalCheckSha256": "c50ab9f9e139f53cbc9723a7273f6cc7315b7e2ac148aa7f06f0076e8d5799cc",
+    "currentSha256": "9095e62d4768e00a0ce374685e39f1e807c0ea674735c2be6941881f95ae4177",
+    "beforeSourceMember": "host-before-global-check.test.txt",
+    "assertionsPreserved": 23,
+    "fullPackageIdentityCount": 445,
+    "allFullPackageIdentitiesUnchanged": true,
+    "fullPackageRun": "four-card-extract-sealed",
+    "typecheckRun": "four-card-tsc-sealed",
+    "counterRun": "host-no-wait-r3",
+    "cancelProbe": "host-cancel",
+    "reason": "Only new test readiness/lifetime changed after globalcheck:fixed1s polling replaced by atomic marker observation and native test AbortSignal/onTestFinished cleanup. No matcher,case,fixture business payload,product/helper body,publicAPI,globaltimeout or config change. Unchanged six packages reuse prior globalcheck;affected package fully revalidated. Final protected fast runs current tests.",
+    "limits": "Globalcheck and ratchet originals precede final test-only overlay;not claimed as newly rerun on that exact test text."
+  },
+  "counterHistory": "host-no-wait/r2/r3均各一条业务AssertionError；最终当前按r3。host-cancel普通timeout是清理探测，原JSONSTACK_TRACE_ERROR渲染差异已披露，完整stderr才是5000ms诊断源。",
+  "gates": {
+    "state": "passed",
+    "owner": "3b/closeout/evidence.json",
+    "fullCheck": 20390,
+    "officialRatchet": 19992,
+    "protectedFast": 19992,
+    "diagnostics": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    }
+  },
+  "acceptedFiles": [
+    "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+    "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+    "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+    "packages/pal-extract/src/__tests__/cli-host.ts",
+    "packages/pal-extract/src/__tests__/cli-host.test.ts"
+  ],
+  "newClosures": [
+    {
+      "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "from": "review"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "from": "pending-unlisted"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "from": "pending-unlisted"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-host.ts",
+      "from": "review"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/cli-host.test.ts",
+      "from": "review"
+    }
+  ]
+}

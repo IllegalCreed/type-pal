@@ -1,127 +1,12 @@
-import type { Item, Magic, PlayerRoles, Spell } from '@type-pal/shared'
+import type { Magic, PlayerRoles, Spell } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { createItemSelectMenu } from '../item-select.js'
+import { makeRole } from '../../../__tests__/coverage85-glm-game/harness.js'
+
 import { createMagicSelectMenu } from '../magic-select.js'
 import { getSelected } from '../primitives.js'
-
-function makeItem(id: number, partial: Partial<Item> = {}): Item {
-  return {
-    id,
-    _name: partial._name ?? `item${id}`,
-    bitmap: 0,
-    price: partial.price ?? 100,
-    scriptOnUse: 0,
-    scriptOnEquip: 0,
-    scriptOnThrow: 0,
-    scriptDesc: 0,
-    flags: {
-      usable: false,
-      equipable: false,
-      throwable: false,
-      consuming: false,
-      applyToAll: false,
-      sellable: true,
-      equipableBy: [false, false, false, false, false, false],
-      ...(partial.flags ?? {}),
-    } as Item['flags'],
-  }
-}
-
-describe('M-w0.2 ItemSelectMenu', () => {
-  const items: Item[] = [
-    makeItem(1, { _name: '剑', flags: { equipable: true, sellable: true } as Item['flags'] }),
-    makeItem(2, {
-      _name: '草药',
-      flags: { usable: true, consuming: true, sellable: true } as Item['flags'],
-    }),
-    makeItem(3, {
-      _name: '飞镖',
-      flags: { throwable: true, consuming: true, sellable: true } as Item['flags'],
-    }),
-    makeItem(4, { _name: '剧情玉', flags: { sellable: false, equipable: false } as Item['flags'] }),
-  ]
-
-  it('filter=equip:只显装备类', () => {
-    const s = createItemSelectMenu({
-      inventory: items.map((i) => ({ itemId: i.id, count: 1 })),
-      items,
-      filter: 'equip',
-      mode: 'inventory',
-    })
-    expect(s.items.map((i) => i.id)).toEqual([1])
-  })
-
-  it('filter=potion:只显 usable 且非装备 / 投掷', () => {
-    const s = createItemSelectMenu({
-      inventory: items.map((i) => ({ itemId: i.id, count: 1 })),
-      items,
-      filter: 'potion',
-      mode: 'inventory',
-    })
-    expect(s.items.map((i) => i.id)).toEqual([2])
-  })
-
-  it('filter=battle:throwable 类', () => {
-    const s = createItemSelectMenu({
-      inventory: items.map((i) => ({ itemId: i.id, count: 1 })),
-      items,
-      filter: 'battle',
-      mode: 'inventory',
-    })
-    expect(s.items.map((i) => i.id)).toContain(3)
-  })
-
-  it('mode=buy:rightText 显价格', () => {
-    const s = createItemSelectMenu({
-      inventory: [{ itemId: 1, count: 5 }],
-      items,
-      filter: 'equip',
-      mode: 'buy',
-    })
-    expect(s.items[0]?.rightText).toBe('$100')
-  })
-
-  it('mode=sell:rightText 显数量 + 卖价 (price/2)', () => {
-    const s = createItemSelectMenu({
-      inventory: [{ itemId: 1, count: 5 }],
-      items,
-      filter: 'equip',
-      mode: 'sell',
-    })
-    expect(s.items[0]?.rightText).toBe('×5  $50')
-  })
-
-  it('inventory 数量 inline 显示', () => {
-    const s = createItemSelectMenu({
-      inventory: [{ itemId: 2, count: 3 }],
-      items,
-      filter: 'potion',
-      mode: 'inventory',
-    })
-    expect(s.items[0]?.rightText).toBe('×3')
-  })
-})
+import { magicWithCost as makeMagic } from './magic-cost-fixture.js'
 
 describe('M-w0.2 MagicSelectionMenu', () => {
-  const makeMagic = (id: number, costMP: number): Magic => ({
-    id,
-    effect: 0,
-    type: 0 as unknown as Magic['type'],
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    speed: 0,
-    keepEffect: 0,
-    fireDelay: 0,
-    effectTimes: 0,
-    shake: 0,
-    wave: 0,
-    unknown: 0,
-    costMP,
-    baseDamage: 0,
-    elemental: 0,
-    sound: 0,
-  })
   const makeSpell = (id: number, magicNumber: number, name: string): Spell => ({
     id,
     magicNumber,
@@ -133,23 +18,16 @@ describe('M-w0.2 MagicSelectionMenu', () => {
       usableInBattle: true,
       usableToEnemy: true,
       applyToAll: false,
-    } as Spell['flags'],
+    },
     _name: name,
   })
 
   const magics: Magic[] = [makeMagic(1, 5), makeMagic(2, 30)]
-  const spells: Spell[] = [makeSpell(1, 1, '小火球'), makeSpell(2, 2, '大火球')]
+  const spells: Spell[] = [makeSpell(300, 1, '小火球'), makeSpell(301, 2, '大火球')]
   const playerRoles: PlayerRoles = {
     roles: [
-      {
-        id: 0,
+      makeRole(0, {
         _name: 'leader',
-        avatar: 0,
-        spriteNumInBattle: 0,
-        spriteNum: 0,
-        name: 0,
-        attackAll: 0,
-        level: 10,
         maxHP: 100,
         maxMP: 100,
         hp: 100,
@@ -159,19 +37,9 @@ describe('M-w0.2 MagicSelectionMenu', () => {
         defense: 0,
         dexterity: 0,
         fleeRate: 0,
-        poisonResistance: 0,
-        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
         walkFrames: 3,
-        attackSound: 0,
-        weaponSound: 0,
-        criticalSound: 0,
-        magicSound: 0,
-        deathSound: 0,
-        magic: [
-          1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0,
-        ],
-      },
+        magic: [300, 301, ...Array<number>(30).fill(0)],
+      }),
     ],
   }
 
@@ -186,7 +54,7 @@ describe('M-w0.2 MagicSelectionMenu', () => {
     expect(s.items.map((i) => i.label)).toEqual(['小火球', '大火球'])
     expect(s.items[0]?.rightText).toBe('MP 5')
     expect(s.items[1]?.rightText).toBe('MP 30')
-    expect(getSelected(s)?.id).toBe(1)
+    expect(getSelected(s)?.id).toBe(300)
   })
 
   it('MP 不够 → disabled(灰色),初始 cursor 仍按默认项', () => {
@@ -214,24 +82,13 @@ describe('M-w0.2 MagicSelectionMenu', () => {
     expect(s.cursor).toBe(0)
   })
 
-  it('role 未学法术槽位 = 0 → 不显示', () => {
-    const s = createMagicSelectMenu({
-      roleId: 0,
-      playerRoles,
-      spells,
-      magics,
-      currentMp: 100,
-    })
-    expect(s.items.length).toBe(2) // 不含 0 槽位
-  })
-
   it('L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397', () => {
     const rolesShuffled: PlayerRoles = {
       roles: [
         {
           ...playerRoles.roles[0]!,
           // 习得顺序 [2,1]:先学大火球(id2)后学小火球(id1) —— rgwMagic 按习得追加,乱序
-          magic: [2, 1, ...Array<number>(30).fill(0)],
+          magic: [301, 300, ...Array<number>(30).fill(0)],
         },
       ],
     }
@@ -242,8 +99,8 @@ describe('M-w0.2 MagicSelectionMenu', () => {
       magics,
       currentMp: 100,
     })
-    // C 冒泡按 wMagic(spell ObjectID)升序 → 菜单恒 [小火球(1), 大火球(2)],不随习得序
-    expect(s.items.map((i) => i.id)).toEqual([1, 2])
+    // C 冒泡按 wMagic(spell ObjectID)升序 → 菜单恒 [小火球(300), 大火球(301)],不随习得序
+    expect(s.items.map((i) => i.id)).toEqual([300, 301])
     expect(s.items.map((i) => i.label)).toEqual(['小火球', '大火球'])
   })
 })

@@ -1,0 +1,1149 @@
+{
+  "scope": "Six same-mutant comparisons: complete old10 green; complete new12 has exactly one business AssertionError, no skipped/pending/runtime error. No production repair.",
+  "originalSourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+  "restoredSourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+  "originalSpecSha256": "66c2ec403245adb410bfd8a4dc69ff1f4c69b2d5496c9cb4b08ed248429a2f58",
+  "restoredSpecSha256": "66c2ec403245adb410bfd8a4dc69ff1f4c69b2d5496c9cb4b08ed248429a2f58",
+  "rows": [
+    {
+      "id": "near-upper",
+      "version": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/scene-system-search.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/search-near-upper-old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:03:11.452476+00:00",
+      "completedAt": "2026-10-17T20:03:12.380094+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "before": "if (mode * 6 - 4 < i) continue",
+      "after": "if ((mode === 1 ? 3 : mode * 6 - 4) < i) continue",
+      "sourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+      "mutantSha256": "42db63f5c40aa1fd44491fa4efc9d01ce0274cbfea1678647f730cdc3093069a",
+      "specSha256": "835fc232dacb2c639e7958ca4e55783fb3d128f3bf4c122d8e049a70bd1e9f50",
+      "passed": 10,
+      "failed": 0,
+      "pending": 0,
+      "runtimeErrorSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 面前 1 步内有 SearchNormal(mode 2) NPC → 命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 4-8 不被 Search 命中(auto trigger zone 路径,W1.b 处理)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 0(装饰)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc sState <=0(Hidden)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 3(SearchFar)全 13 cell 都触发(sdlpal:mode 越大 trigger zone 越远 — far 反而最易命中)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1 NPC 在远 cell(cells[10] grid 外侧)不命中 — sdlpal SearchNear 只触前 3 cell",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)同 NPC 在 cells[10] grid → 命中(mode 2 允许 i<=8;实测 grid 距离 ok 即命中)",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [],
+      "raw": "search-near-upper-old.raw.gz",
+      "rawSha256": "61fa7de0c5755bdcbf2cf72815bb18d7bb5ae6b7b28275f9fd70fbbff0111cc4",
+      "rawBytes": 371,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "near-upper",
+      "version": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/scene-system-search.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/search-near-upper-new.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:03:12.380259+00:00",
+      "completedAt": "2026-10-17T20:03:13.115351+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "before": "if (mode * 6 - 4 < i) continue",
+      "after": "if ((mode === 1 ? 3 : mode * 6 - 4) < i) continue",
+      "sourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+      "mutantSha256": "42db63f5c40aa1fd44491fa4efc9d01ce0274cbfea1678647f730cdc3093069a",
+      "specSha256": "66c2ec403245adb410bfd8a4dc69ff1f4c69b2d5496c9cb4b08ed248429a2f58",
+      "passed": 11,
+      "failed": 1,
+      "pending": 0,
+      "runtimeErrorSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)包含最后允许的检查点i=2",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 触碰触发mode 5不被Confirm搜索命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 0(装饰)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc sState <=0(Hidden)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 3(SearchFar)包含最远检查点i=12",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)排除紧邻上限的检查点i=3",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)包含最后允许的检查点i=8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)排除紧邻上限的检查点i=9",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 优先命中靠前检查点,不因NPC数组先列远处对象而改变",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected { id: 1, x: 192, y: 160, …(4) } to be undefined\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts:75:19\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      ],
+      "raw": "search-near-upper-new.raw.gz",
+      "rawSha256": "ed54e160b83436da0dd4b249a3f13f7db5fdbbab220e53131e73f8ce2343d914",
+      "rawBytes": 2219,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "normal-lower",
+      "version": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/scene-system-search.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/search-normal-lower-old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:03:13.115587+00:00",
+      "completedAt": "2026-10-17T20:03:13.820263+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "before": "if (mode * 6 - 4 < i) continue",
+      "after": "if ((mode === 2 ? 7 : mode * 6 - 4) < i) continue",
+      "sourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+      "mutantSha256": "184fdf77dd56e1fbce1b9c225052f553ae78154c3696ad1083c3c0e718109f72",
+      "specSha256": "835fc232dacb2c639e7958ca4e55783fb3d128f3bf4c122d8e049a70bd1e9f50",
+      "passed": 10,
+      "failed": 0,
+      "pending": 0,
+      "runtimeErrorSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 面前 1 步内有 SearchNormal(mode 2) NPC → 命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 4-8 不被 Search 命中(auto trigger zone 路径,W1.b 处理)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 0(装饰)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc sState <=0(Hidden)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 3(SearchFar)全 13 cell 都触发(sdlpal:mode 越大 trigger zone 越远 — far 反而最易命中)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1 NPC 在远 cell(cells[10] grid 外侧)不命中 — sdlpal SearchNear 只触前 3 cell",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)同 NPC 在 cells[10] grid → 命中(mode 2 允许 i<=8;实测 grid 距离 ok 即命中)",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [],
+      "raw": "search-normal-lower-old.raw.gz",
+      "rawSha256": "39c16d6887f71eec6682e459afa76de737c95d62a2e9ca0517803aa3e0a4ea23",
+      "rawBytes": 373,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "normal-lower",
+      "version": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/scene-system-search.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/search-normal-lower-new.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:03:13.820413+00:00",
+      "completedAt": "2026-10-17T20:03:14.583022+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "before": "if (mode * 6 - 4 < i) continue",
+      "after": "if ((mode === 2 ? 7 : mode * 6 - 4) < i) continue",
+      "sourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+      "mutantSha256": "184fdf77dd56e1fbce1b9c225052f553ae78154c3696ad1083c3c0e718109f72",
+      "specSha256": "66c2ec403245adb410bfd8a4dc69ff1f4c69b2d5496c9cb4b08ed248429a2f58",
+      "passed": 11,
+      "failed": 1,
+      "pending": 0,
+      "runtimeErrorSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)包含最后允许的检查点i=2",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 触碰触发mode 5不被Confirm搜索命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 0(装饰)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc sState <=0(Hidden)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 3(SearchFar)包含最远检查点i=12",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)排除紧邻上限的检查点i=3",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)包含最后允许的检查点i=8",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)排除紧邻上限的检查点i=9",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 优先命中靠前检查点,不因NPC数组先列远处对象而改变",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected undefined to be { id: 1, x: 192, y: 192, …(4) } // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts:81:19\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      ],
+      "raw": "search-normal-lower-new.raw.gz",
+      "rawSha256": "6036c0a69215bab48f497c9ccc60b827190fb6b226034566887741a2c7534e17",
+      "rawBytes": 2241,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "normal-upper",
+      "version": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/scene-system-search.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/search-normal-upper-old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:03:14.583269+00:00",
+      "completedAt": "2026-10-17T20:03:15.299559+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "before": "if (mode * 6 - 4 < i) continue",
+      "after": "if ((mode === 2 ? 9 : mode * 6 - 4) < i) continue",
+      "sourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+      "mutantSha256": "4e9bf1bbcd0564caf27052831f6d91c86a4c187d2bd06b61d0972870e1549572",
+      "specSha256": "835fc232dacb2c639e7958ca4e55783fb3d128f3bf4c122d8e049a70bd1e9f50",
+      "passed": 10,
+      "failed": 0,
+      "pending": 0,
+      "runtimeErrorSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 面前 1 步内有 SearchNormal(mode 2) NPC → 命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 4-8 不被 Search 命中(auto trigger zone 路径,W1.b 处理)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 0(装饰)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc sState <=0(Hidden)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 3(SearchFar)全 13 cell 都触发(sdlpal:mode 越大 trigger zone 越远 — far 反而最易命中)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1 NPC 在远 cell(cells[10] grid 外侧)不命中 — sdlpal SearchNear 只触前 3 cell",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)同 NPC 在 cells[10] grid → 命中(mode 2 允许 i<=8;实测 grid 距离 ok 即命中)",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [],
+      "raw": "search-normal-upper-old.raw.gz",
+      "rawSha256": "22d28f4477f616aa0ca06773f878d7e0a27e7045de204fd708bd114dd5751328",
+      "rawBytes": 373,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "normal-upper",
+      "version": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/scene-system-search.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/search-normal-upper-new.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:03:15.299713+00:00",
+      "completedAt": "2026-10-17T20:03:16.034685+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "before": "if (mode * 6 - 4 < i) continue",
+      "after": "if ((mode === 2 ? 9 : mode * 6 - 4) < i) continue",
+      "sourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+      "mutantSha256": "4e9bf1bbcd0564caf27052831f6d91c86a4c187d2bd06b61d0972870e1549572",
+      "specSha256": "66c2ec403245adb410bfd8a4dc69ff1f4c69b2d5496c9cb4b08ed248429a2f58",
+      "passed": 11,
+      "failed": 1,
+      "pending": 0,
+      "runtimeErrorSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)包含最后允许的检查点i=2",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 触碰触发mode 5不被Confirm搜索命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 0(装饰)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc sState <=0(Hidden)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 3(SearchFar)包含最远检查点i=12",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)排除紧邻上限的检查点i=3",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)包含最后允许的检查点i=8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)排除紧邻上限的检查点i=9",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 优先命中靠前检查点,不因NPC数组先列远处对象而改变",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected { id: 1, x: 224, y: 176, …(4) } to be undefined\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts:87:19\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      ],
+      "raw": "search-normal-upper-new.raw.gz",
+      "rawSha256": "f06dbf421ba3bf93ef84f43e9d7e4e1a46efb7293b308fbbe0f4430a1baf60b4",
+      "rawBytes": 2225,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "far-truncated",
+      "version": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/scene-system-search.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/search-far-truncated-old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:03:16.034936+00:00",
+      "completedAt": "2026-10-17T20:03:16.746788+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "before": "if (mode * 6 - 4 < i) continue",
+      "after": "if ((mode === 3 ? 0 : mode * 6 - 4) < i) continue",
+      "sourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+      "mutantSha256": "81fccdf683d62c7fc264a1a61bca2e4839797858d700f5f3da1f1919bc1d0db1",
+      "specSha256": "835fc232dacb2c639e7958ca4e55783fb3d128f3bf4c122d8e049a70bd1e9f50",
+      "passed": 10,
+      "failed": 0,
+      "pending": 0,
+      "runtimeErrorSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 面前 1 步内有 SearchNormal(mode 2) NPC → 命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 4-8 不被 Search 命中(auto trigger zone 路径,W1.b 处理)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 0(装饰)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc sState <=0(Hidden)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 3(SearchFar)全 13 cell 都触发(sdlpal:mode 越大 trigger zone 越远 — far 反而最易命中)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1 NPC 在远 cell(cells[10] grid 外侧)不命中 — sdlpal SearchNear 只触前 3 cell",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)同 NPC 在 cells[10] grid → 命中(mode 2 允许 i<=8;实测 grid 距离 ok 即命中)",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [],
+      "raw": "search-far-truncated-old.raw.gz",
+      "rawSha256": "90f80734b2ec77c68a7672155fa84961b58248495261eafccd63880d2b1ea54e",
+      "rawBytes": 374,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "far-truncated",
+      "version": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/scene-system-search.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/search-far-truncated-new.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:03:16.746939+00:00",
+      "completedAt": "2026-10-17T20:03:17.485184+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "before": "if (mode * 6 - 4 < i) continue",
+      "after": "if ((mode === 3 ? 0 : mode * 6 - 4) < i) continue",
+      "sourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+      "mutantSha256": "81fccdf683d62c7fc264a1a61bca2e4839797858d700f5f3da1f1919bc1d0db1",
+      "specSha256": "66c2ec403245adb410bfd8a4dc69ff1f4c69b2d5496c9cb4b08ed248429a2f58",
+      "passed": 11,
+      "failed": 1,
+      "pending": 0,
+      "runtimeErrorSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)包含最后允许的检查点i=2",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 触碰触发mode 5不被Confirm搜索命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 0(装饰)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc sState <=0(Hidden)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 3(SearchFar)包含最远检查点i=12",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)排除紧邻上限的检查点i=3",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)包含最后允许的检查点i=8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)排除紧邻上限的检查点i=9",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 优先命中靠前检查点,不因NPC数组先列远处对象而改变",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected undefined to be { id: 1, x: 240, y: 184, …(4) } // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts:69:19\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      ],
+      "raw": "search-far-truncated-new.raw.gz",
+      "rawSha256": "abf18c9a1b4f2bf588160b73fd906a266c9756d204fc70dc959be108c508dfd4",
+      "rawBytes": 2232,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "range-middle-row",
+      "version": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/scene-system-search.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/search-range-middle-row-old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:03:17.485434+00:00",
+      "completedAt": "2026-10-17T20:03:18.214895+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "before": "cells.push({ x: x + 2 * xOffset, y })",
+      "after": "cells.push({ x: x + 2 * xOffset, y: i === 1 ? y + yOffset : y })",
+      "sourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+      "mutantSha256": "fe6a35a4f23a73259313037fcceabb450c00c71d7eac8b98660c13e6824f7a68",
+      "specSha256": "835fc232dacb2c639e7958ca4e55783fb3d128f3bf4c122d8e049a70bd1e9f50",
+      "passed": 10,
+      "failed": 0,
+      "pending": 0,
+      "runtimeErrorSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 面前 1 步内有 SearchNormal(mode 2) NPC → 命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 4-8 不被 Search 命中(auto trigger zone 路径,W1.b 处理)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 0(装饰)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc sState <=0(Hidden)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 3(SearchFar)全 13 cell 都触发(sdlpal:mode 越大 trigger zone 越远 — far 反而最易命中)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1 NPC 在远 cell(cells[10] grid 外侧)不命中 — sdlpal SearchNear 只触前 3 cell",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)同 NPC 在 cells[10] grid → 命中(mode 2 允许 i<=8;实测 grid 距离 ok 即命中)",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [],
+      "raw": "search-range-middle-row-old.raw.gz",
+      "rawSha256": "9619d246060efe03f58941174bb4b04f054e261cf3c097387a911c6479a15da9",
+      "rawBytes": 377,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "range-middle-row",
+      "version": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/scene-system-search.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/search-range-middle-row-new.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:03:18.215049+00:00",
+      "completedAt": "2026-10-17T20:03:18.973524+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "before": "cells.push({ x: x + 2 * xOffset, y })",
+      "after": "cells.push({ x: x + 2 * xOffset, y: i === 1 ? y + yOffset : y })",
+      "sourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+      "mutantSha256": "fe6a35a4f23a73259313037fcceabb450c00c71d7eac8b98660c13e6824f7a68",
+      "specSha256": "66c2ec403245adb410bfd8a4dc69ff1f4c69b2d5496c9cb4b08ed248429a2f58",
+      "passed": 11,
+      "failed": 1,
+      "pending": 0,
+      "runtimeErrorSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)包含最后允许的检查点i=2",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 触碰触发mode 5不被Confirm搜索命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 0(装饰)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc sState <=0(Hidden)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 3(SearchFar)包含最远检查点i=12",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)排除紧邻上限的检查点i=3",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)包含最后允许的检查点i=8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)排除紧邻上限的检查点i=9",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 优先命中靠前检查点,不因NPC数组先列远处对象而改变",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected [ { x: 160, y: 160 }, …(12) ] to deeply equal [ { x: 160, y: 160 }, …(12) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts:12:53\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      ],
+      "raw": "search-range-middle-row-new.raw.gz",
+      "rawSha256": "e63ea912f2e2cd22e270238e049209c94a544ba4cb6f0c03767b7b6c6e2ce99c",
+      "rawBytes": 2530,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "array-order-over-checkpoint",
+      "version": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/scene-system-search.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/search-array-order-over-checkpoint-old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:03:18.973767+00:00",
+      "completedAt": "2026-10-17T20:03:19.679773+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "before": "return npc",
+      "after": "return npcs[0]",
+      "sourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+      "mutantSha256": "bfbf7659ddf436f77d62ab7e7b8be9145e4de96b6e2bd35cdb1ba869cfc2a8e8",
+      "specSha256": "835fc232dacb2c639e7958ca4e55783fb3d128f3bf4c122d8e049a70bd1e9f50",
+      "passed": 10,
+      "failed": 0,
+      "pending": 0,
+      "runtimeErrorSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 面前 1 步内有 SearchNormal(mode 2) NPC → 命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 4-8 不被 Search 命中(auto trigger zone 路径,W1.b 处理)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 0(装饰)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc sState <=0(Hidden)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 3(SearchFar)全 13 cell 都触发(sdlpal:mode 越大 trigger zone 越远 — far 反而最易命中)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1 NPC 在远 cell(cells[10] grid 外侧)不命中 — sdlpal SearchNear 只触前 3 cell",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)同 NPC 在 cells[10] grid → 命中(mode 2 允许 i<=8;实测 grid 距离 ok 即命中)",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [],
+      "raw": "search-array-order-over-checkpoint-old.raw.gz",
+      "rawSha256": "b561646d676b447823003d6636fc5ca51d3db118162ef2dc5521ca664ffda28d",
+      "rawBytes": 388,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "array-order-over-checkpoint",
+      "version": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/scene-system-search.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/search-array-order-over-checkpoint-new.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:03:19.679939+00:00",
+      "completedAt": "2026-10-17T20:03:20.414994+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "before": "return npc",
+      "after": "return npcs[0]",
+      "sourceSha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+      "mutantSha256": "bfbf7659ddf436f77d62ab7e7b8be9145e4de96b6e2bd35cdb1ba869cfc2a8e8",
+      "specSha256": "66c2ec403245adb410bfd8a4dc69ff1f4c69b2d5496c9cb4b08ed248429a2f58",
+      "passed": 11,
+      "failed": 1,
+      "pending": 0,
+      "runtimeErrorSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c getSearchTriggerRange 面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)包含最后允许的检查点i=2",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 触碰触发mode 5不被Confirm搜索命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 0(装饰)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc sState <=0(Hidden)不被命中",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 3(SearchFar)包含最远检查点i=12",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)排除紧邻上限的检查点i=3",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)包含最后允许的检查点i=8",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)排除紧邻上限的检查点i=9",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts",
+          "name": "M5.6 W1.c findSearchableNpc 优先命中靠前检查点,不因NPC数组先列远处对象而改变",
+          "status": "failed"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected { id: 1, x: 160, y: 176, …(4) } to be { id: 2, x: 176, y: 168, …(4) } // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/scene-system-search.test.ts:93:69\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      ],
+      "raw": "search-array-order-over-checkpoint-new.raw.gz",
+      "rawSha256": "f00306dd9f5d57b2a84242ec8b51f3e94455c24bdc170c304e303268ec28b18a",
+      "rawBytes": 2476,
+      "fullUncutMergedStdoutStderr": true
+    }
+  ]
+}

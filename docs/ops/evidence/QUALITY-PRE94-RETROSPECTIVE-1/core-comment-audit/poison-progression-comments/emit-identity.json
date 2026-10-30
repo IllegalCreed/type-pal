@@ -1,0 +1,20 @@
+{
+  "typescript": "6.0.3",
+  "scope": "Only the two selected implementations, same transpile options; not native/gameplay/whole-file acceptance",
+  "rows": [
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "beforeSha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+      "currentSha256": "3c7ed5879374144001595a6bc1c6d1ef1a71ab63a6407c55fd94bd89ec7bfa5a",
+      "removeCommentsJavaScriptSha256": "463e41f3d9b6f410130b18030342dea9cd624182522c561021712729de810737",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "beforeSha256": "6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1",
+      "currentSha256": "fc687b0757b88bc0a9c287e6d80fb000ce177575bebe769728e55585896ba0ba",
+      "removeCommentsJavaScriptSha256": "8561e0fdbca3edd9d5b06f1f4c9eb114b1ac7b5d2354a8a523513e7e548e3d86",
+      "byteIdentical": true
+    }
+  ]
+}

@@ -1,0 +1,1524 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "owner": "Codex",
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "base": "81ae7908c671ca0737531687eff0c78d30674f4b",
+  "status": "accepted: four original cards/15 explicit files plus3 delta-only confirmations; final static recorded in renderer-gates.json",
+  "priorProgress": {
+    "accept": 27,
+    "partial": 56,
+    "pending": 0
+  },
+  "cards": [
+    {
+      "id": "51",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md",
+      "scope": [
+        "packages/game/src/present/menu/draw-opening-menu.ts",
+        "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts"
+      ],
+      "decision": "accept by Codex within original scope; current uniform/static gates and residual limits in renderer-gates.json"
+    },
+    {
+      "id": "52",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md",
+      "scope": [
+        "packages/game/src/present/menu/draw-shop.ts",
+        "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts"
+      ],
+      "decision": "accept by Codex within original scope; current uniform/static gates and residual limits in renderer-gates.json"
+    },
+    {
+      "id": "54",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md",
+      "scope": [
+        "packages/game/src/present/draw-tilemap.ts",
+        "packages/game/src/present/draw-tilemap.test.ts",
+        "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts"
+      ],
+      "decision": "accept by Codex within original scope; current uniform/static gates and residual limits in renderer-gates.json"
+    },
+    {
+      "id": "55",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md",
+      "scope": [
+        "packages/game/src/present/menu/draw-menu.ts",
+        "packages/game/src/present/menu/draw-menu.test.ts",
+        "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts"
+      ],
+      "decision": "accept by Codex within original scope; current uniform/static gates and residual limits in renderer-gates.json"
+    }
+  ],
+  "files": [
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.ts",
+      "card": "51",
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "28265833b5bfdf3a79354022de5e05637b0ab59ce8b9bfdf13b5cd82e3418549",
+      "lines": 61,
+      "dimensions": {
+        "A": "真实opening→drawMenuStack入口；只写FB，背景缺失保留底图。uigame.c PAL_OpeningMenu/PAL_DrawOpeningMenuBackground；ui.c PAL_ReadMenu，ui.h颜色宏。尺寸/文案/三影沿当前合同。",
+        "B": "删除笼统忠实移植声明，明确Word像素宽→列取整；clock不宣称Date与SDL时基相同。",
+        "C": "只收opening state、bg、glyphs、FB；不读GS/存档，不推进选择或异步加载。",
+        "D": "原selectedColor委托core纯menu-colors；没有把不同anchor/失败策略的blit硬合。",
+        "E": "原17绿中常色和缺背景清零会存活；新16例各单红。第四字断言迁到精确色用例仍能单红。",
+        "F": "openingItemX命名与局部变量直接表达布局；删修复史噪音而保留取整依据。",
+        "G": "移除重复颜色常量/函数；保留bg可选分支，因caller缺资源/测试防御合同实际存在。",
+        "H": "bg/glyphs/FB显式注入；时序由既有Date spy隔离，纯颜色叶不读clock。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+      "card": "51",
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "e95f8638f167900a8600086c126d1a770d04624793459cc37bbd69795e27dd36",
+      "lines": 62,
+      "dimensions": {
+        "A": "工厂创建两项选择；main 6例覆盖独立长短宽值、背景、缺背景与两行位置；不冒称输入dispatcher。",
+        "B": "宽度oracle改成字面117/109；缺背景用0x3f避免clear0假绿；不冒称弱cursor例能辨别高亮。",
+        "C": "只调用公开openingItemX/drawOpeningMenu；每例独立FB，未引入core私有实现依赖。",
+        "D": "删除弱cursor差异例，交由L12精确选中色；不是仅为计数删合同。",
+        "E": "清零反控旧17绿、新缺背景例单AssertionError；宽度oracle不复制被测公式。",
+        "F": "用清晰常量表达预期坐标与底色；不把复杂通用helper藏在测试。",
+        "G": "7→6，旧弱断言合同由精确0/1光标测试承接；原有效坐标/背景断言保留。",
+        "H": "无IO、无跨例资源；无需为重构增加与实现同构的直接叶测试。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+      "card": "51",
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "315d86f360b02b3f62ae7debc1f5f0f649715b7c8596888a6778a4b39c52c2a7",
+      "lines": 91,
+      "dimensions": {
+        "A": "词表/合法选择快照；三例分别cursor0、cursor1及100ms/600ms时序，真实font/FB。",
+        "B": "修正无需frames的误导标题，第四字主像素明确迁入首例；头注列实际合同。",
+        "C": "word singleton每例前后归零，Date spy finally恢复，FB每次重建，不改产品状态。",
+        "D": "使用既有glyph/textDot fixture；第四字必要断言与色值例合并而非删掉。",
+        "E": "固定F9当前共享叶恰一业务红；截首字旧/新各恰一红，迁移保持判别力。",
+        "F": "时间点和期望色使用显式表，边界99/100、599/600可直接理解。",
+        "G": "仍3例；去掉重复场景而保留其唯一第四字合同。",
+        "H": "公共render入口、可控clock、显式字形，不依赖网络/实际字体文件。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "card": "52",
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "820163557b1a99147dcf05d18618eb92964b9d1f93569c731dfc02e5f0bb2cf8",
+      "lines": 223,
+      "dimensions": {
+        "A": "真实shop-buy/sell装配；读cash、首匹配库存、party全部装备与合法物品flags，半价/无卖价守卫保留。uigame.c PAL_BuyMenu/PAL_SellMenu。",
+        "B": "沿前片纠正紧凑买入/全屏卖出说明，本次共享提取不改帧号/数量来源；旧锚的layer笼统说法不复用。",
+        "C": "buy列表和sell价格是同一shop呈现职责；GS读、不写，交易/脚本归core。宽GS可再收窄读投影但当前未发现跨层写入或隐式副作用；接口冻结不扩改。",
+        "D": "opaque三份同形正mask循环共享；shop与inventory的短mask shadow失败策略不同，保留各自循环。",
+        "E": "沿用既有8枚业务反控的未变计价/owned/转发合同；当前三专测19例、合法角色/装备资格已修，未冒称交易E2E。",
+        "F": "价格/ownCount/图标位置具名；共享color函数显式毫秒，业务分支仍就地可读。",
+        "G": "移重复opaque与clock声明；保留买卖不同布局，不另造模式helper。",
+        "H": "FB/帧/目录可注入，既有Date冻结，零网络/资源所有权迁移。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "card": "52",
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "6d8a21ba658297d226af7274718fffaead3e871d34b848f7fdea4cb9f23089f2",
+      "lines": 104,
+      "dimensions": {
+        "A": "4例覆盖非顺序party、非队员不计、非卖品不画、空店/缺icon；makeLiveScene显式hydrate且既有数值不变。",
+        "B": "标题和像素所声称合同一致；不把direct render说成按键交易。",
+        "C": "每例输入快照+独立FB；事件/词表清理，当前只修合法初始化。",
+        "D": "既有半价合同在真实宿主例；与Grok/宿主不同负例保留。",
+        "E": "原5枚单红覆盖计数/空店/图标分支，当前核心函数体由AST证明仅共享提取，19例恢复绿。",
+        "F": "非队员装备与party位置分开列值，可直接看出反例。",
+        "G": "4例身份/断言不变；没有用新增浅例抵消覆盖率。",
+        "H": "纯资源fixtures与clockfinally恢复，不依赖浏览器持久存储。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "card": "52",
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "e89506fc4ecabbd79ed878342cbc9f74ce37dcd4d5ea32a9c88be24eb1f7cf90",
+      "lines": 352,
+      "dimensions": {
+        "A": "13例；hydrate全角色，party[4]/[4,1]有效；G07-B01不一致price快照明确作为防御输入。",
+        "B": "B01标题收窄，不冒称真实生产可达；其它缺catalog/frame/icon负例有清晰标题。",
+        "C": "world/images/font fixtures各管状态/帧/字形；renderer输入隔离，canvas导出用临时目录。",
+        "D": "数量/价格/preview与GLM的资格负例各有不同oracle；不合并像素与PNG roundtrip。",
+        "E": "真实像素、palette RGBA及PNG写回再读；保留13例原断言。运行后stderr0，未把mock次数当结果。",
+        "F": "已用有名pixel/rightDigit位置助手；复杂数字布局保留独立期望。",
+        "G": "没有删除未知用例；只有防御身份勘误，无实现镜像测试增量。",
+        "H": "资源输入可控；canvas原生实现可运行，PNG输出不写repo资产。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "card": "54",
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "8ad57e0042e6d6797303bb863f8696312ea72e813da94e04d4a1829470272b1e",
+      "lines": 340,
+      "dimensions": {
+        "A": "复用GLM已核map.c PAL_MapBlitToSurface/PAL_MapGetTileBitmap及scene.c PAL_CalcCoverTiles，当前全文补C–H。生产64×128由提取器保证；小图为typed算法夹具。missing bitmap资源0回退是现行TS防御合同，不称SDL资产缺失策略完全等价。 另实读map.c:198–264/356–425：C缺图按layer回退首格，而TS按h分支且回退资源0；不继承旧GLM相等主张。当前223本地地图通过生产decodeTilesetBlob检查全部引用均存在，因此差异限定缺损资源防御域，未证明生产分叉，不改管线/算法。",
+        "B": "纠正base两层先于sprites、dh选DWORD/l选半字、h0缺图不等同layer0；接缝是固定优先八邻域补偿，删除最近邻/永久留黑/原版像素等价承诺。",
+        "C": "map绘制/coverage与cover entries共同投影Tilemap到FB；无IO/cache，cover回调捕获当前图像/坐标，由present本帧执行。循环复杂是五候选/两层公式，不为分值拆碎跨函数状态。",
+        "D": "不与shared opaque合并：tile短mask(undefined)与>0语义不同，并有coverage/早裁剪；原blitTile仍在三个生产入口共享。",
+        "E": "19个direct像素/coverage/裁剪/seam例及present58宿主例恢复；main子行/A01/A04已包含被删A11的写像素合同，未丢边界。",
+        "F": "术语l/dh必须保留与C真值对应，头注现解释二者；trunc负数/height相消的why保留，删相互矛盾的重复公式。",
+        "G": "全仓blitTileAt仅G03-A11消费者；移除测试专用导出/薄包装，生产三入口和捕获const原样。",
+        "H": "TileImages、camera、FB/coverage均显式输入；通过生产drawTilemap可测像素，无需公开内部blit。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.test.ts",
+      "card": "54",
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "6d05455949e1f87ce1208236cd4fd1e1e98a8a27772246ba022cfc4a8813c794",
+      "lines": 197,
+      "dimensions": {
+        "A": "9例；typed小图/位图合成合法、坐标与C公式独立literal；正常入口不宣称损坏asset安全。",
+        "B": "改错因果/最近邻标题为当前补偿规则，断言不变。",
+        "C": "每例独立tile/FB，无全局、异步、持久资源。",
+        "D": "与Grok同属tile但保留子行/fence/9bit/多圈等不同输入轴；未误删仅名称近似的例。",
+        "E": "fence get计数直接验证资源寻址行为，不冒称像素遮挡；其它业务像素/coverage有独立oracle。",
+        "F": "原图坐标/编码fixture清楚，保留C来源推导的必要说明。",
+        "G": "9例数量不变，仅describe与一标题勘误，身份映射在receipt。",
+        "H": "无真实资源/时钟依赖，轻量FB可直接验证参数。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "card": "54",
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "77d84c6b6a974bcb50631dcd3d59e18e3153d901016d5e0ea868fdac9bc82487",
+      "lines": 183,
+      "dimensions": {
+        "A": "10例；缺帧、负列/负行裁剪、透明和opaque0、整行列剔除、NW顺序/单圈；所有图宽高与buffer匹配。",
+        "B": "保留具体反例说明；不再保留仅测试包装的A11声明。",
+        "C": "局部TileImages记录资源取值；没有模拟产品实现或跨例mock。",
+        "D": "A11普通单像素合同移到main子行/A01/A04公开路径；A04透明/opaque0与main全opaque不重复。",
+        "E": "移除A11不删除任何错误/遮挡反例；剩余19 direct共同覆盖先前公开测试口的唯一作用。",
+        "F": "G03稳定ID与场景表述直接解释预期，不用源码计算坐标当oracle。",
+        "G": "11→10；仅一已证冗余普通写像素例退役，来源/精确identity已钉定。",
+        "H": "低层FB/TileImage注入足以测试，移除测试导出没有降低可测试性。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "card": "55",
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "c19da1b18b398bf807cdac556450b89cae52ed678cf5ce144432c44a8965a0e3",
+      "lines": 425,
+      "dimensions": {
+        "A": "present仅menu mode调用；按原栈从底到顶，missing extra提示、savedTimes每帧读Map。生产createSaveSlotMenu均默认短标签；长自定义扩框不在生产调用域，已知dx=0限制明确保留而非声称SDL全域等价。",
+        "B": "删严格1:1和历史抱怨，写明state/IO owner；澄清C一基slot到TS零基数字Y；占位函数不再叫Todo。",
+        "C": "唯一host负责stack/资源转发，具体全屏视图已分文件；local cash/list/slot短视图保留同宿主。ActiveMenuEntry unknown是现行core合同，类型收窄在driver边界，未为治理重做接口。",
+        "D": "第六份selectedColor委托纯core叶；列表三小段因box/确认叠层不同不加万能context/模式开关。",
+        "E": "栈逆序旧15绿、新恰一业务红；原shop-sell grid/icon/noDesc三单红仍有效且恢复原断言；P05真实转发合同复用。",
+        "F": "MissingMenuData命名直接表达职责，const坐标保留；重复修复史删掉，核心switch仍一目了然。",
+        "G": "删除未读取FONT_COLOR_YELLOW，cash数字仍由drawNumber yellow参数控制；移重复clock常量/函数。",
+        "H": "图像/字体/extra显式注入；异步slot IO留core，本函数同步读当前Map，无隐藏缓存/Promise。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.test.ts",
+      "card": "55",
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "6fa7aaf7e88c7df5110d9962c014365a566ce89f582b674bb5583853910d57f9",
+      "lines": 91,
+      "dimensions": {
+        "A": "6例公开openMenu/drawMenuStack，合法main→inventory-action；missing帧是明确失败输入，不称正常资源。",
+        "B": "两层栈改为重叠内容，首红254是底层字色非阴影0，已更正；其它坐标说明保留。",
+        "C": "每例独立GS/FB；不驱动Save/IDB或输入loop。",
+        "D": "系统本体角点独立保留，旧两层system存在合同由system本体+通用stack转发承接；新重叠更强。",
+        "E": "逆序旧15全绿，新指定corner AssertionError，正常170绿；不是用渲染调用次数证明排序。",
+        "F": "常量corner=1独立于底层动态字色，可读且不受tick相位影响。",
+        "G": "仍6例，替换弱叠栈场景而非追加同类弱存在性例。",
+        "H": "不用spy像素写操作，执行真实drawBox/font；时间变化不改变正确路径预期。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "card": "55",
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+      "lines": 205,
+      "dimensions": {
+        "A": "5例；save元数据/动作cursor/switch/sell确认/缺extra。sell通过sellSelectItem，缺extra也用工厂和hydrate，非空grid随合法库存。",
+        "B": "头部排重与实际case一致；明确可达快照不等于按键路由。",
+        "C": "词表/events before+after清理，clockfinally恢复；输入clone在真实draw前后比较，非clone自比。",
+        "D": "半价归真实宿主，与低层非卖品/转发测试分工；未把三种missing extra拆冗余例。",
+        "E": "复用已保留grid/icon/noDesc单点各旧5绿新单红；当前15恢复包含所有必要像素/ownership断言。",
+        "F": "命名像素/文字点辅助布局，对价格/框体/叠层分别注释。",
+        "G": "仍5例，无新增弱例/skip/强转；本轮无测试正文改动。",
+        "H": "真实下层render、显式目录/frames，不mock私有switch或异步存储。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-colors.ts",
+      "card": null,
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "43be7381df1880e54fba0430e9f5a18ae27dfeadb9156d99c60be740d4a18a6b",
+      "lines": 12,
+      "dimensions": {
+        "A": "只接收caller毫秒，原F9+floor(ms/100)%6和六个常量逐字值迁移；合法域来自Date.now/显式tick，无新增数值政策。",
+        "B": "写明ms/100ms/600ms，不称SDL时钟绝对相位相同。",
+        "C": "零import/全局clock/状态；core→此叶、present→此叶，无core→present。",
+        "D": "六个真实caller同公式；inventory原六常量出口保留，非为未来抽象。",
+        "E": "caller像素时序反控固定F9单红，inventory/equip/shop/host相邻绿；无需镜像公式单测。",
+        "F": "selectedMenuItemColor(nowMs)直接表达输入/输出。",
+        "G": "六常量与一个规则，没有配置对象/模式bool或新增fallback。",
+        "H": "纯确定函数可直接测，clock由caller持有，既有调用形状不变。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/blit-indexed-sprite.ts",
+      "card": null,
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "28b22d87ba93cac1b09b8c2b909b65fed9ca075d3e079f7fab3a1919170f4c8f",
+      "lines": 19,
+      "dimensions": {
+        "A": "三份old opaque>0循环同型；FB负责裁剪，opaque0不写，opaque1/index0可写，短mask保持跳过。",
+        "B": "明确左上角/正mask/裁剪ownership，未称所有blit通用。",
+        "C": "只依赖两种type，写调用方FB；不知GS/anchor/asset加载/生命周期。",
+        "D": "inventory/equip/shop共享，tile/box/battle的mask/coverage/anchor/染色合同不同不强合。",
+        "E": "AST逐声明证明原三体相同，现有多色/opaque0/边缘像素和170恢复为行为证据。",
+        "F": "blitSpriteOpaque名和dstX/Y清晰，无模式参数。",
+        "G": "一层直接循环，无新包装/缓存/通用适配器。",
+        "H": "显式IndexedImage/FB，不需要外部资源或mock私有函数。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+      "card": null,
+      "readBasis": "Codex全文核读；既有A/primary按下述适用域复用，当前delta另核",
+      "sha256": "0899e5c48cc0c4bc634522bec7d8819a01c495657b527ef74e11f2c34c251ef2",
+      "lines": 112,
+      "dimensions": {
+        "A": "两例当前shop/bag/出售覆盖；role4的已装备bead补equipable/资格位，数值和数量不变，GS hydrate。",
+        "B": "保留case实际数量/价格定位说明，不冒称订单持久化。",
+        "C": "使用同一world factory产生正常运行态，其他资产fixture按真实参数注入。",
+        "D": "不移这些公开buy/sell入口断言到低层mock；与13例preview各司其职。",
+        "E": "两例所有原断言保留，正常原件19与170恢复无诊断。",
+        "F": "装备资格显式只开role4，可看出合法性不变量。",
+        "G": "2例无新增；删除重复初始party赋值，不删除业务断言。",
+        "H": "显式资源与clock cleanup；没有新环境/timeout/ignore。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "card": null,
+      "sha256": "4ed0e50d54faf012079cf9d6d2ee01357698d07f9e3ba5d8f324b84e3bf28f2b",
+      "scope": "DELTA ONLY: prior accepted source + pure extraction/comment delta; no repeat card credit",
+      "priorEvidence": "menu-core-closeout.json",
+      "dimensions": {
+        "A": "原已接受行为保留，完整typed模块变更仅常量出口/相同规则与opaque函数提取，结构证明逐项核；相邻合法场景恢复。",
+        "B": "纠正equipped行可用性表与pure/clock声明，移错误宽100后的闪烁注释。",
+        "C": "原写入owner不迁移；present只写FB/core状态函数仍原位置；无反向依赖。",
+        "D": "同规则/同opaque失败策略才共享，shadow/anchor差异保持。",
+        "E": "复用上一窗口已成立oracle/反控，当前170相邻与结构证明只核依赖delta。",
+        "F": "显式selectedMenuItemColor(Date.now())保留取时位置，余控制流不变。",
+        "G": "移冗余声明，core旧六常量出口经reexport保持，未删接口。",
+        "H": "新颜色叶纯化clock依赖，FB/资源注入与既有fixture不变。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "card": null,
+      "sha256": "a9283b6cc0b09e47352eb945f2c801af65dbb57dbdce2e203c745cb128e42d51",
+      "scope": "DELTA ONLY: prior accepted source + pure extraction/comment delta; no repeat card credit",
+      "priorEvidence": "present-speedrun-local.json",
+      "dimensions": {
+        "A": "原已接受行为保留，完整typed模块变更仅常量出口/相同规则与opaque函数提取，结构证明逐项核；相邻合法场景恢复。",
+        "B": "只保留实际使用的描述色/共享调用说明，不修改原机制注释。",
+        "C": "原写入owner不迁移；present只写FB/core状态函数仍原位置；无反向依赖。",
+        "D": "同规则/同opaque失败策略才共享，shadow/anchor差异保持。",
+        "E": "复用上一窗口已成立oracle/反控，当前170相邻与结构证明只核依赖delta。",
+        "F": "显式selectedMenuItemColor(Date.now())保留取时位置，余控制流不变。",
+        "G": "移冗余声明，core旧六常量出口经reexport保持，未删接口。",
+        "H": "新颜色叶纯化clock依赖，FB/资源注入与既有fixture不变。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "card": null,
+      "sha256": "4621e385b2cc67a8b9f7aaa29af8b095d4de87f38ff149a7cfbdb81d5d37e5b4",
+      "scope": "DELTA ONLY: prior accepted source + pure extraction/comment delta; no repeat card credit",
+      "priorEvidence": "present-speedrun-local.json",
+      "dimensions": {
+        "A": "原已接受行为保留，完整typed模块变更仅常量出口/相同规则与opaque函数提取，结构证明逐项核；相邻合法场景恢复。",
+        "B": "只保留实际使用的描述色/共享调用说明，不修改原机制注释。",
+        "C": "原写入owner不迁移；present只写FB/core状态函数仍原位置；无反向依赖。",
+        "D": "同规则/同opaque失败策略才共享，shadow/anchor差异保持。",
+        "E": "复用上一窗口已成立oracle/反控，当前170相邻与结构证明只核依赖delta。",
+        "F": "显式selectedMenuItemColor(Date.now())保留取时位置，余控制流不变。",
+        "G": "移冗余声明，core旧六常量出口经reexport保持，未删接口。",
+        "H": "新颜色叶纯化clock依赖，FB/资源注入与既有fixture不变。"
+      }
+    }
+  ],
+  "bindings": [
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "04f2dc31ec175a3b1d478a7a485073db510d2a7cf3d914cbeccbda9947daa34a",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.ts",
+      "sha256": "cc81a74d8264afc9cccdc061c32829953da1482c7c0fd7d3124e102949d48e82",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.ts",
+      "sha256": "0ef1c7ed2bf3c64cbb6630ddb20a6e28080b10303dc7ad0a0f7c059cd7546c1b",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "7b3b23839864c9405e91692b42be697c2baa47f11536ea823acde33e722687a2",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "sha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "bb7a60e8d2f1660b96502b0361f996e84dca32ecadbb24326bab8e78af4d3d94",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "sha256": "7f0509e12428217023464c69a20abdb7aca49569cb504b0e4a3ea917c6ce715e",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "sha256": "94f9d8d2bf8f295ab30faab1e0a4c8740d2bb80e1a37a92d3ca543eca0f09aeb",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "reference/sdlpal/ui.h",
+      "sha256": "a62d0df9fb689afe5636cc1578e67185c5f2d0900838d72b9808dc5052df19ce",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "reference/sdlpal/ui.c",
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "reference/sdlpal/map.c",
+      "sha256": "0b707730f6e89b2d99f7a8564382c226381c3cec2f13867ad54c816805b1357f",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "readScope": "current/hash bound; full reads or selected caller/primary ranges as recorded; hashing is not a reading claim"
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "dae6e19f7dcff0f731a73c90d669a35e7fba0846a24ddad947df51b14c2208ed",
+      "readScope": "full read"
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "c6a03533ff265905ed00cc838fb1f7bd3bdeb077af5a62a81dfb81e30adc2443",
+      "readScope": "selected load/fetch/context lifetime ranges only"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "3105b7f3b24e6986e035ab023a86d0562673c6174ea13cbf6e7d0341b9d859a1",
+      "readScope": "selected load/fetch/context lifetime ranges only"
+    },
+    {
+      "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "sha256": "1f8640fe2c9d56359fb3161eb6a427061915b1bbd8366192d5b135d1e6c4ef4e",
+      "readScope": "Regression/caller-fixture identity bound to actual170-run inputs; relevant reads or prior accepted evidence reused. No new whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+      "sha256": "36fec8d2f4235f47ad51b396af216aab4c32bcaffd7f1b02325e91029769dc77",
+      "readScope": "Regression/caller-fixture identity bound to actual170-run inputs; relevant reads or prior accepted evidence reused. No new whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "sha256": "68fd0d1db984eb1689d4faabc97e011e7ace0a8d1ac512a62d870c7a0225ae21",
+      "readScope": "Regression/caller-fixture identity bound to actual170-run inputs; relevant reads or prior accepted evidence reused. No new whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+      "sha256": "ac6b9b743f291a3af65e23d730ab51abfdafa48f93b7c24062b8f18e7f2495e6",
+      "readScope": "Regression/caller-fixture identity bound to actual170-run inputs; relevant reads or prior accepted evidence reused. No new whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "sha256": "64dd8c71f90ccd213d485c12a428e808a3af44a9fe4b040ac083f3c3b3d22fff",
+      "readScope": "Regression/caller-fixture identity bound to actual170-run inputs; relevant reads or prior accepted evidence reused. No new whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/inventory-menu.test.ts",
+      "sha256": "f00b0aa6ef3451448e6e53c11c14b814323c9d6e44e81af69c186c1829d38bbb",
+      "readScope": "Regression/caller-fixture identity bound to actual170-run inputs; relevant reads or prior accepted evidence reused. No new whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+      "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072",
+      "readScope": "Regression/caller-fixture identity bound to actual170-run inputs; relevant reads or prior accepted evidence reused. No new whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/present.test.ts",
+      "sha256": "dfaac185e846e88b5aa829531ca6cfc2d59b1f01bcf3d05b7ba71e9af7185fbf",
+      "readScope": "Regression/caller-fixture identity bound to actual170-run inputs; relevant reads or prior accepted evidence reused. No new whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+      "sha256": "ca07c42756238fa4be8a550f7a3094dfdfb66ed5217364a6d5ecf347cfbeba57",
+      "readScope": "Regression/caller-fixture identity bound to actual170-run inputs; relevant reads or prior accepted evidence reused. No new whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "sha256": "eda55d7e7faa55923d2df15e2e856e975e4c949af9365b26ec6b292c25f178a0",
+      "readScope": "Regression/caller-fixture identity bound to actual170-run inputs; relevant reads or prior accepted evidence reused. No new whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/font.ts",
+      "sha256": "b280a039f4ecd1d79b59af8224858a2a62f5afa65d28cf99bec6d9bf6b16fa84",
+      "readScope": "Regression/caller-fixture identity bound to actual170-run inputs; relevant reads or prior accepted evidence reused. No new whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+      "sha256": "0190fb4ea18357e24e30a552ece01049ecdb208539895e3117fda5c2e402a6c4",
+      "readScope": "Regression/caller-fixture identity bound to actual170-run inputs; relevant reads or prior accepted evidence reused. No new whole-file acceptance."
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "91c3091ae09e8e577373a7679328e5a1ceba95e78b8f66736b366ff4f162744e",
+      "readScope": "dependency/tool identity pin; no new full-read claim"
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "aa5e78f8a222de107f814d11cd9dc52239cc23135fe9c794db754f28b868d99d",
+      "readScope": "dependency/tool identity pin; no new full-read claim"
+    },
+    {
+      "path": "packages/shared/package.json",
+      "sha256": "7c052ab5a040325cc70dac55b40f12117570fc8b54e1eea608bfe23ac52d9002",
+      "readScope": "dependency/tool identity pin; no new full-read claim"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "readScope": "dependency/tool identity pin; no new full-read claim"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65",
+      "readScope": "dependency/tool identity pin; no new full-read claim"
+    }
+  ],
+  "risks": [
+    "No schema/save/assets pipeline or product behavior changed. Removed blitTileAt had only one test consumer; game private application package, three production entrypoints preserved.",
+    "No new browser/visual/E2E run. Existing cards explicitly defer those; no framebuffer-to-E2E inference.",
+    "Tile seam compensation is current engineering policy, not SDLPal history-buffer pixel equivalence. Broader coordinate/asset input changes are not authorized here.",
+    "Default production save labels are short; dx=0 custom long-label limitation disclosed and unchanged.",
+    "Only current four original card scopes; 52 remaining cards not accepted by package green."
+  ],
+  "limits": [
+    "Early pure-ui-regression did not record two then-untracked helpers in codeChanges; only a limited checkpoint. Final renderer-directed-final binds them after git add -N.",
+    "V2 old-test virtual transforms have current-codeframe line positions; old assertions identified by Git blob/fullName, not displayed current line. Their historical source checkpoint changed by shared extraction; current shared-color-constant counter targets the new helper.",
+    "First reverse red titled shadow produced 254 from lower text, not shadow0; final title/statement corrected and final red rerun; originals not edited.",
+    "Historical GLM layer0 missing-frame claim confuses h and l: current source/tests show h=0 fallback on both layers; only the unchanged formulas and specific tested behavior are reused."
+  ],
+  "contractTransfers": [
+    {
+      "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+      "change": "7→6",
+      "from": "weak cursor pixel pair not both background",
+      "to": "L12 cursor0/1 exact F9/4F + new temporal cycle; no unique assertion lost"
+    },
+    {
+      "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+      "change": "3→3; one scenario replaced",
+      "from": "no frames case unique fourth glyph",
+      "to": "first canonical case retains fourth glyph; truncate mutant old/new both one business red"
+    },
+    {
+      "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "change": "11→10",
+      "from": "G03-A11 blitTileAt ordinary 1×1 write",
+      "to": "public drawTilemap main subrow/A01 known nonzero writes/A04 opaque0; internal wrapper removed"
+    },
+    {
+      "file": "packages/game/src/present/menu/draw-menu.test.ts",
+      "change": "6→6",
+      "from": "nonoverlapping main/system corners",
+      "to": "main/inventory-action overlap topmost pixel, main/cash retained; system own case retained; reverse old green/new single red"
+    }
+  ],
+  "runs": [
+    {
+      "id": "menu-host-baseline",
+      "member": "menu-host-baseline.execution.json",
+      "exit": 0,
+      "testCount": 15,
+      "failed": [],
+      "expectedFailures": 0,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "opening-baseline",
+      "member": "opening-baseline.execution.json",
+      "exit": 0,
+      "testCount": 17,
+      "failed": [],
+      "expectedFailures": 0,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "opening-clear-new-v2",
+      "member": "opening-clear-new-v2.execution.json",
+      "exit": 1,
+      "testCount": 16,
+      "failed": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-opening-menu.test.ts",
+          "fullName": "drawOpeningMenu — sdlpal uigame.c:42-167 PAL_OpeningMenu 渲染 bg 缺失时保留既有像素，菜单文字仍画出",
+          "messages": [
+            "AssertionError: expected +0 to be 63 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-opening-menu.test.ts:59:46\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "expectedFailures": 1,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "opening-clear-old-v2",
+      "member": "opening-clear-old-v2.execution.json",
+      "exit": 0,
+      "testCount": 17,
+      "failed": [],
+      "expectedFailures": 0,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "opening-clear-old",
+      "member": "opening-clear-old.execution.json",
+      "exit": 1,
+      "testCount": null,
+      "failed": [],
+      "expectedFailures": null,
+      "credit": "STARTUP ERROR: no test/counter credit"
+    },
+    {
+      "id": "opening-constant-new-v2",
+      "member": "opening-constant-new-v2.execution.json",
+      "exit": 1,
+      "testCount": 16,
+      "failed": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawOpeningMenu 剩余合同 选中色按100ms推进六色，600ms回到首色，未选项保持常态色",
+          "messages": [
+            "AssertionError: expected 249 to be 250 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts:84:36\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "expectedFailures": 1,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "opening-constant-old-v2",
+      "member": "opening-constant-old-v2.execution.json",
+      "exit": 0,
+      "testCount": 17,
+      "failed": [],
+      "expectedFailures": 0,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "opening-constant-old",
+      "member": "opening-constant-old.execution.json",
+      "exit": 1,
+      "testCount": null,
+      "failed": [],
+      "expectedFailures": null,
+      "credit": "STARTUP ERROR: no test/counter credit"
+    },
+    {
+      "id": "opening-final",
+      "member": "opening-final.execution.json",
+      "exit": 0,
+      "testCount": 16,
+      "failed": [],
+      "expectedFailures": 0,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "opening-truncate-new-v2",
+      "member": "opening-truncate-new-v2.execution.json",
+      "exit": 1,
+      "testCount": 16,
+      "failed": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawOpeningMenu 剩余合同 cursor 0：第 1 行 0xF9、第 2 行 0x4F（词表 4 字 label → x=125）",
+          "messages": [
+            "AssertionError: expected 90 to be 249 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts:40:32\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "expectedFailures": 1,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "opening-truncate-old-v2",
+      "member": "opening-truncate-old-v2.execution.json",
+      "exit": 1,
+      "testCount": 17,
+      "failed": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawOpeningMenu 剩余合同 makeUiFrames 与本渲染无耦合：不传 frames 也能画（无 box 菜单）",
+          "messages": [
+            "AssertionError: expected 90 to be 249 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts:74:62\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "expectedFailures": 1,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "opening-truncate-old",
+      "member": "opening-truncate-old.execution.json",
+      "exit": 1,
+      "testCount": null,
+      "failed": [],
+      "expectedFailures": null,
+      "credit": "STARTUP ERROR: no test/counter credit"
+    },
+    {
+      "id": "pure-ui-regression",
+      "member": "pure-ui-regression.execution.json",
+      "exit": 0,
+      "testCount": 78,
+      "failed": [],
+      "expectedFailures": 0,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "pure-ui-typecheck",
+      "member": "pure-ui-typecheck.execution.json",
+      "exit": 0,
+      "testCount": null,
+      "failed": [],
+      "expectedFailures": null,
+      "credit": "static/list only"
+    },
+    {
+      "id": "renderer-candidate",
+      "member": "renderer-candidate.execution.json",
+      "exit": 0,
+      "testCount": 92,
+      "failed": [],
+      "expectedFailures": 0,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "renderer-directed-final",
+      "member": "renderer-directed-final.execution.json",
+      "exit": 0,
+      "testCount": 170,
+      "failed": [],
+      "expectedFailures": 0,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "renderer-retired-list",
+      "member": "renderer-retired-list.execution.json",
+      "exit": 0,
+      "testCount": null,
+      "failed": [],
+      "expectedFailures": null,
+      "credit": "static/list only"
+    },
+    {
+      "id": "renderer-typecheck",
+      "member": "renderer-typecheck.execution.json",
+      "exit": 0,
+      "testCount": null,
+      "failed": [],
+      "expectedFailures": null,
+      "credit": "static/list only"
+    },
+    {
+      "id": "shared-color-constant",
+      "member": "shared-color-constant.execution.json",
+      "exit": 1,
+      "testCount": 16,
+      "failed": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+          "fullName": "L12 drawOpeningMenu 剩余合同 选中色按100ms推进六色，600ms回到首色，未选项保持常态色",
+          "messages": [
+            "AssertionError: expected 249 to be 250 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts:84:36\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "expectedFailures": 1,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "shop-baseline",
+      "member": "shop-baseline.execution.json",
+      "exit": 0,
+      "testCount": 19,
+      "failed": [],
+      "expectedFailures": 0,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "shop-fixtures-current",
+      "member": "shop-fixtures-current.execution.json",
+      "exit": 0,
+      "testCount": 19,
+      "failed": [],
+      "expectedFailures": 0,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "stack-reverse-final",
+      "member": "stack-reverse-final.execution.json",
+      "exit": 1,
+      "testCount": 15,
+      "failed": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.test.ts",
+          "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) 两层栈(in-game + inventory-action) → 子菜单盖住底层内容，主框与cash仍在",
+          "messages": [
+            "AssertionError: expected 249 to be 1 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.test.ts:81:44\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "expectedFailures": 1,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "stack-reverse-new",
+      "member": "stack-reverse-new.execution.json",
+      "exit": 1,
+      "testCount": 15,
+      "failed": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.test.ts",
+          "fullName": "M5.6 v2 drawMenuStack(sdlpal 真值坐标) 两层栈(in-game + inventory-action) → 子菜单盖住底层阴影，主框与cash仍在",
+          "messages": [
+            "AssertionError: expected 254 to be 1 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.test.ts:81:44\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ],
+      "expectedFailures": 1,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "stack-reverse-old",
+      "member": "stack-reverse-old.execution.json",
+      "exit": 0,
+      "testCount": 15,
+      "failed": [],
+      "expectedFailures": 0,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    },
+    {
+      "id": "tilemap-baseline",
+      "member": "tilemap-baseline.execution.json",
+      "exit": 0,
+      "testCount": 78,
+      "failed": [],
+      "expectedFailures": 0,
+      "credit": "native result, limited to frozen candidate at recorded execution"
+    }
+  ],
+  "nativeArtifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-native.json.gz",
+    "sha256": "5e17833a132cfc219d609c83b62cfe06128172cd930389ae157ee47ef9988b03",
+    "members": [
+      {
+        "name": "capture.mjs",
+        "bytes": 5483,
+        "sha256": "4612a811abc36c3b835c7553ae6d1013bc1627ccaa0d59961d42b476d3c79de6"
+      },
+      {
+        "name": "extract-ui-primitives.cjs",
+        "bytes": 5505,
+        "sha256": "4e5786672625198bdc7bf172bbbd05564ee9df5bfd51162731fa2f863eb97f36"
+      },
+      {
+        "name": "menu-host-baseline.execution.json",
+        "bytes": 4334,
+        "sha256": "df86a94f6e8db15aaee08cc0587be9675fb4a12f2030928f827133f62cf97907"
+      },
+      {
+        "name": "menu-host-baseline.native.json",
+        "bytes": 6332,
+        "sha256": "d0de491014b7a0d8651d4afea7d763382d3263ae15077c9e7aa087747d55f89e"
+      },
+      {
+        "name": "menu-host-baseline.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "menu-host-baseline.stdout.raw",
+        "bytes": 618,
+        "sha256": "96efdac0be4a21ce0a5e6585b9072c8682439df7f197e14aa61808c2716778af"
+      },
+      {
+        "name": "opening-baseline.execution.json",
+        "bytes": 1565,
+        "sha256": "47199976c218cb1db3b74755e55ba069dc33a0ddad43530c7bab463c4d15c4a8"
+      },
+      {
+        "name": "opening-baseline.native.json",
+        "bytes": 7396,
+        "sha256": "ba415788afd91f5abb521c35bca5dce40afdb8611bffd2d5cbc0f6a0dfe9dd90"
+      },
+      {
+        "name": "opening-baseline.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "opening-baseline.stdout.raw",
+        "bytes": 629,
+        "sha256": "7c18c401b48b70b38752ba4282b07a7584ed4cad050103335b0351f6cc9405bf"
+      },
+      {
+        "name": "opening-clear-new-v2.config.mjs",
+        "bytes": 1709,
+        "sha256": "d6e244da9c4a0018999b1ffc1f5499844c6d69e7935f80ad4b8ecfde6eb03d5c"
+      },
+      {
+        "name": "opening-clear-new-v2.execution.json",
+        "bytes": 2498,
+        "sha256": "621983843a7feeb2c4e658068ef3c4a1d8e9e8f09e154b2f916602502cb6c5a5"
+      },
+      {
+        "name": "opening-clear-new-v2.native.json",
+        "bytes": 8467,
+        "sha256": "24d62faa55f40e1c1e9f201a505c65cf5cc8b06a103904fb175a2aa228faf28c"
+      },
+      {
+        "name": "opening-clear-new-v2.stderr.raw",
+        "bytes": 760,
+        "sha256": "ff45847baa19f318684dd9d98e9d2365f79535ce4d69496689d6a0e8adc2fedc"
+      },
+      {
+        "name": "opening-clear-new-v2.stdout.raw",
+        "bytes": 1174,
+        "sha256": "a3b855472abe10044fceac7949bf336a9baf49c50ebb25f4b2a6a29c0b9e7eb8"
+      },
+      {
+        "name": "opening-clear-new.config.mjs",
+        "bytes": 1994,
+        "sha256": "d401459f7a0b23b02ae202a8211176d6761c49b4eccbcdc7c457c12a07e3388e"
+      },
+      {
+        "name": "opening-clear-old-v2.config.mjs",
+        "bytes": 1709,
+        "sha256": "f09c5181bfd0cbea97d00657ee1613370523d57f0cd438b80dd7b8075e71e04d"
+      },
+      {
+        "name": "opening-clear-old-v2.execution.json",
+        "bytes": 2495,
+        "sha256": "c6462e68a769a8df50a1b33df8d96f777167f83114279f45457f5fec7040aaa3"
+      },
+      {
+        "name": "opening-clear-old-v2.native.json",
+        "bytes": 7397,
+        "sha256": "a847b46405188fb98f78e79c2637d0f537ee27c1df9883e8e1ab6100e478265c"
+      },
+      {
+        "name": "opening-clear-old-v2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "opening-clear-old-v2.stdout.raw",
+        "bytes": 633,
+        "sha256": "e1997d5bfa77e9cbb4e3562dd69b1b90c1fb6238ce58fcce18761510f10e80de"
+      },
+      {
+        "name": "opening-clear-old.config.mjs",
+        "bytes": 1994,
+        "sha256": "eb66cc0790bfcb44e0ece782b223879f747cb486888bbf7c3faa1cb6a35a1415"
+      },
+      {
+        "name": "opening-clear-old.execution.json",
+        "bytes": 2481,
+        "sha256": "5435db84f2b2ede6dba0f3232e7be697ccf0a1d20bc31d4050616a2263160400"
+      },
+      {
+        "name": "opening-clear-old.stderr.raw",
+        "bytes": 1817,
+        "sha256": "f986da51d1eecdb4ded4009681185fecf9d56dc55622eb2f9d86106406e97fe5"
+      },
+      {
+        "name": "opening-clear-old.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "opening-constant-new-v2.config.mjs",
+        "bytes": 1712,
+        "sha256": "be92095949d942161c16dce009bb3cee12881f1e83949720b5232e0de1addd78"
+      },
+      {
+        "name": "opening-constant-new-v2.execution.json",
+        "bytes": 2512,
+        "sha256": "7182372518772ce45a5b305988737f999dd63d66f939d109effbe1119f606526"
+      },
+      {
+        "name": "opening-constant-new-v2.native.json",
+        "bytes": 8474,
+        "sha256": "2e7c99e954f2003bfe424560070745a8dc27b85bb5443ad140190cf8bb0812f7"
+      },
+      {
+        "name": "opening-constant-new-v2.stderr.raw",
+        "bytes": 768,
+        "sha256": "0bba815536adb79378589fbd992430803f5c4c1e2652e0958b4d43109f8b1ac9"
+      },
+      {
+        "name": "opening-constant-new-v2.stdout.raw",
+        "bytes": 967,
+        "sha256": "34f597f6e6f1e770fb7f28f95cc62de5bb20bca62dcb1736250bd5c5acafdf2c"
+      },
+      {
+        "name": "opening-constant-new.config.mjs",
+        "bytes": 1997,
+        "sha256": "2413c7419b330be243fcec1efe047200428a2f40e81a2d341d4f04d3165f0e6d"
+      },
+      {
+        "name": "opening-constant-old-v2.config.mjs",
+        "bytes": 1712,
+        "sha256": "b01926c9ab5082137657c11445ef0cb5e9c4ad75499b9f12efb4c0ffa143b423"
+      },
+      {
+        "name": "opening-constant-old-v2.execution.json",
+        "bytes": 2510,
+        "sha256": "582a56b531962d54f61ea84a5e0d6797ae9695eb0a8787580dbdeeb34ac978e6"
+      },
+      {
+        "name": "opening-constant-old-v2.native.json",
+        "bytes": 7397,
+        "sha256": "481f4af2792b7cbce74e8f68a0b0b741d79c44e9e507f1420a447d814e590ec6"
+      },
+      {
+        "name": "opening-constant-old-v2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "opening-constant-old-v2.stdout.raw",
+        "bytes": 636,
+        "sha256": "ca3bb525d9505313ea73edb27f2cab38e876986d8264e4dd3effaca09e1ef389"
+      },
+      {
+        "name": "opening-constant-old.config.mjs",
+        "bytes": 1997,
+        "sha256": "d60547d1436cf8854a653531a5cc48f28a9c39fbfc82c3c2e804d0ccd0f3f8cc"
+      },
+      {
+        "name": "opening-constant-old.execution.json",
+        "bytes": 2496,
+        "sha256": "0419e0f5aecccaaf741c365c32bc21ae6355d2f6ff9dbe03a83e8648119420f9"
+      },
+      {
+        "name": "opening-constant-old.stderr.raw",
+        "bytes": 1835,
+        "sha256": "9496ec02fed5b54d17e19e0ade6d2732c00a3ed9f665bb60f3f6fc523e1e8794"
+      },
+      {
+        "name": "opening-constant-old.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "opening-counter-setup-erratum.json",
+        "bytes": 470,
+        "sha256": "32a8597b479e8eff08b464341c9b8d65fcdba5adfc56a19b63b185c9f1e58618"
+      },
+      {
+        "name": "opening-final.execution.json",
+        "bytes": 2323,
+        "sha256": "2282765f45884e870ea749f30b24f60285f04c03a6b58849d189ab0e63f41a80"
+      },
+      {
+        "name": "opening-final.native.json",
+        "bytes": 6947,
+        "sha256": "f1ed00f26acab88cd6bec8ddd1e247230f182aad3b5f09ffdc98ecbdf44fb592"
+      },
+      {
+        "name": "opening-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "opening-final.stdout.raw",
+        "bytes": 626,
+        "sha256": "e0ebf18fda28ea1eec29193d80b0effdb0e7c459202d69dc8183382c49143802"
+      },
+      {
+        "name": "opening-mutations.mjs",
+        "bytes": 2467,
+        "sha256": "afbf790382441c9a84c3ab63f324c80d17099a2b0a90b6727d8b316e14ef2f4d"
+      },
+      {
+        "name": "opening-truncate-new-v2.config.mjs",
+        "bytes": 1712,
+        "sha256": "d8d87eff92dd1a22ee15cccb5201170fe02dfe347fc6babe48b83e52a123b9e2"
+      },
+      {
+        "name": "opening-truncate-new-v2.execution.json",
+        "bytes": 2512,
+        "sha256": "9dad2cdcd4dd80b03824ec7389b6150595f2c2484435c572d2e51c5d82dadbe7"
+      },
+      {
+        "name": "opening-truncate-new-v2.native.json",
+        "bytes": 8488,
+        "sha256": "e25ad6ba718e6fa8346b9f485fd79c19200149e6e8f3a2c14e7756be5468ebfd"
+      },
+      {
+        "name": "opening-truncate-new-v2.stderr.raw",
+        "bytes": 806,
+        "sha256": "99ef0e57e43277c0d31ae00dde8f96bd1d38ac39ebc303f6e6902e5f91499e14"
+      },
+      {
+        "name": "opening-truncate-new-v2.stdout.raw",
+        "bytes": 967,
+        "sha256": "4cbc823fa0c5e7189096174dac533b0ba63ca93efac5e2f55f50ff138552d88f"
+      },
+      {
+        "name": "opening-truncate-new.config.mjs",
+        "bytes": 1997,
+        "sha256": "7d82afdd01ea8db547824afbd0d7a852944cb9839eaeb57435f8b071a62389ff"
+      },
+      {
+        "name": "opening-truncate-old-v2.config.mjs",
+        "bytes": 1712,
+        "sha256": "4720ae1a224a96e01dc042988fc226cdb22b301083d1fec54bde4953548c100f"
+      },
+      {
+        "name": "opening-truncate-old-v2.execution.json",
+        "bytes": 2512,
+        "sha256": "ce05543e73c3ae297ad276f5d796ba75eac4a6143b0b4486ae4a555045868a89"
+      },
+      {
+        "name": "opening-truncate-old-v2.native.json",
+        "bytes": 8920,
+        "sha256": "cb04c532aa71f56bd6cc2cb9208b25c8502796342245f042b64886c6847f6f01"
+      },
+      {
+        "name": "opening-truncate-old-v2.stderr.raw",
+        "bytes": 750,
+        "sha256": "21efb174b3bf3202319762d99d7f2ab279b3f34bd389e746ac4248a22e8e3964"
+      },
+      {
+        "name": "opening-truncate-old-v2.stdout.raw",
+        "bytes": 971,
+        "sha256": "da79b5997fee777d6c4298b70a0d68403ef4847c679fe6b6320738cac974d497"
+      },
+      {
+        "name": "opening-truncate-old.config.mjs",
+        "bytes": 1997,
+        "sha256": "698ebf7de7dbfcfab671a241714d917438e1c53ad8586bb40cb3251a7f2eb96e"
+      },
+      {
+        "name": "opening-truncate-old.execution.json",
+        "bytes": 2496,
+        "sha256": "74bf17cd92f4f2ded1eabd9868a30c75a01b6228d66992f36c821c74e3e8108d"
+      },
+      {
+        "name": "opening-truncate-old.stderr.raw",
+        "bytes": 1835,
+        "sha256": "cffa97c7dc738de263651a3e7a6bb15be3afd7eec570997828ba306a62d8eace"
+      },
+      {
+        "name": "opening-truncate-old.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "prove-renderer-delta.cjs",
+        "bytes": 4697,
+        "sha256": "559d6c3bb0a969f7b505107e460cfcbc62a016e36ee98793fe2ff78b0b88b0a5"
+      },
+      {
+        "name": "prove-ui-extraction-replay.cjs",
+        "bytes": 5883,
+        "sha256": "8f1763a3f120c777f65939a76513c6f8f2a1cf89e553b329a21cfaf878c0d034"
+      },
+      {
+        "name": "prove-ui-extraction.cjs",
+        "bytes": 5713,
+        "sha256": "aeeef5ce8f3626f41111b79587097052d2abf9996bdc59689f46f3e176b40c0e"
+      },
+      {
+        "name": "pure-ui-after-authoring.json",
+        "bytes": 1339,
+        "sha256": "613d972546ad459967c3b2002cce94a75affbd154d784c053765f18ad3365d26"
+      },
+      {
+        "name": "pure-ui-before.json",
+        "bytes": 52090,
+        "sha256": "b81faa9acb3de5479300fc646022d0c9c46f789db610830bc533090e76b3f008"
+      },
+      {
+        "name": "pure-ui-current-proof.json",
+        "bytes": 2503,
+        "sha256": "d139a55cfaf6cded8625346961ca5a5206bb7d198da9eb1a20e0798965ece878"
+      },
+      {
+        "name": "pure-ui-extraction-proof.json",
+        "bytes": 2503,
+        "sha256": "d139a55cfaf6cded8625346961ca5a5206bb7d198da9eb1a20e0798965ece878"
+      },
+      {
+        "name": "pure-ui-regression.execution.json",
+        "bytes": 3821,
+        "sha256": "1240d5b6e0b2c2d44a7ed9f2066ed9d81aff82237bd0db336130831dfe139b48"
+      },
+      {
+        "name": "pure-ui-regression.native.json",
+        "bytes": 29851,
+        "sha256": "4930d0b99ce4bca9386aa91e2a0c122ec7ff2a8e07eaf44fe256c9cf0b9a9747"
+      },
+      {
+        "name": "pure-ui-regression.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "pure-ui-regression.stdout.raw",
+        "bytes": 1294,
+        "sha256": "48e0cf7df4f5e507e0133a1f5c7fa89ad1f6d10e37b7e912ba58162d67135b99"
+      },
+      {
+        "name": "pure-ui-replay-proof.json",
+        "bytes": 2503,
+        "sha256": "5ad6a913ce7072fe6ffdee60c34372002603224dc036509e398d2882a373a8a5"
+      },
+      {
+        "name": "pure-ui-typecheck.execution.json",
+        "bytes": 3921,
+        "sha256": "121198b548ae26a248f20f9f3c19ad74667d0ef76b160e8db029d3baf3e71b8a"
+      },
+      {
+        "name": "pure-ui-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "pure-ui-typecheck.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "renderer-candidate.execution.json",
+        "bytes": 5537,
+        "sha256": "0baa9d936cc89d0b310fd38b18528250eba73bce237b6b950c5e32cf953dfb02"
+      },
+      {
+        "name": "renderer-candidate.native.json",
+        "bytes": 35606,
+        "sha256": "e2bc1ccfd975126378a5578cde69b133664d01f4d6630d3430415e925a23e657"
+      },
+      {
+        "name": "renderer-candidate.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-candidate.stdout.raw",
+        "bytes": 790,
+        "sha256": "bdeb5458aed8b4ae3bf610901781403414981b6e73c77feb7a7663a03068277f"
+      },
+      {
+        "name": "renderer-delta-proof.json",
+        "bytes": 1577,
+        "sha256": "81dc94d0eed6058df410d9bb4b234b3ed0d0bdbd5b97e03a1e47348e0ef7141e"
+      },
+      {
+        "name": "renderer-directed-final.execution.json",
+        "bytes": 6280,
+        "sha256": "e869c6c041aff3ffb78485b2dba9ef63ac2f10136d7c673f6fc73c353c6908d9"
+      },
+      {
+        "name": "renderer-directed-final.native.json",
+        "bytes": 65026,
+        "sha256": "721600d43b13a9057554158417fd097cc137f05205dc5dde1876e7d096374c51"
+      },
+      {
+        "name": "renderer-directed-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-directed-final.stdout.raw",
+        "bytes": 1677,
+        "sha256": "8012bdcc9d2d4ab5afbcf5aa7b6e7581cfea58f19669525d1745d9165c3f9593"
+      },
+      {
+        "name": "renderer-retired-list.execution.json",
+        "bytes": 5299,
+        "sha256": "89993c53f3845d4bd3ef8b8665214d143acfbba7d334e8ebbee1319383a6244d"
+      },
+      {
+        "name": "renderer-retired-list.list.json",
+        "bytes": 4443,
+        "sha256": "3f5dc5facf7e79554915a7954b8c756a0475c48d2b43fc8ed5c5b982d5d77998"
+      },
+      {
+        "name": "renderer-retired-list.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-retired-list.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-typecheck.execution.json",
+        "bytes": 4997,
+        "sha256": "09a379b871b93eb08df1943cc731ef43fb9c0d6ce4f869894d1bd62e3830232e"
+      },
+      {
+        "name": "renderer-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-typecheck.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "retirements.json",
+        "bytes": 806,
+        "sha256": "2e08e28906c83887116af71c751b80efd4072460642ca90c3129b724e23dff45"
+      },
+      {
+        "name": "shared-color-constant.config.mjs",
+        "bytes": 665,
+        "sha256": "c36bd29c6b0463b0872f44c03ecc3249a09723e52d69e3112e8d552231b63d17"
+      },
+      {
+        "name": "shared-color-constant.execution.json",
+        "bytes": 5580,
+        "sha256": "88c91c703665c36b461e2d9d7e9881879e799856904286f05c79d629170e548b"
+      },
+      {
+        "name": "shared-color-constant.native.json",
+        "bytes": 8484,
+        "sha256": "28c37d8a65ae8ee782cfa07f3205eb29154082cabac365100fbc1f4424b7c8f4"
+      },
+      {
+        "name": "shared-color-constant.stderr.raw",
+        "bytes": 768,
+        "sha256": "0bba815536adb79378589fbd992430803f5c4c1e2652e0958b4d43109f8b1ac9"
+      },
+      {
+        "name": "shared-color-constant.stdout.raw",
+        "bytes": 965,
+        "sha256": "5824ac8543b83f1b9f8f2aa3d4769cdb8b4c09e0ea08f8dd8bda475c8d49eddc"
+      },
+      {
+        "name": "shop-baseline.execution.json",
+        "bytes": 2321,
+        "sha256": "8284165762b5e5a9e074263cb7dd0b6d71f5a5cc62a6e029c7a2729e44e7b748"
+      },
+      {
+        "name": "shop-baseline.native.json",
+        "bytes": 7432,
+        "sha256": "1eb494e9e1387156ba817e60db2c1a03b327a105607c9d9d505f4c0069d7f526"
+      },
+      {
+        "name": "shop-baseline.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "shop-baseline.stdout.raw",
+        "bytes": 628,
+        "sha256": "43c43427717f69038431b8e108307811e4ccf5dce2f2484a84af9f92aee1bb06"
+      },
+      {
+        "name": "shop-fixtures-current.execution.json",
+        "bytes": 4358,
+        "sha256": "6860d52de5ccf57c9c7adcf66a6e132b1ed3b84ef79b3a8124a90d1229482281"
+      },
+      {
+        "name": "shop-fixtures-current.native.json",
+        "bytes": 7516,
+        "sha256": "32c1518cd328b2b11032fcbc24c612b756305df491b2492ac4f2af1da0424eea"
+      },
+      {
+        "name": "shop-fixtures-current.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "shop-fixtures-current.stdout.raw",
+        "bytes": 636,
+        "sha256": "94960c6a1b3f846381d81cc3a6691c61c96a60880ae110318d739a300e366935"
+      },
+      {
+        "name": "stack-reverse-final.execution.json",
+        "bytes": 5555,
+        "sha256": "97920d07a9b6f5db08e302d7830f9120a50a301d910d3d37e2d370bf01fba370"
+      },
+      {
+        "name": "stack-reverse-final.native.json",
+        "bytes": 7882,
+        "sha256": "003d7bb38f96119a489cd610db03e0b75eb0acc43183a1b69be7230317e898ab"
+      },
+      {
+        "name": "stack-reverse-final.stderr.raw",
+        "bytes": 856,
+        "sha256": "4e8f0114922bdf0081aebf77f51936fdb4929da7c9810b67e47f5086d49b31d9"
+      },
+      {
+        "name": "stack-reverse-final.stdout.raw",
+        "bytes": 1124,
+        "sha256": "2196f34d75f304fd46e06e1597fbd22c1b4257a441511f087ddcc1b63333808b"
+      },
+      {
+        "name": "stack-reverse-new.config.mjs",
+        "bytes": 1099,
+        "sha256": "ca89d3d002c11cd22143e5e1977daacc12e35067f82f79f7a2b970595ba0be5c"
+      },
+      {
+        "name": "stack-reverse-new.execution.json",
+        "bytes": 5547,
+        "sha256": "3c66d0764530da61cd00dda234fe49659fe926b9fe0fe8641117de77ed2498c1"
+      },
+      {
+        "name": "stack-reverse-new.native.json",
+        "bytes": 7888,
+        "sha256": "fd0fa31c90868c8cf9c53f989ccee0debd9b0c71b896a96a7cbcdbb883b86dd1"
+      },
+      {
+        "name": "stack-reverse-new.stderr.raw",
+        "bytes": 851,
+        "sha256": "de7531ffd27c267640251baea990b598265dd5627282caf80bdafb1685eb4837"
+      },
+      {
+        "name": "stack-reverse-new.stdout.raw",
+        "bytes": 1122,
+        "sha256": "7c4000c21215dce7c63090e4ca7d3275a9d57f7c814e1853010383bd313e7f5c"
+      },
+      {
+        "name": "stack-reverse-old.config.mjs",
+        "bytes": 1099,
+        "sha256": "deec808804cd978e135e5c878f74716b0078b45a0f4487b437571afa98837233"
+      },
+      {
+        "name": "stack-reverse-old.execution.json",
+        "bytes": 5544,
+        "sha256": "73414a0c9c67d8c3043b71add89c417dab4dd4ed81be7ec8ced6968919eb3329"
+      },
+      {
+        "name": "stack-reverse-old.native.json",
+        "bytes": 6332,
+        "sha256": "a24ae11775e3674f750db665f72f54d24d10ebc14665e296f8aa50f2cf9b8891"
+      },
+      {
+        "name": "stack-reverse-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "stack-reverse-old.stdout.raw",
+        "bytes": 617,
+        "sha256": "4c2a87cc563a5dc84ba348b088f3e4c54877f01803470b11b9536b04e66dadaf"
+      },
+      {
+        "name": "tilemap-baseline.execution.json",
+        "bytes": 4289,
+        "sha256": "8d571e0215a954082bd1a8ee7f716eab1e332b5f3d26d9241655f7413e6ad2d4"
+      },
+      {
+        "name": "tilemap-baseline.native.json",
+        "bytes": 30587,
+        "sha256": "5f5451f78ddede0807ee50049ebb2208497c6e4017b54ed52c5ceedded36b718"
+      },
+      {
+        "name": "tilemap-baseline.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "tilemap-baseline.stdout.raw",
+        "bytes": 582,
+        "sha256": "9f253c3aff1ddead1b7791658003a589ea603c742fafff6b1e54f5d5b81b20bb"
+      },
+      {
+        "name": "window.json",
+        "bytes": 310,
+        "sha256": "e025debc39c1fb5a10e5e7786bb6de6c379cde6e0c491bae7c9a83f58ef07937"
+      },
+      {
+        "name": "scan-tile-inputs.ts",
+        "bytes": 1738,
+        "sha256": "f868ebe498c46d63572cc05f107cd7e58cd7807f7b4f29f91976b38396b7335f"
+      },
+      {
+        "name": "tile-inputs.raw.json",
+        "bytes": 70968,
+        "sha256": "c3f673728076f77c35142b2b3a3bd1e3c98065c153ecc6f9cbede6b09aefd7da"
+      }
+    ]
+  },
+  "localAssetScan": {
+    "member": "tile-inputs.raw.json",
+    "producer": "scan-tile-inputs.ts",
+    "maps": 223,
+    "limit": "Local extracted data only; no original-disk/browser/deployment claim. Default quick verification rehashes this exact local set without decoding."
+  }
+}

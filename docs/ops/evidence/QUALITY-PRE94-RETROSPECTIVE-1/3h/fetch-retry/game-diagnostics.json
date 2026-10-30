@@ -1,0 +1,160 @@
+{
+  "candidate": "initial retry test candidate; product source unchanged",
+  "blocks": [
+    {
+      "header": "stderr | src/core/event-system.test.ts > goto shared#L_xxx(P2#5 — 单一全局数组,剥前缀经全局 labelMap 解析) > shared# label 全局不存在 → warn + skip(不抛错,不死循环)",
+      "body": "event-system: goto label shared#L_DOES_NOT_EXIST 不在全局 labelMap → 终止脚本"
+    },
+    {
+      "header": "stderr | src/core/event-system.test.ts > 特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c FadeOut/FadeIn/SceneFade/PaletteFade/ColorFade/FadeToRed) > 0x05 redraw 无 needToFadeIn → 解冻 + UTIL_Delay(60ms) 后续跑(不误触发淡入)",
+      "body": "event-system: setObjectPos 无 currentEventObjectId(可能从 runEnterScript 跑),跳过"
+    },
+    {
+      "header": "stderr | src/core/scene-system.test.ts > P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > contact NPC(triggerMode >= 4)不阻挡走路 → walking=true",
+      "body": "scene-system: triggerLabel L_42 不在全局 labelMap(NPC id=7)"
+    },
+    {
+      "header": "stderr | src/core/scene-system.test.ts > P0.e wScriptOnEnter 真跑 > setSceneObjectState opcode 不报错(no-op, M5+ field)",
+      "body": "event-system: setSceneObjectState id(1-based)=1 → idx=0 不在当前 scene 也不在全局表,跳过"
+    },
+    {
+      "header": "stderr | src/core/menu/magic-script.test.ts > runMagicScriptSync - 流程控制 > label 不存在 → 返回 false",
+      "body": "runMagicScriptSync: L_99999 不在全局 labelMap"
+    },
+    {
+      "header": "stderr | src/core/menu/magic-script.test.ts > castOverworldMagic - 双层 script > scriptOnUse 失败 → 不跑 scriptOnSuccess",
+      "body": "runMagicScriptSync: L_99999 不在全局 labelMap"
+    },
+    {
+      "header": "stderr | src/core/mode.test.ts > tickByMode autoScript gate (P2#6a) > event 模式 + waiting=dialog(对话阻塞)→ autoScript **不**跑(NPC 停)",
+      "body": "event-system: ip 1 越界 → 切回 explore / menu"
+    },
+    {
+      "header": "stderr | src/core/event-system.glm-event-state-opcodes.test.ts > event-system 状态 opcode 合同(GLM state-opcodes r1) > runEnterScript goto 缺失:warn + fail-stop,后续 opcode 不执行(不抛错不自旋)",
+      "body": "runEnterScript: goto label L_MISSING 不在 labelMap"
+    },
+    {
+      "header": "stderr | src/core/event-system.glm-event-k06.test.ts > K06 startOverworldItemScript 失败门:scriptOnUse=0 / label 不在全局表 → false 且零状态副作用 > scriptOnUse=0 与 L_<n> 缺失都拒绝启动;成功对照 = true + mode=event + pendingItemConsume 记账",
+      "body": "[item-use] scriptOnUse=0 for itemId=5,不可用\n[item-use] L_1 不在全局 labelMap(itemId=5)"
+    },
+    {
+      "header": "stderr | src/core/event-system.glm-event-control-flow.test.ts > TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 > resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
+      "body": "event-system: 0x0A goto entry 9 不在 labelMap → 终止脚本"
+    },
+    {
+      "header": "stderr | src/shell/avi-player.glm-next-wave.test.ts > playAvi autoplay 拒绝 → click-to-start 降级边界 > play() 拒绝(显式 settle)→ overlay 出现;点击 overlay 重试成功 → overlay 摘除、视频保留;ended → 清理",
+      "body": "[avi-player] play() rejected (autoplay policy?): Error: NotAllowedError: play() failed (autoplay policy)"
+    },
+    {
+      "header": "stderr | src/core/battle/battle-system.glm-next-wave.test.ts > scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) > turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)",
+      "body": "[battle] startBattle: enemy id 101 not in enemies.json, kept as empty slot"
+    },
+    {
+      "header": "stderr | src/core/__tests__/stats/e2-equipment-effects.test.ts > E2: 装备效果层字段写入与卸下保真 > E2-03 越界部位索引与未知行静默安全退出，无关域保持纯净",
+      "body": "writeEquipmentEffectField: row 999 未支持(装备 effect 真值)"
+    },
+    {
+      "header": "stderr | src/core/__tests__/stats/e4-run-equip-script.test.ts > E4: 装备脚本执行器 runEquipScript > E4-03 scriptOnEquip === 0 或 labelMap 未命中时安全返回",
+      "body": "runEquipScriptSync: L_99999 不在全局 labelMap"
+    },
+    {
+      "header": "stderr | src/shell/avi-player.test.ts > playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) > video error 事件触发 → Promise 仍 resolve(不抛)",
+      "body": "[avi-player] video load/decode failed: /extracted/videos/nonexistent.mp4"
+    },
+    {
+      "header": "stderr | src/shell/rng-window.grok-r1.test.ts > G10-A RNG 默认跳过与帧窗 > G10-A07 默认块地址是 rng-07.rle",
+      "body": "[rng-player] frame 0 fetch fail, skip: Error: rng-player: fetch /extracted/data/animation/rng-07.rle failed (404)\n    at fetchAndDecodeRngChunk (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/rng-player.ts:100:22)"
+    },
+    {
+      "header": "stderr | src/shell/precache-client.test.ts > registerPrecache > register 抛错 → onUnavailable 触发,不向上抛",
+      "body": "[precache] SW register failed, fallback to on-demand fetch: Error: boom\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/precache-client.test.ts:70:54\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+    }
+  ],
+  "files": [
+    {
+      "path": "packages/game/src/core/__tests__/stats/e2-equipment-effects.test.ts",
+      "sha256": "a0d617787be77590ca759306cc59778adc6911c2e22681a946de8239efa4a5b1",
+      "stderrBlocks": 1,
+      "sourceReadThisSlice": false
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/e4-run-equip-script.test.ts",
+      "sha256": "2b8df2623dea365cd88b21570572ea67ff004e7c8c8fef87d34405c8998e4167",
+      "stderrBlocks": 1,
+      "sourceReadThisSlice": false
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+      "sha256": "0663047d3113842d7fa4937d6c478a69ad6428c12671c843a61ace9e3a9b0fd1",
+      "stderrBlocks": 1,
+      "sourceReadThisSlice": false
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+      "sha256": "e0a27f42b8924910e1a5a386449a6c250ddfcd9092f4117ec8255651b676acb0",
+      "stderrBlocks": 1,
+      "sourceReadThisSlice": false
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k06.test.ts",
+      "sha256": "86a5a0526dc3d09e6bd1abe579f2a68f5759d94a4f706d4aa0fa41375acb1c83",
+      "stderrBlocks": 1,
+      "sourceReadThisSlice": false
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
+      "sha256": "e4c8427f7d4ebeb8f3cd741593fe8c47f28efaf395f7770b145632f834517444",
+      "stderrBlocks": 1,
+      "sourceReadThisSlice": false
+    },
+    {
+      "path": "packages/game/src/core/event-system.test.ts",
+      "sha256": "b7fdaf473dce29e1b2b4f714eb40a7b455e344eefdf3f338801d344e233abab0",
+      "stderrBlocks": 2,
+      "sourceReadThisSlice": false
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.test.ts",
+      "sha256": "ce9456b36defae3df0895a444b29523a08ad66bfc97b00a28e9af525f535f544",
+      "stderrBlocks": 2,
+      "sourceReadThisSlice": false
+    },
+    {
+      "path": "packages/game/src/core/mode.test.ts",
+      "sha256": "d217442b8f62df651d8f828171085efd2c1330dbfcc90ae28411baf836739609",
+      "stderrBlocks": 1,
+      "sourceReadThisSlice": false
+    },
+    {
+      "path": "packages/game/src/core/scene-system.test.ts",
+      "sha256": "81c48be848ff01b58060c7fe7e5f37c08b754c1ffa4277a5dd53c4ea5553231e",
+      "stderrBlocks": 2,
+      "sourceReadThisSlice": false
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+      "sha256": "d51a55110d175b45b54284685091e1103b273f32d055a79b4f3b1ad6d3588041",
+      "stderrBlocks": 1,
+      "sourceReadThisSlice": false
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.test.ts",
+      "sha256": "b11d9337d9829c862cbb475b1a9e73ca04cfda1dce3f3cdcb1749d49cbc23f69",
+      "stderrBlocks": 1,
+      "sourceReadThisSlice": false
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.test.ts",
+      "sha256": "e3260e88b456f5999daf4cff98e727db724e8ace3ae9ffe11c310d7957357991",
+      "stderrBlocks": 1,
+      "sourceReadThisSlice": false
+    },
+    {
+      "path": "packages/game/src/shell/rng-window.grok-r1.test.ts",
+      "sha256": "f17a87fbedf5c6e3261266376a3e9aa6cb003a0c6c5e240abfd48b7742eb1f10",
+      "stderrBlocks": 1,
+      "sourceReadThisSlice": false
+    }
+  ],
+  "sourceReviewBoundary": "Native diagnostics identified only; no whole-file or root-cause acceptance."
+}

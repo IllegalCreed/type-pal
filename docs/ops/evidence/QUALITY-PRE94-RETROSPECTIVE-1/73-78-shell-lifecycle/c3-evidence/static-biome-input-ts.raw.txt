@@ -1,0 +1,7 @@
+$ cd /Users/zhangxu/.glm-worktrees/pre94-foundation && ./node_modules/.bin/biome check packages/game/src/shell/input.ts
+# started: 2026-10-20T12:42:42
+# exit: 0
+# --- stdout ---
+Checked 1 file in 29ms. No fixes applied.
+# --- stderr ---
+(empty)

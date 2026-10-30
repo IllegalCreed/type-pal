@@ -46,10 +46,11 @@ export interface ItemFlags {
  *   wBitmap / wPrice / wScriptOnUse / wScriptOnEquip /
  *   wScriptOnThrow / wScriptDesc / wFlags
  *
- * 数据源:SSS.MKF chunk 2(OBJECT 数组)索引 61..295,共 235 条。
+ * 数据源:SSS.MKF chunk 2(OBJECT 数组)物品段61..295;parseItems排除法术梦蛇295,
+ * 产出61..294共234个物品。
  */
 export interface Item {
-  /** 在 items.json 数组里的索引(= OBJECT 段内偏移,不是绝对 OBJECT index)。 */
+  /** OBJECT 数组的全局 wObjectID(原盘物品61..294),不等于items.json数组下标。 */
   id: number
   /** 名字注释(WORD.DAT;引擎不读,只为人读 JSON 时认得出)。 */
   _name?: string
@@ -61,9 +62,9 @@ export interface Item {
   scriptOnUse: number
   /** 装备时跑的脚本。0 = 不可装备。 */
   scriptOnEquip: number
-  /** 投掷时跑的脚本(M3 不消费,留作 schema 完整)。 */
+  /** 战斗投掷时执行的脚本入口，由 performThrowItem 消费。 */
   scriptOnThrow: number
-  /** 描述脚本(M3 不消费;原 wScriptDesc)。 */
+  /** 物品说明脚本入口，菜单经 getScriptDescLines 读取；原 wScriptDesc。 */
   scriptDesc: number
   /** 拆 bit 的 flags。 */
   flags: ItemFlags
@@ -104,7 +105,7 @@ export interface SpellFlags {
  * **`magicNumber` 指向 Magic 详细 stats 表的索引**(见下面 Magic interface)。
  */
 export interface Spell {
-  /** 在 spells.json 数组里的索引(0..101),不是 OBJECT 数组里的绝对 index(那是 296..397)。 */
+  /** OBJECT 全局 wObjectID;parseSpells产出296..397并在末尾追加梦蛇295,不是数组下标。 */
   id: number
   /** 名字注释(WORD.DAT;引擎不读,只为人读 JSON 时认得出)。 */
   _name?: string
@@ -128,7 +129,7 @@ export interface Spell {
  * `0x66 throw weapon` 把**任意** object id 当 magic 解读
  * (`rgObject[id].magic.wMagicNumber` / `.wFlags`),不分该 id 在哪个语义段。
  *
- * `Spell`(spells.json)只覆盖玩家可学法术段 [296..397];而投掷物(梅花镖/银针/卵)
+ * `Spell`(spells.json)覆盖玩家可学法术段[296..397]及梦蛇295;而投掷物(梅花镖/银针/卵)
  * 的 `scriptOnThrow` 用 `0x42` 引用的 magic object id 可低至 **24**(item 段之下),
  * 不在 spells.json 范围内。本视图把**整个** OBJECT 数组按 magic 段解读 dump 出来,
  * 让运行时 `0x42` handler 能解析任意 op0。
@@ -231,7 +232,7 @@ export type MagicType =
 export interface Magic {
   /** 在 magic.json 数组里的索引,等同 Spell.magicNumber。 */
   id: number
-  /** 特效精灵编号(F.MKF)。 */
+  /** 普通法术的FIRE.MKF特效chunk;召唤法术另将此值解析为后续Magic表条目。 */
   effect: number
   /** 法术类型(对照 sdlpal `tagMAGIC_TYPE`)。 */
   type: MagicType
@@ -242,13 +243,13 @@ export interface Magic {
    * - summon 类型 → `wSummonEffect`(召唤特效精灵)
    * - 其他类型 → `sLayerOffset`(SHORT,图层偏移)
    *
-   * M3 不解(union 字段,raw u16 保存),M5 / 后续 task 按 type 解读。
+   * 保留raw u16;动画构建器按type选择召唤编号或作SHORT解释的层偏移。
    */
   special: number
   /** SHORT(signed) —— 特效速度。 */
   speed: number
   keepEffect: number
-  /** 火属性 fire 阶段起始帧。 */
+  /** 特效循环段的起始帧；CLASSIC 施法者也在该帧切换出手姿势。 */
   fireDelay: number
   /** 特效总次数。 */
   effectTimes: number
@@ -336,8 +337,8 @@ export interface Enemy {
 
 /**
  * sdlpal `global.h tagOBJECT_ENEMY`(M5.B-w2.a):SSS.MKF chunk 2 OBJECT 表
- * ENEMY_OBJ_START(398)起 153 条 wrapper,每条把 chunk 1 ENEMY 真值 + 4 个
- * AI 脚本 hook 关联。EnemyTeam.enemyObjectIndexes[i] 保留 OBJECT 表绝对 index,
+ * ENEMY_OBJ_START(398)起 153 条 wrapper，每条关联 chunk 1 ENEMY 的 ID、
+ * 妖术/毒抗性及三个脚本入口。EnemyTeam.enemyObjectIndexes[i] 保留 OBJECT 表绝对 index,
  * 运行时通过此表精确反查 scriptOnReady 等 AI hook。
  */
 export interface EnemyObject {
@@ -441,7 +442,7 @@ export interface Store {
   /** 在 stores.json 数组里的下标 = sdlpal `lprgStore[wStoreNum]` 的 wStoreNum。 */
   id: number
   /**
-   * 出售物品的**绝对 OBJECT id**(= items.json `id`,61..295),首个 0 即截断。
+   * 出售物品的**绝对OBJECT id**(= Item.id),首个0即截断。
    * 对照 sdlpal `rgwItems[9]`(9 个 WORD,首个 0 表列表结束)。
    */
   items: number[]
@@ -454,31 +455,16 @@ export interface Store {
  * 6 个角色的同名字段连续存放,然后下一个字段又一行 6 个角色。本 interface 是反 SoA
  * 后的每条角色视图。
  *
- * **M3 dump 范围**(对照本 milestone dev panel 战斗需要):
- * - 战斗 stats:level / hp / maxHP / mp / maxMP / attack* / magic* / defense / dexterity
- * - 显示:avatar / spriteNumInBattle / spriteNum / name(WORD.DAT 索引)
- * - 抗性:fleeRate / poisonResistance / elemResistance / 5 个 sound
- * - 其他:attackAll / walkFrames
+ * **dump 范围(M4 起全字段)**:战斗 stats / 显示 / 抗性 / 5 个 sound /
+ * attackAll / walkFrames 之外,equipment / magic learned / coveredBy /
+ * cooperativeMagic / 6 个 sdlpal 注释 FIXME unknown / coverSound / dyingSound
+ * 均已 dump;下列字段的可选标记仅为兼容可不填的旧 fixture。
  *
- * **M3 不 dump**(留 M5):equipment / magic learned / coveredBy / cooperativeMagic /
- * 6 个 sdlpal 注释 FIXME unknown / coverSound / dyingSound。
- *
- * **signed 字段**(同 Enemy D28,对照 sdlpal `fight.c` SHORT cast):
- * `attackStrength / magicStrength / defense / dexterity` 是 stat modifier,可负。
- * 5 个 sound 字段在 sdlpal `tagPLAYERROLES` 中也是 PLAYERS = WORD,但 `fight.c` /
- * `sound.c` 实际播放时按 SHORT 处理(-1 = 无声音),与 Enemy 5 个 sound 行为一致。
+ * 当前 parsePlayerRoles 将武术/灵力/防御/身法四行按 signed i16 读取；
+ * 这是提取边界的表示，不能据此把角色基础属性当成敌人的 stat modifier，
+ * 也不约束运行时成长或导入后的属性范围。七个声音字段同样按 signed i16 读取，
+ * 包含 coverSound/dyingSound，-1 表示无声音。
  */
-/**
- * level-up-magic 一格 —— sdlpal `global.h::LEVELUPMAGICENTRY.m[role]`(20 级 × 5 角色)。
- * 战斗胜利升级时按 `{ level }<=新等级 && magic!=0 && 未学` 学新法术(battle.c:1300-1321)。
- */
-export interface LevelUpMagicEntry {
-  /** 学得所需等级。 */
-  level: number
-  /** spell object id(0 = 空)。 */
-  magic: number
-}
-
 export interface PlayerRole {
   /** 在 player-roles.json 数组里的索引(0..MAX_PLAYER_ROLES-1 = 0..5)。 */
   id: number
@@ -507,13 +493,13 @@ export interface PlayerRole {
   /** rgwMP —— 当前 MP。 */
   mp: number
 
-  /** rgwAttackStrength —— **signed** stat modifier。 */
+  /** rgwAttackStrength —— 基础武术；提取器按 signed i16 读取。 */
   attackStrength: number
-  /** rgwMagicStrength —— **signed** stat modifier。 */
+  /** rgwMagicStrength —— 基础灵力；提取器按 signed i16 读取。 */
   magicStrength: number
-  /** rgwDefense —— **signed** stat modifier。 */
+  /** rgwDefense —— 基础防御；提取器按 signed i16 读取。 */
   defense: number
-  /** rgwDexterity —— **signed** stat modifier。 */
+  /** rgwDexterity —— 基础身法；提取器按 signed i16 读取。 */
   dexterity: number
 
   /** rgwFleeRate —— 逃跑成功率。 */
@@ -554,14 +540,14 @@ export interface PlayerRole {
 
   /**
    * rgwEquipment[MAX_PLAYER_EQUIPMENTS=6] —— 每个角色 6 个装备槽位 ID(指向 OBJECT.item)。
-   * sdlpal `LPCEQUIPITEM` 槽位顺序(global.h):武器 / 头盔 / 衣甲 / 鞋 / 饰品 / 护身符。
+   * 槽位顺序与parsePlayerRoles的装备矩阵一致:头 / 披风 / 身 / 武器 / 鞋 / 饰品。
    */
   equipment?: number[]
 
   /** rgwMagic[MAX_PLAYER_MAGICS=32] —— 每个角色已学法术槽位。0 = 空槽,非 0 = magic id。 */
   magic?: number[]
 
-  /** rgwCooperativeMagic —— 合击魔法 ID(双人协同攻击)。 */
+  /** rgwCooperativeMagic —— 合击法术的OBJECT ID。 */
   cooperativeMagic?: number
   /** rgwCoveredBy —— 被哪个 player id 庇护(战斗倒地后转防御目标)。 */
   coveredBy?: number
@@ -586,7 +572,8 @@ export interface PlayerRoles {
   /**
    * 角色数组,索引 = playerRoleId(0..MAX_PLAYER_ROLES-1 = 0..5,对照 sdlpal
    * `palcommon.h::MAX_PLAYER_ROLES=6`)。注意 sdlpal `MAX_PLAYABLE_PLAYER_ROLES=5`
-   * 是同时上场的最大队友数,这里 dump 的是全部 6 个 role 定义。
+   * 用于升级法术表的角色列数;队伍容量另由MAX_PLAYERS_IN_PARTY=3规定。
+   * 这里dump全部6个role定义。
    */
   roles: PlayerRole[]
 }
@@ -609,12 +596,12 @@ export type LevelUpExp = number[]
  *
  * sdlpal global.h tagLEVELUPMAGIC:
  *   `WORD wLevel;` — 触发习得的等级(WORD 无符号)
- *   `WORD wMagic;` — 习得的法术编号,指向 magic.json 的 id(WORD 无符号)
+ *   `WORD wMagic;` — 习得法术的OBJECT ID(WORD无符号,即Spell.id)
  */
 export interface LevelUpMagicEntry {
   /** sdlpal tagLEVELUPMAGIC.wLevel — 触发习得的等级(WORD)。 */
   level: number
-  /** sdlpal tagLEVELUPMAGIC.wMagic — 习得的法术编号(WORD),指向 magic.json id。 */
+  /** sdlpal tagLEVELUPMAGIC.wMagic — Spell.id;详细数值另经Spell.magicNumber解析。 */
   magic: number
 }
 

@@ -1,0 +1,13 @@
+{
+  "command": ["git", "rev-list", "--left-right", "--count", "origin/main...HEAD"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T22:35:27.894326+00:00",
+  "completedAt": "2026-10-17T22:35:27.902097+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "divergence-final.raw.gz",
+  "rawBytes": 6,
+  "rawSha256": "916ed48427d8b2543d137e8e43919a12d4dc59a77225effea013fad520e22a19",
+  "fullUncutMergedStdoutStderr": true
+}

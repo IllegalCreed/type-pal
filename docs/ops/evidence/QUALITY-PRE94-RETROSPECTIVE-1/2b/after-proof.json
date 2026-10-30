@@ -1,0 +1,64 @@
+{
+  "runs": [
+    {
+      "label": "after-shared",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/shared",
+        "exec",
+        "vitest",
+        "run",
+        "src/pre94-yj2.boundaries.test.ts",
+        "src/pre94-rle.glm-o.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-yj2-after-shared.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "total": 18,
+      "passed": 11,
+      "failed": [
+        "decompressYj2 已定义头错误 非空输出没有任何 Huffman 位流时显式失败",
+        "decompressYj2 已定义头错误 完整回引 symbol 后缺少位置参数时显式失败",
+        "decompressYj2 非空字面向量 三字面流：输出 = 字面值按序（语义：symbol 0..0xFF 顺序输出）",
+        "decompressYj2 回引向量 字面 ABC + 回引(pos=2,len=4)：重叠顺序复制 → ABCABCA",
+        "decompressYj2 回引向量 提前结束（pos==0xFFF）：余量保持 Uint8Array 零初始化",
+        "decompressYj2 回引向量 回引长度超过目标输出剩余空间时显式失败",
+        "decompressYj2 回引向量 第一条指令回引尚未产生的输出时显式失败"
+      ],
+      "rawSha256": "b9b8d5f430ff9b7c8d60f2894dbc7e80b45e9eb652af2df7d9302cd69adb91ca",
+      "runnerSha256": "8609e5d9edc7c5fc8b94d795c93fd028be44612047478de58d8c56cc998e4549"
+    },
+    {
+      "label": "after-extract",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/io/pre94-yj2.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-yj2-after-extract.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "total": 1,
+      "passed": 0,
+      "failed": ["yj2 MGO.MKF 前20个chunk的完整输出与独立SDLPal字节oracle一致"],
+      "rawSha256": "cf435a6119a32a177fb7371314739ee7bb0c345b42bb999776b4cef8b3de34ec",
+      "runnerSha256": "f9d608afa10d965b0594a6532f8c3d4087ced6606c5d7ed8cd748d45cbde456f"
+    }
+  ],
+  "sharedFailureSetIdentical": true,
+  "rawLengthOnlyMutationNowRejected": true,
+  "temporaryCopiesRemoved": true
+}

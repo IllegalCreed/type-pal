@@ -1,0 +1,29 @@
+{
+  "unchangedTestIdentities": 54,
+  "nativeRawHashesVerified": true,
+  "nativeFunctionUnmodified": true,
+  "productionDecoderUnchanged": true,
+  "temporaryCopiesAbsent": true,
+  "currentFiles": [
+    {
+      "path": "packages/shared/src/rle.ts",
+      "lines": 316,
+      "sha256": "900a5de4bb4f680a8858a6c31ad222037b2f33ee96890b04fba14e1c3f0de1b5"
+    },
+    {
+      "path": "packages/shared/src/rle.test.ts",
+      "lines": 333,
+      "sha256": "f0d1405a7cfdda25fe43623c615d3c6a5271de8d7ad8e843edd8547e446792e5"
+    },
+    {
+      "path": "packages/shared/src/rle.boundaries.test.ts",
+      "lines": 117,
+      "sha256": "b822c0ec466c41e1171290472feeccbaa423d42e5181b130960b1cc39174f782"
+    },
+    {
+      "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "lines": 150,
+      "sha256": "cc41e134f9ff96fdceedc7419bde3a6e95e63efb2a18a6410918ed4ab1727f3b"
+    }
+  ]
+}

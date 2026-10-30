@@ -1,0 +1,85 @@
+{
+  "base": "835bd059bb4ed815e844a153ee02d577d339af0f",
+  "scope": "One test-file repair plus truthful evidence/card handoff; no production change or whole-file closeout",
+  "directAndAdjacent": {
+    "files": 6,
+    "passed": 41,
+    "stderrBlocks": 0,
+    "actDiagnostics": 0,
+    "environmentDiagnostics": 0,
+    "runtimeErrorSuites": 0,
+    "receipt": "direct-current.json",
+    "report": "direct-current.vitest.json.gz"
+  },
+  "controls": {
+    "preciseMutations": 7,
+    "oldFullSpecPassedEach": 8,
+    "newSelectedBusinessAssertionErrorsEach": 1,
+    "runtimeErrorSuites": 0,
+    "sourceRestoredByteForByte": true,
+    "specRestoredByteForByte": true,
+    "receipt": "controls-current.json",
+    "intermediateReceipts": ["controls.json", "controls-final.json"],
+    "intermediateCredit": "Preserved only; exact final source/spec credit is controls-current.json. Initial variants reconstructed from own delta only after matching recorded spec hashes; logs are original."
+  },
+  "typecheck": {
+    "exit": 0,
+    "diagnostics": 0,
+    "receipt": "typecheck-current.json",
+    "initialFailure": "typecheck.json: TS2532 test array index, fixed with ordinary iteration; no assertion/rule weakening."
+  },
+  "docs": {
+    "exit": 0,
+    "toolTestsPassed": 125,
+    "issues": 0,
+    "markdownFiles": 1555,
+    "localLinks": 9200,
+    "tasks": 461,
+    "contentReviews": 2345,
+    "receipt": "docs.json",
+    "fullPnpmCheckDocsExecuted": true,
+    "finalReceiptMetadataConsumer": "docs-current.json",
+    "finalReceiptMetadataIssues": 0
+  },
+  "lint": {
+    "exit": 0,
+    "files": 5109,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "receipt": "lint.json",
+    "laterReceiptMetadata": "Format and targeted Biome checks below; no further package/test/config edits."
+  },
+  "ledger": {
+    "exit": 0,
+    "tracked": 3314,
+    "closed": 283,
+    "review": 56,
+    "pending": 2975,
+    "newClosed": 0,
+    "reopened": 1,
+    "receipt": "ledger.json"
+  },
+  "diff": {
+    "exit": 0,
+    "receipt": "diff.json",
+    "scope": "Staged and unstaged whitespace checks at this finite batch closeout"
+  },
+  "notRun": [
+    "whole-repository pnpm check",
+    "official coverage ratchet",
+    "protected fast",
+    "pal-extract unchanged package suite",
+    "browser visual",
+    "E2E"
+  ],
+  "notRunReason": "User batches expensive gates at large-task closeout; extract changes here are documentation-only and have no new runtime claim.",
+  "newClosed": 0,
+  "oldClosedToReview": 1,
+  "merged": false,
+  "verification": {
+    "exit": 0,
+    "scope": "Exact source/spec/read bounds and original raw integrity only",
+    "receipt": "verification.json"
+  }
+}

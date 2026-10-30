@@ -55,7 +55,7 @@ export function instrumentGameAutoBatch(code, file) {
       }
       if (
         ts.isExpressionStatement(node) &&
-        node.expression.getText(ast) === 'updateEventObjectsAndTrigger(gs, ctx)'
+        node.expression.getText(ast) === 'updateEventObjectsAndTrigger(gs)'
       )
         add(
           'explore-triggered',
@@ -117,7 +117,7 @@ export function instrumentGameAutoBatch(code, file) {
     if (
       ts.isVariableDeclaration(node) &&
       node.name.getText(ast) === 'r' &&
-      node.initializer?.getText(ast) === 'resolveScriptLabel(gs, npc.autoLabel)'
+      node.initializer?.getText(ast) === 'resolveScriptLabel(npc.autoLabel)'
     ) {
       add(
         'auto-label-resolution',

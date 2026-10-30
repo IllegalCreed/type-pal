@@ -158,7 +158,9 @@ describe('M02 ItemAlchemyTab 提交边界', () => {
     expect(session.getHistoryVersion()).toBe(before + 1)
     assertProjectSaveValid(session.getState())
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().items.find((item) => item.id === 'gourd-m')!.use!.effects).toEqual(
       beforeRecipes,
     )
@@ -192,7 +194,9 @@ describe('M02 ItemAlchemyTab 提交边界', () => {
     expect(effect.unavailableMessage).toBeUndefined()
     expect(session.getHistoryVersion()).toBe(before + 2)
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(
       (
         session.getState().items.find((entry) => entry.id === 'pool-m')!.use!.effects[0] as {

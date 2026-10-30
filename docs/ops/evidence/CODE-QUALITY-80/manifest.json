@@ -1,0 +1,17 @@
+{
+  "kind": "diagnostic observations, not acceptance of current behavior or visual verification",
+  "parentCommit": "087427c9e4fbd9732c4211e3b0bb1b1144a2e3d9",
+  "command": "pnpm --filter @type-pal/game exec vitest run src/dev/dev-panel.code53-probe.test.ts",
+  "temporarySource": "packages/game/src/dev/dev-panel.code53-probe.test.ts (removed after run)",
+  "exit": 0,
+  "sources": {
+    "packages/game/src/dev/dev-panel.ts": "7c5876a026d2440266de5666d37497cd190627f1dc38d3f5873997bd25c28021",
+    "packages/game/src/core/battle/battle-system.ts": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+    "packages/game/src/core/battle/battle-state.ts": "ac0b7567b9cc93f0713debc36d37d40cf0fde926e71891b1c77c35b4bf542cca",
+    "packages/game/src/core/equip-effect.ts": "06fb86b9d7ec3526062b066f0e61fff0c4cb783635c5583b4e3d9cddda3ed602",
+    "packages/game/src/core/player-poison-state.ts": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+    "packages/game/src/__tests__/coverage85-glm-game/harness.ts": "38ec76a9d15ce74f8eba10a911d951a30b37469b78d055a07bb95fee6a40a5c3"
+  },
+  "probeSha256": "c85aabdb0ed8c3e32e336403d08510bfa3d89def542ab348c6ad24285fa8c5ae",
+  "log": "dev-party-probe.txt"
+}

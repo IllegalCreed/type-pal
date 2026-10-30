@@ -1,21 +1,23 @@
+import { localize, subscribeLanguage } from '../localization/language.js'
+
 /**
  * 启动 loading 覆盖层(2026-06-12,用户报生产首载 20-30s 黑屏)。
  *
  * 视图骨架在 index.html 静态内联(#boot-loading)——JS bundle 还在下载时就已可见;
  * 本模块只负责三件事:
- *   1. initBootLoading():包一层 window.fetch 计数(启动期 ~3000 个 /extracted 资源请求),
- *      rAF 节流刷新进度条与计数文本。总数未知 → 进度 = 完成/已发起(分波加载时会
- *      小幅回退,诚实且零侵入,不用把 progress 回调穿透 loader 全链)。
+ *   1. initBootLoading():包一层 window.fetch 计数(当前启动预估 810 个请求),
+ *      rAF 节流刷新。fallback 按 max(已发起,预估)算进度,条宽单调且封顶 99%;
+ *      PROD 把完成比例交给统一 UI,不用把 progress 回调穿透 loader 全链。
  *   2. finishBootLoading():bootstrap 启动 rAF 主循环(首帧可见)时调——还原 fetch、
  *      淡出并移除节点。
  *   3. failBootLoading(msg):bootstrap 抛错时调——还原 fetch,overlay 留在原地改显错误
  *      (此前启动失败只有 canvas 一行小字 + console,黑屏无反馈)。
  *
- * 所有入口对"无 overlay 节点"(单测 jsdom 默认 DOM / SSR)安全 no-op。
+ * 无 overlay 时 init 不安装包装;收尾入口仍释放计数所有权,DOM 操作安全跳过。
  */
 
 /**
- * 冷启动请求总量预估(2026-06-12 生产实测 ~3237 个;loader 分波 fetch,启动期发起数
+ * 冷启动请求总量预估(历史 2026-06-12 生产实测 ~3237 个;loader 分波 fetch,启动期发起数
  * 逐波增长)。进度条分母取 max(已发起, 预估) + 显示值单调不回退:
  *   - 纯 done/started 会在每波新请求发起时分母跳涨 → 条回退(用户 2026-06-12 实测反馈);
  *   - 预估垫底让前几波不虚高,实际总量超预估后自然切回真实分数,clamp 兜底不回退;
@@ -30,6 +32,7 @@
 const EXPECTED_BOOT_REQUESTS = 810
 
 let _origFetch: typeof globalThis.fetch | null = null
+let _wrappedFetch: typeof globalThis.fetch | null = null
 let _started = 0
 let _done = 0
 let _expected = EXPECTED_BOOT_REQUESTS
@@ -39,6 +42,7 @@ let _note = ''
 // PROD 两段进度:把必要资源加载进度(fraction 0→1)回调给统一 UI(虚线前段),不自渲染 DOM。
 // 未设(fallback:SW 不可用)时 render 自渲染 #boot-loading-fill/status。
 let _onProgress: ((fraction: number) => void) | null = null
+let _unsubscribeLanguage: (() => void) | null = null
 
 function byId(id: string): HTMLElement | null {
   return typeof document === 'undefined' ? null : document.getElementById(id)
@@ -63,15 +67,16 @@ function render(): void {
   _shownPct = Math.min(99, Math.max(_shownPct, raw)) // 单调 + 99 封顶(满格只由 finish 给)
   if (fill) fill.style.width = `${_shownPct}%`
   if (status) {
+    status.dataset.initial = 'false'
     status.textContent = _note
-      ? `正在加载资源 ${_done} / ${denom} — ${_note}`
-      : `正在加载资源 ${_done} / ${denom}`
+      ? `${localize('正在加载资源', 'Loading resources')} ${_done} / ${denom} — ${localize(_note, _note === '音色库' ? 'Soundfont' : _note)}`
+      : `${localize('正在加载资源', 'Loading resources')} ${_done} / ${denom}`
   }
 }
 
 /**
  * 在计数文本后追加说明(如尾段只剩 soundfont 32MB 单请求在下,计数停走 → 注明在等什么)。
- * 传空串清除。无 overlay 时 no-op。
+ * 传空串清除;下一帧按当前计数模式渲染,未激活时不写 DOM。
  */
 export function setBootLoadingNote(note: string): void {
   _note = note
@@ -86,19 +91,23 @@ function scheduleRender(): void {
 }
 
 function restoreFetch(): void {
+  _unsubscribeLanguage?.()
+  _unsubscribeLanguage = null
   if (_origFetch) {
-    globalThis.fetch = _origFetch
+    // 只撤下自己仍占有的全局槽,不覆盖后来安装的网络层。
+    if (globalThis.fetch === _wrappedFetch) globalThis.fetch = _origFetch
     _origFetch = null
+    _wrappedFetch = null
   }
+  _onProgress = null
 }
 
 /**
- * PROD 两段进度:必要资源就绪(onPlayable)后还原 fetch、停止计数与回调,但**不**移除覆盖层
+ * PROD 两段进度:必要资源就绪(onPlayable)或启动失败时释放本轮 fetch 计数与回调,不移除覆盖层
  * (等用户点「进入游戏」由 UI 收尾)。fallback(SW 不可用)走 finishBootLoading 自动收尾移除。
  */
 export function restoreBootFetch(): void {
   restoreFetch()
-  _onProgress = null
 }
 
 export function initBootLoading(
@@ -113,18 +122,26 @@ export function initBootLoading(
   _shownPct = 0
   _note = ''
   _onProgress = onProgress ?? null
+  _unsubscribeLanguage = subscribeLanguage(scheduleRender)
   const orig = globalThis.fetch.bind(globalThis)
   _origFetch = orig
-  globalThis.fetch = (async (...args: Parameters<typeof fetch>) => {
-    _started++
-    scheduleRender()
+  const wrapped: typeof fetch = async (...args) => {
+    // 被后装网络层保留的旧包装与迟到响应都不得污染新一轮计数。
+    if (_origFetch === orig) {
+      _started++
+      scheduleRender()
+    }
     try {
       return await orig(...args)
     } finally {
-      _done++
-      scheduleRender()
+      if (_origFetch === orig) {
+        _done++
+        scheduleRender()
+      }
     }
-  }) as typeof fetch
+  }
+  _wrappedFetch = wrapped
+  globalThis.fetch = wrapped
 }
 
 export function finishBootLoading(): void {
@@ -145,5 +162,8 @@ export function failBootLoading(msg: string): void {
   if (!root) return
   root.classList.add('boot-loading-error')
   const status = byId('boot-loading-status')
-  if (status) status.textContent = `启动失败:${msg}`
+  if (status) {
+    status.dataset.initial = 'false'
+    status.textContent = `${localize('启动失败:', 'Startup failed: ')}${msg}`
+  }
 }

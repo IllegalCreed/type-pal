@@ -1,0 +1,72 @@
+CODE-QUALITY-82 baseline replay
+timestamp=2026-10-13T14:30:32.544120+00:00
+source=HEAD:packages/pal-extract/audit-data-mkf.mjs
+exit_code=1
+
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/pal-extract
+
+xxxxxxxx
+
+ Test Files  1 failed (1)
+      Tests  8 failed (8)
+   Start at  23:30:32
+   Duration  325ms (transform 20ms, setup 0ms, import 28ms, tests 223ms, environment 0ms)
+
+undefined
+/Users/zhangxu/illegal/type-pal-quality-3x/packages/pal-extract:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/audit-data-mkf.test.ts --reporter=dot
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audit-data-mkf.test.ts > reads the owning checkout from another cwd, including empty chunks and record diagnostics
+AssertionError: expected [ 'DATA.MKF chunkCount = 15', …(1) ] to deeply equal [ 'DATA.MKF chunkCount = 16', …(1) ]
+
+- Expected
++ Received
+
+  [
+-   "DATA.MKF chunkCount = 16",
+-   "offsets.length = 17 last offset = 1474 fileSize = 1474",
++   "DATA.MKF chunkCount = 15",
++   "offsets.length = 16 last offset = 63978 fileSize = 63978",
+  ]
+
+ ❯ src/audit-data-mkf.test.ts:42:29
+     40|   expect(result.stderr).toBe('')
+     41|   const lines = result.stdout.trimEnd().split('\n')
+     42|   expect(lines.slice(0, 2)).toEqual([
+       |                             ^
+     43|     'DATA.MKF chunkCount = 16',
+     44|     'offsets.length = 17 last offset = 1474 fileSize = 1474',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  src/audit-data-mkf.test.ts > rejects 'short header' before reporting a census
+ FAIL  src/audit-data-mkf.test.ts > rejects 'zero table end' before reporting a census
+ FAIL  src/audit-data-mkf.test.ts > rejects 'misaligned table end' before reporting a census
+ FAIL  src/audit-data-mkf.test.ts > rejects 'truncated table' before reporting a census
+ FAIL  src/audit-data-mkf.test.ts > rejects 'backward chunk' before reporting a census
+ FAIL  src/audit-data-mkf.test.ts > rejects 'outside chunk' before reporting a census
+AssertionError: expected +0 not to be +0 // Object.is equality
+ ❯ src/audit-data-mkf.test.ts:75:29
+     73| ])('rejects $name before reporting a census', ({ bytes, error }) => {
+     74|   const result = runAudit(bytes)
+     75|   expect(result.status).not.toBe(0)
+       |                             ^
+     76|   expect(result.stdout).toBe('')
+     77|   expect(result.stderr).toContain(`MKF: ${error}`)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  src/audit-data-mkf.test.ts > fails on a missing local DATA.MKF instead of reading a different checkout
+AssertionError: expected +0 not to be +0 // Object.is equality
+ ❯ src/audit-data-mkf.test.ts:82:29
+     80| it('fails on a missing local DATA.MKF instead of reading a different c…
+     81|   const result = runAudit()
+     82|   expect(result.status).not.toBe(0)
+       |                             ^
+     83|   expect(result.stdout).toBe('')
+     84|   expect(result.stderr).toContain('ENOENT')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯

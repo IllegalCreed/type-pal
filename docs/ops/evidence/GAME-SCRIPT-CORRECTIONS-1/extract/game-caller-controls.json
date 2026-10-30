@@ -1,0 +1,66 @@
+{
+  "kind": "original-resource-controls",
+  "testSha256": "6a5f2e8c1fc80d627869b78f2cd7e6b0d5cd3ae562c22fabd0c2713a788be9a2",
+  "originalCommandsSha256": "3f54bc1aba2eb82653f71d7384260f6de4e3e5e1977ee48ffdbb31a27c409c8d",
+  "correctedCommandsSha256": "1d85b0b3eb54ba27bb72aec34929e6dc8bbc3766e7c6ab44aa69e9e923bca2ef",
+  "restored": true,
+  "runs": [
+    {
+      "name": "candy",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/script-corrections.raw.test.ts",
+        "-t",
+        "candy purchase 'Cancel'",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/candy.red.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal",
+      "exitCode": 1
+    },
+    {
+      "name": "cure",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/script-corrections.raw.test.ts",
+        "-t",
+        "real cure 307",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/cure.red.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal",
+      "exitCode": 1
+    },
+    {
+      "name": "blade",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/script-corrections.raw.test.ts",
+        "-t",
+        "replacing and removing",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/extract/blade.red.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal",
+      "exitCode": 1
+    }
+  ]
+}

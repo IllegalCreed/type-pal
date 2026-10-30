@@ -1,0 +1,71 @@
+{
+  "base": "36cabd699",
+  "sources": [
+    {
+      "path": "packages/editor/src/ui/LevelingEditor.test.tsx",
+      "beforeSha256": "9cc17d7522bdbe15c326be758ed4bba2d635054596658c77a89a9a631c457a88",
+      "fullRead": true,
+      "currentSha256": "b77ab682f564408298d9bc9ae711e6eee0d9459582bbd350c995479911db2af2",
+      "currentLines": 160,
+      "status": "review; no file closure"
+    },
+    {
+      "path": "packages/editor/src/ui/LevelCurveEditor.ui.test.tsx",
+      "beforeSha256": "6cacfc342489cb8df166349a2d75a5777b3f615bc4da5e6a5154045a5b68bb2e",
+      "fullRead": true,
+      "currentSha256": "7bc56f598747a7d18224a338c1caf321ea47b5273180b2c4324f44c8b32a0157",
+      "currentLines": 108,
+      "status": "review; no file closure"
+    },
+    {
+      "path": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+      "beforeSha256": "f38b041c520d26380ee80b9e7ce0522f91b250929564f4f4ecc16469889b6718",
+      "fullRead": true,
+      "currentSha256": "cc300cf80dd6d14d1e2a020421c8d3f6813ad7359ffdfc5cedd8e72f194d0a82",
+      "currentLines": 416,
+      "status": "review; no file closure"
+    },
+    {
+      "path": "packages/editor/src/ui/CasualtyEditor.glm-m.test.tsx",
+      "beforeSha256": "ff27be941a56dc9aed3f94f3317e6b939c7ed57fb8cf9b48e8cee2087a15ebc4",
+      "fullRead": true,
+      "currentSha256": "d3a2e0fe189a803e34d8275e057b1601930161fb0f579c2ca4b0367d919379c5",
+      "currentLines": 194,
+      "status": "review; no file closure"
+    }
+  ],
+  "fullProductReads": [
+    "packages/editor/src/ui/LevelingEditor.tsx",
+    "packages/editor/src/ui/LevelCurveEditor.tsx",
+    "packages/editor/src/ui/CasualtyEditor.tsx",
+    "packages/content/src/actor.ts",
+    "packages/editor/src/core/actor-commands.ts",
+    "packages/editor/src/core/level-up-commands.ts",
+    "docs/ops/archive/tasks/done/E18-1-editor-actor-battle-fields.md"
+  ],
+  "partialReads": [
+    {
+      "path": "packages/editor/src/ui/ActorMode.tsx",
+      "ranges": ["519-536", "817-824"]
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "range": "135-205; current constants and manifest"
+    },
+    {
+      "path": "packages/content/src/skill.ts",
+      "ranges": ["1-140", "143-245; required SkillData/Map/LevelUpSkill"]
+    },
+    {
+      "path": "packages/content/src/validate.ts",
+      "range": "508-564; optional casualty slots allow undefined, not a save-validity rejection claim"
+    }
+  ],
+  "truthCorrection": "CONTENT_VERSION is currently 22; initial obsolete-version suspicion retracted before implementation.",
+  "remaining": "Unknown duplicates and full helper/input governance are not closed by a warning count.",
+  "adjacentFullReads": [
+    "packages/editor/src/__tests__/glm-m/kit.ts",
+    "packages/editor/src/ui/CasualtyEditor.glm-leaf-wave.test.tsx",
+    "docs/ops/archive/tasks/done/TEST-GLM-WAVE-M-1-editor-data-assets.md"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/__tests__/formulas.test.ts",
+    "--reporter=verbose"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T21:38:56.200135+00:00",
+  "completedAt": "2026-10-17T21:38:57.120223+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "current.raw.gz",
+  "rawBytes": 4219,
+  "rawSha256": "4c8fbe89f9838a9d0a6fa74c21edbb5995a7524ba33a06dbf84c76d19d1e94b3",
+  "fullUncutMergedStdoutStderr": true
+}

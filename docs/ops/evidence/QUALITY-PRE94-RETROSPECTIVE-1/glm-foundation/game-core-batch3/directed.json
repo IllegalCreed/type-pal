@@ -1,0 +1,258 @@
+{
+  "numTotalTestSuites": 7,
+  "numPassedTestSuites": 7,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 20,
+  "numPassedTests": 20,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792334055600,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["dialog-history"],
+          "fullName": "dialog-history push 追加;空/纯空白跳过",
+          "status": "passed",
+          "title": "push 追加;空/纯空白跳过",
+          "duration": 1.172207999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dialog-history"],
+          "fullName": "dialog-history 环形缓冲:超过 CAP 丢最旧(长度=CAP、首条是第 5 条)",
+          "status": "passed",
+          "title": "环形缓冲:超过 CAP 丢最旧(长度=CAP、首条是第 5 条)",
+          "duration": 0.3489999999999327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dialog-history"],
+          "fullName": "dialog-history 连续同 map 同 text 去重(同一行被多 tick re-commit 不重复入)",
+          "status": "passed",
+          "title": "连续同 map 同 text 去重(同一行被多 tick re-commit 不重复入)",
+          "duration": 0.15170799999998508,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dialog-history"],
+          "fullName": "dialog-history 不同 map 的相同 text 不去重(map 维度)",
+          "status": "passed",
+          "title": "不同 map 的相同 text 不去重(map 维度)",
+          "duration": 0.08037500000000364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dialog-history"],
+          "fullName": "dialog-history restoreDialogHistory:老档无此字段(undefined)→ 兜底空(不残留当前 session 历史)",
+          "status": "passed",
+          "title": "restoreDialogHistory:老档无此字段(undefined)→ 兜底空(不残留当前 session 历史)",
+          "duration": 0.07929100000001199,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dialog-history"],
+          "fullName": "dialog-history restoreDialogHistory:新档快照未超上限 → 原样恢复(跟着存档走)",
+          "status": "passed",
+          "title": "restoreDialogHistory:新档快照未超上限 → 原样恢复(跟着存档走)",
+          "duration": 0.0519170000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dialog-history"],
+          "fullName": "dialog-history restoreDialogHistory:超 CAP 的存档 → 截断到最后 CAP 条(丢最旧)",
+          "status": "passed",
+          "title": "restoreDialogHistory:超 CAP 的存档 → 截断到最后 CAP 条(丢最旧)",
+          "duration": 0.20245899999997619,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792334056240,
+      "endTime": 1792334056242.349,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/dialog-history.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["tickByMode autoScript gate (P2#6a)"],
+          "fullName": "tickByMode autoScript gate (P2#6a) event 模式 + waiting=undefined(脚本步进:party-walk 等)→ autoScript 跑(NPC 不冻)",
+          "status": "passed",
+          "title": "event 模式 + waiting=undefined(脚本步进:party-walk 等)→ autoScript 跑(NPC 不冻)",
+          "duration": 1.5974590000000717,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickByMode autoScript gate (P2#6a)"],
+          "fullName": "tickByMode autoScript gate (P2#6a) event 模式 + waiting=frame-wait(0x09)→ autoScript 跑",
+          "status": "passed",
+          "title": "event 模式 + waiting=frame-wait(0x09)→ autoScript 跑",
+          "duration": 0.2534170000000131,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickByMode autoScript gate (P2#6a)"],
+          "fullName": "tickByMode autoScript gate (P2#6a) M4:event 模式 + waiting=camera-pan(0x7F 相对 pan)→ autoScript 跑(script.c:2364)",
+          "status": "passed",
+          "title": "M4:event 模式 + waiting=camera-pan(0x7F 相对 pan)→ autoScript 跑(script.c:2364)",
+          "duration": 0.11320799999998599,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickByMode autoScript gate (P2#6a)"],
+          "fullName": "tickByMode autoScript gate (P2#6a) event 模式 + waiting=dialog(对话阻塞)→ autoScript **不**跑(NPC 停)",
+          "status": "passed",
+          "title": "event 模式 + waiting=dialog(对话阻塞)→ autoScript **不**跑(NPC 停)",
+          "duration": 0.4867909999999256,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickByMode autoScript gate (P2#6a)"],
+          "fullName": "tickByMode autoScript gate (P2#6a) sceneLoading=true(切场景冻屏)→ autoScript **不**跑",
+          "status": "passed",
+          "title": "sceneLoading=true(切场景冻屏)→ autoScript **不**跑",
+          "duration": 0.11370799999997416,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickByMode auto fade-in gate"],
+          "fullName": "tickByMode auto fade-in gate 水月宫:0x50→0x76 黑屏后,waiting 空档不抢先淡入;居中字 + 0x51 期间 blackScreenHold 撑住(场景靠后续 0x73 揭)",
+          "status": "passed",
+          "title": "水月宫:0x50→0x76 黑屏后,waiting 空档不抢先淡入;居中字 + 0x51 期间 blackScreenHold 撑住(场景靠后续 0x73 揭)",
+          "duration": 0.8556250000000318,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickByMode auto fade-in gate"],
+          "fullName": "tickByMode auto fade-in gate 水月宫:`一夜过去~40` 尾暂停结束后先保留完整文字一帧,下 tick 才执行 0x51",
+          "status": "passed",
+          "title": "水月宫:`一夜过去~40` 尾暂停结束后先保留完整文字一帧,下 tick 才执行 0x51",
+          "duration": 0.4018750000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickByMode auto fade-in gate"],
+          "fullName": "tickByMode auto fade-in gate 当夜/次日:0x76→0x51 FadeIn 不揭场景(blackScreenHold 撑住)+ ShowFBP 清残留头像",
+          "status": "passed",
+          "title": "当夜/次日:0x76→0x51 FadeIn 不揭场景(blackScreenHold 撑住)+ ShowFBP 清残留头像",
+          "duration": 0.2089170000000422,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickByMode auto fade-in gate"],
+          "fullName": "tickByMode auto fade-in gate event+frame-wait 仍可按 PAL_MakeScene 自动淡入",
+          "status": "passed",
+          "title": "event+frame-wait 仍可按 PAL_MakeScene 自动淡入",
+          "duration": 0.44375000000002274,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["tickByMode auto fade-in gate"],
+          "fullName": "tickByMode auto fade-in gate event+undefined 只有当前 opcode 会 MakeScene(PartyWalkTo 等)时才自动淡入",
+          "status": "passed",
+          "title": "event+undefined 只有当前 opcode 会 MakeScene(PartyWalkTo 等)时才自动淡入",
+          "duration": 0.7969160000000102,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792334056510,
+      "endTime": 1792334056515.7969,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/mode.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord)"],
+          "fullName": "word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord) 表未载 → 返回 fallback(缺省 fallback 为空串)",
+          "status": "passed",
+          "title": "表未载 → 返回 fallback(缺省 fallback 为空串)",
+          "duration": 1.8412500000000591,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord)"],
+          "fullName": "word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord) 表已载 → 返回 flat[id](表优先于 fallback)",
+          "status": "passed",
+          "title": "表已载 → 返回 flat[id](表优先于 fallback)",
+          "duration": 0.21116700000004585,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord)"],
+          "fullName": "word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord) 表已载但 id 越界/为空 → 退回 fallback",
+          "status": "passed",
+          "title": "表已载但 id 越界/为空 → 退回 fallback",
+          "duration": 0.09112500000003365,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792334056239,
+      "endTime": 1792334056241.2112,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/word-lookup.test.ts"
+    }
+  ]
+}

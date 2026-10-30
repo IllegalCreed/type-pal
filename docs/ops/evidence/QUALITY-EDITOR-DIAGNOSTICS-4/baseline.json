@@ -1,0 +1,30 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/editor",
+    "exec",
+    "vitest",
+    "run",
+    "src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-c04-baseline.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "seconds": 3.21,
+  "bytes": 164494,
+  "sha256": "d9f99bea7b06ed415d64dab06eaefbaf43f7b1eeb254ca870e526eae61552db0",
+  "testsSha256": "b537a2aad22762c5c6e0cd624fd94aea83124355034b3413dd8bf68611834837",
+  "passed": 6,
+  "failed": 0,
+  "pending": 0,
+  "unwrappedAct": 398,
+  "unsupportedActEnvironment": 0,
+  "navigation": 0
+}

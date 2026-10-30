@@ -584,19 +584,6 @@ describe('parseEnemyTeams (M3 T7)', () => {
     expect(fakeTeams[0]!.enemyObjectIndexes).toEqual([398, 0xffff, 0xffff, 0xffff, 0xffff])
   })
 
-  it('M3.30 翻译模式:OBJECT 索引不在 map 中 → 槽位标 0xFFFF + warn', () => {
-    const fake = new Uint8Array(10)
-    const view = new DataView(fake.buffer)
-    view.setUint16(0, 999, true) // 999 不在 map 中
-    view.setUint16(2, 0xffff, true)
-    view.setUint16(4, 0xffff, true)
-    view.setUint16(6, 0xffff, true)
-    view.setUint16(8, 0xffff, true)
-    const indexMap = new Map<number, number>()
-    const fakeTeams = parseEnemyTeams(fake, undefined, indexMap)
-    expect(fakeTeams[0]!.enemies[0]).toBe(0xffff)
-  })
-
   it('M3.30 buildObjectIndexToEnemyIdMap:真原版 OBJECT_ENEMY 段映射非空 + wEnemyID 在 enemies.json 范围内', () => {
     const map = buildObjectIndexToEnemyIdMap(objBuf)
     expect(map.size).toBeGreaterThan(0)

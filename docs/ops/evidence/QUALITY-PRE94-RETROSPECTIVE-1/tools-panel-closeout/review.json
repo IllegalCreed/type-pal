@@ -1,0 +1,882 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "base": "47b14abc282ecf08a9795263936475519a104269",
+  "fixedBehaviorCommit": "3ca935065222db3bd75999109612061e3fdb7d62",
+  "branch": "codex/code-quality-3y",
+  "owner": "Codex",
+  "decision": "CODE58 code accepted; unified gates deferred",
+  "scopeAudit58": {
+    "originalFiles": [
+      "packages/game/src/tools/tools-panel.ts",
+      "packages/game/src/tools/tools-panel.test.ts",
+      "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts"
+    ],
+    "acceptance": "Original three and the two extracted leaves supported; no94–102 credit"
+  },
+  "files": [
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "dimensions": {
+        "A": "真实bootstrap安装一次、getGs稳定对象；签名为局部刷新启发式，非完整校验；无跨层状态写入。导入错误已批准且拆出。",
+        "B": "保留签名局限、640缩略图、键位与当前MIDI/RIX注释；文件IO所有权在叶说明。",
+        "C": "保留各tab独立builder；Save文件IO从renderSystemTab移出，页面Owner只装配控制器/DOM，状态由GameState与controller持有。",
+        "D": "共用三个真实DOM原语，样式/inspect/codec/控制器已有Owner；不为视觉相似合并不同规则。",
+        "E": "原16主测试+3显示委派身份全部保留；既有键义W/F单红与隔离反控复用，当前102相邻含移动/英文。",
+        "F": "tab命名与builder边界直观；系统页不再内嵌异步文件事务，保留业务相关的音频/UI组合。",
+        "G": "一页一个面板的window监听/轮询与music订阅有真实bootstrap唯一安装依据，不新增伪dispose或全能context。",
+        "H": "IO叶依赖只有loadSlot/saveSlot；宿主typed控制器、时间与DOM可控；正式UI测试保留完整装配。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel-save.ts",
+      "dimensions": {
+        "A": "合法File对象产生全新Reader，readAsText没有LOADING重入；error只反馈，不解析/写入。成功先await Save再报成功；URL本次finally释放。",
+        "B": "说明选定动作可跨tab重绘完成、bootstrap拥有Save、面板page生命周期；不宣称abort或所有浏览器权限场景已实跑。",
+        "C": "文件选择/读写/下载操作单一叶；只接收两个IO方法，不接GameState/资源/音量/minimap，不反向导入主面板。",
+        "D": "纯codec由save-io维护，基础DOM与根共同复用；没有相同业务的重复序列化或版本校验。",
+        "E": "正式单红后绿；原生NotFoundError→toast、0写/空槽不变、恢复同路径→Save重读87/scene1/坐标的浏览器链成立。",
+        "F": "导出与导入各自局部异步回调，错误/成功控制流明确，保存事务仍委托Save。",
+        "G": "无生产abort入口；reader/节点由本次异步操作持有至结束，不添加无caller取消层或退役兼容。",
+        "H": "窄Save端口与真实Reader/Blob/URL；错误端点平台替身由原生Chrome对应结果支撑，不能当Save内核测试。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel-dom.ts",
+      "dimensions": {
+        "A": "三函数完整搬移，DOM节点归caller；button只转发click，文本仍uiText。",
+        "B": "头注只说明共用与节点ownership，不复述各行代码。",
+        "C": "只管本地化基础DOM；无游戏状态/文件/订阅或controller依赖。",
+        "D": "根tab与Save叶两个真实caller；仅三个已重复使用函数共享，不泛化slider/kv/复杂树。",
+        "E": "完整TS逆变换+原setup/幂等/六tab/移动/英文102相关，不另堆镜像单测。",
+        "F": "sectionTitle/muted/button与返回值表达具体行为。",
+        "G": "三个导出都有两处消费；没有未用参数/导出或模块时IO。",
+        "H": "document/点击为真实DOM边界，现有setup测试直接观察节点和委派。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.save-io.test.ts",
+      "dimensions": {
+        "A": "合法V1来自公开初态+serialize；坏金钱仅unknown文件域；Error端点可达来自原生Chrome。",
+        "B": "平台替身注释划清真实Reader错误与产品执行范围；不冒称核心Save测试。",
+        "C": "一个describe分别辖导出和导入IO；沿用typed宿主与精确恢复，不复制面板/codec实现。",
+        "D": "沿用makeDeps与真实formatter；不为三条新合同再造mock架构。",
+        "E": "4旧身份/全部断言保留；3新合同分别为读错→同名重选、格式拒绝、写拒绝；成功核完整导入快照/槽号，失败无成功/无写，英中文案。",
+        "F": "importFile/openImportPanel名达意；asserted error后再进行第二次真实Reader读取。",
+        "G": "增加3例对应3种原未验证UI接线，非重复31个纯codec拒绝；不skip/only/放宽timeout/弱断言。",
+        "H": "只替换平台一次readAsText，真实change/parser/toast/Save端口执行；finally恢复spy，宿主恢复timer/偏好/监听。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test.ts",
+      "dimensions": {
+        "A": "复用58合法hydrate、BattleState、runtime与typed资源证据；本片未改实现或fixture。",
+        "B": "当前键义分区与签名局限匹配；不冒称未显示字段。",
+        "C": "16例按UI业务职责分区，非跨层实现自比。",
+        "D": "复用共用宿主与已有工厂，无新增helper。",
+        "E": "16身份不变，既有六区键/说明精确oracle、W/F反控及时序断言仍适用；本片回归绿。",
+        "F": "测试名/selector定位明确的tab/字段。",
+        "G": "不删除未知候选；当前16非为覆盖率堆积。",
+        "H": "真实setup与控制器端口，fake timers仅控制250ms刷新。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "dimensions": {
+        "A": "对数位置0.75→316参数、全屏、FPS真实持久化均为当前生产合同。",
+        "B": "头注明确只证委派不证真实浏览器全屏/磁盘。",
+        "C": "三个不同显示委派合同，纯IO边界。",
+        "D": "使用同一typed宿主，未增加生产测试缝。",
+        "E": "原3身份/断言不变，缩放具体值和FPS来回1/0有区分性；完整迁移证明和当前相关测试复用。",
+        "F": "小函数openSystemTab与三例读写清楚。",
+        "G": "与主16合同排重：这三项具体显示委派未重复。",
+        "H": "真实DOM/FPS函数；全屏仅端口调用，真实全屏不在本卡认证范围。"
+      }
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+      "dimensions": {
+        "A": "完整合法初态，监听call-through，所有测试自己的时间/DOM/storage/controllers恢复。",
+        "B": "page寿命与测试短宿主区别说明准确，不假装生产存在dispose。",
+        "C": "宿主负责隔离，mkVol负责stateful读回，业务logic不藏在fixture。",
+        "D": "5份工具测试共用，工厂仅当前公开输入。",
+        "E": "旧跨例control证据沿用；本片读错spy自己的finally与宿主清理协作。",
+        "F": "mkVol/makeDeps/releaseHost职责清楚。",
+        "G": "未新增占位结果或无用导出；两个exports都有caller。",
+        "H": "音源真实controller配受控backend；存储/全屏/音量为窄IO端口，不mock GameState或组件。"
+      }
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "2cef2f55c015be3670405b291db640bfae274f1f493a8ac556189a12c3d9fc58",
+      "lines": 1081
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel-save.ts",
+      "sha256": "e8ec9cff6baa9f891e2898e84a3f67709f5a34161d0f69546aa5d9a0046bd889",
+      "lines": 95
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel-dom.ts",
+      "sha256": "68819b726d01e13ff5a7142929bca0b7f19e4d16a2f6926e98f4482dc1b2009f",
+      "lines": 25
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.save-io.test.ts",
+      "sha256": "ee7ba380b8c2816bd0c9fce7f71e5fbca3d2939e735cb1108f83b64e4c5879f8",
+      "lines": 235
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test.ts",
+      "sha256": "bbac9fdd4793b7a805fc470f6bfef240e181a817bcd011a5e845c013b08207c1",
+      "lines": 336
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "sha256": "171f3466d6a8469794263dd7747d98a43ce21367dc8c82d4de1ccb1cbc635d95",
+      "lines": 70
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+      "sha256": "e8509d85b2fd1b9f51b3ed59029d736aefd20f6e6e35d784517b897334cac083",
+      "lines": 89
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.english.test.ts",
+      "sha256": "8d539ec2b88f18f88c70c7f09e02484a5e0a74bf7bc39e4845a11c6b0d073d45",
+      "lines": 159
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.mobile.test.ts",
+      "sha256": "0b9693a5897041a25a67964af5565abcfb3a1e6d52e9c5f8ed9a734f4407f67d",
+      "lines": 81
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel-style.ts",
+      "sha256": "455ba8122e3cc24412992a66ac29798a89fcad6d66735d2f82132faf24f34cae",
+      "lines": 174
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "4eb173f96cd19b0bcc1175ad9a96e439cd5a6235d7896550deeec22bf7c5b3e0",
+      "lines": 61
+    },
+    {
+      "path": "packages/game/src/tools/save-io.test.ts",
+      "sha256": "2599fb986d66134253adebcf8343f582158805143ff0ebf06b51d116e7793d76",
+      "lines": 327
+    },
+    {
+      "path": "packages/game/src/tools/toast.ts",
+      "sha256": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa",
+      "lines": 81
+    },
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "sha256": "2535e26d93586f17b77404adff93b04946435812bcd556014fd4086de9adbbf3",
+      "lines": 298
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "848d22ff7a79f402420f23a4066caa4779f39d46f1a260eb6221c9e3271dd640",
+      "lines": 1949
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.ts",
+      "sha256": "b0febbfa204ee8637cecca4305555e7426a7ec7bc8030254587c55bb56069819",
+      "lines": 399
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b",
+      "lines": 99
+    },
+    {
+      "path": "packages/game/src/core/save/indexed-db.ts",
+      "sha256": "d8afd472c4efd5bbededfcb7831aa0abc0a3d98b7ef96590373201ff9c4e8f97",
+      "lines": 111
+    },
+    {
+      "path": "packages/game/src/core/save/data.ts",
+      "sha256": "3f12a4c005494bc30d3d24b963d8a342bacf888d3762f34c5a196b80d1dae1af",
+      "lines": 95
+    },
+    {
+      "path": "packages/game/src/core/save/v1.ts",
+      "sha256": "a4919d656ed2318943f537cb90a7e1f5f53fd10c7fe7cdcdd687c6aa38cbf602",
+      "lines": 270
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779",
+      "lines": 53
+    },
+    {
+      "path": "packages/game/src/localization/ui-text.ts",
+      "sha256": "d39fb2476e782d14fe4b0ae3de372786ec929417d948fd325a802340a7c55971",
+      "lines": 169
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "lines": 11
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "lines": 20
+    },
+    {
+      "path": "package.json",
+      "sha256": "d03353b2c46b34fd84b6fc233160dcd3636f8e6e8f0e6378582f9aacce35df45",
+      "lines": 71
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65",
+      "lines": 2521
+    }
+  ],
+  "priorEvidence": [
+    "../58-tools-panel-fixtures/README.md",
+    "../status-tools-closeout/README.md",
+    "../gamestate-save-closeout/README.md"
+  ],
+  "primary": [
+    {
+      "title": "W3C File API",
+      "url": "https://w3c.github.io/FileAPI/",
+      "scope": "§4 read-state, §6.2.3 error/loadend rather than load, §7 NotFoundError for deleted/moved file; native r3 confirms this browser endpoint, no claim of all platform failures"
+    }
+  ],
+  "executions": {
+    "formalRed": {
+      "id": "formal-red",
+      "passed": 6,
+      "failed": 1,
+      "failedFullName": "tools-panel 导入动作的 IO 失败边界 文件读取失败显示原因且不写入，重选同文件后仍能导入到指定槽"
+    },
+    "directed": {
+      "id": "fixed-directed",
+      "passed": 7
+    },
+    "adjacent": {
+      "id": "adjacent",
+      "files": 11,
+      "passed": 102,
+      "identities": [
+        {
+          "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+          "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+          "fullName": "L18 drawMinimap 真实 canvas 非全图 view 使用指定底图裁剪区域",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+          "fullName": "L18 setupMinimap 控制器持久化 默认开关、setShowNpc写存储；按保存值重建控制器读回",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+          "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+          "fullName": "L18 setupMinimap 控制器持久化 widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+          "fullName": "L18 setupMinimap 控制器持久化 widget关闭或焦点在INPUT/TEXTAREA时,快捷键不改缩放也不重绘",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+          "fullName": "L18 setupMinimap 控制器持久化 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+          "fullName": "L18 setupMinimap 控制器持久化 Image 解码失败后标记 map failed，不在后续帧反复请求",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "classifyTrigger giveItem(count>0) → item + 物品名",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "classifyTrigger item 优先于 teleport",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "classifyTrigger count=0仍归item(库存helper将0按1处理;不代表原盘道具名称)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "classifyTrigger count<0(扣道具) → other",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "classifyTrigger 0x55 学法术 → item(法术)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/minimap.test.ts",
+          "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/mobile-presentation.test.ts",
+          "fullName": "mobile presentation preferences desktop enabled overlays do not become mobile defaults or get overwritten by mobile choices",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/mobile-presentation.test.ts",
+          "fullName": "mobile presentation preferences switching layouts retains shared speedrun best times and banana rule",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/quick-save.test.ts",
+          "fullName": "quick-save canQuickSave:explore 无对话无菜单 → true;战斗/对话/菜单 → false",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/quick-save.test.ts",
+          "fullName": "quick-save F5 拦截刷新，保存完成前不报成功，完成后提示 slot 1",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/quick-save.test.ts",
+          "fullName": "quick-save F5 不可存态(战斗) → 不调 saveSlot + 错误 toast",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/quick-save.test.ts",
+          "fullName": "quick-save F5 saveSlot reject → 存档失败 toast 带原因",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/quick-save.test.ts",
+          "fullName": "quick-save F9 拦截浏览器默认行为，读档完成后才显示成功",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/quick-save.test.ts",
+          "fullName": "quick-save F9 空槽(false) → \"为空\"错误 toast",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/quick-save.test.ts",
+          "fullName": "quick-save F9 loadSlotIntoGame reject → \"读档失败\"错误 toast 带原因",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/quick-save.test.ts",
+          "fullName": "quick-save F6 放行浏览器默认行为，不触发存读档或提示",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/quick-save.test.ts",
+          "fullName": "quick-save 解绑后 F5/F9 不再触发 save/load(解绑 oracle)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "save-io serializeSave:gs → 带版本头的 JSON 字符串",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "save-io V1往返保留事件游标和对话数据",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "save-io parseImportedSave:格式头缺失或不支持时拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "save-io parseImportedSave:非JSON文本给出解析错误",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "save-io parseImportedSave:缺必要字段(partyMembers)→ 抛",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "save-io parseImportedSave:partyMembers 合法但 wNumScene 缺失或为文本 → 拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "save-io parseImportedSave:未知 version → 拒绝，不把未来/旧 envelope 交给 Save API",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "save-io 现金被改成文本时，在调用真实 Save 写入前拒绝，原槽位与预览保持不变",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "save-io 现金数值溢出为 Infinity 时拒绝；正常 V1 的真实 0 保留",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'party direction'",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'party member element'",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'inventory count'",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'runtime HP element'",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'runtime role row length'",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'OBJECT word row length'",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'inherited command discriminator'",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'native byte object range'",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects damaged 'loader prototype write'",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects a nonfinite nested HP value from a valid JSON numeric literal",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure preserves a frozen store-v2 snapshot exported as V1 without adding later runtime fields",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure preserves native JSON data shapes without manufacturing Map/RNG methods",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "V1 stored-data structure rejects an unknown battle phase in an otherwise actual startBattle snapshot",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "existing nonempty store-v2 representations preserves the actual historical dialog producer and JSON-fallback Save output",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "existing nonempty store-v2 representations preserves the actual historical battle producer and JSON-fallback Save output",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "fixed player-role index domain rejects party role -1 outside the six integral role slots",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "fixed player-role index domain rejects party role 0.5 outside the six integral role slots",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "fixed player-role index domain rejects party role 6 outside the six integral role slots",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "fixed player-role index domain rejects a corrupt battle-local role id even when the saved party is valid",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "fixed player-role index domain keeps the highest real role slot in an actual battle producer",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "saved experience remainder domain rejects corrupt experience in every pool before replacing the real slot or its preview",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/save-io.test.ts",
+          "fullName": "saved experience remainder domain preserves both WORD endpoints in all six roles and leaves grown attributes unchanged",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/toast.test.ts",
+          "fullName": "toast 默认成功消息保留图标、文本和不拦输入的节点",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/toast.test.ts",
+          "fullName": "toast 错误和提示分别使用对应图标与类型 class",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/toast.test.ts",
+          "fullName": "toast 默认停留到 2000ms 才淡出，220ms 过渡结束才移除最后一条及容器",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/toast.test.ts",
+          "fullName": "toast 两条共享容器，到期只移除自己，最后一条结束后释放容器",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.english.test.ts",
+          "fullName": "changes the open system page and remembered preference without replacing gameplay or focus",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.english.test.ts",
+          "fullName": "does not accept an unavailable English pack even when change is dispatched programmatically",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.english.test.ts",
+          "fullName": "keeps mobile feature exclusions while showing English settings and bilingual language choices",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.english.test.ts",
+          "fullName": "renders static help across all tools tabs in English, with only the language picker bilingual",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.english.test.ts",
+          "fullName": "uses role and enemy word identities while leaving inspector filtering and element colors intact",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+          "fullName": "L17 tools-panel 显示区委托 缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+          "fullName": "L17 tools-panel 显示区委托 全屏按钮委托 toggleFullscreen 一次",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+          "fullName": "L17 tools-panel 显示区委托 FPS 开关将开启/关闭持久化为 tp-fps-show=1/0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.mobile.test.ts",
+          "fullName": "mobile tools updates an open system panel across desktop and mobile layouts",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.mobile.test.ts",
+          "fullName": "mobile tools offers audio controls while omitting display, timer, keyboard and file transfer UI",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.mobile.test.ts",
+          "fullName": "mobile tools opens privacy preferences from tools and closes the drawer before handing off",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.save-io.test.ts",
+          "fullName": "tools-panel 导出动作的 IO 失败边界 读取存档拒绝时显示原因，不创建下载或成功提示",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.save-io.test.ts",
+          "fullName": "tools-panel 导出动作的 IO 失败边界 空槽保留已有提示，不下载",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.save-io.test.ts",
+          "fullName": "tools-panel 导出动作的 IO 失败边界 下载实际 V1 内容到所选槽位的文件名，释放 URL 后提示成功",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.save-io.test.ts",
+          "fullName": "tools-panel 导出动作的 IO 失败边界 下载动作抛错时仍释放已创建的 URL，只提示失败",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.save-io.test.ts",
+          "fullName": "tools-panel 导入动作的 IO 失败边界 文件读取失败显示原因且不写入，重选同文件后仍能导入到指定槽",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.save-io.test.ts",
+          "fullName": "tools-panel 导入动作的 IO 失败边界 内容校验拒绝时保留错误原因，不把非法金钱写入槽位",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.save-io.test.ts",
+          "fullName": "tools-panel 导入动作的 IO 失败边界 合法内容写入拒绝时提示原因，不提前报成功",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 setup 挂根节点(默认隐藏) + 唤出按钮 + 6 个左竖 tab + 注入样式",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 反引号 toggle 显隐",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 点过 tab 后 ` 仍能关闭面板(焦点在面板内,Backquote 须放行冒泡到 window 切换器)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 × 关闭 + 点 tab 切换 active",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 幂等:重复 setup 不重复挂",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 场景 tab:显示场景号 + 主角坐标",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 快捷键 tab:6 分区 + 同键不同义(战斗投掷 / 大世界装备)+ 工具与快存键",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 系统 tab 音频:音乐 / 音效 / 视频 三条音量滑块",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 音乐音源选择通过实际控制器记住偏好，加载失败提供重试",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 系统 tab:视频滑块 input → videoVolume.setVolume(0..1)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 主静音按钮:一键 静音/恢复 音乐+音效+视频",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 主静音按钮:初始已静音 → 显示「已静音」态",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 计时器 tab:渲染开关 + 21 个节点最佳时间输入",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/tools/tools-panel.test.ts",
+          "fullName": "tools-panel 框架 战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)",
+          "status": "passed"
+        }
+      ]
+    },
+    "typecheck": ["fixed-typecheck", "refactor-typecheck"],
+    "browser": {
+      "validRed": "browser-r3/browser-read-failure.json",
+      "green": "browser-r4/browser-read-failure.json",
+      "final": "browser-r5/browser-read-failure.json"
+    }
+  },
+  "mapping": {
+    "priorFourExportIdentitiesRetained": true,
+    "main16Retained": true,
+    "leaves3Retained": true,
+    "newImportContracts": 3,
+    "retired": 0
+  },
+  "lifecycle": {
+    "production": "bootstrap installs once, page-owned controls/poll/listeners; Save owns storage, minimap owns its animation resources",
+    "read": "Each change creates a new reader for a File; failure emits error/loadend, never executes onload. No application abort caller. Already selected import completes independently of tab rerender; no new cancellation policy.",
+    "test": "new short host uses previous verified cleanup; reader spy restored in finally. Each Chrome owns disposable context, no user profile or primary store accessed."
+  },
+  "processDisclosure": [
+    {
+      "id": "first-browser",
+      "result": "wrong nonexistent save/index.ts import; runtime Error, no counter credit; raw retained"
+    },
+    {
+      "id": "browser-r2",
+      "result": "Playwright uploaded copy continues reading after original removed; one successful test-slot write only in fresh disposable context; not defect proof, context closed"
+    },
+    {
+      "id": "browser-r3",
+      "result": "CDP disk-backed native NotFoundError; exact one business AssertionError, zero puts, empty slot retained"
+    },
+    {
+      "id": "r4-image",
+      "result": "functional assertions passed but screenshot caught a fade transition; visual credit only final r5 image inspected after animations disabled for capture"
+    },
+    {
+      "id": "first-prover-lint",
+      "result": "initial direct Biome output had 1 warning unused print and1 info string concatenation; removed/corrected, final static receipts authoritative; initial tool output not archived as raw and is not claimed byte-complete"
+    },
+    {
+      "id": "owned-server",
+      "result": "6005 owned handle98992 stopped intentionally with Ctrl-C exit130, not application failure; old17887 handle missing and port verified absent before start"
+    },
+    {
+      "id": "first-static-docs",
+      "result": "125 unchanged docs-tool tests passed; check.mjs then rejected two issues from changing archived58 Status to review without moving/linking. Restored its historical done, current acceptance/unfinished integration explicitly in parent/risk card; ledger separate declared inventory3445→3447 corrected. Original failing raw retained; no product changes."
+    }
+  ],
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "6ce884ae0d11995b6aa9767613ade4315c01ce4e39ab63dcbd8978973fa026df",
+    "members": 55
+  },
+  "invalidations": "Changed UI/Save/Reader ownership, codec/schema, localization, bootstrap installation or controller lifecycles invalidate affected claims; current context fingerprints detect change, not design merit.",
+  "notRun": [
+    "whole pnpm check",
+    "official coverage/ratchet",
+    "protected fast",
+    "PR/main merge",
+    "ordinary-story/E2E/fullscreen/browser permission dialog"
+  ],
+  "limits": "A–H semantic conclusions are this scoped review with reused cited evidence, not certified by hash or 102-green. Remaining pre94 1/3m/42/57 and new product decisions stay unresolved.",
+  "quantitativeScreen": {
+    "tool": "TypeScript 6.0.3 AST scoped branch screen",
+    "rule": "base1 + if/conditional/loop/catch/case/logical binary; nested function bodies scored separately",
+    "threshold": 10,
+    "functionCount": 106,
+    "flagged": [
+      {
+        "path": "packages/game/src/tools/tools-panel.ts",
+        "name": "renderBattleTab",
+        "line": 339,
+        "score": 16
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.ts",
+        "name": "setupToolsPanel",
+        "line": 908,
+        "score": 11
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.ts",
+        "name": "render",
+        "line": 953,
+        "score": 12
+      }
+    ],
+    "decision": "Reading clues only. Tab builders contain UI condition grouping, battleSig explicitly partial heuristic; no metric-driven behavior or artificial fragmentation.",
+    "sourceFiles": [
+      "packages/game/src/tools/tools-panel.ts",
+      "packages/game/src/tools/tools-panel-save.ts",
+      "packages/game/src/tools/tools-panel-dom.ts"
+    ],
+    "flagReview": {
+      "renderBattleTab16": "各只读readout分组可选显示，各条件构造自己的子面板，不写战斗规则/状态；保留单一battle呈现职责，既有inspect负责计算。",
+      "setupToolsPanel11": "根幂等/移动与桌面呈现/页面一次安装；真正异步文件IO已移出，重复按tab拆host会分散open/focus所有权。",
+      "render12": "仅隐藏移动不支持tab、更新本地化标签/selected样式与委派当前builder；保持同一渲染入口不按指标造模式helper。"
+    }
+  }
+}

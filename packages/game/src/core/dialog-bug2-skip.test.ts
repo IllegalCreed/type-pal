@@ -23,7 +23,7 @@
 
 import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { createCommandBus } from './command-bus.js'
+
 import { tickEventSystem } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
 
@@ -37,7 +37,7 @@ function snap(keys: AbstractKey[] = []): InputSnapshot {
  */
 function tick(gs: GameState, keys: AbstractKey[] = [], ms = 100): void {
   gs.nowMs += ms
-  tickEventSystem(gs, snap(keys), createCommandBus())
+  tickEventSystem(gs, snap(keys))
 }
 
 /**

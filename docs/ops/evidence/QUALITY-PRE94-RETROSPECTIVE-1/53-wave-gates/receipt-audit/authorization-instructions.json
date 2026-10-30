@@ -1,0 +1,53 @@
+{
+  "scope": "Minimal actual human instruction excerpts predating the six additions; no assistant-generated task card is presented as a human approval",
+  "instructions": [
+    {
+      "id": "standing-test-quality",
+      "messageId": "msg_01a12967-1e16-7651-8d09-faf64d1c1382",
+      "timestampUtc": "2026-10-11T05:19:46.203Z",
+      "source": "human user message in this chat",
+      "sourceRolloutBasename": "rollout-2026-10-11T14-19-35-01a12966-f470-7ab0-87ed-ea4a7694f1e8.jsonl",
+      "sourceJsonlLine": 6,
+      "fullMessageSha256": "cced91c70c160ecfd4a6aa87dc0832ed11fff87c32650dfaf8fe727f9207b928",
+      "excerpt": "已证重复、恒真或无业务执行的用例精简，类型合同走typecheck，不计运行时数量；精简后重新实测官方基准，不为保覆盖率堆弱断言或降低规则。未知候选不自动删除，待核项不标已验证。",
+      "excerptSha256": "b4e2fefd223cebb1b4c915cef4eee4ad1a63f45716497a2d0321e8fc695f4bee",
+      "scopeLimit": "Standing quality/scope instruction, not an individually user-signed snapshot approval; exact retirement remains Codex evidence-based execution judgment."
+    },
+    {
+      "id": "warehouse-governance",
+      "messageId": "msg_01a12967-1e47-77a1-aaba-168665927470",
+      "timestampUtc": "2026-10-11T05:19:46.248Z",
+      "source": "human user message in this chat",
+      "sourceRolloutBasename": "rollout-2026-10-11T14-19-35-01a12966-f470-7ab0-87ed-ea4a7694f1e8.jsonl",
+      "sourceJsonlLine": 12,
+      "fullMessageSha256": "daf63535375d09690c5572057204b3939460b851b02974c50e538d7aec6ac711",
+      "excerpt": "覆盖范围：\n\n- packages/shared\n- packages/pal-extract\n- packages/game\n- packages/content\n- packages/migrate\n- packages/reforge\n- packages/editor\n- scripts 中非 E2E 的质量/文档/覆盖率/治理工具\n测试少而精，不为了覆盖率堆弱测试。",
+      "excerptSha256": "8914f8ccee5ee7ccdbc13f04e4d3a38878113d89b9daecffbc53b51a0cd8b9b2",
+      "scopeLimit": "Standing quality/scope instruction, not an individually user-signed snapshot approval; exact retirement remains Codex evidence-based execution judgment."
+    },
+    {
+      "id": "editor-review-scope",
+      "messageId": "msg_01a13e49-605e-7bb3-b869-5e6155d1bcaf",
+      "timestampUtc": "2026-10-15T06:39:18.623Z",
+      "source": "human user message in this chat",
+      "sourceRolloutBasename": "rollout-2026-10-12T11-37-01-01a12966-f470-7ab0-87ed-ea4a7694f1e8_01a12df8-7a47-7790-b116-34676f30f396.jsonl",
+      "sourceJsonlLine": 39805,
+      "fullMessageSha256": "9af31e55b4bbafa322756b92f55939205a8e6d938e90a174e6a22ad69e7d0c97",
+      "excerpt": "继续推进 editor 这三个文件，逐文件核清告警根因和测试判别力，不要静音或放宽规则。记得同步最新 main，分批提交推送，诊断清零后再合并。",
+      "excerptSha256": "377ce623868170d2f914fd7ad016b7063f02fdc5737cf6f560c8634d9bbe47c1",
+      "scopeLimit": "Standing quality/scope instruction, not an individually user-signed snapshot approval; exact retirement remains Codex evidence-based execution judgment."
+    },
+    {
+      "id": "all-pre94-review-scope",
+      "messageId": "msg_01a1403c-a450-76f0-bafd-bf0223da6c01",
+      "timestampUtc": "2026-10-15T15:44:38.480Z",
+      "source": "human user message in this chat",
+      "sourceRolloutBasename": "rollout-2026-10-12T11-37-01-01a12966-f470-7ab0-87ed-ea4a7694f1e8_01a12df8-7a47-7790-b116-34676f30f396.jsonl",
+      "sourceJsonlLine": 45845,
+      "fullMessageSha256": "d9f4065971da14e2ff3dc1322fc7c4d9670df6f8e505d84eb8e8431a1acc34ea",
+      "excerpt": "我记得不是说让你复审94号之前的所有卡的成果么",
+      "excerptSha256": "f64d04e3f2fab8b1cc8f60f436e79488068614af9f1a009e14929bc2818ad974",
+      "scopeLimit": "Standing quality/scope instruction, not an individually user-signed snapshot approval; exact retirement remains Codex evidence-based execution judgment."
+    }
+  ]
+}

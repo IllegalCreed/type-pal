@@ -1,0 +1,11 @@
+$ pnpm check
+exit_code=0
+
+Final candidate run on 2026-10-13 (Asia/Tokyo), after typed querySelector cleanup.
+check:docs: PASS — 1251 Markdown / 6693 local links / 402 tasks; testing docs 0 issues; phase/lore 184; content review 570.
+coverage-tools: PASS — 58 tests.
+quality-tools: PASS — 37 tests, including current ledger integrity.
+e2e-tools: PASS — 395 tests.
+script-governance: PASS — 22 tests.
+workspace checks: content 149 files/1498 tests; shared 16/131; game 314/3550; pal-extract 70/423; reforge 359/8964; editor 631/4951; migrate 96/739.
+lint: PASS — 4009 files; 0 errors / 0 warnings / 0 infos.

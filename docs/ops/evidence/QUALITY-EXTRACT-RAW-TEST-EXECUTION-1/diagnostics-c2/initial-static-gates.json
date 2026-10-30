@@ -1,0 +1,10 @@
+[
+  {
+    "name": "docs",
+    "command": ["pnpm", "check:docs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 1,
+    "seconds": 0.967,
+    "rawSha256": "b050dad60ed17aad100564be723f67c5efe858fba17c0fbe6ec1186e960bc8a0"
+  }
+]

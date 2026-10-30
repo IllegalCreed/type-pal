@@ -4,6 +4,7 @@ import { gridToPixel, type SceneDef } from '@type-pal/content'
 import { act, type ComponentProps, cloneElement } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { installReactActEnvironment } from '../__tests__/react-io-wait.js'
 import type { Playback } from '../core/playback.js'
 import { collectScriptMovementPreview } from '../core/script-movement-preview.js'
 import {
@@ -67,11 +68,14 @@ test('fit frames every waypoint in a shallow viewport with room for legend and n
   expect(fitScriptMovementPreview({ tracks: [], notes: [] }, size)).toBeUndefined()
 })
 
+let restoreActEnvironment = () => {}
+
 describe('PreviewCanvas confirm controls', () => {
   let host: HTMLDivElement
   let root: Root
 
   beforeEach(() => {
+    restoreActEnvironment = installReactActEnvironment()
     host = document.createElement('div')
     document.body.append(host)
     root = createRoot(host)
@@ -80,6 +84,7 @@ describe('PreviewCanvas confirm controls', () => {
   afterEach(async () => {
     await act(async () => root.unmount())
     host.remove()
+    restoreActEnvironment()
   })
 
   test('预览控制使用单行共享工具栏并保持播放、单步与倍速行为', async () => {

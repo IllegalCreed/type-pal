@@ -1,0 +1,46 @@
+Summary excerpt; full original bytes are in window-ratchet.raw.gz
+ ✓ src/core/enemy-team-commands.glm-p.test.ts (1 test) 2ms
+ ✓ src/ui/project-role-groups.test.ts (1 test) 2ms
+ ✓ src/core/commands-wave2.sprite.test.ts (2 tests) 2ms
+ ✓ src/core/hit-test.test.ts (3 tests) 2ms
+ ✓ src/core/video-metadata.test.ts (1 test) 2ms
+ ✓ src/core/commands-wave2.asset.test.ts (2 tests) 2ms
+ ✓ src/core/asset-label-command.test.ts (1 test) 2ms
+ ✓ src/core/commands-wave2.battle-sprite.test.ts (1 test) 2ms
+ ✓ src/core/frame-animation-images.test.ts (1 test) 2ms
+ ✓ src/ui/PanelResizeHandle.test.ts (2 tests) 2ms
+ ✓ src/core/commands-wave2.entity.test.ts (1 test) 2ms
+ ✓ src/core/commands-wave2.map-asset.test.ts (1 test) 2ms
+ ✓ src/ui/design-system/control-utils.test.ts (1 test) 2ms
+ ✓ src/core/commands-wave2.map-edit.test.ts (1 test) 2ms
+ ✓ src/core/commands-wave2.tileset.test.ts (1 test) 2ms
+ ✓ src/core/commands-wave2.startup.test.ts (1 test) 2ms
+
+ Test Files  612 passed (612)
+      Tests  4784 passed (4784)
+   Start at  22:38:27
+   Duration  126.05s (transform 20.52s, setup 0ms, import 145.26s, tests 146.40s, environment 112.07s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 90.21% ( 30524/33836 )
+Branches     : 83.49% ( 24578/29437 )
+Functions    : 89.69% ( 7769/8662 )
+Lines        : 92.38% ( 27309/29561 )
+================================================================================
+
+[coverage:fast] consolidated
+package      statements            branches              functions             lines                 files  tests
+-----------  --------------------  --------------------  --------------------  --------------------  -----  -----
+shared       96.14% (448/466)      93.58% (204/218)      100.00% (23/23)       97.09% (400/412)      11     131
+content      96.43% (5668/5878)    94.11% (4827/5129)    98.07% (811/827)      97.35% (5061/5199)    56     1498
+pal-extract  69.64% (1069/1535)    79.11% (462/584)      79.86% (111/139)      69.57% (944/1357)     39     276
+migrate      90.47% (2345/2592)    90.77% (1622/1787)    93.90% (385/410)      90.78% (2057/2266)    38     671
+reforge      90.01% (16999/18885)  82.52% (10807/13097)  90.04% (2767/3073)    92.30% (15208/16477)  158    8964
+game         87.58% (13869/15836)  78.95% (9045/11456)   83.30% (1591/1910)    89.16% (12385/13891)  140    3536
+editor       90.21% (30524/33836)  83.49% (24578/29437)  89.69% (7769/8662)    92.38% (27309/29561)  294    4784
+TOTAL        89.74% (70922/79028)  83.53% (51545/61708)  89.45% (13457/15044)  91.62% (63364/69163)  736    19860
+Formatted 1 file in 16ms. Fixed 1 file.
+
+覆盖率基线已只升不降地更新（提升 0 项，范围变化 2 项）

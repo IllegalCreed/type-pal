@@ -15,7 +15,7 @@ import type {
 import type { RunScriptOptions } from '../event-system.js'
 import type { GameState } from '../game-state.js'
 
-/** 战斗运行期间由 shell 装载、core 消费的只读资源表。 */
+/** 战斗运行期间的资源引用；playerRoles 是可写战斗投影，结局由 owner 回写 HP/MP。 */
 export interface BattleResources {
   items: Item[]
   spells: Spell[]

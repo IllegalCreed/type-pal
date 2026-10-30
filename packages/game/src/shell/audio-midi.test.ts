@@ -102,7 +102,11 @@ afterEach(() => vi.unstubAllGlobals())
 
 describe('MIDI backend lifecycle at media IO boundaries', () => {
   it('reloads A when returning to it while B is replacing the active sequence', async () => {
-    vi.stubGlobal('fetch', async () => response())
+    const requests: string[] = []
+    vi.stubGlobal('fetch', async (url: string) => {
+      requests.push(url)
+      return response()
+    })
     const backend = make()
     await backend.ready
     const seq = media.sequencers[0]!
@@ -121,6 +125,11 @@ describe('MIDI backend lifecycle at media IO boundaries', () => {
       '49.mid',
       '3.mid',
       '49.mid',
+    ])
+    expect(requests).toEqual([
+      '/extracted/music/049.mid',
+      '/extracted/music/003.mid',
+      '/extracted/music/049.mid',
     ])
     expect(seq.loopCount).toBe(Infinity)
     backend.dispose?.()

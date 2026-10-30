@@ -1,0 +1,13 @@
+{
+  "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T19:46:41.221478+00:00",
+  "completedAt": "2026-10-17T19:46:46.272930+00:00",
+  "exit": 2,
+  "signal": null,
+  "spawnError": null,
+  "raw": "typecheck.raw.gz",
+  "rawBytes": 391,
+  "rawSha256": "daf40960ff9ee74f94670bd70c468313ba3557308f19a7c607ade367ee65057e",
+  "fullUncutMergedStdoutStderr": true
+}

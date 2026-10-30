@@ -1,0 +1,40 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game
+
+ ❯ src/core/save/__tests__/indexed-db.test.ts (3 tests | 1 failed | 2 skipped) 17ms
+     ↓ save resolves after complete; committed data and metadata can be read and deleted
+     × put success followed by transaction abort rejects and preserves the previous slot 16ms
+     ↓ delete success followed by transaction abort rejects and keeps the saved slot
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/save/__tests__/indexed-db.test.ts > Save real IndexedDB transaction contract > put success followed by transaction abort rejects and preserves the previous slot
+AssertionError: promise resolved "undefined" instead of rejecting
+
+- Expected:
+Error {
+  "message": "rejected promise",
+}
+
++ Received:
+undefined
+
+ ❯ src/core/save/__tests__/indexed-db.test.ts:69:46
+     67|       return request
+     68|     })
+     69|     await expect(Save.saveSlot(1, state(999))).rejects.toMatchObject({…
+       |                                              ^
+     70|     expect(requestSucceeded).toBe(true) // Fault occurs after success,…
+     71|     expect((await Save.loadSlot(1))?.dwCash).toBe(100)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 skipped (3)
+   Start at  14:56:59
+   Duration  1.30s (transform 98ms, setup 42ms, import 104ms, tests 17ms, environment 927ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/save/__tests__/indexed-db.test.ts -t put success --reporter=default --silent=false

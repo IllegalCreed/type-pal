@@ -8,8 +8,8 @@ import { shellProject } from './__tests__/runtime-shell/project.js'
 import { loadRunnableProjectFrom } from './runnable-project-loader.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 

@@ -1,0 +1,54 @@
+{
+  "task": "GAME-MOBILE-LAYOUT-1",
+  "owner": "Codex",
+  "scope": "Only 14 new tracked code paths and inventory/pending totals; no new semantic closure",
+  "base": "9b4df714565a749fd4b69f0f1c7a50bcbb30dc66",
+  "candidate": "375bb5a260e4fa887ad50a1289106a870faea8d7",
+  "paths": [
+    "packages/game/src/shell/game-shell.test.ts",
+    "packages/game/src/shell/game-shell.ts",
+    "packages/game/src/shell/gamepad-host.test.ts",
+    "packages/game/src/shell/gamepad-input.test.ts",
+    "packages/game/src/shell/gamepad-input.ts",
+    "packages/game/src/shell/modal-input.test.ts",
+    "packages/game/src/shell/presentation.ts",
+    "packages/game/src/shell/touch-controls.test.ts",
+    "packages/game/src/shell/touch-controls.ts",
+    "packages/game/src/shell/touch-preference.test.ts",
+    "packages/game/src/shell/touch-preference.ts",
+    "packages/game/src/styles.d.ts",
+    "packages/game/src/tools/mobile-presentation.test.ts",
+    "packages/game/src/tools/tools-panel.mobile.test.ts"
+  ],
+  "source": "docs/ops/audits/code-quality-file-ledger.md",
+  "afterSha256": "69903faa530bd6661e5f78c1f7364598c58a58394004be26fa9b3c6f466228d6",
+  "before": {
+    "command": "pnpm test:quality-tools",
+    "exit": 1,
+    "passed": 46,
+    "failed": 1,
+    "raw": "ledger-before-sync.txt",
+    "sha256": "33ab307636372377b63151b4a8dc585f64fbb1cc92a3e933bede11312e9ae3b6"
+  },
+  "after": {
+    "command": "pnpm test:quality-tools",
+    "exit": 0,
+    "passed": 47,
+    "failed": 0,
+    "raw": "ledger-after-sync.txt",
+    "sha256": "35646bc352abe972a3512939d315f05952d2b75a4bb422f3830e6e16aa5bca7c"
+  },
+  "ci": {
+    "run": "https://github.com/IllegalCreed/type-pal/actions/runs/39651740329",
+    "raw": "ci-ledger-before-sync.txt",
+    "sha256": "7b2341788dad51d6b915c3447857ee77926488a803aa2feb86c6bf29a9c9aa33"
+  },
+  "counts": {
+    "total": 3352,
+    "verified": 356,
+    "review": 126,
+    "pending": 2870,
+    "unclosed": 2996
+  },
+  "limits": "Record integrity only. All previous live rows and historical body unchanged; no code/tool/test mutation."
+}

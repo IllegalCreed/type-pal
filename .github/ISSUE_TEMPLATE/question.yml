@@ -1,0 +1,42 @@
+name: "Question / 提问"
+description: "How to play, build, or deploy. English or Chinese is fine. / 怎么玩、怎么构建、怎么部署。"
+title: "Question: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Questions are welcome. You can write in English or Chinese.
+        欢迎提问。中英文都可以。
+
+        You can play in the browser: https://pal.illegalscreed.cn
+        想直接玩，打开上面的网页即可。
+
+        How to build and run is in the README. CONTRIBUTING.md has longer notes, mostly in Chinese.
+        构建步骤在 README。CONTRIBUTING.md 有更长的说明，大部分是中文。
+  - type: dropdown
+    id: topic
+    attributes:
+      label: "What is this about? / 想问什么"
+      options:
+        - "How to play / 怎么玩"
+        - "How to build or run / 怎么构建或运行"
+        - "How to deploy / 怎么部署"
+        - "Something else / 其他"
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: "Your question / 你的问题"
+      description: "Ask in your own words."
+      placeholder: "How do I start a new game on the web demo?"
+    validations:
+      required: true
+  - type: textarea
+    id: tried
+    attributes:
+      label: "What you already tried / 你已经试过什么（可选）"
+      description: "A command, a link, or the error text helps. You can skip this."
+    validations:
+      required: false

@@ -1,0 +1,155 @@
+{
+  "scope": "Actual complete old/current main spec wrapped beneath an owned cohort, plus one explicit outer-owner assertion. No SUT replacement, no product execution mutation, no browser/network claim.",
+  "runs": [
+    {
+      "phase": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/analytics/ga-owner-proof-zj3at3zj/old.test.ts",
+        "--reporter=verbose",
+        "--reporter=json",
+        "--outputFile.json=/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/ga-owner-proof-zj3at3zj/old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T23:07:46.825228+00:00",
+      "completedAt": "2026-10-17T23:07:47.610173+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "raw": "ownership.old.raw.gz",
+      "rawBytes": 3298,
+      "rawSha256": "ddde3b4ee99030cb5c703049704441297a8fbf13eb140bc3c0b0b3c3bad46d07",
+      "nativeReport": "ownership.old.vitest.json.gz",
+      "nativeSha256": "eafb5599df6f96aff37a93f7893ee77ddc8bff68b7a916f92b168eb59a8ca674",
+      "fullUncutMergedStdoutStderr": true,
+      "originalSpecSha256": "a8323b5e8b56890592b05bb3715cb63503ed1130f12cfc79e4769c4fc2c0fb46",
+      "wrappedSpecSha256": "756ddb26e72bba3582ba5cef73e4ec9ce620063c21abd34aebf9535c1b186f50",
+      "passed": 8,
+      "failed": 1,
+      "pending": 0,
+      "cases": [
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view 非生产或 Measurement ID 非法时零副作用",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view unset/denied 不加载；granted 只加载并记录当前页一次",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view P1: 只保留 pathname 与合法 UTM，丢弃所有游戏参数和 hash",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view G1/P3: 同 pathname 去重、场景事件不计页、撤回后停发",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view Google 或 URL 异常不影响游戏调用方",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view 复用既有 gtag 与 script，不重复注入",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view 标签加载失败后可重试且不重复排队当前页",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view 内建 gtag 使用官方 arguments 命令形态",
+          "status": "passed"
+        },
+        {
+          "fullName": "outer owner descriptors and global head survive the complete analytics cohort",
+          "status": "failed"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected false to be true // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/ga-owner-proof-zj3at3zj/old.test.ts:197:30\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+      ]
+    },
+    {
+      "phase": "current",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/analytics/ga-owner-proof-zj3at3zj/current.test.ts",
+        "--reporter=verbose",
+        "--reporter=json",
+        "--outputFile.json=/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/ga-owner-proof-zj3at3zj/current.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T23:07:47.717341+00:00",
+      "completedAt": "2026-10-17T23:07:48.477036+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "raw": "ownership.current.raw.gz",
+      "rawBytes": 2291,
+      "rawSha256": "46526b0848428d33adf23f36d0ff5b2e294f34b09ecc74880684320e659182b0",
+      "nativeReport": "ownership.current.vitest.json.gz",
+      "nativeSha256": "d44d53ed7c9afe756eb336c2a877590d101e48dfb213018af56b0eac49afe4e8",
+      "fullUncutMergedStdoutStderr": true,
+      "originalSpecSha256": "d9f88d9ee28faabb1ff354b6e2a43c3866f55c8c4749e272c673d3a0b65f7439",
+      "wrappedSpecSha256": "aba3dce73ea55ecb195c8655a137f228776b4f70941968fe7bcae8caa47e66ca",
+      "passed": 10,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view 非生产或 Measurement ID 非法时零副作用",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view unset/denied 不加载；granted 只加载并记录当前页一次",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view P1: 只保留 pathname 与合法 UTM，丢弃所有游戏参数和 hash",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view G1/P3: 同 pathname 去重、场景事件不计页、撤回后停发",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view URL解析失败后仍可处理后续合法页面",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view 复用既有 gtag 与 script，不重复注入",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view 标签加载失败后可重试且不重复排队当前页",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view 内建gtag采用arguments队列并关闭自动page_view",
+          "status": "passed"
+        },
+        {
+          "fullName": "owned complete analytics cohort minimal Google Analytics page view stop后同意与页面两订阅均不再触发",
+          "status": "passed"
+        },
+        {
+          "fullName": "outer owner descriptors and global head survive the complete analytics cohort",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "tempDirectory": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/ga-owner-proof-zj3at3zj",
+  "tempDirectoryRemoved": true,
+  "originalCurrentSpecUnchanged": true
+}

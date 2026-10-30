@@ -1,9 +1,9 @@
 /**
- * 法术伤害共享核心 —— E 类 keystone。
+ * 玩家攻击法术与模拟法术的对敌伤害核心。
  *
- * `applyMagicDamage` 是两条 sdlpal 法术伤害路径的**唯一共享核心**:
+ * `applyMagicDamage` 共用两条SDLPal对敌伤害路径的计算与扣血步骤:
  *   1. inline 攻击法术  —— `reference/sdlpal/fight.c:4270-4318`
- *      (PAL_BattleCommitAction kBattleActionMagic offensive 分支)
+ *      (PAL_BattlePlayerPerformAction 的攻击法术分支)
  *   2. 0x42 SimulateMagic —— `reference/sdlpal/fight.c:5300-5400`
  *      (PAL_BattleSimulateMagic,投掷物 scriptOnThrow 用)
  *
@@ -26,6 +26,7 @@
 import type { Magic, ObjectMagicView, PlayerRoles } from '@type-pal/shared'
 import type { BattleState } from './battle-state.js'
 import { calcMagicDamage } from './formulas.js'
+import { resolveSimulatedMagicTarget } from './simulated-magic-target.js'
 
 /** SHORT cast(同 formulas.ts 私函)。 */
 function asShort(n: number): number {
@@ -78,8 +79,8 @@ export interface MagicDamageResult {
 /**
  * 对一个或全体敌人结算法术伤害,**原地** mutate `state.enemies[].e.health`。
  *
- * @returns 每个被处理敌人的 { enemyIdx, damage }(target='all' 时含全部敌人,
- *          含未清空但 health<=0 的 slot;跳过 defeated=true 的运行时空槽(= sdlpal wObjectID==0)。
+ * @returns 每个被处理敌人的索引、计算伤害及扣血前后 HP。target='all' 包含未清空但
+ *          health<=0 的 slot;跳过 defeated=true 的运行时空槽(对应 sdlpal wObjectID==0)。
  */
 export function applyMagicDamage(input: ApplyMagicDamageInput): MagicDamageResult[] {
   const { state, target, magStr, magicData, minDamage } = input
@@ -98,7 +99,7 @@ export function applyMagicDamage(input: ApplyMagicDamageInput): MagicDamageResul
 
     // L18/L20:RandomFloat(10,11) 在 PAL_CalcMagicDamage 函数体内(fight.c:215),群攻 for 循环
     //   逐敌调用(fight.c:4288/4015)→ **每个敌人各掷一次**独立倍率,不是全目标共用一次。
-    const rngFactor = 1 + state.rng.next() * 0.1 // sdlpal RandomFloat(10,11)/10 ∈ [1.0, 1.1)
+    const rngFactor = 1 + state.rng.next() * 0.1 // TS 半开倍率;formulas 在可表示 WORD 域处理 FLOAT 中间精度
     let dmg = calcMagicDamage({
       magStr,
       def,
@@ -141,27 +142,12 @@ export interface ApplyEnemyMagicDamageInput {
   magicData: { baseDamage: number; elemental: number }
   /** 玩家角色表(取 def / 抗性 / HP,直接 mutate role.hp)。 */
   playerRoles: PlayerRoles
-  /** DM6:scriptOnUse 之前的预掷结果(magic.ts);缺省内部掷(旧 fixture)。 */
+  /** DM6:scriptOnUse 之前的预掷结果(magic.ts);直接调用时可省略,由本函数按相同规则掷骰。 */
   preRolledAutoDefend?: Map<number, boolean>
 }
 
 /**
- * 敌方攻击魔法伤害结算(enemy→player)—— 对照 sdlpal `fight.c:4772-4853`
- * PAL_BattleEnemyPerformAction 魔法分支。镜像 player→enemy(applyMagicDamage)但有关键差异:
- *   - magStr = (SHORT)enemy.wMagicStrength + (wLevel+6)*6,clamp >=0(fight.c:4673-4678)
- *   - PAL_CalcMagicDamage 用**玩家** def = PAL_GetPlayerDefense(global.c:1800-1828:role.defense + Σ装备,
- *     **无 level 项**;role.defense 已投影含装备)+ 元素抗(`100+mod`)
- *     + 毒抗(`100+mod`),**wResistanceMultiplier=20**(fight.c:4798/4833;player→enemy 是 1)
- *   - 除因子 `((fDefending?2:1)*(Protect?2:1)) + (autoDefend?1:0)`(fight.c:4801-4803/4836-4838):
- *       · autoDefend:该队员**活着 + 非 sleep/paralyzed/confused** 时 RandomLong(0,2)==0(fight.c:4727-4757)
- *       · Protect status 已按 `slot.status.protect` 参与除因子
- *   - clamp `if (sDamage>hp) sDamage=hp`(fight.c:4805/4840)——**不钳最小 1**(与 player inline 不同)
- *   - 跳过已死队员(fight.c:4782)
- *
- * caller(performMagic enemy 分支)负责 emit showDamageNum(掉血 → blue)。
- */
-/**
- * DM6:敌法术 autoDefend 资格掷骰(fight.c:4723-4757)。AoE 逐活队员、单体仅目标;
+ * DM6:敌法术 autoDefend 资格掷骰(fight.c:4723-4757)。AoE 逐队员先掷再判 HP,单体仅目标;
  * 失能(sleep/paralyzed/confused)无资格但**不**消耗掷骰(条件短路序与 C 一致)。
  * magic.ts 在 scriptOnUse 之前调它预掷;applyEnemyMagicDamage 无预掷时回退内部掷。
  */
@@ -191,6 +177,22 @@ export function rollAutoDefend(
   return m
 }
 
+/**
+ * 敌方攻击魔法伤害结算(enemy→player)—— 对照 sdlpal `fight.c:4772-4853`
+ * PAL_BattleEnemyPerformAction 魔法分支。镜像 player→enemy(applyMagicDamage)但有关键差异:
+ *   - magStr = (SHORT)enemy.wMagicStrength + (wLevel+6)*6,clamp >=0(fight.c:4673-4678)
+ *   - PAL_CalcMagicDamage 用**玩家** def = PAL_GetPlayerDefense(global.c:role.defense + Σ装备,
+ *     **无 level 项**;role.defense 已投影含装备)+ 元素抗(`100+mod`)
+ *     + 毒抗(`100+mod`),**wResistanceMultiplier=20**(fight.c:4798/4833;player→enemy 是 1)
+ *   - 除因子 `((fDefending?2:1)*(Protect?2:1)) + (autoDefend?1:0)`(fight.c:4801-4803/4836-4838):
+ *       · autoDefend:先按sleep/paralyzed/confused短路，再掷RandomLong(0,2)。
+ *         AoE在掷骰后检查HP；单体预掷无HP条件。实际扣血循环另跳过死亡队员。
+ *       · Protect status 已按 `slot.status.protect` 参与除因子
+ *   - clamp `if (sDamage>hp) sDamage=hp`(fight.c:4805/4840)——**不钳最小 1**(与 player inline 不同)
+ *   - 跳过已死队员(fight.c:4782)
+ *
+ * caller(performMagic enemy 分支)负责 emit showDamageNum(掉血 → blue)。
+ */
 export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyMagicDamageResult[] {
   const { state, casterEnemyIdx, target, magicData, playerRoles } = input
   const caster = state.enemies[casterEnemyIdx]
@@ -202,7 +204,7 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
   const targetIdxs: number[] = target === 'all' ? state.players.map((_, i) => i) : [target]
 
   // DM6:预掷优先(magic.ts 在 scriptOnUse **之前**掷,fight.c:4723-4757 在 4761 脚本之前)——
-  //   脚本先施加睡眠/麻痹再结算时不剥夺玩家 1/3 减伤资格;无预掷(旧 fixture/直调)回退此处掷。
+  //   脚本先施加睡眠/麻痹再结算时不剥夺玩家 1/3 减伤资格;直接调用未预掷时在此生成同规则结果。
   const autoDefendByPlayerIdx =
     input.preRolledAutoDefend ?? rollAutoDefend(state, playerRoles, target, targetIdxs)
 
@@ -212,17 +214,21 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
     const role = slot ? playerRoles.roles[slot.roleId] : undefined
     if (!slot || !role || role.hp <= 0) continue // 跳过越界 / 已死队员(sdlpal 4782)
 
-    // def = PAL_GetPlayerDefense(global.c:1800-1828)= rgwDefense + Σ装备,**无 level 项**(等级项是敌方被打才有,
-    //   fight.c:4012)。role.defense 已 = base + Σ装备(projectRuntimeToBattleRoles game-state.ts:1281)→ 直接用,
-    //   绝不再加 (level+6)*4(那是 M3 把敌方公式误套玩家的 bug,2026-06-02 审计核源订正)。
-    let def = asShort(role.defense)
+    // def = PAL_GetPlayerDefense(global.c)= rgwDefense + Σ装备,**无 level 项**(等级项是敌方被打才有,
+    //   fight.c:4012)。role.defense 已由 projectRuntimeToBattleRoles 合入 runtime 基础防御 + 装备→ 直接用,
+    //   此处不可再加敌方受击路径才有的(level+6)*4。
+    // C getter returns WORD, not SHORT: 32768..65535 are positive defense.
+    // Outside that integer domain retain the existing TS conversion; no new growth/wrap policy.
+    let def =
+      Number.isInteger(role.defense) && role.defense >= 0 && role.defense <= 0xffff
+        ? role.defense
+        : asShort(role.defense)
     if (def < 0) def = 0 // 兜底(getter 返 WORD 不为负;防投影负值)
 
-    // 玩家元素抗 / 毒抗 = 100 + min(100, mod)(sdlpal 4794/4830 调 PAL_GetPlayer*Resistance,
-    //   global.c:1969-1971 `if (w>100) w=100` 上限 100 → 倍率 10-(100+w)/20 永 >=5,绝不变负伤)。
-    //   **装备抗性加成已含**(D27 W1 核实 2026-06-01):role 来自 projectRuntimeToBattleRoles(game-state.ts:1260-1266),
-    //   其 elemResistance/poisonResistance = clamp100(base + Σ rgEquipmentEffect[].rgwElem/PoisonResistance),
-    //   即已等价 sdlpal PAL_GetPlayerElementalResistance/PoisonResistance(global.c:1937/1900)。此处再叠装备会双计。
+    // 玩家元素抗 / 毒抗使用 100 + min(100, mod)(sdlpal 4794/4830 调 PAL_GetPlayer*Resistance)。
+    //   projectRuntimeToBattleRoles 已把基础抗性 + 装备钳到 [0,100];在此生产域内,
+    //   10-(100+mod)/20 的范围为 [0,5],满抗为0;直接合成的 role 不自动享有该投影前提。
+    //   此处再叠装备会双计;C getter 的 WORD/越界域等价性未由这段公式证明。
     const clampRes = (v: number): number => 100 + Math.min(100, asShort(v))
     const elemRes = {
       wind: clampRes(role.elemResistance.wind),
@@ -235,7 +241,7 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
 
     // L20:敌方法术先判定 autoDefend(fight.c:4723-4757),再进入 PAL_CalcMagicDamage(fight.c:4798/4833)。
     //   RandomFloat(10,11) 在 PAL_CalcMagicDamage 内(fight.c:215),AoE 逐存活队员各掷一次独立倍率。
-    const rngFactor = 1 + state.rng.next() * 0.1 // sdlpal RandomFloat(10,11)/10 ∈ [1.0, 1.1)
+    const rngFactor = 1 + state.rng.next() * 0.1 // TS 半开倍率;formulas 在可表示 WORD 域处理 FLOAT 中间精度
     let dmg = calcMagicDamage({
       magStr,
       def,
@@ -272,7 +278,7 @@ export interface SimulateMagicInput {
    */
   magStr: number
   /**
-   * 显式目标 enemy 索引;undefined → 自动选首活敌
+   * 显式目标 enemy 索引;undefined → 优先上次存活目标，再选首活敌。
    * (对齐 sdlpal `sTarget==-1 → PAL_BattleSelectAutoTargetFrom`)。
    */
   targetIdx: number | undefined
@@ -285,7 +291,7 @@ export interface SimulateMagicInput {
  * 0x66 throw weapon 共用核心**(sdlpal 两个 opcode 都调这一个函数,职责不拆分叉)。
  *
  * 流程:解析 op0 magic object → magic → guard(无符号 `magic.baseDamage>0 || magStr>0`)
- * → 目标(applyToAll flag 优先→全体;否则 targetIdx,undefined→首活敌)→
+ * → 目标(applyToAll 优先；显式目标；上次存活目标；首活敌；全灭保留全槽分支)→
  * applyMagicDamage(minDamage=0,SimulateMagic `if(sDamage<0)=0`)。
  *
  * caller 各自准备参数:
@@ -302,18 +308,7 @@ export function simulateMagic(input: SimulateMagicInput): MagicDamageResult[] {
   // sdlpal `if (lprgMagic[..].wBaseDamage > 0 || wBaseDamage > 0)` —— 无符号 WORD 比较
   if (!(magic.baseDamage > 0 || input.magStr > 0)) return []
 
-  let target: number | 'all'
-  if (objMagic.flags.applyToAll) {
-    target = 'all'
-  } else {
-    let i = input.targetIdx ?? -1
-    if (i < 0) {
-      // PAL_BattleSelectAutoTargetFrom:首个活敌
-      i = input.state.enemies.findIndex((e) => !e.defeated && e.e.health > 0)
-      if (i < 0) i = 0
-    }
-    target = i
-  }
+  const target = resolveSimulatedMagicTarget(input.state, objMagic, input.targetIdx)
 
   return applyMagicDamage({
     state: input.state,

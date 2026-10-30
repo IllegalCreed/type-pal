@@ -1,0 +1,625 @@
+{
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "relatedTask": "GAME-BATTLE-PRESENT-LIFECYCLE-1",
+  "base": "bd37e6d8faa72c16c84e301e80d827439cad0ca7",
+  "branch": "codex/code-quality-3y",
+  "owner": "Codex single agent",
+  "state": "accepted bounded CODE3l window; whole pre94 incomplete",
+  "approval": "2026-10-23 call_4cdcfa14fc0b4101ad44d4f0370bdf12:批准两项修复（推荐）",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/player-condition.ts",
+      "sha256": "1fe5d925ee73dc780de8c8fe156651b952799b6155bf5b8bb1e2668449fdd3d5",
+      "lines": 27,
+      "boundary": "full new leaf",
+      "decision": "accept",
+      "dimensions": {
+        "A": "core/coop两份旧濒死函数正文完全相同，健康谓词参数重排后逐语句相同；hp>0、floor、五状态??0保持，C的零血输入差异明确。",
+        "B": "注释说明TS输入域与C阈值边界，不用行号替代函数身份。",
+        "C": "仅hp/maxHP和五计数输入，无IO或状态写；伤亡音、姿势、菜单、合击真实caller。",
+        "D": "语义/缺省/失败策略完全相同后合并，不将status计时器或canCastMagic<=0合入。",
+        "E": "旧core/coop/UI定向221例基线与当前相邻/真实输入像素回归；正文守恒而非复制算法oracle。",
+        "F": "领域名isPlayerDying/isPlayerHealthy直接表达条件，无模式参数。",
+        "G": "三处重复收敛为一处，两个出口都有生产caller。",
+        "H": "纯确定函数，可用真实typed角色/状态驱动；不注入全局上下文。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/action-availability.ts",
+      "sha256": "6273674ee91e28616a0ea5d9dc3bb6469c611fdf6dad77c6708a15869b1b6ce5",
+      "lines": 38,
+      "boundary": "full new leaf",
+      "decision": "accept",
+      "dimensions": {
+        "A": "完整保持core action switch与缺选中/缺role返回false；输入/绘制共用，未知数字action原返回true保持。",
+        "B": "明确有效队员上下文及CLASSIC规则，primary PAL_BattleUIIsActionValid。",
+        "C": "只读Pick<BattleState,players|selectingPlayerIdx>，规则属core，present仅选择颜色。",
+        "D": "UI副本与core在所有switch分支及健康循环一致；不抽象成万能策略表。",
+        "E": "非身份party[2,0]真实start/tick与像素固定oracle核当前选中失效、live companion血量；既有边界例复用。",
+        "F": "分支对应攻击/法术/合击/杂项；不将业务谓词压成难读表达式。",
+        "G": "去掉渲染镜像；默认分支是保留输入合同，不无证删除。",
+        "H": "无时钟/随机/副作用；通过真实输入与UI入口即可核接线。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "sha256": "c6b0b0d124d3aa62015f0a2cf91afef3136ec647e3d6623bb77a1eee16d51285",
+      "lines": 701,
+      "boundary": "reuse pinned full read plus complete current file/diff",
+      "decision": "accept",
+      "dimensions": {
+        "A": "复用3l-battle-ui primary；CLASSIC选择与已存在WIN95说明区差异明确；对话/逃跑/自动模式早退保持。",
+        "B": "修正选敌图标、hidden、对话保留状态栏、1:1与highlight=false色带错注。",
+        "C": "UI只负责状态层/布局/色带，动作规则经core叶函数读取，无反向依赖battle-system。",
+        "D": "按同输入/状态生命周期提取action predicate；shadow/mono/blit各合同分开。",
+        "E": "21主测+G08/P15/L13分别核门控、有效32法术分页、说明、数字、箭头与颜色；无效超量法术夹具与不必要强转已修正。",
+        "F": "保持state×menu分发，私有全体箭头分支移除后单一目标可直读；大函数进一步拆分暂不能只为行数进行。",
+        "G": "私有规则镜像删除，参数/出口与产品UI保持。",
+        "H": "时间由Date.now spy固定，测试finally/afterEach恢复；帧、字形和状态直接注入，不暴露私有函数。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "03f3c69f1aacda70a1b8ae5a2e35992d8de113d796db3fca301097bd897eff0a",
+      "lines": 462,
+      "boundary": "reuse pinned full read plus complete current file/diff",
+      "decision": "accept",
+      "dimensions": {
+        "A": "真实wrapper/start/finalize五红先于修复；新BattleState清六项缓存，缺state释放，状态菜单暂停保留；输入scene备份在clear前，P14重复fade语义保持。",
+        "B": "更正UI后crossfade错序与宿主尚未清理注释，说明绑定/退出/暂停合同。",
+        "C": "BattlePresent唯一Owner管理frame clear和自身缓存；core仍拥有逻辑、动画和BattleState，未新增save字段。",
+        "D": "reset统一身份切换与退出释放；入场整像素/召唤累积nibble/死亡闭式fade生命周期不同，保持独立。",
+        "E": "正式五像素红、模态暂停绿、默认消息寿命/迟到glyph与P13/P14/P15合用；旧reset原有数字fixture且反控本就单红，不误判弱例。",
+        "F": "draw仍按已核图层顺序编排，复杂度>10是审查线索；独立叶渲染已存在，进一步拆分没有新增ownership收益。",
+        "G": "测试专用clearFloatingNums替换为真实宿主调用的reset；所有缓存都能释放，未加模式开关。",
+        "H": "真实Framebuffer/资源注入，currentFrame显式；实际bootstrap+opcode7观测第一帧64k像素与进战前一致，未冒称自然剧情全流程。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c1cd2ecced440507aace6a5928393e5209c7e3e7c49888dc543322b3475bb6e1",
+      "lines": 3094,
+      "boundary": "bounded current function/caller + complete diff; prior whole-file evidence not reaccepted",
+      "decision": "incremental only; whole file remains prior status",
+      "dimensions": {
+        "A": "菜单输入/伤亡音/姿势调用域直接核；除此不授整文件信用。",
+        "B": "改动注释符合当前caller，历史域不重签。",
+        "C": "从宽模块移出纯规则，无新增状态Owner。",
+        "D": "调用已核叶函数；不共享不同合同。",
+        "E": "对应真实输入/渲染/相邻用例与正文映射；不是包绿即整文件过。",
+        "F": "本次差异命名明确，其余大函数不在本次整文件重审范围。",
+        "G": "删除镜像或搬移清屏，不添兼容fallback/ignore。",
+        "H": "显式入口保持；当前函数无新增不可注入依赖。"
+      }
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/coop-magic.ts",
+      "sha256": "d4c0f59e272a913ee6c4c0251c5c939d34ba5e0d874b45e6f1fcb10408374d45",
+      "lines": 362,
+      "boundary": "bounded current function/caller + complete diff; prior whole-file evidence not reaccepted",
+      "decision": "incremental only; whole file remains prior status",
+      "dimensions": {
+        "A": "合击参与者调用域直接核；除此不授整文件信用。",
+        "B": "改动注释符合当前caller，历史域不重签。",
+        "C": "从宽模块移出纯规则，无新增状态Owner。",
+        "D": "调用已核叶函数；不共享不同合同。",
+        "E": "对应真实输入/渲染/相邻用例与正文映射；不是包绿即整文件过。",
+        "F": "本次差异命名明确，其余大函数不在本次整文件重审范围。",
+        "G": "删除镜像或搬移清屏，不添兼容fallback/ignore。",
+        "H": "显式入口保持；当前函数无新增不可注入依赖。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "e9efd9d7960fd97badc1611610ac600d37abb88a4c0bee5f56135e2b15731b33",
+      "lines": 809,
+      "boundary": "bounded current function/caller + complete diff; prior whole-file evidence not reaccepted",
+      "decision": "incremental only; whole file remains prior status",
+      "dimensions": {
+        "A": "presentBattleFrame宿主域直接核；除此不授整文件信用。",
+        "B": "改动注释符合当前caller，历史域不重签。",
+        "C": "退出与模态暂停分别路由，frame clear归装配器。",
+        "D": "调用已核叶函数；不共享不同合同。",
+        "E": "对应真实输入/渲染/相邻用例与正文映射；不是包绿即整文件过。",
+        "F": "本次差异命名明确，其余大函数不在本次整文件重审范围。",
+        "G": "删除镜像或搬移清屏，不添兼容fallback/ignore。",
+        "H": "显式入口保持；当前函数无新增不可注入依赖。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-present-lifecycle.test.ts",
+      "sha256": "7a4a1df9c0dfcb95ea670e591350de64e29b9178615d0496e5349a7ef6ea1f21",
+      "lines": 197,
+      "boundary": "full test read / prior exact-body evidence plus current diff",
+      "decision": "accept",
+      "dimensions": {
+        "A": "真实start/finalize/wrapper七例：五修前红、模态暂停与缺glyph/default寿命；单测不声称自然剧情可达。",
+        "B": "标题/注释按实际入口，不声称未执行浏览器或像素全覆盖。",
+        "C": "每例独立状态/bus/资源；无共享singleton改写，时间显式或现有afterEach恢复。",
+        "D": "复用已有battle/images夹具，fixture语义不混入生产oracle。",
+        "E": "固定色号/寿命/选择状态作oracle；P13/P14直调与新增wrapper生命周期不同。旧reset去clear反控已单红，保留不退役。",
+        "F": "Arrange/act/assert顺序与实际phase/mode断言可读。",
+        "G": "新增9例仅补明确缺口；旧例无删除，仅1身份重命名与4清屏合同迁移。",
+        "H": "不spy私有字段或调用次数冒充业务；完整原件保留失败与恢复。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/battle-action-availability.test.ts",
+      "sha256": "334aac55f1772f42849ecb8ccbab58c4bfe7d02713bb591826eafaf5fa0ddf5a",
+      "lines": 78,
+      "boundary": "full test read / prior exact-body evidence plus current diff",
+      "decision": "accept",
+      "dimensions": {
+        "A": "两个跨输入/像素合同，用非身份队伍和live角色区分，补齐旧UI直调与core输入分测之间的接线。",
+        "B": "标题/注释按实际入口，不声称未执行浏览器或像素全覆盖。",
+        "C": "每例独立状态/bus/资源；无共享singleton改写，时间显式或现有afterEach恢复。",
+        "D": "复用已有battle/images夹具，fixture语义不混入生产oracle。",
+        "E": "固定色号/寿命/选择状态作oracle；P13/P14直调与新增wrapper生命周期不同。旧reset去clear反控已单红，保留不退役。",
+        "F": "Arrange/act/assert顺序与实际phase/mode断言可读。",
+        "G": "新增9例仅补明确缺口；旧例无删除，仅1身份重命名与4清屏合同迁移。",
+        "H": "不spy私有字段或调用次数冒充业务；完整原件保留失败与恢复。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/present-battle.test.ts",
+      "sha256": "8626460e604289367c54f02b894f6c7983f3b343f4c868fc5053bf4e875cb074",
+      "lines": 631,
+      "boundary": "full test read / prior exact-body evidence plus current diff",
+      "decision": "accept",
+      "dimensions": {
+        "A": "旧20例身份保留，仅reset改名与四个整帧oracle改为frame owner清屏后的零；不从20例数量推断有效。",
+        "B": "标题/注释按实际入口，不声称未执行浏览器或像素全覆盖。",
+        "C": "每例独立状态/bus/资源；无共享singleton改写，时间显式或现有afterEach恢复。",
+        "D": "复用已有battle/images夹具，fixture语义不混入生产oracle。",
+        "E": "固定色号/寿命/选择状态作oracle；P13/P14直调与新增wrapper生命周期不同。旧reset去clear反控已单红，保留不退役。",
+        "F": "Arrange/act/assert顺序与实际phase/mode断言可读。",
+        "G": "新增9例仅补明确缺口；旧例无删除，仅1身份重命名与4清屏合同迁移。",
+        "H": "不spy私有字段或调用次数冒充业务；完整原件保留失败与恢复。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p13-battle-commands.test.ts",
+      "sha256": "531a34f56e4e420758c26cec553a5a707f284c9b9794cd1e0db31c17f4ca263c",
+      "lines": 166,
+      "boundary": "Current full 166-line read; prior context pin is not a whole-file A–H acceptance. Two reset call-site migrations only.",
+      "decision": "incremental only; whole file remains prior pending status",
+      "dimensions": {
+        "A": "本轮全文核两例的命令/绘制/复位调用；仅两个clearFloatingNums→reset标识迁移，余字节不变。旧证据是context，不继承整文件接受。",
+        "B": "坐标/80ms→2帧/遮盖顺序注释与现有断言相符；不借上窗context冒称已完成整文件八维。",
+        "C": "每例新建BattlePresent与fb；本轮方法迁移保持局部ownership，不扩展夹具/状态构造整体信用。",
+        "D": "现有battle/images/world夹具未改；只审调用迁移，不据相同工具导入宣称排重完成。",
+        "E": "两个reset后的实际像素断言继续执行；定向/相邻覆盖当前迁移。其余合法fixture与逐例排重的完整质量验收仍由原pending范围承担。",
+        "F": "迁移名reset对应全呈现状态重置；本轮无新增控制流。",
+        "G": "本文件仍2例，无新增/删除/重命名；除两个方法标识以外body不变。",
+        "H": "既有公共draw/reset像素入口能验证此次接口迁移；未增加私有字段spy，不外推未核设计质量。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/vitest.config.ts",
+      "sha256": "34a27a3287b44e6986ecc51fa51b18511b677bfb9a13890447adf3bd673b2f64",
+      "lines": 8,
+      "boundary": "full new test execution config; supported Vitest4.1.7 local resolveMaxWorkers inspected",
+      "decision": "accept",
+      "dimensions": {
+        "A": "两次默认10worker全包5/10超时；相同83文件510例maxWorkers=2全绿，保留5000ms和相同断言；不宣称修复产品。",
+        "B": "注释说明CLI嵌套进程争用原因，不留忽略/存量豁免。",
+        "C": "执行资源预算仅归本包测试配置；普通check与official coverage共用，不修改其它包。",
+        "D": "使用Vitest已有maxWorkers，不新建锁/跨进程helper或分叉测试runner。",
+        "E": "对照原始失败/成功身份与完整日志；全check后续必须默认入口通过，不能用缩选定向冒充。",
+        "F": "配置仅一个明确数字，无机器/CI分支。",
+        "G": "没有增加exclude、testTimeout、retry、skip或新测试。",
+        "H": "配置可从完整AST和默认真实调用直接核，不增加镜像测试。"
+      }
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "dafb38b53c861aab3b551d6e2c40a7cfe91703f996142239403f011b16a471c1",
+      "lines": 71,
+      "boundary": "full"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "lines": 919,
+      "boundary": "types create/state identity"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+      "lines": 98,
+      "boundary": "resource install/get/clear"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "sha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46",
+      "lines": 32,
+      "boundary": "full"
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "4025164dd238bc88588cef534255dca71d22c187dadde80f4b39756e5a974328",
+      "lines": 92,
+      "boundary": "full prior read reused"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "c3f76f3225aa64c373ca55783dec577a114e09fd663312e0e4f588139d1d693c",
+      "lines": 1956,
+      "boundary": "436,529–541,1204–1260,1553–1612,1643–1745,1752–1765,1942–1948"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "lines": 2078,
+      "boundary": "loadDefaultGame/resetPresentationTransients/resetSceneRuntimeForNewGame; no battle save closure"
+    },
+    {
+      "path": "packages/game/src/core/save/data.ts",
+      "sha256": "3f12a4c005494bc30d3d24b963d8a342bacf888d3762f34c5a196b80d1dae1af",
+      "lines": 95,
+      "boundary": "saved battle/frameNum type; no save-format change"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p14-battle-fades.test.ts",
+      "sha256": "bfcc6b45b229f08d3cc5b824ce4eae1cde092b4c3e4980ef638df5dc93b3e8aa",
+      "lines": 219,
+      "boundary": "full"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "sha256": "a82d686149c924abd845c4ee62f951f7e3e7166f7025cb997b1ddd67aa8136b9",
+      "lines": 478,
+      "boundary": "full prior read reused; specific health axes reread"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/battle.ts",
+      "sha256": "9bc08ab91390f30bc14028b6a3e8005221dea4ef1fb9ab2dbdb625d3a95beccc",
+      "lines": 194,
+      "boundary": "full"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/fixtures/images.ts",
+      "sha256": "c812217641915bd0a39935cf4992757e091770859ecd40ab0aa518e5d8487b2c",
+      "lines": 135,
+      "boundary": "full"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-num.ts",
+      "sha256": "bdde541006d64728bb8606ab7bd9127431ad60bdd258da76f4c91f18ab088d6d",
+      "lines": 71,
+      "boundary": "full"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/digit-frames.ts",
+      "sha256": "8be72033de104a3a86d08a34f0d74b1ef99e9d69daa13b44358e4f7368b2b7fd",
+      "lines": 11,
+      "boundary": "full"
+    }
+  ],
+  "primary": [
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858,
+      "boundary": "685–735 PAL_BattleMain;1754–1783 PAL_StartBattle"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "boundary": "25–80 PAL_IsPlayerDying/PAL_IsPlayerHealthy"
+    },
+    {
+      "path": "reference/sdlpal/uibattle.c",
+      "sha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
+      "lines": 1808,
+      "boundary": "270–344 PAL_BattleUIIsActionValid"
+    },
+    {
+      "path": "reference/sdlpal/video.c",
+      "sha256": "1ccfff8e985db13ab596c852c68c15b290fa33c4ca51415ec10452f8c3a67033",
+      "lines": 1484,
+      "boundary": "1080–1140 VIDEO_SwitchScreen"
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "sha256": "8ae8a766178d7cf33718babe99eba77f3a199086086ffa1c55bf8a79c2830d3f",
+      "lines": 1687,
+      "boundary": "815–840 CLASSIC coop"
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "sha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "lines": 279,
+      "boundary": "150–180 state/fade ownership"
+    }
+  ],
+  "prior": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/review.json",
+    "sha256": "2663f7f3ca840ed762ffb25fc5868410d44af2bcb00b3b2941bea49b002c68b3",
+    "reuse": "14 full reads; 3l previous five accepted sources remain byte-identical. Only UI/core rule ownership and assembly lifecycle reopened. Old source statements checked at base before delta."
+  },
+  "unresolved": [
+    "快速换战的普通剧情自然可达性尚未证明；真实core生命周期与browser脚本入口范围分别登记。",
+    "新游戏/读档允许带旧battleState的其它核心语义不由本窗口接受；新身份仍会隔离呈现，未改save或初始化机制。",
+    "battle-system、coop-magic、present、bootstrap整文件不在本次新增关闭范围。",
+    "P13命令专测旧证据仅context，本次两处reset迁移增量有效；整文件保留隐式pending，不以当前全文浏览补授未完成的夹具/排重质量接受。"
+  ],
+  "gates": {
+    "unified": "passed",
+    "check": {
+      "id": "module-check-bounded",
+      "packageTests": 20572,
+      "toolTests": 700,
+      "rawSha256": "d32a2731ca860e9a4e2cb77f9f5fe096c5bd6e39fd2657aa7141051065e5091d",
+      "lintDiagnostics": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      }
+    },
+    "collection": {
+      "id": "module-ratchet",
+      "tests": 20143,
+      "sources": 777,
+      "exit": 0,
+      "rawSha256": "916dc6c5291a7e6718a5fce28691e17ddc94dd1c07fe8fe778ad02c41f5c1e78",
+      "policy": "original official ratchet passed"
+    },
+    "ratchet": {
+      "id": "module-ratchet"
+    },
+    "protected": {
+      "id": "protected-fast-same-report",
+      "baseRef": "origin/main",
+      "sameReport": true
+    },
+    "directed": {
+      "files": 9,
+      "tests": 255
+    },
+    "adjacent": {
+      "files": 63,
+      "tests": 1148
+    },
+    "typecheck": "all seven packages in pnpm check; separate game tsc also passed",
+    "diagnostics": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "documentation": {
+      "id": "docs-publish"
+    },
+    "lint": {
+      "id": "lint-publish"
+    }
+  },
+  "receipts": null,
+  "reusedPins": [
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+      "sha256": "86e247937a178a7052b7c30ed18fe842ba063b97cfdd27602598de9c2290450e",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "sha256": "3fc14745f59a500b8417db1dd0b7757d3279c54df778c91d0874942bbd295540",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/present/battle/blit-ui-frame.ts",
+      "sha256": "7635925cacad5e9642e34ec9b5e487daf4a67ac7ef8ec03e071ebad4f1b19103",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+      "sha256": "7cd301dd7793d46158b3ff2ce9795c685ce6df42e49d38b07a7f668a69b9dc2e",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+      "sha256": "04ede6eb0d4e913868d4d1f1c211af2495d41cf0598633535af4cbb41d1457bd",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+      "sha256": "b321f904c77031a3cbbb4b9d5e205bfc3024a6b2e8abea256ad6620adf16b8ca",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+      "sha256": "2891953e04cfb5200dad7bafb2985fb63a39fb3dd750a70b62c390027810320e",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts",
+      "sha256": "6dcd3bc9ca16f22c9daae99bf853452bd641ad5ab9dfcde1c6c1b00debc1ef60",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "sha256": "58af32b51be9a025ea5f12607750cb6cbc7e1850a7782e0db2e3d63417616493",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "sha256": "5b63c47a79607ca9100299fbe534fb11657e9972b1423c0fa31fe9b7f494e126",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-positions.ts",
+      "sha256": "d068e5b70e39af41d57672c9ccb7d952184e76de8836865756f714657d3e372d",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-composition/p15-battle-ui.test.ts",
+      "sha256": "bbe237b59ca12224e3a3ae290d0723e543e812b61ef4e6b850737fb3674fb429",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+      "sha256": "15bf29f89525e52bec6686ba17fcdca42cddc1b00dbf2d32a3680c40066aa45d",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "sha256": "c264ebc0964f66eac34e2757da4ee6ec324c7b3c10a3e40173ed3df49e3bc589",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "packages/game/package.json",
+      "sha256": "2cecf398149b696cecab75e9bc169026a49c6e993a729b627b06b5c73b5b5718",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-settlement/read-boundaries.json",
+      "sha256": "907d27ca2466043a459163662a29834280ef610a6777ca02ff5e1ac6e004313e",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "reference/sdlpal/ui.c",
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-sprites/read-boundaries.json",
+      "sha256": "891fc724996382444636245d7134a5a233ba76ee17701c2885ed7e5ad8955b93",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "reference/sdlpal/palcommon.c",
+      "sha256": "919f428112e70c11b8db208e9bba486c8ab056aa4a893a8d4d6bae9b21b9aae6",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-battle-ui/read-boundaries.json",
+      "sha256": "58e07bdf4e4d96146195b9be441a6032adc51a409ee0b327e91bbef2e1e03336",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "reference/sdlpal/magicmenu.c",
+      "sha256": "d3744426d40167d4130aeaa0fac686264df285e44d73cc3648dba56f3645d312",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    },
+    {
+      "path": "reference/sdlpal/itemmenu.c",
+      "sha256": "7026d7875f79a57cf21fd80135d13022ff792698720ef6f56de864d208742a74",
+      "boundary": "same-byte evidence reuse from battle-present-quality; no new closure credit"
+    }
+  ],
+  "quantitativeScreen": {
+    "receipt": "complexity.json",
+    "method": "TS decisions+1, includes short-circuit/nullish; >10 flagged only as read priority",
+    "findings": "isPlayerHealthy/action-availability each12 (fixed predicates plus optional defaults); draw56, fade16, UI25/grid14. Preserve explicit fixed business tests/layer sequencing; do not distort code for metric. Existing wide core functions only incremental review."
+  },
+  "receiptParts": [
+    {
+      "path": "receipts-1.json.gz",
+      "sha256": "752eb7c2dcf116619ec0fde63dec9b0ff807f18dd01387a833efc8cb6e8704bd",
+      "entries": 120,
+      "bytes": 783209
+    },
+    {
+      "path": "receipts-2.json.gz",
+      "sha256": "c9348fd2d6f20df180236b0ca8d2c3cebbb978ffc5ccde328025350ded98697e",
+      "entries": 19,
+      "bytes": 449018
+    },
+    {
+      "path": "receipts-3.json.gz",
+      "sha256": "d588f64b2ab92bd24524a195d2ba7e589a244894a076558dc4d7f8d0155e5cbe",
+      "entries": 1,
+      "bytes": 519407
+    },
+    {
+      "path": "receipts-4.json.gz",
+      "sha256": "c8e92ee6bccaaf874901bb1e687d90e625d9f85d2bb05f19d986f7e718f90722",
+      "entries": 23,
+      "bytes": 820148
+    },
+    {
+      "path": "receipts-5.json.gz",
+      "sha256": "b9c9310a03f95c764d7878c73d5e10569d826a6e35509cbac71f76880ae9ba62",
+      "entries": 4,
+      "bytes": 32325
+    }
+  ],
+  "executionRework": {
+    "diagnosis": "availableParallelism=11; installed Vitest4.1.7 resolveMaxWorkers defaults max(numCpus-1,1)=10. CLI child processes oversubscribe CPU. Only package concurrency capped2.",
+    "failedFullChecks": ["module-check-frozen", "module-check-retry"],
+    "boundedFullPackage": "extract-bounded-diagnosis",
+    "testTimeout": 5000,
+    "sourceAndAssertions": "pal-extract source/test/package files unchanged"
+  },
+  "coverageAnalysis": {
+    "receipt": "game-file-coverage-diff.json within receipts parts",
+    "scope": "Only seven changed production files have changed game file counters; all other game source counters identical to prior accepted window.",
+    "policy": "All four game metric ratios increased. No baseline lowering, exception, scope retirement or new tests added for coverage."
+  },
+  "gateInputs": [
+    {
+      "path": "packages/editor/src/core/author-disk-baseline.pal.test.ts",
+      "sha256": "390de8a8890a7085e35f19f657574ab9b0133cc9d0a1b0d4ecbb4de44d9c6640"
+    },
+    {
+      "path": "packages/pal-extract/vitest.config.ts",
+      "sha256": "34a27a3287b44e6986ecc51fa51b18511b677bfb9a13890447adf3bd673b2f64"
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "8bc85e90639bf707d25d96c3ee36fe84d67eae39596c6aa83454b51c9a1bf684"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "bc6ebb3c6ea74f4fd0301f4a87f0947c351fb46e97d1c0028083310cebc240d0"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "0b4bf2bedb442efbce5e73c7bd398c1c7d0eb2d8e0e22aeb9947b0c98cb08b42"
+    }
+  ],
+  "closedFiles": [
+    "packages/game/src/core/battle/player-condition.ts",
+    "packages/game/src/core/battle/action-availability.ts",
+    "packages/game/src/present/battle/draw-battle-ui.ts",
+    "packages/game/src/present/battle/present-battle.ts",
+    "packages/game/src/present/battle/__tests__/battle-present-lifecycle.test.ts",
+    "packages/game/src/present/battle/__tests__/battle-action-availability.test.ts",
+    "packages/pal-extract/vitest.config.ts"
+  ],
+  "refreshedAcceptedFiles": ["packages/game/src/present/battle/__tests__/present-battle.test.ts"],
+  "ledger": {
+    "total": 3410,
+    "verified": 418,
+    "review": 100,
+    "pending": 2892,
+    "unclosed": 2992
+  },
+  "fixed83": {
+    "accept": 66,
+    "partial": 17,
+    "pending": 0
+  },
+  "next": "Only remaining pre94 partial contracts; CODE3k draw-number and CODE3m/menu owner boundaries are candidates after fresh owner/main check. No94–102.",
+  "integration": "Local gates accepted; branch commit/push/protected PR and remote full logs pending, tracked by subsequent Git receipt.",
+  "gateReceiptParts": [
+    {
+      "path": "gates-1.json.gz",
+      "sha256": "d83dd8277391857c61f9e1868f31d7d38837545162e8555816e667a3d663e305",
+      "entries": 24,
+      "bytes": 384128
+    }
+  ]
+}

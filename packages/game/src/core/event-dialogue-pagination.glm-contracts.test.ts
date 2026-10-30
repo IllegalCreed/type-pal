@@ -17,7 +17,7 @@
 
 import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
 import { describe, expect, test } from 'vitest'
-import { createCommandBus } from './command-bus.js'
+
 import { buildLabelMap, tickEventSystem } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
 
@@ -40,7 +40,7 @@ function step(gs: GameState, pressed: AbstractKey[] = []): void {
     pressed: new Set(pressed),
     frameNum: Math.floor(gs.nowMs / 100),
   }
-  tickEventSystem(gs, input, createCommandBus())
+  tickEventSystem(gs, input)
 }
 
 function dialogLines(

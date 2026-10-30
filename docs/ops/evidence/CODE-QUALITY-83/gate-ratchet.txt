@@ -1,0 +1,15 @@
+CODE-QUALITY-83 official coverage ratchet
+command: pnpm coverage:ratchet
+exit_code: 0
+
+Fast scope: 731 source files / 19855 tests.
+- shared: 96.14% statements, 93.58% branches, 100.00% functions, 97.09% lines; 11 files / 131 tests
+- content: 96.43%, 94.11%, 98.07%, 97.35%; 56 / 1498
+- pal-extract: 69.56%, 78.86%, 79.71%, 69.52%; 38 / 280
+- migrate: 90.47%, 90.77%, 93.90%, 90.78%; 38 / 671
+- reforge: 90.01%, 82.52%, 90.04%, 92.30%; 158 / 8964
+- game: 88.47%, 79.60%, 83.51%, 90.11%; 136 / 3522
+- editor: 90.21%, 83.49%, 89.69%, 92.38%; 294 / 4789
+- total: 89.93% statements (70837/78771), 83.65% branches (51539/61610), 89.50% functions (13415/14989), 91.81% lines (63295/68938)
+
+Ratchet accepted the unchanged baseline; no threshold or exclusion was weakened.

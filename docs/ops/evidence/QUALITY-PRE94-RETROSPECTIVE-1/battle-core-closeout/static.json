@@ -1,0 +1,308 @@
+{
+  "state": "Actual scoped publication gates passed, not final unified integration",
+  "runs": [
+    {
+      "id": "docs-final",
+      "command": "node",
+      "args": ["scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:57:21.835Z",
+      "end": "2026-10-24T10:57:23.646Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "d7ba0b3b9e69897d0f13e39a399cc6e5f02a2796",
+      "observerTimeout": false,
+      "stdoutBytes": 93,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "docs-final.execution.json",
+          "sha256": "d3784fff6fe76423eeae1b7d1dedfb964744cf765f11070a8f811816bc17f5d9"
+        },
+        "stdout.raw": {
+          "member": "docs-final.stdout.raw",
+          "sha256": "00cab35d9302069248ef2fc92d60bf2bbbc4f161ccff5b23f920b97944386a74"
+        },
+        "stderr.raw": {
+          "member": "docs-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "model-final",
+      "command": "node",
+      "args": ["scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:57:21.831Z",
+      "end": "2026-10-24T10:57:24.555Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "d7ba0b3b9e69897d0f13e39a399cc6e5f02a2796",
+      "observerTimeout": false,
+      "stdoutBytes": 79,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "model-final.execution.json",
+          "sha256": "40cc7c1dc099e553944376bebf4b3b83ef6dff11f37eef68cfcc4f7af33e0ddc"
+        },
+        "stdout.raw": {
+          "member": "model-final.stdout.raw",
+          "sha256": "ffc94083fd593e60e88a4f322ba62257d6625eb40729e176e1de8faf7db3594b"
+        },
+        "stderr.raw": {
+          "member": "model-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "testing-final",
+      "command": "node",
+      "args": ["scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:57:21.853Z",
+      "end": "2026-10-24T10:57:22.102Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "d7ba0b3b9e69897d0f13e39a399cc6e5f02a2796",
+      "observerTimeout": false,
+      "stdoutBytes": 30,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "testing-final.execution.json",
+          "sha256": "724c75fd6981c237ce1577111ec4e33b7e08db512ccf85f354707cc1181664b6"
+        },
+        "stdout.raw": {
+          "member": "testing-final.stdout.raw",
+          "sha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c"
+        },
+        "stderr.raw": {
+          "member": "testing-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "phase-final",
+      "command": "node",
+      "args": ["scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:57:21.847Z",
+      "end": "2026-10-24T10:57:21.994Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "d7ba0b3b9e69897d0f13e39a399cc6e5f02a2796",
+      "observerTimeout": false,
+      "stdoutBytes": 44,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "phase-final.execution.json",
+          "sha256": "37e95ec0851214105c918c3c393e5af173ad8e07b178cfe03da9b3cd2d359193"
+        },
+        "stdout.raw": {
+          "member": "phase-final.stdout.raw",
+          "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c"
+        },
+        "stderr.raw": {
+          "member": "phase-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "content-final",
+      "command": "node",
+      "args": ["scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:57:21.837Z",
+      "end": "2026-10-24T10:57:22.896Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "d7ba0b3b9e69897d0f13e39a399cc6e5f02a2796",
+      "observerTimeout": false,
+      "stdoutBytes": 65,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "content-final.execution.json",
+          "sha256": "54a3350fee5ed8b86e22b71ac73fe706b7346b63dcfb7e342ed445000e554436"
+        },
+        "stdout.raw": {
+          "member": "content-final.stdout.raw",
+          "sha256": "3b0b15882a95d042815fa3dcb89b8a9fee95d0b962e3624081c56d62e567efad"
+        },
+        "stderr.raw": {
+          "member": "content-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "progress-final",
+      "command": "node",
+      "args": ["scripts/docs/report-governance-progress.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:57:21.844Z",
+      "end": "2026-10-24T10:57:26.478Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "d7ba0b3b9e69897d0f13e39a399cc6e5f02a2796",
+      "observerTimeout": false,
+      "stdoutBytes": 158,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "progress-final.execution.json",
+          "sha256": "116fc62321dd6646402671cc81a373118ef7d34cf8760e4a82c57a947d92db79"
+        },
+        "stdout.raw": {
+          "member": "progress-final.stdout.raw",
+          "sha256": "48c851f6010e907fee94c1c9618d3562ad8e17806f283e83ee7b5f469e782dcc"
+        },
+        "stderr.raw": {
+          "member": "progress-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "lint-final",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:57:21.820Z",
+      "end": "2026-10-24T10:57:25.404Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "d7ba0b3b9e69897d0f13e39a399cc6e5f02a2796",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "lint-final.execution.json",
+          "sha256": "315a5936edf25684ea75640e96dfccdbce8efd51a09fb4bff8b413aac56b0420"
+        },
+        "stdout.raw": {
+          "member": "lint-final.stdout.raw",
+          "sha256": "cba85adf333d8aebcb503b2b54dadd65229894769c0d047009be9425acaaf02f"
+        },
+        "stderr.raw": {
+          "member": "lint-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "ledger-final",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:57:21.845Z",
+      "end": "2026-10-24T10:57:24.299Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "d7ba0b3b9e69897d0f13e39a399cc6e5f02a2796",
+      "observerTimeout": false,
+      "stdoutBytes": 112,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "ledger-final.execution.json",
+          "sha256": "d3c250d4abb470d75432adfbd2183540af420a8849dd3bf7e3e649ef7fdf3609"
+        },
+        "stdout.raw": {
+          "member": "ledger-final.stdout.raw",
+          "sha256": "402a4eab8db5e5b902b7849466ac89092eb8ea399d47623fdbb580157137c173"
+        },
+        "stderr.raw": {
+          "member": "ledger-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "diff-final",
+      "command": "git",
+      "args": ["diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:57:21.834Z",
+      "end": "2026-10-24T10:57:21.966Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "d7ba0b3b9e69897d0f13e39a399cc6e5f02a2796",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "diff-final.execution.json",
+          "sha256": "90d982c92aadc23b7da54baf646d28bfd87b5fdc9c97c5795363a20ddf4a90fd"
+        },
+        "stdout.raw": {
+          "member": "diff-final.stdout.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr.raw": {
+          "member": "diff-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "id": "verify-final",
+      "command": "node",
+      "args": ["docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/verify.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-24T10:57:21.848Z",
+      "end": "2026-10-24T10:57:22.333Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "d7ba0b3b9e69897d0f13e39a399cc6e5f02a2796",
+      "observerTimeout": false,
+      "stdoutBytes": 318,
+      "stderrBytes": 0,
+      "raw": {
+        "execution.json": {
+          "member": "verify-final.execution.json",
+          "sha256": "0d6a26ae15a92a800d2b0ee306e4799b1271e70a7ba50e4dedd434d57ef910a4"
+        },
+        "stdout.raw": {
+          "member": "verify-final.stdout.raw",
+          "sha256": "d28fc016e0a4c19093e8c74dad87d494cdf875e047d342b5a94c24dad437f966"
+        },
+        "stderr.raw": {
+          "member": "verify-final.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    }
+  ],
+  "lint": {
+    "files": 6029,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0
+  },
+  "documentConsumers": 6,
+  "toolUnitTests": "Unchanged125 docs tool tests inherited;did not rerun wrapper. Actual six consumers run directly. Progress zero integrity is not all-document acceptance.",
+  "archive": {
+    "path": "static.json.gz",
+    "sha256": "3d1173b697c377aeed1e37caa8a20b7fb3e8b242fd7d18aba0488f9709b64d27"
+  },
+  "limits": "No fullcheck,official coverage,protected,PR or main merge. Two product questions remain pending. No tests/source changed after recorded core86+state14; comments/runtime proof bridges the later commit."
+}

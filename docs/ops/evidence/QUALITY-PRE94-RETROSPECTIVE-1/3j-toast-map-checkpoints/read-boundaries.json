@@ -1,0 +1,83 @@
+{
+  "base": "cfed1430e",
+  "fullReads": [
+    {
+      "path": "packages/game/src/tools/toast.ts",
+      "sha256": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa",
+      "lines": 81,
+      "boundary": "Full implementation/timer ownership read; no production change."
+    },
+    {
+      "path": "packages/game/src/tools/toast.test.ts",
+      "sha256": "1869a14855339f6d97921c499ad0e8e56d2c7bb5052989f15b74561acc685945",
+      "lines": 39,
+      "boundary": "Full fake-timer/DOM isolation contract read."
+    },
+    {
+      "path": "packages/game/src/tools/map-names.ts",
+      "sha256": "37c7ecb64221449ab0cf465e43511789af9698024d3a4aebb2c72a66908bda29",
+      "lines": 11,
+      "boundary": "Full shared-authored-name adapter read."
+    },
+    {
+      "path": "packages/game/src/tools/map-names.test.ts",
+      "sha256": "838f084978bf66af951022f127484014592d073d34018ab9dfb6bf3df3c8947c",
+      "lines": 21,
+      "boundary": "Full known/fallback/presence contract read."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.ts",
+      "sha256": "1b299e0b42266c762c792254892f122a6d1318e70fc9c0383fd34f2ebec79378",
+      "lines": 110,
+      "boundary": "Full checkpoint/BANANA definition read; coordinates remain runtime-unknown."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.test.ts",
+      "sha256": "0263a636b91dbc058e95bc44a8dc7c7fe06be1f78fbd697633c677f37c75c706",
+      "lines": 27,
+      "boundary": "Full static shape/monotonic/BANANA contract read."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.ts",
+      "sha256": "781e9ef535ee7603c84a601116e4ebe6bc367bc2ad5804a82a9a15ad8cef57f5",
+      "lines": 76,
+      "boundary": "Full detector caller/oracle read."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.test.ts",
+      "sha256": "87073fbf0d3748fb909628007c510bc1583fc7bc803f34f83e5b036b5e5dfbcc",
+      "lines": 77,
+      "boundary": "Full detector contract read."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "sha256": "97927e4db3f2805e22592fff7f020209b30ca46bd6de478b51a2b3147315e55d",
+      "lines": 65,
+      "boundary": "Full detector leaf/negative-contract read."
+    },
+    {
+      "path": "packages/shared/src/pal-authored-map-names.ts",
+      "sha256": "69d57d63ed58dda873776b48878f05f3578e80d3be667e521131065a3293547a",
+      "lines": 240,
+      "boundary": "Full authored name table read; no data change."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "ranges": ["1-260", "600-640", "820-930"],
+      "boundary": "Imports, display/FPS buttons and timer/map callers only; whole panel remains outside this slice."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "lines": 58,
+      "boundary": "Full adjacent persistence read; checkpoint defaults and best-time ownership only."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3j acceptance",
+    "Real browser/E2E speedrun route or checkpoint coordinate verification",
+    "Whole tools-panel semantic review",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "scope": "Final hard static gates only; no full runtime/official/protected gate claim",
+  "gates": [
+    {
+      "id": "published-docs"
+    },
+    {
+      "id": "final-static-document-model"
+    },
+    {
+      "id": "final-static-testing"
+    },
+    {
+      "id": "final-static-phase-lore"
+    },
+    {
+      "id": "final-static-content"
+    },
+    {
+      "id": "final-static-progress"
+    },
+    {
+      "id": "published-lint"
+    },
+    {
+      "id": "final-static-ledger"
+    },
+    {
+      "id": "final-static-diff"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "sha256": "36bee50fc27390982e8a736f6d435c28caec5d69cc0ed321031aca96cabe7b10"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "sha256": "738dcfb54418771396f5ab1a0671945fde85797287c5e99230a31611c9349645"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+      "sha256": "7354e89b6abf580d77b44b2e15f7a73367ec0fb8b43302bda549a9b06e25b465"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+      "sha256": "3e626b301ec84a01af9369aee7a6f0a9b33137b75809b178a5e52aa6a2d68df7"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md",
+      "sha256": "d9f9a96804edefeb5b62e8cc0b4a15bf42c01dc1c0c9718005503444a3cde69d"
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-53-player-status-runtime-zero.md",
+      "sha256": "be6537246013ae20c43e431d30d5903ea1fd839924ed8b15aed0f5083dd8903b"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+      "sha256": "5c2faa2207bcc7305ceb4f1228eca12819f2b951a0f01def1f867007280757c5"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "sha256": "3c2ee6c7807608115ebf2637f903c25cbe63bbccaf7d6f6a44a037ffe2863bf7"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "sha256": "ff65dc45a1559d74d727dd15e41e1ccd2110c8177c530bfefda2616d3a2190e7"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "sha256": "cdbd6e0a2d82772023d64b0e7060d7fc524b3ea59b7bf958e0a5649b5578d82a"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "sha256": "d13b1d413e83b420f6afbaccbe0e5912686e384e35cbd739aaa080964df04c9b"
+    },
+    {
+      "path": "packages/game/src/core/event-opcodes.cov85.test.ts",
+      "sha256": "7e2f44a1f10d5e342c0e8928167e4c68c8e90dcbe1f8094068178fec2cc38998"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "d932f74bccc20ba659913b2c59c1ac57a4287155c1a2d4ca4c13d5a5e34c7fe9"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/README.md",
+      "sha256": "9c178700519e8baf56b6569d3169372d3ea60be1f1393220abf8a98f1a9aa38b"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/review.json",
+      "sha256": "83c1fa1768f38f3e776bd11cae24095b50a6f7b8078966cbf877ec45e008cd21"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/verify.mjs",
+      "sha256": "eee06f5b963328007941914737c973c7591ce52de857a19b68fa253a0cb8f79b"
+    }
+  ],
+  "archive": {
+    "path": "static-receipts.json.gz",
+    "sha256": "eccf3e0dc982a5302c708d534904c476cb2975483118c4113ec5498aa79dd969",
+    "members": 60
+  },
+  "process": "All earlier raw failures retained. final-static-lint failed only on the temporary static.json attachment format; formatted that one file, published-lint0/0/0 and docs0 followed. This manifest/archive generated afterwards and checked with scoped Biome; no product/source changes after final regression."
+}

@@ -1,0 +1,105 @@
+{
+  "base": "c3d943ddeba9c05d01a752c0c22f8d3e78d724a8",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/battle/turn-queue.ts",
+      "sha256": "fcbc4b47824056f30f3720900b33edba22827666d80059eb96637431d43de6d4",
+      "lines": 126,
+      "scope": "Full current text read plus own delta. Not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
+      "sha256": "6669df01e6c8a0a5b0524823bacb3a3005cf3385ef9ada8e27d2f7b6f10d12ba",
+      "lines": 117,
+      "scope": "Full current text read plus own delta. Not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+      "sha256": "eaf433ac4273e320b899ead0e1d5d686b68256bbfba5bff590ef5463ba65735d",
+      "lines": 176,
+      "scope": "Full current text read plus own delta. Not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "41bc231d86581da71cea2224ad2b66831cd9b0dd1b8b75bb4f2c84c71eed739e",
+      "lines": 222,
+      "scope": "Full current text read plus own delta. Not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "d9075c4dcad02f11f4dceaa6bd044706e543f33f08963de64c391105489a4a95",
+      "lines": 98,
+      "scope": "Full current text read plus own delta. Not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "a1b685dd3851cdda39012481c7dd0ddda1cffa5761c15a82a045060e56b9fd4c",
+      "lines": 51,
+      "scope": "Full current text read plus own delta. Not whole-file acceptance."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "ranges": [[287, 334], [1440, 1630]],
+      "scope": "Only these caller/type/primary/lifecycle ranges; large unmodified sources not reaccepted."
+    },
+    {
+      "path": "reference/sdlpal/battle.h",
+      "sha256": "3234d15bfcb91e9ce1e8c5ddba56d57bed7150d743a1119af6b05a185a310284",
+      "ranges": [[148, 170]],
+      "scope": "Only these caller/type/primary/lifecycle ranges; large unmodified sources not reaccepted."
+    },
+    {
+      "path": "reference/sdlpal/palcommon.h",
+      "sha256": "92ca376598778230c7433449ede5e597cc23ef91ea246b2720b10da045ff86ba",
+      "ranges": [[42, 42], [60, 60]],
+      "scope": "Only these caller/type/primary/lifecycle ranges; large unmodified sources not reaccepted."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+      "ranges": [[123, 165], [208, 368], [392, 535], [540, 556], [637, 770], [2430, 2515]],
+      "scope": "Only these caller/type/primary/lifecycle ranges; large unmodified sources not reaccepted."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "ac0b7567b9cc93f0713debc36d37d40cf0fde926e71891b1c77c35b4bf542cca",
+      "ranges": [[730, 918]],
+      "scope": "Read from730 through actual EOF918; original requested sed end945 exceeded EOF and has no reading credit beyond918. Current hash unchanged; not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "fdfe520283d6975bd93573f153ee51f620c3ec424433b2672ff447ba20a2831b",
+      "ranges": [[1390, 1453]],
+      "scope": "Only these caller/type/primary/lifecycle ranges; large unmodified sources not reaccepted."
+    },
+    {
+      "path": "packages/game/src/core/battle/formulas.ts",
+      "sha256": "fa5d007e9131d344f2e7f90c10e7b67afe7ae42fe2478398adc8f6ffd6259ce8",
+      "ranges": [[1, 50], [145, 215]],
+      "scope": "Only these caller/type/primary/lifecycle ranges; large unmodified sources not reaccepted."
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "c6e4f9cea1f009d74b292198bb706b25f98d5e4de6b651a3d6be99ad4f514a7a",
+      "ranges": [[280, 310]],
+      "scope": "Only these caller/type/primary/lifecycle ranges; large unmodified sources not reaccepted."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+      "sha256": "c1ae5dbf2fbd93074fddde52d5f0b8980bae77d292cb311363313bf48e4203ba",
+      "ranges": [[180, 275]],
+      "scope": "Only these caller/type/primary/lifecycle ranges; large unmodified sources not reaccepted."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+      "sha256": "62a5f3757bfbf1b3f0427c258bdf1f1233d09a154d6c256b1c687b9edd343cec",
+      "ranges": [[1, 123]],
+      "scope": "Only these caller/type/primary/lifecycle ranges; large unmodified sources not reaccepted."
+    }
+  ],
+  "legalDomain": "<=3 players/5 enemies, WORD dex; actual caller regression ordinary seed5. High WORD boundary uses enemy inputs, not unreachable player speed. Not original-asset gameplay evidence.",
+  "newClosed": 0
+}

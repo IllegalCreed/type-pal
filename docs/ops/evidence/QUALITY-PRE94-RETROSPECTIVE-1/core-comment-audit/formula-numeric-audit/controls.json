@@ -1,0 +1,736 @@
+{
+  "base": "8dabfd49976f818364d451635f155af08a41b9a9",
+  "owner": "Codex single agent",
+  "scope": "Each mutant runs one whole unfiltered old/current file. This is source mutation discrimination, not native game or UI acceptance.",
+  "controls": [
+    {
+      "id": "water-fire-resistance-swap",
+      "source": "packages/game/src/core/battle/formulas.ts",
+      "spec": "packages/game/src/core/battle/__tests__/formulas.test.ts",
+      "sourceSha256": "69595552a0230603b53e6e2b1a7800b31f98db9c793fc7d5d548fb9ff3f9a549",
+      "mutantSha256": "43a1f3db37c3f127b3d6f34c5c5e922c6a6c13cc9f8b877f9aaca3faa2000aef",
+      "expectedNewFailureNameContains": "elem 1-5 对应",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/__tests__/formulas.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-controls-bvzfqgaf/water-fire-resistance-swap.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:40:29.895300+00:00",
+          "completedAt": "2026-10-17T21:40:30.870831+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "water-fire-resistance-swap.old.raw.gz",
+          "rawBytes": 4321,
+          "rawSha256": "79b8ccc40e9f150d59b8b4e27af9e1c3facd0868fc648fde07da40e49d8bd20e",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "6c30875bcb6085e95c81d29040e934ec71e51a7290206b9311007a732408a14a",
+          "nativeReport": "water-fire-resistance-swap.old.vitest.json.gz",
+          "passed": 28,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk > def → trunc(atk*2 - def*1.6 + 0.5)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk > def*0.6 但 atk <= def → trunc(atk - def*0.6 + 0.5)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk <= def*0.6 → 0",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk == def → 走中间分支(50 - 30 + 0.5 = 20.5 → 20)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) SHORT cast 行为(大值溢出有限数,不抛)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist=1 时 = baseDamage",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist > 1 时 = baseDamage / resist (整数除)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist = 0 时不除(防 div by zero)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) base 为 0 时 resist 不影响 → 0",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 非元素 (elemental=0) → base/4 + magicBase",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 元素=wind (1), 无 resistance, 无 field → base * 2 (10/5)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 高 elemental resistance (50) → 低伤害",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 满 elemental resistance (100) → 免疫,damage = 0",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) poison (elemental=6, > NUM_MAGIC_ELEMENTAL) → 用 poisonRes",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) field bonus 加 (+10) → damage * 2 (20/10)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) rngFactor 1.1 ≥ 1.0 (放大 magStr → 不减伤)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) elem 1-5 对应 wind/thunder/water/fire/earth 索引",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) 公式 (level + 6) * 3 + (SHORT)dexterity",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) signed dexterity 负数",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) SHORT cast 65535 → -1",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) level 0 → (0 + 6) * 3 = 18",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) M3 不实现 non-classic lowerbound 20 (level=0,dex=-19 = -1,不夹到 20)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) 无 status → 原值",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) haste → *3 (PAL_CLASSIC 路径)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) haste 后超 999 → 上限 999",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) 刚好 999 不夹",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) M3 不实现 slow modifier (non-classic 分支)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) baseDexterity 0 → 0",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "69595552a0230603b53e6e2b1a7800b31f98db9c793fc7d5d548fb9ff3f9a549",
+          "specRestoredSha256": "ca28c48de869a35bde89b9bed43eee3c1b49d6d8c200ed16fafc27b64332bd1c",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/__tests__/formulas.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-controls-bvzfqgaf/water-fire-resistance-swap.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:40:30.871334+00:00",
+          "completedAt": "2026-10-17T21:40:31.699881+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "water-fire-resistance-swap.current.raw.gz",
+          "rawBytes": 5724,
+          "rawSha256": "46f2284d41a5747e6e638a4a5a3ae54dd0a4e6fda8317064fe1c284878babe84",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "ca28c48de869a35bde89b9bed43eee3c1b49d6d8c200ed16fafc27b64332bd1c",
+          "nativeReport": "water-fire-resistance-swap.current.vitest.json.gz",
+          "passed": 27,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk > def → trunc(atk*2 - def*1.6 + 0.5)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk > def*0.6 但 atk <= def → trunc(atk - def*0.6 + 0.5)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk <= def*0.6 → 0",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk == def → 走中间分支(50 - 30 + 0.5 = 20.5 → 20)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) 当前 TS 截取16位:65535输入得到-2,不声称C越界浮点转换等价",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist=1 时 = baseDamage",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist > 1 时 = baseDamage / resist (整数除)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist = 0 时不除(防 div by zero)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) base 为 0 时 resist 不影响 → 0",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 非元素 (elemental=0) → base/4 + magicBase",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 元素=wind (1), 无 resistance, 无 field → base * 2 (10/5)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 敌方 elemental resistance=5,生产除数1 → 伤害80",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 敌方 elemental resistance=10,生产除数1 → 免疫",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) poison (elemental=6, > NUM_MAGIC_ELEMENTAL) → 用 poisonRes",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) field bonus 加 (+10) → damage * 2 (20/10)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) caller可达倍率1.05与1.0分别得到52与50",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) elem 1-5 对应 wind/thunder/water/fire/earth 索引",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) 公式 (level + 6) * 3 + (SHORT)dexterity",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) signed dexterity 负数",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) SHORT cast 65535 → -1",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) level 0 → (0 + 6) * 3 = 18",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) M3 不实现 non-classic lowerbound 20 (level=0,dex=-19 = -1,不夹到 20)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) 无 status → 原值",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) haste → *3 (PAL_CLASSIC 路径)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) haste 后超 999 → 上限 999",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) 刚好 999 不夹",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) M3 不实现 slow modifier (non-classic 分支)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) baseDexterity 0 → 0",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ 160, 128, 64, 96, 32 ] to deeply equal [ 160, 128, 96, 64, 32 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts:203:70\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "69595552a0230603b53e6e2b1a7800b31f98db9c793fc7d5d548fb9ff3f9a549",
+          "specRestoredSha256": "ca28c48de869a35bde89b9bed43eee3c1b49d6d8c200ed16fafc27b64332bd1c",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "poison-resistance-ignored",
+      "source": "packages/game/src/core/battle/formulas.ts",
+      "spec": "packages/game/src/core/battle/__tests__/formulas.test.ts",
+      "sourceSha256": "69595552a0230603b53e6e2b1a7800b31f98db9c793fc7d5d548fb9ff3f9a549",
+      "mutantSha256": "69fbcbfa8bba6f6db0fdde50a4ed6c790c7a1c4819ab0c34355a15fdba23e7de",
+      "expectedNewFailureNameContains": "poison (elemental=6",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/__tests__/formulas.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-controls-bvzfqgaf/poison-resistance-ignored.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:40:31.700766+00:00",
+          "completedAt": "2026-10-17T21:40:32.537259+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "poison-resistance-ignored.old.raw.gz",
+          "rawBytes": 4320,
+          "rawSha256": "174aff7e000dfe1858bd24787880948cd7c20136f6d8ae337cba1479027c0c74",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "6c30875bcb6085e95c81d29040e934ec71e51a7290206b9311007a732408a14a",
+          "nativeReport": "poison-resistance-ignored.old.vitest.json.gz",
+          "passed": 28,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk > def → trunc(atk*2 - def*1.6 + 0.5)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk > def*0.6 但 atk <= def → trunc(atk - def*0.6 + 0.5)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk <= def*0.6 → 0",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk == def → 走中间分支(50 - 30 + 0.5 = 20.5 → 20)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) SHORT cast 行为(大值溢出有限数,不抛)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist=1 时 = baseDamage",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist > 1 时 = baseDamage / resist (整数除)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist = 0 时不除(防 div by zero)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) base 为 0 时 resist 不影响 → 0",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 非元素 (elemental=0) → base/4 + magicBase",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 元素=wind (1), 无 resistance, 无 field → base * 2 (10/5)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 高 elemental resistance (50) → 低伤害",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 满 elemental resistance (100) → 免疫,damage = 0",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) poison (elemental=6, > NUM_MAGIC_ELEMENTAL) → 用 poisonRes",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) field bonus 加 (+10) → damage * 2 (20/10)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) rngFactor 1.1 ≥ 1.0 (放大 magStr → 不减伤)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) elem 1-5 对应 wind/thunder/water/fire/earth 索引",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) 公式 (level + 6) * 3 + (SHORT)dexterity",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) signed dexterity 负数",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) SHORT cast 65535 → -1",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) level 0 → (0 + 6) * 3 = 18",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) M3 不实现 non-classic lowerbound 20 (level=0,dex=-19 = -1,不夹到 20)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) 无 status → 原值",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) haste → *3 (PAL_CLASSIC 路径)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) haste 后超 999 → 上限 999",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) 刚好 999 不夹",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) M3 不实现 slow modifier (non-classic 分支)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) baseDexterity 0 → 0",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "69595552a0230603b53e6e2b1a7800b31f98db9c793fc7d5d548fb9ff3f9a549",
+          "specRestoredSha256": "ca28c48de869a35bde89b9bed43eee3c1b49d6d8c200ed16fafc27b64332bd1c",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/__tests__/formulas.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-controls-bvzfqgaf/poison-resistance-ignored.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:40:32.538469+00:00",
+          "completedAt": "2026-10-17T21:40:33.328844+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "poison-resistance-ignored.current.raw.gz",
+          "rawBytes": 5398,
+          "rawSha256": "f0aa9ef8e80297f7abe3c9f985e7f97e855297743ef4e69a003a9f1ba019c715",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "ca28c48de869a35bde89b9bed43eee3c1b49d6d8c200ed16fafc27b64332bd1c",
+          "nativeReport": "poison-resistance-ignored.current.vitest.json.gz",
+          "passed": 27,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk > def → trunc(atk*2 - def*1.6 + 0.5)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk > def*0.6 但 atk <= def → trunc(atk - def*0.6 + 0.5)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk <= def*0.6 → 0",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) atk == def → 走中间分支(50 - 30 + 0.5 = 20.5 → 20)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcBaseDamage (fight.c:131-171) 当前 TS 截取16位:65535输入得到-2,不声称C越界浮点转换等价",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist=1 时 = baseDamage",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist > 1 时 = baseDamage / resist (整数除)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist = 0 时不除(防 div by zero)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcPhysicalAttackDamage (fight.c:253-285) base 为 0 时 resist 不影响 → 0",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 非元素 (elemental=0) → base/4 + magicBase",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 元素=wind (1), 无 resistance, 无 field → base * 2 (10/5)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 敌方 elemental resistance=5,生产除数1 → 伤害80",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) 敌方 elemental resistance=10,生产除数1 → 免疫",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) poison (elemental=6, > NUM_MAGIC_ELEMENTAL) → 用 poisonRes",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) field bonus 加 (+10) → damage * 2 (20/10)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) caller可达倍率1.05与1.0分别得到52与50",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "calcMagicDamage (fight.c:174-249) elem 1-5 对应 wind/thunder/water/fire/earth 索引",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) 公式 (level + 6) * 3 + (SHORT)dexterity",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) signed dexterity 负数",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) SHORT cast 65535 → -1",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) level 0 → (0 + 6) * 3 = 18",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) M3 不实现 non-classic lowerbound 20 (level=0,dex=-19 = -1,不夹到 20)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) 无 status → 原值",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) haste → *3 (PAL_CLASSIC 路径)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) haste 后超 999 → 上限 999",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) 刚好 999 不夹",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) M3 不实现 slow modifier (non-classic 分支)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts",
+              "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) baseDexterity 0 → 0",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected 160 to be 80 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/formulas.test.ts:143:20\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "69595552a0230603b53e6e2b1a7800b31f98db9c793fc7d5d548fb9ff3f9a549",
+          "specRestoredSha256": "ca28c48de869a35bde89b9bed43eee3c1b49d6d8c200ed16fafc27b64332bd1c",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-formula-controls-bvzfqgaf",
+  "tempDirectoryRemoved": true,
+  "restored": true
+}

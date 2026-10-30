@@ -1,0 +1,1210 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "owner": "Codex, single agent; no third-party signoff",
+  "base": "56a4fa2a389ccfce074d7b7c03fb9553296928ac",
+  "candidate": "17c3b390eaa433eafe7877bd6f3a58c47465cb01",
+  "scope": "CODE42 responsibility split and test-quality repair; seven named file scopes accepted, state source and whole card review due concrete nondefault-title speed defect. Not fullpre94 or integration acceptance.",
+  "files": [
+    {
+      "author": "Codex; prior GLM full reading reused at explicit version bounds",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+        "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123",
+        "entry": "packages/game/src/present/dialog-box.ts"
+      },
+      "readScope": "Previous full960line source/main761/GLM96/chrome237/pixels170 read; current moved bodies and complete scoped changes reviewed. Current source module boundaries and typed fixture read in full.",
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "56c21ea55fa5c1da541dd6b9564be34bcd81b145c948cd7e8b312099831b5fe1",
+      "lines": 357,
+      "decision": "review",
+      "dimensions": {
+        "A": "State progression bodies preserved by frozen split and comment-only proof. Event now and battle100ms tick paths retained. Real event speed→style→name→body probe exposes14→3 reset; no user answer received and no behavior fix.",
+        "B": "Removed test-only clock claim, stale universal100ms/char claim and false title-speed-preservation comment; documented two real drivers and caller-owned queue/cursor.",
+        "C": "State owner mutates caller DialogBoxState only; pure parser and framebuffer writer separated. Explicit root reexports preserve actual callers except separately proven dead rectangle API.",
+        "D": "Event and battle use same state engine but retain distinct timing; no universal clock/service adapter. Private renderer no longer needs whole state just for font color.",
+        "E": "105 current direct contracts, 427 adjacent; probe1 is an observation of known wrong behavior, not a fix or formal failing test. Defaults/paging/tilde evidence inherited; missing nondefault-title continuation blocks this source.",
+        "F": "独立状态模块替代混合960行模块；named state transitions和literal phase results保持。",
+        "G": "getDialogBoxRect/STYLE_RECTS/BoxRect removed after zero production/E2E callers; keep real layout exports, keyIconBlink persisted field and both timing paths.",
+        "H": "Explicit clock and borrowed state permit direct transition tests; event/battle caller integration tests remain. No test-only exports or new injected context."
+      }
+    },
+    {
+      "author": "Codex; prior GLM full reading reused at explicit version bounds",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+        "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123",
+        "entry": "packages/game/src/present/dialog-box.ts"
+      },
+      "readScope": "Previous full960line source/main761/GLM96/chrome237/pixels170 read; current moved bodies and complete scoped changes reviewed. Current source module boundaries and typed fixture read in full.",
+      "path": "packages/game/src/present/dialog-text.ts",
+      "sha256": "6e7bb20e1e0e651b9cf89445dd7587c7eaa025b0dadb2fe7d162db8f0cbd7bff",
+      "lines": 161,
+      "decision": "accept",
+      "dimensions": {
+        "A": "Exact original parser/constants/name-detection declarations moved, no body or input-policy change. Original narration-tail red/green reused; colors mutation restored exact source.",
+        "B": "$NN comment now describes actual floor(NN*10/7) speed update and cross-line return ownership; no claim of full SDLPal or arbitrary Unicode equivalence.",
+        "C": "No imports, clock, IO, framebuffer or GameState writes. Returns fresh text/colors/revealAt and explicit end values; state driver decides persistence.",
+        "D": "One parser serves world/battle/narration with existing isDialog semantic switch. Name recognition stays pure; no generic text formatter abstraction.",
+        "E": "Literal controls, timeline and color oracles in main/GLM; empty narration color mutation passes old69 and fails exactly one new business assertion. Parser is real, not mocked.",
+        "F": "Single control-code responsibility, explicit output interface and unit-bearing timing fields; switch makes command consumption visible.",
+        "G": "All leaf exports are consumed or explicitly reexported by root; no legacy fallback added. Existing malformed-control handling retained, not silently expanded.",
+        "H": "Deterministic pure inputs/outputs; direct calls require no global services, real clock or framebuffer."
+      }
+    },
+    {
+      "author": "Codex; prior GLM full reading reused at explicit version bounds",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+        "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123",
+        "entry": "packages/game/src/present/dialog-box.ts"
+      },
+      "readScope": "Previous full960line source/main761/GLM96/chrome237/pixels170 read; current moved bodies and complete scoped changes reviewed. Current source module boundaries and typed fixture read in full.",
+      "path": "packages/game/src/present/dialog-draw.ts",
+      "sha256": "755ed6019d3d070024ca9663dc79ba0b634abaf492c0675e3e5b7ceb300172ec",
+      "lines": 433,
+      "decision": "accept",
+      "dimensions": {
+        "A": "Borrowed framebuffer is the only drawing target; no state advancement. Sprite opaque===1, layout, colored rows, missing-resource branches preserved and precise pixel oracles pass.",
+        "B": "Removed broad1:1/obsolete-shadow history claims; retains why icon palette blink, default narration shadow and item offsets differ. No runtime/browser visual signoff claim.",
+        "C": "Only drawing helpers and type-only state dependency; private drawTextLine receives fontColor scalar rather than whole state. Event cursor and clocks stay outside.",
+        "D": "Center-window narration and item lines share exact8px-unit counting. Loaded glyph measurement is kept separate because it has a different width contract; blit uses existing sprite shape.",
+        "E": "68main/12chrome/11pixels/14GLM direct contracts include actual framebuffer indices, canonical bitmap maps, palette→canvas RGBA and fallbacks. New two-row oracle names y126/144 and empty162.",
+        "F": "Rendering groups are separated from parser/state; small private width helper reveals the common layout calculation without mode booleans.",
+        "G": "Dead rectangle API and two exclusive tests retired. Actual text/title layout exports and all real sprite drawing branches retained; two item-box total-style layout tests are type-domain returns, not render evidence.",
+        "H": "Real framebuffer and controlled glyph/sprite maps expose pixels deterministically; no private exports, core mocks or artificial renderer layer."
+      }
+    },
+    {
+      "author": "Codex; prior GLM full reading reused at explicit version bounds",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+        "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123",
+        "entry": "packages/game/src/present/dialog-box.ts"
+      },
+      "readScope": "Previous full960line source/main761/GLM96/chrome237/pixels170 read; current moved bodies and complete scoped changes reviewed. Current source module boundaries and typed fixture read in full.",
+      "path": "packages/game/src/__tests__/dialog-fixtures.ts",
+      "sha256": "a7f3ce0495d28a85a85afdfdc6e4f89630ca7825a028a72788c36d9bb521a5af",
+      "lines": 50,
+      "decision": "accept",
+      "dimensions": {
+        "A": "Fresh legal IndexedImage buffers/opacity, complete Item flags and canonical glyph dimensions; two suites use same exact glyph-construction body. Actual positive-sized inputs are the tested fixture domain.",
+        "B": "Header states fresh borrowed inputs and absence of global renderer state; no coverage claim.",
+        "C": "Only typed object factories; font/png/shared dependencies are type-only, no IO/service registration or shared mutable cache.",
+        "D": "Sprite/Item factories used by two real suites; identical glyph helper moved from chrome and pixels. Sparse point/box/digit inputs stay local because their semantics differ.",
+        "E": "Real draw calls consume these values; 4 main as-any removed. Fresh per-call flags, arrays and maps prevent cross-test mutation; no runtime tests invented just for a factory.",
+        "F": "Domain-specific names and three explicit parameters/record; no fixture modes or whole GameState.",
+        "G": "Three helpers all have actual consumers. No dead default fields beyond required Item/IndexedImage/Glyph contracts.",
+        "H": "Deterministic allocation per call, no setup/cleanup dependencies; typecheck enforces shapes."
+      }
+    },
+    {
+      "author": "Codex; prior GLM full reading reused at explicit version bounds",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+        "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123",
+        "entry": "packages/game/src/present/dialog-box.ts"
+      },
+      "readScope": "Previous full960line source/main761/GLM96/chrome237/pixels170 read; current moved bodies and complete scoped changes reviewed. Current source module boundaries and typed fixture read in full.",
+      "path": "packages/game/src/present/dialog-box.test.ts",
+      "sha256": "bb5f191093ab1ed738bd4df29af5a18c3add9a88f07b0725f97a610bc052c6fe",
+      "lines": 734,
+      "decision": "accept",
+      "dimensions": {
+        "A": "68 current cases use real exported transitions/parser/drawing and independent text, time and framebuffer results. Item-box uses public state constructor, legal catalog and IndexedImage.",
+        "B": "completeLine now explicitly covers this suite default-rate fixtures, not arbitrary time; pixel and control comments retain bounded sources.",
+        "C": "State setup and renderer resources are test-owned; shared pure fixtures replace local duplicate constructors and malformed any objects.",
+        "D": "Common sprite/Item inputs reused; code-point color parser and geometric drawing kept distinct from glyph-byte codec tests.",
+        "E": "every([]) color false-positive fixed to exact[0,0]; real mutant old69 passes/newoneAssertionError. Weak any-colored-pixel row check replaced by exact two row anchors and absent third. Two rectangle dummy cases retired across main/chrome with exact identities; no other identity/assertion removed.",
+        "F": "Fixtures name actual required fields, positive/negative pixel coordinates explain row rule; no list-generated generic expectations.",
+        "G": "69→68 due one unused-API test retirement; no skip/only or new weak range loops, core mocks, timeout changes or coverage edits.",
+        "H": "Pure inputs/explicit time and real framebuffer, no global services. Public constructor removes hand-built invalid state."
+      }
+    },
+    {
+      "author": "Codex; prior GLM full reading reused at explicit version bounds",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+        "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123",
+        "entry": "packages/game/src/present/dialog-box.ts"
+      },
+      "readScope": "Previous full960line source/main761/GLM96/chrome237/pixels170 read; current moved bodies and complete scoped changes reviewed. Current source module boundaries and typed fixture read in full.",
+      "path": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+      "sha256": "7ecc0998e9e91193b08cb04e695aac99d71b8ed1afd9cb5355447d4529de6521",
+      "lines": 91,
+      "decision": "accept",
+      "dimensions": {
+        "A": "14 identities unchanged. reset test now reaches first-line done and second-line typing through real tick120/144, validating nonzero counters before reset.",
+        "B": "Replaced frozen/zero-coverage/broad-caller-proof header with limited title/reset/tail contracts; style return table is not misrepresented as rendering.",
+        "C": "Owns a fresh state and explicit times; no event service setup needed for direct state contract.",
+        "D": "Position table covers style/portrait combinations; not merged with production-render pixel cases because return shape and render contract differ.",
+        "E": "Exact default font color replaces toBeDefined; pre-reset typingFrames1/chars2 make cleanup assertions non-vacuous. Tail oracle literal24ms independently comes from3*8; existing red/green evidence retained.",
+        "F": "Short domain tables and explicit transition sequence show setup vs assertion; historical test ownership noise removed.",
+        "G": "14 identities retained, no skip/only, duplicated blanket pipeline claim removed; no added runtime type-test cases.",
+        "H": "Explicit now and state permit deterministic reset; no mocks or new product seams."
+      }
+    },
+    {
+      "author": "Codex; prior GLM full reading reused at explicit version bounds",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+        "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123",
+        "entry": "packages/game/src/present/dialog-box.ts"
+      },
+      "readScope": "Previous full960line source/main761/GLM96/chrome237/pixels170 read; current moved bodies and complete scoped changes reviewed. Current source module boundaries and typed fixture read in full.",
+      "path": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "sha256": "a91059d33c007b149b7ada27401f85952aa7dd5f6acb523f1273e9f42a4d7b0c",
+      "lines": 189,
+      "decision": "accept",
+      "dimensions": {
+        "A": "12 remaining cases use real icon, narration, item and sprite drawing. Sparse glyphs/assets and nonzero sentinel backgrounds distinguish missing draw from black output.",
+        "B": "Header bounds separation from default icon/portrait positives; table-only item coordinates explicitly not claimed as pixel proof in current review.",
+        "C": "Owns buffers/resources per case, pure shared fixture construction; no global mocks or service writes.",
+        "D": "Exact glyph construction shared with pixels and solidSprite/Item shared with main; sparse digit/box policy stays local.",
+        "E": "Literal icon frames/8px positions, missing-item negative, opaque2 sentinel and positive neighbor distinguish business branches. D13 only dummy rectangle retired, D11/D12 are total-style return contracts and do not imply actual item drawing path.",
+        "F": "Named digitFrames/boxFrames and index sampling make positions clear; consistent domain helper names retained via import aliases.",
+        "G": "13→12 exactly one retirement; no core mock/timeout/skip or meaningless test added.",
+        "H": "Borrowed framebuffer and controlled real assets support direct output assertions; shared fixture introduces no state or side effects."
+      }
+    },
+    {
+      "author": "Codex; prior GLM full reading reused at explicit version bounds",
+      "inheritedEightAxes": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+        "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123",
+        "entry": "packages/game/src/present/dialog-box.ts"
+      },
+      "readScope": "Previous full960line source/main761/GLM96/chrome237/pixels170 read; current moved bodies and complete scoped changes reviewed. Current source module boundaries and typed fixture read in full.",
+      "path": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "sha256": "8db70cbd80b02020d9be1547fea4447f615afeaff89cf46457e844c6c753353c",
+      "lines": 150,
+      "decision": "accept",
+      "dimensions": {
+        "A": "11 cases use real state/draw/font/present and actual canvas; top/center title/body, clipping/reveal, colors, reset, glyph width and palette conversion have concrete coordinates.",
+        "B": "Scope header separates controls/paging from pixel contracts; no zero-console or gameplay claim inferred from dump helper.",
+        "C": "Fresh framebuffer per case; removes unused vi.restoreAllMocks/afterEach since suite mocks nothing. Canvas local to single test.",
+        "D": "Identical glyph-construction algorithm shared with chrome; actual glyph bitmap codec remains separately tested, no new generic image helper.",
+        "E": "Literal color/position/RGBA and positive+negative neighbor checks; A05 covers different row colors rather than identical-input subset of main. A11 checks RGB plus retained source index, not mock count.",
+        "F": "One contract per named case, small reveal setup is explicit legal completed rendering state rather than timing oracle.",
+        "G": "11 identities/assertions retained; unused cleanup removed only. dumpFramebuffer evidence utility preserved, not mistaken for business assertion.",
+        "H": "Actual framebuffer/canvas and legalPalette run without core mocks; final raw23cases preserve visible reporter output."
+      }
+    }
+  ],
+  "contextPins": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ce9cce7e91ab2b0f662f25508acdf88234768b5b63d2f9ecc3232ef4151638a0",
+      "lines": 47
+    },
+    {
+      "path": "docs/ops/code-quality.md",
+      "sha256": "81b05d568b068010b11cdf101d77b65f5e1ae23ad85b63a93fb0b7cd87afc046",
+      "lines": 159
+    },
+    {
+      "path": "packages/game/package.json",
+      "sha256": "2cecf398149b696cecab75e9bc169026a49c6e993a729b627b06b5c73b5b5718",
+      "lines": 25
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "1a86e21e80f22990f1d1a76c11dc36d390109e2d29f42b4ea9b38bb00325a342",
+      "lines": 4973
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-dialog.ts",
+      "sha256": "b9daf80c2af0ea3b4688c21b5e13247edf115cb203adede23d3bd74e53cff644",
+      "lines": 198
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "lines": 2078
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "e9efd9d7960fd97badc1611610ac600d37abb88a4c0bee5f56135e2b15731b33",
+      "lines": 809
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4",
+      "lines": 202
+    },
+    {
+      "path": "packages/game/src/assets/png.ts",
+      "sha256": "4954c8f732085b29f94904caf21a0b43a40aba9437aedcd0ab34d34a1286c2d5",
+      "lines": 49
+    },
+    {
+      "path": "packages/game/src/localization/layout.ts",
+      "sha256": "4240ea5e629b2f6c65fc9a0fb48e73c418b9ea5aa5ec547b011e0313c3c1bc1c",
+      "lines": 24
+    },
+    {
+      "path": "reference/sdlpal/text.c",
+      "sha256": "8e3c1be5111ea6bed1d0a8a480a2818235d0b3c22a6f73540f5701ac26cbc456",
+      "lines": 2569
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652
+    }
+  ],
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "f1d86b7a40113bc4395b49f3b5b4cee8c9aeaa96b07acab90568f53e8223d06c"
+  },
+  "stages": {
+    "split": "7c80a5607bd874e712470d365f1eb1622379f9f0",
+    "fixtures": "7f2a2fd3cde28311243cd9c30a71a96c118c79aa",
+    "privateAndRetirement": "11734e13be6d0c0b27ba51d8934469fbad479cb0",
+    "comments": "e8a221b4e5149e0021f77c4a521ae59e6d116938",
+    "legalReset": "06d009f11c48efdbed6c7c19cf7dbdb36f41e2a1",
+    "glyphReuse": "17c3b390eaa433eafe7877bd6f3a58c47465cb01"
+  },
+  "identities": {
+    "before": [
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D03 当前行为空时，箭头画在最后一条已显示行上"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D06 旁白样式不画头像，正文仍写在 (160,50)"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D07 物品框没有 itemBox 时，画面保持调用前的底色"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D11 物品框正文坐标是 (160,30)，有无头像都一样"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D12 物品框姓名坐标也是占位 (160,30)"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D13 物品框占位矩形是 (8,80,304,48)"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C"
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) bottom + 头像 → \"bottom\""
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) bottom 无头像 → \"bottom\""
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) center(一般不用 title,sdlpal default) → \"center\""
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) narration 同 bottom 档 → \"narration\""
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) top + 头像 → \"top\""
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) top 无头像 → \"top\""
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) ratio 冒号(U+2236) → 李逍遥∶"
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 全角冒号(U+FF1A) → 李逍遥："
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 冒号在中间 → 李:逍遥"
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 半角冒号(U+003A) → 李逍遥:"
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 空串 → "
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 非冒号结尾 → 李逍遥来了"
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "parseDialogText narration tail delay(text.c:1551-1554) narration/isDialog=true consumes ~NN without waiting"
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "resetDialogBody(sdlpal PAL_ClearDialog 等价:清正文不擦 title/portrait) 清 shownLines/current/计数/typing 态 → line-done;保留 titleText/portraitIcon/style/fontColor"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) ~NN 尾暂停语义保留:doneAt 前仍 typing,doneAt 后 line-done + renderPending"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) $NN 变速语义保留:$10(iDelay=14→112ms/字)50ms 仅 1 字,200ms 2 字,224ms 3 字"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) 24ms/字:60ms 时应显 3 字(revealAt 0/24/48<=60;旧实现 0-100ms 内 0 字或蹦 4 字,都不对)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) 24ms/字:逐字推进(24ms→2字,48ms→3字,72ms→4字)非成块蹦"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) appendDialogLine 续行重置 lineStartMs 为新行 now"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) Bug3-2:`~NN` 尾行跳字后再按 Confirm → 不重置尾停顿(noop),墙钟走到尾停顿结束仍推进"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) Bug3:`~NN` 尾行打字中途跳字 → 只等 ~NN 尾停顿,不卡到完整 doneAt(对齐 sdlpal text.c:1551)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) line-done 后继续 tick → charsRevealed 不再增长"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `-` 青 / `'` 红 / `@` 红alt toggle(普通对话)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `(` / `)` 设 icon + 消费(不字面显示括号)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `\\` 转义:画下一字符字面(\\\" → 字面引号)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `~` 本行提前结束(其后丢弃,text.c:1554 return)+ endedWithTilde=true(text.c:1552 line=-1)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `~40` 一夜过去:原版尾暂停 floor(40*80/7)=457ms"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `~NN` 尾暂停:doneAt 含 NN*80/7 ms(text.c:1551)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `$10` 变速:iDelay=floor(100/7)=14 → 112ms/字(text.c:1538)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `$NN` 消费 3 字符(typing 速度,不显字面)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) endColor 跨行持续:未闭合 `\"` → 下一行起始仍黄"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) iDelay 跨行:startIDelay 参数继承上行 endIDelay"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) narration(isDialog=TRUE):`\"` 被消费但**不**变黄(text.c:1522 !isDialog 门控)+ DEFAULT→0"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) 普通对话(isDialog=FALSE):`\"...\"` 整句黄 + 引号消费(用户报的\"黄色文字\")"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) 普通行(无 `~` 收尾)endedWithTilde=false → 正文行计数 ++"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) 混色:默认文本 + `\"黄词\"` + 默认(逐字符色正确)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) 默认 revealAt:每字 iDelayTime(3)*8=24ms(sdlpal text.c:885/1600)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · confirmDialog 4 case line-done 状态下 Confirm → noop(等自动推进)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · confirmDialog 4 case typing 中 → skip-typing(跳行末,不翻页)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · confirmDialog 4 case waiting-end-key 状态 → dialog-end"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · confirmDialog 4 case waiting-page-key 状态 → page-advance + 清 shownLines / currentLineText"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg 5 styles 绘制不抛错(无 ctx)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg charsRevealed=0 且无 portrait → fb 完全空"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg item-box 物品框:居中 ITEMBOX 精灵 + 物品 BALL 图标@box+(8,7)(script.c:1483-1508)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg typing 完一字 → fontColor 像素存在,无 255 边框色"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg 多行(shownLines + currentLine)都画在 fb"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg 对话文字 → 主色 200 + 三层阴影 color 0(取代旧单层 color 50)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogBoxRect 4 styles 返回不同 y 坐标"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) bottom 无 portrait → (44, 126)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) bottom 有 portrait → (20, 126)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) center → (80, 40),不论 portrait"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) narration 同 bottom"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) top 无 portrait → (44, 26)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) top 有 portrait → (96, 26)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) center style 即使 waiting → 不画 icon(sdlpal kDialogCenter 守卫)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) icon 位置 = 本行文字末尾 x + 本行 y(sdlpal posIcon 真值)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) typing 中(phase=typing)→ 不画 icon"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) waiting-page-key → blit icon(常显,不再 gate keyIconBlink)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · MAX_LINES_PER_PAGE 真值 MAX_LINES_PER_PAGE = 4(sdlpal text.c:1649 nCurrentDialogLine > 3)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) bottom + portrait → blit 在 (270 - w/2, 144 - h/2)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) center style → 不画 portrait"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) portraitLayout=true 但 portraitIcon=undefined(0x05 擦立绘后续话):不画图、文本仍缩进 x≥96"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) top + portrait → blit 在 (48 - w/2, 55 - h/2)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) top + portrait → text X 起始 ≥ 96"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine appendDialogLine 把上行(已 line-done)沉进 shownLines + 新行 typing"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine defaults:fontColor=FONT_COLOR_DEFAULT(0x4F=79),shadow=false,portraitIcon=undefined"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine dialogLineCount:姓名 title 行不计入(text.c:1715-1726)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine dialogLineCount:普通正文行 ++,`~` 收尾复位 0(text.c:1746/1552)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine dialogLineCount:首行即 `~` 收尾 → 0(梦境画外音\"李逍遥！~30\")"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine L1:center 风格首行冒号结尾当居中正文,不当姓名牌(text.c:1716 != kDialogCenter)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine L2:`~` 段末复位 userSkip → 下一段重新逐字(text.c:1553)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine L2:typing 中确认置 userSkip → 后续 append 行瞬显(line-done + 满字符)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine L2:翻页等键后复位 userSkip(text.c:1447)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine M1:段中续行(line>0)冒号结尾不当姓名牌(text.c:1715 nCurrentDialogLine==0)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine opts 覆盖 defaults(含 portraitIcon)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine shouldWaitPageKey:第 4 行 line-done 后返 true(下条 showDialog 会撞)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine startDialogLine 初始化:shownLines 空,currentLineText=text,phase=typing"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · tickDialog typing `~NN` 尾暂停结束后标记保留完整文字一帧"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · tickDialog typing $NN 变速:$10(iDelay=14 → 112ms/字)远慢 → 1 tick 仅 1 字"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · tickDialog typing charsRevealed === currentLineText.length 时 phase → line-done"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · tickDialog typing line-done 后继续 tick → charsRevealed 不再增长"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · tickDialog typing 等键 phase → icon 常显(不随 tick show/hide)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · tickDialog typing 默认速度时间驱动(sdlpal iDelayTime=3 → 24ms/字):100ms/tick 内一次出多字"
+      }
+    ],
+    "after": [
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D03 当前行为空时，箭头画在最后一条已显示行上"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D06 旁白样式不画头像，正文仍写在 (160,50)"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D07 物品框没有 itemBox 时，画面保持调用前的底色"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D11 物品框正文坐标是 (160,30)，有无头像都一样"
+      },
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D12 物品框姓名坐标也是占位 (160,30)"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16"
+      },
+      {
+        "file": "src/present/dialog-box-pixels.grok-r1.test.ts",
+        "fullName": "G05-A dialog 可见文字 G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C"
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) bottom + 头像 → \"bottom\""
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) bottom 无头像 → \"bottom\""
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) center(一般不用 title,sdlpal default) → \"center\""
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) narration 同 bottom 档 → \"narration\""
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) top + 头像 → \"top\""
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) top 无头像 → \"top\""
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) ratio 冒号(U+2236) → 李逍遥∶"
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 全角冒号(U+FF1A) → 李逍遥："
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 冒号在中间 → 李:逍遥"
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 半角冒号(U+003A) → 李逍遥:"
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 空串 → "
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 非冒号结尾 → 李逍遥来了"
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "parseDialogText narration tail delay(text.c:1551-1554) narration/isDialog=true consumes ~NN without waiting"
+      },
+      {
+        "file": "src/present/dialog-box.glm-next-wave.test.ts",
+        "fullName": "resetDialogBody(sdlpal PAL_ClearDialog 等价:清正文不擦 title/portrait) 清 shownLines/current/计数/typing 态 → line-done;保留 titleText/portraitIcon/style/fontColor"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) ~NN 尾暂停语义保留:doneAt 前仍 typing,doneAt 后 line-done + renderPending"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) $NN 变速语义保留:$10(iDelay=14→112ms/字)50ms 仅 1 字,200ms 2 字,224ms 3 字"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) 24ms/字:60ms 时应显 3 字(revealAt 0/24/48<=60;旧实现 0-100ms 内 0 字或蹦 4 字,都不对)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) 24ms/字:逐字推进(24ms→2字,48ms→3字,72ms→4字)非成块蹦"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) appendDialogLine 续行重置 lineStartMs 为新行 now"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) Bug3-2:`~NN` 尾行跳字后再按 Confirm → 不重置尾停顿(noop),墙钟走到尾停顿结束仍推进"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) Bug3:`~NN` 尾行打字中途跳字 → 只等 ~NN 尾停顿,不卡到完整 doneAt(对齐 sdlpal text.c:1551)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) line-done 后继续 tick → charsRevealed 不再增长"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `-` 青 / `'` 红 / `@` 红alt toggle(普通对话)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `(` / `)` 设 icon + 消费(不字面显示括号)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `\\` 转义:画下一字符字面(\\\" → 字面引号)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `~` 本行提前结束(其后丢弃,text.c:1554 return)+ endedWithTilde=true(text.c:1552 line=-1)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `~40` 一夜过去:原版尾暂停 floor(40*80/7)=457ms"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `~NN` 尾暂停:doneAt 含 NN*80/7 ms(text.c:1551)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `$10` 变速:iDelay=floor(100/7)=14 → 112ms/字(text.c:1538)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `$NN` 消费 3 字符(typing 速度,不显字面)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) endColor 跨行持续:未闭合 `\"` → 下一行起始仍黄"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) iDelay 跨行:startIDelay 参数继承上行 endIDelay"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) narration(isDialog=TRUE):`\"` 被消费但**不**变黄(text.c:1522 !isDialog 门控)+ DEFAULT→0"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) 普通对话(isDialog=FALSE):`\"...\"` 整句黄 + 引号消费(用户报的\"黄色文字\")"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) 普通行(无 `~` 收尾)endedWithTilde=false → 正文行计数 ++"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) 混色:默认文本 + `\"黄词\"` + 默认(逐字符色正确)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) 默认 revealAt:每字 iDelayTime(3)*8=24ms(sdlpal text.c:885/1600)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · confirmDialog 4 case line-done 状态下 Confirm → noop(等自动推进)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · confirmDialog 4 case typing 中 → skip-typing(跳行末,不翻页)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · confirmDialog 4 case waiting-end-key 状态 → dialog-end"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · confirmDialog 4 case waiting-page-key 状态 → page-advance + 清 shownLines / currentLineText"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg 5 styles 绘制不抛错(无 ctx)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg charsRevealed=0 且无 portrait → fb 完全空"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg item-box 物品框:居中 ITEMBOX 精灵 + 物品 BALL 图标@box+(8,7)(script.c:1483-1508)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg typing 完一字 → fontColor 像素存在,无 255 边框色"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg 多行(shownLines + currentLine)都画在 fb"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg 对话文字 → 主色 200 + 三层阴影 color 0(取代旧单层 color 50)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) bottom 无 portrait → (44, 126)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) bottom 有 portrait → (20, 126)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) center → (80, 40),不论 portrait"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) narration 同 bottom"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) top 无 portrait → (44, 26)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) top 有 portrait → (96, 26)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) center style 即使 waiting → 不画 icon(sdlpal kDialogCenter 守卫)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) icon 位置 = 本行文字末尾 x + 本行 y(sdlpal posIcon 真值)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) typing 中(phase=typing)→ 不画 icon"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) waiting-page-key → blit icon(常显,不再 gate keyIconBlink)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · MAX_LINES_PER_PAGE 真值 MAX_LINES_PER_PAGE = 4(sdlpal text.c:1649 nCurrentDialogLine > 3)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) bottom + portrait → blit 在 (270 - w/2, 144 - h/2)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) center style → 不画 portrait"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) portraitLayout=true 但 portraitIcon=undefined(0x05 擦立绘后续话):不画图、文本仍缩进 x≥96"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) top + portrait → blit 在 (48 - w/2, 55 - h/2)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) top + portrait → text X 起始 ≥ 96"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine appendDialogLine 把上行(已 line-done)沉进 shownLines + 新行 typing"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine defaults:fontColor=FONT_COLOR_DEFAULT(0x4F=79),shadow=false,portraitIcon=undefined"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine dialogLineCount:姓名 title 行不计入(text.c:1715-1726)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine dialogLineCount:普通正文行 ++,`~` 收尾复位 0(text.c:1746/1552)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine dialogLineCount:首行即 `~` 收尾 → 0(梦境画外音\"李逍遥！~30\")"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine L1:center 风格首行冒号结尾当居中正文,不当姓名牌(text.c:1716 != kDialogCenter)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine L2:`~` 段末复位 userSkip → 下一段重新逐字(text.c:1553)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine L2:typing 中确认置 userSkip → 后续 append 行瞬显(line-done + 满字符)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine L2:翻页等键后复位 userSkip(text.c:1447)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine M1:段中续行(line>0)冒号结尾不当姓名牌(text.c:1715 nCurrentDialogLine==0)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine opts 覆盖 defaults(含 portraitIcon)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine shouldWaitPageKey:第 4 行 line-done 后返 true(下条 showDialog 会撞)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine startDialogLine 初始化:shownLines 空,currentLineText=text,phase=typing"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · tickDialog typing `~NN` 尾暂停结束后标记保留完整文字一帧"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · tickDialog typing $NN 变速:$10(iDelay=14 → 112ms/字)远慢 → 1 tick 仅 1 字"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · tickDialog typing charsRevealed === currentLineText.length 时 phase → line-done"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · tickDialog typing line-done 后继续 tick → charsRevealed 不再增长"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · tickDialog typing 等键 phase → icon 常显(不随 tick show/hide)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · tickDialog typing 默认速度时间驱动(sdlpal iDelayTime=3 → 24ms/字):100ms/tick 内一次出多字"
+      }
+    ],
+    "retired": [
+      {
+        "file": "src/present/dialog-box-chrome.grok-r1.test.ts",
+        "fullName": "G05-D dialog 图标物品框与旁白 G05-D13 物品框占位矩形是 (8,80,304,48)"
+      },
+      {
+        "file": "src/present/dialog-box.test.ts",
+        "fullName": "Sync.2 DialogBox · getDialogBoxRect 4 styles 返回不同 y 坐标"
+      }
+    ],
+    "added": [],
+    "retirementReason": "Only test-only unused getDialogBoxRect placeholder API. No production/E2E references or published package export; main renderer and chrome pixel assertions retained. Official count reconciliation deferred to final pre94 window; no baseline changed."
+  },
+  "gates": {
+    "initialDirect": {
+      "files": 4,
+      "passed": 107
+    },
+    "aggregate": {
+      "files": 12,
+      "passed": 532,
+      "direct": 105,
+      "adjacent": 427
+    },
+    "incrementalRefresh": [
+      {
+        "id": "final-legal-reset",
+        "files": 2,
+        "passed": 25,
+        "reason": "legal transition/nonzero reset preconditions and removal of no-op mock cleanup after aggregate"
+      },
+      {
+        "id": "final-glyph-reuse",
+        "files": 2,
+        "passed": 23,
+        "reason": "same-body glyph fixture move after preceding runs"
+      }
+    ],
+    "combination": "532 distinct final contracts, not532+25+23; refreshes replace overlapping executions.",
+    "typecheck": "game-typecheck-final",
+    "static": "static.json",
+    "notRun": [
+      "whole repository check",
+      "official coverage/ratchet/protected",
+      "browser/E2E or natural storyline visual acceptance",
+      "PR/main merge"
+    ]
+  },
+  "newClosed": [
+    "packages/game/src/present/dialog-text.ts",
+    "packages/game/src/present/dialog-draw.ts",
+    "packages/game/src/__tests__/dialog-fixtures.ts",
+    "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+    "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts"
+  ],
+  "reviewRemaining": [
+    {
+      "id": "CODE42-title-speed",
+      "path": "packages/game/src/present/dialog-box.ts",
+      "fact": "Real event speed14→style change→name resets to3; next body revealAt[0,24] instead of inherited[0,112].",
+      "primary": "PAL_StartDialogWithOffset does not change iDelayTime; PAL_ShowDialogText name branch calls PAL_DrawText directly rather than TEXT_DisplayText. text.c:1238-1269,1715-1726; event-system showDialog copies state.iDelayState back to script field.",
+      "evidence": "speed-observation-valid.stdout.raw / speed-observation.test.ts",
+      "status": "question pending; no approval inferred, implementation unchanged",
+      "ordinaryReachability": "Not proven in canonical plot"
+    }
+  ],
+  "processDisclosures": [
+    "Initial split producer used reserved CommonJS exports binding: parse failed before writes; failed producer/reproduced raw preserved.",
+    "fixture-static-before exit0 includes1 unused-type warning and is not a pass; subsequent import removal/static0 preserved.",
+    "private-static formatter exit1 preserved then formatted and zero diagnostic rerun.",
+    "First speed observation selected a nonexistent test because of wrong cwd; no test collected and no product failure credit. Corrected same probe/source/raw retained.",
+    "Initial metadata producer guessed nonexistent localization/presentation.ts; exact failed producer and reproduced raw retained, corrected to actual layout dependency.",
+    "Initial ledger3432 declared vs3434 observed was the two newly committed split modules, not a product or closure result; current inventory updated for all3added paths.",
+    "Two old narrow validators returned STALE for later accepted CLI/world/test changes. Follow cli-stages-closeout version bridge; not repeated repairs or implicit withdrawal of unrelated mode/player proof.",
+    "Evidence verifier first scoped check exited0 with1info(useTemplate); raw retained, manual correction before final lint0."
+  ],
+  "counts": {
+    "total": 3435,
+    "verified": 470,
+    "review": 79,
+    "pending": 2886,
+    "unclosed": 2965
+  },
+  "fixed83": {
+    "pending": 0,
+    "partial": 7,
+    "accept": 76
+  },
+  "invalidation": "Source/caller/type/font/drawing/SDL truth changes stale affected claims. Workflow-only metadata changes do not rerun unchanged tests. Pins establish identity, not design quality; semantic A-H judgments above are manual Codex review."
+}

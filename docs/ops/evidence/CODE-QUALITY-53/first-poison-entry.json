@@ -1,0 +1,241 @@
+{
+  "source": "data/extracted/events/all.json",
+  "sha256": "3f54bc1aba2eb82653f71d7384260f6de4e3e5e1977ee48ffdbb31a27c409c8d",
+  "objectPoisonsSha256": "9a16d16817405b7a2a368bc6f36e48935a78c7d10e95ed715dcf2fff231f6722",
+  "scope": "only first invocation of all literal 0x29-referenced player poison entries, not later resumptions or synthetic catalogs",
+  "entries": [
+    {
+      "id": 551,
+      "entry": 40862,
+      "firstInvocation": [
+        {
+          "ip": 40862,
+          "command": {
+            "op": "raw",
+            "opcode": 27,
+            "operands": [0, 65529, 0]
+          }
+        },
+        {
+          "ip": 40863,
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "id": 552,
+      "entry": 40866,
+      "firstInvocation": [
+        {
+          "ip": 40866,
+          "command": {
+            "op": "raw",
+            "opcode": 27,
+            "operands": [0, 65524, 0]
+          }
+        },
+        {
+          "ip": 40867,
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "id": 553,
+      "entry": 40870,
+      "firstInvocation": [
+        {
+          "ip": 40870,
+          "command": {
+            "op": "raw",
+            "opcode": 27,
+            "operands": [0, 65516, 0]
+          }
+        },
+        {
+          "ip": 40871,
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "id": 554,
+      "entry": 40874,
+      "firstInvocation": [
+        {
+          "ip": 40874,
+          "command": {
+            "op": "raw",
+            "opcode": 27,
+            "operands": [0, 65504, 0]
+          }
+        },
+        {
+          "ip": 40875,
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "id": 555,
+      "entry": 40878,
+      "firstInvocation": [
+        {
+          "ip": 40878,
+          "command": {
+            "op": "end",
+            "advance": true
+          }
+        }
+      ]
+    },
+    {
+      "id": 556,
+      "entry": 40897,
+      "firstInvocation": [
+        {
+          "ip": 40897,
+          "command": {
+            "op": "raw",
+            "opcode": 27,
+            "operands": [0, 65486, 0]
+          }
+        },
+        {
+          "ip": 40898,
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "id": 557,
+      "entry": 40899,
+      "firstInvocation": [
+        {
+          "ip": 40899,
+          "command": {
+            "op": "raw",
+            "opcode": 27,
+            "operands": [0, 65486, 0]
+          }
+        },
+        {
+          "ip": 40900,
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "id": 558,
+      "entry": 40901,
+      "firstInvocation": [
+        {
+          "ip": 40901,
+          "command": {
+            "op": "raw",
+            "opcode": 27,
+            "operands": [0, 65486, 0]
+          }
+        },
+        {
+          "ip": 40902,
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "id": 559,
+      "entry": 40903,
+      "firstInvocation": [
+        {
+          "ip": 40903,
+          "command": {
+            "op": "raw",
+            "opcode": 27,
+            "operands": [0, 65486, 0]
+          }
+        },
+        {
+          "ip": 40904,
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "id": 560,
+      "entry": 40905,
+      "firstInvocation": [
+        {
+          "ip": 40905,
+          "command": {
+            "op": "raw",
+            "opcode": 27,
+            "operands": [0, 65486, 0]
+          }
+        },
+        {
+          "ip": 40906,
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "id": 563,
+      "entry": 40860,
+      "firstInvocation": [
+        {
+          "ip": 40860,
+          "command": {
+            "op": "raw",
+            "opcode": 27,
+            "operands": [0, 20, 0]
+          }
+        },
+        {
+          "ip": 40861,
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    },
+    {
+      "id": 564,
+      "entry": 40858,
+      "firstInvocation": [
+        {
+          "ip": 40858,
+          "command": {
+            "op": "raw",
+            "opcode": 28,
+            "operands": [0, 20, 0]
+          }
+        },
+        {
+          "ip": 40859,
+          "command": {
+            "op": "end"
+          }
+        }
+      ]
+    }
+  ]
+}

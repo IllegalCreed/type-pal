@@ -1,0 +1,12 @@
+# r2 scoped docs check (links/nav only, not 125 tool tests) — 2026-10-18T10:40:11Z
+$ node scripts/docs/check.mjs
+docs: 1584 Markdown / 9525 local links / 467 tasks / content22 SAVE12
+docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/README.md:80: 本地目标不存在或无法随仓库检出：../copy-fix-r1-codex-review.json → docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-review.json
+docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/README.md:86: 本地目标不存在或无法随仓库检出：gates-r2.json → docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/gates-r2.json
+docs: FAIL (2 issues)
+exit: 1
+
+# r2 scoped docs check — second run — 2026-10-18T10:40:45Z
+docs: 1584 Markdown / 9524 local links / 467 tasks / content22 SAVE12
+docs: PASS (0 issues)
+exit: 0

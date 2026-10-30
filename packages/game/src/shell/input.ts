@@ -64,9 +64,40 @@ export function codeToAbstractKey(code: string): AbstractKey | null {
   return CODE_MAP[code] ?? null
 }
 
+function isDirectionKey(key: AbstractKey): boolean {
+  return key === 'Up' || key === 'Down' || key === 'Left' || key === 'Right'
+}
+
+class ModalActionEvent extends Event {
+  constructor(readonly key: AbstractKey) {
+    super('tp-modal-action', { cancelable: true })
+  }
+}
+
+/** Modal players consume abstract actions before they can leak into the next game snapshot. */
+export function listenForModalActions(
+  codes: Iterable<string>,
+  onAction: () => void,
+  target: Window = window,
+): () => void {
+  const keys = new Set([...codes].map(codeToAbstractKey))
+  const listener = (event: Event): void => {
+    if (!(event instanceof ModalActionEvent) || !keys.has(event.key)) return
+    event.preventDefault()
+    event.stopImmediatePropagation()
+    onAction()
+  }
+  target.addEventListener('tp-modal-action', listener)
+  return () => target.removeEventListener('tp-modal-action', listener)
+}
+
 export class KeyboardInputSource implements InputSource {
   private held = new Set<AbstractKey>()
   private pressed = new Set<AbstractKey>()
+  private readonly contacts = new Map<string, AbstractKey>()
+  private enabled = true
+  /** Scene-fade 清当前方向；物理按键及先后顺序保留到下一有效方向事件重算。 */
+  private directionSuppressed = false
   private readonly handleDown = (e: KeyboardEvent): void => {
     const k = codeToAbstractKey(e.code)
     if (!k) return
@@ -75,27 +106,71 @@ export class KeyboardInputSource implements InputSource {
     // 若不过滤,被 hold 的键持续 delete-then-add 推到末尾,后按的键反被挤前 →
     // "后按优先" 失效(user 报"依然是固定优先级")。
     if (e.repeat) return
-    if (!this.held.has(k)) this.pressed.add(k)
-    // delete-then-add 把最新**初次按下**的键推到 Set 末尾,pickFacing 反向取末位即可。
-    this.held.delete(k)
-    this.held.add(k)
+    this.press(k, `keyboard:${e.code}`)
   }
   private readonly handleUp = (e: KeyboardEvent): void => {
-    const k = codeToAbstractKey(e.code)
-    if (!k) return
-    this.held.delete(k)
-    this.suppressedHeld.delete(k) // DM30:物理松开解除 fade 抑制(重按恢复)
+    const key = codeToAbstractKey(e.code)
+    // SDLPal recomputes direction even for a keyup with no matching held key.
+    if (key && isDirectionKey(key)) this.directionSuppressed = false
+    this.release(`keyboard:${e.code}`)
+  }
+  private readonly handleBlur = (): void => this.releaseAll()
+  private readonly handleVisibility = (): void => {
+    if (this.target.document.hidden) this.releaseAll()
   }
 
   constructor(private readonly target: Window) {
     target.addEventListener('keydown', this.handleDown)
     target.addEventListener('keyup', this.handleUp)
+    target.addEventListener('blur', this.handleBlur)
+    target.document.addEventListener('visibilitychange', this.handleVisibility)
+  }
+
+  /** Each physical key/pointer owns a contact; releasing one cannot release another. */
+  press(key: AbstractKey, contact: string): void {
+    if (!this.enabled) return
+    if (!this.target.dispatchEvent(new ModalActionEvent(key))) {
+      this.release(contact)
+      return
+    }
+    const previous = this.contacts.get(contact)
+    if (previous !== undefined && previous !== key) this.release(contact)
+    this.contacts.delete(contact)
+    this.contacts.set(contact, key)
+    if (isDirectionKey(key)) this.directionSuppressed = false
+    if (!this.held.has(key)) this.pressed.add(key)
+    this.held.delete(key)
+    this.held.add(key)
+  }
+
+  release(contact: string): void {
+    const key = this.contacts.get(contact)
+    if (key === undefined) return
+    this.contacts.delete(contact)
+    this.held.clear()
+    for (const heldKey of this.contacts.values()) {
+      this.held.delete(heldKey)
+      this.held.add(heldKey)
+    }
+    if (isDirectionKey(key)) this.directionSuppressed = false
+  }
+
+  releaseAll(): void {
+    this.contacts.clear()
+    this.held.clear()
+    this.pressed.clear()
+    this.directionSuppressed = false
+  }
+
+  setEnabled(enabled: boolean): void {
+    this.enabled = enabled
+    if (!enabled) this.releaseAll()
   }
 
   nextSnapshot(frameNum: number): InputSnapshot {
     const snap: InputSnapshot = {
-      // DM30:held 过滤 fade 抑制集(保插入序,pickFacing 反向取末位语义不变)。
-      held: new Set([...this.held].filter((k) => !this.suppressedHeld.has(k))),
+      // 只屏蔽当前方向，不丢物理键序；pickFacing 仍按末次按下优先。
+      held: new Set([...this.held].filter((k) => !this.directionSuppressed || !isDirectionKey(k))),
       pressed: new Set(this.pressed),
       frameNum,
     }
@@ -103,17 +178,14 @@ export class KeyboardInputSource implements InputSource {
     return snap
   }
 
-  /** DM30:fade 抑制集 —— fade 期间按住的方向键,keyup 前不再进 snapshot.held。 */
-  private readonly suppressedHeld = new Set<ReturnType<typeof codeToAbstractKey> & string>()
-
   /**
-   * DM30:palette fade 每步清键(palette.c:313-316)。方向键进抑制集(物理松开才解除,
-   * input.c:213 `if (!fRepeat)` 不重算 dir 的等价);pressed 清空(PAL_ClearKeyState)。
+   * PAL_SceneFade 清 dir 和 pressed，但保留 dwKeyOrder（palette.c:313-316）。
+   * PAL_KeyDown 的非repeat方向事件、PAL_KeyUp 的方向事件才重算 dir（input.c:213-286）。
+   * 因此抑制属于当前方向，不属于各物理键；下一有效方向事件应一起恢复仍按住的方向。
+   * 非方向事件和自动重复不能解除抑制，单纯继续按住也不会自动恢复。
    */
   suppressHeldForFade(): void {
-    for (const k of this.held) {
-      if (k === 'Up' || k === 'Down' || k === 'Left' || k === 'Right') this.suppressedHeld.add(k)
-    }
+    this.directionSuppressed = true
     this.pressed.clear()
   }
 
@@ -131,6 +203,8 @@ export class KeyboardInputSource implements InputSource {
   detach(): void {
     this.target.removeEventListener('keydown', this.handleDown)
     this.target.removeEventListener('keyup', this.handleUp)
+    this.target.removeEventListener('blur', this.handleBlur)
+    this.target.document.removeEventListener('visibilitychange', this.handleVisibility)
   }
 }
 

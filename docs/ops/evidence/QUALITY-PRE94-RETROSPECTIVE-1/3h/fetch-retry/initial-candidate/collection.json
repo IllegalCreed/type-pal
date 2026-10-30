@@ -1,0 +1,410 @@
+{
+  "runs": [
+    {
+      "phase": "main",
+      "kind": "list",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "list",
+        "src/shell/pre94-3h-retry-list-main-fetch-retry.test.ts",
+        "src/shell/pre94-3h-retry-list-main-fetch-retry.boundaries.test.ts",
+        "src/shell/pre94-3h-retry-list-main-fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-4eoymnsz/list.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.853,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-retry-list-main-fetch-retry.test.ts": "774573b6053638d91e1366b146a91b9eb5285dec40dc559e6414b66dc6aa8356",
+        "packages/game/src/shell/pre94-3h-retry-list-main-fetch-retry.boundaries.test.ts": "ecd706cd47380de2411b2c9540f2fb94da083a79abe39c7ae09f5494e6ded39f",
+        "packages/game/src/shell/pre94-3h-retry-list-main-fetch-retry.glm-phase1-leaves.test.ts": "8486e6fc731a787ad7d3ec3bee785a8c999ecebb2db29036c6546bb1b69ea677"
+      },
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "fb9ccdf19a6c93098ea2b13acbf1f397109e050e7f5c7158a08f5896e7da3125"
+    },
+    {
+      "phase": "before",
+      "kind": "list",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "list",
+        "src/shell/pre94-3h-retry-list-before-fetch-retry.test.ts",
+        "src/shell/pre94-3h-retry-list-before-fetch-retry.boundaries.test.ts",
+        "src/shell/pre94-3h-retry-list-before-fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-d79rq0dv/list.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.604,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-retry-list-before-fetch-retry.test.ts": "f7fafac9dcc5bcd23be1468ad4938cdbd3dabb06230749a5422f35009588fb72",
+        "packages/game/src/shell/pre94-3h-retry-list-before-fetch-retry.boundaries.test.ts": "ecd706cd47380de2411b2c9540f2fb94da083a79abe39c7ae09f5494e6ded39f",
+        "packages/game/src/shell/pre94-3h-retry-list-before-fetch-retry.glm-phase1-leaves.test.ts": "8486e6fc731a787ad7d3ec3bee785a8c999ecebb2db29036c6546bb1b69ea677"
+      },
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "f8dd169d0cf7be9bfce745409d8cef5c50ee4c2879c4f46adaa52143873901cc"
+    },
+    {
+      "phase": "before",
+      "kind": "v8",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-retry-list-before-fetch-retry.test.ts",
+        "src/shell/pre94-3h-retry-list-before-fetch-retry.boundaries.test.ts",
+        "src/shell/pre94-3h-retry-list-before-fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--coverage.enabled",
+        "--coverage.provider=v8",
+        "--coverage.include=src/shell/fetch-retry.ts",
+        "--coverage.reporter=json",
+        "--coverage.reporter=json-summary",
+        "--coverage.reportsDirectory=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-d79rq0dv/coverage",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-d79rq0dv/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.682,
+      "rawSha256": "6418dda432f1445d3149425374189fdcc06512f1660d30feb3baab52b4d28768",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-retry-list-before-fetch-retry.test.ts": "f7fafac9dcc5bcd23be1468ad4938cdbd3dabb06230749a5422f35009588fb72",
+        "packages/game/src/shell/pre94-3h-retry-list-before-fetch-retry.boundaries.test.ts": "ecd706cd47380de2411b2c9540f2fb94da083a79abe39c7ae09f5494e6ded39f",
+        "packages/game/src/shell/pre94-3h-retry-list-before-fetch-retry.glm-phase1-leaves.test.ts": "8486e6fc731a787ad7d3ec3bee785a8c999ecebb2db29036c6546bb1b69ea677"
+      },
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "5a54d41da853a2e686564bcbe8a6bbb7cbc41a66c1f824e39d732531aa5c0313"
+    },
+    {
+      "phase": "after",
+      "kind": "list",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "list",
+        "src/shell/fetch-retry.test.ts",
+        "src/shell/fetch-retry.boundaries.test.ts",
+        "src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-u964ff3e/list.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.58,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copiesSha256": {},
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "7d8f23455e375f2cac3b03817a8e251dfdeed0e6ddd6404e47b37fd6dd948aa2"
+    },
+    {
+      "phase": "after",
+      "kind": "v8",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/fetch-retry.test.ts",
+        "src/shell/fetch-retry.boundaries.test.ts",
+        "src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--coverage.enabled",
+        "--coverage.provider=v8",
+        "--coverage.include=src/shell/fetch-retry.ts",
+        "--coverage.reporter=json",
+        "--coverage.reporter=json-summary",
+        "--coverage.reportsDirectory=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-u964ff3e/coverage",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-3h-collection-u964ff3e/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.942,
+      "rawSha256": "778a3ddbc5ae80f1826c2c27698754a891f59e55f9655e742e60320c98686f5b",
+      "copiesSha256": {},
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "nativeSha256": "c1d432705ce7cc67bc270c899c023aec74add5c78abe0a29bd06b76785f3a9ef"
+    }
+  ],
+  "snapshots": {
+    "origin/main": {
+      "commit": "f98d0ddd89ebdee7b04502ee35de26ee82c6d246",
+      "files": {
+        "shell/fetch-retry.test.ts": {
+          "sha256": "774573b6053638d91e1366b146a91b9eb5285dec40dc559e6414b66dc6aa8356",
+          "equalsBefore": false
+        },
+        "shell/fetch-retry.boundaries.test.ts": {
+          "sha256": "ecd706cd47380de2411b2c9540f2fb94da083a79abe39c7ae09f5494e6ded39f",
+          "equalsBefore": true
+        },
+        "shell/fetch-retry.glm-phase1-leaves.test.ts": {
+          "sha256": "8486e6fc731a787ad7d3ec3bee785a8c999ecebb2db29036c6546bb1b69ea677",
+          "equalsBefore": true
+        }
+      }
+    },
+    "d4cf7f57d": {
+      "commit": "d4cf7f57d237895d920ddee72f69e0278680157a",
+      "files": {
+        "shell/fetch-retry.test.ts": {
+          "sha256": "f7fafac9dcc5bcd23be1468ad4938cdbd3dabb06230749a5422f35009588fb72",
+          "equalsBefore": true
+        },
+        "shell/fetch-retry.boundaries.test.ts": {
+          "sha256": "ecd706cd47380de2411b2c9540f2fb94da083a79abe39c7ae09f5494e6ded39f",
+          "equalsBefore": true
+        },
+        "shell/fetch-retry.glm-phase1-leaves.test.ts": {
+          "sha256": "8486e6fc731a787ad7d3ec3bee785a8c999ecebb2db29036c6546bb1b69ea677",
+          "equalsBefore": true
+        }
+      }
+    },
+    "dfd03a811": {
+      "commit": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
+      "files": {
+        "shell/fetch-retry.test.ts": {
+          "sha256": "f7fafac9dcc5bcd23be1468ad4938cdbd3dabb06230749a5422f35009588fb72",
+          "equalsBefore": true
+        },
+        "shell/fetch-retry.boundaries.test.ts": {
+          "sha256": "ecd706cd47380de2411b2c9540f2fb94da083a79abe39c7ae09f5494e6ded39f",
+          "equalsBefore": true
+        },
+        "shell/fetch-retry.glm-phase1-leaves.test.ts": {
+          "sha256": "8486e6fc731a787ad7d3ec3bee785a8c999ecebb2db29036c6546bb1b69ea677",
+          "equalsBefore": true
+        }
+      }
+    }
+  },
+  "identities": {
+    "main": {
+      "identities": [
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > backoff 末值用于超出数组长度的后续重试",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 拒绝无效 retries 且不替换全局 fetch",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 空 backoff 数组使用 1000ms fallback",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 网络失败耗尽抛最后一次 Error 身份",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 重试后成功：返回最终那次 Response 身份（502→504→200）",
+        "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts :: project root :: L23 uninstallFetchRetryForTest 还原合同 > 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+        "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts :: project root :: L23 uninstallFetchRetryForTest 还原合同 > 还原后 install 可重新装载（installed 复位合同）",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > 503 → 重试;404 → 原样返回不重试(资源性错误)",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > 重复 install 幂等(不双层包)",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > 重试耗尽(默认 2 次重试 = 共 3 attempt)→ 抛最后一次错误",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > 非 GET(POST)不重试(非幂等)"
+      ],
+      "files": [
+        {
+          "file": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+          "testCount": 10,
+          "identityDigest": "6656747190f7115ca0adb36970806abedb152865141d5c1c7131fae80e77dcf8"
+        },
+        {
+          "file": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+          "testCount": 2,
+          "identityDigest": "25078949c8e61522f9c50653cba4561a6ce5c31f2dec0cf7ab59e1d9ed8eab65"
+        },
+        {
+          "file": "packages/game/src/shell/fetch-retry.test.ts",
+          "testCount": 5,
+          "identityDigest": "aae9e84d230bbe4e7c155693fd3374b9eef17d5da21cf2ddaaef7ec9a85b2bb5"
+        }
+      ]
+    },
+    "before": {
+      "identities": [
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > backoff 末值用于超出数组长度的后续重试",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 拒绝无效 retries 且不替换全局 fetch",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 空 backoff 数组使用 1000ms fallback",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 网络失败耗尽抛最后一次 Error 身份",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 重试后成功：返回最终那次 Response 身份（502→504→200）",
+        "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts :: project root :: L23 uninstallFetchRetryForTest 还原合同 > 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+        "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts :: project root :: L23 uninstallFetchRetryForTest 还原合同 > 还原后 install 可重新装载（installed 复位合同）",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > 503 → 重试;404 → 原样返回不重试(资源性错误)",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > AbortError 立即向 caller 传播，不重复请求或等待 backoff",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > 重复 install 幂等(不双层包)",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > 重试耗尽(默认 2 次重试 = 共 3 attempt)→ 抛最后一次错误",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > 非 GET(POST)不重试(非幂等)"
+      ],
+      "files": [
+        {
+          "file": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+          "testCount": 10,
+          "identityDigest": "6656747190f7115ca0adb36970806abedb152865141d5c1c7131fae80e77dcf8"
+        },
+        {
+          "file": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+          "testCount": 2,
+          "identityDigest": "25078949c8e61522f9c50653cba4561a6ce5c31f2dec0cf7ab59e1d9ed8eab65"
+        },
+        {
+          "file": "packages/game/src/shell/fetch-retry.test.ts",
+          "testCount": 6,
+          "identityDigest": "2c5810e371c66f60d09d3780c7f0145d12c0ef66d601c9b852b11bbbcdef60ef"
+        }
+      ]
+    },
+    "after": {
+      "identities": [
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > backoff 末值用于超出数组长度的后续重试",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 已取消的 init.signal 用原始非AbortError原因立即拒绝，不退避或重试",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 拒绝无效 retries 且不替换全局 fetch",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 空 backoff 数组使用 1000ms fallback",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 网络失败耗尽抛最后一次 Error 身份",
+        "packages/game/src/shell/fetch-retry.boundaries.test.ts :: project root :: H01 installFetchRetry 边界 > 重试后成功：返回最终那次 Response 身份（502→504→200）",
+        "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts :: project root :: L23 uninstallFetchRetryForTest 还原合同 > 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+        "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts :: project root :: L23 uninstallFetchRetryForTest 还原合同 > 还原后 install 可重新装载（installed 复位合同）",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > 404 → 原样返回同一 Response，不重试",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > 503 → 重试后返回恢复的 Response",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > AbortError 立即向 caller 传播，不重复请求或等待 backoff",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > 重复 install 幂等(不双层包)",
+        "packages/game/src/shell/fetch-retry.test.ts :: project root :: fetch-retry(GET 网络层重试兜底) > 非 GET(POST)不重试(非幂等)"
+      ],
+      "files": [
+        {
+          "file": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+          "testCount": 11,
+          "identityDigest": "2bc7342cb820b020c721a9af69ed170c715afbf62617224689bdc2a87d11a8be"
+        },
+        {
+          "file": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+          "testCount": 2,
+          "identityDigest": "25078949c8e61522f9c50653cba4561a6ce5c31f2dec0cf7ab59e1d9ed8eab65"
+        },
+        {
+          "file": "packages/game/src/shell/fetch-retry.test.ts",
+          "testCount": 6,
+          "identityDigest": "724e1d954fe89d452bb75505bea69d235fda7ae93c67809c5dd3b94c49b6e740"
+        }
+      ]
+    }
+  },
+  "coverage": {
+    "before": {
+      "lines": {
+        "total": 29,
+        "covered": 29,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 5,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 33,
+        "covered": 33,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 41,
+        "covered": 41,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "after": {
+      "lines": {
+        "total": 29,
+        "covered": 29,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 5,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 33,
+        "covered": 33,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 41,
+        "covered": 41,
+        "skipped": 0,
+        "pct": 100
+      }
+    }
+  },
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true,
+  "formalSha256": {
+    "scripts/coverage/approved-test-retirements.mjs": "1fc445059f2d36b94208f9f7aaa760c74f84e5995a6f30b7e483c07ba2bc2cfd",
+    "scripts/coverage/approved-test-retirements.test.mjs": "53a94bdfc9d227d8eba31da6e51b21b810afdd626eb3420a896426d64494f9c9",
+    "packages/game/src/shell/fetch-retry.ts": "acece0be9e180b65cb5f86e96bea80072c5640edbb8af25dcc05ec01fa91b1aa",
+    "packages/game/src/shell/fetch-retry.test.ts": "b5f12b9b3d7d8fbdc52e08b4e45596b40e71c04336d923da762ee8727e57c332",
+    "packages/game/src/shell/fetch-retry.boundaries.test.ts": "e9141c690db28cbf794031e2c3c5388eff28ae6996137d6f50cb3fbdc3f2d7a8",
+    "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts": "31fc4a19a67251f87ae251adf877f56a23104fca0833541a596d6fa8252eefeb"
+  }
+}

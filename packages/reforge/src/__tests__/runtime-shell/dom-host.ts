@@ -1,6 +1,7 @@
-import { IDBFactory, IDBKeyRange, IDBObjectStore } from 'fake-indexeddb'
+import { IDBDatabase, IDBFactory, IDBKeyRange, IDBObjectStore } from 'fake-indexeddb'
 import { vi } from 'vitest'
 import cursorJson from '../../engine-chrome/assets/dialog-icons-raw.json?raw'
+import { installShellAudioHost } from './audio-host.js'
 
 export const chromePng = () =>
   Uint8Array.from(
@@ -20,10 +21,65 @@ export async function installShellHost(query = '') {
   const { setImmediate } = await vi.importActual<{ setImmediate(cb: () => void): unknown }>(
     'node:timers',
   )
+  const pendingIO = new Set<Promise<void>>()
+  function beginIO(): () => void {
+    let finish!: () => void
+    const receipt = new Promise<void>((resolve) => {
+      finish = () => {
+        pendingIO.delete(receipt)
+        resolve()
+      }
+    })
+    pendingIO.add(receipt)
+    return finish
+  }
+  async function drainIO(): Promise<void> {
+    for (;;) {
+      // Request/transaction completion can enqueue the next browser operation in
+      // a promise continuation. Give it a task turn before checking for quiescence.
+      await new Promise<void>((resolve) => setImmediate(resolve))
+      if (pendingIO.size === 0) return
+      await Promise.all(pendingIO)
+    }
+  }
   vi.stubGlobal('Blob', NativeBlob)
   vi.stubGlobal('crypto', webcrypto)
-  vi.stubGlobal('indexedDB', new IDBFactory())
+  const databases = new Set<IDBDatabase>()
+  const factory = new IDBFactory()
+  const open = factory.open.bind(factory)
+  factory.open = (...args) => {
+    const request = open(...args)
+    const finish = beginIO()
+    request.addEventListener(
+      'success',
+      () => {
+        databases.add(request.result)
+        finish()
+      },
+      { once: true },
+    )
+    request.addEventListener('error', finish, { once: true })
+    return request
+  }
+  const transaction = IDBDatabase.prototype.transaction
+  const maybeDescriptor = Object.getOwnPropertyDescriptor(IDBDatabase.prototype, 'transaction')
+  if (!maybeDescriptor) throw new Error('native IDB transaction descriptor missing')
+  const transactionDescriptor = maybeDescriptor
+  // A transparent wrapper remains composable with tests that spy on this native
+  // port. Nesting vi.spyOn would return the same spy and recurse in those tests.
+  Object.defineProperty(IDBDatabase.prototype, 'transaction', {
+    ...transactionDescriptor,
+    value: function ownedTransaction(this: IDBDatabase, ...args: Parameters<typeof transaction>) {
+      const tx = transaction.apply(this, args)
+      const finish = beginIO()
+      tx.addEventListener('complete', finish, { once: true })
+      tx.addEventListener('abort', finish, { once: true })
+      return tx
+    },
+  })
+  vi.stubGlobal('indexedDB', factory)
   vi.stubGlobal('IDBKeyRange', IDBKeyRange)
+  const audio = installShellAudioHost()
   localStorage.clear()
   history.replaceState(null, '', `/${query}`)
   document.body.innerHTML = '<canvas id="screen"></canvas>'
@@ -117,13 +173,18 @@ export async function installShellHost(query = '') {
   )
   const bitmaps: ImageBitmap[] = []
   vi.stubGlobal('createImageBitmap', async (blob: Blob) => {
-    const bytes = new Uint8Array(await blob.arrayBuffer())
-    if (bytes[0] !== 137 || bytes[1] !== 80 || bytes[2] !== 78 || bytes[3] !== 71)
-      throw new Error('host requires PNG')
-    const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
-    const bitmap = { width: view.getUint32(16), height: view.getUint32(20), close: vi.fn() }
-    bitmaps.push(bitmap)
-    return bitmap
+    const finish = beginIO()
+    try {
+      const bytes = new Uint8Array(await blob.arrayBuffer())
+      if (bytes[0] !== 137 || bytes[1] !== 80 || bytes[2] !== 78 || bytes[3] !== 71)
+        throw new Error('host requires PNG')
+      const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
+      const bitmap = { width: view.getUint32(16), height: view.getUint32(20), close: vi.fn() }
+      bitmaps.push(bitmap)
+      return bitmap
+    } finally {
+      finish()
+    }
   })
   const fetches: string[] = []
   const overrides = new Map<string, () => Promise<Response>>()
@@ -175,12 +236,30 @@ export async function installShellHost(query = '') {
     }
     return request
   })
+  let closing: Promise<void> | undefined
+  async function closeHost(): Promise<void> {
+    for (const held of heldReads) held.release()
+    await drainIO()
+    for (const row of listeners) row.target.removeEventListener(row.type, row.callback, row.capture)
+    frames.clear()
+    for (const bitmap of bitmaps) bitmap.close()
+    for (const database of databases) database.close()
+    audio.close()
+    Reflect.deleteProperty(window, '__reforge')
+    Reflect.deleteProperty(window, '__tpE2e')
+    document.body.replaceChildren()
+    vi.restoreAllMocks()
+    Object.defineProperty(IDBDatabase.prototype, 'transaction', transactionDescriptor)
+    vi.unstubAllGlobals()
+    vi.unstubAllEnvs()
+  }
   return {
     frames,
     draws,
     fetches,
     overrides,
     bitmaps,
+    audioContexts: audio.contexts,
     text,
     holdNextPayloadRead(): HeldRead {
       if (nextRead) throw new Error('a payload read is already armed')
@@ -215,17 +294,8 @@ export async function installShellHost(query = '') {
       window.dispatchEvent(new KeyboardEvent('keyup', { key, bubbles: true }))
     },
     close() {
-      for (const held of heldReads) held.release()
-      for (const row of listeners)
-        row.target.removeEventListener(row.type, row.callback, row.capture)
-      frames.clear()
-      for (const bitmap of bitmaps) bitmap.close()
-      Reflect.deleteProperty(window, '__reforge')
-      Reflect.deleteProperty(window, '__tpE2e')
-      document.body.replaceChildren()
-      vi.restoreAllMocks()
-      vi.unstubAllGlobals()
-      vi.unstubAllEnvs()
+      closing ??= closeHost()
+      return closing
     },
   }
 }

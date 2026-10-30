@@ -1,0 +1,76 @@
+{
+  "codeBase": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+  "metadataBase": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
+  "savedWipManifest": "../QUALITY-DOCS-GIT-PATH-ENUMERATION-1/parked-wip-manifest.json.gz",
+  "unchangedFilesRestored": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+      "restoredByteExact": true,
+      "sha256": "c49bcc3accba2da5b56a614d70cefaba327fd910380dffebc38652408b309ea7",
+      "checkpointScope": "Exact at initial restore; then current count paragraph rebased to include tool prerequisite ledger delta"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+      "restoredByteExact": true,
+      "sha256": "aeb93b81ebf68d23a752ce7c25eb7cd78fd6c43be2341c51064cc09b2a2fd459"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md",
+      "restoredByteExact": true,
+      "sha256": "2085fa41dff909b69eec2fd82ce38275a42ccf373e12b6f9fe015e730508e496"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "restoredByteExact": true,
+      "sha256": "b1ffbb2aaea40f7024bddeaa8ae8a1c17cf50dd375fcc6cc14bb3269b269e2b7"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "restoredByteExact": true,
+      "sha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.test.ts",
+      "restoredByteExact": true,
+      "sha256": "d78bdc3d82b0d7fa37953d2f6639d10fd46c98d20f80ef59e43d7d7784430175"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "restoredByteExact": true,
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b"
+    }
+  ],
+  "sharedDocumentsRebased": [
+    "docs/ops/audits/code-quality-file-ledger.md",
+    "docs/ops/board.md",
+    "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md"
+  ],
+  "toolTaskBoardAndLedgerDeltasPreserved": true,
+  "toolAndFinalizationProductExecutionSeparate": true,
+  "newCounts": {
+    "tracked": 3316,
+    "closed": 255,
+    "review": 96,
+    "pending": 2965
+  },
+  "producerFailure": "Original docs producer failed at --print-task-index before gates/archive tail. Actual CLI failure diagnosed and independently red/green repaired in37e2cd7c9. No original driver raw file exists; actual red CLI counter raw is in the tool batch.",
+  "notClaimed": [
+    "original uninterrupted producer success",
+    "new execution of old source/native tests",
+    "product behavior repair"
+  ],
+  "subsequentParentReportCountRebase": true,
+  "subsequentCallerAlignment": {
+    "path": "packages/game/src/core/battle/battle-finalization.test.ts",
+    "beforeSha256": "b1ffbb2aaea40f7024bddeaa8ae8a1c17cf50dd375fcc6cc14bb3269b269e2b7",
+    "afterSha256": "2bd7845ef57f603b1db5801a1b33f08c7f05193c08d3c1d47909b8ac9a18b3fa",
+    "scope": "Move pending dialogue queue assertion from normal lost exit to the actual watchdog path, which executes before dialogue hold. Keep original two cleanup cases and all four finalizer branches; no product change. Seven controls re-executed with v2 labels, prior attempts preserved."
+  },
+  "subsequentPrivateDecoupling": {
+    "path": "packages/game/src/core/battle/battle-runtime-context.test.ts",
+    "beforeSha256": "d78bdc3d82b0d7fa37953d2f6639d10fd46c98d20f80ef59e43d7d7784430175",
+    "afterSha256": "2fb71bc84e7a5817ff54950166aec14a5de7df5f107b77a995060f294002357d",
+    "scope": "Remove private property-layout assertions, preserve all public identity/runner/release oracles, keep 3 cases. Context owner regression rerun as v3, six unchanged main v2 controls reused; separate equivalent-shape control rejects old false positive."
+  }
+}

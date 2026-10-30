@@ -1,0 +1,205 @@
+{
+  "base": "bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a",
+  "owner": "Codex single agent",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "sha256": "9093e29aa326b7c0ee605db826c2dd27e4923bb9081e5b67692efc6ca73f0f91",
+      "lines": 614,
+      "snapshot": "attack.ts.current.gz",
+      "scope": "Full text read; modified implementation read at base plus entire own comment delta. No whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "130c7398a4f53d5a69b3d36178777ef3c18dfea0a7641f50d53c097493ee33a7",
+      "lines": 3130,
+      "snapshot": "battle-system.ts.current.gz",
+      "scope": "Full text read; modified implementation read at base plus entire own comment delta. No whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "6b20017dc7c7ca79c413fdb690cd65a5cdaa38e33d8227d009f1b19ce23fe7ea",
+      "lines": 2105,
+      "snapshot": "game-state.ts.current.gz",
+      "scope": "Full text read; modified implementation read at base plus entire own comment delta. No whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "618063b97dabe5d7a06380296493ec33efeb51b19c512d0cf7f957836d08b87c",
+      "lines": 916,
+      "snapshot": "battle-state.ts.current.gz",
+      "scope": "Full text read; modified implementation read at base plus entire own comment delta. No whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "d9075c4dcad02f11f4dceaa6bd044706e543f33f08963de64c391105489a4a95",
+      "lines": 98,
+      "snapshot": "battle-runtime-context.ts.current.gz",
+      "scope": "Full text read; modified implementation read at base plus entire own comment delta. No whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "c613002b06e83ccc6a4805c1fc0a3ace2d7107068d2305689ab3e456fe3f2c0c",
+      "lines": 67,
+      "snapshot": "battle-finalization.ts.current.gz",
+      "scope": "Full text read; modified implementation read at base plus entire own comment delta. No whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+      "sha256": "46bc9913fd1ae91d03ed6f923920614bab64aab11a3c1e2e4db24962fa244995",
+      "lines": 64,
+      "snapshot": "attack.glm-next-wave.test.ts.current.gz",
+      "scope": "Full text read; modified implementation read at base plus entire own comment delta. No whole-file acceptance."
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "lines": 11,
+      "snapshot": "vitest.config.ts.current.gz",
+      "scope": "Full text read; modified implementation read at base plus entire own comment delta. No whole-file acceptance."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3s-battle-system/README.md",
+      "sha256": "fe29c021ffa6abad2a688332bf37edc8e0d2fc44ce1242914f10d7038ebbf907",
+      "lines": 19,
+      "snapshot": "3s-battle-system.README.current.gz",
+      "scope": "Full original current text read, plus own explicit comment counter notice; not full-file semantic acceptance."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3v-battle-actions/README.md",
+      "sha256": "d9e55f6c93cf78e69156e3780c5926be3e25dd9b3ac9cca9f73501013ed08129",
+      "lines": 15,
+      "snapshot": "3v-battle-actions.README.current.gz",
+      "scope": "Full original current text read, plus own explicit comment counter notice; not full-file semantic acceptance."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944,
+      "ranges": [[1170, 1242]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "f6df365e29c4039cd3bf6ac0b0113883fe6aa20ca0814c637a575407ee485546",
+      "lines": 1054,
+      "ranges": [[135, 174]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c",
+      "lines": 392,
+      "ranges": [[1, 269], [305, 339], [345, 391]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "06fb86b9d7ec3526062b066f0e61fff0c4cb783635c5583b4e3d9cddda3ed602",
+      "lines": 295,
+      "ranges": [[1, 75]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d",
+      "lines": 427,
+      "ranges": [[116, 147], [175, 221], [240, 307]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242",
+      "lines": 5117,
+      "ranges": [[3085, 3116]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66",
+      "lines": 1533,
+      "ranges": [[640, 705], [838, 884]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "packages/game/src/core/game-state.test.ts",
+      "sha256": "85aaef9fca1ed85c10a9b91809bd7a5c7f7da5e2f888825a20afb868ce31f4c4",
+      "lines": 1073,
+      "ranges": [[641, 850]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "sha256": "93bf49d15b76014878b8893d47548837be8cd44509e16bb9ffc01185d62d8712",
+      "lines": 383,
+      "ranges": [[1, 105], [155, 205]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "ranges": [[87, 128], [1085, 1158], [1385, 1445], [1631, 1673], [1728, 1752]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858,
+      "ranges": [[600, 744], [1730, 1839]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "reference/sdlpal/video.c",
+      "sha256": "1ccfff8e985db13ab596c852c68c15b290fa33c4ca51415ec10452f8c3a67033",
+      "lines": 1484,
+      "ranges": [[1043, 1135]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "lines": 2409,
+      "ranges": [[1736, 2098], [2168, 2345]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652,
+      "ranges": [[1362, 1378]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "sha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+      "lines": 1675,
+      "ranges": [[1486, 1503], [1558, 1578]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "sha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "lines": 279,
+      "ranges": [[107, 125]],
+      "scope": "Only listed caller/type/primary/oracle ranges; not full-file semantic acceptance."
+    },
+    {
+      "path": "reference/sdlpal/uibattle.c",
+      "sha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
+      "lines": 1808,
+      "ranges": [[721, 783]],
+      "scope": "Original automatic-magic selection scoring, not whole C file or original-game execution."
+    }
+  ],
+  "newClosed": 0,
+  "limitations": [
+    "Four selected implementations fully read; partial production caller/primary ranges remain bounded.",
+    "SDLPal source reading is not pal.exe execution, browser, E2E or visual acceptance.",
+    "GameState spec has legacy double cast and stale comments; execution green is not quality acceptance.",
+    "All-HP0+Puppet loss and hidden stash migration hypotheses rejected after primary reading.",
+    "Equipment rebuild order/WORD extreme domains remain unproven, no behavior fix authorized here."
+  ]
+}

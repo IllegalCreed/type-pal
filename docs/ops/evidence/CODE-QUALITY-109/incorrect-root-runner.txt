@@ -1,0 +1,99 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal
+
+xxx··xxxxxxxxxxxxxx
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/game/src/analytics/google-analytics.boundaries.test.ts [ packages/game/src/analytics/google-analytics.boundaries.test.ts ]
+ReferenceError: window is not defined
+ ❯ packages/game/src/analytics/google-analytics.boundaries.test.ts:62:32
+     60|   // 意外网络 fail-fast：任何未被替身拦截的真实 fetch 直接拒绝（jsdom 默认不自动加载远端，
+     61|   // 本守卫保证即使配置漂移也不会触达真实端点）；afterEach 统一恢复 globals
+     62|   const originalWindowFetch = (window as unknown as { fetch?: unknown …
+       |                                ^
+     63|   beforeEach(() => {
+     64|     document.head.innerHTML = ''
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/18]⎯
+
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 17 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/game/src/analytics/analytics-consent-ui.test.ts > analytics consent UI > P2: 底部居中且高于 loading，不 autofocus、不遮挡进入游戏按钮
+ FAIL  packages/game/src/analytics/analytics-consent-ui.test.ts > analytics consent UI > DNT 默认关闭时仍显示说明，访客可明确拒绝或允许
+ FAIL  packages/game/src/analytics/analytics-consent-ui.test.ts > analytics consent UI > 存储不可用时保持面板，不伪装成已保存
+ReferenceError: document is not defined
+ ❯ packages/game/src/analytics/analytics-consent-ui.test.ts:7:5
+      5| describe('analytics consent UI', () => {
+      6|   beforeEach(() => {
+      7|     document.body.innerHTML = '<button id="boot-loading-enter-btn">进入游…
+       |     ^
+      8|     localStorage.clear()
+      9|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/18]⎯
+
+ FAIL  packages/game/src/analytics/analytics-consent.boundaries.test.ts > H04 consent 边界 > 非 CustomEvent → unset；unsubscribe 后真实 dispatch 零回调
+ReferenceError: window is not defined
+ ❯ packages/game/src/analytics/analytics-consent.boundaries.test.ts:60:5
+     58|     const seen: string[] = []
+     59|     const unsubscribe = subscribeAnalyticsConsent((consent) => seen.pu…
+     60|     window.dispatchEvent(new CustomEvent(ANALYTICS_CONSENT_EVENT, { de…
+       |     ^
+     61|     expect(seen).toEqual(['granted'])
+     62|     window.dispatchEvent(new Event(ANALYTICS_CONSENT_EVENT)) // 非 Cust…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/18]⎯
+
+ FAIL  packages/game/src/analytics/analytics-consent.test.ts > analytics consent > 缺失、损坏或异常存储一律失败关闭
+ FAIL  packages/game/src/analytics/analytics-consent.test.ts > analytics consent > 只保存合法选择、广播变更并支持销毁订阅
+ FAIL  packages/game/src/analytics/analytics-consent.test.ts > analytics consent > DNT/GPC 仅在访客尚未选择时提供默认 denied
+ReferenceError: localStorage is not defined
+ ❯ packages/game/src/analytics/analytics-consent.test.ts:14:5
+     12| describe('analytics consent', () => {
+     13|   beforeEach(() => {
+     14|     localStorage.clear()
+       |     ^
+     15|   })
+     16|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/18]⎯
+
+ FAIL  packages/game/src/analytics/google-analytics.test.ts > minimal Google Analytics page view > 非生产或 Measurement ID 非法时零副作用
+ FAIL  packages/game/src/analytics/google-analytics.test.ts > minimal Google Analytics page view > unset/denied 不加载；granted 只加载并记录当前页一次
+ FAIL  packages/game/src/analytics/google-analytics.test.ts > minimal Google Analytics page view > P1: 只保留 pathname 与合法 UTM，丢弃所有游戏参数和 hash
+ FAIL  packages/game/src/analytics/google-analytics.test.ts > minimal Google Analytics page view > G1/P3: 同 pathname 去重、场景事件不计页、撤回后停发
+ FAIL  packages/game/src/analytics/google-analytics.test.ts > minimal Google Analytics page view > Google 或 URL 异常不影响游戏调用方
+ FAIL  packages/game/src/analytics/google-analytics.test.ts > minimal Google Analytics page view > 复用既有 gtag 与 script，不重复注入
+ FAIL  packages/game/src/analytics/google-analytics.test.ts > minimal Google Analytics page view > 标签加载失败后可重试且不重复排队当前页
+ FAIL  packages/game/src/analytics/google-analytics.test.ts > minimal Google Analytics page view > 内建 gtag 使用官方 arguments 命令形态
+ReferenceError: document is not defined
+ ❯ packages/game/src/analytics/google-analytics.test.ts:70:5
+     68| describe('minimal Google Analytics page view', () => {
+     69|   beforeEach(() => {
+     70|     document.head.innerHTML = ''
+       |     ^
+     71|     delete (window as unknown as { dataLayer?: unknown[][] }).dataLayer
+     72|     delete (window as unknown as { gtag?: (...args: unknown[]) => void…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/18]⎯
+
+ FAIL  packages/game/src/analytics/install-analytics.test.ts > Type Pal analytics installation boundary > 公开 Measurement ID 合法，开发环境只显示 UI 且无 Google 请求
+ FAIL  packages/game/src/analytics/install-analytics.test.ts > Type Pal analytics installation boundary > G2: DNT/GPC 未有存储选择时默认关闭，但 UI 仍可见
+ReferenceError: document is not defined
+ ❯ packages/game/src/analytics/install-analytics.test.ts:6:5
+      4| describe('Type Pal analytics installation boundary', () => {
+      5|   beforeEach(() => {
+      6|     document.head.innerHTML = ''
+       |     ^
+      7|     document.body.innerHTML = ''
+      8|     localStorage.clear()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/18]⎯
+
+
+ Test Files  6 failed (6)
+      Tests  17 failed | 2 passed (19)
+   Start at  17:46:31
+   Duration  176ms (transform 289ms, setup 0ms, import 309ms, tests 16ms, environment 0ms)

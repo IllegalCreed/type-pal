@@ -1,0 +1,2426 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-20",
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "owner": "Codex",
+  "base": "615622b4ccf443d9d2b59704b52485bb5b083015",
+  "cards": ["83", "84", "85", "86", "87", "88", "89", "91", "93"],
+  "decision": "CODE83–89/91/93原合同accept；36明确文件accept；其余68partial继续，未作全部pre94完成声明。",
+  "acceptanceScope": "10生产菜单文件、25测试文件、1测试专用夹具。mode/driver/其它广域caller仅指定上下文，不关闭整文件；既有卡验收合同不扩展为所有共享模块。",
+  "files": [
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "bb7a60e8d2f1660b96502b0361f996e84dca32ecadbb24326bab8e78af4d3d94",
+      "dimensions": {
+        "A": "空栈前检查与dispatch后二次检查均调用resumeAfterMenusClosed；商店集成例核同tick恢复event。",
+        "B": "已纠正空栈必回explore误称；实际恢复域含battle/event/explore。",
+        "C": "仅编排本tick输入；栈写入和返回域集中于menu-stack，driver不反向引用本模块。",
+        "D": "前后恢复共用同一helper；各菜单转相语义不同，不合并成万能modal。",
+        "E": "七个真实router合同与shop同tick链分别给mode/depth/kind预期。",
+        "F": "提前返回后再核postcondition，输入时序直接可读。",
+        "G": "open/close公共再导出有真实scene/test caller；未增加重复helper。",
+        "H": "显式gs/input/bus，同步且无IO/异步资源；可由真实工厂直测。"
+      },
+      "basis": "GLM原全文/primary与逐例E据证复用；Codex定向补缺维、实际caller与当前差异。未声称重复全部GLM阅读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "sha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46",
+      "dimensions": {
+        "A": "battle优先，其次清shop waiting并恢复event，其余explore；pop本身不改mode。",
+        "B": "已纠正closeTopMenu“下帧回explore”，tickMenu可在当前dispatch后同步恢复。",
+        "C": "唯一共享push/pop与空栈恢复owner；不依赖输入、脚本执行或绘制。",
+        "D": "driver与mode均用此叶模块；保持依赖无环。",
+        "E": "真实open/close、shop caller与既有battle状态页来源复用，不伪造battle与shop并存合法夹具。",
+        "F": "三个短函数直接显示写入与优先级。",
+        "G": "每个出口均有caller，保留必要返回域分支；不以短文件当验收。",
+        "H": "纯显式状态可观察，无缓存/监听清理责任。"
+      },
+      "basis": "GLM原全文/primary与逐例E据证复用；Codex定向补缺维、实际caller与当前差异。未声称重复全部GLM阅读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.ts",
+      "sha256": "0252edd4a38dff6612decf42ef4d61d36fa689c0aa5471ab41b36be3115bc480",
+      "dimensions": {
+        "A": "WORD 3..6/11..15、按id取choice、游标守卫、确认与开关转相沿用已核primary。",
+        "B": "说明当前文案源与confirm默认值；本次不把私有类型修订写成行为修复。",
+        "C": "仅选择/确认/开关状态，menu-driver持有load/save/quit与音频副作用。",
+        "D": "toItems仅共享id/fallback到label合同；已删除无用私有泛型及choice约束。",
+        "E": "三测试文件的字面id/label、重排后choice、wrap及状态复位。",
+        "F": "choice union与phase揭示意图；helper类型现在只约束实际读取字段。",
+        "G": "仅删除私有类型冗余；公共函数均有driver/present caller。",
+        "H": "纯工厂与转换可直测，测试用公开word注入并恢复。"
+      },
+      "basis": "GLM原全文/primary与逐例E据证复用；Codex定向补缺维、实际caller与当前差异。未声称重复全部GLM阅读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+      "sha256": "f809ecede6a78cb803df3b23615fd7eaa2b910d76b9b16e756d2ed26064831fd",
+      "dimensions": {
+        "A": "WORD22/23与默认游标/id映射沿用CODE91；真实driver依据返回意图开equip/use。",
+        "B": "已删会话历史/C伪代码噪音，保留额外一层菜单的原因和职责。",
+        "C": "仅持有两项选择；记忆、栈和脚本由driver持有。",
+        "D": "复用SelectionMenu导航与getWord；两项定义无需新的通用框架。",
+        "E": "两文件8例及四针旧反控精确业务红/恢复字节证据复用，当前执行体相同。",
+        "F": "明确choice名称、两项表和导航直接表达意图。",
+        "G": "执行代码不变；所有公共helpers有实际driver caller。",
+        "H": "无IO/计时器，真实纯状态与词表缝隙可直接测。"
+      },
+      "basis": "GLM原全文/primary与逐例E据证复用；Codex定向补缺维、实际caller与当前差异。未声称重复全部GLM阅读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d",
+      "dimensions": {
+        "A": "八键clamp、全库存、usable装备追加、目标slot记忆及roleId映射沿用GLM全文与原卡primary。",
+        "B": "保留静态目标记忆/原盘ID/死人可选的领域解释，不把filter误称为删列表。",
+        "C": "菜单库存新建slot快照，不回写真实库存；目标记忆是页级static，写入只在confirm/cancel。",
+        "D": "颜色函数供inventory/equip呈现复用，游标clamp只负责grid；角色SelectionMenu环绕语义不同，不强并。",
+        "E": "三专测加旧__tests__库存测试：非顺序队伍、inUse边界、快照隔离、八键、记忆与死亡目标。",
+        "F": "方向函数显式delta，phase guard后统一clamp，语义易查。",
+        "G": "inUse强转经核属于InventoryEntry外的额外运行时字段适配，不能借治理扩公共类型；不是无用强转。",
+        "H": "显式gs/目录及公开转换直接测；私有记忆通过公开confirm/cancel/单人夹具建立，不加测试专用出口。"
+      },
+      "basis": "GLM原全文/primary与逐例E据证复用；Codex定向补缺维、实际caller与当前差异。未声称重复全部GLM阅读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+      "dimensions": {
+        "A": "买得起门/默认No/意图收尾沿用GLM；真实0x26开菜单、扣钱入包、关菜单event恢复及卖交易已有实链。",
+        "B": "买紧凑/卖全屏分工明确；mode类型保留既有公共合同，不宣称所有mode都由此工厂生成。",
+        "C": "仅状态和意图，真实cash/inventory交易归driver，目录只读。",
+        "D": "SelectionMenu工厂和导航复用；买卖布局/库存合同不同，不增加模式布尔万能helper。",
+        "E": "主测终态cash/inventory独立字面oracle，boundary核恰等/差1/No/目录不变，leaf核缺目录与错相。",
+        "F": "list/confirm分支和请求返回直接表达状态推进。",
+        "G": "ShopMode.sell无当前工厂但属公共冻结签名，非死代码擅删；其它出口实际使用。",
+        "H": "纯状态可直测；端到端通过公开catalog/shop-handler注入，文件隔离与beforeEach建立Owner。"
+      },
+      "basis": "GLM原全文/primary与逐例E据证复用；Codex定向补缺维、实际caller与当前差异。未声称重复全部GLM阅读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.ts",
+      "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+      "dimensions": {
+        "A": "全屏grid、sellable且count>inUse门、confirm意图与refresh空/缩/增表clamp复用既有全文/primary。",
+        "B": "头注区分C全屏picker与买布局；刷新不等于写真实inventory。",
+        "C": "仅持有grid/confirm，交易仍归driver；refresh从gs重建slot不别名。",
+        "D": "复用inventory八键与建表；四方向confirm toggle按独立公开按键保留，非可有可无中间层。",
+        "E": "三文件覆盖门/四方向/错相/空表/刷新隔离，原CODE93退役与3反控原件保留。",
+        "F": "导航短函数与refresh三分支清晰，不以指标强拆。",
+        "G": "原重复缩表例已退役；各方向出口由driver使用，无新死分支。",
+        "H": "显式gs/items和请求可直测，无异步/资源副作用；集成交易由shop主测承接。"
+      },
+      "basis": "GLM原全文/primary与逐例E据证复用；Codex定向补缺维、实际caller与当前差异。未声称重复全部GLM阅读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "sha256": "4772de391847ad8f1adc86029a4f6479b2874d97d09cd9bcdc418733642289f1",
+      "dimensions": {
+        "A": "equipable与count>inUse门、party[2,0]映射、pick-role wrap和swap链由dispatcher承接，复用全文/primary。",
+        "B": "修正party快照注释：按位置导航、确认映射roleId；保留脚本swap ownership解释。",
+        "C": "只选择物品/队员并返回请求，不改装备/属性/现金，swap实际写入在driver/equip-effect。",
+        "D": "list复用InventoryMenu，角色环绕与库存clamp不同；不合并导航语义。",
+        "E": "三文件验证inUse、目录缺项、错相、角色身份、意图不改真实装备/库存与单人环绕。",
+        "F": "phase guard及request字段直接揭示职责。",
+        "G": "_playerRoles/_partyMembers虽未读但属于既有公共签名，按用户API冻结保留并明确为非阻断简化候选。",
+        "H": "纯工厂/转换可用真实GameState和typed目录直接测，无需注入脚本模拟。"
+      },
+      "basis": "GLM原全文/primary与逐例E据证复用；Codex定向补缺维、实际caller与当前差异。未声称重复全部GLM阅读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.ts",
+      "sha256": "60898f2b0a25d9aabf965cb247d2f7d00defad9f3450967259ea7ace0efe6fbb",
+      "dimensions": {
+        "A": "ObjectID排序、spell.magicNumber关联、MP恰等/差1、缺记录和缺名复用GLM/原卡；调用方先筛大世界可用域。",
+        "B": "修正“后续接入渲染”和不存在的baseMpCost/name字段；名称来自Spell._name，成本来自Magic.costMP。",
+        "C": "只建表，不执行脚本/扣MP/持有输入；filter+sort使用副本不改角色学法槽。",
+        "D": "与in-game-magic的过滤层分开；已有battle排序相似但调用上下文不同，不跨层强抽。",
+        "E": "两专测加item-magic旧测试的字面排序/MP/空槽/关联/借用隔离；一条弱重复移交给原强例。",
+        "F": "分步关联spell和magic后构建SelectionMenuItem，名称/成本字段明确。",
+        "G": "防御缺角色/目录用于失败策略，不自动删；公共配置冻结，无新中间层。",
+        "H": "同步纯输入输出可直测；同合同Magic夹具统一，不模拟施法副作用。"
+      },
+      "basis": "GLM原全文/primary与逐例E据证复用；Codex定向补缺维、实际caller与当前差异。未声称重复全部GLM阅读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "sha256": "33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f",
+      "dimensions": {
+        "A": "caster/spell/target/done、单人快道、battle-only过滤、记忆与refresh沿用GLM和CODE89 primary；MP扣除由caller。",
+        "B": "纠正目标wrap误称与单体Confirm仍留pick-spell的错误概括，按真实两分支说明。",
+        "C": "自己持有菜单状态；模块static只记施法人位置，driver执行脚本/扣MP，呈现只读。",
+        "D": "复用magic-select/primitives；spell grid按3列钳制，target按队伍位置钳制，caster环绕，合同不同不泛化。",
+        "E": "三文件主/边界/leaf的合法typed场景与三针旧反控复用；测试每例前后复位公开记忆。",
+        "F": "confirmSpell复杂度近似11标重点：连续早退核phase/caster/selection/目录后写入明确，未发现需强拆的隐式副作用。",
+        "G": "记忆setter被实际caller/测试使用；默认magics用于单人建表，不删公共参数或防御分支。",
+        "H": "显式catalog+状态与公开记忆缝隙可确定测试；不为测试新增私有出口，afterEach失败时也执行。"
+      },
+      "basis": "GLM原全文/primary与逐例E据证复用；Codex定向补缺维、实际caller与当前差异。未声称重复全部GLM阅读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.test.ts",
+      "sha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；七例真实router空栈/双层/库存goto-out/open-close，独立mode/depth/kind断言。",
+        "B": "标题/注释按本文件实际层级限定：七例真实router空栈/双层/库存goto-out/open-close，独立mode/depth/kind断言。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "七例真实router空栈/双层/库存goto-out/open-close，独立mode/depth/kind断言。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；14例WORD字面id/文案/菜单顺序/defaultCursor与choice重排；词表before/after复位。",
+        "B": "标题/注释按本文件实际层级限定：14例WORD字面id/文案/菜单顺序/defaultCursor与choice重排；词表before/after复位。",
+        "C": "词表注入由本文件hooks恢复；核心SUT未mock，每例新建state。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "14例WORD字面id/文案/菜单顺序/defaultCursor与choice重排；词表before/after复位。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+      "sha256": "af352cee89772ea59adf77c0b127250d837f9e84faf6751435a60bd313f1497e",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；三例confirm重进复位与switch目标/初值、系统菜单按id映射，非保存/退出副作用证明。",
+        "B": "标题/注释按本文件实际层级限定：三例confirm重进复位与switch目标/初值、系统菜单按id映射，非保存/退出副作用证明。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "三例confirm重进复位与switch目标/初值、系统菜单按id映射，非保存/退出副作用证明。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "sha256": "3b2cfe9179561746f790cb72a67cfa33762b19c8d2565c5ee26d14ae20eb5a55",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；五例上下首尾wrap、负游标防御和System WORD源；标题纠正合法域误称，测试体不变。",
+        "B": "标题/注释按本文件实际层级限定：五例上下首尾wrap、负游标防御和System WORD源；标题纠正合法域误称，测试体不变。",
+        "C": "词表注入由本文件hooks恢复；核心SUT未mock，每例新建state。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "五例上下首尾wrap、负游标防御和System WORD源；标题纠正合法域误称，测试体不变。",
+        "F": "业务动作与独立字面expected就地可见；两处过宽标题有显式旧→新映射。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+      "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；四例22/23与装备/使用字面文案、合法记忆光标和Up/Down；原反控身份/测试字节不变。",
+        "B": "标题/注释按本文件实际层级限定：四例22/23与装备/使用字面文案、合法记忆光标和Up/Down；原反控身份/测试字节不变。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "四例22/23与装备/使用字面文案、合法记忆光标和Up/Down；原反控身份/测试字节不变。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+      "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；四例上界守卫、Down两连wrap、注入词表与空selection防御；afterEach清词表。",
+        "B": "标题/注释按本文件实际层级限定：四例上界守卫、Down两连wrap、注入词表与空selection防御；afterEach清词表。",
+        "C": "词表注入由本文件hooks恢复；核心SUT未mock，每例新建state。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "四例上界守卫、Down两连wrap、注入词表与空selection防御；afterEach清词表。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+      "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；颜色六态、filter真/假、usable装备追加/不追加、八键钳制、空表和死人目标；状态由真实工厂建立。",
+        "B": "标题/注释按本文件实际层级限定：颜色六态、filter真/假、usable装备追加/不追加、八键钳制、空表和死人目标；状态由真实工厂建立。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "颜色六态、filter真/假、usable装备追加/不追加、八键钳制、空表和死人目标；状态由真实工厂建立。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+      "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；真实slot快照不别名、inUse耗尽拒/装备count0-inUse-1可选、非顺序roleId与错相。",
+        "B": "标题/注释按本文件实际层级限定：真实slot快照不别名、inUse耗尽拒/装备count0-inUse-1可选、非顺序roleId与错相。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "真实slot快照不别名、inUse耗尽拒/装备count0-inUse-1可选、非顺序roleId与错相。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+      "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；恢复库存光标、缺inUse默认、target导航委派/其它六键与done no-op、取消记忆；独立设置关键cursor。",
+        "B": "标题/注释按本文件实际层级限定：恢复库存光标、缺inUse默认、target导航委派/其它六键与done no-op、取消记忆；独立设置关键cursor。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "恢复库存光标、缺inUse默认、target导航委派/其它六键与done no-op、取消记忆；独立设置关键cursor。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/inventory-menu.test.ts",
+      "sha256": "f00b0aa6ef3451448e6e53c11c14b814323c9d6e44e81af69c186c1829d38bbb",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；完整typed道具/角色和真实工厂；确认/取消、L40记忆与队伍收缩通过公开操作建立，去掉无必要flags强转。",
+        "B": "标题/注释按本文件实际层级限定：完整typed道具/角色和真实工厂；确认/取消、L40记忆与队伍收缩通过公开操作建立，去掉无必要flags强转。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "完整typed道具/角色和真实工厂；确认/取消、L40记忆与队伍收缩通过公开操作建立，去掉无必要flags强转。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.test.ts",
+      "sha256": "3a05fc9e29925a77e57e0ef21f11a166505f1e5f2406f6bcaae055312d4e073c",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；0x26真实event/driver开店买入扣钱入包与同tick关闭恢复event；卖出检查现金+数量终态。修正“全部商品最低100”错注，仅首项100参与本次门。",
+        "B": "标题/注释按本文件实际层级限定：0x26真实event/driver开店买入扣钱入包与同tick关闭恢复event；卖出检查现金+数量终态。修正“全部商品最低100”错注，仅首项100参与本次门。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "0x26真实event/driver开店买入扣钱入包与同tick关闭恢复event；卖出检查现金+数量终态。修正“全部商品最低100”错注，仅首项100参与本次门。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；MP无关；cash===price可进/差1拒、空列表、No意图收尾、catalog与原价完整保留。",
+        "B": "标题/注释按本文件实际层级限定：MP无关；cash===price可进/差1拒、空列表、No意图收尾、catalog与原价完整保留。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "MP无关；cash===price可进/差1拒、空列表、No意图收尾、catalog与原价完整保留。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+      "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；缺名回退?ID、pageSize8、真实错相无请求、目录缺项与list confirm null，未充当交易执行。",
+        "B": "标题/注释按本文件实际层级限定：缺名回退?ID、pageSize8、真实错相无请求、目录缺项与list confirm null，未充当交易执行。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "缺名回退?ID、pageSize8、真实错相无请求、目录缺项与list confirm null，未充当交易执行。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.test.ts",
+      "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；完整全库存、sellable gate、四方向toggle、confirm意图/零交易副作用、取消与非空缩表clamp。",
+        "B": "标题/注释按本文件实际层级限定：完整全库存、sellable gate、四方向toggle、confirm意图/零交易副作用、取消与非空缩表clamp。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "完整全库存、sellable gate、四方向toggle、confirm意图/零交易副作用、取消与非空缩表clamp。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+      "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；inUse双臂、confirm翻页无触达、空/等长/增表精确cursor与数量、改slot不改真实库存。",
+        "B": "标题/注释按本文件实际层级限定：inUse双臂、confirm翻页无触达、空/等长/增表精确cursor与数量、改slot不改真实库存。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "inUse双臂、confirm翻页无触达、空/等长/增表精确cursor与数量、改slot不改真实库存。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+      "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；空库存guard与真实confirm重复选择/list重复确认无请求；原缩表重复已由CODE93精确退役。",
+        "B": "标题/注释按本文件实际层级限定：空库存guard与真实confirm重复选择/list重复确认无请求；原缩表重复已由CODE93精确退役。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "空库存guard与真实confirm重复选择/list重复确认无请求；原缩表重复已由CODE93精确退役。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.test.ts",
+      "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；InventoryMenu结构/全显示、equipable门、请求角色与阶段、双向角色wrap及list导航no-op。",
+        "B": "标题/注释按本文件实际层级限定：InventoryMenu结构/全显示、equipable门、请求角色与阶段、双向角色wrap及list导航no-op。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "InventoryMenu结构/全显示、equipable门、请求角色与阶段、双向角色wrap及list导航no-op。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+      "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；inUse耗尽与正控、party[2,0]角色身份、请求不改原装备/队伍/库存、cancel与done guard。",
+        "B": "标题/注释按本文件实际层级限定：inUse耗尽与正控、party[2,0]角色身份、请求不改原装备/队伍/库存、cancel与done guard。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "inUse耗尽与正控、party[2,0]角色身份、请求不改原装备/队伍/库存、cancel与done guard。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "sha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；目录缺项、done三操作no-op、单人队wrap；与主测filter/初始字段旧弱重复已退役。",
+        "B": "标题/注释按本文件实际层级限定：目录缺项、done三操作no-op、单人队wrap；与主测filter/初始字段旧弱重复已退役。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "按本文件输入/返回域与主测、boundary、leaf清单比对；成组结果支持同一场景，不按断言数或文件后缀判重复。",
+        "E": "目录缺项、done三操作no-op、单人队wrap；与主测filter/初始字段旧弱重复已退役。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+      "sha256": "01c9290e0f87266e70e33bc91336ba96031d0a73275ca064b13358d99fea7484",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；MP恰等/差1、ObjectID295非索引、排序不改输入、坏角色/缺spell防御；使用共享完整Magic成本夹具。",
+        "B": "标题/注释按本文件实际层级限定：MP恰等/差1、ObjectID295非索引、排序不改输入、坏角色/缺spell防御；使用共享完整Magic成本夹具。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "同Magic(id,costMP)完整对象统一工厂，六处原AST函数体相同；角色HP/MP/level/装备默认值不同，不强行合并。",
+        "E": "MP恰等/差1、ObjectID295非索引、排序不改输入、坏角色/缺spell防御；使用共享完整Magic成本夹具。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+      "sha256": "7426d25723fe5e8b006ffcd1d04c900e8cc0bb51da80c86bb07865f3b3c9521d",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；magicNumber悬空剔除、缺名回退、零成本零MP、全0槽与pageSize。角色默认值与其它族不同，保留本地工厂。",
+        "B": "标题/注释按本文件实际层级限定：magicNumber悬空剔除、缺名回退、零成本零MP、全0槽与pageSize。角色默认值与其它族不同，保留本地工厂。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "同Magic(id,costMP)完整对象统一工厂，六处原AST函数体相同；角色HP/MP/level/装备默认值不同，不强行合并。",
+        "E": "magicNumber悬空剔除、缺名回退、零成本零MP、全0槽与pageSize。角色默认值与其它族不同，保留本地工厂。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "sha256": "ea9a22b9f58621ad3ac06ed0cd2a394292e1f29dbd086127daef819970ca89d6",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；全文核旧建表文件；item filter/买卖文案属于旧公开helper防御，不冒称现生产渲染；Magic排序/灰项/cursor/labels成本保留。相同输入仅length=2弱例移交同文件MP足够例的完整双label断言。",
+        "B": "标题/注释按本文件实际层级限定：全文核旧建表文件；item filter/买卖文案属于旧公开helper防御，不冒称现生产渲染；Magic排序/灰项/cursor/labels成本保留。相同输入仅length=2弱例移交同文件MP足够例的完整双label断言。",
+        "C": "每例局部真实工厂state；目录常量只作只读输入。集成文件的公共注入在beforeEach重建，Vitest文件隔离不关闭。",
+        "D": "同Magic(id,costMP)完整对象统一工厂，六处原AST函数体相同；角色HP/MP/level/装备默认值不同，不强行合并。",
+        "E": "全文核旧建表文件；item filter/买卖文案属于旧公开helper防御，不冒称现生产渲染；Magic排序/灰项/cursor/labels成本保留。相同输入仅length=2弱例移交同文件MP足够例的完整双label断言。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "一条同输入弱长度例精简，完整labels结果包含其空槽排除合同；其它身份与断言未删，精确退役登记限制文件SHA与身份。",
+        "H": "使用真实同步状态机/公开注入；需要集成的交易用真实event/driver，不以mock次数代替业务终态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+      "sha256": "2448a923a06960f0461c4a0c3a65edbba38e0f40b063268dd819be7cf9492188",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；四相主链、活/死施法人、all/单体、MP禁用、目标与grid边界、refresh记忆及battle-only过滤；不以状态意图冒充脚本执行。",
+        "B": "标题/注释按本文件实际层级限定：四相主链、活/死施法人、all/单体、MP禁用、目标与grid边界、refresh记忆及battle-only过滤；不以状态意图冒充脚本执行。",
+        "C": "显式beforeEach/afterEach调用既有rememberMagicCasterCursor(0)；每例局部state，测试失败仍清单例。",
+        "D": "同Magic(id,costMP)完整对象统一工厂，六处原AST函数体相同；角色HP/MP/level/装备默认值不同，不强行合并。",
+        "E": "四相主链、活/死施法人、all/单体、MP禁用、目标与grid边界、refresh记忆及battle-only过滤；不以状态意图冒充脚本执行。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "纯依赖工厂且可复位static；新增 hooks只用既有公开seam，不暴露私有状态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+      "sha256": "be6d3c92e120609fa7f78413d9acc2560e2a20f2d1935de27ff703d72954e219",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；单人直进、party[2,0]施法/目标roleId、错相和刷新落回spell；每例前后复位施法人记忆。",
+        "B": "标题/注释按本文件实际层级限定：单人直进、party[2,0]施法/目标roleId、错相和刷新落回spell；每例前后复位施法人记忆。",
+        "C": "显式beforeEach/afterEach调用既有rememberMagicCasterCursor(0)；每例局部state，测试失败仍清单例。",
+        "D": "同Magic(id,costMP)完整对象统一工厂，六处原AST函数体相同；角色HP/MP/level/装备默认值不同，不强行合并。",
+        "E": "单人直进、party[2,0]施法/目标roleId、错相和刷新落回spell；每例前后复位施法人记忆。",
+        "F": "业务动作与独立字面expected就地可见；不生成镜像算法oracle或多层mock协议。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "纯依赖工厂且可复位static；新增 hooks只用既有公开seam，不暴露私有状态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "sha256": "927a9fc1ee6696b4d632a7932b04847c72dd74d13df6788274b61a4b44da2abe",
+      "dimensions": {
+        "A": "复用原全文逐例/合法输入与caller归属，结合当前真实差异；跨开启记忆、越界防御、角色缺项、空表导航、左右边界、非spell翻页、关闭refresh不复活与cancel幂等；失败也走afterEach复位。",
+        "B": "标题/注释按本文件实际层级限定：跨开启记忆、越界防御、角色缺项、空表导航、左右边界、非spell翻页、关闭refresh不复活与cancel幂等；失败也走afterEach复位。",
+        "C": "显式beforeEach/afterEach调用既有rememberMagicCasterCursor(0)；每例局部state，测试失败仍清单例。",
+        "D": "同Magic(id,costMP)完整对象统一工厂，六处原AST函数体相同；角色HP/MP/level/装备默认值不同，不强行合并。",
+        "E": "跨开启记忆、越界防御、角色缺项、空表导航、左右边界、非spell翻页、关闭refresh不复活与cancel幂等；失败也走afterEach复位。",
+        "F": "业务动作与独立字面expected就地可见；两处过宽标题有显式旧→新映射。",
+        "G": "当前未新增运行时用例/skip/only/timeout；与其它文件同合同则核更强oracle与独立输入域，未凭相似语句删例。",
+        "H": "纯依赖工厂且可复位static；新增 hooks只用既有公开seam，不暴露私有状态。"
+      },
+      "basis": "原GLM全文逐例E＋Codex具体质量缺口核验；__tests__两文件本次全文补读。",
+      "decision": "accept"
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/magic-cost-fixture.ts",
+      "sha256": "7fd3bf1ac0c7203c62dc66d316c6da092d2e0dce2a51e1468e76aedef82dd109",
+      "dimensions": {
+        "A": "六份旧工厂完整字段/参数经AST打印逐字相等后抽取，输出值未变。",
+        "B": "说明只供菜单建表，不模拟施法。",
+        "C": "仅import type Magic，零全局/副作用，无产品反向依赖。",
+        "D": "id+costMP合同与默认值均相同；effect型legalMagic夹具合同不同，不复用。",
+        "E": "六个真实测试caller使用；220例及当前定向覆盖其实际建表输出，不添加镜像工厂单测。",
+        "F": "magicWithCost明确输入意图，字段默认值直接可见。",
+        "G": "一个纯函数取代六份同知识；未引入模式标志/可扩万能上下文。",
+        "H": "函数每次返回新对象；无随机/IO/缓存，调用方可直接控制。"
+      },
+      "basis": "Codex新文件全文与六个旧函数AST相等证明",
+      "decision": "accept"
+    }
+  ],
+  "bindings": [
+    {
+      "path": "packages/game/src/core/menu/primitives.ts",
+      "sha256": "787c0c72a3cad074ac459c0108ea67a088dd21ae465e92a21e33a4f14eb80c88"
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.ts",
+      "sha256": "3b71f4a343d2f7fdec75f2651dcb464d3a3f85b2d5388e50335999b9f488cfc7"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "7b3b23839864c9405e91692b42be697c2baa47f11536ea823acde33e722687a2"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.test.ts",
+      "sha256": "7cbe225dae84eabb0a55cf3ba41640fd933f39e6ff6ad03ed5bb50645eae8a1e"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.cov85.test.ts",
+      "sha256": "80b99e958e6d384c805356ccb3b325499276e9381648ad59ba5a625818a8612c"
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "4025164dd238bc88588cef534255dca71d22c187dadde80f4b39756e5a974328"
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.ts",
+      "sha256": "4fe9487c9e3618770929f3e11176cd362cbcb0d1c46b38fa63fc50f981cd0883"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "4bdfc8e1fa9347d6bcb3531dbd74a01e700ce517b77fe76ddedcafc3d55e04dc"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "84fba11f3597e362fea558feb1ba4c9279c33d7b4ed3ead64b21303acbf9da1a"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "93ddabfd8ce8b6f2dd38c94bee5925e52fd1444d6809d53c6e52af631dace54f"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "sha256": "8aab3f1f2292dc1a8d610be94825847d5b2c9459197ea1260db94f9f581fd1c3"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.ts",
+      "sha256": "76059179edbbfceaa0e66401f311b334834724ae9c6f7622b7219035ea1ab49c"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e"
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "efc0ed3c6cd2b50e002f783a738be1306bde0b727d3f3701a2aee18b55279828"
+    },
+    {
+      "path": "packages/shared/src/resources.ts",
+      "sha256": "daf404181b9244c98dfb859c7bb5c3befde2fdb1d16027a9318b5f98fff0d1ed"
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+    },
+    {
+      "path": "reference/sdlpal/itemmenu.c",
+      "sha256": "7026d7875f79a57cf21fd80135d13022ff792698720ef6f56de864d208742a74"
+    },
+    {
+      "path": "reference/sdlpal/play.c",
+      "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017"
+    },
+    {
+      "path": "reference/sdlpal/magicmenu.c",
+      "sha256": "d3744426d40167d4130aeaa0fac686264df285e44d73cc3648dba56f3645d312"
+    },
+    {
+      "path": "reference/sdlpal/ui.c",
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/83-93-menu-core-transaction/per-file-index.md",
+      "sha256": "ccd14a214638f94ccbecac641df396b7f013c2735f9dc2e83cdb81140b7318c2"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/85-89-menu-shop-equip-magic/per-file-index.md",
+      "sha256": "2bae66a829ca259fabaf2976bdbb4c4f2733be8789a659de535d9483d8ee75cf"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/mutation-results.json",
+      "sha256": "10b4c69ca6b04fd4d477e7942696e1fda97b5aab7a16bb3ac75ce05464044ba8"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/MUT-01-mutant.txt",
+      "sha256": "3a7d1fc25754675c960e8b75503c819963ead174a00e7de00a5951b7f538b40e"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/MUT-01-restored.txt",
+      "sha256": "2c4af7107ce3ef974f28f2b8f1635811a26b5f8537015ef6d134eb80f8fc8a10"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/MUT-02-mutant.txt",
+      "sha256": "cbf9d116d21f6a09987d6aced381f9481424771c28abe34cdb4e98dd3b7dcced"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/MUT-02-restored.txt",
+      "sha256": "6c39891417e48535a66af6d43c2d3590604d3905647beee6ecafb5ecb6c75860"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/MUT-03-mutant.txt",
+      "sha256": "2b854a4be874d771ba1bf18874004669798cb9ce659a478f39cd88e2c3f69496"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/MUT-03-restored.txt",
+      "sha256": "a3c34c87cfe84f00d34092103734388d4b62c50671eb83e514bf18ea1e37bfe0"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/mutation-results.json",
+      "sha256": "ccbc909eb5bd3a438879840d27da5b359ac23eb07e19d35fb4012cc8f8d5ffe8"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/MUT-01-mutant.txt",
+      "sha256": "14d253411cd0354b6824d574ce2ffeac3eb0700bd1cc7d9cbff39f7fef7362bb"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/MUT-01-restored.txt",
+      "sha256": "51a7d4d3c8c137378247673a9f298712bcf569014eb3e3c8e7929aff4daa9c5a"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/MUT-02-mutant.txt",
+      "sha256": "d321b5a541eb971b1ccc313e37305911fdfa7af06c2e818121267b35fa280124"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/MUT-02-restored.txt",
+      "sha256": "e74f1378fb085fbe6c48dca46fbf0408eb007a5876a9caac1be83e772968d552"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/MUT-03-mutant.txt",
+      "sha256": "16fc7058dde4e5ae87280f09627d4a47cbc5a37da46e6006ccf9d9fee7b63b4b"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/MUT-03-restored.txt",
+      "sha256": "4759c61b93a9a643c6f0a96fe6ec88da8b6747d489d748840a0d5e961eea9ecd"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/mutation-results.json",
+      "sha256": "053be850277324cebc9b08c5b41af8ea8b835b5e3e039afc477f900703c90fdd"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-01-mutant.txt",
+      "sha256": "0bb131e26a16b09c05d929fd84a851494afe755ad967d63b7fd1cd33fb5529fc"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-01-restored.txt",
+      "sha256": "5089255c442c19c409f73f89f703f432a1d0b7248fcb19a751d6b36adb8fa3ef"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-02-mutant.txt",
+      "sha256": "b09005272c647884cc5c3983af6b47df53a21d97b425316a39f9076ee1c80f7f"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-02-restored.txt",
+      "sha256": "6bcd572ebfe4a1c2839f2516585efa65a7a3ff3ca8cbe182ab015e1887acc612"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-03-mutant.txt",
+      "sha256": "98067bcb58c31304a966d8f165581ff6c7c1de67e1441f670be24fc4c86a10f5"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-03-restored.txt",
+      "sha256": "bbda4e2e4feca58434622991d23cd781bd09d845d621648e922d9573e1d8520c"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-04-mutant.txt",
+      "sha256": "f76189c29d77c4ea0e2734223397778f1a9106611c2d04cc5cdef48371be7807"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-04-restored.txt",
+      "sha256": "869369af20cd81e54c4cdc23d7a98435bdbae39595a5f20a41524cf2384817b9"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-93/mutation-raw/mutation-results.json",
+      "sha256": "82e34d5d3c0f61e95958722c50f4eb51eaaf60c3ff2a9769c5f00d5a279b7eaa"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-93/mutation-raw/MUT-01-mutant.txt",
+      "sha256": "6e25aeea0f28195c70bd58741e41a1ca85695756a796ce88b8178da6f028b71f"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-93/mutation-raw/MUT-01-restored.txt",
+      "sha256": "eb41d8e29ff5f5696752bb20d3d9ab62e81d96fa50f7526c76359f1c9b5b877d"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-93/mutation-raw/MUT-02-mutant.txt",
+      "sha256": "6870b2a3bdf63d715f5064240c807e393ba412c586407c26ccd05b04cafcf66c"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-93/mutation-raw/MUT-02-restored.txt",
+      "sha256": "15f8ebe93cb3870e92673aba24cb0d20cd039791ce7e28e42e14ee1d54b9b8d9"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-93/mutation-raw/MUT-03-mutant.txt",
+      "sha256": "d293c43c7765d66d43ae1325289a04437b13a3e57cdce06c3492dd40ee2212ad"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-93/mutation-raw/MUT-03-restored.txt",
+      "sha256": "f10cf70cfc739609527644c1ce4b68f2285c183a734799bebc719bae7dc03354"
+    }
+  ],
+  "contextRead": "Codex全文mode与上述短菜单实现、__tests__两文件，menu-driver只实际dispatch/catalog/transaction段；GLM其它逐例阅读/primary按原索引复用，未重复或补造全文。",
+  "invariance": {
+    "base": "615622b4c",
+    "typescript": "6.0.3",
+    "method": "Actual TS transpileModule removeComments;whole emitted JS equal. Only one explicit testtitle masked onbothsides;no assertion/fixture masking.",
+    "files": [
+      {
+        "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+        "beforeSha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3",
+        "afterSha256": "af352cee89772ea59adf77c0b127250d837f9e84faf6751435a60bd313f1497e",
+        "emittedSha256": "cbb91d5a29a383a1da8e6e54ad5246b1d70db143f053a974859440fd7b441d03",
+        "emittedEqual": true,
+        "titleMapping": null
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "beforeSha256": "7a8dd000680c268a92be4de9f0b5837636b2931c0a2f38e866eaa56991fb3261",
+        "afterSha256": "3b2cfe9179561746f790cb72a67cfa33762b19c8d2565c5ee26d14ae20eb5a55",
+        "emittedSha256": "490e97ee5a4c7b2a2f892bab6a25e3e7e75f9bc2e8973d286ccc8b2f6885fdc0",
+        "emittedEqual": true,
+        "titleMapping": {
+          "before": "负 defaultCursor 归 0（>0 守卫对负值不生效的合法输入）",
+          "after": "负 defaultCursor 防御归 0（不作为生产记忆游标的合法域证据）",
+          "scope": "Only it title masked onbothsides;assertion/fixture/testbody unmasked"
+        }
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-menu.ts",
+        "beforeSha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c",
+        "afterSha256": "0252edd4a38dff6612decf42ef4d61d36fa689c0aa5471ab41b36be3115bc480",
+        "emittedSha256": "71d4cd9fb57e64ad1ae8299335ffb0041c7e2e5d89020d815f990b618de5a600",
+        "emittedEqual": true,
+        "titleMapping": null
+      },
+      {
+        "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+        "beforeSha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2",
+        "afterSha256": "f809ecede6a78cb803df3b23615fd7eaa2b910d76b9b16e756d2ed26064831fd",
+        "emittedSha256": "adf512f34bb7e0e3e20043b3fa1e32f3d29505ba783c9632713b32e3517b3c11",
+        "emittedEqual": true,
+        "titleMapping": null
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-mode.ts",
+        "beforeSha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82",
+        "afterSha256": "bb7a60e8d2f1660b96502b0361f996e84dca32ecadbb24326bab8e78af4d3d94",
+        "emittedSha256": "da6e192499866d2e19fb60fa06955325c253475d62fac080d35f187a19598ba1",
+        "emittedEqual": true,
+        "titleMapping": null
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-stack.ts",
+        "beforeSha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+        "afterSha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46",
+        "emittedSha256": "0616736e530e84c4f53c540a5ecae59a500bc0ef19aa7bcc0e912f2dc8f7ecd0",
+        "emittedEqual": true,
+        "titleMapping": null
+      },
+      {
+        "path": "packages/game/src/core/mode.ts",
+        "beforeSha256": "96128a2ee924f28d49b4383e6cd521c34b9382d7f353d3b2dd21277a58cdaf15",
+        "afterSha256": "4025164dd238bc88588cef534255dca71d22c187dadde80f4b39756e5a974328",
+        "emittedSha256": "2a6cfa476e6788aa7c0878ccad27d5434efac35bb34c779a90a22bde66698115",
+        "emittedEqual": true,
+        "titleMapping": null
+      },
+      {
+        "path": "packages/game/src/core/menu/magic-select.ts",
+        "beforeSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+        "afterSha256": "60898f2b0a25d9aabf965cb247d2f7d00defad9f3450967259ea7ace0efe6fbb",
+        "emittedSha256": "95aed5ebb4736476a924a29ed716419ae3e7db507cc6fc1bccc66ce47caa6b54",
+        "emittedEqual": true,
+        "titleMapping": null
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "beforeSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+        "afterSha256": "33ef8d4a1e71537533ebb38b799642f903b23c6f50ba53ae7ae30059d61ab14f",
+        "emittedSha256": "00c4ae6bb75f9ddc4a1595d8e0be36a70000075b6a1afb52db47579a7455008a",
+        "emittedEqual": true,
+        "titleMapping": null
+      },
+      {
+        "path": "packages/game/src/core/menu/__tests__/inventory-menu.test.ts",
+        "beforeSha256": "67490a963d59edf577468c0d1584a5e86b7c26ed324305d66a27dbebae8e8bb6",
+        "afterSha256": "f00b0aa6ef3451448e6e53c11c14b814323c9d6e44e81af69c186c1829d38bbb",
+        "emittedSha256": "b1bd6df96e39efa9bd7e55ee7b4423f89bf99dc42dc9b96380b9df48f5d0dfa5",
+        "emittedEqual": true,
+        "titleMapping": null
+      },
+      {
+        "path": "packages/game/src/core/menu/equip-menu.ts",
+        "beforeSha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69",
+        "afterSha256": "4772de391847ad8f1adc86029a4f6479b2874d97d09cd9bcdc418733642289f1",
+        "emittedSha256": "fb7d3a5ace47a320ab6b77c179dc2fa08dd96aaac447e293e6a6f2388361ab53",
+        "emittedEqual": true,
+        "titleMapping": null
+      },
+      {
+        "path": "packages/game/src/core/menu/shop-menu.test.ts",
+        "beforeSha256": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2",
+        "afterSha256": "3a05fc9e29925a77e57e0ef21f11a166505f1e5f2406f6bcaae055312d4e073c",
+        "emittedSha256": "caa284e9f564377cc4a9050c72cfb798ffa8bd039b9981de49515c5d65159d4e",
+        "emittedEqual": true,
+        "titleMapping": null
+      }
+    ]
+  },
+  "fixtureExtraction": {
+    "typescript": "6.0.3",
+    "method": "Six former factory bodies normalized by TS printer removeComments are byte-identical; source imports alias the single unchanged factory. Magic defaults/ids/costs unchanged.",
+    "records": [
+      {
+        "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+        "name": "magic",
+        "bodySha256": "778c04c2a87f903b71a2f49482404dc6a95cf7cd485f78f0a0fdadafcb2c97b4"
+      },
+      {
+        "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+        "name": "mkMagic",
+        "bodySha256": "778c04c2a87f903b71a2f49482404dc6a95cf7cd485f78f0a0fdadafcb2c97b4"
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "name": "mkMagic",
+        "bodySha256": "778c04c2a87f903b71a2f49482404dc6a95cf7cd485f78f0a0fdadafcb2c97b4"
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+        "name": "magic",
+        "bodySha256": "778c04c2a87f903b71a2f49482404dc6a95cf7cd485f78f0a0fdadafcb2c97b4"
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "name": "mkMagic",
+        "bodySha256": "778c04c2a87f903b71a2f49482404dc6a95cf7cd485f78f0a0fdadafcb2c97b4"
+      },
+      {
+        "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+        "name": "makeMagic",
+        "bodySha256": "778c04c2a87f903b71a2f49482404dc6a95cf7cd485f78f0a0fdadafcb2c97b4"
+      }
+    ],
+    "helper": "packages/game/src/core/menu/__tests__/magic-cost-fixture.ts",
+    "bodySha256": "778c04c2a87f903b71a2f49482404dc6a95cf7cd485f78f0a0fdadafcb2c97b4"
+  },
+  "retirement": {
+    "base": "615622b4ccf443d9d2b59704b52485bb5b083015",
+    "authority": "User2026-10-20 complete pre94;standing test-quality/dedup user instruction. Exact snapshot only;matcher unchanged.",
+    "entry": {
+      "file": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "previous": 11,
+      "current": 10,
+      "previousIdentityDigest": "f7eb8ac2da235ba950efe122d8c30cd1f7303ad5c0711b42f30624bc8c4145da",
+      "currentIdentityDigest": "6cfcd76b318d44b6db25ca39e8e2ba51e4ac4ad070be5ce8d15899d85e2c91a5",
+      "fileSha256": "ea9a22b9f58621ad3ac06ed0cd2a394292e1f29dbd086127daef819970ca89d6"
+    },
+    "retired": {
+      "file": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "fullName": "M-w0.2 MagicSelectionMenu > role 未学法术槽位 = 0 → 不显示",
+      "body": "  it('role 未学法术槽位 = 0 → 不显示', () => {\n    const s = createMagicSelectMenu({\n      roleId: 0,\n      playerRoles,\n      spells,\n      magics,\n      currentMp: 100,\n    })\n    expect(s.items.length).toBe(2) // 不含 0 槽位\n  })\n\n"
+    },
+    "retained": {
+      "file": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "fullName": "M-w0.2 MagicSelectionMenu > MP 足够 → 列出全部 + 显 MP cost,光标在第一个",
+      "sameInput": "Same roleId=0/playerRoles/spells/magics/currentMp=100 and same real factory.",
+      "oracle": "Independent labels [小火球,大火球] plus cost MP5/MP30 and getSelected id300. Exact two-label array implies old length=2 and excludes zero slots."
+    },
+    "beforeRefactorNative": "menu-family-directed.native.json",
+    "beforeRemovalFileSha256": "0e79182485dc68f8b49291b1fdb7f9d0702894f7ae9394af90228a269d510002",
+    "afterRemovalFileSha256": "ea9a22b9f58621ad3ac06ed0cd2a394292e1f29dbd086127daef819970ca89d6",
+    "noOtherIdentityRemoval": true
+  },
+  "identityMap": {
+    "core": {
+      "method": "Native Vitest file/fullName/status sets compared with one explicit title correction; no tests retired or added.",
+      "oldNative": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/83-93-menu-core-transaction/directed-final.json",
+      "currentNative": "menu-core-directed.native.json",
+      "rows": [
+        {
+          "file": "menu-mode.test.ts",
+          "count": 7,
+          "oldAndCurrentIdentityStatusEqual": true
+        },
+        {
+          "file": "in-game-menu.test.ts",
+          "count": 14,
+          "oldAndCurrentIdentityStatusEqual": true
+        },
+        {
+          "file": "in-game-menu.boundaries.test.ts",
+          "count": 3,
+          "oldAndCurrentIdentityStatusEqual": true
+        },
+        {
+          "file": "in-game-menu.glm-phase1-leaves.test.ts",
+          "count": 5,
+          "oldAndCurrentIdentityStatusEqual": true
+        },
+        {
+          "file": "inventory-action-menu.test.ts",
+          "count": 4,
+          "oldAndCurrentIdentityStatusEqual": true
+        },
+        {
+          "file": "inventory-action-menu.glm-phase1-leaves.test.ts",
+          "count": 4,
+          "oldAndCurrentIdentityStatusEqual": true
+        }
+      ]
+    },
+    "additionalTitle": {
+      "file": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "before": "确认即记忆；再开菜单默认停回上次施法人；队伍变小越界归 0",
+      "after": "确认即记忆；再开菜单默认停回上次施法人",
+      "reason": "本例仅核同队伍记忆；上界防御由下一例核，不能用标题冒领。"
+    }
+  },
+  "complexity": {
+    "tool": "TypeScript AST 6.0.3 temporary reader",
+    "method": "1 + if/conditional/loop/catch/nondefaultcase/logical-nullish operators; nested callbacks excluded. Approximate per-declaration screening only, not acceptance threshold.",
+    "results": [
+      {
+        "file": "packages/game/src/core/menu/equip-menu.ts",
+        "symbol": "createEquipMenu",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/equip-menu.ts",
+        "symbol": "confirmEquipItem",
+        "decisions": 6,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/equip-menu.ts",
+        "symbol": "confirmEquipRole",
+        "decisions": 4,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/equip-menu.ts",
+        "symbol": "cancelEquipMenu",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/equip-menu.ts",
+        "symbol": "equipMoveUp",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/equip-menu.ts",
+        "symbol": "equipMoveDown",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "rememberMagicCasterCursor",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "createInGameMagicMenu",
+        "decisions": 4,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "confirmCaster",
+        "decisions": 5,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "buildSpellMenu",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "refreshSpellMenu",
+        "decisions": 5,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "confirmSpell",
+        "decisions": 11,
+        "over10": true
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "confirmTarget",
+        "decisions": 8,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "cancelInGameMagic",
+        "decisions": 4,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "moveSpellGrid",
+        "decisions": 4,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "inGameMagicMoveUp",
+        "decisions": 6,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "inGameMagicMoveDown",
+        "decisions": 6,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "inGameMagicMoveLeft",
+        "decisions": 6,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "inGameMagicMoveRight",
+        "decisions": 6,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "inGameMagicPageUp",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "inGameMagicPageDown",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "inGameMagicHome",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-magic-menu.ts",
+        "symbol": "inGameMagicEnd",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-menu.ts",
+        "symbol": "toItems",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-menu.ts",
+        "symbol": "createInGameMenu",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-menu.ts",
+        "symbol": "inGameMenuChoice",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-menu.ts",
+        "symbol": "inGameMenuUp",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-menu.ts",
+        "symbol": "inGameMenuDown",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-menu.ts",
+        "symbol": "createSystemMenu",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-menu.ts",
+        "symbol": "systemMenuEnterConfirm",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-menu.ts",
+        "symbol": "systemMenuToggleConfirm",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-menu.ts",
+        "symbol": "systemMenuEnterSwitch",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-menu.ts",
+        "symbol": "systemMenuChoice",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-menu.ts",
+        "symbol": "systemMenuUp",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/in-game-menu.ts",
+        "symbol": "systemMenuDown",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-action-menu.ts",
+        "symbol": "createInventoryActionMenu",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-action-menu.ts",
+        "symbol": "inventoryActionChoice",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-action-menu.ts",
+        "symbol": "inventoryActionMenuUp",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-action-menu.ts",
+        "symbol": "inventoryActionMenuDown",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "pickItemRowColor",
+        "decisions": 7,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "createInventoryMenu",
+        "decisions": 9,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "setCursorClamp",
+        "decisions": 4,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "inventoryMoveUp",
+        "decisions": 4,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "inventoryMoveDown",
+        "decisions": 4,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "inventoryMoveLeft",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "inventoryMoveRight",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "inventoryPageUp",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "inventoryPageDown",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "inventoryHome",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "inventoryEnd",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "confirmInventoryItem",
+        "decisions": 6,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "confirmInventoryTarget",
+        "decisions": 5,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/inventory-menu.ts",
+        "symbol": "cancelInventoryMenu",
+        "decisions": 4,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/magic-select.ts",
+        "symbol": "createMagicSelectMenu",
+        "decisions": 5,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/menu-mode.ts",
+        "symbol": "tickMenu",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/menu-stack.ts",
+        "symbol": "resumeAfterMenusClosed",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/menu-stack.ts",
+        "symbol": "openMenu",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/menu-stack.ts",
+        "symbol": "closeTopMenu",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/sell-menu.ts",
+        "symbol": "createSellMenu",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/sell-menu.ts",
+        "symbol": "sellMoveUp",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/sell-menu.ts",
+        "symbol": "sellMoveDown",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/sell-menu.ts",
+        "symbol": "sellMoveLeft",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/sell-menu.ts",
+        "symbol": "sellMoveRight",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/sell-menu.ts",
+        "symbol": "sellPageUp",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/sell-menu.ts",
+        "symbol": "sellPageDown",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/sell-menu.ts",
+        "symbol": "sellHome",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/sell-menu.ts",
+        "symbol": "sellEnd",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/sell-menu.ts",
+        "symbol": "sellSelectItem",
+        "decisions": 6,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/sell-menu.ts",
+        "symbol": "sellConfirm",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/sell-menu.ts",
+        "symbol": "sellCancel",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/sell-menu.ts",
+        "symbol": "refreshSellGrid",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/shop-menu.ts",
+        "symbol": "toListItem",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/shop-menu.ts",
+        "symbol": "createBuyMenu",
+        "decisions": 1,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/shop-menu.ts",
+        "symbol": "shopMoveUp",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/shop-menu.ts",
+        "symbol": "shopMoveDown",
+        "decisions": 2,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/shop-menu.ts",
+        "symbol": "shopSelectItem",
+        "decisions": 6,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/shop-menu.ts",
+        "symbol": "shopConfirm",
+        "decisions": 3,
+        "over10": false
+      },
+      {
+        "file": "packages/game/src/core/menu/shop-menu.ts",
+        "symbol": "shopCancel",
+        "decisions": 2,
+        "over10": false
+      }
+    ]
+  },
+  "retainedDebt": [
+    {
+      "file": "packages/game/src/core/menu/equip-menu.ts",
+      "kind": "非阻断公共签名简化候选",
+      "reason": "两个未使用参数属用户冻结公共接口，不影响已有合法caller与失败策略；不以此次治理改签名。"
+    },
+    {
+      "file": "packages/game/src/core/menu/shop-menu.ts",
+      "kind": "非阻断公开类型保留",
+      "reason": "ShopMode.sell是原公开状态域，卖菜单已走独立factory；无新合法caller counter，不擅自缩域。"
+    },
+    {
+      "file": "packages/game/src/core/menu/item-select.ts",
+      "kind": "相邻清理候选，未授整文件accept",
+      "reason": "createItemSelectMenu当前0生产caller，旧单测仍核公开helper；整文件不在九卡生产白名单。"
+    },
+    {
+      "file": "packages/game/src/core/menu/menu-driver.ts",
+      "kind": "相邻坏注释候选",
+      "reason": "inventory-action取消注称回主菜单、装备空swap注称done，与实际清栈/回list不同。实现当前不改，本片不扩展94–102司机卡；具体symbol dispatchInventoryActionMenu/dispatchEquipMenu。"
+    }
+  ],
+  "processDisclosure": [
+    "首次scoped Biome write发现一项未用Magic类型导入，已移除；初次0exit带warning不记零诊断通过。",
+    "精确退役producer首用native.fullName空格拼接，和官方list的>分隔不符而fail-loud；修为ancestorTitles+title按官方分隔并先断旧baseline摘要，再生成唯一11→10条目。不是产品业务红例。"
+  ],
+  "checks": {
+    "menu-core-directed": {
+      "command": [
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+        "run",
+        "src/core/menu/menu-mode.test.ts",
+        "src/core/menu/in-game-menu.test.ts",
+        "src/core/menu/in-game-menu.boundaries.test.ts",
+        "src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "src/core/menu/inventory-action-menu.test.ts",
+        "src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+        "src/core/menu/menu-driver.test.ts",
+        "src/core/menu/menu-driver.cov85.test.ts",
+        "src/core/menu/shop-menu.test.ts",
+        "src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-pre94-complete-20261020-sSMjnx/menu-core-directed.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-20T09:24:28.648Z",
+      "end": "2026-10-20T09:24:30.945Z",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "originals": [
+        "menu-core-directed.execution.json",
+        "menu-core-directed.scan.json",
+        "menu-core-directed.stdout.raw",
+        "menu-core-directed.stderr.raw",
+        "menu-core-directed.native.json"
+      ]
+    },
+    "menu-core-tsc": {
+      "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-20T09:24:28.648Z",
+      "end": "2026-10-20T09:24:33.436Z",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "originals": [
+        "menu-core-tsc.execution.json",
+        "menu-core-tsc.scan.json",
+        "menu-core-tsc.stdout.raw",
+        "menu-core-tsc.stderr.raw"
+      ]
+    },
+    "menu-family-directed": {
+      "command": [
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+        "run",
+        "src/core/menu/inventory-menu.test.ts",
+        "src/core/menu/inventory-menu.boundaries.test.ts",
+        "src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+        "src/core/menu/__tests__/inventory-menu.test.ts",
+        "src/core/menu/shop-menu.test.ts",
+        "src/core/menu/shop-menu.boundaries.test.ts",
+        "src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+        "src/core/menu/sell-menu.test.ts",
+        "src/core/menu/sell-menu.boundaries.test.ts",
+        "src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+        "src/core/menu/equip-menu.test.ts",
+        "src/core/menu/equip-menu.boundaries.test.ts",
+        "src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+        "src/core/menu/magic-select.boundaries.test.ts",
+        "src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+        "src/core/menu/__tests__/item-magic-select.test.ts",
+        "src/core/menu/in-game-magic-menu.test.ts",
+        "src/core/menu/in-game-magic-menu.boundaries.test.ts",
+        "src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "src/core/menu/menu-driver.test.ts",
+        "src/core/menu/menu-driver.cov85.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-pre94-complete-20261020-sSMjnx/menu-family-directed.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-20T09:34:45.043Z",
+      "end": "2026-10-20T09:34:48.613Z",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "originals": [
+        "menu-family-directed.execution.json",
+        "menu-family-directed.scan.json",
+        "menu-family-directed.stdout.raw",
+        "menu-family-directed.stderr.raw",
+        "menu-family-directed.native.json"
+      ]
+    },
+    "menu-family-tsc": {
+      "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-20T09:34:46.716Z",
+      "end": "2026-10-20T09:34:51.322Z",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "originals": [
+        "menu-family-tsc.execution.json",
+        "menu-family-tsc.scan.json",
+        "menu-family-tsc.stdout.raw",
+        "menu-family-tsc.stderr.raw"
+      ]
+    },
+    "menu-retired-final": {
+      "command": [
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+        "run",
+        "src/core/menu/__tests__/item-magic-select.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-pre94-complete-20261020-sSMjnx/menu-retired-final.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-20T09:38:16.164Z",
+      "end": "2026-10-20T09:38:17.199Z",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "originals": [
+        "menu-retired-final.execution.json",
+        "menu-retired-final.scan.json",
+        "menu-retired-final.stdout.raw",
+        "menu-retired-final.stderr.raw",
+        "menu-retired-final.native.json"
+      ]
+    },
+    "menu-state-isolation": {
+      "command": [
+        "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+        "run",
+        "src/core/menu/inventory-menu.test.ts",
+        "src/core/menu/inventory-menu.boundaries.test.ts",
+        "src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+        "src/core/menu/__tests__/inventory-menu.test.ts",
+        "src/core/menu/in-game-magic-menu.test.ts",
+        "src/core/menu/in-game-magic-menu.boundaries.test.ts",
+        "src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "--sequence.shuffle",
+        "--sequence.seed=94183",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/tmp/type-pal-pre94-complete-20261020-sSMjnx/menu-state-isolation.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-20T09:39:14.997Z",
+      "end": "2026-10-20T09:39:16.774Z",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "originals": [
+        "menu-state-isolation.execution.json",
+        "menu-state-isolation.scan.json",
+        "menu-state-isolation.stdout.raw",
+        "menu-state-isolation.stderr.raw",
+        "menu-state-isolation.native.json"
+      ]
+    },
+    "retirementTools": {
+      "command": ["node", "--test", "scripts/coverage/approved-test-retirements.test.mjs"],
+      "exit": 0,
+      "tests": 49,
+      "diagnostics": 0,
+      "originals": ["menu-retirement-tools.stdout.raw", "menu-retirement-tools.stderr.raw"],
+      "timing": "start/end not separately captured; actual tool exit0 and complete raw retained"
+    }
+  },
+  "integration": {
+    "status": "accepted",
+    "baseMain": "615622b4ccf443d9d2b59704b52485bb5b083015",
+    "meaning": "All three costly gates actualexit0/zero diagnostics;central metadata acceptance now written. Final docs/lint/ledger/diff must pass before commit/push/main.",
+    "sourceCommit": "d9ac8ef654014ff65c98c8ce143a56af04dbacc1",
+    "finalStatic": {
+      "runs": [
+        "menu-accepted-docs",
+        "menu-accepted-lint",
+        "menu-accepted-ledger",
+        "menu-accepted-diff"
+      ],
+      "exit": 0,
+      "diagnostics": 0
+    },
+    "delivery": "Source committed after all required gates. Evidence commit/push/main synchronization are verified through Git ancestry; this receipt does not invent its own future commit hash."
+  },
+  "notRun": ["新的剧情浏览器/视觉/E2E，本窗口纯状态/注释/测试重构，不授整产品视觉验收。"],
+  "invalidation": "逐claim核实现/caller/输入/primary与测试/工具；quick哈希不匹配只标对应证据过期，不自动重做其它文件，也不把hash相等当设计质量机器证明。",
+  "next": "继续剩余68partial的具体八维缺口；下一模块为已获准的仙术中毒/四状态/HP0头像兜底、装备单人框和物品目标阴影，随后pre94速度通关测试质量。94–102后置。",
+  "nativeArtifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-native.json.gz",
+    "sha256": "15fda5ebec8764f76403d3f46be3a694c9ca00d765149baac9ed9f801952a9b2",
+    "bytes": 40827,
+    "members": [
+      {
+        "name": "menu-core-directed.execution.json",
+        "bytes": 2959,
+        "sha256": "e7ff7e100e2217b16c9b07efb044ce28dfaad8cf00dd52eadcda1678037b34f1"
+      },
+      {
+        "name": "menu-core-directed.scan.json",
+        "bytes": 746,
+        "sha256": "b7ba32601ffa238ebe458c348bedd9d5e06b90c9a40da3f9626d4fed13a0ab9d"
+      },
+      {
+        "name": "menu-core-directed.stdout.raw",
+        "bytes": 1387,
+        "sha256": "8f50bd5b6e6e7b1231921313fa7f8f48721934dff7d3bb4bcd9d6bc6526e5d9f"
+      },
+      {
+        "name": "menu-core-directed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "menu-core-directed.native.json",
+        "bytes": 47426,
+        "sha256": "34b4aed14469e704a1c334518348c8214a00a03bec18cc94f1b7a2a9d6b99c85"
+      },
+      {
+        "name": "menu-core-tsc.execution.json",
+        "bytes": 2243,
+        "sha256": "1610729e6d22494d528bf7bc145c45b03bdd09333bdc49f255e37bce63ec149d"
+      },
+      {
+        "name": "menu-core-tsc.scan.json",
+        "bytes": 490,
+        "sha256": "d9ded8dac75852f8a19220df9bbf940883748535e0dde6615344e4775e23a556"
+      },
+      {
+        "name": "menu-core-tsc.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "menu-core-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "menu-family-directed.execution.json",
+        "bytes": 6063,
+        "sha256": "1fd89374e8ecde1183c417bff6a791b53ef345466b9e1a221908e014787fdb60"
+      },
+      {
+        "name": "menu-family-directed.scan.json",
+        "bytes": 835,
+        "sha256": "efd5c115e685337415a990e79d48107f8204d08a8280f142de4d2c23c07f4687"
+      },
+      {
+        "name": "menu-family-directed.stdout.raw",
+        "bytes": 2112,
+        "sha256": "bc0e060e6074ac62d01b98ee5917ea0f6751a30c6c8cd4130da89dc3d39bae41"
+      },
+      {
+        "name": "menu-family-directed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "menu-family-directed.native.json",
+        "bytes": 81569,
+        "sha256": "a680013ab887d7df772ed211bc8a46f8d957b246a411a2a438ce71f3ba3f6f47"
+      },
+      {
+        "name": "menu-family-tsc.execution.json",
+        "bytes": 4759,
+        "sha256": "4d2148dcdd332e7520252c2699ad78f3f9756be0ad28ce6f3840b6db56f517a1"
+      },
+      {
+        "name": "menu-family-tsc.scan.json",
+        "bytes": 492,
+        "sha256": "0d7e30c04fce10cb4e4ef28f357981581db7d1987d5e9e7eb38283608d5321fc"
+      },
+      {
+        "name": "menu-family-tsc.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "menu-family-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "menu-retired-final.execution.json",
+        "bytes": 5456,
+        "sha256": "d4ef9d20c642af0874df4714d44749ffedb1350673dd7fd38079166df87a8cdc"
+      },
+      {
+        "name": "menu-retired-final.scan.json",
+        "bytes": 752,
+        "sha256": "5ef74a401eff03f3b13c20a9b8e7d118ad8e2f871bab8f1586364fbd86fcc0f9"
+      },
+      {
+        "name": "menu-retired-final.stdout.raw",
+        "bytes": 436,
+        "sha256": "6779f2b617d54cb2659856037ac0034f24982ccc1e61f6fc83680dc7ef69683f"
+      },
+      {
+        "name": "menu-retired-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "menu-retired-final.native.json",
+        "bytes": 3512,
+        "sha256": "67a7e4e3de1cdaf83210f1593c791aba3e18db263b0cb0dbb122df478aa866d0"
+      },
+      {
+        "name": "menu-state-isolation.execution.json",
+        "bytes": 6260,
+        "sha256": "338d52da853dca71bc28d636f4a7ad9220f8c57151dc90e3ff9879502ddb06eb"
+      },
+      {
+        "name": "menu-state-isolation.scan.json",
+        "bytes": 813,
+        "sha256": "23cb85259e9ccb943041aed7b3744152780f5193f78b1b0d0a3ec2eb31a80f75"
+      },
+      {
+        "name": "menu-state-isolation.stdout.raw",
+        "bytes": 886,
+        "sha256": "5a27b4a19d0ee081216ac64cc6d2b221f3ea7c85abc9d762c5dce59844f749a3"
+      },
+      {
+        "name": "menu-state-isolation.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "menu-state-isolation.native.json",
+        "bytes": 28268,
+        "sha256": "339e8e7bb30774fc2e9df81c2fdb5377a4c8b263ad804448cc71de114c2d8f22"
+      },
+      {
+        "name": "menu-retirement-tools.stdout.raw",
+        "bytes": 10702,
+        "sha256": "5b577517ed1d732a544be982e9500f21cd2258552d94bb97630352130fe06099"
+      },
+      {
+        "name": "menu-retirement-tools.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "menu-assertions.json",
+        "bytes": 2975,
+        "sha256": "47611bd6ec7b97aea715e2f36facf23cc123dc60bde0e8bdf77f7fbe04cb1ff7"
+      },
+      {
+        "name": "menu-proof.cjs",
+        "bytes": 3209,
+        "sha256": "c6e177dc38e40940b79529618d04f34df28cb806cfe9a17f987d7b47849fde43"
+      },
+      {
+        "name": "menu-invariance.json",
+        "bytes": 5353,
+        "sha256": "83a9cf84b41b92497d57b4804dca6a4e0d5c8153193ecf6d2259b4aeb867bab0"
+      },
+      {
+        "name": "menu-invariance.cjs",
+        "bytes": 2220,
+        "sha256": "d6b9096638b49c0f24c527fbf6e15d49084fc580473d32a1affbf5e410da2043"
+      },
+      {
+        "name": "menu-fixture-extraction.json",
+        "bytes": 1629,
+        "sha256": "9443825cd595bd5759776de1821a36f290bf7fd363e5c70bf9a526054e3aa627"
+      },
+      {
+        "name": "menu-retirement.json",
+        "bytes": 1829,
+        "sha256": "3729fd716af59c20a645610e98adee8a5a9bf74e19491a2ffb44b5fb2e981912"
+      },
+      {
+        "name": "menu-core-identity-map.json",
+        "bytes": 1072,
+        "sha256": "62cbc747318740454aba166049b2c913d8f744fce61e46305a682298cf50adf6"
+      },
+      {
+        "name": "menu-complexity.json",
+        "bytes": 12288,
+        "sha256": "13b142410333ea8e43d851a441edf005b305c12fc6a18e06e36592e20a1d2975"
+      }
+    ]
+  },
+  "assertionPreservation": {
+    "method": "Compare all outer expect(...) assertion expressions by original it owner after two explicit title mappings and one retired weaker-length case. No assertion argument masking. This proves retained assertion source preservation, not design quality or all execution paths.",
+    "base": "615622b4ccf443d9d2b59704b52485bb5b083015",
+    "files": [
+      {
+        "path": "packages/game/src/core/menu/__tests__/inventory-menu.test.ts",
+        "retainedAssertions": 16,
+        "normalizedAssertionSha256": "94d29011597fd705432ac6a05ebc3d2b8159a88f7a00119b9c138d13f5604723",
+        "oldNewEqual": true
+      },
+      {
+        "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+        "retainedAssertions": 17,
+        "normalizedAssertionSha256": "a175cbb4cc42d155faf69b87e8f1a63d68ec474a5cb1c12935fb6ea561c8c84e",
+        "oldNewEqual": true
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+        "retainedAssertions": 17,
+        "normalizedAssertionSha256": "68936818c711409c553f9c2b2c712272e859c42725245c93a18194ffa491c837",
+        "oldNewEqual": true
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+        "retainedAssertions": 27,
+        "normalizedAssertionSha256": "88070a47131d86e138e9840cf619e99777eff6f0b495d0c1d3ddee6e4524fcbd",
+        "oldNewEqual": true
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+        "retainedAssertions": 53,
+        "normalizedAssertionSha256": "9c9659bb28ac824b9760198172a918a4a2e3704cf2ba639e8a0b273497cede6f",
+        "oldNewEqual": true
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+        "retainedAssertions": 15,
+        "normalizedAssertionSha256": "eaf60c8ebfe0f5c7291277717f801d3500e32bda86b2022a0a7292137f652c87",
+        "oldNewEqual": true
+      },
+      {
+        "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+        "retainedAssertions": 12,
+        "normalizedAssertionSha256": "c23089c59e15fcb78ffde942c013dd5287e44bc867ae6a6f0ed0b4762faec669",
+        "oldNewEqual": true
+      },
+      {
+        "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+        "retainedAssertions": 9,
+        "normalizedAssertionSha256": "bb6ae5adb13c77b9f7da724b72d87349d3dedb9dc459f466377b050275092617",
+        "oldNewEqual": true
+      },
+      {
+        "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+        "retainedAssertions": 7,
+        "normalizedAssertionSha256": "412fdeb460dfaedfe6cf3d1c810f5a2c2c308b7f6f5ee5707edc77709151dd13",
+        "oldNewEqual": true
+      },
+      {
+        "path": "packages/game/src/core/menu/shop-menu.test.ts",
+        "retainedAssertions": 31,
+        "normalizedAssertionSha256": "219c5a5d57e0feaa70501f3614579fb3d6ed828d16fbd7676ab8c342058c2410",
+        "oldNewEqual": true
+      }
+    ],
+    "helperBodySha256": "778c04c2a87f903b71a2f49482404dc6a95cf7cd485f78f0a0fdadafcb2c97b4"
+  },
+  "oldControls": [
+    {
+      "card": "88",
+      "id": "MUT-01",
+      "failed": [
+        "G04 createMagicSelectMenu MP 恰等 cost 不禁用、差 1 禁用；排序后实际传入 roles.magic 不被污染",
+        "L02 createMagicSelectMenu 剩余建表合同 costMP=0 的法术在 MP=0 时仍可选（0 < 0 不成立，不禁用）",
+        "M-w0.2 MagicSelectionMenu MP 足够 → 列出全部 + 显 MP cost,光标在第一个",
+        "M-w0.2 MagicSelectionMenu MP 不够 → disabled(灰色),初始 cursor 仍按默认项",
+        "M-w0.2 MagicSelectionMenu L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397"
+      ],
+      "red": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/MUT-01-mutant.txt",
+      "green": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/MUT-01-restored.txt",
+      "originalSourceSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+      "sourceRestored": true,
+      "reason": "原控源与本次执行体相同；保留断言表达式/真实目录工厂合同不变。未伪称新先红行为修复或每针恰一红。"
+    },
+    {
+      "card": "88",
+      "id": "MUT-02",
+      "failed": [
+        "G04 createMagicSelectMenu MP 恰等 cost 不禁用、差 1 禁用；排序后实际传入 roles.magic 不被污染",
+        "L02 createMagicSelectMenu 剩余建表合同 costMP=0 的法术在 MP=0 时仍可选（0 < 0 不成立，不禁用）"
+      ],
+      "red": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/MUT-02-mutant.txt",
+      "green": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/MUT-02-restored.txt",
+      "originalSourceSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+      "sourceRestored": true,
+      "reason": "原控源与本次执行体相同；保留断言表达式/真实目录工厂合同不变。未伪称新先红行为修复或每针恰一红。"
+    },
+    {
+      "card": "88",
+      "id": "MUT-03",
+      "failed": [
+        "G04 createMagicSelectMenu MP 恰等 cost 不禁用、差 1 禁用；排序后实际传入 roles.magic 不被污染",
+        "G04 createMagicSelectMenu 非连续 wObjectID 295 返回 spell.id 而非 magicNumber；缺 spell/坏角色空表（防御分类：当前 caller 域内不应触达的退化输入）",
+        "L02 createMagicSelectMenu 剩余建表合同 spell 存在但 magicNumber 无 magic 定义 → 该槽剔除（!magic 分支）",
+        "L02 createMagicSelectMenu 剩余建表合同 spell 缺 _name → label 回退 magic#<magic.id>（渲染文案缺名的合法降级）",
+        "L02 createMagicSelectMenu 剩余建表合同 costMP=0 的法术在 MP=0 时仍可选（0 < 0 不成立，不禁用）",
+        "M-w0.2 MagicSelectionMenu MP 足够 → 列出全部 + 显 MP cost,光标在第一个",
+        "M-w0.2 MagicSelectionMenu MP 不够 → disabled(灰色),初始 cursor 仍按默认项",
+        "M-w0.2 MagicSelectionMenu L38:第一个法术 MP 不足时 cursor 仍可落在灰项",
+        "M-w0.2 MagicSelectionMenu role 未学法术槽位 = 0 → 不显示",
+        "M-w0.2 MagicSelectionMenu L36:法术按 ObjectID 升序排列(无论习得顺序),对齐 magicmenu.c:377-397"
+      ],
+      "red": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/MUT-03-mutant.txt",
+      "green": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/MUT-03-restored.txt",
+      "originalSourceSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+      "sourceRestored": true,
+      "reason": "原控源与本次执行体相同；保留断言表达式/真实目录工厂合同不变。未伪称新先红行为修复或每针恰一红。"
+    },
+    {
+      "card": "89",
+      "id": "MUT-01",
+      "failed": [
+        "G05 in-game-magic-menu 状态机 单人队直进 pick-spell；applyToAll 留相/单体切 pick-target；非顺序 party 返回 roleId",
+        "G05 in-game-magic-menu 状态机 非顺序 party 双人 target roleId 非 cursor；错 phase 零请求；refresh cursor 落回上次 spell",
+        "L02 pick-target Left/Right 与非 pick-spell 相翻页零触达 pick-target：Left/Right 移动且边界 noop（与 Up/Down 同合同）",
+        "confirmSpell Confirm single-target spell(气疗术)→ phase=pick-target,返回 sel",
+        "confirmTarget 返回 {spellId, casterId, targetRoleId, costMP}",
+        "cancelInGameMagic pick-target → pick-spell(保留 caster + spellMenu)",
+        "inGameMagicMove* on pick-target Up 中间 → cursor--",
+        "inGameMagicMove* on pick-target Down 中间 → cursor++"
+      ],
+      "red": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/MUT-01-mutant.txt",
+      "green": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/MUT-01-restored.txt",
+      "originalSourceSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+      "sourceRestored": true,
+      "reason": "原控源与本次执行体相同；保留断言表达式/真实目录工厂合同不变。未伪称新先红行为修复或每针恰一红。"
+    },
+    {
+      "card": "89",
+      "id": "MUT-02",
+      "failed": [
+        "G05 in-game-magic-menu 状态机 非顺序 party 双人 target roleId 非 cursor；错 phase 零请求；refresh cursor 落回上次 spell",
+        "L02 关闭后 refresh / cancel 幂等 pick-spell Cancel 关菜单后 refreshSpellMenu 不复活 spellMenu（防御分支）",
+        "cancelInGameMagic pick-target → pick-spell(保留 caster + spellMenu)",
+        "cancelInGameMagic L35:pick-spell Cancel → done 关菜单回大世界(C 仙术列表 Cancel=break while=return,uigame.c:733-736)"
+      ],
+      "red": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/MUT-02-mutant.txt",
+      "green": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/MUT-02-restored.txt",
+      "originalSourceSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+      "sourceRestored": true,
+      "reason": "原控源与本次执行体相同；保留断言表达式/真实目录工厂合同不变。未伪称新先红行为修复或每针恰一红。"
+    },
+    {
+      "card": "89",
+      "id": "MUT-03",
+      "failed": ["outside-battle filter 飞龙探云手(battle-only)不出现 outside spell list"],
+      "red": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/MUT-03-mutant.txt",
+      "green": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/MUT-03-restored.txt",
+      "originalSourceSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+      "sourceRestored": true,
+      "reason": "原控源与本次执行体相同；保留断言表达式/真实目录工厂合同不变。未伪称新先红行为修复或每针恰一红。"
+    },
+    {
+      "card": "91",
+      "id": "MUT-01",
+      "failed": [
+        "InventoryActionMenu(物品 / 装备 / 使用) id = 真 WORD id 22/23(ui.h:80-81 INVMENU_LABEL_EQUIP/USE,非下标)"
+      ],
+      "red": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-01-mutant.txt",
+      "green": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-01-restored.txt",
+      "originalSourceSha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2",
+      "sourceRestored": true,
+      "reason": "原控源与本次执行体相同；保留断言表达式/真实目录工厂合同不变。未伪称新先红行为修复或每针恰一红。"
+    },
+    {
+      "card": "91",
+      "id": "MUT-02",
+      "failed": [
+        "L03 InventoryActionMenu 剩余合同 defaultCursor 越上界（≥ 项数）→ 保持建表默认 0（守卫分支）"
+      ],
+      "red": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-02-mutant.txt",
+      "green": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-02-restored.txt",
+      "originalSourceSha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2",
+      "sourceRestored": true,
+      "reason": "原控源与本次执行体相同；保留断言表达式/真实目录工厂合同不变。未伪称新先红行为修复或每针恰一红。"
+    },
+    {
+      "card": "91",
+      "id": "MUT-03",
+      "failed": [
+        "L03 InventoryActionMenu 剩余合同 Down 两连：use → 环绕回 equip（2 项 SelectionMenu 环绕合同）"
+      ],
+      "red": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-03-mutant.txt",
+      "green": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-03-restored.txt",
+      "originalSourceSha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2",
+      "sourceRestored": true,
+      "reason": "原控源与本次执行体相同；保留断言表达式/真实目录工厂合同不变。未伪称新先红行为修复或每针恰一红。"
+    },
+    {
+      "card": "91",
+      "id": "MUT-04",
+      "failed": [
+        "L03 InventoryActionMenu 剩余合同 词表载入 → label 取 flat[22]/flat[23]（WORD.DAT 单一文案源，同 uigame.c:901-902）"
+      ],
+      "red": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-04-mutant.txt",
+      "green": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/MUT-04-restored.txt",
+      "originalSourceSha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2",
+      "sourceRestored": true,
+      "reason": "原控源与本次执行体相同；保留断言表达式/真实目录工厂合同不变。未伪称新先红行为修复或每针恰一红。"
+    },
+    {
+      "card": "93",
+      "id": "MUT-01",
+      "failed": [
+        "G07 sellSelectItem 确认门与 confirm 期导航 inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图"
+      ],
+      "red": "docs/ops/evidence/CODE-QUALITY-93/mutation-raw/MUT-01-mutant.txt",
+      "green": "docs/ops/evidence/CODE-QUALITY-93/mutation-raw/MUT-01-restored.txt",
+      "originalSourceSha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+      "sourceRestored": true,
+      "reason": "原控源与本次执行体相同；保留断言表达式/真实目录工厂合同不变。未伪称新先红行为修复或每针恰一红。"
+    },
+    {
+      "card": "93",
+      "id": "MUT-02",
+      "failed": [
+        "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No"
+      ],
+      "red": "docs/ops/evidence/CODE-QUALITY-93/mutation-raw/MUT-02-mutant.txt",
+      "green": "docs/ops/evidence/CODE-QUALITY-93/mutation-raw/MUT-02-restored.txt",
+      "originalSourceSha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+      "sourceRestored": true,
+      "reason": "原控源与本次执行体相同；保留断言表达式/真实目录工厂合同不变。未伪称新先红行为修复或每针恰一红。"
+    },
+    {
+      "card": "93",
+      "id": "MUT-03",
+      "failed": [
+        "G07 sellSelectItem 确认门与 confirm 期导航 增表刷新：保非零 cursor，不复用 GameState 记忆光标"
+      ],
+      "red": "docs/ops/evidence/CODE-QUALITY-93/mutation-raw/MUT-03-mutant.txt",
+      "green": "docs/ops/evidence/CODE-QUALITY-93/mutation-raw/MUT-03-restored.txt",
+      "originalSourceSha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2",
+      "sourceRestored": true,
+      "reason": "原控源与本次执行体相同；保留断言表达式/真实目录工厂合同不变。未伪称新先红行为修复或每针恰一红。"
+    }
+  ],
+  "quickVerify": {
+    "command": ["node", "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-menu-closeout.mjs"],
+    "limits": "只读核当前指纹、完整附件、实际门与保留断言；不自动证明设计，不重跑coverage。源码变更仅失效相关claim，不把相邻整文件自动关闭。"
+  },
+  "runtimeGateRework": {
+    "owner": "Codex",
+    "scope": "必要全仓门诊断返工；这些相邻Reforge文件不随36菜单文件自动关闭。无产品行为/规则/超时/ignore/测试范围变化。",
+    "files": [
+      {
+        "path": "packages/reforge/src/__tests__/runtime-shell/audio-host.ts",
+        "sha256": "ee892d5194f6685060bb29fa40d42b99a4436c3a3207901f8aca525415b46e4c",
+        "lines": 93,
+        "dimensions": {
+          "A": "仅外部WebAudio/Spessa协议双替身；真实BGM/SFX、资源reader/RIFF守卫/ownership仍执行。context构造/悬挂态/恢复/关闭，音源连目的地与无buffer拒绝明确。",
+          "B": "明确不证明PCM/设备/听感时序，不把字节包冒充真实解码；解释外部库替身边界。",
+          "C": "与DOM/IDB隔开；仅此叶拥有音频构造器与外部库替身，close关闭实例并解除doMock，宿主统一恢复globals。",
+          "D": "shell与独立trial host共享同一外部合同；SFX单元适配器故障/真实browserAdapter合同不同，未强并其专用替身。",
+          "E": "真实main手势例核suspended→running和去重/close；隔离移除产品SFXresume恰一业务红，外部替身不作为声音质量oracle。",
+          "F": "contexts/state/resumeCalls与方法名直接表达宿主协议，调用者不持有全业务context。",
+          "G": "未增加通用仿真框架/测试专用产品出口；音乐所需worklet/gain/synth/sequencer端口均由真实BGM调用，不造未来API。",
+          "H": "依赖显式安装和close；无真实时钟/音频设备，异步方法可确定性结算。"
+        }
+      },
+      {
+        "path": "packages/reforge/src/__tests__/runtime-shell/dom-host.ts",
+        "sha256": "17917911a367a7c5888adb013fb35470c5b22c789b29c3174183da330e5c796d",
+        "lines": 302,
+        "dimensions": {
+          "A": "Full current external host read. Joins actual open/transaction/bitmap IO and continuations before restoring globals; releases held reads and closes databases/bitmaps/audio/listeners. Repeated close returns one receipt.",
+          "B": "Explains task-turn completion and the transparent transaction wrapper; nested vi.spyOn aliases itself in existing fault injection. No PCM/visual or product-save claim.",
+          "C": "One browser-IO owner;43 typed callers await close. Product main/save remain unchanged.",
+          "D": "One lifetime join replaces earlier local bitmap waits. Audio protocol leaf remains shared; business code is not mocked.",
+          "E": "42 changed existing tests preserve1184 original expect expressions, with11 separately reviewed additions. New real transaction-to-thumbnail regression has one exact pending/decoded AssertionError when only the join is removed. Current complete visible check and both official coverage gates pass zero diagnostics.",
+          "F": "beginIO/drainIO/closeHost/closing express operation ownership directly.",
+          "G": "No private save-queue reflection, fixed-duration teardown sleep, rule/timeout/ignore changes. Receipts follow actual events.",
+          "H": "Existing native fault injection composes; exact descriptor restoration/idempotent close are asserted. Author full-reading of43 caller files is not claimed."
+        }
+      },
+      {
+        "path": "packages/reforge/src/main.boot-shell.glm-q.test.ts",
+        "sha256": "052f0f36c20fce08b69a4b9520ac7579d8dca9e24f0b318e1c684f3bd13a02e7",
+        "lines": 148,
+        "dimensions": {
+          "A": "全文核8个query/偏好/gesture/gallery用例；原选择和结果断言保留，新SFX断言消费真实main公开手势。",
+          "B": "只更新一例标题以包含真实新增音效断言；记录main先SFX后BGM构造，未声称设备级验证。",
+          "C": "测试只持外部context状态，不写产品SFX/BGM内部字段。",
+          "D": "复用公共dom/audio host，保留各case合法project工厂。",
+          "E": "同一已有gesture例同时核BGM原恢复次数和SFX悬挂→running、已running不重复resume与关闭；只移除SFX恢复的隔离transform恰此例红/其余7绿。",
+          "F": "context命名与状态字面值可直接读懂，不以mock次数替代全部正确性。",
+          "G": "8个用例身份一对一；不新增重复case或覆盖率填充。",
+          "H": "无产品文件写入，外部host关闭与globals恢复由afterEach收口。"
+        }
+      },
+      {
+        "path": "packages/reforge/src/main.host-boundaries-1.test.ts",
+        "sha256": "479094de99023d1f8851dc596014b6d89c5e0d1f50b49c277866766142faacbc",
+        "lines": 241,
+        "dimensions": {
+          "A": "全文核五个真实boot/脚本/试打/save边界用例；只给已注入资源失败与thumbnail null两例补预期诊断oracle，不改输入或恢复路径。",
+          "B": "保留外部失败和public observation说明，不把截获console等同业务正确。",
+          "C": "每个负例自持console spy；afterEach宿主恢复，未知额外error进入完整calls比较而失败。",
+          "D": "沿用真实project/advance/IndexedDbSaveStore，未另造业务mock。",
+          "E": "原世界不变/runner释放/重试/真实事务编号断言全保留；新增精确频道、gate键、资产路径+source error、thumbnail错误及一次完整calls集合。",
+          "F": "expected调用列表直接对应生产模板，失败原因清晰。",
+          "G": "没有测试增删/弱化/跳过；只有负例诊断合同补强。",
+          "H": "运行失败仍经公开输入与真实外部IO反例，观测隔离可重复。"
+        }
+      },
+      {
+        "path": "packages/reforge/src/main.item-flows.test.ts",
+        "sha256": "d4381e8329b8e0ebc1cb9588e6cace5446c68f14d48f27d528078162e6725a5d",
+        "lines": 245,
+        "dimensions": {
+          "A": "全文核八个物品caller合同；两已失败gate/teleport合法负例补console合同，库存/菜单/世界/脚本断言保留。",
+          "B": "不改chance=1当前合法域说明；预期warn不再误记为零实际输出。",
+          "C": "spy只在各负例本地持有；未知warning会破坏完整calls集合，host.close恢复。",
+          "D": "复用medicine/scenario/enterItems，不为截获诊断加万能helper。",
+          "E": "精确[script]频道及tonic/orb字面失败消息、恰一次；现有可见文字、消耗拒绝与input不变断言不删。",
+          "F": "一行字面calls列表揭示失败所属物品。",
+          "G": "原八例不增不删，不以同一长度弱断言换业务oracle。",
+          "H": "外部spy和host可确定性还原，不写产品状态或mock业务item实现。"
+        }
+      },
+      {
+        "path": "packages/reforge/src/main.auto-save-flows.test.ts",
+        "sha256": "769559cd0fec4ea3a14a25c076e4fceca80ed5ba1fa626e5ba602623644142de",
+        "lines": 1398,
+        "dimensions": {
+          "A": "Earlier per-case bitmap-growth waits were removed. afterEach now awaits actual shared host IO completion, preserving snapshot-time world/cursor assertions.",
+          "B": "Original local-wait execution records remain historical attempts, not a claim about the current implementation.",
+          "C": "Test owns its snapshot assertions; host owns browser cleanup; calling hook awaits close.",
+          "D": "Shared IO lifetime replaces two repeated bitmap-baseline checks.",
+          "E": "All existing expect expressions preserved; shared real-transaction counter validates teardown design. No whole-file acceptance.",
+          "F": "async afterEach/await close exposes asynchronous ownership.",
+          "G": "No identity/fixture addition or deletion; removed superseded ad-hoc waits.",
+          "H": "Actual IDB and browser completions precede host disposal. Product storage remains unchanged."
+        }
+      },
+      {
+        "path": "packages/reforge/src/boot-page-shell.glm-q.test.ts",
+        "sha256": "5728427bfcad10aa4ffbc2472cbfe7790f2d4fc6e48901dc6b3b930a8a33a603",
+        "lines": 120,
+        "dimensions": {
+          "A": "全文核六个页面入口合同；VITE覆写例原只等标题（早于完整异步boot），补等待真实RAF持有再拆宿主。",
+          "B": "准确说明title不是boot完成回执；不改异常页合同。",
+          "C": "页面入口仍调用真实bootGame，现有loader seam只控制工程来源。",
+          "D": "复用现有RAF队列与第一例已用的观测，不加替代启动入口。",
+          "E": "原loader id/标题/no-error断言保留；现加入实际loop排帧，阻止迟到上一例shellProject在恢复jsdom Blob后跑到下一负例。",
+          "F": "一行真实frames等待和原因注释，控制流直观。",
+          "G": "无用例/断言删除，无无条件时间延长。",
+          "H": "异步owner在宿主恢复前完成，环境和loader teardown不变。"
+        }
+      },
+      {
+        "path": "packages/reforge/src/audio/sfx.staged-failures.test.ts",
+        "sha256": "b1aa0b2d167b8a5b77adadd2c4976226c38df9c46846d6df6dd840ffc4719194",
+        "lines": 195,
+        "dimensions": {
+          "A": "全文核全部原case与真实SFX输入/caller；只修已有legalWav正控的未等待Promise断言。",
+          "B": "协议级非PCM说明保留，原错误上下文说明不扩张。",
+          "C": "异步断言由test返回Promise持有，不留runner自动兜底责任。",
+          "D": "沿用legalWav/reader/adapter，未制造新抽象。",
+          "E": "void expect变为async+await expect，同一真实prepare业务断言现在被显式消费；其余RIFF/refusal/复制/retry/dispose断言不动。",
+          "F": "await直接揭示必须结算的结果。",
+          "G": "测试数量不变，不增加重复正控。",
+          "H": "结果由确定性适配器结算；无timer/全局规则放宽。"
+        }
+      },
+      {
+        "path": "packages/reforge/scripts/battle-trial-host.test.ts",
+        "sha256": "be83757b167123f01432a996d138b3914fb1dd91d117205c6b831c4259b2d5fd",
+        "lines": 222,
+        "dimensions": {
+          "A": "全文核四个trial host合同；在正常外部宿主提供音频protocol，不改真实BattleSession/停止/资源准备失败/第二构造器故障。",
+          "B": "保持外部IO替身与业务storage拒绝边界；不授声音效果信用。",
+          "C": "beforeEach安装，pagehide后close解除库替身并复原globals；第二构造器故障例继续自行还原descriptor。",
+          "D": "复用同audio-host叶，未复制另一套AudioContext类。",
+          "E": "原F5/F9不建SaveStore/无storage/停止回执/迟到准备/失败控制/close计数断言完整；音频就绪不再因缺API走非目标降级。",
+          "F": "audio安装/close在setup/teardown直接可见。",
+          "G": "四例和所有原fixture/业务assert保留；现有canvas强转不是本批新增或豁免。",
+          "H": "真实host与session运行，外部RAF/设备隔离，audio fixture不替代产品逻辑。"
+        }
+      }
+    ],
+    "titleMapping": {
+      "file": "packages/reforge/src/main.boot-shell.glm-q.test.ts",
+      "before": "Q01 手势解锁接线：pointerdown/keydown 捕获相各自触发 bgm.resume",
+      "after": "Q01 手势解锁接线：pointerdown/keydown 捕获相各自恢复音乐与音效"
+    },
+    "reporter": "Initial probes proved automatic agent reporter hides passing-test logs. Final seven package test scripts and official runner explicitly use default reporter while retaining original Codex markers; reporter-explicit-default.json preserves the positive control.",
+    "control": "In-memory Vite pre-transform removes only actualmain SFXresume block;1 expected suspended→running business red/7pass; product SHA and gitporcelain identical before/after.",
+    "history": "menu-check-final exit0/raw retained;runtime-zero credit withdrawn for hidden automatic reporter. First ratchet actualfail5tests+4startup errors with matching host deep-sleep log. Probe92green/29missingAudio warnings, partialhost9red, next92green/2BGMwarnings, completedhost92green/0stderr; laterfullReforge8964green/remainingdiagnostics and directed60green/0stderr all retained separately.",
+    "currentRootFix": "menu-gate-diagnostics.json reforge.rootFix and uniformGates: complete visible check20377,official ratchet/protected19979 each,all zero diagnostics. Prior per-case waits are superseded; raw retained."
+  },
+  "gateDiagnostics": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-gate-diagnostics.json",
+  "closedFiles": [
+    "packages/game/src/core/menu/menu-mode.ts",
+    "packages/game/src/core/menu/menu-stack.ts",
+    "packages/game/src/core/menu/in-game-menu.ts",
+    "packages/game/src/core/menu/inventory-action-menu.ts",
+    "packages/game/src/core/menu/inventory-menu.ts",
+    "packages/game/src/core/menu/shop-menu.ts",
+    "packages/game/src/core/menu/sell-menu.ts",
+    "packages/game/src/core/menu/equip-menu.ts",
+    "packages/game/src/core/menu/magic-select.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.ts",
+    "packages/game/src/core/menu/menu-mode.test.ts",
+    "packages/game/src/core/menu/in-game-menu.test.ts",
+    "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+    "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/inventory-action-menu.test.ts",
+    "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/inventory-menu.test.ts",
+    "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+    "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/__tests__/inventory-menu.test.ts",
+    "packages/game/src/core/menu/shop-menu.test.ts",
+    "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+    "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/sell-menu.test.ts",
+    "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+    "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/equip-menu.test.ts",
+    "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+    "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+    "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+    "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+    "packages/game/src/core/menu/__tests__/magic-cost-fixture.ts"
+  ],
+  "cardCounts": {
+    "accept": 15,
+    "partial": 68,
+    "pending": 0
+  },
+  "ledger": {
+    "inventory": 3323,
+    "closed": 272,
+    "review": 176,
+    "pending": 2875
+  },
+  "qualityGateEvidence": "menu-gate-diagnostics.json: uniformGates; one finite baseline approval-data change after full check is disclosed and verified by unchanged executable AST,82 tool tests and an exact source-refusal counter."
+}

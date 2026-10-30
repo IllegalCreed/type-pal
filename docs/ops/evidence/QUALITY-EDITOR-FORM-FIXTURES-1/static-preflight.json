@@ -1,0 +1,30 @@
+{
+  "checks": [
+    {
+      "command": ["pnpm", "check:docs"],
+      "exitCode": 0,
+      "bytes": 11732,
+      "sha256": "e0232ef91897ec3b5c91a9b74ceda4ec94ff9be1e595d0a5c976c77cedcc9211"
+    },
+    {
+      "command": ["pnpm", "lint"],
+      "exitCode": 0,
+      "bytes": 199,
+      "sha256": "98d9e321074379d3878000644dedbefaa59bb96b980fa791a018b585fb850ca9"
+    }
+  ],
+  "lint": "4227 files; 0 errors / 0 warnings / 0 infos",
+  "docs": "0 issues; 184 phase/lore and 570 semantic documents",
+  "ledger": {
+    "inventory": 3284,
+    "closed": 229,
+    "review": 62,
+    "pending": 2993
+  },
+  "ownedSemanticEntries": [
+    "docs/ops/board.md",
+    "docs/ops/evidence/README.md",
+    "docs/ops/tasks/index.md"
+  ],
+  "newClosures": 0
+}

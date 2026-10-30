@@ -4,26 +4,20 @@
  * Phase E 收口:消费 PresentCommand → 画 bg → sprite → 数字弹幕 → UI overlay。
  * BattleAssets 由 dev panel(T29)或 bootstrap 注入。
  *
- * 命令消费(M3 简版):
+ * 命令消费(视觉层只取两个 op;其余 op 的去向见下方消费循环注释):
  *   - `showDamageNum`     → FloatingNumsLayer.emit(数字弹幕)
- *   - `playEnemyAttack`   /  `playPlayerAttack` / `playMagicAnim`
- *     / `flashEnemy` / `flashPlayer` / `playEnemyDeath`
- *     / `showBattleMessage`
- *   - `showBattleUI` —— state 本身由 battle-system 改写到 state.uiState,
- *     Present 层不消费此 cmd 修改 state。
- *   - `showDialogBox` / `clearDialogBox` —— 战斗模式下不画对话框,跳过。
+ *   - `showBattleMessage` → 单行消息条(步骤 5.5)
+ *   - `playEnemyAttack` / `playPlayerAttack` / `playEnemyDeath`:本层不消费 —— 声音由
+ *     shell 解析(bootstrap → audio.sfxForBattleEvent 映射 per-单位声),画面由动画
+ *     时间线(battleAnim frames)驱动。
+ *   对白读 gs.dialogBox；法术动画与受击色闪读 battleAnim 帧链，不经通知通道。
  *
  * 绘制顺序(对照 sdlpal `battle.c::PAL_BattleMakeScene`):
  *   1. 战斗背景(底)
  *   2. 我方 + 敌方精灵
  *   3. 数字弹幕(在精灵之上)
  *   4. UI overlay(主菜单 / 二级菜单 / 目标光标 / HP/MP 状态栏)
- *
- * 不在本 task 做(留 M5):
- *   - 精灵动画切帧(idle frame 循环、攻击 frame、魔法 cast frame)
- *   - 闪屏 / 敌人 flash 红色
- *   - 战斗消息单行 banner
- *   - 死亡淡出
+ *   5. 战斗内对话框 / 胜利结算 overlay(覆于场景与 UI 之上)
  */
 
 import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
@@ -79,7 +73,7 @@ export interface BattleAssets {
   /**
    * D17a:lpEffectSprite(DATA.MKF chunk 10)全 frame —— 物理攻击命中特效 overlay 用
    * (state.battleAnim.overlay.spriteChunk=10,frameIdx 取帧)。缺省则 overlay 不画
-   * (loader 注入留后续叶子)。
+   * (loader 加载 effect.rle 后经 bootstrap 注入)。
    */
   effectSprite?: SpriteAsset
   /**
@@ -101,11 +95,13 @@ export interface BattleAssets {
 }
 
 /**
- * 战斗 Present —— 持有跨帧状态(目前只有 FloatingNumsLayer)。
- * 一帧装配:`draw(fb, gs, state, commands, assets, currentFrame)`;
- * 战斗结束时调 `clearFloatingNums()` 避免下次战斗看到上次残留。
+ * 战斗 Present —— 持有跨帧状态:数字弹幕层、单行消息条、召唤 fade 快照/累积缓冲、
+ * 入场 fade backup。一帧装配:`draw(fb, gs, state, commands, assets, currentFrame, advanceEffects)`;
+ * 缓存绑定 BattleState 身份；换战自动重置，退出由 presentBattleFrame 调 reset。
+ * 战中状态页保留同一 BattleState，暂停绘制时不清理。
  */
 export class BattlePresent {
+  private activeBattle: BattleState | undefined
   private readonly floatingNums = new FloatingNumsLayer()
   /** 战斗单行消息条(逃跑失败等);currentFrame >= expiryFrame 时消失。 */
   private battleMsg:
@@ -114,7 +110,7 @@ export class BattlePresent {
   /** 召唤 crossfade(PAL_BattleFadeScene)用:上一帧渲染快照(fade 起手 = 对侧"from"场景)。 */
   private lastFrameBuf: Uint8Array | undefined
 
-  /** D19 入场 fade:入场前大世界帧快照(dither backup)+ 已应用 step。introFade 清时复位。 */
+  /** 入场整像素切换的旧画面快照；introFade 清除时释放。 */
   private introBackup: Uint8Array | undefined
   /** 召唤 crossfade 累积态(from 逐步 dither 逼近 to,显示此 buf);+ 已应用到第几步。 */
   private summonFadeBuf: Uint8Array | undefined
@@ -139,6 +135,11 @@ export class BattlePresent {
     currentFrame: number,
     advanceEffects = true, // DM32:fade-only 补帧不推进 wave 计数
   ): void {
+    if (this.activeBattle !== state) {
+      this.reset()
+      this.activeBattle = state
+    }
+
     // D17 死亡淡出渲染细分:每 rAF(含非 tick 的 fade-only 补帧)按 wall-clock 把 deathFadeStep 推到
     //   62.5fps(对齐 sdlpal PAL_BattleFadeScene 16ms/步)。无 battleFade 时早退,纯 no-op。
     stepDeathFadeRender(state, performance.now())
@@ -159,8 +160,8 @@ export class BattlePresent {
       stepPaletteFade(gs.palette.colors, gs.paletteFadeState, performance.now())
     }
 
-    // D19 入场 fade:首帧(introFade 激活 + 尚无 backup)快照入场前 fb(= 上一帧大世界,fb 跨帧保留)作 dither
-    //   backup;无 introFade(已进战斗)→ 清。须在任何 fb 绘制前快照。
+    // PAL_BattleMain 先备份屏幕再构建战场；清屏必须在捕获之后。
+    // 同一场入场的后续补帧复用快照，introFade 清除或换战时释放。
     if (state.introFade) {
       if (!this.introBackup) {
         this.introBackup = new Uint8Array(fb.indices)
@@ -169,7 +170,10 @@ export class BattlePresent {
       this.introBackup = undefined
     }
 
-    // 1. 消费战斗命令(M3 简版:只 showDamageNum;其他命令 M5 真补)
+    fb.clear()
+
+    // 1. 消费战斗命令 —— 视觉层只取 showDamageNum(弹幕)与 showBattleMessage(消息条),
+    //    其余 op 的去向见模块头注释。
     for (const { cmd } of commands) {
       if (cmd.op === 'showDamageNum') {
         // D17b:逻辑 target → 屏幕坐标(与精灵共用 computeEnemyAnchor/computePlayerAnchor,杜绝漂移)。
@@ -195,12 +199,11 @@ export class BattlePresent {
         const frames = Math.ceil((cmd.durationMs ?? 800) / 40)
         this.battleMsg = { text: cmd.text, expiryFrame: currentFrame + frames, pos: cmd.pos }
       }
-      // 其他 op(playEnemyAttack / playMagicAnim / flashEnemy / playEnemyDeath / showBattleUI
-      // / showDialogBox / clearDialogBox 等)M3 简版跳过
+      // 攻击/阵亡通知由 shell 映射 SFX；对白与动画分别从状态/帧链绘制。
     }
 
     // 召唤演出(state.battleAnim.summon):in/loop 期画召唤神替换队员 + 背景染色;out 期(淡出)正常画队员。
-    //   crossfade(淡入/淡出)在本帧 UI 画完后统一处理(applySummonFade)。
+    //   crossfade(淡入/淡出)在场景完成后、UI 之前处理(applySummonFade)。
     const summon = state.battleAnim?.summon
     const summonGodMode = summon !== undefined && summon.fadeDir !== 'out'
 
@@ -257,7 +260,6 @@ export class BattlePresent {
       assets.battleSprites,
       liveRoles,
       assets.enemyPos,
-      currentFrame,
       summonGodMode, // 召唤神出场 → 隐队员
       magicOverlayEntries.length > 0 ? magicOverlayEntries : undefined,
     )
@@ -287,9 +289,7 @@ export class BattlePresent {
     //   PAL_BattleUIUpdate 重画 UI,fade 期 UI 始终清晰不被卷进渐变)。非 fade 帧只快照场景供下次 fade 起手。
     this.applySummonFade(fb, state.battleAnim?.summon, state.battleAnim?.hasSummonFade ?? false)
 
-    // 3.95 D19 入场 dither fade-in(PAL_BattleFadeScene battle.c:609):把战斗**场景层**(bg+精灵+特效)从入场前
-    //   大世界 backup nibble-dither 揭示;UI/弹幕随后画清(对齐 sdlpal fade 后 PAL_BattleUIUpdate 重画 UI)。
-    //   progress = introFade.step/total → dither step;显示累积 backup(= sdlpal 显示 backup buffer)。
+    // 入场先按六轮整像素置换揭示战斗场景，随后绘制 UI/弹幕；与召唤的 nibble 渐变分开。
     if (state.introFade && this.introBackup) {
       // DL29:进战斗揭场 = VIDEO_SwitchScreen(5)(video.c:1092-1126):6 轮 stride-6 **整像素置换**
       //   (rgIndex={0,3,1,5,2,4}),每轮把新画面中 k%6==rgIndex[i] 的像素拷入旧画面,每轮 60ms 共
@@ -318,7 +318,6 @@ export class BattlePresent {
       gs,
       assets.glyphs,
       assets.uiSpriteFrames,
-      assets.enemyPos,
       assets.objectPoisons,
       assets.itemIcons,
     )
@@ -363,6 +362,7 @@ export class BattlePresent {
       drawBattleSettlement({
         fb,
         screen: settlement.screens[settlement.index]!,
+        roleNames: gs.PlayerRolesRuntime.rgwName,
         uiSpriteFrames: assets.uiSpriteFrames,
         glyphs: assets.glyphs,
       })
@@ -394,7 +394,7 @@ export class BattlePresent {
     summon: SummonFrameState | undefined,
     hasSummonFade: boolean,
   ): void {
-    const current = fb.indices as Uint8Array
+    const current = fb.indices
     if (!summon || summon.fadeStep === undefined) {
       // 非 fade 帧:仅召唤动画期快照本帧场景(下次 fade 起手的 "from");非召唤动画不快照(省 64KB/帧 memcpy)。
       if (hasSummonFade) {
@@ -441,9 +441,14 @@ export class BattlePresent {
     current.set(buf) // 显示累积态(from 渐变到 to)
   }
 
-  /** 战斗结束时清空数字弹幕 + 消息条,避免下次战斗看到上次残留。 */
-  clearFloatingNums(): void {
+  /** 释放一场战斗拥有的全部呈现状态；可重复调用，不影响 framebuffer 或核心状态。 */
+  reset(): void {
+    this.activeBattle = undefined
     this.floatingNums.clear()
     this.battleMsg = undefined
+    this.introBackup = undefined
+    this.lastFrameBuf = undefined
+    this.summonFadeBuf = undefined
+    this.summonFadeApplied = -1
   }
 }

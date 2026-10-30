@@ -485,7 +485,7 @@
                   "id": "initial",
                   "body": [
                     {
-                      "entryId": "pal-entry-d1feffd2",
+                      "entryId": "palace-isolated-room",
                       "kind": "loadScene",
                       "scene": "s260",
                       "transition": {
@@ -741,6 +741,14 @@
       "pos": {
         "col": 76,
         "row": 13,
+        "height": 0
+      }
+    },
+    "palace-upper-return": {
+      "label": "独立宝箱房返回上层",
+      "pos": {
+        "col": 82,
+        "row": -5,
         "height": 0
       }
     }

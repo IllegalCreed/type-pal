@@ -1,0 +1,345 @@
+{
+  "schemaVersion": 1,
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03",
+      "lines": 99,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md",
+        "sha256": "356abb0dd6d47c1be59d718a72813a70dcb08a4c726c4c204beee2c84b2a83ca"
+      },
+      "dimensions": {
+        "A": "当前99行全文与实际bootstrap/gameShell/language/static-shell/precache caller已读；真实页面单入口，DOM/Canvas检查、analytics隔离、幂等enter门和两错误分支完整。",
+        "B": "注释区分PROD两段进度/无SW自动放行、失败停止计数但不取消网络，warmup保留点击同步栈；未用SDL机制解释浏览器生命周期。",
+        "C": "仅组合根分配页面级analytics/shell/fetch包装/SW与enterGate；叶模块各有状态owner，main不复制绘制/网络重试/输入规则。语言订阅、shell与SW有意随单页面存活，无重复bootstrap。",
+        "D": "PROD/fallback两catch共三行消息转换但错误UI与计数owner不同，保留清晰两分支，不建模式helper；两个bootstrap都传同一shell实例。",
+        "E": "旧真实PROD失败/正常入口及4业务红、58相邻原件复用；当前两个catch和onPlayable与291b7b59d经标准化正文逐个相同。新增mobile/language依赖另核实际接线及现有原生全包回执，不冒称重跑浏览器。",
+        "F": "guard到页面初始化到两启动路径直接；gateReleased/releaseGate/enter命名表达一次所有权，异步错误显式转展示而非丢Promise。",
+        "G": "所有imports/locals有用途，返回dispose的static-shell在本页面生命周期有意保持，非未知死值；import.meta窄类型是构建宿主边界且运行时仍以PROD===true判定，不拿强转掩盖业务输入。",
+        "H": "bootstrap/ui/fetch叶已有直接测试和真实生产浏览器反例；main本身不为了测试暴露新接口或拆成万能environment，当前变化无产品行为/文件组织新取舍。"
+      },
+      "readScope": "Codex full current target and stated direct dependencies read; valid historical full review/native/browsing evidence reused, not reexecuted or expanded.",
+      "remaining": "No blocking current supported-contract quality gap; unsupported external source schema not certified. Unified phase gates/publication pending."
+    },
+    {
+      "path": "packages/migrate/src/pal-source-io.ts",
+      "sha256": "c385528f1cd964f6108e962b1499636d90a63e893200d22b09d0e74bc5f99a1d",
+      "lines": 82,
+      "status": "code-accepted",
+      "prior": {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/migrate-all/README.md",
+        "sha256": "e67c750b8c58c2cbdf8c049266169dac46ce4eaa969708b265af2207291eb571"
+      },
+      "dimensions": {
+        "A": "完整实现/生产CLI/supply/publication及extract producer已读；输入是本仓当前提取器固定文件，不是用户任意导入。295场景/精确s294/正map/223地图guard保持；只读来源链接允许，输出验证在current publication写盘前。",
+        "B": "明确泛型JSON读取是可信producer类型边界、不自称schema validator；相邻供应barrel误称不加载任何场景事件已改为不加载逐场景转换产物，保留all.json两个窄脚本消费者事实。",
+        "C": "只负责读取/装配source DTO；DATA/music/event提取器拥有输入格式，pal-assets负责资产解析，纯supply转换/current validator负责输出，CLI/transaction拥有发布。没有projects/pal写入或全局状态。",
+        "D": "all.json复用同一private JSON读入口，去两重复local；tilemap原文要计UTF8 bytes故保留独立读取，不扩大helper成所有parser/IO万能层。",
+        "E": "7实际文件42绿包括真实窄源/缺失输入/禁载完整转换核/当前publication；四前置guard错误精确，原末例任意非空错误现改soundfont ENOENT精确路径后5绿。测试fixture只作前置失败序列，真盘正控另有完整源。",
+        "F": "固定资源路径和返回域显式可查，场景从0按连续编号读取后仅去stub，地图数字排序/字节计数直接；不用抽象掩盖真实closed-corpus依赖。",
+        "G": "roles/items/exp/commands/objectPlayers/stores均有当前真实consumer：四伤亡/两提示窄事实仍需all.json，不以旧转换退役误删它。generic cast不当runtime校验信用，无新增ignore/断言弱化。",
+        "H": "实际FS读取可用独占临时树验证；真实PAL正控验证当前producer→supply→publication，无核心mock或共享输出写入。未启动含recover的真实CLI，源/工程产物未修改。"
+      },
+      "readScope": "Codex full current target and stated direct dependencies read; valid historical full review/native/browsing evidence reused, not reexecuted or expanded.",
+      "remaining": "No blocking current supported-contract quality gap; unsupported external source schema not certified. Unified phase gates/publication pending."
+    }
+  ],
+  "native": {
+    "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/entry-source-native.json.gz",
+    "sha256": "a736ed0ddea643d29706545b5adfae9608cbc056f6c2d3607de0c6fcffcad083",
+    "decodedSha256": "60d546fc00ad6001738b892794784834e002b3c697866eac5aa7eb78016ca85b",
+    "members": [
+      {
+        "name": "migrate-io-current.execution.json",
+        "sha256": "92e35a8699f197f7214c562cc6153cd99d0b52249facdcb576cdf8733ae3323d",
+        "bytes": 1124
+      },
+      {
+        "name": "migrate-io-current.native.json",
+        "sha256": "dbed5fe482d2885879756b540bc3e242cf3159641ef3afce06491bff036822c8",
+        "bytes": 16741
+      },
+      {
+        "name": "migrate-io-current.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "migrate-io-current.stdout.raw",
+        "sha256": "3e50cc48e0dc83064c04ae5fc39c3b1742a91fbcbe4f0514ad7ace600468a4f0",
+        "bytes": 1739
+      },
+      {
+        "name": "migrate-typecheck.execution.json",
+        "sha256": "a46f6b482bdc48c2e6e4d8fdf2f506693bb0c7c743f5e6de912196777f58448e",
+        "bytes": 469
+      },
+      {
+        "name": "migrate-typecheck.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "migrate-typecheck.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "migrate-guards-strengthened.execution.json",
+        "sha256": "db57f90beeac3fcd637af87fdb746aa1e0a0cc9c82645130ded5e13a37c1172f",
+        "bytes": 858
+      },
+      {
+        "name": "migrate-guards-strengthened.native.json",
+        "sha256": "e166f1a2f7cc1a7a0e239cf47eee08377ae4826e42bc030950bf185bc4845331",
+        "bytes": 2396
+      },
+      {
+        "name": "migrate-guards-strengthened.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "migrate-guards-strengthened.stdout.raw",
+        "sha256": "e36c52c644c26e42b876de7de3ba5d3cfb59d0f4636a4a29899644b403c2830b",
+        "bytes": 446
+      },
+      {
+        "name": "entry-source-docs.execution.json",
+        "sha256": "208978923f8804b8a05f2ff96f156bb61012bcfebfa08b2720dfaa2dcf4a7462",
+        "bytes": 419
+      },
+      {
+        "name": "entry-source-docs.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "entry-source-docs.stdout.raw",
+        "sha256": "ef62670dba68f65e997dc79526433ba084d08d420427b37a489c39df3e9ba646",
+        "bytes": 93
+      },
+      {
+        "name": "entry-source-lint.execution.json",
+        "sha256": "d0f5d2243e44f7259963b3ad5681e301f9e65333d5aabce3049ca930725c9b7d",
+        "bytes": 426
+      },
+      {
+        "name": "entry-source-lint.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "entry-source-lint.stdout.raw",
+        "sha256": "c75d1674cd095530ec36e6d1ff54fcb1f14510f193dd3f4277ad6037edb26f65",
+        "bytes": 76
+      },
+      {
+        "name": "main-hooks-proof.json",
+        "sha256": "5cfe0fbf81e0317bdeb08213dfa9eb8c20256d4080804b28e832f98519a6ab3a",
+        "bytes": 580
+      }
+    ]
+  },
+  "bindings": [
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "7d22fb11132c0a6b4973b588c8ea1d63056e42a4b85869e91f8ff961f738ae2d"
+    },
+    {
+      "path": "packages/game/src/shell/game-shell.ts",
+      "sha256": "fd3ecbb8ae06dc98c56dc7a05bff7e8dad69a9a4469243ce756631194cb27520"
+    },
+    {
+      "path": "packages/game/src/shell/game-shell.test.ts",
+      "sha256": "634c327c91917ef8c67699375e476ab8398e67e46a7f9c93f648a4e08f952b69"
+    },
+    {
+      "path": "packages/game/src/localization/language.ts",
+      "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779"
+    },
+    {
+      "path": "packages/game/src/localization/static-shell.ts",
+      "sha256": "f1ce70512971b2f042a6630136193c13324ba590baee16c68da5b886283a34f5"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.ts",
+      "sha256": "d6021e36310bc459b4b99be7f577bcd61d145bd8795ab584a6bbd7f9f564ea15"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.ts",
+      "sha256": "6a583e9a53cf4a3b2a80993c7ef792877dfc4c60a3628fbde94ca58f967fefdc"
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.ts",
+      "sha256": "abba42fb5f84f0c04f97f1ee589d5cb933ded67cef7e52c0a8a835d9a1930694"
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui.ts",
+      "sha256": "c4cd5d12f0bc2dbcc070f5ddcfbb98757353f238bf1b498b3bd15f3d4f87d614"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.ts",
+      "sha256": "49711b04336e1ff4820de3f0f361a6b6bbbdc2e90fcfb727aa5fbf6f91def42a"
+    },
+    {
+      "path": "packages/migrate/src/pal-content-supply-io.ts",
+      "sha256": "be9bf70e885fa0f7adbdea54b72cbb7ee233d386fb76c1927d59f9ab070fa39f"
+    },
+    {
+      "path": "packages/migrate/src/pal-content-supply.ts",
+      "sha256": "0a0f7bc729c75ae496d55b86283f670e1b4b745c4383f9d02f2b0c16a7dfff6b"
+    },
+    {
+      "path": "packages/migrate/src/pal-current-publication.ts",
+      "sha256": "2073d2b7719a3fe494c254cb0abb12fc228c8a51d9e57d0e64811db76fdc04f3"
+    },
+    {
+      "path": "packages/migrate/src/pal-source-types.ts",
+      "sha256": "48b8f2dd0de531782a4ad95d0529d40a1f2a568169e5242041bd074a41dcbf13"
+    },
+    {
+      "path": "packages/migrate/src/pal-assets.ts",
+      "sha256": "700a76e375020626d5d064ccee5d88bc2ab903cc1ac79990b55b551ef5dfc246"
+    },
+    {
+      "path": "packages/migrate/scripts/migrate-content.mts",
+      "sha256": "1bf6bfad98013bfe89a92dd1b3adf3f4d20777c8243b43f98efee01e72c9d157"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/data-assets.ts",
+      "sha256": "e1e1a9cee093d57bfbcf9080b920a75087a0388c0f3f77e5b53ea17e7feeb11d"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/music.ts",
+      "sha256": "dd488c3e3d1485de41f15d8a9fc95866a2c294d34a9fb8d9e0436b649de65926"
+    },
+    {
+      "path": "packages/migrate/src/pal-source-io.guards.test.ts",
+      "sha256": "4b2a8e4d44787294aa028b81296be34c53847d8f3d1e8f719cde39adc30faa1a"
+    }
+  ],
+  "priorBindings": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md",
+      "sha256": "356abb0dd6d47c1be59d718a72813a70dcb08a4c726c4c204beee2c84b2a83ca"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/read-boundaries.json",
+      "sha256": "6cce6c2093ab9e761f28fd5ae5b8c1ef2e036aa64d281e13fd571fdd046e6934"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/before-fix.json",
+      "sha256": "3dd48a65efe3a03a1a31fa9efe143bff9d55a1f81e2d28aa7e3e338ecf7c5606"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/test-gates.json",
+      "sha256": "198f7a6c67de81e006d48f13491f885c482672c881482709952ca3ff88f4ae48"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/runtime.json",
+      "sha256": "5e582c9da7e722ede2af6112470922469c356badc01e04565783f250a2245a86"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/runtime-positive.json",
+      "sha256": "520c8cc6aaeb05cd4dfbd2afab15666c33154f540d2cf60993faf56c7fbda9ba"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/runtime-positive.execution.json",
+      "sha256": "8ef3dd64e8703c9dcfd38dfb13a1d6c9f0ec5a6a382937c6f113646d68424dab"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/runtime-positive.raw.gz",
+      "sha256": "83db428b78386d249c01522a5f6c4e301d8c6ef6ddcb74a87e8e832725851008"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/runtime.raw.gz",
+      "sha256": "5ee2f3b6055e12fd478611c7824ed31d2a2bc7ffbd85596d4371ccf2ef7dfaa1"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/adjacent.runner.json.gz",
+      "sha256": "57dce0b26b47d8b7680b7ea15c3cd070439092b13bed771b72a2903bd48c4f13"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/adjacent.raw.gz",
+      "sha256": "46c932521ed45b6e23b8b44d5f07b9613648ecba4d646fa356e94bcc6b98182c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/migrate-all/README.md",
+      "sha256": "e67c750b8c58c2cbdf8c049266169dac46ce4eaa969708b265af2207291eb571"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/necessary.red.runner.json.gz",
+      "sha256": "2fa4f8a84453ccc6c7b112e763caed79e82b95ac56fbc7a811a5eda3da806490"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/necessary.red.raw.gz",
+      "sha256": "cdbdaeffb589d5313ea2d1e0b41ca0d5f551fbbde259047e3c2d3ccb1b3f7c2c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/full.red.runner.json.gz",
+      "sha256": "20612a5c2dcd5eae7f095aff16e41280de8ef9bff0b8cfab5a1374d86093315c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/full.red.raw.gz",
+      "sha256": "327050d78b9e1eb247c4233421f9661947de785b5549c5b844481a4f31754419"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/ownership.red.runner.json.gz",
+      "sha256": "10d2e692ee7a7dbfac132e470801dbe9e83a2f21104473a9c32151d713dfc98a"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/ownership.red.raw.gz",
+      "sha256": "dc96eebff1dbe983d9a098d58976148e2e259aca9610506aecad2332bb95fc2e"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/generation.red.runner.json.gz",
+      "sha256": "38f03b5233af5b49f81e18bfbdbc249fd4423fe7019aac842a35d50db076b48d"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/generation.red.raw.gz",
+      "sha256": "646860672fe85dd6ff16191d7964c4677be0c28a865c7a73af51035aca27a982"
+    }
+  ],
+  "runs": [
+    {
+      "id": "migrate-io-current",
+      "files": 7,
+      "passed": 42,
+      "failed": 0,
+      "stderr": 0
+    },
+    {
+      "id": "migrate-guards-strengthened",
+      "files": 1,
+      "passed": 5,
+      "failed": 0,
+      "stderr": 0
+    }
+  ],
+  "typecheck": "migrate-typecheck:exit0 stdout0 stderr0; game existing TC at exact unrelated code delta reused",
+  "limits": [
+    "Old boot browser checks apply only to preserved callbacks; no fresh mobile/English visual/story/E2E claim.",
+    "No schema input-domain extension, asset write or migrate:content even dry-run executed.",
+    "The selected unchanged current-publication4 tests cost88.8s within145.8s batch; broader than needed for a pure read-helper refactor. Reuse this frozen result for unchanged publication; do not repeat it per card.",
+    "Project legacy script-index discovery remains untouched awaiting user decision, not closed by42green."
+  ],
+  "extra": {
+    "path": "packages/migrate/src/pal-source-io.guards.test.ts",
+    "sha256": "4b2a8e4d44787294aa028b81296be34c53847d8f3d1e8f719cde39adc30faa1a",
+    "status": "code-accepted;explicit adjacent pending to closed, outside fixed52",
+    "dimensions": {
+      "A": "5负例验固定preflight错误与缺音色库读取；不把合成部分JSON当合法完整publication，真实正控在pal来源专测。",
+      "B": "title说明守卫先于资产IO，末例注释限定无MIDI fixture，不误称所有生产都先读音色库。",
+      "C": "临时repo每例独占、afterEach删除，无源目录软链或全局共享状态。",
+      "D": "buildTree只生成当前guard所读字段；不复制生产guard算法，真盘完整正控复用外部实际文件。",
+      "E": "四条精确错误保留；第五旧仅非空串可误绿，现核真实ENOENT与soundfont路径，5身份无增删、恢复5绿。",
+      "F": "SCENES/TILEMAPS/sceneJson/buildTree/loadError分别解释fixture和失败捕获，预期错误直接可读。",
+      "G": "没有新增case数量或恒真长度断言，不重复现有完整PAL闭包；5例独立对应四guard和首资产缺失。",
+      "H": "真实FS/真实入口直接运行，fixture临时文件可控；错误对象业务属性可直接断言，无mock loader或放宽timeout。"
+    }
+  }
+}

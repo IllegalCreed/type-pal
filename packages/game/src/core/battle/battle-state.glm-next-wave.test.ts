@@ -5,24 +5,20 @@
  *  - DH1:敌队 0 占位槽(null)→ defeated 空槽(wObjectID=0、e 全零、不参与脚本/目标;
  *    battle.c:1598-1720 memset 零槽 + `w==0` 仍 `rgEnemy[i++].wObjectID = w` 计入 wMaxEnemyIndex)
  *  - gpGlobals->fAutoBattle(0x8A 持久)seed 进战斗 state(B4(3))
- *  - players scriptPrevHp 战前快照(0x64 类脚本 show-once 判定基线)
+ *  玩家prevHp/prevMp/scriptPrevHp快照统一在主测核验；0x64读敌maxHealth，不读玩家快照。
  */
 import type { PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import {
-  makeHEnemy,
-  makeHField,
-  makeHRole,
-  seededRng,
-} from '../../__tests__/glm-next-wave/H/harness.js'
+import { makeHEnemy, makeHField, makeHRole } from '../../__tests__/glm-next-wave/H/harness.js'
 import { createInitialGameState } from '../game-state.js'
+import { createSeedableRng } from '../rng.js'
 import { createBattleState } from './battle-state.js'
 
 function boot(opts: { fAutoBattle?: boolean }) {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
   gs.partyMembers = [0]
   if (opts.fAutoBattle) gs.fAutoBattle = true
-  const playerRoles: PlayerRoles = { roles: [makeHRole(0, { hp: 123, mp: 45 })] }
+  const playerRoles: PlayerRoles = { roles: [makeHRole(0, { hp: 123, mp: 45, maxMP: 60 })] }
   const sourceEnemy = makeHEnemy({ id: 100, health: 900 })
   const state = createBattleState({
     gs,
@@ -30,7 +26,16 @@ function boot(opts: { fAutoBattle?: boolean }) {
     enemies: [sourceEnemy, null],
     field: makeHField(),
     isBoss: false,
-    rng: seededRng(7),
+    rng: createSeedableRng(7),
+    enemyPos: {
+      layouts: [
+        [{ x: 160, y: 80 }],
+        [
+          { x: 120, y: 78 },
+          { x: 212, y: 88 },
+        ],
+      ],
+    },
   })
   return { gs, playerRoles, state, sourceEnemy }
 }
@@ -42,8 +47,11 @@ describe('createBattleState —— DH1 零占位槽(battle.c:1598-1720)', () => 
     const slot = state.enemies[1]!
     expect(slot.defeated).toBe(true)
     expect(slot.objectId).toBe(0) // wObjectID=0 空槽标记
-    expect(slot.e.health).toBe(0)
-    expect(slot.e.id).toBe(0)
+    const { elemResistance, ...scalarStats } = slot.e
+    for (const [stat, value] of Object.entries(scalarStats)) {
+      expect(value, stat).toBe(0)
+    }
+    expect(elemResistance).toEqual({ wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 })
     expect(slot.scriptOnTurnStart).toBe(0)
     expect(slot.scriptOnReady).toBe(0)
     expect(slot.scriptOnBattleEnd).toBe(0)
@@ -51,7 +59,8 @@ describe('createBattleState —— DH1 零占位槽(battle.c:1598-1720)', () => 
     expect(slot.maxHealth).toBe(0)
     expect(slot.poisons).toEqual([])
     // 站位仍按 2 列布局生成(撑起列数/召唤房间)
-    expect(slot.posOriginal).toBeDefined()
+    expect(state.enemies[0]!.posOriginal).toEqual({ x: 120, y: 78 })
+    expect(state.enemies[0]!.pos).toEqual({ x: 120, y: 78 })
     expect(slot.currentFrame).toBeUndefined()
   })
 
@@ -66,16 +75,8 @@ describe('createBattleState —— DH1 零占位槽(battle.c:1598-1720)', () => 
 })
 
 describe('createBattleState —— 开战 seed', () => {
-  it('gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 跨战斗持久)', () => {
+  it('gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 脚本flag)', () => {
     expect(boot({ fAutoBattle: true }).state.fAutoBattle).toBe(true)
     expect(boot({}).state.fAutoBattle).toBe(false)
-  })
-
-  it('players prevHp/prevMp/scriptPrevHp 三快照 = 战前 role.hp/mp', () => {
-    const { state } = boot({})
-    const p = state.players[0]!
-    expect(p.prevHp).toBe(123)
-    expect(p.prevMp).toBe(45)
-    expect(p.scriptPrevHp).toBe(123)
   })
 })

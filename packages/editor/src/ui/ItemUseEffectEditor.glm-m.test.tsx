@@ -107,7 +107,7 @@ describe('M02 ItemUseEffectEditor 未触达效果分支', () => {
     const before = session.getHistoryVersion()
 
     // 空链先经「添加效果」产生首卡（默认 healHp），再切到目标类型。
-    await buttonByText(host, '添加效果').click()
+    await act(async () => buttonByText(host, '添加效果').click())
     expect(session.getState().items[0]!.use?.effects).toEqual([{ kind: 'healHp', amount: 100 }])
     await switchEffectKind(session, '永久成长')
     expect(session.getState().items[0]!.use?.effects).toEqual([
@@ -130,17 +130,25 @@ describe('M02 ItemUseEffectEditor 未触达效果分支', () => {
     ])
     expect(session.getHistoryVersion()).toBe(before + 4)
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().items[0]!.use?.effects).toEqual([
       { kind: 'permanentStatBoost', stat: 'magicAttack', delta: 5 },
     ])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().items[0]!.use?.effects).toEqual([
       { kind: 'permanentStatBoost', stat: 'maxHP', delta: 5 },
     ])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().items[0]!.use?.effects).toEqual([{ kind: 'healHp', amount: 100 }])
-    expect(session.redo()).toBe(true)
+    await act(async () => {
+      expect(session.redo()).toBe(true)
+    })
     expect(session.getState().items[0]!.use?.effects).toEqual([
       { kind: 'permanentStatBoost', stat: 'maxHP', delta: 5 },
     ])
@@ -154,7 +162,7 @@ describe('M02 ItemUseEffectEditor 未触达效果分支', () => {
     })
     const before = session.getHistoryVersion()
 
-    await buttonByText(host, '添加效果').click()
+    await act(async () => buttonByText(host, '添加效果').click())
     await switchEffectKind(session, '调整明雷感知')
     expect(session.getState().items[0]!.use?.effects).toEqual([
       { kind: 'modifyHostileAwareness', rangeMultiplier: 0, durationMs: 60_000 },
@@ -176,11 +184,15 @@ describe('M02 ItemUseEffectEditor 未触达效果分支', () => {
     expect(session.getHistoryVersion()).toBe(before + 4)
     assertProjectSaveValid(session.getState())
 
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().items[0]!.use?.effects).toEqual([
       { kind: 'modifyHostileAwareness', rangeMultiplier: 3, durationMs: 60_000 },
     ])
-    expect(session.undo()).toBe(true)
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
     expect(session.getState().items[0]!.use?.effects).toEqual([
       { kind: 'modifyHostileAwareness', rangeMultiplier: 0, durationMs: 60_000 },
     ])

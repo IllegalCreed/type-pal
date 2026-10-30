@@ -1,0 +1,29 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/editor",
+    "exec",
+    "vitest",
+    "run",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-c09-package.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-15T15:23:07.089717+00:00",
+  "exit": 0,
+  "seconds": 451.16,
+  "rawBytes": 412315,
+  "rawSha256": "3278e3a7d60666344fb89e8f7c0320b5657d50c3f3a8854d3efbd107646c6d4b",
+  "runnerBytes": 1817428,
+  "runnerSha256": "be063961db5855fe764c75182d6f0ac5bc3b5101d08ad45cedfbd0cfef769c80",
+  "passed": 4945,
+  "failed": 0,
+  "pending": 0,
+  "unwrappedAct": 759,
+  "unsupportedActEnvironment": 243,
+  "navigation": 0
+}

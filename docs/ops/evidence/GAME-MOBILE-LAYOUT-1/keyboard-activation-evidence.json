@@ -1,0 +1,29 @@
+{
+  "scope": "Isolated native button keyboard activation, real input/touch adapter; host jsdom only",
+  "testSha256": "3d6156485ff65163f4fe80843251a72aee9b10ee754545bf0b2f18a2198626c5",
+  "inputSha256": "271b6afdb6ff191939562da3cbb06e2f1eb4aab455aee381eb75f2705b078d09",
+  "beforeTouchSha256": "c0723cb5b934e9f740a3ddb68115afcdf7b0a028d7d52d67a9d9be62a1b134f3",
+  "afterTouchSha256": "5dbb19c1749dc5982aa23bc112060b27215f0db3d574c4d90f9dd1d4d61f16b9",
+  "greenExit": 0,
+  "greenSignal": null,
+  "command": "node <repo>/node_modules/vitest/vitest.mjs run --root <isolated-realpath> --environment jsdom --reporter=default --reporter=json --outputFile=<native-report>",
+  "beforeRevision": "775f898596c7e343ecd53e81cd23fa193f29abc2",
+  "red": {
+    "exit": 1,
+    "files": 1,
+    "failed": 1,
+    "reason": "Specified business AssertionError: Confirm was emitted before native click",
+    "raw": "keyboard-red.txt",
+    "native": "keyboard-red.json.gz"
+  },
+  "green": {
+    "exit": 0,
+    "files": 1,
+    "passed": 1,
+    "raw": "keyboard-green.txt",
+    "native": "keyboard-green.json.gz"
+  },
+  "testSource": "keyboard-test-source.txt",
+  "integrated": "packages/game/src/shell/touch-controls.test.ts :: native keyboard button activation does not also enter the global keyboard source; additionally checks repeats and unrelated arrow keys",
+  "handling": "Native JSON gzip-compressed without semantic edits; setup collection failure was not counted as counterevidence. Temporary tree removed after green."
+}

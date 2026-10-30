@@ -1,11 +1,11 @@
-import { removeEquipmentEffect } from '../equip-effect.js'
-import { curePlayerPoisonByLevel } from '../event-system.js'
+import { removeEquipmentEffect } from '../equipment-state.js'
 import {
   type BattleOutcome,
   type GameState,
   resumePostBattleScript,
   writeBackBattleRolesToRuntime,
 } from '../game-state.js'
+import { curePlayerPoisonByLevel } from '../player-poison-state.js'
 import type { BattleResources } from './battle-runtime-context.js'
 import { clearBattleRuntimeContext } from './battle-runtime-context.js'
 import type { BattleState } from './battle-state.js'
@@ -42,10 +42,14 @@ export function finalizeBattleCleanup(gs: GameState, outcome: BattleOutcome): vo
     }
   }
 
-  // PAL_CurePoisonByLevel(...,3) + kBodyPartExtra，清持久毒和本场临时装备效果。
-  const kBodyPartExtra = 6
+  // 毒按当前队伍位置存储；清理域与按角色存储的Extra不同。
   for (const roleId of gs.partyMembers) {
     curePlayerPoisonByLevel(gs, roleId, 3)
+  }
+
+  // battle.c:1825-1830清全部角色的Extra，包含战中已离队的角色；不卸下装备部位0..5。
+  const kBodyPartExtra = 6
+  for (let roleId = 0; roleId < gs.PlayerRolesRuntime.rgwHP.length; roleId++) {
     removeEquipmentEffect(gs, roleId, kBodyPartExtra)
   }
 

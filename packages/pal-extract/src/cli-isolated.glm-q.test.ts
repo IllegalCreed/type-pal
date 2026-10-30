@@ -1,30 +1,13 @@
-// Q10 · pal-extract CLI 隔离实跑（对应 Codex COMMON-01：cli.ts REPO_ROOT 从模块位置派生，
-// mkdtemp 复制模块树 + 合成小输入即可隔离覆盖公开 CLI，不触真实 data/raw/extracted）。
-//
-// 隔离方式：mkdtemp 临时树内复制 src/** 与 package.json（只读产品源的拷贝）、symlink 真实
-// node_modules（依赖解析），REPO_ROOT 解析到临时树 → RAW/OUT 全部落临时目录。
-// 合成输入为合法最小格式（SSS 5 chunk / WORD.DAT 565×10B / M.MSG 平铺 GBK），
-// 不写真实 raw/extracted、不运行主工程生成。
-import { spawn } from 'node:child_process'
-import {
-  cpSync,
-  existsSync,
-  mkdirSync,
-  mkdtempSync,
-  readFileSync,
-  rmSync,
-  symlinkSync,
-  writeFileSync,
-} from 'node:fs'
-import { tmpdir } from 'node:os'
-import { dirname, join, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+// 隔离实跑CLI的事件、表、图像/音频和完整合成管线；另核FBP/SSS坏输入。
+// cliHost只管理只读源码副本、临时树与子进程；业务输入工厂和完整输出断言留在本文件。
+// 合成资源仅验证相应结构/透传/接线，不写真实raw/extracted，也不认证真实游戏资产质量。
+import { createHash } from 'node:crypto'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { join, relative, sep } from 'node:path'
 import { encodeSpriteChunk } from '@type-pal/shared'
 import { afterAll, expect, test } from 'vitest'
+import { createCliTestHost } from './__tests__/cli-host.js'
 import { yj2EncodeLiterals } from './__tests__/glm-q/yj2-encoder.js'
-
-const HERE = dirname(fileURLToPath(import.meta.url))
-const REAL_PACKAGE = resolve(HERE, '..')
 
 function u32(value: number): Uint8Array {
   const out = new Uint8Array(4)
@@ -102,43 +85,13 @@ function buildWordDat(): Uint8Array {
 
 const MSG_TEXT = 'HELLO MSG'
 
-interface RunResult {
-  exitCode: number | null
-  stdout: string
-  stderr: string
-}
-
-function runCli(tree: string): Promise<RunResult> {
-  return new Promise((resolvePromise) => {
-    const child = spawn(
-      process.execPath,
-      [join(REAL_PACKAGE, 'node_modules', 'tsx', 'dist', 'cli.mjs'), 'src/cli.ts'],
-      {
-        cwd: join(tree, 'packages', 'pal-extract'),
-        env: { ...process.env, NODE_COMPILE_CACHE: '' },
-      },
-    )
-    let stdout = ''
-    let stderr = ''
-    child.stdout.on('data', (chunk) => {
-      stdout += String(chunk)
-    })
-    child.stderr.on('data', (chunk) => {
-      stderr += String(chunk)
-    })
-    child.on('close', (exitCode) => resolvePromise({ exitCode, stdout, stderr }))
-  })
-}
+const cliHost = createCliTestHost('glm-q-cli-')
+const { runCli } = cliHost
+afterAll(cliHost.disposeAll)
 
 function makeTree(rawFiles: Record<string, Uint8Array>): string {
-  const tree = mkdtempSync(join(tmpdir(), 'glm-q-cli-'))
-  const pkgDir = join(tree, 'packages', 'pal-extract')
-  mkdirSync(pkgDir, { recursive: true })
-  cpSync(join(REAL_PACKAGE, 'src'), join(pkgDir, 'src'), { recursive: true })
-  cpSync(join(REAL_PACKAGE, 'package.json'), join(pkgDir, 'package.json'))
-  symlinkSync(join(REAL_PACKAGE, 'node_modules'), join(pkgDir, 'node_modules'), 'dir')
+  const tree = cliHost.createTree()
   const rawDir = join(tree, 'data', 'raw')
-  mkdirSync(rawDir, { recursive: true })
   writeFileSync(join(rawDir, 'mus.mkf'), mkf([new Uint8Array()]))
   for (const [name, bytes] of Object.entries(rawFiles)) writeFileSync(join(rawDir, name), bytes)
   return tree
@@ -284,19 +237,13 @@ function buildFullPipelineInputs(): Record<string, Uint8Array> {
   }
 }
 
-const trees: string[] = []
-afterAll(() => {
-  for (const tree of trees) rmSync(tree, { recursive: true, force: true })
-})
-
 test('Q10 CLI 隔离实跑：合成小输入走完事件管线（round-trip 门 + 切片落盘 + 词表注记）', async () => {
   const tree = makeTree({
     'SSS.MKF': buildSss(),
     'M.MSG': new TextEncoder().encode(MSG_TEXT),
     'WORD.DAT': buildWordDat(),
   })
-  trees.push(tree)
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   // 事件管线全绿后，数据表阶段因缺 DATA.MKF 拒绝（合成输入只覆盖事件段）。
   expect(result.exitCode).toBe(1)
   expect(result.stdout).toContain('[pal-extract] events round-trip OK')
@@ -335,8 +282,7 @@ test('Q10 CLI 隔离实跑：合成 DATA.MKF 走完数据表段（逐表落盘 +
     'WORD.DAT': buildWordDat(),
     'DATA.MKF': buildDataMkf(),
   })
-  trees.push(tree)
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   // 数据表段完成后，图像段缺 RNG.MKF → exit 1 ENOENT（合成输入只覆盖 DATA 表段）。
   expect(result.exitCode).toBe(1)
   expect(result.stdout).toContain('[pal-extract] events round-trip OK')
@@ -378,8 +324,7 @@ test('Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合
   mkdirSync(musics, { recursive: true })
   writeFileSync(join(musics, '7.MID'), new TextEncoder().encode('MIDI7'))
   writeFileSync(join(musics, 'TRACK02.ogg'), new TextEncoder().encode('OGG2'))
-  trees.push(tree)
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   // 图像/音频段全部完成后，splash 段缺 FBP.MKF → exit 1 ENOENT。
   expect(result.exitCode).toBe(1)
   expect(result.stdout).toContain('RNG.MKF blobs written (1 chunks, 0 frames total)')
@@ -421,6 +366,8 @@ test('Q10 CLI 隔离实跑：合成图像/音频段（RNG 空 chunk/RGM/BALL 合
   // Musics：{NNN}.MID → 归一化 007.mid；ogg 原名
   expect(existsSync(out('music/007.mid'))).toBe(true)
   expect(existsSync(out('music/TRACK02.ogg'))).toBe(true)
+  expect(readFileSync(out('music/007.mid'))).toEqual(Buffer.from('MIDI7'))
+  expect(readFileSync(out('music/TRACK02.ogg'))).toEqual(Buffer.from('OGG2'))
   expect(readFileSync(out('music/mus.mkf'))).toEqual(readFileSync(join(tree, 'data/raw/mus.mkf')))
   const music = JSON.parse(readFileSync(out('data/music-manifest.json'), 'utf8'))
   expect(music).toEqual({ midi: [7], cdTracks: ['TRACK02.ogg'] })
@@ -436,8 +383,7 @@ test('Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + 
   })
   const musics = join(tree, 'data', 'raw', 'Musics')
   mkdirSync(musics, { recursive: true })
-  trees.push(tree)
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(0)
   // 全管线完成 → exit 0 + done 日志
   expect(result.stdout).toContain('tilesets written: 2 / 2 unique mapNums')
@@ -445,7 +391,7 @@ test('Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + 
   expect(result.stdout).toContain('sprite blobs written: 1 sprites, 0 frames total') // MGO 1 个合法 YJ2 0 帧 sprite
   expect(result.stdout).toContain('battle sprite blobs written: 0 sprites, 0 frames total')
   expect(result.stdout).toContain('battle backgrounds written: 0 / 5 chunks')
-  expect(result.stderr).toContain('unifont-cn.bdf 缺,跳过 font') // console.warn → stderr
+  expect(result.stderr).toBe('[pal-extract] unifont-cn.bdf 缺,跳过 font\n')
   expect(result.stdout).toContain('[extract] asset-manifest.json:')
   expect(result.stdout).toContain('[pal-extract] done. output →')
 
@@ -468,9 +414,28 @@ test('Q10 CLI 隔离实跑：全管线合成输入走到底（MAP/GOP tileset + 
   // MAP chunk1 同为合法 65536B → tilemap/1.json 也写出
   const tilemap1 = JSON.parse(readFileSync(out('data/tilemap/1.json'), 'utf8'))
   expect(tilemap1.cells[0][0]).toEqual({ lower: 0, upper: 0 })
-  // asset-manifest 自洽
+  // 独立读取实际文件系统，不能只以生产清单自己的fileCount证明没有漏项。
   const manifest = JSON.parse(readFileSync(out('asset-manifest.json'), 'utf8'))
   expect(manifest.fileCount).toBeGreaterThan(10)
+  const outputDirectory = out('')
+  const actualFiles = readdirSync(outputDirectory, { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) =>
+      relative(outputDirectory, join(entry.parentPath, entry.name)).split(sep).join('/'),
+    )
+    .filter((path) => path !== 'asset-manifest.json')
+    .sort()
+    .map((path) => {
+      const bytes = readFileSync(join(outputDirectory, path))
+      return {
+        path,
+        size: bytes.byteLength,
+        sha256: createHash('sha256').update(bytes).digest('hex'),
+      }
+    })
+  expect(manifest.files).toEqual(actualFiles)
+  expect(manifest.fileCount).toBe(actualFiles.length)
+  expect(manifest.totalBytes).toBe(actualFiles.reduce((sum, entry) => sum + entry.size, 0))
 })
 
 test('Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → splash readChunk throw → exit 1）', async () => {
@@ -483,8 +448,7 @@ test('Q10 CLI 隔离实跑：FBP 截短越界边界拒绝（chunk3/4 缺失 → 
     'FBP.MKF': mkf([new Uint8Array(0), new Uint8Array(0), new Uint8Array(0)]), // 3 chunk：splash 读 chunk3 越界
   })
   mkdirSync(join(tree, 'data', 'raw', 'Musics'), { recursive: true }) // Musics 段在 FBP 之前
-  trees.push(tree)
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(result.stderr).toContain('MKF: chunk 3 out of range') // readChunk 精确拒绝
 })
@@ -495,8 +459,7 @@ test('Q10 CLI 隔离实跑：截断 SSS chunk0 在解析边界精确拒绝且不
     'M.MSG': new TextEncoder().encode(MSG_TEXT),
     'WORD.DAT': buildWordDat(),
   })
-  trees.push(tree)
-  const result = await runCli(tree)
+  const result = await runCli(tree, ['--faithful'])
   expect(result.exitCode).toBe(1)
   expect(result.stdout).not.toContain('[pal-extract] events round-trip OK')
   expect(result.stderr).toContain('SSS chunk0: byte length 10 is not a multiple of 32')

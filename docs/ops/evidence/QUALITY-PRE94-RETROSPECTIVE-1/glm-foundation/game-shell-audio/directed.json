@@ -1,0 +1,868 @@
+{
+  "numTotalTestSuites": 26,
+  "numPassedTestSuites": 26,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 72,
+  "numPassedTests": 72,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792371501733,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["MIDI backend lifecycle at media IO boundaries"],
+          "fullName": "MIDI backend lifecycle at media IO boundaries reloads A when returning to it while B is replacing the active sequence",
+          "status": "passed",
+          "title": "reloads A when returning to it while B is replacing the active sequence",
+          "duration": 162.49,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI backend lifecycle at media IO boundaries"],
+          "fullName": "MIDI backend lifecycle at media IO boundaries drains an old parser failure before submitting the next song without failing the new source",
+          "status": "passed",
+          "title": "drains an old parser failure before submitting the next song without failing the new source",
+          "duration": 154.053042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI backend lifecycle at media IO boundaries"],
+          "fullName": "MIDI backend lifecycle at media IO boundaries reports asynchronous MIDI parser errors delivered by the library worklet",
+          "status": "passed",
+          "title": "reports asynchronous MIDI parser errors delivered by the library worklet",
+          "duration": 52.899832999999944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI backend lifecycle at media IO boundaries"],
+          "fullName": "MIDI backend lifecycle at media IO boundaries ignores a retired request rejection while the newer track remains playable",
+          "status": "passed",
+          "title": "ignores a retired request rejection while the newer track remains playable",
+          "duration": 51.59820800000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI backend lifecycle at media IO boundaries"],
+          "fullName": "MIDI backend lifecycle at media IO boundaries unlocks the latest queued music once when a user gesture resumes a suspended context",
+          "status": "passed",
+          "title": "unlocks the latest queued music once when a user gesture resumes a suspended context",
+          "duration": 52.01475000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI backend lifecycle at media IO boundaries"],
+          "fullName": "MIDI backend lifecycle at media IO boundaries reports a track load failure to the current source rather than silently keeping ready status",
+          "status": "passed",
+          "title": "reports a track load failure to the current source rather than silently keeping ready status",
+          "duration": 52.52970899999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI backend lifecycle at media IO boundaries"],
+          "fullName": "MIDI backend lifecycle at media IO boundaries keeps gain instance-local and closes/disconnects disposed output once",
+          "status": "passed",
+          "title": "keeps gain instance-local and closes/disconnects disposed output once",
+          "duration": 2.1218340000000353,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI backend lifecycle at media IO boundaries"],
+          "fullName": "MIDI backend lifecycle at media IO boundaries does not play a fetch response that arrives after stop",
+          "status": "passed",
+          "title": "does not play a fetch response that arrives after stop",
+          "duration": 52.42441599999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI backend lifecycle at media IO boundaries"],
+          "fullName": "MIDI backend lifecycle at media IO boundaries a newer track wins when the earlier request resolves last",
+          "status": "passed",
+          "title": "a newer track wins when the earlier request resolves last",
+          "duration": 105.95341600000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI backend lifecycle at media IO boundaries"],
+          "fullName": "MIDI backend lifecycle at media IO boundaries does not complete initialization or revive queued music after disposal",
+          "status": "passed",
+          "title": "does not complete initialization or revive queued music after disposal",
+          "duration": 1.1739580000000842,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI backend lifecycle at media IO boundaries"],
+          "fullName": "MIDI backend lifecycle at media IO boundaries updates a loaded track loop flag without refetching or restarting it",
+          "status": "passed",
+          "title": "updates a loaded track loop flag without refetching or restarting it",
+          "duration": 53.49395900000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI backend lifecycle at media IO boundaries"],
+          "fullName": "MIDI backend lifecycle at media IO boundaries restarts a naturally finished track when its loop intention changes",
+          "status": "passed",
+          "title": "restarts a naturally finished track when its loop intention changes",
+          "duration": 105.73354199999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371502773,
+      "endTime": 1792371503619.7336,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/audio-midi.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["FM backend at browser media IO boundaries"],
+          "fullName": "FM backend at browser media IO boundaries queues the latest song until ready, connects with the current mute, and unlocks by gesture",
+          "status": "passed",
+          "title": "queues the latest song until ready, connects with the current mute, and unlocks by gesture",
+          "duration": 5.819375000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FM backend at browser media IO boundaries"],
+          "fullName": "FM backend at browser media IO boundaries never creates output after a disposed initialization finishes late",
+          "status": "passed",
+          "title": "never creates output after a disposed initialization finishes late",
+          "duration": 1.2651670000000195,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FM backend at browser media IO boundaries"],
+          "fullName": "FM backend at browser media IO boundaries surfaces a missing RIX library and allows cleanup of the partial context",
+          "status": "passed",
+          "title": "surfaces a missing RIX library and allows cleanup of the partial context",
+          "duration": 1.4975420000000668,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FM backend at browser media IO boundaries"],
+          "fullName": "FM backend at browser media IO boundaries reports processor failures after readiness rather than leaving a silent ready backend",
+          "status": "passed",
+          "title": "reports processor failures after readiness rather than leaving a silent ready backend",
+          "duration": 1.1487919999999576,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371502799,
+      "endTime": 1792371502809.1487,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/audio-rix.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["H03 createAudioVolumeController 显式 0 与键位"],
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 NaN 音量不进入 sink 或 localStorage，按 0 处理",
+          "status": "passed",
+          "title": "NaN 音量不进入 sink 或 localStorage，按 0 处理",
+          "duration": 1.7662500000000136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H03 createAudioVolumeController 显式 0 与键位"],
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 stored '0' 优先于非零 defaultVolume",
+          "status": "passed",
+          "title": "stored '0' 优先于非零 defaultVolume",
+          "duration": 0.36762499999997544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H03 createAudioVolumeController 显式 0 与键位"],
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 缺存储时 defaultVolume 0 生效，未指定则使用 0.8",
+          "status": "passed",
+          "title": "缺存储时 defaultVolume 0 生效，未指定则使用 0.8",
+          "duration": 0.32875000000001364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H03 createAudioVolumeController 显式 0 与键位"],
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 三通道 keyVol 各自持久化，不覆盖其它通道",
+          "status": "passed",
+          "title": "三通道 keyVol 各自持久化，不覆盖其它通道",
+          "duration": 0.3469589999999698,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H03 createAudioVolumeController 显式 0 与键位"],
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 三通道共享自定义 keyMute，新实例恢复而存活实例不自动同步",
+          "status": "passed",
+          "title": "三通道共享自定义 keyMute，新实例恢复而存活实例不自动同步",
+          "duration": 0.3856670000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371502776,
+      "endTime": 1792371502779.3857,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/audio-volume.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["audio-volume"],
+          "fullName": "audio-volume setVolume 钳制上下界与区间内值，同步目标、sink 和持久值",
+          "status": "passed",
+          "title": "setVolume 钳制上下界与区间内值，同步目标、sink 和持久值",
+          "duration": 1.7660000000000196,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["audio-volume"],
+          "fullName": "audio-volume 静音只屏蔽输出，期间更新目标音量后取消静音恢复新值",
+          "status": "passed",
+          "title": "静音只屏蔽输出，期间更新目标音量后取消静音恢复新值",
+          "duration": 0.5851659999999583,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["audio-volume"],
+          "fullName": "audio-volume 启动读回 localStorage(音量 + 静音)并即时应用",
+          "status": "passed",
+          "title": "启动读回 localStorage(音量 + 静音)并即时应用",
+          "duration": 0.24120899999996936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371503173,
+      "endTime": 1792371503176.2412,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/audio-volume.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["bootstrap resource lifecycle"],
+          "fullName": "bootstrap resource lifecycle FM boot loads the game resources without requesting or waiting for the MIDI soundfont",
+          "status": "passed",
+          "title": "FM boot loads the game resources without requesting or waiting for the MIDI soundfont",
+          "duration": 1.6947089999998752,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["bootstrap resource lifecycle"],
+          "fullName": "bootstrap resource lifecycle starts soundfont first and all resource loaders before awaiting any result",
+          "status": "passed",
+          "title": "starts soundfont first and all resource loaders before awaiting any result",
+          "duration": 0.42962499999998727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["bootstrap resource lifecycle"],
+          "fullName": "bootstrap resource lifecycle keeps the original soundfont rejection while its settle barrier still resolves",
+          "status": "passed",
+          "title": "keeps the original soundfont rejection while its settle barrier still resolves",
+          "duration": 0.33625000000006366,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371502860,
+      "endTime": 1792371502862.4297,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/bootstrap-resources.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 拒绝无效 retries 且不替换全局 fetch",
+          "status": "passed",
+          "title": "拒绝无效 retries 且不替换全局 fetch",
+          "duration": 1.4873750000000427,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+          "status": "passed",
+          "title": "拒绝非有限或负数 backoff 延迟且不替换全局 fetch",
+          "duration": 0.3229580000000851,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+          "status": "passed",
+          "title": "失败安装不占用单例；后续零次重试安装仍真正接管并透传请求",
+          "duration": 1.8145000000000664,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+          "status": "passed",
+          "title": "init.method 优先于 Request.method：POST 覆盖 GET，不重试 503",
+          "duration": 1.4849159999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+          "status": "passed",
+          "title": "无 init 覆盖的 GET Request 在 503 后重试并返回恢复的 Response",
+          "duration": 0.9391660000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+          "status": "passed",
+          "title": "小写 init.method get 仍重试，耗尽后返回最后一个 503 Response",
+          "duration": 0.6763750000000073,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 网络失败耗尽抛最后一次 Error 身份",
+          "status": "passed",
+          "title": "网络失败耗尽抛最后一次 Error 身份",
+          "duration": 1.2056670000000622,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 init.signal 在请求中取消时用原始非AbortError原因拒绝，不退避或重试",
+          "status": "passed",
+          "title": "init.signal 在请求中取消时用原始非AbortError原因拒绝，不退避或重试",
+          "duration": 1.7283750000000282,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 重试后成功：返回最终那次 Response 身份（502→504→200）",
+          "status": "passed",
+          "title": "重试后成功：返回最终那次 Response 身份（502→504→200）",
+          "duration": 1.4318750000001046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 backoff 末值用于超出数组长度的后续重试",
+          "status": "passed",
+          "title": "backoff 末值用于超出数组长度的后续重试",
+          "duration": 1.9238750000000664,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H01 installFetchRetry 边界"],
+          "fullName": "H01 installFetchRetry 边界 空 backoff 数组使用 1000ms fallback",
+          "status": "passed",
+          "title": "空 backoff 数组使用 1000ms fallback",
+          "duration": 1.3242500000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371502775,
+      "endTime": 1792371502789.3242,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/fetch-retry.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["fetch-retry 取消与退避资源"],
+          "fullName": "fetch-retry 取消与退避资源 已取消 Request：'自定义 Error' 原因与原生 fetch 一致，不进入退避",
+          "status": "passed",
+          "title": "已取消 Request：'自定义 Error' 原因与原生 fetch 一致，不进入退避",
+          "duration": 5.181290999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry 取消与退避资源"],
+          "fullName": "fetch-retry 取消与退避资源 已取消 Request：'默认 AbortError，零次重试' 原因与原生 fetch 一致，不进入退避",
+          "status": "passed",
+          "title": "已取消 Request：'默认 AbortError，零次重试' 原因与原生 fetch 一致，不进入退避",
+          "duration": 0.8288750000000391,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry 取消与退避资源"],
+          "fullName": "fetch-retry 取消与退避资源 已取消 init.signal 不遮蔽原生 Request 构造错误",
+          "status": "passed",
+          "title": "已取消 init.signal 不遮蔽原生 Request 构造错误",
+          "duration": 0.5546659999999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry 取消与退避资源"],
+          "fullName": "fetch-retry 取消与退避资源 init 的 signal 在退避中取消：立即拒绝、清 timer/监听器且不再请求",
+          "status": "passed",
+          "title": "init 的 signal 在退避中取消：立即拒绝、清 timer/监听器且不再请求",
+          "duration": 2.1870420000000195,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry 取消与退避资源"],
+          "fullName": "fetch-retry 取消与退避资源 Request 的 signal 在退避中取消：立即拒绝、清 timer/监听器且不再请求",
+          "status": "passed",
+          "title": "Request 的 signal 在退避中取消：立即拒绝、清 timer/监听器且不再请求",
+          "duration": 1.2328750000000355,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry 取消与退避资源"],
+          "fullName": "fetch-retry 取消与退避资源 init.signal=signal 覆盖已取消 Request；正常退避恢复后不持有监听器",
+          "status": "passed",
+          "title": "init.signal=signal 覆盖已取消 Request；正常退避恢复后不持有监听器",
+          "duration": 1.9747499999999718,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry 取消与退避资源"],
+          "fullName": "fetch-retry 取消与退避资源 init.signal=null 覆盖已取消 Request；正常退避恢复后不持有监听器",
+          "status": "passed",
+          "title": "init.signal=null 覆盖已取消 Request；正常退避恢复后不持有监听器",
+          "duration": 1.1023750000000518,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371502773,
+      "endTime": 1792371502786.1023,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/fetch-retry.cancellation.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L23 uninstallFetchRetryForTest 还原合同"],
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "status": "passed",
+          "title": "安装后网络错误重试 3 次；还原后同一错误直接抛（不再经过重试包装）",
+          "duration": 4.381875000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L23 uninstallFetchRetryForTest 还原合同"],
+          "fullName": "L23 uninstallFetchRetryForTest 还原合同 还原后 install 可重新装载（installed 复位合同）",
+          "status": "passed",
+          "title": "还原后 install 可重新装载（installed 复位合同）",
+          "duration": 1.6787089999999694,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371503173,
+      "endTime": 1792371503179.6787,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["fetch-retry(GET 网络层重试兜底)"],
+          "fullName": "fetch-retry(GET 网络层重试兜底) GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+          "status": "passed",
+          "title": "GET 网络错误(reject)→ 重试后成功(nginx GOAWAY 竞态 net::ERR_FAILED 场景)",
+          "duration": 3.642959000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry(GET 网络层重试兜底)"],
+          "fullName": "fetch-retry(GET 网络层重试兜底) 503 → 重试后返回恢复的 Response",
+          "status": "passed",
+          "title": "503 → 重试后返回恢复的 Response",
+          "duration": 1.9173749999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry(GET 网络层重试兜底)"],
+          "fullName": "fetch-retry(GET 网络层重试兜底) 404 → 原样返回同一 Response，不重试",
+          "status": "passed",
+          "title": "404 → 原样返回同一 Response，不重试",
+          "duration": 0.8101250000000846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry(GET 网络层重试兜底)"],
+          "fullName": "fetch-retry(GET 网络层重试兜底) 非 GET(POST)不重试(非幂等)",
+          "status": "passed",
+          "title": "非 GET(POST)不重试(非幂等)",
+          "duration": 0.23612500000001546,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry(GET 网络层重试兜底)"],
+          "fullName": "fetch-retry(GET 网络层重试兜底) 重复 install 幂等(不双层包)",
+          "status": "passed",
+          "title": "重复 install 幂等(不双层包)",
+          "duration": 0.17487500000004275,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fetch-retry(GET 网络层重试兜底)"],
+          "fullName": "fetch-retry(GET 网络层重试兜底) AbortError 立即向 caller 传播，不重复请求或等待 backoff",
+          "status": "passed",
+          "title": "AbortError 立即向 caller 传播，不重复请求或等待 backoff",
+          "duration": 0.27587499999992815,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371502756,
+      "endTime": 1792371502763.276,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/fetch-retry.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["music source selection through the real audio manager"],
+          "fullName": "music source selection through the real audio manager keeps playback available when browser preference storage is blocked",
+          "status": "passed",
+          "title": "keeps playback available when browser preference storage is blocked",
+          "duration": 2.6462920000000167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["music source selection through the real audio manager"],
+          "fullName": "music source selection through the real audio manager drops retired readiness notifications and stops notifying an unsubscribed view",
+          "status": "passed",
+          "title": "drops retired readiness notifications and stops notifying an unsubscribed view",
+          "duration": 0.6564169999999194,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["music source selection through the real audio manager"],
+          "fullName": "music source selection through the real audio manager releases a source that fails after readiness and restarts its current track on retry",
+          "status": "passed",
+          "title": "releases a source that fails after readiness and restarts its current track on retry",
+          "duration": 0.37474999999994907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["music source selection through the real audio manager"],
+          "fullName": "music source selection through the real audio manager defaults to MIDI and remembers FM independently of game saves",
+          "status": "passed",
+          "title": "defaults to MIDI and remembers FM independently of game saves",
+          "duration": 0.19558300000005602,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["music source selection through the real audio manager"],
+          "fullName": "music source selection through the real audio manager replaces the effective nonlooping victory track with the same gain and releases the old output",
+          "status": "passed",
+          "title": "replaces the effective nonlooping victory track with the same gain and releases the old output",
+          "duration": 0.3195420000000695,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["music source selection through the real audio manager"],
+          "fullName": "music source selection through the real audio manager keeps music disabled while switching and restores the latest same-track loop intention on enabling",
+          "status": "passed",
+          "title": "keeps music disabled while switching and restores the latest same-track loop intention on enabling",
+          "duration": 0.25633400000003803,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["music source selection through the real audio manager"],
+          "fullName": "music source selection through the real audio manager does not turn mute or track zero into audible music after a pending switch",
+          "status": "passed",
+          "title": "does not turn mute or track zero into audible music after a pending switch",
+          "duration": 0.22004200000003493,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["music source selection through the real audio manager"],
+          "fullName": "music source selection through the real audio manager ignores a retired initialization failure and allows retrying the current failed source",
+          "status": "passed",
+          "title": "ignores a retired initialization failure and allows retrying the current failed source",
+          "duration": 0.3666249999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371502770,
+      "endTime": 1792371502775.3667,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/music-source.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L22 precache-client 早到指令"],
+          "fullName": "L22 precache-client 早到指令 pause/resume 早于 ready：静默丢弃（不缓冲不补发）；start 早到才缓冲补发",
+          "status": "passed",
+          "title": "pause/resume 早于 ready：静默丢弃（不缓冲不补发）；start 早到才缓冲补发",
+          "duration": 1.458167000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L22 precache-client 早到指令"],
+          "fullName": "L22 precache-client 早到指令 ready 后 start/pause/resume 依次按协议载荷直达 worker",
+          "status": "passed",
+          "title": "ready 后 start/pause/resume 依次按协议载荷直达 worker",
+          "duration": 0.362166000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371502845,
+      "endTime": 1792371502846.4583,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache PROD=false(dev/e2e)→ 不注册",
+          "status": "passed",
+          "title": "PROD=false(dev/e2e)→ 不注册",
+          "duration": 2.026207999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache PROD=true → 以 updateViaCache:none 注册 /sw.js",
+          "status": "passed",
+          "title": "PROD=true → 以 updateViaCache:none 注册 /sw.js",
+          "duration": 0.8481249999999818,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache 无 serviceWorker 能力 → 安全 no-op",
+          "status": "passed",
+          "title": "无 serviceWorker 能力 → 安全 no-op",
+          "duration": 0.35579200000006495,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache PROD + SW → onReady 触发,但 registerPrecache 不自动触发预缓存;start/pause/resume 各发对应消息",
+          "status": "passed",
+          "title": "PROD + SW → onReady 触发,但 registerPrecache 不自动触发预缓存;start/pause/resume 各发对应消息",
+          "duration": 0.6768749999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache 无 SW 能力 → onUnavailable 触发(调用方据此自动放行门)",
+          "status": "passed",
+          "title": "无 SW 能力 → onUnavailable 触发(调用方据此自动放行门)",
+          "duration": 0.2419999999999618,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache register 抛错 → onUnavailable 触发,不向上抛",
+          "status": "passed",
+          "title": "register 抛错 → onUnavailable 触发,不向上抛",
+          "duration": 0.33533299999999144,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["registerPrecache"],
+          "fullName": "registerPrecache startPrecache 早于 SW ready → 缓冲,registerPrecache 就绪后补发 precache",
+          "status": "passed",
+          "title": "startPrecache 早于 SW ready → 缓冲,registerPrecache 就绪后补发 precache",
+          "duration": 1.3519159999999601,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371502770,
+      "endTime": 1792371502775.3518,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/precache-client.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["worklet messages and actual PCM output"],
+          "fullName": "worklet messages and actual PCM output plays stereo output through the compiled kernel, stops to silence, and retires on dispose",
+          "status": "passed",
+          "title": "plays stereo output through the compiled kernel, stops to silence, and retires on dispose",
+          "duration": 44.13020900000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["worklet messages and actual PCM output"],
+          "fullName": "worklet messages and actual PCM output reports bad archive data instead of registering an apparently playable output",
+          "status": "passed",
+          "title": "reports bad archive data instead of registering an apparently playable output",
+          "duration": 2.8198340000000144,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371502010,
+      "endTime": 1792371502056.8198,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/rix-worklet.test.ts"
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "phase": "before",
+  "base": "9cd270f26eb07be66deeeb36c416d5daa6437ad7",
+  "formalSha256": {
+    "audio-volume.ts": "3a1e7ba69c8c60366211365fae35cb5e41ab78791e59cac9f486974dd6d92e50",
+    "audio-volume.test.ts": "4a7824f73e66db86522a11a492fa2bfb622b70d46df2fed4528cf2d99baf9d11",
+    "audio-volume.boundaries.test.ts": "3edb12a582f63ff8265468f5247a8a253eb1df4dee85cd25934d9f8ba8fae47a"
+  },
+  "variants": {
+    "control": null,
+    "mute-key-ignored": ["const keyMute = opts.keyMute ?? 'tp-muted'", "const keyMute = 'tp-muted'"]
+  },
+  "runs": [
+    {
+      "variant": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-volume70-before-control-audio-volume.test.ts",
+        "src/shell/pre94-volume70-before-control-audio-volume.boundaries.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-volume70-b7u9am8x/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "5ef0d4ea8cdd462d92ae6b8ca7b70b2e040dae31559192a7aaca5e703d352eb0",
+      "runnerSha256": "5b8317863c048c9502f3947ce7d5ff2b283e335c791ffae6bb1a928e93e7cc3f",
+      "moduleSha256": "3a1e7ba69c8c60366211365fae35cb5e41ab78791e59cac9f486974dd6d92e50",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-volume70-before-control-audio-volume.ts": "3a1e7ba69c8c60366211365fae35cb5e41ab78791e59cac9f486974dd6d92e50",
+        "packages/game/src/shell/pre94-volume70-before-control-audio-volume.test.ts": "dbf16e2bdc8dbe6ccca125879d81f29f0f5e81b908d9e0878a468937acbd6ebd",
+        "packages/game/src/shell/pre94-volume70-before-control-audio-volume.boundaries.test.ts": "269624e2f81fec66752a5a2675aec13ae36e496f3910f62b24ae1c0c40720520"
+      },
+      "passed": 6,
+      "failed": 0,
+      "pending": 0,
+      "errorNames": [],
+      "cases": [
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 NaN 音量不进入 sink 或 localStorage，按 0 处理",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 stored '0' 不落 default（|| 0 与缺省可区分）；defaultVolume 0 生效",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 三通道 keyVol 独立、keyMute 共享：精确 IO；静音中改目标仍 apply 0，unmute 恢复新值",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.test.ts",
+          "fullName": "audio-volume setVolume 钳制 0..1,调 applyVolume,写 localStorage",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.test.ts",
+          "fullName": "audio-volume 静音:applyVolume 收 0,取消静音恢复音量值;持久 tp-muted",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.test.ts",
+          "fullName": "audio-volume 启动读回 localStorage(音量 + 静音)并即时应用",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "mute-key-ignored",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-volume70-before-mute-key-ignored-audio-volume.test.ts",
+        "src/shell/pre94-volume70-before-mute-key-ignored-audio-volume.boundaries.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-volume70-oag30v_3/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "60e857df2970b28ded2ee5781cbebffc54654ccf406f4891fcb5fc714b2eb11b",
+      "runnerSha256": "3b8d8f15e52edcf381b7c7156cbee3dfa7b2e32ed4b09cd8d699b2f0e41e9b8c",
+      "moduleSha256": "3acfcefae8dfd13882a42ce20322c146d4b44f935d063a7f99a524ed02c8a801",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-volume70-before-mute-key-ignored-audio-volume.ts": "3acfcefae8dfd13882a42ce20322c146d4b44f935d063a7f99a524ed02c8a801",
+        "packages/game/src/shell/pre94-volume70-before-mute-key-ignored-audio-volume.test.ts": "cb93db446106f0f66246b5b6bd53a9783a3c4cd8b1baec307520fca8a927d6d3",
+        "packages/game/src/shell/pre94-volume70-before-mute-key-ignored-audio-volume.boundaries.test.ts": "79e5ebb43a6dc430f0071ff4c07be63a40ea9e2f7b546a24b33fa91ff175a2fd"
+      },
+      "passed": 6,
+      "failed": 0,
+      "pending": 0,
+      "errorNames": [],
+      "cases": [
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 NaN 音量不进入 sink 或 localStorage，按 0 处理",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 stored '0' 不落 default（|| 0 与缺省可区分）；defaultVolume 0 生效",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.boundaries.test.ts",
+          "fullName": "H03 createAudioVolumeController 显式 0 与键位 三通道 keyVol 独立、keyMute 共享：精确 IO；静音中改目标仍 apply 0，unmute 恢复新值",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.test.ts",
+          "fullName": "audio-volume setVolume 钳制 0..1,调 applyVolume,写 localStorage",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.test.ts",
+          "fullName": "audio-volume 静音:applyVolume 收 0,取消静音恢复音量值;持久 tp-muted",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "audio-volume.test.ts",
+          "fullName": "audio-volume 启动读回 localStorage(音量 + 静音)并即时应用",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    }
+  ],
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

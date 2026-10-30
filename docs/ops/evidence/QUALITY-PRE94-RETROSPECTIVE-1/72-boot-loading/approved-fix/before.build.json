@@ -1,0 +1,21 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vite",
+    "build",
+    "--outDir",
+    "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-boot-prod-iper46g9/before"
+  ],
+  "env": {
+    "E2E": "1"
+  },
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "rawSha256": "323550d9a185e2a8f5a8aef6f64599d74928d9777e431afe19caf15d643e79f6",
+  "output": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-boot-prod-iper46g9/before"
+}

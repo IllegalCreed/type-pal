@@ -1,0 +1,39 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/game
+
+ ❯ src/core/script-corrections.raw.test.ts (7 tests | 1 failed) 239ms
+   ✓ candy purchase 'Cancel' with 100 cash pays only for a received candy 47ms
+   ✓ candy purchase 'Confirm' with 100 cash pays only for a received candy 48ms
+   × candy purchase 'Confirm' with 19 cash pays only for a received candy 30ms
+   ✓ real cure 307 clears silence and debuffs while preserving positive statuses 30ms
+   ✓ real cure 308 clears silence and debuffs while preserving positive statuses 28ms
+   ✓ real cure 65 clears silence and debuffs while preserving positive statuses 28ms
+   ✓ replacing and removing the dark blade clears its luck without overwriting the equipped sachet 26ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/script-corrections.raw.test.ts > candy purchase 'Confirm' with 19 cash pays only for a received candy
+AssertionError: expected 'event' to be 'explore' // Object.is equality
+
+Expected: "explore"
+Received: "event"
+
+ ❯ src/core/script-corrections.raw.test.ts:65:19
+     63|     bus.drain()
+     64|   }
+     65|   expect(gs.mode).toBe('explore')
+       |                   ^
+     66|   expect(decisions).toBe(1)
+     67|   expect(gs.dwCash).toBe(expectedCash)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  15:55:11
+   Duration  1.06s (transform 261ms, setup 16ms, import 332ms, tests 239ms, environment 399ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/script-corrections.raw.test.ts --reporter=default

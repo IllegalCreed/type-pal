@@ -1,0 +1,723 @@
+{
+  "schemaVersion": 1,
+  "id": "GAME-ENGLISH-1-documentation-maintenance",
+  "template": "evidence-receipt-v1",
+  "status": "recorded",
+  "owner": "english_shell_audit",
+  "sourceFrozenSha": "05e1cfcff19ff8c469f391b5dc9dbd20fa16f2fa",
+  "date": "2026-10-22",
+  "scope": "Task/card state review, exact board/index navigation delta, inventory-only pending counts and their review-control SHA bindings. No product/test/config/coverage gate changes.",
+  "task": "docs/ops/tasks/GAME-ENGLISH-1.md",
+  "sourceRefs": [
+    "docs/ops/tasks/GAME-ENGLISH-1.md",
+    "docs/ops/board.md",
+    "docs/ops/tasks/index.md",
+    "docs/ops/audits/code-quality-file-ledger.md",
+    "scripts/docs/check-testing.mjs",
+    "scripts/quality/code-quality-ledger.mjs"
+  ],
+  "publicCallers": [
+    "node scripts/docs/check.mjs",
+    "node scripts/docs/check-content-review.mjs --strict",
+    "node scripts/quality/code-quality-ledger.mjs",
+    "Codex independent task acceptance"
+  ],
+  "legalInputs": [
+    "Current task card and actual frozen product candidate",
+    "Native root-generated evidence from named commands, no result inferred from filenames",
+    "Tracked Git source inventory with prior table rows unchanged"
+  ],
+  "businessOracle": [
+    "GAME-ENGLISH-1 remains review with pending user UI acceptance",
+    "Common gameplay scripts and saves are shared by Chinese and English",
+    "Measured resource/package/browser evidence stays separate from pending coverage/full-story E2E",
+    "All 28 new inventory paths remain pending and old closed/review counts unchanged",
+    "Artifact preservation envelopes and unrelated historical review entries remain unchanged"
+  ],
+  "dedupe": {
+    "decision": "Reuse task evidence and three contributor review documents; no new testing canonical domain/report/catalog entry.",
+    "consumerFinding": "Testing catalog governs paired test reports rather than enumerating every package test source. GAME-SCRIPT-CORRECTIONS-1 does have an existing canonical report; English feature acceptance uses its current task and contributor receipts. The existing script-corrections report is maintained only where the shared CLI caller fingerprint moved.",
+    "notChanged": [
+      "New English canonical domain/report not created",
+      "Testing catalog status and historical runtime results unchanged",
+      "Coverage configuration or baselines"
+    ]
+  },
+  "inventory": {
+    "command": "node scripts/quality/code-quality-inventory.mjs --out=build/english-shell/inventory.json",
+    "before": 3373,
+    "after": 3401,
+    "delta": 28,
+    "closed": 377,
+    "review": 110,
+    "pending": 2914,
+    "unclosed": 3024,
+    "allNewRemainPending": true,
+    "priorTableRowsByteEqual": true,
+    "priorTableRowsSha256": "41a0d1e067f05bed02f7377e355ca7c97130d7ed55ade6faab15c8bbfb7b7a5d",
+    "added": [
+      {
+        "path": "packages/game/src/assets/language-pack.test.ts",
+        "category": "test",
+        "status": "implicit-pending",
+        "sha256": "11313667bca9003f55a88932653bb6f57559b8b247c2808dec9ecbef06cf6277"
+      },
+      {
+        "path": "packages/game/src/assets/language-pack.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "4520aec19909c2a1855cfef4dbe84cf939e6e2f3d6cff12ba4b3c9e4580f8257"
+      },
+      {
+        "path": "packages/game/src/localization/language.test.ts",
+        "category": "test",
+        "status": "implicit-pending",
+        "sha256": "4c96a04add9afdccf39f1ff310e5978285f9384890372a76a8b81e3cf8a816c4"
+      },
+      {
+        "path": "packages/game/src/localization/language.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "d3b5410d8b1565af885a84ccc59f74511b712fd0bb1470eef882ad276c330779"
+      },
+      {
+        "path": "packages/game/src/localization/layout.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "4240ea5e629b2f6c65fc9a0fb48e73c418b9ea5aa5ec547b011e0313c3c1bc1c"
+      },
+      {
+        "path": "packages/game/src/localization/map-names-en.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "ef57733e5f7158b80024e6c0dd04f2eacfc8378dbd69a72954af45872dcf0f06"
+      },
+      {
+        "path": "packages/game/src/localization/messages.test.ts",
+        "category": "test",
+        "status": "implicit-pending",
+        "sha256": "0e88b84b45bf1090bb65a0a8f58717dac786d0659f5fdb5805ef0cd37cdbd3cd"
+      },
+      {
+        "path": "packages/game/src/localization/messages.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "fe0d4847126dde80f76e7ee26e82b83bd966739c7bdf180474bc0d739481f721"
+      },
+      {
+        "path": "packages/game/src/localization/presentation.test.ts",
+        "category": "test",
+        "status": "implicit-pending",
+        "sha256": "ce1efb3ae2ec91680bc7e2335d5fa04481be64e6656cef8d5d166b229e6ff8bb"
+      },
+      {
+        "path": "packages/game/src/localization/settlement-language.test.ts",
+        "category": "test",
+        "status": "implicit-pending",
+        "sha256": "a4dd3eba70b418fe11ea837ac20c8c57bb874e77a02fc95e0a450ea64f50729b"
+      },
+      {
+        "path": "packages/game/src/localization/shell-surfaces.test.ts",
+        "category": "test",
+        "status": "implicit-pending",
+        "sha256": "24332cfaa43e1f543c5c11f7e5bb18157d1133c72442c7226ca70785bce45b25"
+      },
+      {
+        "path": "packages/game/src/localization/static-shell.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "f1ce70512971b2f042a6630136193c13324ba590baee16c68da5b886283a34f5"
+      },
+      {
+        "path": "packages/game/src/localization/ui-text.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "d39fb2476e782d14fe4b0ae3de372786ec929417d948fd325a802340a7c55971"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-description.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "4d06005cabcd67c300540c62898453022fcaafacd00256a99bdb6a6f055fb485"
+      },
+      {
+        "path": "packages/game/src/present/menu/localized-background.test.ts",
+        "category": "test",
+        "status": "implicit-pending",
+        "sha256": "68eb977f4f2d21b870b40c23dfd25226c4da981ec0c478bdb3b320ca92251548"
+      },
+      {
+        "path": "packages/game/src/present/menu/localized-background.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "b879073cd9631bd3b3e2e0342f8771862fbc6812bda65a39f64893f46fe506bc"
+      },
+      {
+        "path": "packages/game/src/present/small-font.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "126e1059b63a940419fda70b2354697fc95a0938af65b1bd9482894d82e8fec9"
+      },
+      {
+        "path": "packages/game/src/tools/tools-panel.english.test.ts",
+        "category": "test",
+        "status": "implicit-pending",
+        "sha256": "8d539ec2b88f18f88c70c7f09e02484a5e0a74bf7bc39e4845a11c6b0d073d45"
+      },
+      {
+        "path": "packages/pal-extract/src/cli-localization.pal.test.ts",
+        "category": "test",
+        "status": "implicit-pending",
+        "sha256": "fbbc7bd02587a23cdb6044afa0dc400c031cd7d917a6d14fe68cb3a2a6675e88"
+      },
+      {
+        "path": "packages/pal-extract/src/cli-localization.test.ts",
+        "category": "test",
+        "status": "implicit-pending",
+        "sha256": "50245b7c4afa91a9fa12e8c7f7d03a45690953870eda9d5091304bf1c29c2d46"
+      },
+      {
+        "path": "packages/pal-extract/src/io/slf.test.ts",
+        "category": "test",
+        "status": "implicit-pending",
+        "sha256": "aff66e474f04957e907c216c97c6b7513ce489563d5382d85b7e78566ff9e271"
+      },
+      {
+        "path": "packages/pal-extract/src/io/slf.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "8fb323f2cf828200e51ec6753677f0208a631e7cd436455fa01f3e5e83f5132c"
+      },
+      {
+        "path": "packages/pal-extract/src/localization/build-language-pack.test.ts",
+        "category": "test",
+        "status": "implicit-pending",
+        "sha256": "e81fcb46ceb3880f16c90254f4a34f6f636b6f2c47ad42f51bd9ec3ba60d2ca3"
+      },
+      {
+        "path": "packages/pal-extract/src/localization/build-language-pack.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "e55266cd6fcde40b777184118a271ec58adb430d98082e92753bac513410eb88"
+      },
+      {
+        "path": "packages/pal-extract/src/localization/english-message-revisions.json",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "56c8b451e2aa63a4fec581cf336363e180d356e128083334a07c5f7ce28e3aeb"
+      },
+      {
+        "path": "packages/pal-extract/src/localization/english-revisions.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "8a88ef573de1c96d1f3f0e766890474dfb63ad6d71304a51bb528130f7b2cad6"
+      },
+      {
+        "path": "packages/pal-extract/src/localization/english-word-revisions.json",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "5890ffcc042561f44125c25291e909bb7037083420b565b9bf3209a8b0a584c8"
+      },
+      {
+        "path": "packages/shared/src/localization.ts",
+        "category": "product",
+        "status": "implicit-pending",
+        "sha256": "70560f236b3fdc2162b6f843e237f577cf81350c50b9ada26d8a68bc9fc307a1"
+      }
+    ]
+  },
+  "resource": {
+    "kind": "generated-english-closure",
+    "date": "2026-10-22",
+    "source": {
+      "slfSha256": "81c4bed62f48ccf30bcd50ae9afc766352c06e0b52b782a9d64d7517af86ef73",
+      "scriptSha256": "9adb46c70a8cfcd5fba345e774d99e983c22803ca70e004d324a86e4b5be1942",
+      "messageSha256": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846"
+    },
+    "commonCommands": 43522,
+    "matchedGroups": 4768,
+    "words": 578,
+    "clearTokens": 364,
+    "han": 0,
+    "missingGlyphs": [],
+    "scriptJsonSha256": "e4f0a7dbcf6ec3c43793698af45c4e298bb11d18b263271389fab256891066db",
+    "packSha256": "050289f885822f44840a54fe974206e9c2039aa80b38acb6471b7fa334390f2f",
+    "manifest": "00fa07bbb38ef7a6",
+    "scope": "static generated resource and real resolver; no full story/runtime claim"
+  },
+  "browser": {
+    "producer": "Codex root (documentation owner did not rerun browser)",
+    "native": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/browser-smoke.json.gz",
+    "beforeMatchesAfter": true,
+    "errors": [],
+    "persisted": {
+      "lang": "en",
+      "preference": "en"
+    },
+    "scope": "Desktop language change, persistence, Chinese return, status page, mobile System layout; screenshots are samples, not full story E2E.",
+    "screenshots": [
+      {
+        "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/english-menu.png",
+        "sha256": "4eb4142820e431e736d2aeca3e3c2733bfa42ad8143b4f7c3584fc7b305041af",
+        "producer": "Codex root browser smoke",
+        "retention": "Build artifact only; no new image/visual judgment by documentation owner"
+      },
+      {
+        "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/english-settings.png",
+        "sha256": "2b5b3e9b11e62f25d82434a28c8f6694944b75aa0c1cac3353fba142be23ce84",
+        "producer": "Codex root browser smoke",
+        "retention": "Build artifact only; no new image/visual judgment by documentation owner"
+      },
+      {
+        "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/english-status.png",
+        "sha256": "98dac7216e70847212c5488a829a84639d8242beb37983a364e9debca8e8117b",
+        "producer": "Codex root browser smoke",
+        "retention": "Build artifact only; no new image/visual judgment by documentation owner"
+      },
+      {
+        "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/english-mobile-settings.png",
+        "sha256": "2653bc412f8dabdd95ab1c5b2008330cde8803ce4a31de0f22ab123ccdde3ccf",
+        "producer": "Codex root browser smoke",
+        "retention": "Build artifact only; no new image/visual judgment by documentation owner"
+      },
+      {
+        "path": "/Users/zhangxu/illegal/type-pal/build/english-integration/chinese-menu.png",
+        "sha256": "6217a064af3b9bfa8c50df9cd7c4d7a8969465de8c927044a624805aa113fb3d",
+        "producer": "Codex root browser smoke",
+        "retention": "Build artifact only; no new image/visual judgment by documentation owner"
+      }
+    ]
+  },
+  "packageChecks": {
+    "shared": {
+      "files": 13,
+      "tests": 114,
+      "result": "passed"
+    },
+    "palExtract": {
+      "files": 83,
+      "tests": 496,
+      "initial": "Two default 5-second timeouts; native original retained",
+      "retry": "Same 83 files/496 tests passed with maxWorkers=2; no timeout/exclude/rule/test selection changes"
+    },
+    "game": {
+      "files": 347,
+      "tests": 3789,
+      "result": "passed; root reports no stderr/warning"
+    },
+    "typecheckAll": {
+      "packages": 7,
+      "result": "passed zero diagnostics"
+    },
+    "productionBuild": {
+      "result": "passed zero warnings",
+      "mainKb": 444.77,
+      "cssKb": 5.52
+    }
+  },
+  "rootCounters": {
+    "native": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/root-counters.json.gz",
+    "cases": [
+      {
+        "id": "small-space",
+        "red": {
+          "failed": 1,
+          "passed": 2
+        },
+        "restored": {
+          "passed": 3
+        }
+      },
+      {
+        "id": "settlement-name",
+        "red": {
+          "failed": 1,
+          "passed": 0
+        },
+        "restored": {
+          "passed": 1
+        }
+      }
+    ],
+    "scope": "Only two specified business assertions; API fixture calibration failures receive no negative-control credit. Independent text Owner review is separate."
+  },
+  "nativeAttachments": [
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/generated-closure.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/generated-closure.json",
+      "sha256": "66c31861058c51213fa6fbcbf8bb82aebd226cbf39c35b980181166810f6ade6",
+      "rawSha256": "28c2c99ef629c34801357f65212a857592617e07015db5db737fea9847104f4b",
+      "rawBytes": 766,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "Only the source execution described by the native attachment; no new run by documentation owner"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/browser-smoke.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/browser-smoke.json",
+      "sha256": "77aa604fb9b8fbb84689419471e17ea196651d64b8112c163d65854b20aac0c1",
+      "rawSha256": "45d333462d46dd1b93e9b5b225868316c9dc9a4ed02e00505e8594f4db59258f",
+      "rawBytes": 1529,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "Only the source execution described by the native attachment; no new run by documentation owner"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/root-counters.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/root-counters.json",
+      "sha256": "864454d6b271fc8114371dc3c93260ea136df7d0fb3913d4cb0070baaa80685d",
+      "rawSha256": "879122fc26091f954e4e9eb6341d4f5839c73ba259ad34a7a2f9c49787e98a7f",
+      "rawBytes": 3057,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "Only the source execution described by the native attachment; no new run by documentation owner"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/game-check.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/game-check.txt",
+      "sha256": "bce952accf547fe9d1cac1aa795423bd19d169d76b79402e942e159d27bd2f0a",
+      "rawSha256": "305cb5f52086e5f4ec7ffdd1efded0febe4429894483c2ca8ead33c1f6c61ba3",
+      "rawBytes": 36639,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "Only the source execution described by the native attachment; no new run by documentation owner"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/typecheck-all.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/typecheck-all.txt",
+      "sha256": "6d92008729cf11ae0d7ec5236baa37cd1e5485694cf2e8e7e472d49602e64876",
+      "rawSha256": "4735d5b866a1b191e43f2aa94c90c1f0acb6575183f64aef4cde07ffb466d2e5",
+      "rawBytes": 683,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "Only the source execution described by the native attachment; no new run by documentation owner"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/game-build.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/game-build.txt",
+      "sha256": "3bfb7ce2045c77bf2a85a52d2676e706e5cbdac3dd3b14ae00f7e2519e8f635f",
+      "rawSha256": "06182eec0e07d89868913897a78e935468d88b3d8838adacd929d73e951eb3ad",
+      "rawBytes": 643,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "Only the source execution described by the native attachment; no new run by documentation owner"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/extract-check.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/extract-check.txt",
+      "sha256": "d5f1e1898537a62ccaec7168b0c4310ce2073ca973862a46e97fee11952e04fa",
+      "rawSha256": "b55586379fb367cb3f1f819f219496afd25b1593a0ff1f0c9e6aaf9c43145afd",
+      "rawBytes": 11563,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "Only the source execution described by the native attachment; no new run by documentation owner"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/extract-check-retry.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/extract-check-retry.txt",
+      "sha256": "2de92b105fd96de53064053a5565b6299fe825b19287f1061e53a9715a8e4fa3",
+      "rawSha256": "19b7aadc137f7ac95f3893498ec5cd279a8baee386af6288e7ddfd2d504d428e",
+      "rawBytes": 244,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "Only the source execution described by the native attachment; no new run by documentation owner"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/shared-check.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/shared-check.txt",
+      "sha256": "ca8e31c8df8c1ba65a37b03c4325589f12af518b7cef96b7f6959cfa21b5c12e",
+      "rawSha256": "af95535a1e2fb64d10a666c54309d75282ff6d4c3bbc23806b6ea346de27f247",
+      "rawBytes": 1221,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "Only the source execution described by the native attachment; no new run by documentation owner"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/extract-first.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/extract-first.txt",
+      "sha256": "602e7e765a64a6ce9b29a67a613152922287b0e38c50549bf58c84b130f6eaaf",
+      "rawSha256": "956eb6c5714b28a7669b6cbeb209830928612b635fcd9152b810cbd8ac22f7a3",
+      "rawBytes": 2274,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "Only the source execution described by the native attachment; no new run by documentation owner"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/extract-second.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/extract-second.txt",
+      "sha256": "602e7e765a64a6ce9b29a67a613152922287b0e38c50549bf58c84b130f6eaaf",
+      "rawSha256": "956eb6c5714b28a7669b6cbeb209830928612b635fcd9152b810cbd8ac22f7a3",
+      "rawBytes": 2274,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "Only the source execution described by the native attachment; no new run by documentation owner"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/small-space-mutant.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-mutant.json",
+      "sha256": "3ac8d42da6b8b9f3b8a15c2c7348a41200f2551237106503619ea129912c743b",
+      "rawSha256": "d8ef6e95ef948e7ab70687a06f6cf7873bab7052b02eb620eca9803204bccc29",
+      "rawBytes": 2942,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "One exact business assertion mutation or its restoration; fixture calibration failures are not mutation evidence"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/small-space-mutant.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-mutant.stdout.txt",
+      "sha256": "accf577c7bb17b1e5b96a375b56394edf5a79bbbf1459f4aab0165a2e8e98e6f",
+      "rawSha256": "18fefb1a7da916330a0099c719040714f4d102547673b8ee056691b79bb657e1",
+      "rawBytes": 396,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "One exact business assertion mutation or its restoration; fixture calibration failures are not mutation evidence"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/small-space-mutant.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-mutant.stderr.txt",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rawBytes": 0,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "One exact business assertion mutation or its restoration; fixture calibration failures are not mutation evidence"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/small-space-restored.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-restored.json",
+      "sha256": "92d9a066801a67ef66d31d3bd6f7ab749290566d69bd389dbe16a160189e4ba1",
+      "rawSha256": "1cf9457ba36488b1ad61105c09b322048e2a4d0e6400319ba25f73943f228d90",
+      "rawBytes": 1596,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "One exact business assertion mutation or its restoration; fixture calibration failures are not mutation evidence"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/small-space-restored.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-restored.stdout.txt",
+      "sha256": "5a471372d336d60da3c2d72030e95703c11f0e5890a02acd955714acbfbebf82",
+      "rawSha256": "1e3529f31ae31da725afbb1d379f9a131753facada0e558dda8811507931115e",
+      "rawBytes": 107,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "One exact business assertion mutation or its restoration; fixture calibration failures are not mutation evidence"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/small-space-restored.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-restored.stderr.txt",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rawBytes": 0,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "One exact business assertion mutation or its restoration; fixture calibration failures are not mutation evidence"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/settlement-name-mutant.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-mutant.json",
+      "sha256": "74bc9dc206682bbc7f501707bb4e800a63a71eb5776c67c8614e917b1ea3b168",
+      "rawSha256": "b71cdc785caac100d2689e1dde574ab95a133e9590ba724787d2b88d7f11e1ff",
+      "rawBytes": 2442,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "One exact business assertion mutation or its restoration; fixture calibration failures are not mutation evidence"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/settlement-name-mutant.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-mutant.stdout.txt",
+      "sha256": "8b19d37b6949f7bd22ec18e143b004330e0e710ff5adfa7ea074565e82238a87",
+      "rawSha256": "de0af7b788e1c33df4d0949e6fb6483d55d89764203e97bf79a0543316d2a417",
+      "rawBytes": 411,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "One exact business assertion mutation or its restoration; fixture calibration failures are not mutation evidence"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/settlement-name-mutant.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-mutant.stderr.txt",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rawBytes": 0,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "One exact business assertion mutation or its restoration; fixture calibration failures are not mutation evidence"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/settlement-name-restored.json.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-restored.json",
+      "sha256": "ad31d834b8a0c39aa4b9c68ef0807827f71b924b7a7e8d17a22e2bd88b3bbf87",
+      "rawSha256": "80e15372f585c72f380fd7f461918443faad0ddc05213ee377ff3474ce6bb8eb",
+      "rawBytes": 1022,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "One exact business assertion mutation or its restoration; fixture calibration failures are not mutation evidence"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/settlement-name-restored.stdout.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-restored.stdout.txt",
+      "sha256": "4f01eb4213bf0bc9f17a7cd0463a8cdba5e4a4d6f8dba530491add72e0890a90",
+      "rawSha256": "7c54f5f10b238b172890520f416585a69f08b01ced543c16d4d8e4dbb583cf1a",
+      "rawBytes": 111,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "One exact business assertion mutation or its restoration; fixture calibration failures are not mutation evidence"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/settlement-name-restored.stderr.txt.gz",
+      "sourcePath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-restored.stderr.txt",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rawBytes": 0,
+      "producer": "Codex root integration",
+      "archiveOwner": "english_shell_audit",
+      "scope": "One exact business assertion mutation or its restoration; fixture calibration failures are not mutation evidence"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/docs-initial-failure.log.gz",
+      "sourcePath": "build/english-shell/docs-final.log",
+      "sha256": "25540112ec073b0ea2b1df2c3df1267b514a6951ecfee6ad82be440f7403bb17",
+      "rawSha256": "8273822b8c50a0bd6b2efdc1a98d9094718f046bd8b30934c335bed68f5ae5d4",
+      "rawBytes": 30978,
+      "producer": "english_shell_audit documentation worktree",
+      "scope": "Actual static documentation command only; first failure preserved, repaired result separate"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/docs-repaired.log.gz",
+      "sourcePath": "build/english-shell/docs-repaired.log",
+      "sha256": "d1356767f42de64aea7124399e797f1771bb56d99b6d1a4d0e30fc65215321a7",
+      "rawSha256": "e6b11393320dfe423c6793625ba9817c7ae234ab7af5ef12ca4cce98333141e3",
+      "rawBytes": 30739,
+      "producer": "english_shell_audit documentation worktree",
+      "scope": "Actual static documentation command only; first failure preserved, repaired result separate"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ENGLISH-1/docs-maintenance-native/lint.log.gz",
+      "sourcePath": "build/english-shell/docs-lint-final.log",
+      "sha256": "c017218eae2e7e5f4c4468e7b318fe27af30f0215ad9c9e376661ee3f473edaf",
+      "rawSha256": "4c909b47f6081d8a9be170576399fb25792a9dc4a90f72804b7d7033bc69b629",
+      "rawBytes": 187,
+      "producer": "english_shell_audit documentation worktree",
+      "scope": "Actual static documentation command only; first failure preserved, repaired result separate"
+    }
+  ],
+  "documentationChecks": {
+    "initial": {
+      "command": "pnpm check:docs",
+      "exitCode": 1,
+      "result": "125 tool tests passed; testing-docs failed exactly four current CLI sourceRef hash/range diagnostics; initial native output preserved."
+    },
+    "repaired": {
+      "command": "pnpm check:docs",
+      "exitCode": 0,
+      "toolsPassed": 125,
+      "toolsFailed": 0,
+      "toolsSkipped": 0,
+      "docsIssues": 0,
+      "documentModelIssues": 0,
+      "testingIssues": 0,
+      "phaseLoreDocuments": 184,
+      "contentReviewDocuments": 2346,
+      "integrityIssues": 0,
+      "scope": "Complete repaired static command; subsequent equipment UI pending note is a documentation-only addition and receives fast consumer/diff recheck, not product credit."
+    },
+    "lint": {
+      "command": "pnpm lint",
+      "exitCode": 0,
+      "files": 5903,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "inventory": {
+      "command": "node scripts/quality/code-quality-ledger.mjs",
+      "exitCode": 0,
+      "total": 3401,
+      "closed": 377,
+      "review": 110,
+      "pending": 2914
+    },
+    "generatedTestingIndexes": "Regenerated with generate-testing-index.mjs; no content changes because no IDs/status/dimensions changed."
+  },
+  "unexecuted": [
+    "Full monorepo check by documentation owner (root owns stable resource window)",
+    "Official coverage/ratchet and final unified acceptance pending root",
+    "Natural English opening formal report pending dialogue Owner; no measured pass recorded from parent summary alone",
+    "Full-story English E2E",
+    "User UI acceptance",
+    "Deployment/publishing",
+    "New user equipment chooser width feedback is an open product UI rework; root owns implementation/pixel/browser verification after this docs snapshot."
+  ],
+  "invalidation": "New product candidate, different resource/message identity or any changed source/test dependency may invalidate affected claims; later root results must update the same task and preserve this snapshot. Documentation gate success never creates runtime/visual/coverage credit.",
+  "testingDependencyMaintenance": {
+    "id": "game-script-corrections",
+    "reason": "Initial pnpm check:docs failed four diagnostics: catalog/evidence CLI sourceRef hash and line230 anchor drift.",
+    "previousSourceRef": {
+      "path": "packages/pal-extract/src/cli.ts",
+      "lines": "230",
+      "anchor": "const corrected = faithful",
+      "role": "caller",
+      "sha256": "9cb15bea656a04f4c5793386df75a1acd67a38c0ca6774fa431a11304141b8b7"
+    },
+    "currentSourceRef": {
+      "path": "packages/pal-extract/src/cli.ts",
+      "lines": "233",
+      "anchor": "const corrected = faithful",
+      "role": "caller",
+      "sha256": "0474cf59a4c0c67d9d08dd088b44099ab44744dc7ef76e39ab122642c2a31c92"
+    },
+    "reviewedDiff": "Three English imports, optional --english-slf preflight and independent lookup outputs added. Common faithful/correctScripts expression is byte-identical; guarded raw correction remains before language preflight/output cleanup.",
+    "statusBefore": "active",
+    "statusAfter": "active",
+    "historyAppended": true,
+    "historicalResultsAndArtifactHashesUnchanged": true
+  },
+  "reviewControlPreservation": [
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "changedEntryPaths": ["docs/ops/board.md", "docs/ops/tasks/index.md"],
+      "changedEntries": 2,
+      "allOtherEntriesEqual": true,
+      "priorHistoryPrefixEqual": true,
+      "originalArtifactEnvelopeEqual": false
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "changedEntryPaths": ["docs/ops/audits/code-quality-file-ledger.md"],
+      "changedEntries": 1,
+      "allOtherEntriesEqual": true,
+      "priorHistoryPrefixEqual": true,
+      "originalArtifactEnvelopeEqual": false
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+      "changedEntryPaths": ["docs/testing/catalog.json"],
+      "changedEntries": 1,
+      "allOtherEntriesEqual": true,
+      "priorHistoryPrefixEqual": true,
+      "originalArtifactEnvelopeEqual": false
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "changedEntryPaths": [
+        "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+        "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+        "docs/phase-governance/reviews/20261016-historical-cards-d.json"
+      ],
+      "changedEntries": 3,
+      "allOtherEntriesEqual": true,
+      "priorHistoryPrefixEqual": true,
+      "originalArtifactEnvelopeEqual": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "changedEntryPaths": [
+        "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+      ],
+      "changedEntries": 1,
+      "allOtherEntriesEqual": true,
+      "priorHistoryPrefixEqual": true,
+      "originalArtifactEnvelopeEqual": true
+    }
+  ],
+  "nextRootReceipt": "docs/ops/evidence/GAME-ENGLISH-1/integration-review.json (not created/filled by documentation owner)"
+}

@@ -1,0 +1,138 @@
+{
+  "baseCommit": "8843d459b0c7e99380baef9f57aa77462dd62a75",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/io/sss.ts",
+      "method": "full-text; production unchanged / test current authored and inspected",
+      "sha256": "1ad89125c37973426ba0a046ce7be74376ad404430f729bb91e372cf6c4dec46",
+      "lines": 211,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.ts",
+      "method": "full-text; production unchanged / test current authored and inspected",
+      "sha256": "19e388664b8bd602d1b94e6bfe72de00beb8f1fd7f7df476e89a57e8495edc0a",
+      "lines": 30,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.boundaries.test.ts",
+      "method": "full-text; production unchanged / test current authored and inspected",
+      "sha256": "8c0beace34fb5233805f291a9a86269690a4588149d376adb91094496bb4b215",
+      "lines": 154,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.boundaries.test.ts",
+      "method": "full-text; production unchanged / test current authored and inspected",
+      "sha256": "fcdce8e656c2fb289e79a5f0181043885304111de80e0d36d3eb18bc5e41721f",
+      "lines": 51,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.test.ts",
+      "method": "full-text; production unchanged / test current authored and inspected",
+      "sha256": "19d5d8cd80f2e1026d5a7b52da708e7b1051539d5afe1bffc69f0e0bc0816deb",
+      "lines": 32,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.test.ts",
+      "method": "full-text; production unchanged / test current authored and inspected",
+      "sha256": "73c14c910142e6a1a068413d035855735fbb7a1cb9804a55ac44a6763bb815f0",
+      "lines": 26,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/utils/gbk.ts",
+      "method": "full-text; production unchanged / test current authored and inspected",
+      "sha256": "67d6c4d73113aef34f85e608d112c9c64b51d2f4a624919eef7f139f475fa3dd",
+      "lines": 98,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/io/mkf.ts",
+      "method": "full-text; production unchanged / test current authored and inspected",
+      "sha256": "ca53d95c262a6fe6d7b31fe0ec149804e4e759875803b3cf63c8f7c713cb0fd3",
+      "lines": 6,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/events/roundtrip.ts",
+      "method": "full-text; production unchanged / test current authored and inspected",
+      "sha256": "06e63ab104777ec60a1317d5f9170f9911ccae45d580ec170c337c951c660906",
+      "lines": 58,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/events/roundtrip.test.ts",
+      "method": "full-text; production unchanged / test current authored and inspected",
+      "sha256": "ee6cfbf035101be7a78b95c8fb09e2902a42f4e61f69d57fdd12c6ba7229daf2",
+      "lines": 20,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/shared/src/mkf.ts",
+      "method": "full-text",
+      "sha256": "6f654d1b361a2e979d9b12b14c1e1f0f4b2aeffc9784e228fe8b30776b9947f1",
+      "lines": 55,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "method": "C1 full-text same SHA; current ranges 1-155",
+      "sha256": "0fc1d1c37d118bf3fced22d140804e0f395ab7a3156deaeabede3a41d796000a",
+      "lines": 261,
+      "wholeFileAccepted": false,
+      "priorFullRead": "../../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/read-boundaries.json"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "method": "ranges",
+      "sha256": "38e5801281b5a10b1af8488ca552974b7d6686824ad29e3f4cb2bc668775022f",
+      "lines": 901,
+      "wholeFileAccepted": false,
+      "ranges": [[150, 250], [884, 901]]
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "method": "ranges",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "lines": 757,
+      "wholeFileAccepted": false,
+      "ranges": [[74, 125], [237, 243]]
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "method": "ranges",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "lines": 2409,
+      "wholeFileAccepted": false,
+      "ranges": [[284, 291], [392, 421]]
+    },
+    {
+      "path": "reference/sdlpal/text.c",
+      "method": "ranges",
+      "sha256": "8e3c1be5111ea6bed1d0a8a480a2818235d0b3c22a6f73540f5701ac26cbc456",
+      "lines": 2569,
+      "wholeFileAccepted": false,
+      "ranges": [[780, 850]]
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "method": "ranges",
+      "sha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
+      "lines": 214,
+      "wholeFileAccepted": false,
+      "ranges": [[22, 38], [47, 63], [172, 172]]
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+      "method": "full-text",
+      "sha256": "2054a3af17e7cb93f029184fec4b8f911f9840be437b9c56d96a0d07c867ba13",
+      "lines": 141,
+      "wholeFileAccepted": false
+    }
+  ],
+  "notClaimed": "No new whole-file/card acceptance; test execution is not semantic reading. GBK test is adjacent execution only. Current whole goal includes all 83 pre94 cards plus 94–102/editor."
+}

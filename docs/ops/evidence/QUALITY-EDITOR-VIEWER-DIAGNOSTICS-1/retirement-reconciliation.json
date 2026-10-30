@@ -1,0 +1,51 @@
+{
+  "method": "Actual Vitest list; coverage run.mjs identity construction and localeCompare; exact source after final formatting",
+  "baselineSha256": "f0d008c301aa4e86b2d08d8ffc292ffdf006f26efc021e8dffb747dbd0d4e790",
+  "previous": {
+    "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+    "testCount": 10,
+    "identityDigest": "5772ecfbe5ee2d180df9ff094b09cc394198efabe2ca48e1f8cf25182a4acdb2"
+  },
+  "current": {
+    "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+    "testCount": 9,
+    "identityDigest": "4fabf6e373581b9b37868b1092b6365d903c4943403d26b4c47b6adc9eef84da"
+  },
+  "identities": [
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-01 真实解码：帧数/用途元数据、onLoaded proof 与 onFramesLoaded 长度一致",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-02 工具栏「下一帧」从 #0 到 #1，读数与 canvas aria-label 同步",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-03 源帧网格点选：selectedLog 记录且大图切到对应帧",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-04 受控 selectedFrame：外部 setFrame 只更新回显，不伪造选择回调或重载",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-05 切到第二资源：标题/帧数/用途计数整体换为 beta",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-06 切资源时帧选择归零（beta 仅 2 帧，大图回到 #0）",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-07 语义 shelf 展示两用途默认定格行与默认 #0 提示",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-08 双资源往返：第二次回到 alpha 仍 4 帧且 proof revision 不变",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-09 「下一帧」从 #0 进入 #1"
+  ],
+  "approval": {
+    "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+    "previous": 10,
+    "current": 9,
+    "previousIdentityDigest": "5772ecfbe5ee2d180df9ff094b09cc394198efabe2ca48e1f8cf25182a4acdb2",
+    "currentIdentityDigest": "4fabf6e373581b9b37868b1092b6365d903c4943403d26b4c47b6adc9eef84da",
+    "fileSha256": "b1af3b6bca4725a5d310818597bd8179f48d1a43b76a9abf03b59dd5b40bbcf5"
+  },
+  "oneHarnessOnlyCaseRemoved": true,
+  "ordinaryCountBeforeRemoval": 20,
+  "zeroDiagnosticsBeforeRemoval": true,
+  "unknownCandidatesRetained": ["g03-09"],
+  "oldRunnerIdentitiesMatchProtectedBaseline": true,
+  "oldIdentities": [
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-01 真实解码：帧数/用途元数据、onLoaded proof 与 onFramesLoaded 长度一致",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-02 工具栏「下一帧」循环读数与 canvas aria-label 同步",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-03 源帧网格点选：selectedLog 记录且大图切到对应帧",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-04 受控 selectedFrame：外部 setFrame 驱动 viewer 与回调",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-05 切到第二资源：标题/帧数/用途计数整体换为 beta",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-06 切资源时帧选择归零（beta 仅 2 帧，大图回到 #0）",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-07 语义 shelf 展示两用途默认定格行与默认 #0 提示",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-08 双资源往返：第二次回到 alpha 仍 4 帧且 proof revision 不变",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-09 「下一帧」从 #0 进入 #1",
+    "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx :: project root :: C03-G03 真实解码与切帧 > C03-G03-10 catalog 无记录时 harness 显示占位且不触发 proof"
+  ],
+  "runnerVsListNames": "Vitest list uses ancestorTitles + title joined by >; runner fullName joins with spaces and is not the identity source"
+}

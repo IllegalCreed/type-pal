@@ -1,0 +1,990 @@
+{
+  "numTotalTestSuites": 23,
+  "numPassedTestSuites": 23,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 90,
+  "numPassedTests": 90,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792342897381,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556)",
+          "status": "passed",
+          "title": "haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556)",
+          "duration": 2.4233339999999544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证)",
+          "status": "passed",
+          "title": "DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证)",
+          "duration": 1.804666999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts)"],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658)",
+          "status": "passed",
+          "title": "DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658)",
+          "duration": 0.282291999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证)",
+          "status": "passed",
+          "title": "0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证)",
+          "duration": 0.4896250000000464,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言)",
+          "status": "passed",
+          "title": "defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言)",
+          "duration": 0.16570799999999508,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证)",
+          "status": "passed",
+          "title": "玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证)",
+          "duration": 0.5510000000000446,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts)"],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1)",
+          "status": "passed",
+          "title": "expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1)",
+          "duration": 0.37599999999997635,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts)"],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反)",
+          "status": "passed",
+          "title": "Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反)",
+          "duration": 0.2442909999999756,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂)",
+          "status": "passed",
+          "title": "rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂)",
+          "duration": 0.5587090000000217,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备)",
+          "status": "passed",
+          "title": "升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备)",
+          "duration": 0.14870800000005602,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792342898281,
+      "endTime": 1792342898289.1487,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction wMagic=0 → 物理攻击",
+          "status": "passed",
+          "title": "wMagic=0 → 物理攻击",
+          "duration": 1.0378339999999753,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction wMagic != 0 && magicRate=10 → 必出 magic(rng range 0-9 < 10)",
+          "status": "passed",
+          "title": "wMagic != 0 && magicRate=10 → 必出 magic(rng range 0-9 < 10)",
+          "duration": 0.20924999999999727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction wMagicRate=0 → 必出物理",
+          "status": "passed",
+          "title": "wMagicRate=0 → 必出物理",
+          "duration": 0.08308300000010149,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction 选活的队员(只剩 idx=2)",
+          "status": "passed",
+          "title": "选活的队员(只剩 idx=2)",
+          "duration": 0.06383299999993142,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction alivePlayers 空 → pass action",
+          "status": "passed",
+          "title": "alivePlayers 空 → pass action",
+          "duration": 0.07854099999997288,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction B2:敌 sleep>0 → pass(do nothing,fight.c:4582-4589)",
+          "status": "passed",
+          "title": "B2:敌 sleep>0 → pass(do nothing,fight.c:4582-4589)",
+          "duration": 0.14987500000006548,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction B2:敌 paralyzed>0 → pass(fight.c:4583)",
+          "status": "passed",
+          "title": "B2:敌 paralyzed>0 → pass(fight.c:4583)",
+          "duration": 0.10691699999995308,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction B2:敌 silence>0 → 强制物理(不出魔法,fight.c:4658 silence==0 门;原 ts 漏判=bug)",
+          "status": "passed",
+          "title": "B2:敌 silence>0 → 强制物理(不出魔法,fight.c:4658 silence==0 门;原 ts 漏判=bug)",
+          "duration": 0.06483300000002146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction B2:wMagic==0xFFFF + 必出魔法 → pass(哨兵,fight.c:4663 goto end 什么不做)",
+          "status": "passed",
+          "title": "B2:wMagic==0xFFFF + 必出魔法 → pass(哨兵,fight.c:4663 goto end 什么不做)",
+          "duration": 0.3573749999999336,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction B2:party 传入 → 用 full-party RandomLong + while 重摇(跳过死者)",
+          "status": "passed",
+          "title": "B2:party 传入 → 用 full-party RandomLong + while 重摇(跳过死者)",
+          "duration": 0.10545799999999872,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction B2:敌 confused → attack-mate 打另一活敌(fight.c:4593)",
+          "status": "passed",
+          "title": "B2:敌 confused → attack-mate 打另一活敌(fight.c:4593)",
+          "duration": 0.1749170000000504,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction B2:enemySlots 传入 → confused 全槽 RandomLong + while 重摇(跳过死/空槽,RNG 流逐抽对齐)",
+          "status": "passed",
+          "title": "B2:enemySlots 传入 → confused 全槽 RandomLong + while 重摇(跳过死/空槽,RNG 流逐抽对齐)",
+          "duration": 0.07587499999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction B2:敌 confused 选中自己 → pass(fight.c:4594 iTarget==self goto end)",
+          "status": "passed",
+          "title": "B2:敌 confused 选中自己 → pass(fight.c:4594 iTarget==self goto end)",
+          "duration": 0.04504200000008041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideEnemyAction"],
+          "fullName": "decideEnemyAction 同 seed 决策稳定(确定性 — T23 baseline 对拍前提)",
+          "status": "passed",
+          "title": "同 seed 决策稳定(确定性 — T23 baseline 对拍前提)",
+          "duration": 0.29149999999992815,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792342898037,
+      "endTime": 1792342898040.2915,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/__tests__/enemy-ai.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["calcBaseDamage (fight.c:131-171)"],
+          "fullName": "calcBaseDamage (fight.c:131-171) atk > def → trunc(atk*2 - def*1.6 + 0.5)",
+          "status": "passed",
+          "title": "atk > def → trunc(atk*2 - def*1.6 + 0.5)",
+          "duration": 0.7909170000000358,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcBaseDamage (fight.c:131-171)"],
+          "fullName": "calcBaseDamage (fight.c:131-171) atk > def*0.6 但 atk <= def → trunc(atk - def*0.6 + 0.5)",
+          "status": "passed",
+          "title": "atk > def*0.6 但 atk <= def → trunc(atk - def*0.6 + 0.5)",
+          "duration": 0.11608300000000327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcBaseDamage (fight.c:131-171)"],
+          "fullName": "calcBaseDamage (fight.c:131-171) atk <= def*0.6 → 0",
+          "status": "passed",
+          "title": "atk <= def*0.6 → 0",
+          "duration": 0.08883300000002237,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcBaseDamage (fight.c:131-171)"],
+          "fullName": "calcBaseDamage (fight.c:131-171) atk == def → 走中间分支(50 - 30 + 0.5 = 20.5 → 20)",
+          "status": "passed",
+          "title": "atk == def → 走中间分支(50 - 30 + 0.5 = 20.5 → 20)",
+          "duration": 0.09041700000000219,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcBaseDamage (fight.c:131-171)"],
+          "fullName": "calcBaseDamage (fight.c:131-171) 当前 TS 截取16位:65535输入得到-2,不声称C越界浮点转换等价",
+          "status": "passed",
+          "title": "当前 TS 截取16位:65535输入得到-2,不声称C越界浮点转换等价",
+          "duration": 0.05479199999990669,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcPhysicalAttackDamage (fight.c:253-285)"],
+          "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist=1 时 = baseDamage",
+          "status": "passed",
+          "title": "resist=1 时 = baseDamage",
+          "duration": 0.05841699999996308,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcPhysicalAttackDamage (fight.c:253-285)"],
+          "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist > 1 时 = baseDamage / resist (整数除)",
+          "status": "passed",
+          "title": "resist > 1 时 = baseDamage / resist (整数除)",
+          "duration": 0.19500000000005002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcPhysicalAttackDamage (fight.c:253-285)"],
+          "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist = 0 时不除(防 div by zero)",
+          "status": "passed",
+          "title": "resist = 0 时不除(防 div by zero)",
+          "duration": 0.05033400000002075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcPhysicalAttackDamage (fight.c:253-285)"],
+          "fullName": "calcPhysicalAttackDamage (fight.c:253-285) base 为 0 时 resist 不影响 → 0",
+          "status": "passed",
+          "title": "base 为 0 时 resist 不影响 → 0",
+          "duration": 0.3217499999999518,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) 非元素 (elemental=0) → base/4 + magicBase",
+          "status": "passed",
+          "title": "非元素 (elemental=0) → base/4 + magicBase",
+          "duration": 0.11616600000002109,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) 元素=wind (1), 无 resistance, 无 field → base * 2 (10/5)",
+          "status": "passed",
+          "title": "元素=wind (1), 无 resistance, 无 field → base * 2 (10/5)",
+          "duration": 0.09524999999996453,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) 敌方 elemental resistance=5,生产除数1 → 伤害80",
+          "status": "passed",
+          "title": "敌方 elemental resistance=5,生产除数1 → 伤害80",
+          "duration": 0.04150000000004184,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) 敌方 elemental resistance=10,生产除数1 → 免疫",
+          "status": "passed",
+          "title": "敌方 elemental resistance=10,生产除数1 → 免疫",
+          "duration": 0.03366700000003675,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) poison (elemental=6, > NUM_MAGIC_ELEMENTAL) → 用 poisonRes",
+          "status": "passed",
+          "title": "poison (elemental=6, > NUM_MAGIC_ELEMENTAL) → 用 poisonRes",
+          "duration": 0.0348749999999427,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) field bonus 加 (+10) → damage * 2 (20/10)",
+          "status": "passed",
+          "title": "field bonus 加 (+10) → damage * 2 (20/10)",
+          "duration": 0.03262500000005275,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) caller可达倍率1.05与1.0分别得到52与50",
+          "status": "passed",
+          "title": "caller可达倍率1.05与1.0分别得到52与50",
+          "duration": 0.04637499999989814,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) elem 1-5 对应 wind/thunder/water/fire/earth 索引",
+          "status": "passed",
+          "title": "elem 1-5 对应 wind/thunder/water/fire/earth 索引",
+          "duration": 0.3320420000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getEnemyDexterity (fight.c:289-332 PAL_CLASSIC)"],
+          "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) 公式 (level + 6) * 3 + (SHORT)dexterity",
+          "status": "passed",
+          "title": "公式 (level + 6) * 3 + (SHORT)dexterity",
+          "duration": 0.041624999999953616,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getEnemyDexterity (fight.c:289-332 PAL_CLASSIC)"],
+          "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) signed dexterity 负数",
+          "status": "passed",
+          "title": "signed dexterity 负数",
+          "duration": 0.029166000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getEnemyDexterity (fight.c:289-332 PAL_CLASSIC)"],
+          "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) SHORT cast 65535 → -1",
+          "status": "passed",
+          "title": "SHORT cast 65535 → -1",
+          "duration": 0.02816599999994196,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getEnemyDexterity (fight.c:289-332 PAL_CLASSIC)"],
+          "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) level 0 → (0 + 6) * 3 = 18",
+          "status": "passed",
+          "title": "level 0 → (0 + 6) * 3 = 18",
+          "duration": 0.026165999999989253,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getEnemyDexterity (fight.c:289-332 PAL_CLASSIC)"],
+          "fullName": "getEnemyDexterity (fight.c:289-332 PAL_CLASSIC) M3 不实现 non-classic lowerbound 20 (level=0,dex=-19 = -1,不夹到 20)",
+          "status": "passed",
+          "title": "M3 不实现 non-classic lowerbound 20 (level=0,dex=-19 = -1,不夹到 20)",
+          "duration": 0.02537500000005366,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC)"],
+          "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) 无 status → 原值",
+          "status": "passed",
+          "title": "无 status → 原值",
+          "duration": 0.03674999999998363,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC)"],
+          "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) haste → *3 (PAL_CLASSIC 路径)",
+          "status": "passed",
+          "title": "haste → *3 (PAL_CLASSIC 路径)",
+          "duration": 0.025624999999990905,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC)"],
+          "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) haste 后超 999 → 上限 999",
+          "status": "passed",
+          "title": "haste 后超 999 → 上限 999",
+          "duration": 0.025208000000020547,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC)"],
+          "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) 刚好 999 不夹",
+          "status": "passed",
+          "title": "刚好 999 不夹",
+          "duration": 0.024625000000014552,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC)"],
+          "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) M3 不实现 slow modifier (non-classic 分支)",
+          "status": "passed",
+          "title": "M3 不实现 slow modifier (non-classic 分支)",
+          "duration": 0.024874999999951797,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC)"],
+          "fullName": "getPlayerActualDexterity (fight.c:336-389 PAL_CLASSIC) baseDexterity 0 → 0",
+          "status": "passed",
+          "title": "baseDexterity 0 → 0",
+          "duration": 0.025666999999998552,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792342898027,
+      "endTime": 1792342898030.332,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/__tests__/formulas.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["applyMagicDamage"],
+          "fullName": "applyMagicDamage 单体:wind 元素咒手算伤害对(magStr64 / baseDmg45 / windRes5 → 50)",
+          "status": "passed",
+          "title": "单体:wind 元素咒手算伤害对(magStr64 / baseDmg45 / windRes5 → 50)",
+          "duration": 1.2853750000000446,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyMagicDamage"],
+          "fullName": "applyMagicDamage 全体 target=\"all\":每个敌人都吃伤害",
+          "status": "passed",
+          "title": "全体 target=\"all\":每个敌人都吃伤害",
+          "duration": 0.33724999999992633,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyMagicDamage"],
+          "fullName": "applyMagicDamage SimulateMagic 负 baseDamage(magic96=−999 SHORT)+ minDamage=0 → 0 伤害(投掷物动画无伤)",
+          "status": "passed",
+          "title": "SimulateMagic 负 baseDamage(magic96=−999 SHORT)+ minDamage=0 → 0 伤害(投掷物动画无伤)",
+          "duration": 0.12291699999991579,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyMagicDamage"],
+          "fullName": "applyMagicDamage inline minDamage=1:弱法术算出 ≤0 → 至少 1(sDamage<=0→1)",
+          "status": "passed",
+          "title": "inline minDamage=1:弱法术算出 ≤0 → 至少 1(sDamage<=0→1)",
+          "duration": 0.13579199999992397,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyMagicDamage"],
+          "fullName": "applyMagicDamage health 落地 clamp≥0(不变负)",
+          "status": "passed",
+          "title": "health 落地 clamp≥0(不变负)",
+          "duration": 0.13350000000002638,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyMagicDamage"],
+          "fullName": "applyMagicDamage L18/L20:多体 target=\"all\" 每个目标各掷一次独立 rngFactor(相同敌人伤害不同)",
+          "status": "passed",
+          "title": "L18/L20:多体 target=\"all\" 每个目标各掷一次独立 rngFactor(相同敌人伤害不同)",
+          "duration": 0.17283399999996618,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveObjectMagic"],
+          "fullName": "resolveObjectMagic 按 object id 解析 magic-union 视图",
+          "status": "passed",
+          "title": "按 object id 解析 magic-union 视图",
+          "duration": 0.11916700000006131,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveObjectMagic"],
+          "fullName": "resolveObjectMagic 未知 id → undefined",
+          "status": "passed",
+          "title": "未知 id → undefined",
+          "duration": 0.059750000000008185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage P0#3:玩家 def 不含 level 项(level 5 vs 99 同 defense → 同伤害)",
+          "status": "passed",
+          "title": "P0#3:玩家 def 不含 level 项(level 5 vs 99 同 defense → 同伤害)",
+          "duration": 0.6254169999999704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage 单体:手算伤害 65,player HP 100→35(无防御/无自卫)",
+          "status": "passed",
+          "title": "单体:手算伤害 65,player HP 100→35(无防御/无自卫)",
+          "duration": 0.13037500000007185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage AoE target=\"all\":全体活队员吃伤害",
+          "status": "passed",
+          "title": "AoE target=\"all\":全体活队员吃伤害",
+          "duration": 0.2049170000000231,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage defending → 除 2(65→32)",
+          "status": "passed",
+          "title": "defending → 除 2(65→32)",
+          "duration": 0.06674999999995634,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage B2 c4:Protect 状态 → 除因子 ×2(65→32,fight.c:4802/4837)",
+          "status": "passed",
+          "title": "B2 c4:Protect 状态 → 除因子 ×2(65→32,fight.c:4802/4837)",
+          "duration": 0.05041699999992488,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage B2 c4:Protect + defending → 除因子 ×2×2=4(65→16)",
+          "status": "passed",
+          "title": "B2 c4:Protect + defending → 除因子 ×2×2=4(65→16)",
+          "duration": 0.044709000000011656,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage autoDefend(range(0,3)==0)→ 除因子 +1(65→32)",
+          "status": "passed",
+          "title": "autoDefend(range(0,3)==0)→ 除因子 +1(65→32)",
+          "duration": 0.10304099999996197,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage defending + autoDefend → 除 3(trunc 65/3=21)",
+          "status": "passed",
+          "title": "defending + autoDefend → 除 3(trunc 65/3=21)",
+          "duration": 0.045833000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage sleep 队员不触发 autoDefend(range==0 也不自卫)→ 满伤 65",
+          "status": "passed",
+          "title": "sleep 队员不触发 autoDefend(range==0 也不自卫)→ 满伤 65",
+          "duration": 0.042165999999951964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage clamp:dmg > 剩余 HP → 钳到 HP(hp30 吃 65 → 掉 30,hp→0)",
+          "status": "passed",
+          "title": "clamp:dmg > 剩余 HP → 钳到 HP(hp30 吃 65 → 掉 30,hp→0)",
+          "duration": 0.04179199999998673,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage AoE 跳过已死队员(hp=0 不结算)",
+          "status": "passed",
+          "title": "AoE 跳过已死队员(hp=0 不结算)",
+          "duration": 0.05658400000004349,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage 元素抗 >100 → clamp 到 100(global.c:1969)→ 倍率不变负、伤害不回血",
+          "status": "passed",
+          "title": "元素抗 >100 → clamp 到 100(global.c:1969)→ 倍率不变负、伤害不回血",
+          "duration": 0.045833000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage L20:敌方 AoE target=\"all\" 每个队员各掷一次独立 rngFactor",
+          "status": "passed",
+          "title": "L20:敌方 AoE target=\"all\" 每个队员各掷一次独立 rngFactor",
+          "duration": 0.06649999999990541,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage L20:敌方单体先掷 autoDefend RandomLong,再掷伤害 RandomFloat",
+          "status": "passed",
+          "title": "L20:敌方单体先掷 autoDefend RandomLong,再掷伤害 RandomFloat",
+          "duration": 0.05270799999993869,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyEnemyMagicDamage"],
+          "fullName": "applyEnemyMagicDamage L20:敌方 AoE 先预判全队 autoDefend,再逐存活队员掷伤害 RandomFloat",
+          "status": "passed",
+          "title": "L20:敌方 AoE 先预判全队 autoDefend,再逐存活队员掷伤害 RandomFloat",
+          "duration": 0.06704200000001492,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792342898044,
+      "endTime": 1792342898048.2048,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/__tests__/magic-damage.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SDLPal simulated magic target (fight.c:87-128, 5330-5400)"],
+          "fullName": "SDLPal simulated magic target (fight.c:87-128, 5330-5400) 0x42 uses the previous living target for damage and FIRE landing (base=198, hp=9000)",
+          "status": "passed",
+          "title": "0x42 uses the previous living target for damage and FIRE landing (base=198, hp=9000)",
+          "duration": 2.9746659999999565,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal simulated magic target (fight.c:87-128, 5330-5400)"],
+          "fullName": "SDLPal simulated magic target (fight.c:87-128, 5330-5400) 0x42 uses the previous living target for damage and FIRE landing (base=+0, hp=9000)",
+          "status": "passed",
+          "title": "0x42 uses the previous living target for damage and FIRE landing (base=+0, hp=9000)",
+          "duration": 0.404042000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal simulated magic target (fight.c:87-128, 5330-5400)"],
+          "fullName": "SDLPal simulated magic target (fight.c:87-128, 5330-5400) 0x42 uses the previous living target for damage and FIRE landing (base=198, hp=100)",
+          "status": "passed",
+          "title": "0x42 uses the previous living target for damage and FIRE landing (base=198, hp=100)",
+          "duration": 0.233333000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal simulated magic target (fight.c:87-128, 5330-5400)"],
+          "fullName": "SDLPal simulated magic target (fight.c:87-128, 5330-5400) ignores a dead previous target",
+          "status": "passed",
+          "title": "ignores a dead previous target",
+          "duration": 0.26670799999999417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal simulated magic target (fight.c:87-128, 5330-5400)"],
+          "fullName": "SDLPal simulated magic target (fight.c:87-128, 5330-5400) ignores a cleared previous target",
+          "status": "passed",
+          "title": "ignores a cleared previous target",
+          "duration": 0.21516699999995126,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal simulated magic target (fight.c:87-128, 5330-5400)"],
+          "fullName": "SDLPal simulated magic target (fight.c:87-128, 5330-5400) ignores a out-of-range previous target",
+          "status": "passed",
+          "title": "ignores a out-of-range previous target",
+          "duration": 0.25216599999998834,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal simulated magic target (fight.c:87-128, 5330-5400)"],
+          "fullName": "SDLPal simulated magic target (fight.c:87-128, 5330-5400) explicit target wins over previous; applyToAll wins over explicit",
+          "status": "passed",
+          "title": "explicit target wins over previous; applyToAll wins over explicit",
+          "duration": 0.231708000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal simulated magic target (fight.c:87-128, 5330-5400)"],
+          "fullName": "SDLPal simulated magic target (fight.c:87-128, 5330-5400) all dead but uncleared: selector -1 continues through all occupied slots",
+          "status": "passed",
+          "title": "all dead but uncleared: selector -1 continues through all occupied slots",
+          "duration": 0.3592080000000806,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal 0x66 raw runtime attack (script.c:2007-2014)"],
+          "fullName": "SDLPal 0x66 raw runtime attack (script.c:2007-2014) changing equipment/Extra leaves the throw unchanged (raw attack=50)",
+          "status": "passed",
+          "title": "changing equipment/Extra leaves the throw unchanged (raw attack=50)",
+          "duration": 1.6629159999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal 0x66 raw runtime attack (script.c:2007-2014)"],
+          "fullName": "SDLPal 0x66 raw runtime attack (script.c:2007-2014) changing equipment/Extra leaves the throw unchanged (raw attack=0)",
+          "status": "passed",
+          "title": "changing equipment/Extra leaves the throw unchanged (raw attack=0)",
+          "duration": 0.6175409999999601,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768)"],
+          "fullName": "SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768) normal pre-roll precedes real sleep script and reaches frame3 without damage",
+          "status": "passed",
+          "title": "normal pre-roll precedes real sleep script and reaches frame3 without damage",
+          "duration": 1.074624999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768)"],
+          "fullName": "SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768) attackAll pre-roll precedes real sleep script and reaches frame3 without damage",
+          "status": "passed",
+          "title": "attackAll pre-roll precedes real sleep script and reaches frame3 without damage",
+          "duration": 0.2822079999999687,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768)"],
+          "fullName": "SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768) sleep does not acquire an auto-defend pose",
+          "status": "passed",
+          "title": "sleep does not acquire an auto-defend pose",
+          "duration": 0.17099999999993543,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768)"],
+          "fullName": "SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768) miss does not acquire an auto-defend pose",
+          "status": "passed",
+          "title": "miss does not acquire an auto-defend pose",
+          "duration": 0.16666699999996126,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768)"],
+          "fullName": "SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768) player does not acquire an auto-defend pose",
+          "status": "passed",
+          "title": "player does not acquire an auto-defend pose",
+          "duration": 0.27920800000003965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792342898214,
+      "endTime": 1792342898223.2822,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/__tests__/magic-parity.test.ts"
+    }
+  ]
+}

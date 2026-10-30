@@ -50,7 +50,6 @@ describe('opening-menu state machine — sdlpal uigame.c:42-167 PAL_OpeningMenu'
     expect(labels).toHaveLength(2)
     expect(labels[0]!.id).toBe(7) // MAINMENU_LABEL_NEWGAME
     expect(labels[1]!.id).toBe(8) // MAINMENU_LABEL_LOADGAME
-    expect(labels[0]!.label).not.toBe('') // 表未载 → fallback '新的故事'(非空)
-    expect(labels[1]!.label).not.toBe('')
+    expect(labels.map(({ label }) => label)).toEqual(['新的故事', '旧的回忆'])
   })
 })

@@ -1,0 +1,36 @@
+Producer: /root/mobile_final_review (read-only independent review)
+Owner: Codex
+Date: 2026-10-22
+Task: GAME-MOBILE-LAYOUT-1
+Initial candidate: dc8b456f9b1783638779b482a05aeb8d144d9992 against main 9b4df714565a749fd4b69f0f1c7a50bcbb30dc66
+Accepted product candidate: 356ac4fad (full Git commit is in release evidence)
+Accepted test-only follow-up: 1c0b2acbd
+
+Initial result: one P2, open tools panel did not subscribe to LAYOUT_CHANGE;
+desktop system controls/timer/keys remained after switching to mobile until reopening.
+Follow-up result: P2 closed. Tools now subscribe and render only while open.
+Actual setupToolsPanel caller test checks desktop -> mobile -> desktop body and tabs.
+Native red JSON parsed: exactly one specified business AssertionError, two other tests pass.
+Native green JSON parsed: all three tests pass. Host removes new window listener.
+
+A-H scoped review: game-shell.ts/css, touch-controls.ts, gamepad-input.ts,
+touch-preference.ts and presentation.ts read in full; input.ts in full; three modal
+consumers and callers, main/bootstrap/analytics wiring, display/FPS/minimap/speedrun
+differences and eight new test files reviewed. Input contact ownership, tap latching,
+neutral rearm, modal consumption, keyboard activation and cleanup accepted.
+Tools changes/callers accepted after the narrow layout repair. No second blocker found.
+
+Reviewer actually parsed two touch mutant failures (one specified AssertionError each),
+one gamepad mapping mutant, modal three red -> 93 green and keyboard activation red -> green;
+checked input/modal/touch source hashes, game 333 files/3715 tests log and three screenshots.
+Historical and current candidate boundaries distinguished. No full-suite or coverage rerun
+by reviewer; final official gates and CI remain the primary agent's responsibility.
+
+Limits: no physical phone/controller, Safari safe-area, full-story E2E, production SW or
+Aliyun deployment claim. This scoped review does not close unchanged legacy engine files.
+Retention: independent acceptance evidence for this task; immutable result, supersede explicitly.
+
+Follow-up at 1c0b2acbd: five-line test delta accepted. A layout event while the drawer
+is closed must leave its body empty; opening then follows the existing transitions.
+This observable deferred-render contract is distinct from the open update assertions.
+Native final report parsed: three cases pass. No test/coverage rerun by reviewer.

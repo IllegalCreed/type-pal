@@ -1,0 +1,36 @@
+
+> @type-pal/game@1.0.0 typecheck /Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game
+> tsc --noEmit
+
+src/core/scene-system.test.ts(2041,5): error TS2740: Type '{ [x: number]: NpcState; }' is missing the following properties from type 'NpcState[]': length, pop, push, concat, and 29 more.
+src/core/scene-system.test.ts(2042,8): error TS2339: Property 'sceneId' does not exist on type 'GameState'.
+src/core/scene-system.test.ts(2050,21): error TS2345: Argument of type '({ op: "end"; opcode?: undefined; operands?: undefined; label?: undefined; } | { op: "raw"; opcode: number; operands: number[]; label: string; })[]' is not assignable to parameter of type 'Command[]'.
+  Type '{ op: "end"; opcode?: undefined; operands?: undefined; label?: undefined; } | { op: "raw"; opcode: number; operands: number[]; label: string; }' is not assignable to type 'Command'.
+    Type '{ op: "raw"; opcode: number; operands: number[]; label: string; }' is not assignable to type 'Command'.
+      Type '{ op: "raw"; opcode: number; operands: number[]; label: string; }' is not assignable to type 'RawCommand'.
+        Types of property 'operands' are incompatible.
+          Type 'number[]' is not assignable to type '[number, number, number]'.
+            Target requires 3 element(s) but source may have fewer.
+src/core/scene-system.test.ts(2054,38): error TS2345: Argument of type '{ tilemap: Tilemap; eventCommands: ({ op: "end"; opcode?: undefined; operands?: undefined; label?: undefined; } | { op: "raw"; opcode: number; operands: number[]; label: string; })[]; labelMap: { L_15293: number; }; }' is not assignable to parameter of type 'SceneContext'.
+  Types of property 'eventCommands' are incompatible.
+    Type '({ op: "end"; opcode?: undefined; operands?: undefined; label?: undefined; } | { op: "raw"; opcode: number; operands: number[]; label: string; })[]' is not assignable to type 'Command[]'.
+      Type '{ op: "end"; opcode?: undefined; operands?: undefined; label?: undefined; } | { op: "raw"; opcode: number; operands: number[]; label: string; }' is not assignable to type 'Command'.
+        Type '{ op: "raw"; opcode: number; operands: number[]; label: string; }' is not assignable to type 'Command'.
+          Type '{ op: "raw"; opcode: number; operands: number[]; label: string; }' is not assignable to type 'RawCommand'.
+            Types of property 'operands' are incompatible.
+              Type 'number[]' is not assignable to type '[number, number, number]'.
+                Target requires 3 element(s) but source may have fewer.
+src/core/scene-system.test.ts(2061,15): error TS2339: Property 'cash' does not exist on type 'GameState'.
+src/core/scene-system.test.ts(2070,44): error TS2345: Argument of type '{ tilemap: Tilemap; eventCommands: ({ op: "end"; opcode?: undefined; operands?: undefined; label?: undefined; } | { op: "raw"; opcode: number; operands: number[]; label: string; })[]; labelMap: { L_15293: number; }; }' is not assignable to parameter of type 'SceneContext'.
+  Types of property 'eventCommands' are incompatible.
+    Type '({ op: "end"; opcode?: undefined; operands?: undefined; label?: undefined; } | { op: "raw"; opcode: number; operands: number[]; label: string; })[]' is not assignable to type 'Command[]'.
+      Type '{ op: "end"; opcode?: undefined; operands?: undefined; label?: undefined; } | { op: "raw"; opcode: number; operands: number[]; label: string; }' is not assignable to type 'Command'.
+        Type '{ op: "raw"; opcode: number; operands: number[]; label: string; }' is not assignable to type 'Command'.
+          Type '{ op: "raw"; opcode: number; operands: number[]; label: string; }' is not assignable to type 'RawCommand'.
+            Types of property 'operands' are incompatible.
+              Type 'number[]' is not assignable to type '[number, number, number]'.
+                Target requires 3 element(s) but source may have fewer.
+src/core/scene-system.test.ts(2072,21): error TS2339: Property 'cash' does not exist on type 'GameState'.
+/Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @type-pal/game@1.0.0 typecheck: `tsc --noEmit`
+Exit status 2

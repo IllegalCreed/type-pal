@@ -1,0 +1,21 @@
+{
+  "file": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+  "previous": {
+    "file": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+    "testCount": 3,
+    "identityDigest": "dd67b18ef8f80d571eb72081f40814f9714ac2c3468eaa803997a21a09019064"
+  },
+  "mainPrevious": {
+    "file": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+    "testCount": 3,
+    "identityDigest": "dd67b18ef8f80d571eb72081f40814f9714ac2c3468eaa803997a21a09019064"
+  },
+  "current": {
+    "file": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+    "testCount": 2,
+    "identityDigest": "fd69e9746ea0c03527cef4411f4cc5c0256daf750e7f15de7d9d5934cff1d7f1"
+  },
+  "fileSha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f",
+  "removedContract": "non-empty inventory shrink clamps cursor to length-1",
+  "retainedOracle": "sell-menu.test.ts refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)"
+}

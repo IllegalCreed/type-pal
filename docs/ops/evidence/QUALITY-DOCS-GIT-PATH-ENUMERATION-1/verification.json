@@ -1,0 +1,87 @@
+{
+  "base": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+  "scope": "Three-code-file Git enumeration prerequisite, literal two-option source delta, real red/green and two strict full-file controls; no product or unified closeout",
+  "rawPairs": [
+    {
+      "receipt": "quality-tools.json",
+      "raw": "quality-tools.raw.gz",
+      "sha256": "2a2f8bcf9b8a0125a814a58aaf39fdfe66c99fc65678d18779b70600a3b4b66f",
+      "exit": 0
+    },
+    {
+      "receipt": "fetch-final.json",
+      "raw": "fetch-final.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit": 0
+    },
+    {
+      "receipt": "red.json",
+      "raw": "red.raw.gz",
+      "sha256": "c79378823b2e242f460721c0f8c6034094a53ca11bee3e217da4687429659662",
+      "exit": 1
+    },
+    {
+      "receipt": "docs.json",
+      "raw": "docs.raw.gz",
+      "sha256": "6e72dfc6baa7e2ef9e1fbd58679f8dc9c228d35986e4d5abd4ea0e358a9ba306",
+      "exit": 0
+    },
+    {
+      "receipt": "lint-final.json",
+      "raw": "lint-final.raw.gz",
+      "sha256": "83982087f2156812c8b83e69173724ed6fefbd80304c36106f4c10b61114e2a5",
+      "exit": 0
+    },
+    {
+      "receipt": "green.json",
+      "raw": "green.raw.gz",
+      "sha256": "1b9f7c0fe1bde4a9ba8a5994f5ba28436ee665fe2fb00313534945f10de748ea",
+      "exit": 0
+    },
+    {
+      "receipt": "divergence-final.json",
+      "raw": "divergence-final.raw.gz",
+      "sha256": "d270da7514a14192dacec66f135b47201850b2e468eaedecdcc14d4cb65df894",
+      "exit": 0
+    },
+    {
+      "receipt": "ledger.json",
+      "raw": "ledger.raw.gz",
+      "sha256": "43566af94cc47d16f9c3f5bcaf9e37a944893b27ead1e8a8808a83271667c18f",
+      "exit": 0
+    }
+  ],
+  "onlyTwoMaxBufferOptionsAndCommentsChanged": true,
+  "allOriginalInventoryAssertionsExact": true,
+  "terminalNamespace4MiBAndItsTestsUnchanged": true,
+  "twoRealBusinessRedToGreen": true,
+  "controls": 2,
+  "oldSpecsEachPassed": 1,
+  "newSpecsEachPassed": 2,
+  "specifiedAssertionErrorsEach": 1,
+  "allOtherNativeReviewObjectsExact": true,
+  "oldLedgerRowsAndHistoricalFenceExact": true,
+  "pre94QueueExact": true,
+  "newClosed": 0,
+  "tracked": 3316,
+  "closed": 259,
+  "review": 92,
+  "pending": 2965,
+  "savedFinalization10HashesIntact": true,
+  "allowedChanges": [
+    "docs/ops/audits/code-quality-file-ledger.md",
+    "docs/ops/board.md",
+    "docs/ops/evidence/README.md",
+    "docs/ops/tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md",
+    "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+    "docs/ops/tasks/index.md",
+    "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+    "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+    "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+    "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+    "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+    "scripts/docs/check.mjs",
+    "scripts/quality/code-quality-inventory.mjs",
+    "scripts/quality/code-quality-inventory.test.mjs"
+  ]
+}

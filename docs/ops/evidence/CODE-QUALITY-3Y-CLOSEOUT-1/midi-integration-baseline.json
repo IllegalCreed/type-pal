@@ -1,0 +1,35 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/shell/audio-midi.boundaries.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-3y-midi-tests.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 1,
+  "seconds": 3.9,
+  "bytes": 1507,
+  "sha256": "b4ffa498d78d65b1c83546316b7fabc35bfccd20acfcb58e51531d1c498da383",
+  "passed": 1,
+  "failed": 1,
+  "pending": 0,
+  "failures": [
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/audio-midi.boundaries.test.ts",
+      "name": "audio-midi latest track ownership drops a stale MIDI fetch response after a newer track was requested",
+      "messages": [
+        "AssertionError: expected [] to deeply equal [ 2 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/audio-midi.boundaries.test.ts:105:34\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ]
+    }
+  ],
+  "sourceSha256": "118a645461e4ca3dac7583a4ca7fc485149d64f3204f37d5408f21593fe017bc",
+  "testSha256": "a55ce7bb26059e35da357250cf4c1e2aee2cb6d28d3b73ffe486cd0fa751f2f6"
+}

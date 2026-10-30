@@ -1,0 +1,4 @@
+$ node scripts/quality/code-quality-ledger.mjs
+exit_code=0
+
+code-quality ledger: PASS — 3269 files; 339 closed / 10 review / 2920 pending; semantic review still required

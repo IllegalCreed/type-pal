@@ -1,0 +1,23 @@
+CODE-QUALITY-88 source / caller / oracle index
+
+Whitelist full reads:
+- packages/game/src/core/menu/magic-select.ts:1-56
+- packages/game/src/core/menu/magic-select.boundaries.test.ts:1-141
+- packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts:1-138
+- packages/game/src/core/menu/__tests__/item-magic-select.test.ts:1-249 (ItemSelect and MagicSelectionMenu sections)
+
+Production callers and ownership:
+- packages/game/src/core/menu/in-game-magic-menu.ts:1-306; buildSpellMenu filters usableOutsideBattle and passes roleId/playerRoles/spells/magics/current MP; confirm/refresh own execution, target and MP effects.
+- packages/game/src/core/battle/battle-system.ts:1032-1150,1597-1630; battle has a separate object-magic resolver/builder and disabled/confirm path, used as adjacent semantic oracle, not closed here.
+- packages/game/src/present/menu/draw-magic.ts:258-305,328-359 and present/battle/draw-battle-ui.ts:580-760; render consumes SelectionMenuState id/label/rightText/disabled without owning input or mutation.
+- packages/game/src/core/menu/primitives.ts:23-129; createSelectionMenu clamps initial cursor and preserves disabled rows.
+- packages/shared/src/tables.ts:81-120,231-272,482-600; typed Spell/Magic/PlayerRoles boundary. Its Spell.id prose is stale local-index wording; parser evidence below is canonical and the shared file remains pending.
+
+Primary source and extraction truth:
+- reference/sdlpal/magicmenu.c:301-410 collects rgwMagic, resolves wCostMP, applies outside/battle flags, sorts wMagic ascending, and initializes cursor; :35-116 keeps disabled cursor rows and blocks confirm; :228-275 renders disabled colors.
+- reference/sdlpal/uigame.c:653-875 owns the outside caller flow and wDefaultMagic; :719 selects caster, :733-736 cancels spell loop, :769-861 owns target/script/MP.
+- packages/pal-extract/src/resources/parsers/spells.ts:108-161 emits spell.id as absolute object id 296..397 plus 295; packages/pal-extract/src/resources/parsers/player-roles.ts:14-20,250-257 preserves raw role.magic object ids; parser/table tests assert these values.
+
+Oracle / risk result:
+- object-id sorting, spell.id→magicNumber cost join, equal/less MP, missing spell/magic/name, empty slots, role isolation and disabled rows are observed through public SelectionMenuState.
+- No direct production defect or public/schema/save/resource/user-visible behavior change found. Script execution, MP deduction, target selection and drawing remain adjacent scope.

@@ -1,0 +1,1024 @@
+{
+  "base": "206b18563e07569414f4ec90f08597c5b8ac66de",
+  "owner": "Codex single agent",
+  "scope": "Each mutant runs one whole unfiltered old/current file. This is source mutation discrimination, not native game or UI acceptance.",
+  "controls": [
+    {
+      "id": "owned-first-member",
+      "source": "packages/game/src/present/menu/draw-shop.ts",
+      "spec": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sourceSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+      "mutantSha256": "35aafce039a945983fd6e640295815ba7fbf705c013dbda637c38056c26b8306",
+      "expectedNewFailureNameContains": "ownedCount = 库存2",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/owned-first-member.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:18.199288+00:00",
+          "completedAt": "2026-10-17T21:17:19.224977+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "owned-first-member.old.raw.gz",
+          "rawBytes": 1079,
+          "rawSha256": "ea15edc33ee02986ee9a22b2e03a888af12b25a09dda1531984363e004c80e8d",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "8c438eec6622854d20603ef112894836594e143ddf9d6d903697d5c44b0f9f71",
+          "nativeReport": "owned-first-member.old.vitest.json.gz",
+          "passed": 4,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存 2 + 跨队已装备 1 = 3（uigame.c:1554-1577）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省（空 grid）：售价框照画、无 label；sellable 项画半价",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+          "specRestoredSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/owned-first-member.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:19.227146+00:00",
+          "completedAt": "2026-10-17T21:17:20.011475+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "owned-first-member.current.raw.gz",
+          "rawBytes": 2320,
+          "rawSha256": "9b26a8998f281c9ac7fcef0950cb0260833517d1bed8da18a54c34944147d30e",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "nativeReport": "owned-first-member.current.vitest.json.gz",
+          "passed": 3,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected 179 to be 180 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts:53:51\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+          "specRestoredSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "owned-slot-as-role",
+      "source": "packages/game/src/present/menu/draw-shop.ts",
+      "spec": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sourceSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+      "mutantSha256": "506507bd2a3477178b42742855a78ce46260a07b9074b9b65f1cfeca50524eac",
+      "expectedNewFailureNameContains": "ownedCount = 库存2",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/owned-slot-as-role.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:20.012244+00:00",
+          "completedAt": "2026-10-17T21:17:20.803035+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "owned-slot-as-role.old.raw.gz",
+          "rawBytes": 1079,
+          "rawSha256": "db6d7de2404653042bcf68602893cfecf98afcc0d7baf27ef3d9917e310a4ee9",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "8c438eec6622854d20603ef112894836594e143ddf9d6d903697d5c44b0f9f71",
+          "nativeReport": "owned-slot-as-role.old.vitest.json.gz",
+          "passed": 4,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存 2 + 跨队已装备 1 = 3（uigame.c:1554-1577）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省（空 grid）：售价框照画、无 label；sellable 项画半价",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+          "specRestoredSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/owned-slot-as-role.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:20.803552+00:00",
+          "completedAt": "2026-10-17T21:17:21.624286+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "owned-slot-as-role.current.raw.gz",
+          "rawBytes": 2320,
+          "rawSha256": "aaa35322798b1feabf01848523a5812ab1590890cdef30df1832633cfcf971b9",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "nativeReport": "owned-slot-as-role.current.vitest.json.gz",
+          "passed": 3,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected 179 to be 180 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts:53:51\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+          "specRestoredSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "owned-all-roles",
+      "source": "packages/game/src/present/menu/draw-shop.ts",
+      "spec": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sourceSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+      "mutantSha256": "4df6f90065cf803bf09aa93cc7c31eba7e53d989a69736c228486ff8cec853bf",
+      "expectedNewFailureNameContains": "ownedCount = 库存2",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/owned-all-roles.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:21.625068+00:00",
+          "completedAt": "2026-10-17T21:17:22.397316+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "owned-all-roles.old.raw.gz",
+          "rawBytes": 1076,
+          "rawSha256": "4f1ab4a68a7ee63a95189faa47d94509753a98f79ade6e279d94f7794f57026d",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "8c438eec6622854d20603ef112894836594e143ddf9d6d903697d5c44b0f9f71",
+          "nativeReport": "owned-all-roles.old.vitest.json.gz",
+          "passed": 4,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存 2 + 跨队已装备 1 = 3（uigame.c:1554-1577）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省（空 grid）：售价框照画、无 label；sellable 项画半价",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+          "specRestoredSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/owned-all-roles.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:22.397874+00:00",
+          "completedAt": "2026-10-17T21:17:23.219792+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "owned-all-roles.current.raw.gz",
+          "rawBytes": 2314,
+          "rawSha256": "7fbc5df071681e166ef381f1e394804e2d5361b9cfa960e51fa33543e31d6e07",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "nativeReport": "owned-all-roles.current.vitest.json.gz",
+          "passed": 3,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected 181 to be 180 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts:53:51\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+          "specRestoredSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "empty-store-catalog-fallback",
+      "source": "packages/game/src/present/menu/draw-shop.ts",
+      "spec": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sourceSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+      "mutantSha256": "5429ebac36de61e57bd7aee63fcbc778396eb3d3982560c5ac356ac88ffdeea9",
+      "expectedNewFailureNameContains": "空店铺列表",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/empty-store-catalog-fallback.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:23.220431+00:00",
+          "completedAt": "2026-10-17T21:17:23.992999+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "empty-store-catalog-fallback.old.raw.gz",
+          "rawBytes": 1089,
+          "rawSha256": "846f6df424adf8e20368cb7eda13a5929e0291cc5eb58f3b7eda82594befaf1d",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "8c438eec6622854d20603ef112894836594e143ddf9d6d903697d5c44b0f9f71",
+          "nativeReport": "empty-store-catalog-fallback.old.vitest.json.gz",
+          "passed": 4,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存 2 + 跨队已装备 1 = 3（uigame.c:1554-1577）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省（空 grid）：售价框照画、无 label；sellable 项画半价",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+          "specRestoredSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/empty-store-catalog-fallback.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:23.993382+00:00",
+          "completedAt": "2026-10-17T21:17:24.782442+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "empty-store-catalog-fallback.current.raw.gz",
+          "rawBytes": 2358,
+          "rawSha256": "49f126fc552b628a7b392b827cea799727116da728256eaf23d52f69ec462bbe",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "nativeReport": "empty-store-catalog-fallback.current.vitest.json.gz",
+          "passed": 3,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected 180 to be 176 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts:70:51\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+          "specRestoredSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "unsellable-price-digit",
+      "source": "packages/game/src/present/menu/draw-shop.ts",
+      "spec": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sourceSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+      "mutantSha256": "e0738bc75e983e727f9a5db3cf3db42c857915ef68948661f5f1593523244a2b",
+      "expectedNewFailureNameContains": "光标项非 sellable",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/unsellable-price-digit.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:24.783118+00:00",
+          "completedAt": "2026-10-17T21:17:25.547922+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "unsellable-price-digit.old.raw.gz",
+          "rawBytes": 1083,
+          "rawSha256": "bdbc676957eb9c703f81f793d882d245f7f0c93bc2cf0686967060cfe6447664",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "8c438eec6622854d20603ef112894836594e143ddf9d6d903697d5c44b0f9f71",
+          "nativeReport": "unsellable-price-digit.old.vitest.json.gz",
+          "passed": 4,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存 2 + 跨队已装备 1 = 3（uigame.c:1554-1577）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省（空 grid）：售价框照画、无 label；sellable 项画半价",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+          "specRestoredSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/unsellable-price-digit.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:25.548327+00:00",
+          "completedAt": "2026-10-17T21:17:26.344864+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "unsellable-price-digit.current.raw.gz",
+          "rawBytes": 2398,
+          "rawSha256": "f5b139b71574a75bda426455e981b74cd6fef06d6449017565ebe05deae2f5e6",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "nativeReport": "unsellable-price-digit.current.vitest.json.gz",
+          "passed": 3,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 ownedCount = 库存2 + 队员[4,1]各一件 = 4，非队员装备不计入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawShopMenu 剩余分支 空店铺列表：框与两单行框照画，owned 0、无图标、不崩",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 光标项非 sellable：两框照画，售价 label 与数字不画",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+              "fullName": "L12 drawSellOverlay 剩余分支 cursorItemId 缺省：售价框照画，目录有可卖物品也不画售价",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected 181 to be 90 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts:93:52\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "6a60e2c32a1ebf96a605f8f315d7cb9ae872f1c93aa1020f9041b9413a17b948",
+          "specRestoredSha256": "4a5a1d845528f70dd220e466a3daad7d2358efb60cdc57c6ad262b4a1ec92e47",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "host-description-forwarding",
+      "source": "packages/game/src/present/menu/draw-menu.ts",
+      "spec": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "sourceSha256": "93ddabfd8ce8b6f2dd38c94bee5925e52fd1444d6809d53c6e52af631dace54f",
+      "mutantSha256": "c05e9562cb0485a97dc9d0bd2bfa7f4564e3d855d140d0887beda57f779dc2d5",
+      "expectedNewFailureNameContains": "shop-sell 栈项",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/host-description-forwarding.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:26.345776+00:00",
+          "completedAt": "2026-10-17T21:17:27.340409+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "host-description-forwarding.old.raw.gz",
+          "rawBytes": 1340,
+          "rawSha256": "bf728385d6572e9ccc6513b6054902b9b2cba4cd048a0e5cc54cae3e3181e8b1",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "e797e4dc86e51721fa75ff78cebc451986b6733fefabd448d2679f4da655beb4",
+          "nativeReport": "host-description-forwarding.old.vitest.json.gz",
+          "passed": 5,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "93ddabfd8ce8b6f2dd38c94bee5925e52fd1444d6809d53c6e52af631dace54f",
+          "specRestoredSha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/host-description-forwarding.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:27.340805+00:00",
+          "completedAt": "2026-10-17T21:17:28.307996+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "host-description-forwarding.current.raw.gz",
+          "rawBytes": 2714,
+          "rawSha256": "aeaa6ed465cb446798d88678c2d32c98769759da3ed5244d0a900939ab304a84",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+          "nativeReport": "host-description-forwarding.current.vitest.json.gz",
+          "passed": 4,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected 60 to be 90 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts:170:32\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "93ddabfd8ce8b6f2dd38c94bee5925e52fd1444d6809d53c6e52af631dace54f",
+          "specRestoredSha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "host-icon-forwarding",
+      "source": "packages/game/src/present/menu/draw-menu.ts",
+      "spec": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "sourceSha256": "93ddabfd8ce8b6f2dd38c94bee5925e52fd1444d6809d53c6e52af631dace54f",
+      "mutantSha256": "034d3ecaea3153d62940dbc5be7521d108e39b566b8a928002427f491a4380a6",
+      "expectedNewFailureNameContains": "shop-sell 栈项",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/host-icon-forwarding.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:28.309025+00:00",
+          "completedAt": "2026-10-17T21:17:29.267700+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "host-icon-forwarding.old.raw.gz",
+          "rawBytes": 1333,
+          "rawSha256": "78b85320384ef615206f70dafbc98d395db6dddb8be818d94790fa2764ba5b42",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "e797e4dc86e51721fa75ff78cebc451986b6733fefabd448d2679f4da655beb4",
+          "nativeReport": "host-icon-forwarding.old.vitest.json.gz",
+          "passed": 5,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "93ddabfd8ce8b6f2dd38c94bee5925e52fd1444d6809d53c6e52af631dace54f",
+          "specRestoredSha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/host-icon-forwarding.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:29.268268+00:00",
+          "completedAt": "2026-10-17T21:17:30.253946+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "host-icon-forwarding.current.raw.gz",
+          "rawBytes": 2716,
+          "rawSha256": "aa285c81afaba844923edbc4d4ef8106707e6e54eaabc8abe7f37af81592fd98",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+          "nativeReport": "host-icon-forwarding.current.vitest.json.gz",
+          "passed": 4,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected 90 to be 130 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts:169:31\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "93ddabfd8ce8b6f2dd38c94bee5925e52fd1444d6809d53c6e52af631dace54f",
+          "specRestoredSha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "host-grid-delegation",
+      "source": "packages/game/src/present/menu/draw-menu.ts",
+      "spec": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "sourceSha256": "93ddabfd8ce8b6f2dd38c94bee5925e52fd1444d6809d53c6e52af631dace54f",
+      "mutantSha256": "14bc5f646186451690f92e7cb247cf5f130a979611a42552b6fa380d3e587cc4",
+      "expectedNewFailureNameContains": "shop-sell 栈项",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/host-grid-delegation.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:30.255065+00:00",
+          "completedAt": "2026-10-17T21:17:31.236039+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "host-grid-delegation.old.raw.gz",
+          "rawBytes": 1333,
+          "rawSha256": "d929a4853873916a2d0fbcb4ecd19882e3bf5113efd0f72915e034c161eca027",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "e797e4dc86e51721fa75ff78cebc451986b6733fefabd448d2679f4da655beb4",
+          "nativeReport": "host-grid-delegation.old.vitest.json.gz",
+          "passed": 5,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "93ddabfd8ce8b6f2dd38c94bee5925e52fd1444d6809d53c6e52af631dace54f",
+          "specRestoredSha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr/host-grid-delegation.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:17:31.236445+00:00",
+          "completedAt": "2026-10-17T21:17:32.208027+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "host-grid-delegation.current.raw.gz",
+          "rawBytes": 2655,
+          "rawSha256": "a2d1f71820f95b3937196b0f529b916fca85fdbfd41d41fc12863980d102d473",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+          "nativeReport": "host-grid-delegation.current.vitest.json.gz",
+          "passed": 4,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 inventory-action：框 (30,60)、装备/使用两标签、cursor 0 选中闪烁、切光标后选中移动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 system switch 相：叠 关/开 选框（confirmYes=false → 左「关」选中）",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+              "fullName": "L09 drawMenuStack 剩余分支 缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected 90 to be 34 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts:167:29\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "93ddabfd8ce8b6f2dd38c94bee5925e52fd1444d6809d53c6e52af631dace54f",
+          "specRestoredSha256": "dfa26f65cac8879d0fe990d87d504049b8e2c3147e8c055a2ec78e6e2d5f6915",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-shop-controls-zyrwivwr",
+  "tempDirectoryRemoved": true,
+  "restored": true
+}

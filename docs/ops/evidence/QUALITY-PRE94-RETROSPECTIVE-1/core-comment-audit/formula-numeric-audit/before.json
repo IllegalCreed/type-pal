@@ -1,0 +1,27 @@
+{
+  "base": "8dabfd49976f818364d451635f155af08a41b9a9",
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/formulas.ts",
+      "lines": 218,
+      "sha256": "fa5d007e9131d344f2e7f90c10e7b67afe7ae42fe2478398adc8f6ffd6259ce8",
+      "snapshot": "fa5d007e9131-formulas.ts.before.gz",
+      "readRanges": [[1, 218]]
+    },
+    {
+      "path": "packages/game/src/core/battle/magic-damage.ts",
+      "lines": 334,
+      "sha256": "0bb2d526b93c7c6ef4f6b8fab86391db8b9fcc6069bffb3da2b1e7b934a69b18",
+      "snapshot": "0bb2d526b93c-magic-damage.ts.before.gz",
+      "readRanges": [[1, 334]]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/formulas.test.ts",
+      "lines": 264,
+      "sha256": "6c30875bcb6085e95c81d29040e934ec71e51a7290206b9311007a732408a14a",
+      "snapshot": "6c30875bcb60-formulas.test.ts.before.gz",
+      "readRanges": [[1, 264]]
+    }
+  ]
+}

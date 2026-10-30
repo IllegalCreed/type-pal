@@ -1,0 +1,23 @@
+$ pnpm check:fast
+exit_code=0
+
+Documentation/tool gates:
+- docs: 1253 Markdown / 6696 local links / 403 tasks / content22 SAVE12; PASS
+- testing docs: PASS
+- phase/lore governance: PASS (184 documents)
+- content review: PASS (570 documents)
+- coverage-tools: 58 passed
+- quality-tools: 37 passed
+- e2e-tools: 395 passed
+- script-governance: 22 passed
+
+Protected workspace checks:
+- all 7 workspace typechecks passed
+- @type-pal/content: 149 files / 1498 tests
+- @type-pal/shared: 16 files / 131 tests
+- @type-pal/game: 314 files / 3550 tests
+- @type-pal/pal-extract: 71 files / 431 tests
+- @type-pal/reforge: 359 files / 8964 tests
+- @type-pal/editor: 631 files / 4951 tests
+- @type-pal/migrate: 96 files / 739 tests
+- lint-zero: PASS — 4010 files; 0 errors / 0 warnings / 0 infos

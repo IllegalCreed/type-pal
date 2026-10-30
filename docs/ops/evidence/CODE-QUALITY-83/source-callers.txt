@@ -1,0 +1,36 @@
+CODE-QUALITY-83 source/caller/oracle index
+
+White list:
+- packages/game/src/core/menu/menu-mode.ts (full 33-line read)
+- packages/game/src/core/menu/menu-stack.ts (full 32-line read)
+- packages/game/src/core/menu/menu-mode.test.ts (full 88-line read)
+
+Production callers:
+- packages/game/src/core/mode.ts:62-76 dispatches tickMenu once per mode tick.
+- packages/game/src/core/scene-system.ts:524-536 opens the in-game menu after movement/input handling.
+- packages/game/src/core/menu/menu-driver.ts:270-286 reads the top stack entry; handlers use openMenu/closeTopMenu or clear the stack.
+- packages/game/src/core/menu/menu-driver.ts:339-400 closes shop menus and relies on menu-mode to resume the waiting event.
+- packages/game/src/core/menu/menu-driver.ts:478-565 routes in-game/system cancellation and nested menu returns.
+- packages/game/src/core/menu/menu-driver.ts:575-666 handles save-slot nesting and close behavior.
+- packages/game/src/core/battle/battle-system.ts:1705-1713 opens the player status menu while retaining battleState.
+- packages/game/src/shell/bootstrap.ts:1238-1250 opens shop-buy/shop-sell entries from the event-system handler.
+- packages/game/src/present/present.ts:679-685 renders the menu stack only while mode === 'menu'; this is the renderer-side lifecycle boundary.
+
+Neighboring types/lifecycle:
+- packages/game/src/core/game-state.ts:37-76 defines Mode and ActiveMenuKind; :697-709 defines menuStack ownership and empty-stack semantics.
+- packages/game/src/core/menu/menu-driver.ts:1-8 documents the tickMenu caller and top-entry dispatch contract.
+- packages/game/src/core/battle/battle-system.ts:1705-1713 documents battle status return to battle mode.
+
+Primary source:
+- reference/sdlpal/uigame.c:516-650 PAL_SystemMenu returns TRUE for an operation and FALSE on cancel; :944-1040 PAL_InGameMenu goto-out behavior after status/magic/inventory/system.
+- reference/sdlpal/script.c:1158-1175 invokes PAL_BuyMenu/PAL_SellMenu as blocking script calls.
+- reference/sdlpal/uibattle.c:930-934 and :1399-1401 return from PAL_PlayerStatus to battle UI.
+
+Test oracle:
+- menu-mode.test.ts uses createInitialGameState, createCommandBus, real menu factories, and real dispatchMenuInput.
+- Covered: empty-stack explore recovery; single-layer Menu pop; two-layer hub/system pop; inventory goto-out clears the whole stack; non-Menu input preserves menu mode; openMenu and closeTopMenu ownership.
+- Adjacent menu-driver/scene-system/battle-system/menu-input-lock tests cover shop/event resume, scene entry, battle status, and input lock callers.
+
+Evidence result:
+- No implementation change. No direct input, stack-boundary, mode-ownership, async, resource, or public-interface defect found in this slice.
+- Existing negative-control stderr from scene-system tests is recorded in targeted.txt and is not a new diagnostic from this slice.

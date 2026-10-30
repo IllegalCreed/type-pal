@@ -1,0 +1,437 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-ENGLISH-1",
+  "owner": "english_runtime_audit",
+  "state": "limited-runtime-and-selected-pixels-verified-awaiting-Codex-review",
+  "createdAt": "2026-10-22T12:58:05.120957+00:00",
+  "scope": "Independent first-stage English natural opening from a fresh normal title menu to the room-control return predicate. This is a feature browser check, not a formal 001 publication, full-story E2E, NPC-frame comparison, editor preview or lore/canonical acceptance.",
+  "candidate": {
+    "root": "/Users/zhangxu/illegal/type-pal",
+    "head": "05e1cfcff19ff8c469f391b5dc9dbd20fa16f2fa",
+    "sourceTreeSha256": "c6d41f8f8b9e69c284e09e292158ba1fae817e708e4fe6996cbd279018719b1a",
+    "sourceFileCount": 184,
+    "beforeAfterStable": true,
+    "sameCandidateBothContexts": true,
+    "languagePackSha256": "050289f885822f44840a54fe974206e9c2039aa80b38acb6471b7fa334390f2f",
+    "scriptSha256": "37b55883397bc19664d213a94cb3bb4591b64c07d8c10919392d2a4928b0a885",
+    "hmrEvents": [],
+    "fullFingerprints": "opening-browser-main-native.json.gz and opening-browser-bottom-native.json.gz"
+  },
+  "environment": {
+    "browser": "Google Chrome 155.0.8059.85",
+    "playwright": "1.63.0",
+    "node": "v22.23.2",
+    "channel": "chrome",
+    "headless": true,
+    "viewport": {
+      "width": 1100,
+      "height": 760
+    },
+    "url": "http://localhost:6005/",
+    "serviceWorkers": "blocked; this is the dev browser check, production SW/offline is coordinator-owned",
+    "contexts": "Two new isolated browser contexts/profiles; no existing saves or user browser profile reused."
+  },
+  "inputBoundary": {
+    "preferenceOnly": "addInitScript writes localStorage tp-language=en in each fresh context; the product initializes normal language state.",
+    "gameplay": "Real Playwright keyboard Enter and the product UI privacy button; no GS/Command/IP writes, teleport, save injection, dev panel or skip-intro URL.",
+    "observation": "window.__tpgs is read-only telemetry. Visible PNG screenshots are inspected separately; runtime text alone is not called pixel evidence."
+  },
+  "executions": [
+    {
+      "name": "main-natural-opening",
+      "command": "TYPE_PAL_REPO_ROOT=/Users/zhangxu/illegal/type-pal TYPE_PAL_BROWSER_OUT=<worktree>/build/english-browser node <initial-tool>",
+      "cwd": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal",
+      "tool": "opening-browser-initial-tool.mjs.gz",
+      "exit": 0,
+      "durationMs": 108961,
+      "startedAt": "2026-10-22T12:48:29.431Z",
+      "finishedAt": "2026-10-22T12:50:18.481Z",
+      "runtimeOutcome": "Completed normal New Game → native 3.mp4 → dream call → Aunt waking/argument → room secret-passage performance → scene2 explore/control-return predicate.",
+      "inputs": 45,
+      "dialogWaitConfirmInputs": 40,
+      "stateSamples": 968,
+      "observedDistinctMapTextRows": 112,
+      "rowCountBoundary": "112 counts distinct observed map/text pairs, not a new formal dialogue-total oracle; full raw samples/history are preserved.",
+      "final": {
+        "ready": true,
+        "frame": 1051,
+        "scene": 2,
+        "mode": "explore",
+        "party": {
+          "x": 1344,
+          "y": 288,
+          "facing": "down"
+        },
+        "event": null,
+        "dialog": null,
+        "menu": null,
+        "loading": false,
+        "suspended": false,
+        "fading": false,
+        "video": null,
+        "language": "en",
+        "preference": "en"
+      },
+      "native": "opening-browser-main-native.json.gz"
+    },
+    {
+      "name": "minimum-unobscured-bottom-supplement",
+      "command": "TYPE_PAL_BROWSER_SCOPE=bottom-page TYPE_PAL_BROWSER_OUT=build/english-browser/bottom-page node build/english-browser/run-opening.mjs",
+      "cwd": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal",
+      "tool": "opening-browser-bottom-tool.mjs.gz",
+      "exit": 0,
+      "durationMs": 48221,
+      "startedAt": "2026-10-22T12:51:59.117Z",
+      "finishedAt": "2026-10-22T12:52:47.401Z",
+      "runtimeOutcome": "Real Decline click, then normal New Game and video/dialogue only until first lower dialogue wait page; deliberately stopped before the rest of the opening.",
+      "reason": "The initial tool only searched Reject, while the actual English button is Decline; its privacy prompt occluded part of the bottom secret-passage screenshot. Only the missing unobscured lower screenshot was supplemented, at coordinator direction.",
+      "rawLabelNote": "The unmodified supplement action ledger retains the generic text Reject optional analytics; the actual locator includes Decline and clicked the visible Decline button. PNG shows the prompt gone.",
+      "native": "opening-browser-bottom-native.json.gz"
+    }
+  ],
+  "checks": {
+    "initialCall": {
+      "result": "verified-runtime-and-pixels",
+      "actual": "Xiaoyao! Xiaoyao!",
+      "screenshot": "01-xiaoyao-call.png",
+      "sourceScope": "Actual first opening display; no patch-credits text shown."
+    },
+    "speakerTitles": {
+      "result": "verified-selected-pixels",
+      "actual": ["Li's Aunt:", "Li Xiaoyao:"],
+      "screenshots": ["02-speaker-title-page.png", "06-bottom-page-unobscured.png"]
+    },
+    "pagingAndWrap": {
+      "result": "verified-runtime-and-selected-pixels",
+      "actual": "Natural typing was allowed; Enter was sent only at real waiting-page/end states. Four-line upper page and its on-screen wait icon were inspected; a lower-page screenshot was separately unobscured.",
+      "screenshot": "03-multiline-page.png",
+      "notClaimed": "Not an exhaustive pixel oracle for every wrapped line or every portrait/layout."
+    },
+    "controlReturn": {
+      "result": "observed-runtime-predicate",
+      "actual": {
+        "scene": 2,
+        "mode": "explore",
+        "party": {
+          "x": 1344,
+          "y": 288,
+          "facing": "down"
+        },
+        "event": null,
+        "dialog": null,
+        "menu": null,
+        "loading": false,
+        "suspended": false,
+        "fading": false,
+        "video": null
+      },
+      "notRun": "No additional movement key was issued after the stop; this records the real engine control-return state, not a new movement regression."
+    },
+    "englishObservedRows": {
+      "result": "verified-observed-scope",
+      "hanTextRows": 0,
+      "scope": "Actual distinct dialogue-history text rows sampled in this opening; not all game content, image lettering or location labels."
+    },
+    "storyVideo": {
+      "path": "/extracted/videos/3.mp4",
+      "sampledDuration": 34.534014,
+      "highestObservedCurrentTime": 34.522964,
+      "skipInputs": [],
+      "observation": "No story-video skip key was sent. Samples continue to 34.522964 of34.534014 seconds before video DOM disappears and scene dialogue begins. Native ended event was not separately instrumented; no formal video-001 acceptance is inferred."
+    }
+  },
+  "diagnostics": {
+    "main": {
+      "pageErrors": 0,
+      "httpErrors": 0,
+      "consoleWarnings": 0,
+      "consoleErrors": 0,
+      "consoleMessagesByType": {
+        "debug": 2,
+        "log": 4
+      },
+      "requestFailures": [
+        {
+          "url": "http://localhost:6005/extracted/videos/2.mp4",
+          "method": "GET",
+          "error": "net::ERR_ABORTED",
+          "atMs": 31598
+        }
+      ]
+    },
+    "supplement": {
+      "pageErrors": 0,
+      "httpErrors": 0,
+      "consoleWarnings": 0,
+      "consoleErrors": 0,
+      "consoleMessagesByType": {
+        "debug": 2,
+        "log": 4
+      },
+      "requestFailures": [
+        {
+          "url": "http://localhost:6005/extracted/videos/2.mp4",
+          "method": "GET",
+          "error": "net::ERR_ABORTED",
+          "atMs": 5443
+        }
+      ]
+    },
+    "classification": "Each run has one net::ERR_ABORTED request for title-prelude2.mp4, which the action ledger shows was skipped with real Enter. These request failures are retained rather than reported as zero. No page/runtime/HTTP/resource-pack error or console warning/error was observed. Successful third-party requests were not exhaustively inventoried."
+  },
+  "screenshots": [
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-browser/00-english-new-game.png",
+      "sha256": "4e9831d7473797d37887b62fd7d297c41cc396fdb6c903f08f50331596da2dfd",
+      "publication": "local-only ignored build artifact; not added to Git",
+      "run": "main",
+      "atMs": 5135,
+      "scene": 1,
+      "dialog": null,
+      "visuallyInspected": true,
+      "inspection": "Viewed actual PNG pixels with view_image on 2026-10-22",
+      "verdict": "pass-with-unrelated-overlay",
+      "notes": "New Game/Load Game are visibly English, readable and not clipped. An optional analytics prompt is below the menu; no full unobscured scene claim."
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-browser/01-xiaoyao-call.png",
+      "sha256": "16a1380673509036717b328e5b9e30b9e157a5ffb9fe259e058592d3460b6f3a",
+      "publication": "local-only ignored build artifact; not added to Git",
+      "run": "main",
+      "atMs": 41886,
+      "scene": 1,
+      "dialog": {
+        "phase": "typing",
+        "style": "center",
+        "text": "Xiaoyao! Xiaoyao!",
+        "charsRevealed": 17,
+        "visibleText": "Xiaoyao! Xiaoyao!",
+        "shown": [],
+        "lineCount": 0
+      },
+      "visuallyInspected": true,
+      "inspection": "Viewed actual PNG pixels with view_image on 2026-10-22",
+      "verdict": "pass-with-unrelated-overlay",
+      "notes": "Actual pixels show Xiaoyao! Xiaoyao! above sleeping/floating hero; the first group has story meaning rather than patch credits. Bottom privacy prompt does not cover the call."
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-browser/02-speaker-title-page.png",
+      "sha256": "8c865c45b7a65bae0e0ea95e208d811a971000587bcdd466b6c654b54ef1f1e7",
+      "publication": "local-only ignored build artifact; not added to Git",
+      "run": "main",
+      "atMs": 48538,
+      "scene": 2,
+      "dialog": {
+        "phase": "waiting-page-key",
+        "style": "top",
+        "portrait": 55,
+        "title": "Li's Aunt:",
+        "text": "Do you wanna get smacked?",
+        "charsRevealed": 25,
+        "visibleText": "Do you wanna get smacked?",
+        "shown": ["Li Xiaoyao!"],
+        "lineCount": 2
+      },
+      "visuallyInspected": true,
+      "inspection": "Viewed actual PNG pixels with view_image on 2026-10-22",
+      "verdict": "pass-with-unrelated-overlay",
+      "notes": "Li's Aunt: is cyan/green and the portrait, Li Xiaoyao! and Do you wanna get smacked? are readable with a wait icon; English apostrophe renders normally."
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-browser/03-multiline-page.png",
+      "sha256": "d1212f1b8d6d264cb263be3b89ac8b0344600eba4f94afab6a412de4d6931fac",
+      "publication": "local-only ignored build artifact; not added to Git",
+      "run": "main",
+      "atMs": 52563,
+      "scene": 2,
+      "dialog": {
+        "phase": "waiting-page-key",
+        "style": "top",
+        "portrait": 55,
+        "title": "Li's Aunt:",
+        "text": "whole day.",
+        "charsRevealed": 10,
+        "visibleText": "whole day.",
+        "shown": ["Day dreaming again?", "You aren't young anymore,", "still fooling around the"],
+        "lineCount": 4
+      },
+      "visuallyInspected": true,
+      "inspection": "Viewed actual PNG pixels with view_image on 2026-10-22",
+      "verdict": "pass-with-unrelated-overlay",
+      "notes": "Portrait/title and all four English body rows (Day dreaming again?...whole day) are visible, wrap within the top dialogue area and leave the wait icon on screen."
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-browser/04-secret-passage.png",
+      "sha256": "4511287c6d934ece4bc30641398351032da88520fc8a39f1658d5c20cfbe06b7",
+      "publication": "local-only ignored build artifact; not added to Git",
+      "run": "main",
+      "atMs": 101823,
+      "scene": 2,
+      "dialog": {
+        "phase": "waiting-page-key",
+        "style": "bottom",
+        "portrait": 9,
+        "text": "that I made last night",
+        "charsRevealed": 22,
+        "visibleText": "that I made last night",
+        "shown": ["Heh...", "I can use the secret", "passage"],
+        "lineCount": 4
+      },
+      "visuallyInspected": true,
+      "inspection": "Viewed actual PNG pixels with view_image on 2026-10-22",
+      "verdict": "partial-occluded",
+      "notes": "Hero portrait and first three bottom text rows (Heh... / I can use the secret / passage) are readable. The analytics prompt occludes part of the last row. This image does not earn unobscured bottom-page credit."
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-browser/05-inn-controllable.png",
+      "sha256": "fada59598ed92fa0032fe5f18a06308f96e5d81d6226fce8108444b04f236ee4",
+      "publication": "local-only ignored build artifact; not added to Git",
+      "run": "main",
+      "atMs": 108961,
+      "scene": 2,
+      "dialog": null,
+      "visuallyInspected": true,
+      "inspection": "Viewed actual PNG pixels with view_image on 2026-10-22",
+      "verdict": "pass-runtime-state-only",
+      "notes": "Room and standing hero are visible after the secret-passage performance. Runtime state shows scene2/explore with no dialogue/cursor/menu/loading/fade. Privacy prompt remains; movement input was not additionally tested at this stop."
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-browser/bottom-page/06-bottom-page-unobscured.png",
+      "sha256": "dc8470321d0e6d319bed6b87de2a43e00be0b6ba6ac97049f6be0a4cb3bb56f4",
+      "publication": "local-only ignored build artifact; not added to Git",
+      "run": "bottom-supplement",
+      "atMs": 48221,
+      "scene": 2,
+      "dialog": {
+        "phase": "waiting-page-key",
+        "style": "bottom",
+        "title": "Li Xiaoyao:",
+        "text": "Awwwwh～ it's painful!",
+        "charsRevealed": 21,
+        "visibleText": "Awwwwh～ it's painful!",
+        "shown": [],
+        "lineCount": 1
+      },
+      "visuallyInspected": true,
+      "inspection": "Viewed actual PNG pixels with view_image on 2026-10-22",
+      "verdict": "pass",
+      "notes": "After a real click on Decline, pixels show Li Xiaoyao: and Awwwwh～ it's painful! with wait arrow, fully visible in the lower dialogue area. This is the minimum supplemental screenshot, not another full opening."
+    }
+  ],
+  "rawArtifacts": [
+    {
+      "path": "opening-browser-initial-tool.mjs.gz",
+      "sha256": "2518b74912edfb74ffb5e545fe6d1897dcb0bc010d7dfde78ac6d63bbace205b",
+      "uncompressedSha256": "0e51673ce6e15f518134819ab54c7bd3012b4aac49e809a18dbf137f991df4e6",
+      "uncompressedBytes": 12718,
+      "owner": "english_runtime_audit",
+      "producer": "Chrome Playwright limited English opening probe",
+      "scope": "Exact initial probe source; selector omitted English Decline, retained as historical tool identity."
+    },
+    {
+      "path": "opening-browser-bottom-tool.mjs.gz",
+      "sha256": "8bfd81a40e01e755770bf6365e25d00cf630c6cc76710392779cb059b83f8801",
+      "uncompressedSha256": "6da92b2a255e52bc8f016daced96e244013064736bb12ba87422e06a76f1941d",
+      "uncompressedBytes": 13214,
+      "owner": "english_runtime_audit",
+      "producer": "Chrome Playwright limited English opening probe",
+      "scope": "Exact minimal bottom-page supplement probe; includes Decline and stops at first bottom wait page."
+    },
+    {
+      "path": "opening-browser-main-native.json.gz",
+      "sha256": "475913dc40830d19392a5474d1b00b939d3aeca4bd97fe8567ca7f8fbf94013d",
+      "uncompressedSha256": "12c5357a8d310f875157723152749b49406eee6d48b0ee338fbd0e9bf9cdbab3",
+      "uncompressedBytes": 154779,
+      "owner": "english_runtime_audit",
+      "producer": "Chrome Playwright limited English opening probe",
+      "scope": "Main fresh-context runtime report and complete source fingerprints/actions."
+    },
+    {
+      "path": "opening-browser-main-states.jsonl.gz",
+      "sha256": "b3e54db897d5eef39c35cbe4fc129ee4b8bdf9ba8a4c7a05b1a77c5801ef925e",
+      "uncompressedSha256": "75407bdb4ad874b019e9baa3ea6566bc059d7435bcdba917c070b5409467d2e8",
+      "uncompressedBytes": 1675378,
+      "owner": "english_runtime_audit",
+      "producer": "Chrome Playwright limited English opening probe",
+      "scope": "Unmodified main runtime state samples; read-only window.__tpgs observations."
+    },
+    {
+      "path": "opening-browser-main-runtime.jsonl.gz",
+      "sha256": "da32975bf8b092b0d7818543e8d9c11788b56cbeebc5dd0424c379dee0f14d8e",
+      "uncompressedSha256": "5962ab1a322fade286ed7d1172127e835e2052b747eee16e03636896036cb8c8",
+      "uncompressedBytes": 35920,
+      "owner": "english_runtime_audit",
+      "producer": "Chrome Playwright limited English opening probe",
+      "scope": "Unmodified console/network/input/screenshot observation stream."
+    },
+    {
+      "path": "opening-browser-main.log.gz",
+      "sha256": "33e2fea65da8b715291ed6c8150cbb9122d4d5b26aa8f978b1427166fdfcdde6",
+      "uncompressedSha256": "451e8b795628144e592fb0a030d3161f371d8531f9ec14c44bb11347b509d3d8",
+      "uncompressedBytes": 794,
+      "owner": "english_runtime_audit",
+      "producer": "Chrome Playwright limited English opening probe",
+      "scope": "Main process stdout/stderr, exit0."
+    },
+    {
+      "path": "opening-browser-bottom-native.json.gz",
+      "sha256": "18d4c8b4378ca7da2e000dd4baf1e3bb2fc9fde051f35342634c7bdaf7424c45",
+      "uncompressedSha256": "3e6a95ddb910bbb1c7f275bd8c124ed0d3c1a0f11b198df423f682057149a152",
+      "uncompressedBytes": 62924,
+      "owner": "english_runtime_audit",
+      "producer": "Chrome Playwright limited English opening probe",
+      "scope": "Supplement report; intentionally stops at first bottom page, not another completed opening."
+    },
+    {
+      "path": "opening-browser-bottom-states.jsonl.gz",
+      "sha256": "98af38a985cef99bc523acf79c4cfd0f8b177dd043fa0795883c31d595d36a25",
+      "uncompressedSha256": "8be5d6d1c43df5b9b85b373ed31ec220da9fad7ab1104ecc5645fb5d9fc861c2",
+      "uncompressedBytes": 218997,
+      "owner": "english_runtime_audit",
+      "producer": "Chrome Playwright limited English opening probe",
+      "scope": "Unmodified supplement state samples."
+    },
+    {
+      "path": "opening-browser-bottom-runtime.jsonl.gz",
+      "sha256": "3867d18689f5ad901bb4edce350dcf10bd4c78b772e05a47696674947c18f30e",
+      "uncompressedSha256": "1e2ec259781dfbf9f8b02c1fa3c8b4252718408fea1608a0b4347d48a56d5c00",
+      "uncompressedBytes": 6280,
+      "owner": "english_runtime_audit",
+      "producer": "Chrome Playwright limited English opening probe",
+      "scope": "Supplement console/network/input/screenshot observations."
+    },
+    {
+      "path": "opening-browser-bottom.log.gz",
+      "sha256": "00194d961e417cbe25752706189ab4182219f156079711f69008f9fdb7ba06ba",
+      "uncompressedSha256": "db85500aa6d6273928bc67ab42bd0828ebabcf28a18f74813990e048331580a3",
+      "uncompressedBytes": 307,
+      "owner": "english_runtime_audit",
+      "producer": "Chrome Playwright limited English opening probe",
+      "scope": "Supplement process stdout/stderr, exit0."
+    }
+  ],
+  "primaryAndCallerRefs": [
+    "docs/testing/e2e/contract.md (evidence boundaries only)",
+    "docs/lore/timeline.md:125 (known001 stop only; not modified)",
+    "scripts/e2e/opening-policy.mjs:isControllableRoom (stop predicate reference)",
+    "packages/game/src/shell/bootstrap.ts (normal title/new-game and DEV read-only telemetry)",
+    "packages/game/src/shell/input.ts (real Enter→Confirm)",
+    "packages/game/src/present/dialog-box.ts (actual title/body state and rendering)"
+  ],
+  "retention": "Raw text/native/tool archives are committed; PNGs remain local ignored build artifacts. Preserve selected screenshots before deleting/archiving the contributor worktree if continued local pixel review is needed.",
+  "notPerformed": [
+    "Full-game English playthrough",
+    "Formal001/001–006 protocol or capture-ready publication",
+    "NPC frame/pose or editor initial-state verification",
+    "Mobile browser (coordinator owns separate evidence)",
+    "Production SW/offline (coordinator owns separate evidence)",
+    "Gameplay state mutation or assisted navigation",
+    "Post-stop movement input or save/load exercise in this browser run"
+  ],
+  "invalidation": [
+    "Any change to the bound source/pack/script/glyph file fingerprints can invalidate the relevant display claims.",
+    "Console/network failures, HMR or source drift during a new capture must be recorded and that capture reconsidered.",
+    "The unobscured supplement proves only its lower-page sample; the occluded first-run secret-passage image retains its explicit partial boundary."
+  ],
+  "next": "Codex independently reviews the selected actual PNGs and this receipt. The original task card, lore, formal001 report and editor status remain unchanged by this contributor."
+}

@@ -6,8 +6,9 @@
  *   backup[k] = (a 高 nibble) | (b 低 nibble)。高 nibble 立即取 target,低 nibble 逐 outer 趟渐变 →
  *   平滑 dither 淡入(主角等两 buffer 都有的像素全程可见)。
  *
- * 本 helper 是**纯 step 推进**:mutate `backup`(累积逼近 target),调用方管 backup 快照 + step 计数 + 显示 backup。
- * 复用于:scene fade(present.ts gs.fadeState)+ battle intro fade(D19,present-battle)。
+ * 本 helper 只推进给定步区间，借用 target 并原地修改 backup；不持有计时器或快照。
+ * 当前生产 caller 是 present.ts 的场景 fade，负责快照、累计步数和显示。
+ * 战斗入场使用 VIDEO_SwitchScreen 式整像素置换，不是此处的低 nibble 渐变。
  */
 
 /** rgIndex(video.c:1178 / battle.c:630):6 个 stride-6 相位偏移的处理序。 */

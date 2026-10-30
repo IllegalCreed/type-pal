@@ -1,7 +1,7 @@
 /**
  * TEST-GROK-RENDER-HOST-LARGE-1 G07-A。
  * 仙术页的单人选人框、说明第二行、缺帧，以及体力上限和真气读运行时。
- * 不重复 P06 的两人体力、左侧 MP 8 和目标光标位移，也不重复 glm 的死亡色与空表。
+ * 不重复 P06 的两人体力、左侧 MP 8 和目标光标位移，也不重复 glm 的死亡施法人字色与空表。
  */
 import type { Command, Magic, Spell } from '@type-pal/shared'
 import { afterEach, describe, expect, it } from 'vitest'
@@ -27,8 +27,7 @@ import {
 import {
   cloneInputs,
   freezeNow,
-  makeGs,
-  makeRoles,
+  makeLiveScene,
   resetHostSingletons,
 } from '../__tests__/grok-present/world.js'
 import { createFramebuffer } from '../framebuffer.js'
@@ -133,9 +132,8 @@ function spellState(
 }
 
 describe('G07-A 仙术菜单像素', () => {
-  it('G07-A01 选人阶段只有一人时仍画出一行内容框，底边在 y=78', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+  it('G07-A01 防御性单人选人快照仍画一行内容框，底边在 y=78', () => {
+    const { gs, roles } = makeLiveScene([4])
     const state = casterState([4])
     const frames = makeUiFrames()
     const spells: Spell[] = []
@@ -172,8 +170,7 @@ describe('G07-A 仙术菜单像素', () => {
       { op: 'end' },
     ]
     setGlobalEvents(commands)
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene([4, 1])
     const spell = makeSpell(300, '甲', 1, 88021)
     const state = spellState([4, 1], [spell], 4)
     const frames = makeUiFrames()
@@ -202,9 +199,7 @@ describe('G07-A 仙术菜单像素', () => {
   })
 
   it('G07-A03 缺少头像帧时头像位保持底色，体力个位仍画出', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
-    gs.partyMembers = [4, 1]
+    const { gs, roles } = makeLiveScene([4, 1])
     gs.PlayerRolesRuntime.rgwHP[4] = 12
     const state = casterState([4, 1])
     const frames = withoutFrame(52)
@@ -230,8 +225,7 @@ describe('G07-A 仙术菜单像素', () => {
   })
 
   it('G07-A04 缺少斜杠帧时斜杠位保持底色，体力个位仍画出', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene([4, 1])
     gs.PlayerRolesRuntime.rgwHP[4] = 12
     const state = casterState([4, 1])
     const frames = withoutFrame(39)
@@ -258,8 +252,7 @@ describe('G07-A 仙术菜单像素', () => {
   })
 
   it('G07-A05 缺少上箭头帧时目标光标位保持底色，仙术名仍画出', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene([4, 1])
     const spell = makeSpell(300, '甲', 1)
     const state = spellState([4, 1], [spell], 4)
     state.phase = 'pick-target'
@@ -286,9 +279,8 @@ describe('G07-A 仙术菜单像素', () => {
     expect(pixel(fb, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)
   })
 
-  it('G07-A06 未选定施法人时不画顶部真气，仙术名仍画出', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+  it('G07-A06 防御性缺施法人快照不画顶部真气，仙术名仍画出', () => {
+    const { gs, roles } = makeLiveScene([4, 1])
     gs.PlayerRolesRuntime.rgwMP[4] = 6
     const spell = makeSpell(300, '甲', 1)
     const state = spellState([4, 1], [spell], undefined)
@@ -317,8 +309,7 @@ describe('G07-A 仙术菜单像素', () => {
   })
 
   it('G07-A07 法术目录没有对应 magic 时需要真气画成黄 0，现行真气仍是青 6', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene([4, 1])
     gs.PlayerRolesRuntime.rgwMP[4] = 6
     const spell = makeSpell(300, '甲', 9)
     const state = spellState([4, 1], [spell], 4)
@@ -347,8 +338,7 @@ describe('G07-A 仙术菜单像素', () => {
   })
 
   it('G07-A08 第三列仙术在 x=209，颜色是未选中色', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene([4, 1])
     const spells = [makeSpell(300, '甲', 1), makeSpell(301, '乙', 2), makeSpell(302, '丙', 3)]
     const state = spellState([4, 1], spells, 4)
     const frames = makeUiFrames()
@@ -376,8 +366,7 @@ describe('G07-A 仙术菜单像素', () => {
   })
 
   it('G07-A09 第二行仙术在 y=72，颜色是未选中色', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene([4, 1])
     const spells = [
       makeSpell(300, '甲', 1),
       makeSpell(301, '乙', 2),
@@ -411,8 +400,7 @@ describe('G07-A 仙术菜单像素', () => {
   })
 
   it('G07-A10 信息框真气读运行时 12，不读角色静态真气 99', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene([4, 1])
     const role = roles.roles[4]
     if (!role) throw new Error('role missing')
     role.mp = 99
@@ -444,8 +432,7 @@ describe('G07-A 仙术菜单像素', () => {
   })
 
   it('G07-A11 体力上限 80 画在 y=173，当前体力 12 仍在 y=170', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene([4, 1])
     gs.PlayerRolesRuntime.rgwHP[4] = 12
     gs.PlayerRolesRuntime.rgwMaxHP[4] = 80
     const state = casterState([4, 1])
@@ -473,8 +460,7 @@ describe('G07-A 仙术菜单像素', () => {
   })
 
   it('G07-A12 缺少光标帧 69 时名字照画，光标位留着格子框色', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene([4, 1])
     const spell = makeSpell(300, '甲', 1)
     const state = spellState([4, 1], [spell], 4)
     const frames = withoutFrame(69)
@@ -502,8 +488,7 @@ describe('G07-A 仙术菜单像素', () => {
   })
 
   it('G07-A13 头像落在信息框左上外侧，信息框本体仍在 (45,165)', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene([4, 1])
     const state = casterState([4, 1])
     const frames = makeUiFrames()
     const fb = createFramebuffer()
@@ -529,8 +514,7 @@ describe('G07-A 仙术菜单像素', () => {
   })
 
   it('G07-A14 选人阶段不画仙术格子，体力个位仍画出', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene([4, 1])
     gs.PlayerRolesRuntime.rgwHP[4] = 12
     const state = casterState([4, 1])
     const frames = makeUiFrames()
@@ -556,8 +540,7 @@ describe('G07-A 仙术菜单像素', () => {
   })
 
   it('G07-A15 格子光标的实点是 0x69，中间透明孔留着格子框色', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene([4, 1])
     const spell = makeSpell(300, '甲', 1)
     const state = spellState([4, 1], [spell], 4)
     const frames = makeUiFrames()

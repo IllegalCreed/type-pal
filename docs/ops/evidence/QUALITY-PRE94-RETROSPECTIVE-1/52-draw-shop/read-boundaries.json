@@ -1,0 +1,65 @@
+{
+  "base": "80a562f4",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "sha256": "4cd77e0892a460ba387eeeaff6d0ad94a7f2be3f40a17376df1361e84b14da19",
+      "lines": 240,
+      "boundary": "Full implementation read: buy/sell layout, ownedCount, prices/half prices, confirm/overlay, resource fallback and framebuffer ownership."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sha256": "8c438eec6622854d20603ef112894836594e143ddf9d6d903697d5c44b0f9f71",
+      "lines": 102,
+      "boundary": "Full direct leaves read: owned inventory+equipment, empty shop, non-sellable and missing cursor contracts."
+    },
+    {
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "sha256": "e0ee06cde04cd4ed675ab60a923ee78e9f5d1d56aa3d70c138036d6bf30f390d",
+      "lines": 347,
+      "boundary": "Full direct pixel read: prices, shadow/ITEMBOX, missing frames/icons, confirm, half price/live owned and canvas flush; one node DOM failure retained review."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+      "sha256": "9c2ea2827c1011d84c8ee86d2fbad2881bd722a1ef72d547f7463e7d6d6734fc",
+      "lines": 105,
+      "boundary": "Full caller/oracle read: buy/sell state, price/owned/cash/confirm and transaction immutability."
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+      "lines": 103,
+      "boundary": "Full state lifecycle read: buy/sell list/confirm/cancel and price/cash gate."
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1",
+      "lines": 2076,
+      "ranges": ["1503-1777"],
+      "boundary": "PAL_BuyMenu/OnItemChange and PAL_SellMenu/OnItemChange primary; sell list caller relationship."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "ranges": ["shop-buy/shop-sell dispatch"],
+      "boundary": "Public shop render and sell overlay assembly."
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "ranges": ["shop resource injection"],
+      "boundary": "Runtime catalog/equipment/icon projection."
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "ranges": ["317-390"],
+      "boundary": "Shop confirm/cancel and transaction mutation caller."
+    }
+  ],
+  "notClaimed": [
+    "Current full-repository check/coverage/ratchet/protected-fast acceptance",
+    "Node DOM/canvas pixel test environment acceptance",
+    "Runtime visual/E2E acceptance",
+    "Any change to compact sell overlay or transaction behavior"
+  ]
+}

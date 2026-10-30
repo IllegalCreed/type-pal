@@ -3,7 +3,7 @@
  *  - timer.test + timer.boundaries.test（起表门/依序打点/PB/香蕉暂停/3 秒倒计时/finished/
  *    双 tick 不累计/恢复精确边界/setStep/检测器边界）→ 不重复
  *  - 新差异：getCountdownRemainingSec 的 null 双来源（无倒计时 / 无主时钟）与 ceil 语义、
- *    consumeBestsDirty 一次性读（setBest/clearBests/setBestsFromCurrentRun 置位）、
+ *    consumeBestsDirty 一次性读（本文件执行 setBest/clearBests；整跑 PB 由主测覆盖）、
  *    reset 保留 bests 只清本局。
  */
 import { describe, expect, it } from 'vitest'
@@ -35,10 +35,15 @@ function mkTimer(): SpeedrunTimer {
 }
 
 describe('L20 SpeedrunTimer 剩余合同', () => {
-  it('getCountdownRemainingSec：无倒计时/无主时钟 → null；有 → ceil 剩余秒，到点 0', () => {
+  it('getCountdownRemainingSec：无倒计时或无主时钟返回 null，剩余秒向上取整，到点清除', () => {
     const t = mkTimer()
     expect(t.getCountdownRemainingSec()).toBeNull() // 无倒计时
-    expect(t.getCountdownRemainingSec()).toBeNull() // 无主时钟（从未 tick）
+    const unclocked = mkTimer()
+    unclocked.setStep(0)
+    unclocked.toggleManualPause(10_000)
+    unclocked.toggleManualPause(10_000)
+    expect(unclocked.getRun().countdownEndMs).toBe(13_000)
+    expect(unclocked.getCountdownRemainingSec()).toBeNull() // 有倒计时但从未 tick
     // setStep 进入 running；两段式手动暂停：一按停表、再按起 3 秒倒计时（恢复窗口）
     t.setStep(0)
     t.tick(snap(), 10_000, { bananaEnabled: true })
@@ -70,6 +75,6 @@ describe('L20 SpeedrunTimer 剩余合同', () => {
     t.reset()
     expect(t.getRun().phase).toBe('idle')
     expect(t.getRun().splits).toEqual([null, null])
-    expect(Object.keys(t.getBests())).toEqual(['a', 'b'])
+    expect(t.getBests()).toEqual({ a: null, b: null })
   })
 })

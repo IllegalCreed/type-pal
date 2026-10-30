@@ -1,0 +1,463 @@
+{
+  "scope": "Six exact selected business counters; six filtered-out cases per run are not execution/control credit. Source finally restored byte-for-byte.",
+  "originalSourceSha256": "fcbc4b47824056f30f3720900b33edba22827666d80059eb96637431d43de6d4",
+  "restoredSourceSha256": "fcbc4b47824056f30f3720900b33edba22827666d80059eb96637431d43de6d4",
+  "rows": [
+    {
+      "name": "stable-sort",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/battle/__tests__/turn-queue-parity.test.ts",
+        "--maxWorkers=1",
+        "-t",
+        "enemy-tie",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-stable-sort.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:20:11.974549+00:00",
+      "completedAt": "2026-10-17T20:20:13.130896+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "selection": "enemy-tie",
+      "failed": 1,
+      "passed": 0,
+      "unselected": 6,
+      "runtimeErrorSuites": 0,
+      "sourceSha256": "fcbc4b47824056f30f3720900b33edba22827666d80059eb96637431d43de6d4",
+      "mutantSha256": "3de248ac7b674e851d59981c6cffca8c2717104a5598581d6ecded9ba7435f2e",
+      "specSha256": "eaf433ac4273e320b899ead0e1d5d686b68256bbfba5bff590ef5463ba65735d",
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'enemy-tie'",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'mixed-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'dual-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'signed-partial'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'occupied-sentinel'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'signed-full'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity startBattle / Confirm caller preserves RNG draws and C tie order",
+          "status": "skipped"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected [ [ +0, +0, 100, +0 ], …(2) ] to deeply equal [ [ +0, +0, 100, +0 ], …(2) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts:119:86\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+      ],
+      "raw": "control-stable-sort.raw.gz",
+      "rawSha256": "5e56dd35b58c48dae105bc7f972e9e16d444d8712eae0561b3d0a3feb8c9fa1b",
+      "rawBytes": 1904,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "name": "unsigned-compare",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/battle/__tests__/turn-queue-parity.test.ts",
+        "--maxWorkers=1",
+        "-t",
+        "signed-full",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-unsigned-compare.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:20:13.131133+00:00",
+      "completedAt": "2026-10-17T20:20:14.156916+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "selection": "signed-full",
+      "failed": 1,
+      "passed": 0,
+      "unselected": 6,
+      "runtimeErrorSuites": 0,
+      "sourceSha256": "fcbc4b47824056f30f3720900b33edba22827666d80059eb96637431d43de6d4",
+      "mutantSha256": "2276f3b40067b6e37215c91a0ce04ea00defb66c19f71eb3943fb2dbefc1adfd",
+      "specSha256": "eaf433ac4273e320b899ead0e1d5d686b68256bbfba5bff590ef5463ba65735d",
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'enemy-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'mixed-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'dual-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'signed-partial'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'occupied-sentinel'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'signed-full'",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity startBattle / Confirm caller preserves RNG draws and C tie order",
+          "status": "skipped"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected [ [ 1, +0, 32768, +0 ], …(12) ] to deeply equal [ [ 1, 1, +0, +0 ], …(12) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts:119:86\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+      ],
+      "raw": "control-unsigned-compare.raw.gz",
+      "rawSha256": "e2c3a830fe4b048b382007a72d7c6f0a4a86eced91a9eff04f5abe084656afe8",
+      "rawBytes": 2127,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "name": "omit-empty-slots",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/battle/__tests__/turn-queue-parity.test.ts",
+        "--maxWorkers=1",
+        "-t",
+        "signed-partial",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-omit-empty-slots.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:20:14.157113+00:00",
+      "completedAt": "2026-10-17T20:20:15.239349+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "selection": "signed-partial",
+      "failed": 1,
+      "passed": 0,
+      "unselected": 6,
+      "runtimeErrorSuites": 0,
+      "sourceSha256": "fcbc4b47824056f30f3720900b33edba22827666d80059eb96637431d43de6d4",
+      "mutantSha256": "6139c2a32272efb4a2f72b4a0a10a31e581355c7c4058671a435b7465f4ef82b",
+      "specSha256": "eaf433ac4273e320b899ead0e1d5d686b68256bbfba5bff590ef5463ba65735d",
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'enemy-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'mixed-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'dual-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'signed-partial'",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'occupied-sentinel'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'signed-full'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity startBattle / Confirm caller preserves RNG draws and C tie order",
+          "status": "skipped"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected [ [ 1, 1, 32767, +0 ], …(2) ] to deeply equal [ [ 1, 1, 32767, +0 ], …(1) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts:119:86\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+      ],
+      "raw": "control-omit-empty-slots.raw.gz",
+      "rawSha256": "1df23bd4b8c27fb548b8deb965c916baa9eb17805a09f63f295456b52a84a67b",
+      "rawBytes": 1876,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "name": "index-as-end",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/battle/__tests__/turn-queue-parity.test.ts",
+        "--maxWorkers=1",
+        "-t",
+        "occupied-sentinel",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-index-as-end.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:20:15.239575+00:00",
+      "completedAt": "2026-10-17T20:20:16.307547+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "selection": "occupied-sentinel",
+      "failed": 1,
+      "passed": 0,
+      "unselected": 6,
+      "runtimeErrorSuites": 0,
+      "sourceSha256": "fcbc4b47824056f30f3720900b33edba22827666d80059eb96637431d43de6d4",
+      "mutantSha256": "9221af3ddd2e4ca57dd8f558372fd66550b36a09fc71ced4f06f8e149d3872ba",
+      "specSha256": "eaf433ac4273e320b899ead0e1d5d686b68256bbfba5bff590ef5463ba65735d",
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'enemy-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'mixed-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'dual-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'signed-partial'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'occupied-sentinel'",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'signed-full'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity startBattle / Confirm caller preserves RNG draws and C tie order",
+          "status": "skipped"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected [ [ +0, +0, 100, +0 ], …(1) ] to deeply equal [ [ +0, +0, 100, +0 ] ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts:119:86\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+      ],
+      "raw": "control-index-as-end.raw.gz",
+      "rawSha256": "84aacf83b9975bb716613b8688f7a5df5897b65332c11e68571228af8220e2a3",
+      "rawBytes": 1866,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "name": "equal-dual-flag",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/battle/__tests__/turn-queue-parity.test.ts",
+        "--maxWorkers=1",
+        "-t",
+        "dual-tie",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-equal-dual-flag.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:20:16.307743+00:00",
+      "completedAt": "2026-10-17T20:20:17.361810+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "selection": "dual-tie",
+      "failed": 1,
+      "passed": 0,
+      "unselected": 6,
+      "runtimeErrorSuites": 0,
+      "sourceSha256": "fcbc4b47824056f30f3720900b33edba22827666d80059eb96637431d43de6d4",
+      "mutantSha256": "9b1c6f0666ae6b0ba398fc24aaad76bf496844e5596df9a9499beb10ef001dff",
+      "specSha256": "eaf433ac4273e320b899ead0e1d5d686b68256bbfba5bff590ef5463ba65735d",
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'enemy-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'mixed-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'dual-tie'",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'signed-partial'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'occupied-sentinel'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'signed-full'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity startBattle / Confirm caller preserves RNG draws and C tie order",
+          "status": "skipped"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected [ [ +0, +0, 100, +0 ], …(2) ] to deeply equal [ [ +0, +0, 100, +0 ], …(2) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts:119:86\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+      ],
+      "raw": "control-equal-dual-flag.raw.gz",
+      "rawSha256": "60087d03641062f11ad5975b0f3c59b71d6f22bfc7a17753745eb870cfdfb04f",
+      "rawBytes": 1890,
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "name": "drop-all-negative",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/battle/__tests__/turn-queue-parity.test.ts",
+        "--maxWorkers=1",
+        "-t",
+        "signed-full",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-drop-all-negative.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T20:20:17.362013+00:00",
+      "completedAt": "2026-10-17T20:20:18.455288+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "selection": "signed-full",
+      "failed": 1,
+      "passed": 0,
+      "unselected": 6,
+      "runtimeErrorSuites": 0,
+      "sourceSha256": "fcbc4b47824056f30f3720900b33edba22827666d80059eb96637431d43de6d4",
+      "mutantSha256": "92865de59cbd35a3727cb7debb13c980188fd5713f2a060b19b86e24cf07d595",
+      "specSha256": "eaf433ac4273e320b899ead0e1d5d686b68256bbfba5bff590ef5463ba65735d",
+      "fileFullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'enemy-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'mixed-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'dual-tie'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'signed-partial'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'occupied-sentinel'",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity 'signed-full'",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
+          "name": "SDLPal CLASSIC queue parity startBattle / Confirm caller preserves RNG draws and C tie order",
+          "status": "skipped"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected [ [ 1, 1, +0, +0 ], …(10) ] to deeply equal [ [ 1, 1, +0, +0 ], …(12) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts:119:86\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2027:60\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+      ],
+      "raw": "control-drop-all-negative.raw.gz",
+      "rawSha256": "8d412654e9533fc5f8ce40939437a5f4eece096aef860423abe057ae57e425bf",
+      "rawBytes": 1921,
+      "fullUncutMergedStdoutStderr": true
+    }
+  ]
+}

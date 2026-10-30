@@ -1,0 +1,989 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25",
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "base": "2ccbffd0ecce117a5dad957bef85e9fc3dfe5496",
+  "branch": "codex/code-quality-3y",
+  "owner": "Codex single agent",
+  "candidate": {
+    "refactor": "343b148da",
+    "tests": "48c37257c",
+    "evidence": "Companion documentation commit; per-file bytes frozen; no uniform gates/PR/main merge"
+  },
+  "files": [
+    {
+      "path": "packages/game/src/dev/dev-panel.ts",
+      "sha256": "c6bd694889ef988f6ae8bc4e050ec497789aafe133316e279029911b8af939cf",
+      "lines": 1883,
+      "disposition": "accept new whole-file closure",
+      "readScope": "Matched old full2347line GLM/codex-final29/five-cards A-H source d23f4cceda7b457573c00f64f4ca8c19ce96874e7323cabebc67ac127eaf91e0. Entire changed picker/functions/public types and actual caller/dependency read; unchanged actions inherited through full AST/type/global comparison.",
+      "dimensions": {
+        "A": "Page-owned B/F1 one-install caller and one-picker lifetime preserved. All original typed functions/globals/public types match except declared private parameter narrowing; whole picker operations recompose exactly. Local scene initialization moves before first use and has no IO. This is DEV utility behavior, not SDL plot truth.",
+        "B": "Fixed294→configured collection(actual295), obsolete icon TODO, palette/default/color, static spell scope and copied line claims. No longer claims static grants describe current save or every dynamic script. Known debug-copy/synthetic marker limitations below explicitly retained.",
+        "C": "Page compositor calls named builders in original creation order; scene owns observer/generation/cache, party owns controls/readouts, canvas adapter owns conversion. Inventory/music/effect/story inputs narrowed to actual fields, status keys typed rather than two doublecasts. Public battle action aggregate is actual required call input; no leaf runtime import back to root.",
+        "D": "Shared indexed-image adapter serves actual enemy/portrait/item callers; canonical inspect/equipment/membership retained. Opaque framebuffer output has different alpha/DOM lifetime, so no universal conversion-mode helper.",
+        "E": "43 identities retained; original party oracle stale after approved3o dependency, base root reproduces2red, repaired complete16slot assertion. 10files106green; final legal image case separately rerun. Old43 miss alpha mutant, complete pixel case rejects exactly one AssertionError.",
+        "F": "1100line closure becomes explicit container compositor and private named tool builders. Root public actions remain findable; fixed literal keys reveal actual state domain.",
+        "G": "All root public names/types retained. Finite5-key/5-slot construction assertions and existing ImportMeta IO adapter retained with actual caller bounds; no new ignore/core cast/disposer or compatibility path. New leaves have no extra top-level effects.",
+        "H": "Actual setup/key/DOM, real startBattle and equipment/interpreter run. Dependencies and controls inherited only by explicit full executable/context bridge, not SHA alone. New pixel case uses existing actual Canvas/ImageData."
+      }
+    },
+    {
+      "path": "packages/game/src/dev/dev-scene-panel.ts",
+      "sha256": "a6996812a362b2708dac1bd4119ea4365a3a4f030d81f0fda494ccd7a7d08ac7",
+      "lines": 231,
+      "disposition": "accept new whole-file closure",
+      "readScope": "Full extracted scene UI,cleanup/cache,onSelect adapter and actual async bootstrap renderer read.",
+      "dimensions": {
+        "A": "Close disconnect,queued entries/late results fenced; successful late URL still cached. Null/rejection/direct-noObserver behavior unchanged and covered by5 existing lifecycle cases; no thumbnail-pixel claim.",
+        "B": "Comments distinguish per-picker fence and page cache, configurable scene count and world-pixel teleport coordinates.",
+        "C": "Only party/camera,jumps,renderer required; host onSelect closes then loads scene. Cleanup idempotent, returned to sole page owner. Cache bound to finite configured295entry page dataset.",
+        "D": "Original map/scene cache identity retained, not turned into generic fetch/cancel service.",
+        "E": "Existing5 DOM race/IO cases retain literal visible state and disconnect/cache observations; moved whole bodies and callbacks reconstructed. No package-green substitute.",
+        "F": "One mount lifecycle plus named filter/loader functions; owner fields local to mount.",
+        "G": "No dead mode/helper/public root export or new public teardown API; no runtime reverse dependency.",
+        "H": "Injected Promise/observer only at existing IO seams; actual UI and factory execute. Private state not exposed."
+      }
+    },
+    {
+      "path": "packages/game/src/dev/dev-party-panel.ts",
+      "sha256": "68ae313ef7c400bd1c412d13465f4d59bc0b2cf6f38e7eebc3f48567077dfc5d",
+      "lines": 260,
+      "disposition": "accept new whole-file closure",
+      "readScope": "Full party/readout/membership extraction and actual canonical equipment/inspect calls read.",
+      "dimensions": {
+        "A": "Battle disabled/fresh and stale-card guard preserved. Explore clears old poison then replays equipment and sprite mirror; field/enemy/party readouts remain canonical.",
+        "B": "Comments delimit role0 policy,party slot and read-only projection; no DEV marker mistaken for real poison tick.",
+        "C": "Resources narrow to roles/poisons/items,optional portrait/palette and actual GS needed by canonical APIs. No scene IO/timer/listener/cache owner.",
+        "D": "Original membership export forwarded at root, shared inspect/equipment reused; no duplicate formula.",
+        "E": "Four real DOM/realstartBattle cases keep literal party/HP/MP/scripts/ownership outcomes; exact16record expected layout replaces stale live-only representation.",
+        "F": "Controls and three neighboring status renderers form one clear page responsibility.",
+        "G": "Only mount/membership internal exports,signedText private; no test-only parameter or runtime interface expansion.",
+        "H": "Root tests traverse leaf with real constructors/handlers; native listener/global cleanup retained,no core mock."
+      }
+    },
+    {
+      "path": "packages/game/src/dev/dev-indexed-image.ts",
+      "sha256": "a9ff9a029de693ecf36100bcf112e68be42b0a8fb1b1db3aaa42662e59af07e1",
+      "lines": 28,
+      "disposition": "accept new whole-file closure",
+      "readScope": "Whole typed old helper body/params equal; caller display sizing and complete Palette/ImageData type read.",
+      "dimensions": {
+        "A": "Actual decoded index/mask input and 256color palette produce source-sized canvas; mask alpha and black fallback preserved, no decoder behavior change.",
+        "B": "Explains decoded indices/mask, caller-owned display size; stale88px claim removed.",
+        "C": "Sole Canvas boundary,no GS/menu/cache/fetch/listeners; returned node owned by caller.",
+        "D": "Actual three UI callers share it; differs from all-opaque framebuffer conversion.",
+        "E": "Independent2x2/16RGBA/native dimensions checked with complete typed fixture and final mask mutant single business failure.",
+        "F": "File/function names express conversion; style stays at caller.",
+        "G": "One helper with real callers, no new root/test API or redundant wrapper.",
+        "H": "Actual Canvas getImageData, no mocked pixel result or putImageData-count oracle."
+      }
+    },
+    {
+      "path": "packages/game/src/dev/dev-indexed-image.test.ts",
+      "sha256": "936aaf9742b1153a3759e0fe43757e3adc296a009ccf014dd28bfa0f183c57ac",
+      "lines": 26,
+      "disposition": "accept new whole-file closure",
+      "readScope": "Full new case,actual shared Palette and existing native Canvas setup; dedup against43 Dev cases and opaque framebuffer contract.",
+      "dimensions": {
+        "A": "Complete colors256/cycles[] and2x2 indices/mask,highest255 are legal; final typecheck0 binds actual fields.",
+        "B": "Title limits to color/mask/native dimensions,not screenshot or asset pipeline proof.",
+        "C": "Per-case palette/arrays/canvas,no global/timer/listener mutation or mock to clean.",
+        "D": "Existing43 do not inspect these pixels; framebuffer has no transparency mask.",
+        "E": "Literal16bytes/width/height. Complete-fixture alpha mutant0green1AssertionError; exact source restored, final1green.",
+        "F": "2x2 fixture exposes four distinct pixel outcomes, no expected-value algorithm copied.",
+        "G": "One atomic new case,no skip/only/timeout/coverage-number driven additions.",
+        "H": "Calls actual internal production helper and native getImageData,not a test export or core/platform mock."
+      }
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+      "sha256": "3254fba36b18b39d4eabef28e8641a97173137d9fa7650cfc8a520b129922543",
+      "lines": 214,
+      "disposition": "refresh previous acceptance; no new closure",
+      "readScope": "Prior full209line/four-case A-H plus current full file and exact expected-shape repair read.",
+      "dimensions": {
+        "A": "Real factory/hydration/startBattle,legal raw gourd scripts; zero poison records legal after approved3o.",
+        "B": "New comment explains tombstones rather than pretending only live records stored.",
+        "C": "withPanel still owns Close/listeners/global scripts/poisons cleanup; fresh state per case.",
+        "D": "No new case or fixture fork; four distinct battle/stale/join/leave contracts retained.",
+        "E": "Complete16records with exact live IDs/scripts and zero slots,all original HP/MP/party assertions preserved. Base root same2fail proves dependency drift.",
+        "F": "emptyPoisonSlots names fixed expected representation,not actual output filtering.",
+        "G": "Four identities unchanged,no retirement/baseline/ignore/weak matcher change.",
+        "H": "Real setup/battle/equipment/interpreter,listener IO capture only; no core mock."
+      }
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "848d22ff7a79f402420f23a4066caa4779f39d46f1a260eb6221c9e3271dd640"
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "a6314ef010da9e6d7add395e19993a002b7024607b8c51cc757486f200335a03"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "084718097eb0963c2ee3a9d72da59b313ca8fd401672f6a8b341ba21ae8b8906"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "840f44416c30932d1044eb9e2f422d6b44ce95542289b84329b1c9968fc499f0"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "ad46cb97fa178bb0862f8ccc2b280a635ab783ab59966a8b82a637cd22784288"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.ts",
+      "sha256": "b0febbfa204ee8637cecca4305555e7426a7ec7bc8030254587c55bb56069819"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "d7a3c1253d4a93fd6b1ae993371b15d4cc231f389b447de5a65934f5e8dc8f27"
+    },
+    {
+      "path": "packages/game/src/dev/fixtures/scene-jumps.json",
+      "sha256": "e913480e1e2e94a15120992ba2046503fecfd5c4b2f726b7f02fc6285cbdaf82"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e"
+    },
+    {
+      "path": "packages/shared/src/resources.ts",
+      "sha256": "a7d582ce6cbaafadb730790de9cfd2abde2acc23e01e4f68c310a956f1cc0554"
+    }
+  ],
+  "inheritance": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+      "sha256": "a05861edda475819ddc4b8ec3cfa20f3b9e9d0fd308da96932d4703686050de5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+      "sha256": "0fac0cc7c1aeffdaf3bbb112c04866267d27c314268f8102176a1ed33de59123"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/review.json",
+      "sha256": "0f25ae62b24ee903f4e3c2439e39bb5b9cc28a457413e4772bc74f6299e18d25"
+    }
+  ],
+  "proof": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/prove-recompose.cjs",
+    "sha256": "c145acd7ac69c337229073c6f0f6aaea630908b64765276f68da601a02285235"
+  },
+  "receipts": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/receipts.json.gz",
+    "sha256": "9542fa3766b016cb396c7a94eb299a9a1f8fc5c27221c0c800aab22c3f2d0da0",
+    "members": [
+      {
+        "name": "alpha-complete.cjs",
+        "bytes": 1932,
+        "sha256": "c38bcff9a05b31daff310293be50127888b87184c8ae82295b42a28ecee8b873"
+      },
+      {
+        "name": "alpha-complete.execution.json",
+        "bytes": 2646,
+        "sha256": "6cb2a40c293cba4d50edaf6a4a40e6aa11af5931add478af80cac7d3605f37c8"
+      },
+      {
+        "name": "alpha-complete.native.json",
+        "bytes": 2561,
+        "sha256": "b77ef39611af0ba281bea608850f30ee1a7648fc46a7d9442a8c1b37e2277d80"
+      },
+      {
+        "name": "alpha-complete.stderr.raw",
+        "bytes": 938,
+        "sha256": "c65ff33a2f59724c3fcb8715ef0562c45e6203af1d0de0f995f334181a5cfc9e"
+      },
+      {
+        "name": "alpha-complete.stdout.raw",
+        "bytes": 935,
+        "sha256": "f67f44fbbd82f085cdae22b8c7038e74cdf7633508daa30533704624279ddbb8"
+      },
+      {
+        "name": "alpha-control-r2.execution.json",
+        "bytes": 506,
+        "sha256": "ac924e61ae830f26a35b3c2895e7ae37cafca473417f32a665eb057cd2de39b4"
+      },
+      {
+        "name": "alpha-control-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "alpha-control-r2.stdout.raw",
+        "bytes": 112,
+        "sha256": "750d713b9b18fb9561fd9cb6df1026a5cb9546751b06230eb760d0ed73f5f377"
+      },
+      {
+        "name": "alpha-control.execution.json",
+        "bytes": 500,
+        "sha256": "1333ea7671686354cdacf00b8907e6204d9002aabc07ef8a7b5776f9d55cf960"
+      },
+      {
+        "name": "alpha-control.json",
+        "bytes": 5528,
+        "sha256": "65707a4afb505bdf377e9eba1f82bcb1fa99382247ec5908470277739d639cdf"
+      },
+      {
+        "name": "alpha-control.stderr.raw",
+        "bytes": 880,
+        "sha256": "c3e820dbf61b7ef9b42bb0733079d96cc7f2fb7964f8f509dff0ec690b79b400"
+      },
+      {
+        "name": "alpha-control.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "alpha-legal.cjs",
+        "bytes": 1917,
+        "sha256": "e040d9f828c613d5a75380df8d023ddfc0a48468444a15d2abb0e29de48b5e50"
+      },
+      {
+        "name": "alpha-legal.execution.json",
+        "bytes": 2643,
+        "sha256": "fb5ac91d9b95aee541b130ebfa91f44acd1250faba40a7771f03faa4cc1886b0"
+      },
+      {
+        "name": "alpha-legal.native.json",
+        "bytes": 2568,
+        "sha256": "746f22c98bfb31907a2b20ff6cb449e4aedfc8063900913061bdca7b681cbad2"
+      },
+      {
+        "name": "alpha-legal.stderr.raw",
+        "bytes": 938,
+        "sha256": "c65ff33a2f59724c3fcb8715ef0562c45e6203af1d0de0f995f334181a5cfc9e"
+      },
+      {
+        "name": "alpha-legal.stdout.raw",
+        "bytes": 929,
+        "sha256": "b5574e6ffdfa9a1a42d23c5d31ce30c08c2336a44ba903734ebe391130d9b698"
+      },
+      {
+        "name": "alpha-old.native.json",
+        "bytes": 21782,
+        "sha256": "90de8069583655c35b3a7055b51a12895a9b7c2d773f0ebd9cef5087275c2dd0"
+      },
+      {
+        "name": "alpha-old.stderr.raw",
+        "bytes": 2117,
+        "sha256": "9519c7c5a1434ba41a5193ed6c5c686287581547cab51113007fedf947fd57a5"
+      },
+      {
+        "name": "alpha-old.stdout.raw",
+        "bytes": 7972,
+        "sha256": "bf2062e9556af503685ce639dbef1293840fe4652ceea3031647827fd4e5c841"
+      },
+      {
+        "name": "alpha-r2-control.json",
+        "bytes": 4953,
+        "sha256": "c33442501e1ea381d4da4cb11ab356c5be6c0c0a29a09667bc84a4656ab92353"
+      },
+      {
+        "name": "alpha-r2-new.native.json",
+        "bytes": 2569,
+        "sha256": "c4a59b2f44ea0e7945f16612024047a67ac83073cd9cbebd0a5200f8c6a2448b"
+      },
+      {
+        "name": "alpha-r2-new.stderr.raw",
+        "bytes": 938,
+        "sha256": "c65ff33a2f59724c3fcb8715ef0562c45e6203af1d0de0f995f334181a5cfc9e"
+      },
+      {
+        "name": "alpha-r2-new.stdout.raw",
+        "bytes": 555,
+        "sha256": "1c5aa9ad30e391fb673fec15b0489fd4fcbb698f0ea43ef4dd0440d79673177d"
+      },
+      {
+        "name": "alpha-r2-old.native.json",
+        "bytes": 18655,
+        "sha256": "35513889e0ebcf5b0e2070b564ef9471e18f863092b4240248f7720632196db6"
+      },
+      {
+        "name": "alpha-r2-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "alpha-r2-old.stdout.raw",
+        "bytes": 7589,
+        "sha256": "9b8bea9181786d147fc9da77e42f66bcdc1c861bcfa6340d93624e9948f5e6dd"
+      },
+      {
+        "name": "alpha-r2.mutated-source",
+        "bytes": 1129,
+        "sha256": "a68447ea6a0d3bae193d6b332f7d794b718e9349f00f9c9d64a408241740ddd7"
+      },
+      {
+        "name": "alpha.mutated-source",
+        "bytes": 1129,
+        "sha256": "a68447ea6a0d3bae193d6b332f7d794b718e9349f00f9c9d64a408241740ddd7"
+      },
+      {
+        "name": "base-party.cjs",
+        "bytes": 1690,
+        "sha256": "4082a069db3f023664846a23fc20a837a28438c673cb16166066454bd6a56af6"
+      },
+      {
+        "name": "base-party.execution.json",
+        "bytes": 1046,
+        "sha256": "4aadb71e14eb047a1dc58bbef81f3842e2336b3c7b0c652a84c95313168ae057"
+      },
+      {
+        "name": "base-party.native.json",
+        "bytes": 4991,
+        "sha256": "e74b5979192f15357740d85b166dd2368d5230c311c26a805d41d9369fc174b1"
+      },
+      {
+        "name": "base-party.stderr.raw",
+        "bytes": 2117,
+        "sha256": "9519c7c5a1434ba41a5193ed6c5c686287581547cab51113007fedf947fd57a5"
+      },
+      {
+        "name": "base-party.stdout.raw",
+        "bytes": 2343,
+        "sha256": "384a23be7e5f607a03366d15245a1a6326ec74e2f9b7887e51781fd24cb3beb5"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 1147,
+        "sha256": "2058c9cc7cf40c8e167ae256adab6e9942c95c9390bf0a1d25878ea13c3c84c5"
+      },
+      {
+        "name": "dev-panel.before.ts",
+        "bytes": 104362,
+        "sha256": "d23f4cceda7b457573c00f64f4ca8c19ce96874e7323cabebc67ac127eaf91e0"
+      },
+      {
+        "name": "extract.cjs",
+        "bytes": 5263,
+        "sha256": "d3dba70fbca029f3078d9004109a237d560a668aabe2953907d6a31c137bd1fc"
+      },
+      {
+        "name": "extract.execution.json",
+        "bytes": 487,
+        "sha256": "a71173666a8a2a4caea29cd64fb2ab231ec9e173f0cbc8cb6b8874499e373777"
+      },
+      {
+        "name": "extract.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "extract.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "extraction-spans.json",
+        "bytes": 971,
+        "sha256": "d31bf9d60fcb1c1ff6ecfc27d5a6a92305e76e3381e101af1e76d856691c66ac"
+      },
+      {
+        "name": "image-complete.execution.json",
+        "bytes": 694,
+        "sha256": "3a4e15b259286f8f119c29d0ea9db444adfc668745f8e139c30084d2152d4e3c"
+      },
+      {
+        "name": "image-complete.native.json",
+        "bytes": 998,
+        "sha256": "015020529e9385911632d76f4c3be07dc9cb0bd0c1a19f26db47dc07a8ee50b2"
+      },
+      {
+        "name": "image-complete.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "image-complete.stdout.raw",
+        "bytes": 448,
+        "sha256": "82a4aeadc12129374aa7375853dc2f7c49f09c15f43b2b55a0cd302536096c62"
+      },
+      {
+        "name": "image-final.execution.json",
+        "bytes": 688,
+        "sha256": "c11e26872cf75bfc479ad2e52926d405fabdd16d79ecd19eb4363926a35de889"
+      },
+      {
+        "name": "image-final.native.json",
+        "bytes": 998,
+        "sha256": "8553689182ed4364803b339b0ecb0be1304c0e6fabed77fe45a550f5488b21f4"
+      },
+      {
+        "name": "image-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "image-final.stdout.raw",
+        "bytes": 445,
+        "sha256": "5d8e1aa4fd341a0f2c8a32689efa700af26a6259b311d297f1c036dee5bb0e37"
+      },
+      {
+        "name": "mutate-alpha-r2.cjs",
+        "bytes": 2443,
+        "sha256": "f6437ca3e24bd1a2c6f629dc4d36287293d1c35ef4537a33faea1b174e1100d5"
+      },
+      {
+        "name": "mutate-alpha.cjs",
+        "bytes": 2422,
+        "sha256": "48b90a332ba523510c1ec99097ad4913fc1dc764ea4a3e3e27a9b3e7e3cc4cfd"
+      },
+      {
+        "name": "proof-formatted.execution.json",
+        "bytes": 487,
+        "sha256": "2af8b09d1c92e998b38d35f21d4313c4dcdfa814306e84fbecc7673a32d7ed3b"
+      },
+      {
+        "name": "proof-formatted.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "proof-formatted.stdout.raw",
+        "bytes": 1221,
+        "sha256": "285ca902dcfeb58aba21bc3951e48252e5f3e75d0378296a72bc6c559b7df529"
+      },
+      {
+        "name": "proof-style-first.execution.json",
+        "bytes": 528,
+        "sha256": "94e14b8d7dc6e0df1a47ea4c614e3e61897ef25b90191e96a82ee95c2c197b70"
+      },
+      {
+        "name": "proof-style-first.stderr.raw",
+        "bytes": 9047,
+        "sha256": "179b4db20f6f4f6e09943d7e5e81c01462ae3fd4568d5fa769bf6b8a8046d68b"
+      },
+      {
+        "name": "proof-style-first.stdout.raw",
+        "bytes": 72,
+        "sha256": "5cbca82892f6bfda7a10b28fa488e733c5d12b6dd2a2b4dc5308c3b967e20169"
+      },
+      {
+        "name": "prove-recompose.cjs",
+        "bytes": 8975,
+        "sha256": "1032fa2213743f00a8e71e5191abd89eef6650aff3299e4840b98cb51449bd41"
+      },
+      {
+        "name": "recompose-final.execution.json",
+        "bytes": 506,
+        "sha256": "2fb906a1716083ecd5af757d2a79559f690e9f6249754c12a2c0e0fe52cdc531"
+      },
+      {
+        "name": "recompose-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "recompose-final.stdout.raw",
+        "bytes": 1221,
+        "sha256": "285ca902dcfeb58aba21bc3951e48252e5f3e75d0378296a72bc6c559b7df529"
+      },
+      {
+        "name": "recompose-r2.execution.json",
+        "bytes": 504,
+        "sha256": "ba36588730e77d2428922c98f48a3a0e7125844e4bfc4007794556aea267e022"
+      },
+      {
+        "name": "recompose-r2.stderr.raw",
+        "bytes": 36459,
+        "sha256": "7b9f2afb0a676f569eb271e7ffe62f618164dbca75da2a31dc351d5d4db01a1e"
+      },
+      {
+        "name": "recompose-r2.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "recompose-r3.execution.json",
+        "bytes": 503,
+        "sha256": "0ede2fce2f1d0d770a207554caa16f7e8057cc1759e2033413646dacc32592dc"
+      },
+      {
+        "name": "recompose-r3.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "recompose-r3.stdout.raw",
+        "bytes": 1221,
+        "sha256": "fc7579d7ab681126abda7ccf0a0140a5d6f5f87b197a5328fc19851a8ca2542b"
+      },
+      {
+        "name": "recompose-sealed.execution.json",
+        "bytes": 507,
+        "sha256": "f1fba35ae3e707c25b1037a4a4d7d310746f4042a0f549a5811a5060c16f6407"
+      },
+      {
+        "name": "recompose-sealed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "recompose-sealed.stdout.raw",
+        "bytes": 1221,
+        "sha256": "285ca902dcfeb58aba21bc3951e48252e5f3e75d0378296a72bc6c559b7df529"
+      },
+      {
+        "name": "recompose.execution.json",
+        "bytes": 500,
+        "sha256": "f6149986ef4916887018ac4d3d17f605bf6c2f2f7c7a5553628bfa67f0e1ffaa"
+      },
+      {
+        "name": "recompose.stderr.raw",
+        "bytes": 1957,
+        "sha256": "79fb6a3c272756578e1feef9b3bf7d2f9314bd228e3b6e217ef03ae2a560b6a3"
+      },
+      {
+        "name": "recompose.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "related.execution.json",
+        "bytes": 1092,
+        "sha256": "e070f4b0688271bd2dae18aed4e4d403f8a51b63b866aac8ed805b50dda2cc75"
+      },
+      {
+        "name": "related.native.json",
+        "bytes": 44383,
+        "sha256": "c0d36a970ca910df464a4174b2cee14e73d09c8b0993077eecf62adcb84b014d"
+      },
+      {
+        "name": "related.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "related.stdout.raw",
+        "bytes": 7972,
+        "sha256": "f8a0cbeb528ad2aff6bb65f2852c5a11a93122d6cc483fb011902b6dfb399a0c"
+      },
+      {
+        "name": "section-mapping.json",
+        "bytes": 326,
+        "sha256": "60acddf8b747b8fea75beb21e34ea2bc76eaf25ad49ad8830ce71a3b00a7d526"
+      },
+      {
+        "name": "split-sections.cjs",
+        "bytes": 1748,
+        "sha256": "1628ee670069d4807ae6a501a9ba9438f651728b45c2ccc2192a8894c9cf7e78"
+      },
+      {
+        "name": "split-sections.execution.json",
+        "bytes": 501,
+        "sha256": "b4734277a4c74b6b36a78e19355130ea22eee2de83ee3c3dbb6ead5c9e5da907"
+      },
+      {
+        "name": "split-sections.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "split-sections.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "typecheck-final.execution.json",
+        "bytes": 459,
+        "sha256": "317afadc094ad623bb58a01403a103633f9def55b7c82f352347a6aba75e5c73"
+      },
+      {
+        "name": "typecheck-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "typecheck-final.stdout.raw",
+        "bytes": 450,
+        "sha256": "97e3856c5cac7b0743576b97e3537571dd00a791c18d15892ab36b80480631c3"
+      },
+      {
+        "name": "typecheck-legal.execution.json",
+        "bytes": 459,
+        "sha256": "22c468aea2e999742a5cd20c80e61d847d0d6720ad1995074981e3cdf0ccd57a"
+      },
+      {
+        "name": "typecheck-legal.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "typecheck-legal.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "typecheck-sealed.execution.json",
+        "bytes": 460,
+        "sha256": "bae66786c5433cee3c2a63817aafef21cdc1265ee0d61723be02ad38400855a8"
+      },
+      {
+        "name": "typecheck-sealed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "typecheck-sealed.stdout.raw",
+        "bytes": 467,
+        "sha256": "40598863b4cd025d6d462543e1e8e279d5f0ab40b2305d6c9f9ab909efa6ad9e"
+      },
+      {
+        "name": "typecheck.execution.json",
+        "bytes": 453,
+        "sha256": "030f4ad6ac783af996bfc702c2e9b801d1f6a70433953aebf0070d502b5114f0"
+      },
+      {
+        "name": "typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "typecheck.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "catalog-observation.cjs",
+        "bytes": 865,
+        "sha256": "4e6182fe297d469fa4f7c2baebd9844ad6e1a77f980acdf583432289efdd9b67"
+      },
+      {
+        "name": "catalog-observation.execution.json",
+        "bytes": 513,
+        "sha256": "896968ee02f8cf5f053203331df835a19949f704e455a6152fb0fbceab2cfbf8"
+      },
+      {
+        "name": "catalog-observation.stdout.raw",
+        "bytes": 833,
+        "sha256": "dee10a04436d6a533483ffff112f8741a3e933c02d3e411a45cde1022f4c9173"
+      },
+      {
+        "name": "catalog-observation.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "identityMapping": {
+    "original": 43,
+    "same": [
+      {
+        "file": "src/dev/dev-panel-party-lifecycle.test.ts",
+        "name": "探索'入队'后清旧真毒，并在新队伍位置重建寿葫芦效果"
+      },
+      {
+        "file": "src/dev/dev-panel-party-lifecycle.test.ts",
+        "name": "探索'离队'后清旧真毒，并在新队伍位置重建寿葫芦效果"
+      },
+      {
+        "file": "src/dev/dev-panel-party-lifecycle.test.ts",
+        "name": "探索面板打开后启战，旧卡片点击也不能改变战斗队伍"
+      },
+      {
+        "file": "src/dev/dev-panel-party-lifecycle.test.ts",
+        "name": "真实战斗中入队与离队卡均禁用，点击不改变队伍和战斗状态"
+      },
+      {
+        "file": "src/dev/dev-panel-picker-lifecycle.test.ts",
+        "name": "Dev Panel picker lifecycle converts an injected callback rejection into the existing placeholder state"
+      },
+      {
+        "file": "src/dev/dev-panel-picker-lifecycle.test.ts",
+        "name": "Dev Panel picker lifecycle disconnects a filtered generation and ignores its late fulfillment"
+      },
+      {
+        "file": "src/dev/dev-panel-picker-lifecycle.test.ts",
+        "name": "Dev Panel picker lifecycle disconnects on close, fences queued work, and reuses a successful cache entry"
+      },
+      {
+        "file": "src/dev/dev-panel-picker-lifecycle.test.ts",
+        "name": "Dev Panel picker lifecycle keeps the existing map placeholder for a renderer with no result"
+      },
+      {
+        "file": "src/dev/dev-panel-picker-lifecycle.test.ts",
+        "name": "Dev Panel picker lifecycle loads through the direct fallback when IntersectionObserver is unavailable"
+      },
+      {
+        "file": "src/dev/dev-panel.glm-next-wave.test.ts",
+        "name": "setupDevPanel 显式控制与释放(DEV-only debug overlay) B(explore)开 picker;再按 B toggle 关闭;两次都对按键 preventDefault"
+      },
+      {
+        "file": "src/dev/dev-panel.glm-next-wave.test.ts",
+        "name": "setupDevPanel 显式控制与释放(DEV-only debug overlay) F1(全局)dump gs 深拷贝:内容等于当时快照,后改 gs 不影响 dump,且非同引用"
+      },
+      {
+        "file": "src/dev/dev-panel.glm-next-wave.test.ts",
+        "name": "setupDevPanel 显式控制与释放(DEV-only debug overlay) 非 explore/battle 模式(event)按 B:不拦截、不开面板"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyAutoBattleT37(过场自动战斗 1:1:盖罗娇+苗女 vs 石长老) party=[4,5,4] + fAutoBattle + 真 team37(石长老)+ 战场23,不 god-mode override"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyBossBattle(剧情 boss 战:真 boss team + god-mode 队伍) teamId=21 + members=[0] → 起真 team 21(林月如一)战 / 队伍 god-mode lv99 全仙术 / 全道具"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) allItems=false → inventory 空"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) autoBattle 缺省/false → fAutoBattle 关(正常手动战斗)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) autoBattle=true → gs.fAutoBattle 置位 + 战斗 fAutoBattle 生效(AI 控我方)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) 再开一次:旧临时 team 被替换不堆积(filter id===90000 + push)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) 连续自定义不同等级:属性从原始基线重算,不从上一场 level 累加"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) 选敌 + 队员 + level=7 + 全道具 → 临时 team 90000 启战 / 仙术按等级 / 道具×99"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具) 重复敌人 → 战斗含多个同种怪实例(user 2026-06-05:5 个同种怪)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyFixture —— 对话 / 升级 fixture 数据级验证 ★结算演出序列:打赢建 settlement screens —— exp-cash → 升级 box(lv1→12 / 8 属性 old→cur)→ 练成屏"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyFixture —— 对话 / 升级 fixture 数据级验证 ★菜单可见性回归:打赢升到 lv10+ → 大世界仙术菜单出现升级新学的「凝神归元」(298),不再只剩气疗术"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyFixture —— 对话 / 升级 fixture 数据级验证 fixture-dialog:敌人 scriptOnTurnStart 设上(林月如一嘲讽能触发,team 21 → enemyId 82 → 41368)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyFixture —— 对话 / 升级 fixture 数据级验证 fixture-levelup 端到端:applyFixture → 打赢 → 真升级 + 学法术(我之前没测的全流程)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyFixture —— 对话 / 升级 fixture 数据级验证 fixture-levelup 配置自检:exp 6000 跨多级阈值(lv1→lv12,过 lv10 学大世界法术)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "applyFixture —— 对话 / 升级 fixture 数据级验证 fixture-levelup:gs.Exp 设 6000 + runtime hydrate(lv1/30HP override)→ 打赢能升级"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "buildCustomEnemyTeam(自定义战斗:选中敌人 id → 临时 EnemyTeam) ≤5 敌:pad 到 5 槽(空位 0xFFFF),id = CUSTOM_BATTLE_TEAM_ID"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "buildCustomEnemyTeam(自定义战斗:选中敌人 id → 临时 EnemyTeam) 恰好 5 敌:全填满"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "buildCustomEnemyTeam(自定义战斗:选中敌人 id → 临时 EnemyTeam) 空选:全 0xFFFF"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "buildCustomEnemyTeam(自定义战斗:选中敌人 id → 临时 EnemyTeam) 超 5 敌:截断到 5(战斗最多 5 敌)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "buildCustomEnemyTeam(自定义战斗:选中敌人 id → 临时 EnemyTeam) 重复敌人(5 个同种怪):不去重,原样填槽(user 2026-06-05 要按空位填充, 允许重复)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "computeMagicGrantsByRole(全局脚本 0x55 addMagic 剧情/法宝授予) 按 role 聚合授予法术(roleArg-1),roleArg=0 跳过"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "roleMagicsAtLevel(仙术按等级:起手 + 升级习得 entry.level<=level + 授予) level=5:只起手 296 + 授予 370(7/10 级法术未到等级)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "roleMagicsAtLevel(仙术按等级:起手 + 升级习得 entry.level<=level + 授予) level=7:起手 296 + lv7 学的 349 + 授予 370(lv10 的 298 未到)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "roleMagicsAtLevel(仙术按等级:起手 + 升级习得 entry.level<=level + 授予) level=99:全学(296/349/298 + 授予 370)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "roleMagicsAtLevel(仙术按等级:起手 + 升级习得 entry.level<=level + 授予) 去重:起手与授予同 id 不重复"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "togglePartyMembership(队伍在队开关:role0 队首常驻) role0 队首常驻:toggle 无效(返回原队伍)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "togglePartyMembership(队伍在队开关:role0 队首常驻) 不 mutate 入参(返回新数组)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "togglePartyMembership(队伍在队开关:role0 队首常驻) 不在队的角色 → 入队(push 末尾站位)"
+      },
+      {
+        "file": "src/dev/dev-panel.pure.test.ts",
+        "name": "togglePartyMembership(队伍在队开关:role0 队首常驻) 在队的角色 → 离队(保序移除)"
+      },
+      {
+        "file": "src/dev/dev-panel.test.ts",
+        "name": "BOSS_ROSTER 数据接地(enemy-teams.json / enemies.json 真值核对) teamId 不重复(同一战不列两次)"
+      },
+      {
+        "file": "src/dev/dev-panel.test.ts",
+        "name": "BOSS_ROSTER 数据接地(enemy-teams.json / enemies.json 真值核对) 每条 boss:teamId 存在 / enemyId 有名字 / 代表敌人确在该 team 内"
+      }
+    ],
+    "newImageCases": 1,
+    "retirements": 0
+  },
+  "gates": {
+    "related": "10files106green,default reporter stderr0; source private types/comments narrowed afterward but whole executable bridge matches base; final corrected image case rerun, other105 unchanged",
+    "typecheck": "typecheck-legal exit0; old id/missingcycles errors retained",
+    "finalImage": "image-complete1green, complete current Palette fixture",
+    "counter": "alpha-r2-old43green; alpha-complete new0green1business AssertionError, restored exact source",
+    "static": "static.json; scoped static only",
+    "wholeCheck": "deferred allpre94",
+    "coverage": "not run; baseline unchanged",
+    "protected": "not run"
+  },
+  "knownNonblockingLimits": [
+    {
+      "kind": "preserved DEV utility scope",
+      "fact": "Old fixed P0/李逍遥 text and poisonID5 synthetic marker remain. Extracted ID5 has zero level/color/scripts; not a real poison-entry/tick oracle. Prior53 browser used actual0x29/552, not this marker. No gameplay/plot truth credit granted to debug presets."
+    },
+    {
+      "kind": "minor diagnostic-copy candidate",
+      "fact": "Old dialogue console says7,actual command list has6showDialog. No QA count uses this debug text; actual command behavior retained."
+    },
+    {
+      "kind": "public contract retention",
+      "fact": "Unused resources.commands and JSON-facing optional partyStart.facing string remain in original public aggregate. Private contexts narrowed; no public deletion/new compatibility authorized or needed for this responsibility fix."
+    }
+  ],
+  "processDisclosure": [
+    "Temp extractor first failed TypeScript module lookup before write; tool output only. Corrected explicit project module resolution.",
+    "Proof r1 matched teleport click,r2 kept extra callback parameter during inverse expansion; failed raw retained. Final proof substitutes actual root callback body under original zero-arg card closure and checks complete executable AST,all globals/types/exports/external runtime imports.",
+    "Initial alpha control had unrelated party2red,invalid as a counter. Exact base root/current helper reproduces2green2red. Test oracle repaired complete16slots; no product behavior fix/actual-value filtering.",
+    "New pixel fixture had guessed id and missing cycles,blocked by typecheck. Earlier alpha-legal filename is not legality evidence. Final shared-type fixture passes typecheck,complete-fixture mutant exactly1AssertionError then restored1green.",
+    "First proof style gate1error7infos preserved; fixed own visitor declaration/templates,without ignore/rule changes.",
+    "No new browser/E2E: pure movement with explicit original concrete UI/ownership controls and full executable/context bridge. Nonempty normal console stdout is retained,not called empty."
+  ],
+  "remaining": [
+    {
+      "path": "packages/game/src/core/event-opcodes.cov85.test.ts",
+      "status": "pending",
+      "read": "419line full source only; not executed/edited here",
+      "debt": [
+        "Declared53 scope,do not drop to promote card.",
+        "0x75 live-only expected records likely same approved3o drift.",
+        "Mixed opcode cases,weak no-op oracle,stale titles/anchors and actual caller/dedupe need review."
+      ],
+      "sourceWitness": {
+        "path": "packages/game/src/core/event-opcodes.cov85.test.ts",
+        "sha256": "e25b2c2b35b14b1680d29735c5a26bff0411f3217e13d3261ecef4b5c96bf042"
+      },
+      "invalidation": "Next-work witness only; changing this test does not invalidate Dev product claims."
+    }
+  ],
+  "closedFiles": [
+    "packages/game/src/dev/dev-panel.ts",
+    "packages/game/src/dev/dev-scene-panel.ts",
+    "packages/game/src/dev/dev-party-panel.ts",
+    "packages/game/src/dev/dev-indexed-image.ts",
+    "packages/game/src/dev/dev-indexed-image.test.ts"
+  ],
+  "cards": {
+    "accept": 77,
+    "partial": 6,
+    "pending": 0,
+    "limit": "53 stillpartial due declared cov85;58/FileReader not autoaccepted by Dev"
+  },
+  "next": "Finish declared419line CODE53 event-opcodes.cov85 oracle/caller/dedupe and necessary test repairs,then1/57 and tools FileReader boundary.3m/42 unanswered decisions frozen.",
+  "limits": [
+    "Same3y,no main/primary/GLM write,no94–102.",
+    "No fullcheck/officialcoverage/protected/PR until allpre94 code/evidence ready.",
+    "CODE57 thumbnail seam pixels not certified by scene UI/cache movement."
+  ],
+  "scopeAudit53": {
+    "meaning": "Only explicit bullet file list; read-only context not given whole-file credit",
+    "files": [
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/player-poison-state.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/battle/battle-system.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/inspect/battle-inspect.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/dev/dev-panel.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/event-system.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/game-state.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/event-opcodes.cov85.test.ts",
+        "state": "pending"
+      },
+      {
+        "path": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+        "state": "已验证"
+      },
+      {
+        "path": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+        "state": "已验证"
+      }
+    ]
+  },
+  "catalogObservation": {
+    "native": "catalog-observation.stdout.raw in receipt archive",
+    "meaning": "Current extracted inputs only; optional repeat when data available; not a product source identity or original-binary claim"
+  }
+}

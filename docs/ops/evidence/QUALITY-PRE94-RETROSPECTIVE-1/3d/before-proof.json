@@ -1,0 +1,304 @@
+{
+  "phase": "before",
+  "base": "65c375e06fa5859dc5121519eb3507589813be35",
+  "formalSha256": {
+    "sprite.ts": "f4992df3d9c1b2e278cdb82808c03afbab19f39c99b6c28125bd84a57450c34a",
+    "sprite.boundaries.test.ts": "c4b6353eb6789454a794048b416f148e02318afe41f5ab5908cda286d8c97482",
+    "sprite.test.ts": "be8a95d5e98feada634ef12735e52f2c7f74a15784a615fe8158bc55c8c14e99",
+    "sprite.glm-runtime-resource.test.ts": "fcf8681c1e85fe78bb8dd2d40ffc0f9daac02900f92af2da5d81b214ae5aaff3"
+  },
+  "variants": {
+    "control": [],
+    "height-integer": [[" || !Number.isInteger(height)", ""]],
+    "height-positive": [[" || height <= 0", ""]]
+  },
+  "runs": [
+    {
+      "name": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/pre94-3d-before-control-sprite.boundaries.test.ts",
+        "src/resources/pre94-3d-before-control-sprite.test.ts",
+        "src/resources/pre94-3d-before-control-sprite.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3d-wz8nrz5v/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 0.676,
+      "moduleSha256": "f4992df3d9c1b2e278cdb82808c03afbab19f39c99b6c28125bd84a57450c34a",
+      "copiesSha256": {
+        "packages/pal-extract/src/resources/pre94-3d-before-control-sprite.ts": "f4992df3d9c1b2e278cdb82808c03afbab19f39c99b6c28125bd84a57450c34a",
+        "packages/pal-extract/src/resources/pre94-3d-before-control-sprite.boundaries.test.ts": "c25bac047f9a8a957f7a2c6d38eb2a1655bce65d708b3fe2c0860a7929d6a5f8",
+        "packages/pal-extract/src/resources/pre94-3d-before-control-sprite.test.ts": "b5427f246c05fb467e8b2653ac3233077e3c1cfbd04e5212b36e322e42c86159",
+        "packages/pal-extract/src/resources/pre94-3d-before-control-sprite.glm-runtime-resource.test.ts": "e27757907c8db256d515b7e840d2ea5f044c413a45ed6a91a20a9910643070ed"
+      },
+      "rawSha256": "16cbbef1dc1cad84be33629ea9e72e627fb66523e38887098a116eb0ae8a3cbd",
+      "runnerSha256": "f10ff62641414d959c566d86c76d5374696372337ef7c25e6a06f71d4ab91d42",
+      "passed": 9,
+      "failed": 0,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 非法尺寸显式失败",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 pixels/opaque 短于完整帧时显式失败",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 缺省 mask：全像素 alpha 255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 framesToOut 多帧 3 帧容器：index 0/1/2、逐帧尺寸与真解码像素",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 extractCharacterSprites 多 id 输入 id 顺序保留；每 sprite 帧独立解码",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "extractCharacterSprites 给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "extractCharacterSprites 未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "M3.5 T5 character sprite extraction loops scene chain union scene 1 + 14 + 17 EventObject spriteNum + dedup;每个非 0 sprite 都已 dump",
+          "status": "passed",
+          "messages": []
+        }
+      ]
+    },
+    {
+      "name": "height-integer",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/pre94-3d-before-height-integer-sprite.boundaries.test.ts",
+        "src/resources/pre94-3d-before-height-integer-sprite.test.ts",
+        "src/resources/pre94-3d-before-height-integer-sprite.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3d-9u49hffv/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 0.644,
+      "moduleSha256": "d008c00dddfed926d7ff55ec948e725ba82c36b74822d9b3b306bdbf8303ea79",
+      "copiesSha256": {
+        "packages/pal-extract/src/resources/pre94-3d-before-height-integer-sprite.ts": "d008c00dddfed926d7ff55ec948e725ba82c36b74822d9b3b306bdbf8303ea79",
+        "packages/pal-extract/src/resources/pre94-3d-before-height-integer-sprite.boundaries.test.ts": "496d3b6516c2f2a427ce646e2e3a1c6ba28d006cf0f4b3f7f625cdb4903b2a1a",
+        "packages/pal-extract/src/resources/pre94-3d-before-height-integer-sprite.test.ts": "0b8063051e38818186ca9f16a6a455503c3bed12ec94b05cb73c32e6f8b25414",
+        "packages/pal-extract/src/resources/pre94-3d-before-height-integer-sprite.glm-runtime-resource.test.ts": "791a7b3b63aea2cb12f717496531320a7bd53f816451802a3a6334d9003300bd"
+      },
+      "rawSha256": "209bac1aaa97f278921f40d459a79cdc4515f6683c45e51ce71335bed84b2e69",
+      "runnerSha256": "062c9b42dab3e580d133efc48c01751dca849aa06fd584e1ea03fbd7ecb2218d",
+      "passed": 9,
+      "failed": 0,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 非法尺寸显式失败",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 pixels/opaque 短于完整帧时显式失败",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 缺省 mask：全像素 alpha 255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 framesToOut 多帧 3 帧容器：index 0/1/2、逐帧尺寸与真解码像素",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 extractCharacterSprites 多 id 输入 id 顺序保留；每 sprite 帧独立解码",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "extractCharacterSprites 给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "extractCharacterSprites 未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "M3.5 T5 character sprite extraction loops scene chain union scene 1 + 14 + 17 EventObject spriteNum + dedup;每个非 0 sprite 都已 dump",
+          "status": "passed",
+          "messages": []
+        }
+      ]
+    },
+    {
+      "name": "height-positive",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/pre94-3d-before-height-positive-sprite.boundaries.test.ts",
+        "src/resources/pre94-3d-before-height-positive-sprite.test.ts",
+        "src/resources/pre94-3d-before-height-positive-sprite.glm-runtime-resource.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3d-18hp7qxc/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 0.636,
+      "moduleSha256": "ea6a14626528f150c133afe4e6fc679c70b68f75c2bfa5edcd17a559ab7cac49",
+      "copiesSha256": {
+        "packages/pal-extract/src/resources/pre94-3d-before-height-positive-sprite.ts": "ea6a14626528f150c133afe4e6fc679c70b68f75c2bfa5edcd17a559ab7cac49",
+        "packages/pal-extract/src/resources/pre94-3d-before-height-positive-sprite.boundaries.test.ts": "35f8a4d19323e0e37cfb7fefb39bcb49641012448b5b7ce3345d721035c310da",
+        "packages/pal-extract/src/resources/pre94-3d-before-height-positive-sprite.test.ts": "f2215889c2defd32e5456d2cee6123d88d25701c95ba11dfa2afdb02b50c87c3",
+        "packages/pal-extract/src/resources/pre94-3d-before-height-positive-sprite.glm-runtime-resource.test.ts": "eac208e0c303df1f961b8cbf0ba8af8d4b670cca2a250b6a37623b45c14ae9c2"
+      },
+      "rawSha256": "ebc34db66d5d8a7036bfd5224df7a9ca85e697896f761688226b9f286725ac54",
+      "runnerSha256": "0ce12f1dfdcabea788cbdfe2e1569408b5bd4f8f1ea4baf6a380e978d1e1565f",
+      "passed": 9,
+      "failed": 0,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 非法尺寸显式失败",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.boundaries.test.ts",
+          "fullName": "encodeIndexedPng 输入边界 pixels/opaque 短于完整帧时显式失败",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 带 mask：透明位 alpha 0、opaque palette-0 与实心位 alpha 255、RGB 复制 index",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 encodeIndexedPng 真解码像素合同 缺省 mask：全像素 alpha 255",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 framesToOut 多帧 3 帧容器：index 0/1/2、逐帧尺寸与真解码像素",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.glm-runtime-resource.test.ts",
+          "fullName": "R04 extractCharacterSprites 多 id 输入 id 顺序保留；每 sprite 帧独立解码",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "extractCharacterSprites 给定 sprite id 集合,从 chunk map 提取每个 sprite 的全部帧",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "extractCharacterSprites 未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "sprite.test.ts",
+          "fullName": "M3.5 T5 character sprite extraction loops scene chain union scene 1 + 14 + 17 EventObject spriteNum + dedup;每个非 0 sprite 都已 dump",
+          "status": "passed",
+          "messages": []
+        }
+      ]
+    }
+  ],
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

@@ -1,0 +1,85 @@
+{
+  "runs": [
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/assets/rle-decode.test.ts",
+        "src/assets/tileset-blob.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-rle-adjacent-game.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "26a346a0a6550d92676a8ab923b5d0e1b04c4028be328acf307bfa53b21e77c4",
+      "runnerSha256": "eddf2d48c6fbec92576c519e0951da1d843e01dfeb36ceffa8ecf68845a58b20",
+      "passed": 21,
+      "failed": 0,
+      "pending": 0,
+      "act": 0,
+      "environment": 0,
+      "navigation": 0
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/io/rle.test.ts",
+        "src/resources/sprite.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-rle-adjacent-extract.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "55193a72e549cb5994cdc4b004d1987281f72a41e0524ec37a09085848486328",
+      "runnerSha256": "9f11c302c53e258ae880b9693e8ab3122e3e8ed6b767dfb0eda3cc314fa66b08",
+      "passed": 6,
+      "failed": 0,
+      "pending": 0,
+      "act": 0,
+      "environment": 0,
+      "navigation": 0
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/reforge",
+        "exec",
+        "vitest",
+        "run",
+        "src/assets.test.ts",
+        "src/assets-decode-gates.glm-q.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-rle-adjacent-reforge.json",
+        "--silent=false"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "rawSha256": "ee62c4e855906fb46b1038edf092d6093da528f81d50c72f109e7d771ae0eda0",
+      "runnerSha256": "8e3b54a350086122764f52fc7f6316b50182a521a4e1071dcb6a31ef8095fc34",
+      "passed": 20,
+      "failed": 0,
+      "pending": 0,
+      "act": 0,
+      "environment": 0,
+      "navigation": 0
+    }
+  ]
+}

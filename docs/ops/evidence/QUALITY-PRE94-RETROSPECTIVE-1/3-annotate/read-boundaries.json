@@ -1,0 +1,195 @@
+{
+  "baseCommit": "e3cf2cd5a06c5aa1890e645e47bf6b81ed032c8b",
+  "scope": "CODE3/3f annotation and adjacent test IO read; full-text does not imply acceptance",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/events/annotate.ts",
+      "readMethod": "full-text",
+      "lines": 109,
+      "sha256": "13a0203b37fe9f238068a4e7df1f3456323f22750489998425af9ff575ad1c98",
+      "acceptance": false
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.test.ts",
+      "readMethod": "full-text",
+      "lines": 119,
+      "sha256": "3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d",
+      "acceptance": false
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+      "readMethod": "full-text",
+      "lines": 159,
+      "sha256": "7c22d5c930448957aae1eb237c27b54718edb8295e25bc3a023b39aecb8178af",
+      "acceptance": false
+    },
+    {
+      "path": "packages/pal-extract/src/io/word.ts",
+      "readMethod": "full-text",
+      "lines": 109,
+      "sha256": "43edff080324190a151d7b496de3ba3401a04c19344925318336568089bb9ffe",
+      "acceptance": false
+    },
+    {
+      "path": "packages/pal-extract/src/io/word.test.ts",
+      "readMethod": "full-text",
+      "lines": 140,
+      "sha256": "19b4bb1d4cbf32ab63b12b0270865269a1bc7166d5e08ee2877deff0e9d0b48b",
+      "acceptance": false
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "readMethod": "full-text",
+      "lines": 39,
+      "sha256": "76a33dfb0fae1ca83f6e8c163d9d4d7ff01d9ae2a1893a9819c3a3291855f98e",
+      "acceptance": false
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "readMethod": "full-text",
+      "lines": 253,
+      "sha256": "5e82391fab09717e0797fb41c29e37aa3d761fbb7e0b0028377f80fff495a940",
+      "acceptance": false
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "readMethod": "full-text",
+      "lines": 72,
+      "sha256": "d8b6086b705e9541283eeb798368fd6fac14300eeb86a742bbb97473b10f1f61",
+      "acceptance": false
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+      "readMethod": "full-text",
+      "lines": 54,
+      "sha256": "95525424dea3b49d69e92652b4325eb7814e3dce71d011ed14353c2b5d293c9c",
+      "acceptance": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts",
+      "readMethod": "full-text",
+      "lines": 201,
+      "sha256": "c648a80f2dbac5f60e81c3403d3fe4bee939e9dd93a1c6d842cca5ade4f04b3f",
+      "acceptance": false
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts",
+      "readMethod": "full-text",
+      "lines": 204,
+      "sha256": "c88950903b48533189f49b9081cdb18fd5f517d0e90d3e40bb0b4873308f26cf",
+      "acceptance": false
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "readMethod": "ranges",
+      "ranges": [[195, 218], [260, 292]],
+      "sha256": "38e5801281b5a10b1af8488ca552974b7d6686824ad29e3f4cb2bc668775022f",
+      "note": "current caller and output ranges; full 1–325 read in preceding slice, not whole current CLI acceptance",
+      "acceptance": false
+    },
+    {
+      "path": "packages/shared/src/events.ts",
+      "readMethod": "ranges",
+      "ranges": [[1, 90]],
+      "sha256": "973a52b68ef6f5c3ea1dd9701e3987703d8400794ae1c73b55148160debc8f3a",
+      "note": "current local types; prior full 192-line read unchanged",
+      "acceptance": false
+    },
+    {
+      "path": "docs/phase1/05-events-schema.md",
+      "readMethod": "ranges",
+      "ranges": [[1, 157]],
+      "sha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
+      "note": "prior full-text read unchanged; D17 structured subset and D20 numeric truth",
+      "acceptance": false
+    },
+    {
+      "path": "docs/phase1/04-decisions.md",
+      "readMethod": "ranges",
+      "ranges": [[5, 30]],
+      "sha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
+      "note": "D17/D20 and D24 correction explicitly read; not whole-file semantic review",
+      "acceptance": false
+    },
+    {
+      "path": "scripts/coverage/config.mjs",
+      "readMethod": "ranges",
+      "ranges": [[115, 140]],
+      "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35",
+      "note": "existing exclusions and required raw inputs; no new scope exemption",
+      "acceptance": false
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "readMethod": "ranges",
+      "ranges": [[150, 225]],
+      "sha256": "82560c261acf4262124b4e0a52389b8ddd1a8b2d8dbaf31a07d88d505feae512",
+      "note": "native inventory identity algorithm read; not runner acceptance",
+      "acceptance": false
+    }
+  ],
+  "priorFullReadEvidence": "../3/read-boundaries.json",
+  "rawWord": {
+    "path": "data/raw/WORD.DAT",
+    "sha256": "be56e77c7ecd61306133913a1987b1dddf656528ae870c2de1ee8ccda7ff3ebf",
+    "byteLength": 5650,
+    "records": [
+      {
+        "id": 551,
+        "value": "赤毒"
+      },
+      {
+        "id": 552,
+        "value": "尸毒"
+      },
+      {
+        "id": 553,
+        "value": "瘴毒"
+      },
+      {
+        "id": 554,
+        "value": "毒丝"
+      },
+      {
+        "id": 555,
+        "value": "三尸蛊毒"
+      },
+      {
+        "id": 556,
+        "value": "鹤顶红毒"
+      },
+      {
+        "id": 557,
+        "value": "孔雀胆毒"
+      },
+      {
+        "id": 558,
+        "value": "血海棠毒"
+      },
+      {
+        "id": 559,
+        "value": "断肠草毒"
+      },
+      {
+        "id": 560,
+        "value": "金蚕蛊毒"
+      },
+      {
+        "id": 561,
+        "value": "食妖虫附"
+      },
+      {
+        "id": 562,
+        "value": "碧血蚕附"
+      },
+      {
+        "id": 563,
+        "value": "HP回补"
+      },
+      {
+        "id": 564,
+        "value": "MP回补"
+      }
+    ]
+  }
+}

@@ -1,9 +1,7 @@
 // Q10 r18 · CLI 全管线合成输入共享 fixture（Q 专属；纯构造器，无测试）。
 //
-// 背景：cli-isolated.glm-q.test.ts 与 cli-battle-assets.glm-q.test.ts 各自持有本地夹具
-// （冻结证据，不再改动）；新 CLI 批次统一从本模块导入，避免第三份复制。构造法与前波
-// 同源同法（SSS 5 chunk / WORD.DAT 565×10B / M.MSG 平铺 GBK / DATA.MKF 15 chunk /
-// RNG·RGM·BALL·FIRE·SOUNDS 合成 / MAP·GOP·PAT·MGO 合法 YJ2 与 sprite group）。
+// 供隔离CLI套件共享相同字节合同的纯工厂；具体资源差异由套件显式覆盖，不接管树或进程。
+// SSS/WORD/消息及各MKF保持原合成布局；WAVDATA等仅核传输，不授音频格式验证信用。
 import { encodeSpriteChunk } from '@type-pal/shared'
 import { yj2EncodeLiterals } from './yj2-encoder.js'
 

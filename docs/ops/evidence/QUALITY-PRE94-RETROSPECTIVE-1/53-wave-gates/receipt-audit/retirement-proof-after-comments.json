@@ -1,0 +1,221 @@
+{
+  "command": ["node", "/tmp/pre94-audit-followup.mjs"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "phase": "after-comments",
+  "scope": "Six exact stored baseline transitions and actual current test bytes; not new runtime/coverage acceptance and not individual user signatures",
+  "payloadSha256": "d96a4f86f61e1f89cba4bab1bd497a6383e55292357cf43939e1cdda157e54d6",
+  "matcherSha256": "aadab978f4d8cffb836478d3abfb0e26693654d0c0e3221e5cb44b6e0fd1134f",
+  "baselineSha256": "9b07f6879402068d484c6a4678f400e42941435688e7d1e13c9e3a379dcfb1d1",
+  "rows": [
+    {
+      "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "approval": {
+        "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+        "previous": 10,
+        "current": 9,
+        "previousIdentityDigest": "5772ecfbe5ee2d180df9ff094b09cc394198efabe2ca48e1f8cf25182a4acdb2",
+        "currentIdentityDigest": "4fabf6e373581b9b37868b1092b6365d903c4943403d26b4c47b6adc9eef84da",
+        "fileSha256": "b1af3b6bca4725a5d310818597bd8179f48d1a43b76a9abf03b59dd5b40bbcf5"
+      },
+      "input": {
+        "removal": {
+          "kind": "test-count",
+          "value": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "previous": 10,
+          "current": 9
+        },
+        "previous": {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "testCount": 10,
+          "identityDigest": "5772ecfbe5ee2d180df9ff094b09cc394198efabe2ca48e1f8cf25182a4acdb2"
+        },
+        "current": {
+          "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+          "testCount": 9,
+          "identityDigest": "4fabf6e373581b9b37868b1092b6365d903c4943403d26b4c47b6adc9eef84da"
+        },
+        "fileSha256": "b1af3b6bca4725a5d310818597bd8179f48d1a43b76a9abf03b59dd5b40bbcf5"
+      },
+      "exactSnapshotAccepted": true,
+      "fileByteDriftRejected": true,
+      "additionCommit": "6d2f52f6ff3f415a5c62266e81a27cf08a827ac9",
+      "additionDate": "2026-10-15T23:20:36+09:00",
+      "additionSubject": "test(editor): await viewer IO and verify controlled frame ownership"
+    },
+    {
+      "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "approval": {
+        "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "previous": 10,
+        "current": 8,
+        "previousIdentityDigest": "fc9bebd5c34d31489d370fc8b30d8a8a594f9b5dcf137c62d7295eb15f9f44c4",
+        "currentIdentityDigest": "c8eefd745361b56760813d1bdf57f471bf10377ee6a68f62709b93a54c56ab5f",
+        "fileSha256": "ba9ef577509da8aa427dffaf37cddf56b92e95e9fdb8edfaa1498f93695d4bb5"
+      },
+      "input": {
+        "removal": {
+          "kind": "test-count",
+          "value": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "previous": 10,
+          "current": 8
+        },
+        "previous": {
+          "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "testCount": 10,
+          "identityDigest": "fc9bebd5c34d31489d370fc8b30d8a8a594f9b5dcf137c62d7295eb15f9f44c4"
+        },
+        "current": {
+          "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+          "testCount": 8,
+          "identityDigest": "c8eefd745361b56760813d1bdf57f471bf10377ee6a68f62709b93a54c56ab5f"
+        },
+        "fileSha256": "ba9ef577509da8aa427dffaf37cddf56b92e95e9fdb8edfaa1498f93695d4bb5"
+      },
+      "exactSnapshotAccepted": true,
+      "fileByteDriftRejected": true,
+      "additionCommit": "65c375e06fa5859dc5121519eb3507589813be35",
+      "additionDate": "2026-10-16T06:01:10+09:00",
+      "additionSubject": "test(editor): await real wizard commits and retire proven duplicates"
+    },
+    {
+      "file": "packages/pal-extract/src/events/annotate.test.ts",
+      "approval": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "previous": 9,
+        "current": 6,
+        "previousIdentityDigest": "a209db9c0916cd71bcd4b6890576e6ad6f7e6ef234cf9e2fe540f37f2457812f",
+        "currentIdentityDigest": "d6cf3075334ed29bb5cc2e924d93771383fc3b4965f347d3208e1be6d689c62d",
+        "fileSha256": "3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d"
+      },
+      "input": {
+        "removal": {
+          "kind": "test-count",
+          "value": "packages/pal-extract/src/events/annotate.test.ts",
+          "previous": 9,
+          "current": 6
+        },
+        "previous": {
+          "file": "packages/pal-extract/src/events/annotate.test.ts",
+          "testCount": 9,
+          "identityDigest": "a209db9c0916cd71bcd4b6890576e6ad6f7e6ef234cf9e2fe540f37f2457812f"
+        },
+        "current": {
+          "file": "packages/pal-extract/src/events/annotate.test.ts",
+          "testCount": 6,
+          "identityDigest": "d6cf3075334ed29bb5cc2e924d93771383fc3b4965f347d3208e1be6d689c62d"
+        },
+        "fileSha256": "3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d"
+      },
+      "exactSnapshotAccepted": true,
+      "fileByteDriftRejected": true,
+      "additionCommit": "b41dc8d535ab3bd58797136d8e6121cd7762111f",
+      "additionDate": "2026-10-16T03:22:59+09:00",
+      "additionSubject": "test(extract): strengthen annotation contracts and expose raw false greens"
+    },
+    {
+      "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+      "approval": {
+        "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+        "previous": 5,
+        "current": 4,
+        "previousIdentityDigest": "42d8a66508e7ba7a3f3a9e30c6b5d4bc29806a189bec974ca833395899822846",
+        "currentIdentityDigest": "2a3c1107905b8a668d0e63cb23d3cce8a8db28cab54c48637c4327e07dee7a7c",
+        "fileSha256": "1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83"
+      },
+      "input": {
+        "removal": {
+          "kind": "test-count",
+          "value": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+          "previous": 5,
+          "current": 4
+        },
+        "previous": {
+          "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+          "testCount": 5,
+          "identityDigest": "42d8a66508e7ba7a3f3a9e30c6b5d4bc29806a189bec974ca833395899822846"
+        },
+        "current": {
+          "file": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+          "testCount": 4,
+          "identityDigest": "2a3c1107905b8a668d0e63cb23d3cce8a8db28cab54c48637c4327e07dee7a7c"
+        },
+        "fileSha256": "1047364fe2958538103ab65aa398c695bd627d4f36fb1dffe8b4636d20aaef83"
+      },
+      "exactSnapshotAccepted": true,
+      "fileByteDriftRejected": true,
+      "additionCommit": "3bcdaadc3fd173ebd735e396f6147b4c6bc64b13",
+      "additionDate": "2026-10-16T04:25:11+09:00",
+      "additionSubject": "test(extract): verify parser diagnostics without losing V8 coverage"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-o.test.ts",
+      "approval": {
+        "file": "packages/shared/src/rle.glm-o.test.ts",
+        "previous": 13,
+        "current": 9,
+        "previousIdentityDigest": "2bdb40b1ccfa60356eb0170a3115e9316fd93362296be501bd400ea6478f9400",
+        "currentIdentityDigest": "8fd8702977aa55db3bc17df8f85d0574cb9193e3390b5a94f828bdb7025bf848",
+        "fileSha256": "b4ff29b83abd05b88307f3cad9eeed7957cc4508cda2f753c60925b20a97ddfc"
+      },
+      "input": {
+        "removal": {
+          "kind": "test-count",
+          "value": "packages/shared/src/rle.glm-o.test.ts",
+          "previous": 13,
+          "current": 9
+        },
+        "previous": {
+          "file": "packages/shared/src/rle.glm-o.test.ts",
+          "testCount": 13,
+          "identityDigest": "2bdb40b1ccfa60356eb0170a3115e9316fd93362296be501bd400ea6478f9400"
+        },
+        "current": {
+          "file": "packages/shared/src/rle.glm-o.test.ts",
+          "testCount": 9,
+          "identityDigest": "8fd8702977aa55db3bc17df8f85d0574cb9193e3390b5a94f828bdb7025bf848"
+        },
+        "fileSha256": "b4ff29b83abd05b88307f3cad9eeed7957cc4508cda2f753c60925b20a97ddfc"
+      },
+      "exactSnapshotAccepted": true,
+      "fileByteDriftRejected": true,
+      "additionCommit": "ceda5bb12d743e83dfc92758a2950c71dbe8f78c",
+      "additionDate": "2026-10-16T01:58:44+09:00",
+      "additionSubject": "test(shared): consolidate YJ2 contracts around independent byte oracles"
+    },
+    {
+      "file": "packages/shared/src/rng.test.ts",
+      "approval": {
+        "file": "packages/shared/src/rng.test.ts",
+        "previous": 7,
+        "current": 6,
+        "previousIdentityDigest": "c82002802a1d8ed74b892153bb9044c639050feac85457c28c582dda4b46446e",
+        "currentIdentityDigest": "641b8706672be8b2cabcdef152037416505698c1a20c892a2d3da9964acef0e2",
+        "fileSha256": "5d7a5003aca652fd319118df5a73d85f101b2239f8ead7d15c192254c139101a"
+      },
+      "input": {
+        "removal": {
+          "kind": "test-count",
+          "value": "packages/shared/src/rng.test.ts",
+          "previous": 7,
+          "current": 6
+        },
+        "previous": {
+          "file": "packages/shared/src/rng.test.ts",
+          "testCount": 7,
+          "identityDigest": "c82002802a1d8ed74b892153bb9044c639050feac85457c28c582dda4b46446e"
+        },
+        "current": {
+          "file": "packages/shared/src/rng.test.ts",
+          "testCount": 6,
+          "identityDigest": "641b8706672be8b2cabcdef152037416505698c1a20c892a2d3da9964acef0e2"
+        },
+        "fileSha256": "5d7a5003aca652fd319118df5a73d85f101b2239f8ead7d15c192254c139101a"
+      },
+      "exactSnapshotAccepted": true,
+      "fileByteDriftRejected": true,
+      "additionCommit": "8bac3254df405f6539a025f359381be62db2af7a",
+      "additionDate": "2026-10-16T01:40:34+09:00",
+      "additionSubject": "test(shared): strengthen MKF and RNG contracts and retire duplicate delta"
+    }
+  ]
+}

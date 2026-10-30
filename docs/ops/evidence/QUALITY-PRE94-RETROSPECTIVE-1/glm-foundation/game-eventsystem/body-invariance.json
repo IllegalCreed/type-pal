@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "base": "28b3d95c5e281734e9d53729a7de08b42a7ed564",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/event-system.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "f4b9782470b02d4932ab38eca69a1a7efa83d9c4cd077c14fea4cd382820ed14",
+        "current": "f4b9782470b02d4932ab38eca69a1a7efa83d9c4cd077c14fea4cd382820ed14"
+      },
+      "printedBytes": {
+        "base": 119892,
+        "current": 119892
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

@@ -1,0 +1,28 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/shared",
+    "exec",
+    "vitest",
+    "run",
+    "src/pre94-rle-counter-0.test.ts",
+    "src/pre94-rle-counter-1.test.ts",
+    "src/pre94-rle-counter-2.test.ts",
+    "src/pre94-rle-counter-3.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-rle-catch-improved.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 1,
+  "passed": 53,
+  "failed": 1,
+  "skipped": 0,
+  "failure": "parseSpriteChunk 宽容入口跳过截断坏帧并保留后续合法帧",
+  "failureReason": "real malformed literal escapes instead of being skipped after catch is replaced with rethrow",
+  "rawSha256": "4977ff8bfc0bbac3e7bc19e0ede6fb90719ebbeadedda3303b81ddd87d159013",
+  "runnerSha256": "b5635766fd2bf4a394eb9a40ed982cf38839afadb346218459faba87b62763a6"
+}

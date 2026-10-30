@@ -1,0 +1,1830 @@
+{
+  "kind": "lossless-native-publication",
+  "task": "GAME-ENGLISH-1",
+  "date": "2026-10-22",
+  "owner": "Codex",
+  "readCommand": "gzip -cd <publishedPath>",
+  "scope": "Original bytes including failed/calibration runs; no raw SLF/English pack/binary resources or screenshots bundled. Claims remain bounded by contributor/root review.",
+  "entries": [
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-clear/biome.log",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/6a55b3380e0f-biome.log.gz",
+      "bytes": 42,
+      "sha256": "6a55b3380e0fed7dcaf28ae4d71347a8a7a960c308b072baefd4a1c89be32dfc",
+      "compressedSha256": "b0d2968a5fb070807d60c9ce327ed23eb0d17359f244be465b861a7b85dc29d0"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-clear/calibration-wrap.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e8d201820c8e-calibration-wrap.json.gz",
+      "bytes": 5849,
+      "sha256": "e8d201820c8e2a1894bb627ee67bac969a1b1a3ab94ef70f206b1247215f18e2",
+      "compressedSha256": "23576da85617e06a67e64904f33333d6e78a73c623d805a5f47972f6babcce24"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-clear/calibration-wrap.log",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/8eb991956710-calibration-wrap.log.gz",
+      "bytes": 2589,
+      "sha256": "8eb99195671067f0a8eefca0c33f5c060a8d83cf8fb87c1879f5517483474687",
+      "compressedSha256": "a62f469304bd77869a983c8c6d86bdc26546521ea69fcbbc65aec89e7c3a16f2"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-clear/change.patch",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/163100e9748f-change.patch.gz",
+      "bytes": 3087,
+      "sha256": "163100e9748f4e95323da41e9675839953e2ab9f6a88c67729bdc34b84d86af4",
+      "compressedSha256": "573047f57e3d78ba3d4c1f7795d497532b6c73db6563f9780882ee82b19e8e00"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-clear/counter-meta.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/c3b3c9da3b38-counter-meta.json.gz",
+      "bytes": 842,
+      "sha256": "c3b3c9da3b388d625892d85aedf4734d297286ce7f4dfa95cb518507bc533640",
+      "compressedSha256": "ae8ebe206929cc08d8aa27658ef3b0d46723e2b0112ed8042e102b97496dc878"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-clear/counter.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/0304908fb05d-counter.json.gz",
+      "bytes": 5548,
+      "sha256": "0304908fb05d53dbfad7d5f5b38e3d1bfdc2a6e0629caa386cb82fa2ed005c95",
+      "compressedSha256": "19ac8b9425bc5af73a9b2400295ed06142b34dd6b118de2ab154673879adaf4a"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-clear/counter.log",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/ba623acb63f8-counter.log.gz",
+      "bytes": 3136,
+      "sha256": "ba623acb63f8cfa870035add56d614d60f29b31ea876499e251eeb1cb70be289",
+      "compressedSha256": "5290b8eb9039df28015b3a9ca06c09cd98b95757ba5590a34efd58f3af6c4b1b"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-clear/final.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/8584c5126ac4-final.json.gz",
+      "bytes": 4522,
+      "sha256": "8584c5126ac4cf5a3589fa322a027e17a5c6a85782932d18b0291323095602ad",
+      "compressedSha256": "31bb95f1e08e458593132532482d0a997ebf2b189691a66ce8b315ec14dfd426"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-clear/final.log",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/1b62d38566ad-final.log.gz",
+      "bytes": 429,
+      "sha256": "1b62d38566ad0a9c3deae6175049b65041402581a71c34ccfffad4288b9569fa",
+      "compressedSha256": "ddbbdb17214cf554bce2e3ed6dd2937b56407bc8da5fb77d71aafd7bd5715c57"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-clear/focused.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/991c46ad2008-focused.json.gz",
+      "bytes": 4518,
+      "sha256": "991c46ad2008c086072379bfaeee7ee4a09fd5a1dd0c42f56b4a361afde9bd3c",
+      "compressedSha256": "6f798b82a4bcab5ac195cdee78762865cf6ec5752214b81863c5300ce31b388e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-clear/focused.log",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/91ed8246ef16-focused.log.gz",
+      "bytes": 431,
+      "sha256": "91ed8246ef1689b3a5ab1b02bf2063a064c9ddb7c98f6c19fdee4c8c6ad2656b",
+      "compressedSha256": "ea986162d1f6bc653255119bef50af4253d229997513d348997f24f9605c9403"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-clear/review.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/21d87de2ecf9-review.json.gz",
+      "bytes": 9389,
+      "sha256": "21d87de2ecf95fa8fead74dff3e76def8b0657e3df03eda5e4bfa823d9104859",
+      "compressedSha256": "af461a07ebb4f077b3b018dcfd822df6908fcd594bfdb6290b442a04263b0165"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-clear/typecheck.log",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/91e087942212-typecheck.log.gz",
+      "bytes": 120,
+      "sha256": "91e087942212d8241dfdcef926edb3d61b7d67308e9cdaba7299e1edb3379a04",
+      "compressedSha256": "c31f4e658700687f85576460d299882eb08f8c70ff383d4bb2dc98fdb73c3575"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/biome.log",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/f706d864e5d4-biome.log.gz",
+      "bytes": 43,
+      "sha256": "f706d864e5d4e23b964531f6078ae790a9fae2b52f67b93a92906c1c75d564c5",
+      "compressedSha256": "a516097eacba562706f506fd7dc1380dd8de7042a46bd497973b15d856f5ffd8"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/change.patch",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/2448f9e97786-change.patch.gz",
+      "bytes": 3465,
+      "sha256": "2448f9e977868336740091d9373fc52698280d13634422647529b130df0a4040",
+      "compressedSha256": "6de40f1733ef35551a2d6d86e264b24eaa2e0d595b9029ab867a6cdb181eaf80"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/counter-meta.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/7e97e6f86188-counter-meta.json.gz",
+      "bytes": 665,
+      "sha256": "7e97e6f8618811c6de9e5ed4850081f8fd0d954e348194284ee094b9c82bc659",
+      "compressedSha256": "47cd7982ef8b65ea5d54764c609ac33509475c504428b49eb27cfb24f6e41ca3"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/counter.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/89554c91b783-counter.json.gz",
+      "bytes": 6250,
+      "sha256": "89554c91b783d0eb1e29241fe78200aeac5f9558d268a323cdc40e3a49070f46",
+      "compressedSha256": "2785e5058181bc7c27e8b9017f5924b120c92f23be102c48f0a6bc936ef13a8d"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/counter.log",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/a0b577b19381-counter.log.gz",
+      "bytes": 2841,
+      "sha256": "a0b577b1938184c2f03540617362d007c3c0a03932ace105dc8e4ff852b4338f",
+      "compressedSha256": "bd1cf8693421a60ca83cc601d0a7a100acaf1b8cbff13141edd3d535c9d0594a"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/green-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/c073ddcbdb86-green-command.json.gz",
+      "bytes": 287,
+      "sha256": "c073ddcbdb869f59fc1eea11308475c0ee5dc91877cd5c32ead65ff77c37b529",
+      "compressedSha256": "10c53d71e8a57e76c6705fda9025fb7f2783616dcf313bc37cd4f71d9061ee4d"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/green.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/035f19b5886c-green.json.gz",
+      "bytes": 5260,
+      "sha256": "035f19b5886c153e19e5e8e3d86996d0c508d7f903aea8df63c136187d95f3c7",
+      "compressedSha256": "5e852ef2b1a23321ec66d20c40820e566b0f05f2296a0cfd8345ed3ebca5f00d"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/green.log",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/d345c0b6e2bf-green.log.gz",
+      "bytes": 431,
+      "sha256": "d345c0b6e2bfdd8d13e6c1862ff4a66fc314f4d10a7bd1bbc8eba6deb753f740",
+      "compressedSha256": "9385bd196e64649d95d75caf1dce2597381c4052dd7e409bfce78bb0601c50c7"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/red-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/42bbd4c8f8b1-red-command.json.gz",
+      "bytes": 349,
+      "sha256": "42bbd4c8f8b10b7a89c70a8fa968b31f2ccc0cd9c7eb84de4947aa639a0d893d",
+      "compressedSha256": "f885c65b847e50735b6ee8a27f0bd23289e1f40813c0c240c3f06c02a6b48ae5"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/red.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/24dd787eee29-red.json.gz",
+      "bytes": 7604,
+      "sha256": "24dd787eee297ed9010720fb78f135860b3c57e12b56464d4842b3d233df0dd8",
+      "compressedSha256": "e9cfd3b8e9c88347a0967ecf7a0e1c8114b7ebd0ddec239864a07cba03ed9e14"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/red.log",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/1c1f6e29ccd4-red.log.gz",
+      "bytes": 3602,
+      "sha256": "1c1f6e29ccd4d1658d113ebb8c931a2e0eb2cf14591c7f7d6ac3a4829920f3fe",
+      "compressedSha256": "1bafa13b6e16f08801ba163b1049aaa57f039c6298f7590088c45a7f927f38de"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/restored-adjacent.log",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/146ef411effa-restored-adjacent.log.gz",
+      "bytes": 500,
+      "sha256": "146ef411effa2220677958689413c87b5a3497d04429fdf060712f3952fb5d57",
+      "compressedSha256": "6a643d7f630001e3280833260048a20921be49c3061c4b5ccef5b7834cbfb763"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/restored.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/f2b973b765e1-restored.json.gz",
+      "bytes": 26560,
+      "sha256": "f2b973b765e1f7c38e16b3cb9f2e7b1acdc62d39726715353914170b268e5daf",
+      "compressedSha256": "534aa44ef2a5ccaf8dd5e8001165318a21eb2a7cef5094ff4fbebbd514a7803a"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/review.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/3e5ec0a2b5f1-review.json.gz",
+      "bytes": 12269,
+      "sha256": "3e5ec0a2b5f1cc86839902e323062ec98e10d12655dfa7c8e3a4153f09a1e240",
+      "compressedSha256": "a614a9a0352dd2b51107b4b3698a1e1b531d501d8541a4939e0495bedecff093"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/english-dialog-literal/typecheck.log",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/91e087942212-typecheck.log.gz",
+      "bytes": 120,
+      "sha256": "91e087942212d8241dfdcef926edb3d61b7d67308e9cdaba7299e1edb3379a04",
+      "compressedSha256": "c31f4e658700687f85576460d299882eb08f8c70ff383d4bb2dc98fdb73c3575"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/root-canvas-followup/review.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/38bc84de8301-review.json.gz",
+      "bytes": 61122,
+      "sha256": "38bc84de8301d35966568922fef00a067b939997a378fcaf97b8de111c69b694",
+      "compressedSha256": "dbeff97229259d089d46e443f7ec7541acc85c00d0460aa598e041c9746d47b0"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-dialog/type-pal/build/root-canvas-followup/reviewed-root-commits.patch",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/db55a1c8b318-reviewed-root-commits.patch.gz",
+      "bytes": 89004,
+      "sha256": "db55a1c8b318039ab4aec92ad0ca32ab2e7c5ecf1efba3575869df3316aa8ddd",
+      "compressedSha256": "9400180507627679dd98b4cf7dab24bc1e8622fbccb983629b14de0858a14449"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/counter-evidence-verification.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/8f83790fa551-counter-evidence-verification.json.gz",
+      "bytes": 1167,
+      "sha256": "8f83790fa55198f4b84a6d5ce5d153b9538e887f390015d4e7bfe322e481cf44",
+      "compressedSha256": "326971b429df0f98eedcc28eeafa32857f8ca0f7aaec5388c6d5cc998356f718"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/description-scan-final.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/9f198a4e5bcf-description-scan-final.json.gz",
+      "bytes": 60,
+      "sha256": "9f198a4e5bcf38a3fb4db8953c878097c5a08e621001111aaecc9ea2049455ed",
+      "compressedSha256": "ba9afdcf5564de9017318b7f3dcd807eee6bddcd80bff238d317bb888c9af4bf"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/description-scan-final.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-description-scan-final.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/description-scan.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/8eb1ed041ab8-description-scan.json.gz",
+      "bytes": 10720,
+      "sha256": "8eb1ed041ab8e41ad5d2b84808535e71b87f01096047bfd95d92b0501e4c6719",
+      "compressedSha256": "4f538d1b6d18372ef9441a79c53c3857c955b6e32913c37ce7d4d6cf7d716ea1"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/description-scan.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-description-scan.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/description-scan.ts",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/fea38ab83db2-description-scan.ts.gz",
+      "bytes": 1323,
+      "sha256": "fea38ab83db2cf8592185f2bcade4eba6319c4bbff3391fb67f6336fcbeaed0e",
+      "compressedSha256": "6968c8b49561cb587593a240fdb5768a2ff560c81b4c347371dd2cc605be1184"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/finite-tests.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/daf92122cb18-finite-tests.json.gz",
+      "bytes": 4813,
+      "sha256": "daf92122cb18962edaeddc42ce6d254f6f468ce28ffbc6d6b5c329f3992a6a1f",
+      "compressedSha256": "769be2376ce2f10588fa957721d4d10c223810ed31aaabc0536fe03be1c732ca"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/finite-tests.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/d25c11e8a288-finite-tests.txt.gz",
+      "bytes": 123,
+      "sha256": "d25c11e8a2882e75816d691f50ae977fcaf0dc4c29a9adfc54f412c618519ed0",
+      "compressedSha256": "6d36ee2e3d235c6df84051bfa33faf751797921d6587dd8c7bcd24a5495e0b35"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/fix-tests.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/22b15a5c092b-fix-tests.json.gz",
+      "bytes": 2137,
+      "sha256": "22b15a5c092b00e977b5957ca45efb719026ec1b6617bd8214d320f4d295977f",
+      "compressedSha256": "bf6ba20322d2b29a10f2bc35b5f2e5b1ac61c4578e1d7fbc1ccd3ec39fb85cdd"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/fix-tests.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/77a0e335147d-fix-tests.txt.gz",
+      "bytes": 120,
+      "sha256": "77a0e335147d74ab7abf370378572f08eeab25c6304d76bd022dc6d59175cdae",
+      "compressedSha256": "a669addadc616164b3aef5e6488138ba8f2b3b0a249f9a10246cfce95dc0534b"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/live-menu-probe.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/b0571a4090c3-live-menu-probe.json.gz",
+      "bytes": 1233,
+      "sha256": "b0571a4090c39d93acb8b31f9694ffb33df04e2dd5fc55564eea9ccf88590c25",
+      "compressedSha256": "1ba13f15ff0802225d3c7fe631c4cabbe97a6582e85d2652227a4faad554dfa6"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/live-menu-probe.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-live-menu-probe.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/live-menu-probe.ts",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/2191fafc3589-live-menu-probe.ts.gz",
+      "bytes": 4254,
+      "sha256": "2191fafc3589ed1f3977467565c79cfb026b09e393b7310cc61300c73716b195",
+      "compressedSha256": "bd94afc098021e544da57c60c97eac6433bb11fa5047a27222ac60e9944af533"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/probe-final.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/11ad6063e534-probe-final.json.gz",
+      "bytes": 3009,
+      "sha256": "11ad6063e53419ee5b49cf88e9c1df7ac8af5930781efe955edadb8a754cd9fe",
+      "compressedSha256": "26f27de47a9d12df2c8364cedcb3fcb28aada09c880722e975681fdc3926099b"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/probe-final.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-probe-final.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/probe.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/344f87201dda-probe.json.gz",
+      "bytes": 8508,
+      "sha256": "344f87201dda4bc10214aef893c131ae1787706cee7f6806ae3de2ef31c53acc",
+      "compressedSha256": "703c5beb8a87c61b186f949edd08937f82a6a65e10a47ad00b3a7dc866bb3b58"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/probe.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-probe.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/probe.ts",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/f2a9273e5c79-probe.ts.gz",
+      "bytes": 4801,
+      "sha256": "f2a9273e5c79958ed39f1fbaa56ddb3ce67a8b266c451a81906af4f4920d1e2d",
+      "compressedSha256": "4426c2c872640a0bb6c6da6e2ca250dcd0c775d434266627d9c27af2a66a69d1"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/snapshot-final.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/14f98342cac2-snapshot-final.json.gz",
+      "bytes": 1474,
+      "sha256": "14f98342cac2e13cef46b6643a257d0833ddd2f55aae408b3c24e927731f6e0d",
+      "compressedSha256": "6559c621b780793d7e2cac488d042384f94b3cfa5c74bf207183c564622dc261"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/snapshot-initial.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/b27fc05405ce-snapshot-initial.json.gz",
+      "bytes": 1829,
+      "sha256": "b27fc05405ce8d03d3a5d75280e2d807d2d91b4a9265c3bcd15fa3bef2e8e725",
+      "compressedSha256": "57d27a0ee5075de2fec4dcde91af2e36ee029dea6577e8d11a49b5b193d3ed3b"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/status-overlap-probe.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/1a1941a04a86-status-overlap-probe.json.gz",
+      "bytes": 260,
+      "sha256": "1a1941a04a86cbe1ea555b5346a0cb02433bcf0d663bdb4eec2bbc5ae3082c88",
+      "compressedSha256": "186c7a7a091157e2d413f2a684b413329f0ca9a64481d869f7773117e173fe80"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/status-overlap-probe.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-status-overlap-probe.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-canvas-review/status-overlap-probe.ts",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/cc9f1f5c30ab-status-overlap-probe.ts.gz",
+      "bytes": 3042,
+      "sha256": "cc9f1f5c30ab5805f5702ab24a585c13391e21a396cdd04f3488c2679c5b996e",
+      "compressedSha256": "87038dc98c2085ff009726e71d04cdeb3b91d59e94b4c6776d17589e73cd66a0"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/biome-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/ac9144e7bce4-biome-command.json.gz",
+      "bytes": 491,
+      "sha256": "ac9144e7bce4fa21446953190981c6b4d63b959bd8f0a3251277aecbd267ae4d",
+      "compressedSha256": "52da9b7b9cb3f55bb4fb636a284202bd70901d0d860bf0202d816d8e2fc81ff5"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/biome-final-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/77e47384aa7d-biome-final-command.json.gz",
+      "bytes": 491,
+      "sha256": "77e47384aa7db43f1ee54078ac631a4616f1e968e8a2004be008814e24225413",
+      "compressedSha256": "97ccd5538f82188cc5a504eaecd6dd161d4a362e84d1494bbec4cc7d6e2236ea"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/biome-final-default-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/d4e73a0155e4-biome-final-default-command.json.gz",
+      "bytes": 468,
+      "sha256": "d4e73a0155e44586bec85d08de6e3875f2c11239dcbaf664243328e0ca05f7b5",
+      "compressedSha256": "0c559cf2d92882e8225306d0fc7e159112d72cf3f5317890ab646639164537d4"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/biome-final-default-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-biome-final-default-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/biome-final-default-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/4f9cf04b1c13-biome-final-default-stdout.txt.gz",
+      "bytes": 43,
+      "sha256": "4f9cf04b1c13950f172a5f395b09b3c65907cbfb2a2987e5e89671f6fc41eed9",
+      "compressedSha256": "a2815b3b2c5879e550aaaf57e6dcee750e2922ed8bf7ddf72f96535fb4cb8930"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/biome-final-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/12185f7730fa-biome-final-stderr.txt.gz",
+      "bytes": 103,
+      "sha256": "12185f7730fa380f95bd4166d23005af3e8d28da402cd07d459a581a0425e7e8",
+      "compressedSha256": "cbe1311bbd49f3f5d2df791e9e8df60821c3fd6832a325a2b93bb2ea6172cedd"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/biome-final-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/6f98cbde7e64-biome-final-stdout.txt.gz",
+      "bytes": 230,
+      "sha256": "6f98cbde7e64045e08c9371324684201a357edd775801d741a3eadea2a69431c",
+      "compressedSha256": "b5e95e8bddf7e22ca914038d134cdf082529d17d15af7f1c96acdf0b10316f8f"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/biome-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/12185f7730fa-biome-stderr.txt.gz",
+      "bytes": 103,
+      "sha256": "12185f7730fa380f95bd4166d23005af3e8d28da402cd07d459a581a0425e7e8",
+      "compressedSha256": "cbe1311bbd49f3f5d2df791e9e8df60821c3fd6832a325a2b93bb2ea6172cedd"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/biome-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/0851a2a98271-biome-stdout.txt.gz",
+      "bytes": 230,
+      "sha256": "0851a2a98271a2254c9c17019c3709f7fa7db270cda9e5625fff0d53517a3ea1",
+      "compressedSha256": "78051e214094257798cf4781bfca0e09c7bf828390dc669856b1a2dd6d119137"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/counters-calibration.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/6fe692b15efe-counters-calibration.json.gz",
+      "bytes": 4523,
+      "sha256": "6fe692b15efe98761747fb4ca87bf2f0ad9387ac49b980c7adb60796971ad634",
+      "compressedSha256": "24f95f55d61ea3a017106f32c60d86abbaad5f29190a0c1b399b6d214e09e88f"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/counters-calibration2.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/85909bc3420b-counters-calibration2.json.gz",
+      "bytes": 4523,
+      "sha256": "85909bc3420b85812623e1c6f817452f5f6a7f9c446a6254fda2f02c313873cb",
+      "compressedSha256": "1e30bea2f07810187a2d7937d281ee51aa9198d5d7b26a62f37c9e83ac6180ea"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/counters.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/8f1c2678f135-counters.json.gz",
+      "bytes": 4951,
+      "sha256": "8f1c2678f135aac970ff99d2faaea7b4e706d1d0ca8762f8483127eb572a892f",
+      "compressedSha256": "08a8dbc6e999ddbdcd5c60c416acdf3ed977f2b30b587859eb9fe9c005f35331"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/coverage-pre-title-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/641072272213-coverage-pre-title-command.json.gz",
+      "bytes": 2263,
+      "sha256": "6410722722131ee86e902c13bd90a723606012abcac11352a634770cdcfc6e32",
+      "compressedSha256": "3c94e6fb4439732d7b2c2d8f4a1261476bf28f82fd552ee786ade817c5fea3aa"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/coverage-pre-title-native.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/9128fd0a1139-coverage-pre-title-native.json.gz",
+      "bytes": 464790,
+      "sha256": "9128fd0a1139598654cc5e9e429dc6a87d366a3d6f072a1df1ac304e8804d61b",
+      "compressedSha256": "c43343303381a8ac1c78357a0ba16a9177556f525543750f5cc0067e8b332a83"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/coverage-pre-title-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-coverage-pre-title-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/coverage-pre-title-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/7b56b8fb88af-coverage-pre-title-stdout.txt.gz",
+      "bytes": 9206,
+      "sha256": "7b56b8fb88afcf88429c112cfc5b77f1df0aaa26bc28a1a590cd7955e0cb13e0",
+      "compressedSha256": "010516b2ac903b2a1216ad90dffc6e3c505d1e166b14a68640c14f9742d12c69"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/directed-calibration-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/0e169434b6f2-directed-calibration-command.json.gz",
+      "bytes": 599,
+      "sha256": "0e169434b6f2eaa787ab4de30ef2dac16b85aa108276a566cdf2f869f78246c0",
+      "compressedSha256": "266c7da0b9804be35f8d37a60d31e0a307fa18b57f36b93f6652173f0e82cf5e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/directed-calibration-native.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/c073ced3d1e0-directed-calibration-native.json.gz",
+      "bytes": 13776,
+      "sha256": "c073ced3d1e0fcb4620049f8227a26c18976320a86f3f1aa642f58a1fe3447e4",
+      "compressedSha256": "401dde88c304f7a065863160ff109c3f7c4d616f551c27b985ef6454b40c4243"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/directed-calibration-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/00859d7594e5-directed-calibration-stderr.txt.gz",
+      "bytes": 837,
+      "sha256": "00859d7594e50076bbe72a9bedf329771431aa2a3ef7a58a33c4b368c56da868",
+      "compressedSha256": "88ec53499b3edf20ac4d29773b2cdf0489cfb43ce0b7673e1b96a4438a2dc1df"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/directed-calibration-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/03d05e35098b-directed-calibration-stdout.txt.gz",
+      "bytes": 1462,
+      "sha256": "03d05e35098b9b25b22046cc1af5dd60a8b8776b0cab5b2b31848f69b000dc25",
+      "compressedSha256": "53010c8fe27e6247c7cc7138e2eadcae872a82dd30e657eafa56b8b78cf7271b"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/directed-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/ae3f29ef2c08-directed-command.json.gz",
+      "bytes": 599,
+      "sha256": "ae3f29ef2c088e08252376c518a82b8287902324d5566bccc550679b1ffdafa2",
+      "compressedSha256": "a9e17683e4ab2c7f78e8b52b9e8f513cc8728057a55c956b4b857f2cde287566"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/directed-native.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/15f1a8627621-directed-native.json.gz",
+      "bytes": 9762,
+      "sha256": "15f1a8627621e3a7ae7b298374320854be6677416219df68dcac5eaf46a46b7d",
+      "compressedSha256": "fe948d9389841fda7e4e4de7340e81fddcd1041a02b3972ea5778044cee9764b"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/directed-pre-title-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/b71e4afd8495-directed-pre-title-command.json.gz",
+      "bytes": 599,
+      "sha256": "b71e4afd849569f7387c9cf81022ba5c81ea48ed4487040823486011cc2c4bd0",
+      "compressedSha256": "a95d868b319281ff2ae69eadd925e9b3249feac5f8ed3538eadd84902bb26a2e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/directed-pre-title-native.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/8e3885f7b356-directed-pre-title-native.json.gz",
+      "bytes": 9762,
+      "sha256": "8e3885f7b3569bf9646a47f4af94e2648c155470128356958fdc973f4bcae083",
+      "compressedSha256": "d3e94c6abdd0992b2a1be8f54efa19d0493bf711bc79e98e9a42332283496d06"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/directed-pre-title-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-directed-pre-title-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/directed-pre-title-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/c6b11286e5a3-directed-pre-title-stdout.txt.gz",
+      "bytes": 1342,
+      "sha256": "c6b11286e5a3ac4ae6223814f5be4c74eac4db734cb1515432e183563cd64f62",
+      "compressedSha256": "9bec4b37d54b53128d062035e38bfb0d8b5dd12cbe5619b555198e66a7e7e6d6"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/directed-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-directed-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/directed-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/eea05d35a204-directed-stdout.txt.gz",
+      "bytes": 1334,
+      "sha256": "eea05d35a20449693239d993196e858a2781a6d3712a988c1d08909543732608",
+      "compressedSha256": "fd3b6b6bc56339490e26adcb8ba28806bf87484a9841a64327ba89231ea1601d"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-calibration-mutant-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/521e6a8ea776-premature-cleanup-calibration-mutant-command.json.gz",
+      "bytes": 551,
+      "sha256": "521e6a8ea77643af1847e60db41da93737492dfe3cc5aee7906f3bddae825e92",
+      "compressedSha256": "794c0dbb7c466356ca0d7691abaa6fab61a971af14503d1d06d5f1fc0dfa2c08"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-calibration-mutant-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-premature-cleanup-calibration-mutant-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-calibration-mutant-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/98bb9c43567b-premature-cleanup-calibration-mutant-stdout.txt.gz",
+      "bytes": 78,
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "compressedSha256": "a20a0e3b3e12a98fcb6054921fc355ec86befed829fd896c2340acc090be8dde"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-calibration-restored-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/88564f842581-premature-cleanup-calibration-restored-command.json.gz",
+      "bytes": 553,
+      "sha256": "88564f842581be5f323e786c4e6ab9db5cf74fd16bba8b1e0f55d17d2e397bbe",
+      "compressedSha256": "7da23f2bee35cb9ee582aa157d2e2101e06a24702a7a33a288ef268e41900fbe"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-calibration-restored-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-premature-cleanup-calibration-restored-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-calibration-restored-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/98bb9c43567b-premature-cleanup-calibration-restored-stdout.txt.gz",
+      "bytes": 78,
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "compressedSha256": "a20a0e3b3e12a98fcb6054921fc355ec86befed829fd896c2340acc090be8dde"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-calibration2-mutant-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/9b415b3ca9c8-premature-cleanup-calibration2-mutant-command.json.gz",
+      "bytes": 551,
+      "sha256": "9b415b3ca9c8aa22a9b9137376a80cc1fea69429d11b5dd4dc1f486546f068de",
+      "compressedSha256": "2642f6d89bf1675122df7f90aed7bde31511eeb98c67defe343d510deb00961e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-calibration2-mutant-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-premature-cleanup-calibration2-mutant-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-calibration2-mutant-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/98bb9c43567b-premature-cleanup-calibration2-mutant-stdout.txt.gz",
+      "bytes": 78,
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "compressedSha256": "a20a0e3b3e12a98fcb6054921fc355ec86befed829fd896c2340acc090be8dde"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-calibration2-restored-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/962dad98122c-premature-cleanup-calibration2-restored-command.json.gz",
+      "bytes": 553,
+      "sha256": "962dad98122cd3fc349ce3a1fe2daeec9af9e80ca98a858676a348e4247eb7c8",
+      "compressedSha256": "14466a903d60bb212d63e4f283c1f3441ec5aaa71ce8e4caf2ebce391e503ea1"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-calibration2-restored-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-premature-cleanup-calibration2-restored-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-calibration2-restored-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/98bb9c43567b-premature-cleanup-calibration2-restored-stdout.txt.gz",
+      "bytes": 78,
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "compressedSha256": "a20a0e3b3e12a98fcb6054921fc355ec86befed829fd896c2340acc090be8dde"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-mutant-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/81add5fe45c4-premature-cleanup-mutant-command.json.gz",
+      "bytes": 662,
+      "sha256": "81add5fe45c462617ca9aa1768646d035e4bf3ad5d9f33bc81641e18329dc5e0",
+      "compressedSha256": "671216b6941c8da60926ab86be35c78a4be30fb36ca0a12fb5e19a1bb746a8ad"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-mutant-native.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/56620e01b908-premature-cleanup-mutant-native.json.gz",
+      "bytes": 1420,
+      "sha256": "56620e01b9084990f03ddb263b8ad5d5635d76bba78e18b22298b1c1e770db40",
+      "compressedSha256": "d84a7992816577f7cc4efd670bc1dfc917386723ddfa21e97320ce94cd3b166e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-mutant-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/0ecaa8cebea1-premature-cleanup-mutant-stderr.txt.gz",
+      "bytes": 695,
+      "sha256": "0ecaa8cebea17a4239468c26c8c5477e83fad91f86fdf6a0ce233b26dccb32f0",
+      "compressedSha256": "4792ddf2cd71480a3c1daa636c935bcd317ac102b2a22ae6b52c965f749b0a33"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-mutant-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/00ef49b66fe7-premature-cleanup-mutant-stdout.txt.gz",
+      "bytes": 567,
+      "sha256": "00ef49b66fe74533f0d484c35182ddb4d49753328123fb837909ba9e56796601",
+      "compressedSha256": "3e1ad5538418e99654a9c1cafa36c94e539f2167c03f3b8c94a90d795a6b1ca5"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-restored-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/796e73036eab-premature-cleanup-restored-command.json.gz",
+      "bytes": 664,
+      "sha256": "796e73036eabdbf032293f6534254044b26bfe64290a9b60abc46d7d457d9720",
+      "compressedSha256": "d16383a2c81e2cadd4c056f75dcd4fafa096a0693cd403eece289abf526ea649"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-restored-native.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/8828caeb4d35-premature-cleanup-restored-native.json.gz",
+      "bytes": 995,
+      "sha256": "8828caeb4d3553289c7e239b388fcf91fa364000a402f1e1d3671a585015cb99",
+      "compressedSha256": "11f02fb537e42e360cb66c8503f2de45f06bb4117411fd857013e7f4388efc71"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-restored-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-premature-cleanup-restored-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/premature-cleanup-restored-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/03e07bcf7118-premature-cleanup-restored-stdout.txt.gz",
+      "bytes": 560,
+      "sha256": "03e07bcf71183737dd49f1501345d315b9e59b03e59bd29ba77fd24c311ddf2f",
+      "compressedSha256": "c1161ee1a1c04ed70ef2a5f6923674952cc798942bb3e73f7a736c8a04b039b3"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/review.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/41409dee9b4f-review.json.gz",
+      "bytes": 48166,
+      "sha256": "41409dee9b4fcd79ae28f78515f9c05bc4ff466b0c946e1c6c57bb45be2a3f40",
+      "compressedSha256": "f8d275f499e49d7d36dc3078af149e22f2686dfd2d5cda852fac2a41851ec144"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/run-counters.mjs",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/fbaa86dbc81e-run-counters.mjs.gz",
+      "bytes": 5615,
+      "sha256": "fbaa86dbc81e1c5ea8fafcd52e71da917872d871a953b58ff3cc485cc4250f7c",
+      "compressedSha256": "26482f2a3720d35fc472a2a4f4aaf48d51b4b2a00064be1b88b21e47a3c204b9"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/typecheck-calibration-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/ab2a3f9f3c5b-typecheck-calibration-command.json.gz",
+      "bytes": 326,
+      "sha256": "ab2a3f9f3c5b4ca003839520a9b165c50e4959458579271b67f3d7daf392c912",
+      "compressedSha256": "88058db716d9150eaf0d0965fa7f7962214d48eebb7d85dc224910f2e816700b"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/typecheck-calibration-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-typecheck-calibration-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/typecheck-calibration-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e2f9d194991a-typecheck-calibration-stdout.txt.gz",
+      "bytes": 1164,
+      "sha256": "e2f9d194991a2164f3f8378ae181fa264fb9cf40e39b0c1e369c7c07ea17a22f",
+      "compressedSha256": "cfbc4a91379b9cc02b5bd562e625c834b00443c7efd2bdcde791dd91e627a6dc"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/typecheck-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/10e94b62f53f-typecheck-command.json.gz",
+      "bytes": 326,
+      "sha256": "10e94b62f53f00461de5313d57a0acc1a0939ead5af750c55e28b9773df89452",
+      "compressedSha256": "d998ff2dc0b3c1442a8b118c9c10440b93fdad76b1771e6053580052d695cc38"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/typecheck-final-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/8af3fd0b1dbb-typecheck-final-command.json.gz",
+      "bytes": 326,
+      "sha256": "8af3fd0b1dbbf9aba35bc1924fd2398f59056b757e2c9e98d64d4646a099de26",
+      "compressedSha256": "17e3b109c4a6443975018459195a6092f7c5d920419bd427ac6cd979bea22bd2"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/typecheck-final-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-typecheck-final-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/typecheck-final-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e5c0dfb46286-typecheck-final-stdout.txt.gz",
+      "bytes": 132,
+      "sha256": "e5c0dfb46286869c4173c8eb9e1a094eff7637190c7b80ca931078d94adac292",
+      "compressedSha256": "496eaefc7311a1d6beba49b51c8afdd3daa07da967dfd2e9f55d7314d34c1021"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/typecheck-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-typecheck-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/typecheck-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e5c0dfb46286-typecheck-stdout.txt.gz",
+      "bytes": 132,
+      "sha256": "e5c0dfb46286869c4173c8eb9e1a094eff7637190c7b80ca931078d94adac292",
+      "compressedSha256": "496eaefc7311a1d6beba49b51c8afdd3daa07da967dfd2e9f55d7314d34c1021"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-calibration-mutant-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/b97c2dfe8e5a-unused-alias-calibration-mutant-command.json.gz",
+      "bytes": 562,
+      "sha256": "b97c2dfe8e5ade8aa9b11870c7b11d387ebb96afd3eb323527d3be79b86cb6f7",
+      "compressedSha256": "092107a3ea4d93458ede4820f9cd8fc215205e9c4b27c9cfadbeb9c81d6552ba"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-calibration-mutant-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-unused-alias-calibration-mutant-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-calibration-mutant-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/98bb9c43567b-unused-alias-calibration-mutant-stdout.txt.gz",
+      "bytes": 78,
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "compressedSha256": "a20a0e3b3e12a98fcb6054921fc355ec86befed829fd896c2340acc090be8dde"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-calibration-restored-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/5208c96f2b10-unused-alias-calibration-restored-command.json.gz",
+      "bytes": 564,
+      "sha256": "5208c96f2b10d6c092bb15c122c22210a2b74bd2b92bc7408f06b3f21892ca54",
+      "compressedSha256": "efa54b3f168725f0307ab90c6bde08b23386952e93fd52b5f756b25006df880d"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-calibration-restored-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-unused-alias-calibration-restored-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-calibration-restored-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/98bb9c43567b-unused-alias-calibration-restored-stdout.txt.gz",
+      "bytes": 78,
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "compressedSha256": "a20a0e3b3e12a98fcb6054921fc355ec86befed829fd896c2340acc090be8dde"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-calibration2-mutant-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/4f399df09567-unused-alias-calibration2-mutant-command.json.gz",
+      "bytes": 562,
+      "sha256": "4f399df09567b0bca41df88ac720758e2cd534ffac9747d4357d6a2c01b2c1bd",
+      "compressedSha256": "5b619610acd301dca8f2c515938f1cd314b5e8d7e3912ffa9b05408f3c085d53"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-calibration2-mutant-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-unused-alias-calibration2-mutant-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-calibration2-mutant-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/98bb9c43567b-unused-alias-calibration2-mutant-stdout.txt.gz",
+      "bytes": 78,
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "compressedSha256": "a20a0e3b3e12a98fcb6054921fc355ec86befed829fd896c2340acc090be8dde"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-calibration2-restored-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/b781db70f959-unused-alias-calibration2-restored-command.json.gz",
+      "bytes": 564,
+      "sha256": "b781db70f959d9b1fa743a6e4a92e914369dea385341734a96c6d51b168897fa",
+      "compressedSha256": "199b14340a67baec2730dc354e36cbc5d6ccd77385d3a201c28342312bb08b80"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-calibration2-restored-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-unused-alias-calibration2-restored-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-calibration2-restored-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/98bb9c43567b-unused-alias-calibration2-restored-stdout.txt.gz",
+      "bytes": 78,
+      "sha256": "98bb9c43567b6fc10e95ef62af360f83a4a555098e4d5c4f79f95e728e1a8724",
+      "compressedSha256": "a20a0e3b3e12a98fcb6054921fc355ec86befed829fd896c2340acc090be8dde"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-mutant-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/ec7636f7ac56-unused-alias-mutant-command.json.gz",
+      "bytes": 673,
+      "sha256": "ec7636f7ac56eb681df739e7d216b4d02269083dc690ca1de7eb104dcf82dda8",
+      "compressedSha256": "5f061b09269dd342e5568634604625b5ace4a93540bf1d82525de861ec8b862f"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-mutant-native.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/cd491240651f-unused-alias-mutant-native.json.gz",
+      "bytes": 2484,
+      "sha256": "cd491240651f5b304afe4ad531f4d1eaa8cf9c29032b6b5784f1fa3d6e6b1dd9",
+      "compressedSha256": "787b04b3469ff237a4feb14bfd904232192335b22a16f0809b1237ef42967a4e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-mutant-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/51658a7b3c41-unused-alias-mutant-stderr.txt.gz",
+      "bytes": 764,
+      "sha256": "51658a7b3c413e9694469ddb029ec4c74a7100e98610f0cb1b49c344b06d7612",
+      "compressedSha256": "aae8fb27e1de0c35263b6c26349b619a7b91f93642020a082f33c283c1d5a6ef"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-mutant-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/95bd2bb5e04f-unused-alias-mutant-stdout.txt.gz",
+      "bytes": 583,
+      "sha256": "95bd2bb5e04f7403e57104acdcb4d2e6210b35c2a5e5eb7036080546b2834349",
+      "compressedSha256": "28ba6999210087bd3d10f912a892cc77365d6564c67eb7d33480dc78d188050b"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-restored-command.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/b77faf31d816-unused-alias-restored-command.json.gz",
+      "bytes": 675,
+      "sha256": "b77faf31d816f3cf95a1e2733f613ebcaf691eed3b99e721475ad5741fb945d5",
+      "compressedSha256": "50637173dc6327ca413c1d801f2660244c35d7d4bfb8a924b280b500c6fd3d45"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-restored-native.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/813841c97526-unused-alias-restored-native.json.gz",
+      "bytes": 1036,
+      "sha256": "813841c975261d0dfe8a1e0e39d5b0f7f61b82b99d0bf8bf71e58edbe2302f74",
+      "compressedSha256": "8d0c4f90cfb47aafa2fe12d13434656c4513bc064ec304470b88a3f0faec0a66"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-restored-stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-unused-alias-restored-stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-test-boundaries/unused-alias-restored-stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/9b25f692c728-unused-alias-restored-stdout.txt.gz",
+      "bytes": 487,
+      "sha256": "9b25f692c72894a4d5e1253e26768fd271f00ce18814975e7cfe6114e5123f0d",
+      "compressedSha256": "4a69bac8885bb8b365b57d8396efa0b19d5bddec3a723ecce592c8296a1d4319"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/counter-clear-boundary.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/863c063ecf0d-counter-clear-boundary.json.gz",
+      "bytes": 4552,
+      "sha256": "863c063ecf0d9e803b54b69e97d1f5973b4564d3e5b8b6d23c75af1dacdbde97",
+      "compressedSha256": "b4e2d0240f43c49fcd8b6134ee1f8967fadf68ed5cdc931bac9ac6900b510b4f"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/counter-clear-boundary.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/ac5a887fa79e-counter-clear-boundary.txt.gz",
+      "bytes": 436,
+      "sha256": "ac5a887fa79ec20d1c06f641e174388a193e80069dd3494699bfc7c0aee50cc3",
+      "compressedSha256": "e1399cc5b9228fa2dd7c9b869653fa9f2ba85fb6a13201a1421d18abe47d57a8"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/counter-normalized-span.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e85f859b59e7-counter-normalized-span.json.gz",
+      "bytes": 3540,
+      "sha256": "e85f859b59e7c0d72003225ef24e5bb64e8ddfa2c43be9371a1f62556bd52771",
+      "compressedSha256": "ed041cf3363b62cc6aaf3b0e4c73921a8849a1decf09b1e22f774df08418a8d3"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/counter-normalized-span.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/a8c798ed9e7c-counter-normalized-span.txt.gz",
+      "bytes": 469,
+      "sha256": "a8c798ed9e7cc16f7957fb7beb6dcbcbba7c928c16c156e773bb3193afd29e08",
+      "compressedSha256": "f20fbe02eb827d5770901c3784c4371acb5f2eac877c0fa06edad746c4814070"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/docs-check.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e55bd616b46d-docs-check.txt.gz",
+      "bytes": 13833,
+      "sha256": "e55bd616b46d592da8fb357c084c9a25fc2f5ea41e0d47b64f1d8a2471da5470",
+      "compressedSha256": "9fa87aa7fa1c358df0d5ee57999361560622074924477cac2afa2e1bd7bc9aea"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/docs-stall-processes.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/06673dba4914-docs-stall-processes.txt.gz",
+      "bytes": 171191,
+      "sha256": "06673dba4914e588674a9c9dd52765a8c1fd8aa92ef0bc009a9d7b553158b423",
+      "compressedSha256": "985824050c94523a8cc31c74996c58e1b88b4f3cce00286ce3955e70ee6199ee"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/docs-stall-receipt.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/59eb4b9a5e68-docs-stall-receipt.json.gz",
+      "bytes": 2400,
+      "sha256": "59eb4b9a5e681ed1436edec64f63bf5fb2c54e874e967057ad6ec15b0c572e0b",
+      "compressedSha256": "7361f73ab1f51565ee414104952d0448ae55a9a845124e95a96da0fdaed057b5"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/lint-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/a7e7735efc04-lint-final.txt.gz",
+      "bytes": 44,
+      "sha256": "a7e7735efc0433f3cbc2361c68aa4d982ca440fcaf640047b07e05a42f36ab15",
+      "compressedSha256": "95a41446dbb37ccb021708090df59671227b24530a9e4930609636907b72e9d2"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/negative-controls.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/f4b27671b782-negative-controls.json.gz",
+      "bytes": 1537,
+      "sha256": "f4b27671b782a93d3950f0f4b6a814fa29bb674ccce0abdfedcf5c4ad9836f1c",
+      "compressedSha256": "d8b2f9d9a30d0dfee577878075a1e5fd263daa222ae1a1f4c18fc619fc370f4f"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/source-verification-final.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/ef85d757af05-source-verification-final.json.gz",
+      "bytes": 1210,
+      "sha256": "ef85d757af052e5efbf6daca4c18b3b85cbfefc3dadce3cdac52f16e482aa383",
+      "compressedSha256": "6368178ae6b10e5db688c5082b6209be0d8ec1de103cae90a311e7a40aef4fc4"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/source-verification-final.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-source-verification-final.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/tests-final.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/d2f615cf91de-tests-final.json.gz",
+      "bytes": 14248,
+      "sha256": "d2f615cf91de5f4e2ad1cc14024997b897ada45bdd06045c8f053a283ad967c5",
+      "compressedSha256": "d973c9eb4801057eaecf73709a5da31baac168f2c4eaf2cb7ee47fb33dba2d49"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/tests-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/7d11b15543cb-tests-final.txt.gz",
+      "bytes": 520,
+      "sha256": "7d11b15543cbfc47f301895da1886bf3dbbc02d24ed435afa64628bc60fc8439",
+      "compressedSha256": "83d59aae55867f418f47f0ebc2d28f15629def72c067757ac39420c00b77e844"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/tests-restored-final.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/49823b28c268-tests-restored-final.json.gz",
+      "bytes": 7526,
+      "sha256": "49823b28c2683be545ba1f1c8e318afd66abf86c06e99da20bea8196c79818b0",
+      "compressedSha256": "cd5dc9d076fd9f1043f86b6845893828f8db1309d2a94bda31d0a486ebd817ed"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/tests-restored-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/f0c7ecb53f87-tests-restored-final.txt.gz",
+      "bytes": 122,
+      "sha256": "f0c7ecb53f87820a437fe26d0de4674c57a97c7360687c6950be9b5611d790b9",
+      "compressedSha256": "031d00a6e28ac6e46399db9fe2c653877cc77c0fe721fe205d8b64dfebc20a34"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/typecheck-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e5c0dfb46286-typecheck-final.txt.gz",
+      "bytes": 132,
+      "sha256": "e5c0dfb46286869c4173c8eb9e1a094eff7637190c7b80ca931078d94adac292",
+      "compressedSha256": "496eaefc7311a1d6beba49b51c8afdd3daa07da967dfd2e9f55d7314d34c1021"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/typecheck-first.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/af6c124af821-typecheck-first.txt.gz",
+      "bytes": 669,
+      "sha256": "af6c124af8212241cb0166dc499a568c92030257e00bf5b9596777fbc7628ff8",
+      "compressedSha256": "192a872b1489de66a53b2c112004b60fa907c65efaaa6c8040c14753c31adbbb"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/english-text/verify-source.ts",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/087ba962a5a6-verify-source.ts.gz",
+      "bytes": 2563,
+      "sha256": "087ba962a5a64c32cc4c00958520818fd7a2215aea7884e9e9c8cb81dba69963",
+      "compressedSha256": "540ff480bb09e2e626a0e6e4dc01978e466bb8f21d0fb16f85d86f83b53c22f1"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/equip-width-review/probe.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/0555aad1386b-probe.json.gz",
+      "bytes": 3596,
+      "sha256": "0555aad1386bfe5bbf0623e9becaf21e10c0a58fefea776a8c2fd1ef944324d0",
+      "compressedSha256": "978ec8de3eb31bd2d4bd6760435837fd72dae4f611a26c386abe0971da6317a9"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/equip-width-review/probe.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-probe.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/.codex/worktrees/english-text/type-pal/build/equip-width-review/probe.ts",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/46de74abe8d1-probe.ts.gz",
+      "bytes": 2228,
+      "sha256": "46de74abe8d1a4c16c10f01d49ee45e2db9edd8ccbb3a2ca20fab1b758b54347",
+      "compressedSha256": "62771a0284e0a11dbef19ab58b2ff2944aa155686c5717025c3bb38b7b0e81c1"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/browser-smoke.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/45d333462d46-browser-smoke.json.gz",
+      "bytes": 1529,
+      "sha256": "45d333462d46dd1b93e9b5b225868316c9dc9a4ed02e00505e8594f4db59258f",
+      "compressedSha256": "5d4d01ae16b51ecf43e90303f4f0b78a4c8bbb53ccce5a9eadcde3c16c83c683"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/browser-smoke.mjs",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/febd76752920-browser-smoke.mjs.gz",
+      "bytes": 2935,
+      "sha256": "febd7675292073d1a6a6e455450f8677ebd71bb8a85b42b3460f84f6aebdf8c9",
+      "compressedSha256": "10d3f5570fdd5ae4778fa09164e6d8d672aa77c12095f5f64f22a3be2e5d3b52"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/canvas-regression.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/ef29bedb2e35-canvas-regression.txt.gz",
+      "bytes": 240,
+      "sha256": "ef29bedb2e35331130b7d1c733afc683d30d0072a3de0e859b4d67e2854fc9dc",
+      "compressedSha256": "f8a0b6de000c72903bef73768b01fbf019670990125926b75e536d8f781deaf1"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/check-docs-accepted.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/4cf9d1806562-check-docs-accepted.txt.gz",
+      "bytes": 30667,
+      "sha256": "4cf9d180656261091845f568b1151a2e1f594de5f600b7d366ae416e7e2b9e03",
+      "compressedSha256": "b0e20336d0bba366f9fb81514466142797d34982c5fd66d1de5e899dbe348138"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/check-docs-commit.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/72b3160864b2-check-docs-commit.txt.gz",
+      "bytes": 30668,
+      "sha256": "72b3160864b28301c874b1759202e86df2100573c4a0baf16e93cee3231c9a66",
+      "compressedSha256": "4c91b82148b80a67a05b96830ffcfe181df11ab863319b5a11c640158d7c0288"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/check-docs-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/78fbebf1687b-check-docs-final.txt.gz",
+      "bytes": 30676,
+      "sha256": "78fbebf1687bda805bece8dabdc73e7c76f52c1117fbc0945f78b762837c5ead",
+      "compressedSha256": "f626da2f5cb340d7283babfd0fb69fd612c5047843ba996ef38a9987af0f94a8"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/check-final-retry.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/51dd3ffda18e-check-final-retry.txt.gz",
+      "bytes": 373270,
+      "sha256": "51dd3ffda18ec01f51e3242694bf6a993d7057cf9486e311231736212daacdda",
+      "compressedSha256": "be0a450930ada696978f34e5aa332c207be0e7c5781a522f161cd3740218cb98"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/check-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/75f2485bc117-check-final.txt.gz",
+      "bytes": 240865,
+      "sha256": "75f2485bc117ee52da71f80e38046992118dadeeb05b48bec2fb720f0fbae359",
+      "compressedSha256": "b6a38141b8260fb4a1e34facc61563fd859cf34ee236e1d844814b55cb41cc3b"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/coverage-comparison.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/00695bb0cd83-coverage-comparison.json.gz",
+      "bytes": 3409,
+      "sha256": "00695bb0cd83d608bea92fc2794be47798ce3a6cf7117fbdb3328941b5f45531",
+      "compressedSha256": "816ea6fddc78234dd77fcced8980e8f62803a9c9237d3c51878169fb87967e1c"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/coverage-ratchet-accepted.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/b3143504a26c-coverage-ratchet-accepted.txt.gz",
+      "bytes": 203080,
+      "sha256": "b3143504a26ce5c06d3fb7fd04b699b786710c8493ccb456c352e3cc68c76ad7",
+      "compressedSha256": "157c862d1a38f0299bc8df0fd3071ab9fc6a5f32a5248ed0a207aa24277703e1"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/coverage-ratchet-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/389ae359a915-coverage-ratchet-final.txt.gz",
+      "bytes": 206627,
+      "sha256": "389ae359a915bbe7e0a125ff64b0a1198686eb097ec2c477c1db381819f0cd3c",
+      "compressedSha256": "a796001d6af3fd8e6e51e3f82df62d3d253a5026a18f2373d0be15edf59df5e1"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/coverage-ratchet.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/090d57c4b293-coverage-ratchet.txt.gz",
+      "bytes": 48928,
+      "sha256": "090d57c4b2930e84cc10b6f086dba76e05070d2cc0a8d7363b88bac397122002",
+      "compressedSha256": "1ef2ae72ee159a2add46cba3639830ef063cddb508a0f0ae4982d3fe4830cb3a"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/coverage-tools-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e558b34910c1-coverage-tools-final.txt.gz",
+      "bytes": 21006,
+      "sha256": "e558b34910c13efdab9ef2d05cb6a94bfdd28c153769b7d5f7b2710e791889aa",
+      "compressedSha256": "fb631f14a98b2799546f43560c81d729a8cfc5e8d63783ad47e4b387a94416a2"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/description-audit.mts",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/0d79f900ebc9-description-audit.mts.gz",
+      "bytes": 1264,
+      "sha256": "0d79f900ebc973f827ecc9a5722f0803da28da9ced5adb9759507dcc1de70d1b",
+      "compressedSha256": "80956e6e8e4a841f9ad8f59fbfb2c7dd91cf03c422a1ad4850f7df5a4a397e7d"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/description-audit.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/8cb0f88d729e-description-audit.txt.gz",
+      "bytes": 2060,
+      "sha256": "8cb0f88d729e70a1f09768c1da9bf4a6480c195a1df7e39f587e6c8ac58651c2",
+      "compressedSha256": "5d63ca1476501b5374efa58fa5c8c594db730020804c979c77cd9f21df4c99a5"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/docs-consumer-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/18770332b0b6-docs-consumer-final.txt.gz",
+      "bytes": 93,
+      "sha256": "18770332b0b687d71ab5221bfafdeeed7f36bee1878e0b97445c97b867e270c4",
+      "compressedSha256": "fa6c6dc80c0b942454a61981e9497d49176d0744c01e5ae86114d298d2792e04"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/docs-consumer.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/2a8cd62815a5-docs-consumer.txt.gz",
+      "bytes": 93,
+      "sha256": "2a8cd62815a54119c754efa34151ae2746fee204c4fac156261817a995f736e5",
+      "compressedSha256": "30e842d64712434c95b366f7ea442b4441c8a14219c89e0a62184b00088c5f41"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/e2e-tools-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/839e066016cf-e2e-tools-final.txt.gz",
+      "bytes": 117544,
+      "sha256": "839e066016cf2456514c73488c3f8fa9d1311c772caed00cf960e4355ae41747",
+      "compressedSha256": "709b8b1790c2825fc283f518052d8042d1deb3660b9121183de8563585640da5"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-browser.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/5e8dedab9e5b-equip-browser.json.gz",
+      "bytes": 2989,
+      "sha256": "5e8dedab9e5b027e8767a6d7a6f6f1310564807c7d029a5b55fe26bb0a0bfbe1",
+      "compressedSha256": "135f169c39034924537b46b15451ea1ddcdacf3d8d1d548efce4d549a954263d"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-browser.mjs",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/167de32d002e-equip-browser.mjs.gz",
+      "bytes": 2334,
+      "sha256": "167de32d002e5f7677a904e853a0c1f488c26b6baca0557f0f3dfb9a4ce952fe",
+      "compressedSha256": "16e35cdc1419d2b661c85550352722f5e3575645fc7f7bf65a278f0ccbeb90b0"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-browser.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/d2d16ef060f6-equip-browser.txt.gz",
+      "bytes": 448,
+      "sha256": "d2d16ef060f693376b61007ebf39bd18abb866cd72aa855bec550789f03061d9",
+      "compressedSha256": "7e55aba061ea222a510e002d763906e955b70f32dca1d966e078797c70051ce3"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-adjacent.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/026007fec3e7-equip-width-adjacent.txt.gz",
+      "bytes": 231,
+      "sha256": "026007fec3e734833b4f86d734e7ae5ec0627bd73c44bce2515815529526ee25",
+      "compressedSha256": "3ebd0b2ae3acab1cd4fe9edc86129a31a8f045dd87e0b280f25c2c3ec501a9eb"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-control.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/a9387f80a221-equip-width-control.json.gz",
+      "bytes": 1505,
+      "sha256": "a9387f80a221701e8561bf5e0974f3cd8689eda45f62fea3a8f24a148d60c430",
+      "compressedSha256": "67717a72e442e999c4b6292014046655b1c1835aabaea5621ea5673a1a9db082"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-control.mjs",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/fdf7de668b75-equip-width-control.mjs.gz",
+      "bytes": 2560,
+      "sha256": "fdf7de668b75cf0c504776e6e953ca64fe3a608db44c660ef9a53711591d433b",
+      "compressedSha256": "3ea2e57a405c335f44ea9eb4b8878795a37d1309e84bb0fc2e7d10d4d70712db"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-control.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/5a1ffcfdfc6c-equip-width-control.txt.gz",
+      "bytes": 44,
+      "sha256": "5a1ffcfdfc6ca6fabd3581e40de258bf0c1d75500bddb719ff672dfa3f3b8477",
+      "compressedSha256": "10ed550d95b88cb9fa37f7fa912d1081e5ad50cc4945e0bb835246728c03e8ef"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-green.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/811d24d88e39-equip-width-green.txt.gz",
+      "bytes": 231,
+      "sha256": "811d24d88e39dfeab639453ef40efaefcedc4d2c456c81152f4939aa86aff1cc",
+      "compressedSha256": "38efd6ad08e4d81d2c8c56a27d7aa9aaf01c7dd1d0e05be70422932fbd4e3d64"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-mutant.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/3b49d0085939-equip-width-mutant.json.gz",
+      "bytes": 3187,
+      "sha256": "3b49d00859390f502d0b3b8aaf781f621226d03cbbc674c99683a9438dddc697",
+      "compressedSha256": "aa689c1786a45ec1cdbf191c01a351bcd6cf738f48cd1f890a8f78b7c1f59f15"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-mutant.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-equip-width-mutant.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-mutant.stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/0ba189332f0b-equip-width-mutant.stdout.txt.gz",
+      "bytes": 396,
+      "sha256": "0ba189332f0b7d84dd8c2722f9d27435773205cfe9ea661ca8e6b6b0cc6233f6",
+      "compressedSha256": "1ee2353c73d3d2177af5dc6a0ff624c3cc8e0d3b81e6617e856fa4dadcf65fa0"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-restored.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/7d06b6410ddc-equip-width-restored.json.gz",
+      "bytes": 1902,
+      "sha256": "7d06b6410ddcf66b61cd6d639064a029228664da654c3563d8a29711836ea0e8",
+      "compressedSha256": "87bd0072720e9b3bb2288d4a1ac7c80aa8598535ab81a14171452af41ec14cad"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-restored.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-equip-width-restored.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/equip-width-restored.stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/ca519f1d8e54-equip-width-restored.stdout.txt.gz",
+      "bytes": 107,
+      "sha256": "ca519f1d8e5488d2ec028e3b5705726eb0b0beb5764077ba6769b80831866bd7",
+      "compressedSha256": "cd91260ff232fd8545357513995ddbb88d16322d3dc3893e5267bcd53655966e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/extract-check-retry.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/19b7aadc137f-extract-check-retry.txt.gz",
+      "bytes": 244,
+      "sha256": "19b7aadc137f7ac95f3893498ec5cd279a8baee386af6288e7ddfd2d504d428e",
+      "compressedSha256": "1a5ac8d7af6ce246b480d5d9622e820b8a26a5da338b1a7dc49b1586f376af53"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/extract-check.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/b55586379fb3-extract-check.txt.gz",
+      "bytes": 11563,
+      "sha256": "b55586379fb367cb3f1f819f219496afd25b1593a0ff1f0c9e6aaf9c43145afd",
+      "compressedSha256": "957da15b58fa5233656ebcc9fcc1bbfda1f798e77ba564df08694f366dbe542d"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/extract-first.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/956eb6c5714b-extract-first.txt.gz",
+      "bytes": 2274,
+      "sha256": "956eb6c5714b28a7669b6cbeb209830928612b635fcd9152b810cbd8ac22f7a3",
+      "compressedSha256": "6296cc0796b452f4a32d7894b7144aabfbbe6f3f5e6419abde5477c2f5a7e43c"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/extract-second.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/956eb6c5714b-extract-second.txt.gz",
+      "bytes": 2274,
+      "sha256": "956eb6c5714b28a7669b6cbeb209830928612b635fcd9152b810cbd8ac22f7a3",
+      "compressedSha256": "6296cc0796b452f4a32d7894b7144aabfbbe6f3f5e6419abde5477c2f5a7e43c"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/final-entry-audit.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/6967188a21aa-final-entry-audit.json.gz",
+      "bytes": 611,
+      "sha256": "6967188a21aa13d7ca85cd346e30fda82eaa22927b6e910f30420be21a9c9b53",
+      "compressedSha256": "51ff66541a703ffa2f11a23cd9861a29ca7956d21992d052f496f6bf985dd13a"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/final-entry-audit.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/6967188a21aa-final-entry-audit.txt.gz",
+      "bytes": 611,
+      "sha256": "6967188a21aa13d7ca85cd346e30fda82eaa22927b6e910f30420be21a9c9b53",
+      "compressedSha256": "51ff66541a703ffa2f11a23cd9861a29ca7956d21992d052f496f6bf985dd13a"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/final-localization-inputs.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/dc016eaaacd2-final-localization-inputs.json.gz",
+      "bytes": 12814,
+      "sha256": "dc016eaaacd29e8bf536bdecf76d00f47d5e18a036a58ef946e346f96a7e4ff1",
+      "compressedSha256": "15c93a42aae5780536c7ffb34cdfec3808f06a63eabb4ed0de00e560e687a3d7"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/final-localization-inputs.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/f53de440afea-final-localization-inputs.txt.gz",
+      "bytes": 511,
+      "sha256": "f53de440afeabffb127a38ad300e3a03cb2c5552c13c13662ac31ca008a3e0b2",
+      "compressedSha256": "5eae3679a78aa4e712ecf434a15969c44d7aa0f45d3ea0d00b1753b60c113486"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/final-wrap-audit.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e9123777540d-final-wrap-audit.json.gz",
+      "bytes": 293,
+      "sha256": "e9123777540d5d741b850a70db148f5f356f609049281ff959e4dbdb3b9a6e33",
+      "compressedSha256": "484f94eafdfa6b9ceb3d2fbd02d1440777ba0548f0439c12d1470afeadd45034"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/final-wrap-audit.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e9123777540d-final-wrap-audit.txt.gz",
+      "bytes": 293,
+      "sha256": "e9123777540d5d741b850a70db148f5f356f609049281ff959e4dbdb3b9a6e33",
+      "compressedSha256": "484f94eafdfa6b9ceb3d2fbd02d1440777ba0548f0439c12d1470afeadd45034"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/game-build-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/264f978512a5-game-build-final.txt.gz",
+      "bytes": 643,
+      "sha256": "264f978512a5c4004a8ee6cc5adc84e4f1a20d5864189740009a60d245dc4d67",
+      "compressedSha256": "b53c1928826809c6cf7ed1c7896733fac7937962bc4ed15470b5acd9e15e08e7"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/game-build.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/06182eec0e07-game-build.txt.gz",
+      "bytes": 643,
+      "sha256": "06182eec0e07d89868913897a78e935468d88b3d8838adacd929d73e951eb3ad",
+      "compressedSha256": "e2dccb154711c8410f490fc35e3493d0132acfa382df4e3ae720026c91cafed0"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/game-check.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/305cb5f52086-game-check.txt.gz",
+      "bytes": 36639,
+      "sha256": "305cb5f52086e5f4ec7ffdd1efded0febe4429894483c2ca8ead33c1f6c61ba3",
+      "compressedSha256": "e5fad79c04f72652cfbb1fde455f4b0115b3e62faef218e01957272f36d5a4de"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/game-typecheck-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/a855d4a3602a-game-typecheck-final.txt.gz",
+      "bytes": 96,
+      "sha256": "a855d4a3602a15c992f3d1f1ea4b27a5fc9b2410919519082f62e780aed03ee2",
+      "compressedSha256": "c9c5feffd8f31cc88891247df4b620f308db7b17b925e8492b9cf2f3112cd570"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/game-typecheck.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/a855d4a3602a-game-typecheck.txt.gz",
+      "bytes": 96,
+      "sha256": "a855d4a3602a15c992f3d1f1ea4b27a5fc9b2410919519082f62e780aed03ee2",
+      "compressedSha256": "c9c5feffd8f31cc88891247df4b620f308db7b17b925e8492b9cf2f3112cd570"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/generated-closure-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/54766c419f8e-generated-closure-final.txt.gz",
+      "bytes": 734,
+      "sha256": "54766c419f8e4035776a2a12ed9648501b5949d68b2e93a15f161107b840b68c",
+      "compressedSha256": "464956ac22a4601cf8f4eb654ebf93e1ddc3c7e1d6eae2717399d759ea9e0303"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/generated-closure.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/28c2c99ef629-generated-closure.json.gz",
+      "bytes": 766,
+      "sha256": "28c2c99ef629c34801357f65212a857592617e07015db5db737fea9847104f4b",
+      "compressedSha256": "b81b05c6b9041e88e864982e9faaa252070a2ee897553fc06b48e9b61ad83753"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-inputs.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/404799d9658d-language-pack-inputs.json.gz",
+      "bytes": 7385,
+      "sha256": "404799d9658dad90edf2e4020f63e41a75db399ac5139098edacdb0432511fa6",
+      "compressedSha256": "30b5ca2b35aa98ca60a7ba1533e344d5b2cd2588f0b9e56b81aa33ad30763d53"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-inputs.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e1ea1bbd53f9-language-pack-inputs.txt.gz",
+      "bytes": 390,
+      "sha256": "e1ea1bbd53f9a52585f43c6ac52573de161897d3d5db549e9b34c8227054b040",
+      "compressedSha256": "46f20fc2138feaec7d2a841176cdf8d7b6b1bf6b7614ec10ff47e9d98d346c9c"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-control-calibration.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/5ce941436e90-language-pack-sha-control-calibration.txt.gz",
+      "bytes": 3403,
+      "sha256": "5ce941436e901859638bd4dcfe177a15be9e542929f7762739fdab144d7d1a7c",
+      "compressedSha256": "fbdfba0397bf39d22903e6691ae6b20b02ba82ecaff28d5a17a74928dd561117"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-control.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/b26add7dd238-language-pack-sha-control.json.gz",
+      "bytes": 1519,
+      "sha256": "b26add7dd238bfbe8bd14849b82592a7d2acdff01bc14654d52fc46b371f4aca",
+      "compressedSha256": "5bbce5ca052be1363fc379dca22bb0129a19f3f251574509cac62f2f6e8dec47"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-control.mjs",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e9105a9f03d1-language-pack-sha-control.mjs.gz",
+      "bytes": 2532,
+      "sha256": "e9105a9f03d1c98ea62f397cfb0be6e374ce0ee16a75ad4eb0784e810821c18a",
+      "compressedSha256": "c1a1ceca941a52b9a0cf6567f056d34f89d3cc1d6fbe3b17488d3948a842c128"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-control.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/c582f89aeba6-language-pack-sha-control.txt.gz",
+      "bytes": 51,
+      "sha256": "c582f89aeba6d29bc9a2ccb897b31a4c1b31c4f4c83b0882cac0a58ff2d17bce",
+      "compressedSha256": "cad3593a5beba0a1f60830a12a8f14be46a7c5d1563163e6d76e735d9e89457a"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-mutant.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/7ccc295215f6-language-pack-sha-mutant.json.gz",
+      "bytes": 8665,
+      "sha256": "7ccc295215f6669f37f7a4e5900e634a6cd40e236936ae00b047088f86e356f1",
+      "compressedSha256": "c2ab090267331d14a2ae21d8217aa778fc5ca85dedb984f0d8b9133e0265e144"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-mutant.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-language-pack-sha-mutant.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-mutant.stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/6620e1c46906-language-pack-sha-mutant.stdout.txt.gz",
+      "bytes": 403,
+      "sha256": "6620e1c469067bd7a491f90627d2789a1bf4de7e04164af45661c433e8875507",
+      "compressedSha256": "a5a6a762df8705e59eb129345479ca96a7da95fe53085754057c43c5092c3f02"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-restored.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/898999e16b00-language-pack-sha-restored.json.gz",
+      "bytes": 7380,
+      "sha256": "898999e16b00b700234a22b31ece517fb1b03da2fa7f15aa59f56ed41599882c",
+      "compressedSha256": "c64384b6c9c0cd9c88adadbb7baa7d55d9e169aa69f1e4637183b5556b5e7f1b"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-restored.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-language-pack-sha-restored.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/language-pack-sha-restored.stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/3d7a64193510-language-pack-sha-restored.stdout.txt.gz",
+      "bytes": 113,
+      "sha256": "3d7a64193510922287e2d2f2ec2b125f46ee1c93c40a5a97643b500a8f85d8db",
+      "compressedSha256": "44fff4927fdb5468616134e1b083759a5d96281af5ada13fc3dfb0e42a22a9d6"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/lint-accepted.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/96e56b65b82e-lint-accepted.txt.gz",
+      "bytes": 164,
+      "sha256": "96e56b65b82e06bdac95285196402b83b8b69a4588f0db691dae2bf89a1045f8",
+      "compressedSha256": "a05374235e2fa38d075a18598f3ce91659624b5e7e35e08fc01a9b038b8680de"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/lint-commit.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/96e56b65b82e-lint-commit.txt.gz",
+      "bytes": 164,
+      "sha256": "96e56b65b82e06bdac95285196402b83b8b69a4588f0db691dae2bf89a1045f8",
+      "compressedSha256": "a05374235e2fa38d075a18598f3ce91659624b5e7e35e08fc01a9b038b8680de"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/lint-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/004f9ac7f8bd-lint-final.txt.gz",
+      "bytes": 164,
+      "sha256": "004f9ac7f8bd3cd71f820a7027312fe36e5ae0522dba13869790b3bc05ab2eaf",
+      "compressedSha256": "933c996443d465a200a6b522a41237994b52cf0d0af8e99304748938c609d54d"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/lint.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/d6b320010034-lint.txt.gz",
+      "bytes": 305,
+      "sha256": "d6b320010034e36bdce112add73187b6fb7a8b80d0855493b99903e73a55d4b8",
+      "compressedSha256": "4b724c5af2d6c612a17f5baaaeb4e4440b5d64415a9f40320ec7f7b3a6053f9e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/manifest-first.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/14865dfa10c8-manifest-first.json.gz",
+      "bytes": 450435,
+      "sha256": "14865dfa10c8783a5058c73d4185c4f243e718ba57e54d3280f8de95d0cb997e",
+      "compressedSha256": "e7a07acf400634d0353989ec5a7775beeab12172948352c5a27426f93620d6c5"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/map-boundary-game-green.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/47dfbaae1b14-map-boundary-game-green.txt.gz",
+      "bytes": 229,
+      "sha256": "47dfbaae1b1447f42cd21c1554ca9a68135e3b2d75186122f9b36fa4edaa10b0",
+      "compressedSha256": "756b9a1cd250b33d4552e5e6ec6bbbee9a36fc4e023af42b9f8c862ea02e0963"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/map-boundary-migrate-green.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/c72968c7218a-map-boundary-migrate-green.txt.gz",
+      "bytes": 230,
+      "sha256": "c72968c7218a5b3007cd3c63ea495297c206fc24132969e5aac616b091bfed99",
+      "compressedSha256": "4a40302bd977330669735b1e7f5d8dd908c4ab566a40aa5feed8cb2546ebd619"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/production-smoke.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/fb267c93fc60-production-smoke.json.gz",
+      "bytes": 1017,
+      "sha256": "fb267c93fc606b0be5e94cf13cde05cbf4558398adc4fcd5515eec60feb4cc38",
+      "compressedSha256": "a16f18848bed589f4106eb84e399760080ca21fad47c347885183999f3e46776"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/production-smoke.mjs",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/fab74f7e7556-production-smoke.mjs.gz",
+      "bytes": 2670,
+      "sha256": "fab74f7e755642f681639bb7f49fafed4cd42db2ab0b6f0f58689c1048f4c308",
+      "compressedSha256": "1b9b01b4b936b4584e4b0fa5da402a40c8c0d0b57695488329c25f1f0e1f8303"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/publish-native.mjs",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/c80a14059db4-publish-native.mjs.gz",
+      "bytes": 2866,
+      "sha256": "c80a14059db487a3f97706dd586d073c68229066f5cfc88e16f974316d60bf3d",
+      "compressedSha256": "d74b173b96068a613a27a830c4dfa97f4572603ead0ec7e943daa4a3dc048455"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/quality-tools-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/449afa82ad48-quality-tools-final.txt.gz",
+      "bytes": 8273,
+      "sha256": "449afa82ad4874249e91364aa26cfee523ff396ce9f24b7c69230309a052771a",
+      "compressedSha256": "cf753b599f9f654bd336605ce0b8db68398a15f1aff9d84710ea289a4847d87a"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/review-fixes-green.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/5859ec09af9d-review-fixes-green.txt.gz",
+      "bytes": 2589,
+      "sha256": "5859ec09af9d2149f26ec19f78dbd4be4b0284c4da7a0269ce310f40c83bc665",
+      "compressedSha256": "74d750053e288ccb079b0d262ba71e5ac886326384ea188e2471680f2495cb6c"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/review-fixes-target-green.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/2f6fce66d244-review-fixes-target-green.txt.gz",
+      "bytes": 231,
+      "sha256": "2f6fce66d244978e546763698571b3554f952cc9d17fead06a12f1fa08e26d3d",
+      "compressedSha256": "b9b1e1632f337a1c6a6994f290d43e16d53aa284b6988ef7a538832f03a257e5"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/root-and-dialog-check.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/6d65d5e41267-root-and-dialog-check.txt.gz",
+      "bytes": 240,
+      "sha256": "6d65d5e41267ff96c0daf8a6e96a59a7e7208295992f85394dfc26fde0819bcd",
+      "compressedSha256": "9495687363b0fefa4d72d9af8d7d9368bbf295564515e865b4b9e752f4c6be37"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/root-counters-run.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/7a9cec4e5f75-root-counters-run.txt.gz",
+      "bytes": 93,
+      "sha256": "7a9cec4e5f7565d12edf3a686f27683e75c1bda9e493275bde8bd278f0102bdd",
+      "compressedSha256": "2e7721e7d5948b6a9a051f668026063e3dec28413f1f62b55a91871145653287"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/root-counters.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/879122fc2609-root-counters.json.gz",
+      "bytes": 3057,
+      "sha256": "879122fc26091f954e4e9eb6341d4f5839c73ba259ad34a7a2f9c49787e98a7f",
+      "compressedSha256": "fdbf2058d515a38f22b8ee765cc23f04581a8dfd1f2a074a209861d16fc792ec"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/root-counters.mjs",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/03fa06b29b97-root-counters.mjs.gz",
+      "bytes": 2960,
+      "sha256": "03fa06b29b976238c71656d939d83077a51970e1015aadff9b76b7e48e4bd4cc",
+      "compressedSha256": "7399e905dac81f4250e40fbe7edffe13943b3f8d3246643f26e95c8d2f891537"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/script-tools-final.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/71d9b90146c7-script-tools-final.txt.gz",
+      "bytes": 5102,
+      "sha256": "71d9b90146c77738eadb7ee121999f129e71b9639de52f2a4c47c6cd53bea491",
+      "compressedSha256": "677b29f75d33de913cd5904ee515fc927ba42e2793f1ef7c93b9eabc26183c41"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-mutant.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/b71cdc785caa-settlement-name-mutant.json.gz",
+      "bytes": 2442,
+      "sha256": "b71cdc785caac100d2689e1dde574ab95a133e9590ba724787d2b88d7f11e1ff",
+      "compressedSha256": "6a7ebb445662e03b97933c6ed9641e1d122bc8a8de0839b74d296672fb1a9a6d"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-mutant.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-settlement-name-mutant.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-mutant.stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/de0af7b788e1-settlement-name-mutant.stdout.txt.gz",
+      "bytes": 411,
+      "sha256": "de0af7b788e1c33df4d0949e6fb6483d55d89764203e97bf79a0543316d2a417",
+      "compressedSha256": "190f5ad41f8eac1305d96dbdcae8bbfccb290e9157abba4e069bad95e751843d"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-restored.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/80e15372f585-settlement-name-restored.json.gz",
+      "bytes": 1022,
+      "sha256": "80e15372f585c72f380fd7f461918443faad0ddc05213ee377ff3474ce6bb8eb",
+      "compressedSha256": "46c0ca71e113064a1fedac8fbf9987c0072591ba8434c2c5e5e6a23e5ae060f1"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-restored.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-settlement-name-restored.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-name-restored.stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/7c54f5f10b23-settlement-name-restored.stdout.txt.gz",
+      "bytes": 111,
+      "sha256": "7c54f5f10b238b172890520f416585a69f08b01ced543c16d4d8e4dbb583cf1a",
+      "compressedSha256": "f6ebe5387416e489ed3eabb4ea94929d482ffae3d6795b5a46db4ac44371793a"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-red-legal.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/79284fde916d-settlement-red-legal.json.gz",
+      "bytes": 2306,
+      "sha256": "79284fde916db59dd7625fea3d521bb9b4713b5777c4e3b9f7ae9dde30c69f75",
+      "compressedSha256": "fcc7643a566bba1f865f671b91947f6c963bb0844effa84373a08adeee766db2"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-red-legal.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/79aa609d9722-settlement-red-legal.txt.gz",
+      "bytes": 381,
+      "sha256": "79aa609d972260b3b6b67fefb9fc3bf8607bb896f2b92c6c0e49f20b84a72a03",
+      "compressedSha256": "525b8ff41e4fb5c109a6a12689cc8dfb57a62569cce94c88b6c8a1e796d81c6d"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-red.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/ec1189f870a2-settlement-red.json.gz",
+      "bytes": 2299,
+      "sha256": "ec1189f870a2172e6dd88697fd1cc3b7964ba2242b1a9dd8a2b41abd94ef3fe9",
+      "compressedSha256": "0ecb39714795f23fc5046908895a75963e643cc80d393b86fd598f10816e9e31"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/settlement-red.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/ee47d1e29001-settlement-red.txt.gz",
+      "bytes": 369,
+      "sha256": "ee47d1e290010bd6cf417380a10d9a6043ae4fa947a89314dcc379e2fcc17076",
+      "compressedSha256": "bf96bdebeba12b8051bf45ee038eec06ddffb280a65e6541f37af9ea5ddfa54d"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/shared-check.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/af95535a1e2f-shared-check.txt.gz",
+      "bytes": 1221,
+      "sha256": "af95535a1e2fb64d10a666c54309d75282ff6d4c3bbc23806b6ea346de27f247",
+      "compressedSha256": "4cad55a73689b49ecc5903e7bd585e489ac05e4db9e83f2e734be305f854bd68"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-font-red.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/59eb4335fd8f-small-font-red.json.gz",
+      "bytes": 2943,
+      "sha256": "59eb4335fd8faa74da473ba0c1623bc8b6a97103dd8d2bccf9cbdd23ab340018",
+      "compressedSha256": "ef7fc023d5697f3266e7874321acf90bf3f4cd445a725f4f0a4495b7fad15bac"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-font-red.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/d31c9655f5c5-small-font-red.txt.gz",
+      "bytes": 362,
+      "sha256": "d31c9655f5c5bb61eebc9220cdded877ae0f60140db224852ec9959ee8377771",
+      "compressedSha256": "e3916c500ba77df5ef1702aab76d8434e024affee4773d2b1b211244c2c00183"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-mutant.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/d8ef6e95ef94-small-space-mutant.json.gz",
+      "bytes": 2942,
+      "sha256": "d8ef6e95ef948e7ab70687a06f6cf7873bab7052b02eb620eca9803204bccc29",
+      "compressedSha256": "6f0b9299eaceafeda47159c738f6e4ad2a53d77858a870d20fa497e2eb0d4165"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-mutant.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-small-space-mutant.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-mutant.stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/18fefb1a7da9-small-space-mutant.stdout.txt.gz",
+      "bytes": 396,
+      "sha256": "18fefb1a7da916330a0099c719040714f4d102547673b8ee056691b79bb657e1",
+      "compressedSha256": "29ae4f602e13d34b902254e36630bd6b6722730b8414cdf786a6ed16f2f54798"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-restored.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/1cf9457ba364-small-space-restored.json.gz",
+      "bytes": 1596,
+      "sha256": "1cf9457ba36488b1ad61105c09b322048e2a4d0e6400319ba25f73943f228d90",
+      "compressedSha256": "3713778dbfa8b1c0805c5fdea4f78771dbe7bacf293d7319e92579087b5ce914"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-restored.stderr.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e3b0c44298fc-small-space-restored.stderr.txt.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "abfbb86f9f5ddfbd9fc1a72c43ab384702ce8bae86b60f3324748485e235e61e"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/small-space-restored.stdout.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/1e3529f31ae3-small-space-restored.stdout.txt.gz",
+      "bytes": 107,
+      "sha256": "1e3529f31ae31da725afbb1d379f9a131753facada0e558dda8811507931115e",
+      "compressedSha256": "fb922ec27fc7a80bc0e37c2f907f6a659e4c1185aeb77557c2367f843989de0f"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/typecheck-all.txt",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/4735d5b866a1-typecheck-all.txt.gz",
+      "bytes": 683,
+      "sha256": "4735d5b866a1b191e43f2aa94c90c1f0acb6575183f64aef4cde07ffb466d2e5",
+      "compressedSha256": "8eb5b47b2fc32471ea541f026233862b6ec54ed8423d86478c3fa679fc4d3fe2"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/verify-final-coverage.mjs",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/7ce6784c3901-verify-final-coverage.mjs.gz",
+      "bytes": 2331,
+      "sha256": "7ce6784c3901f6701ee2c1e92940d6de23330ac31ada7e8e74ced58ab579f057",
+      "compressedSha256": "5b3233e43cc91d3436630bebfba4589963ff6f5b96656732520fb749b3693ff1"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/verify-generated-calibration.mts",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/bbda52669f75-verify-generated-calibration.mts.gz",
+      "bytes": 2531,
+      "sha256": "bbda52669f75e431329f3400dcd26689f6a917541469301c9e2326f9bb980933",
+      "compressedSha256": "0107e56744e6a683bfa4c783dc0c62aa54bf23f3ca7897a54e81b0069efebaed"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/verify-generated.mts",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/bbda52669f75-verify-generated.mts.gz",
+      "bytes": 2531,
+      "sha256": "bbda52669f75e431329f3400dcd26689f6a917541469301c9e2326f9bb980933",
+      "compressedSha256": "0107e56744e6a683bfa4c783dc0c62aa54bf23f3ca7897a54e81b0069efebaed"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/visual-index.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/0940ad3042c8-visual-index.json.gz",
+      "bytes": 4635,
+      "sha256": "0940ad3042c84ce86ab420fcace425f947dbb6622cfd2d8af3685843937c5004",
+      "compressedSha256": "90e5a6c8e0d0e1b04e0474e7e0ac131858406bf0dbd84f45b4580b5b1b606633"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/build/english-integration/write-integration-review.mjs",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/1ca6875a374b-write-integration-review.mjs.gz",
+      "bytes": 17299,
+      "sha256": "1ca6875a374b9bf83b35b352ea8bb210debcd668e6ea50318df17f84d2bf0eaa",
+      "compressedSha256": "84fa90cdf2c095f7627690843198fa5cf7a24037838d6003cda839b32f9470ef"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/coverage/fast/game/lcov.info",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/4ab9c97abd8d-lcov.info.gz",
+      "bytes": 467483,
+      "sha256": "4ab9c97abd8d4a14fd410736af985a379cdd6c709288aac241283b9a2db6c887",
+      "compressedSha256": "3cb96689d613027f784813a296a746f7491887d598b01412ad315ee986d7ce7f"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/coverage/fast/pal-extract/lcov.info",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/e6b2a717fc43-lcov.info.gz",
+      "bytes": 35976,
+      "sha256": "e6b2a717fc43653e0c62a92b1cdbbd14aed6ff9f5fefea5228dcfb1b3672dfa8",
+      "compressedSha256": "0847e1014ea147e2b4fa897dcc68ab55d85f1b7238fe529b5e36d8e9ce1983f9"
+    },
+    {
+      "originalPath": "/Users/zhangxu/illegal/type-pal/coverage/fast/summary.json",
+      "publishedPath": "docs/ops/evidence/GAME-ENGLISH-1/native/893d61c67d16-summary.json.gz",
+      "bytes": 8558251,
+      "sha256": "893d61c67d161f45e04cc1eea3e68058d0977148c4cdf4667db67cc78e71ec4b",
+      "compressedSha256": "3cec4b0524aeace6c2bf6731f02d5ad29bcd3e87df572f4849e4344879a64a30"
+    }
+  ]
+}

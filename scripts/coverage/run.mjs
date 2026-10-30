@@ -6,6 +6,7 @@ import { existsSync } from 'node:fs'
 import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises'
 import { dirname, isAbsolute, relative, resolve, sep } from 'node:path'
 import process from 'node:process'
+import { adjustApprovedBaseline } from './approved-baseline-adjustments.mjs'
 import { isApprovedTestRetirement } from './approved-test-retirements.mjs'
 import {
   baselinePath,
@@ -37,6 +38,7 @@ import {
   metricNames,
   normalizeMetrics,
 } from './metrics.mjs'
+import { collectPackages } from './package-collection.mjs'
 import { classifyProtectedBaseline } from './protected-baseline.mjs'
 
 const [profile = '', ...flags] = process.argv.slice(2)
@@ -243,6 +245,8 @@ async function collectPackage(packageConfig, outputRoot) {
     'exec',
     'vitest',
     'run',
+    // Vitest's automatic agent reporter hides passing-test diagnostics.
+    '--reporter=default',
     ...selectedVitestArgs(packageConfig, profile),
     '--coverage',
     '--coverage.provider=v8',
@@ -413,7 +417,13 @@ async function readBaselineFromGit(ref) {
 
 async function assertCandidateDoesNotLowerProtectedBaseline(candidate, protectedBaseline) {
   assertComparableProvider(candidate, protectedBaseline)
-  const comparison = compareCoverage(candidate, protectedBaseline, { allowNewPackages: true })
+  const comparison = compareCoverage(
+    candidate,
+    await approvedComparisonBaseline(protectedBaseline),
+    {
+      allowNewPackages: true,
+    },
+  )
   if (comparison.regressions.length > 0)
     throw new Error(
       `候选 baseline 低于目标分支 baseline:\n- ${comparison.regressions.join('\n- ')}`,
@@ -463,6 +473,14 @@ async function assertCandidateDoesNotLowerProtectedBaseline(candidate, protected
     )
 }
 
+async function approvedComparisonBaseline(baseline) {
+  const adjusted = await adjustApprovedBaseline(baseline, (path) =>
+    readFile(resolve(repoRoot, path)),
+  )
+  for (const id of adjusted.applied) console.log(`已核精确结构调整授权: ${id}`)
+  return adjusted.baseline
+}
+
 async function main() {
   await assertToolVersions()
   await assertFullInputs()
@@ -470,23 +488,12 @@ async function main() {
   if (!outputRoot.startsWith(`${coverageRoot}${sep}`)) throw new Error('coverage 输出路径越界')
   await rm(outputRoot, { recursive: true, force: true })
 
-  const packages = {}
   const parallelEditor = profile === 'fast' && process.env.TYPE_PAL_COVERAGE_PARALLEL_EDITOR === '1'
-  if (parallelEditor) {
-    const editor = coveragePackages.find((packageConfig) => packageConfig.id === 'editor')
-    if (!editor) throw new Error('fast coverage parallel editor 配置缺失')
-    let editorResult
-    for (const packageConfig of coveragePackages) {
-      if (packageConfig.id === 'editor') continue
-      if (packageConfig.id === 'game') editorResult = collectPackage(editor, outputRoot)
-      packages[packageConfig.id] = await collectPackage(packageConfig, outputRoot)
-    }
-    packages[editor.id] = await editorResult
-  } else {
-    for (const packageConfig of coveragePackages) {
-      packages[packageConfig.id] = await collectPackage(packageConfig, outputRoot)
-    }
-  }
+  const packages = await collectPackages(
+    coveragePackages,
+    (packageConfig) => collectPackage(packageConfig, outputRoot),
+    parallelEditor,
+  )
   const total = aggregateMetrics(Object.values(packages).map((item) => item.metrics))
   const generatedAt = new Date().toISOString()
   const result = {
@@ -535,7 +542,9 @@ async function main() {
     else console.log(`\n目标分支 ${protectedRef} 尚无 coverage 设施；允许本次唯一 bootstrap。`)
   }
 
-  const comparison = compareCoverage(result, baseline, { allowNewPackages: ratchet })
+  const comparison = compareCoverage(result, await approvedComparisonBaseline(baseline), {
+    allowNewPackages: ratchet,
+  })
   if (comparison.regressions.length > 0)
     throw new Error(`覆盖率不得下降:\n- ${comparison.regressions.join('\n- ')}`)
   const scopeAudit = auditScope(result, baseline)
@@ -551,7 +560,7 @@ async function main() {
     }
     await writeBaseline(result)
     console.log(
-      `\n覆盖率基线已只升不降地更新（提升 ${comparison.improvements.length} 项，范围变化 ${scopeAudit.changes.length} 项）`,
+      `\n覆盖率基线已更新（相对核准比较基准提升 ${comparison.improvements.length} 项，范围变化 ${scopeAudit.changes.length} 项；精确结构调整授权见上文）`,
     )
   } else {
     console.log(

@@ -75,8 +75,10 @@ async function mountHarness(
     focusLog,
     openedReferences,
     async cleanup() {
-      stopEditorAudioPreview()
-      await act(async () => root.unmount())
+      await act(async () => {
+        stopEditorAudioPreview()
+        root.unmount()
+      })
       host.remove()
     },
   }
@@ -167,8 +169,10 @@ export async function mountAudioWorkbench(
     openedReferences,
     strategy,
     async cleanup() {
-      stopEditorAudioPreview()
-      await act(async () => root.unmount())
+      await act(async () => {
+        stopEditorAudioPreview()
+        root.unmount()
+      })
       host.remove()
     },
   }

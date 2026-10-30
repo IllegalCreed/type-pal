@@ -1,0 +1,654 @@
+{
+  "phase": "before",
+  "base": "f2529c5fa65ba0abd4a737fcb32577888d391335",
+  "formalSha256": {
+    "shell/bootstrap-resources.ts": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+    "shell/bootstrap-resources.test.ts": "3fb0c797675d8291b57bfec660db8499a9c0b1e6cfb00ecb2d1f8538baca55f2",
+    "shell/bootstrap-resources.grok-mid-1.test.ts": "5ea1ddbdc8ba1f2126308e9cf4f1e82ac581316f9e3d79fa637d3f5878a9ab7b"
+  },
+  "variants": {
+    "control": [],
+    "soundfont-error-cloned": [
+      [
+        "? ports.fetchSoundfont()",
+        "? ports.fetchSoundfont().catch((error: unknown) => { throw new Error(error instanceof Error ? error.message : String(error)) })"
+      ]
+    ],
+    "glyph-shortcut": [
+      [
+        "  const resourcesReady = Promise.all([\n    ports.loadAssets(sceneId),\n    ports.loadGlyphs().catch((error: unknown) => {\n      ports.warn('[bootstrap] loadGlyphs failed, text will render as tofu:', error)\n      return undefined\n    }),\n    ports.loadDialogAssets(),\n  ])",
+        "  const assets = ports.loadAssets(sceneId)\n  const glyphs = ports.loadGlyphs().catch((error: unknown) => {\n      ports.warn('[bootstrap] loadGlyphs failed, text will render as tofu:', error)\n      return undefined\n    })\n  const dialog = ports.loadDialogAssets()\n  const resourcesReady = Promise.all([\n    assets,\n    Promise.race([glyphs, Promise.all([assets, dialog]).then(() => undefined)]),\n    dialog,\n  ])"
+      ]
+    ],
+    "transfer-glyph-warning": [
+      ["      ports.warn('[bootstrap] loadGlyphs failed, text will render as tofu:', error)\n", ""]
+    ],
+    "transfer-glyph-fallback": [
+      ["      return undefined\n", "      return { has: () => false, get: () => undefined }\n"]
+    ]
+  },
+  "runs": [
+    {
+      "name": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-boot-before-control-bootstrap-resources.test.ts",
+        "src/shell/pre94-3h-boot-before-control-bootstrap-resources.grok-mid-1.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-iu5qjlfr/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.466,
+      "moduleSha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-boot-before-control-bootstrap-resources.ts": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+        "packages/game/src/shell/pre94-3h-boot-before-control-bootstrap-resources.test.ts": "d8ff934bd7cb64b4e8084d1c3690eb1b3a6200ee25c7128b6e288ad70d973501",
+        "packages/game/src/shell/pre94-3h-boot-before-control-bootstrap-resources.grok-mid-1.test.ts": "6a7925a26d6e2c6390ddfc9a7545936b8d6f3bba5d50fc0c79328a97b8a6ada5"
+      },
+      "rawSha256": "03b441059da719bd641556ed606d621a99721f8ee159c3eee2951b25b30d5f68",
+      "runnerSha256": "b95867e45d6f9add4488e43a9c3b1078b07388bcd33ead2f65c489757cf0aa46",
+      "passed": 13,
+      "failed": 0,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers dialog 未兑现时 resourcesReady 保持未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers assets 未兑现时 resourcesReady 保持未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 两轮 boot 的拒绝与成功资产互不穿越",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle FM boot loads the game resources without requesting or waiting for the MIDI soundfont",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle starts soundfont first and all resource loaders before awaiting any result",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle keeps the original soundfont rejection while its settle barrier still resolves",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": []
+    },
+    {
+      "name": "soundfont-error-cloned",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-boot-before-soundfont-error-cloned-bootstrap-resources.test.ts",
+        "src/shell/pre94-3h-boot-before-soundfont-error-cloned-bootstrap-resources.grok-mid-1.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-2_eld7ye/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.226,
+      "moduleSha256": "95e9f926be7db10297376ff4e72c4be2fa0c50cc195786160772f4ed3e17411f",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-boot-before-soundfont-error-cloned-bootstrap-resources.ts": "95e9f926be7db10297376ff4e72c4be2fa0c50cc195786160772f4ed3e17411f",
+        "packages/game/src/shell/pre94-3h-boot-before-soundfont-error-cloned-bootstrap-resources.test.ts": "eb941cb96b66a27899b147bf9fd719cf72b32f424f34f0ded3e603298d3f68a6",
+        "packages/game/src/shell/pre94-3h-boot-before-soundfont-error-cloned-bootstrap-resources.grok-mid-1.test.ts": "ce9f38442603783be9b6bfbb3a2acf1fb87bec852f08f32834f817579ab767f4"
+      },
+      "rawSha256": "c22bc0070f0c91223046a94c6fb7190088b3eb463ef679a2d837bc784a9f730c",
+      "runnerSha256": "9deab9b1796b11888ba75b8b0272773999489ae9700d04d9e13c8e4558ce63b1",
+      "passed": 13,
+      "failed": 0,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers dialog 未兑现时 resourcesReady 保持未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers assets 未兑现时 resourcesReady 保持未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 两轮 boot 的拒绝与成功资产互不穿越",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle FM boot loads the game resources without requesting or waiting for the MIDI soundfont",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle starts soundfont first and all resource loaders before awaiting any result",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle keeps the original soundfont rejection while its settle barrier still resolves",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": []
+    },
+    {
+      "name": "glyph-shortcut",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-boot-before-glyph-shortcut-bootstrap-resources.test.ts",
+        "src/shell/pre94-3h-boot-before-glyph-shortcut-bootstrap-resources.grok-mid-1.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-kqderdqe/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.226,
+      "moduleSha256": "0db9034b76816fcf8cd0e1940a0984a746e4f2cdfd2eb35674e78a53b177da58",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-boot-before-glyph-shortcut-bootstrap-resources.ts": "0db9034b76816fcf8cd0e1940a0984a746e4f2cdfd2eb35674e78a53b177da58",
+        "packages/game/src/shell/pre94-3h-boot-before-glyph-shortcut-bootstrap-resources.test.ts": "9a7efc49950cc781e1448353f599893e5ec44dd49bb39d27f8d869e0536e66bd",
+        "packages/game/src/shell/pre94-3h-boot-before-glyph-shortcut-bootstrap-resources.grok-mid-1.test.ts": "d24cf4e74a8749dd5d366570188b5c1cacb7597409c1e56dac949b3840b0fa34"
+      },
+      "rawSha256": "c25b6a4c0acbe33ebaff60cec0a7ed4d86116ea2ca6d967892c4f628a111f035",
+      "runnerSha256": "ca7014ce2805087cea65a954d745e495b2beb5e0e0d2e028282de06217e46b02",
+      "passed": 13,
+      "failed": 0,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers dialog 未兑现时 resourcesReady 保持未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers assets 未兑现时 resourcesReady 保持未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 两轮 boot 的拒绝与成功资产互不穿越",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle FM boot loads the game resources without requesting or waiting for the MIDI soundfont",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle starts soundfont first and all resource loaders before awaiting any result",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle keeps the original soundfont rejection while its settle barrier still resolves",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": []
+    },
+    {
+      "name": "transfer-glyph-warning",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-boot-before-transfer-glyph-warning-bootstrap-resources.test.ts",
+        "src/shell/pre94-3h-boot-before-transfer-glyph-warning-bootstrap-resources.grok-mid-1.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-5mhqf6n9/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.201,
+      "moduleSha256": "4fd16e2e0dc833eff26989a8e799e184917a5c8ce9f018ae5bce633fcae2a494",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-boot-before-transfer-glyph-warning-bootstrap-resources.ts": "4fd16e2e0dc833eff26989a8e799e184917a5c8ce9f018ae5bce633fcae2a494",
+        "packages/game/src/shell/pre94-3h-boot-before-transfer-glyph-warning-bootstrap-resources.test.ts": "5ca89ab74b4145e412542ba4093b2a533ab9aff0bb8dd84fbbaef3efe7c96254",
+        "packages/game/src/shell/pre94-3h-boot-before-transfer-glyph-warning-bootstrap-resources.grok-mid-1.test.ts": "5e434574533112574e743aaeab63e722c69fa130fa7e7dd25a6a7b62aa19dd9f"
+      },
+      "rawSha256": "25d596d5c1c22d5684985d7977e493d8c541a4ce294bfa2b050039f87b83c032",
+      "runnerSha256": "eb084a253370cf2230888aed0d3018c0d2b8c40efc5f8a8014d81e39cdebad46",
+      "passed": 11,
+      "failed": 2,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers dialog 未兑现时 resourcesReady 保持未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers assets 未兑现时 resourcesReady 保持未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected \"vi.fn()\" to be called with arguments: [ …(2) ]\n\nNumber of calls: 0\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1487:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-3h-boot-before-transfer-glyph-warning-bootstrap-resources.grok-mid-1.test.ts:203:18\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 两轮 boot 的拒绝与成功资产互不穿越",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle FM boot loads the game resources without requesting or waiting for the MIDI soundfont",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle starts soundfont first and all resource loaders before awaiting any result",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected \"vi.fn()\" to be called with arguments: [ …(2) ]\n\nNumber of calls: 0\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1487:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-3h-boot-before-transfer-glyph-warning-bootstrap-resources.test.ts:92:18\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle keeps the original soundfont rejection while its settle barrier still resolves",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": [
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+          "errorName": "AssertionError"
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources",
+          "errorName": "AssertionError"
+        }
+      ]
+    },
+    {
+      "name": "transfer-glyph-fallback",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/shell/pre94-3h-boot-before-transfer-glyph-fallback-bootstrap-resources.test.ts",
+        "src/shell/pre94-3h-boot-before-transfer-glyph-fallback-bootstrap-resources.grok-mid-1.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-3h-qhpnk6lc/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "seconds": 1.239,
+      "moduleSha256": "8d7d0bacf04f600e1fa868b40c5d398b23ce8ee28e2833eb87900f12eeec03c1",
+      "copiesSha256": {
+        "packages/game/src/shell/pre94-3h-boot-before-transfer-glyph-fallback-bootstrap-resources.ts": "8d7d0bacf04f600e1fa868b40c5d398b23ce8ee28e2833eb87900f12eeec03c1",
+        "packages/game/src/shell/pre94-3h-boot-before-transfer-glyph-fallback-bootstrap-resources.test.ts": "d35cc11903d531f83a7f31b6127ab351882186de92e1f6600b42680ac1881dc8",
+        "packages/game/src/shell/pre94-3h-boot-before-transfer-glyph-fallback-bootstrap-resources.grok-mid-1.test.ts": "10b4ef7859133d364d61cda6f883ae8e06a29a74b51e8ff8d5103a2c975a1065"
+      },
+      "rawSha256": "37b7d49339d5668b9b6883af70e47f9ea9da83d93a6488eab74d2fe024c00b67",
+      "runnerSha256": "47140d18fe635934f678826e7c47efcca1e0034a3c2c861a12e8a35345c40498",
+      "passed": 11,
+      "failed": 2,
+      "pending": 0,
+      "actWarnings": 0,
+      "environmentWarnings": 0,
+      "stderrBlocks": 0,
+      "cases": [
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers dialog 未兑现时 resourcesReady 保持未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers assets 未兑现时 resourcesReady 保持未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected { has: [Function has], …(1) } to be undefined\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-3h-boot-before-transfer-glyph-fallback-bootstrap-resources.grok-mid-1.test.ts:217:27\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers 两轮 boot 的拒绝与成功资产互不穿越",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle FM boot loads the game resources without requesting or waiting for the MIDI soundfont",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle starts soundfont first and all resource loaders before awaiting any result",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources",
+          "status": "failed",
+          "messages": [
+            "AssertionError: expected { assets: {}, glyphs: { …(2) }, …(1) } to deeply equal { assets: {}, glyphs: undefined, …(1) }\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-3h-boot-before-transfer-glyph-fallback-bootstrap-resources.test.ts:87:20\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle keeps the original soundfont rejection while its settle barrier still resolves",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "reportedErrors": [
+        {
+          "file": "bootstrap-resources.grok-mid-1.test.ts",
+          "fullName": "grok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+          "errorName": "AssertionError"
+        },
+        {
+          "file": "bootstrap-resources.test.ts",
+          "fullName": "bootstrap resource lifecycle degrades a glyph failure without blocking the other initial resources",
+          "errorName": "AssertionError"
+        }
+      ]
+    }
+  ],
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

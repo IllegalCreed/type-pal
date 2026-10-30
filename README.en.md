@@ -10,13 +10,23 @@ A from-scratch TypeScript rewrite of the 1995 RPG *The Legend of Sword and Fairy
 
 **[▶ Play in the browser](https://pal.illegalscreed.cn/)**
 
-The live demo’s game text is Chinese.
+The phase-1 game can be played in Simplified Chinese or English. Open Tools with the backtick key, go to System, and choose a language. Story text, character names, and menus follow that choice. The browser stores the choice locally.
+
+On a phone, in a narrow window, or in a short wide window, the game draws an on-screen direction pad plus OK and Back. Those labels follow the language. The same System page can hide the pad, and the browser stores that choice locally too. A normal desktop window leaves the pad hidden.
 
 ![From editing a map to playing it: map, scene, NPC script, then in-editor play](docs/screenshots/editor-to-play.gif)
 
 Map editing, scene editing, an NPC script, then play preview. The burned-in captions are Chinese.
 
 <table>
+<tr>
+<td width="50%"><img src="docs/screenshots/gameplay-english-dialogue.png" alt="English dialogue in the inn" width="100%"><br>Phase 1 · English dialogue in the inn</td>
+<td width="50%"><img src="docs/screenshots/gameplay-english-menu.png" alt="English in-game menu" width="100%"><br>Phase 1 · English menu</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/gameplay-english-battle.png" alt="English battle commands" width="100%"><br>Phase 1 · English battle commands</td>
+<td><img src="docs/screenshots/mobile-virtual-controls.png" alt="On-screen direction pad and buttons on a phone" width="100%"><br>Phase 1 · On-screen controls on a phone</td>
+</tr>
 <tr>
 <td width="50%"><img src="docs/screenshots/gameplay-dialogue.png" alt="Dialogue in the Yuhang inn" width="100%"><br>Phase 1 · Dialogue in the Yuhang inn</td>
 <td width="50%"><img src="docs/screenshots/gameplay-battle.png" alt="Turn-based battle" width="100%"><br>Phase 1 · Turn-based battle</td>
@@ -43,17 +53,20 @@ Map editing, scene editing, an NPC script, then play preview. The burned-in capt
 
 | Phase | Status | What you get |
 |---|---|---|
-| Phase 1 · faithful recreation | [v1.0.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.0.0) is live | The browser runtime [`@type-pal/game`](packages/game). The main story can be played through: the final boss is defeated and the ending plays. That tag marks the first complete playthrough, not a bug-free stable release. |
+| Phase 1 · faithful recreation | [v1.1.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.1.0) is live | The browser runtime [`@type-pal/game`](packages/game), with English, mobile and gamepad support. [v1.0.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.0.0) remains the first complete-playthrough milestone. |
 | Phase 2 · Reforge | In development | A new runtime [`@type-pal/reforge`](packages/reforge), a React visual editor [`@type-pal/editor`](packages/editor), and an offline migrator [`@type-pal/migrate`](packages/migrate). |
 | Phase 3 · productization | Planned | Replace copyrighted assets for a public release, plus a site and offline desktop builds. See [`docs/phase3/README.md`](docs/phase3/README.md). |
 
-Phase 1, from the [v1.0.0 release notes](https://github.com/IllegalCreed/type-pal/releases/tag/v1.0.0) and the in-repo implementation notes:
+Phase 1 features, from the [v1.1.0 release notes](https://github.com/IllegalCreed/type-pal/releases/tag/v1.1.0) and the current implementation:
 
 - [`@type-pal/pal-extract`](packages/pal-extract) unpacks data tables, sprites, and event bytecode from the original MKF archives. YJ1 decompression corresponds to `yj1.c` in the reference tree ([`reference/README.md`](reference/README.md)).
 - A TypeScript bytecode interpreter drives dialogue, cutscenes, scene changes, and battle triggers.
 - A 320×200 indexed-color software framebuffer. Bitmaps store palette indexes and are colored at blit time.
 - Turn-based battles: action queue, damage formulas, spells, status, enemy AI, and animation timelines.
 - Music defaults to MIDI synthesized with SpessaSynth and TimGM6mb. Choose DOS FM (RIX) under Tools → System → Audio → Music source for live WebAssembly + AudioWorklet synthesis. The browser remembers the selection; see the source and license notes below.
+- Simplified Chinese or English, under Tools → System → Language. Story text, names, and menus follow the choice, and the browser stores it locally.
+- An on-screen direction pad and OK / Back on a phone, a narrow window, or a short wide window. That layout’s System page can show or hide them. A normal desktop window leaves them hidden.
+- Standard gamepad support. System offers an optional clockwise 45° rotation for the on-screen direction pad and left stick, off by default and remembered locally. Keyboard and hardware D-pad mappings stay unchanged.
 
 Phase 2 pieces that are already in the tree (live detail is the [capability map](docs/phase2/capability-map.md) and the [task board](docs/ops/board.md)):
 

@@ -6,8 +6,8 @@ import { projectData, shellProject } from './__tests__/runtime-shell/project.js'
 import { IndexedDbSaveStore } from './save/store.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 

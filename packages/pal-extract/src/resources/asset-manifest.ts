@@ -1,11 +1,13 @@
 import { createHash } from 'node:crypto'
-import { readdirSync, statSync } from 'node:fs'
+import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative } from 'node:path'
 
 export interface AssetEntry {
   /** 相对 extracted 根的 POSIX 路径(运行时拼成 /extracted/<path>)。 */
   path: string
   size: number
+  /** SHA256 of the final emitted bytes, including same-size changes. */
+  sha256: string
 }
 
 export interface AssetManifest {
@@ -32,7 +34,7 @@ export function buildManifest(entries: AssetEntry[]): AssetManifest {
   const hash = createHash('sha256')
   let totalBytes = 0
   for (const f of files) {
-    hash.update(`${f.path}:${f.size}\n`)
+    hash.update(`${f.path}:${f.size}:${f.sha256}\n`)
     totalBytes += f.size
   }
   return { version: hash.digest('hex').slice(0, 16), totalBytes, fileCount: files.length, files }
@@ -46,7 +48,12 @@ export function collectAssetEntries(rootDir: string): AssetEntry[] {
       const full = join(dir, name)
       const st = statSync(full)
       if (st.isDirectory()) walk(full)
-      else out.push({ path: relative(rootDir, full).split('\\').join('/'), size: st.size })
+      else
+        out.push({
+          path: relative(rootDir, full).split('\\').join('/'),
+          size: st.size,
+          sha256: createHash('sha256').update(readFileSync(full)).digest('hex'),
+        })
     }
   }
   walk(rootDir)

@@ -1,0 +1,664 @@
+[
+  {
+    "gate": "check",
+    "attributionLimit": "Nearest runner stderr header; overlapping worker output is a clue, not a per-file root-cause verdict",
+    "files": [
+      {
+        "file": "src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+        "act": 204
+      },
+      {
+        "file": "src/ui/ImageTab.kimi-workflows.test.tsx",
+        "act": 140
+      },
+      {
+        "file": "src/ui/FrameAnimationEditor.save.test.tsx",
+        "act": 104
+      },
+      {
+        "file": "src/ui/SkillTab.glm-m.test.tsx",
+        "act": 80
+      },
+      {
+        "file": "src/ui/TilesetTab.kimi-workflows.test.tsx",
+        "act": 69
+      },
+      {
+        "file": "src/ui/CutsceneTab.kimi-workflows.test.tsx",
+        "act": 66
+      },
+      {
+        "file": "src/ui/ProjectPicker-recovery.test.tsx",
+        "environment": 61
+      },
+      {
+        "file": "src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
+        "act": 58
+      },
+      {
+        "file": "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "act": 56
+      },
+      {
+        "file": "src/ui/StampTemplateDialog.test.tsx",
+        "environment": 43
+      },
+      {
+        "file": "src/ui/SkillTab.glm-ui-wave.test.tsx",
+        "act": 37
+      },
+      {
+        "file": "src/ui/App.glm-next-wave.test.tsx",
+        "environment": 34
+      },
+      {
+        "file": "src/ui/EnemyTab.glm-m.test.tsx",
+        "act": 28
+      },
+      {
+        "file": "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+        "act": 27
+      },
+      {
+        "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+        "act": 26
+      },
+      {
+        "file": "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "act": 26
+      },
+      {
+        "file": "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+        "act": 24
+      },
+      {
+        "file": "src/ui/PreviewCanvas.test.tsx",
+        "environment": 24
+      },
+      {
+        "file": "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+        "act": 19
+      },
+      {
+        "file": "src/ui/MapSelectionInspector.test.tsx",
+        "environment": 19
+      },
+      {
+        "file": "src/ui/PreviewCanvas.glm-ui-wave.test.tsx",
+        "environment": 19
+      },
+      {
+        "file": "src/ui/EnemyTab.test.tsx",
+        "act": 18
+      },
+      {
+        "file": "src/ui/PoisonTab.glm-m.test.tsx",
+        "act": 18
+      },
+      {
+        "file": "src/ui/StampTemplateDialog.glm-leaf-wave.test.tsx",
+        "environment": 18
+      },
+      {
+        "file": "src/ui/BattleFieldTab.glm-m.test.tsx",
+        "act": 17
+      },
+      {
+        "file": "src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx",
+        "act": 14
+      },
+      {
+        "file": "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+        "act": 13
+      },
+      {
+        "file": "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+        "act": 12
+      },
+      {
+        "file": "src/ui/ItemTab.glm-m.test.tsx",
+        "act": 12
+      },
+      {
+        "file": "src/ui/StampPreviewCanvas.test.tsx",
+        "environment": 12
+      },
+      {
+        "file": "src/ui/SceneCanvas.kimi-workflows.test.tsx",
+        "act": 10
+      },
+      {
+        "file": "src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+        "act": 10
+      },
+      {
+        "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+        "act": 9
+      },
+      {
+        "file": "src/ui/ItemAlchemyTab.glm-m.test.tsx",
+        "act": 8
+      },
+      {
+        "file": "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+        "act": 6
+      },
+      {
+        "file": "src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx",
+        "act": 6
+      },
+      {
+        "file": "src/ui/SceneCanvas.glm-ui-wave.test.tsx",
+        "act": 6
+      },
+      {
+        "file": "src/ui/design-system/help-tips.test.tsx",
+        "environment": 6
+      },
+      {
+        "file": "src/ui/TilesetTab.test.tsx",
+        "act": 5
+      },
+      {
+        "file": "src/__tests__/architecture-lab/app-lifecycle.test.tsx",
+        "act": 4
+      },
+      {
+        "file": "src/ui/PreviewCanvas.glm-next-wave.test.tsx",
+        "environment": 4
+      },
+      {
+        "file": "src/ui/BattleSpriteLibrary.glm-m.test.tsx",
+        "act": 3
+      },
+      {
+        "file": "src/ui/FireEffectPreview.glm-large-wave.test.tsx",
+        "act": 3
+      },
+      {
+        "file": "src/ui/MusicPicker.test.tsx",
+        "environment": 3
+      },
+      {
+        "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+        "act": 2
+      },
+      {
+        "file": "src/ui/scene-stage.kimi-workflows.test.ts",
+        "act": 2
+      },
+      {
+        "file": "src/ui/AudioAssetWorkbench.test.tsx",
+        "act": 2
+      },
+      {
+        "file": "src/ui/ProjectAudioPreviewButton.test.tsx",
+        "act": 2
+      },
+      {
+        "file": "src/ui/ProjectWorkbenchTab.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/BattleFieldTab.glm-leaf-wave.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/BattleSpriteUploader.glm-next-wave.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/design-system/list-header.glm-leaf-wave.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx",
+        "act": 1
+      }
+    ]
+  },
+  {
+    "gate": "ratchet",
+    "attributionLimit": "Nearest runner stderr header; overlapping worker output is a clue, not a per-file root-cause verdict",
+    "files": [
+      {
+        "file": "src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+        "act": 204
+      },
+      {
+        "file": "src/ui/ImageTab.kimi-workflows.test.tsx",
+        "act": 114
+      },
+      {
+        "file": "src/ui/SkillTab.glm-m.test.tsx",
+        "act": 80
+      },
+      {
+        "file": "src/ui/TilesetTab.kimi-workflows.test.tsx",
+        "act": 69
+      },
+      {
+        "file": "src/ui/CutsceneTab.kimi-workflows.test.tsx",
+        "act": 66
+      },
+      {
+        "file": "src/ui/ProjectPicker-recovery.test.tsx",
+        "environment": 61
+      },
+      {
+        "file": "src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
+        "act": 58
+      },
+      {
+        "file": "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "act": 56
+      },
+      {
+        "file": "src/ui/StampTemplateDialog.test.tsx",
+        "environment": 43
+      },
+      {
+        "file": "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+        "act": 38
+      },
+      {
+        "file": "src/ui/SkillTab.glm-ui-wave.test.tsx",
+        "act": 37
+      },
+      {
+        "file": "src/ui/App.glm-next-wave.test.tsx",
+        "environment": 34
+      },
+      {
+        "file": "src/ui/EnemyTab.glm-m.test.tsx",
+        "act": 28
+      },
+      {
+        "file": "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+        "act": 27
+      },
+      {
+        "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+        "act": 26
+      },
+      {
+        "file": "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "act": 26
+      },
+      {
+        "file": "src/ui/FrameAnimationEditor.save.test.tsx",
+        "act": 26
+      },
+      {
+        "file": "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+        "act": 24
+      },
+      {
+        "file": "src/ui/PreviewCanvas.test.tsx",
+        "environment": 24
+      },
+      {
+        "file": "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+        "act": 19
+      },
+      {
+        "file": "src/ui/PreviewCanvas.glm-ui-wave.test.tsx",
+        "environment": 19
+      },
+      {
+        "file": "src/ui/MapSelectionInspector.test.tsx",
+        "environment": 19
+      },
+      {
+        "file": "src/ui/EnemyTab.test.tsx",
+        "act": 18
+      },
+      {
+        "file": "src/ui/PoisonTab.glm-m.test.tsx",
+        "act": 18
+      },
+      {
+        "file": "src/ui/StampTemplateDialog.glm-leaf-wave.test.tsx",
+        "environment": 18
+      },
+      {
+        "file": "src/ui/BattleFieldTab.glm-m.test.tsx",
+        "act": 17
+      },
+      {
+        "file": "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+        "act": 12
+      },
+      {
+        "file": "src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx",
+        "act": 12
+      },
+      {
+        "file": "src/ui/ItemTab.glm-m.test.tsx",
+        "act": 12
+      },
+      {
+        "file": "src/ui/StampPreviewCanvas.test.tsx",
+        "environment": 12
+      },
+      {
+        "file": "src/ui/SceneCanvas.kimi-workflows.test.tsx",
+        "act": 10
+      },
+      {
+        "file": "src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+        "act": 10
+      },
+      {
+        "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+        "act": 9
+      },
+      {
+        "file": "src/ui/ItemAlchemyTab.glm-m.test.tsx",
+        "act": 8
+      },
+      {
+        "file": "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+        "act": 6
+      },
+      {
+        "file": "src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx",
+        "act": 6
+      },
+      {
+        "file": "src/ui/SceneCanvas.glm-ui-wave.test.tsx",
+        "act": 6
+      },
+      {
+        "file": "src/ui/design-system/help-tips.test.tsx",
+        "environment": 6
+      },
+      {
+        "file": "src/ui/TilesetTab.test.tsx",
+        "act": 5
+      },
+      {
+        "file": "src/__tests__/architecture-lab/app-lifecycle.test.tsx",
+        "act": 4
+      },
+      {
+        "file": "src/ui/PreviewCanvas.glm-next-wave.test.tsx",
+        "environment": 4
+      },
+      {
+        "file": "src/ui/BattleSpriteLibrary.glm-m.test.tsx",
+        "act": 3
+      },
+      {
+        "file": "src/ui/FireEffectPreview.glm-large-wave.test.tsx",
+        "act": 3
+      },
+      {
+        "file": "src/ui/MusicPicker.test.tsx",
+        "environment": 3
+      },
+      {
+        "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+        "act": 2
+      },
+      {
+        "file": "src/ui/scene-stage.kimi-workflows.test.ts",
+        "act": 2
+      },
+      {
+        "file": "src/ui/AudioAssetWorkbench.test.tsx",
+        "act": 2
+      },
+      {
+        "file": "src/ui/ProjectAudioPreviewButton.test.tsx",
+        "act": 2
+      },
+      {
+        "file": "src/ui/ProjectWorkbenchTab.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/BattleFieldTab.glm-leaf-wave.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/BattleSpriteUploader.glm-next-wave.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/design-system/list-header.glm-leaf-wave.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx",
+        "act": 1
+      }
+    ]
+  },
+  {
+    "gate": "protected",
+    "attributionLimit": "Nearest runner stderr header; overlapping worker output is a clue, not a per-file root-cause verdict",
+    "files": [
+      {
+        "file": "src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+        "act": 204
+      },
+      {
+        "file": "src/ui/ImageTab.kimi-workflows.test.tsx",
+        "act": 114
+      },
+      {
+        "file": "src/ui/SkillTab.glm-m.test.tsx",
+        "act": 80
+      },
+      {
+        "file": "src/ui/TilesetTab.kimi-workflows.test.tsx",
+        "act": 69
+      },
+      {
+        "file": "src/ui/CutsceneTab.kimi-workflows.test.tsx",
+        "act": 66
+      },
+      {
+        "file": "src/ui/ProjectPicker-recovery.test.tsx",
+        "environment": 61
+      },
+      {
+        "file": "src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+        "act": 56
+      },
+      {
+        "file": "src/ui/StampTemplateDialog.test.tsx",
+        "environment": 43
+      },
+      {
+        "file": "src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
+        "act": 42
+      },
+      {
+        "file": "src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
+        "act": 38
+      },
+      {
+        "file": "src/ui/SkillTab.glm-ui-wave.test.tsx",
+        "act": 37
+      },
+      {
+        "file": "src/ui/App.glm-next-wave.test.tsx",
+        "environment": 34
+      },
+      {
+        "file": "src/ui/EnemyTab.glm-m.test.tsx",
+        "act": 28
+      },
+      {
+        "file": "src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+        "act": 27
+      },
+      {
+        "file": "src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
+        "act": 26
+      },
+      {
+        "file": "src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+        "act": 26
+      },
+      {
+        "file": "src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+        "act": 24
+      },
+      {
+        "file": "src/ui/PreviewCanvas.test.tsx",
+        "environment": 24
+      },
+      {
+        "file": "src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+        "act": 19
+      },
+      {
+        "file": "src/ui/PreviewCanvas.glm-ui-wave.test.tsx",
+        "environment": 19
+      },
+      {
+        "file": "src/ui/MapSelectionInspector.test.tsx",
+        "environment": 19
+      },
+      {
+        "file": "src/ui/EnemyTab.test.tsx",
+        "act": 18
+      },
+      {
+        "file": "src/ui/PoisonTab.glm-m.test.tsx",
+        "act": 18
+      },
+      {
+        "file": "src/ui/StampTemplateDialog.glm-leaf-wave.test.tsx",
+        "environment": 18
+      },
+      {
+        "file": "src/ui/BattleFieldTab.glm-m.test.tsx",
+        "act": 17
+      },
+      {
+        "file": "src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx",
+        "act": 14
+      },
+      {
+        "file": "src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+        "act": 12
+      },
+      {
+        "file": "src/ui/ItemTab.glm-m.test.tsx",
+        "act": 12
+      },
+      {
+        "file": "src/ui/StampPreviewCanvas.test.tsx",
+        "environment": 12
+      },
+      {
+        "file": "src/ui/SceneCanvas.kimi-workflows.test.tsx",
+        "act": 10
+      },
+      {
+        "file": "src/ui/ItemUseEffectEditor.glm-m.test.tsx",
+        "act": 10
+      },
+      {
+        "file": "src/ui/TilesetTab.c08-g03.cursor-r1.test.tsx",
+        "act": 9
+      },
+      {
+        "file": "src/ui/ItemAlchemyTab.glm-m.test.tsx",
+        "act": 8
+      },
+      {
+        "file": "src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
+        "act": 6
+      },
+      {
+        "file": "src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx",
+        "act": 6
+      },
+      {
+        "file": "src/ui/SceneCanvas.glm-ui-wave.test.tsx",
+        "act": 6
+      },
+      {
+        "file": "src/ui/design-system/help-tips.test.tsx",
+        "environment": 6
+      },
+      {
+        "file": "src/ui/TilesetTab.test.tsx",
+        "act": 5
+      },
+      {
+        "file": "src/__tests__/architecture-lab/app-lifecycle.test.tsx",
+        "act": 4
+      },
+      {
+        "file": "src/ui/PreviewCanvas.glm-next-wave.test.tsx",
+        "environment": 4
+      },
+      {
+        "file": "src/ui/BattleSpriteLibrary.glm-m.test.tsx",
+        "act": 3
+      },
+      {
+        "file": "src/ui/FireEffectPreview.glm-large-wave.test.tsx",
+        "act": 3
+      },
+      {
+        "file": "src/ui/MusicPicker.test.tsx",
+        "environment": 3
+      },
+      {
+        "file": "src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
+        "act": 2
+      },
+      {
+        "file": "src/ui/scene-stage.kimi-workflows.test.ts",
+        "act": 2
+      },
+      {
+        "file": "src/ui/AudioAssetWorkbench.test.tsx",
+        "act": 2
+      },
+      {
+        "file": "src/ui/ProjectAudioPreviewButton.test.tsx",
+        "act": 2
+      },
+      {
+        "file": "src/ui/ProjectWorkbenchTab.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/BattleFieldTab.glm-leaf-wave.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/BattleSpriteUploader.glm-next-wave.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/design-system/list-header.glm-leaf-wave.test.tsx",
+        "act": 1
+      },
+      {
+        "file": "src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx",
+        "act": 1
+      }
+    ]
+  }
+]

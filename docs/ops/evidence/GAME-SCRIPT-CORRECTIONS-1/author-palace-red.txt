@@ -1,0 +1,112 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge
+
+ ❯ src/pal-palace-corrections.test.ts (6 tests | 5 failed) 10ms
+   × 's249'/'e4400' keeps the intended palace room and era on arrival 6ms
+   × 's260'/'e4557' keeps the intended palace room and era on arrival 1ms
+   × 's285'/'e4813' keeps the intended palace room and era on arrival 1ms
+   × 's286'/'e4841' keeps the intended palace room and era on arrival 0ms
+   ✓ 's285'/'e4814' keeps the intended palace room and era on arrival 0ms
+   × 现世独立房间出口可从邻格触发，不要求踩进墙格或与敌人战斗 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/pal-palace-corrections.test.ts > 's249'/'e4400' keeps the intended palace room and era on arrival
+ FAIL  src/pal-palace-corrections.test.ts > 's285'/'e4813' keeps the intended palace room and era on arrival
+AssertionError: expected { col: 102, row: 29, height: +0 } to deeply equal { col: 80, row: 22, height: +0 }
+
+- Expected
++ Received
+
+  {
+-   "col": 80,
++   "col": 102,
+    "height": 0,
+-   "row": 22,
++   "row": 29,
+  }
+
+ ❯ src/pal-palace-corrections.test.ts:24:58
+     22|   expect(load.scene).toBe(target)
+     23|   if (!load.entryId) throw new Error('arrival point missing')
+     24|   expect(gov3Scene(target).entries?.[load.entryId]?.pos).toEqual({ col…
+       |                                                          ^
+     25| })
+     26|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  src/pal-palace-corrections.test.ts > 's260'/'e4557' keeps the intended palace room and era on arrival
+AssertionError: expected { col: 102, row: 29, height: +0 } to deeply equal { col: 82, row: -5, height: +0 }
+
+- Expected
++ Received
+
+  {
+-   "col": 82,
++   "col": 102,
+    "height": 0,
+-   "row": -5,
++   "row": 29,
+  }
+
+ ❯ src/pal-palace-corrections.test.ts:24:58
+     22|   expect(load.scene).toBe(target)
+     23|   if (!load.entryId) throw new Error('arrival point missing')
+     24|   expect(gov3Scene(target).entries?.[load.entryId]?.pos).toEqual({ col…
+       |                                                          ^
+     25| })
+     26|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  src/pal-palace-corrections.test.ts > 's286'/'e4841' keeps the intended palace room and era on arrival
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/pal-palace-corrections.test.ts:18:38
+     16| ])('$scene/$entity keeps the intended palace room and era on arrival',…
+     17|   const run = correctionRuntime(scene)
+     18|   expect(await run.activate(entity)).toBe(true)
+       |                                      ^
+     19|   const loads = run.effects.filter((command) => command.kind === 'load…
+     20|   expect(loads).toHaveLength(1)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  src/pal-palace-corrections.test.ts > 现世独立房间出口可从邻格触发，不要求踩进墙格或与敌人战斗
+AssertionError: expected undefined to deeply equal { on: 'touch', range: 1 }
+
+- Expected:
+{
+  "on": "touch",
+  "range": 1,
+}
+
++ Received:
+undefined
+
+ ❯ src/pal-palace-corrections.test.ts:30:46
+     28|   const run = correctionRuntime('s286')
+     29|   const exit = gov3Scene('s286').entities.find((entity) => entity.id =…
+     30|   expect(exit.pages?.[0]?.triggerActivation).toEqual({ on: 'touch', ra…
+       |                                              ^
+     31|   expect(exit.pos).toEqual({ col: 80, row: 25, height: 0 })
+     32|   expect(exit.hostile).toBeUndefined()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 1 passed (6)
+   Start at  15:57:25
+   Duration  3.17s (transform 2.22s, setup 0ms, import 3.08s, tests 10ms, environment 0ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-author-fixes/type-pal/packages/reforge:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/pal-palace-corrections.test.ts --reporter=default

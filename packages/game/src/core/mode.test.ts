@@ -9,7 +9,7 @@
  */
 
 import type { InputSnapshot, Palette } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import { createCommandBus } from './command-bus.js'
 import {
   OP_FADE_IN,
@@ -20,6 +20,8 @@ import {
 } from './event-system.js'
 import { createInitialGameState, type GameState } from './game-state.js'
 import { tickByMode } from './mode.js'
+
+afterEach(() => setGlobalEvents([]))
 
 function snap(): InputSnapshot {
   return { held: new Set(), pressed: new Set(), frameNum: 0 }
@@ -37,7 +39,7 @@ function tickWithTime(gs: GameState, ms = 100): void {
 
 function palette(c: [number, number, number]): Palette {
   return {
-    colors: Array.from({ length: 256 }, () => [...c] as [number, number, number]),
+    colors: Array.from({ length: 256 }, (): [number, number, number] => [...c]),
     cycles: [],
   }
 }
@@ -97,22 +99,18 @@ describe('tickByMode autoScript gate (P2#6a)', () => {
   it('event 模式 + waiting=dialog(对话阻塞)→ autoScript **不**跑(NPC 停)', () => {
     const gs = gsWithAutoNpc()
     gs.mode = 'event'
-    gs.eventCursor = { commands: [{ op: 'end' }], labelMap: {}, ip: 0, waiting: 'dialog' }
-    gs.dialogBox = {
-      titleText: undefined,
-      shownLines: [],
-      currentLineText: '在',
-      typingFrames: 0,
-      charsRevealed: 0,
-      dialogLineCount: 1,
-      phase: 'typing',
-      style: 'bottom',
-      fontColor: 0x4f,
-      shadow: true,
-      keyIconBlink: false,
+    gs.nowMs = 1000
+    gs.eventCursor = {
+      commands: [{ op: 'showDialog', messageIndex: 0, text: '还在说话' }, { op: 'end' }],
+      labelMap: {},
+      ip: 0,
     }
+    tickEventSystem(gs, snap())
+    expect(gs.eventCursor?.waiting).toBe('dialog')
     tickByMode(gs, snap(), createCommandBus())
     expect(gs.npcs[0]?.autoCursor?.ip).toBe(0) // 未推进
+    expect(gs.eventCursor?.waiting).toBe('dialog')
+    expect(gs.mode).toBe('event')
   })
 
   it('sceneLoading=true(切场景冻屏)→ autoScript **不**跑', () => {
@@ -158,10 +156,10 @@ describe('tickByMode auto fade-in gate', () => {
     // 居中字结束后才执行脚本里的 0x51 FadeIn。
     // Bug1 fix:旧 hack typingFrames=999(旧 tick 语义),改 wall-clock 推进 nowMs 超过 doneAt(601)。
     gs.nowMs = 1000 + 700 // 相对行起 700ms > 601 doneAt → 尾暂停结束
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('dialog')
     expect(gs.dialogBox?.lineDoneRenderPending).toBe(false)
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.needToFadeIn).toBe(false)
     // 0x51 FadeIn 只 ramp 调色板、**不**清 blackScreenHold(2026-06-08 修):内容仍 index0 黑 → 字幕保持黑屏。
@@ -237,7 +235,7 @@ describe('tickByMode auto fade-in gate', () => {
     }
 
     // 一 tick:ShowFBP(无 handler → blackScreenHold=true + 清头像 + ip++)→ 同 tick 续跑 0x51 FadeIn
-    tickEventSystem(gs, snap(), createCommandBus())
+    tickEventSystem(gs, snap())
     // 0x51 FadeIn 启 palette ramp 但 **不**清 blackScreenHold(内容仍黑,场景靠后续 MakeScene 揭)
     expect(gs.eventCursor?.waiting).toBe('palette-fade')
     expect(gs.blackScreenHold).toBe(true)

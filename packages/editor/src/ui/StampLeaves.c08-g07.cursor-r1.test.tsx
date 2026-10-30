@@ -20,6 +20,7 @@ import {
   mountStampTemplateDialog,
 } from '../__tests__/cursor-asset-r1/c08-stamp-harness.js'
 import { stubNodeTestHost, typeDraft } from '../__tests__/cursor-asset-r1/kit.js'
+import { waitForReact } from '../__tests__/react-io-wait.js'
 import { installBrowserHardwarePorts } from './__tests__/kimi-editor-workflows/kit.js'
 import { loadStampPreviewAssets } from './StampPreviewCanvas.js'
 
@@ -122,7 +123,7 @@ describe('C08-G07 Stamp 叶组件合同', () => {
       button.textContent?.includes('创建组合'),
     )!
     await act(async () => save.click())
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.session.getState().stamps.length).toBe(1)
     })
     expect(mounted.saved[0]?.mode).toBe('create')
@@ -132,7 +133,7 @@ describe('C08-G07 Stamp 叶组件合同', () => {
   test('C08-G07-07 StampPreviewCanvas 渲染 canvas 元素', async () => {
     const template = c08StampTemplate('c08-prev', C08_TILESET)
     const mounted = await mountStampPreview(template)
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.canvas().width).toBeGreaterThan(0)
     })
     await mounted.cleanup()
@@ -164,7 +165,7 @@ describe('C08-G07 Stamp 叶组件合同', () => {
       ],
     }
     const mounted = await mountStampPreview(broken)
-    await vi.waitFor(() => {
+    await waitForReact(() => {
       expect(mounted.host.textContent).toMatch(/资源缺失|#99/)
     })
     await mounted.cleanup()

@@ -511,7 +511,7 @@ export interface BattleState {
   /** 物品二级光标(= sdlpal g_iCurSubMenuItem),同样持久(uibattle.c:1374 `//disabled`)。 */
   miscSubMenuCursor: number
   /**
-   * 当前法术选择网格状态(进 magicSelect 时 createMagicSelectMenu 建;退出清)。
+   * 当前法术选择网格状态(进 magicSelect 时 buildBattleMagicSelect 建;退出清)。
    * = sdlpal magicmenu.c 的 g_iCurrentItem / rgMagicItem(战斗与大世界共用 PAL_MagicSelectionMenuUpdate)。
    */
   magicSelect?: SelectionMenuState
@@ -546,8 +546,8 @@ export interface BattleState {
    */
   repeatSelectionActive?: boolean
   /**
-   * 目标光标上次悬停的敌人 index(sdlpal `g_Battle.UI.iPrevEnemyTarget`)。
-   * perform 前 selectAutoTargetFrom 重选目标时优先用它(若仍活)。targetSelect UI 设;
+   * 敌方目标 UI 上次 Confirm 的敌人 index(对应 `g_Battle.UI.iPrevEnemyTarget` 字段)。
+   * selectAutoTargetFrom 重选目标时优先用它(若仍活);仅移动光标不写入。
    * optional 兼容旧 fixture(未设 → -1 fallback 到首个活敌)。
    */
   iPrevEnemyTarget?: number
@@ -595,7 +595,7 @@ export interface BattleState {
    */
   persistentBgBlits?: Array<{ spriteChunk: number; frameIdx: number; x: number; y: number }>
   /**
-   * D19 战斗入场 dither fade-in(sdlpal `PAL_BattleFadeScene`,battle.c:609-680)。step/total = 进度;
+   * D19 战斗入场揭示 gate(参考 PAL_BattleMain → VIDEO_SwitchScreen)。step/total = 进度;
    * preBattle phase 期间 gate 输入(fade 完才进 selectAction),present-battle 据此把战斗场景从入场前的
    * 大世界帧 nibble-dither 揭示出来。完成 → 清。undefined = 无入场淡入(已进战斗 / 单测)。
    */
@@ -620,9 +620,9 @@ export interface BattleState {
   terminatedByEnemyEscape?: boolean
   /**
    * D17 敌人死亡淡出 hold(PAL_BattleFadeScene,fight.c:889-893 + battle.c:608-682)。
-   * 某 action 后有新死敌 → checkEnemyDeaths 开启 { elapsedMs: 0 };tickPerformAction 的
-   * fade 分支按 BATTLE_DT 累 elapsedMs、推进所有淡出中敌人的 deathFadeStep(= floor(elapsedMs/16),
-   * cap 72)。step 到 72 → 死敌 deathFadeStep=72(隐)、清 battleFade、currentActionIndex++。
+   * 某 action 后有新死敌 → checkEnemyDeaths 开启 { elapsedMs: 0 };顶层 tickBattleFade
+   * 按 BATTLE_DT 累 elapsedMs、推进所有淡出中敌人的 deathFadeStep(= floor(elapsedMs/16),
+   * cap 72)。step 到 72 → 死敌 deathFadeStep=72(隐)、清 battleFade;游标由动作完成路径推进。
    * 淡出期间**暂停**战斗推进(忠实 sdlpal:fade 是同步 72×16ms blocking loop)。
    * undefined = 无 active 淡出。
    *
@@ -676,6 +676,8 @@ export interface BattleState {
  * 对照 sdlpal `PAL_ShowDialogText(PAL_GetMsg(op0))`(script.c:3463)+ 前置 PAL_StartDialog 风格。
  */
 export interface BattleDialogLine {
+  /** A translated blank-line token: confirm and clear the page, preserving its title/portrait. */
+  clearPage?: boolean
   /** 原始文本(含控制符,parseDialogText 解析逐字符上色 / 变速 / 尾暂停)。effect 条目无此字段。 */
   text?: string
   /** dialog 风格(setDialogStyle* 决定:top/bottom/center/narration)。effect 条目无关。 */
@@ -731,14 +733,6 @@ export interface CreateBattleStateInput {
   enemyPos?: EnemyPosTable
 }
 
-/**
- * 从 GameState + fixture 派生一个新的 BattleState。
- *
- * - players 按 gs.partyMembers 顺序构造,每个 roleId 必须落在 playerRoles.roles
- *   中(找不到抛错防 fixture 错配)。
- * - enemies 每条 shallow copy `e`,health 在战斗中会被改,避免污染原 JSON 数据。
- * - phase 起点 = 'preBattle',turn = 0,uiState = 'hidden'(T22 进入后再 advance)。
- */
 /** sdlpal `battle.c:27` 真值:`g_rgPlayerPos[3][3][2]` — 战斗时最多 3 player。
  *  party 可有 5(MAX_PLAYABLE_PLAYER_ROLES),但战斗 layout 只 3 位。 */
 export const MAX_BATTLE_PLAYERS = 3
@@ -747,7 +741,8 @@ export const MAX_BATTLE_PLAYERS = 3
  * D14:把持久 `gs.rgPlayerStatus[role]`(CLASSIC kStatus 序 9 项)seed 成战斗 BattleStatus。
  * 索引序对齐 global.h:42-55:0 Confused/1 Paralyzed/2 Sleep/3 Silence/4 Puppet/
  * 5 Bravery/6 Protect/7 Haste/8 DualAttack(CLASSIC 无 Slow,留 0)。
- * 持久层只承载装备授状态(value>999),其余战斗局部状态仍每场新建(B1)。
+ * 持久表同时承载大世界普通状态与装备授状态(value>999),这里按原计数复制,不按来源过滤。
+ * 战斗期间改局部副本;战后 finalizeBattleCleanup 清持久表 <=999 的状态。
  */
 function seedBattleStatus(persistent: number[] | undefined): BattleStatus {
   const p = persistent
@@ -767,7 +762,8 @@ function seedBattleStatus(persistent: number[] | undefined): BattleStatus {
 
 /**
  * DH1:敌队 0 占位槽的零值 Enemy(对照 battle.c:1600 `memset(&rgEnemy[j], 0, sizeof(BATTLEENEMY))`
- * 后仅写 wObjectID=0 —— e 全零)。该槽 defeated=true,不参与任何战斗逻辑,字段值无消费方。
+ * 后仅写 wObjectID=0 —— e 全零)。该槽 defeated=true,跳过行动与渲染;
+ * 仍保留站位／召唤槽位语义,不能把这些零值字段都视为无消费。
  */
 function makeEmptySlotEnemy(): Enemy {
   return {
@@ -806,6 +802,11 @@ function makeEmptySlotEnemy(): Enemy {
   }
 }
 
+/**
+ * 从当前 GameState 与战斗资源构造局部状态。players 按 partyMembers 排序,缺失角色或超过三人抛错。
+ * 非空敌槽 shallow copy `e`,不与静态表共用可变 health;0 占位槽另建零值敌人。
+ * phase='preBattle',turn=0,uiState='hidden',后续由战斗宿主推进。
+ */
 export function createBattleState(input: CreateBattleStateInput): BattleState {
   if (input.gs.partyMembers.length > MAX_BATTLE_PLAYERS) {
     throw new Error(
@@ -826,7 +827,7 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
       prevMp: role.mp,
       scriptPrevHp: role.hp,
       defending: false,
-      // D14:从持久 gs.rgPlayerStatus[role] seed 装备授状态(DualAttack 等);无 → 全 0。
+      // 从持久 gs.rgPlayerStatus[role] seed 普通/装备状态;缺失项为 0。
       status: seedBattleStatus(input.gs.rgPlayerStatus?.[roleId]),
       pos: base ? { ...base } : undefined,
       posOriginal: base ? { ...base } : undefined,
@@ -879,8 +880,8 @@ export function createBattleState(input: CreateBattleStateInput): BattleState {
       pos: base ? { ...base } : undefined,
       posOriginal: base ? { ...base } : undefined,
       spriteFrameHeight: input.enemySpriteFrameHeights?.get(e.id),
-      // 敌人 idle 期 currentFrame **保持 undefined** → draw 走 idle 时钟轮播
-      //   (computeIdleFrameIndex,D17c)。动画期 anim-timeline 才置攻击帧号,
+      // 敌人空闲期 currentFrame 保持 undefined，渲染读取 tickEnemyIdleGestures 推进的 idleFrame。
+      //   动画期 anim-timeline 才置攻击帧号,
       //   resetFightersAfterAction 复位回 undefined。置 0 会冻结 idle 轮播(回归)。
       currentFrame: undefined,
       iColorShift: 0,

@@ -1,0 +1,542 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "base": "81ae7908c671ca0737531687eff0c78d30674f4b",
+  "status": "accepted finite structural recount; current default consumer, official ratchet and protected passed; final document/static receipt is renderer-gates.json",
+  "authority": "用户2026-10-20：合理重构造成覆盖率下降可精确调整baseline，不恢复死代码或堆弱测试；本项仅同体opaque/颜色共享与测试专用包装退役。",
+  "approval": {
+    "id": "pre94-renderer-shared-primitives-20261021",
+    "authority": "用户2026-10-20：合理重构造成覆盖率下降可精确调整baseline，不恢复死代码或堆弱测试；本项仅同体opaque/颜色共享与测试专用包装退役。",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-recount.json",
+    "baselineSha256": "d7817bb742c761a31bd029a88fbd1d6edf1405fbd6cbde10bcec3bcc24b2bbdf",
+    "sources": [
+      {
+        "path": "packages/game/src/core/menu/inventory-menu.ts",
+        "sha256": "4ed0e50d54faf012079cf9d6d2ee01357698d07f9e3ba5d8f324b84e3bf28f2b"
+      },
+      {
+        "path": "packages/game/src/core/menu/menu-colors.ts",
+        "sha256": "43be7381df1880e54fba0430e9f5a18ae27dfeadb9156d99c60be740d4a18a6b"
+      },
+      {
+        "path": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+        "sha256": "0899e5c48cc0c4bc634522bec7d8819a01c495657b527ef74e11f2c34c251ef2"
+      },
+      {
+        "path": "packages/game/src/present/blit-indexed-sprite.ts",
+        "sha256": "28b22d87ba93cac1b09b8c2b909b65fed9ca075d3e079f7fab3a1919170f4c8f"
+      },
+      {
+        "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+        "sha256": "77d84c6b6a974bcb50631dcd3d59e18e3153d901016d5e0ea868fdac9bc82487"
+      },
+      {
+        "path": "packages/game/src/present/draw-tilemap.test.ts",
+        "sha256": "6d05455949e1f87ce1208236cd4fd1e1e98a8a27772246ba022cfc4a8813c794"
+      },
+      {
+        "path": "packages/game/src/present/draw-tilemap.ts",
+        "sha256": "8ad57e0042e6d6797303bb863f8696312ea72e813da94e04d4a1829470272b1e"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-equip.ts",
+        "sha256": "a9283b6cc0b09e47352eb945f2c801af65dbb57dbdce2e203c745cb128e42d51"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-inventory.ts",
+        "sha256": "4621e385b2cc67a8b9f7aaa29af8b095d4de87f38ff149a7cfbdb81d5d37e5b4"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-menu.test.ts",
+        "sha256": "6fa7aaf7e88c7df5110d9962c014365a566ce89f582b674bb5583853910d57f9"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-menu.ts",
+        "sha256": "c19da1b18b398bf807cdac556450b89cae52ed678cf5ce144432c44a8965a0e3"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+        "sha256": "315d86f360b02b3f62ae7debc1f5f0f649715b7c8596888a6778a4b39c52c2a7"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "sha256": "e95f8638f167900a8600086c126d1a770d04624793459cc37bbd69795e27dd36"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-opening-menu.ts",
+        "sha256": "28265833b5bfdf3a79354022de5e05637b0ab59ce8b9bfdf13b5cd82e3418549"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "sha256": "6d8a21ba658297d226af7274718fffaead3e871d34b848f7fdea4cb9f23089f2"
+      },
+      {
+        "path": "packages/game/src/present/menu/draw-shop.ts",
+        "sha256": "820163557b1a99147dcf05d18618eb92964b9d1f93569c731dfc02e5f0bb2cf8"
+      },
+      {
+        "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+        "sha256": "e89506fc4ecabbd79ed878342cbc9f74ce37dcd4d5ea32a9c88be24eb1f7cf90"
+      }
+    ],
+    "packages": {
+      "game": {
+        "before": {
+          "statements": {
+            "covered": 14349,
+            "total": 16085
+          },
+          "branches": {
+            "covered": 9338,
+            "total": 11632
+          },
+          "functions": {
+            "covered": 1679,
+            "total": 1968
+          },
+          "lines": {
+            "covered": 12795,
+            "total": 14096
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 14315,
+            "total": 16051
+          },
+          "branches": {
+            "covered": 9336,
+            "total": 11628
+          },
+          "functions": {
+            "covered": 1672,
+            "total": 1961
+          },
+          "lines": {
+            "covered": 12766,
+            "total": 14067
+          }
+        }
+      }
+    }
+  },
+  "programInvariance": {
+    "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+    "beforeSha256": "a79c8a6ffb85e1f677e962fa3894c047c722c0506fff33abb748fe74bd1dfea5",
+    "afterSha256": "23cf4be59e68ed5c975d8793767fd25df50b009b14414eddc220a078ce404153",
+    "method": "AST entire module identical after removing exactly one newly prepended literal data record; no imports/normalizer/comparison functions changed"
+  },
+  "measurement": {
+    "run": "renderer-ratchet",
+    "exit": 1,
+    "sourceFileCount": 744,
+    "testCount": 19977,
+    "generatedAt": "2026-10-20T19:09:05.655Z",
+    "beforeGame": {
+      "statements": {
+        "covered": 14349,
+        "total": 16085
+      },
+      "branches": {
+        "covered": 9338,
+        "total": 11632
+      },
+      "functions": {
+        "covered": 1679,
+        "total": 1968
+      },
+      "lines": {
+        "covered": 12795,
+        "total": 14096
+      }
+    },
+    "afterGame": {
+      "statements": {
+        "covered": 14315,
+        "total": 16051
+      },
+      "branches": {
+        "covered": 9336,
+        "total": 11628
+      },
+      "functions": {
+        "covered": 1672,
+        "total": 1961
+      },
+      "lines": {
+        "covered": 12766,
+        "total": 14067
+      }
+    },
+    "otherSixPackagesMetricsIdentical": true,
+    "changedMetricFiles": [
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/menu/inventory-menu.ts",
+        "before": {
+          "statements": {
+            "covered": 109,
+            "total": 111
+          },
+          "branches": {
+            "covered": 77,
+            "total": 84
+          },
+          "functions": {
+            "covered": 20,
+            "total": 20
+          },
+          "lines": {
+            "covered": 88,
+            "total": 88
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 103,
+            "total": 105
+          },
+          "branches": {
+            "covered": 77,
+            "total": 84
+          },
+          "functions": {
+            "covered": 20,
+            "total": 20
+          },
+          "lines": {
+            "covered": 82,
+            "total": 82
+          }
+        }
+      },
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/draw-tilemap.ts",
+        "before": {
+          "statements": {
+            "covered": 157,
+            "total": 161
+          },
+          "branches": {
+            "covered": 103,
+            "total": 112
+          },
+          "functions": {
+            "covered": 8,
+            "total": 8
+          },
+          "lines": {
+            "covered": 126,
+            "total": 126
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 156,
+            "total": 160
+          },
+          "branches": {
+            "covered": 103,
+            "total": 112
+          },
+          "functions": {
+            "covered": 7,
+            "total": 7
+          },
+          "lines": {
+            "covered": 125,
+            "total": 125
+          }
+        }
+      },
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-equip.ts",
+        "before": {
+          "statements": {
+            "covered": 76,
+            "total": 76
+          },
+          "branches": {
+            "covered": 36,
+            "total": 44
+          },
+          "functions": {
+            "covered": 8,
+            "total": 8
+          },
+          "lines": {
+            "covered": 61,
+            "total": 61
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 63,
+            "total": 63
+          },
+          "branches": {
+            "covered": 35,
+            "total": 42
+          },
+          "functions": {
+            "covered": 6,
+            "total": 6
+          },
+          "lines": {
+            "covered": 50,
+            "total": 50
+          }
+        }
+      },
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-inventory.ts",
+        "before": {
+          "statements": {
+            "covered": 154,
+            "total": 156
+          },
+          "branches": {
+            "covered": 68,
+            "total": 82
+          },
+          "functions": {
+            "covered": 10,
+            "total": 10
+          },
+          "lines": {
+            "covered": 134,
+            "total": 134
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 146,
+            "total": 148
+          },
+          "branches": {
+            "covered": 66,
+            "total": 80
+          },
+          "functions": {
+            "covered": 8,
+            "total": 8
+          },
+          "lines": {
+            "covered": 128,
+            "total": 128
+          }
+        }
+      },
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-menu.ts",
+        "before": {
+          "statements": {
+            "covered": 101,
+            "total": 105
+          },
+          "branches": {
+            "covered": 39,
+            "total": 48
+          },
+          "functions": {
+            "covered": 15,
+            "total": 15
+          },
+          "lines": {
+            "covered": 96,
+            "total": 100
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 96,
+            "total": 100
+          },
+          "branches": {
+            "covered": 39,
+            "total": 48
+          },
+          "functions": {
+            "covered": 14,
+            "total": 14
+          },
+          "lines": {
+            "covered": 91,
+            "total": 95
+          }
+        }
+      },
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-opening-menu.ts",
+        "before": {
+          "statements": {
+            "covered": 17,
+            "total": 18
+          },
+          "branches": {
+            "covered": 7,
+            "total": 8
+          },
+          "functions": {
+            "covered": 4,
+            "total": 4
+          },
+          "lines": {
+            "covered": 17,
+            "total": 17
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 13,
+            "total": 14
+          },
+          "branches": {
+            "covered": 7,
+            "total": 8
+          },
+          "functions": {
+            "covered": 3,
+            "total": 3
+          },
+          "lines": {
+            "covered": 13,
+            "total": 13
+          }
+        }
+      },
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/menu/draw-shop.ts",
+        "before": {
+          "statements": {
+            "covered": 81,
+            "total": 83
+          },
+          "branches": {
+            "covered": 32,
+            "total": 36
+          },
+          "functions": {
+            "covered": 10,
+            "total": 10
+          },
+          "lines": {
+            "covered": 70,
+            "total": 70
+          }
+        },
+        "after": {
+          "statements": {
+            "covered": 70,
+            "total": 72
+          },
+          "branches": {
+            "covered": 31,
+            "total": 34
+          },
+          "functions": {
+            "covered": 8,
+            "total": 8
+          },
+          "lines": {
+            "covered": 62,
+            "total": 62
+          }
+        }
+      },
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/menu/menu-colors.ts",
+        "before": null,
+        "after": {
+          "statements": {
+            "covered": 7,
+            "total": 7
+          },
+          "branches": {
+            "covered": 0,
+            "total": 0
+          },
+          "functions": {
+            "covered": 1,
+            "total": 1
+          },
+          "lines": {
+            "covered": 7,
+            "total": 7
+          }
+        }
+      },
+      {
+        "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/present/blit-indexed-sprite.ts",
+        "before": null,
+        "after": {
+          "statements": {
+            "covered": 7,
+            "total": 7
+          },
+          "branches": {
+            "covered": 2,
+            "total": 2
+          },
+          "functions": {
+            "covered": 1,
+            "total": 1
+          },
+          "lines": {
+            "covered": 5,
+            "total": 5
+          }
+        }
+      }
+    ],
+    "rawOld": "coverage-before-game-summary.json",
+    "rawNew": "renderer-ratchet.coverage-summary.json",
+    "oldLcov": "coverage-before-game-lcov.info"
+  },
+  "deltas": {
+    "statements": {
+      "coveredDelta": -34,
+      "totalDelta": -34,
+      "uncoveredBefore": 1736,
+      "uncoveredAfter": 1736
+    },
+    "branches": {
+      "coveredDelta": -2,
+      "totalDelta": -4,
+      "uncoveredBefore": 2294,
+      "uncoveredAfter": 2292
+    },
+    "functions": {
+      "coveredDelta": -7,
+      "totalDelta": -7,
+      "uncoveredBefore": 289,
+      "uncoveredAfter": 289
+    },
+    "lines": {
+      "coveredDelta": -29,
+      "totalDelta": -29,
+      "uncoveredBefore": 1301,
+      "uncoveredAfter": 1301
+    }
+  },
+  "scope": "Only game counters. Uncovered functions/statements/lines unchanged; uncovered branches decrease2 via shared opaque condition. No code restoration, weak-test additions, ignores/excludes, percentage tolerance or comparison-rule change.",
+  "postCheckDataCoordination": {
+    "originalCheck": "renderer-check-clean",
+    "validationRun": "renderer-coverage-tools-recount",
+    "reason": "Whole repository check passed with identical17production/test files. Only finite approved baseline-data literal added later; affected coverage consumers and syntax are revalidated. Do not claim the original check executed the new data entry.",
+    "ruleProof": "programInvariance above, plus actual default normalizer application to frozen old baseline and source-drift refusal; final official ratchet/protected verify the current data."
+  },
+  "limits": [
+    "First official measurement remains exit1 with six explicit percentage guard failures, not zero-diagnostic pass.",
+    "Remaining52partial/whole83/source schema/SDL asset formats not accepted by this data adjustment."
+  ],
+  "officialPasses": {
+    "ratchet": "renderer-ratchet-approved",
+    "protected": "renderer-protected",
+    "sourceFileCount": 744,
+    "testCount": 19977
+  },
+  "firstAstProofSetup": {
+    "member": "recount-proof-v1.raw",
+    "credit": "none: factory dropped NodeArray trailing-comma metadata; original rejection retained; corrected preservation passes exact whole-module comparison"
+  }
+}

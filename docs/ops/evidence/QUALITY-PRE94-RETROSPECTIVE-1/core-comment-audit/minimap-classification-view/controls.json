@@ -1,0 +1,1005 @@
+{
+  "base": "987bdddac38ea3e95d84a3b82dcdeb1ba314556c",
+  "owner": "Codex single agent",
+  "scope": "Whole unfiltered old/current file per mutant. Three strengthen existing main contracts; two independently new public widget contracts. No native gameplay/visual acceptance.",
+  "controls": [
+    {
+      "id": "view-y-uses-x",
+      "source": "packages/game/src/tools/minimap.ts",
+      "spec": "packages/game/src/tools/minimap.test.ts",
+      "sourceSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+      "mutantSha256": "e559acadd03988fb6179ed2da0c5ca0aa4c98664c2a2d8c668630e8982f394da",
+      "expectedNewFailureNameContains": "缩放档以主角为中心",
+      "expectedOldCount": 14,
+      "expectedCurrentCount": 14,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-mm2-controls-p1nn6w2e/view-y-uses-x.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:29:54.413701+00:00",
+          "completedAt": "2026-10-17T22:29:55.609081+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "view-y-uses-x.old.raw.gz",
+          "rawBytes": 1868,
+          "rawSha256": "f564ce949944155e9c87cd6cfc60b5aa7803faf5f575cf5d6394fc775d334748",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "48bdf9825f85ce99c3070dcde996dccddbc61ca664451d4ecf578445ae9aaff1",
+          "nativeReport": "view-y-uses-x.old.vitest.json.gz",
+          "nativeSha256": "bdcfb147cd714e600f8624d533d170dae59186024051183fcfcab7da7b2135bc",
+          "passed": 14,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger giveItem(count>0) → item + 物品名",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger item 优先于 teleport",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger count=0 → item(sdlpal count==0 给 1 个;**绝大多数地图宝物 count=0**,如木鞋)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger count<0(扣道具) → other",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger 0x55 学法术 → item(法术)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+          "specRestoredSha256": "b091cafc94606bae3e8127bc7873947469e5899d9adcfbe719fddf37830e9075",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-mm2-controls-p1nn6w2e/view-y-uses-x.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:29:55.609505+00:00",
+          "completedAt": "2026-10-17T22:29:56.630730+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "view-y-uses-x.current.raw.gz",
+          "rawBytes": 3065,
+          "rawSha256": "f6f5f9614bdd5d688d30949b8d272acc7b30c7ebf3add79d87daa3eee5a1d9fa",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "b091cafc94606bae3e8127bc7873947469e5899d9adcfbe719fddf37830e9075",
+          "nativeReport": "view-y-uses-x.current.vitest.json.gz",
+          "nativeSha256": "356432d382e483c3277bef9a991495c5b2e368cd109ebaa1687aeb51a12b951f",
+          "passed": 13,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger giveItem(count>0) → item + 物品名",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger item 优先于 teleport",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger count=0仍归item(库存helper将0按1处理;不代表原盘道具名称)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger count<0(扣道具) → other",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger 0x55 学法术 → item(法术)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected 172.3076923076923 to be close to 14.76923076923077, received difference is 157.53846153846152, but expected 5e-7\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts:46:23\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+          "specRestoredSha256": "b091cafc94606bae3e8127bc7873947469e5899d9adcfbe719fddf37830e9075",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "view-upper-clamp-missing",
+      "source": "packages/game/src/tools/minimap.ts",
+      "spec": "packages/game/src/tools/minimap.test.ts",
+      "sourceSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+      "mutantSha256": "acf3597480d948895bc4dfb4ba6ed4d7c747b295f020138f2fb28d395d3c0e2b",
+      "expectedNewFailureNameContains": "主角在边角",
+      "expectedOldCount": 14,
+      "expectedCurrentCount": 14,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-mm2-controls-p1nn6w2e/view-upper-clamp-missing.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:29:56.631800+00:00",
+          "completedAt": "2026-10-17T22:29:57.672941+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "view-upper-clamp-missing.old.raw.gz",
+          "rawBytes": 1879,
+          "rawSha256": "c546ccbd3d5b3fba9e7938b71c9527cb73868b71ad5d8812e47f0d61d9367a9a",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "48bdf9825f85ce99c3070dcde996dccddbc61ca664451d4ecf578445ae9aaff1",
+          "nativeReport": "view-upper-clamp-missing.old.vitest.json.gz",
+          "nativeSha256": "f8994857109e3ed122cb79010afa4959fb8daceb893fa83dd1c20d498927664b",
+          "passed": 14,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger giveItem(count>0) → item + 物品名",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger item 优先于 teleport",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger count=0 → item(sdlpal count==0 给 1 个;**绝大多数地图宝物 count=0**,如木鞋)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger count<0(扣道具) → other",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger 0x55 学法术 → item(法术)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+          "specRestoredSha256": "b091cafc94606bae3e8127bc7873947469e5899d9adcfbe719fddf37830e9075",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-mm2-controls-p1nn6w2e/view-upper-clamp-missing.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:29:57.673354+00:00",
+          "completedAt": "2026-10-17T22:29:58.660887+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "view-upper-clamp-missing.current.raw.gz",
+          "rawBytes": 3099,
+          "rawSha256": "16289eea2b28266710e004ff597277c69b2281f9f9e7e5c09368a19f3d70a325",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "b091cafc94606bae3e8127bc7873947469e5899d9adcfbe719fddf37830e9075",
+          "nativeReport": "view-upper-clamp-missing.current.vitest.json.gz",
+          "nativeSha256": "4adaacb349925c9a26664d70bd724d9080b6e15c44330c21603d10ddf96bbbe4",
+          "passed": 13,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger giveItem(count>0) → item + 物品名",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger item 优先于 teleport",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger count=0仍归item(库存helper将0按1处理;不代表原盘道具名称)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger count<0(扣道具) → other",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger 0x55 学法术 → item(法术)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected 536.6153846153846 to be close to 443.0769230769231, received difference is 93.53846153846155, but expected 5e-7\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts:55:20\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+          "specRestoredSha256": "b091cafc94606bae3e8127bc7873947469e5899d9adcfbe719fddf37830e9075",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "teleport-returns-before-later-item",
+      "source": "packages/game/src/tools/minimap.ts",
+      "spec": "packages/game/src/tools/minimap.test.ts",
+      "sourceSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+      "mutantSha256": "c074498496d7a24edcc975ca846a7aac5452dc09020ab05c74403c05d255e593",
+      "expectedNewFailureNameContains": "item 优先于 teleport",
+      "expectedOldCount": 14,
+      "expectedCurrentCount": 14,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-mm2-controls-p1nn6w2e/teleport-returns-before-later-item.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:29:58.661851+00:00",
+          "completedAt": "2026-10-17T22:29:59.609626+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "teleport-returns-before-later-item.old.raw.gz",
+          "rawBytes": 1889,
+          "rawSha256": "0c7b9d6c0392a3059945b910002d6ac67d2e4e6c181342e86ec79ad6b9732e7e",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "48bdf9825f85ce99c3070dcde996dccddbc61ca664451d4ecf578445ae9aaff1",
+          "nativeReport": "teleport-returns-before-later-item.old.vitest.json.gz",
+          "nativeSha256": "0d897286a16b557e6118d7860c277bdfee8050b9f4aa6317b0138604692d9200",
+          "passed": 14,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger giveItem(count>0) → item + 物品名",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger item 优先于 teleport",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger count=0 → item(sdlpal count==0 给 1 个;**绝大多数地图宝物 count=0**,如木鞋)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger count<0(扣道具) → other",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger 0x55 学法术 → item(法术)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+          "specRestoredSha256": "b091cafc94606bae3e8127bc7873947469e5899d9adcfbe719fddf37830e9075",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-mm2-controls-p1nn6w2e/teleport-returns-before-later-item.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:29:59.610027+00:00",
+          "completedAt": "2026-10-17T22:30:00.593223+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "teleport-returns-before-later-item.current.raw.gz",
+          "rawBytes": 3014,
+          "rawSha256": "c99c79f00dde3d3e88e83cdeb4b0c3d096fe32c0a2b306553bb572afaedea4d9",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "b091cafc94606bae3e8127bc7873947469e5899d9adcfbe719fddf37830e9075",
+          "nativeReport": "teleport-returns-before-later-item.current.vitest.json.gz",
+          "nativeSha256": "05742380c755729e1db522eef457dc6a6d05ca16431c2c3c0b34a4d32419d3ab",
+          "passed": 13,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "worldToThumb 世界像素 → 底图像素((wx+16)*SCALE)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "computeView 主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger giveItem(count>0) → item + 物品名",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger loadScene(无 giveItem) → teleport(不标)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger item 优先于 teleport",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger count=0仍归item(库存helper将0按1处理;不代表原盘道具名称)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger count<0(扣道具) → other",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger 0x1E 加钱(正额) → item(金钱);扣钱(负额)→ other",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger 0x55 学法术 → item(法术)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "classifyTrigger label 缺失 → other;`L_<n>` 直解兜底(labelMap 无也能解全局 ip)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "collectEventKinds 扫全 npc → id → 类别(item/teleport/other)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts",
+              "fullName": "collectMinimapData teleport 不标 / item / NPC 分类 + 主角镜头",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected 'teleport' to be 'item' // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.test.ts:90:65\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+          "specRestoredSha256": "b091cafc94606bae3e8127bc7873947469e5899d9adcfbe719fddf37830e9075",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "equal-shortcut-no-zoom",
+      "source": "packages/game/src/tools/minimap.ts",
+      "spec": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sourceSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+      "mutantSha256": "d012866d1647365de79d7d0faabe6fa544c93cfaefbfacbcbe61a686045793d9",
+      "expectedNewFailureNameContains": "widget快捷键按四档裁剪真实canvas",
+      "expectedOldCount": 6,
+      "expectedCurrentCount": 8,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-mm2-controls-p1nn6w2e/equal-shortcut-no-zoom.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:30:00.594230+00:00",
+          "completedAt": "2026-10-17T22:30:01.792712+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "equal-shortcut-no-zoom.old.raw.gz",
+          "rawBytes": 1377,
+          "rawSha256": "02dd3e88deb6bd3e987286c08fe9bde9a904c0a7aac556402abcc2cab28bce39",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "e3ece264dcccd7f09c38f775b2ba91adbbcb3a86e46a80ec30b77808341fa2a0",
+          "nativeReport": "equal-shortcut-no-zoom.old.vitest.json.gz",
+          "nativeSha256": "50b0c0661a838d3b22442ff52a531433794092e48736f43107ad8e7be771062c",
+          "passed": 6,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 非全图 view 使用指定底图裁剪区域",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 默认开关、setShowNpc写存储；按保存值重建控制器读回",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 Image 解码失败后标记 map failed，不在后续帧反复请求",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+          "specRestoredSha256": "04fc167be03b045e336bc6f339fb32dd8c87fc973daeb539e2ba5ee4796e1092",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-mm2-controls-p1nn6w2e/equal-shortcut-no-zoom.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:30:01.793129+00:00",
+          "completedAt": "2026-10-17T22:30:02.974073+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "equal-shortcut-no-zoom.current.raw.gz",
+          "rawBytes": 3055,
+          "rawSha256": "dbc18d2e620625f970f5d23c1f4ec18ace60e0755abb14bc84939712e46ed551",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "04fc167be03b045e336bc6f339fb32dd8c87fc973daeb539e2ba5ee4796e1092",
+          "nativeReport": "equal-shortcut-no-zoom.current.vitest.json.gz",
+          "nativeSha256": "14efef2f44d42856b89c3235dea6629b5b52e54faa8425cb8d4ead627d0b9c4a",
+          "passed": 7,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 非全图 view 使用指定底图裁剪区域",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 默认开关、setShowNpc写存储；按保存值重建控制器读回",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 widget关闭或焦点在INPUT/TEXTAREA时,快捷键不改缩放也不重绘",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 Image 解码失败后标记 map failed，不在后续帧反复请求",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected '2' to be '3' // Object.is equality\n    at press (/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts:170:57)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts:176:7\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)"
+          ],
+          "sourceRestoredSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+          "specRestoredSha256": "04fc167be03b045e336bc6f339fb32dd8c87fc973daeb539e2ba5ee4796e1092",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "input-focus-guard-missing",
+      "source": "packages/game/src/tools/minimap.ts",
+      "spec": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sourceSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+      "mutantSha256": "f014f7968b398126e4592474e50383d336344665c9d8d71547bc84e301948aea",
+      "expectedNewFailureNameContains": "widget关闭或焦点在INPUT/TEXTAREA",
+      "expectedOldCount": 6,
+      "expectedCurrentCount": 8,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-mm2-controls-p1nn6w2e/input-focus-guard-missing.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:30:02.975150+00:00",
+          "completedAt": "2026-10-17T22:30:04.137299+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "input-focus-guard-missing.old.raw.gz",
+          "rawBytes": 1380,
+          "rawSha256": "5462cd0ef75b658d8fb011f39a4c6199f236edf815087c52b93c61c408632276",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "e3ece264dcccd7f09c38f775b2ba91adbbcb3a86e46a80ec30b77808341fa2a0",
+          "nativeReport": "input-focus-guard-missing.old.vitest.json.gz",
+          "nativeSha256": "b6618bef5801d0b08145839e2cd91c484157478cfa6563a05e84664153507c2f",
+          "passed": 6,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 非全图 view 使用指定底图裁剪区域",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 默认开关、setShowNpc写存储；按保存值重建控制器读回",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 Image 解码失败后标记 map failed，不在后续帧反复请求",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+          "specRestoredSha256": "04fc167be03b045e336bc6f339fb32dd8c87fc973daeb539e2ba5ee4796e1092",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-mm2-controls-p1nn6w2e/input-focus-guard-missing.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:30:04.137822+00:00",
+          "completedAt": "2026-10-17T22:30:05.378337+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "input-focus-guard-missing.current.raw.gz",
+          "rawBytes": 2940,
+          "rawSha256": "a5d30842bb955be9b8a3203dac80d6442d8df2953cd279acd8641ce61ee733d5",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "04fc167be03b045e336bc6f339fb32dd8c87fc973daeb539e2ba5ee4796e1092",
+          "nativeReport": "input-focus-guard-missing.current.vitest.json.gz",
+          "nativeSha256": "3417d957bf42f04f1dba20d2d6734f262d58bcb08eb64d1c6b74db8240a901a5",
+          "passed": 7,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 非全图 view 使用指定底图裁剪区域",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 默认开关、setShowNpc写存储；按保存值重建控制器读回",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 widget关闭或焦点在INPUT/TEXTAREA时,快捷键不改缩放也不重绘",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 Image 解码失败后标记 map failed，不在后续帧反复请求",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected '3' to be null\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts:199:57\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+          "specRestoredSha256": "04fc167be03b045e336bc6f339fb32dd8c87fc973daeb539e2ba5ee4796e1092",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-mm2-controls-p1nn6w2e",
+  "tempDirectoryRemoved": true,
+  "restored": true
+}

@@ -1,0 +1,141 @@
+{
+  "base": "770f9168e3422aea1d98bac2a3bd447a1c6f2216",
+  "date": "2026-10-18",
+  "owner": "Codex single agent",
+  "scope": "Evidence bookkeeping/caller attribution only, no product/test change or new closed file",
+  "changes": [
+    {
+      "kind": "42-sha-line-pair",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/42-dialog-box/read-boundaries.json",
+      "before": "42-dialog-box__read-boundaries.json.before.gz",
+      "changes": [
+        {
+          "source": "packages/game/src/present/dialog-box.ts",
+          "sha256": "f0a4f858eb4304180664d3f8b89f41792593fe7c6df0be4e7ef184a9d9b1c6c9",
+          "beforeLines": 958,
+          "afterLines": 961
+        },
+        {
+          "source": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+          "sha256": "8575e34c33c9e763af64cd11a383c9ee3037ca3b9786771c16ec35e871ff9c28",
+          "beforeLines": 84,
+          "afterLines": 96
+        }
+      ]
+    },
+    {
+      "kind": "battle-c-truncated-sha",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-battle-positions/read-boundaries.json",
+      "before": "3m-battle-positions__read-boundaries.json.before.gz",
+      "previousSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "correctedSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f"
+    },
+    {
+      "kind": "battle-c-truncated-sha",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-settlement/read-boundaries.json",
+      "before": "3l-settlement__read-boundaries.json.before.gz",
+      "previousSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "correctedSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f"
+    },
+    {
+      "kind": "battle-c-truncated-sha",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-dither-number-follower/read-boundaries.json",
+      "before": "3k-dither-number-follower__read-boundaries.json.before.gz",
+      "previousSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "correctedSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f"
+    },
+    {
+      "kind": "battle-c-truncated-sha",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-sprites/read-boundaries.json",
+      "before": "3l-sprites__read-boundaries.json.before.gz",
+      "previousSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "correctedSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f"
+    },
+    {
+      "kind": "battle-c-truncated-sha",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-battle-present-primitives/read-boundaries.json",
+      "before": "3l-battle-present-primitives__read-boundaries.json.before.gz",
+      "previousSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "correctedSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f"
+    },
+    {
+      "kind": "readme-line-counts",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/49-draw-inventory/README.md",
+      "before": "49-draw-inventory__README.md.before.gz",
+      "changes": [
+        {
+          "before": "（124 行）",
+          "after": "（95 行）"
+        },
+        {
+          "before": "（约 400 行）",
+          "after": "（405 行）"
+        },
+        {
+          "before": "（约 300 行）",
+          "after": "（316 行）"
+        }
+      ]
+    },
+    {
+      "kind": "readme-line-counts",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/51-draw-opening-menu/README.md",
+      "before": "51-draw-opening-menu__README.md.before.gz",
+      "changes": [
+        {
+          "before": "（94 行）",
+          "after": "（70 行）"
+        },
+        {
+          "before": "（101 行）",
+          "after": "（83 行）"
+        },
+        {
+          "before": "（79 行）",
+          "after": "（76 行）"
+        }
+      ]
+    },
+    {
+      "kind": "3j-actual-pause-caller",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-countdown/README.md",
+      "before": "3j-countdown__README.md.before.gz",
+      "source": "packages/game/src/tools/speedrun/index.ts",
+      "sourceSha256": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+      "ranges": ["75-116"],
+      "toolsPanelReadRanges": ["1-32", "820-890", "941-943"]
+    },
+    {
+      "kind": "3j-caller-boundary-wording",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-countdown/read-boundaries.json",
+      "before": "3j-countdown__read-boundaries.json.before.gz"
+    },
+    {
+      "kind": "3v-canon-range",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3v-battle-actions/read-boundaries.json",
+      "before": "3v-battle-actions__read-boundaries.json.before.gz",
+      "sourceSha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+      "currentRange": "933-945",
+      "sourceRevision": "770f9168e3422aea1d98bac2a3bd447a1c6f2216"
+    },
+    {
+      "kind": "intro-snapshot-eof",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/read-boundaries.json",
+      "before": "read-boundaries.json.before.gz"
+    },
+    {
+      "kind": "55-missing-boundary-fresh-supplement",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/55-draw-menu/read-boundaries.json",
+      "historicalOriginalRecovered": false
+    },
+    {
+      "kind": "55-boundary-provenance-notice",
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/55-draw-menu/README.md",
+      "before": "55-draw-menu__README.md.before.gz"
+    }
+  ],
+  "reportedTruncatedBattleShaEstimate": 4,
+  "actuallyCorrectedBattleShaCount": 5,
+  "oldWaveFullRawRecovered": false,
+  "newWholeFileAcceptance": false
+}

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "base": "63735f72fb12f6ca27bb3a3443418dd808b101cf",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/shared/src/rng.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "d16ebeb21b5a628ff8ffacf73672de549f3135048ab94e86bba9359e7c9b644b",
+        "current": "d16ebeb21b5a628ff8ffacf73672de549f3135048ab94e86bba9359e7c9b644b"
+      },
+      "printedBytes": {
+        "base": 6029,
+        "current": 6029
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/shared/src/rng.test.ts",
+      "titleCallCount": {
+        "base": 8,
+        "current": 8
+      },
+      "printedSha256": {
+        "base": "50e6bd6324662d65d31a308796ef76629c4d77c9dd206ae9b659dee809e91734",
+        "current": "50e6bd6324662d65d31a308796ef76629c4d77c9dd206ae9b659dee809e91734"
+      },
+      "printedBytes": {
+        "base": 1241,
+        "current": 1241
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/shared/src/rng.boundaries.test.ts",
+      "titleCallCount": {
+        "base": 24,
+        "current": 24
+      },
+      "printedSha256": {
+        "base": "91741c7d9141424097219d1e19ff058eafb492abead126ef7978136b2ac7aa12",
+        "current": "91741c7d9141424097219d1e19ff058eafb492abead126ef7978136b2ac7aa12"
+      },
+      "printedBytes": {
+        "base": 6600,
+        "current": 6600
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

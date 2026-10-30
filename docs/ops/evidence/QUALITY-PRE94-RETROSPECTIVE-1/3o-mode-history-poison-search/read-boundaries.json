@@ -1,0 +1,115 @@
+{
+  "base": "c3a45d137",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/dialog-history.ts",
+      "sha256": "65a10640481c4f34bce61124a885e8bedf0b5d6981d0cffc86274e760352b4b9",
+      "lines": 44,
+      "boundary": "Full history append/dedup/cap/restore implementation read."
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "96128a2ee924f28d49b4383e6cd521c34b9382d7f353d3b2dd21277a58cdaf15",
+      "lines": 93,
+      "boundary": "Full top-level mode dispatcher read; frame ordering, autoScript gates, mode branches and same-tick event resume."
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+      "lines": 139,
+      "boundary": "Full poison definition/party-slot/dedup/runner/cure/level99 implementation read."
+    },
+    {
+      "path": "packages/game/src/core/scene-system-search.ts",
+      "sha256": "ea6229f1c5dac8bd9bffeab3ccbfac8b90073169e4ab65b5e8d71d032276e38a",
+      "lines": 99,
+      "boundary": "Full 13-cell search range/grid/trigger-mode/first-hit implementation read."
+    },
+    {
+      "path": "packages/game/src/core/dialog-history.test.ts",
+      "sha256": "eb1c36acafe43070ae1ad6f7d37147d6756261c856eef9a9bb5756f502233a3e",
+      "lines": 65,
+      "boundary": "Full direct history oracle read."
+    },
+    {
+      "path": "packages/game/src/core/mode.test.ts",
+      "sha256": "d217442b8f62df651d8f828171085efd2c1330dbfcc90ae28411baf836739609",
+      "lines": 283,
+      "boundary": "Full mode gate/dispatch/fade/event-resume oracle read."
+    },
+    {
+      "path": "packages/game/src/core/scene-system-search.test.ts",
+      "sha256": "835fc232dacb2c639e7958ca4e55783fb3d128f3bf4c122d8e049a70bd1e9f50",
+      "lines": 88,
+      "boundary": "Full search cell/facing/trigger threshold/hidden/first-hit oracle read."
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.test.ts",
+      "sha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05",
+      "lines": 89,
+      "boundary": "Full menu resume/mode transition caller test read."
+    },
+    {
+      "path": "packages/game/src/core/dependency-ownership.test.ts",
+      "sha256": "d483cc817fa920d93c453fef65dd1c6a5dcc59615667ceeeca7b10bafdd186c9",
+      "lines": 178,
+      "boundary": "Full cross-entrypoint poison/history/identity ownership oracle read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242",
+      "lines": 5117,
+      "ranges": ["1450-1580", "2045-2080", "4280-4320"],
+      "boundary": "Top-level event tick, history writer and poison query/apply caller ranges."
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "9b11dd7e866210a15dc7e57087fa230a2ab22593f64cc6b5eb4d441948ef2f64",
+      "lines": 662,
+      "ranges": ["280-340", "620-650"],
+      "boundary": "Confirm-search and scene identity caller ranges."
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82",
+      "lines": 33,
+      "boundary": "Full menu-mode resume implementation read."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944,
+      "ranges": ["1240-1275", "1645-1670"],
+      "boundary": "Poison catalog injection and saved-history restore ranges."
+    },
+    {
+      "path": "reference/sdlpal/play.c",
+      "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8",
+      "lines": 682,
+      "ranges": ["25-215", "362-510", "534-610"],
+      "boundary": "PAL_GameUpdate autoScript/mode and PAL_Search 13-cell/trigger primary ranges."
+    },
+    {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "lines": 903,
+      "ranges": ["503-507"],
+      "boundary": "Scene fade-in gate primary range."
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "lines": 2409,
+      "ranges": ["1420-1685"],
+      "boundary": "Poison party-slot/add/dedup/cure/level99 primary ranges."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3o acceptance",
+    "Full event-system/scene-system/battle-system runtime diagnostics",
+    "Party-role product changes or save/schema migration",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

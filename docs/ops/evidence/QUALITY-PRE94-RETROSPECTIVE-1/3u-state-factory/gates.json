@@ -1,0 +1,117 @@
+{
+  "base": "9c2c5eabe143bc81ad8df1c9234aa741b130aabc",
+  "status": "Finite factory/test review complete; no whole-card/unified acceptance",
+  "rows": [
+    {
+      "label": "module",
+      "receipt": "module.json",
+      "files": 7,
+      "passed": 283,
+      "direct": 17,
+      "adjacent": 266,
+      "nativeReport": "module.vitest.json.gz",
+      "nativeReportSha256": "e10175454cc02c80e17138364ff81f61c3d9beeb216599927b8ee788de29f652",
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "typecheck",
+      "receipt": "typecheck.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "supersededBy": "typecheck-final",
+      "scope": "Earlier test candidate retained"
+    },
+    {
+      "label": "typecheck-final",
+      "receipt": "typecheck-final.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "docs-consumers",
+      "receipt": "docs-consumers.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "consumers": 5,
+      "scope": "Actual five consumers; source-identical125 tool tests reused from37e2cd7c9, not rerun"
+    },
+    {
+      "label": "ledger",
+      "receipt": "ledger.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "lint",
+      "receipt": "lint.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "files": 5415
+    },
+    {
+      "label": "scope-verification",
+      "receipt": "scope-verification.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    }
+  ],
+  "regressionControls": 6,
+  "conservationControl": 1,
+  "tracked": 3316,
+  "closed": 253,
+  "review": 98,
+  "pending": 2965,
+  "newClosed": 0,
+  "reopenedReview": 2,
+  "cards": {
+    "partial": 55,
+    "pending": 28,
+    "accept": 0
+  },
+  "mergeAllowed": false,
+  "productExecutionChanged": false,
+  "reuseDocsTools": {
+    "sourceCommit": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
+    "receipt": "../../QUALITY-DOCS-GIT-PATH-ENUMERATION-1/docs.json",
+    "toolsPassed": 125,
+    "scope": "Docs tool/test bytes unchanged; this slice runs actual five consumers only, not a new whole check:docs."
+  },
+  "notRun": [
+    "whole repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "full game package",
+    "original game runtime",
+    "browser visual",
+    "E2E"
+  ]
+}

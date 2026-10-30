@@ -1,0 +1,90 @@
+{
+  "base": "770f9168e3422aea1d98bac2a3bd447a1c6f2216",
+  "scope": "Codex separate-process evidence integrity self-check, no independent reviewer/product acceptance",
+  "correctedItems": 14,
+  "battleShaCount": 5,
+  "beforeAttachmentsReversible": [
+    {
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/42-dialog-box/read-boundaries.json",
+      "originalBytes": 2950,
+      "originalSha256": "e777fd2b8350d81c064d00edb7e0d4ce94d1509de32a6e8307dc9c86b32d75b2",
+      "gzip": "42-dialog-box__read-boundaries.json.before.gz"
+    },
+    {
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-battle-positions/read-boundaries.json",
+      "originalBytes": 2323,
+      "originalSha256": "5b41cbbafbf4f36d387c2b0c5aee43d89c8d9eda90fcc0cd3f73ce84420efc52",
+      "gzip": "3m-battle-positions__read-boundaries.json.before.gz"
+    },
+    {
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-settlement/read-boundaries.json",
+      "originalBytes": 3059,
+      "originalSha256": "f4bc8a8cd709be6bf600000bd2c12b7857f6ca76963ebc3221be92aa9c2c60c5",
+      "gzip": "3l-settlement__read-boundaries.json.before.gz"
+    },
+    {
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-dither-number-follower/read-boundaries.json",
+      "originalBytes": 5891,
+      "originalSha256": "f05e08290edd7005ac0810231493beb1584efdbd39b9d39451648d5216fe9a31",
+      "gzip": "3k-dither-number-follower__read-boundaries.json.before.gz"
+    },
+    {
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-sprites/read-boundaries.json",
+      "originalBytes": 3099,
+      "originalSha256": "b49d000d145b041372283b56f357a0c35f497815c7b4968960fbbe5f0cd769e0",
+      "gzip": "3l-sprites__read-boundaries.json.before.gz"
+    },
+    {
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-battle-present-primitives/read-boundaries.json",
+      "originalBytes": 3849,
+      "originalSha256": "02a843c32c85b0e86faf9a82877e718000b994fd054a54d4a35a6884784efb72",
+      "gzip": "3l-battle-present-primitives__read-boundaries.json.before.gz"
+    },
+    {
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/49-draw-inventory/README.md",
+      "originalBytes": 2866,
+      "originalSha256": "e0a984ec6961566f96e1f3a61a4ad1668d2b8dec4e62be16cda616b9932d9afc",
+      "gzip": "49-draw-inventory__README.md.before.gz"
+    },
+    {
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/51-draw-opening-menu/README.md",
+      "originalBytes": 1976,
+      "originalSha256": "64fae718a437202780d1842e1792a6060f62f88b6d100b4ea91e3d5f435275c2",
+      "gzip": "51-draw-opening-menu__README.md.before.gz"
+    },
+    {
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-countdown/README.md",
+      "originalBytes": 2232,
+      "originalSha256": "611109c965683e82aff0c42031b09b65a38459dae30d198c99ac941b26cca1da",
+      "gzip": "3j-countdown__README.md.before.gz"
+    },
+    {
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-countdown/read-boundaries.json",
+      "originalBytes": 2337,
+      "originalSha256": "665549145fe0e9dd1339d0ed269ae79b8faca9e7f889b49c87c7fb3a107b614b",
+      "gzip": "3j-countdown__read-boundaries.json.before.gz"
+    },
+    {
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3v-battle-actions/read-boundaries.json",
+      "originalBytes": 4875,
+      "originalSha256": "dea9dd5bc246a664fe448e67b565a4e5632dd949cf583c2413c039914a0c0650",
+      "gzip": "3v-battle-actions__read-boundaries.json.before.gz"
+    },
+    {
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/read-boundaries.json",
+      "originalBytes": 5139,
+      "originalSha256": "5660fc02792b46faa38117ea3eefac9dd85e5207b01d2ca4f908261065773a3e",
+      "gzip": "read-boundaries.json.before.gz"
+    },
+    {
+      "target": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/55-draw-menu/README.md",
+      "originalBytes": 2908,
+      "originalSha256": "54d624b8926169add944aab6c57c6872f76bb73af6f90d5b35a25cba7705ed03",
+      "gzip": "55-draw-menu__README.md.before.gz"
+    }
+  ],
+  "55RecordIsFreshSupplement": true,
+  "55OldOriginalRecovered": false,
+  "productionAndTestBytesUnchanged": true,
+  "newClosures": 0
+}

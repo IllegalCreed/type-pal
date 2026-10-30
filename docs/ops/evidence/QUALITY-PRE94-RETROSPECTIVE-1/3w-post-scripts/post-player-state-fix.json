@@ -1,0 +1,2020 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "owner": "Codex(single Agent)",
+  "base": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+  "status": "approved finite repair; local green; whole gates deferred; no new file acceptance",
+  "approval": "User2026-10-22 explicitly approved preserving post-battle HP/MP script effects before current half-recovery. No save format, in-battle mechanisms or equipment change.",
+  "counter": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-context.json",
+  "changedSourcePaths": [
+    "packages/game/src/core/battle/battle-settlement.ts",
+    "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts"
+  ],
+  "pins": [
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "35605c0eb935d29ec0ae7852f59fd40e9ff577178ae66f266cc1f9c8e013a494"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sha256": "812c224ec5b33e5c863f129460c7d23e353557e47c955a9c6342f2ef3a4f4bb4"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311"
+    },
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "cae1e88945bf89e4d760d307b006941698ae21fad8a599e38d7b63c7fa73bea0"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "sha256": "78ddfc12ad048965decb88318ef794af708808cf6a54206442e434b2fa1915c8"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "sha256": "a2e06da4543185fb6da9bf0a747a67ddb087fcc79662b4d54ebd3f7282a25948"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "784961100c58233d34c7294615112bc19faf80efa49a58b44ceb23444cfc9874"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "b50112e57b47b92cf629560d43e4fc44886958afde9886730100de5599797b86"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "19bbf2f967f44105db0a9b029ecacaf3735ca2f5782fe3b867b3462849db674e"
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "4025164dd238bc88588cef534255dca71d22c187dadde80f4b39756e5a974328"
+    },
+    {
+      "path": "packages/game/src/core/save/v1.ts",
+      "sha256": "92d908ac942928390a6db0229b666f8291b5a8e8a97a5df07871d37054869d2b"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "cfe38ef22a36301e06f24ddf76551eeb3c3d05c82a3cbe66cd6876dbeda14ba0"
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc"
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017"
+    },
+    {
+      "path": "data/raw/SSS.MKF",
+      "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+    },
+    {
+      "path": "data/raw/DATA.MKF",
+      "sha256": "c0bc968e5322b06fe669dd6e34483dd1f12dd223ac25b03b6dc74d3742635c1b"
+    }
+  ],
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/post-player-state-fix-native.json.gz",
+    "sha256": "43b2b2e5a16897eb6036317dc668d37d3f2109c42483fad1282e691199dec7a9",
+    "members": [
+      {
+        "name": "post-context-red.execution.json",
+        "bytes": 708,
+        "sha256": "324b684e30384a3d6d1928cd9ba51fd95baf948c51eac08b7d37f0a6e8b8af7b"
+      },
+      {
+        "name": "post-context-red.stdout.raw",
+        "bytes": 1762,
+        "sha256": "01d07edc844d3754e632b118e12116c4ec1ff4978a54c5ca77871ce06614d3ac"
+      },
+      {
+        "name": "post-context-red.stderr.raw",
+        "bytes": 1681,
+        "sha256": "f8412894dc412f2e1902dc413d865bdfb80deb686cf41e52cd31ea8edfe5dc83"
+      },
+      {
+        "name": "post-context-red.vitest.json",
+        "bytes": 9143,
+        "sha256": "1a067ab1fb27ece39ea34446fc7cabf4460299170d8c13b64a4082850a3d3080"
+      },
+      {
+        "name": "post-context-green.execution.json",
+        "bytes": 937,
+        "sha256": "8641c3618c3c2d701bdaeecdca04f37fb8ba704ce11eeedeabb3ba5ca92aaab7"
+      },
+      {
+        "name": "post-context-green.stdout.raw",
+        "bytes": 690,
+        "sha256": "65a902a0502543b04a191035dcbfa67e98240e3246f9973e215b128928db63e9"
+      },
+      {
+        "name": "post-context-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "post-context-green.vitest.json",
+        "bytes": 10613,
+        "sha256": "ff8493e086c22e9ddb7fefcbd3d31045ee5c26ae5d1877ce9d179909ab944009"
+      },
+      {
+        "name": "post-context-adjacent.execution.json",
+        "bytes": 1140,
+        "sha256": "42f6c4989cf7df962c805af8dc26477a50580d4f13ffa0f7dce9a99603220ad4"
+      },
+      {
+        "name": "post-context-adjacent.stdout.raw",
+        "bytes": 1018,
+        "sha256": "7f05962ea70ebea7c78817e840705294d2753bf9c2ca4e398bb713aebe6c919c"
+      },
+      {
+        "name": "post-context-adjacent.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "post-context-adjacent.vitest.json",
+        "bytes": 89143,
+        "sha256": "c63ea6e95ea78f3f7a4e471ff1bacae20820cafc96a8b154f60d01323610b3b2"
+      },
+      {
+        "name": "post-context-typecheck.execution.json",
+        "bytes": 451,
+        "sha256": "ac07ac55b857ee7817b710fb7c2473103c046e6b414f2f0f18a7ea1958c31193"
+      },
+      {
+        "name": "post-context-typecheck.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "post-context-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "post-heal-fixed.execution.json",
+        "bytes": 547,
+        "sha256": "e1367922f900002f7aaddbffa64ea9ed05fffa9eb8e435337f50b08af1303337"
+      },
+      {
+        "name": "post-heal-fixed.stdout.raw",
+        "bytes": 1000,
+        "sha256": "0f26e3100eb726baaddd8a4e204f8265586821dd905bf5f262e049cefcd5af65"
+      },
+      {
+        "name": "post-heal-fixed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "c-state-build.execution.json",
+        "bytes": 716,
+        "sha256": "f1fbd5fd41f8bb60b7f8745cbf4500c4f28e7bf95d06d043901e6b8615d0c377"
+      },
+      {
+        "name": "c-state-build.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "c-state-build.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "c-state-run.execution.json",
+        "bytes": 496,
+        "sha256": "66f4d4917dfbf1136d9bd89bbaad1fab1e48fe568ea2f44023e77d3365386452"
+      },
+      {
+        "name": "c-state-run.stdout.raw",
+        "bytes": 36,
+        "sha256": "0cd02b3fa600b9c7390fac5dd536852f067eabff30b54a14cace1ceb909d7bdf"
+      },
+      {
+        "name": "c-state-run.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "local-docs.execution.json",
+        "bytes": 902,
+        "sha256": "ac5e0624cbcd856c24f0c669880322742f4a7b1da0bec25af641a846635025bc"
+      },
+      {
+        "name": "local-docs.stdout.raw",
+        "bytes": 469,
+        "sha256": "2df951d0c49542cc83f829b37279749619931f8f17bdb73df5a9d1b192867fd7"
+      },
+      {
+        "name": "local-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "local-lint.execution.json",
+        "bytes": 400,
+        "sha256": "00694a71fc36d203ebca3fd40c2ce7bf03de7532573c23bdbfa8035de79696fc"
+      },
+      {
+        "name": "local-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "b4840f3b2bae503ddc4a6944957dc04d5588a716ae22306ab3f569cc91a055ec"
+      },
+      {
+        "name": "local-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "local-ledger.execution.json",
+        "bytes": 437,
+        "sha256": "55a0f138ef4ed5daf9537d4e5488dbc2b974197a0d836d0d8aa6b9de893ec379"
+      },
+      {
+        "name": "local-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "2aa218287cd3e7bdbb7c29005070b3e3314dfb500d334b3362266b3638971741"
+      },
+      {
+        "name": "local-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "local-diff.execution.json",
+        "bytes": 412,
+        "sha256": "8ea10716e6dc18c798d4c500b23ed78b3e0f99d8053f5e29cff7f325bc6d6a02"
+      },
+      {
+        "name": "local-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "local-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "settlement-before.ts",
+        "bytes": 9439,
+        "sha256": "e046f2c9fc21fb9c229c33041f47a487536b6f1a7bc1fb42644d4051e567d5a9"
+      },
+      {
+        "name": "settlement-test.before.ts",
+        "bytes": 14383,
+        "sha256": "f350fd812860e5f570d278c64db8ddbd8435327a6b8c994b901893b2cab7ed3e"
+      },
+      {
+        "name": "settlement-after.ts",
+        "bytes": 10360,
+        "sha256": "35605c0eb935d29ec0ae7852f59fd40e9ff577178ae66f266cc1f9c8e013a494"
+      },
+      {
+        "name": "settlement-test.red.ts",
+        "bytes": 16059,
+        "sha256": "812c224ec5b33e5c863f129460c7d23e353557e47c955a9c6342f2ef3a4f4bb4"
+      },
+      {
+        "name": "post-heal-probe.mts",
+        "bytes": 7222,
+        "sha256": "9a2ce2d126ab8fb80218804d7edfc0a4912a3e51183818f87ce5b1685c560010"
+      },
+      {
+        "name": "sdl-post-state-oracle.c",
+        "bytes": 3557,
+        "sha256": "2b15da08275b0d112094079dd5f74346204c49fc974dadae14b6ea857a1d2c11"
+      },
+      {
+        "name": "record-fix.py",
+        "bytes": 11538,
+        "sha256": "bc33327c45070a4243b3dcb2e423e7429bce51d53b247db42e069e34d7af3a23"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 1147,
+        "sha256": "2058c9cc7cf40c8e167ae256adab6e9942c95c9390bf0a1d25878ea13c3c84c5"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "id": "post-context-red",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/post-context-red.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:09:18.886Z",
+      "end": "2026-10-22T06:09:20.193Z",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 1762,
+      "stderrBytes": 1681
+    },
+    {
+      "id": "post-context-green",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "src/core/battle/battle-system.glm-next-wave.test.ts",
+        "src/core/battle/battle-finalization.test.ts",
+        "src/core/battle/battle-finalization-extra.test.ts",
+        "src/core/battle/actions/item-poison.boundaries.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/post-context-green.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:09:52.506Z",
+      "end": "2026-10-22T06:09:53.845Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 690,
+      "stderrBytes": 0
+    },
+    {
+      "id": "post-context-adjacent",
+      "command": "../../node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+        "src/core/battle/battle-system.glm-next-wave.test.ts",
+        "src/core/battle/battle-finalization.test.ts",
+        "src/core/battle/battle-finalization-extra.test.ts",
+        "src/core/battle/actions/item-poison-boundary.test.ts",
+        "src/core/equip-effect.test.ts",
+        "src/core/battle/__tests__/battle-opcodes.test.ts",
+        "src/core/equipment-state.glm-next-wave.test.ts",
+        "src/core/equip-effect.glm-next-wave.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/post-context-adjacent.vitest.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:10:11.526Z",
+      "end": "2026-10-22T06:10:13.463Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 1018,
+      "stderrBytes": 0
+    },
+    {
+      "id": "post-context-typecheck",
+      "command": "../../node_modules/.bin/tsc",
+      "args": ["--noEmit"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T06:10:11.527Z",
+      "end": "2026-10-22T06:10:15.821Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "post-heal-fixed",
+      "command": "./node_modules/.bin/tsx",
+      "args": [
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/post-heal-probe.mts",
+        "actual"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:10:23.767Z",
+      "end": "2026-10-22T06:10:24.695Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 1000,
+      "stderrBytes": 0
+    },
+    {
+      "id": "c-state-build",
+      "command": "clang",
+      "args": [
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O2",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/sdl-post-state-oracle.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/sdl-post-state-oracle"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:12:13.530Z",
+      "end": "2026-10-22T06:12:13.858Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "c-state-run",
+      "command": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-post-script-context-6pfq85df/sdl-post-state-oracle",
+      "args": [],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:12:35.556Z",
+      "end": "2026-10-22T06:12:36.512Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 36,
+      "stderrBytes": 0
+    },
+    {
+      "id": "local-docs",
+      "command": "node",
+      "args": [
+        "--input-type=module",
+        "-e",
+        "import {spawnSync} from \"node:child_process\"; for (const file of [\"check.mjs\",\"check-document-model.mjs\",\"check-testing.mjs\",\"check-phase-lore-governance.mjs\",\"check-content-review.mjs\",\"report-governance-progress.mjs\"]) { const args=[\"scripts/docs/\"+file,...(file===\"check-content-review.mjs\"?[\"--strict\"]:[])]; const run=spawnSync(process.execPath,args,{stdio:\"inherit\"}); if(run.error||run.signal||run.status!==0) process.exit(run.status||1); }"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:17:25.863Z",
+      "end": "2026-10-22T06:17:32.427Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 469,
+      "stderrBytes": 0
+    },
+    {
+      "id": "local-lint",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:17:25.863Z",
+      "end": "2026-10-22T06:17:29.057Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 193,
+      "stderrBytes": 0
+    },
+    {
+      "id": "local-ledger",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:17:25.863Z",
+      "end": "2026-10-22T06:17:27.862Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 113,
+      "stderrBytes": 0
+    },
+    {
+      "id": "local-diff",
+      "command": "git",
+      "args": ["diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T06:17:25.863Z",
+      "end": "2026-10-22T06:17:25.931Z",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "head": "09b4adb79fa9215ecb06e82ea7d11dcd60def20e",
+      "observerTimeout": false,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "tests": [
+    {
+      "id": "post-context-red",
+      "passed": 13,
+      "failed": 2,
+      "identities": [
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "won首tick的结算装配 先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "won首tick的结算装配 按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "逐屏输入与时间边界 每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "逐屏输入与时间边界 isBoss=false:超时前一tick不翻页,下一tick翻页并清stall",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "逐屏输入与时间边界 isBoss=true:超时前一tick不翻页,下一tick翻页并清stall",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "Phase E→对话→恢复与释放 战后脚本的HP/MP治疗保留到半恢复和退出",
+          "status": "failed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "Phase E→对话→恢复与释放 通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填",
+          "status": "failed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "Phase E→对话→恢复与释放 真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "Phase E→对话→恢复与释放 无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=21,掉落1棵止血草,分支只执行一次",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=22,掉落+0棵止血草,分支只执行一次",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=+0不跑战后掉落/半恢复,接回ip5",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=1不跑战后掉落/半恢复,接回ip6",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=65535不跑战后掉落/半恢复,接回ip7",
+          "status": "passed"
+        }
+      ],
+      "failedFullNames": [
+        "Phase E→对话→恢复与释放 战后脚本的HP/MP治疗保留到半恢复和退出",
+        "Phase E→对话→恢复与释放 通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填"
+      ]
+    },
+    {
+      "id": "post-context-green",
+      "passed": 25,
+      "failed": 0,
+      "identities": [
+        {
+          "file": "packages/game/src/core/battle/battle-finalization-extra.test.ts",
+          "fullName": "clears a departed last-role garlic effect after real import and escape, preserving equipment",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+          "fullName": "battle finalization ownership clears all nine temporary status slots and world transients while preserving equipment counters",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+          "fullName": "battle finalization ownership observes released battle resources and runner at the actual 0x07 cursor handoff",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+          "fullName": "battle finalization ownership lost finalizer writes party HP/MP by role and resumes the lost branch without revival",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+          "fullName": "battle finalization ownership 'player escape' finalizer selects the real resume branch",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+          "fullName": "battle finalization ownership 'enemy termination' finalizer selects the real resume branch",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+          "fullName": "battle finalization ownership 'watchdog' finalizer selects the real resume branch",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "won首tick的结算装配 先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "won首tick的结算装配 按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "逐屏输入与时间边界 每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "逐屏输入与时间边界 isBoss=false:超时前一tick不翻页,下一tick翻页并清stall",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "逐屏输入与时间边界 isBoss=true:超时前一tick不翻页,下一tick翻页并清stall",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "Phase E→对话→恢复与释放 战后脚本的HP/MP治疗保留到半恢复和退出",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "Phase E→对话→恢复与释放 通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "Phase E→对话→恢复与释放 真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "Phase E→对话→恢复与释放 无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=21,掉落1棵止血草,分支只执行一次",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=22,掉落+0棵止血草,分支只执行一次",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=+0不跑战后掉落/半恢复,接回ip5",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=1不跑战后掉落/半恢复,接回ip6",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=65535不跑战后掉落/半恢复,接回ip7",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+          "fullName": "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+          "fullName": "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) 敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置,battle-system.ts:2187)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+          "fullName": "DL23:turn-start 置终态 → break(battle.c:747-750 BattleResult != PreBattle) 敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won",
+          "status": "passed"
+        }
+      ],
+      "failedFullNames": []
+    },
+    {
+      "id": "post-context-adjacent",
+      "passed": 238,
+      "failed": 0,
+      "identities": [
+        {
+          "file": "packages/game/src/core/equip-effect.glm-next-wave.test.ts",
+          "fullName": "0x2D scriptOnEquip → 坏状态不刷新(global.c:2229-2241) 已有 Sleep 5 → 脚本设 3 不覆盖(保持 5);另一 role 当前 0 → 设为 3",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.glm-next-wave.test.ts",
+          "fullName": "0x2D scriptOnEquip → 坏状态不刷新(global.c:2229-2241) Silence(3) 同规则:已有 8 不被 2 覆盖",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.glm-next-wave.test.ts",
+          "fullName": "0x2D scriptOnEquip → 傀儡仅死人可设 + set-if-longer(global.c:2243-2257) 活人(Hp>0)设 Puppet 9 → 不施加;死人 → 设为 9",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.glm-next-wave.test.ts",
+          "fullName": "0x2D scriptOnEquip → 傀儡仅死人可设 + set-if-longer(global.c:2243-2257) 死人已有 Puppet 12 → 脚本设 9 不覆盖(set-if-longer)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect writeEquipmentEffectField writes ATTACK_STRENGTH row to specified part/role(sdlpal opcode 0x17 真值)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect writeEquipmentEffectField writes DEXTERITY row(木剑 scriptOnEquip 真值:rgwOperand=[14,20,3] → part=3, row=20, value=3)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect writeEquipmentEffectField writes elemental resistance row 23-27",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect writeEquipmentEffectField ignores partIdx out of range",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect writeEquipmentEffectField writes SPRITE_NUM_IN_BATTLE row 1(长鞭 0x1A[1,6,0])→ rgwSpriteNumInBattle",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect writeEquipmentEffectField writes ATTACK_ALL row 4(长鞭 0x1A[4,1,0])→ rgwAttackAll",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect writeEquipmentEffectField writes COOPERATIVE_MAGIC row 65(圣灵珠 0x1A[65,351,0])→ rgwCooperativeMagic",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect writeEquipmentEffectField rows 1/4/65 不再 console.warn(此前未支持 → updateAllEquipments 启动刷 3 条警告)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect removeEquipmentEffect(sdlpal global.c:1372) clears all stat rows for given role in given part",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect removeEquipmentEffect(sdlpal global.c:1372) 清 override 类字段 sprite/attackAll/coopMagic(sdlpal 清整 PLAYERROLES 行)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect removeEquipmentEffect(sdlpal global.c:1372) only clears given role(其他 role 不受影响)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect removeEquipmentEffect(sdlpal global.c:1372) only clears given part(其他 part 不受影响)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 6 effective stat getter(sdlpal global.c:1736-1899) effective Atk = base + Σ rgEquipmentEffect.rgwAttackStrength",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 6 effective stat getter(sdlpal global.c:1736-1899) effective Mag",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 6 effective stat getter(sdlpal global.c:1736-1899) effective Def",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 6 effective stat getter(sdlpal global.c:1736-1899) effective Dex(no haste — battle layer 加)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 6 effective stat getter(sdlpal global.c:1736-1899) effective Flee",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 6 effective stat getter(sdlpal global.c:1736-1899) effective PoisonResist clamped to [0, 100]",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 完整 swap 模拟(sdlpal 木剑 39011 真值 chain) 装备木剑 → AttackStrength +2 / Dexterity +3;卸下后清零",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect runEquipScript 0x18 真换装(script.c:768-811) 空槽装新装备:rgwEquipment 写入 + 背包移除新装备 + wLastUnequippedItem=0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect runEquipScript 0x18 真换装(script.c:768-811) 换下旧装备:新装上 + 旧装备入包 + wLastUnequippedItem=旧",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect runEquipScript 0x18 真换装(script.c:768-811) 已装着自己(update 上下文):条件相等 → 不 swap,背包不动",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 0x2D scriptOnEquip → setPlayerStatus(gs.rgPlayerStatus) 0x2D DualAttack(仙女剑 真值)→ gs.rgPlayerStatus[role][8]=32760",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 0x2D scriptOnEquip → setPlayerStatus(gs.rgPlayerStatus) 0x2D good 状态 set-if-longer:已有更久 → 不覆盖(global.c:2264-2268)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 0x2D scriptOnEquip → setPlayerStatus(gs.rgPlayerStatus) 0x2D good 状态 HP==0 → 不施加(global.c:2264)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect M2:setPlayerStatRow 造型 row 路由(script.c:862) SPRITE_NUM/SPRITE_NUM_IN_BATTLE/AVATAR/WALK_FRAMES/ATTACK_ALL/COOP → runtime 字段",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 0x29 scriptOnEquip → addPoisonForPlayer(script.c:1257) 0x29 寿葫芦 → 给 role 加 level-99 正面\"毒\"(resist 0 必中)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 0x29 scriptOnEquip → addPoisonForPlayer(script.c:1257) M12:落槽时跑一次入口 playerScript,存返回 next(C global.c:1515)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 0x29 scriptOnEquip → addPoisonForPlayer(script.c:1257) M12:runEquipScript 0x29 落槽当下跑 playerScript,存返回 next entry",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect 0x29 scriptOnEquip → addPoisonForPlayer(script.c:1257) M12:无 runner(旧 caller)→ fallback 存入口 ip(差一拍但不崩)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect D14:removeEquipmentEffect 卸装副作用(global.c:1406-1454) 卸 Hand(part3)→ reset DualAttack(global.c:1411)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect D14:removeEquipmentEffect 卸装副作用(global.c:1406-1454) 卸非 Hand(part0 Head)→ DualAttack 不动",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect D14:removeEquipmentEffect 卸装副作用(global.c:1406-1454) 卸 Wear(part5)→ 清 level≥99 毒(寿葫芦),低级毒保留(global.c:1413-1454)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect setPlayerStatRow iCurEquipPart redirect + reset iCurEquipPart=-1 → 写 base PlayerRolesRuntime",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect setPlayerStatRow iCurEquipPart redirect + reset iCurEquipPart=3(装备进行中)→ 写 rgEquipmentEffect[3] 覆盖层,base 不变",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equip-effect.test.ts",
+          "fullName": "equip-effect setPlayerStatRow iCurEquipPart redirect + reset runEquipScript:0x18 设 part 后 0x1A redirect 到覆盖层;脚本结束 iCurEquipPart reset=-1",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equipment-state.glm-next-wave.test.ts",
+          "fullName": "writeEquipmentEffectField —— 0x17 HP/MP 族 row(script.c:752-766) MAX_HP7/MAX_MP8/HP9/MP10 写进对应 part 覆盖层,base 不动、其余 role 不受影响",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equipment-state.glm-next-wave.test.ts",
+          "fullName": "writeEquipmentEffectField —— 0x17 HP/MP 族 row(script.c:752-766) partIdx -1 / 7(MAX_PLAYER_EQUIPMENTS 之外)→ no-op 不抛错",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equipment-state.glm-next-wave.test.ts",
+          "fullName": "addPlayerStatRow —— 0x19 COVERED_BY row(script.c:813-832) row 31(COVERED_BY)按 delta 累加,不影响其他 row",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equipment-state.glm-next-wave.test.ts",
+          "fullName": "removeEquipmentEffect 部位边界(global.c:1372;Extra=6 战末清理合法) part 6(kBodyPartExtra)合法:清该 role 覆盖层;part 7 越界 no-op 不清",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/equipment-state.glm-next-wave.test.ts",
+          "fullName": "removeEquipmentEffect 部位边界(global.c:1372;Extra=6 战末清理合法) part 6 只清目标 role,其他 role 的 Extra 槽保留",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-finalization-extra.test.ts",
+          "fullName": "clears a departed last-role garlic effect after real import and escape, preserving equipment",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+          "fullName": "battle finalization ownership clears all nine temporary status slots and world transients while preserving equipment counters",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+          "fullName": "battle finalization ownership observes released battle resources and runner at the actual 0x07 cursor handoff",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+          "fullName": "battle finalization ownership lost finalizer writes party HP/MP by role and resumes the lost branch without revival",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+          "fullName": "battle finalization ownership 'player escape' finalizer selects the real resume branch",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+          "fullName": "battle finalization ownership 'enemy termination' finalizer selects the real resume branch",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+          "fullName": "battle finalization ownership 'watchdog' finalizer selects the real resume branch",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "won首tick的结算装配 先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "won首tick的结算装配 按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "逐屏输入与时间边界 每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "逐屏输入与时间边界 isBoss=false:超时前一tick不翻页,下一tick翻页并清stall",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "逐屏输入与时间边界 isBoss=true:超时前一tick不翻页,下一tick翻页并清stall",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "Phase E→对话→恢复与释放 战后脚本的HP/MP治疗保留到半恢复和退出",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "Phase E→对话→恢复与释放 通用属性写入与战后治疗按指令顺序共用HP/MP,不以旧快照回填",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "Phase E→对话→恢复与释放 真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "Phase E→对话→恢复与释放 无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=21,掉落1棵止血草,分支只执行一次",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=22,掉落+0棵止血草,分支只执行一次",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=+0不跑战后掉落/半恢复,接回ip5",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=1不跑战后掉落/半恢复,接回ip6",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=65535不跑战后掉落/半恢复,接回ip7",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+          "fullName": "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+          "fullName": "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) 敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置,battle-system.ts:2187)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+          "fullName": "DL23:turn-start 置终态 → break(battle.c:747-750 BattleResult != PreBattle) 敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+          "fullName": "风险道具的战斗中毒门（CODE79） 只有装备伪毒时，物品 136 杀死目标角色而非中毒的施用者，仍消费一次",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+          "fullName": "风险道具的战斗中毒门（CODE79） 只有装备伪毒时，物品 278 杀死目标角色而非中毒的施用者，仍消费一次",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+          "fullName": "风险道具的战斗中毒门（CODE79） 九阴散接受 level0 真毒并回血；不冒称其同时解毒",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+          "fullName": "风险道具的战斗中毒门（CODE79） 毒龙胆只清目标 level<=3 真毒，保留 level4、装备效果和施用者毒；不回血",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+          "fullName": "物品通用脚本的目标角色上下文 大蒜给选中的role4加毒抗，不写施用者或队伍槽号",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+          "fullName": "物品通用脚本的目标角色上下文 大蒜给选中的role+0加毒抗，不写施用者或队伍槽号",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+          "fullName": "物品通用脚本的目标角色上下文 全体圣灵符传0xFFFF，真实解释器给两名队员恢复300HP并消费一次",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+          "fullName": "物品通用脚本的目标角色上下文 金蚕王提升选中队员的等级并刷新战斗属性，保持战斗当前HP/MP",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0064 jump if enemy hp > N%:hp 满 100/100 + operand[0]=50 → jump operand[1]",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0064 jump if hp > N%:hp 残 30 + operand[0]=50 → 不 jump(返回 ip 不变)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0064 用 maxHealth(满血)非逐回合 prevHp:cur40 / max100 / prevHp50 + pct50 → 不 jump",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0064 玩家施法(灵葫咒)→ 用 ctx.target 目标敌查 HP;满血敌 > 25% → jump 失败分支",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0064 玩家施法 + 目标敌残血(≤25%)→ 不 jump(灵葫咒可秒杀)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0067 enemy use magic:operand[0]=12, operand[1]=20 → enemy.e.magic=12, magicRate=20",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0067:operand[1]=0 → magicRate 默认 10(sdlpal `script.c:2022` 真值)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0061 jump if player not poisoned:未中毒 → jump operand[0](2026-05-31 修:此前误用 op[1]+恒跳)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0061:已中毒 → 不 jump(ip++)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0061:非顺序队伍按当前 party slot 读毒,role4 不会误读 roleId=4 槽",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0022 复活:刷新被复活队员 currentFrame → 站立帧(修 user 报\"起来一帧又倒下\";死帧 2 不被刷新会卡住)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0069 enemy escape → 触发 enemyEscapeAnim 飞出屏(D13;不当击杀,health 不变)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0060 immediate KO:无 target(敌自身脚本)→ fallback caster enemy health=0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 0x0060 immediate KO:夺魂/灵葫咒 scriptOnSuccess → KO ctx.target 目标敌人(非 enemy[0])(审计修:operand 恒0)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "B-w2.a battle-opcodes dispatch 未具名 opcode 返回 consumed=false(走 raw skip)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "敌逃 0x69 置 terminatedByEnemyEscape 标记(turn-start 循环据此 break,避免退下对白重复) 回合脚本 [对白×3,0x69,...]:0x69 延后入队 + 置 terminatedByEnemyEscape=true",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x42 SimulateMagic (E2) 真伤害 magic(天师符法 obj349→magic54 baseDmg140 elem0)→ 目标落血 140",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x42 SimulateMagic (E2) 超杀:模拟法术击杀敌显示完整伤害而非剩余血(player→enemy,fight.c:638)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x42 SimulateMagic (E2) magic.sound>0 → push gs.pendingSounds;0 不 push",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x42 SimulateMagic (E2) applyToAll(火灵符法 obj367→magic59 elem4 fire)→ 全体敌人落血",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x42 SimulateMagic (E2) object24 sentinel(magic96 baseDmg=64537=SHORT−999)→ guard 进但伤害 0(投掷物动画)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x42 SimulateMagic (E2) op1>0(0x66 throw weapon 路径,op1 当 magStr)→ 结算",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x42 SimulateMagic (E2) guard false(magic baseDmg0 + op1=0)→ 不结算",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x42 SimulateMagic (E2) op2>0 显式目标:op2=2 → 打 enemy idx 1(op2-1)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x42 SimulateMagic (E2) 未知 magic object → consumed 但 no-op(防御)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x28 apply poison (script.c:0028,毒蛇卵/卵/蛊 throw) 抗性通过(RandomLong>=resist)→ 加毒 {poisonId, scriptEntry}",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x28 apply poison (script.c:0028,毒蛇卵/卵/蛊 throw) 抗性挡住(RandomLong<resist)→ 不中毒",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x28 apply poison (script.c:0028,毒蛇卵/卵/蛊 throw) 去重:同毒应用两次 → 一条",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x28 apply poison (script.c:0028,毒蛇卵/卵/蛊 throw) 全体(op0!=0)→ 所有敌人中毒",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x28 apply poison (script.c:0028,毒蛇卵/卵/蛊 throw) 施毒跑一次 wEnemyScript(sdlpal script.c:1213):带 commands+runScript → scriptEntry 推进过入口",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x28 apply poison (script.c:0028,毒蛇卵/卵/蛊 throw) 施毒缺 commands/runScript → fallback 存原始 enemyScript(差一拍,仍能推进)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x29/0x2B/0x2C player poison 战斗单目标(ctx.target 解析,绕开 eventObjectId — HIGH#1 修) 0x2B 治毒 by kind 单目标:清目标队员该种毒(此前 eventObjectId=undefined → no-op)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x29/0x2B/0x2C player poison 战斗单目标(ctx.target 解析,绕开 eventObjectId — HIGH#1 修) 0x2C 治毒 by level 单目标:清 level<=max 的毒",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x29/0x2B/0x2C player poison 战斗单目标(ctx.target 解析,绕开 eventObjectId — HIGH#1 修) 0x29 施毒 单目标:抗性通过(rng>resist)→ 目标队员中毒",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x29/0x2B/0x2C player poison 战斗单目标(ctx.target 解析,绕开 eventObjectId — HIGH#1 修) 0x29 施毒:非顺序队伍按 role→party slot 落槽,role4 写入 slot0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x29/0x2B/0x2C player poison 战斗单目标(ctx.target 解析,绕开 eventObjectId — HIGH#1 修) applyAll(op0!=0):全队治毒",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x31 change battle sprite (script.c:0031 — 梦蛇295 临时换战斗精灵) 用物品队员(caster)→ spriteNumOverride = op0(present 优先用)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x2A cure enemy poison by kind (script.c:1287-1329) 单敌(ctx.target):清匹配 poisonId,留其余",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x2A cure enemy poison by kind (script.c:1287-1329) applyAll(op0!=0):全敌清匹配毒",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x2D/0x2E/0x2F 状态 opcode(kStatus CLASSIC:0乱1麻2眠3沉默4傀儡5勇6护7迅8双击) 0x2E set enemy status:RandomLong(0,9)>resist → 设状态(op0=2 sleep)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x2D/0x2E/0x2F 状态 opcode(kStatus CLASSIC:0乱1麻2眠3沉默4傀儡5勇6护7迅8双击) 0x2E:抵抗(RandomLong<=resist)→ jump op2",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x2D/0x2E/0x2F 状态 opcode(kStatus CLASSIC:0乱1麻2眠3沉默4傀儡5勇6护7迅8双击) 0x2D set player status:坏状态 sleep 首次设 dur",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x2D/0x2E/0x2F 状态 opcode(kStatus CLASSIC:0乱1麻2眠3沉默4傀儡5勇6护7迅8双击) 0x2D 坏状态已有(>0)→ 不刷新",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x2D/0x2E/0x2F 状态 opcode(kStatus CLASSIC:0乱1麻2眠3沉默4傀儡5勇6护7迅8双击) 0x2D puppet(op0=4)上活人 → 失败 fScriptSuccess=false",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x2D/0x2E/0x2F 状态 opcode(kStatus CLASSIC:0乱1麻2眠3沉默4傀儡5勇6护7迅8双击) 0x2D 好状态 haste(op0=7)活人设;0x2F 移除",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x5E jump if enemy no poison (script.c:005E) 敌人无该毒 → jump op1",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x5E jump if enemy no poison (script.c:005E) 敌人有该毒 → 不 jump",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x5E jump if enemy no poison (script.c:005E) 有别的毒但无 op0 种 → 仍 jump",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "Batch A 状态/数据 opcode 0x5F kill player:目标队员 HP=0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "Batch A 状态/数据 opcode 0x5C hide party:iHidingTime = -op0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "Batch A 状态/数据 opcode 0x6B blow away:iBlow = op0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "Batch A 状态/数据 opcode 0x89 set battle result:3→won / 1→lost / 0xFFFF→fleed",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "Batch A 状态/数据 opcode 0x8A enable auto-battle:gs.fAutoBattle=true",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "Batch A 状态/数据 opcode 0x33 collect:有 collectValue → gs.wCollectValue 累加;无 → jump op0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "Batch A 状态/数据 opcode 0x3A player flee:非 boss → 触发逃跑动画+音效;boss → jump op0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x5A halve player HP (script.c:005A,无影毒 use) 目标队员 HP 减半(floor)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x57 set magic base damage by MP (script.c:0057,酒神) magic.baseDamage = casterMP * (op1||8);casterMP 清 0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x57 set magic base damage by MP (script.c:0057,酒神) op1 显式倍率",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x88 set magic base damage by money (script.c:0088,乾坤一掷) magic.baseDamage = min(cash,5000)*2/5;扣 cash",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x88 set magic base damage by money (script.c:0088,乾坤一掷) cash > 5000 → cap 5000",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x21 inflict damage to enemy (script.c:0021,梅花镖/银针 throw) 单体(op0=0):ctx.target -op1",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x21 inflict damage to enemy (script.c:0021,梅花镖/银针 throw) 全体(op0!=0):每个敌人 -op1",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x21 inflict damage to enemy (script.c:0021,梅花镖/银针 throw) clamp ≥0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x5B halve enemy HP (script.c:005B,无影毒 throw) w = health/2+1,cap op0:health100 op0=30 → -30 = 70",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x5B halve enemy HP (script.c:005B,无影毒 throw) cap 不触发:health100 op0=80 → w=51 → 49",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x5B halve enemy HP (script.c:005B,无影毒 throw) target = ctx.target(被掷敌人):打 idx1 不碰 idx0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x39 drain HP (script.c:0039,吸星锁 throw) enemy -op0,caster player +op0(clamp maxHP)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x39 drain HP (script.c:0039,吸星锁 throw) player hp 回满 clamp maxHP",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 0x1B 单体回血:target 队员 hp += delta",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 0x1B clamp 到 maxHP(over-treatment 不超)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 0x1B 仅活人:死人(hp=0)不被治疗(PAL_IncreaseHPMP global.c:1290)+ g_fScriptSuccess=FALSE",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 0x1B 单体已满(无变化)→ g_fScriptSuccess=FALSE",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 0x1B applyAll(op0!=0):全体回血;g_fScriptSuccess = anyChanged",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 0x1B applyAll 全员满/死(无改变)→ g_fScriptSuccess=FALSE(script.c:873)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 0x1B 无 target 退回 caster(单体治 caster idx0)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 0x1B emit yellow damageNum(回血)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 0x1C MP 增:mp += delta clamp;HP 不动 + emit cyan(MP 增,fight.c:704-709)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 0x1C MP 减(负 delta)→ 不 emit(sdlpal Only show MP increasing)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 0x1D HP+MP 同增 → emit yellow(HP) + cyan(MP) 两条",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 0x1D HP+MP 双 delta(同 operand[1])",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 负 delta(中毒类 scriptOnSuccess):(SHORT)0xFFCE=-50 → hp 50→0 clamp",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x1B/0x1C/0x1D 治疗 HP/MP(scriptOnSuccess,战斗写 ctx.playerRoles) 无 playerRoles → consumed,不崩",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x22 复活 player(还魂咒/赎魂 scriptOnSuccess,战斗语境) 单体死人复活:hp=0 → maxHP*op1/10 + 清战斗状态",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x22 复活 player(还魂咒/赎魂 scriptOnSuccess,战斗语境) 单体活人 → 不复活,g_fScriptSuccess=FALSE(script.c:1099)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x22 复活 player(还魂咒/赎魂 scriptOnSuccess,战斗语境) M11:复活只清 level<=3 毒,level>3 保留(PAL_CurePoisonByLevel(w,3) script.c:1071)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x22 复活 player(还魂咒/赎魂 scriptOnSuccess,战斗语境) applyAll:只复活死人,任一复活 → g_fScriptSuccess=TRUE",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x22 复活 player(还魂咒/赎魂 scriptOnSuccess,战斗语境) applyAll 全员都活 → g_fScriptSuccess=FALSE(script.c:1061)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x22 复活 player(还魂咒/赎魂 scriptOnSuccess,战斗语境) 复活清毒(gs.rgPoisonStatus 该 role 槽)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9C enemy division (script.c:009C) 恰 1 活敌 + health>1 → 分裂 op0+1 份(各 floor((h+w)/(w+1)))",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9C enemy division (script.c:009C) 不止 1 活敌 → 不分裂,jump op1",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9C enemy division (script.c:009C) self health<=1 → 不分裂,jump op1",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9F enemy transform (script.c:009F) 变身成 op0 对象(保留当前 health + 保留原形态脚本)+ M6 变身音 47",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9F enemy transform (script.c:009F) L25:0x9F 变身后 0x91 按新 objectId 判同种",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9F enemy transform (script.c:009F) 有 bus 时变身建 iColorShift 动画,不走 pendingSounds fallback",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9F enemy transform (script.c:009F) 变身后按新 enemy.yPosOffset 刷新自身底锚",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9F enemy transform (script.c:009F) 自身睡眠 → 不变身(无变身音)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9E enemy summon (script.c:009E) w!=0 召唤指定敌人(obj→enemyId→enemies)+ 满血 + 脚本/抗性",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9E enemy summon (script.c:009E) 有 bus 时召唤建敌施法/高亮动画,不走 pendingSounds fallback",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9E enemy summon (script.c:009E) 没有 wMaxEnemyIndex 内空槽 → 召唤失败,不会扩容新槽",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9E enemy summon (script.c:009E) count op1:召唤 2 只",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9E enemy summon (script.c:009E) w=0 召唤自身同种(满血副本)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9E enemy summon (script.c:009E) 我方隐身中(iHidingTime>0)→ 不召唤,jump op2(审计 bug:此前漏 iHidingTime 检查)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9E enemy summon (script.c:009E) 房间不足(已 5 只)→ fail → jump op2",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9E enemy summon (script.c:009E) 自身睡眠 → fail → jump op2",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x9E enemy summon (script.c:009E) count<=0 → 当 1",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x68 jump if enemy turn (script.c:2025) caster=enemy(fEnemyMoving)→ jump op0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x68 jump if enemy turn (script.c:2025) caster=player → 不 jump(ip++)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x68 jump if enemy turn (script.c:2025) op0=0 → jump 到 ip 0(全局 end)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x91 jump if enemy not first of kind (script.c:2091) 同类首个(self_pos=1)→ 不 jump",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x91 jump if enemy not first of kind (script.c:2091) 同类第二个(self_pos=2)→ jump op0",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x91 jump if enemy not first of kind (script.c:2091) 同类第三个 → jump",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x91 jump if enemy not first of kind (script.c:2091) 独一份(只有 1 个该种)→ 不 jump",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x91 jump if enemy not first of kind (script.c:2091) 混种:[5,7,5] 的第二个 5(idx2)→ jump;第一个 5(idx0)→ 不 jump",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x91 jump if enemy not first of kind (script.c:2091) op0=0(真实数据全 0)→ self_pos>1 时 jump 到 ip 0(end,只首个跑脚本)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x91 jump if enemy not first of kind (script.c:2091) L25:同 enemyId 但不同 objectId(81→478/479)→ 不同种,第二个 self_pos=1 不 jump",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x91 jump if enemy not first of kind (script.c:2091) L25:同 objectId(真同对象,如分裂/召唤副本)→ 同种,第二个 self_pos=2 jump",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x91 jump if enemy not first of kind (script.c:2091) L25:无 objectId 的旧 fixture 回退按 e.id 比较(向后兼容)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x66 throw weapon (E2) w = op1*5 + attackStr*RandomLong(0,3) → 目标落血(obj344→magic53 base198 elem0)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x66 throw weapon (E2) attackStr 项随 RandomLong 变(RandomLong→0 → w=op1*5,伤害更低)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x66 throw weapon (E2) target = eventObjectID(ctx.target):2 敌只打被掷的那个",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x66 throw weapon (E2) 无 gs runtime 注入 → attackStr=0 → w=op1*5(防御，不回退 effective 投影)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x30 buff player stat % (script.c:1406-1427,梦蛇 等) 写 Extra slot 而非 mutate base:op0=17 +100%,base atk 100 → Extra=100 / effective=200 / base 不变",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x30 buff player stat % (script.c:1406-1427,梦蛇 等) 多次不叠加:连调两次 0x30(+100%)→ Extra 仍 100 / effective 仍 200",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x30 buff player stat % (script.c:1406-1427,梦蛇 等) 战末清 Extra(removeEquipmentEffect)→ buff 消失,effective 回 base",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x30 buff player stat % (script.c:1406-1427,梦蛇 等) op2>0 → role=op2-1(指定队员而非 caster);op0=18 magicStr base 50 +10% → Extra=5 / eff=55",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x30 buff player stat % (script.c:1406-1427,梦蛇 等) op1 负值(SHORT)= debuff:op0=19 defense op1=0xFFCE(-50%),base 40 → Extra=-20 / eff=20",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x30 buff player stat % (script.c:1406-1427,梦蛇 等) op0=20 dexterity 走映射:base 20 +50% → Extra=10 / eff=30",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x30 buff player stat % (script.c:1406-1427,梦蛇 等) 未知 op0 row → 无字段映射,no-op consumed(Extra 全 0)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x30 buff player stat % (script.c:1406-1427,梦蛇 等) 无 gs → consumed,不崩(degraded fallback,真实 caller 总注入 gs)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x31 / 0x92 battle presentation opcodes 0x31 change battle sprite → consumed,不崩",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x31 / 0x92 battle presentation opcodes 0x92 show magic anim → consumed,不崩",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x6A steal from enemy (fight.c:5193) 偷物成功(wStealItem!=0,roll<=rate)→ nStealItem-- + AddItem",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x6A steal from enemy (fight.c:5193) 偷钱(wStealItem==0)→ c=nStealItem/RandomLong(2,3);nStealItem-=c;dwCash+=c",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x6A steal from enemy (fight.c:5193) rate==0 → 必成(即使 roll 大)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x6A steal from enemy (fight.c:5193) roll > rate(rate!=0)→ 失败,无变化",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x6A steal from enemy (fight.c:5193) 偷钱成功 → battleDialogQueue 居中框\"获得 N 文钱\"(fight.c:5267-5296 CenterWindow,@红 text.c:1504)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x6A steal from enemy (fight.c:5193) 偷物成功 + items → battleDialogQueue 居中框\"获得 物品名\"",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x6A steal from enemy (fight.c:5193) 偷取失败 → 不入对话队列(sdlpal 仅成功显示)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x6A steal from enemy (fight.c:5193) nStealItem==0 → 无可偷,无变化",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x6A steal from enemy (fight.c:5193) 偷钱 c=0 边界(nStealItem<div)→ nStealItem 不变,dwCash 不变",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x6A steal from enemy (fight.c:5193) 已有该物品 → count 累加(99 clamp)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "D17b showDamageNum emit 0x21 单体扣血 → emit blue,target enemy,value=钳后 delta",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "D17b showDamageNum emit 0x21 致死超杀 → value = 完整伤害(player→enemy wHealth WORD 下溢,fight.c:638)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "D17b showDamageNum emit 0x21 全体扣血 → 每敌各 emit 一条 blue,target idx 各异",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "D17b showDamageNum emit 0x21 不传 bus → 不 emit 不抛(防御)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "D17b showDamageNum emit 0x42 SimulateMagic → emit blue per 命中敌人(钳后 delta)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "D17b showDamageNum emit 0x5B halve enemy HP → emit blue",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "D17b showDamageNum emit 0x39 drain HP → enemy blue(掉血) + caster player yellow(回血)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "D17b showDamageNum emit 0x5A halve player HP → emit blue,target player",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "D17b showDamageNum emit 0x5F kill player → emit blue value=full HP",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "D17b showDamageNum emit 0x60 immediate KO → emit blue value=enemy 当前 HP",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "D17b showDamageNum emit 0x60 KO + ctx.pendingDamageNums 存在 → push 进缓冲(延迟),不即时 emit",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene) op0!=0 + bus → state.battleAnim 设(preMagic + 全队 5 步 iColorShift + 复位 = 24 帧)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene) op0==0 → 不播动画(consumed no-op,sdlpal `if (operand[0]!=0)` 守卫)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene) L26:0x6A 偷钱 c==0(剩 1 文 / 除数 2)不弹「获得 0 文钱」narration",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene) L27:全体上毒入口脚本 self 恒为投掷目标,非循环 i(script.c:1213)",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "DM8 自身同种召唤脚本入口 w=0 副本脚本取静态 enemyObjects 模板,非 self 运行时(store-back 推进过的)值",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "DM8 自身同种召唤脚本入口 rgObject overlay(0x90 改写后的活值)优先于静态模板",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "DM8 自身同种召唤脚本入口 旧 fixture(objectId=enemyId 查无对象、无 overlay)→ 回退 self 运行时值",
+          "status": "passed"
+        },
+        {
+          "file": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+          "fullName": "DH1 初始 0 占位空槽参与召唤房间 赤鬼王[0,76,0]型开局:2 个 0 槽 = 2 个召唤房间,0x9E 召唤 2 只成功",
+          "status": "passed"
+        }
+      ],
+      "failedFullNames": []
+    }
+  ],
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "reading": "Current full file; old full read/caller evidence reused only where unchanged. Projection1572-1695/writeback1767-1779, equipment-state67-105/row mapping109-144/267-315, event dispatch3040-3095 and presenter238-278/UI340-378 targeted, not whole-file acceptance.",
+      "dimensions": {
+        "A": "Phase E now supplies real playerRoles, takes the post-progression runtime projection, and binds HP/MP reads/writes to runtime. Raw0x1A then0x1B reads the new HP; later raw MP set is not overwritten. Source-extracted C values and actual accepted V1/190tick combat verify the specified effect; whole-script equivalence/normal-story reachability not inferred.",
+        "B": "New comments state the exact ownership transition, why end-of-script writeback is unsafe, shared container lifetime and unchanged ordinary-battle snapshot. No new C/TS whole-engine equality or universal numeric claim. Known misplaced battle-system docblocks remain separately recorded outside this two-file build.",
+        "C": "Existing settlement owner owns a single Phase E transition; no event-system, opcode, Save or public interface change. Resource container stays the same for present-battle/getBattleLiveRoles and is removed by existing cleanup. Refreshing the projection also avoids carrying pre-level-up maxima into the script.",
+        "D": "Reuses projectRuntimeToBattleRoles rather than copying effective-stat rules. The two explicit HP/MP accessors are limited to this phase; no mode boolean, generic proxy or new global helper is introduced.",
+        "E": "Two formal business failures on old implementation, identical test bytes green after fix. Existing13 settlement identities/assertions retained. Actual Save/automatic-combat probe connects the isolated postwin fixture to a supported input; native C oracle is arithmetic/function evidence, not full SDL script runtime.",
+        "F": "Explicit hp/mp getters and setters expose the two representations and their owner. No new branch in the existing enemy loop; the projection binding has one map callback, no extra dispatch or implicit end flush.",
+        "G": "Only necessary import, phase-boundary view and caller argument added. No dead export, new file, compatibility fallback, duplicated recovery formula or speculative abstraction.",
+        "H": "Existing runner port remains observable and delegates actual runScript. No timer, IO or global hook added; deterministic direct fixtures and restored process globals suffice. No test-only production API."
+      },
+      "disposition": "review; finite approved defect fixed, module gates and Phase E intermediate-dialog boundary still pending"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "reading": "Whole379-line old file and whole421-line current file plus96-line fixture; old13 cases unchanged except positional movement. All actual callers/oracles named per group.",
+      "dimensions": {
+        "A": "Typed raw commands use rows9/10 and explicit role0 operand1. Existing fixture loads defaults, hydrates, projects and starts battle; wonFixture explicitly seeds a valid postwin boundary and does not pretend to run a full fight. HP300/max500 andMP10/max40 are legal inputs.",
+        "B": "Two comments name the source functions, units and fixed expected arithmetic, and disclose fixture scope. No test-count or coverage claim substitutes for the business checks.",
+        "C": "Uses existing wonFixture and real tickBattle/runScript/cleanup. Each new case checks one ownership contract: retained healing, or ordered raw/HP-MP writes. Local GameState/bus/resources isolate cases.",
+        "D": "No duplicate codec/Save/full-fight fixture or mock interpreter added. Existing13 screen/order/hold/drop/result cases and their six archived controls reused; new two axes are absent from those cases.",
+        "E": "Old implementation fails exactly the two new business vectors:400/25 vs500/30, and300/23 vs325/23; original13 pass. Mutation is not the oracle. Source C function+half-recovery yield500/30 and325/23. Final mode and resource release guard against assertions before the real finish boundary.",
+        "F": "Names distinguish retained changes from instruction-order effects. Concrete commands and outcome vectors expose the intended contract without a configurable test dispatcher.",
+        "G": "Adds only two cases, zero weakened/removed assertion or fixture. No coverage-driven padding; same test bytes are saved at red and green.",
+        "H": "Real deterministic host and local fixtures; no newly mocked function, shared timer, external file, persistent slot or global setter. Separate process probe resets all installed module hooks in finally."
+      },
+      "disposition": "review; old closed credit temporarily reopened while current module gates deferred"
+    }
+  ],
+  "evidenceReuse": [
+    "Original13 case contracts, six business controls in3w-post-scripts/controls.json unchanged in their applicable implementation ranges. No repeat of all six mutants.",
+    "Approved all-role Extra cleanup at09: source/test byte pins unchanged; current238 includes its formal regression and permanent equipment protection.",
+    "Ten original battleEnd leaf census remains drops/text/chance only; actual accepted modified V1 domain and normal story are explicitly distinguished."
+  ],
+  "processDisclosure": [
+    "First green command named a nonexistent item-poison.boundaries.test.ts filter; native report proves only4files/25tests, credited as25. Correct existing item-poison-boundary.test.ts and eight other verified paths then ran9files/238. No phantom file credited.",
+    "Private metadata draft failed decoding before any Python statement; no repository edit came from it. apply_patch context rejection was atomic, corrected using exact lines.",
+    "First scoped Biome found one formatter diagnostic in evidence verifier only; product/test bytes already clean. Final native lint captured separately; first tool text not a preserved native raw."
+  ],
+  "gates": {
+    "directedAdjacent": "9files238passed;zero stderr/default diagnostics",
+    "typecheck": "game tsc --noEmit exit0;stdout/stderr0",
+    "wholeCheck": "not run after these approved product changes;deferred to related3w module window",
+    "officialCoverage": "not run;no baseline/config/test retirement change",
+    "protectedFast": "not run;deferred"
+  },
+  "remaining": [
+    "Phase E C blocking versus TS queued intermediate-dialog observability is not claimed equal. Broader script/roster ownership remains3s; this repair does not close all battle-system or event-system.",
+    "Single-target eventObjectID conventions, arbitrary modified scripts and full battle rendering are not newly certified by two all-target HP/MP cases.",
+    "Two known misattached battle-system docblocks are a separate finite B item; no out-of-whitelist product edit here."
+  ],
+  "ledger": {
+    "tracked": 3356,
+    "closed": 372,
+    "review": 115,
+    "pending": 2869,
+    "newClosed": 0
+  },
+  "cards": {
+    "accept": 61,
+    "partial": 22,
+    "pending": 0
+  },
+  "verification": "Existing verify-extra-reachability.mjs now verifies903->09 Extra delta and09->current two-path HP/MP delta separately, immutable counters, full native identities, bytes and actual394->500. Default read-only; no replay or whole tests."
+}

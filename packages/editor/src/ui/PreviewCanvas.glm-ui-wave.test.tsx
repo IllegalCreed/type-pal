@@ -152,6 +152,7 @@ async function renderPreview(
 }
 
 beforeEach(() => {
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)

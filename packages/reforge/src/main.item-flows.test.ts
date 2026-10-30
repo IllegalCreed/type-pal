@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import type { AuthorItemCore } from '@type-pal/content'
-import { afterEach, expect, test } from 'vitest'
+import { afterEach, expect, test, vi } from 'vitest'
 import type { ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { key } from './__tests__/runtime-shell/driver.js'
 import {
@@ -13,8 +13,8 @@ import {
 } from './__tests__/runtime-shell/scenarios.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 
@@ -44,6 +44,7 @@ test('H8 medicine repeats on the real target and returns to list only after last
 
 test('H8 explicit failed item gate keeps item and menu, with a visible failure message', async () => {
   host = await installShellHost()
+  const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
   const item = medicine()
   if (!item.use) throw new Error('missing use')
   // Current item contract is RandomLong(1,100) < chance; 1 is legal and always rejects.
@@ -59,6 +60,7 @@ test('H8 explicit failed item gate keeps item and menu, with a visible failure m
   expect(host.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))).toContain(
     '没有产生效果',
   )
+  expect(warning.mock.calls).toEqual([['[script]', 'itemUse(tonic): 没有产生效果']])
   h.assertInputUnchanged()
 })
 
@@ -152,6 +154,7 @@ test('H8 actual item private script blocks duplicate input and preserves its mon
 
 test('H8 unavailable teleport hook refuses consumption and restores the same usable menu', async () => {
   host = await installShellHost()
+  const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
   const item: AuthorItemCore = {
     ...medicine('orb'),
     use: {
@@ -170,6 +173,7 @@ test('H8 unavailable teleport hook refuses consumption and restores the same usa
   expect(host.text.mock.calls.flatMap((call) => call[1].map((span) => span.text))).toContain(
     'No exit here',
   )
+  expect(warning.mock.calls).toEqual([['[script]', 'itemUse(orb): No exit here']])
   h.assertInputUnchanged()
 })
 

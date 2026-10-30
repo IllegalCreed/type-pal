@@ -1,0 +1,86 @@
+name: "Bug report / 缺陷"
+description: "Something did not work. English or Chinese is fine. / 有地方不对。中英文都可以。"
+title: "Bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this. You can write in English or Chinese.
+        谢谢反馈。用英文或中文写都可以。
+
+        Please do not upload original game files (MKF, RPG saves, or .exe).
+        请不要上传原版游戏文件（MKF、RPG 存档或 .exe）。
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: "What happened? / 发生了什么"
+      description: "Tell us what you saw."
+      placeholder: "I talked to the innkeeper and the game froze."
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Steps to reproduce / 怎么重现"
+      description: "What did you do before this happened? Rough steps are fine."
+      placeholder: |
+        1. Open the web demo
+        2. Talk to ...
+        3. See ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Expected behavior / 你以为会怎样"
+      description: "What did you think should happen?"
+      placeholder: "The conversation should continue."
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: "Browser and OS / 浏览器和系统"
+      description: "Phone or computer is fine. Write \"not sure\" if you do not know."
+      placeholder: "Chrome on Windows 11, or Safari on iPhone"
+    validations:
+      required: true
+  - type: dropdown
+    id: build
+    attributes:
+      label: "Which build? / 哪个版本"
+      description: "Where were you playing?"
+      options:
+        - "Web demo (pal.illegalscreed.cn) / 在线试玩"
+        - "Local build / 自己在本地跑"
+        - "Not sure / 不确定"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: "Game version, if you know / 游戏版本（可选）"
+      description: "A version number, a date, or a commit. You can leave this empty."
+      placeholder: "v1.0.0"
+    validations:
+      required: false
+  - type: dropdown
+    id: own-data
+    attributes:
+      label: "Your own original game data? / 是否用了自己的原版数据"
+      description: "Helpful for a local build. You can skip this for the web demo."
+      options:
+        - "Yes, my own copy / 用了自己的原版数据"
+        - "No / 没有"
+        - "Not sure / 不确定"
+    validations:
+      required: false
+  - type: upload
+    id: screenshots
+    attributes:
+      label: "Screenshots / 截图（可选）"
+      description: "A picture helps. Please do not upload original game files."
+    validations:
+      required: false
+      accept: ".png,.jpg,.jpeg,.gif,.webp"

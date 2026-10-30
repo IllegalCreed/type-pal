@@ -1,0 +1,1316 @@
+{
+  "phase": "before",
+  "head": "b41dc8d535ab3bd58797136d8e6121cd7762111f",
+  "sourceSha256": {
+    "resources/sprite.ts": "f4992df3d9c1b2e278cdb82808c03afbab19f39c99b6c28125bd84a57450c34a",
+    "resources/parsers/rgm.ts": "92883a8e074005d2b9e25ff9ae3bc31e68619ff165dde4fed2c5a08c3e876b65",
+    "resources/parsers/ball.ts": "8a8f6de4be9ccaa69e6a50ad1adea06b1b9f20f6503fed8e2f358d0927f09688",
+    "resources/parsers/fire.ts": "0cfc135544de7ae6e1a2571fdb643333eac35833649e17a4e1b57a167849ac76",
+    "io/yj2.ts": "b01a32ad4f2a313c52accc8ebecc67e550994fa61c802c031d91a7ad31f126c0"
+  },
+  "testSha256": {
+    "data-misc.test.ts": "c648a80f2dbac5f60e81c3403d3fe4bee939e9dd93a1c6d842cca5ade4f04b3f",
+    "misc-mkf.test.ts": "c88950903b48533189f49b9081cdb18fd5f517d0e90d3e40bb0b4873308f26cf"
+  },
+  "runs": [
+    {
+      "name": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/__tests__/pre94-raw-before-control-data-misc.test.ts",
+        "src/resources/parsers/__tests__/pre94-raw-before-control-misc-mkf.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-raw-counter-rkcodx70/control.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "seconds": 0.644,
+      "passed": 21,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp buf 小于 200 字节时截断处理,不抛错",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic 20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic wMagic = 0 的 entry 仍被保留(不过滤)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic roleCount = 0 返回空数组",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex parses WORD array",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex 40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut 合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut 合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait real RGM.MKF — 92 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon real BALL.MKF — 252 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite empty buf → frameCount=0, frames=[]",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite returns chunkIndex + frameCount + frames structure",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite fake raw sprite chunk parsed after YJ2 fallback returns valid PNG bytes if frames exist",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite real FIRE.MKF — 55 chunks, sprite groups with frames",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress chunk 0 decompresses → valid sprite with frames",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "wrapper": null,
+      "wrapperSha256": null,
+      "copySha256": {
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-control-data-misc.test.ts": "c648a80f2dbac5f60e81c3403d3fe4bee939e9dd93a1c6d842cca5ade4f04b3f",
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-control-misc-mkf.test.ts": "c88950903b48533189f49b9081cdb18fd5f517d0e90d3e40bb0b4873308f26cf"
+      },
+      "rawSha256": "26a2fa9ad8df59561ce11d6043025c0b4ae932ed80920af60acfbeb5c0b2984e",
+      "runnerSha256": "6a9c9a7c2725c74ba6e818af6118e27cf1a6852780267f6802ea0622cc955a10",
+      "stderrBlocks": 6
+    },
+    {
+      "name": "data9-pixel",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/__tests__/pre94-raw-before-data9-pixel-data-misc.test.ts",
+        "src/resources/parsers/__tests__/pre94-raw-before-data9-pixel-misc-mkf.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-raw-counter-rkcodx70/data9-pixel.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "seconds": 0.633,
+      "passed": 21,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp buf 小于 200 字节时截断处理,不抛错",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic 20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic wMagic = 0 的 entry 仍被保留(不过滤)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic roleCount = 0 返回空数组",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex parses WORD array",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex 40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut 合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut 合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait real RGM.MKF — 92 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon real BALL.MKF — 252 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite empty buf → frameCount=0, frames=[]",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite returns chunkIndex + frameCount + frames structure",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite fake raw sprite chunk parsed after YJ2 fallback returns valid PNG bytes if frames exist",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite real FIRE.MKF — 55 chunks, sprite groups with frames",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress chunk 0 decompresses → valid sprite with frames",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "wrapper": "packages/pal-extract/src/resources/pre94-raw-before-data9-pixel.ts",
+      "wrapperSha256": "804fc7528827b22c3ab1d93af2dd6b40d26442143b0f73f2da3f261b5b55ddc5",
+      "copySha256": {
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-data9-pixel-data-misc.test.ts": "beabdd84353e75bd22c0f26786534cc5eb62dcbe472f055ec9c2a2a9163bddca",
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-data9-pixel-misc-mkf.test.ts": "d23963ab2a0cfd38741556fc4c620948b2ffa259ac3f8374af56300b822e6287"
+      },
+      "rawSha256": "8217049480ed53a9e2f6dc13e8a1a044199db4b9cf4a659677afd8bcb098e230",
+      "runnerSha256": "b1599316ed58360f33063597f718a62ef8216071cfa7d44a92655273a4ea1dd0",
+      "stderrBlocks": 6
+    },
+    {
+      "name": "data10-frame",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/__tests__/pre94-raw-before-data10-frame-data-misc.test.ts",
+        "src/resources/parsers/__tests__/pre94-raw-before-data10-frame-misc-mkf.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-raw-counter-rkcodx70/data10-frame.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "seconds": 0.612,
+      "passed": 21,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp buf 小于 200 字节时截断处理,不抛错",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic 20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic wMagic = 0 的 entry 仍被保留(不过滤)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic roleCount = 0 返回空数组",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex parses WORD array",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex 40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut 合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut 合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait real RGM.MKF — 92 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon real BALL.MKF — 252 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite empty buf → frameCount=0, frames=[]",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite returns chunkIndex + frameCount + frames structure",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite fake raw sprite chunk parsed after YJ2 fallback returns valid PNG bytes if frames exist",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite real FIRE.MKF — 55 chunks, sprite groups with frames",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress chunk 0 decompresses → valid sprite with frames",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "wrapper": "packages/pal-extract/src/resources/pre94-raw-before-data10-frame.ts",
+      "wrapperSha256": "5aa743278d366aea6bcc958550433420455f2b138f1ae499a498e708e3590c80",
+      "copySha256": {
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-data10-frame-data-misc.test.ts": "f4b2d625a0161b352e27c2cab6846f9d0ee8172ff5331b05bd6c99a3c0cdcbb3",
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-data10-frame-misc-mkf.test.ts": "f2cc682e0b5c4c5fcb67f8c3def44163121c821c4d083f6c0248af9913a532bd"
+      },
+      "rawSha256": "aacd916b6d2618a00b940f053b69e40c52610e3fe193ffefb2de60d36c1126f2",
+      "runnerSha256": "6c13e48b8b1120764168a278fa50ce5fd9db766843b55357fb75cb22bfe00018",
+      "stderrBlocks": 6
+    },
+    {
+      "name": "rgm-pixel",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/__tests__/pre94-raw-before-rgm-pixel-data-misc.test.ts",
+        "src/resources/parsers/__tests__/pre94-raw-before-rgm-pixel-misc-mkf.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-raw-counter-rkcodx70/rgm-pixel.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "seconds": 0.614,
+      "passed": 21,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp buf 小于 200 字节时截断处理,不抛错",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic 20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic wMagic = 0 的 entry 仍被保留(不过滤)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic roleCount = 0 返回空数组",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex parses WORD array",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex 40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut 合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut 合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait real RGM.MKF — 92 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon real BALL.MKF — 252 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite empty buf → frameCount=0, frames=[]",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite returns chunkIndex + frameCount + frames structure",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite fake raw sprite chunk parsed after YJ2 fallback returns valid PNG bytes if frames exist",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite real FIRE.MKF — 55 chunks, sprite groups with frames",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress chunk 0 decompresses → valid sprite with frames",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "wrapper": "packages/pal-extract/src/resources/parsers/pre94-raw-before-rgm-pixel.ts",
+      "wrapperSha256": "121f4a75931a14b34d47714bbf6ab93a7b5204585ff648db2dd00441ec7b6b0d",
+      "copySha256": {
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-rgm-pixel-data-misc.test.ts": "c648a80f2dbac5f60e81c3403d3fe4bee939e9dd93a1c6d842cca5ade4f04b3f",
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-rgm-pixel-misc-mkf.test.ts": "933bd06b4d1796e9b41abd5dab3fc7c7022fd545a4c75e673367804227517d7b"
+      },
+      "rawSha256": "273464fb9f4496e2cdf07e11e58c9d73535e1ad8a46b8e30c5e0e1dd3ef551b1",
+      "runnerSha256": "a95ca727b4f984ee03b78e065b8ba5f81c197ea2c6ffc13910f15ec85a27fb6e",
+      "stderrBlocks": 6
+    },
+    {
+      "name": "ball-pixel",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/__tests__/pre94-raw-before-ball-pixel-data-misc.test.ts",
+        "src/resources/parsers/__tests__/pre94-raw-before-ball-pixel-misc-mkf.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-raw-counter-rkcodx70/ball-pixel.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "seconds": 0.596,
+      "passed": 21,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp buf 小于 200 字节时截断处理,不抛错",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic 20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic wMagic = 0 的 entry 仍被保留(不过滤)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic roleCount = 0 返回空数组",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex parses WORD array",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex 40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut 合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut 合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait real RGM.MKF — 92 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon real BALL.MKF — 252 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite empty buf → frameCount=0, frames=[]",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite returns chunkIndex + frameCount + frames structure",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite fake raw sprite chunk parsed after YJ2 fallback returns valid PNG bytes if frames exist",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite real FIRE.MKF — 55 chunks, sprite groups with frames",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress chunk 0 decompresses → valid sprite with frames",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "wrapper": "packages/pal-extract/src/resources/parsers/pre94-raw-before-ball-pixel.ts",
+      "wrapperSha256": "ba11e5ecca6c248001c1dd79ed84234e31cbb3f06eabc7f1b9556b10a32205c4",
+      "copySha256": {
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-ball-pixel-data-misc.test.ts": "c648a80f2dbac5f60e81c3403d3fe4bee939e9dd93a1c6d842cca5ade4f04b3f",
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-ball-pixel-misc-mkf.test.ts": "d6dc757ed82168c84d255264ccb7a45dbd737406bbbab418dd2f78876e713c80"
+      },
+      "rawSha256": "27430f5547a613bf56963c49bf42b91ba775a992c695c29f8a547ce6c86e93e8",
+      "runnerSha256": "875fa40ba2aec837da2b1e592d61bcea1440da33ead0785ff67cce62b22c028d",
+      "stderrBlocks": 6
+    },
+    {
+      "name": "fire-index",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/__tests__/pre94-raw-before-fire-index-data-misc.test.ts",
+        "src/resources/parsers/__tests__/pre94-raw-before-fire-index-misc-mkf.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-raw-counter-rkcodx70/fire-index.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "seconds": 0.636,
+      "passed": 21,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp buf 小于 200 字节时截断处理,不抛错",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic 20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic wMagic = 0 的 entry 仍被保留(不过滤)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic roleCount = 0 返回空数组",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex parses WORD array",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex 40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut 合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut 合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait real RGM.MKF — 92 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon real BALL.MKF — 252 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite empty buf → frameCount=0, frames=[]",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite returns chunkIndex + frameCount + frames structure",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite fake raw sprite chunk parsed after YJ2 fallback returns valid PNG bytes if frames exist",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite real FIRE.MKF — 55 chunks, sprite groups with frames",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress chunk 0 decompresses → valid sprite with frames",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "wrapper": "packages/pal-extract/src/resources/parsers/pre94-raw-before-fire-index.ts",
+      "wrapperSha256": "e25b91cdc44daf7f18d89e318f6a14748831dc59c327e7d13b0d92c4161a5ddf",
+      "copySha256": {
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-fire-index-data-misc.test.ts": "c648a80f2dbac5f60e81c3403d3fe4bee939e9dd93a1c6d842cca5ade4f04b3f",
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-fire-index-misc-mkf.test.ts": "bdf4238c8cfe7fcc0b5a42b7e830aab8e8705333cae322e421869982b2c2410d"
+      },
+      "rawSha256": "e0a36c898d350be0dce8a5b60140678f4b4e5a3aa4c7ed1621351ca40b52aa3e",
+      "runnerSha256": "c816fedb5d362be226e6cf0f6df26240882c39dc6f5b4dac22a65544245c3dd6",
+      "stderrBlocks": 6
+    },
+    {
+      "name": "fire-direct",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/__tests__/pre94-raw-before-fire-direct-data-misc.test.ts",
+        "src/resources/parsers/__tests__/pre94-raw-before-fire-direct-misc-mkf.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-raw-counter-rkcodx70/fire-direct.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "seconds": 0.577,
+      "passed": 21,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp buf 小于 200 字节时截断处理,不抛错",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic 20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic wMagic = 0 的 entry 仍被保留(不过滤)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic roleCount = 0 返回空数组",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex parses WORD array",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex 40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut 合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut 合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait real RGM.MKF — 92 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon real BALL.MKF — 252 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite empty buf → frameCount=0, frames=[]",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite returns chunkIndex + frameCount + frames structure",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite fake raw sprite chunk parsed after YJ2 fallback returns valid PNG bytes if frames exist",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite real FIRE.MKF — 55 chunks, sprite groups with frames",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress chunk 0 decompresses → valid sprite with frames",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "wrapper": "packages/pal-extract/src/io/pre94-raw-before-fire-direct.ts",
+      "wrapperSha256": "8008fc87395f830f9ecf1ccd6fae55ffddf587fd7740ce1252c2dd99532b6571",
+      "copySha256": {
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-fire-direct-data-misc.test.ts": "c648a80f2dbac5f60e81c3403d3fe4bee939e9dd93a1c6d842cca5ade4f04b3f",
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-fire-direct-misc-mkf.test.ts": "b8e5362bb7e6182f35863db80482e218857020f2001688a1e5b16e13822a9535"
+      },
+      "rawSha256": "e375e63879c1e54f8b63f3bace3f68474b4c6576fe64294b1e9014c1d6962ffa",
+      "runnerSha256": "b3d7daf2678bd310b407b51ef1a13596b2dcd63fa4514dc09c1417faf05d0f9a",
+      "stderrBlocks": 6
+    },
+    {
+      "name": "raw-fallback",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/pal-extract",
+        "exec",
+        "vitest",
+        "run",
+        "src/resources/parsers/__tests__/pre94-raw-before-raw-fallback-data-misc.test.ts",
+        "src/resources/parsers/__tests__/pre94-raw-before-raw-fallback-misc-mkf.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--silent=false",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-raw-counter-rkcodx70/raw-fallback.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "seconds": 0.595,
+      "passed": 21,
+      "failed": 0,
+      "pending": 0,
+      "cases": [
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpExp buf 小于 200 字节时截断处理,不抛错",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic 20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic wMagic = 0 的 entry 仍被保留(不过滤)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseLevelUpMagic roleCount = 0 返回空数组",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex parses WORD array",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "parseBattleEffectIndex 40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut 合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut real DATA.MKF chunk 9 — imagecount=72, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut 合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "data-misc.test.ts",
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut real DATA.MKF chunk 10 — imagecount=86, 所有帧宽高均 ≤ 400(sanity)",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeRgmPortrait real RGM.MKF — 92 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon empty chunk(0 byte)→ null",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "decodeBallIcon real BALL.MKF — 252 chunks 多数解码出 width/height/png",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite empty buf → frameCount=0, frames=[]",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite returns chunkIndex + frameCount + frames structure",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite fake raw sprite chunk parsed after YJ2 fallback returns valid PNG bytes if frames exist",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "parseFirSprite real FIRE.MKF — 55 chunks, sprite groups with frames",
+          "status": "passed",
+          "messages": []
+        },
+        {
+          "file": "misc-mkf.test.ts",
+          "fullName": "FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress chunk 0 decompresses → valid sprite with frames",
+          "status": "passed",
+          "messages": []
+        }
+      ],
+      "wrapper": "packages/pal-extract/src/resources/parsers/pre94-raw-before-raw-fallback.ts",
+      "wrapperSha256": "8f220a2b3e03732d57c83e2cc9eb46b3b93807939d5e493461573083d39710c7",
+      "copySha256": {
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-raw-fallback-data-misc.test.ts": "c648a80f2dbac5f60e81c3403d3fe4bee939e9dd93a1c6d842cca5ade4f04b3f",
+        "packages/pal-extract/src/resources/parsers/__tests__/pre94-raw-before-raw-fallback-misc-mkf.test.ts": "cc78f5ae24ea73ec55af4dfdd9a388d673f0344cebb2c461ab8241c76c7e85f5"
+      },
+      "rawSha256": "7c821d5fba26e27bda03befe16c36146115337ac17e1b1a7647e379e28577e17",
+      "runnerSha256": "dda915cbf398c686871eb32658b12cce520b99ce86535a6d2207405fa0bbc6ab",
+      "stderrBlocks": 6
+    }
+  ],
+  "sourceUnchanged": true,
+  "testFilesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

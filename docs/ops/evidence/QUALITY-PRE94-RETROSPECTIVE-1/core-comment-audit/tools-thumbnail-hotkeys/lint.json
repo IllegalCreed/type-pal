@@ -1,0 +1,13 @@
+{
+  "command": ["pnpm", "lint"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T22:14:15.667218+00:00",
+  "completedAt": "2026-10-17T22:14:18.220072+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "lint.raw.gz",
+  "rawBytes": 193,
+  "rawSha256": "99739768c5edba004ee4834fa6cc273cd49018893429d81b5da7ec74225ecd85",
+  "fullUncutMergedStdoutStderr": true
+}

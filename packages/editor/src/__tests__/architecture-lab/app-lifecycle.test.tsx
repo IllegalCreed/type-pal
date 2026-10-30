@@ -164,8 +164,9 @@ describe('G03 App 所有权生命周期', () => {
     expect(host.querySelector('[aria-label="场景编排工作区"], [class*=workspace]')).not.toBeNull()
     // 会话派发：重命名工程命令 → 页面标题/名称更新（业务对象实变）
     const command = new RenameProjectCommand('实验室工程名')
-    expect(main.dispatch(command)).toBe(true)
-    await act(async () => {})
+    await act(async () => {
+      expect(main.dispatch(command)).toBe(true)
+    })
     expect(host.textContent).toContain('实验室工程名')
   })
 

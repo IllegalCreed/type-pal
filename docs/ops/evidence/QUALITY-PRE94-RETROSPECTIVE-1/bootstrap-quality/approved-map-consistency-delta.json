@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "base": "f454fa7e1785e271505d169fecd9317640b60c3b",
+  "path": "packages/game/src/shell/bootstrap.ts",
+  "beforeSha256": "bd61a0a25a8e9d27ac0e8fc8f9d787f25f671bab6c40069c1dfe65ba4d7a9067",
+  "afterSha256": "7d22fb11132c0a6b4973b588c8ea1d63056e42a4b85869e91f8ff961f738ae2d",
+  "authorization": "User call_b5321581708e46f39e1c2043ce60ebf5; manually reviewed actual complete diff; no claim of behavior invariance across these approved hunks",
+  "hunks": [
+    {
+      "oldStart": 391,
+      "newStart": 391,
+      "before": [
+        "  tileImagesBySceneId.set(SCENE_ID, tileImages)\n",
+        "  let currentSceneId = SCENE_ID\n",
+        "  let mapReloadRevision = 0\n",
+        "\n",
+        "  const presentCtx: PresentContext = {\n",
+        "    tilemap,\n"
+      ],
+      "after": [
+        "  tileImagesBySceneId.set(SCENE_ID, tileImages)\n",
+        "  let currentSceneId = SCENE_ID\n",
+        "  let mapReloadRevision = 0\n",
+        "  let currentSceneAssets: SceneAssets | undefined\n",
+        "\n",
+        "  const presentCtx: PresentContext = {\n",
+        "    tilemap,\n"
+      ],
+      "reviewReason": "Borrow current cached scene object for coherent map-only publication"
+    },
+    {
+      "oldStart": 598,
+      "newStart": 599,
+      "before": [
+        "        onTeleportLabel?: string\n",
+        "      }>\n",
+        "    })\n",
+        "    const [tilemapJson, eventsJson] = await Promise.all([\n",
+        "      fetch(`${BASE}/data/tilemap/${sceneJson.mapNum}.json`).then((r) => {\n",
+        "        if (!r.ok) throw new Error(`tilemap-${sceneJson.mapNum}.json fetch failed (${r.status})`)\n",
+        "        return r.json() as Promise<Tilemap>\n",
+        "      }),\n",
+        "      // P3.T1: per-scene events(lazy load,修 M3.5 ⚠️ a9 #8)\n"
+      ],
+      "after": [
+        "        onTeleportLabel?: string\n",
+        "      }>\n",
+        "    })\n",
+        "    const mapNum = gs.sceneMapNumOverride?.[sceneId + 1] ?? sceneJson.mapNum\n",
+        "    const [tilemapJson, eventsJson] = await Promise.all([\n",
+        "      fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {\n",
+        "        if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)\n",
+        "        return r.json() as Promise<Tilemap>\n",
+        "      }),\n",
+        "      // P3.T1: per-scene events(lazy load,修 M3.5 ⚠️ a9 #8)\n"
+      ],
+      "reviewReason": "Resolve the existing 1-based script override before fetching scene map resources"
+    },
+    {
+      "oldStart": 631,
+      "newStart": 633,
+      "before": [
+        "    // npcSprites map。此处空 map 仅满足现有接口,不承担精灵缓存的所有权。\n",
+        "    return {\n",
+        "      sceneId,\n",
+        "      mapNum: sceneJson.mapNum, // 场景名按 mapNum 命名(tools/map-names) + scene-system.getCurrentMapNum\n",
+        "      tilemap: tilemapJson,\n",
+        "      palette,\n",
+        "      eventObjects: sceneJson.eventObjects,\n"
+      ],
+      "after": [
+        "    // npcSprites map。此处空 map 仅满足现有接口,不承担精灵缓存的所有权。\n",
+        "    return {\n",
+        "      sceneId,\n",
+        "      mapNum, // 场景名按 mapNum 命名(tools/map-names) + scene-system.getCurrentMapNum\n",
+        "      tilemap: tilemapJson,\n",
+        "      palette,\n",
+        "      eventObjects: sceneJson.eventObjects,\n"
+      ],
+      "reviewReason": "Return resolved map metadata with the corresponding tilemap"
+    },
+    {
+      "oldStart": 672,
+      "newStart": 674,
+      "before": [
+        "   */\n",
+        "  function applySceneAssetsToPresent(sceneAssets: SceneAssets): void {\n",
+        "    mapReloadRevision++ // Any scene activation retires earlier map-only publications, including same-scene reloads.\n",
+        "    presentCtx.tilemap = sceneAssets.tilemap\n",
+        "    currentSceneId = sceneAssets.sceneId\n",
+        "    // 资源就绪后同步探索地图；脚本目录不在此重复保存。\n"
+      ],
+      "after": [
+        "   */\n",
+        "  function applySceneAssetsToPresent(sceneAssets: SceneAssets): void {\n",
+        "    mapReloadRevision++ // Any scene activation retires earlier map-only publications, including same-scene reloads.\n",
+        "    currentSceneAssets = sceneAssets\n",
+        "    presentCtx.tilemap = sceneAssets.tilemap\n",
+        "    currentSceneId = sceneAssets.sceneId\n",
+        "    // 资源就绪后同步探索地图；脚本目录不在此重复保存。\n"
+      ],
+      "reviewReason": "Track the cache object at scene activation"
+    },
+    {
+      "oldStart": 717,
+      "newStart": 720,
+      "before": [
+        "    // loadGame 路径)→ present 保留旧帧(供 fadeScreen backup)。冻到 onEnter 第一个可渲染 yield 才清。\n",
+        "    gs.sceneLoading = true\n",
+        "    const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)\n",
+        "    gs.wNumScene = newWNumScene\n",
+        "    setCurrentMapNum(sceneAssets.mapNum) // 同步当前 mapNum:小地图底图 / 地图名 / 历史对话按 map 分组都读它(此前仅 scene-system.loadScene 设,opcode/读档路径漏设→停 0 梦境)\n",
+        "    // DM25:res.c:236-240 `if (fEnteringScene) { wScreenWave = 0; sWaveProgression = 0; }` ——\n"
+      ],
+      "after": [
+        "    // loadGame 路径)→ present 保留旧帧(供 fadeScreen backup)。冻到 onEnter 第一个可渲染 yield 才清。\n",
+        "    gs.sceneLoading = true\n",
+        "    const sceneAssets = await sceneAssetsCache.loadScene(dumpFileIndex)\n",
+        "    const requestedMap = gs.sceneMapNumOverride?.[newWNumScene]\n",
+        "    if (requestedMap !== undefined && requestedMap !== sceneAssets.mapNum) {\n",
+        "      const replacement = await fetchMapResources(requestedMap)\n",
+        "      sceneAssets.mapNum = requestedMap\n",
+        "      sceneAssets.tilemap = replacement.tilemap\n",
+        "      tileImagesBySceneId.set(dumpFileIndex, replacement.tiles)\n",
+        "    }\n",
+        "    gs.wNumScene = newWNumScene\n",
+        "    setCurrentMapNum(sceneAssets.mapNum) // 同步当前 mapNum:小地图底图 / 地图名 / 历史对话按 map 分组都读它(此前仅 scene-system.loadScene 设,opcode/读档路径漏设→停 0 梦境)\n",
+        "    // DM25:res.c:236-240 `if (fEnteringScene) { wScreenWave = 0; sWaveProgression = 0; }` ——\n"
+      ],
+      "reviewReason": "Reconcile a cached named-scene override only after both replacement resources load"
+    },
+    {
+      "oldStart": 812,
+      "newStart": 822,
+      "before": [
+        "    await loadSceneCommon(newWNumScene, { fromSavedGame: false })\n",
+        "  })\n",
+        "\n",
+        "  // opcode 0x99(changeMap)op0==0xFFFF:map-only 重载当前场景 tilemap(不重跑 onEnter / 不重置 npcs)。\n",
+        "  // 完整加载后同步发布；失败保留活资源。新请求或场景重装会撤销旧请求的发布权。\n",
+        "  setMapReloader(async (mapNum: number) => {\n",
+        "    const requestRevision = ++mapReloadRevision\n",
+        "    const sceneId = currentSceneId\n",
+        "    const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {\n",
+        "      if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)\n",
+        "      return r.json() as Promise<Tilemap>\n",
+        "    })\n",
+        "    const nextTiles = await loadTilesetBlob(`${BASE}/data/${tilemapJson.tileset}`)\n",
+        "    if (requestRevision !== mapReloadRevision) return\n",
+        "    tileImagesBySceneId.set(sceneId, nextTiles)\n",
+        "    presentCtx.tilemap = tilemapJson\n",
+        "    setSceneContext({\n",
+        "      tilemap: tilemapJson,\n",
+        "    })\n",
+        "  })\n",
+        "\n",
+        "  // opcode 0x4C MonsterChasePlayer 障碍检测注入(port sdlpal PAL_CheckObstacle)。\n"
+      ],
+      "after": [
+        "    await loadSceneCommon(newWNumScene, { fromSavedGame: false })\n",
+        "  })\n",
+        "\n",
+        "  // Map-only replacement and a cached scene override share the same complete IO bundle.\n",
+        "  // Ownership/publication stays in their callers; rejection cannot mutate the live resources.\n",
+        "  async function fetchMapResources(mapNum: number) {\n",
+        "    const tilemapJson = await fetch(`${BASE}/data/tilemap/${mapNum}.json`).then((r) => {\n",
+        "      if (!r.ok) throw new Error(`tilemap-${mapNum}.json fetch failed (${r.status})`)\n",
+        "      return r.json() as Promise<Tilemap>\n",
+        "    })\n",
+        "    const tiles = await loadTilesetBlob(`${BASE}/data/${tilemapJson.tileset}`)\n",
+        "    return { tilemap: tilemapJson, tiles }\n",
+        "  }\n",
+        "\n",
+        "  // opcode 0x99(changeMap)op0==0xFFFF:map-only 重载当前场景 tilemap(不重跑 onEnter / 不重置 npcs)。\n",
+        "  // 完整加载后同步发布；失败保留活资源。新请求或场景重装会撤销旧请求的发布权。\n",
+        "  setMapReloader(async (mapNum: number) => {\n",
+        "    const requestRevision = ++mapReloadRevision\n",
+        "    const sceneId = currentSceneId\n",
+        "    const replacement = await fetchMapResources(mapNum)\n",
+        "    if (requestRevision !== mapReloadRevision) return\n",
+        "    if (currentSceneAssets) {\n",
+        "      currentSceneAssets.mapNum = mapNum\n",
+        "      currentSceneAssets.tilemap = replacement.tilemap\n",
+        "    }\n",
+        "    tileImagesBySceneId.set(sceneId, replacement.tiles)\n",
+        "    presentCtx.tilemap = replacement.tilemap\n",
+        "    setSceneContext({ tilemap: replacement.tilemap })\n",
+        "    setCurrentMapNum(mapNum)\n",
+        "  })\n",
+        "\n",
+        "  // opcode 0x4C MonsterChasePlayer 障碍检测注入(port sdlpal PAL_CheckObstacle)。\n"
+      ],
+      "reviewReason": "Load complete map resource bundle before committing identity/cache/presentation"
+    }
+  ]
+}

@@ -19,7 +19,7 @@ export interface ProgressSnapshot {
    *   - explore 模式(开场菜单是 mode='menu' → 排除)
    *   - 非 suspendRaf(开场视频/CG/RNG/FBP/梦境演出 + **boot 预载窗口**都 suspendRaf=true → 排除;
    *     实测 boot 有一段 mode='explore' 但 suspendRaf=true 的窗口,漏这条会在那里误起表)
-   *   - 非场景加载、非 palette 淡入(scene-system.ts:447/461/483 引擎移动门同款)
+   *   - 非场景加载、非 palette 淡入(tickSceneSystem 也使用这两个移动门)
    */
   canMove: boolean
   partyX: number // gs.party.x(绝对像素)

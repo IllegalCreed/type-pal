@@ -1,0 +1,126 @@
+{
+  "base": "599d35717d8a5213802f76535eb14ba187f709e5",
+  "owner": "Codex single agent",
+  "rows": [
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311",
+      "lines": 96,
+      "ranges": [[1, 96]],
+      "fullRead": true,
+      "scope": "Selected test/helper full read, real hydrated host, assertions, isolation and dedupe",
+      "snapshot": "read-0.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sha256": "f350fd812860e5f570d278c64db8ddbd8435327a6b8c994b901893b2cab7ed3e",
+      "lines": 379,
+      "ranges": [[1, 379]],
+      "fullRead": true,
+      "scope": "Selected test/helper full read, real hydrated host, assertions, isolation and dedupe",
+      "snapshot": "read-1.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.glm-next-wave.test.ts",
+      "sha256": "0bc1b78697959250f568a6afb5c67840386ce6861c366c9f652ed96f5b1a6800",
+      "lines": 153,
+      "ranges": [[1, 153]],
+      "fullRead": true,
+      "scope": "Selected test/helper full read, real hydrated host, assertions, isolation and dedupe",
+      "snapshot": "read-2.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "7951c6967057b40827e206b028601580214d46fa4b13e96f8bb45ec054399dd0",
+      "lines": 249,
+      "ranges": [[1, 249]],
+      "fullRead": true,
+      "scope": "Implementation full read, unchanged in this slice; PhaseE caller/context and restoration",
+      "snapshot": "read-3.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "130c7398a4f53d5a69b3d36178777ef3c18dfea0a7641f50d53c097493ee33a7",
+      "lines": 3130,
+      "ranges": [[180, 355], [392, 530], [2168, 2242], [3070, 3098]],
+      "fullRead": false,
+      "scope": "start/won/hold/turnStart actual runner/terminal dispatch only; not full-file acceptance",
+      "snapshot": "read-4.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242",
+      "lines": 5117,
+      "ranges": [[848, 865], [968, 1070], [2910, 3175], [4240, 4256], [4468, 4510]],
+      "fullRead": false,
+      "scope": "BattleCtx, real runner and probability/narration handling only",
+      "snapshot": "read-5.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "6b20017dc7c7ca79c413fdb690cd65a5cdaa38e33d8227d009f1b19ce23fe7ea",
+      "lines": 2105,
+      "ranges": [[1700, 1765]],
+      "fullRead": false,
+      "scope": "Actual postBattleResume entry/owner choice only",
+      "snapshot": "read-6.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+      "sha256": "0bc3abc38cb6444099e78e9b8acd62d238e92d880eca1e9a0563fcc3c5e79a40",
+      "lines": 4251,
+      "ranges": [[1410, 1494]],
+      "fullRead": false,
+      "scope": "Neighbor dedupe; not full-file acceptance",
+      "snapshot": "read-7.source.gz"
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858,
+      "ranges": [[710, 805], [991, 1373], [1600, 1645], [1770, 1858]],
+      "fullRead": false,
+      "scope": "Primary init/won/PhaseE all slots/local result return; no original game execution",
+      "snapshot": "read-8.source.gz"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652,
+      "ranges": [[2557, 2562], [2605, 2611], [3235, 3310], [3388, 3434]],
+      "fullRead": false,
+      "scope": "Primary 0x89/0x90/random/narration",
+      "snapshot": "read-9.source.gz"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "ranges": [[735, 765]],
+      "fullRead": false,
+      "scope": "KO-only awards",
+      "snapshot": "read-10.source.gz"
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "lines": 757,
+      "ranges": [[190, 251]],
+      "fullRead": false,
+      "scope": "OBJECT_ENEMY/SCRIPTENTRY binary fields",
+      "snapshot": "read-11.source.gz"
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "lines": 2409,
+      "ranges": [[1090, 1130]],
+      "fullRead": false,
+      "scope": "Count0 becomes1 inventory semantics",
+      "snapshot": "read-12.source.gz"
+    }
+  ],
+  "rawAssets": "asset-census.json",
+  "priorSameSourceEvidence": "../3w-settlement/read-boundaries.json",
+  "limit": "Only explicit ranges carry fresh read credit; current raw asset census is static, not external-save/visual/original-runtime acceptance."
+}

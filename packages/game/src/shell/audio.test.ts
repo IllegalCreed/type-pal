@@ -1,8 +1,7 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
   battleVictoryTrack,
   createAudioManager,
-  createOggMusicBackend,
   createSfxDedup,
   musicUrl,
   pickMusicTrack,
@@ -10,16 +9,15 @@ import {
   sfxUrl,
 } from './audio.js'
 
-// 注:Web Audio(AudioContext / decodeAudioData)在 node/jsdom 测试环境不可用 → SFX 实际播放
-//   退化为 no-op(无法单测发声,归 user 真引擎听验)。此处测**可测逻辑**:url 映射 + sync 队列
-//   清空 + BGM 后端切换决策(注入 mock MusicBackend)。
+// 本文件未提供Web Audio端口，因此队列测试只证明就地清空；不授予SFX实际播放信用。
+// BGM uses the real manager with a recording backend; no audible-output claim.
 
 describe('M6 audio url 映射(纯)', () => {
   it('sfxUrl → {base}/sounds/{id}.wav', () => {
     expect(sfxUrl('/extracted', 88)).toBe('/extracted/sounds/88.wav')
     expect(sfxUrl('/extracted', 47)).toBe('/extracted/sounds/47.wav')
   })
-  it('musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:67 Musics/%.3d.mid)', () => {
+  it('musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:69 Musics/%.3d.mid)', () => {
     expect(musicUrl('/extracted', 1)).toBe('/extracted/music/001.mid')
     expect(musicUrl('/extracted', 16)).toBe('/extracted/music/016.mid')
     expect(musicUrl('/extracted', 94)).toBe('/extracted/music/094.mid')
@@ -28,6 +26,16 @@ describe('M6 audio url 映射(纯)', () => {
     expect(pickMusicTrack(false, 16, 7)).toBe(16) // 场景:field 乐
     expect(pickMusicTrack(true, 16, 7)).toBe(7) // 战斗:battle 乐
     expect(pickMusicTrack(true, 16, 0)).toBe(0) // 战斗乐 0 → 停(沿用场景静音惯例)
+  })
+
+  // DM29:battle.c:717-728 进战斗序 = 停场景曲(1s 淡出)→ UTIL_Delay(200) → VIDEO_SwitchScreen
+  //   揭场(360ms)→ 才起战斗曲。bootstrap.ts:194 传 battleIntroActive =
+  //   gs.battleState?.introFade !== undefined;揭场期间返回 0(静默),修"遇敌瞬间场景曲
+  //   掐断、战斗曲零延迟炸响"。旧测试只测三参形态,该分支此前无判别。
+  it('pickMusicTrack DM29:入场揭场未完 → 0 静默;非战斗不受 intro 标志影响', () => {
+    expect(pickMusicTrack(true, 16, 7, true)).toBe(0) // 揭场中:静默,不起战斗曲
+    expect(pickMusicTrack(true, 16, 7, false)).toBe(7) // 揭场完:战斗曲
+    expect(pickMusicTrack(false, 16, 7, true)).toBe(16) // 非战斗:intro 标志无关,场景乐
   })
 
   it('battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032)', () => {
@@ -70,12 +78,42 @@ describe('M6 AudioManager.sync', () => {
     expect(calls).toEqual(['play 5', 'stop', 'play 5'])
   })
 
+  // L47:补播必须还原 sync 记录的真实 loop 标志,而非硬编码 true —— 非循环曲(如胜利曲
+  //   battleVictoryTrack 的 loop=false)在开关音乐后不得被强制循环。旧测试全用 loop:true,
+  //   回退成硬编码 true 无判别。
+  it('L47 补播还原真实 loop:非循环 track 经 setMusicEnabled 开关后仍以 loop=false 重播', () => {
+    const am = createAudioManager('/extracted')
+    const calls: string[] = []
+    am.setMusicBackend({
+      play: (t, loop) => calls.push(`play ${t} ${loop}`),
+      stop: () => calls.push('stop'),
+    })
+    am.sync(undefined, { track: 3, loop: false }) // 胜利曲等非循环曲
+    am.setMusicEnabled(false)
+    am.setMusicEnabled(true)
+    expect(calls).toEqual(['play 3 false', 'stop', 'play 3 false'])
+  })
+
+  it('L47 setMusicBackend 注入补播也用记录的 loop=false', () => {
+    const am = createAudioManager('/extracted')
+    am.sync(undefined, { track: 3, loop: false }) // 后端未注入 → 仅记录当前 track/loop
+    const calls: string[] = []
+    am.setMusicBackend({
+      play: (t, loop) => calls.push(`play ${t} ${loop}`),
+      stop: () => calls.push('stop'),
+    })
+    expect(calls).toEqual(['play 3 false'])
+  })
+
   it('setMusicBackend 注入时若已有当前 track → 立即起播(补 M6a no-op 期间漏播)', () => {
     const am = createAudioManager('/extracted')
     am.sync(undefined, { track: 9, loop: true }) // 后端未注入 → 当前 track 记为 9,无播放
     const calls: string[] = []
-    am.setMusicBackend({ play: (t) => calls.push(`play ${t}`), stop: () => calls.push('stop') })
-    expect(calls).toEqual(['play 9']) // 注入即补播当前 track
+    am.setMusicBackend({
+      play: (t, loop) => calls.push(`play ${t} ${loop}`),
+      stop: () => calls.push('stop'),
+    })
+    expect(calls).toEqual(['play 9 true']) // 当前曲与循环意图均须传给新后端
   })
 })
 
@@ -134,61 +172,5 @@ describe('L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 
     expect(d.tryPlay(6)).toBe(false) // lastSFX 仍=6 → 去重生效
     d.markEnded(6)
     expect(d.tryPlay(6)).toBe(true) // 复位后放行
-  })
-})
-
-describe('M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复)', () => {
-  class FakeAudio {
-    static created: FakeAudio[] = []
-    src: string
-    loop = false
-    volume = 1
-    paused = false
-    loaded = false
-    constructor(s: string) {
-      this.src = s
-      FakeAudio.created.push(this)
-    }
-    play(): Promise<void> {
-      return Promise.resolve()
-    }
-    pause(): void {
-      this.paused = true
-    }
-    load(): void {
-      this.loaded = true
-    }
-    removeAttribute(name: string): void {
-      if (name === 'src') this.src = ''
-    }
-  }
-
-  beforeEach(() => {
-    FakeAudio.created = []
-    vi.stubGlobal('Audio', FakeAudio)
-  })
-  afterEach(() => {
-    vi.unstubAllGlobals()
-  })
-
-  it('切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)', () => {
-    const backend = createOggMusicBackend('/extracted')
-    backend.play(1, true) // created[0]
-    backend.play(2, true) // created[1];旧 created[0] 应被释放
-    const old = FakeAudio.created[0]!
-    expect(old.paused).toBe(true)
-    expect(old.src).toBe('') // 旧实现只 pause 不清 src → 游离待 GC
-    expect(old.loaded).toBe(true)
-    expect(FakeAudio.created[1]!.src).toContain('002.ogg') // 新元素正常,src 未被清
-  })
-
-  it('stop:释放当前元素 src', () => {
-    const backend = createOggMusicBackend('/extracted')
-    backend.play(1, true)
-    backend.stop()
-    const el = FakeAudio.created[0]!
-    expect(el.paused).toBe(true)
-    expect(el.src).toBe('')
-    expect(el.loaded).toBe(true)
   })
 })

@@ -1,0 +1,635 @@
+{
+  "numTotalTestSuites": 17,
+  "numPassedTestSuites": 17,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 57,
+  "numPassedTests": 57,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792375765331,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["I6 completeExternalWorldItemUse 残差"],
+          "fullName": "I6 completeExternalWorldItemUse 残差 unknown-item 拒绝且 menu 缺省 keep",
+          "status": "passed",
+          "title": "unknown-item 拒绝且 menu 缺省 keep",
+          "duration": 1.715709000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["I6 completeExternalWorldItemUse 残差"],
+          "fullName": "I6 completeExternalWorldItemUse 残差 menuAfterUse close 在成功 outcome 上成形",
+          "status": "passed",
+          "title": "menuAfterUse close 在成功 outcome 上成形",
+          "duration": 0.4298750000000098,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["I6 completeExternalWorldItemUse 残差"],
+          "fullName": "I6 completeExternalWorldItemUse 残差 consuming 扣 1 件：完整 world 结果 = 输入深克隆仅变库存",
+          "status": "passed",
+          "title": "consuming 扣 1 件：完整 world 结果 = 输入深克隆仅变库存",
+          "duration": 0.38408300000000395,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["I6 completeExternalWorldItemUse 残差"],
+          "fullName": "I6 completeExternalWorldItemUse 残差 world 引用合同：consumedByExternal 与不消费都返回原 world 引用",
+          "status": "passed",
+          "title": "world 引用合同：consumedByExternal 与不消费都返回原 world 引用",
+          "duration": 0.7864580000000103,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["I6 completeExternalWorldItemUse 残差", "I6 useItem 兼容壳残差"],
+          "fullName": "I6 completeExternalWorldItemUse 残差 I6 useItem 兼容壳残差 external 物品：不结算不消耗，返回原 world 引用",
+          "status": "passed",
+          "title": "external 物品：不结算不消耗，返回原 world 引用",
+          "duration": 0.4650829999999928,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["I6 completeExternalWorldItemUse 残差", "I6 useItem 兼容壳残差"],
+          "fullName": "I6 completeExternalWorldItemUse 残差 I6 useItem 兼容壳残差 battleOnly 物品经预检失败：原 world 返回",
+          "status": "passed",
+          "title": "battleOnly 物品经预检失败：原 world 返回",
+          "duration": 0.29750000000001364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375765560,
+      "endTime": 1792375765564.2976,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/item.external.background.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["effectiveBattleSpriteId(基础→持久→固定槽位→战中 transient)"],
+          "fullName": "effectiveBattleSpriteId(基础→持久→固定槽位→战中 transient) 后层覆盖前层，装备严格按 EQUIP_SLOT_IDS 而非对象插入顺序",
+          "status": "passed",
+          "title": "后层覆盖前层，装备严格按 EQUIP_SLOT_IDS 而非对象插入顺序",
+          "duration": 0.8286249999999882,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["effectiveBattleSpriteId(基础→持久→固定槽位→战中 transient)"],
+          "fullName": "effectiveBattleSpriteId(基础→持久→固定槽位→战中 transient) 卸装/transient 结束后即时恢复下一层，不回写实例",
+          "status": "passed",
+          "title": "卸装/transient 结束后即时恢复下一层，不回写实例",
+          "duration": 0.1842499999999916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["effectiveBattleSpriteId(基础→持久→固定槽位→战中 transient)"],
+          "fullName": "effectiveBattleSpriteId(基础→持久→固定槽位→战中 transient) 同一装备按角色模板分流；实例 id 不参与匹配，缺映射时回退",
+          "status": "passed",
+          "title": "同一装备按角色模板分流；实例 id 不参与匹配，缺映射时回退",
+          "duration": 0.09029200000000515,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["effectiveBattleSpriteId(基础→持久→固定槽位→战中 transient)"],
+          "fullName": "effectiveBattleSpriteId(基础→持久→固定槽位→战中 transient) 后置装备槽没有当前角色映射时，不抹掉前置槽已命中的形象",
+          "status": "passed",
+          "title": "后置装备槽没有当前角色映射时，不抹掉前置槽已命中的形象",
+          "duration": 0.12337499999998158,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["effectiveResistances(装备 live 派生;红线)"],
+          "fullName": "effectiveResistances(装备 live 派生;红线) 单件 → 对应元素抗;毒抗分离",
+          "status": "passed",
+          "title": "单件 → 对应元素抗;毒抗分离",
+          "duration": 0.11037500000000477,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["effectiveResistances(装备 live 派生;红线)"],
+          "fullName": "effectiveResistances(装备 live 派生;红线) 多件叠加,毒抗与五灵各累;卸装即失效(不烙)",
+          "status": "passed",
+          "title": "多件叠加,毒抗与五灵各累;卸装即失效(不烙)",
+          "duration": 0.07949999999999591,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["effectiveResistances(装备 live 派生;红线)"],
+          "fullName": "effectiveResistances(装备 live 派生;红线) 上限 100(fight.c 累加封顶)",
+          "status": "passed",
+          "title": "上限 100(fight.c 累加封顶)",
+          "duration": 0.14533299999999372,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["effectiveSkills(装备授技 live 派生;红线)"],
+          "fullName": "effectiveSkills(装备授技 live 派生;红线) 已学 ∪ 装备授予,去重保序(学的在前)",
+          "status": "passed",
+          "title": "已学 ∪ 装备授予,去重保序(学的在前)",
+          "duration": 0.2612919999999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["effectiveSkills(装备授技 live 派生;红线)"],
+          "fullName": "effectiveSkills(装备授技 live 派生;红线) 已学含授予技 → 不重复",
+          "status": "passed",
+          "title": "已学含授予技 → 不重复",
+          "duration": 0.33141599999999016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["effectiveSkills(装备授技 live 派生;红线)"],
+          "fullName": "effectiveSkills(装备授技 live 派生;红线) 卸装 → 授予技消失(不烙)",
+          "status": "passed",
+          "title": "卸装 → 授予技消失(不烙)",
+          "duration": 0.08891699999998082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["effectiveRegen(寿葫芦回血回蓝词条;正名替代 level99 伪毒 hack)"],
+          "fullName": "effectiveRegen(寿葫芦回血回蓝词条;正名替代 level99 伪毒 hack) 寿葫芦 → 每回合 +20 HP / +20 MP;卸装即失效(不烙)",
+          "status": "passed",
+          "title": "寿葫芦 → 每回合 +20 HP / +20 MP;卸装即失效(不烙)",
+          "duration": 0.20024999999998272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["effectiveGrantedStatuses / equipGrantsAttackAll(装备特效 live 派生)"],
+          "fullName": "effectiveGrantedStatuses / equipGrantsAttackAll(装备特效 live 派生) 仙女剑 → 授连击 dualAttack;卸装即失效",
+          "status": "passed",
+          "title": "仙女剑 → 授连击 dualAttack;卸装即失效",
+          "duration": 0.08137499999997999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["effectiveGrantedStatuses / equipGrantsAttackAll(装备特效 live 派生)"],
+          "fullName": "effectiveGrantedStatuses / equipGrantsAttackAll(装备特效 live 派生) 长鞭 → 攻击全体;无则否",
+          "status": "passed",
+          "title": "长鞭 → 攻击全体;无则否",
+          "duration": 0.058250000000015234,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["equippableItems"],
+          "fullName": "equippableItems 背包里该角色可装的(equipableBy 命中 + 有 equip 块)",
+          "status": "passed",
+          "title": "背包里该角色可装的(equipableBy 命中 + 有 equip 块)",
+          "duration": 0.0852079999999944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["equippableItems"],
+          "fullName": "equippableItems equipableBy 不含该角色 → 不列",
+          "status": "passed",
+          "title": "equipableBy 不含该角色 → 不列",
+          "duration": 0.035291999999998325,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["equipItem"],
+          "fullName": "equipItem 装 bead → 入 accessory 槽,旧件回包,原 world 不变(不可变)",
+          "status": "passed",
+          "title": "装 bead → 入 accessory 槽,旧件回包,原 world 不变(不可变)",
+          "duration": 0.1339580000000069,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["equipItem"],
+          "fullName": "equipItem 不可装(未知物/非该角色/不在包)→ 原样返回",
+          "status": "passed",
+          "title": "不可装(未知物/非该角色/不在包)→ 原样返回",
+          "duration": 0.04745900000000347,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["usableItems + useItem"],
+          "fullName": "usableItems + useItem usableItems:背包里有 use 能力块的",
+          "status": "passed",
+          "title": "usableItems:背包里有 use 能力块的",
+          "duration": 0.10929199999998218,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["usableItems + useItem"],
+          "fullName": "usableItems + useItem useItem:回 HP 夹上限 + 消耗 -1",
+          "status": "passed",
+          "title": "useItem:回 HP 夹上限 + 消耗 -1",
+          "duration": 0.4136670000000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["usableItems + useItem"],
+          "fullName": "usableItems + useItem useItem:用光 → 出包",
+          "status": "passed",
+          "title": "useItem:用光 → 出包",
+          "duration": 0.047584000000000515,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["usableItems + useItem"],
+          "fullName": "usableItems + useItem useItem:非法(无 use/不在包/未知角色)→ 原样",
+          "status": "passed",
+          "title": "useItem:非法(无 use/不在包/未知角色)→ 原样",
+          "duration": 0.05879099999998516,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["usableItems + useItem"],
+          "fullName": "usableItems + useItem 穿戴中的可用品仍可用(原版 itemmenu.c:穿着灵珠能用):bead 装上后 useItem 不消耗、不报错",
+          "status": "passed",
+          "title": "穿戴中的可用品仍可用(原版 itemmenu.c:穿着灵珠能用):bead 装上后 useItem 不消耗、不报错",
+          "duration": 0.04983300000000668,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome 21 种 effect × world/battle/throw 的消费矩阵完整且唯一",
+          "status": "passed",
+          "title": "21 种 effect × world/battle/throw 的消费矩阵完整且唯一",
+          "duration": 0.44370799999998667,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome 驱魔香、无影毒和金蚕王使用公共 effect；世界执行不回满 HP/MP",
+          "status": "passed",
+          "title": "驱魔香、无影毒和金蚕王使用公共 effect；世界执行不回满 HP/MP",
+          "duration": 0.6525829999999928,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome 有序配方选择第一条充足材料；失败不扣工具或材料",
+          "status": "passed",
+          "title": "有序配方选择第一条充足材料；失败不扣工具或材料",
+          "duration": 0.6583750000000066,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome 材料计数覆盖背包与装备，扣除顺序固定为背包→队伍→槽位",
+          "status": "passed",
+          "title": "材料计数覆盖背包与装备，扣除顺序固定为背包→队伍→槽位",
+          "duration": 0.09962499999997476,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome 资源池 value=+0 按 1..value 掷后封顶",
+          "status": "passed",
+          "title": "资源池 value=+0 按 1..value 掷后封顶",
+          "duration": 0.13074999999997772,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome 资源池 value=1 按 1..value 掷后封顶",
+          "status": "passed",
+          "title": "资源池 value=1 按 1..value 掷后封顶",
+          "duration": 0.132000000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome 资源池 value=9 按 1..value 掷后封顶",
+          "status": "passed",
+          "title": "资源池 value=9 按 1..value 掷后封顶",
+          "duration": 0.0907500000000141,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome 资源池 value=18 按 1..value 掷后封顶",
+          "status": "passed",
+          "title": "资源池 value=18 按 1..value 掷后封顶",
+          "duration": 0.07862499999998818,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome allAllies 不依赖已选角色 id，仍对全队执行",
+          "status": "passed",
+          "title": "allAllies 不依赖已选角色 id，仍对全队执行",
+          "duration": 0.15295900000000984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome 外部脚本只返回待执行请求，content 不伪执行也不提前消耗",
+          "status": "passed",
+          "title": "外部脚本只返回待执行请求，content 不伪执行也不提前消耗",
+          "duration": 0.0759999999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome allAllies 逐个结算；普通回复跳过死亡队员且不会把负数扣成负 HP",
+          "status": "passed",
+          "title": "allAllies 逐个结算；普通回复跳过死亡队员且不会把负数扣成负 HP",
+          "duration": 0.09325000000001182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome '重复施加同一种毒' 不误报世界变化",
+          "status": "passed",
+          "title": "'重复施加同一种毒' 不误报世界变化",
+          "duration": 0.21583400000000097,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome '刷新为相同回合数的状态' 不误报世界变化",
+          "status": "passed",
+          "title": "'刷新为相同回合数的状态' 不误报世界变化",
+          "duration": 0.17758399999999597,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome '已经死亡时再次执行未中毒致死' 不误报世界变化",
+          "status": "passed",
+          "title": "'已经死亡时再次执行未中毒致死' 不误报世界变化",
+          "duration": 0.07933299999999122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · 用途上下文与结构化 world outcome"],
+          "fullName": "C8 · 用途上下文与结构化 world outcome 0x06 概率门严格按 1..100 < N；世界失败保持原 world 且不消耗",
+          "status": "passed",
+          "title": "0x06 概率门严格按 1..100 < N；世界失败保持原 world 且不消耗",
+          "duration": 0.1932909999999879,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "大世界自毒/解毒(useItem applyPoison/curePoison → char.poisons;毒源+携带桥)"
+          ],
+          "fullName": "大世界自毒/解毒(useItem applyPoison/curePoison → char.poisons;毒源+携带桥) 用毒蛇卵 → 队员中赤毒(char.poisons 有 551,带入战斗的源)",
+          "status": "passed",
+          "title": "用毒蛇卵 → 队员中赤毒(char.poisons 有 551,带入战斗的源)",
+          "duration": 0.07045800000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "大世界自毒/解毒(useItem applyPoison/curePoison → char.poisons;毒源+携带桥)"
+          ],
+          "fullName": "大世界自毒/解毒(useItem applyPoison/curePoison → char.poisons;毒源+携带桥) 用糯米(common)→ 解赤毒留三尸蛊(severe)",
+          "status": "passed",
+          "title": "用糯米(common)→ 解赤毒留三尸蛊(severe)",
+          "duration": 0.06729200000000901,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "大世界护体符/金刚符(useItem applyStatus → char.extraStatuses;带入战斗的源)"
+          ],
+          "fullName": "大世界护体符/金刚符(useItem applyStatus → char.extraStatuses;带入战斗的源) 用金刚符 → 队员 extraStatuses 有 protect 7(建态注入战斗的源),消耗 -1",
+          "status": "passed",
+          "title": "用金刚符 → 队员 extraStatuses 有 protect 7(建态注入战斗的源),消耗 -1",
+          "duration": 0.05708400000000324,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "大世界护体符/金刚符(useItem applyStatus → char.extraStatuses;带入战斗的源)"
+          ],
+          "fullName": "大世界护体符/金刚符(useItem applyStatus → char.extraStatuses;带入战斗的源) 已有 protect 再用 → 只保留更长回合(不重复条目);不同状态 → 追加",
+          "status": "passed",
+          "title": "已有 protect 再用 → 只保留更长回合(不重复条目);不同状态 → 追加",
+          "duration": 0.08295799999999076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "大世界护体符/金刚符(useItem applyStatus → char.extraStatuses;带入战斗的源)"
+          ],
+          "fullName": "大世界护体符/金刚符(useItem applyStatus → char.extraStatuses;带入战斗的源) 好状态不被更短回合覆盖，坏状态已有时不刷新",
+          "status": "passed",
+          "title": "好状态不被更短回合覆盖，坏状态已有时不刷新",
+          "duration": 0.05483300000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "大世界护体符/金刚符(useItem applyStatus → char.extraStatuses;带入战斗的源)"
+          ],
+          "fullName": "大世界护体符/金刚符(useItem applyStatus → char.extraStatuses;带入战斗的源) 纯更新不改原 world(输入 extraStatuses 引用不被 mutate)",
+          "status": "passed",
+          "title": "纯更新不改原 world(输入 extraStatuses 引用不被 mutate)",
+          "duration": 0.04162500000001046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "大蒜临时毒抗(useItem extraPoisonRes → char.extraPoisonRes;缩敌附毒门的源)"
+          ],
+          "fullName": "大蒜临时毒抗(useItem extraPoisonRes → char.extraPoisonRes;缩敌附毒门的源) 用大蒜 → extraPoisonRes=30(建态并入战斗 poisonRes 的源),消耗 -1",
+          "status": "passed",
+          "title": "用大蒜 → extraPoisonRes=30(建态并入战斗 poisonRes 的源),消耗 -1",
+          "duration": 0.06729199999998059,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "大蒜临时毒抗(useItem extraPoisonRes → char.extraPoisonRes;缩敌附毒门的源)"
+          ],
+          "fullName": "大蒜临时毒抗(useItem extraPoisonRes → char.extraPoisonRes;缩敌附毒门的源) 已有更高毒抗再用 → 取高不降级",
+          "status": "passed",
+          "title": "已有更高毒抗再用 → 取高不降级",
+          "duration": 0.06162499999999227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["describeEquipEffects(装备效果 → 派生文案:说明脱节的根治,单一真相源)"],
+          "fullName": "describeEquipEffects(装备效果 → 派生文案:说明脱节的根治,单一真相源) 长鞭:数值并排一行 + 攻击全体独占行(原迁移 desc 漏掉的 attackAll,派生补上)",
+          "status": "passed",
+          "title": "长鞭:数值并排一行 + 攻击全体独占行(原迁移 desc 漏掉的 attackAll,派生补上)",
+          "duration": 0.0981660000000204,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["describeEquipEffects(装备效果 → 派生文案:说明脱节的根治,单一真相源)"],
+          "fullName": "describeEquipEffects(装备效果 → 派生文案:说明脱节的根治,单一真相源) 负数保留符号(短刀 身法-5)",
+          "status": "passed",
+          "title": "负数保留符号(短刀 身法-5)",
+          "duration": 0.03387499999999477,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["describeEquipEffects(装备效果 → 派生文案:说明脱节的根治,单一真相源)"],
+          "fullName": "describeEquipEffects(装备效果 → 派生文案:说明脱节的根治,单一真相源) 数值全并一行:上限 + 抗性(避X率带%,照原版灵珠措辞)",
+          "status": "passed",
+          "title": "数值全并一行:上限 + 抗性(避X率带%,照原版灵珠措辞)",
+          "duration": 0.1775829999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["describeEquipEffects(装备效果 → 派生文案:说明脱节的根治,单一真相源)"],
+          "fullName": "describeEquipEffects(装备效果 → 派生文案:说明脱节的根治,单一真相源) 授技能查名(缺 ctx 回退 id);常驻状态 + 回合回复各占一行",
+          "status": "passed",
+          "title": "授技能查名(缺 ctx 回退 id);常驻状态 + 回合回复各占一行",
+          "duration": 0.05866599999998812,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["describeEquipEffects(装备效果 → 派生文案:说明脱节的根治,单一真相源)"],
+          "fullName": "describeEquipEffects(装备效果 → 派生文案:说明脱节的根治,单一真相源) 战斗形象按角色逐行解析名称；缺 resolver 回退稳定 id，空映射不产出文案",
+          "status": "passed",
+          "title": "战斗形象按角色逐行解析名称；缺 resolver 回退稳定 id，空映射不产出文案",
+          "duration": 0.08195900000001188,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["describeEquipEffects(装备效果 → 派生文案:说明脱节的根治,单一真相源)"],
+          "fullName": "describeEquipEffects(装备效果 → 派生文案:说明脱节的根治,单一真相源) 纯剧情装备(无机制效果)→ 空数组",
+          "status": "passed",
+          "title": "纯剧情装备(无机制效果)→ 空数组",
+          "duration": 0.030082999999990534,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375765514,
+      "endTime": 1792375765523.03,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/item.test.ts"
+    }
+  ]
+}

@@ -17,11 +17,13 @@ import {
   makeUiFrames,
   newFb,
   pixel,
+  SENTINEL,
 } from '../../__tests__/glm-phase1-leaves/present-fixtures.js'
-import { getPlayerBasePos } from '../../core/battle/battle-positions.js'
 import type { BattleState } from '../../core/battle/battle-state.js'
 import type { GameState } from '../../core/game-state.js'
 import { createInitialGameState } from '../../core/game-state.js'
+import { createSeedableRng } from '../../core/rng.js'
+import { battleEnemy, enemy } from '../__tests__/grok-composition/fixtures/battle.js'
 import { drawBattleUI } from './draw-battle-ui.js'
 
 function battleState(patch: Partial<BattleState>): BattleState {
@@ -55,13 +57,7 @@ function battleState(patch: Partial<BattleState>): BattleState {
     miscSubMenuCursor: 0,
     expGained: 0,
     cashGained: 0,
-    rng: {
-      next: () => 0,
-      range: () => 0,
-      rangeInclusive: () => 0,
-      rangeFloat: () => 0,
-      getState: () => 0,
-    },
+    rng: createSeedableRng(1),
     phaseStallTicks: 0,
     selectionStartedForTurn: 1,
     selectingPlayerIdx: 0,
@@ -89,32 +85,40 @@ describe('L13 drawBattleUI 剩余分支', () => {
     } finally {
       restore()
     }
-    const anchor = getPlayerBasePos(1, 0)!
-    expect(pixel(fb, anchor.x - 8 + 2, anchor.y - 74)).toBe(CURSOR_ID) // 箭头精灵 (0,0)/(2,0) 双点
+    expect(pixel(fb, 234, 96)).toBe(CURSOR_ID)
+    expect(pixel(fb, 232, 96)).toBe(0)
+    expect(pixel(fb, 233, 96)).toBe(SENTINEL) // 箭头精灵 (0,0)/(2,0) 双点
   })
 
   it("uiState='wait' 或 selectingPlayerIdx 缺省 → 无当前行动箭头", () => {
-    const anchor = getPlayerBasePos(1, 0)!
     for (const patch of [{ uiState: 'wait' as const }, { selectingPlayerIdx: undefined }]) {
       const fb = newFb()
-      const restore = freezeNow(0)
+      const restore = freezeNow(40)
       try {
         drawBattleUI(fb, battleState(patch), makeRoles(), [], [], gsForUi(), undefined, frames)
       } finally {
         restore()
       }
-      expect(pixel(fb, anchor.x - 8 + 2, anchor.y - 74)).not.toBe(CURSOR_ID)
+      expect(Array.from(fb.indices.slice(96 * 320 + 232, 96 * 320 + 235))).toEqual([
+        SENTINEL,
+        SENTINEL,
+        SENTINEL,
+      ])
     }
   })
 
   it('DL30：selectTargetEnemy 不画主菜单图标；selectMove 选中图标全彩', () => {
     const anchor = { x: 27, y: 140 } // MAIN_ICONS[0] 攻击
     const fbTarget = newFb()
-    const restore = freezeNow(0)
+    const restore = freezeNow(40)
     try {
       drawBattleUI(
         fbTarget,
-        battleState({ uiState: 'selectTargetEnemy', uiCursor: 0 }),
+        battleState({
+          uiState: 'selectTargetEnemy',
+          uiCursor: 0,
+          enemies: [battleEnemy(enemy(50))],
+        }),
         makeRoles(),
         [],
         [],
@@ -125,13 +129,14 @@ describe('L13 drawBattleUI 剩余分支', () => {
     } finally {
       restore()
     }
-    expect(pixel(fbTarget, anchor.x + 3, anchor.y + 3)).not.toBe(BATTLE_ICON_COLOR)
+    expect(pixel(fbTarget, anchor.x + 3, anchor.y + 3)).toBe(SENTINEL)
 
     const fbMove = newFb()
+    const restoreMove = freezeNow(40)
     try {
       drawBattleUI(fbMove, battleState({}), makeRoles(), [], [], gsForUi(), undefined, frames)
     } finally {
-      restore()
+      restoreMove()
     }
     // selectedAction=0 → 攻击图标全彩 0x33
     expect(pixel(fbMove, anchor.x + 3, anchor.y + 3)).toBe(BATTLE_ICON_COLOR)

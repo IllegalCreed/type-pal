@@ -1,0 +1,149 @@
+{
+  "approval": {
+    "file": "packages/pal-extract/src/events/annotate.test.ts",
+    "previous": 9,
+    "current": 6,
+    "previousIdentityDigest": "a209db9c0916cd71bcd4b6890576e6ad6f7e6ef234cf9e2fe540f37f2457812f",
+    "currentIdentityDigest": "d6cf3075334ed29bb5cc2e924d93771383fc3b4965f347d3208e1be6d689c62d",
+    "fileSha256": "3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d"
+  },
+  "previousSnapshots": [
+    {
+      "ref": "HEAD",
+      "fileSha256": "11ce77b9d69c1afd8384a7be3945e795b87520135524de6073c1bea278196a1d",
+      "previous": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "testCount": 9,
+        "identityDigest": "a209db9c0916cd71bcd4b6890576e6ad6f7e6ef234cf9e2fe540f37f2457812f"
+      }
+    },
+    {
+      "ref": "origin/main",
+      "fileSha256": "11ce77b9d69c1afd8384a7be3945e795b87520135524de6073c1bea278196a1d",
+      "previous": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "testCount": 9,
+        "identityDigest": "a209db9c0916cd71bcd4b6890576e6ad6f7e6ef234cf9e2fe540f37f2457812f"
+      }
+    },
+    {
+      "ref": "d4cf7f57d",
+      "fileSha256": "11ce77b9d69c1afd8384a7be3945e795b87520135524de6073c1bea278196a1d",
+      "previous": {
+        "file": "packages/pal-extract/src/events/annotate.test.ts",
+        "testCount": 9,
+        "identityDigest": "a209db9c0916cd71bcd4b6890576e6ad6f7e6ef234cf9e2fe540f37f2457812f"
+      }
+    }
+  ],
+  "native": {
+    "before": {
+      "identities": [
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate choice 递归与 if 无 else > choice：每个 option.then 内命令被递归注释，raw 选项原样",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate choice 递归与 if 无 else > if 无 else：else 键存在且为 undefined（不抛错）",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate wordAt 邻位边界（经合法 itemId 路径） > id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate wordAt 邻位边界（经合法 itemId 路径） > id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate wordAt 邻位边界（经合法 itemId 路径） > id=ITEM_OBJ_START+1 命中表[1]；symbols 同 id 覆盖优先",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate 输入零突变 > 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: symbols sidecar 输入合同 > null/数组/未知字段/非字符串值显式失败",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: symbols sidecar 输入合同 > 合法映射保留；空对象合法",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > giveItem 加 _item 注释(wObjectID 63 → index 2)",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > if 命令递归 then/else",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > off-by-61 回归:itemId 当 0-based 索引会取错值,必须减偏移",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > raw 命令不注释",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > symbols.json 优先于 WORD.DAT",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > 未找到名称时不添加注释键(wObjectID 越界)",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > 结构化命令 sequence 递归"
+      ],
+      "fileEntries": [
+        {
+          "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+          "testCount": 8,
+          "identityDigest": "726060699d110730b5b93e16a06b8aff18ea99622bd3e5e1c3ff27647f4ebaaf"
+        },
+        {
+          "file": "packages/pal-extract/src/events/annotate.test.ts",
+          "testCount": 9,
+          "identityDigest": "a209db9c0916cd71bcd4b6890576e6ad6f7e6ef234cf9e2fe540f37f2457812f"
+        }
+      ]
+    },
+    "after": {
+      "identities": [
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate choice 递归与 if 无 else > choice：每个 option.then 内命令被递归注释，raw 选项原样",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate choice 递归与 if 无 else > if 无 else：保留条件并递归注释 then",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate 词表缺名边界 > id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate 词表缺名边界 > id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate 输入零突变 > 输入命令数组与对象注释前后逐字段相等（纯映射产出新对象）",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: symbols sidecar 输入合同 > symbols 表值必须是字符串并给出键路径",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: symbols sidecar 输入合同 > symbols 顶层必须是对象",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: symbols sidecar 输入合同 > 各 symbols 表必须是对象映射",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: symbols sidecar 输入合同 > 合法映射保留；空对象合法",
+        "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: symbols sidecar 输入合同 > 拒绝未知 symbols 表名并给出路径",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > giveItem 加 _item 注释(wObjectID 63 → index 2)",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > if 命令递归 then/else",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > symbols.json 优先于 WORD.DAT",
+        "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > 结构化命令 sequence 递归"
+      ],
+      "fileEntries": [
+        {
+          "file": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+          "testCount": 10,
+          "identityDigest": "3e779fa4b1f09eb36c68b2b983c4ee5cc2dddd62a2f2c69648c5319bd69afeb8"
+        },
+        {
+          "file": "packages/pal-extract/src/events/annotate.test.ts",
+          "testCount": 6,
+          "identityDigest": "d6cf3075334ed29bb5cc2e924d93771383fc3b4965f347d3208e1be6d689c62d"
+        }
+      ]
+    }
+  },
+  "removedIdentities": [
+    "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate choice 递归与 if 无 else > if 无 else：else 键存在且为 undefined（不抛错）",
+    "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate wordAt 邻位边界（经合法 itemId 路径） > id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+    "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate wordAt 邻位边界（经合法 itemId 路径） > id=ITEM_OBJ_START+1 命中表[1]；symbols 同 id 覆盖优先",
+    "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate wordAt 邻位边界（经合法 itemId 路径） > id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+    "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: symbols sidecar 输入合同 > null/数组/未知字段/非字符串值显式失败",
+    "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > off-by-61 回归:itemId 当 0-based 索引会取错值,必须减偏移",
+    "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > raw 命令不注释",
+    "packages/pal-extract/src/events/annotate.test.ts :: project root :: annotate > 未找到名称时不添加注释键(wObjectID 越界)"
+  ],
+  "addedIdentities": [
+    "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate choice 递归与 if 无 else > if 无 else：保留条件并递归注释 then",
+    "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate 词表缺名边界 > id=ITEM_OBJ_START 落空词表首 → 不注释（空串 || undefined）",
+    "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: R06 annotate 词表缺名边界 > id=ITEM_OBJ_START-1 → idx=-1 拒绝；id 恰出表尾 → idx=length 拒绝",
+    "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: symbols sidecar 输入合同 > symbols 表值必须是字符串并给出键路径",
+    "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: symbols sidecar 输入合同 > symbols 顶层必须是对象",
+    "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: symbols sidecar 输入合同 > 各 symbols 表必须是对象映射",
+    "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts :: project root :: symbols sidecar 输入合同 > 拒绝未知 symbols 表名并给出路径"
+  ],
+  "input": {
+    "removal": {
+      "kind": "test-count",
+      "value": "packages/pal-extract/src/events/annotate.test.ts",
+      "previous": 9,
+      "current": 6
+    },
+    "previous": {
+      "file": "packages/pal-extract/src/events/annotate.test.ts",
+      "testCount": 9,
+      "identityDigest": "a209db9c0916cd71bcd4b6890576e6ad6f7e6ef234cf9e2fe540f37f2457812f"
+    },
+    "current": {
+      "file": "packages/pal-extract/src/events/annotate.test.ts",
+      "testCount": 6,
+      "identityDigest": "d6cf3075334ed29bb5cc2e924d93771383fc3b4965f347d3208e1be6d689c62d"
+    },
+    "fileSha256": "3b9e4ee25e88f59523ce87daa23ee6ac627fcdb1669b7a09557452fc3e89093d"
+  },
+  "rejectedBeforeRegistration": true,
+  "acceptedAfterRegistration": true,
+  "byteDriftRejected": true,
+  "extraRemovalRejected": true,
+  "matcherUnchanged": true
+}

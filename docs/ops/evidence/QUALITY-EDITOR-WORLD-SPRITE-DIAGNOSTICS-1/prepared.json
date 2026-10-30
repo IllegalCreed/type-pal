@@ -1,0 +1,31 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/editor",
+    "exec",
+    "vitest",
+    "run",
+    "src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+    "src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-c07-prepared.json",
+    "--silent=false"
+  ],
+  "cwd": "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-c07-work-_oqz68d5",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "seconds": 10.13,
+  "bytes": 5217,
+  "sha256": "850b30497c2ef890882438e3ae2b6242acb15d694a2608212516bdc80ba8ba8a",
+  "testsSha256": "07b2b08d57db86646568d8ef80d481bd75ed96a53eaa0bc1f788ba4fc3f4edd6",
+  "passed": 7,
+  "failed": 2,
+  "pending": 0,
+  "unwrappedAct": 0,
+  "unsupportedActEnvironment": 0,
+  "navigation": 0
+}

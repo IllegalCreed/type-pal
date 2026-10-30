@@ -11,10 +11,12 @@ import {
   parseBattleSimulatorLibrary,
   resolveBattleSimulatorPlan,
 } from '../../editor/src/core/battle-simulator-library.js'
+import { installShellAudioHost } from '../src/__tests__/runtime-shell/audio-host.js'
 import { prepareBattleSpriteReadiness } from '../src/battle/battle-sprite-readiness.js'
 import { runBattleTrial } from '../src/battle-trial-host.js'
 
 const probes = vi.hoisted(() => ({ prepare: vi.fn(), store: vi.fn() }))
+let audio: ReturnType<typeof installShellAudioHost>
 vi.mock('../src/battle-trial-assets.js', async (original) => ({
   ...(await original<typeof import('../src/battle-trial-assets.js')>()),
   prepareBattleTrialAssets: probes.prepare,
@@ -35,6 +37,7 @@ vi.mock('../src/save/store.js', () => ({
 }))
 beforeEach(() => {
   vi.clearAllMocks()
+  audio = installShellAudioHost()
   vi.stubGlobal('crypto', webcrypto)
   vi.stubGlobal('Blob', StreamBlob)
   vi.stubGlobal(
@@ -54,6 +57,7 @@ beforeEach(() => {
 })
 afterEach(() => {
   window.dispatchEvent(new Event('pagehide'))
+  audio.close()
   document.body.innerHTML = ''
   vi.restoreAllMocks()
   vi.unstubAllGlobals()

@@ -1,6 +1,7 @@
 /**
  * C7(2026-05-29):大世界 magic script 同步 runner —
- * sdlpal `uigame.c:740-861` PAL_RunTriggerScript(scriptOnUse / scriptOnSuccess) 1:1 port。
+ * 按 sdlpal uigame.c 的施法调用顺序消费 scriptOnUse / scriptOnSuccess;
+ * 本模块只实现已核大世界法术链所需的同步子集,不是完整脚本解释器。
  *
  * **outside-battle spell 真值实测**(7 个 spell scriptOnSuccess chain 全 opcode hist):
  *  - 0x1B (27) `OP_INCREASE_HP` × 5 次:气疗术 / 观音咒 / 凝神归元 / 元灵归心术 / 五气朝元
@@ -21,16 +22,16 @@
  * 但本 runner 通用支持 scriptOnUse 非零情况(battle-only spell 真值 chain 含其它 opcode,
  * 但 battle ctx 由 runScript / dispatchBattleOpcode 处理,本 runner 仅大世界用)。
  *
- * sdlpal `g_fScriptSuccess` 真值由特定 opcode 设(eg 0x9C condition check)— outside spell
- * chain 不 hit 这些 opcode,我们 always success=true(等价 sdlpal 默认行为)。
+ * scriptSuccess 默认 true,HP/MP与复活分支按各自规则更新;入口或跳转无效、
+ * 越界或达到步数上限时返回false。menu-driver仅在成功后扣MP,本runner不扣成本。
  */
 
 import type { Spell } from '@type-pal/shared'
 import type { GameState } from '../game-state.js'
+import { getMagicScriptEntry, setMagicScriptEntry } from '../object-script-state.js'
 import { curePlayerPoisonByLevel } from '../player-poison-state.js'
 import { getGlobalCommands, getGlobalLabelMap } from '../script-catalog.js'
 
-const MAX_PLAYER_ROLES = 6
 const SCRIPT_TICK_LIMIT = 256
 
 /** SHORT signed 16-bit cast(sdlpal `(SHORT)operand[N]` 真值)。 */
@@ -81,10 +82,11 @@ function applyHPMPDeltaAll(gs: GameState, hpDelta: number, mpDelta: number): boo
 
 // ── opcode 0x22 OP_REVIVE_PLAYER 真值(sdlpal script.c:1052-1102)────────────
 //
-// HP==0 时复活 HP=maxHP*operand[1]/10 + cure poison level <= 3 + clear all status。
+// HP==0 时复活 HP=maxHP*operand[1]/10 + cure poison level <= 3;
+// 状态只清<=999,保留>999装备授予效果(global.c::PAL_RemovePlayerStatus)。
 // applyToAll=operand[0]。
 //
-// **关键真值**(sdlpal script.c:1099 / 1077):无活 target 复活时设
+// **关键真值**(sdlpal script.c:1099 / 1077):没有目标实际复活时设
 // `g_fScriptSuccess = FALSE` — 上层 uigame.c:818-822 `if (g_fScriptSuccess) MP -=`
 // 不扣 MP。即:战斗外用还魂咒选活人 / 全队都活时,ts 端也应不扣 MP。
 //
@@ -95,6 +97,10 @@ function revivePlayerSingle(gs: GameState, roleId: number, ratioTenths: number):
   if (cur === 0) {
     gs.PlayerRolesRuntime.rgwHP[roleId] = Math.floor((maxHP * ratioTenths) / 10)
     curePlayerPoisonByLevel(gs, roleId, 3)
+    const statuses = gs.rgPlayerStatus[roleId]
+    if (statuses)
+      for (let index = 0; index < statuses.length; index++)
+        if ((statuses[index] ?? 0) <= 999) statuses[index] = 0
     return true
   }
   return false
@@ -122,13 +128,21 @@ export function runMagicScriptSync(
   scriptId: number,
   targetRoleIdOrAll: number,
 ): boolean {
-  if (scriptId === 0) return true // sdlpal 真值:scriptOnUse=0 视为 success (skip)
+  return runMagicScriptWithEntry(gs, scriptId, targetRoleIdOrAll).success
+}
+
+function runMagicScriptWithEntry(
+  gs: GameState,
+  scriptId: number,
+  targetRoleIdOrAll: number,
+): { success: boolean; nextEntry: number } {
+  if (scriptId === 0) return { success: true, nextEntry: 0 } // sdlpal 真值:scriptOnUse=0 视为 success (skip)
   // P2#5:法术脚本是全局 entry → 全局数组 + 全局 labelMap(identity)。
   const labelMap = getGlobalLabelMap()
   const ip0 = labelMap[`L_${scriptId}`]
   if (ip0 === undefined) {
     console.warn(`runMagicScriptSync: L_${scriptId} 不在全局 labelMap`)
-    return false
+    return { success: false, nextEntry: scriptId }
   }
   const cmds = getGlobalCommands()
   let ip = ip0
@@ -140,16 +154,23 @@ export function runMagicScriptSync(
   while (step++ < SCRIPT_TICK_LIMIT) {
     if (ip < 0 || ip >= cmds.length) {
       console.warn(`runMagicScriptSync: ip ${ip} 越界`)
-      return false
+      return { success: false, nextEntry: scriptId }
     }
     const cmd = cmds[ip]!
 
-    if (cmd.op === 'end') return scriptSuccess
+    if (cmd.op === 'end') {
+      const nextEntry = cmd.advance
+        ? ip + 1
+        : cmd.reset && cmd.resetTo !== undefined
+          ? (labelMap[`L_${cmd.resetTo}`] ?? scriptId)
+          : scriptId
+      return { success: scriptSuccess, nextEntry }
+    }
     if (cmd.op === 'goto') {
       const t = labelMap[cmd.to]
       if (t === undefined) {
         console.warn(`runMagicScriptSync: goto label ${cmd.to} 不在 labelMap`)
-        return false
+        return { success: false, nextEntry: scriptId }
       }
       ip = t
       continue
@@ -161,7 +182,7 @@ export function runMagicScriptSync(
       continue
     }
 
-    const [a, b, _c] = cmd.operands as [number, number, number]
+    const [a, b, _c] = cmd.operands
     const applyAll = (a ?? 0) !== 0
     const delta = signExtendI16(b ?? 0)
 
@@ -198,7 +219,7 @@ export function runMagicScriptSync(
         // OP_REVIVE_PLAYER — sdlpal script.c:1052-1102
         // operand[0]=applyToAll,operand[1]=ratio*10 (1=10%, 10=100%)
         //
-        // **关键真值**(sdlpal script.c:1099 / 1077):无活 target 复活时设
+        // **关键真值**(sdlpal script.c:1099 / 1077):没有目标实际复活时设
         // `g_fScriptSuccess = FALSE` — 上层 uigame.c:818-822 `if (g_fScriptSuccess)`
         // 不扣 MP。即:战斗外用还魂咒选活人 → 不扣 MP(user 2026-05-29 提醒:
         // BattleWon 已 auto-revive 半 HP,大世界几乎无死人)。
@@ -213,20 +234,20 @@ export function runMagicScriptSync(
       }
       default:
       // 其它 opcode(eg 0x17 等装备 effect、0x19/0x1A 等永久 stat 改)
-      // outside-battle spell 真值实测不 hit 这些;log skip
+      // 当前同步法术子集不消费这些 raw opcode，保持既有静默跳过策略。
     }
 
     ip++
   }
   console.warn(`runMagicScriptSync: SCRIPT_TICK_LIMIT 超出 — 死循环?`)
-  return false
+  return { success: false, nextEntry: scriptId }
 }
 
 /**
- * 跑完整 magic cast 流程(sdlpal uigame.c:740-873 真值)。
+ * 跑施法的两个同步脚本阶段;选择目标/检查MP/扣成本由menu-driver持有。
  * - scriptOnUse(=0 时 skip)
  * - success → scriptOnSuccess
- * - success → caster.MP -= costMP(由 caller 检 MP 是否 >= costMP 再调)
+ * - 返回success后由caller扣MP,再更新法术列表/目标picker
  *
  * @returns success — caller 据此决定是否扣 MP + 是否退 picker(MP 不足)
  */
@@ -241,14 +262,14 @@ export function castOverworldMagic(
   void casterRoleId
 
   // 1. scriptOnUse(可能 = 0,runMagicScriptSync 直接 return true skip)
-  const sidUse = (spell as { scriptOnUse?: number }).scriptOnUse ?? 0
-  const useOk = runMagicScriptSync(gs, sidUse, targetIdOrAll)
-  if (!useOk) return false
+  const sidUse = getMagicScriptEntry(gs, spell, 'scriptOnUse')
+  const use = runMagicScriptWithEntry(gs, sidUse, targetIdOrAll)
+  setMagicScriptEntry(gs, spell, 'scriptOnUse', use.nextEntry)
+  if (!use.success) return false
 
   // 2. scriptOnSuccess
-  const sidSuccess = (spell as { scriptOnSuccess?: number }).scriptOnSuccess ?? 0
-  return runMagicScriptSync(gs, sidSuccess, targetIdOrAll)
+  const sidSuccess = getMagicScriptEntry(gs, spell, 'scriptOnSuccess')
+  const success = runMagicScriptWithEntry(gs, sidSuccess, targetIdOrAll)
+  setMagicScriptEntry(gs, spell, 'scriptOnSuccess', success.nextEntry)
+  return success.success
 }
-
-// roleId max check helper(防越界)
-void MAX_PLAYER_ROLES

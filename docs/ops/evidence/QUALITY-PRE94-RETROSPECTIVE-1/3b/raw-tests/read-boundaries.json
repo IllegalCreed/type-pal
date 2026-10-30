@@ -1,0 +1,68 @@
+{
+  "baseCommit": "3a9f47043587bf388bfe4199b5d3c435eecd9623",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/io/sss.test.ts",
+      "method": "full-text current file authored and inspected",
+      "sha256": "34207e32602a42b6d2390e7a11e9cf78e44341555f2e3db9376008383fac254f",
+      "lines": 73,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.test.ts",
+      "method": "full-text current file authored and inspected",
+      "sha256": "564ffa152841040b412826e238291103fa69756e6cef236557776cfeb24d4816",
+      "lines": 42,
+      "wholeFileAccepted": false
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.ts",
+      "method": "parent 3b full-text read, unchanged current SHA",
+      "sha256": "1ad89125c37973426ba0a046ce7be74376ad404430f729bb91e372cf6c4dec46",
+      "lines": 211,
+      "wholeFileAccepted": false,
+      "priorEvidence": "../read-boundaries.json"
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.ts",
+      "method": "parent 3b full-text read, unchanged current SHA",
+      "sha256": "19e388664b8bd602d1b94e6bfe72de00beb8f1fd7f7df476e89a57e8495edc0a",
+      "lines": 30,
+      "wholeFileAccepted": false,
+      "priorEvidence": "../read-boundaries.json"
+    },
+    {
+      "path": "packages/pal-extract/src/utils/gbk.ts",
+      "method": "parent 3b full-text read, unchanged current SHA",
+      "sha256": "67d6c4d73113aef34f85e608d112c9c64b51d2f4a624919eef7f139f475fa3dd",
+      "lines": 98,
+      "wholeFileAccepted": false,
+      "priorEvidence": "../read-boundaries.json"
+    },
+    {
+      "path": "packages/pal-extract/src/events/roundtrip.ts",
+      "method": "parent 3b full-text read, unchanged current SHA",
+      "sha256": "06e63ab104777ec60a1317d5f9170f9911ccae45d580ec170c337c951c660906",
+      "lines": 58,
+      "wholeFileAccepted": false,
+      "priorEvidence": "../read-boundaries.json"
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.boundaries.test.ts",
+      "method": "parent 3b full-text read, unchanged current SHA",
+      "sha256": "8c0beace34fb5233805f291a9a86269690a4588149d376adb91094496bb4b215",
+      "lines": 154,
+      "wholeFileAccepted": false,
+      "priorEvidence": "../read-boundaries.json"
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.boundaries.test.ts",
+      "method": "parent 3b full-text read, unchanged current SHA",
+      "sha256": "fcdce8e656c2fb289e79a5f0181043885304111de80e0d36d3eb18bc5e41721f",
+      "lines": 51,
+      "wholeFileAccepted": false,
+      "priorEvidence": "../read-boundaries.json"
+    }
+  ],
+  "primary": "SDL global.h 95-121/239-243 and raw SSS/M.MSG; parent exact ranges retained. Python struct/strict GBK are independent read-only models. No full text/fixup/native claim."
+}

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "base": "d3f59cadd3389693e600f06a43d32ccebff68f6c",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/shared/src/rle.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "283ad614c5ed426b79750a77433a0e93119321aea285890af6df5ce9d5a1f569",
+        "current": "283ad614c5ed426b79750a77433a0e93119321aea285890af6df5ce9d5a1f569"
+      },
+      "printedBytes": {
+        "base": 8676,
+        "current": 8676
+      },
+      "printedEqual": true,
+      "firstDifferenceOffset": null
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "titleCallCount": {
+        "base": 29,
+        "current": 29
+      },
+      "printedSha256": {
+        "base": "d48590b1c4f0f5bd5e42a37d0b7a600342b41cd21a5c6311531ac577a20525e3",
+        "current": "d48590b1c4f0f5bd5e42a37d0b7a600342b41cd21a5c6311531ac577a20525e3"
+      },
+      "printedBytes": {
+        "base": 9000,
+        "current": 9000
+      },
+      "printedEqual": true,
+      "firstDifferenceOffset": null
+    },
+    {
+      "file": "packages/shared/src/rle.boundaries.test.ts",
+      "titleCallCount": {
+        "base": 9,
+        "current": 9
+      },
+      "printedSha256": {
+        "base": "947d9278a6c763254d13e658c3e984f0ae96b700ee85d5587c7cbc32d09109b6",
+        "current": "947d9278a6c763254d13e658c3e984f0ae96b700ee85d5587c7cbc32d09109b6"
+      },
+      "printedBytes": {
+        "base": 4699,
+        "current": 4699
+      },
+      "printedEqual": true,
+      "firstDifferenceOffset": null
+    }
+  ],
+  "allEqual": true
+}

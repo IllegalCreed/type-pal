@@ -1,0 +1,724 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "owner": "Codex single agent",
+  "base": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+  "status": "accepted specified experience guard/progression contracts; final document statics before integration",
+  "approval": {
+    "source": "Direct user reply in current conversation",
+    "text": "按 WORD 范围拒绝异常余数（推荐）",
+    "policy": "Eight V1 saved wExp rows,all6role slots: integer0..65535; reject before Save write. No award/stat/schema/DB/RNG or other numeric-policy change."
+  },
+  "pins": [
+    {
+      "path": "packages/game/src/core/save/v1.ts",
+      "sha256": "92d908ac942928390a6db0229b666f8291b5a8e8a97a5df07871d37054869d2b"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.test.ts",
+      "sha256": "50e69083b4380cea6c57abbc6704c780b76df06d37a1da74a63c564e3898f812"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "d7a3c1253d4a93fd6b1ae993371b15d4cc231f389b447de5a65934f5e8dc8f27"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "sha256": "136e3b6867ca82b1a1b53dfb233f2bec829dbf25e6213a9b57b4fe04be481d7a"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+      "sha256": "0590f0197bbe19f04fa9b4a5fc0aa520d686f5d3b9f60c495d5211c7b4d2d168"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/data-misc.ts",
+      "sha256": "bae489b9c04bc8a4ec85d82419b0b08694c25dfdfdb8a9afdd389a1de5bab5f2"
+    },
+    {
+      "path": "packages/game/src/core/save/v1-shape.ts",
+      "sha256": "2cb8ff34ad1336241f87d1867d9b30808f8e24f4da0614c790be72c23caaffa9"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "sha256": "b85ce8d4efb0d6e21e53d87986a90d3a7b523208b073e1de8abf1a0c7396182b"
+    },
+    {
+      "path": "packages/game/src/core/save/data.ts",
+      "sha256": "3f12a4c005494bc30d3d24b963d8a342bacf888d3762f34c5a196b80d1dae1af"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "cfe38ef22a36301e06f24ddf76551eeb3c3d05c82a3cbe66cd6876dbeda14ba0"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "2ecb4527339d1199714dad76730254c02ddc7054e962e4659645d4990647aded"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "8de02e1ed153bc067feb91b6ef6b26859dc1ff77e8ffc325a71832cbad4c7cd8"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "e046f2c9fc21fb9c229c33041f47a487536b6f1a7bc1fb42644d4051e567d5a9"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311"
+    }
+  ],
+  "files": [
+    {
+      "path": "packages/game/src/core/save/v1.ts",
+      "A": "完整96字段与历史V1守卫复用save-v1-local；新增八池同一经验行的0..65535整数守卫，先于Save写入。没有数值转换。",
+      "B": "局部注释区分保存的经验余数、本场奖励和永久属性，不冒称SDLPal定义JSON政策。",
+      "C": "纯输入守卫；IO/槽位归Save所有，结算归battle-progression所有。没有跨层调用或全局状态。",
+      "D": "八池共享既有experienceRow，仅新增本模块私有标量谓词；不扩大通用number或角色/金额值域。",
+      "E": "新1个实际Save拒绝合同覆盖八池/六role与四种坏数；另1例覆盖全部行合法端点，原历史/结构测试保留。",
+      "F": "experienceRemainder命名显式，布尔合取直接表达合法域。",
+      "G": "不新增公共出口/模式参数/兼容路径；正常只遍历一次，失败诊断沿原invalidSaveField。",
+      "H": "unknown输入到type guard可直接定向测试，无时钟/随机/IO依赖。"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.test.ts",
+      "A": "全文核29例；两新增例均由真实构造器/serializer到parser；坏输入接真实独立内存Save，原槽和预览是业务oracle。",
+      "B": "沿用历史fixture只证明编码合同/不冒称剧情hydrate的注释；两新增标题准确。",
+      "C": "只改本文件测试，无新产品seam；Save内存由afterEach清理，全局indexedDB stub对称恢复。",
+      "D": "八条损坏表项各核一条经验池绑定；共享数据合同，不复制八份测试主体。与cash/HP结构测试不是重复数值域。",
+      "E": "旧实现28绿1指定测试红：八个reject断言失败且原槽被覆盖；修复29绿。独立字面端点与属性65536保留；无删除/skip/only/弱化。",
+      "F": "标题/表项给出pool,role,value；soft断言保留每条失败身份，而非只命中首池。",
+      "G": "仅两新增测试，一条拒绝合同与一条端点保留合同；未以覆盖率增加弱例。",
+      "H": "真实内存Save确定性隔离；不用mock次数代替槽位结果，不访问用户IndexedDB。"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "A": "全文307+新增说明；原battle-quality原生C/真实won证据、用户KEEP裁决复用。只删私有helper零法术守卫：唯一caller已continue magic0。所有结算循环/奖励/RNG/字段赋值不变。",
+      "B": "已有C锚/主升级999与隐藏增长区别保持；新增WORD属性偏离与经验WORD回写区别，防止再次混同。",
+      "C": "纯成长与DTO输出，无IO；base数值仍唯一写PlayerRolesRuntime，装备有效快照通过owner getters；无反向解释器依赖。",
+      "D": "HIDDEN_EXP_POOLS共享七池字段/展示映射，主升级与隐藏升级语义不同不合并；加法术私有helper保持局部。",
+      "E": "主升级11与H02五例逐例核；七池映射/合法动作计数、RNG全序和主升级恢复条件的旧有效反控按同字节复用；新输入停止线已由获准守卫修复，重门仍待收尾。",
+      "F": "分配/主升级/学法术职责可区分；大函数按业务顺序读取，不为复杂度数字拆上下文万能helper。",
+      "G": "删除唯一caller已排除的spellObjId===0冗余条件；负role守卫保留原公开number输入的拒绝策略，不增加新政策。source/JS差异和唯一caller在可执行proof。",
+      "H": "RNG与阈值/法术表显式注入，输入输出可直接测；无需公开私有helper。"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "A": "全文五例核合法typed lifecycle；120级是标明的防御边界，后两例真实hydrate后普攻Health2/Attack1，所有抽样在各range内。",
+      "B": "七池/无身法动作计数/存留经验/HP条件注释与当前caller一致；旧5例数量未膨胀。",
+      "C": "fixture负责构造；只通过公开成长函数观察runtime/DTO，无私有状态改写seam。",
+      "D": "七池用一例验证映射/顺序，各满级/999/回满轴语义不同；与主11例不强行合并。",
+      "E": "旧额外一抽和Defense/Dex交换指定单红原件复用；结果role等级已独立断言1/1，删除随后的fromLevel==toLevel自比重复断言，保留所有业务合同。",
+      "F": "命名区分有无主升级，字面oracle解释精确余数与增长。",
+      "G": "删1条被前一字面toMatchObject完全蕴含的自比，五个测试身份不变，无退役。",
+      "H": "确定rng并核全部calls，fixture局部、无模块级可变状态/真实时间。"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+      "A": "全文11例核；rng0只给主升级六类闭区间[0,n]，该fixture隐藏counts全0，未用于R(1,2)。稀疏/缺省表是显式防御输入。",
+      "B": "投影case明确只调公开投影而非下一战开战；真实表前缀与角色法术独立原盘源沿既有证据复用。",
+      "C": "局部makeGs负责runtime起点，函数直接输入，不假造battle ownership或扩展产品API。",
+      "D": "同一factory复用，不与H02不同隐藏计数生命周期合并。主/hidden轴保持分工。",
+      "E": "升级/不足/多级/死亡/学法术/去重/满级/cap/缺表/投影/原盘表11合同；固定数值业务oracle，不以mock次数代替。未修改断言。",
+      "F": "fixture参数给出实际角色起点，精确期望值解释增长来源。",
+      "G": "helper和表只服务真实case，没有新增死参数/导出；保留合法边界，不为覆盖率补私有实现镜像。",
+      "H": "随机与表显式控制，真实GameState构造器与typed角色工厂，没有强转或全局timer。"
+    }
+  ],
+  "reading": {
+    "full": [
+      "packages/game/src/core/save/v1.ts",
+      "packages/game/src/tools/save-io.test.ts",
+      "packages/game/src/core/battle/battle-progression.ts",
+      "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+      "packages/pal-extract/src/resources/parsers/data-misc.ts",
+      "packages/game/src/core/save/v1-shape.ts",
+      "packages/game/src/core/save/api.ts",
+      "packages/game/src/core/save/data.ts",
+      "packages/game/src/tools/save-io.ts",
+      "packages/game/src/core/battle/battle-settlement.ts",
+      "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts"
+    ],
+    "contextOnly": [
+      {
+        "path": "packages/game/src/tools/tools-panel.ts",
+        "range": "720-759 actual FileReader/parser/saveSlot error boundary; no whole-file acceptance"
+      },
+      {
+        "path": "packages/game/src/shell/bootstrap.ts",
+        "range": "1629-1715 loaded state restoration; no whole-file acceptance"
+      },
+      {
+        "path": "reference/sdlpal/global.h",
+        "range": "475-493 WORD EXPERIENCE; reference only; JSON bound from direct user policy"
+      }
+    ]
+  },
+  "reused": [
+    "save-v1-local.json historical shape/type/native FileReader+IDB evidence: unchanged caller; new experience policy separately proved here, no fresh browser claim",
+    "battle-quality/review.json actual table/typed fixture/counter/WORD stat KEEP evidence; source delta limited by progression-refactor-final-proof",
+    "core-comment-audit/poison-progression-comments: extra RNG consumption business-red proof unchanged test contract"
+  ],
+  "runs": [
+    {
+      "id": "exp-domain-red",
+      "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/tools/save-io.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/exp-domain-red.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T03:31:18.927Z",
+      "end": "2026-10-22T03:31:20.447Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "exp-domain-red.stdout.raw",
+        "bytes": 2658,
+        "sha256": "5d26be02efd6935bd1062cb3bdf50f42ea62ee9c429f6124f64422012e8578a9"
+      },
+      "stderr": {
+        "member": "exp-domain-red.stderr.raw",
+        "bytes": 2789,
+        "sha256": "a072eb1a577245323a609fd1416f806f87c8171fcdeb577a96efd1c6c2e7608b"
+      }
+    },
+    {
+      "id": "exp-domain-green",
+      "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/tools/save-io.test.ts",
+        "src/core/save/api.test.ts",
+        "src/tools/quick-save.test.ts",
+        "src/core/battle/battle-levelup.test.ts",
+        "src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/exp-domain-green.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T03:31:38.499Z",
+      "end": "2026-10-22T03:31:39.804Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "exp-domain-green.stdout.raw",
+        "bytes": 580,
+        "sha256": "61978bb236873784c93a19ae24fe224f2c93f31c34f2a3d97925a8e07e2f9112"
+      },
+      "stderr": {
+        "member": "exp-domain-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "exp-domain-adjacent",
+      "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/tools/save-io.test.ts",
+        "src/core/save/__tests__/api.test.ts",
+        "src/core/save/__tests__/indexed-db.test.ts",
+        "src/tools/quick-save.test.ts",
+        "src/core/battle/__tests__/battle-levelup.test.ts",
+        "src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/exp-domain-adjacent.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T03:32:18.515Z",
+      "end": "2026-10-22T03:32:20.210Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "exp-domain-adjacent.stdout.raw",
+        "bytes": 772,
+        "sha256": "8cd004a3c898142af96b313f3dc5d5fc978cd37397a5d69ea76b788da712e7d7"
+      },
+      "stderr": {
+        "member": "exp-domain-adjacent.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "exp-domain-tsc",
+      "command": "pnpm",
+      "args": ["--filter", "@type-pal/game", "typecheck"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T03:32:18.515Z",
+      "end": "2026-10-22T03:32:22.700Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "exp-domain-tsc.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      "stderr": {
+        "member": "exp-domain-tsc.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "progression-nozero",
+      "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/__tests__/battle-levelup.test.ts",
+        "src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/progression-nozero.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T03:33:46.935Z",
+      "end": "2026-10-22T03:33:48.242Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "progression-nozero.stdout.raw",
+        "bytes": 555,
+        "sha256": "c6c1431b178b6b6dfbaaf6032e60435e960d287d755aa8c1e5a6119dae6b9448"
+      },
+      "stderr": {
+        "member": "progression-nozero.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "progression-refactor-proof",
+      "command": "node",
+      "args": [
+        "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/prove-progression-refactor.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T03:34:36.128Z",
+      "end": "2026-10-22T03:34:36.410Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "progression-refactor-proof.stdout.raw",
+        "bytes": 724,
+        "sha256": "9c1be716f7d68723b47d2c8da896079c3a3b605b9a8742b4278f29e8a8160a12"
+      },
+      "stderr": {
+        "member": "progression-refactor-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "progression-refactor-final-proof",
+      "command": "node",
+      "args": [
+        "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/prove-progression-refactor.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T03:35:08.701Z",
+      "end": "2026-10-22T03:35:08.957Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "progression-refactor-final-proof.stdout.raw",
+        "bytes": 724,
+        "sha256": "805365986c078d4f0a968477ae6e46436f61cd988d6d989ed492d50631b20772"
+      },
+      "stderr": {
+        "member": "progression-refactor-final-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "progression-final",
+      "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
+      "args": [
+        "run",
+        "src/core/battle/__tests__/battle-levelup.test.ts",
+        "src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/progression-final.native.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "start": "2026-10-22T03:35:09.016Z",
+      "end": "2026-10-22T03:35:10.379Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "progression-final.stdout.raw",
+        "bytes": 554,
+        "sha256": "0781a30c16102b4c818d9c8ed214f5f1223b1e7bfefcba1e9d8798faae20f1ae"
+      },
+      "stderr": {
+        "member": "progression-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "exp-domain-biome",
+      "command": "pnpm",
+      "args": [
+        "exec",
+        "biome",
+        "check",
+        "packages/game/src/core/save/v1.ts",
+        "packages/game/src/tools/save-io.test.ts",
+        "packages/game/src/core/battle/battle-progression.ts",
+        "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T03:36:18.882Z",
+      "end": "2026-10-22T03:36:19.285Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "exp-domain-biome.stdout.raw",
+        "bytes": 43,
+        "sha256": "e2eaefaae2c39dda767dc850bf842eb86ff60fdf565a635d9f9bdc79e6d1e255"
+      },
+      "stderr": {
+        "member": "exp-domain-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "data-progression-proof",
+      "command": "node",
+      "args": [
+        "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/run-data-proof.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T03:38:31.858Z",
+      "end": "2026-10-22T03:38:33.524Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "data-progression-proof.stdout.raw",
+        "bytes": 815,
+        "sha256": "6c299b4206c6f7dec7f6cec7f6183dc90518e68bfa8c3ff78496b970f01ed08b"
+      },
+      "stderr": {
+        "member": "data-progression-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "local-packet-r1",
+      "command": "node",
+      "args": [
+        "/private/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-settlement-remaining-uCnu25/record-local.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-22T03:39:42.503Z",
+      "end": "2026-10-22T03:39:42.641Z",
+      "head": "31c9775ce90ea86112a4345cf9e8286c8a731726",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "member": "local-packet-r1.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "member": "local-packet-r1.stderr.raw",
+        "bytes": 824,
+        "sha256": "8320f404e1373181c2f855361dabf00b4407c8472e02ac41d6494a1e5610d38b"
+      }
+    }
+  ],
+  "outcomes": {
+    "red": {
+      "files": 1,
+      "passed": 28,
+      "failed": 1,
+      "failedFullName": [
+        "saved experience remainder domain rejects corrupt experience in every pool before replacing the real slot or its preview"
+      ],
+      "failedBusinessAssertions": 9,
+      "meaning": "8 accepts instead of rejects,then old-slot fields overwritten; no collection/environment failure"
+    },
+    "correctedAdjacent": {
+      "files": 6,
+      "passed": 66,
+      "stderrBytes": 0
+    },
+    "postRefactor": {
+      "files": 2,
+      "passed": 16,
+      "stderrBytes": 0
+    },
+    "filterCorrection": "exp-domain-green requested5 paths but only3 existing paths matched:43 actual,never claimed5 files. exp-domain-adjacent corrected __tests__ paths and actually ran6 files66 cases."
+  },
+  "progress": {
+    "accepted": 59,
+    "partial": 24,
+    "pending": 0,
+    "closed": 374,
+    "review": 112,
+    "inventoryPending": 2869,
+    "restoredReviewClosures": 3,
+    "netNewClosuresFrom31": 2
+  },
+  "limits": "Current local results only. No new browser/IDB/normal-story/visual claim. Unchanged published source gates are historical only; new grouped gates pending. 3w Extra still unknown; no94–102 scope. Observation/native.json.gz remain immutable before-state evidence.",
+  "native": {
+    "path": "local-native.json.gz",
+    "sha256": "e6ac88737b9c449616f8b71a68980261f5dbb39cd2edf49e2a14217d2204c8e9",
+    "members": {
+      "data-progression-proof.execution.json": {
+        "bytes": 2550,
+        "sha256": "93e843c11dc439a09e97f55185f335065636b4e5e5e36351e874a95cacd98825"
+      },
+      "data-progression-proof.mts": {
+        "bytes": 2575,
+        "sha256": "cf5a43d014cec7e6169b7434957d88d8a5b30721d4dd59934ec176eafc990bc7"
+      },
+      "data-progression-proof.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "data-progression-proof.stdout.raw": {
+        "bytes": 815,
+        "sha256": "6c299b4206c6f7dec7f6cec7f6183dc90518e68bfa8c3ff78496b970f01ed08b"
+      },
+      "exp-domain-adjacent.execution.json": {
+        "bytes": 2523,
+        "sha256": "ede7f860a14ca3f20dcff24c5b4c4cdb8eecdf96ef4cdaac470716e913020d49"
+      },
+      "exp-domain-adjacent.native.json": {
+        "bytes": 23289,
+        "sha256": "eb89d6fcd99ade547988d6158a079572b2ba784bf9def37d34f3c0d3c2419bb5"
+      },
+      "exp-domain-adjacent.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-domain-adjacent.stdout.raw": {
+        "bytes": 772,
+        "sha256": "8cd004a3c898142af96b313f3dc5d5fc978cd37397a5d69ea76b788da712e7d7"
+      },
+      "exp-domain-biome.execution.json": {
+        "bytes": 2681,
+        "sha256": "dd567f3fc644a518d9313374b3cb423a8dc9972630874379af173993b7505a93"
+      },
+      "exp-domain-biome.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-domain-biome.stdout.raw": {
+        "bytes": 43,
+        "sha256": "e2eaefaae2c39dda767dc850bf842eb86ff60fdf565a635d9f9bdc79e6d1e255"
+      },
+      "exp-domain-green.execution.json": {
+        "bytes": 2441,
+        "sha256": "431f41580d73036de4cf6fb9db410522034587982b75cdcb7d1639c402c21f52"
+      },
+      "exp-domain-green.native.json": {
+        "bytes": 14921,
+        "sha256": "beaf7df54e401c9f9995d127cdba0b37b30f5f93cdba83b97bacba25ac6a3297"
+      },
+      "exp-domain-green.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-domain-green.stdout.raw": {
+        "bytes": 580,
+        "sha256": "61978bb236873784c93a19ae24fe224f2c93f31c34f2a3d97925a8e07e2f9112"
+      },
+      "exp-domain-red.execution.json": {
+        "bytes": 2073,
+        "sha256": "d2eccf99a0610f2f7429c4e06ff13c8bdaa1c80b0ab2ffb719eedbed2613f074"
+      },
+      "exp-domain-red.native.json": {
+        "bytes": 18682,
+        "sha256": "aca63be111241625650b1f14e0513cfba12050b7e4bc3170f3c97739d8d026ee"
+      },
+      "exp-domain-red.stderr.raw": {
+        "bytes": 2789,
+        "sha256": "a072eb1a577245323a609fd1416f806f87c8171fcdeb577a96efd1c6c2e7608b"
+      },
+      "exp-domain-red.stdout.raw": {
+        "bytes": 2658,
+        "sha256": "5d26be02efd6935bd1062cb3bdf50f42ea62ee9c429f6124f64422012e8578a9"
+      },
+      "exp-domain-tsc.execution.json": {
+        "bytes": 1985,
+        "sha256": "bce8fabb0cc30fcbb8c51d0d7ccb3f5815dd5095156a8dcdc927bc1bf6e43d4e"
+      },
+      "exp-domain-tsc.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exp-domain-tsc.stdout.raw": {
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      "local-packet-r1.execution.json": {
+        "bytes": 2820,
+        "sha256": "ccc12cae13b72c73f21117eeeaed23602b6e66868e33274289378e1716f74c75"
+      },
+      "local-packet-r1.stderr.raw": {
+        "bytes": 824,
+        "sha256": "8320f404e1373181c2f855361dabf00b4407c8472e02ac41d6494a1e5610d38b"
+      },
+      "local-packet-r1.stdout.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "progression-final.execution.json": {
+        "bytes": 2833,
+        "sha256": "b6c82c709fff4c826a72ba88a4176fe1a845187bf69d0ffedf231f657f87aa34"
+      },
+      "progression-final.native.json": {
+        "bytes": 7345,
+        "sha256": "ae52125041cd3ef0773421df3c4be7fee7e2b7a6e87200fd9db2d413c1d53f79"
+      },
+      "progression-final.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "progression-final.stdout.raw": {
+        "bytes": 554,
+        "sha256": "0781a30c16102b4c818d9c8ed214f5f1223b1e7bfefcba1e9d8798faae20f1ae"
+      },
+      "progression-nozero.execution.json": {
+        "bytes": 2578,
+        "sha256": "a50c7e0dae0ac25eb677d1ae12ae8a01e0470649355310eda245ec633d2ff8f1"
+      },
+      "progression-nozero.native.json": {
+        "bytes": 7345,
+        "sha256": "b45cb850af92235a4a3e8962f13c93a0ca9dfd4ee50b59129ef9ebe75926c620"
+      },
+      "progression-nozero.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "progression-nozero.stdout.raw": {
+        "bytes": 555,
+        "sha256": "c6c1431b178b6b6dfbaaf6032e60435e960d287d755aa8c1e5a6119dae6b9448"
+      },
+      "progression-refactor-final-proof.execution.json": {
+        "bytes": 2592,
+        "sha256": "7df00fe5c78b2d208f2b52eb0067055d6d30b1daacb26f575741f53ac97ba15a"
+      },
+      "progression-refactor-final-proof.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "progression-refactor-final-proof.stdout.raw": {
+        "bytes": 724,
+        "sha256": "805365986c078d4f0a968477ae6e46436f61cd988d6d989ed492d50631b20772"
+      },
+      "progression-refactor-proof.execution.json": {
+        "bytes": 2315,
+        "sha256": "9dcc022f39eeddcd60d95ed93489dfa1ef3f467fd9ff14ebd5d71403b59542ef"
+      },
+      "progression-refactor-proof.stderr.raw": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "progression-refactor-proof.stdout.raw": {
+        "bytes": 724,
+        "sha256": "9c1be716f7d68723b47d2c8da896079c3a3b605b9a8742b4278f29e8a8160a12"
+      },
+      "capture.mjs": {
+        "bytes": 7513,
+        "sha256": "4eaacab362795a7abbd73445976ae2b985219df60c1ec5cd4bec692b13767918"
+      },
+      "record-local.mjs": {
+        "bytes": 11858,
+        "sha256": "e18dcd3fb7fd03e2c2e034a4965ecfeded7298e5dd286f759a84e736fa36524c"
+      },
+      "prove-progression-refactor.mjs": {
+        "bytes": 1948,
+        "sha256": "3f71bb4b0f808df5ba8fc0e6f5e3386d0c8ffb6b84574faf6eef9f53bb83f21a"
+      },
+      "save-io-tested-red.ts": {
+        "bytes": 12320,
+        "sha256": "99aa97ee19f5d2a60d80a4c274e4fdad2b07a09f65b8c2aeef709a8675371813"
+      },
+      "run-data-proof.mjs": {
+        "bytes": 441,
+        "sha256": "34ac309e0ad7d98a2c515717a917fefeeb9d204e1ffb67d177700291f698cbf1"
+      },
+      "record-local.mjs.failed-copy": {
+        "bytes": 11766,
+        "sha256": "77774c19f7e9fbc77358cf8d34c6242f07954efeef8abb7c8b9a91f6e2bb9936"
+      },
+      "current/packages/game/src/core/save/v1.ts": {
+        "bytes": 7718,
+        "sha256": "92d908ac942928390a6db0229b666f8291b5a8e8a97a5df07871d37054869d2b"
+      },
+      "before/packages/game/src/core/save/v1.ts": {
+        "bytes": 7470,
+        "sha256": "52456f6aae023ecc85847b6f723427d13253bf447015cee3dbd1a3939df2dffb"
+      },
+      "current/packages/game/src/tools/save-io.test.ts": {
+        "bytes": 12342,
+        "sha256": "50e69083b4380cea6c57abbc6704c780b76df06d37a1da74a63c564e3898f812"
+      },
+      "before/packages/game/src/tools/save-io.test.ts": {
+        "bytes": 10421,
+        "sha256": "d5d96dc8c1e7efa3d85b5f72f713572a1f2391f48360973839b100597cc55e60"
+      },
+      "current/packages/game/src/core/battle/battle-progression.ts": {
+        "bytes": 13204,
+        "sha256": "d7a3c1253d4a93fd6b1ae993371b15d4cc231f389b447de5a65934f5e8dc8f27"
+      },
+      "before/packages/game/src/core/battle/battle-progression.ts": {
+        "bytes": 13109,
+        "sha256": "40d5caa83a46734d689defc26178679cac6af82b5127d8739264a7aeb626b0a4"
+      },
+      "current/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts": {
+        "bytes": 8844,
+        "sha256": "136e3b6867ca82b1a1b53dfb233f2bec829dbf25e6213a9b57b4fe04be481d7a"
+      },
+      "before/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts": {
+        "bytes": 8920,
+        "sha256": "53b2d7d6efd271442c51b5a33ef39ab400a1b82b9dadfe45e4c84704336ab01e"
+      },
+      "current/packages/game/src/core/battle/__tests__/battle-levelup.test.ts": {
+        "bytes": 11278,
+        "sha256": "0590f0197bbe19f04fa9b4a5fc0aa520d686f5d3b9f60c495d5211c7b4d2d168"
+      },
+      "before/packages/game/src/core/battle/__tests__/battle-levelup.test.ts": {
+        "bytes": 11278,
+        "sha256": "0590f0197bbe19f04fa9b4a5fc0aa520d686f5d3b9f60c495d5211c7b4d2d168"
+      }
+    }
+  },
+  "gates": "gates.json"
+}

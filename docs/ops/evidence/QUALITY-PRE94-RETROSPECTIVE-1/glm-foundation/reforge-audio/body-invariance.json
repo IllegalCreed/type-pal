@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "base": "HEAD",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/reforge/src/audio/bgm.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "984734d57d09ee150ff903b9669d7307f182098ee3a3f458de8a744a987de181",
+        "current": "ca127da98c84634ff3308003d2fd7484c2f72f7efa75a09f9f8599741be33dfb"
+      },
+      "printedBytes": {
+        "base": 9440,
+        "current": 9101
+      },
+      "printedEqual": false
+    }
+  ],
+  "allEqual": false
+}

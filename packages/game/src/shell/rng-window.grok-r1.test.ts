@@ -158,6 +158,7 @@ describe('G10-A RNG 默认跳过与帧窗', () => {
   })
 
   it('G10-A07 默认块地址是 rng-07.rle', async () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const seen: string[] = []
     const origFetch = globalThis.fetch
     globalThis.fetch = (async (input: RequestInfo | URL) => {
@@ -174,6 +175,14 @@ describe('G10-A RNG 默认跳过与帧窗', () => {
         fetchManifest: async () => manifest(1, 7),
       })
       expect(seen).toEqual(['/extracted/data/animation/rng-07.rle'])
+      expect(warning.mock.calls).toEqual([
+        [
+          '[rng-player] frame 0 fetch fail, skip:',
+          expect.objectContaining({
+            message: 'rng-player: fetch /extracted/data/animation/rng-07.rle failed (404)',
+          }),
+        ],
+      ])
     } finally {
       globalThis.fetch = origFetch
     }

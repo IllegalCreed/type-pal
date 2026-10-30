@@ -22,6 +22,7 @@ let root: Root
 let host: HTMLDivElement
 
 beforeEach(() => {
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
   stopEditorAudioPreview()
   musicMocks.player.play.mockClear()
   musicMocks.player.stop.mockClear()
@@ -31,10 +32,13 @@ beforeEach(() => {
 })
 
 afterEach(async () => {
-  stopPreview()
-  stopEditorAudioPreview()
-  await act(async () => root.unmount())
+  await act(async () => {
+    stopPreview()
+    stopEditorAudioPreview()
+    root.unmount()
+  })
   host.remove()
+  vi.unstubAllGlobals()
 })
 
 describe('音乐选择器的全局试听 ownership', () => {
@@ -73,7 +77,7 @@ describe('音乐选择器的全局试听 ownership', () => {
     expect(musicMocks.player.play).toHaveBeenCalledWith('music.one', true)
 
     const nextOwner = { stop: vi.fn() }
-    claimEditorAudioPreview(nextOwner)
+    await act(async () => claimEditorAudioPreview(nextOwner))
     expect(musicMocks.player.stop).toHaveBeenCalledOnce()
   })
 })

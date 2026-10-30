@@ -1,0 +1,46 @@
+{
+  "base": "4121531c7",
+  "files": [
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.ts",
+      "sha256": "1496186d3dddd0c818aac769fec34fa4b98cf6b7aef06e8173618b3d65551a62",
+      "lines": 29,
+      "scope": "full file; countdown semantic slice only"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.test.ts",
+      "sha256": "a684c34ac598bf934caff399c0616b2f24cc5ce8e3fcaefaa07eb9c300219833",
+      "lines": 29,
+      "scope": "full file; countdown semantic slice only"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "sha256": "2abb8449f9eb418542b978538b4709f6104478e211c51032faba7faa82a71eb2",
+      "lines": 38,
+      "scope": "full file; countdown semantic slice only"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+      "lines": 116,
+      "scope": "full file; countdown semantic slice only"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.ts",
+      "sha256": "fd8335bcaf0aa8a0cc5461d075e2c5f72b2344b108d523e323117d84b8e1315a",
+      "lines": 218,
+      "scope": "full file; countdown semantic slice only"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-18-speedrun-timer.md",
+      "sha256": "5e649bf286aa6f72814a4b2dae4212dbd1c78f70a2976f5af099114e53445298",
+      "scope": "Task 7 countdown view; timer history is not current pause-product authorization"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "scope": "full config and setup read; real jsdom runner used"
+    }
+  ],
+  "notReadAsFullScope": ["GameState", "tools-panel.ts", "full speedrun design"]
+}

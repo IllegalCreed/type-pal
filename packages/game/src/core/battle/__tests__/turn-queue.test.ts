@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { buildActionQueue } from '../turn-queue.js'
 
 /**
- * ActionQueue 测试 —— PAL_CLASSIC 路径,对照 sdlpal `fight.c:1451-1571`。
+ * ActionQueue 测试 —— PAL_BattleStartFrame(PAL_CLASSIC)填充/交换;置换反例见parity专测。
  */
 
 describe('buildActionQueue (PAL_CLASSIC)', () => {
@@ -32,7 +32,7 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
     expect(enemyEntries[1]?.fIsSecond).toBe(true)
   })
 
-  it('同 dex 排序稳定(敌人先于队员,fight.c 先填敌人且只在严格小于时交换)', () => {
+  it('仅一敌一队员同速且不发生交换时,保持敌人先填顺序', () => {
     const queue = buildActionQueue({
       players: [{ idx: 0, dex: 30 }],
       enemies: [{ idx: 0, dex: 30, dualMove: false }],
@@ -41,7 +41,7 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
     expect(queue[1]?.isEnemy).toBe(false)
   })
 
-  it('同 dex 的多个敌人与队员均保持原填充顺序', () => {
+  it('所有项同速且不发生交换时,保持原填充顺序', () => {
     const queue = buildActionQueue({
       players: [
         { idx: 0, dex: 30 },
@@ -63,11 +63,13 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
   it('空队伍', () => {
     expect(
       buildActionQueue({ players: [], enemies: [{ idx: 0, dex: 20, dualMove: false }] }),
-    ).toHaveLength(1)
+    ).toEqual([{ isEnemy: true, idx: 0, dex: 20, fIsSecond: false }])
   })
 
   it('空敌方', () => {
-    expect(buildActionQueue({ players: [{ idx: 0, dex: 20 }], enemies: [] })).toHaveLength(1)
+    expect(buildActionQueue({ players: [{ idx: 0, dex: 20 }], enemies: [] })).toEqual([
+      { isEnemy: false, idx: 0, dex: 20, fIsSecond: false },
+    ])
   })
 
   it('多队员 + 多敌方 + 多 dualMove 综合', () => {
@@ -82,10 +84,13 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
       ],
     })
     // 期望顺序:p0(100) > e0(80) > e1(60) > e1-second(59) > p1(50)
-    expect(queue).toHaveLength(5)
-    expect(queue[0]?.idx).toBe(0)
-    expect(queue[0]?.isEnemy).toBe(false)
-    expect(queue[3]?.fIsSecond).toBe(true)
+    expect(queue).toEqual([
+      { isEnemy: false, idx: 0, dex: 100, fIsSecond: false },
+      { isEnemy: true, idx: 0, dex: 80, fIsSecond: false },
+      { isEnemy: true, idx: 1, dex: 60, fIsSecond: false },
+      { isEnemy: true, idx: 1, dex: 59, fIsSecond: true },
+      { isEnemy: false, idx: 1, dex: 50, fIsSecond: false },
+    ])
   })
 
   // ── D7(2026-06-01 W1):dualMove fIsSecond = CLASSIC 独立二抽 dex 比较(fight.c:1483-1489)──

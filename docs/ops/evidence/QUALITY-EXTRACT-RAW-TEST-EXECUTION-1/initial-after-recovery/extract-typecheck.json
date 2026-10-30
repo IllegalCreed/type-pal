@@ -1,0 +1,14 @@
+{
+  "name": "extract-typecheck",
+  "command": ["pnpm", "--filter", "@type-pal/pal-extract", "run", "typecheck"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "seconds": 1.359,
+  "rawSha256": "faf13fd368a252ffd64775c0ad9baf7070f4fa0b906d29c45d647cd301885440",
+  "diagnostics": {
+    "act": 0,
+    "environment": 0,
+    "navigation": 0,
+    "stderrBlocks": 0
+  }
+}

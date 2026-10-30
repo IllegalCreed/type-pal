@@ -81,8 +81,8 @@ function scene(id: string, body: AuthorCommand[] = []): AuthorSceneDef {
 }
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
 })
 

@@ -1,0 +1,69 @@
+{
+  "base": "b42eb9065",
+  "fullReads": [
+    {
+      "path": "packages/game/src/tools/display-scale.ts",
+      "sha256": "88f72d06445500e91792a83aadfbc267681c4aebeb897e0840d66f68cb3d5bff",
+      "lines": 51,
+      "boundary": "Full implementation read; no production change."
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.test.ts",
+      "sha256": "26fbbf14371b6964f9f55588a3dfc8d60e0721c5abfb5e65ab5abf3eff26ff7d",
+      "lines": 51,
+      "boundary": "Full direct contract read."
+    },
+    {
+      "path": "packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts",
+      "sha256": "0c249bc261f9cc53aeae444a24f5cde5d94d543639b5ee3c205c391ceffd051b",
+      "lines": 113,
+      "boundary": "Full combined display/fps leaf read."
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.ts",
+      "sha256": "66884943d42398559449bbdc7d7934d0b9e93f35cc0fd6cedbd8b491ab6cfc40",
+      "lines": 110,
+      "boundary": "Full implementation/lifecycle read; no production change."
+    },
+    {
+      "path": "packages/game/src/tools/fps-overlay.test.ts",
+      "sha256": "333eb001db1f1168694a951e5b2114587bc0d674e0ad95f8b5a568a07bc82f74",
+      "lines": 101,
+      "boundary": "Full direct sampling/cleanup contract read."
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "sha256": "436027071fbe333f1b3656eb04e3482b92100dcd002b020a81d8743f7ed80989",
+      "lines": 109,
+      "boundary": "Full delegation leaf read; only display/fps assertions counted."
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8",
+      "lines": 181,
+      "boundary": "Full rAF caller read; tickFps ownership anchor."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944,
+      "ranges": ["1080-1123"],
+      "boundary": "Only display-scale construction/tools-panel injection caller; whole bootstrap remains outside this slice."
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1",
+      "lines": 1106,
+      "ranges": ["1-260", "600-640"],
+      "boundary": "Only imports and display/FPS button delegation; whole panel remains outside this slice."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3j acceptance",
+    "Whole bootstrap or tools-panel semantic review",
+    "Browser fullscreen permission/runtime visual verification",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

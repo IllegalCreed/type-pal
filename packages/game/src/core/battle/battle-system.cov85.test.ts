@@ -181,18 +181,21 @@ describe('cov85 tickBattle 顶层守卫(392-418)', () => {
     expect(() => tickBattle(gs, emptyInput(), createCommandBus())).not.toThrow() // L394
 
     const err = vi.spyOn(console, 'error').mockImplementation(() => {})
-    const { gs: gs2 } = boot()
-    const st = gs2.battleState!
-    // 抹资源:startBattle 后资源挂在 gs 私有 __battleResources;构造缺资源态用清 battleState 后重挂
-    // 公开等价路径:直接构造 gs.mode='battle' + battleState 而不经 startBattle(生产不可能,防御臂)
-    const gs3 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs3.mode = 'battle'
-    gs3.battleState = st
-    tickBattle(gs3, emptyInput(), createCommandBus())
-    expect(gs3.mode).toBe('explore')
-    expect(gs3.battleState).toBeUndefined()
-    expect(err).toHaveBeenCalled()
-    void st
+    try {
+      const { gs: gs2 } = boot()
+      const st = gs2.battleState!
+      // 抹资源:startBattle 后资源挂在 gs 私有 __battleResources;构造缺资源态用清 battleState 后重挂
+      // 公开等价路径:直接构造 gs.mode='battle' + battleState 而不经 startBattle(生产不可能,防御臂)
+      const gs3 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+      gs3.mode = 'battle'
+      gs3.battleState = st
+      tickBattle(gs3, emptyInput(), createCommandBus())
+      expect(gs3.mode).toBe('explore')
+      expect(gs3.battleState).toBeUndefined()
+      expect(err).toHaveBeenCalled()
+    } finally {
+      err.mockRestore()
+    }
   })
 
   it('phase stall 兜底:phaseStallTicks 超 1500 → 强制 finalize 回 explore(selectAction 不计)', () => {
@@ -204,10 +207,14 @@ describe('cov85 tickBattle 顶层守卫(392-418)', () => {
     st.phase = 'performAction'
     st.phaseStallTicks = 1501 // > PHASE_STALL_TICKS_LIMIT(1500,battle-system.ts:98)
     const err = vi.spyOn(console, 'error').mockImplementation(() => {})
-    tickBattle(gs, emptyInput(), bus)
-    expect(err).toHaveBeenCalled()
-    expect(gs.mode).toBe('explore')
-    expect(gs.battleState).toBeUndefined()
+    try {
+      tickBattle(gs, emptyInput(), bus)
+      expect(err).toHaveBeenCalled()
+      expect(gs.mode).toBe('explore')
+      expect(gs.battleState).toBeUndefined()
+    } finally {
+      err.mockRestore()
+    }
   })
 })
 

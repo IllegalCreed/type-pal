@@ -1,10 +1,15 @@
-import { beforeEach, describe, expect, it } from 'vitest'
-import { getWord, setWordTable } from './word-lookup.js'
+import { afterEach, describe, expect, it } from 'vitest'
+import { useFallbackLanguage } from '../localization/language.js'
+import { getWord, setEnglishWordTable, setWordTable } from './word-lookup.js'
 
 // sdlpal PAL_GetWord(wNumWord)(text.c)真值:从 WORD.DAT 取第 wNumWord 个词。
-//   ts 侧用 extracted/lookup/words.json 的 flat[](= 565 条全 dump,index = 真 WORD id)。
+//   原表查询合同;英文覆盖与语言切换由localization/presentation.test.ts核证。
 describe('word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord)', () => {
-  beforeEach(() => setWordTable([])) // 隔离:每测从空表起
+  afterEach(() => {
+    setWordTable([])
+    setEnglishWordTable({})
+    useFallbackLanguage('zh-CN')
+  })
 
   it('表未载 → 返回 fallback(缺省 fallback 为空串)', () => {
     expect(getWord(3)).toBe('')
@@ -20,6 +25,9 @@ describe('word-lookup(getWord / setWordTable,对 sdlpal PAL_GetWord)', () => {
 
   it('表已载但 id 越界/为空 → 退回 fallback', () => {
     setWordTable(['', '李逍遥:'])
+    setEnglishWordTable({ '1': '' })
+    useFallbackLanguage('en')
+    expect(getWord(1, '兜底')).toBe('李逍遥:') // 空英文条目先回原词表
     expect(getWord(999, '兜底')).toBe('兜底') // 越界
     expect(getWord(0, '兜底')).toBe('兜底') // 空串项也退 fallback
   })

@@ -1,0 +1,20 @@
+{
+  "commit": "8fea6a4ec87240972ba8011343281e9034b6dc76",
+  "baselineBeforeSha256": "3abdd2ce5381289af1102afa0d42bab8dab51d74a70272e61cba95bd2f23b7a4",
+  "baselineAfterSha256": "bf7ddb832f674a2dc73a475cd4fbb302f535cb45754298829af8fd5c11342112",
+  "currentBaselineSha256": "f0d008c301aa4e86b2d08d8ffc292ffdf006f26efc021e8dffb747dbd0d4e790",
+  "sourceFileCountBefore": 726,
+  "sourceFileCountAfter": 726,
+  "editorScopeUnchanged": true,
+  "editorFastTestsBefore": 4682,
+  "editorFastTestsAfter": 4683,
+  "editorBranchesBefore": {
+    "covered": 24166,
+    "total": 29058
+  },
+  "editorBranchesAfter": {
+    "covered": 24168,
+    "total": 29058
+  },
+  "limitation": "historical baseline/card evidence; not replacement stdout/env/exit for old gates; current official gates not run"
+}

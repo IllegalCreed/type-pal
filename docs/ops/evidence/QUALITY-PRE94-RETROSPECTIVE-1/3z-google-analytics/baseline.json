@@ -1,0 +1,22 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/analytics/google-analytics.test.ts",
+    "src/analytics/google-analytics.boundaries.test.ts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T22:57:29.366362+00:00",
+  "completedAt": "2026-10-17T22:57:30.563788+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "baseline.raw.gz",
+  "rawBytes": 260,
+  "rawSha256": "61fcbf9a498213e94f213459e89dcb7494f8cdee273910d8e06ffc0a71b9e2ea",
+  "fullUncutMergedStdoutStderr": true
+}

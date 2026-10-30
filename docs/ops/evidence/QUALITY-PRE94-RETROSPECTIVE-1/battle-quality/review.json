@@ -1,0 +1,2849 @@
+{
+  "schemaVersion": 1,
+  "state": "CODE3u and10 explicit scopes accepted unchanged; cb67a6a0e merged, actual main CI failedM05; narrow test repair locally accepted, new remote CI pending",
+  "owner": "Codex",
+  "base": "9a5f80e7c53e4fec2a89fc8ee62de74e96cfe0f7",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "b7f5b9751b4d766220dcc23e32227113da25ae54e1e7e793f7be17b197f3b51f",
+      "lines": 67,
+      "dimensions": {
+        "A": "函数正文守恒、同一清毒／装备绑定；实际清理与resume序按3u/3w证据复用，非队员Extra仍unknown不改循环。",
+        "B": "现注释明确临时<=999/装备>999及party角色域差异，不冒称全C等价。",
+        "C": "状态清理直接依赖equipment-state/player-poison-state，去除该层对装备脚本/解释器转出口的无关依赖；宿主仍直接加载两facade。",
+        "D": "复用既有owner同一函数，无复制或万能context。",
+        "E": "旧finalization/runtime有效六单红及合法fixture复用；当前40相邻、TC0不作为整文件验收。",
+        "F": "lost/fled/watchdog owner及清理顺序原样，不为行数改名。",
+        "G": "仅移除两条间接导入；没有新出口/模式参数。",
+        "H": "正式GS/startBattle/resume可观察，不新mock清理函数；纯重构用正文/绑定等式和实际回归。"
+      },
+      "decision": "review; module gates and actual remaining contracts pending"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "40d5caa83a46734d689defc26178679cac6af82b5127d8739264a7aeb626b0a4",
+      "lines": 307,
+      "dimensions": {
+        "A": "普通成长／快照正文不变；WORD新分歧单列draft、未修，不关整文件。",
+        "B": "主999 cap/隐藏不套该cap与RNG算法范围已分开；不授全极端等价。",
+        "C": "getter走equipment-state，数字输出类型走中性data模块，不再依赖结算编排。GS仍按当前公开合同提供Exp/Runtime/装备状态，无新增越层写。",
+        "D": "getter复用同一绑定；主升级/隐藏/0x8D重置与RNG合同不同，不因相似循环强行共享。",
+        "E": "复用11主升级/H02五例及旧额外RNG单红；七池缺口另补，不由40绿推定完成。",
+        "F": "每role的主升级→快照→隐藏→学法术顺序保持；长函数仍作阅读热点，不按指标拆出宽参数helper。",
+        "G": "未增fallback/死分支；现公开stat/label返回字段与party输入合同保留，不擅自删除出口字段。",
+        "H": "RNG可注入，数值直接走公开函数观测；旧记录型RNG的fallback不得替代完整参数/业务值断言。"
+      },
+      "decision": "review; module gates and actual remaining contracts pending"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "e046f2c9fc21fb9c229c33041f47a487536b6f1a7bc1fb42644d4051e567d5a9",
+      "lines": 227,
+      "dimensions": {
+        "A": "完整执行JS相同；真实caller与10原盘post leaf、特殊结局/hold/清理原件按原限制复用。",
+        "B": "Phase C/E/F、首帧残键、C恒真半恢复注释与原证据一致；本轮不增加真值断言。",
+        "C": "该模块只组织屏/等待/脚本收尾；纯数据声明移到共享data，避免数字owner反向引用编排。",
+        "D": "三type只有一个定义，原出口仅type re-export；不把数字/IO/屏等待合万能服务。",
+        "E": "旧8例和后继16合同/反控据证复用，当前40包含主测/宿主/绘制相邻；不扩大到视觉验收。",
+        "F": "阶段命名与推进顺序不变，类型转发明确。",
+        "G": "原三声明移走不留双定义；原公共type名字保留，未造兼容执行分支。",
+        "H": "既有真实dialog/资源释放可测；没有为拆类型暴露私有状态。"
+      },
+      "decision": "review; module gates and actual remaining contracts pending"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement-data.ts",
+      "sha256": "4222387afcf3a0cd52ebb5ecc4d4f51fbad21c93b52d80db194a40c5a4b5b0e1",
+      "lines": 29,
+      "dimensions": {
+        "A": "三个接口逐声明与9a5原文相同；编译只空export，无执行/错误/异步资源。",
+        "B": "保留旧/cur、HPMP/装备有效值/名称来源语义；头注说明共享数据职责，不宣称runtime测过类型。",
+        "C": "计算与结算的共用数据owner，无解释器/IO/状态推进依赖。",
+        "D": "两真实模块共享同一声明，原出口保持；无复制型DTO或未来抽象。",
+        "E": "typecheck验证当前所有真实type消费者与V1映射；不以空运行测试充数。",
+        "F": "接口名/字段形状完全保留，适合与旧caller直接对照。",
+        "G": "三声明均参与LevelUpScreenData；原公开类型出口不擅自退役，无新运行包装。",
+        "H": "纯类型不以运行时mock验证；实际编译与原文等式支持当前合同。"
+      },
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "sha256": "53b2d7d6efd271442c51b5a33ef39ab400a1b82b9dadfe45e4c84704336ab01e",
+      "lines": 195,
+      "dimensions": {
+        "A": "补核撤回此前四例夹具信用：makeHBattle没有hydrate,后两例实际0级而注释1级。当前全部用loadDefault/project/startBattle真实初始化,后两例普攻Health2/Attack1计数及合法存留34/68;前两例是有意helper数值边界,七池Dex存留域限制保持。",
+        "B": "头注和唯一标题改为实际七池断言,删除自报仅两池信用;其余四标题/注释不变。",
+        "C": "复用现有生命周期构造器,不复制Exp分配/状态推进;测试只设置结算helper的边界输入,不把它冒称完整动作循环。",
+        "D": "复用recordingRng取代重复的两池临时RNG实现;期望七字段/七结果/余数均为独立常量,不由被测映射生成。",
+        "E": "等级新oracle在旧夹具3绿2指定AssertionError,不是产品bug；修正fixture后5绿,Defense/Dex变异仍4绿1指定属性红,恢复5绿。当前canonical16定向/相邻与TC0；所有5身份保持,旧from/to关系和全部有效业务oracle保留,新增精确1→1/1→2。",
+        "F": "逐行七池输入和结果可直接对照机制映射;避免循环生成fixture与oracle造成同错。",
+        "G": "删除多余SeedableRng/seededRng导入和临时rng展开,无新helper/公开测试端口;未退休整例。",
+        "H": "控制七次真实rangeInclusive,同时断言属性值/显示数据/经验余数而非只数mock;隔离副本变异,治理源未污染。"
+      },
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
+      "reuses": [
+        "core-comment-audit/poison-progression-comments/README.md",
+        "seven-pools-counter.json",
+        "h02-fixtures-counter.json"
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "584fab309cc044973207f0ea4d44e3a48bff11c3b1d7ae0d0287a6c2d8774c86",
+      "lines": 917,
+      "dimensions": {
+        "A": "复用3u全文/primary和六单红;当前去注释TS与9c2c5e同字节。唯一生产create caller为startBattle,五敌槽/至多三队员、role→slot九状态/独立队列按原边界;不是认证全部剧情/渲染。",
+        "B": "保留已改buildBattleMagicSelect锚,本轮纠正空槽全无消费错注;类型/可选字段既有GLM全文按其实际内容复用,不信模式扫描零命中等于全B正确。",
+        "C": "同一战斗状态协议供宿主/动作/动画/绘制;工厂创建,宿主推进,finalization释放。field和嵌套静态抗性借用只读,health/局部map/状态独立;未为拆大文件造反向层依赖。",
+        "D": "状态声明/单次构造同一模型,positions/rng既有叶复用;空槽构造和seed私有,无复制解释器/通用上下文。",
+        "E": "当前17工厂专例完整身份/字节等于六单红最终test SHA;20实际state+runtime绿。动画请求路径无匹配,不计动画实跑;40宿主相邻原件另列。",
+        "F": "类型分区与构造/空槽两分支清楚;916行主要声明,不按总行数拆为无真实owner的文件。",
+        "G": "19出口为声明/纯factory/三人常量;共享字段属于现有动作/呈现协议,不把未完整枚举的动态字段直接删。当前无新死参数/分支。",
+        "H": "构造显式GS/资源/RNG,不自行读时钟/网络;状态映射/数组与map ownership可由真实constructor直接观察,不靠访问私有变量。"
+      },
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
+      "reuses": [
+        "3u-state-factory/README.md",
+        "glm-foundation/game-battlestate-ctx/README.md",
+        "state-evidence-bridge.json"
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+      "lines": 98,
+      "dimensions": {
+        "A": "复用3u/3w全文与原C/host owner链;当前完整读,安装/可选override/两GS隔离及释放后fallback合同不变。",
+        "B": "资源表的playerRoles明确可写投影;undefined不换runner和clear语义与真实caller一致,不沿用旧只读资源表错注。",
+        "C": "唯一stash适配层把隐藏字段限制在本模块;startBattle安装/finalize清,action与present只取公开getters。原强转保留在原封装内,不新增为测试绕类型。",
+        "D": "统一资源和runner入口被宿主/结算复用;两个业务生命周期不同,不以布尔模式混成万能getter。",
+        "E": "现三例hash与3u/3w v3最终源匹配,七反控中的跨Owner针及private-shape独立说明可复用;当前20绿含此三例。",
+        "F": "按安装/取/清短函数直述;资源字段声明与实际用途相邻。",
+        "G": "各公开getter和setter有真实caller,无新增死出口;不为消除旧私有断言而扩大公共接口。",
+        "H": "GameState隔离可直接观察公开资源/runner,不需mock模块或重置模块全局;额外WeakMap改写会触及旧可枚举快照边界,当前收益不足不混入。"
+      },
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
+      "reuses": ["3u-3w-finalization/README.md", "glm-foundation/game-battlestate-ctx/README.md"]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-positions.ts",
+      "sha256": "d068e5b70e39af41d57672c9ccb7d952184e76de8836865756f714657d3e372d",
+      "lines": 93,
+      "dimensions": {
+        "A": "复用全文和3u/3m已核C/DATA坐标,本轮再全文。getters返回坐标副本,支持输入/零槽布局由真实factory/召唤caller限定,不新增容量。",
+        "B": "修正缺人数layout即undefined错注,实际会选fallback;idx越出选中表才undefined。4/5布局明确既有防御兜底,不称C原表。",
+        "C": "纯坐标叶被core与present共享,不引用业务推进/DOM/GS;不让呈现层反向决定状态位置。",
+        "D": "玩家坐标单一来源,敌方按数据表+fallback共用helper;两套输入/选表语义不同不强拼万能函数。",
+        "E": "复用17工厂的实际布局/offset/空槽及六单红中layout针;非empty实例同null槽数按真实坐标断言,不是只判非空。",
+        "F": "getPlayerBasePos/getEnemyBasePos及人数/槽索引名称可解释;保留坐标领域来源信息。",
+        "G": "四个真实出口消费者已检索定位;原公开备用布局不因factory三人guard自动删除,当前只修错注不擅自删合同。",
+        "H": "无时钟/副作用,输入表显式传入,缺表与返回副本可直接测试;无需stub renderer。"
+      },
+      "decision": "historical verified source, finite B correction; no new closure",
+      "reuses": ["3u-state-factory/README.md", "glm-foundation/game-battlecore-misc/README.md"]
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/data-misc.ts",
+      "sha256": "bae489b9c04bc8a4ec85d82419b0b08694c25dfdfdb8a9afdd389a1de5bab5f2",
+      "lines": 103,
+      "dimensions": {
+        "A": "3b已接受全文/typed producers与raw对照按未变执行复用;本轮全文核读,实际DATA14首项0/99项32000与两成长caller一致。",
+        "B": "更正满级零占位错注,明示按当前等级查表/仍扣阈值;其它两个parser字段单位与布局保持。",
+        "C": "纯字节解析不访问FS/全局GS,CLI负责输入输出,game负责消费阈值;跨层仅借合同信息不互相import。",
+        "D": "三个chunk布局不同,不将小循环强行做万能宽度parser;继续复用DataView标准读法。",
+        "E": "复用3b closeout字节偏移/边界测试及raw观测,本轮不另堆末项常量镜像测试;去注释发射JS不变。",
+        "F": "函数/字段有明确资源语义;错注修后当前等级索引更易理解。",
+        "G": "未增死参/export/fallback;现三个解析器真实CLI caller保留。",
+        "H": "输入Uint8Array/纯输出可直接测,IO隔离已有证据未失效;注释修正不扩大运行时信用。"
+      },
+      "decision": "historical verified source, finite B correction; no new closure",
+      "reuses": ["3b/closeout/evidence.json", "word-boundary-probe.json", "comment-proof.json"]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "sha256": "16c1f11837db4fb23df0ff9a07f9bebc9970db875b7e62a582eec9e57bf6d604",
+      "lines": 340,
+      "dimensions": {
+        "A": "复用340行实际全文及6原生反控中的四枚;当前字节与最终旧证据相同。纯factory边界输入/未知role故意反例不冒充正式开战。",
+        "B": "标题只述实际constructor/status/ownership/坐标合同,原枚举恒真与JSON自比已撤;快照不再误称0x64玩家读取。",
+        "C": "仅pure角色/敌/field构造复用H,queue用真实buildActionQueue;每例独立GS/资源,不写全局owner。",
+        "D": "快照主测承接GLM重复例并保留源突变不污染;没有再复制完整领域角色定义。",
+        "E": "14例保留真实边界/独立状态/坐标结果;六旧绿新单红含role/slot、状态索引、复用view/map;快照保全红另计,不是数量验收。",
+        "F": "每例一个factory合同,setup与business断言相邻;完整expected九状态让错索引可读。",
+        "G": "枚举长度恒真退出映射已在旧assertion-transfers;当前不再添加无业务测试,14身份未动。",
+        "H": "公开构造器/输入输出直接观察,无核心mock/私有stash访问;真实RNG只作受控依赖。"
+      },
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
+      "reuses": [
+        "3u-state-factory/README.md",
+        "3u-state-factory/assertion-transfers.json",
+        "reused-controls.json"
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "sha256": "cdbe9414af48e3da5dca54b77c7516f3df1ba5556ef0193adaa4771ed348128d",
+      "lines": 82,
+      "dimensions": {
+        "A": "复用82行全文,typed enemy/null两槽和合法HP/MP,字节与旧最终反控相同;原版memset primitive合同不等于全字段生产消费。",
+        "B": "开战seed/空槽标题吻合,prevHp/MP移主测并明示,无重复信用。",
+        "C": "局部boot只组资源/公开factory,不替代空槽/位置/状态实现;不装全局script catalog。",
+        "D": "工厂复用H,玩家快照合同已移到主测;与主测layout使用不同null撑列轴。",
+        "E": "三例分别核零槽全部primitive、静态敌health隔离、autoFlag;layout人数和空槽cash两枚独立业务红有效。",
+        "F": "boot具名字段与三合同分组可读,不靠文件很短授信用。",
+        "G": "4→3退休重复快照已有逐断言映射及保全红;当前三身份/断言未动,不恢复弱重复用例。",
+        "H": "实际factory与受控RNG直接测,无DOM/global模块重置,每例独立GS。"
+      },
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
+      "reuses": ["3u-state-factory/README.md", "reused-controls.json"]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.test.ts",
+      "sha256": "2fb71bc84e7a5817ff54950166aec14a5de7df5f107b77a995060f294002357d",
+      "lines": 77,
+      "dimensions": {
+        "A": "当前全文及原最终v3 SHA吻合,三例直接调用公开安装/get/clear;不冒充完整startBattle。",
+        "B": "名称中的startBattle是安装资源语义参照,实际执行仅公开端口,本结论明确测试层级。",
+        "C": "每例新GS,第一例两个GS和独立资源对象;不检查私有key形状。",
+        "D": "最小完整BattleResources为本测试fixture,生命周期factory并不比它更同合同,不为消除字面数组共享宽helper。",
+        "E": "精确resource/liveRoles identity、默认/undefined不覆写runner、清理后fallback三合同;跨owner针旧3绿→当前2绿1红,private-shape变形另列。",
+        "F": "安装/取/清三阶段清楚;小fixture fields完整且无强转。",
+        "G": "已删无必要的私有键布局断言;三业务case保留,不把类型声明写成runtime用例。",
+        "H": "vi.fn仅提供合法函数identity,没有调用次数冒充runner业务;GS/resource真实owner未mock。"
+      },
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
+      "reuses": ["3u-3w-finalization/README.md", "reused-controls.json"]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "sha256": "2bd7845ef57f603b1db5801a1b33f08c7f05193c08d3c1d47909b8ac9a18b3fa",
+      "lines": 218,
+      "dimensions": {
+        "A": "当前218行全文,真实hydrate/createBattleState与resume命令域,九状态输入及lost/escape/watchdog边界合法;未假设Extra域全等。",
+        "B": "清理/实际handoff标题与公开断言一致,forced队列断言不再放入不可达lost组合。",
+        "C": "局部资源与GS归fixture,公开eventCursor setter透传真实值只观察时点,不替换核心cleanup/resume。",
+        "D": "角色/敌field复用既有typed stats fixture;不把不同结局合成只测一个resume helper,各生产出口保留。",
+        "E": "六例和六旧绿新指定单红复用;resource release前后/末两状态/role写回/三分支有直接oracle;相邻40绿不授Extra未测合同。",
+        "F": "三个出口table有具名phase/forced/enemyEscape字段,用例一眼能知区别。",
+        "G": "未新增重复case/强转/宽mock;保留旧两例全部有效公开断言,无整例退役。",
+        "H": "真实公开finalize输出/赋值瞬间可观察,无测试端口或私有hook;每例状态本地隔离。"
+      },
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
+      "reuses": ["3u-3w-finalization/README.md", "reused-controls.json"]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sha256": "f350fd812860e5f570d278c64db8ddbd8435327a6b8c994b901893b2cab7ed3e",
+      "lines": 379,
+      "dimensions": {
+        "A": "当前379行全文;正式loadDefault/project/startBattle与合法post-action/won边界,真实tick/runner/hold;明确不是打完整场战斗或C原版演出。",
+        "B": "首tick按键策略与C阻塞时序区分,原盘概率leaf和0x89扩展结果域注释有限定。",
+        "C": "局部won边界与共享fixture分层;透传公开runner仅观察真实PhaseE,Math.random只控制真实概率且finally恢复。",
+        "D": "两份开战准备已合并typed factory;公式oracle归progression,不复制算法或重复0x89基本枚举单测。",
+        "E": "13当前合同/六原生反控中的两枚本文件;原八合同/两概率阈值/三结果接回均有业务结果,按实际失败集复用19针,非按mock次数。",
+        "F": "装配、输入/timeout、脚本/hold、特殊接回分组对应宿主顺序,边界命名说明测试层级。",
+        "G": "没有新增重复case/屏算法镜像/skip或删强断言;同类合法结果table有不同真实分支语义。",
+        "H": "公开tick/资源getters可观察恢复/清理,只控制Math.random并精确恢复,不需要mock事件解释器。"
+      },
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
+      "reuses": ["3w-post-scripts/README.md", "reused-controls.json"]
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+      "sha256": "bd50465a15ff2ed9667c4eab31a8c0d35434f0780d433e493005892753264311",
+      "lines": 96,
+      "dimensions": {
+        "A": "当前96行全文;只准备6角色/party/资源并真实loadDefault→project→startBattle,不偷偷置won/杀敌/算奖励。",
+        "B": "头注声明输入准备与preBattle返回,不冒称真实完整动作链;H02对存留Dex的限制写在测试自身。",
+        "C": "测试端拥有准备和GS/Bus;生产脚本/phase/数字公式/清理仍原owner,没有fixture代跑。",
+        "D": "被system/settlement/H02真实复用,options来自StartBattleInput窄Pick加资源参数;不是未来万能fixture。",
+        "E": "当前40/16绿实际消费;旧3w两测试准备迁移映射完整,原反控仍指向真实公开生产代码。",
+        "F": "roles/enemyIds/hooks具名,失败时明确missing state/resources,构造顺序接真实生产生命周期。",
+        "G": "每个option由当前caller使用;无死export或内部算法复制,不向产品暴露fixture入口。",
+        "H": "支持输入变体但不注入任意核心mock,每次全新GS/资源/Bus,随机seed明确;无网络/共享文件写。"
+      },
+      "decision": "accept; explicit original file contract, A-H/current evidence and final module gates",
+      "reuses": ["3w-post-scripts/README.md"]
+    }
+  ],
+  "contextPins": [
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "84fba11f3597e362fea558feb1ba4c9279c33d7b4ed3ead64b21303acbf9da1a"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "26dbd7a749476bcf9029c3edbf06aa9f1afaa004e12016a5a646d0e25e3eb840"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "a3fed8fc2206af344a9eef7836bfa9ac3e3dd5f9187e92e2cb84d760518dccb5"
+    }
+  ],
+  "runs": [
+    {
+      "id": "import-binding-proof",
+      "exit": 0
+    },
+    {
+      "id": "structure-proof",
+      "exit": 0
+    },
+    {
+      "id": "structure-proof-v2",
+      "exit": 0
+    },
+    {
+      "id": "structure-regression",
+      "exit": 0,
+      "passed": 40,
+      "failed": 0
+    },
+    {
+      "id": "structure-types",
+      "exit": 0
+    },
+    {
+      "id": "word-boundary-counter",
+      "exit": 1,
+      "kind": "new actual WORD boundary counter; native C+validated numeric wire+real settlement boundary"
+    },
+    {
+      "id": "structure-docs",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "structure-lint",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "seven-pools-green",
+      "exit": 0,
+      "stderrBytes": 0,
+      "passed": 16,
+      "failed": 0,
+      "files": 2
+    },
+    {
+      "id": "seven-pools-discrimination",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "seven-pools-types",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "adjacent-comment-proof",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "state-old-proof-bridge",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "state-context-adjacent",
+      "exit": 0,
+      "stderrBytes": 0,
+      "passed": 20,
+      "failed": 0,
+      "files": 3,
+      "actualSelectionNote": "3 files/20 tests only; requested nonexistent anim-driver path matched no file, no animation-test execution credit."
+    },
+    {
+      "id": "extra-raw-census",
+      "exit": 1,
+      "stderrBytes": 747
+    },
+    {
+      "id": "extra-raw-census-restored",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "positions-comment-proof",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "seven-pools-static-before",
+      "exit": 1,
+      "stderrBytes": 2203
+    },
+    {
+      "id": "seven-pools-static",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "seven-pools-docs",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "seven-pools-lint",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "seven-pools-progress",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "reused-controls",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "structure-screen",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "h02-fixture-discrimination",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "h02-canonical-regression",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "h02-canonical-types",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "related-window-check",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "h02-rework-docs",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "h02-rework-lint",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "related-window-ratchet",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "strict-protected",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "accepted-docs",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "accepted-progress",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "accepted-lint",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-docs",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-progress",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-lint",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-ledger",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "final-diff",
+      "exit": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "artifact": {
+    "member": "native.json.gz",
+    "sha256": "17621673ad50effc84606865ec10aa12b78b4516aa6a0657af32645456e856a0",
+    "members": [
+      {
+        "name": "import-binding-proof.execution.json",
+        "bytes": 1215,
+        "sha256": "47af2836eec5dd3f990efd329c0db5eac469678e0cef94abaf1cdbe66bb311be"
+      },
+      {
+        "name": "import-binding-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "import-binding-proof.stdout.raw",
+        "bytes": 200,
+        "sha256": "62a0deb2694bb353a98169555b892bfb339401a6bad67be60420ad210cfae72e"
+      },
+      {
+        "name": "import-bindings.json",
+        "bytes": 1346,
+        "sha256": "8b91ffdace8ae325e0472650070614176c0aeff1be74d95a6ebd9ef66eb64592"
+      },
+      {
+        "name": "import-bindings.mts",
+        "bytes": 1887,
+        "sha256": "9502d7bd8a897923873ba6ce07a4665c63d85057645fdfceeb1c09745d3b2f2f"
+      },
+      {
+        "name": "prove-structure-v2.mjs",
+        "bytes": 3634,
+        "sha256": "6b434bfbc1244baf3f6cb6ffd1c3cfbe0ea5d85528a15f5e9a4b629feb0f60e8"
+      },
+      {
+        "name": "prove-structure.mjs",
+        "bytes": 3450,
+        "sha256": "6a3e7c4d6b7bd3381299fcbcf639dcfa60d5ba881b227ccb9ce3eb659afa438a"
+      },
+      {
+        "name": "run-import-bindings.mjs",
+        "bytes": 217,
+        "sha256": "e42622e4a738d82697e245cf4bf04202d64376c58cf3094f69fc2e96d9f5cc4a"
+      },
+      {
+        "name": "run-word-boundary.mjs",
+        "bytes": 285,
+        "sha256": "9d32ee418a3d1177fe8ac8f05fe60559b1088f4ba8a80dbeaa45a7c45d405f82"
+      },
+      {
+        "name": "structure-proof-v2.execution.json",
+        "bytes": 2129,
+        "sha256": "94d5ae2b6cd479c5c73f169690b405a999a9171a191c548fde1ff8c45ef1a130"
+      },
+      {
+        "name": "structure-proof-v2.json",
+        "bytes": 1859,
+        "sha256": "607e43fd676d40e251a0c4829cae0c67dd24d0ed3368d5bb5feeea33ba2db591"
+      },
+      {
+        "name": "structure-proof-v2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "structure-proof-v2.stdout.raw",
+        "bytes": 1624,
+        "sha256": "8f48697c4d7295d117134fa620a63c4a69bf5a873eaefc4fb3918e72b0350c23"
+      },
+      {
+        "name": "structure-proof.execution.json",
+        "bytes": 2114,
+        "sha256": "2c1ec5f9c0dbfeda772f7dd56db371b0552ccb50c6da84e070769b9c68fbb697"
+      },
+      {
+        "name": "structure-proof.json",
+        "bytes": 1733,
+        "sha256": "d6530b8457b7e345cd1e27216e49a6882dde78f70799c333e7ffe7203f423819"
+      },
+      {
+        "name": "structure-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "structure-proof.stdout.raw",
+        "bytes": 1522,
+        "sha256": "0c120909f6a2734574b7e97cda1a7ba7df2bccede0e1ad92baf0384dc109411b"
+      },
+      {
+        "name": "structure-regression.execution.json",
+        "bytes": 2569,
+        "sha256": "6bd320dc99bd3e9f5464a062196448052c4f582ac6f192d245a92806085b522d"
+      },
+      {
+        "name": "structure-regression.native.json",
+        "bytes": 17249,
+        "sha256": "551d2baa36d64f7cd8f9df4bd99e3f01251578f606c6591fe57a41dfe0229fa1"
+      },
+      {
+        "name": "structure-regression.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "structure-regression.stdout.raw",
+        "bytes": 841,
+        "sha256": "bb0fea192878d23c34b4c92b907e2b15ad69751f924844c6a3367958cf18f2d4"
+      },
+      {
+        "name": "structure-types.execution.json",
+        "bytes": 1936,
+        "sha256": "e40628ce1a462104879b9197547844bca8e819a040ce368c6085b51f0476c208"
+      },
+      {
+        "name": "structure-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "structure-types.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "word-boundary-counter.execution.json",
+        "bytes": 2014,
+        "sha256": "0b92fefc3731cf28850af8372f485a3f327a5edeb08b6a21a6ac589c0e8678bc"
+      },
+      {
+        "name": "word-boundary-counter.stderr.raw",
+        "bytes": 709,
+        "sha256": "bfad166d68b63fde14c971bcb1ca3d02046a47324b0a171eb74bc2224d76f536"
+      },
+      {
+        "name": "word-boundary-counter.stdout.raw",
+        "bytes": 171,
+        "sha256": "440cc2fe618858e4f0f9a2bd18ec85ea3da187122b98245c5ed42967b31f731c"
+      },
+      {
+        "name": "word-boundary-probe.json",
+        "bytes": 2913,
+        "sha256": "e1b235df681e0185a03396bf1e9f623d8f0cb40e574d10f8add268be8b4063ec"
+      },
+      {
+        "name": "word-boundary-probe.mts",
+        "bytes": 5899,
+        "sha256": "8499b31b9eadec5f47d113308debbe52534e8de866ecc5bb927732e44ff18a13"
+      },
+      {
+        "name": "word-native.c",
+        "bytes": 3366,
+        "sha256": "4e345db7d146d7fd416bf9c0062cb36b07b8b0ef470075ba7845100c4d2e0290"
+      },
+      {
+        "name": "word-native.stdout.raw",
+        "bytes": 54,
+        "sha256": "84f01ef1ea7182c7908d0dabb5295331fd73c42a901f0b7b84472736bf0acf12"
+      },
+      {
+        "name": "structure-docs.execution.json",
+        "bytes": 2937,
+        "sha256": "48d94813f3e97a9c80a8afb727f3b9a74657febf99d7788da48ed12bb0563559"
+      },
+      {
+        "name": "structure-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "04f779f07efb2d5357335e8cfaed8322c112b984c8bb749ebf1a6535d67e4b7d"
+      },
+      {
+        "name": "structure-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "structure-lint.execution.json",
+        "bytes": 2610,
+        "sha256": "170902188d72ae259344c343bd24e1b86f7292bfc108feca563fb51b73b8a12a"
+      },
+      {
+        "name": "structure-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "334228669f061e6051b84bc46dc64a17596f4f17243089a0e41b3014efd59246"
+      },
+      {
+        "name": "structure-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "adjacent-comment-proof.execution.json",
+        "bytes": 1963,
+        "sha256": "c3cebffbe936dd793e1c89dd4c68fcab62b59945a2171a55077bce60ef61ba20"
+      },
+      {
+        "name": "adjacent-comment-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "adjacent-comment-proof.stdout.raw",
+        "bytes": 697,
+        "sha256": "e148b14e750215a41f11e75ff43e234333e8cc68b959899e53c89bf34de8fbfd"
+      },
+      {
+        "name": "comment-proof.json",
+        "bytes": 801,
+        "sha256": "57483e0b7c1af75254e264b2e411e2b5070ce4f9bd1d94dd535837e13d86c0a3"
+      },
+      {
+        "name": "comment-proof.mjs",
+        "bytes": 1297,
+        "sha256": "428e96fc129babd28263a08f41a67929fd3e5d4dc39a77677a6315753ae05a49"
+      },
+      {
+        "name": "extra-census.json",
+        "bytes": 2833,
+        "sha256": "0b895cab9a3ff0a4fb06aae24c495cb0c97fb8f89abb17af577202d49269d3e1"
+      },
+      {
+        "name": "extra-census.py",
+        "bytes": 2215,
+        "sha256": "86cab51d4959ff6d2a74018d614a6658771262bda69db8fc5bc4242def68f52f"
+      },
+      {
+        "name": "extra-raw-census-restored.execution.json",
+        "bytes": 1975,
+        "sha256": "e25140377b21e4911ebedfe271055cf57fae3243a2fc47bbd513413c0c1ca364"
+      },
+      {
+        "name": "extra-raw-census-restored.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "extra-raw-census-restored.stdout.raw",
+        "bytes": 246,
+        "sha256": "da27c84db0dd7b947360e07be9495b0c3f83cabe36850c3dee41b3290b74fa46"
+      },
+      {
+        "name": "extra-raw-census.execution.json",
+        "bytes": 1948,
+        "sha256": "1cab896cedda73997c63b4d94b2bd8bff7777b8647e45449b61d36a30f409283"
+      },
+      {
+        "name": "extra-raw-census.stderr.raw",
+        "bytes": 747,
+        "sha256": "31a14005160a7e1f573eee1676ce7018b227751f0b3a07bca108e781fc84329d"
+      },
+      {
+        "name": "extra-raw-census.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "run-extra-census.mjs",
+        "bytes": 247,
+        "sha256": "7033a601eaf4e23066d3b3dc03c310ae7c3084068cc188dacc3d699c035c6955"
+      },
+      {
+        "name": "seven-pools-counter.json",
+        "bytes": 5899,
+        "sha256": "cb57428b6c5ee10f4bd7c80582e2a4f4142aeb1239347748a9f8d5de799e35c9"
+      },
+      {
+        "name": "seven-pools-counter.mjs",
+        "bytes": 4684,
+        "sha256": "efb2df3a3c29d5a88dddc0ec00afa6ee563cabfe9029de23cf6e505662c35b05"
+      },
+      {
+        "name": "seven-pools-discrimination.execution.json",
+        "bytes": 1491,
+        "sha256": "50d488ecafedc1cbedef9cca55e11f227895ef1485e5314000e8afbc58c16c3c"
+      },
+      {
+        "name": "seven-pools-discrimination.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-discrimination.stdout.raw",
+        "bytes": 467,
+        "sha256": "ea79ed3bb56b5386083f1e65407c4f4381b1ea1ab4b89e8b368e9809d1ade0fa"
+      },
+      {
+        "name": "seven-pools-green.execution.json",
+        "bytes": 1779,
+        "sha256": "d956391dae9bd5d9eff2d40f68464ab2aebfb5c2d3cc8bfca4560741fca8eb0c"
+      },
+      {
+        "name": "seven-pools-green.native.json",
+        "bytes": 7342,
+        "sha256": "15fa21ca266ca5a0a1ea6523ef85833f862f0815ea0e0a3a3ddf78c802d3a3c2"
+      },
+      {
+        "name": "seven-pools-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-green.stdout.raw",
+        "bytes": 547,
+        "sha256": "38c8c98ece7698f9305cc4bf89a83f4a97c2244bc1a84f32c18645f22ffd6955"
+      },
+      {
+        "name": "seven-pools-mutant.ts",
+        "bytes": 13109,
+        "sha256": "d08794f7ba98d86e3143f47b24e65eb8306d0b57477fb3c3e206b115a82cd74a"
+      },
+      {
+        "name": "seven-pools-new-mutant.execution.json",
+        "bytes": 2956,
+        "sha256": "608eee2f0139a9c566440932f9e383e7e985966d0c2bf8da0c584116bbfdd950"
+      },
+      {
+        "name": "seven-pools-new-mutant.native.json",
+        "bytes": 4708,
+        "sha256": "656112b4909a7da32636024cc40f40f1f4ef9db721db8f14b03146ce34cf4fc0"
+      },
+      {
+        "name": "seven-pools-new-mutant.stderr.raw",
+        "bytes": 930,
+        "sha256": "9204c2bf3ee35229cfa79ff012e5f8735a477b4ec3646685c08fec83cb56e09b"
+      },
+      {
+        "name": "seven-pools-new-mutant.stdout.raw",
+        "bytes": 1042,
+        "sha256": "7b3a1fc50e5cd13d502423077b6bae3bb60c02188b33c53f0c1c16fa0df317e6"
+      },
+      {
+        "name": "seven-pools-new-test.ts",
+        "bytes": 8628,
+        "sha256": "d46713c21e60c358b4a82bbfa35e5e4a1a99803e08ae4ad707c2df8b1c8cb299"
+      },
+      {
+        "name": "seven-pools-old-mutant.execution.json",
+        "bytes": 916,
+        "sha256": "5ead0719a923b715c43cd9c89c9cff0ffa16ab68b01c1d8da6c7e6aaef448ce2"
+      },
+      {
+        "name": "seven-pools-old-mutant.native.json",
+        "bytes": 3076,
+        "sha256": "304ab4f04b2abc96da3e34937ca5e066408bd5f162053cbcd5306caa40963e0f"
+      },
+      {
+        "name": "seven-pools-old-mutant.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-old-mutant.stdout.raw",
+        "bytes": 517,
+        "sha256": "27512768caf1afede770e1f76e2cdab773d75780ed7ffc6ba3ae6a7d17aa8cf2"
+      },
+      {
+        "name": "seven-pools-old-test.ts",
+        "bytes": 6823,
+        "sha256": "e6ed3f211c88243f8f7cc536d97cdcb448f3a81c344d83c9d74eef14f0338389"
+      },
+      {
+        "name": "seven-pools-order-exact.patch",
+        "bytes": 751,
+        "sha256": "2040c9ac1b2e19c7a18d37186505c0ea1ad914ffa037694abb527085174aaf54"
+      },
+      {
+        "name": "seven-pools-order.patch",
+        "bytes": 395,
+        "sha256": "662e41445c7a6cf47a33d85330635b54ca2b2af044e716e3497eb8f2702310ee"
+      },
+      {
+        "name": "seven-pools-restored.execution.json",
+        "bytes": 912,
+        "sha256": "e93b05a1d4b6c65162f45eae64e37c77ee43aea57dd34b8e78d60da0e68a81dd"
+      },
+      {
+        "name": "seven-pools-restored.native.json",
+        "bytes": 3078,
+        "sha256": "c80f07269f985c63dfeb9a806395e2e2fc403fbe41a11dfe07f0a5fd3add73ce"
+      },
+      {
+        "name": "seven-pools-restored.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-restored.stdout.raw",
+        "bytes": 517,
+        "sha256": "a0d3f2fc2124adc923c3acc1e2bb2f1698ded16ec38a635364766c8480bf51f0"
+      },
+      {
+        "name": "seven-pools-types.execution.json",
+        "bytes": 1894,
+        "sha256": "b821782122c0bb3a1de9e2c4bbd48ecd78e5bbc6039c8a0516aee31cd7224385"
+      },
+      {
+        "name": "seven-pools-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-types.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "state-context-adjacent.execution.json",
+        "bytes": 2385,
+        "sha256": "8829d86bd6a5fba8275a6568287a3d592e80b7bce85ab073ae4c698b7a9fe21e"
+      },
+      {
+        "name": "state-context-adjacent.native.json",
+        "bytes": 7437,
+        "sha256": "8393bfa49fed5b79d701d2c07086ead6421bfcdadb39e3a30f3345ea9c0c3c7b"
+      },
+      {
+        "name": "state-context-adjacent.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "state-context-adjacent.stdout.raw",
+        "bytes": 611,
+        "sha256": "f87cc90de85f201dac7d8dd70f3b6026ec0649387011673337432a0935de276e"
+      },
+      {
+        "name": "state-evidence-bridge.json",
+        "bytes": 570,
+        "sha256": "97ea5663e3873ed58d0302922ceb992d8498875c6d158c06b96b97eb8285a8b1"
+      },
+      {
+        "name": "state-evidence-bridge.mjs",
+        "bytes": 1337,
+        "sha256": "a99331a945083a02b9e44b7a169a56b229d76aebfa7bb1e929b728b633024387"
+      },
+      {
+        "name": "state-old-proof-bridge.execution.json",
+        "bytes": 1971,
+        "sha256": "36ba62d1b75fade02346393ff4f5f27692a6fa389f8a2c4c0046744e25b421bc"
+      },
+      {
+        "name": "state-old-proof-bridge.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "state-old-proof-bridge.stdout.raw",
+        "bytes": 545,
+        "sha256": "03789efccc86386de636ebd9fadc12a0bb6742f3bc43ecb8880174ecd8bf8cbf"
+      },
+      {
+        "name": "positions-comment-proof.execution.json",
+        "bytes": 2354,
+        "sha256": "1433b719df3b199fc00614681f18e121e7f9c4d30de5dfba2794ba8e24cd47a8"
+      },
+      {
+        "name": "positions-comment-proof.json",
+        "bytes": 271,
+        "sha256": "9375969f99d2e9d4a174e4c9c1d76d7fb10bdc96d65b8ec027f7b2e0e92f8a8f"
+      },
+      {
+        "name": "positions-comment-proof.mjs",
+        "bytes": 1040,
+        "sha256": "7923c2ebd58d9faa3d32587bbb54e0e9a4a9a35004a63249606105ff1f6ce3b4"
+      },
+      {
+        "name": "positions-comment-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "positions-comment-proof.stdout.raw",
+        "bytes": 254,
+        "sha256": "2ad49a643ad67a0eb2c708f152746a9de36414a34f5f616cfe6f00615f1e4d12"
+      },
+      {
+        "name": "seven-pools-static-before.execution.json",
+        "bytes": 2964,
+        "sha256": "e89c821e649f1af18583899a4d63d13b6a5ca8575bcb0749f221e10f7c40daaf"
+      },
+      {
+        "name": "seven-pools-static-before.stderr.raw",
+        "bytes": 2203,
+        "sha256": "ef525792df4683e37a227e0ca7d3d35dbecf01838309a5928cf846211bf1ed22"
+      },
+      {
+        "name": "seven-pools-static-before.stdout.raw",
+        "bytes": 58,
+        "sha256": "7dd2042f5aac25531dcce6a2a64bf623df2d685f91e9085dc724325be1ccf6f3"
+      },
+      {
+        "name": "seven-pools-static.execution.json",
+        "bytes": 3099,
+        "sha256": "cdfd41cf4e862a92dad04ea565d1b9f1c83b5a8882a457b1815d73052bd3fe9f"
+      },
+      {
+        "name": "seven-pools-static.stdout.raw",
+        "bytes": 43,
+        "sha256": "1aa67fad31efe1ebf481057eec1c450f618959709570721c8f35c87a7891b7ed"
+      },
+      {
+        "name": "seven-pools-static.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-docs.execution.json",
+        "bytes": 2973,
+        "sha256": "9dc4c4335404061467e6d27d54989cdd33acce3cdc6e06d207a446642622f0d3"
+      },
+      {
+        "name": "seven-pools-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "04f779f07efb2d5357335e8cfaed8322c112b984c8bb749ebf1a6535d67e4b7d"
+      },
+      {
+        "name": "seven-pools-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-lint.execution.json",
+        "bytes": 2646,
+        "sha256": "78ffa9867840a707c851adbd7c12a287f188f1b850378b1680ddf3c4f967ffff"
+      },
+      {
+        "name": "seven-pools-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "adb8e801f9406e5cc313de388c8c1ab74d35e1b49c7b183963c218dcdf2f0a48"
+      },
+      {
+        "name": "seven-pools-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "seven-pools-progress.execution.json",
+        "bytes": 2762,
+        "sha256": "6b2038ea24d020068e08e50e3d999361f89d482f3a6f073bfe489395bc6d754d"
+      },
+      {
+        "name": "seven-pools-progress.stdout.raw",
+        "bytes": 780037,
+        "sha256": "8ccf716a1e34a86f7b11eb7ecb81b4d511b8655d14cefb561e11789dbeb7f49d"
+      },
+      {
+        "name": "seven-pools-progress.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "run-progress.mjs",
+        "bytes": 156,
+        "sha256": "ea9f15526eecaf84711202cdfa15799d8e0bf51e1902eeb4082371c39cef230c"
+      },
+      {
+        "name": "check-reused-controls.py",
+        "bytes": 2074,
+        "sha256": "37170607bdb8f465178d62a894e177451edc7a9267d7eac2fdda6269c13a2943"
+      },
+      {
+        "name": "run-reused-controls.mjs",
+        "bytes": 256,
+        "sha256": "500ef11b085f679c124aa750679afa734eed01369c6a4df06d0045d7249dafdb"
+      },
+      {
+        "name": "reused-controls.json",
+        "bytes": 30448,
+        "sha256": "922472861ba7ad5da175831778c020346e0f8c3c26148bad031305fa7d8e8991"
+      },
+      {
+        "name": "reused-controls.execution.json",
+        "bytes": 1199,
+        "sha256": "9005b48b5bb32301aade828182e931e5b190d64890a8f820f4bda1d0a040ed02"
+      },
+      {
+        "name": "reused-controls.stdout.raw",
+        "bytes": 94,
+        "sha256": "f205fa44db4ad85c1c3cd3af3911d552be01e4ff9845fdb6a2c6e00cab26e192"
+      },
+      {
+        "name": "reused-controls.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-canonical-regression.execution.json",
+        "bytes": 2175,
+        "sha256": "ff26205507054d383b2f762b36d2c279d918ed0e3fa69b181cbcd73ec10daf29"
+      },
+      {
+        "name": "h02-canonical-regression.native.json",
+        "bytes": 7344,
+        "sha256": "c6bd2de590b044437c34d077155d5f16bb20789a446decae9a17fa9f98d1dba1"
+      },
+      {
+        "name": "h02-canonical-regression.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-canonical-regression.stdout.raw",
+        "bytes": 555,
+        "sha256": "dde9d2fa4c84b9004afdab64b86c817d3c0801784ab3df1f7ff6964bd441b500"
+      },
+      {
+        "name": "h02-canonical-types.execution.json",
+        "bytes": 1778,
+        "sha256": "afae65ed2ecad74bedea48b4794e540c24a126da0d1f042edf655a90f28299ea"
+      },
+      {
+        "name": "h02-canonical-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-canonical-types.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "h02-fixture-discrimination.execution.json",
+        "bytes": 1599,
+        "sha256": "25ade34ff05b73b539af32c8e7a3419b3590a7fb77af0cc2079133e23cab3264"
+      },
+      {
+        "name": "h02-fixture-discrimination.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-fixture-discrimination.stdout.raw",
+        "bytes": 844,
+        "sha256": "73d7a6d7a031680cb9c6508d25fbfd89ffb9b4df980e327c336e17c4dfb1e178"
+      },
+      {
+        "name": "h02-fixtures-before.ts",
+        "bytes": 8628,
+        "sha256": "d46713c21e60c358b4a82bbfa35e5e4a1a99803e08ae4ad707c2df8b1c8cb299"
+      },
+      {
+        "name": "h02-fixtures-counter.json",
+        "bytes": 11395,
+        "sha256": "81121af900f74339944debc2d510d1da0d7941b8b1c2a6260848545d60487a34"
+      },
+      {
+        "name": "h02-fixtures-counter.mjs",
+        "bytes": 4259,
+        "sha256": "2c9ada2b382c5750d99d1b8342515797d2502b09c4210bd6ec169f5bf8373ad9"
+      },
+      {
+        "name": "h02-fixtures-final.ts",
+        "bytes": 8920,
+        "sha256": "53b2d7d6efd271442c51b5a33ef39ab400a1b82b9dadfe45e4c84704336ab01e"
+      },
+      {
+        "name": "h02-fixtures-fixed.ts",
+        "bytes": 8920,
+        "sha256": "53b2d7d6efd271442c51b5a33ef39ab400a1b82b9dadfe45e4c84704336ab01e"
+      },
+      {
+        "name": "h02-fixtures-red.ts",
+        "bytes": 8762,
+        "sha256": "bbef558122278d37dd4cc95ed32fcd5bac710aed5bbf2424031946bf90d531e7"
+      },
+      {
+        "name": "h02-hydrated-fixtures-green.execution.json",
+        "bytes": 926,
+        "sha256": "b65b5e6c45569b6b6d9deaf43cd5903f32f5c2e32896e1c615d264b0ce467810"
+      },
+      {
+        "name": "h02-hydrated-fixtures-green.native.json",
+        "bytes": 3080,
+        "sha256": "3befdf9bf056929d58ea8adf52bb8ca1c068827e66a84d8149fb53cafbde27a4"
+      },
+      {
+        "name": "h02-hydrated-fixtures-green.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-hydrated-fixtures-green.stdout.raw",
+        "bytes": 524,
+        "sha256": "039f58510b69b04c788a9f65f9f9a2210c35a1ab2118a204592f9f90d40221fd"
+      },
+      {
+        "name": "h02-hydrated-pool-mutant-red.execution.json",
+        "bytes": 2968,
+        "sha256": "ad353c2449ae965156ec10cd058e71d65f4fb13459c09bdfd57eddddd9e364e4"
+      },
+      {
+        "name": "h02-hydrated-pool-mutant-red.native.json",
+        "bytes": 4709,
+        "sha256": "dc22a78283815a5bde9bacba48f2ce2b9af8cd16ec06bd73932002543cc81a29"
+      },
+      {
+        "name": "h02-hydrated-pool-mutant-red.stderr.raw",
+        "bytes": 930,
+        "sha256": "8856bf954fcb24d6f6df456cf3f35017d237e3e0eb47ed64fe4e31f47498b7ba"
+      },
+      {
+        "name": "h02-hydrated-pool-mutant-red.stdout.raw",
+        "bytes": 1048,
+        "sha256": "f73ac3d8dcbbfecb12e1ce04cf6f5f91646321c1841446a1788fce8b004d9a40"
+      },
+      {
+        "name": "h02-hydrated-restored.execution.json",
+        "bytes": 914,
+        "sha256": "85ec0cf8ff5d7100af2d140118682663371a87b61852f176bcf5f9cbca95d9eb"
+      },
+      {
+        "name": "h02-hydrated-restored.native.json",
+        "bytes": 3081,
+        "sha256": "fd11084b2463057b27e3dc3cb046aa56e5f427f6a0f1817bd55b48cf87f84a48"
+      },
+      {
+        "name": "h02-hydrated-restored.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-hydrated-restored.stdout.raw",
+        "bytes": 518,
+        "sha256": "e81a3d4742dc8b8eb3c6936acacd696a60fa7cadb5b99b6cce3f10859a6a4191"
+      },
+      {
+        "name": "h02-old-fixtures-level-oracle-red.execution.json",
+        "bytes": 5392,
+        "sha256": "9dba144bb503ab374fcf6040efe739df36ea27defaab48acff24265c1a0f04a6"
+      },
+      {
+        "name": "h02-old-fixtures-level-oracle-red.native.json",
+        "bytes": 6676,
+        "sha256": "3578510a5ec430807ace824e571dd368a99708889ff2e906818d6ebf839c6e24"
+      },
+      {
+        "name": "h02-old-fixtures-level-oracle-red.stderr.raw",
+        "bytes": 2126,
+        "sha256": "493eb5d6bddfe8cff8ec3e0e79a90221003d82c4109dbc8bda5c0287606bde3a"
+      },
+      {
+        "name": "h02-old-fixtures-level-oracle-red.stdout.raw",
+        "bytes": 1052,
+        "sha256": "fece78c46a9ac9d236989be848d5b647e1b60cf5828e998bf689c3ed42404845"
+      },
+      {
+        "name": "prepare-h02-fixtures.py",
+        "bytes": 3370,
+        "sha256": "33b90d634a4934545793ca3ab668a9874e6ad66080018eee6c21d64950adf424"
+      },
+      {
+        "name": "related-window-check.diagnostics.json",
+        "bytes": 84220,
+        "sha256": "3386e8aabbe097bce533bbb90327b37bb6db4892ff599e1bcaec98466e390644"
+      },
+      {
+        "name": "related-window-check.execution.json",
+        "bytes": 1477,
+        "sha256": "7e02ec02d7f65539717a152e62c0fce7b703269abfe133c82e66415b095d757e"
+      },
+      {
+        "name": "related-window-check.scan-output.raw",
+        "bytes": 73059,
+        "sha256": "fdfc480b5a18896969ec9c98cb3ed8ca8882a6b9fc045a5f31f2e1d99aae62ff"
+      },
+      {
+        "name": "related-window-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "related-window-check.stdout-classification.json",
+        "bytes": 2386,
+        "sha256": "2f49d84933d8c62d83779b6de70b295322bbd4cea6ea284cbcd087d0eb43796e"
+      },
+      {
+        "name": "related-window-check.stdout.raw",
+        "bytes": 372010,
+        "sha256": "318def49ff5429ec66735d9b8be22f82c65d4407a0ffcfe1481da518a630a6a9"
+      },
+      {
+        "name": "scan-gates.cjs",
+        "bytes": 1990,
+        "sha256": "a7adae1ed84ff3e02e3c4a1452dea9c400f91f796448c06babcdcd648abbc484"
+      },
+      {
+        "name": "structure-disposition.json",
+        "bytes": 1429,
+        "sha256": "4a29aa353e447c193fd82ca60761be9ea5e0b5493f25cbabb13a350453db8115"
+      },
+      {
+        "name": "structure-screen.execution.json",
+        "bytes": 1565,
+        "sha256": "3ea095b1f0e00c6c368d26b423b51016c727405fcb3540f834b90ee6f1a7a4a3"
+      },
+      {
+        "name": "structure-screen.json",
+        "bytes": 11744,
+        "sha256": "7db8ecaaa7ebff6848209560b3552e07dea29e57320d22c4a2e40cb752d1b22b"
+      },
+      {
+        "name": "structure-screen.mjs",
+        "bytes": 3756,
+        "sha256": "a2ad13ad78db09d41813092c17564c4a542511f4ffd096f45bb5d2e72fb69bf3"
+      },
+      {
+        "name": "structure-screen.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "structure-screen.stdout.raw",
+        "bytes": 763,
+        "sha256": "194bd30b621953227e22b1f0f47b9b1d75b2b184c6fcae0a09bec954f170b5dd"
+      },
+      {
+        "name": "h02-rework-docs.execution.json",
+        "bytes": 2045,
+        "sha256": "68b17c9a05fc3da18b78b8e377ccac250fa0489f312c9cb73b5ed082a8c8e1e3"
+      },
+      {
+        "name": "h02-rework-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "04f779f07efb2d5357335e8cfaed8322c112b984c8bb749ebf1a6535d67e4b7d"
+      },
+      {
+        "name": "h02-rework-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "h02-rework-lint.execution.json",
+        "bytes": 1718,
+        "sha256": "49e7704cc418ba1dc580777f93fde4ed3d1acb0ad6d1a6642d3ef12c484e252d"
+      },
+      {
+        "name": "h02-rework-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "adb8e801f9406e5cc313de388c8c1ab74d35e1b49c7b183963c218dcdf2f0a48"
+      },
+      {
+        "name": "h02-rework-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "accepted-baseline.json",
+        "bytes": 531597,
+        "sha256": "2fb63c63ce97687d21a8fd3fbb3c23dbcd14980f1631787966e3a767bb13b371"
+      },
+      {
+        "name": "accepted-docs.execution.json",
+        "bytes": 2240,
+        "sha256": "9c900c4f9a94dd3af64e138965f1fae3067cb6d3893987b41218c19a9456661d"
+      },
+      {
+        "name": "accepted-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "accepted-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "d1a4ccd35c72eaebdfb6ce4fa2c5fe29c25541685f41f14a5f9b8ea11e1844b6"
+      },
+      {
+        "name": "accepted-lint.execution.json",
+        "bytes": 1913,
+        "sha256": "b2ab3bd8409b6b710bcde805ccd94db0bebbd46b06d750225245634959a980bc"
+      },
+      {
+        "name": "accepted-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "accepted-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "adb8e801f9406e5cc313de388c8c1ab74d35e1b49c7b183963c218dcdf2f0a48"
+      },
+      {
+        "name": "accepted-progress.execution.json",
+        "bytes": 2029,
+        "sha256": "abe1a1a25ea6f2ee550c94099763d6088f74c25b46af34b311f3a043abde33c4"
+      },
+      {
+        "name": "accepted-progress.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "accepted-progress.stdout.raw",
+        "bytes": 780037,
+        "sha256": "b4faab5db3820dca10e4dc414746666d156e23a4278f9c90e966ca072e68e58e"
+      },
+      {
+        "name": "baseline-scope-only.json",
+        "bytes": 784,
+        "sha256": "626b040f38d5ed81d773cbb694e4f88703c1488d061818e7b46763763a486e5d"
+      },
+      {
+        "name": "final-diff.execution.json",
+        "bytes": 1814,
+        "sha256": "7e7c8df1c644d5ca58ef318f7a1f81540743a6cbed6245dd685c706ab49bb6a8"
+      },
+      {
+        "name": "final-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-docs.execution.json",
+        "bytes": 2117,
+        "sha256": "a13902eb9856e6ddde28ad9c3641b1f5d3e5358ca5c8f3db139f8ea099d5c5ca"
+      },
+      {
+        "name": "final-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "d1a4ccd35c72eaebdfb6ce4fa2c5fe29c25541685f41f14a5f9b8ea11e1844b6"
+      },
+      {
+        "name": "final-ledger.execution.json",
+        "bytes": 1833,
+        "sha256": "73a21b9e3a9f05ba892f09cb4580b7ccb9597915f6707c33c5ecb14e65f41212"
+      },
+      {
+        "name": "final-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "065f1ac994b5d2672af8d647cfd955cbc05d2b6c79dbf0c10702d509dfee0f56"
+      },
+      {
+        "name": "final-lint.execution.json",
+        "bytes": 1790,
+        "sha256": "c2ce5d50e7e86a02223bc7fb82def0f2e1cd905ba90fdb8bbd5fdbb2bbe7b239"
+      },
+      {
+        "name": "final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "adb8e801f9406e5cc313de388c8c1ab74d35e1b49c7b183963c218dcdf2f0a48"
+      },
+      {
+        "name": "final-progress.execution.json",
+        "bytes": 1906,
+        "sha256": "2be594733d245341cd5571664318e7ec1068537134f21377d8566ca2b638c171"
+      },
+      {
+        "name": "final-progress.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "final-progress.stdout.raw",
+        "bytes": 780037,
+        "sha256": "f46cc82b1ac9b7b7575b53017220a43cb4acd653cdc4e47b3e7cd61bc14c835f"
+      },
+      {
+        "name": "protected-baseline.json",
+        "bytes": 531530,
+        "sha256": "02375c14f59fea090ca3e43d16b96d4cd137b9e1c86e70db575fcd309b9addae"
+      },
+      {
+        "name": "protected-snapshot.json",
+        "bytes": 1402,
+        "sha256": "3bfdcced9d277100eff3b53cc06168d2ae2d4b7e1dd403c0cc92ffb6e02ca493"
+      },
+      {
+        "name": "protected-snapshot.mjs",
+        "bytes": 4589,
+        "sha256": "700579cced6e77327430694bdfb99635cb9d617578820441b36862b4d2adc5a2"
+      },
+      {
+        "name": "related-window-ratchet.coverage-summary.json",
+        "bytes": 8495044,
+        "sha256": "dbd735bdcf264c13caebaa743bc7b88b46bd76ecd37b7860ab18eb7566730460"
+      },
+      {
+        "name": "related-window-ratchet.diagnostics.json",
+        "bytes": 81911,
+        "sha256": "8a5fbcaa70f62b8f6a5e49ea924808c2cd764a451818a25c2857d15a5f6e7fe0"
+      },
+      {
+        "name": "related-window-ratchet.execution.json",
+        "bytes": 1343,
+        "sha256": "0c13cea235ee78734d273af6cfb2ef1096d19540ccab9aa8c249a3bb51bfb8b4"
+      },
+      {
+        "name": "related-window-ratchet.scan-output.raw",
+        "bytes": 71098,
+        "sha256": "2bfc3340b84d69ce13ef3b49624a88705900f451a2d14170c068fb3815a8b156"
+      },
+      {
+        "name": "related-window-ratchet.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "related-window-ratchet.stdout-classification.json",
+        "bytes": 1599,
+        "sha256": "f3f763fc5be67fe81065efce6368508d62cec43865f46941385464b5f9e4624f"
+      },
+      {
+        "name": "related-window-ratchet.stdout.raw",
+        "bytes": 203812,
+        "sha256": "22d45f24420b963d1e23c59b54d3ad84d6dcb2a190999d376e72618ab5a8836c"
+      },
+      {
+        "name": "strict-protected.execution.json",
+        "bytes": 1547,
+        "sha256": "342e041d69263716b1ec1978452081212052e529ecfc51ed777c063a4c955f73"
+      },
+      {
+        "name": "strict-protected.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "strict-protected.stdout.raw",
+        "bytes": 192,
+        "sha256": "40cc2a1c66956ec349afb62c52faa9ac0e0d0a2c084e0d0601d30092afb68604"
+      },
+      {
+        "name": "ci-first-written-baseline.json",
+        "bytes": 531597,
+        "sha256": "f2eca6b2c8559e30d541b62589698a6eea04309606463ec96b9033165ed29670"
+      },
+      {
+        "name": "ci-k06-before.tsx",
+        "bytes": 43650,
+        "sha256": "1ccff4b3561cb03e36c84d3fd06217a90292c840dc067e475ebab8cf398c3da7"
+      },
+      {
+        "name": "ci-k06-final.tsx",
+        "bytes": 43986,
+        "sha256": "de7db180d8856e3f11fcc464dc81c72c26fc77ffaa587e652b6c29d210b075a0"
+      },
+      {
+        "name": "ci-k06-raf-new-zero.diagnostics.json",
+        "bytes": 106,
+        "sha256": "2b9936b32d6ee5f76a5299e083c8ea2547b67f67568bb1ec81bcb65854ccaca7"
+      },
+      {
+        "name": "ci-k06-raf-new-zero.execution.json",
+        "bytes": 863,
+        "sha256": "4c950fbb397e42241af191991448729c056ac35ef7d69c09a2de3d28762e099c"
+      },
+      {
+        "name": "ci-k06-raf-new-zero.native.json",
+        "bytes": 3833,
+        "sha256": "66394a81e2b6322e938fa8bb15244a769a5b46be9f1da1ed77f7a8b18a7e1018"
+      },
+      {
+        "name": "ci-k06-raf-new-zero.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-k06-raf-new-zero.stdout.raw",
+        "bytes": 674,
+        "sha256": "cb29a7d6d860b19bcf736d68e537bf820b11227341bb82d55d58327b5dd3d492"
+      },
+      {
+        "name": "ci-k06-raf-new-zero.tsx",
+        "bytes": 44094,
+        "sha256": "3114cc6f8c3320cbaaf001fd4d26ff94eb33d247a1a3c9355d55fc947baceb6e"
+      },
+      {
+        "name": "ci-k06-raf-old-diagnostics.diagnostics.json",
+        "bytes": 109,
+        "sha256": "8b547ecec9e942feab7c6b3a4cad9d1952a988f23d58cfe52b88437eeec499c0"
+      },
+      {
+        "name": "ci-k06-raf-old-diagnostics.execution.json",
+        "bytes": 877,
+        "sha256": "dd2167294440bb8377e1680ae10999717ef69e5edc492ef8826386fc093c0bd6"
+      },
+      {
+        "name": "ci-k06-raf-old-diagnostics.native.json",
+        "bytes": 3841,
+        "sha256": "884f997f10d96043593dd968021ed114e407a47d50e8b6f9f195bd593ed9142e"
+      },
+      {
+        "name": "ci-k06-raf-old-diagnostics.stderr.raw",
+        "bytes": 2328,
+        "sha256": "fd7128e03348d8487bdea6eb72f48e8626ea4b90838d1ff431c1e53f8d7537e7"
+      },
+      {
+        "name": "ci-k06-raf-old-diagnostics.stdout.raw",
+        "bytes": 681,
+        "sha256": "0b36a1e83326d435e0ce09eb3fc0e6d39e2dc725bf5c4294df800e2a93c587fc"
+      },
+      {
+        "name": "ci-k06-raf-old-diagnostics.tsx",
+        "bytes": 43758,
+        "sha256": "937dcdf50f4239256a517e20a5ea2d57b41db5a7cbc70e7c26634dba49e8f814"
+      },
+      {
+        "name": "ci-k06-reproduce.mjs",
+        "bytes": 4593,
+        "sha256": "443553883efc7053e22bef50d98a350f162ee9a155d570fe7ded6633e7c3007a"
+      },
+      {
+        "name": "ci-k06-reproduction.json",
+        "bytes": 3568,
+        "sha256": "f498b606c5f7abb186558a255d3ad2f020ece1516f0e69b673b66179eac0940a"
+      },
+      {
+        "name": "ci-k06-restored-zero.diagnostics.json",
+        "bytes": 106,
+        "sha256": "2b9936b32d6ee5f76a5299e083c8ea2547b67f67568bb1ec81bcb65854ccaca7"
+      },
+      {
+        "name": "ci-k06-restored-zero.execution.json",
+        "bytes": 865,
+        "sha256": "37fd35e6648d359af274c8ee0e35a9813dc0c8de5e73bff6a9e28605c1117206"
+      },
+      {
+        "name": "ci-k06-restored-zero.native.json",
+        "bytes": 3841,
+        "sha256": "e4d653cdb74099b529ae1254450f4f0f21b22acab752cea163be3cf4deebdc12"
+      },
+      {
+        "name": "ci-k06-restored-zero.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-k06-restored-zero.stdout.raw",
+        "bytes": 675,
+        "sha256": "761771796cad64cdc8685a1a52118e0ce4ca2aceaed6b535fa53dc84923c7ac8"
+      },
+      {
+        "name": "ci-k06-restored-zero.tsx",
+        "bytes": 43986,
+        "sha256": "de7db180d8856e3f11fcc464dc81c72c26fc77ffaa587e652b6c29d210b075a0"
+      },
+      {
+        "name": "ci-k06-test-body-proof.json",
+        "bytes": 1907,
+        "sha256": "7961e9f93c2874cf59babd920762ff4d207ace5f41b27608776d639df00678bc"
+      },
+      {
+        "name": "ci-m05-adjacent.execution.json",
+        "bytes": 1931,
+        "sha256": "0f6faccc1153f104cf16f368fdee332b9512f5d2869b01a9812ae2cb7b05546e"
+      },
+      {
+        "name": "ci-m05-adjacent.native.json",
+        "bytes": 9555,
+        "sha256": "673666beeae84be51810978fb13108428ab835f4596c6911c1a8fee33d54916c"
+      },
+      {
+        "name": "ci-m05-adjacent.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-m05-adjacent.stdout.raw",
+        "bytes": 702,
+        "sha256": "7a869d17784d8533e1a62a78742c8a640378689968606b8dc4d7348ad41f590b"
+      },
+      {
+        "name": "ci-m05-assertion-map.json",
+        "bytes": 2115,
+        "sha256": "8eb1b15ba9333d4e6d7b26e85b056a36c2f00aa6e5a1c958d86cb92bcdf3d49d"
+      },
+      {
+        "name": "ci-m05-before.tsx",
+        "bytes": 8289,
+        "sha256": "6640aa5c9d4749492994aad33791aa2ab0fee97495e41e931f0a046b1852e17a"
+      },
+      {
+        "name": "ci-m05-biome.execution.json",
+        "bytes": 1465,
+        "sha256": "e5fd732133d9e3d3cdd912e6c91f021081af7c913851bd4352d5796605319017"
+      },
+      {
+        "name": "ci-m05-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-m05-biome.stdout.raw",
+        "bytes": 42,
+        "sha256": "c576134cfd3293d78e76f6875af0ac7b1fb95699a1cb855d171e6b5dddae6636"
+      },
+      {
+        "name": "ci-m05-final-ratchet.coverage-summary.json",
+        "bytes": 8495024,
+        "sha256": "38ac09653868487c80d062fb98df4855f63d2d40fe8847c9e0fa36a4c71ceb75"
+      },
+      {
+        "name": "ci-m05-final-ratchet.diagnostics.json",
+        "bytes": 81912,
+        "sha256": "aef486dfa9d8d8f67e7de1c9131b5919290279b2b034a34dbe40a3a834263565"
+      },
+      {
+        "name": "ci-m05-final-ratchet.execution.json",
+        "bytes": 1548,
+        "sha256": "763d8470004a7c61ad3e95c5255e36b19c45fc384e99de2702b94bb7dd6dcc86"
+      },
+      {
+        "name": "ci-m05-final-ratchet.scan-output.raw",
+        "bytes": 71099,
+        "sha256": "9a9ffce5cf7a7bcaf0e3d11c431b17376fe3fe5dccfe3236d0224aecd78cf632"
+      },
+      {
+        "name": "ci-m05-final-ratchet.stderr.raw",
+        "bytes": 2328,
+        "sha256": "fd7128e03348d8487bdea6eb72f48e8626ea4b90838d1ff431c1e53f8d7537e7"
+      },
+      {
+        "name": "ci-m05-final-ratchet.stdout.raw",
+        "bytes": 204191,
+        "sha256": "fa8aa84fd79519ed13a2c2c8446566b5ce23971f69d77fce883ac8233134c84e"
+      },
+      {
+        "name": "ci-m05-final.tsx",
+        "bytes": 8133,
+        "sha256": "fe368560573cafb545b45f0c50393cfbc9478de81a76ad462fbd0761f89d9c5d"
+      },
+      {
+        "name": "ci-m05-held-new-green-v2.execution.json",
+        "bytes": 821,
+        "sha256": "fc4973e07d3218d74daf1905658c64322f8a39652db0492cd2989bd4d6630de0"
+      },
+      {
+        "name": "ci-m05-held-new-green-v2.native.json",
+        "bytes": 1505,
+        "sha256": "d9cb935cd7f3a05a5500647df2db302462bd4264981756e167b76de918c89a4a"
+      },
+      {
+        "name": "ci-m05-held-new-green-v2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-m05-held-new-green-v2.stdout.raw",
+        "bytes": 624,
+        "sha256": "d6978838c5abb3fe387baa7a274a0f28eccd2fe1817802306b30cc9ad37ef169"
+      },
+      {
+        "name": "ci-m05-held-new-green-v2.tsx",
+        "bytes": 8650,
+        "sha256": "1018b1f218bd407ab0b1e4e719b0754ed0c5cfe161a285b5e42a459dce1784bb"
+      },
+      {
+        "name": "ci-m05-held-old-red-v2.execution.json",
+        "bytes": 1442,
+        "sha256": "416ae2a06277b8c9dbf44f5e55fdf0dc92f91724d79751262d74a128783c4a7c"
+      },
+      {
+        "name": "ci-m05-held-old-red-v2.native.json",
+        "bytes": 1942,
+        "sha256": "e63faef7b42f3df4eac733a603e5e5b27e4e5a50046b042ab3f1932d83e05918"
+      },
+      {
+        "name": "ci-m05-held-old-red-v2.stderr.raw",
+        "bytes": 734,
+        "sha256": "790c4a4f796e97f87e99508a054b272d87ba18f5f13f55db626d3ec657452242"
+      },
+      {
+        "name": "ci-m05-held-old-red-v2.stdout.raw",
+        "bytes": 725,
+        "sha256": "d50c74845d03073549caac72ec994d53f218508e4737ea1455fd07723fac39ad"
+      },
+      {
+        "name": "ci-m05-held-old-red-v2.tsx",
+        "bytes": 8806,
+        "sha256": "56ded12ada65073551e6d6f9fa6b05906584001a2377a235548d5391548dbee0"
+      },
+      {
+        "name": "ci-m05-held-old-red.execution.json",
+        "bytes": 811,
+        "sha256": "75694be56dee9ea47e0a3e1f9d3125b2d76aec23487280f9a3cbd2614d43ac5a"
+      },
+      {
+        "name": "ci-m05-held-old-red.native.json",
+        "bytes": 900,
+        "sha256": "029ed78b269da6cb9552e81c6ccbebdc6cc3fc9a45f1bbfcc578a75af3df2a96"
+      },
+      {
+        "name": "ci-m05-held-old-red.stderr.raw",
+        "bytes": 1238,
+        "sha256": "5c9b6b5036eced7546d2f75bc1ebb985e466f24bb2b44241a3bf19c4f7b499ee"
+      },
+      {
+        "name": "ci-m05-held-old-red.stdout.raw",
+        "bytes": 496,
+        "sha256": "2f2e395672d309675097f41987b40a8292e8ea6977c5a1945575f7a720fe228f"
+      },
+      {
+        "name": "ci-m05-held-old-red.tsx",
+        "bytes": 8806,
+        "sha256": "56ded12ada65073551e6d6f9fa6b05906584001a2377a235548d5391548dbee0"
+      },
+      {
+        "name": "ci-m05-protected-snapshot.json",
+        "bytes": 1310,
+        "sha256": "6786c1b6b72c25022d36768a2d3dc936fba5aebdb7e0c7cdb3d8091c2c66d338"
+      },
+      {
+        "name": "ci-m05-reproduce-v2.mjs",
+        "bytes": 5099,
+        "sha256": "a518ac0ea0e0821818404c900d6d9ad424f3eefffcc2105b98bea549155ea0bb"
+      },
+      {
+        "name": "ci-m05-reproduce.mjs",
+        "bytes": 4703,
+        "sha256": "396e058f9901d10d5ba82a3abef2dde57b7ffb4124beac9bca286e2369d872fa"
+      },
+      {
+        "name": "ci-m05-reproduction-v2.json",
+        "bytes": 3933,
+        "sha256": "8c485bef94b5c73afd639f573ab565a4ec2fc07f51734f2cabee5589b8269e98"
+      },
+      {
+        "name": "ci-m05-restored-green-v2.execution.json",
+        "bytes": 821,
+        "sha256": "f7b10a70a112494e8a23955cb5f7c6adfc218c670e761301d6c57febfa53a72c"
+      },
+      {
+        "name": "ci-m05-restored-green-v2.native.json",
+        "bytes": 1503,
+        "sha256": "9badc559eecaff32fc6aaa152e2f72a03723be02e7a31872be4e0383f6938b97"
+      },
+      {
+        "name": "ci-m05-restored-green-v2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-m05-restored-green-v2.stdout.raw",
+        "bytes": 516,
+        "sha256": "ebc9d85401eadae27b1163ac14045febbbed2a7361e9f032830c578d4ca701c0"
+      },
+      {
+        "name": "ci-m05-restored-green-v2.tsx",
+        "bytes": 8133,
+        "sha256": "fe368560573cafb545b45f0c50393cfbc9478de81a76ad462fbd0761f89d9c5d"
+      },
+      {
+        "name": "ci-m05-strict-proof.execution.json",
+        "bytes": 1767,
+        "sha256": "586675035d682b89b726c8e02be84f1da398d45fd04cf49851f0916e58c5e0b1"
+      },
+      {
+        "name": "ci-m05-strict-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-m05-strict-proof.stdout.raw",
+        "bytes": 192,
+        "sha256": "40cc2a1c66956ec349afb62c52faa9ac0e0d0a2c084e0d0601d30092afb68604"
+      },
+      {
+        "name": "ci-m05-strict-protected.mjs",
+        "bytes": 4771,
+        "sha256": "62f8f6f882bda00ca989343249629b52b63623fea1311406eb6b0a77a577162c"
+      },
+      {
+        "name": "ci-m05-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-m05-types.stdout.raw",
+        "bytes": 183,
+        "sha256": "576fd568143eed9c8c92c8e31e41ff2ebf7cb1d135cabbf89fe86b5b99d9bc12"
+      },
+      {
+        "name": "ci-two-tests-adjacent.execution.json",
+        "bytes": 2458,
+        "sha256": "a59539361d1fd4c65e789faebe30f93c0677cd41b2a770637cfaedfccb2d729f"
+      },
+      {
+        "name": "ci-two-tests-adjacent.native.json",
+        "bytes": 12104,
+        "sha256": "7227b1400cbd069dacd98dc8d169dff53dffeeb8fb8d7243692c71e8dd49c4d2"
+      },
+      {
+        "name": "ci-two-tests-adjacent.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-two-tests-adjacent.stdout.raw",
+        "bytes": 859,
+        "sha256": "d261365b2bfd703e51fe32c46bcb0d9331f1b43e017bb5890cf1e3aa5d486613"
+      },
+      {
+        "name": "ci-two-tests-biome.execution.json",
+        "bytes": 2132,
+        "sha256": "2cef576c0853072dff230c396f0fcc5987111a97f9d88988b477d09c83023518"
+      },
+      {
+        "name": "ci-two-tests-biome.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-two-tests-biome.stdout.raw",
+        "bytes": 43,
+        "sha256": "2a118c6d22331a9d205d1066d761a01093204f39eddffa9dfd6b98e828a77179"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.coverage-summary.json",
+        "bytes": 8495024,
+        "sha256": "3dfad801e69d282ee42ebe9fb547fffcc477679ba8df3f7b029194d7c50cdd42"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.diagnostics.json",
+        "bytes": 81915,
+        "sha256": "e4a42840ce93922ec3d9b43941fd531edbecda02f3e30b32b1b5eea87d8a04cb"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.execution.json",
+        "bytes": 2065,
+        "sha256": "179b6bf3f71648bbbbdf087072c6f6c47ab8df144c2e70fff2eecc3884230c43"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.scan-output.raw",
+        "bytes": 71102,
+        "sha256": "9749946b453f619c82123e53922208e0cec0fea18402ba71e066d9c3ac265d03"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.stdout-classification.json",
+        "bytes": 511,
+        "sha256": "29cc01bc0353180716bd2302d5e799dce4625b34c887c6a9f0dcf2c485917783"
+      },
+      {
+        "name": "ci-two-tests-final-ratchet.stdout.raw",
+        "bytes": 204007,
+        "sha256": "6152ebc5ddf86b6bef48bad89665df0cf44403298bd16619fb86d794858fed4a"
+      },
+      {
+        "name": "ci-two-tests-protected-snapshot.json",
+        "bytes": 1348,
+        "sha256": "1ec0a0d229d1c90d2da26c277d5eb929f8dc868cdf221014b1e0885a43bb10b5"
+      },
+      {
+        "name": "ci-two-tests-strict-proof.execution.json",
+        "bytes": 2026,
+        "sha256": "4d7fc4004598a2edd30f11b94d57c1eae634a7e95c09c941716eb72545855ada"
+      },
+      {
+        "name": "ci-two-tests-strict-proof.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-two-tests-strict-proof.stdout.raw",
+        "bytes": 192,
+        "sha256": "40cc2a1c66956ec349afb62c52faa9ac0e0d0a2c084e0d0601d30092afb68604"
+      },
+      {
+        "name": "ci-two-tests-strict-protected.mjs",
+        "bytes": 5159,
+        "sha256": "467d69fd86cd4e36a599d6b53fffda051faa8715a723f69ab7842dd8b91e171e"
+      },
+      {
+        "name": "ci-two-tests-types.execution.json",
+        "bytes": 1992,
+        "sha256": "1aeed1c674cf68ce2d4d09e9e47568da9a84c9df96888497eaa8f51bef663499"
+      },
+      {
+        "name": "ci-two-tests-types.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-two-tests-types.stdout.raw",
+        "bytes": 183,
+        "sha256": "576fd568143eed9c8c92c8e31e41ff2ebf7cb1d135cabbf89fe86b5b99d9bc12"
+      },
+      {
+        "name": "ci-types-current.mjs",
+        "bytes": 140,
+        "sha256": "9c2a3728c6adbb5ea2d1162268f3e7a2526e3db0378de4a7916a8df656d734c1"
+      },
+      {
+        "name": "github-branch-docs-annotations.json",
+        "bytes": 980,
+        "sha256": "b7c12ac4d8c387947c58ae3fc6ccd6f3d2959f5d4c74370549775cec26bf4864"
+      },
+      {
+        "name": "github-branch-docs-full.raw",
+        "bytes": 2249675,
+        "sha256": "27dc9d38afd6c96987c437b36704e5325fe533b8867e52cd9b2aeb8cba8d2e9c"
+      },
+      {
+        "name": "github-branch-docs-receipt.json",
+        "bytes": 925,
+        "sha256": "e42d4c385e93bb76fd574f06efd393a4e06fab6b47facbfe9af237adeee584ef"
+      },
+      {
+        "name": "github-branch-docs.json",
+        "bytes": 2431,
+        "sha256": "d53ace947e9b64e5b58f1ff995c92e2869126616d6acd2835733ddb49ae5edcb"
+      },
+      {
+        "name": "github-main-coverage-annotations.json",
+        "bytes": 1313,
+        "sha256": "88b458a608c2b1b4f76813644451bd8153c9392d2e19b86cd1521d6ae156598d"
+      },
+      {
+        "name": "github-main-coverage-full.raw",
+        "bytes": 680327,
+        "sha256": "d071393b56ca923d57ceaf220bff26acdf77a58df0cccf57f4937e2a49362945"
+      },
+      {
+        "name": "github-main-coverage-receipt.json",
+        "bytes": 1537,
+        "sha256": "9117131f013dd55f9704e9a9907c96f2b0014a1f745bd5ef2e2e49e9be37e910"
+      },
+      {
+        "name": "github-main-coverage.json",
+        "bytes": 2785,
+        "sha256": "3a8beb3d178aaf3951936872a688ab68b5861a0c4c31da4d08ef4f83c3bcde58"
+      },
+      {
+        "name": "github-main-docs-annotations.json",
+        "bytes": 1114,
+        "sha256": "a2e7b9e4eeb6648983053ace3fdb53e590d7a986048a0e1ce7ff1c8f9d5f708e"
+      },
+      {
+        "name": "github-main-docs-full.raw",
+        "bytes": 2247405,
+        "sha256": "35c73a1fd5d36651f64fdd03a7040f0512951947007e4049fcefc547b6ae3e10"
+      },
+      {
+        "name": "github-main-docs-receipt.json",
+        "bytes": 995,
+        "sha256": "f251c64592fc9b70833e2e57b712806a34b5056b59216b5f50b0c6adcf526a5d"
+      },
+      {
+        "name": "github-main-docs.json",
+        "bytes": 3616,
+        "sha256": "c0739d19ac08d4133ce97f6acdd2ad6b7eb712a9c80894f0a934994c3e50fdff"
+      },
+      {
+        "name": "ci-final-docs.execution.json",
+        "bytes": 2800,
+        "sha256": "b1b91083f60c3a8df55d9c7e402e5ea68573ed14ef412ef96fb05b143fd86da4"
+      },
+      {
+        "name": "ci-final-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "41f89f1eb36d513e85838d1c92efaeabb2094bb4a93422718372c2b3f772c563"
+      },
+      {
+        "name": "ci-final-ledger.execution.json",
+        "bytes": 2516,
+        "sha256": "97dfbf343c40a192b850a9ac0fd907d0c38fc858ac526b3ba2500edef044607f"
+      },
+      {
+        "name": "ci-final-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "065f1ac994b5d2672af8d647cfd955cbc05d2b6c79dbf0c10702d509dfee0f56"
+      },
+      {
+        "name": "ci-final-lint.execution.json",
+        "bytes": 2473,
+        "sha256": "a79a0c42f8d6931668b845c4ba42111f5657ef793b8188ffdd9011357083bc0c"
+      },
+      {
+        "name": "ci-final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "adb8e801f9406e5cc313de388c8c1ab74d35e1b49c7b183963c218dcdf2f0a48"
+      },
+      {
+        "name": "ci-final-progress.execution.json",
+        "bytes": 2589,
+        "sha256": "a2b430a8bfa9466ff4b4b7c48258ed60bbdde610ec038dc0b385ee7d9e7e8cc6"
+      },
+      {
+        "name": "ci-final-progress.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-progress.stdout.raw",
+        "bytes": 780037,
+        "sha256": "84676ba6981452b729b6cfbebc6cf559afbd841f88392ec41711bf871be12201"
+      },
+      {
+        "name": "ci-final-checkdocs.execution.json",
+        "bytes": 2501,
+        "sha256": "44f495aea1f599d441b44d81ba74c31634ea9fc6c93146f66dc7e3564f593af8"
+      },
+      {
+        "name": "ci-final-checkdocs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-checkdocs.stdout.raw",
+        "bytes": 30725,
+        "sha256": "fa26a8ef4a04e0d4c3c53f06d0143bddf7d682e2d639f8a859845392da447f07"
+      },
+      {
+        "name": "ci-final-diff.execution.json",
+        "bytes": 2497,
+        "sha256": "10b1a6800bd83d0409b10b07982680507c7b29396c49f00e4f49e7f604c32cc1"
+      },
+      {
+        "name": "ci-final-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-docs-r2.execution.json",
+        "bytes": 2809,
+        "sha256": "55d798fcefe5021585337c68e111b28e27c2d3ea12ec0047f2bffe38e035ddee"
+      },
+      {
+        "name": "ci-final-docs-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-docs-r2.stdout.raw",
+        "bytes": 311,
+        "sha256": "41f89f1eb36d513e85838d1c92efaeabb2094bb4a93422718372c2b3f772c563"
+      },
+      {
+        "name": "ci-final-lint-r2.execution.json",
+        "bytes": 2482,
+        "sha256": "47763656b79ef59483452d40ee8c2299559454a39c8325c3e1dc28f1ea232824"
+      },
+      {
+        "name": "ci-final-lint-r2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ci-final-lint-r2.stdout.raw",
+        "bytes": 193,
+        "sha256": "adb8e801f9406e5cc313de388c8c1ab74d35e1b49c7b183963c218dcdf2f0a48"
+      }
+    ]
+  },
+  "newClosures": 10,
+  "pre94": {
+    "accepted": 57,
+    "partial": 26,
+    "pending": 0
+  },
+  "notRun": [
+    "No second full check after only H02/M05/K06 test deltas;20415 unchanged cases reused,15 affected cases/current adjacent/editor TC and final official fast verified.",
+    "full SDLPal/runtime/browser import",
+    "WORD product arithmetic change, awaiting user"
+  ],
+  "sourcesInvalidation": "Changed body/type/caller/real data invalidates its associated claim; old counter source versions remain original. Shared state-owner hashes and exact base identify current import proof. No automatic whole-file/card acceptance.",
+  "ledger": {
+    "inventory": 3355,
+    "closed": 371,
+    "review": 114,
+    "pending": 2870
+  },
+  "next": "Run one frozen whole check + official fast ratchet/protected with explicit diagnostics. Only after pass decide the named CODE3u/individual file scopes, never close3w/3x or unrelated partials.",
+  "identityMapping": {
+    "file": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+    "beforeCount": 5,
+    "afterCount": 5,
+    "unchanged": 4,
+    "renamed": {
+      "before": "多池同涨:R(1,2) 按 Health→Magic 严格序消费(rng 调用序可证)",
+      "after": "七池映射与消费顺序:身法只结算存留经验,不伪造动作计数"
+    },
+    "oracleTransfer": "阶段1两池→七池唯一标题迁移。阶段2全部5身份不动,主无升级/有升级分别明确1→1/1→2;Health按合法普攻权重+存留经验恰涨1/2级,保留HP/MP回满/不回满和完整8抽。无整例退役。",
+    "additionalFixtureDelta": "Main level source now hydrated; attack hidden boundary level0→2 becomes initial1→3 with same two growth increments. Current ordinary fixture raw inputs replace unhydrated zero baseline, not a product arithmetic change."
+  },
+  "censusLimit": "Raw43,503/only garlic Extra17/all14 percent buffs override0 narrows normal data. Complete dynamic offparty write→no refresh→cleanup→consumption not proven, Extra card remains draft. First census wrapper missing-module failure preserved and has no semantic credit.",
+  "frozenSourceHead": "d05fdc82ca52cd225e3c4399d0d3f5ad3addc147",
+  "windowCards": [
+    "CODE-QUALITY-3u",
+    "CODE-QUALITY-3w",
+    "CODE-QUALITY-3x",
+    "CODE3b finite comment correction only"
+  ],
+  "acceptanceCandidates": [
+    "battle-state.ts original factory/type contract",
+    "battle-runtime-context.ts",
+    "battle-settlement-data.ts",
+    "3u three direct test files",
+    "battle-finalization.test.ts",
+    "battle-settlement.glm-next-wave.test.ts",
+    "battle-lifecycle.test-fixtures.ts",
+    "battle-progression.glm-next-wave.test.ts"
+  ],
+  "deferredProducts": [
+    "battle-finalization.ts: Extra role-domain dynamic reachability unresolved",
+    "battle-settlement.ts: source includes cleanup scope and original C blocking vs TS queued inter-script temporal boundary, no blanket equivalence",
+    "battle-progression.ts: proven WORD mismatch awaiting product choice"
+  ],
+  "reusedEvidencePins": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/controls.json",
+      "sha256": "771f08c36431def0306980373c5c46adcca82732e01004a49822006aaa81f5be"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/forced-branch-miswired-v2.current.raw.gz",
+      "sha256": "47217815c4e38624b72c3b9f16d320b42c3bc928f3e28134a01cf8464f7b9421"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/forced-branch-miswired-v2.current.vitest.json.gz",
+      "sha256": "8d8e3ab897921030b4ea31ff98cc63464a9ad6d6a5aa0d454440d8e77575946c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/forced-branch-miswired-v2.old.raw.gz",
+      "sha256": "84c6d79348378e83b71bfa01968074c58b8f9ca6f4946aa13477b51538c3df80"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/forced-branch-miswired-v2.old.vitest.json.gz",
+      "sha256": "3ccaedd83f31a0f109cb05e78184ce75d0bca261486d87509adf0b72a9f84c2c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/last-status-slots-ignored-v2.current.raw.gz",
+      "sha256": "87c0511d80940326a0e57a92243b8eb312f36d0530598e65865f4cecc314093e"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/last-status-slots-ignored-v2.current.vitest.json.gz",
+      "sha256": "28276b5b2b43a7e2ec572a4c956783a4ac4a6c2f3f5ba1121040e9a70779831c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/last-status-slots-ignored-v2.old.raw.gz",
+      "sha256": "a31c57e2b8f1f044165d77388e64ae3f96e18400df83fcd77cd58ba7531a25c6"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/last-status-slots-ignored-v2.old.vitest.json.gz",
+      "sha256": "426c7002446681613b58f22133b97f85bad4562d116ac71a32684b3883137f6b"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/lost-branch-miswired-v2.current.raw.gz",
+      "sha256": "662b39cfabdb55e12c72024ba6226927a05b1b1b72fc1fbf4fde851dc94e5cd9"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/lost-branch-miswired-v2.current.vitest.json.gz",
+      "sha256": "f56711751f957ebcd03476273c098a8f71d1dc39b131eb7a0079eb6a39999e5e"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/lost-branch-miswired-v2.old.raw.gz",
+      "sha256": "f802559235da6b10e0ede6d1220a8f192054f88e721619318b20ec5b8b0082d5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/lost-branch-miswired-v2.old.vitest.json.gz",
+      "sha256": "34303121d8f4b82b4a6ea19f2fe87d5e4a4362dacf4798372a6e020bd0f4b2c9"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/owner-alias-on-install-v3.current.raw.gz",
+      "sha256": "0c0f61a776c44de43ee55f8dfbf3accd5339400e9a3c7470d5abd78af551e7b2"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/owner-alias-on-install-v3.current.vitest.json.gz",
+      "sha256": "bc0fcbe59518161ed7c421eb4015edd3696f1ab66240b9a354a3e4c4f9ee4668"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/owner-alias-on-install-v3.old.raw.gz",
+      "sha256": "6c3266dab578de9f1e3bc296973a47cafadbff83ccf98fe2e994eac4350da716"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/owner-alias-on-install-v3.old.vitest.json.gz",
+      "sha256": "38631f67e03c8269dc354c7c2717812991810835dabcda5d338ce25ac943e702"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/party-writeback-first-role-only-v2.current.raw.gz",
+      "sha256": "3eb8e1f9dbf07ee880c0f4cce2e4839d95dc61cfbedaed64924fec43ec9c07a6"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/party-writeback-first-role-only-v2.current.vitest.json.gz",
+      "sha256": "d6c530652a13776b6841caad63a158a2da8dcf14cd479450d66bfc9df61ef6ab"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/party-writeback-first-role-only-v2.old.raw.gz",
+      "sha256": "febe78aae51601ceaef2f868f1ea2acf26c3e251434315d2d08fdb63dd85acbd"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/party-writeback-first-role-only-v2.old.vitest.json.gz",
+      "sha256": "c847b6db4eafe790c78ff27fcdf0377e48230686c33144df7f89e2d5aa5963bb"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/resume-before-runtime-release-v2.current.raw.gz",
+      "sha256": "04dab0013041a7180296aaac7b79bfcb2100c00e622074ac97154c07fdb82cd5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/resume-before-runtime-release-v2.current.vitest.json.gz",
+      "sha256": "ec36a4543ca4d37ea34cc9337c446496c2ba6a0051c04657eb28c6f3c99f16cc"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/resume-before-runtime-release-v2.old.raw.gz",
+      "sha256": "dcf2797becc83700c2268ada28626299a2b98a06e2aac12e13459928a750cf16"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/resume-before-runtime-release-v2.old.vitest.json.gz",
+      "sha256": "82287907e52c47647b834260ebffc1f0aa405ea56a16da60fba07d83c04d99b2"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/termination-branch-miswired-v2.current.raw.gz",
+      "sha256": "c5e2de2faf7afdd9264ba2552966ecc5abf8613ed802704307987bfc0b6b8ae3"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/termination-branch-miswired-v2.current.vitest.json.gz",
+      "sha256": "d175cb049e1dc2ac34d91422280f274e5ccfc80485bc0e26d1762c8216bc6bd0"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/termination-branch-miswired-v2.old.raw.gz",
+      "sha256": "e4d1f191a745dc5cf5df65dc0078b78fe01a0720236a99875667c80cebad30ab"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/termination-branch-miswired-v2.old.vitest.json.gz",
+      "sha256": "415280666e713733d6d7acdde8fb392006099d56dd9d03d64860e7e10259f00d"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/controls.json",
+      "sha256": "1f22c6584bad512528f819ae5d05f23305e665ea3c3261f8b5b3ff49895f2aaa"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/empty-slot-cash.current.raw.gz",
+      "sha256": "a8f96e96852716b7ae475c3f02459715022e89dcd164f7690cac3883280fa49d"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/empty-slot-cash.current.vitest.json.gz",
+      "sha256": "c40c31cd031fd92653bf0358c868d4a20b05a9e6ae7c90534bbe04c632a27896"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/empty-slot-cash.old.raw.gz",
+      "sha256": "37d5d1ebedd52b8e85163d058718943ff27c6e01df13eab7595d6c6065f74526"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/empty-slot-cash.old.vitest.json.gz",
+      "sha256": "f6b279d99f386eac2880797fd608cf354957b48f257ed781cd3db214aebadcdd"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/layout-count-compressed.current.raw.gz",
+      "sha256": "244622cba6c2087b4d956c3965f1251a1ba07b6e5cb3fee5efc4b4caff034db5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/layout-count-compressed.current.vitest.json.gz",
+      "sha256": "e8798b8dc287b8566a7cb5c0a0b17d4da707d35d0e5f494d6f560d8679b300b3"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/layout-count-compressed.old.raw.gz",
+      "sha256": "1165a64981ef61a5176cfb016f8804ad1272be2dc131e3f9f7ae1f3ffac44ac4"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/layout-count-compressed.old.vitest.json.gz",
+      "sha256": "d2889fc095cdc8640c22cfff51bdd62962875fb2d2211676bc7548aa1e678dda"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/party-index-status.current.raw.gz",
+      "sha256": "2721da1fc2323d66321f9db54c06c91efbf67d26311bc9c85a23c8658a3e6092"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/party-index-status.current.vitest.json.gz",
+      "sha256": "9872ac953855e97fb75b531f6dfeb9c7215c2376b319dd2654e361f06b6eae67"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/party-index-status.old.raw.gz",
+      "sha256": "d37725cee0f3d1b0c816ea799ed13a5c350f89c0b13d605f00cd4ce2bc6bc69b"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/party-index-status.old.vitest.json.gz",
+      "sha256": "bd2c9794b63999c1b10955cd40b3bbb6cd2e30c499b2c3fcc41b3a52ba051108"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/pending-map-shared.current.raw.gz",
+      "sha256": "2cd56b5238ddbde7d8a0be567de6ec3806c0efb41727f7df607a148920e62bb7"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/pending-map-shared.current.vitest.json.gz",
+      "sha256": "20c731e48264b7f94a29d0480e2ebaa7c94835b25b55f715ba4993573de98fde"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/pending-map-shared.old.raw.gz",
+      "sha256": "b4b1c2d85c4166423eaf8027453b9f958a9b7e7b26243967af6f87a00b8cd907"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/pending-map-shared.old.vitest.json.gz",
+      "sha256": "1d86c591d58852d0eedfdf1be45355a609b9cb0322871f3bb91027986a0d8016"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/silence-seeded-from-sleep.current.raw.gz",
+      "sha256": "8f6a19a107374a03636cc75695dce25005f2e656e34b6b53aa8290047f38cc12"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/silence-seeded-from-sleep.current.vitest.json.gz",
+      "sha256": "960473c9310c871e6fb1e2f0ae06c364e370e57ebff430c3d410d8196afa77c3"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/silence-seeded-from-sleep.old.raw.gz",
+      "sha256": "387e4e29059b2150862b28c311afa8a7f7a1554648d0b1a61106f5b4088d1f10"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/silence-seeded-from-sleep.old.vitest.json.gz",
+      "sha256": "59278afb8ffc83dd00c8fd9e92dd01395b0abe563eb5c708de186d960060a75b"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/status-view-reused.current.raw.gz",
+      "sha256": "ed32f26ca0bc7947d37ee9c629dc3d430e16b9e0a7a6ec1babfd6eb8df38e2f9"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/status-view-reused.current.vitest.json.gz",
+      "sha256": "e00b2dd93e8d279e2b6e112ed1ff75770070c28f99083b28e6688ccfeaad533c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/status-view-reused.old.raw.gz",
+      "sha256": "aa9f14de4c8ee783527dcb73ac05b8786d79d36526bc0a63a8ce091a60120501"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/status-view-reused.old.vitest.json.gz",
+      "sha256": "321913e26872d3a2735369a0bfae970d8a6a5a677a4a35e1381422e14386fc00"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/controls.json",
+      "sha256": "c501b97368612405613585569b99b3631147d0e3c0aaa4f45faf3a2504d982b6"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/end-caster-forced-slot0.current.raw.gz",
+      "sha256": "5ceb65d13f565e14334face79209c69cab5bbc956b027bb8932499b82502fba5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/end-caster-forced-slot0.current.vitest.json.gz",
+      "sha256": "fdde6559ff2e83f962a0c37de4f1fef9bea185c6bee113ae1798f7fbc17f52c2"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/end-caster-forced-slot0.old.raw.gz",
+      "sha256": "988e01b18b40a65ee84bffaae3fc10c5a3e5ebf78266230da10fa8e0d7f2dd1e"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/end-caster-forced-slot0.old.vitest.json.gz",
+      "sha256": "4089a0adb308cfd8bf463370f54abcaecfc30c8b3709c21f4fe0adbfa9f00df0"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-enemy-end-skipped.current.raw.gz",
+      "sha256": "935a7676f451b922bea5a259e516d5094916b4efe5eb07dae0bc9f20236989ff"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-enemy-end-skipped.current.vitest.json.gz",
+      "sha256": "3423ce39bfd929e3b792df2f7c6d0c956785aec95f35cd0472526a06ae24221d"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-enemy-end-skipped.old.raw.gz",
+      "sha256": "aa60e0aa9d17fca9f64b52fcb10dd3901b9c23ce343763d2e78f0ed884562e1b"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-enemy-end-skipped.old.vitest.json.gz",
+      "sha256": "e7367a2c97643e551724e6f84229909c6d2726f2c7f17648d8def1996e6cf8cf"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-won-host-not-built.current.raw.gz",
+      "sha256": "99129f6e23989e27342798feb582167c52d4961485c5dc39245bf878b1c02aef"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-won-host-not-built.current.vitest.json.gz",
+      "sha256": "e5dbc10621a4f594f6b119eaad1565cf02721150b4625f8300514d2c6c54b055"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-won-host-not-built.old.raw.gz",
+      "sha256": "04709907664e608c36e5d692c11d12b278056dff7044fe355fccda7621c192aa"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/live-won-host-not-built.old.vitest.json.gz",
+      "sha256": "025eacebe9c1110ea9c1900fb4dff8b8822e2a60fbc063513041ada49fec1f08"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/r2-terminated-resumes-as-fled.current.raw.gz",
+      "sha256": "a3287205e976862c1b443dd54845cb1a4d627fb7746fcf2f62e3833af6fe0b70"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/r2-terminated-resumes-as-fled.current.vitest.json.gz",
+      "sha256": "762ccd988c00e23eab9e5db2f56a1f20975a3d8b504ad0c023cf9a1956472329"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/r2-terminated-resumes-as-fled.old.raw.gz",
+      "sha256": "b1825e66eb947816e9551e1ce542b0863dd895b914ffacf36bae852b942b8bb1"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/r2-terminated-resumes-as-fled.old.vitest.json.gz",
+      "sha256": "2842a12209c7c45d7220fdaeff8f4289f5698678af3d34e84c1c499794163f9c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/rate-equality-not-skipped.current.raw.gz",
+      "sha256": "2a0ecd9ff0bd1f6d1399276bfc1ead125974f3e8391678315c8b3cbcb5aa5b20"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/rate-equality-not-skipped.current.vitest.json.gz",
+      "sha256": "df68945c225fedd8512c355e5f9e6ebbfb7dcac1929fbc7648d791d6b78b9707"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/rate-equality-not-skipped.old.raw.gz",
+      "sha256": "e65be7b94d80cdf32b51639a03e15faf2bfaa9d16301709aacf231f58b19439c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/rate-equality-not-skipped.old.vitest.json.gz",
+      "sha256": "37b14bbf3a581360c41eefc029eefb99cbaf224d2a7eb724889a1939d0bb8257"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/zero-quantity-drop-ignored.current.raw.gz",
+      "sha256": "039e35c1b77cf199c4bc10c9f1aac6fa9a3dd697c40103c639314804fa0275e5"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/zero-quantity-drop-ignored.current.vitest.json.gz",
+      "sha256": "c78cea71a31be5711604aec8e168552d883bbe3f21acc9b15ec541a1fbedef75"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/zero-quantity-drop-ignored.old.raw.gz",
+      "sha256": "fde7af7588cae90f52e0277fc1b37864174d72a5d46df4b37d587a38df73c420"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/zero-quantity-drop-ignored.old.vitest.json.gz",
+      "sha256": "2eac7c78ffdceadf317e1169a18a206064bf13d725d696ed76e99997395088ae"
+    }
+  ],
+  "wholeCheckEvidence": {
+    "run": "related-window-check",
+    "head": "150650c59c4677bee57cee8576f40d8f0e1bd768",
+    "exit": 0,
+    "passed": 20430,
+    "diagnostics": "all scanner categories and stderr0;260normal stdout blocks compared with previous run,only elapsed time varies",
+    "followingDelta": {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "beforeSha256": "d46713c21e60c358b4a82bbfa35e5e4a1a99803e08ae4ad707c2df8b1c8cb299",
+      "afterSha256": "53b2d7d6efd271442c51b5a33ef39ab400a1b82b9dadfe45e4c84704336ab01e",
+      "kind": "test fixture/oracle only; all product/shared fixture/config/dependency files unchanged",
+      "verification": "h02-canonical-regression16/current typecheck; final official fast will include all5 currentH02 tests",
+      "reuseRationale": "Do not repeat unrelated20425 unchanged tests solely for this isolated file. Full command remains honestly pinned to150650c59; it is not claimed as a second full command on the later commit."
+    }
+  },
+  "closedFiles": [
+    "packages/game/src/core/battle/battle-state.ts",
+    "packages/game/src/core/battle/battle-runtime-context.ts",
+    "packages/game/src/core/battle/battle-settlement-data.ts",
+    "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+    "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+    "packages/game/src/core/battle/battle-runtime-context.test.ts",
+    "packages/game/src/core/battle/battle-finalization.test.ts",
+    "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+    "packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts",
+    "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts"
+  ],
+  "gates": {
+    "fullCheck": {
+      "run": "related-window-check",
+      "head": "150650c59c4677bee57cee8576f40d8f0e1bd768",
+      "exit": 0,
+      "passed": 20430,
+      "diagnostics": "all scanner categories and stderr0;260normal stdout blocks compared with previous run,only elapsed time varies",
+      "followingDelta": {
+        "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "beforeSha256": "d46713c21e60c358b4a82bbfa35e5e4a1a99803e08ae4ad707c2df8b1c8cb299",
+        "afterSha256": "53b2d7d6efd271442c51b5a33ef39ab400a1b82b9dadfe45e4c84704336ab01e",
+        "kind": "test fixture/oracle only; all product/shared fixture/config/dependency files unchanged",
+        "verification": "h02-canonical-regression16/current typecheck; final official fast will include all5 currentH02 tests",
+        "reuseRationale": "Do not repeat unrelated20425 unchanged tests solely for this isolated file. Full command remains honestly pinned to150650c59; it is not claimed as a second full command on the later commit."
+      }
+    },
+    "officialFast": {
+      "run": "related-window-ratchet",
+      "head": "d05fdc82ca52cd225e3c4399d0d3f5ad3addc147",
+      "passed": 20032,
+      "sources": 758,
+      "exit": 0,
+      "diagnostics": "all categories0,stderr0;253 complete stdout blocks equal prior normal messages",
+      "mode": "Official single collection executes ratchet plus fixed-main protection; strict-protected reuses the exact report, not a second collection",
+      "protectedRef": "9a5f80e7c53e4fec2a89fc8ee62de74e96cfe0f7"
+    },
+    "staticFinal": {
+      "docsConsumers": 5,
+      "progressIssues": 0,
+      "lint": {
+        "files": 5788,
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      },
+      "ledger": "3355/371/114/2870 actual PASS",
+      "diff": "PASS"
+    },
+    "baseline": "All per-package and total metric counts exactly unchanged. Only one type-source inventory and one title identity plus derived digests/time, no removal or new adjustment/rule."
+  },
+  "quantitativeScreen": {
+    "tool": "TypeScript6.0.3 AST decisions + exact80-token windows; reading clues only",
+    "report": "structure-screen.json",
+    "disposition": "structure-disposition.json"
+  },
+  "integration": {
+    "state": "cb67a6a0e was pushed3y then fast-forwarded remote main, verified0behind/0ahead. Main Docs39681495449 succeeded; Coverage39681495390 failed1editor test. Narrow repair is a later candidate, new remoteCI must be checked after its actual push.",
+    "observedMergedHead": "cb67a6a0edb27229099e3c3c1956bc0ed561b81a",
+    "failedMainCoverage": 39681495390,
+    "successfulMainDocs": 39681495449
+  },
+  "processDisclosure": "Initial direct-file invocation of temporary acceptance writer returned a UTF8 parse error before any writes; raw not separately saved. Explicit UTF8 Unicode compile validated then same writer succeeded, followed by real ledger/strict docs checks. This is bookkeeping only, no product/gate rerun credit.",
+  "ciRepair": {
+    "state": "Local CI-repair accepted; publish and new GitHub run must be checked by actual refs/run, not inferred from this receipt",
+    "base": "cb67a6a0edb27229099e3c3c1956bc0ed561b81a",
+    "owner": "Codex",
+    "newFileClosures": 0,
+    "pre94": {
+      "accept": 57,
+      "partial": 26,
+      "pending": 0
+    },
+    "file": {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.glm-m.test.tsx",
+      "sha256": "fe368560573cafb545b45f0c50393cfbc9478de81a76ad462fbd0761f89d9c5d",
+      "scope": "Narrow actual CI failure + honest title/oracle/environment ownership; not a whole-file editor acceptance",
+      "dimensions": {
+        "A": "Actual selected-asset decode proof gates the button. Wait for that result, not empty microtasks. No product changes.",
+        "B": "Correct 80ms title, false ceil and obsolete no-older-test keyword claims. Title no longer claims unexecuted0ms/independence.",
+        "C": "Only test host owns its act flag; original descriptor restored. Production proof/reader/session ownership retained.",
+        "D": "Reuse existing waitForReact/act environment leaf, no new universal waiter or duplicate production decode.",
+        "E": "Two cases,15 assertions preserved; exact literal3 replaces two copied formulas. Real reader-held old1red/new2green/restored2green and26adjacent; no core mock.",
+        "F": "Readiness purpose comment states actual reason for await. Correct name maps to actual80ms/discard contract.",
+        "G": "Remove unused apply variable/void; no new test identity or weak filler. One title migration only.",
+        "H": "Control only real reader port scheduling in disposable copy. Full decode/hash/palette/command chain remains real; no test-only product API."
+      }
+    },
+    "failedMain": {
+      "id": 39681495390,
+      "head": "cb67a6a0edb27229099e3c3c1956bc0ed561b81a",
+      "receipt": "github-main-coverage-receipt.json",
+      "raw": "github-main-coverage-full.raw",
+      "scope": "1 failed/4780passed/4781 editor; no coverage acceptance for this failed run"
+    },
+    "successfulDocs": [
+      {
+        "id": 39680869184,
+        "kind": "branch",
+        "receipt": "github-branch-docs-receipt.json"
+      },
+      {
+        "id": 39681495449,
+        "kind": "main",
+        "receipt": "github-main-docs-receipt.json"
+      }
+    ],
+    "reproduction": "ci-m05-reproduction-v2.json",
+    "assertionMapping": "ci-m05-assertion-map.json",
+    "identityMapping": {
+      "unchanged": "待机毫秒/帧 40ms 换算入草稿，应用修改单命令提交，放弃修改零提交",
+      "from": "行动毫秒/帧 0ms 落 0 ticks；两字段独立草稿互不覆盖",
+      "to": "行动毫秒/帧 80ms 只改草稿，放弃修改不提交",
+      "countBefore": 2,
+      "countAfter": 2
+    },
+    "adjacent": {
+      "id": "ci-two-tests-adjacent",
+      "testFiles": 5,
+      "passed": 29,
+      "failed": 0,
+      "stderrBytes": 0
+    },
+    "typecheck": {
+      "command": "pnpm --filter @type-pal/editor typecheck",
+      "exit": 0,
+      "execution": "ci-two-tests-types.execution.json",
+      "stdout": "ci-two-tests-types.stdout.raw",
+      "stderr": "ci-two-tests-types.stderr.raw",
+      "provenance": "Final two-test candidate actual capture exit0; original M05-only typecheck streams retained too."
+    },
+    "officialRun": "ci-two-tests-final-ratchet",
+    "protected": "ci-two-tests-protected-snapshot.json",
+    "heavyCost": "One new official collection after actual main CI failure, with fixed main protection and same-report strict comparison. No additional full check: production unchanged, impacted2 M05/8 K06 and prior5 H02 validated;20415unchanged full-check cases reused from150650c59. Do not call this a new full pnpm check.",
+    "processDisclosure": [
+      "Initial disposable-copy probe was a Vite allow-root collection failure (0cases), not a valid red. Original stdout/stderr/native/execution and producer preserved; v2 changes only private-copy FS allow roots. Original producer assertion stack was returned by the tool, not separately saved.",
+      "GitHub platform Node20-action warning and Ubuntu image notice preserved separately from repository command diagnostics. No warning exemption or workflow change."
+    ],
+    "risk": "No schema/save/asset/API/phase1 mechanism/UI behavior changes; no94-102 acceptance. Existing3w/3x/P3 stops unchanged.",
+    "additionalFile": {
+      "path": "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+      "sha256": "de7db180d8856e3f11fcc464dc81c72c26fc77ffaa587e652b6c29d210b075a0",
+      "scope": "First-case actual RAF diagnostic ownership + exact act descriptor restoration only, no whole-file acceptance",
+      "dimensions": {
+        "A": "Actual reorder schedules2RAF settle plus1RAF logicalfocus/scroll. Existing public settling marker is waited underact before external expected-byte IO.",
+        "B": "One purpose comment states why completion is needed; no new product claim.",
+        "C": "Keep pending interaction updates inside the test owner; restore original act flag descriptor. Product queue/session ownership untouched.",
+        "D": "Reuse existing waitForReact/installReactActEnvironment; no generic drain/timer helper or duplicate core.",
+        "E": "8titles and complete business bodies AST-identical after removal of onlynewwait. Original5act→new0 under two-RAF diagnostic calibration; not a business negative control; probe intentionally selects1/8, full29adjacent includes all8.",
+        "F": "Readiness reason next to reorder action. No other control-flow rewrite.",
+        "G": "No new case,skip,timeout,console suppression or weaker assertions.",
+        "H": "Use actual RAF/React/queue/codec, not core mocks; disposable-copy scheduling calibration and normal full neighboring suite remain distinct."
+      }
+    },
+    "k06": {
+      "proof": "ci-k06-test-body-proof.json",
+      "calibration": "ci-k06-reproduction.json",
+      "beforeOfficial": {
+        "run": "ci-m05-final-ratchet",
+        "exit": 0,
+        "passed": 20032,
+        "stderrBytes": 2328,
+        "reactAct": 5,
+        "decision": "Rejected as clean unified gate despite exit0; baseline data were officially written but metrics unchanged"
+      },
+      "limit": "Calibration selects1case/7filtered, no whole-suite0skip claim. Native case assertions remain green; this proves diagnostic ownership, not product mutation discrimination."
+    },
+    "contextPins": [
+      {
+        "path": "packages/editor/src/__tests__/react-io-wait.ts",
+        "sha256": "027c785fd51aad1c05f1661da39c63301cd7a9cc9586d9eab21ac3b3e70bdaa1",
+        "readScope": "full current leaf"
+      },
+      {
+        "path": "packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+        "sha256": "162cbf465da3c9585cca3ff9068b16fcd521536a15e44c62e49063abd768c427",
+        "readScope": "full current preview"
+      },
+      {
+        "path": "packages/editor/src/core/editor-asset-reader.ts",
+        "sha256": "ea6f472fd817f7d932f3249d3a9c4449f2f894569b093b06e8e2012d0e75fbdf",
+        "readScope": "full current reader"
+      },
+      {
+        "path": "packages/editor/src/ui/BattleSpriteLibrary.tsx",
+        "sha256": "ee26ec7a0e876f8ec7b674a5b7eef8cd8af28d3b8e8aaca34885fd23a99b0aeb",
+        "readScope": "partial1-90,270-360,390-710,900-1035,1635-1655; no whole-file credit"
+      },
+      {
+        "path": "packages/editor/src/ui/CutsceneTab.tsx",
+        "sha256": "a63ea57856d760b29eafceeb00cb2658b7c641a68c6b60e89850d4c924505638",
+        "readScope": "partial467-555; actual queue/create caller, no whole-file credit"
+      },
+      {
+        "path": "packages/editor/src/ui/design-system/reorder.tsx",
+        "sha256": "524576947ee10977af9364f711856d4130e88ac76467828054b8dc696d3b2290",
+        "readScope": "partial445-625,650-720,975-1045,1120-1140; settle/focus and public marker only"
+      },
+      {
+        "path": "packages/editor/src/ui/design-system/floating-layer.tsx",
+        "sha256": "bee1820ec6ed2e2a06af5f2ac850ca7554acde2064d22f3e4c4ec7969f0a73ff",
+        "readScope": "full current leaf"
+      },
+      {
+        "path": "packages/editor/src/ui/__tests__/kimi-editor-workflows/k06-fixtures.ts",
+        "sha256": "2390542354b8dc850176c73645ef438992180258b19c8049388bd05ce0d72d23",
+        "readScope": "partial190-270 hardware setup/restoration only"
+      },
+      {
+        "path": "packages/editor/src/ui/__tests__/kimi-editor-workflows/kit.ts",
+        "sha256": "63d89a1152e9830ebd7d603edbf5431f64e4bf58425c2891adc051debd322aba",
+        "readScope": "full existing hardware kit"
+      },
+      {
+        "path": "packages/editor/src/__tests__/glm-m/kit.ts",
+        "sha256": "2612ec3ed10be2e5236b74b1475b48927dbd5bf2e520570a8ee7412da6bca38d",
+        "readScope": "full existing fixture/input kit"
+      }
+    ],
+    "fullCheckReuse": {
+      "actualWholeRun": "related-window-check at150650c59",
+      "passed": 20430,
+      "currentDeltaFiles": [
+        "packages/editor/src/ui/BattleSpriteLibrary.glm-m.test.tsx",
+        "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+        "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+        "scripts/coverage/baseline.fast.json"
+      ],
+      "impactedCases": 15,
+      "unchangedCasesReused": 20415,
+      "note": "Only5H02+2M05+8K06 test bodies changed. No product/shared fixture/config/dependency/workflow delta after the whole run; current affected cases/editor TC and final officialfast verified separately. No second full check claimed."
+    },
+    "staticFinal": {
+      "ci-final-docs": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-docs.execution.json"
+      },
+      "ci-final-docs-r2": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-docs-r2.execution.json"
+      },
+      "ci-final-checkdocs": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-checkdocs.execution.json"
+      },
+      "ci-final-lint": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-lint.execution.json"
+      },
+      "ci-final-lint-r2": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-lint-r2.execution.json"
+      },
+      "ci-final-ledger": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-ledger.execution.json"
+      },
+      "ci-final-progress": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-progress.execution.json"
+      },
+      "ci-final-diff": {
+        "exit": 0,
+        "stderrBytes": 0,
+        "execution": "ci-final-diff.execution.json"
+      },
+      "progressIssues": []
+    }
+  }
+}

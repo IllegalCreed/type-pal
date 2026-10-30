@@ -1,6 +1,6 @@
 /**
- * 离线预缓存客户端:仅生产注册 Service Worker、申请持久化存储,把 SW 进度消息转给回调
- * (driver:precache-ui)。dev/e2e(PROD=false)与无 SW 能力时安全 no-op。
+ * 页面级预缓存桥接：main.ts 注册一次并把消息接到 UI；本模块不依赖 DOM 呈现。
+ * active worker、早到 start 和 message 监听随页面存活。dev/e2e 不注册；无 SW 时通知调用方放行。
  *
  * 时机控制(2026-06-15 两段进度 + 视频不卡顿):
  *   registerPrecache 只**早注册**拿 active worker,**不**触发预缓存;

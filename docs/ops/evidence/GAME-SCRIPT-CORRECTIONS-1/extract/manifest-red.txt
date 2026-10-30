@@ -1,0 +1,30 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/pal-extract
+
+ ❯ src/__tests__/asset-manifest.boundaries.test.ts (2 tests | 1 failed | 1 skipped) 4ms
+     ↓ 多层/零字节/中文/二进制精确清单；子目录同名 asset-manifest.json 保留；entries 不变；独立序列 hash
+   × same-length script edit changes the cache version and records the final bytes digest 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/__tests__/asset-manifest.boundaries.test.ts > same-length script edit changes the cache version and records the final bytes digest
+AssertionError: expected '0699014164e18ef3' not to be '0699014164e18ef3' // Object.is equality
+ ❯ src/__tests__/asset-manifest.boundaries.test.ts:65:33
+     63|   const corrected = buildManifest(collectAssetEntries(root))
+     64|   expect(corrected.totalBytes).toBe(original.totalBytes)
+     65|   expect(corrected.version).not.toBe(original.version)
+       |                                 ^
+     66|   expect(corrected.files[0]).toMatchObject({ sha256: createHash('sha25…
+     67| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  15:51:00
+   Duration  113ms (transform 24ms, setup 0ms, import 35ms, tests 4ms, environment 0ms)
+
+undefined
+/Users/zhangxu/.codex/worktrees/script-extract-fixes/type-pal/packages/pal-extract:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/__tests__/asset-manifest.boundaries.test.ts -t same-length script edit --reporter=default

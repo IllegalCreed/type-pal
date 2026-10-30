@@ -1,7 +1,5 @@
-/**
- * TEST-GROK-BOOT-RESOURCES-MEDIUM-1 G4。
- * 不重复 glm L23 的空图标 map，也不重复原 400 已分开证明的单侧降级。
- * 本文件只有「单张头像失败仍保留成功头像与图标第 0 帧」断言 iconFrames.get(0)。
+/** G4：单张失败的独立结果、双路启动屏障与重复/陈旧清单元数据的防御合同。
+ * 正常导出清单的业务真值与这些刻意异常输入分开；不据例数声称无重复。
  */
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { bytesToBase64, indexedPng, twoFrameChunk } from '../__tests__/grok-boot-mid-1/legal.js'
@@ -60,51 +58,54 @@ describe('grok-mid-1 dialog parallel degradation', () => {
     expect(Array.from(assets.iconFrames.get(1)?.indices ?? [])).toEqual([0x32])
     expect(Array.from(assets.portraitFrames.get(8)?.indices ?? [])).toEqual([0x44])
     expect(assets.portraitFrames.has(4)).toBe(false)
-    expect(warn).toHaveBeenCalledWith(
-      'dialog-assets: portrait 4 load failed, skip:',
-      expect.any(Error),
-    )
-    expect(warn.mock.calls.map((call) => call[0])).not.toContain(
-      '[dialog-assets] all assets failed:',
-    )
+    expect(warn.mock.calls).toStrictEqual([
+      ['dialog-assets: portrait 4 load failed, skip:', new Error('HTTP 404')],
+    ])
   })
 
   it('头像清单与图标清单在任一响应前都已发出', async () => {
     const kept = await indexedPng(1, 1, [0x15, 0, 0, 255])
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const urls: string[] = []
     const pending = new Map<string, (response: Response) => void>()
+    let draining = false
     vi.stubGlobal('fetch', (input: RequestInfo | URL) => {
       const url = String(input)
       urls.push(url)
+      if (draining) return Promise.resolve(new Response(null, { status: 503 }))
       return new Promise<Response>((resolve) => {
-        pending.set(url, resolve)
+        pending.set(url, (response) => {
+          pending.delete(url)
+          resolve(response)
+        })
       })
     })
 
     const pendingLoad = loadDialogAssets()
-    expect(urls).toEqual([PORTRAITS, ICONS])
-
-    const releasePortraits = pending.get(PORTRAITS)
-    const releaseIcons = pending.get(ICONS)
-    if (!releasePortraits || !releaseIcons) throw new Error('manifest fetches were not issued')
-    releasePortraits(
-      Response.json({
-        count: 1,
-        portraits: [{ chunkIndex: 8, width: 1, height: 1 }],
-      }),
-    )
-    for (let step = 0; step < 20; step++) await Promise.resolve()
-    await new Promise((resolve) => setTimeout(resolve, 0))
-    expect(urls).toContain(portraitUrl(8))
-    expect(pending.has(ICONS)).toBe(true)
-
-    const releasePng = pending.get(portraitUrl(8))
-    if (!releasePng) throw new Error('portrait png was not requested')
-    releasePng(pngResponse(kept))
-    releaseIcons(iconResponse(0x11, 0x22))
-    const assets = await pendingLoad
-    expect(Array.from(assets.portraitFrames.get(8)?.indices ?? [])).toEqual([0x15])
-    expect(assets.iconFrames.size).toBe(2)
+    try {
+      expect(urls).toEqual([PORTRAITS, ICONS])
+      const releasePortraits = pending.get(PORTRAITS)
+      const releaseIcons = pending.get(ICONS)
+      if (!releasePortraits || !releaseIcons) throw new Error('manifest fetches were not issued')
+      releasePortraits(
+        Response.json({ count: 1, portraits: [{ chunkIndex: 8, width: 1, height: 1 }] }),
+      )
+      await vi.waitFor(() => expect(pending.has(portraitUrl(8))).toBe(true))
+      expect(pending.has(ICONS)).toBe(true)
+      const releasePng = pending.get(portraitUrl(8))
+      if (!releasePng) throw new Error('portrait png was not requested')
+      releasePng(pngResponse(kept))
+      releaseIcons(iconResponse(0x11, 0x22))
+      const assets = await pendingLoad
+      expect(Array.from(assets.portraitFrames.get(8)?.indices ?? [])).toEqual([0x15])
+      expect(assets.iconFrames.size).toBe(2)
+      expect(warn.mock.calls).toStrictEqual([])
+    } finally {
+      // 断言失败也要释放当前和后继请求，避免把未完成的加载留给下个测试。
+      draining = true
+      for (const release of pending.values()) release(new Response(null, { status: 503 }))
+      await pendingLoad
+    }
   })
 
   it('重复 chunk 的第二次失败不删第一次精灵', async () => {
@@ -138,10 +139,9 @@ describe('grok-mid-1 dialog parallel degradation', () => {
     expect(Array.from(assets.portraitFrames.get(6)?.indices ?? [])).toEqual([0x21])
     expect(assets.portraitFrames.size).toBe(1)
     expect(assets.iconFrames.size).toBe(2)
-    expect(warn).toHaveBeenCalledWith(
-      'dialog-assets: portrait 6 load failed, skip:',
-      expect.any(Error),
-    )
+    expect(warn.mock.calls).toStrictEqual([
+      ['dialog-assets: portrait 6 load failed, skip:', new Error('HTTP 404')],
+    ])
   })
 
   it('portraits.json 的 count 不决定 PNG 请求次数', async () => {
@@ -168,6 +168,11 @@ describe('grok-mid-1 dialog parallel degradation', () => {
     expect(urls.filter((url) => url.includes('/images/portraits/'))).toEqual([portraitUrl(3)])
     expect(Array.from(assets.portraitFrames.get(3)?.indices ?? [])).toEqual([7, 9])
     expect(assets.iconFrames.size).toBe(0)
-    expect(warn).toHaveBeenCalledWith('[dialog-assets] icons failed, skip:', expect.any(Error))
+    expect(warn.mock.calls).toStrictEqual([
+      [
+        '[dialog-assets] icons failed, skip:',
+        new Error('dialog-assets: dialog-icons-raw.json fetch failed (404)'),
+      ],
+    ])
   })
 })

@@ -1,0 +1,9 @@
+{
+  "command": ["pnpm", "--filter", "@type-pal/game", "test", "src/core/battle"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "time": "2026-10-17T19:13:25.925620+00:00",
+  "exit": 1,
+  "raw": "adjacent-initial.raw.gz",
+  "rawSha256": "b40d43da7961d5b17f3d82fbed3ff2c9445b2b34ccca418541908ee8d51e0292",
+  "rawBytes": 3178
+}

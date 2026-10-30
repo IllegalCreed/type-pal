@@ -1,15 +1,13 @@
 /**
- * TEST-GAME-HOST-BOUNDARIES-1 H03：audio-volume 显式 0 与键位（shell/audio-volume.ts）。
- * 既有 audio-volume.test 已覆盖 clamp/mute/storage 主干——不重复。本文件：stored '0' 不落
- * default、defaultVolume 0、三通道 keyVol 独立与共享 keyMute 精确 IO、静音中修改目标仍
- * apply 0 且 unmute 恢复新值。
+ * 主测试拥有 clamp、静音期间改目标及恢复合同。本文件只核 NaN、stored 0、
+ * default 0，以及多通道独立音量键/共享静音键的持久化与新实例恢复。
+ * 共享存储键不自动同步存活实例；工具面板显式向三路广播 setMuted。
  */
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { createAudioVolumeController } from './audio-volume.js'
 
-afterEach(() => {
-  localStorage.clear()
-})
+beforeEach(() => localStorage.clear())
+afterEach(() => localStorage.clear())
 
 describe('H03 createAudioVolumeController 显式 0 与键位', () => {
   it('NaN 音量不进入 sink 或 localStorage，按 0 处理', () => {
@@ -21,52 +19,82 @@ describe('H03 createAudioVolumeController 显式 0 与键位', () => {
     expect(localStorage.getItem('tp-master-volume')).toBe('0')
   })
 
-  it("stored '0' 不落 default（|| 0 与缺省可区分）；defaultVolume 0 生效", () => {
+  it("stored '0' 优先于非零 defaultVolume", () => {
     localStorage.setItem('tp-master-volume', '0')
     const applied: number[] = []
-    const controller = createAudioVolumeController({ applyVolume: (v) => applied.push(v) })
-    expect(controller.getVolume()).toBe(0) // 真存的 0
+    const controller = createAudioVolumeController({
+      applyVolume: (v) => applied.push(v),
+      defaultVolume: 0.7,
+    })
+    expect(controller.getVolume()).toBe(0)
     expect(applied).toEqual([0])
-    localStorage.clear()
+  })
+
+  it('缺存储时 defaultVolume 0 生效，未指定则使用 0.8', () => {
+    const applied: number[] = []
     const zeroDefault = createAudioVolumeController({
-      applyVolume: () => undefined,
+      applyVolume: (v) => applied.push(v),
       defaultVolume: 0,
     })
+    const fallback = createAudioVolumeController({ applyVolume: (v) => applied.push(v) })
     expect(zeroDefault.getVolume()).toBe(0)
-    const fallback = createAudioVolumeController({ applyVolume: () => undefined })
-    expect(fallback.getVolume()).toBe(0.8) // 无存储 → 默认
+    expect(fallback.getVolume()).toBe(0.8)
+    expect(applied).toEqual([0, 0.8])
+    expect(localStorage.getItem('tp-master-volume')).toBeNull()
   })
-  it('三通道 keyVol 独立、keyMute 共享：精确 IO；静音中改目标仍 apply 0，unmute 恢复新值', () => {
+
+  it('三通道 keyVol 各自持久化，不覆盖其它通道', () => {
     const applied: Array<{ ch: string; v: number }> = []
+    const mk = (ch: string, keyVol: string) =>
+      createAudioVolumeController({ applyVolume: (v) => applied.push({ ch, v }), keyVol })
+    const music = mk('music', 'tp-master-volume')
+    const sfx = mk('sfx', 'tp-sfx-volume')
+    const video = mk('video', 'tp-video-volume')
+    music.setVolume(0.3)
+    sfx.setVolume(0.5)
+    expect(localStorage.getItem('tp-video-volume')).toBeNull()
+    expect(video.getVolume()).toBe(0.8)
+    video.setVolume(0.7)
+    expect(localStorage.getItem('tp-master-volume')).toBe('0.3')
+    expect(localStorage.getItem('tp-sfx-volume')).toBe('0.5')
+    expect(localStorage.getItem('tp-video-volume')).toBe('0.7')
+    expect([music.getVolume(), sfx.getVolume(), video.getVolume()]).toEqual([0.3, 0.5, 0.7])
+    expect(applied).toEqual([
+      { ch: 'music', v: 0.8 },
+      { ch: 'sfx', v: 0.8 },
+      { ch: 'video', v: 0.8 },
+      { ch: 'music', v: 0.3 },
+      { ch: 'sfx', v: 0.5 },
+      { ch: 'video', v: 0.7 },
+    ])
+  })
+
+  it('三通道共享自定义 keyMute，新实例恢复而存活实例不自动同步', () => {
+    localStorage.setItem('tp-video-volume', '0.7')
+    const applied: Array<{ ch: string; v: number }> = []
+    const muteKey = 'test-shared-muted'
     const mk = (ch: string, keyVol: string) =>
       createAudioVolumeController({
         applyVolume: (v) => applied.push({ ch, v }),
         keyVol,
-        keyMute: 'tp-muted', // 三通道共享
+        keyMute: muteKey,
       })
     const music = mk('music', 'tp-master-volume')
     const sfx = mk('sfx', 'tp-sfx-volume')
     const video = mk('video', 'tp-video-volume')
-    expect(applied.map((entry) => entry.v)).toEqual([0.8, 0.8, 0.8]) // 各自启动 apply
-    // video 通道参与启动计数；其键独立断言见下（null = 未写）
-
-    music.setVolume(0.3)
-    sfx.setVolume(0.5)
-    expect(localStorage.getItem('tp-master-volume')).toBe('0.3')
-    expect(localStorage.getItem('tp-sfx-volume')).toBe('0.5') // 键独立
-    expect(localStorage.getItem('tp-video-volume')).toBeNull()
-    expect(video.getVolume()).toBe(0.8) // 第三通道读回默认（实例独立）
-
     music.setMuted(true)
-    expect(localStorage.getItem('tp-muted')).toBe('1') // 共享静音键
-    // 静音中修改目标：music 仍 apply 0；其它通道不受影响（无跨 controller 自动同步）
-    applied.length = 0
-    music.setVolume(0.9)
-    expect(applied).toEqual([{ ch: 'music', v: 0 }])
-    expect(music.getVolume()).toBe(0.9) // 目标保真
-    music.setMuted(false)
-    expect(applied.at(-1)).toEqual({ ch: 'music', v: 0.9 }) // unmute 恢复新值
-    sfx.setMuted(true) // sfx 自身静音仍读共享键 → 1
-    expect(localStorage.getItem('tp-muted')).toBe('1')
+    expect(localStorage.getItem(muteKey)).toBe('1')
+    expect(localStorage.getItem('tp-muted')).toBeNull()
+    expect([music.isMuted(), sfx.isMuted(), video.isMuted()]).toEqual([true, false, false])
+    const restoredVideo = mk('restored-video', 'tp-video-volume')
+    expect(restoredVideo.getVolume()).toBe(0.7)
+    expect(restoredVideo.isMuted()).toBe(true)
+    expect(applied).toEqual([
+      { ch: 'music', v: 0.8 },
+      { ch: 'sfx', v: 0.8 },
+      { ch: 'video', v: 0.7 },
+      { ch: 'music', v: 0 },
+      { ch: 'restored-video', v: 0 },
+    ])
   })
 })

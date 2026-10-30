@@ -1,0 +1,58 @@
+$ cd /Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game && ../../node_modules/.bin/vitest run src/shell/audio.test.ts --reporter=default --reporter=json --outputFile=audio-mut-dm29.json
+# started: 2026-10-20T12:42:22
+# exit: 1
+# --- stdout ---
+
+ RUN  v4.1.7 /Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game
+
+ ❯ src/shell/audio.test.ts (20 tests | 1 failed) 6ms
+     ✓ sfxUrl → {base}/sounds/{id}.wav 1ms
+     ✓ musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:69 Musics/%.3d.mid) 0ms
+     ✓ pickMusicTrack:战斗中→wNumBattleMusic,否则→wNumMusic(battle.c:728/1849) 0ms
+     × pickMusicTrack DM29:入场揭场未完 → 0 静默;非战斗不受 intro 标志影响 3ms
+     ✓ battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032) 0ms
+     ✓ drain gs.pendingSounds → 就地清空队列(core 复用同引用) 0ms
+     ✓ BGM:track 变化 → backend.play(track, loop);track=0 → stop;同号 → 不重复 0ms
+     ✓ setMusicEnabled(false) → stop;(true) → 重播当前 track 0ms
+     ✓ L47 补播还原真实 loop:非循环 track 经 setMusicEnabled 开关后仍以 loop=false 重播 0ms
+     ✓ L47 setMusicBackend 注入补播也用记录的 loop=false 0ms
+     ✓ setMusicBackend 注入时若已有当前 track → 立即起播(补 M6a no-op 期间漏播) 0ms
+     ✓ 敌死 → enemy.deathSound(fight.c:756) 0ms
+     ✓ 敌攻 → enemy.attackSound 0ms
+     ✓ 我攻 → partyMembers[idx]→role.weaponSound(fight.c:2124) 0ms
+     ✓ 无音:deathSound=0 / weaponSound=0 / 非战斗事件 → 0(不播) 0ms
+     ✓ 同号未播完 → 第二次 tryPlay false(去重);markEnded 复位后再放行 0ms
+     ✓ lastSFX 只压制紧邻同号,异号放行 0ms
+     ✓ markEnded 仅当 id 仍是 lastSFX 时复位(被异号覆盖后旧 id 完成不误清) 0ms
+     ✓ 切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存) 0ms
+     ✓ stop:释放当前元素 src 0ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 19 passed (20)
+   Start at  12:42:22
+   Duration  385ms (transform 24ms, setup 16ms, import 19ms, tests 6ms, environment 279ms)
+
+JSON report written to /Users/zhangxu/.glm-worktrees/pre94-foundation/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/73-78-shell-lifecycle/c3-evidence/audio-mut-dm29.json
+# --- stderr ---
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/shell/audio.test.ts > M6 audio url 映射(纯) > pickMusicTrack DM29:入场揭场未完 → 0 静默;非战斗不受 intro 标志影响
+AssertionError: expected 7 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 7
+
+ ❯ src/shell/audio.test.ts:38:47
+     36|   //   掐断、战斗曲零延迟炸响"。旧测试只测三参形态,该分支此前无判别。
+     37|   it('pickMusicTrack DM29:入场揭场未完 → 0 静默;非战斗不受 intro 标志影响', () => {
+     38|     expect(pickMusicTrack(true, 16, 7, true)).toBe(0) // 揭场中:静默,不起战斗曲
+       |                                               ^
+     39|     expect(pickMusicTrack(true, 16, 7, false)).toBe(7) // 揭场完:战斗曲
+     40|     expect(pickMusicTrack(false, 16, 7, true)).toBe(16) // 非战斗:intro 标…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

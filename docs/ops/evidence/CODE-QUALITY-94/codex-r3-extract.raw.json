@@ -1,0 +1,11 @@
+{
+  "candidate": "5477af1e45a80fffe8afc56502659bc7785823bf",
+  "command": ["pnpm", "--filter", "@type-pal/pal-extract", "test"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 0,
+  "elapsedSeconds": 55.85,
+  "sha256": "eff35fd1a9a1c16a703fa503024391e3649f3dd0be374e21a629e1b75a938855",
+  "bytes": 435,
+  "expectedCounter": false,
+  "combinedOutput": "\n> @type-pal/pal-extract@0.0.0 test /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/pal-extract\n> vitest run --passWithNoTests\n\n\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/packages/pal-extract\n\n\n Test Files  71 passed (71)\n      Tests  427 passed (427)\n   Start at  14:32:16\n   Duration  55.48s (transform 532ms, setup 0ms, import 1.54s, tests 48.26s, environment 4ms)\n\n"
+}

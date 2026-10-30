@@ -8,15 +8,22 @@ function mkNpc(x: number, y: number, mode: number): NpcState {
 
 describe('M5.6 W1.c getSearchTriggerRange', () => {
   it('面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置', () => {
-    const cells = getSearchTriggerRange('down', 100, 100)
-    expect(cells.length).toBe(13)
-    expect(cells[0]).toEqual({ x: 100, y: 100 })
-    // sdlpal play.c:412:rgPos[1] = (x + xOffset, y + yOffset) = (84, 108)
-    expect(cells[1]).toEqual({ x: 84, y: 108 })
-    // rgPos[2] = (x, y + 2*yOffset) = (100, 116)
-    expect(cells[2]).toEqual({ x: 100, y: 116 })
-    // rgPos[3] = (x + 2*xOffset, y) = (68, 100)
-    expect(cells[3]).toEqual({ x: 68, y: 100 })
+    // 按 PAL_GetSearchTriggerRange 四排三点手算,检查完整顺序,不调用被测函数生成oracle。
+    expect(getSearchTriggerRange('down', 160, 160)).toEqual([
+      { x: 160, y: 160 },
+      { x: 144, y: 168 },
+      { x: 160, y: 176 },
+      { x: 128, y: 160 },
+      { x: 128, y: 176 },
+      { x: 144, y: 184 },
+      { x: 112, y: 168 },
+      { x: 112, y: 184 },
+      { x: 128, y: 192 },
+      { x: 96, y: 176 },
+      { x: 96, y: 192 },
+      { x: 112, y: 200 },
+      { x: 80, y: 184 },
+    ])
   })
 
   it('面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8', () => {
@@ -31,17 +38,13 @@ describe('M5.6 W1.c getSearchTriggerRange', () => {
 })
 
 describe('M5.6 W1.c findSearchableNpc', () => {
-  it('面前 1 步内有 SearchNormal(mode 2) NPC → 命中', () => {
-    // facing down (xOffset=-16, yOffset=+8);party (100, 100)
-    // mode 2 需 i >= mode*6-4 = 8;cells[8] = (100 - 4*16/4, ...) — 让 NPC 在 cells[8] 周围
-    // 简化:把 NPC 放 party 同格 (100, 100) → cells[0] 命中 — mode 2 需 i>=8,所以 cells[0] 不命中
-    // 改 mode 1(i>=2 触发),NPC 在 cells[2] = (100, 116)
-    const npc = mkNpc(100, 116, 1)
-    const found = findSearchableNpc([npc], 'down', 100, 100)
+  it('mode 1(SearchNear)包含最后允许的检查点i=2', () => {
+    const npc = mkNpc(160, 176, 1)
+    const found = findSearchableNpc([npc], 'right', 160, 160)
     expect(found).toBe(npc)
   })
 
-  it('mode 4-8 不被 Search 命中(auto trigger zone 路径,W1.b 处理)', () => {
+  it('触碰触发mode 5不被Confirm搜索命中', () => {
     const npc = mkNpc(100, 100, 5)
     const found = findSearchableNpc([npc], 'down', 100, 100)
     expect(found).toBeUndefined()
@@ -59,30 +62,34 @@ describe('M5.6 W1.c findSearchableNpc', () => {
     expect(found).toBeUndefined()
   })
 
-  it('mode 3(SearchFar)全 13 cell 都触发(sdlpal:mode 越大 trigger zone 越远 — far 反而最易命中)', () => {
-    // sdlpal play.c:466 真值:if (mode*6-4 < i) continue → mode 3 = 14;i 0..12 全 < 14 → 不 skip
-    // → mode 3 NPC 在 13 cell 内任何位置都被命中(SearchFar = 远距离也触发)
-    const npc = mkNpc(100, 100, 3)
-    const found = findSearchableNpc([npc], 'down', 100, 100)
+  it('mode 3(SearchFar)包含最远检查点i=12', () => {
+    // (240,184)的(col,row,h)=(7,11,1),与i=0..11均不同。
+    const npc = mkNpc(240, 184, 3)
+    const found = findSearchableNpc([npc], 'right', 160, 160)
     expect(found).toBe(npc)
   })
 
-  it('mode 1 NPC 在远 cell(cells[10] grid 外侧)不命中 — sdlpal SearchNear 只触前 3 cell', () => {
-    // 'down' facing,cells[10] (i=10 是第 4 排) = (100 + 4*-16 + (-16), 100 + 4*8 + 8) = (20, 140)
-    // 但 cells[10] / cells[11] / cells[12] grid 跟 cells[0..2] grid 完全不重叠
-    // mode 1: i>=3 skip;NPC 放 cells[10] grid → 不命中
-    const npc = mkNpc(20, 140, 1)
-    const found = findSearchableNpc([npc], 'down', 100, 100)
+  it('mode 1(SearchNear)排除紧邻上限的检查点i=3', () => {
+    const npc = mkNpc(192, 160, 1)
+    const found = findSearchableNpc([npc], 'right', 160, 160)
     expect(found).toBeUndefined()
   })
 
-  it('mode 2(SearchNormal)同 NPC 在 cells[10] grid → 命中(mode 2 允许 i<=8;实测 grid 距离 ok 即命中)', () => {
-    // mode 2: mode*6-4 = 8;i 0..8 都不 skip(i=9+ skip)
-    // cells 数组中(20,140)对应 i=10,被 skip
-    // 但 NPC grid (20/32=0, 140/16=8, 20%32!=0→1) — 其他低 i cells 不一定同 grid
-    // 此处验证:mode 2 在 cells[0..8] 范围内某 NPC grid 同 cells[3] grid (68/32=2, 100/16=6, 1) 命中
-    const npc = mkNpc(68, 100, 2)
-    const found = findSearchableNpc([npc], 'down', 100, 100)
-    expect(found).toBe(npc) // cells[1] = (84,108) grid (2,6,1) 同 NPC grid (2,6,1) → 命中
+  it('mode 2(SearchNormal)包含最后允许的检查点i=8', () => {
+    const npc = mkNpc(192, 192, 2)
+    const found = findSearchableNpc([npc], 'right', 160, 160)
+    expect(found).toBe(npc)
+  })
+
+  it('mode 2(SearchNormal)排除紧邻上限的检查点i=9', () => {
+    const npc = mkNpc(224, 176, 2)
+    const found = findSearchableNpc([npc], 'right', 160, 160)
+    expect(found).toBeUndefined()
+  })
+
+  it('优先命中靠前检查点,不因NPC数组先列远处对象而改变', () => {
+    const farther = mkNpc(160, 176, 1) // i=2
+    const closer: NpcState = { ...mkNpc(176, 168, 1), id: 2 } // i=1
+    expect(findSearchableNpc([farther, closer], 'right', 160, 160)).toBe(closer)
   })
 })

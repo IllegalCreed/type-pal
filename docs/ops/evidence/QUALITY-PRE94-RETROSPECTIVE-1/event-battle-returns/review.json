@@ -1,0 +1,136 @@
+{
+  "date": "2026-10-24",
+  "owner": "Codex single agent",
+  "base": "c483a9ca470389b19f49d12566075e56592dcd17",
+  "behaviorCommit": "b285b5a5b6800e307b9be977b77dddc7e2a2196a",
+  "approval": "call_331f12c139684e7b9b17c3e28ec9b529: 批准补齐两条分支（推荐）",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/events/slice.ts",
+      "sha256": "5f1640541831116b78bf4fb1c701dd0f70d47b90981599b7bb6a6a5e747b3c8d",
+      "lines": 198,
+      "dimensions": {
+        "A": "全文slice与四测试；CLI disasm→annotate→slice caller、opcodes字段和script.c3314–3333核。raw7非零op1/op2为Lost/Fleed边，胜利仍i+1；只修收集，无bytes/all.json生成写入。",
+        "B": "新增说明双返回与零地址；opcodes另收窄named/emit错注，runtime-resource共用遍历器声明修正。没有新增行号精确等价大话。",
+        "C": "私有pushRawJumpTargets负责raw边，collectReachable仍统一scene/global；局部queue/visited独占，归属/跨文件rewrite分层，无IO或运行态状态写入。",
+        "D": "单目标表保持旧合同，raw7两字段在局部明确列出；没有扩公共表类型/万能fields helper或为两次push增抽象。",
+        "E": "新增2入口身份，先14绿2AssertionError红；绿色83/9文件。exact输出核两边/胜利/敌队编号非入口/零地址/shared goto与原命令不变，原random/计数/metadata合同保留。",
+        "F": "onLost/onFled显式命名，先处理双边再旧单目标，不靠错误表模式猜地址；两条条件分别匹配C分支。",
+        "G": "仅7行产品分支与两正式例，无新导出、兼容层或生成物；未删旧分支/测试，也没有为了覆盖率扩测试。",
+        "H": "纯同步输入/返回可直接测；原盘只读输出在内存比，输入SHA前后相同。无需mock或运行破坏性CLI。"
+      },
+      "decision": "narrow P3 repair accepted; original CODE3/3g remaining debt stays partial"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.test.ts",
+      "sha256": "778a80cb96fa717516e5824f24e4b1662f6bfceaabdbcc3dd54c17690f4a4bb1",
+      "lines": 330,
+      "dimensions": {
+        "A": "全文slice与四测试；CLI disasm→annotate→slice caller、opcodes字段和script.c3314–3333核。raw7非零op1/op2为Lost/Fleed边，胜利仍i+1；只修收集，无bytes/all.json生成写入。",
+        "B": "新增说明双返回与零地址；opcodes另收窄named/emit错注，runtime-resource共用遍历器声明修正。没有新增行号精确等价大话。",
+        "C": "私有pushRawJumpTargets负责raw边，collectReachable仍统一scene/global；局部queue/visited独占，归属/跨文件rewrite分层，无IO或运行态状态写入。",
+        "D": "单目标表保持旧合同，raw7两字段在局部明确列出；没有扩公共表类型/万能fields helper或为两次push增抽象。",
+        "E": "新增2入口身份，先14绿2AssertionError红；绿色83/9文件。exact输出核两边/胜利/敌队编号非入口/零地址/shared goto与原命令不变，原random/计数/metadata合同保留。",
+        "F": "onLost/onFled显式命名，先处理双边再旧单目标，不靠错误表模式猜地址；两条条件分别匹配C分支。",
+        "G": "仅7行产品分支与两正式例，无新导出、兼容层或生成物；未删旧分支/测试，也没有为了覆盖率扩测试。",
+        "H": "纯同步输入/返回可直接测；原盘只读输出在内存比，输入SHA前后相同。无需mock或运行破坏性CLI。"
+      },
+      "decision": "narrow P3 repair accepted; original CODE3/3g remaining debt stays partial"
+    }
+  ],
+  "commentOnly": [
+    {
+      "path": "packages/pal-extract/src/events/opcodes.ts",
+      "sha256": "82df96903bb56efebc65212dfdb39c0d7368b158c5f80d1a5ba02f7e0d7ca074",
+      "lines": 311
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.glm-runtime-resource.test.ts",
+      "sha256": "f7e6705ef4cbf3262f196fc1f7bee9777059453d8a027fafca74fa8631b603c1",
+      "lines": 46
+    }
+  ],
+  "context": [
+    {
+      "path": "packages/pal-extract/src/events/disasm.ts",
+      "sha256": "59df908dd2aeaea470bcc47001ba90634c272652eea7debe38020ccd66dc807a",
+      "lines": 227
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "0474cf59a4c0c67d9d08dd088b44099ab44744dc7ef76e39ab122642c2a31c92",
+      "lines": 897
+    },
+    {
+      "path": "packages/pal-extract/src/events/opcodes.ts",
+      "sha256": "82df96903bb56efebc65212dfdb39c0d7368b158c5f80d1a5ba02f7e0d7ca074",
+      "lines": 311
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652
+    }
+  ],
+  "runs": {
+    "red": {
+      "id": "battle-slice-red",
+      "passed": 14,
+      "failed": 2,
+      "failureKind": "AssertionError"
+    },
+    "green": {
+      "id": "battle-slice-green",
+      "passed": 83,
+      "files": 9,
+      "stderrBytes": 0
+    },
+    "typecheck": "extract-typecheck;0 diagnostics"
+  },
+  "realReadOnly": {
+    "inputs": [
+      {
+        "path": "data/raw/SSS.MKF",
+        "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+      },
+      {
+        "path": "data/raw/WORD.DAT",
+        "sha256": "be56e77c7ecd61306133913a1987b1dddf656528ae870c2de1ee8ccda7ff3ebf"
+      },
+      {
+        "path": "data/raw/M.MSG",
+        "sha256": "5e553754fa0dcdab3b25590a01cb3f08a510c17ee9d59afd1c9f62b02841b846"
+      }
+    ],
+    "inputHashesStable": true,
+    "instructions": 43503,
+    "rawByteRoundtripExact": true,
+    "fixtureByteRoundtripExact": true,
+    "rawBattleCount": 434,
+    "reachableBattleCount": 334,
+    "reachableReturnEdges": 610,
+    "missingInUnion": [],
+    "sliceDelta": {
+      "before": 38765,
+      "after": 38780,
+      "added": [
+        6186, 6187, 6188, 6189, 41073, 41074, 41075, 41076, 41077, 41078, 41079, 41080, 41081,
+        41082, 41083
+      ],
+      "removed": []
+    },
+    "limitation": "Static file membership only; full all.json remains complete and is production default. No game failure or original PAL runtime claimed."
+  },
+  "receipts": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/receipts.json.gz",
+    "sha256": "8c7b1c2745130624bc88ae806120d44ee916b6fda82bfd8f468282f74da7168a",
+    "entries": 17,
+    "bytes": 29214
+  },
+  "limitations": [
+    "No generated file or raw data written. all.json byte content is unaffected because the command input is unchanged.",
+    "Raw all.json remains production default; no claim a normal story fault or browser route was reproduced.",
+    "Existing CLI orchestration/test-domain/de-duplication debt and CODE3/3g stay partial; no94–102.",
+    "Full check/coverage/protected/PR deferred to all-pre94 final window."
+  ]
+}

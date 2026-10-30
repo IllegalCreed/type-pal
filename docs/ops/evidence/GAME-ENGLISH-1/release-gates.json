@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "task": "GAME-ENGLISH-1",
+  "kind": "merged-release-gates",
+  "owner": "Codex",
+  "recordedAtUtc": "2026-10-22T14:26:39.758Z",
+  "parents": {
+    "english": "0adec15c5c84324ab9ae2d271106c2beb99a0703",
+    "main": "acb96a123bcb062c7204fdbc51903188c9fa0c5f"
+  },
+  "scope": "Combined English feature and already-accepted main UI frame identity repair. Product merge was clean; finite doc histories preserved. User acceptance and release authority in release-preflight.json.",
+  "gates": {
+    "coverage": {
+      "command": "VITEST_MAX_WORKERS=2 TYPE_PAL_COVERAGE_BASE_REF=acb96a123 pnpm coverage:ratchet",
+      "exit": 0,
+      "tests": 20181,
+      "sourceFileCount": 774,
+      "total": {
+        "statements": {
+          "covered": 72675,
+          "total": 80469
+        },
+        "branches": {
+          "covered": 52605,
+          "total": 62701
+        },
+        "functions": {
+          "covered": 13730,
+          "total": 15292
+        },
+        "lines": {
+          "covered": 64900,
+          "total": 70412
+        }
+      },
+      "improvements": 12,
+      "scopeChanges": 10,
+      "comparison": "Incoming protected-main measured baseline; regenerate combined baseline using actual official run. Rules, predicates, selected tests and timeout unchanged."
+    },
+    "typecheck": {
+      "command": "pnpm typecheck",
+      "exit": 0,
+      "packages": 7,
+      "diagnostics": 0
+    },
+    "docs": {
+      "command": "pnpm check:docs",
+      "exit": 0,
+      "markdown": 1695,
+      "localLinks": 10580,
+      "tasks": 481,
+      "issues": 0
+    },
+    "lint": {
+      "command": "pnpm lint",
+      "exit": 0,
+      "files": 5923,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    }
+  },
+  "independentAcceptance": {
+    "scope": "Actual incoming loader diff and real frame identity test callers inspected; merged loader bytes exactly equal independently accepted main. Recomputed real3402 inventory and retained382closed/110review/2910pending. Checked2512 parent history objects and836 preservation fields; errors0. No new whole-file quality closure.",
+    "limits": "Prior full check20609 at frozen English parent remains historical evidence. Current combined official fast run20181 plus seven-package typecheck/docs/lint covers merge delta; no repeated full-story English E2E or production claim."
+  },
+  "artifacts": [
+    {
+      "source": "build/english-release/coverage-merged.txt",
+      "path": "release-native/coverage-merged.txt.gz",
+      "bytes": 202656,
+      "sha256": "0aa4ec5b3bba38b3e7219c0f33255ce0a3e1296d8c5d42d20cb342c66cbc4e5d",
+      "gzipSha256": "287f262cb687fb54ca8acfdc9a31031873a123fbe5a42cd29246448485c36551",
+      "retention": "Exact merged release gate or merge baseline selection evidence; original bytes recover by gzip."
+    },
+    {
+      "source": "build/english-release/docs-merged.txt",
+      "path": "release-native/docs-merged.txt.gz",
+      "bytes": 30674,
+      "sha256": "00c8999c10bc7490034a1265569eb949f470fc97e27c039d00124832f6278ba0",
+      "gzipSha256": "013d5c400a225bb73eb1dd9e34128551cbbc3b6faf836a38677465ef04d56e71",
+      "retention": "Exact merged release gate or merge baseline selection evidence; original bytes recover by gzip."
+    },
+    {
+      "source": "build/english-release/typecheck-merged.txt",
+      "path": "release-native/typecheck-merged.txt.gz",
+      "bytes": 683,
+      "sha256": "c77cd732f7fb420f937e6a4763250e85e099954f844be89de58c00a7efc733ae",
+      "gzipSha256": "6ff65dbcd1817cadfd48de3b23cb208aa1bcf08942087d22c1d0f5dc30624e41",
+      "retention": "Exact merged release gate or merge baseline selection evidence; original bytes recover by gzip."
+    },
+    {
+      "source": "build/english-release/lint-merged.txt",
+      "path": "release-native/lint-merged.txt.gz",
+      "bytes": 164,
+      "sha256": "f35d75a0ecc6755bbc57a81d3ed66b1e4c8b8ad395eaccf9a43c2e372b225c17",
+      "gzipSha256": "b5eeeba0e0eeb0e1a79739596824ced0f63a8804eff0f526db6559b5b408afb4",
+      "retention": "Exact merged release gate or merge baseline selection evidence; original bytes recover by gzip."
+    },
+    {
+      "source": "build/english-release/baseline-merge-selection.json",
+      "path": "release-native/baseline-merge-selection.json.gz",
+      "bytes": 1204,
+      "sha256": "4fb1f03e852e6788ed97ec4fc419833da3fa99b06e525abb0b9afe23f3d40fbe",
+      "gzipSha256": "bfdb924a403002b43873742f6a19daafaf14b6e875738119f0207a6291251d05",
+      "retention": "Exact merged release gate or merge baseline selection evidence; original bytes recover by gzip."
+    },
+    {
+      "source": "build/english-release/english-parent-baseline.fast.json",
+      "path": "release-native/english-parent-baseline.fast.json.gz",
+      "bytes": 538442,
+      "sha256": "533fe4775366c5a5f6a9220dec6a3a38476bc42c9ab410e4a81e059660f4905a",
+      "gzipSha256": "aed098761876ea2b35d6f397a7e8185fa6cb0ac96232d810f076f5b71ed7f769",
+      "retention": "Exact merged release gate or merge baseline selection evidence; original bytes recover by gzip."
+    },
+    {
+      "source": "coverage/fast/summary.json",
+      "path": "release-native/summary.json.gz",
+      "bytes": 8559147,
+      "sha256": "0faff139d3522178f9afc97efdcb48cea1b46b42a6411796571c5bdac97a1295",
+      "gzipSha256": "b407eae93c2859e0dc3af414e8209eabb694679998650eb58c007a47193f147f",
+      "retention": "Exact merged release gate or merge baseline selection evidence; original bytes recover by gzip."
+    },
+    {
+      "source": "scripts/coverage/baseline.fast.json",
+      "path": "release-native/baseline.fast.json.gz",
+      "bytes": 538748,
+      "sha256": "640bef31068f3bec991e4d8e65d9292b2fe682ec6b3807a0c01941caedca1d94",
+      "gzipSha256": "47bb25ed5368d1692e48fa1e7ef32dbf8f44ff89d7370455f8297b9430812a5b",
+      "retention": "Exact merged release gate or merge baseline selection evidence; original bytes recover by gzip."
+    }
+  ]
+}

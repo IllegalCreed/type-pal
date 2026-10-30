@@ -1,0 +1,242 @@
+[
+  {
+    "path": "packages/game/src/core/menu/menu-mode.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-83-game-menu-stack.md",
+    "closureCommit": "fd6a59ecf707c3e83c9a2b315b9c9dd641c10d40",
+    "closureSourceSha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82",
+    "currentSourceSha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/menu-stack.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-83-game-menu-stack.md",
+    "closureCommit": "fd6a59ecf707c3e83c9a2b315b9c9dd641c10d40",
+    "closureSourceSha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+    "currentSourceSha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/menu-mode.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-83-game-menu-stack.md",
+    "closureCommit": "fd6a59ecf707c3e83c9a2b315b9c9dd641c10d40",
+    "closureSourceSha256": "824b66b729786910d481f73301f4262e3e275361cf15c6958c163c2b9cb6ef6d",
+    "currentSourceSha256": "824b66b729786910d481f73301f4262e3e275361cf15c6958c163c2b9cb6ef6d",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/inventory-menu.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md",
+    "closureCommit": "7311c69236292a1279e3a8d76e3f2317301070f9",
+    "closureSourceSha256": "3b5937e3092de693855d91f768dafb86a55a6f07ecd46ca3c332bd95f7cea609",
+    "currentSourceSha256": "3b5937e3092de693855d91f768dafb86a55a6f07ecd46ca3c332bd95f7cea609",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md",
+    "closureCommit": "7311c69236292a1279e3a8d76e3f2317301070f9",
+    "closureSourceSha256": "060994a9e7a67f9488d7cee1fcf72b561adb3c96201c946c64cd07f75ea6684e",
+    "currentSourceSha256": "060994a9e7a67f9488d7cee1fcf72b561adb3c96201c946c64cd07f75ea6684e",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md",
+    "closureCommit": "7311c69236292a1279e3a8d76e3f2317301070f9",
+    "closureSourceSha256": "c989da3e8b7ceceff9f6c92d7660466d0a23ac1d5586ee4c4a88a01a9ee18ec8",
+    "currentSourceSha256": "c989da3e8b7ceceff9f6c92d7660466d0a23ac1d5586ee4c4a88a01a9ee18ec8",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md",
+    "closureCommit": "7311c69236292a1279e3a8d76e3f2317301070f9",
+    "closureSourceSha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072",
+    "currentSourceSha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/shop-menu.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md",
+    "closureCommit": "c8c02518a1f2335059547130712723d276c92e4a",
+    "closureSourceSha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+    "currentSourceSha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/shop-menu.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md",
+    "closureCommit": "c8c02518a1f2335059547130712723d276c92e4a",
+    "closureSourceSha256": "041b41a3a423b38d509ff6bcf5ff016efbcb1c37cd357af61d95450774d0bbca",
+    "currentSourceSha256": "041b41a3a423b38d509ff6bcf5ff016efbcb1c37cd357af61d95450774d0bbca",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md",
+    "closureCommit": "c8c02518a1f2335059547130712723d276c92e4a",
+    "closureSourceSha256": "531db7e99064e51f1a5a55fafa13f537a84e53260987852197811aa293794e5b",
+    "currentSourceSha256": "531db7e99064e51f1a5a55fafa13f537a84e53260987852197811aa293794e5b",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md",
+    "closureCommit": "c8c02518a1f2335059547130712723d276c92e4a",
+    "closureSourceSha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2",
+    "currentSourceSha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/equip-menu.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-86-game-equip-menu-contract.md",
+    "closureCommit": "8f6e5a57dc27654ab8fe9557081dc959f1a3bbfd",
+    "closureSourceSha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69",
+    "currentSourceSha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/equip-menu.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-86-game-equip-menu-contract.md",
+    "closureCommit": "8f6e5a57dc27654ab8fe9557081dc959f1a3bbfd",
+    "closureSourceSha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a",
+    "currentSourceSha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-86-game-equip-menu-contract.md",
+    "closureCommit": "8f6e5a57dc27654ab8fe9557081dc959f1a3bbfd",
+    "closureSourceSha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84",
+    "currentSourceSha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-86-game-equip-menu-contract.md",
+    "closureCommit": "8f6e5a57dc27654ab8fe9557081dc959f1a3bbfd",
+    "closureSourceSha256": "bef1ec6e11dd2ee1476325e7c16caea792e4338248095f4cc206a1a75ce88782",
+    "currentSourceSha256": "bef1ec6e11dd2ee1476325e7c16caea792e4338248095f4cc206a1a75ce88782",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/in-game-menu.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-87-game-ingame-menu-contract.md",
+    "closureCommit": "a44eea3c0b0a7450eb1592d4b9241a87b276eff3",
+    "closureSourceSha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c",
+    "currentSourceSha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-87-game-ingame-menu-contract.md",
+    "closureCommit": "a44eea3c0b0a7450eb1592d4b9241a87b276eff3",
+    "closureSourceSha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645",
+    "currentSourceSha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-87-game-ingame-menu-contract.md",
+    "closureCommit": "a44eea3c0b0a7450eb1592d4b9241a87b276eff3",
+    "closureSourceSha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3",
+    "currentSourceSha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-87-game-ingame-menu-contract.md",
+    "closureCommit": "a44eea3c0b0a7450eb1592d4b9241a87b276eff3",
+    "closureSourceSha256": "d80cb2670f407a8ae46178b5e2ed99dac2c6c0fb794e16c9269b506e60e82aab",
+    "currentSourceSha256": "d80cb2670f407a8ae46178b5e2ed99dac2c6c0fb794e16c9269b506e60e82aab",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/magic-select.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md",
+    "closureCommit": "18b35b439423a570182da6e9c828674a2037c98f",
+    "closureSourceSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+    "currentSourceSha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md",
+    "closureCommit": "18b35b439423a570182da6e9c828674a2037c98f",
+    "closureSourceSha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26",
+    "currentSourceSha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md",
+    "closureCommit": "18b35b439423a570182da6e9c828674a2037c98f",
+    "closureSourceSha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd",
+    "currentSourceSha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md",
+    "closureCommit": "18b35b439423a570182da6e9c828674a2037c98f",
+    "closureSourceSha256": "e2e1ae2efad2861669b352733ff923326ec6f6de150c87dec167c6255ef328fd",
+    "currentSourceSha256": "e2e1ae2efad2861669b352733ff923326ec6f6de150c87dec167c6255ef328fd",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md",
+    "closureCommit": "3dfa236418b3bc727c02b64ce1f66eef387989d8",
+    "closureSourceSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+    "currentSourceSha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md",
+    "closureCommit": "3dfa236418b3bc727c02b64ce1f66eef387989d8",
+    "closureSourceSha256": "f9bdde69dac26275ed920a44113100933a90b5c93dbd9ddfa81408f02525b454",
+    "currentSourceSha256": "f9bdde69dac26275ed920a44113100933a90b5c93dbd9ddfa81408f02525b454",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md",
+    "closureCommit": "3dfa236418b3bc727c02b64ce1f66eef387989d8",
+    "closureSourceSha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0",
+    "currentSourceSha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md",
+    "closureCommit": "3dfa236418b3bc727c02b64ce1f66eef387989d8",
+    "closureSourceSha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9",
+    "currentSourceSha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md",
+    "closureCommit": "13229f476da56340a7e6ef12c9b478b228420fc1",
+    "closureSourceSha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2",
+    "currentSourceSha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md",
+    "closureCommit": "13229f476da56340a7e6ef12c9b478b228420fc1",
+    "closureSourceSha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4",
+    "currentSourceSha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4",
+    "byteIdentical": true
+  },
+  {
+    "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+    "card": "docs/ops/archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md",
+    "closureCommit": "13229f476da56340a7e6ef12c9b478b228420fc1",
+    "closureSourceSha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+    "currentSourceSha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+    "byteIdentical": true
+  }
+]

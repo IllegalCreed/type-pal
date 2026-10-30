@@ -1,0 +1,143 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game
+
+ ❯ src/core/object-script-progress.test.ts (5 tests | 3 failed) 14ms
+     × casts the advanced success hook on the next heal while the use hook stays independent 5ms
+     × equipment hooks are object-owned across roles, preserving the other item hooks and flags 3ms
+     × item-use root survives a nested call and saved wait, then advances and resets on later use 3ms
+     ✓ root checkpoint survives a child checkpoint and plain end, so the next use skips the completed prefix 1ms
+     ✓ returning to title during a waiting item script discards its unfinished next entry 0ms
+ ❯ src/core/battle/__tests__/object-script-progress.test.ts (3 tests | 3 failed) 16ms
+     × Wine God: eight successes, save/import/load, ninth removes the nonleader spell; Repeat cannot cast a tenth 11ms
+     × failed Wine God resource check does not advance; a new game starts from the resource entry 3ms
+     × use and throw hooks advance independently without changing the item table 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/core/object-script-progress.test.ts > overworld object script ownership > casts the advanced success hook on the next heal while the use hook stays independent
+AssertionError: expected 30 to be 40 // Object.is equality
+
+- Expected
++ Received
+
+- 40
++ 30
+
+ ❯ src/core/object-script-progress.test.ts:56:44
+     54|     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(20)
+     55|     expect(castOverworldMagic(gs, spell, 0, 0, 0)).toBe(true)
+     56|     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(40)
+       |                                            ^
+     57|     expect(gs.rgObject[296]?.rgwData).toEqual([0, 0, 5, 2, 0, 99, 3])
+     58|     expect([spell.scriptOnUse, spell.scriptOnSuccess]).toEqual([1, 3])
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  src/core/object-script-progress.test.ts > overworld object script ownership > equipment hooks are object-owned across roles, preserving the other item hooks and flags
+AssertionError: expected [ 10, 10 ] to deeply equal [ 10, 20 ]
+
+- Expected
++ Received
+
+  [
+    10,
+-   20,
++   10,
+  ]
+
+ ❯ src/core/object-script-progress.test.ts:80:68
+     78|     ])
+     79|     updateAllEquipments(gs, [item])
+     80|     expect(gs.rgEquipmentEffect[3]!.rgwAttackStrength.slice(0, 2)).toE…
+       |                                                                    ^
+     81|     expect(gs.rgObject[187]?.rgwData.slice(2, 6)).toEqual([7, 3, 8, 9])
+     82|     expect(item.scriptOnEquip).toBe(1)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  src/core/object-script-progress.test.ts > overworld object script ownership > item-use root survives a nested call and saved wait, then advances and resets on later use
+AssertionError: expected 1 to be 4 // Object.is equality
+
+- Expected
++ Received
+
+- 4
++ 1
+
+ ❯ src/core/object-script-progress.test.ts:119:47
+    117|     expect(restored.eventCursor).toBeUndefined()
+    118|     expect(restored.inventory).toEqual([{ itemId: 61, count: 1 }])
+    119|     expect(restored.rgObject[61]?.rgwData[2]).toBe(4)
+       |                                               ^
+    120|     expect(startOverworldItemScript(restored, item, 0)).toBe(true)
+    121|     tickEventSystem(restored, emptyInput, bus)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/core/battle/__tests__/object-script-progress.test.ts > object script progress belongs to the saved game > Wine God: eight successes, save/import/load, ninth removes the nonleader spell; Repeat cannot cast a tenth
+AssertionError: expected 6 to be 14 // Object.is equality
+
+- Expected
++ Received
+
+- 14
++ 6
+
+ ❯ src/core/battle/__tests__/object-script-progress.test.ts:101:44
+     99|     expect(learnedWine(b)).toBe(true)
+    100|     expect(b.gs.inventory[0]!.count).toBe(4)
+    101|     expect(b.gs.rgObject[370]?.rgwData[2]).toBe(14)
+       |                                            ^
+    102|     b.gs.battleState = undefined // Save from the overworld; battle RN…
+    103|     await Save.saveSlot(1, parseImportedSave(serializeSave(b.gs)))
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  src/core/battle/__tests__/object-script-progress.test.ts > object script progress belongs to the saved game > failed Wine God resource check does not advance; a new game starts from the resource entry
+AssertionError: expected 6 to be 7 // Object.is equality
+
+- Expected
++ Received
+
+- 7
++ 6
+
+ ❯ src/core/battle/__tests__/object-script-progress.test.ts:144:44
+    142|     cast(b)
+    143|     expect(b.gs.fScriptSuccess).toBe(false)
+    144|     expect(b.gs.rgObject[370]?.rgwData[2]).toBe(7)
+       |                                            ^
+    145|     resetSceneRuntimeForNewGame(b.gs, [])
+    146|     b.gs.inventory = [{ itemId: 86, count: 1 }]
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  src/core/battle/__tests__/object-script-progress.test.ts > object script progress belongs to the saved game > use and throw hooks advance independently without changing the item table
+AssertionError: expected +0 to be 18 // Object.is equality
+
+- Expected
++ Received
+
+- 18
++ 0
+
+ ❯ src/core/battle/__tests__/object-script-progress.test.ts:196:32
+    194|     performItem({ ...input, targetIsEnemy: false, targetIdx: 1 })
+    195|     performThrowItem({ ...input, targetIdx: 0, magics: [], objectMagic…
+    196|     expect(b.gs.dwCash - cash).toBe(18)
+       |                                ^
+    197|     expect(b.gs.inventory[0]!.count).toBe(0)
+    198|     expect(item).toEqual(source)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  6 failed | 2 passed (8)
+   Start at  16:19:37
+   Duration  2.65s (transform 1.68s, setup 88ms, import 1.97s, tests 30ms, environment 2.37s)
+
+JSON report written to /tmp/script-runtime-negative.json
+undefined
+/Users/zhangxu/.codex/worktrees/script-runtime-fixes/type-pal/packages/game:
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command failed with exit code 1: vitest run src/core/object-script-progress.test.ts src/core/battle/__tests__/object-script-progress.test.ts --reporter=default --reporter=json --outputFile.json=/tmp/script-runtime-negative.json

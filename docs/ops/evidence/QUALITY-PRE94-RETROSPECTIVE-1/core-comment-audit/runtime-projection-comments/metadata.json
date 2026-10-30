@@ -1,0 +1,13 @@
+{
+  "command": ["python3", "/tmp/type-pal-projection-verify.py"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T21:06:03.936853+00:00",
+  "completedAt": "2026-10-17T21:06:03.998230+00:00",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "raw": "metadata.raw.gz",
+  "rawBytes": 289,
+  "rawSha256": "bfa06b077a0faad0ffd6d85d174c781afc72ed7c041ea320b92b5e0e7b8d14a0",
+  "fullUncutMergedStdoutStderr": true
+}

@@ -1,0 +1,389 @@
+{
+  "date": "2026-10-24",
+  "owner": "Codex (single agent, own inspection disclosed)",
+  "branch": "codex/code-quality-3y",
+  "base": "96d68809b87e7f1d653d55d1ee8330d63f6fc76f",
+  "candidateCodeHead": "f49eeefb8d5303e2bcbce6807c02e1deded1f639",
+  "codeCommits": ["4233ed5d8", "d8bd3ec81", "749d649fd", "f49eeefb8"],
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "b9574dbbaf3527d6f48211e70e18f7004e2174c902548a593921645dc2f14539",
+      "lines": 1546,
+      "readScope": "Complete baseline implementation read across consecutive ranges; prior3t primary and approved parity evidence reused; current full delta and real callers checked. Actual current line count is recorded separately.",
+      "caller": "runScript(runtimeMode=battle), actual performItem/performThrowItem, nested poison runner; BattleCtx owned by interpreter integration.",
+      "oracle": "3t primary and QUALITY-BATTLE-MAGIC-PARITY-1; current real nested0x21 execution; exact native241 plus six discrimination controls.",
+      "dimensions": {
+        "A": "All runtime JS AST is identical to96d68809b: no changed arithmetic, RNG consumption, dispatch priority or save/API behavior. Existing documented enemy status >= policy is retained and distinguished from SDL >, not silently changed.",
+        "B": "Correct bare runtime vs effective projection ownership, actual opcode/call anchors, slot/role and animation/cleanup descriptions. Remove false all-enemy-opcode and fallback-skip claims, reattach orphan entry documentation.",
+        "C": "Dispatch owns battle-specific effects and returns consumed/newIp; interpreter retains fallback and scheduling. Four private helpers now require only the fields they use. Broad exported BattleCtx is the explicit integration union for distinct opcode needs, not a dependency passed wholesale into every helper. No IO/config/menu owner added.",
+        "D": "Reset enemy slot and position/animation/damage helpers share actual slot lifecycle. Player vs enemy poison and individual opcode result policies differ; merging by repeated syntax would introduce policy switches. Reuse existing stats/state/formulas instead.",
+        "E": "Full160 main and57+5 dedicated test contracts reviewed; real poison callee, literal313 damage in prior dedicated slice, legal factories and equality/slot counter-evidence. Passing241 alone is not the acceptance rationale.",
+        "F": "Named opcode cases retain local guards and return points. High switch complexity is an inspection clue; it does not show inter-opcode coupling. Splitting the opcode vocabulary alone adds cross-file control flow with no distinct state owner; no such extraction is required for acceptance.",
+        "G": "Private dead/broad type obligations corrected without changing public signature. Existing missing-dependency no-op/fallback contracts have real callers/tests and are retained, not treated as dead compatibility. No rule/baseline/timeout changes.",
+        "H": "Explicit state/RNG/bus/runner/tables permit deterministic real execution and observing mutations, continuations and output. Private helpers need narrow views; no test-only exported seam/core mock. Catalogue singleton remains owned/reset at existing layer."
+      },
+      "decision": "accept-code; unified integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+      "sha256": "07d776bf972413eeef685a6aa79e29082abdd7696a9b6a85cf7192d0c8c93057",
+      "lines": 2463,
+      "readScope": "Complete2428-line baseline160-case main test and current changed construction/cases; exact native identity mapping.",
+      "caller": "Actual dispatchBattleOpcode; real runScript for poison entry; existing makeBattle/makeRole/typed stats factories.",
+      "oracle": "Literal HP, animation/state/continuation/bus outputs, fixed hand damage terms; current six old-green/new-single-AssertionError controls.",
+      "dimensions": {
+        "A": "Core any/double assertions/partial actors replaced by typed real constructors. Direct-dispatch state views are not full startBattle/hydration. Explicit maxHealth/MP, defined poison metadata, valid clamped RNG ranges; production paths that need runtime hydrate it.",
+        "B": "Correct equality/resistance, actual damage vs clamp wording, sprite result and no-bus animation titles. Cleanup doc names current owner/all-role boundary; no unsupported no-duplication statement.",
+        "C": "Per-case state/tables/RNG/bus; poison catalogue reset afterEach. Context is checked by satisfies. Real nested interpreter replaces self-index spy that could hide continuation errors.",
+        "D": "Reuse existing factories, no new universal fixture framework. Local constantRoll supplies complete deterministic RNG with legal bounds. Distinct resource defaults remain explicit instead of hidden coercion.",
+        "E": "160 identities retained, six renamed. Hiding/sleep negatives now include an empty slot so room0 cannot mask them. Equality hits actual boundary. Real poison saves continuation3 and exact repeated HP/command results. Theft max99 and old live-slot no-clobber contract are retained within existing cases.",
+        "F": "Typed named stateView/constantRoll helpers expose the fixture domain; exact outputs replace consumed/no-crash-only oracles. Existing grouping by opcode keeps branches discoverable.",
+        "G": "No tests added/deleted/skipped or timeout/ignore changes. Exact old damage77/223 and101/199 retained. Main room0 case carries the redundant dedicated live-slot assertion; no retirement credit claimed.",
+        "H": "Real deterministic callee and typed factories are enough; no fake full GS/enemy/player or business mocks. Six business failures are observed, restored and bound to candidate bytes."
+      },
+      "decision": "accept-code; unified integration gates deferred"
+    },
+    {
+      "path": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "sha256": "fb7ec27c8c0f45bd91563b0351a8381a581063a73cea463ca0490f8a88cdafa6",
+      "lines": 183,
+      "readScope": "Complete four-case file, actual BattleState constructor and enemy factory; changed cases read.",
+      "caller": "Real dispatch0x9e and makeBattle; actual resetEnemySlot/position owner.",
+      "oracle": "Literal first/second slot identity/HP/defeated, poison/status cleared and position anchors; two single-AssertionError controls.",
+      "dimensions": {
+        "A": "Real party/state constructor and bounded RNG replace handwritten empty-party/zero-RNG fixture. Death slots explicitly maxHealth100; original slot objects retained to inspect ownership.",
+        "B": "Remove false blanket non-overlap claim; state actual old room0 transfer and new room1<count2 contract, nonzero bad/good status precondition.",
+        "C": "Only local slots/table/state; no module singleton mutation or core mocks. Slot object mutations remain directly observable.",
+        "D": "Shared makeBattle/stats constructors reused, local slot overrides express dead identities/health not a second engine.",
+        "E": "Four retained cases/two renamed. Prepare nonzero sleep/confused/bravery and poison; zero-from-zero cannot satisfy clear claim anymore. Assert exact first reused slot and unchanged second. Replace redundant room0 input with insufficient positive room1 and prove no partial spawn.",
+        "F": "Literal ids/HP/status/positions make intended contract visible; no filter/find >= predicate or vague kept-enemy match.",
+        "G": "No extra test/timeout. Original room0 no-live-clobber contract transferred to existing main case; room0 vs room1<count2 now have distinct inputs and assertions.",
+        "H": "Partial-room and stale-status mutants each old green/new one business AssertionError; final four green and final241 restore supported."
+      },
+      "decision": "existing closed refreshed; code acceptance, final integration pending"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "1a86e21e80f22990f1d1a76c11dc36d390109e2d29f42b4ea9b38bb00325a342",
+      "lines": 4973,
+      "readScope": "Only current exact comment delta and affected caller/type; existing broader evidence reused, not fresh full-file credit.",
+      "caller": "BattleCtx/performThrowItem -> dispatch/runScript.",
+      "oracle": "Entire source runtime AST equality to96d68809b.",
+      "dimensions": {
+        "A": "Comments/types only; concrete runtime identical.",
+        "B": "BattleCtx docs distinguish effective playerRoles from0x66 bare gs runtime, remove obsolete future-caller wording.",
+        "C": "Existing interpreter/action ownership unchanged; no new writer.",
+        "D": "No new abstraction or shared helper.",
+        "E": "Existing final241 adjacent and finalTC0; no new whole-file test review claim.",
+        "F": "Correct ownership terms remove reliance on wrong comments.",
+        "G": "No executable statement/export removed or added.",
+        "H": "Existing real dependencies remain explicit; no testing seam."
+      },
+      "decision": "delta accepted only; no whole-file status change"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/throw-item.ts",
+      "sha256": "4fcd73dca29165f82d0f2955af02eb70e8e4d87ca395f882b8092470ee8426ea",
+      "lines": 166,
+      "readScope": "Only current exact comment delta and affected caller/type; existing broader evidence reused, not fresh full-file credit.",
+      "caller": "BattleCtx/performThrowItem -> dispatch/runScript.",
+      "oracle": "Entire source runtime AST equality to96d68809b.",
+      "dimensions": {
+        "A": "Comments/types only; concrete runtime identical.",
+        "B": "Two context ownership comments corrected; runtime unchanged.",
+        "C": "Existing interpreter/action ownership unchanged; no new writer.",
+        "D": "No new abstraction or shared helper.",
+        "E": "Existing final241 adjacent and finalTC0; no new whole-file test review claim.",
+        "F": "Correct ownership terms remove reliance on wrong comments.",
+        "G": "No executable statement/export removed or added.",
+        "H": "Existing real dependencies remain explicit; no testing seam."
+      },
+      "decision": "delta accepted only; no whole-file status change"
+    }
+  ],
+  "sourceProof": {
+    "rows": [
+      {
+        "path": "packages/game/src/core/battle/battle-opcodes.ts",
+        "beforeSha256": "2cd6d03e5be5d0046f9b1ebe0a62df164e62718a652af05f35d9bb0f257d703a",
+        "afterSha256": "b9574dbbaf3527d6f48211e70e18f7004e2174c902548a593921645dc2f14539",
+        "runtimeTreeSha256": "1455c9ab03ab6ac5a0fbdd50e2ce370c5d3f17c99c7bd32d64f03feb303cdae4"
+      },
+      {
+        "path": "packages/game/src/core/event-system.ts",
+        "beforeSha256": "28e96be97ea4360f57899a2e1ac009d7f28527ded8331ee066eecc20af4ff109",
+        "afterSha256": "1a86e21e80f22990f1d1a76c11dc36d390109e2d29f42b4ea9b38bb00325a342",
+        "runtimeTreeSha256": "2175269cc7cc907da5ac48b54117752bdb654945af8b5203809889d5778c7992"
+      },
+      {
+        "path": "packages/game/src/core/battle/actions/throw-item.ts",
+        "beforeSha256": "70e2a69b3397d1e402f07e57db7832ada38ecfa380694abf4930b80629f16fba",
+        "afterSha256": "4fcd73dca29165f82d0f2955af02eb70e8e4d87ca395f882b8092470ee8426ea",
+        "runtimeTreeSha256": "fbec2382c8c8e271cacf3dad7405a4a73f47b8f2d42c6b9b636dd456590999ce"
+      }
+    ],
+    "normalization": "Erase TS types/comments, retain concrete JS AST kinds/values/operators/declaration flags and structure; only parenthesized wrapper nodes ignored. No opcode/math/string/branch masks.",
+    "sanityControls": 3
+  },
+  "identity": [
+    {
+      "path": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "count": 4,
+      "renames": [
+        {
+          "before": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
+          "after": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用槽非空毒和状态残留清零、对象身份替换"
+        },
+        {
+          "before": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
+          "after": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 一间空槽不足两只：失败不部分复用，活槽与空槽均不改写"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+      "count": 160,
+      "renames": [
+        {
+          "before": "0x2D/0x2E/0x2F 状态 opcode(kStatus CLASSIC:0乱1麻2眠3沉默4傀儡5勇6护7迅8双击) 0x2E set enemy status:RandomLong(0,9)>resist → 设状态(op0=2 sleep)",
+          "after": "0x2D/0x2E/0x2F 状态 opcode(kStatus CLASSIC:0乱1麻2眠3沉默4傀儡5勇6护7迅8双击) 0x2E set enemy status:RandomLong等于resist时仍命中(op0=2 sleep)"
+        },
+        {
+          "before": "0x2D/0x2E/0x2F 状态 opcode(kStatus CLASSIC:0乱1麻2眠3沉默4傀儡5勇6护7迅8双击) 0x2E:抵抗(RandomLong<=resist)→ jump op2",
+          "after": "0x2D/0x2E/0x2F 状态 opcode(kStatus CLASSIC:0乱1麻2眠3沉默4傀儡5勇6护7迅8双击) 0x2E:抵抗(RandomLong<resist)→ jump op2"
+        },
+        {
+          "before": "0x31 / 0x92 battle presentation opcodes 0x31 change battle sprite → consumed,不崩",
+          "after": "0x31 / 0x92 battle presentation opcodes 0x31 change battle sprite → caster覆盖号200"
+        },
+        {
+          "before": "0x31 / 0x92 battle presentation opcodes 0x92 show magic anim → consumed,不崩",
+          "after": "0x31 / 0x92 battle presentation opcodes 0x92无bus → consumed且不安装动画"
+        },
+        {
+          "before": "D17b showDamageNum emit 0x21 单体扣血 → emit blue,target enemy,value=钳后 delta",
+          "after": "D17b showDamageNum emit 0x21 单体扣血 → emit blue,target enemy,value=30"
+        },
+        {
+          "before": "D17b showDamageNum emit 0x42 SimulateMagic → emit blue per 命中敌人(钳后 delta)",
+          "after": "D17b showDamageNum emit 0x42 SimulateMagic → emit blue per 命中敌人(本例完整伤害140)"
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-parity.test.ts",
+      "count": 15,
+      "renames": []
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+      "count": 57,
+      "renames": []
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
+      "count": 5,
+      "renames": []
+    }
+  ],
+  "counters": [
+    "summon-hiding",
+    "summon-sleep",
+    "poison-continuation",
+    "status-equality",
+    "summon-partial",
+    "summon-stale-status"
+  ],
+  "counterSummary": ["counters.json", "summon-counter.json", "status-counter.json"],
+  "counterBridge": {
+    "main": "Only an exact literal id100/HP200 assertion added to unrelated main room0 test after first four controls; all other tokens/helpers identical.",
+    "slot": "Only first status case strengthened after partial-room control; selected partial-room case and helpers unchanged. Stale-status snapshot is final summon file.",
+    "source": "Counters ran on base96 or d8bd source; current concrete JS AST identical to both. No opcode/math/branch masks."
+  },
+  "receipts": {
+    "path": "receipts.json.gz",
+    "sha256": "cc14cc2fdacf0b4bdcab1d87189e3552e3f1e90b0a1c104de95645ae5fa70097",
+    "entries": 109,
+    "bytes": 359028
+  },
+  "gates": {
+    "adjacent": {
+      "files": 5,
+      "passed": 241,
+      "failed": 0,
+      "pending": 0,
+      "stderrBytes": 0,
+      "execution": "final-adjacent"
+    },
+    "typecheck": "final-types: exit0, diagnostics0",
+    "unified": "DEFERRED until all remaining pre94; no fullcheck/official/ratchet/protected/PR"
+  },
+  "reuse": {
+    "dedicated": "opcode-test-quality:57+5 full A-H and two earlier business counters; same exact two test files, product runtime preserved by whole-source proof.",
+    "host": "battle-main-quality verifier MATCH: source/test/current deps,186 identities,266 adjacent,3 actual co-op followup and2 business counters. Dialogue extraction/body proof and12-case quality remain from battle-dialog-quality; current dialogue source/test unchanged."
+  },
+  "processDisclosure": [
+    "Initial typed conversion had9 TS diagnostics, fixed with complete actual input shapes; full raw retained, not product red.",
+    "First source proof incorrectly included SourceFile.text, therefore compared whole whitespace rather than semantic children. Tool error retained; fixed exclusion is only SourceFile.text; AST values/operators/grouping/binding kinds retained with3 distinguishing sanity controls.",
+    "Native run HEAD records describe uncommitted candidate; current file fingerprints and four implementation commits bind actual input. Baseline241 reused rather than executed again.",
+    "No browser/E2E/visual or whole-save/interface acceptance. No lowered rules, ignores, coverage changes, timeouts or added core mocks.",
+    "Published verifier first Biome pass had1info (string concatenation), manually corrected before scoped-final0. Only tool transcript saved for that first diagnostic.",
+    "Dependency-binding producer initially rejected changed main test as outside its narrow allowed set, then stopped before report write; the current main test is already an explicitly reviewed and pinned file, so it now uses that exact owned binding. Subsequent missing metadata-script invocation has tool transcript only; no product/semantic failure credit."
+  ],
+  "codeAcceptance": {
+    "cards": ["3s", "3t"],
+    "filesNewlyAccepted": [
+      "packages/game/src/core/battle/battle-system.ts",
+      "packages/game/src/core/battle/battle-dialog.ts",
+      "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+      "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+      "packages/game/src/core/battle/battle-opcodes.ts",
+      "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+      "packages/game/src/core/battle/battle-opcodes.cov85.test.ts"
+    ],
+    "decision": "Accept code review only. Whole-repository integration/publication remains open; final gates cannot substitute eight-axis acceptance and their deferral alone is not a code-review blocker.",
+    "supersedes": "Prior broad phrases all16 remain until final gates are superseded only for3s/3t, not rewritten in frozen history.",
+    "designJudgment": {
+      "3s": "Phase host coordinates ordered phase/selection/casualty and delegates action/settlement/resources/presentation. Dialogue was a separable owner and is now extracted. Existing local selection/casualty routines share the same battle transition; branch count alone does not justify a new scheduler or global context. No evidenced remaining ownership defect in reviewed original3s scope. GLM count39/68 discrepancy was superseded by native266 and186 identity evidence, not silently accepted.",
+      "3t": "Private helper dependencies narrowed; per-opcode results and failure priority preserved. Exported context is the existing interpreter capability union, not an injected unrelated service container. Large switch alone is an optional reorganization candidate, not an unproven mandatory repair. Original source/main/dedicated quality debts now individually resolved."
+    },
+    "scope": "Original3s host/main and3t dispatcher/main/dedicated contracts plus new extracted dialogue owner. Other actions/settlement or whole event-system not newly accepted. Static consumers still required before pushing."
+  },
+  "remaining": [
+    "Other14 partial cards require individual debt review; they are not all blocked by final gates.",
+    "Final integration check/official/ratchet/protected and onePR are still pending and must be zero diagnostics before merge."
+  ],
+  "hostAcceptanceInputs": [
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c3eaa90bd59c8a2be9da38c0b0655c24e1da11b683b5857cce3af0725b2289e4",
+      "lines": 2911
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+      "sha256": "13dbc2ab5f437c353bd982d5222e242b4b3a4adee68550db54a2ed3b57c9d6bb",
+      "lines": 4290
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-dialog.ts",
+      "sha256": "b9daf80c2af0ea3b4688c21b5e13247edf115cb203adede23d3bd74e53cff644",
+      "lines": 198
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
+      "sha256": "87f17696fe6e5fb649601a6fb27212f0e6d872964a9dc7c1dbc507e65b5982cd",
+      "lines": 230
+    }
+  ],
+  "reusedEvidence": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-main-quality/review.json",
+      "sha256": "e37f78c52916f1b231605f3036e49cc485f8c8b44bf1bb165989088939ff11e8",
+      "lines": 232
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-dialog-quality/review.json",
+      "sha256": "7985fbcb9b98fb3e5cead99ed7a87e897c021bcebf230a081ad37476c363eb67",
+      "lines": 330
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/opcode-test-quality/review.json",
+      "sha256": "d6cf794c0bbf8a7811495da52f7a9ff07ba65032adbaac50eebe06fdea92a4fb",
+      "lines": 235
+    }
+  ],
+  "dependencyPins": [
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "b9574dbbaf3527d6f48211e70e18f7004e2174c902548a593921645dc2f14539",
+      "lines": 1546,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance.",
+      "versionBridge": "Own current source/test acceptance in this report"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "1a86e21e80f22990f1d1a76c11dc36d390109e2d29f42b4ea9b38bb00325a342",
+      "lines": 4973,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance.",
+      "versionBridge": "Own current source/test acceptance in this report"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "546e8e2e86ec08c45492b80cb03349cc1a9a182735626f5ba53248d672a1e386",
+      "lines": 919,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance.",
+      "versionBridge": "Prior dedicated-test input byte-identical"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "1308e54c26aa0c0bded6c186c149cdeae78457efc6a26ae97b5c6c4a15967f00",
+      "lines": 2078,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance.",
+      "versionBridge": "Prior dedicated-test input byte-identical"
+    },
+    {
+      "path": "packages/game/src/core/command-bus.ts",
+      "sha256": "df16ed45836068c71835fcbdc8aa979ea37b87f9d256c0a4c9fe4e886d8f7a06",
+      "lines": 89,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance.",
+      "versionBridge": "Prior dedicated-test input byte-identical"
+    },
+    {
+      "path": "packages/game/src/core/battle/formulas.ts",
+      "sha256": "68ad16c9cce690d85e468bf7e3e3f396ca751a27cd1220005b53a36fef1fbf2d",
+      "lines": 245,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance.",
+      "versionBridge": "Prior dedicated-test input byte-identical"
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "sha256": "38ec76a9d15ce74f8eba10a911d951a30b37469b78d055a07bb95fee6a40a5c3",
+      "lines": 152,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance.",
+      "versionBridge": "Prior dedicated-test input byte-identical"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "0c3b15371cda3f5a0e936c7c1e73dee516617f239dbc4e3c6a4c3ea3cd9640e0",
+      "lines": 225,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance.",
+      "versionBridge": "Prior dedicated-test input byte-identical"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance.",
+      "versionBridge": "Prior dedicated-test input byte-identical"
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "scope": "Named dependency or primary; pin does not imply whole-file new acceptance.",
+      "versionBridge": "Prior dedicated-test input byte-identical"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
+      "sha256": "07d776bf972413eeef685a6aa79e29082abdd7696a9b6a85cf7192d0c8c93057",
+      "lines": 2463,
+      "scope": "Actual adjacent test execution file; matches frozen base bytes, not a new full-file read/acceptance.",
+      "versionBridge": "Own current source/test acceptance in this report"
+    },
+    {
+      "path": "packages/game/src/battle-summon-slot-reuse.glm-q.test.ts",
+      "sha256": "fb7ec27c8c0f45bd91563b0351a8381a581063a73cea463ca0490f8a88cdafa6",
+      "lines": 183,
+      "scope": "Actual adjacent test execution file; matches frozen base bytes, not a new full-file read/acceptance.",
+      "versionBridge": "Own current source/test acceptance in this report"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-parity.test.ts",
+      "sha256": "80228bcb04fec4dbab1803868fcc4dc3dd12019ed9c1efda8aac7e3bca2dfcb4",
+      "lines": 303,
+      "scope": "Actual adjacent test execution file; matches frozen base bytes, not a new full-file read/acceptance.",
+      "versionBridge": "Prior dedicated-test input byte-identical"
+    }
+  ]
+}

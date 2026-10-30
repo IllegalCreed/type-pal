@@ -82,7 +82,7 @@ describe('SpeedrunTimer setStep(手动跳节点,测试用)', () => {
     expect(t.getRun().stepIndex).toBe(1)
   })
 
-  it('finished 后 setStep 回到 running、清手动暂停', () => {
+  it('finished 后 setStep 回到 running', () => {
     const t = mk()
     t.tick(snap({ scene: 1 }), 0, { bananaEnabled: false })
     t.tick(snap({ scene: 2 }), 1000, { bananaEnabled: false })

@@ -1,7 +1,8 @@
 import type { Command, Magic, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import { setGlobalEvents } from '../../core/event-system.js'
-import { createInitialGameState } from '../../core/game-state.js'
+import { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'
+import { magicWithCost } from '../../core/menu/__tests__/magic-cost-fixture.js'
 import type { InGameMagicMenuState } from '../../core/menu/in-game-magic-menu.js'
 import { createFramebuffer } from '../framebuffer.js'
 import { drawInGameMagicMenu } from './draw-magic.js'
@@ -54,10 +55,6 @@ describe('drawInGameMagicMenu', () => {
   it('pick-spell 画选中仙术 scriptDesc 说明(magicmenu.c:191)', () => {
     const fb = createFramebuffer()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.PlayerRolesRuntime.rgwHP[0] = 200
-    gs.PlayerRolesRuntime.rgwMaxHP[0] = 200
-    gs.PlayerRolesRuntime.rgwMP[0] = 30
-    gs.PlayerRolesRuntime.rgwMaxMP[0] = 30
 
     const state: InGameMagicMenuState = {
       phase: 'pick-spell',
@@ -78,6 +75,7 @@ describe('drawInGameMagicMenu', () => {
       partyMembers: [0],
     }
     const playerRoles: PlayerRoles = { roles: [role(0)] }
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
     const spells: Spell[] = [
       {
         id: 296,
@@ -94,27 +92,7 @@ describe('drawInGameMagicMenu', () => {
         },
       },
     ]
-    const magics: Magic[] = [
-      {
-        id: 33,
-        effect: 0,
-        type: 'applyToPlayer',
-        xOffset: 0,
-        yOffset: 0,
-        special: 0,
-        speed: 0,
-        keepEffect: 0,
-        fireDelay: 0,
-        effectTimes: 0,
-        shake: 0,
-        wave: 0,
-        unknown: 0,
-        costMP: 6,
-        baseDamage: 0,
-        elemental: 0,
-        sound: 0,
-      },
-    ]
+    const magics: Magic[] = [{ ...magicWithCost(33, 6), type: 'applyToPlayer' }]
     const commands: Command[] = [
       { op: 'raw', opcode: 0xa7, operands: [0, 0, 0], label: 'L_43275' },
       { op: 'showDialog', messageIndex: 1, text: '回复少量体力。' },
@@ -130,9 +108,7 @@ describe('drawInGameMagicMenu', () => {
         playerRoles,
         spells,
         magics,
-        uiSpriteFrames: fakeUiFrames() as Parameters<
-          typeof drawInGameMagicMenu
-        >[0]['uiSpriteFrames'],
+        uiSpriteFrames: fakeUiFrames(),
       })
     } finally {
       setGlobalEvents([])
@@ -153,8 +129,6 @@ describe('drawInGameMagicMenu', () => {
   it('L8:pick-spell 用 WIN95 布局 —— MP 在左侧,右侧 MP 区(215~265)无 slash/MP sprite', () => {
     const fb = createFramebuffer()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.PlayerRolesRuntime.rgwMP[0] = 30
-    gs.PlayerRolesRuntime.rgwMaxMP[0] = 30
     const state: InGameMagicMenuState = {
       phase: 'pick-spell',
       casterMenu: {
@@ -174,6 +148,7 @@ describe('drawInGameMagicMenu', () => {
       partyMembers: [0],
     }
     const playerRoles: PlayerRoles = { roles: [role(0)] }
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
     const spells: Spell[] = [
       {
         id: 296,
@@ -190,27 +165,7 @@ describe('drawInGameMagicMenu', () => {
         },
       },
     ]
-    const magics: Magic[] = [
-      {
-        id: 33,
-        effect: 0,
-        type: 'applyToPlayer',
-        xOffset: 0,
-        yOffset: 0,
-        special: 0,
-        speed: 0,
-        keepEffect: 0,
-        fireDelay: 0,
-        effectTimes: 0,
-        shake: 0,
-        wave: 0,
-        unknown: 0,
-        costMP: 6,
-        baseDamage: 0,
-        elemental: 0,
-        sound: 0,
-      },
-    ]
+    const magics: Magic[] = [{ ...magicWithCost(33, 6), type: 'applyToPlayer' }]
     drawInGameMagicMenu({
       fb,
       state,
@@ -218,7 +173,7 @@ describe('drawInGameMagicMenu', () => {
       playerRoles,
       spells,
       magics,
-      uiSpriteFrames: fakeUiFrames() as Parameters<typeof drawInGameMagicMenu>[0]['uiSpriteFrames'],
+      uiSpriteFrames: fakeUiFrames(),
     })
     // SPRITENUM_SLASH(39)=4×4 index-15 块;UI 数字 sprite 同为 index-15。
     const count15 = (x0: number, x1: number, y0: number, y1: number): number => {

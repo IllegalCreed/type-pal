@@ -1,0 +1,16 @@
+{
+  "candidate": "5477af1e45a80fffe8afc56502659bc7785823bf",
+  "command": [
+    "pnpm",
+    "exec",
+    "tsx",
+    "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal/docs/ops/evidence/CODE-QUALITY-94/codex-r2-idb-counter.mts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-menu-accept-94-95/type-pal",
+  "exitCode": 0,
+  "elapsedSeconds": 1.35,
+  "sha256": "ecd6f6da72e4ac3c0ad8e32c03c5160629487eaeeb92a9873a5fcb1256119e6d",
+  "bytes": 345,
+  "expectedCounter": true,
+  "combinedOutput": "{\n  \"positiveControlSlot1\": true,\n  \"abortedSlot2\": true,\n  \"saveSlotResolvedDespiteAbort\": true,\n  \"slot2Persisted\": false,\n  \"conclusion\": \"COUNTER: request success was reported as save success before transaction commit\",\n  \"limitation\": \"spec-compatible fake-indexeddb 6.2.5 fault injection; no claim of natural browser quota reproduction\"\n}\n"
+}

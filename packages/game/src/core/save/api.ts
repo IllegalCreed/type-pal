@@ -1,21 +1,23 @@
 /**
- * M5.S-w0.1:Save API stub(in-memory)。
+ * Save API(双路径门面)。
  *
  * 5 个槽位(sdlpal 真值 1-5),save / load / list / delete 4 个原语。
- * 当前 in-memory map,S-w1.a 后切 IndexedDB(真持久化)。
+ * 浏览器走 IndexedDB 主路径(indexed-db.ts,M5.S-w1.a 起接);无 indexedDB 的环境
+ * (vitest jsdom / SSR)自动 fallback 到本文件内存 map。2026-10-15 更正:旧头注
+ * "stub(in-memory),S-w1.a 后切 IndexedDB"是切换前历史,与现状不符。
  *
- * Slot meta:Sync.1 后 GameState 全字段冻结,可直接 JSON.stringify 存。
- * Meta(预览用)简版 stub:partyLevel / cash / sceneId。
+ * Slot meta:保存运行态快照或已校验的V1数据，不在本层hydrate；Meta(预览用)含
+ * partyLevel / cash / sceneId / savedAt / savedTimes。
  */
 
-import type { GameState } from '../game-state.js'
+import type { SaveSnapshot } from './data.js'
 import { IndexedDbSave } from './indexed-db.js'
 
 /** sdlpal `MAX_SAVE_SLOTS` 真值 = 5;槽位 id 范围 1..5。 */
 export const MAX_SAVE_SLOTS = 5
 
 export interface SlotMeta {
-  /** 队长 level(从 PlayerRolesRuntime 取,占位用 0)。 */
+  /** 角色0等级预览值（当前生产角色表索引；缺失时为0）。 */
   partyLevel: number
   /** 当前钱。 */
   cash: number
@@ -29,7 +31,7 @@ export interface SlotMeta {
   savedTimes: number
 }
 
-const _slots = new Map<number, { gs: GameState; meta: SlotMeta }>()
+const _slots = new Map<number, { gs: SaveSnapshot; meta: SlotMeta }>()
 
 /** 序列化 GameState 用,structuredClone fallback(老浏览器走 JSON 圈)。 */
 function deepClone<T>(obj: T): T {
@@ -37,7 +39,7 @@ function deepClone<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj)) as T
 }
 
-function extractMeta(gs: GameState): SlotMeta {
+function extractMeta(gs: SaveSnapshot): SlotMeta {
   return {
     partyLevel: gs.PlayerRolesRuntime?.rgwLevel[0] ?? 0,
     cash: gs.dwCash,
@@ -52,10 +54,15 @@ function idbAvailable(): boolean {
   return typeof indexedDB !== 'undefined'
 }
 
+function assertValidSlot(slot: number): void {
+  if (!Number.isInteger(slot) || slot < 1 || slot > MAX_SAVE_SLOTS) {
+    throw new Error(`Save: slot ${slot} 必须是 1-${MAX_SAVE_SLOTS} 的整数`)
+  }
+}
+
 export const Save = {
-  async saveSlot(slot: number, gs: GameState): Promise<void> {
-    if (slot < 1 || slot > MAX_SAVE_SLOTS)
-      throw new Error(`Save.saveSlot: slot ${slot} 超 1-${MAX_SAVE_SLOTS}`)
+  async saveSlot(slot: number, gs: SaveSnapshot): Promise<void> {
+    assertValidSlot(slot)
     const meta = extractMeta(gs)
     if (idbAvailable()) {
       await IndexedDbSave.saveSlot(slot, deepClone(gs), meta)
@@ -64,7 +71,8 @@ export const Save = {
     }
   },
 
-  async loadSlot(slot: number): Promise<GameState | null> {
+  async loadSlot(slot: number): Promise<SaveSnapshot | null> {
+    assertValidSlot(slot)
     if (idbAvailable()) {
       const r = await IndexedDbSave.loadSlot(slot)
       return r ? deepClone(r.gs) : null
@@ -78,11 +86,12 @@ export const Save = {
       return IndexedDbSave.listSlots()
     }
     return Array.from(_slots.entries())
-      .map(([id, entry]) => ({ id, meta: entry.meta }))
+      .map(([id, entry]) => ({ id, meta: { ...entry.meta } }))
       .sort((a, b) => a.id - b.id)
   },
 
   async deleteSlot(slot: number): Promise<void> {
+    assertValidSlot(slot)
     if (idbAvailable()) {
       await IndexedDbSave.deleteSlot(slot)
       return

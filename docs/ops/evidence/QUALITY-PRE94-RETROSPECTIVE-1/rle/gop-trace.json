@@ -1,0 +1,26 @@
+{
+  "command": [
+    "pnpm",
+    "exec",
+    "tsx",
+    "--eval",
+    "\nimport { readFileSync } from 'node:fs';\nimport { createHash } from 'node:crypto';\nimport { openMkf, readChunk, chunkCount } from './packages/shared/src/mkf.ts';\nimport { decodeRle } from './packages/shared/src/rle.ts';\nconst path = 'data/raw/GOP.MKF';\nconst bytes = new Uint8Array(readFileSync(path));\nconst sha = (value) => createHash('sha256').update(value).digest('hex');\nconst mkf = openMkf(bytes);\nlet valid = 0, invalid = 0, skipped = 0, malformedTables = 0;\nconst divergent = [], invalidExamples = [];\nfor (let chunkId = 0; chunkId < chunkCount(mkf); chunkId++) {\n const chunk = readChunk(mkf,chunkId);\n if (chunk.length < 2) { skipped++; continue; }\n const view = new DataView(chunk.buffer,chunk.byteOffset,chunk.byteLength);\n const count = view.getUint16(0,true);\n if (count * 2 > chunk.length) { malformedTables++; continue; }\n for (let slot = 0; slot < count; slot++) {\n  const offset = view.getUint16(slot*2,true)*2;\n  if (offset === 0 || offset+4 > chunk.length) { skipped++; continue; }\n  const width = view.getUint16(offset,true), height = view.getUint16(offset+2,true);\n  if (!width || !height || width > 400 || height > 400) { skipped++; continue; }\n  const frame = chunk.subarray(offset);\n  try {\n   decodeRle(frame); valid++;\n   let source = 4, destination = 0;\n   while (destination < width*height) {\n    const position = source, command = frame[source++];\n    if (command >= 128) {\n     if (command > 128+width) divergent.push({chunkId,slot,width,height,position,command});\n     destination += command-128;\n    } else { source += command; destination += command; }\n   }\n  } catch (reason) { invalid++; if(invalidExamples.length < 12) invalidExamples.push({chunkId,slot,error:reason.message}); }\n }\n}\nconsole.log(JSON.stringify({path,inputSha256:sha(bytes),chunks:chunkCount(mkf),valid,invalid,skipped,malformedTables,\n divergentCommands:divergent.length,divergentExamples:divergent.slice(0,12),invalidExamples,inputUnchanged:sha(readFileSync(path))===sha(bytes),\n limits:'Structural trace of current TS-successful GOP slots only; no native SDL comparison or other archive census'}));\n"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "rawSha256": "fcb504c5e874270dcf97642bbdf71951c3a9122f9f4fcd7f0a0661db0cab911a",
+  "trace": {
+    "path": "data/raw/GOP.MKF",
+    "inputSha256": "5745d016a8d9c280b90a8b92d2871210a2dd0a0c04a79d4c8e65f4d0396aa04b",
+    "chunks": 226,
+    "valid": 67715,
+    "invalid": 0,
+    "skipped": 226,
+    "malformedTables": 0,
+    "divergentCommands": 0,
+    "divergentExamples": [],
+    "invalidExamples": [],
+    "inputUnchanged": true,
+    "limits": "Structural trace of current TS-successful GOP slots only; no native SDL comparison or other archive census"
+  }
+}

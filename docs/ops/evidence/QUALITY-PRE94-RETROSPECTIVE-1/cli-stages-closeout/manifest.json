@@ -1,0 +1,41 @@
+{
+  "state": "frozen code/proof archive pins; verify and this manifest located by Git, no circular hash",
+  "files": [
+    {
+      "path": "review.json",
+      "sha256": "7687df76f77ef846113f7a31154351d61dd2f325338f8f645a73fd6e23326348"
+    },
+    {
+      "path": "receipts.json.gz",
+      "sha256": "6805b37918072af698fcd1db4ee3e42ed3a8d25850787a01a63618a9bb305420"
+    },
+    {
+      "path": "prove-data.mjs",
+      "sha256": "48ce2ca03d1a33a04ee550784766f6c4e31deb8762778680dd128944e8d1a8c4"
+    },
+    {
+      "path": "prove-stage-moves.mjs",
+      "sha256": "90274e2f184d96f577e98c5d8205c338e0adad2728a7730217ead4fef6f33f70"
+    },
+    {
+      "path": "prove-cleanup.mjs",
+      "sha256": "3d4868d845f1485c71e34d6ba0fb726ccb98e234306722d4074df7c297a553b0"
+    },
+    {
+      "path": "bitmap-animation-recipe.json",
+      "sha256": "3f10b6c48e3ed62cca66a09a0572237b11e88e2287cb46fe4de8bac440b68737"
+    },
+    {
+      "path": "sprite-sound-lookup-recipe.json",
+      "sha256": "b48b9b9a82db917bfcde83cb2daf4bd9e422fd4fa8f10c09466a339fe952a993"
+    },
+    {
+      "path": "static.json",
+      "sha256": "fb8edc20de1f940f599506b7f461f7644a45b28d58a56a31dece757329877a80"
+    },
+    {
+      "path": "static.json.gz",
+      "sha256": "9b0e516d7a1a598790d2f56b7b21d6ff75d068ce0fb99a5eb1e9d9ddc63e44ae"
+    }
+  ]
+}

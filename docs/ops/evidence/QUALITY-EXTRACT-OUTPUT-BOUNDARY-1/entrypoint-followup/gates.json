@@ -1,0 +1,105 @@
+{
+  "base": "298136f19c9b5acb51867a5d96275fe5438c06a7",
+  "status": "Finite user-requested entrypoint fixes; whole-card and unified quality gates remain unaccepted",
+  "rows": [
+    {
+      "label": "red",
+      "receipt": "red.json",
+      "files": 2,
+      "passed": 5,
+      "failed": 3,
+      "scope": "Expected three business AssertionErrors before product edits; not a passing gate"
+    },
+    {
+      "label": "module",
+      "receipt": "module.json",
+      "files": 7,
+      "passed": 41,
+      "newDirect": 5,
+      "adjacent": 36,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "unhandled": 0
+      }
+    },
+    {
+      "label": "typecheck",
+      "receipt": "typecheck.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "docs-consumers",
+      "receipt": "docs-consumers.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "consumers": 5
+    },
+    {
+      "label": "ledger",
+      "receipt": "ledger.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "lint",
+      "receipt": "lint.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "files": 5508
+    },
+    {
+      "label": "scope-verification",
+      "receipt": "scope-verification.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    }
+  ],
+  "tracked": 3319,
+  "closed": 251,
+  "review": 103,
+  "pending": 2965,
+  "newClosed": 0,
+  "mergeAllowed": false,
+  "cards": {
+    "partial": 55,
+    "pending": 28,
+    "accept": 0
+  },
+  "notRun": [
+    "whole repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "full pal-extract package",
+    "real ffmpeg codec conversion",
+    "original game runtime",
+    "E2E",
+    "visual"
+  ],
+  "reuseDocsTools": {
+    "sourceCommit": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
+    "receipt": "../../QUALITY-DOCS-GIT-PATH-ENUMERATION-1/docs.json",
+    "toolsPassed": 125,
+    "scope": "Unchanged source/test bytes, actual five consumers replayed separately."
+  }
+}

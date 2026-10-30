@@ -1,0 +1,612 @@
+{
+  "numTotalTestSuites": 20,
+  "numPassedTestSuites": 20,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 50,
+  "numPassedTests": 50,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792372651250,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["analytics consent UI"],
+          "fullName": "analytics consent UI P2: 底部居中且高于 loading，不 autofocus、不遮挡进入游戏按钮",
+          "status": "passed",
+          "title": "P2: 底部居中且高于 loading，不 autofocus、不遮挡进入游戏按钮",
+          "duration": 60.750375000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["analytics consent UI"],
+          "fullName": "analytics consent UI DNT 默认关闭时仍显示说明，访客可明确拒绝或允许",
+          "status": "passed",
+          "title": "DNT 默认关闭时仍显示说明，访客可明确拒绝或允许",
+          "duration": 8.256167000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["analytics consent UI"],
+          "fullName": "analytics consent UI 存储不可用时保持面板，不伪装成已保存",
+          "status": "passed",
+          "title": "存储不可用时保持面板，不伪装成已保存",
+          "duration": 3.8009170000000267,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372652341,
+      "endTime": 1792372652413.801,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/analytics/analytics-consent-ui.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["H05 边界"],
+          "fullName": "H05 边界 项目ID格式归一化:小写、6/20字符接受,5/21字符拒绝",
+          "status": "passed",
+          "title": "项目ID格式归一化:小写、6/20字符接受,5/21字符拒绝",
+          "duration": 14.888749999999845,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H05 边界"],
+          "fullName": "H05 边界 UTM 64保留/65丢弃,前导减号拒绝,大写归一且不扩展白名单",
+          "status": "passed",
+          "title": "UTM 64保留/65丢弃,前导减号拒绝,大写归一且不扩展白名单",
+          "duration": 1.0282079999999496,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H05 边界"],
+          "fullName": "H05 边界 不传 subscribePage：grant 发当前页一次；deny 停发且清 lastPath；regrant 同页可再发；stop 后零回调",
+          "status": "passed",
+          "title": "不传 subscribePage：grant 发当前页一次；deny 停发且清 lastPath；regrant 同页可再发；stop 后零回调",
+          "duration": 2.493541999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["H05 边界"],
+          "fullName": "H05 边界 disable 键随同意翻转：granted=false、denied=true",
+          "status": "passed",
+          "title": "disable 键随同意翻转：granted=false、denied=true",
+          "duration": 2.249125000000049,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372652346,
+      "endTime": 1792372652367.249,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/analytics/google-analytics.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["failed analytics installation ownership"],
+          "fullName": "failed analytics installation ownership SDK js failure releases both acquired subscriptions",
+          "status": "passed",
+          "title": "SDK js failure releases both acquired subscriptions",
+          "duration": 4.257415999999921,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["failed analytics installation ownership"],
+          "fullName": "failed analytics installation ownership SDK config failure releases both acquired subscriptions",
+          "status": "passed",
+          "title": "SDK config failure releases both acquired subscriptions",
+          "duration": 0.9438749999999345,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["failed analytics installation ownership"],
+          "fullName": "failed analytics installation ownership page subscription failure releases the earlier consent subscription",
+          "status": "passed",
+          "title": "page subscription failure releases the earlier consent subscription",
+          "duration": 0.8287499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["failed analytics installation ownership"],
+          "fullName": "failed analytics installation ownership initial page-read failure releases subscriptions without deleting the shared SDK",
+          "status": "passed",
+          "title": "initial page-read failure releases subscriptions without deleting the shared SDK",
+          "duration": 5.132125000000087,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["failed analytics installation ownership"],
+          "fullName": "failed analytics installation ownership installer rolls back its UI and listener while preserving the saved choice and game DOM",
+          "status": "passed",
+          "title": "installer rolls back its UI and listener while preserving the saved choice and game DOM",
+          "duration": 41.11758400000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372652350,
+      "endTime": 1792372652403.1177,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/analytics/google-analytics.install-failure.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["minimal Google Analytics page view"],
+          "fullName": "minimal Google Analytics page view 非生产或 Measurement ID 非法时零副作用",
+          "status": "passed",
+          "title": "非生产或 Measurement ID 非法时零副作用",
+          "duration": 7.0187499999999545,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["minimal Google Analytics page view"],
+          "fullName": "minimal Google Analytics page view unset/denied 不加载；granted 只加载并记录当前页一次",
+          "status": "passed",
+          "title": "unset/denied 不加载；granted 只加载并记录当前页一次",
+          "duration": 7.109916999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["minimal Google Analytics page view"],
+          "fullName": "minimal Google Analytics page view P1: 只保留 pathname 与合法 UTM，丢弃所有游戏参数和 hash",
+          "status": "passed",
+          "title": "P1: 只保留 pathname 与合法 UTM，丢弃所有游戏参数和 hash",
+          "duration": 0.743541999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["minimal Google Analytics page view"],
+          "fullName": "minimal Google Analytics page view G1/P3: 同 pathname 去重、场景事件不计页、撤回后停发",
+          "status": "passed",
+          "title": "G1/P3: 同 pathname 去重、场景事件不计页、撤回后停发",
+          "duration": 2.3652079999999387,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["minimal Google Analytics page view"],
+          "fullName": "minimal Google Analytics page view URL解析失败后仍可处理后续合法页面",
+          "status": "passed",
+          "title": "URL解析失败后仍可处理后续合法页面",
+          "duration": 1.3144580000000587,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["minimal Google Analytics page view"],
+          "fullName": "minimal Google Analytics page view 复用既有 gtag 与 script，不重复注入",
+          "status": "passed",
+          "title": "复用既有 gtag 与 script，不重复注入",
+          "duration": 2.288165999999819,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["minimal Google Analytics page view"],
+          "fullName": "minimal Google Analytics page view 标签加载失败后可重试且不重复排队当前页",
+          "status": "passed",
+          "title": "标签加载失败后可重试且不重复排队当前页",
+          "duration": 2.1790410000000975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["minimal Google Analytics page view"],
+          "fullName": "minimal Google Analytics page view 内建gtag采用arguments队列并关闭自动page_view",
+          "status": "passed",
+          "title": "内建gtag采用arguments队列并关闭自动page_view",
+          "duration": 0.9516249999999218,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["minimal Google Analytics page view"],
+          "fullName": "minimal Google Analytics page view stop后同意与页面两订阅均不再触发",
+          "status": "passed",
+          "title": "stop后同意与页面两订阅均不再触发",
+          "duration": 0.9923750000000382,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372652346,
+      "endTime": 1792372652370.9924,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/analytics/google-analytics.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Type Pal analytics installation boundary"],
+          "fullName": "Type Pal analytics installation boundary 公开 Measurement ID 合法，开发环境只显示 UI 且无 Google 请求",
+          "status": "passed",
+          "title": "公开 Measurement ID 合法，开发环境只显示 UI 且无 Google 请求",
+          "duration": 53.397249999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Type Pal analytics installation boundary"],
+          "fullName": "Type Pal analytics installation boundary G2: DNT/GPC 未有存储选择时默认关闭，但 UI 仍可见",
+          "status": "passed",
+          "title": "G2: DNT/GPC 未有存储选择时默认关闭，但 UI 仍可见",
+          "duration": 7.8872499999999945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372652343,
+      "endTime": 1792372652404.8872,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/analytics/install-analytics.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L07 collectPartyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectPartyStatusReadouts 剩余投影 persistent 来源：explore 下 rgPlayerStatus[role][idx] 计数 → 状态标签；slow 无持久位不出现",
+          "status": "passed",
+          "title": "persistent 来源：explore 下 rgPlayerStatus[role][idx] 计数 → 状态标签；slow 无持久位不出现",
+          "duration": 1.9887079999998605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectPartyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectPartyStatusReadouts 剩余投影 rgPoisonStatus 毒条：知名毒 → 名#id + L级 + script；未知毒 → #id；毒ID 0 跳过",
+          "status": "passed",
+          "title": "rgPoisonStatus 毒条：知名毒 → 名#id + L级 + script；未知毒 → #id；毒ID 0 跳过",
+          "duration": 0.6352079999999205,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectPartyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectPartyStatusReadouts 剩余投影 battle players[slot].roleId 投影：显示身份按战斗槽而非 party 顺序；缺槽回退 persistent",
+          "status": "passed",
+          "title": "battle players[slot].roleId 投影：显示身份按战斗槽而非 party 顺序；缺槽回退 persistent",
+          "duration": 0.23158300000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectPartyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectPartyStatusReadouts 剩余投影 hiddenExp：cur/next/gained 按各自池（next 用池 wLevel 阈值），与主经验 nextExp 区分",
+          "status": "passed",
+          "title": "hiddenExp：cur/next/gained 按各自池（next 用池 wLevel 阈值），与主经验 nextExp 区分",
+          "duration": 0.19087500000000546,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectEnemyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectEnemyStatusReadouts 剩余投影 steal 三分支：金钱/知名物品/缺名物品",
+          "status": "passed",
+          "title": "steal 三分支：金钱/知名物品/缺名物品",
+          "duration": 0.5542089999999007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectEnemyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectEnemyStatusReadouts 剩余投影 maxHp 回退链 maxHealth ?? prevHp ?? health；defeated 与巫抗行",
+          "status": "passed",
+          "title": "maxHp 回退链 maxHealth ?? prevHp ?? health；defeated 与巫抗行",
+          "duration": 0.3132499999999254,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectEnemyStatusReadouts 剩余投影"],
+          "fullName": "L07 collectEnemyStatusReadouts 剩余投影 敌方状态与毒条：be.status/confused → 乱；be.poisons → 毒 entries/tags",
+          "status": "passed",
+          "title": "敌方状态与毒条：be.status/confused → 乱；be.poisons → 毒 entries/tags",
+          "duration": 0.25366699999995035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectFieldInfoReadout 剩余投影与深保真"],
+          "fullName": "L07 collectFieldInfoReadout 剩余投影与深保真 isBoss/screenWave 原样透出；boss 标志 false 时如实 false",
+          "status": "passed",
+          "title": "isBoss/screenWave 原样透出；boss 标志 false 时如实 false",
+          "duration": 0.1454999999998563,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L07 collectFieldInfoReadout 剩余投影与深保真"],
+          "fullName": "L07 collectFieldInfoReadout 剩余投影与深保真 输入深保真：三收集器调用前后实际消费的 gs 子树/roles/poisons/items 逐字段不变",
+          "status": "passed",
+          "title": "输入深保真：三收集器调用前后实际消费的 gs 子树/roles/poisons/items 逐字段不变",
+          "duration": 1.4025420000000395,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372652529,
+      "endTime": 1792372652535.4026,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["battle-inspect(从 dev-panel 抽出,语义不变)"],
+          "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) 重复角色队伍的只读快照按显示槽读取毒，不复用首个同角色槽",
+          "status": "passed",
+          "title": "重复角色队伍的只读快照按显示槽读取毒，不复用首个同角色槽",
+          "duration": 1.841374999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle-inspect(从 dev-panel 抽出,语义不变)"],
+          "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectFieldInfoReadout:战斗读 field(含 signed 场效);非战斗 null",
+          "status": "passed",
+          "title": "collectFieldInfoReadout:战斗读 field(含 signed 场效);非战斗 null",
+          "duration": 0.3145409999999629,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle-inspect(从 dev-panel 抽出,语义不变)"],
+          "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectEnemyStatusReadouts:读敌当前血量/名/未倒;非战斗空数组",
+          "status": "passed",
+          "title": "collectEnemyStatusReadouts:读敌当前血量/名/未倒;非战斗空数组",
+          "duration": 0.3557909999999538,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle-inspect(从 dev-panel 抽出,语义不变)"],
+          "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectEnemyStatusReadouts:普攻毒(attackEquivItem>0 && rate>0 解析道具名#id+率/10;任一为 0 → null)",
+          "status": "passed",
+          "title": "collectEnemyStatusReadouts:普攻毒(attackEquivItem>0 && rate>0 解析道具名#id+率/10;任一为 0 → null)",
+          "duration": 0.2742079999998168,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle-inspect(从 dev-panel 抽出,语义不变)"],
+          "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectEnemyStatusReadouts:灵葫值 collectValue(无字段→0;有则原样,供灵葫咒判定)",
+          "status": "passed",
+          "title": "collectEnemyStatusReadouts:灵葫值 collectValue(无字段→0;有则原样,供灵葫咒判定)",
+          "duration": 0.10216700000000856,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle-inspect(从 dev-panel 抽出,语义不变)"],
+          "fullName": "battle-inspect(从 dev-panel 抽出,语义不变) collectPartyStatusReadouts:名/来源/HP/抗性 + 结构化状态(纯中文名+类型)",
+          "status": "passed",
+          "title": "collectPartyStatusReadouts:名/来源/HP/抗性 + 结构化状态(纯中文名+类型)",
+          "duration": 0.45758299999988594,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372652528,
+      "endTime": 1792372652531.4575,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/inspect/battle-inspect.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Save API memory fallback"],
+          "fullName": "Save API memory fallback saveSlot / loadSlot: round-trip preserves gameplay fields",
+          "status": "passed",
+          "title": "saveSlot / loadSlot: round-trip preserves gameplay fields",
+          "duration": 1.9817089999999098,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Save API memory fallback"],
+          "fullName": "Save API memory fallback saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "passed",
+          "title": "saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "duration": 0.5384579999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Save API memory fallback"],
+          "fullName": "Save API memory fallback loadSlot returns an independent snapshot on every read",
+          "status": "passed",
+          "title": "loadSlot returns an independent snapshot on every read",
+          "duration": 0.80074999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Save API memory fallback"],
+          "fullName": "Save API memory fallback loadSlot 不存在的 slot → null",
+          "status": "passed",
+          "title": "loadSlot 不存在的 slot → null",
+          "duration": 0.13683400000013535,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Save API memory fallback"],
+          "fullName": "Save API memory fallback listSlots:返回已存槽位 + meta",
+          "status": "passed",
+          "title": "listSlots:返回已存槽位 + meta",
+          "duration": 0.8100419999998394,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Save API memory fallback"],
+          "fullName": "Save API memory fallback deleteSlot:删后 load null + listSlots 少一条",
+          "status": "passed",
+          "title": "deleteSlot:删后 load null + listSlots 少一条",
+          "duration": 0.49749999999994543,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Save API memory fallback"],
+          "fullName": "Save API memory fallback slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "passed",
+          "title": "slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "duration": 0.6214999999999691,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Save API memory fallback"],
+          "fullName": "Save API memory fallback overwrite:同 slot saveSlot 二次覆盖",
+          "status": "passed",
+          "title": "overwrite:同 slot saveSlot 二次覆盖",
+          "duration": 0.5993750000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Save API memory fallback"],
+          "fullName": "Save API memory fallback MAX_SAVE_SLOTS 暴露为 5",
+          "status": "passed",
+          "title": "MAX_SAVE_SLOTS 暴露为 5",
+          "duration": 0.3337500000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372652355,
+      "endTime": 1792372652362.3337,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/save/__tests__/api.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Save real IndexedDB transaction contract"],
+          "fullName": "Save real IndexedDB transaction contract save resolves after complete; committed data and metadata can be read and deleted",
+          "status": "passed",
+          "title": "save resolves after complete; committed data and metadata can be read and deleted",
+          "duration": 11.91274999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Save real IndexedDB transaction contract"],
+          "fullName": "Save real IndexedDB transaction contract put success followed by transaction abort rejects and preserves the previous slot",
+          "status": "passed",
+          "title": "put success followed by transaction abort rejects and preserves the previous slot",
+          "duration": 4.859292000000096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Save real IndexedDB transaction contract"],
+          "fullName": "Save real IndexedDB transaction contract delete success followed by transaction abort rejects and keeps the saved slot",
+          "status": "passed",
+          "title": "delete success followed by transaction abort rejects and keeps the saved slot",
+          "duration": 2.4299580000001697,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372652358,
+      "endTime": 1792372652377.43,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/save/__tests__/indexed-db.test.ts"
+    }
+  ]
+}

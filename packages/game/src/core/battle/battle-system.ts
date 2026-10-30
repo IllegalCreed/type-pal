@@ -1,3 +1,4 @@
+import { getWord } from '../word-lookup.js'
 /**
  * 战斗模式 phase 状态机 —— M3 T22(整合 T11-T21 所有 building blocks)。
  *
@@ -42,16 +43,6 @@ import type {
   PlayerRoles,
   Spell,
 } from '@type-pal/shared'
-import { FRAME_MS_EXPLORE } from '@type-pal/shared'
-import {
-  appendDialogLine,
-  confirmDialog,
-  setWaitingEndKey,
-  setWaitingPageKey,
-  shouldWaitPageKey,
-  startDialogLine,
-  tickDialog,
-} from '../../present/dialog-box.js'
 import type { CommandBus } from '../command-bus.js'
 import { updateAllEquipments } from '../equip-effect.js'
 import { getGlobalCommands, type RunScriptOptions, runScript } from '../event-system.js'
@@ -62,6 +53,7 @@ import { createPlayerStatus } from '../menu/player-status.js'
 import { createSelectionMenu, type SelectionMenuState } from '../menu/primitives.js'
 import { finalizePaletteFade } from '../palette-fade.js'
 import { createSeedableRng } from '../rng.js'
+import { isBattleActionValid } from './action-availability.js'
 import { performAttack, performEnemyConfusedAttack } from './actions/attack.js'
 import { performAttackMate } from './actions/attack-mate.js'
 import { performCoopMagic } from './actions/coop-magic.js'
@@ -76,6 +68,7 @@ import {
   resetFightersAfterAction,
   startBattleAnim,
 } from './battle-anim-driver.js'
+import { advanceBattleDialog } from './battle-dialog.js'
 import { finalizeBattle } from './battle-finalization.js'
 import {
   type BattleResources,
@@ -91,6 +84,7 @@ import { createBattleState } from './battle-state.js'
 import { decideEnemyAction } from './enemy-ai.js'
 import { getEnemyDexterity, getPlayerActualDexterity } from './formulas.js'
 import { resolveMagicObject } from './magic-object.js'
+import { isPlayerDying } from './player-condition.js'
 import { tickStatusEffects } from './status.js'
 import { type ActionQueueItem, buildActionQueue } from './turn-queue.js'
 
@@ -103,13 +97,13 @@ const PHASE_STALL_TICKS_LIMIT = 1500
  */
 const BATTLE_DT = BATTLE_FRAME_TIME
 /**
- * D19 入场揭示 gate 时长(tick)。对齐 sdlpal `PAL_StartBattle` 入场真值 = `VIDEO_SwitchScreen(5)`
- * (video.c:1089-1126:wSpeed=5→6→×10=60,外层 6 band × UTIL_Delay(60) = 360ms),≈ 360ms / 40ms-per-tick
- * (FRAME_MS_BATTLE)= 9 tick。
+ * D19 入场揭示 gate 时长(tick)。参考 PAL_StartBattle → PAL_BattleMain 中的 VIDEO_SwitchScreen(5):
+ * wSpeed=5→6→×10=60,6 band × UTIL_Delay(60) = 360ms,按 40ms 逻辑 tick 取 9 tick。
+ * 这里只对应换屏一段;PAL_BattleMain 此前还有 200ms delay,不表示完整入场或视觉时序已等价。
  *
  * 注(2026-06-04 修 user 报"进战斗到菜单过渡偏长"):入场揭示出处是 video.c VIDEO_SwitchScreen(5)=360ms,
  * **不是** PAL_BattleFadeScene(battle.c:608-682,72×16ms≈1152ms)—— 后者是战斗内动作刷新/法术效果用,
- * PAL_StartBattle 入场 callpath(battle.c:706-737)根本不调它。旧值 29(≈1160ms)对标错了函数,过渡比真值长约 3 倍。
+ * PAL_BattleMain 换屏处不调它。旧值 29(≈1160ms)对标了错误函数。
  */
 export const INTRO_FADE_TICKS = 9
 
@@ -198,10 +192,10 @@ export interface StartBattleInput {
 /**
  * 启动一场战斗。
  *
- * 1. 找 EnemyTeam → 展开活槽位(过滤 0 / 0xFFFF) → 解引用成 Enemy[]
+ * 1. 找 EnemyTeam → 跳过 0xFFFF,保留 0 空占位槽 → 解引用成 (Enemy | null)[]
  * 2. 找 BattleField
  * 3. 构 RNG + BattleState
- * 4. 切 mode = 'battle',缓存资源到 __battleResources
+ * 4. 切 mode = 'battle',由 setBattleResources 管理隐藏资源 stash(__battleResources)
  *
  * 找不到 enemyTeam / battleField → 抛错(防 fixture 错配,而非静默失败)。
  */
@@ -312,7 +306,7 @@ export function startBattle(input: StartBattleInput): void {
   // E04:sdlpal PAL_StartBattle(battle.c:1565-1586)战前清 7 隐藏经验池 wCount(per-battle 计数)。
   clearHiddenExpCounts(input.gs)
 
-  // D19:入场 dither fade-in(PAL_BattleFadeScene,battle.c:609)。**显式 opt-in**(生产 tryStartBattle 传
+  // D19:入场揭示 gate(参考 PAL_BattleMain → VIDEO_SwitchScreen)。**显式 opt-in**(bootstrap 入口传
   //   introFadeTicks=INTRO_FADE_TICKS;单测/dev 不传 → 无 fade、无 gate,行为不变)。preBattle 期间 gate 输入,
   //   present-battle 把战斗场景从入场前大世界帧 dither 揭示。
   if (input.introFadeTicks && input.introFadeTicks > 0) {
@@ -349,15 +343,6 @@ export function startBattle(input: StartBattleInput): void {
 // ============================================================================
 
 /**
- * 战斗 tick —— 由 mode.ts 在 mode='battle' 时每帧调一次。
- *
- * 战斗主循环。phase 路由 + 死循环保护;具体行为见各 phase handler。
- *
- * @param gs GameState(必须 mode='battle' 且 battleState 非空;否则 no-op)
- * @param input 输入快照(战斗选择 UI、对话与结算 hold 会读取)
- * @param bus Present 命令通道(perform 阶段 emit 动画 / 数字弹幕)
- */
-/**
  * DM11:per-enemy idle 推进(fight.c:991-1019/:491-525)。
  * `--idleTick <= 0` → idleFrame++ 并恢复计数;idleFrame >= idleFrames 回绕 0;
  * sleep/paralyzed 定格 0(计数不动,C 在循环顶 continue)。
@@ -389,6 +374,15 @@ export function tickEnemyIdleGestures(state: BattleState): void {
   }
 }
 
+/**
+ * 战斗 tick —— 由 mode.ts 在 mode='battle' 时每帧调一次。
+ *
+ * 战斗主循环。phase 路由 + 死循环保护;具体行为见各 phase handler。
+ *
+ * @param gs GameState；mode路由保证战斗调用，无battleState返回，资源缺失则诊断并退出。
+ * @param input 输入快照(战斗选择 UI、对话与结算 hold 会读取)
+ * @param bus Present 命令通道(perform 阶段 emit 动画 / 数字弹幕)
+ */
 export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
   const state = gs.battleState
   if (!state) return
@@ -536,7 +530,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
 // Phase handlers
 // ============================================================================
 
-/** preBattle → selectAction(M3 跳过 wScriptOnReady)。起手起第一个可手动选择的活队员菜单。 */
+/** preBattle → selectAction(scriptOnReady 在 performAction 期敌轮到时跑,含 B2 c7 show-once 回写)。此处仅过 D19 入场 fade 后置 uiState='wait',选指令菜单延后到 turnStart 之后(见 selectAction case)。 */
 function tickPreBattle(state: BattleState): void {
   // D19:入场 fade-in 期间停在 preBattle gate 输入(present 放 dither 淡入);fade 完才进 selectAction。
   if (state.introFade && state.introFade.step < state.introFade.total) {
@@ -742,7 +736,7 @@ function tickSelectAction(
     }
     // baseDex = PAL_GetPlayerDexterity(global.c:1849-1864)= rgwDexterity + Σ装备,**无 level 项**
     //   (等级项是**敌方** PAL_GetEnemyDexterity 才有,且乘数 *3 非 *4,fight.c:311-312)。
-    //   role.dexterity 已 = base+装备(projectRuntimeToBattleRoles game-state.ts:1282)→ 直接用,
+    //   role.dexterity 已由 projectRuntimeToBattleRoles 合入 runtime base + 装备效果→ 直接用,
     //   绝不再加 (level+6)*4(M3 误套敌方公式 + 连乘数都对不上的 bug,2026-06-02 审计核源订正)。
     const baseDex = role.dexterity
     let dex = getPlayerActualDexterity(baseDex, {
@@ -781,27 +775,15 @@ const MAGIC_GRID_ROWS = 5
 const ITEM_GRID_COLS = 3
 const ITEM_GRID_ROWS = 7
 
-// ── 灰项判定 helpers(PAL_IsPlayerHealthy / PAL_BattleUIIsActionValid)──────
-/** port sdlpal `PAL_IsPlayerDying`(fight.c:29-48):hp>0 且 hp < min(100,maxHP/5)(濒死)。 */
-function isPlayerDying(role: { hp: number; maxHP: number }): boolean {
-  return role.hp > 0 && role.hp < Math.min(100, Math.floor(role.maxHP / 5))
-}
-
 /**
- * M6 玩家濒死/阵亡音 —— port sdlpal `PAL_BattlePostActionCheck` dying-sweep(fight.c:834-850)
- *   + enemy 攻击致死内联 deathSound(fight.c:4816/4851/5110)。每回合后处理调一次,比对本回合初
- *   prevHp:① hp===0 且 prevHp>0(本回合阵亡)→ rgwDeathSound;② hp>0 且跌入濒死(hp<min(100,maxHP/5))且
- *   回合初尚在阈值上(prevHp>=min(100,maxHP/5),即刚跨入)→ rgwDyingSound。判完把 prevHp 快照为当前 hp 供下回合。
+ * 玩家濒死/阵亡音 sweep。比对上次调用留下的 prevHp,判完更新快照。
+ * tickPerformAction 在伤亡脚本触发后的动作收尾调用;tickPostAction 还会在毒结算后调用,
+ * 因此不能把快照固定描述为“回合初”,也不能声称只在每回合末播放。
  *
- * **阵亡音仅敌攻致死播,毒杀不播**(2026-06-03 音效审计确认:sdlpal rgwDeathSound 只在 3 个 enemy
- *   攻击分支内联 fight.c:4816/4851/5110,毒 tick 1657-1700 / PostActionCheck 都不播玩家 deathSound)。
- *   ts 集中 sweep 在毒 tick **后**跑,无法区分死因 → 传 prePoisonHp(毒 tick 前 hp):仅 prePoisonHp===0
- *   (本回合死于动作/敌攻,在毒前已死)才播 deathSound;毒杀(毒前 hp>0,毒后→0)不播。
- *   濒死音 dyingSound 不门控死因(sdlpal PostActionCheck 在毒后也调 fight.c:1664,毒致濒死同样播)。
- *
- * sdlpal 死亡音内联在 enemy 攻击(即时)、濒死音在 PostActionCheck;ts 集中此一处近似(死亡音时序差
- * 不超过一回合,音色 + 死因门控正确)。玩家 prevHp 此前未维护(只敌方用),由本函数建立回合粒度快照。
- * 声经 bus {op:'playSound'} 发 → bootstrap 战斗 drain 播(>0 守卫;0 = 无音,跳过)。
+ * 濒死判定用当前 hp < min(100,floor(maxHP/5)),前态门用未钳的 floor(maxHP/5)。
+ * 回合末 caller 传 prePoisonHp,区分毒前已死与毒杀;动作收尾 caller 不传,采用无死因门控的分支。
+ * guardianOk 也由 caller 选择传入。这里仅描述当前 TS 调用合同,不承诺与 C 的音效时序完全等价。
+ * 声经 bus {op:'playSound'} 发出;音效号 >0 才 emit。
  */
 export function emitPlayerCasualtySounds(
   players: ReadonlyArray<{ roleId: number; prevHp: number }>,
@@ -985,55 +967,9 @@ function shouldCheckPlayerCasualties(
   }
 }
 
-/** port sdlpal `PAL_IsPlayerHealthy`(fight.c:69-76):非濒死 + 无 sleep/confused/silence/paralyzed/puppet。 */
-function isPlayerHealthy(player: BattlePlayer, role: { hp: number; maxHP: number }): boolean {
-  if (role.hp <= 0 || isPlayerDying(role)) return false
-  const st = player.status
-  return (
-    (st.sleep ?? 0) === 0 &&
-    (st.confused ?? 0) === 0 &&
-    (st.silence ?? 0) === 0 &&
-    (st.paralyzed ?? 0) === 0 &&
-    (st.puppet ?? 0) === 0
-  )
-}
-
-/**
- * port sdlpal `PAL_BattleUIIsActionValid`(uibattle.c:271-341,PAL_CLASSIC 分支):
- *   0攻击/3杂项 → 恒 valid;1法术 → 非 silence;2合击 → 本人 healthy 且 healthy 人数 > 1。
- */
-function isActionValid(state: BattleState, action: number, playerRoles: PlayerRoles): boolean {
-  const playerIdx = state.selectingPlayerIdx
-  if (playerIdx === undefined) return false
-  const player = state.players[playerIdx]
-  const role = player ? playerRoles.roles[player.roleId] : undefined
-  if (!player || !role) return false
-  switch (action) {
-    case 0:
-    case 3:
-      return true
-    case 1: // magic — silence 时不可
-      return (player.status.silence ?? 0) === 0
-    case 2: {
-      // coopmagic(CLASSIC):本人 healthy 且 healthy 人数 > 1
-      if (state.players.length <= 1) return false // wMaxPartyMemberIndex==0
-      let healthy = 0
-      state.players.forEach((p) => {
-        const r = playerRoles.roles[p.roleId]
-        if (r && isPlayerHealthy(p, r)) healthy++
-      })
-      return isPlayerHealthy(player, role) && healthy > 1
-    }
-    default:
-      return true
-  }
-}
-
-/** 当前队员已学法术 id 列表 —— runtime role.magic SoA 优先,空则 dev panel learnedSpells。 */
+/** 当前角色投影的已学法术OBJECT编号；0是空槽。 */
 function getLearnedSpells(role: PlayerRole): number[] {
-  const fromMagic = ((role as unknown as { magic?: number[] }).magic ?? []).filter((x) => x !== 0)
-  if (fromMagic.length > 0) return fromMagic
-  return (role as unknown as { learnedSpells?: number[] }).learnedSpells ?? []
+  return (role.magic ?? []).filter((x) => x !== 0)
 }
 
 /** baseDamage 的 i16(SHORT)解读 —— sdlpal 多处 `(SHORT)wBaseDamage`(global.h 存 u16,负值 = 特殊/即死法术)。 */
@@ -1272,12 +1208,12 @@ function handleMainMenuInput(
   if (input.pressed.has('Up')) state.selectedAction = 0
   else if (input.pressed.has('Down')) state.selectedAction = 3
   else if (input.pressed.has('Left')) {
-    if (isActionValid(state, 1, playerRoles)) state.selectedAction = 1
+    if (isBattleActionValid(state, 1, playerRoles)) state.selectedAction = 1
   } else if (input.pressed.has('Right')) {
-    if (isActionValid(state, 2, playerRoles)) state.selectedAction = 2
+    if (isBattleActionValid(state, 2, playerRoles)) state.selectedAction = 2
   }
   // 当前选中失效 → 回攻击(uibattle.c:1058-1061)
-  if (!isActionValid(state, state.selectedAction, playerRoles)) state.selectedAction = 0
+  if (!isBattleActionValid(state, state.selectedAction, playerRoles)) state.selectedAction = 0
 
   // Confirm(kKeySearch)→ 按 selectedAction 派发(uibattle.c:1085-1164)
   if (input.pressed.has('Confirm')) {
@@ -1343,7 +1279,9 @@ function confirmMainAction(state: BattleState, res: BattleResources): void {
     case 2: {
       // 合击(uibattle.c:1115-1155)— 选择按真值,执行走 performCoopMagic
       const role = playerRoles.roles[state.players[playerIdx]!.roleId]
-      const coopId = (role as unknown as { cooperativeMagic?: number }).cooperativeMagic ?? 0
+      // Availability must have admitted a real role; keep a broken invariant fail-loud.
+      if (!role) throw new TypeError('battle: co-op dispatch without a selected role')
+      const coopId = role.cooperativeMagic ?? 0
       const spell = res.spells.find((s) => s.id === coopId)
       const toEnemy = spell?.flags.usableToEnemy ?? true
       const applyToAll = spell?.flags.applyToAll ?? false
@@ -1358,8 +1296,8 @@ function confirmMainAction(state: BattleState, res: BattleResources): void {
 
 /**
  * Force(F 键):pickAutoMagic → 物理/法术自动 commit(uibattle.c:1171-1204)。
- * threshold:pickAutoMagic 选法术的 MP 阈值 —— Force 键 60(uibattle.c:1173);
- *   fAutoBattle(0x8A 整场自动)9999(uibattle.c:854,几乎必选可用法术)。
+ * threshold 是法术评分随机加数的上界(0..threshold),Force 键传 60,fAutoBattle 传 9999。
+ * 是否够 MP 由 pickAutoMagic 的 costMP > role.mp 独立过滤,不是此参数的含义。
  */
 function commitForceAction(
   state: BattleState,
@@ -1433,11 +1371,13 @@ function commitRepeatAction(
  * 读回不复活 → 一开战 `persisted.get is not a function` 崩(restoreRepeatActionsForParty)。
  * 统一复活为 Map:Map(structuredClone/IndexedDB 路径)直接用;entries 数组 / 普通对象 / 空 → 转 Map。
  */
-function reviveNumberKeyedMap<V>(x: unknown): Map<number, V> {
-  if (x instanceof Map) return x as Map<number, V>
-  if (Array.isArray(x)) return new Map(x as Array<[number, V]>)
+function reviveNumberKeyedMap<V>(
+  x: Map<number, V> | [number, V][] | Record<string, V> | null | undefined,
+): Map<number, V> {
+  if (x instanceof Map) return x
+  if (Array.isArray(x)) return new Map(x)
   if (x && typeof x === 'object') {
-    return new Map(Object.entries(x as Record<string, V>).map(([k, v]) => [Number(k), v]))
+    return new Map(Object.entries(x).map(([k, v]) => [Number(k), v]))
   }
   return new Map()
 }
@@ -1489,7 +1429,7 @@ function backupRepeatActions(state: BattleState, gs: GameState): void {
 
 /**
  * fAutoAttack / Force 物理:自动 commit 攻击(自动目标)。port sdlpal uibattle.c:977-992 / 1171-1187。
- *   群攻武器(canAttackAll)→ target=-1(全体);否则 selectAutoTargetFrom 选首个活敌。
+ *   群攻武器(canAttackAll)→ target=-1(全体);否则优先上次确认的活敌,再从首槽找活敌。
  */
 function commitAutoAttack(
   state: BattleState,
@@ -1924,20 +1864,8 @@ function handlePlayerTargetSelect(
 }
 
 /**
- * performAction:逐项消费 actionQueue。
- *
- * 每 tick 执行一个 queue item(给 Present 层留出动画时间)。
- * - 队员 item:从 pendingActions 取
- * - 敌人 item:enemy-ai.decideEnemyAction 决策
- *
- * **flee 早退**:performFlee 成功会把 state.phase 设为 'fleed';本 handler 检测到
- * 后立即退出 queue(剩余 action 不执行),交给下一 tick 的 finalizeBattle。
- *
- * queue 跑完 → 转 postAction。
- */
-/**
  * port sdlpal `PAL_BattleSelectAutoTargetFrom`(fight.c:86-128):自动挑一个**活**敌人 index。
- * 先用 prevTarget(UI 上次悬停目标,若活);否则从 begin 起循环找第一个活敌(环绕);全死 → -1。
+ * 先用 prevTarget(TS 敌方目标 UI 上次 Confirm 的目标,若活);否则从 begin 起环绕找活敌;全死 → -1。
  */
 export function selectAutoTargetFrom(
   enemies: BattleState['enemies'],
@@ -1969,7 +1897,8 @@ const DEATH_FADE_STEP_MS = 16
  * 开始淡出并 emit 死亡音效命令。
  * 本次有任何新死敌 → 开启 state.battleFade hold(忠实 sdlpal fFade → PAL_BattleFadeScene)。
  *
- * @returns 本次是否开启了新淡出(true 时调用方应交给 fade 分支推进,不立即 currentActionIndex++)。
+ * @returns 本次是否发现新死敌。动作完成后的 caller 照常推进 currentActionIndex;
+ * 后续 tick 的顶层 fade hold 负责暂停下一动作,本函数不管理游标。
  */
 function checkEnemyDeaths(state: BattleState, bus: CommandBus): boolean {
   let fade = false
@@ -2085,15 +2014,6 @@ function tickBattlePaletteFade(gs: GameState): boolean {
 /** 逃跑动画步数(sdlpal battle.c:1473 `for i<16`)。 */
 const FLEE_ANIM_STEPS = 16
 /**
- * 逐步逃跑位移 —— **统一方向**(user 2026-05-31 拍板:忠于原版,三人同向同速,不要 sdlpal 的扇形散开)。
- * sdlpal 真值是 p0 +4/+6·p1 +4/+4·p2 +6/+3(扇形,其源码自带 TODO 承认跟原版不一致);
- * 这里**主动偏离 sdlpal 朝原版靠**:全员统一右下 +5/+4(队伍在右侧,整体跑出右下方)。
- */
-function fleeStepDelta(_j: number, _partyLen: number): [number, number] {
-  return [5, 4]
-}
-
-/**
  * 逃跑动画 hold(phase-agnostic;sdlpal `PAL_BattlePlayerEscape` battle.c:1438-1527)。
  * flee roll 成功(performFlee 设 state.fleeAnim)→ 16 步把活队员往右下挪 + 站立帧,满步移出屏
  * (9999,9999)→ phase='fleed'(下 tick finalize)。返回 true = 本 tick 被逃跑动画占用(暂停推进)。
@@ -2103,14 +2023,13 @@ function tickBattleFleeAnim(state: BattleState, res: BattleResources): boolean {
   const fa = state.fleeAnim
   if (!fa) return false
   if (fa.step < FLEE_ANIM_STEPS) {
-    const partyLen = state.players.length
-    state.players.forEach((p, j) => {
+    state.players.forEach((p) => {
       const role = res.playerRoles.roles[p.roleId]
       if (!role || role.hp <= 0) return
       p.currentFrame = 0 // 站立帧(battle.c:1469)
       if (!p.pos) return
-      const [dx, dy] = fleeStepDelta(j, partyLen)
-      p.pos = { x: p.pos.x + dx, y: p.pos.y + dy }
+      // 用户2026-05-31选择全员同向同速，保留TS的+5/+4，不改为SDLPal扇形位移。
+      p.pos = { x: p.pos.x + 5, y: p.pos.y + 4 }
     })
     fa.step++
     return true
@@ -2237,169 +2156,16 @@ export function decrementHidingEffect(state: BattleState): void {
   if ((state.iHidingTime ?? 0) > 0) state.iHidingTime = (state.iHidingTime ?? 0) - 1
 }
 
-/** narration 风格(物品提示式)自动消失时长 = 1.4s(sdlpal PAL_DialogWaitForKeyWithMaximumSeconds(1.4),text.c:1701)。 */
-const BATTLE_DIALOG_NARRATION_MS = 1400
+/** 保持原公开入口和签名；队列消费只依赖自己的状态/宿主字段。 */
+export function tickBattleDialog(state: BattleState, gs: GameState, input: InputSnapshot): boolean {
+  return advanceBattleDialog(state, gs, input)
+}
 
 /**
- * 战斗内对话 hold —— **phase-agnostic**(忠实 sdlpal PAL_ShowDialogText 同步 blocking,text.c:1701)。
- *
- * 战斗脚本(scriptOnReady / scriptOnTurnStart 等)的 0xFFFF showDialog 由 runScript 收集到
- * state.battleDialogQueue(runScript 同步跑完无法跨 tick 阻塞);此 hold 逐 tick 把队列喂进
- * **复用的大世界** gs.dialogBox(startDialogLine/appendDialogLine 行累积 + tickDialog 打字 +
- * confirmDialog page/end-key),期间暂停一切战斗推进。放在 tickBattle 顶层(fade 之后)。
- *
- * CLASSIC 真值:battle dialog 走普通 dialog box(top/bottom 多行翻页 + 等键;narration 1.4s 自消),
- * `#ifndef PAL_CLASSIC` 的战斗飘字 PAL_BattleUIShowText 在 classic build 被编译掉(text.c:1668-1672)。
- *
- * 打字节拍:tickDialog 按大世界 10fps(100ms/帧)校准;战斗 tick 40ms → 用 battleDialogTypingAccMs
- * 累到 100ms 才 tickDialog 一次,保打字总时长与大世界一致。
- *
- * @returns true = 有对话在显示(caller 早退,暂停战斗)。
+ * 逐项消费 actionQueue;一次 tick 至多起一个新动作,动画可能跨多 tick,顶层对话/淡出也可 hold。
+ * 玩家动作取 pendingActions,敌人经 decideEnemyAction 决策。完成动作才推进 currentActionIndex,
+ * 队列结束转 postAction;phase 已离开 performAction 时不再消费剩余动作。
  */
-/** 上下位置互换(top↔bottom)—— 同屏共存的两位置对话框判定(center/narration 不参与)。 */
-function isVerticalDialogSwap(
-  a: import('@type-pal/shared').DialogBoxStyle,
-  b: import('@type-pal/shared').DialogBoxStyle,
-): boolean {
-  return (a === 'top' && b === 'bottom') || (a === 'bottom' && b === 'top')
-}
-
-export function tickBattleDialog(state: BattleState, gs: GameState, input: InputSnapshot): boolean {
-  const queueLen = state.battleDialogQueue?.length ?? 0
-  // 无 active dialogBox 且队列空 → 对话整段结束(放行)。一并清掉同屏共存的反位置框。
-  if (!gs.dialogBox && queueLen === 0) {
-    gs.dialogBoxKept = undefined
-    return false
-  }
-
-  // 对话是合法的玩家等待(非卡死)→ 清 phase stall 计数,避免长时间等键被 60s 看门狗强退。
-  state.phaseStallTicks = 0
-
-  // (A) 无 active box 但队列有行 → 起首行 / 或处理内联 effect(D26(2b))
-  if (!gs.dialogBox) {
-    const next = state.battleDialogQueue?.[0]
-    if (next?.effect) {
-      // D26(2b):dialog 序列中的内联可见 effect 按位置 dispatch(目前仅 0x69 敌逃跑)。
-      //   0x69 → set enemyEscapeAnim(= dispatchBattleOpcode 的 0x69 handler,battle.c:1399
-      //   PAL_BattleEnemyEscape)→ 下 tick tickBattleEnemyEscapeAnim(397,优先于本 hold)飞出敌人
-      //   → phase='fleed';飞完后队列后续 narration 仍由本 hold 显示,再 finalize。
-      //   时序:嘲讽对话 → [逃跑动画] → narration「逃走了」→ fleed,忠实 sdlpal 脚本顺序。
-      state.battleDialogQueue!.shift()
-      if (next.effect.opcode === 0x69) {
-        state.enemyEscapeAnim = { step: 0 }
-        gs.pendingSounds ??= []
-        gs.pendingSounds.push(45) // 敌逃跑音(battle.c:1397)
-      }
-      return true
-    }
-    feedNextBattleDialogLine(state, gs)
-    return true
-  }
-
-  const box = gs.dialogBox
-
-  // (B) narration 风格:满 1.4s 或任意键 → 自动消(sdlpal text.c:1663-1710 CenterWindow 计时自清)
-  if (box.style === 'narration') {
-    state.battleDialogNarrationFrames = (state.battleDialogNarrationFrames ?? 0) + BATTLE_DT
-    const anyKey = input.pressed.size > 0
-    if (anyKey || state.battleDialogNarrationFrames >= BATTLE_DIALOG_NARRATION_MS) {
-      gs.dialogBox = undefined
-      state.battleDialogNarrationFrames = 0
-      state.battleDialogTypingAccMs = 0
-      // 队列还有后续行 → 继续 hold(下 tick 起下一行)。
-      // **被按键消掉** → 本 tick 仍 hold(吃掉该键),避免同一按键漏进战斗菜单(sdlpal 对话后
-      //   PAL_ClearKeyState,ts 用"消费本 tick"等价);超时消失无键可漏,空队列才放行。
-      return anyKey || (state.battleDialogQueue?.length ?? 0) > 0
-    }
-    return true // 仍在显示 narration(等 1.4s / 任意键)
-  }
-
-  // (C) 普通 typing dialog —— 节拍累加,驱动 tickDialog 在 100ms cadence
-  state.battleDialogTypingAccMs = (state.battleDialogTypingAccMs ?? 0) + BATTLE_DT
-  while (state.battleDialogTypingAccMs >= FRAME_MS_EXPLORE) {
-    state.battleDialogTypingAccMs -= FRAME_MS_EXPLORE
-    tickDialog(box)
-  }
-
-  // Confirm 处理(phase 决定):skip-typing / page-advance / dialog-end
-  if (input.pressed.has('Confirm')) {
-    const result = confirmDialog(box)
-    if (result === 'skip-typing') {
-      return true // 本 tick 整行显满;下 tick 才走 line-done 推进(同大世界 fUserSkip)
-    }
-    if (result === 'page-advance') {
-      feedNextBattleDialogLine(state, gs) // 4 行翻页清完 → append 下一行到清空的 box
-      return true
-    }
-    if (result === 'dialog-end') {
-      const next = state.battleDialogQueue?.[0]
-      // 上下位置切换(top↔bottom,非 clearBefore)→ **保留旧框**(林月如 top 不消失,下面接着出李逍遥
-      //   bottom),对照 sdlpal upper/lower 同屏共存(PAL_StartDialog 不擦旧框)。把旧框移入 dialogBoxKept
-      //   (反位置冻结框);否则普通结束 → 清掉两者。
-      // effect 条目(next.style undefined)非上下位置切换 → 不保留旧框。
-      if (
-        next?.style &&
-        !next.clearBefore &&
-        isVerticalDialogSwap(gs.dialogBox.style, next.style)
-      ) {
-        gs.dialogBoxKept = gs.dialogBox
-      } else {
-        gs.dialogBoxKept = undefined
-      }
-      gs.dialogBox = undefined
-      state.battleDialogTypingAccMs = 0
-      // **本 tick 吃掉关框的 Confirm** —— 否则同一 Confirm 同 tick 漏进战斗菜单触发普通攻击
-      //   (user 2026-05-31 实测:对话最后一个 space 同时结束对话 + 选了普通攻击)。
-      //   sdlpal PAL_ShowDialogText 返回后 PAL_ClearKeyState 清键;ts 用"消费本 tick + 下 tick 菜单
-      //   只认新按下的 pressed(edge)"等价。队列还有(clearBefore/换风格)也 hold,下 tick 起新框。
-      return true
-    }
-    // 'noop':line-done 等 → 落下面自动推进
-  }
-
-  // line-done 自动推进(sdlpal 行间不停):喂下一行 / 满页等键 / 队列空等结束键
-  if (box.phase === 'line-done') {
-    const next = state.battleDialogQueue?.[0]
-    if (!next) {
-      setWaitingEndKey(box) // 无后续 → 等结束键(Confirm 关 box)
-    } else if (next.clearBefore || next.style !== box.style) {
-      setWaitingEndKey(box) // 新段(显式清屏 / 风格变)→ 先结束当前段,下段起新框
-    } else if (shouldWaitPageKey(box)) {
-      setWaitingPageKey(box) // 满 4 行 → 等翻页键
-    } else {
-      feedNextBattleDialogLine(state, gs) // 同段同风格未满页 → append 下一行(继续打字)
-    }
-  }
-  return true
-}
-
-/** 从 battleDialogQueue 取下一行喂进 gs.dialogBox(无 box → startDialogLine;有 → appendDialogLine)。 */
-function feedNextBattleDialogLine(state: BattleState, gs: GameState): void {
-  const line = state.battleDialogQueue?.shift()
-  if (!line) return
-  // D26(2b)防御:effect 条目正常由 tickBattleDialog (A) 分支处理;若经此(段边界 page-advance)→ 同样 dispatch。
-  if (line.effect) {
-    if (line.effect.opcode === 0x69) {
-      state.enemyEscapeAnim = { step: 0 }
-      gs.pendingSounds ??= []
-      gs.pendingSounds.push(45) // 敌逃跑音(battle.c:1397)
-    }
-    return
-  }
-  const text = line.text ?? ''
-  if (!gs.dialogBox) {
-    gs.dialogBox = startDialogLine(text, {
-      style: line.style ?? 'bottom',
-      portraitIcon: line.portrait,
-      fontColor: line.fontColor,
-    })
-  } else {
-    appendDialogLine(gs.dialogBox, text)
-  }
-  state.battleDialogTypingAccMs = 0
-  state.battleDialogNarrationFrames = 0
-}
-
 function tickPerformAction(
   state: BattleState,
   gs: GameState,
@@ -2465,7 +2231,8 @@ function tickPerformAction(
   }
 
   // sdlpal `PAL_BattleStartFrame`(fight.c:1116-1152):每帧**先**检 fEnemyCleared(全敌死→won)
-  //   / fEnded(全队员死 puppet 除外→lost),命中即 return,**不再处理剩余 action queue**。
+  //   / fEnded(全队员 HP 为 0→lost),命中即 return,不再消费剩余队列。
+  //   C 的 puppet 分支只改 fOnlyPuppet,未清 fEnded;不能把傀儡算成存活来豁免全灭。
   //   ts 对齐(修 user 实测:本轮第一个角色打死最后敌人后,后续我方角色仍继续攻击)——
   //   放在 battleAnim hold 之后(杀敌动画播完)+ tickBattleFade 死亡淡出 hold 在 tickBattle 顶层
   //   已先于本函数(淡出完才到此)→ 此处判全死并中止队列,转 postAction 由其定 won/lost。
@@ -2819,9 +2586,9 @@ function performBattleAction(
       break
 
     case 'flee':
-      // flee 只对队员有意义;敌人 flee 写错 no-op(performFlee 通过 playerRoles 解;此情境不应发生)
+      // 玩家逃跑由队伍位置取roleId，再从GameState读取运行态/装备吉运。
       //   bus 传入 → 逃跑失败时起失败动画(performFlee 内 buildFleeFailTimeline)。
-      if (!actor.isEnemy) performFlee(state, gs, actor.idx, res.playerRoles, bus)
+      if (!actor.isEnemy) performFlee(state, gs, actor.idx, bus)
       break
 
     case 'magic': {
@@ -2880,7 +2647,10 @@ function performBattleAction(
               casterPos: caster.posOriginal,
               targetIdx,
               playerCount: state.players.length,
-              itemName: res.items.find((it) => it.id === action.actionId)?._name, // L15:演出显示物品名
+              itemName: getWord(
+                action.actionId ?? -1,
+                res.items.find((it) => it.id === action.actionId)?._name,
+              ), // L15:演出显示物品名
             }),
             bus,
             undefined,
@@ -3025,14 +2795,16 @@ function tickPostAction(
   // DM12:毒 tick 前快照敌人 hp(玩家用 prePoisonHp)——毒后任何 HP 变化 = C 的
   //   PAL_BattleDisplayStatChange() 返回 TRUE → 转 selectAction 前设 8 帧停顿。
   const prePoisonEnemyHp = state.enemies.map((e) => e.e.health)
-  // 玩家毒 tick —— sdlpal fight.c:1657-1697(PAL_BattleStartFrame,action queue 耗尽时):每队员每毒槽
+  // 玩家毒 tick —— SDLPal PAL_BattleStartFrame 的回合末循环(fight.c:1616-1630):每队员每毒槽
   //   跑 wPlayerScript(target=该队员;毒脚本 0x1B 负 delta 扣血,0x1B battle handler 自带活人 gate)。
-  //   玩家毒存全局 gs.rgPoisonStatus[`${slot}_${roleId}`](持久,16 槽/role)。sdlpal 先玩家后敌。
+  //   玩家毒存全局 gs.rgPoisonStatus[`${slot}_${partySlot}`](持久,16 槽/party slot)。sdlpal 先玩家后敌。
   // battleDecidedByCombat → 跳过毒 tick(sdlpal 已 Won/Lost 则 PostActionCheck 前 return,不跑回合末毒)。
   if (!battleDecidedByCombat) {
-    state.players.forEach((player, idx) => {
+    state.players.forEach((_, idx) => {
+      // fight.c:1616：遍历实际队伍槽；重复 roleId 不重复执行首槽的毒。
+      const partySlot = idx
       for (let slot = 0; slot < 16; slot++) {
-        const ps = gs.rgPoisonStatus[`${slot}_${player.roleId}`]
+        const ps = gs.rgPoisonStatus[`${slot}_${partySlot}`]
         if (ps && ps.wPoisonID !== 0 && ps.wPoisonScript > 0) {
           const next = (runPoisonScript as (o: RunScriptOptions) => number)({
             commands: res.commands,

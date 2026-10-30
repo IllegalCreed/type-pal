@@ -1,0 +1,40 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "--passWithNoTests",
+    "--silent=false",
+    "--reporter=verbose"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "signal": null,
+  "rawSha256": "8170fe8522bf7a65fe7256cce3ce30151951fcaf8a3a17c0a6b09f73649d5839",
+  "stdoutSha256": "22f70015cd2888c31e07948d2ec48957ae6c6ea23b00c7a32f42cfd0ea401f44",
+  "stderrSha256": "ae6839625f41d019769014cb2a6b6fed916fc8a518e63466b9c52107b2cfb8c3",
+  "files": 321,
+  "tests": 3612,
+  "stderrBlocks": 15,
+  "remainingHeaders": [
+    "src/shell/avi-player.test.ts > playAvi — sdlpal PAL_PlayAVI 等价 (M5.6 T18 Step 3) > video error 事件触发 → Promise 仍 resolve(不抛)",
+    "src/shell/avi-player.glm-next-wave.test.ts > playAvi autoplay 拒绝 → click-to-start 降级边界 > play() 拒绝(显式 settle)→ overlay 出现;点击 overlay 重试成功 → overlay 摘除、视频保留;ended → 清理",
+    "src/shell/rng-window.grok-r1.test.ts > G10-A RNG 默认跳过与帧窗 > G10-A07 默认块地址是 rng-07.rle",
+    "src/core/event-system.test.ts > goto shared#L_xxx(P2#5 — 单一全局数组,剥前缀经全局 labelMap 解析) > shared# label 全局不存在 → warn + skip(不抛错,不死循环)",
+    "src/core/event-system.test.ts > 特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c FadeOut/FadeIn/SceneFade/PaletteFade/ColorFade/FadeToRed) > 0x05 redraw 无 needToFadeIn → 解冻 + UTIL_Delay(60ms) 后续跑(不误触发淡入)",
+    "src/core/scene-system.test.ts > P0.c 走动 4 帧动画(sdlpal scene.c:636 PAL_UpdatePartyGestures) > contact NPC(triggerMode >= 4)不阻挡走路 → walking=true",
+    "src/core/scene-system.test.ts > P0.e wScriptOnEnter 真跑 > setSceneObjectState opcode 不报错(no-op, M5+ field)",
+    "src/shell/precache-client.test.ts > registerPrecache > register 抛错 → onUnavailable 触发,不向上抛",
+    "src/core/event-system.glm-event-state-opcodes.test.ts > event-system 状态 opcode 合同(GLM state-opcodes r1) > runEnterScript goto 缺失:warn + fail-stop,后续 opcode 不执行(不抛错不自旋)",
+    "src/core/menu/magic-script.test.ts > runMagicScriptSync - 流程控制 > label 不存在 → 返回 false",
+    "src/core/menu/magic-script.test.ts > castOverworldMagic - 双层 script > scriptOnUse 失败 → 不跑 scriptOnSuccess",
+    "src/core/battle/battle-system.glm-next-wave.test.ts > scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) > turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)",
+    "src/core/mode.test.ts > tickByMode autoScript gate (P2#6a) > event 模式 + waiting=dialog(对话阻塞)→ autoScript **不**跑(NPC 停)",
+    "src/core/event-system.glm-event-control-flow.test.ts > TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 控制流残差合同 > resolveConfirmGoto fail-closed(3442-3452):0x0A 否提交时 operand[0] 目标不在 labelMap → 清问句 + 终止脚本回 explore(不落是分支)",
+    "src/core/event-system.glm-event-k06.test.ts > K06 startOverworldItemScript 失败门:scriptOnUse=0 / label 不在全局表 → false 且零状态副作用 > scriptOnUse=0 与 L_<n> 缺失都拒绝启动;成功对照 = true + mode=event + pendingItemConsume 记账"
+  ],
+  "scope": "full game package after C2; two equipment warning blocks are absent; remaining diagnostics are not yet semantically accepted."
+}

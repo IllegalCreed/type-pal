@@ -1,0 +1,2263 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-19",
+  "currentCodingOwner": "Codex; user instruction返工你来做",
+  "candidateBase": "53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02",
+  "authorCandidate": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+  "integrationCommit": "7b4be88a0fdec9eb48eea1e2928c86a3f542cb3e",
+  "codexCorrections": [
+    "0650594386a78b20a831e1a922ce9cdb563cac8c",
+    "cd8027dbd5b1f2bd23c6e7cf66575dabce8d844a",
+    "8fb38fb1964fc3869cb6d0a71c5cc766279c4c5f",
+    "c9a979f4c3957f2d123b3e75f2cde7e368a45098"
+  ],
+  "decision": "Limited candidate changes/evidence preserved on3y;R2/R3/R5 concrete repairs done,R4 false-cause classification corrected;R1 ongoing,shared eight-axis slice now explicit. No whole-repository completion or file closure.",
+  "findingsDisposition": {
+    "S2-R1": "Partially repaired: canonical scope withdrawn from package claims;shared-type7files and map-name caller8axes recorded;remaining modules require precise missing-axis follow-up,not blanket reread.",
+    "S2-R2": "Corrected failed-run credit;word.test.ts recovered8/8zero stderr;tables89/89author recovery only covers its own tables cases.",
+    "S2-R3": "Fixed InventoryEntry formatter issue;five correction source bodies invariant versus author checkpoint. Current static checks recorded below.",
+    "S2-R4": "Cause unknown;original M05 red,one-file retry and later2505green retained at actual execution scopes. Small/medium identical native bytes are one reused run,not independent observations. No flake fix claimed.",
+    "S2-R5": "Remove approval/design-finality noise;also fix false BDF zero-row claim,PlayerRoles matrix/verification prose and concrete shared schema comment counters. No product/API/codec/schema change."
+  },
+  "limits": [
+    "All64module receipts are review-stage author evidence. Later package functional summaries lack complete per-file eight-axis support;none automatically promotes a file or card.",
+    "A-H statements below distinguish actual current facts and reused author/old evidence;they do not certify all referenced runtime tests.",
+    "Native JSON plus preserved console gives execution scope;old missing console remains missing.",
+    "New compile-only test module is included by existing tsc,not runtime Vitest;14runtime cases intentionally retired with contracts mapped. Official coverage/protected final reconciliation is still required;no baseline/rule/exclusion changed.",
+    "Existing e2e-route reviewBy2026-10-18 expired at2026-10-19. Keep docs gate blocked until owning route review;do not extend date to silence it.",
+    "No main merge;other owner trees and GLM frozen worktree unchanged."
+  ],
+  "fileReviews": [
+    {
+      "path": "packages/shared/src/resources.ts",
+      "sha256": "daf404181b9244c98dfb859c7bb5c3befde2fdb1d16027a9318b5f98fff0d1ed",
+      "lines": 143,
+      "readScope": "Codex full definition/test module;caller/primary focused ranges below;author broader review not repeated",
+      "A-H": {
+        "A": "Pure declared resource shapes;parseMap copies two complete u32 values to lower/upper,h=0/1. SDL PAL_MapGetTileBitmap selects h before extracting low/high layers;no schema/value validation added.",
+        "B": "Correct lower/upper half-cell meaning;retain pipeline tileset relative-path and night-palette source scope. Old low16/layer comment contradicted producer and renderer.",
+        "C": "Shared output types have no IO/state writes;extract owns decoding,renderer owns view usage. Legacy half-cell field names remain a public naming boundary,not layer ownership.",
+        "D": "One resource contract shared by map parser/game/migrate;no new generic helper. SpriteSet/PixelPos unused exported definitions remain explicit API-removal candidates.",
+        "E": "Existing compile shape checks retained in public-contracts;map parser and renderer evidence is reused at its stated scope,not claimed to prove all runtime validation.",
+        "F": "cells row/column dimensions and full-DWORD half-cell ownership now explicit. lower/upper naming is still misleading without domain context;rename would require public-interface work.",
+        "G": "No deletion of exported SpriteSet/PixelPos or indirect SpriteFrame;zero observed named consumers is not external-API authorization. Keep review.",
+        "H": "Type contracts compile without DOM/network/time;IO value/byte tests belong to producers. No expanded public test-only API."
+      },
+      "currentAcceptance": "review; no whole-file closed credit from this packet",
+      "unknowns": [
+        "Whole-repository unified diagnostics/official final gates pending",
+        "Public exported-definition removal/rename requires separate scope and compatibility evidence"
+      ]
+    },
+    {
+      "path": "packages/shared/src/input.ts",
+      "sha256": "5bb1e2629f69731d6b61e22914738d19c647ced7f35a9598fd232a91ec50cf14",
+      "lines": 67,
+      "readScope": "Codex full definition/test module;caller/primary focused ranges below;author broader review not repeated",
+      "A-H": {
+        "A": "Readonly held/pressed and frameNum are declaration contracts. Shell creates snapshots;main-loop consumes InputSource. Existing DM30 clear-held timing truth is retained,not rederived from the interface.",
+        "B": "InputSource frameNum ownership and scene-fade-only suppression limits are explicit;no new callback/lifecycle promise is inferred from optional method.",
+        "C": "No browser imports or global state;Shell owns physical keys,Core owns abstract snapshot consumption;source disposal remains implementation-owned.",
+        "D": "One interface for keyboard/record/replay;do not share their different storage/lifecycle implementations merely because nextSnapshot matches.",
+        "E": "Remove local fake/value-only runtime credit;exact AbstractKey union,ReadonlySet fields and nextSnapshot signature are compiler-checked. Real Shell behavior tests remain unchanged.",
+        "F": "held versus pressed and source-provided frameNum have distinct names/roles;no mode flags/factory layers introduced.",
+        "G": "No new dead exports;do not remove optional fade hook merely because test stubs omit it.",
+        "H": "Declarative source injection permits deterministic headless callers;compile tests require no input events or fake browser implementation."
+      },
+      "currentAcceptance": "review; no whole-file closed credit from this packet",
+      "unknowns": ["Whole-repository unified diagnostics/official final gates pending"]
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "aa5e78f8a222de107f814d11cd9dc52239cc23135fe9c794db754f28b868d99d",
+      "lines": 34,
+      "readScope": "Codex full definition/test module;caller/primary focused ranges below;author broader review not repeated",
+      "A-H": {
+        "A": "10fps exploration/25fps battle imply100ms/40ms;main-loop logicIntervalMs consumes these. FRAME_MS_FADE remains unused legacy export;no timing behavior changed.",
+        "B": "Retain verified deprecated-fade acceleration explanation;remove Codex approval-process language from production source.",
+        "C": "Barrel exposes shared leaves/constants without importing game/shell;runtime timing decisions stay in main-loop.",
+        "D": "One active timing-constant definition;do not build a general rate abstraction for an unused fade constant.",
+        "E": "Existing index.test two numeric timing contracts remain;typecheck separately covers barrel consumers. No runtime tests added for declarations.",
+        "F": "Active explore/battle names encode mode and units;deprecated fade variable clearly separated.",
+        "G": "FRAME_MS_FADE is a live unused public-export candidate,not deleted or falsely declared clean.",
+        "H": "Active constants are directly deterministic;module has no DOM/timer/network effects."
+      },
+      "currentAcceptance": "review; no whole-file closed credit from this packet",
+      "unknowns": [
+        "Whole-repository unified diagnostics/official final gates pending",
+        "Public exported-definition removal/rename requires separate scope and compatibility evidence"
+      ]
+    },
+    {
+      "path": "packages/shared/src/events.ts",
+      "sha256": "fbe669229da412574ec13a811b077918d97ab3399da5a3adfdcb10c91b5c7d0f",
+      "lines": 189,
+      "readScope": "Codex full definition/test module;caller/primary focused ranges below;author broader review not repeated",
+      "A-H": {
+        "A": "Command discriminators and raw three-word operands retain their type shape;loadScene waiting and dialog-style args inspected in actual handler. Recompiler missing-label behavior remains an existing unresolved candidate,not altered.",
+        "B": "Correct runtime consumption of dialog-style arg0/1/2 and remove obsolete Task2 placement advice. LoadScene asynchronous comment retained at inspected caller scope.",
+        "C": "First-stage command schema separate from game implementation and phase2 canonical AuthorCommand;shared types import neither host nor runtime globals.",
+        "D": "Distinct style-command discriminators support exhaustive consumers;do not replace them with mode-boolean/universal payload helper for four short shapes.",
+        "E": "Migrate nine runtime declaration/local-literal cases to compiler discriminant,union,field assertions;no claims about actual dialog timing from compile success.",
+        "F": "Named commands/raw fallback are explicit;anonymous arg fields preserve byte roundtrip but their style-dependent interpretation is now documented.",
+        "G": "Structured manual-authoring command variants are not declared dead solely because disasm does not emit them. No unsupported export removal.",
+        "H": "Pure declaration contracts use deterministic compile checks;real suspend/load/dialog behavior remains in game tests."
+      },
+      "currentAcceptance": "review; no whole-file closed credit from this packet",
+      "unknowns": ["Whole-repository unified diagnostics/official final gates pending"]
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "efc0ed3c6cd2b50e002f783a738be1306bde0b727d3f3701a2aee18b55279828",
+      "lines": 628,
+      "readScope": "Codex full definition/test module;caller/primary focused ranges below;author broader review not repeated",
+      "A-H": {
+        "A": "Public members unchanged by Codex;GLM duplicate LevelUpMagicEntry removal preserves surviving shape. Item/Spell IDs checked against parseItems/readSpellAt;equipment order and role/party cardinalities corrected from actual producer and constants.",
+        "B": "Correct local/global ID distinction,Item count excluding295,Spell295 inclusion,equipment order,MAX_PLAYABLE versus party capacity,FIRE effect/union special and learned spell OBJECT IDs. These were missed in author B-clear claims.",
+        "C": "Data declarations own wire-derived contract only;extract decodes,game projects runtime. No shared mutable state or import from consumers.",
+        "D": "Field families remain explicit,not merged by structural coincidence;EnemyObject duplicate IO/shared declaration is a reuse candidate requiring consumer/export compatibility work.",
+        "E": "Compiler Item guard now includes flags and exact six-role equipableBy tuple. Actual Item.flags omission produces TS2344;restored compile passes. Existing parser native data results retained,not asserted as full per-test audit.",
+        "F": "Object IDs versus MAGIC-table indices are explicit. Numeric raw fields and SoA naming remain domain-specific;comments retain required units/meaning.",
+        "G": "Unused BattleEffectIndex/LevelUpMagicTable exported aliases remain review candidates;no blanket public-API deletion. Duplicate declaration already removed by GLM remains removed.",
+        "H": "Types are directly compile-testable;no IO or casts added for testing. Mutant is isolated in owned temporary sibling and removed exactly."
+      },
+      "currentAcceptance": "review; no whole-file closed credit from this packet",
+      "unknowns": [
+        "Whole-repository unified diagnostics/official final gates pending",
+        "Public exported-definition removal/rename requires separate scope and compatibility evidence"
+      ]
+    },
+    {
+      "path": "packages/shared/src/pal-authored-map-names.ts",
+      "sha256": "69d57d63ed58dda873776b48878f05f3578e80d3be667e521131065a3293547a",
+      "lines": 240,
+      "readScope": "Codex full definition/test module;caller/primary focused ranges below;author broader review not repeated",
+      "A-H": {
+        "A": "Frozen authored222entry fixture retained with sparse IDs. Missing keys return undefined;caller fallback policies stay outside authored data. get/has implementations read directly.",
+        "B": "Purpose,authored-vs-engine boundary and missing-name policy match both functions and actual game/migrate callers.",
+        "C": "PAL-specific data has a dedicated package subpath;no imports from engine,IO or state owners.",
+        "D": "Game hasMapName now delegates to existing hasPalAuthoredMapName with identical number/undefined semantics;no extra abstraction or changed fallback text.",
+        "E": "Shared pinned fixture and distinct-id tests unchanged;game known/unknown name contracts pass before/after3/3. No new weak sample tests.",
+        "F": "Numeric-key table preserves authored gaps and duplicate labels;lookup helpers name exact intent.",
+        "G": "Presence helper now has a production consumer rather than duplicated undefined comparison;no definition deletion or fallback addition.",
+        "H": "Pure deterministic lookup is directly observable;no environment setup or private-state exposure."
+      },
+      "currentAcceptance": "review; no whole-file closed credit from this packet",
+      "unknowns": ["Whole-repository unified diagnostics/official final gates pending"]
+    },
+    {
+      "path": "packages/shared/src/__tests__/public-contracts.ts",
+      "sha256": "9feeacc7e78e6e9a12c47e03779b489426a34c0028e280953fe3c7c243c7f6a4",
+      "lines": 139,
+      "readScope": "Codex full definition/test module;caller/primary focused ranges below;author broader review not repeated",
+      "A-H": {
+        "A": "All14old type/local-literal cases mapped to compile assertions;existing resource checks retained. flags assertion corrected and equipableBy exact six-boolean shape strengthened.",
+        "B": "Header states compile-only/no runtime credit;no claims that type checks exercise product IO or behavior.",
+        "C": "One compiler-only test module;no describe/it/test callbacks,global state,timers or local mock behavior. Existing shared tsconfig includes src/**/*.",
+        "D": "Reuse and rename existing resource compile module to public-contracts;all contracts have the same compiler lifecycle. No second checker or config introduced.",
+        "E": "Old runtime case mapping retained;native runtime count128→114 is intentional. Missing-flags static counter fails exactly once with TS2344;restore0 and no temp file remains.",
+        "F": "Type imports and assertions grouped by resource/table/input/event families;explicit shapes expose intended public contract.",
+        "G": "Remove14runtime-only counts and three obsolete test files;do not lower rules or add ignore/exclude. Coverage/protected identity reconciliation deferred to official final window with exact mapping.",
+        "H": "Direct tsc checks control public types without DOM/FS/mocks. Counter mutation recipe and current source hash make guard reproducible."
+      },
+      "currentAcceptance": "review; no whole-file closed credit from this packet",
+      "unknowns": ["Whole-repository unified diagnostics/official final gates pending"]
+    },
+    {
+      "path": "packages/game/src/tools/map-names.ts",
+      "sha256": "f55bd07a19241124bcfba581d566bc5a698f3caf52dd535fbbf7e9c5fce1c74c",
+      "lines": 11,
+      "readScope": "Codex full definition/test module;caller/primary focused ranges below;author broader review not repeated",
+      "A-H": {
+        "A": "getMapName fallback remains地图N;hasMapName delegates to shared presence with equal semantics.3existing known/unknown business tests before/after pass.",
+        "B": "Existing names/fallback comments remain true;no unrelated phase/source guarantee added.",
+        "C": "Game owns display fallback;shared owns authored existence. No reverse dependency or state writes.",
+        "D": "Reuse existing shared has function rather than duplicate authored-presence knowledge;no new helper/interface.",
+        "E": "Existing three real get/has tests retained,baseline and post-change outputs stored separately;no count-only substitute.",
+        "F": "Public get/has names unchanged and wrapper remains one intention.",
+        "G": "No obsolete branch/export introduced;shared presence function now used in production.",
+        "H": "Pure lookup remains directly testable without environment-dependent data loading."
+      },
+      "currentAcceptance": "review; no whole-file closed credit from this packet",
+      "unknowns": ["Whole-repository unified diagnostics/official final gates pending"]
+    }
+  ],
+  "callerPrimaryBindings": [
+    {
+      "path": "packages/pal-extract/src/resources/map.ts",
+      "symbolOrRange": "parseMap",
+      "sha256": "5695f47064b4c2d83d1cbd7f624450feda2b98fe335a6170d6147e5338d4e678",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "symbolOrRange": "drawTilemap/tileIdLayer0/tileIdLayer1",
+      "sha256": "6a5b77a7963ded096b9d8b1792dc6823472c65fba8376dbd7ddf25b25abe0166",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "reference/sdlpal/map.c",
+      "symbolOrRange": "PAL_MapGetTileBitmap:198-257",
+      "sha256": "0b707730f6e89b2d99f7a8564382c226381c3cec2f13867ad54c816805b1357f",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "reference/sdlpal/palcommon.h",
+      "symbolOrRange": "MAX_PLAYERS_IN_PARTY/MAX_PLAYER_ROLES/MAX_PLAYABLE_PLAYER_ROLES:42-48",
+      "sha256": "92ca376598778230c7433449ede5e597cc23ef91ea246b2720b10da045ff86ba",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/items.ts",
+      "symbolOrRange": "parseItems",
+      "sha256": "ce10629b77c6ca18c32e755e1b9f7dfd57287558da7eed0e27528fbac52ba7dc",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/spells.ts",
+      "symbolOrRange": "parseSpells/readSpellAt",
+      "sha256": "3bf94340d337fb9fee0ca019ce3a9a66f52cf42d671b748e9dfd68868ed4815d",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/player-roles.ts",
+      "symbolOrRange": "parsePlayerRoles equipment matrix",
+      "sha256": "cc042eb4a284f58085c6c50ca647bc462d38cb86b8bcf29fbde8e2a3e4606e8b",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "symbolOrRange": "setDialogStyle* named handlers:2119-2160",
+      "sha256": "0f3e6c35bb2257e6fe08f68a5bff99533d50d7e924f43454e6fde4755a7b7a0b",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "symbolOrRange": "LoopContext/logicIntervalMs",
+      "sha256": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "symbolOrRange": "magicSprites FIRE loader",
+      "sha256": "a2b48e21712f0fb3f9cade6122b80d738b7f2ba0bb605c749193d2dd6f91a4d6",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "symbolOrRange": "applyVictoryExp learned magic field",
+      "sha256": "fc687b0757b88bc0a9c287e6d80fb000ce177575bebe769728e55585896ba0ba",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/coop-magic.ts",
+      "symbolOrRange": "performCoopMagic special/effect interpretation",
+      "sha256": "b1eebb8643ab4106a3916f4338726778831976fb87411b33b74fef52a901295a",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "packages/migrate/src/pal-map-names.ts",
+      "symbolOrRange": "mapNameFromSourceNumber",
+      "sha256": "d9e9f9aef65bbf3258c8f272324578f564dad83482c60f65f8811487a83d83bb",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "packages/shared/package.json",
+      "symbolOrRange": "exports./pal-authored-map-names",
+      "sha256": "574bb6698c420e6e2858b496676943ba179e671a53127463b3a9c840ad29aa9a",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    },
+    {
+      "path": "packages/shared/tsconfig.json",
+      "symbolOrRange": "include src/**/*",
+      "sha256": "d17bc3179d3cfb306f1c4babbd1ad85da4985db4be4fb3ae78226256ea28a95c",
+      "scope": "Named current caller/primary contract inspected;not a fresh full-file review"
+    }
+  ],
+  "authorModuleIndex": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-authorcore/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "40cbbbaab2343255ff8ff2a69f6cf4c4d1c20415705dbc6702ca814204a9be4d",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-core5/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "d7836cfbae3c00b4a3a3d60a9ab20163eeb2c37e6049fb7810b77c7af33730a5",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-domain/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "3fc89499905f5c1be28d7b6ced2078524ca3673b9f971a51d196a228af79ff53",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-item/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "d3c34f4ce2967086f9597b7ab70819febbc3805b34dead5b4ca674f82dc17bc4",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-medium1/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "45e3c672bf1cc3535625c417868414e93f106368b407bf4d132a7365ee7b7f5f",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-medium2/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "0e95fa5d380b9b773f5fdab7ec10150d4954ad6be516bfb4029c0132da904dcc",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-script-asset/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "2c8d0b8c1d3afef9827e54c011aece616eff167c8b6f01f6755b4e1d70abb3ae",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-small/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "467ddcedd03234ddae3359b2e8ab9c0d2ea5ddd2e90a2e368238135bd3b47b5b",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/content-validators/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "202a6b99e5f6573b3252f07d62e74e2ecc867e3dec93c3ee5d5ea5c67ad62b80",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-large/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "be459bf7f61f76bebbc7d0298d97ad5bee33ad15d82c95cc147fe77995801c2c",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-medium/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "0ba01abd51b2859629ca7164eca3badf0fef2b6b1749893f347a3e185ce439fc",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-small/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "0806c936508e2cd159cd7ac850ccdd63095aef47d9a1cf6f56550c86273932e7",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-large/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "e9268d7cb487d095b489cd75e8cc3691e227d9bfd748451f8b3abb11c3542816",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-medium/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "b0a9cdba377c4975bc9160b5677ccbd6843ca990554c20549dd697951c8c4061",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-small/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "4bb3aeb24deeff66eb264d58494cca77277307f6b1183e9cbd20de72e659f1fa",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-cli-tail/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "9b60a9e97f5e0cdaff0fcc8b27b6f7c45c5fdc327221a9b4e07e8d04f0b72d9e",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-enemies-playerroles/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "dc780c784eb9509d7121ee19f8b1c71a112848d525a2062a48e8be423d13aeac",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-events-core/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "c425067dc4bbc00755a3dba0c7f0702b67b9eb13bfc0788b8d021b94fa4c7a2d",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-font-scene-map/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "d7974a340a9312b6664d6e98aaf7cf1eecbfa2fd4660371f66037c8a71909083",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-io-word-gbk/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "38388259b0387ebd21506487171bff3f9a0ea9ffcc14b18f5b9b811b2de6b281",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-parsers-small/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "43281aa0a7d78b9ce38b00cfd6e4fc53014f5f42a6c28a22094b94a334c44ff8",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-spells-teams-items/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "26eb0daebe948637b312ea265151e560a085971083a646fb4ec6e1ef9eee27ff",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-actions-batch1/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "044b3d3668cab70982ab78eb36d45abebdefbee7ef9a1ac8c3f718f9c644b053",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-actions-batch2/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "9850aa8af8cc0371e19d3021362bfa5c8e379a8658e68a9935ea3529eda55c5b",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-animtimeline/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "59fd746ac7920cbeb7637a2ccbbe6dfc8066e20598d3c4bfa654e531fe46642d",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-assets-batch1/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "3c67a3cf4cfd5cf4667884ace334d0553a0ba0c72187b4be43b7d7da1f4ab314",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-assets-batch2/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "b3ec383096f813262a234ff88497e6447f1a6e6ba30dc2c5aed4ed7db2bdd416",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battlecore-misc/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "e3fd54d32ad7e8fafa8e9a942ec080f76ba2e552e0f42f64eea349181b19a812",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battleopcodes/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "a21535e3f33ce5cee81ff5da473294ed96654c36ec011799b9a2048e75ba6b7c",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battlestate-ctx/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "3980e46d862fca0592f38a7f10fd7b287678ddf2df782f60251bd0fd9168fd17",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battlesystem/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "9cf343f67c8fef4d4069de6f6901cc616ec3e9acb89e3e52eedeec9bc40c41ea",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-batch3/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "46de15fbdacedb32d5393449f338c72044b8117cdd4311f93276ccd756ab46b1",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-batch4/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "81fcab90ead5ddee4208452f0051cf50dbb513a2ff780256945701c4fe6e6be2",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-gamestate/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "b9e8dbb57e7a884c33973a2b7b5b26062bb0ec75db00168bef62e520df504c73",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-residual/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "18fee2163a983a9f5ed9ef837a22a2755bb3a531973ccd3261b2b820c92bbe4f",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-scenesystem/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "4516df9f305daa1a5987576a2fb342e6bb3f07ab149d91478a891652a3f51629",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-dev/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "ce236334511a8b693a2df8c60ab17c5566fb823350e74861d43f08416374a709",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-eventsystem/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "c2a8a0a3777df8a539b6ccb8c2e5ccf7054e264630d703e63d2734eb84320856",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-inspect-save-analytics/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "0a711f3240a24a94e4ba1d6be206dbe8fe9621fbf6115fd274d1afff9ae9ca0b",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-menu-driver/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "dd9717fbb8a308cced0b3071a9816d68f2eb13138ac472ede026d3ad392178d8",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-menu-large/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "a53bc153044d048938075a321ea85f18f37014ef72d3bc22c2bc31da5bc292d6",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-menu-small/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "807ad8fa9ff85484649ab302292096259d41b84402c2856d529040aad7a75d83",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-present-battledraw/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "9f446dd743d58285b00e9e729238116705247501ef51147663bcb9f3ce160f01",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-present-core/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "a69d99f5b6bfe6560174d32006361bf0f5fa2c28acaa14de5f911fb1bb938967",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-present-menu/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "ddf989b6b8d28bcf33c515646a145b1a25ef483325dfbf25ca5468e462b5dabf",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-present-root/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "e837934f5a751861cd4eabf43122c990b33adc25bd09af904ddb65c80c50e1fa",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-shell-audio/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "3208223f7f709cdfcf0aae210b18d79f1e6f728422738412832f0e667d74ddb8",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-shell-bootstrap/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "7c5c8f7a54633f7f97f48189198d1c9e46d60310b5bc8c6857afdb9cab7d7bb1",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-shell-loop/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "8a5587f4f07971e9084faa180f78fad2f7887728593faea73908d3fed51494ef",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-shell-players/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "453f452b108fd5543543febbb4a28c2e412f10ba9f3129828ebe8b4a84684935",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-tools/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "8f33820f239a72a7a2fddd1577aafb3a4ece461812dc54d293188bb0eb8551a4",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/migrate-all/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "6a5036e191b57f3c339d58dd40026597d8dc8207c54eb337c5dc7ff32cbecbb1",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-audio/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "4e4368b8cce609f942d0a14e659e11d14c4d8a220c4ac61c071fb9240e32fc75",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-battle/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "bed7e01ec633ff9dca79976e211ae7e38144c03459a5f9b12e42233bdd41c705",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-debug-tools/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "812c714ee8df3caf62dd13b620477c9733b7e1569e00e0ac7c7ef6936b7e0497",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-dialogbox-menu/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "8270774831b5e706ce6b5687011b0cc81bd1b22cd3c37081243642f4aab49ca6",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-main/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "7a07ca9c2d0dd6aa9ec6701d83f74b34c773b81c4cdaad097e054c0299abc821",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-medium-tail/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "2244d1cebff6c588282af4a5726b622f2b7136b6b097ec1faff2366de410edd5",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-project/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "989ee3a7f7f7658dbc103ea15dcf338add73ddc29e27f1af418487eb1484cd26",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-root-small/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "7f864345fb6604b449a9d30248b8ad0dcfe028f20f23ef3501c672a0cb93af17",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-save-dialog-menu/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "b48a1c3678cd49fd9d642c5be2d67590fa6a58c6ae08e6dd923bb9bb90e50f41",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-script/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "5dce1df5d9107711af4c3d583b7b172b65b4082027359a394047758b81dd828d",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-world-render/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "677198f48da7a6a79ad3a6e66c3ae867ea916188d15a5f24d6ce01ab0453d8ac",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/shared-types/README.md",
+      "authorSnapshot": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "548c485046d6a9750a27e6d653c0435485877c26635861dc183db3f4d6a5a580",
+      "currentReview": "author evidence retained;whole-package A-H/closure not accepted",
+      "nextAction": "Bind missing file/axis/real-caller/oracle evidence;reuse valid facts. Shared-types actual bounded review is in fileReviews below."
+    }
+  ],
+  "oldRuntimeCaseMapping": [
+    {
+      "oldFile": "packages/shared/src/events.test.ts",
+      "fullName": "Command 联合类型 RawCommand 有 op: \"raw\" + opcode + operands",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "Command discriminators, required fields and union membership become compiler assertions; literal array length/value assertions never executed product behavior."
+    },
+    {
+      "oldFile": "packages/shared/src/events.test.ts",
+      "fullName": "Command 联合类型 GotoCommand 有 op: \"goto\" + to",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "Command discriminators, required fields and union membership become compiler assertions; literal array length/value assertions never executed product behavior."
+    },
+    {
+      "oldFile": "packages/shared/src/events.test.ts",
+      "fullName": "Command 联合类型 ShowDialogCommand 有 op: \"showDialog\" + text",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "Command discriminators, required fields and union membership become compiler assertions; literal array length/value assertions never executed product behavior."
+    },
+    {
+      "oldFile": "packages/shared/src/events.test.ts",
+      "fullName": "Command 联合类型 Command 是联合",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "Command discriminators, required fields and union membership become compiler assertions; literal array length/value assertions never executed product behavior."
+    },
+    {
+      "oldFile": "packages/shared/src/events.test.ts",
+      "fullName": "SetDialogStyle commands DialogBoxStyle 具名样式(含 item-box 物品框)",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "Command discriminators, required fields and union membership become compiler assertions; literal array length/value assertions never executed product behavior."
+    },
+    {
+      "oldFile": "packages/shared/src/events.test.ts",
+      "fullName": "SetDialogStyle commands SetDialogStyleTopCommand 字段",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "Command discriminators, required fields and union membership become compiler assertions; literal array length/value assertions never executed product behavior."
+    },
+    {
+      "oldFile": "packages/shared/src/events.test.ts",
+      "fullName": "SetDialogStyle commands 四个 setDialogStyle 都在 Command 联合",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "Command discriminators, required fields and union membership become compiler assertions; literal array length/value assertions never executed product behavior."
+    },
+    {
+      "oldFile": "packages/shared/src/events.test.ts",
+      "fullName": "LoadSceneCommand(M3.5) LoadSceneCommand 字段类型",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "Command discriminators, required fields and union membership become compiler assertions; literal array length/value assertions never executed product behavior."
+    },
+    {
+      "oldFile": "packages/shared/src/events.test.ts",
+      "fullName": "LoadSceneCommand(M3.5) LoadSceneCommand 在 Command 联合中",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "Command discriminators, required fields and union membership become compiler assertions; literal array length/value assertions never executed product behavior."
+    },
+    {
+      "oldFile": "packages/shared/src/input.test.ts",
+      "fullName": "input types AbstractKey 联合",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "InputSnapshot readonly sets, field types and InputSource signature become compiler assertions; local fake nextSnapshot/constructed Set checks were not production-source behavior."
+    },
+    {
+      "oldFile": "packages/shared/src/input.test.ts",
+      "fullName": "input types InputSnapshot 字段",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "InputSnapshot readonly sets, field types and InputSource signature become compiler assertions; local fake nextSnapshot/constructed Set checks were not production-source behavior."
+    },
+    {
+      "oldFile": "packages/shared/src/input.test.ts",
+      "fullName": "input types InputSource 接口",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "InputSnapshot readonly sets, field types and InputSource signature become compiler assertions; local fake nextSnapshot/constructed Set checks were not production-source behavior."
+    },
+    {
+      "oldFile": "packages/shared/src/input.test.ts",
+      "fullName": "input types InputSnapshot.held / pressed expose only ReadonlySet (no mutation)",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "InputSnapshot readonly sets, field types and InputSource signature become compiler assertions; local fake nextSnapshot/constructed Set checks were not production-source behavior."
+    },
+    {
+      "oldFile": "packages/shared/src/tables.test.ts",
+      "fullName": "tables types Item 有 id + bitmap + price + scriptOnUse + flags",
+      "newFile": "packages/shared/src/__tests__/public-contracts.ts",
+      "disposition": "runtime-case-to-compiler-contract",
+      "reason": "Retain id/bitmap/price/scriptOnUse shape and add the previously unasserted flags contract, compiler-only."
+    }
+  ],
+  "oldCompileModule": {
+    "path": "packages/shared/src/__tests__/resources-types.ts",
+    "revision": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+    "replacement": "packages/shared/src/__tests__/public-contracts.ts",
+    "reason": "Same compile lifecycle;expanded to all public contracts,existing resource assertions retained."
+  },
+  "attachments": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-rework-word.vitest.json.gz",
+      "gzipSha256": "be84fe75c15fe286d02c5bbe2fa4a1d952c6485966c85acea674feea68a69e72",
+      "originalSha256": "2d1a1a0b1dbc57bd1b1b73b02bfb989de0be059dc252fee8b1701218dd46283d",
+      "decompressedBytes": 2828,
+      "success": true,
+      "tests": 8,
+      "passed": 8,
+      "failedSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "packages/pal-extract/src/io/word.test.ts",
+          "fullNames": [
+            "parseWordDat 五类都不为空",
+            "parseWordDat 包含已知人物名\"李逍遥\"",
+            "parseWordDat 包含已知物品名(药 / 葫芦 / 丸 / 针 / 剑 任一)",
+            "parseWordDat 全表 565 条 + 子表计数 + MAINMENU id7=\"新的故事\"",
+            "parseWordDat L28:剥词条结尾标记「1」(风雪冰天/弦月斩/御剑伏魔 等 8 条)",
+            "parseWordDat content-pin:system 全 36 条内容(GBK byte-truth)",
+            "parseWordDat content-pin:battleUi 全 19 条内容(GBK byte-truth)",
+            "parseWordDat content-pin:代码引用的 flat[id] 菜单/UI 文案"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-rework-shared.vitest.json.gz",
+      "gzipSha256": "a5343a08ce81f3c08f1f80c38d4a5f5a41653aecfcf806e5db220df7b2aeb8a5",
+      "originalSha256": "49d0d8b6ad39894e4a8ea1cf1d686a6a7f21f67dfb6ad1f9fa12681e37972b17",
+      "decompressedBytes": 40047,
+      "success": true,
+      "tests": 114,
+      "passed": 114,
+      "failedSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "packages/shared/src/index.test.ts",
+          "fullNames": [
+            "engine timing constants (D13) exploration 跑 10 fps(100ms/frame)",
+            "engine timing constants (D13) battle 跑 25 fps(40ms/frame)"
+          ]
+        },
+        {
+          "file": "packages/shared/src/mkf.boundaries.test.ts",
+          "fullNames": [
+            "openMkf 头合同 N+1 偏移：count=(firstOffset/4)-1，offsets 完整读出头",
+            "openMkf 头合同 单 chunk 容器：首 chunk 即末 chunk，边界为头后首字节",
+            "openMkf 头合同 头 <4 字节：已定义拒绝",
+            "openMkf 头合同 首偏移非 4 倍数：已定义拒绝",
+            "openMkf 头合同 首偏移 0（count<0）：已定义拒绝",
+            "openMkf 头合同 子 array 输入：byteOffset 非零时头与 chunk 仍按自身偏移读取",
+            "openMkf 头合同 offset table 超出 buffer 时拒绝，不让 DataView 越界读取成为裸异常",
+            "openMkf 头合同 offset 超出 buffer 或倒序时拒绝",
+            "readChunk 边界 首/末 chunk 索引边界均可达，返回 subarray 视图",
+            "readChunk 边界 空 chunk（相邻偏移相等）：长度 0 视图，非错误",
+            "readChunk 边界 越界、非整数与 NaN 索引均拒绝且消息含 count"
+          ]
+        },
+        {
+          "file": "packages/shared/src/pal-map-names.test.ts",
+          "fullNames": [
+            "PAL authored map names keeps the complete phase1-authored mapNum truth as one immutable fixture",
+            "PAL authored map names keeps duplicate human labels as distinct stable mapNum identities"
+          ]
+        },
+        {
+          "file": "packages/shared/src/rle-encode.boundaries.test.ts",
+          "fullNames": [
+            "R02 encodeRleFrame 独立字节 oracle 透明 run 126/127/128 分段边界：126/127 单段不拆，128 拆 127+1",
+            "R02 encodeRleFrame 独立字节 oracle 实心 run 126/127/128 分段边界：127 封顶，128 拆 127+1",
+            "R02 encodeRleFrame 独立字节 oracle 尾透明必须写满跳段（总指令覆盖 w*h）",
+            "R02 encodeSpriteChunk 三帧奇偶完整字节 WORD offset 表 + 奇长帧 pad0 + frame0 偏移=表长，整 chunk 逐字节手列"
+          ]
+        },
+        {
+          "file": "packages/shared/src/rle-encode.glm-runtime-resource.test.ts",
+          "fullNames": [
+            "R01 encodeRleFrame 短游程交错手列 oracle 不透明起头 2×2 棋盘：lit/透明逐字节精确（旧 oracle 均透明起头）",
+            "R01 encodeRleFrame 短游程交错手列 oracle 连续单像素实心（透明夹 1px）：逐像素分段不合并",
+            "R01 encodeRleFrame 输入 view 的 byteOffset 保真 pixels/opaque 为大缓冲奇数偏移 subarray：编码字节与独立缓冲版本相等",
+            "R01 encodeSpriteChunk frameCount ≥ 256 300 个 1×1 帧：计数字段双字节、frame0 偏移=600、300 帧全往返且像素按序保真"
+          ]
+        },
+        {
+          "file": "packages/shared/src/rle-encode.test.ts",
+          "fullNames": [
+            "encodeRleFrame ↔ decodeRle roundtrip 混合游程(透明/不透明交错,含 palette 0 不透明像素)",
+            "encodeRleFrame ↔ decodeRle roundtrip 全透明帧(必须发满跳段,解码不越界)",
+            "encodeRleFrame ↔ decodeRle roundtrip 全不透明帧 + 超 0x7f 长游程分段",
+            "encodeRleFrame ↔ decodeRle roundtrip 尾部透明写满(总长恰为 w*h)",
+            "encodeRleFrame ↔ decodeRle roundtrip 伪随机帧 roundtrip(确定种子)",
+            "encodeSpriteChunk ↔ parseSpriteChunk roundtrip 多帧(变尺寸,含奇数长帧数据触发对齐 pad)→ 帧序与内容恒等",
+            "encodeSpriteChunk ↔ parseSpriteChunk roundtrip 单帧与空 chunk 边界",
+            "encodeSpriteChunk ↔ parseSpriteChunk roundtrip 超 128KB 抛错(u16 word 偏移上限)"
+          ]
+        },
+        {
+          "file": "packages/shared/src/rle.boundaries.test.ts",
+          "fullNames": [
+            "R01 parseSpriteChunkStrict 手列字节完整核 两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆（无 sentinel 容器构造）",
+            "R01 parseSpriteChunkStrict 手列字节完整核 末尾唯一 0 sentinel：不计帧、trailingSentinel=true、skippedLegacyTailSlots=0",
+            "R01 严格拒绝单轴与相邻正控 零长度指令拒绝；同容器把 0 换成合法 2 长度 literal 即过（相邻正控）",
+            "R01 严格拒绝单轴与相邻正控 零长度透明段 0x80 也拒绝；不能以无进度命令卡住严格 parser",
+            "R01 严格拒绝单轴与相邻正控 像素段越界 / 透明段越界 / 指令流截断 / 尺寸非法各单轴",
+            "R01 严格拒绝单轴与相邻正控 相邻 offset 截断前一帧帧头时拒绝，不把下一帧当作当前帧内容",
+            "R01 严格拒绝单轴与相邻正控 canonical 拒坏尾；同输入 legacy-migrated 跳 1 槽并精确报告"
+          ]
+        },
+        {
+          "file": "packages/shared/src/rle.glm-o.test.ts",
+          "fullNames": [
+            "O10 parseSpriteChunkStrict：容器结构轴 过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+            "O10 parseSpriteChunkStrict：容器结构轴 sentinel 槽与计数同域（slot0=count）：纯 sentinel 空容器按计数=1 走帧0 越界",
+            "O10 parseSpriteChunkStrict：容器结构轴 frame0 offset 与表长不一致 / offset 非递增 / offset 越界 逐轴拒绝",
+            "O10 parseSpriteChunkStrict：容器结构轴 帧尺寸非法（宽 0 / 高超上限）逐轴拒绝；合法双帧严格通过",
+            "O10 parseSpriteChunkStrict：容器结构轴 sentinel 容器：声明数含尾 0 时按 frameCount-1 解析",
+            "O10 parseSpriteChunkStrict：容器结构轴 严格解析往返：encode → parse 逐帧像素一致（供应容器同构）",
+            "O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy：尾槽坏 offset 被跳过并计入 skippedLegacyTailSlots",
+            "O10 parseIndexedRleChunk：legacy 坏尾三轴 坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）",
+            "O10 encodeSpriteChunk：上限与空容器 空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）"
+          ]
+        },
+        {
+          "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+          "fullNames": [
+            "R01 decodeRle skipFilePrefix 选项矩阵 0x00000002 前缀 + 选项：从 byte 4 解码（sdlpal palcommon.c:722-728 单帧整-chunk 头）",
+            "R01 decodeRle skipFilePrefix 选项矩阵 同缓冲不传选项：不跳前缀，头从 byte 0 读后拒绝零尺寸帧",
+            "R01 decodeRle skipFilePrefix 选项矩阵 传选项但首 4 字节非该前缀：不跳，正常解码",
+            "R01 decodeRle skipFilePrefix 选项矩阵 缓冲 <4 字节 + 选项：长度守卫显式拒绝，不挂起",
+            "R01 decodeRle 帧后尾随字节（截断边界自上侧） 完整帧后追加任意字节：解码结果与精确长度输入逐字段相等",
+            "R01 子数组 byteOffset 传播 decodeRle / parseSpriteChunk / strict / indexed 在 subarray 上与独立缓冲等价",
+            "R01 严格容器末帧未消费 payload（rle.ts:162 帧边界唯一真值） 末帧指令流后残留对齐字节：解析成功且帧语义与精确长度版本相等",
+            "R01 legacy 合法邻接拒绝分支 canonical 空洞 + 全零后缀：legacy 拒「只有普通 sentinel，不应进入 legacy 坏尾兼容」",
+            "R01 legacy 合法邻接拒绝分支 坏槽前无任何有效帧：canonical 拒「尺寸非法」，legacy 拒「尾槽前不含有效帧」"
+          ]
+        },
+        {
+          "file": "packages/shared/src/rle.test.ts",
+          "fullNames": [
+            "decodeRle 2×2 实心方块",
+            "decodeRle 透明像素填 0 + opaque 标 0",
+            "decodeRle 混合 —— 1 透明 + 2 实心 + 1 透明",
+            "decodeRle palette-0 实心像素也被标 opaque(不与透明混淆)",
+            "decodeRle 无像素进度命令 0x0 后仍可解合法 literal",
+            "decodeRle 无像素进度命令 0x128 后仍可解合法 literal",
+            "decodeRle 未填满像素且源流耗尽时显式失败",
+            "decodeRle literal payload 缺字节时显式失败",
+            "decodeRle 透明段超过声明像素数时显式失败",
+            "decodeRle literal 数量超过声明像素数时显式失败",
+            "decodeRle 通用帧可解超过 sprite 容器上限的合法宽度",
+            "parseSpriteChunk 切 1 帧 —— byte 0..1 = imagecount = 1,frame[0] word-offset = 1 (=2 字节)",
+            "parseSpriteChunk 跳过 word-offset=0 的空帧(键连续性铁律:返回数组下标 = 过滤后序列的 tile 索引,非原 slot 号)",
+            "parseSpriteChunk 多帧返回下标连续(0,1,2,...),即使中间有空帧",
+            "parseSpriteChunk broken-sprite 尾帧 guard:width/height > 400 跳过",
+            "parseSpriteChunk 宽容入口跳过截断坏帧并保留后续合法帧",
+            "parseSpriteChunkStrict 接受作者编码的无 sentinel 单帧容器",
+            "parseSpriteChunkStrict 接受 PAL 末尾唯一 0 sentinel，并且不把 sentinel 计为帧",
+            "parseSpriteChunkStrict 拒绝中间 0 offset 空洞",
+            "parseSpriteChunkStrict 拒绝零帧容器",
+            "parseWorldSpriteChunk 拒绝运行时传入的未知 profile，不能默认落入 legacy 宽容路径",
+            "parseWorldSpriteChunk canonical 报告正常 PAL sentinel，不把它算成坏尾",
+            "parseWorldSpriteChunk legacy-migrated 只跳过不可解的非零尾槽",
+            "parseWorldSpriteChunk legacy-migrated 支持坏倒数第二槽 + 最后零 sentinel",
+            "parseWorldSpriteChunk 坏槽之后仍有可解帧时拒绝，不能把中间空洞伪装成坏尾",
+            "parseWorldSpriteChunk 首个坏尾槽本身仍指向可解帧时拒绝，不能把重复 offset 当历史坏尾"
+          ]
+        },
+        {
+          "file": "packages/shared/src/rng.boundaries.test.ts",
+          "fullNames": [
+            "rngBlitDelta surface ownership 连续 delta 以同一 surface 累加，第二帧保留第一帧像素",
+            "rngBlitDelta skip 族（未触字节精确保持） 0x03 + n：dst += (n+1)*2，其后写入落点精确",
+            "rngBlitDelta skip 族（未触字节精确保持） 0x04 + 2byte LE w：dst += (w+1)*2（跨字节 w=0x01FF）",
+            "rngBlitDelta literal pair 族 0x07-0x0a 分别写 2/3/4/5 对（0x06=1 已有测试，此处补齐族）",
+            "rngBlitDelta literal pair 族 0x0b + n：写 (n+1) 对",
+            "rngBlitDelta literal pair 族 0x0c + 2byte LE w：写 (w+1) 对",
+            "rngBlitDelta 同对重复族 0x0e/0x0f/0x10 分别重复 3/4/5 次（0x0d=2 已有测试）",
+            "rngBlitDelta 同对重复族 0x11 + n：重复 (n+1) 次",
+            "rngBlitDelta 同对重复族 0x12 + 2byte LE：重复 (w+1) 次（跨字节 w=0x0100）",
+            "rngBlitDelta 终止与混合 0x13 终止：其后字节被忽略，无写入无错误",
+            "rngBlitDelta 终止与混合 连续帧基面保留：同 surface 上两次 delta，第一次写入保持",
+            "rngBlitDelta 非法 payload / surface 边界 变量长度 opcode 缺操作数或 literal 时拒绝",
+            "rngBlitDelta 非法 payload / surface 边界 固定长度 literal / repeat opcode 缺 payload 时拒绝",
+            "rngBlitDelta 非法 payload / surface 边界 skip 或写入超过 surface 时在写入前拒绝",
+            "decodeRngFrames（合成 sub-MKF 容器链路） 两帧链：每帧基于上一帧 delta，pixels 为拷贝（帧0 不被帧1 写入污染）",
+            "decodeRngFrames（合成 sub-MKF 容器链路） 空 sub-chunk 跳过，帧 index 保持 sub-chunk 下标",
+            "decodeRngFrames（合成 sub-MKF 容器链路） 非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧"
+          ]
+        },
+        {
+          "file": "packages/shared/src/rng.test.ts",
+          "fullNames": [
+            "rngBlitDelta (RLE delta opcodes) 0x06 写 1 个 2-byte literal pair",
+            "rngBlitDelta (RLE delta opcodes) 0x02 skip 2 bytes 后再写",
+            "rngBlitDelta (RLE delta opcodes) 0x0d 同 2-byte 重复 2 次",
+            "rngBlitDelta (RLE delta opcodes) 0x00 end frame:不再写",
+            "rngBlitDelta (RLE delta opcodes) 未知 opcode 抛错",
+            "decodeRngFrames 空 chunk → 空帧数组"
+          ]
+        },
+        {
+          "file": "packages/shared/src/yj2.boundaries.test.ts",
+          "fullNames": [
+            "decompressYj2 已定义头错误 源 <4 字节拒绝",
+            "decompressYj2 已定义头错误 非空输出没有任何 Huffman 位流时显式失败",
+            "decompressYj2 已定义头错误 完整回引 symbol 后缺少位置参数时显式失败",
+            "decompressYj2 非空字面向量 三字面流：输出 = 字面值按序（语义：symbol 0..0xFF 顺序输出）",
+            "decompressYj2 非空字面向量 uncompLen=0：零长输出（循环不进入）",
+            "decompressYj2 回引向量 字面 ABC + 回引(pos=2,len=4)：重叠顺序复制 → ABCABCA",
+            "decompressYj2 回引向量 提前结束（pos==0xFFF）：余量保持 Uint8Array 零初始化",
+            "decompressYj2 回引向量 回引长度超过目标输出剩余空间时显式失败",
+            "decompressYj2 回引向量 第一条指令回引尚未产生的输出时显式失败"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-rework-map-before.vitest.json.gz",
+      "gzipSha256": "7c1baddf394e68e04300628aafd5f4123e34ac261de430df786ec29908698342",
+      "originalSha256": "88d588837634e042f48123c664c7cb80d882e1fead82b81d12351757113d185d",
+      "decompressedBytes": 1346,
+      "success": true,
+      "tests": 3,
+      "passed": 3,
+      "failedSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "packages/game/src/tools/map-names.test.ts",
+          "fullNames": [
+            "map-names 已知地图返回考据地名",
+            "map-names 未知地图回退 地图N",
+            "map-names hasMapName 区分已知/未知"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-rework-map-after.vitest.json.gz",
+      "gzipSha256": "8ae42f5cb015c7ccee5ed4800fb06df49e7817514dcebc5b4d0d6978b051f5be",
+      "originalSha256": "4f48526e785cbce700969889bdf6a851659424f0527176e4355fd3d1de14e221",
+      "decompressedBytes": 1347,
+      "success": true,
+      "tests": 3,
+      "passed": 3,
+      "failedSuites": 0,
+      "fileFullNames": [
+        {
+          "file": "packages/game/src/tools/map-names.test.ts",
+          "fullNames": [
+            "map-names 已知地图返回考据地名",
+            "map-names 未知地图回退 地图N",
+            "map-names hasMapName 区分已知/未知"
+          ]
+        }
+      ]
+    }
+  ],
+  "wordRecovery": {
+    "command": [
+      "../../node_modules/.bin/vitest",
+      "run",
+      "src/io/word.test.ts",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/tmp/type-pal-foundation-word-recovery-native.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+    "recordedAt": "2026-10-19T12:27:39.186049+00:00",
+    "exitCode": 0,
+    "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract\n\n ✓ src/io/word.test.ts (8 tests) 3ms\n\n Test Files  1 passed (1)\n      Tests  8 passed (8)\n   Start at  21:27:39\n   Duration  138ms (transform 35ms, setup 0ms, import 61ms, tests 3ms, environment 0ms)\n\nJSON report written to /tmp/type-pal-foundation-word-recovery-native.json\n",
+    "stderr": "",
+    "input": {
+      "path": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/raw/WORD.DAT",
+      "readOnlyTarget": "/Users/zhangxu/illegal/type-pal/data/raw/WORD.DAT",
+      "sha256": "be56e77c7ecd61306133913a1987b1dddf656528ae870c2de1ee8ccda7ff3ebf"
+    },
+    "sourceSha256": {
+      "packages/pal-extract/src/io/word.ts": "5254a5b9f6b6515fa13f81422ac0209c34a5a60e40c20b9e649a4fdea73330c1",
+      "packages/pal-extract/src/io/word.test.ts": "19b4bb1d4cbf32ab63b12b0270865269a1bc7166d5e08ee2877deff0e9d0b48b",
+      "packages/pal-extract/src/utils/gbk.ts": "67d6c4d73113aef34f85e608d112c9c64b51d2f4a624919eef7f139f475fa3dd"
+    }
+  },
+  "sharedRuntime": {
+    "command": [
+      "../../node_modules/.bin/vitest",
+      "run",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/tmp/type-pal-foundation-shared-runtime.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared",
+    "recordedAt": "2026-10-19T12:37:12.517524+00:00",
+    "exitCode": 0,
+    "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared\n\n ✓ src/rle-encode.boundaries.test.ts (4 tests) 3ms\n ✓ src/rle.glm-runtime-resource.test.ts (9 tests) 8ms\n ✓ src/rle.boundaries.test.ts (7 tests) 10ms\n ✓ src/rle.glm-o.test.ts (9 tests) 7ms\n ✓ src/yj2.boundaries.test.ts (9 tests) 8ms\n ✓ src/rle.test.ts (26 tests) 14ms\n ✓ src/mkf.boundaries.test.ts (11 tests) 8ms\n ✓ src/rle-encode.glm-runtime-resource.test.ts (4 tests) 21ms\n ✓ src/rle-encode.test.ts (8 tests) 29ms\n ✓ src/pal-map-names.test.ts (2 tests) 3ms\n ✓ src/rng.test.ts (6 tests) 3ms\n ✓ src/index.test.ts (2 tests) 1ms\n ✓ src/rng.boundaries.test.ts (17 tests) 160ms\n\n Test Files  13 passed (13)\n      Tests  114 passed (114)\n   Start at  21:37:12\n   Duration  391ms (transform 585ms, setup 0ms, import 761ms, tests 277ms, environment 1ms)\n\nJSON report written to /tmp/type-pal-foundation-shared-runtime.json\n",
+    "stderr": ""
+  },
+  "mapRefactor": [
+    {
+      "command": [
+        "../../node_modules/.bin/vitest",
+        "run",
+        "src/tools/map-names.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-map-names-before.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "exitCode": 0,
+      "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game\n\n ✓ src/tools/map-names.test.ts (3 tests) 2ms\n\n Test Files  1 passed (1)\n      Tests  3 passed (3)\n   Start at  21:39:51\n   Duration  772ms (transform 22ms, setup 18ms, import 14ms, tests 2ms, environment 666ms)\n\nJSON report written to /tmp/type-pal-map-names-before.json\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "../../node_modules/.bin/vitest",
+        "run",
+        "src/tools/map-names.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-map-names-after.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game",
+      "exitCode": 0,
+      "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game\n\n ✓ src/tools/map-names.test.ts (3 tests) 2ms\n\n Test Files  1 passed (1)\n      Tests  3 passed (3)\n   Start at  21:39:52\n   Duration  421ms (transform 24ms, setup 17ms, import 16ms, tests 2ms, environment 320ms)\n\nJSON report written to /tmp/type-pal-map-names-after.json\n",
+      "stderr": ""
+    }
+  ],
+  "typeCounterAndRestore": {
+    "date": "2026-10-19",
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "command": [
+      "node",
+      "node_modules/typescript/bin/tsc",
+      "--noEmit",
+      "-p",
+      "packages/shared/tsconfig.json"
+    ],
+    "source": "packages/shared/src/__tests__/public-contracts.ts",
+    "sourceSha256": "9feeacc7e78e6e9a12c47e03779b489426a34c0028e280953fe3c7c243c7f6a4",
+    "mutation": {
+      "recipe": "replace first expectTypeOf<Item>().toMatchTypeOf with expectTypeOf<Omit<Item, 'flags'>>().toMatchTypeOf in a temporary sibling included by the existing shared tsconfig; no ignore/config changes",
+      "temporaryPath": "packages/shared/src/__tests__/__codex_item_flags_counter.ts",
+      "exitCode": 2,
+      "stdout": "packages/shared/src/__tests__/__codex_item_flags_counter.ts(73,51): error TS2344: Type '{ id: number; bitmap: number; price: number; scriptOnUse: number; flags: ItemFlags; }' does not satisfy the constraint '{ flags: \"Expected: ..., Actual: never\"; id: number; _name: \"Expected: never, Actual: string\" | \"Expected: never, Actual: undefined\"; bitmap: number; price: number; scriptOnUse: number; scriptOnEquip: \"Expected: never, Actual: number\"; scriptOnThrow: \"Expected: never, Actual: number\"; scriptDesc: \"Expected: never, A...'.\n  Type '{ id: number; bitmap: number; price: number; scriptOnUse: number; flags: ItemFlags; }' is missing the following properties from type '{ flags: \"Expected: ..., Actual: never\"; id: number; _name: \"Expected: never, Actual: string\" | \"Expected: never, Actual: undefined\"; bitmap: number; price: number; scriptOnUse: number; scriptOnEquip: \"Expected: never, Actual: number\"; scriptOnThrow: \"Expected: never, Actual: number\"; scriptDesc: \"Expected: never, A...': _name, scriptOnEquip, scriptOnThrow, scriptDesc\n",
+      "stderr": ""
+    },
+    "restored": {
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "temporaryFileRemoved": true,
+    "statusBeforeAfterEqual": true
+  },
+  "bdfCommentCounter": {
+    "command": ["node", "--input-type=module", "-"],
+    "stdinSource": "import ts from 'typescript';\nimport {readFileSync} from 'node:fs';\nconst path='packages/pal-extract/src/font/bdf-to-json.ts';\nconst js=ts.transpileModule(readFileSync(path,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;\nconst {parseBdf}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));\nconst observations=['F','1G','GG'].map(row=>({row,bitmap:[...parseBdf(['STARTCHAR A','ENCODING 65','BBX 16 1 0 0','BITMAP',row,'ENDCHAR'].join('\\n'))[0].bitmap]}));\nif(JSON.stringify(observations.map(x=>x.bitmap))!==JSON.stringify([[15,0],[1,0],[0,0]]))process.exitCode=1;\nprocess.stdout.write(JSON.stringify({observations,scope:'Actual parseBdf; malformed/short-row comment counter only; no behavior change or new accepted input contract.'})+'\\n');\n",
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "recordedAt": "2026-10-19T12:29:09.236465+00:00",
+    "exitCode": 0,
+    "stdout": "{\"observations\":[{\"row\":\"F\",\"bitmap\":[15,0]},{\"row\":\"1G\",\"bitmap\":[1,0]},{\"row\":\"GG\",\"bitmap\":[0,0]}],\"scope\":\"Actual parseBdf; malformed/short-row comment counter only; no behavior change or new accepted input contract.\"}\n",
+    "stderr": ""
+  },
+  "codexCommentBodyProof": {
+    "schemaVersion": 1,
+    "base": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+    "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+    "files": [
+      {
+        "file": "packages/shared/src/index.ts",
+        "titleCallCount": {
+          "base": 0,
+          "current": 0
+        },
+        "printedSha256": {
+          "base": "cdc2e5e63d5d810d2329ba7b1622dafce3ebf0eab7794a3d8203cadd780e1a07",
+          "current": "cdc2e5e63d5d810d2329ba7b1622dafce3ebf0eab7794a3d8203cadd780e1a07"
+        },
+        "printedBytes": {
+          "base": 458,
+          "current": 458
+        },
+        "printedEqual": true
+      },
+      {
+        "file": "packages/game/src/core/game-state.ts",
+        "titleCallCount": {
+          "base": 0,
+          "current": 0
+        },
+        "printedSha256": {
+          "base": "8f07bad93390fd7beb780ae9428b32b3a555dbbbe6be7cc1291a7fdc7d2fcc82",
+          "current": "8f07bad93390fd7beb780ae9428b32b3a555dbbbe6be7cc1291a7fdc7d2fcc82"
+        },
+        "printedBytes": {
+          "base": 29562,
+          "current": 29562
+        },
+        "printedEqual": true
+      },
+      {
+        "file": "packages/game/src/shell/bootstrap.ts",
+        "titleCallCount": {
+          "base": 0,
+          "current": 0
+        },
+        "printedSha256": {
+          "base": "ca49273d37c2fd217e36fe37943ec85fb9e48683d14b569ed094e86c8edb2da8",
+          "current": "ca49273d37c2fd217e36fe37943ec85fb9e48683d14b569ed094e86c8edb2da8"
+        },
+        "printedBytes": {
+          "base": 53291,
+          "current": 53291
+        },
+        "printedEqual": true
+      },
+      {
+        "file": "packages/pal-extract/src/font/bdf-to-json.ts",
+        "titleCallCount": {
+          "base": 0,
+          "current": 0
+        },
+        "printedSha256": {
+          "base": "90a6657ff4f1c468fae4820c92a494066ef17bfc3f932653aa2a7cda9542799e",
+          "current": "90a6657ff4f1c468fae4820c92a494066ef17bfc3f932653aa2a7cda9542799e"
+        },
+        "printedBytes": {
+          "base": 2452,
+          "current": 2452
+        },
+        "printedEqual": true
+      },
+      {
+        "file": "packages/pal-extract/src/resources/parsers/player-roles.ts",
+        "titleCallCount": {
+          "base": 0,
+          "current": 0
+        },
+        "printedSha256": {
+          "base": "ed230d4b17093016ea6791dcd7ec57ef4b4051dbb27cbd92e6505007edf9d32b",
+          "current": "ed230d4b17093016ea6791dcd7ec57ef4b4051dbb27cbd92e6505007edf9d32b"
+        },
+        "printedBytes": {
+          "base": 6518,
+          "current": 6518
+        },
+        "printedEqual": true
+      }
+    ],
+    "allEqual": true
+  },
+  "affectedTypechecks": [
+    {
+      "command": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "-p",
+        "packages/shared/tsconfig.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:31:05.445218+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "-p",
+        "packages/game/tsconfig.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:31:08.880134+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "-p",
+        "packages/reforge/tsconfig.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:31:12.061661+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "ledger": {
+    "tracked": 3316,
+    "closed": 238,
+    "review": 113,
+    "pending": 2965,
+    "newClosed": 0,
+    "withdrawnOldProductClosures": [
+      "packages/shared/src/resources.ts",
+      "packages/shared/src/events.ts",
+      "packages/shared/src/tables.ts"
+    ],
+    "retiredTestFiles": [
+      "packages/shared/src/__tests__/resources-types.ts",
+      "packages/shared/src/events.test.ts",
+      "packages/shared/src/input.test.ts",
+      "packages/shared/src/tables.test.ts"
+    ],
+    "currentCompilerContract": "packages/shared/src/__tests__/public-contracts.ts",
+    "regressionSubset": {
+      "missing": 130,
+      "review": 42,
+      "已验证": 70,
+      "rework": 1
+    }
+  },
+  "nextScope": "Codex continues missing per-file dimensions in existing extract/game/content/migrate/reforge/editor module receipts;83card/test mapping unfinished. No GLM handoff required.",
+  "invalidatedBy": "Check source/caller/contract delta against bound hashes first;comment/process-only drift need not rerun unchanged business tests. Do not overwrite old native or proof to refresh status.",
+  "checks": [
+    {
+      "command": ["node", "scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:52:57.151478+00:00",
+      "exitCode": 0,
+      "stdout": "docs: 1653 Markdown / 9698 local links / 467 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n",
+      "stderr": ""
+    },
+    {
+      "command": ["node", "scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:47:26.847225+00:00",
+      "exitCode": 0,
+      "stdout": "document model: PASS (8 routes; 1264 body contracts; 0 issues; structure only)\n",
+      "stderr": ""
+    },
+    {
+      "command": ["node", "scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:47:24.324187+00:00",
+      "exitCode": 1,
+      "stdout": "testing docs: FAIL (1 issues)\n",
+      "stderr": "- e2e-route: reviewBy 2026-10-18 is before 2026-10-19\n"
+    },
+    {
+      "command": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:47:24.443901+00:00",
+      "exitCode": 0,
+      "stdout": "phase/lore governance: PASS (184 documents)\n",
+      "stderr": ""
+    },
+    {
+      "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:52:56.700870+00:00",
+      "exitCode": 0,
+      "stdout": "content review: PASS (2346 documents; {\"content-reviewed\":2346})\n",
+      "stderr": ""
+    },
+    {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:54:16.205912+00:00",
+      "exitCode": 0,
+      "stdout": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 5656 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "-p",
+        "packages/game/tsconfig.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:47:29.553354+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": ["git", "diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:52:56.048317+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": ["python3", "/tmp/type-pal-foundation-rework-integrity.py"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exitCode": 0,
+      "producerSource": "from pathlib import Path\nimport subprocess,json,hashlib\nbase=Path('/tmp/type-pal-foundation-rework-docbase').read_text().strip();blob=lambda p:subprocess.check_output(['git','show',base+':'+p]);p='docs/ops/audits/code-quality-file-ledger.md';h='| 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |'\ndef split(b):\n head,rest=b.decode().split(h,1);body,tail=rest.split('\\n\\n',1);return head,{x.split('|')[1].strip():x for x in body.splitlines() if x.startswith('| `')},tail\n_,before,tail=split(blob(p));_,after,now=split(Path(p).read_bytes());assert tail==now\nremoved={x.strip('`') for x in before.keys()-after.keys()};assert removed=={'packages/shared/src/__tests__/resources-types.ts','packages/shared/src/events.test.ts','packages/shared/src/input.test.ts','packages/shared/src/tables.test.ts'}\nassert {x.strip('`') for x in after.keys()-before.keys()}=={'packages/shared/src/__tests__/public-contracts.ts'}\nchanged={x.strip('`') for x in before.keys()&after.keys() if before[x]!=after[x]};assert changed=={'packages/shared/src/resources.ts','packages/shared/src/events.ts','packages/shared/src/tables.ts'}\np='docs/ops/board.md';a=blob(p).decode().splitlines();b=Path(p).read_text().splitlines();assert len(a)==len(b);d=[x for x,y in zip(a,b) if x!=y];assert len(d)==1 and d[0].startswith('| QUALITY-PRE94-RETROSPECTIVE-1 |')\nchanges={'20261004-semantic-current-batch.json':['docs/ops/board.md'],'20261016-historical-cards-d.json':['docs/ops/audits/code-quality-file-ledger.md'],'20261017-r93-phase-governance-artifacts.json':['docs/phase-governance/reviews/20261004-semantic-current-batch.json','docs/phase-governance/reviews/20261016-historical-cards-d.json'],'20261017-r94-final-machine-artifacts.json':['docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json']}\nfor name,paths in changes.items():\n p='docs/phase-governance/reviews/'+name;a=json.loads(blob(p));b=json.loads(Path(p).read_text());assert {k:v for k,v in a.items() if k!='entries'}=={k:v for k,v in b.items() if k!='entries'}\n for x,y in zip(a['entries'],b['entries']):\n  if x['path'] not in paths:assert x==y\n  else:\n   assert y['revision']['history'][1:]==x['revision']['history'];assert y['afterSha256']==hashlib.sha256(Path(y['path']).read_bytes()).hexdigest()\nprint(json.dumps({'success':True,'oldLedgerTailPreserved':True,'onlyNamedSevenOldRowsChanged':True,'oneBoardRowChanged':True,'unrelatedMetadataAndPreviousHistoryPreserved':True}))\n",
+      "stdout": "{\"success\": true, \"oldLedgerTailPreserved\": true, \"onlyNamedSevenOldRowsChanged\": true, \"oneBoardRowChanged\": true, \"unrelatedMetadataAndPreviousHistoryPreserved\": true}\n",
+      "stderr": "",
+      "portableReplaySource": "from pathlib import Path\nimport subprocess,json,hashlib\nbase='c9a979f4c3957f2d123b3e75f2cde7e368a45098';blob=lambda p:subprocess.check_output(['git','show',base+':'+p]);p='docs/ops/audits/code-quality-file-ledger.md';h='| 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |'\ndef split(b):\n head,rest=b.decode().split(h,1);body,tail=rest.split('\\n\\n',1);return head,{x.split('|')[1].strip():x for x in body.splitlines() if x.startswith('| `')},tail\n_,before,tail=split(blob(p));_,after,now=split(Path(p).read_bytes());assert tail==now\nremoved={x.strip('`') for x in before.keys()-after.keys()};assert removed=={'packages/shared/src/__tests__/resources-types.ts','packages/shared/src/events.test.ts','packages/shared/src/input.test.ts','packages/shared/src/tables.test.ts'}\nassert {x.strip('`') for x in after.keys()-before.keys()}=={'packages/shared/src/__tests__/public-contracts.ts'}\nchanged={x.strip('`') for x in before.keys()&after.keys() if before[x]!=after[x]};assert changed=={'packages/shared/src/resources.ts','packages/shared/src/events.ts','packages/shared/src/tables.ts'}\np='docs/ops/board.md';a=blob(p).decode().splitlines();b=Path(p).read_text().splitlines();assert len(a)==len(b);d=[x for x,y in zip(a,b) if x!=y];assert len(d)==1 and d[0].startswith('| QUALITY-PRE94-RETROSPECTIVE-1 |')\nchanges={'20261004-semantic-current-batch.json':['docs/ops/board.md'],'20261016-historical-cards-d.json':['docs/ops/audits/code-quality-file-ledger.md'],'20261017-r93-phase-governance-artifacts.json':['docs/phase-governance/reviews/20261004-semantic-current-batch.json','docs/phase-governance/reviews/20261016-historical-cards-d.json'],'20261017-r94-final-machine-artifacts.json':['docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json']}\nfor name,paths in changes.items():\n p='docs/phase-governance/reviews/'+name;a=json.loads(blob(p));b=json.loads(Path(p).read_text());assert {k:v for k,v in a.items() if k!='entries'}=={k:v for k,v in b.items() if k!='entries'}\n for x,y in zip(a['entries'],b['entries']):\n  if x['path'] not in paths:assert x==y\n  else:\n   assert y['revision']['history'][1:]==x['revision']['history'];assert y['afterSha256']==hashlib.sha256(Path(y['path']).read_bytes()).hexdigest()\nprint(json.dumps({'success':True,'oldLedgerTailPreserved':True,'onlyNamedSevenOldRowsChanged':True,'oneBoardRowChanged':True,'unrelatedMetadataAndPreviousHistoryPreserved':True}))\n",
+      "rerun": [
+        "python3",
+        "-c",
+        "from pathlib import Path\nimport subprocess,json,hashlib\nbase='c9a979f4c3957f2d123b3e75f2cde7e368a45098';blob=lambda p:subprocess.check_output(['git','show',base+':'+p]);p='docs/ops/audits/code-quality-file-ledger.md';h='| 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |'\ndef split(b):\n head,rest=b.decode().split(h,1);body,tail=rest.split('\\n\\n',1);return head,{x.split('|')[1].strip():x for x in body.splitlines() if x.startswith('| `')},tail\n_,before,tail=split(blob(p));_,after,now=split(Path(p).read_bytes());assert tail==now\nremoved={x.strip('`') for x in before.keys()-after.keys()};assert removed=={'packages/shared/src/__tests__/resources-types.ts','packages/shared/src/events.test.ts','packages/shared/src/input.test.ts','packages/shared/src/tables.test.ts'}\nassert {x.strip('`') for x in after.keys()-before.keys()}=={'packages/shared/src/__tests__/public-contracts.ts'}\nchanged={x.strip('`') for x in before.keys()&after.keys() if before[x]!=after[x]};assert changed=={'packages/shared/src/resources.ts','packages/shared/src/events.ts','packages/shared/src/tables.ts'}\np='docs/ops/board.md';a=blob(p).decode().splitlines();b=Path(p).read_text().splitlines();assert len(a)==len(b);d=[x for x,y in zip(a,b) if x!=y];assert len(d)==1 and d[0].startswith('| QUALITY-PRE94-RETROSPECTIVE-1 |')\nchanges={'20261004-semantic-current-batch.json':['docs/ops/board.md'],'20261016-historical-cards-d.json':['docs/ops/audits/code-quality-file-ledger.md'],'20261017-r93-phase-governance-artifacts.json':['docs/phase-governance/reviews/20261004-semantic-current-batch.json','docs/phase-governance/reviews/20261016-historical-cards-d.json'],'20261017-r94-final-machine-artifacts.json':['docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json']}\nfor name,paths in changes.items():\n p='docs/phase-governance/reviews/'+name;a=json.loads(blob(p));b=json.loads(Path(p).read_text());assert {k:v for k,v in a.items() if k!='entries'}=={k:v for k,v in b.items() if k!='entries'}\n for x,y in zip(a['entries'],b['entries']):\n  if x['path'] not in paths:assert x==y\n  else:\n   assert y['revision']['history'][1:]==x['revision']['history'];assert y['afterSha256']==hashlib.sha256(Path(y['path']).read_bytes()).hexdigest()\nprint(json.dumps({'success':True,'oldLedgerTailPreserved':True,'onlyNamedSevenOldRowsChanged':True,'oneBoardRowChanged':True,'unrelatedMetadataAndPreviousHistoryPreserved':True}))\n"
+      ]
+    },
+    {
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exitCode": 0,
+      "stdout": "code-quality ledger: PASS — 3316 files; 238 closed / 113 review / 2965 pending; semantic review still required\n",
+      "stderr": ""
+    }
+  ],
+  "historicalCardTrace": {
+    "source": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+    "sha256": "46c783d5ba82dffac4eed2b5ad57e3ae25e30e554724793391cae5bf37a1a6c1",
+    "notSemanticClosure": "Exact text mentions only;not a complete scope extractor,not proof cards were reviewed. Existing55partial/28pending/0accept unchanged.",
+    "cards": [
+      {
+        "id": "1",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-1-governance.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "2",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "2b",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": ["packages/shared/src/events.ts"],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3b",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3c",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3d",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3f",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3g",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3h",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3i",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3j",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3k",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3l",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3m",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3n",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3o",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3p",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3q",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3r",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3s",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3t",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3u",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3v",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3w",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3x",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3y",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3y-game-analytics-consent.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "3z",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "6a",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "40",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "41",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "42",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "43",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "44",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-44-game-font.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "45",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-45-game-follower-render.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "46",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-46-game-draw-confirm.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "47",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-47-game-draw-box.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "48",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-48-game-draw-equip.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "49",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-49-game-draw-inventory.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "50",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-50-game-draw-magic.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "51",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "52",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "53",
+        "path": "docs/ops/tasks/CODE-QUALITY-53-player-status-runtime-zero.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "54",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": ["packages/shared/src/resources.ts"],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "55",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "56",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "57",
+        "path": "docs/ops/tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "58",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "59",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "60",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "61",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "62",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-62-game-speedrun-timer-boundary.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "63",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-63-game-speedrun-snapshot-boundary.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "64",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-64-game-speedrun-detectors-boundary.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "65",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-65-game-speedrun-index-orchestration.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "66",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-66-game-speedrun-overlay-boundary.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "67",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-67-game-speedrun-checkpoint-boundary-tests.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "68",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-68-game-speedrun-countdown-tests.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "69",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-69-game-speedrun-time-format-tests.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "70",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "71",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "72",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-72-game-boot-loading-lifecycle.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "73",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-73-game-input-lifecycle.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "74",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-74-game-audio-manager-contract.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "75",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-75-game-audio-midi-race.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "76",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-76-game-main-loop-contract.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "77",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "78",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "79",
+        "path": "docs/ops/tasks/CODE-QUALITY-79-battle-poison-level-boundary.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "80",
+        "path": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "81",
+        "path": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "82",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-82-data-mkf-diagnostic.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "83",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-83-game-menu-stack.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "84",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "85",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "86",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-86-game-equip-menu-contract.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "87",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-87-game-ingame-menu-contract.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "88",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": ["packages/shared/src/tables.ts"],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "89",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "90",
+        "path": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "91",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "92",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-92-protected-fast-command-correction.md",
+        "currentReview": "partial",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      },
+      {
+        "id": "93",
+        "path": "docs/ops/archive/tasks/done/CODE-QUALITY-93-game-sell-menu-contract.md",
+        "currentReview": "pending",
+        "currentAcceptance": false,
+        "namedCurrentSlicePaths": [],
+        "scopeMappingStatus": "exact mentions only;remaining semantic scope/test closure pending"
+      }
+    ]
+  },
+  "metadataBindings": [
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "path": "docs/ops/board.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "path": "docs/ops/audits/code-quality-file-ledger.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+    }
+  ],
+  "nativeRelocations": [
+    {
+      "originalPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-large/directed.json",
+      "sourceRevision": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "4624f6beed6d26919d7e612b78dd3057f24f2a1493c3e30f31ce2cf7f93173f5",
+      "originalBytes": 1125881,
+      "currentPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-large/directed.json.gz",
+      "gzipSha256": "e79a2dcf1b9d030f47e1dde397ff1f2b0be70720a5e20f82f16934a4f5a6920d",
+      "decompressedSha256": "4624f6beed6d26919d7e612b78dd3057f24f2a1493c3e30f31ce2cf7f93173f5",
+      "byteIdentical": true,
+      "deduplicated": false
+    },
+    {
+      "originalPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-medium/directed.json",
+      "sourceRevision": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "fd5d44e05dfd2dee0b47d23eac1b3d63083cf74411f5fdec69a42d6c19333bf6",
+      "originalBytes": 1125987,
+      "currentPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-medium/directed.json.gz",
+      "gzipSha256": "2f7ff81384fb0d338776d5a9095650302268256898b0614b94c8e0d4d3441d6f",
+      "decompressedSha256": "fd5d44e05dfd2dee0b47d23eac1b3d63083cf74411f5fdec69a42d6c19333bf6",
+      "byteIdentical": true,
+      "deduplicated": false
+    },
+    {
+      "originalPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-small/directed.json",
+      "sourceRevision": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "cd55b152b242e0b5cd9925ff79dfaf4a2356aba03f1c6267156ac7dadb3ac3eb",
+      "originalBytes": 1145432,
+      "currentPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-small/directed.json.gz",
+      "gzipSha256": "3f0122e725338e6cdf0406a7918b3bfacf0476b5b1932f26e2602053e6420969",
+      "decompressedSha256": "cd55b152b242e0b5cd9925ff79dfaf4a2356aba03f1c6267156ac7dadb3ac3eb",
+      "byteIdentical": true,
+      "deduplicated": false
+    },
+    {
+      "originalPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-large/directed.json",
+      "sourceRevision": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "66f7c45fc751353911ecf67b52bf24415438db06ac987872fae1947ba19d190f",
+      "originalBytes": 1232411,
+      "currentPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-large/directed.json.gz",
+      "gzipSha256": "ab56e1f4cbbae62362f4697f5610f3252cda948f3023a39caa25507d4f9d5ed1",
+      "decompressedSha256": "66f7c45fc751353911ecf67b52bf24415438db06ac987872fae1947ba19d190f",
+      "byteIdentical": true,
+      "deduplicated": false
+    },
+    {
+      "originalPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-small/directed.json",
+      "sourceRevision": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "514bd23b0c45b838fc6d26040a5af1aa1a6855fc80164f12d28182394d398937",
+      "originalBytes": 1232775,
+      "currentPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-small/directed.json.gz",
+      "gzipSha256": "bca4b0df70528777bcdd558a811b8ae09d1f1e9d3ec78625acc32324ccebf962",
+      "decompressedSha256": "514bd23b0c45b838fc6d26040a5af1aa1a6855fc80164f12d28182394d398937",
+      "byteIdentical": true,
+      "deduplicated": false
+    },
+    {
+      "originalPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-medium/directed.json",
+      "sourceRevision": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+      "originalSha256": "514bd23b0c45b838fc6d26040a5af1aa1a6855fc80164f12d28182394d398937",
+      "originalBytes": 1232775,
+      "currentPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-small/directed.json.gz",
+      "gzipSha256": "bca4b0df70528777bcdd558a811b8ae09d1f1e9d3ec78625acc32324ccebf962",
+      "decompressedSha256": "514bd23b0c45b838fc6d26040a5af1aa1a6855fc80164f12d28182394d398937",
+      "byteIdentical": true,
+      "deduplicated": true
+    }
+  ],
+  "evidenceRelocationReason": "Lossless compression preserves original native bytes while keeping actual source/static checks within existing1MiB limit. No config/rule changes. Original review points to frozen5af paths;current readers use nativeRelocations.",
+  "checksBeforeCorrections": {
+    "firstFinalLint": {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:47:27.683588+00:00",
+      "exitCode": 1,
+      "stdout": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/quality/lint-zero.mjs\n\n ELIFECYCLE  Command failed with exit code 1.\n",
+      "stderr": "lint: FAIL — Biome exit 1; errors: 1; warnings: 6; diagnostics: 7\ndocs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-large/directed.json:0 warning check: \ndocs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-medium/directed.json:0 warning check: \ndocs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-small/directed.json:0 warning check: \ndocs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-large/directed.json:0 warning check: \ndocs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-medium/directed.json:0 warning check: \ndocs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-small/directed.json:0 warning check: \npackages/game/src/tools/map-names.ts:0 error format: Formatter would have printed the following content:\n"
+    },
+    "checkerInfo": {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:52:58.682435+00:00",
+      "exitCode": 1,
+      "stdout": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/quality/lint-zero.mjs\n\n ELIFECYCLE  Command failed with exit code 1.\n",
+      "stderr": "lint: FAIL — infos: 1; diagnostics: 1\ndocs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-stage2.mjs:109 info lint/style/useTemplate: Template literals are preferred over string concatenation.\n"
+    }
+  },
+  "quickVerify": {
+    "command": [
+      "node",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-stage2.mjs"
+    ],
+    "scope": "Read-only source/frozen-receipt/gzip/native-identity/compile-proof binding. No tests, network or semantic certification. exit0 identities-match/1stale-or-mismatch/2cannot-verify.",
+    "producerValidation": {
+      "current": {
+        "exitCode": 0,
+        "stdout": "{\"outcome\":\"identities-match\",\"issues\":[],\"unavailable\":[],\"semanticAcceptance\":\"Not certified by this checker; remaining R1 review and unified gates stay open.\",\"runtimeCasesMovedToCompiler\":14}\n",
+        "stderr": ""
+      },
+      "staleSourceControl": {
+        "change": "Only first source hash set to64zeroes in temporary external record;actual repository/source/attachments unchanged.",
+        "exitCode": 1,
+        "stdout": "{\"outcome\":\"stale-or-mismatch\",\"issues\":[\"current source packages/shared/src/resources.ts\"],\"unavailable\":[],\"semanticAcceptance\":\"Not certified by this checker; remaining R1 review and unified gates stay open.\",\"runtimeCasesMovedToCompiler\":14}\n",
+        "stderr": ""
+      },
+      "temporaryInputRemoved": true,
+      "statusBeforeAfterEqual": true,
+      "limits": "Producer self-validation by Codex;not a claim of independent third-party review or semantic certification."
+    },
+    "producerPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-stage2.mjs",
+    "producerSha256": "6300010e36a15d75351bdbfb21e50ffab3257486e51ed0b9f35de5f83040bd2f",
+    "producerChangeAfterControl": "Newline string concatenation replaced with equivalent template literal to satisfy useTemplate;no verification predicate changed."
+  },
+  "currentGateConclusion": {
+    "sourceLint": "0errors/0warnings/0infos;5656files",
+    "docsConsumers": "links/model/phase/content pass;testing docs blocked by actual unrelated expired route review date",
+    "businessExecutions": "shared114/114;word recovery8/8;map presence3/3 before and3/3 after;all captured console stderr empty",
+    "typecheck": "shared current compiler restoration0;game final0;reforge necessary existing0retained",
+    "wholeRepositoryAndCoverage": "not run;deferred to complete large stable closeout,not claimed passed",
+    "mainMerge": "not allowed;known unified blockers remain"
+  },
+  "commentCorrectionsToAuthorSnapshot": "Codex five-file body proof retains original5af comparison. Additional resources/events/tables edits are comments only;map-names is separately recorded3/3 behavior-preserving delegation."
+}

@@ -1,0 +1,16 @@
+{
+  "countBefore": 6,
+  "countAfter": 6,
+  "identitiesUnchanged": true,
+  "names": [
+    "K01 BattleSpriteLibrary 真实源帧工作流 真实 PNG 图集导入：catalog/bytes/定义精确入库且 undo/redo 对称",
+    "K01 BattleSpriteLibrary 真实源帧工作流 新增用途过真实解码门入库；替换单帧带双用途 proof，取消侧零提交",
+    "K01 BattleSpriteLibrary 真实源帧工作流 追加原始帧：真实切格量化入库，共享双用途与 undo 全链一致",
+    "K01 BattleSpriteLibrary 真实源帧工作流 删除原始帧走敌人分段 ABI 修复事务；确认取消零提交",
+    "K01 BattleSpriteLibrary 真实源帧工作流 替换共享帧源：缩帧 fail-closed 零提交，增帧确认后原子替换可撤销",
+    "K01 BattleSpriteLibrary 真实源帧工作流 动作阶段槽拖放：非法载荷零提交，合法帧落槽后真实提交并可撤销"
+  ],
+  "supportFixtureChange": "Only header test-only reuse description; no implementation changes",
+  "productionChanges": [],
+  "retirements": []
+}

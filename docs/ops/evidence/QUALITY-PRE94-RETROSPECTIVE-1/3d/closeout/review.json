@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "owner": "Codex",
+  "card": "3d",
+  "base": "0f6423ef1ccefb28aaf4dc046f8d22fa849f3625",
+  "state": "original card contract accepted;explicit broader limits retained",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/resources/sprite.ts",
+      "sha256": "5ed13fc9c404449f1543fe85474d97a418397b5fb98a5e71af928855e614e96e",
+      "read": "full current + effective original PNG/source/caller evidence",
+      "dimensions": {
+        "A": "完整当前实现与先前read-boundaries/height反控复用；正整数与两平面长度在PNG分配前检查；每像素R/G/B=index，A由mask非零或默认255；同步错误向caller传播，输入只读、输出自有；不认证任意巨量分配。",
+        "B": "头部/alpha/无mask FBP与压缩尺寸说明准确，不说SDL编码PNG；当前未再改变实现注释。",
+        "C": "PNG变换、frames包装和可选ID查找均无文件IO/隐式全局/运行态写入；warn只在缺id策略分支。新数组/字节每次调用拥有，无异步句柄/取消。",
+        "D": "CLI UI/FBP、BALL/RGM/FIRE与framesToOut都复用同encoder；RLE由shared负责。缺id的skip策略不与CLI fatal混成万能loader。",
+        "E": "六独立拒绝与真实pngjs解码RGBA期望；两个旧height单红复用。wrapper测试改为native帧数合法的索引向量，像素/索引/顺序断言保留。",
+        "F": "guard→分配→单像素循环，命名和参数职责直接；framesToOut短map只做索引/编码，不需再抽工厂。",
+        "G": "encode/frames/re-export有真实caller；extractCharacterSprites只有测试caller，登记可改善的公共出口清理候选，当前不擅删。故整文件仍review；不把原卡仅encoder合同扩大为全文件关闭。",
+        "H": "encoder纯确定性直接输入/输出，PNG库为真实codec；无需时间/随机/业务mock。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+      "sha256": "a1fb4b2867d8e5c9474b7a9c3c90552091afacc13dd600fa83f9ef26976c2846",
+      "read": "full current + effective original PNG/source/caller evidence",
+      "dimensions": {
+        "A": "全文六独立非法轴width正/整、height正/整、pixels短、opaque短；合法控制由邻文件RGBA向量，输入均为明确字节/尺寸边界，不冒充剧情对象。",
+        "B": "标题与具体错误/维度一致，不虚称全数值域。",
+        "C": "每例局部参数、无共享状态/IO/spy/计时器，失败归当前入口。",
+        "D": "不同guard保留独立执行，不按数值倍增弱样本；邻PNG解码例验证合法结果不属重复。",
+        "E": "原2→6及height两旧绿新单红原件按冻结版本复用；当前文件字节未改。",
+        "F": "小字面值与精确错误包含维度/长度，读取即可定位目标。",
+        "G": "无skip/多余mock/死helper，六条各自唯一业务拒绝轴。",
+        "H": "直接同步真实encoder；不借测试暴露产品私有状态。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+      "sha256": "01041e1c52c81ba451f889a80c5a1de9d8ca16059afe55f7a1f2f59ca543fd9d",
+      "read": "full current + effective original PNG/source/caller evidence",
+      "dimensions": {
+        "A": "全文四例RGBA精确平面、全opaque、三帧index/尺寸、两id顺序；修三组索引向量为SDLGetNumFrames计数也为预期，不再只随TS宽容入口自洽。",
+        "B": "修frameCount/实际偏移/末sentinel注释；头部对邻主测的旧描述以当前主测为准，不授CLI执行信用。",
+        "C": "全局仅不可变导入，测试局部bytes/map/output；不访问生成物、IO、宿主或可变缓存。",
+        "D": "pngjs真实解码与明确预期像素，不用encode反算expected；两种mask和wrapper次序是不同合同，不为输入短向量建万能fixture。",
+        "E": "所有原RGBA/索引/尺寸/顺序断言保留；3帧表4项、单帧表2项，各带零尾槽，C帧数分别3/1。final13全绿。",
+        "F": "手列offset与像素清楚，不隐藏到生产构造器里；注释只解释容器槽计数。",
+        "G": "四例分别验证mask、缺省、frames包装与ID映射；上层RLE集成是PNG运输边界，不代替RLE算法整体验收。",
+        "H": "无mock/spy/时间/真实网络；直接固定字节，可定位像素分叉。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.test.ts",
+      "sha256": "214717da50e69860e28775f14ec84a701579e515a4914b0154c1de45a7df623c",
+      "read": "full current + effective original PNG/source/caller evidence",
+      "dimensions": {
+        "A": "全文三例：合法零帧索引、缺id返回及精确warn、既有生成物引用连通性；不会执行提取。缺输入由旧warn-return假绿改为业务断言失败。",
+        "B": "删除提取loop/去重/不重复fetch的过度宣称；当前标题准确为既有产物覆盖，剩余M3.5 describe是历史组标识。",
+        "C": "warn spy归当前例，try/finally必恢复；产物只读，无主树写入/CLI清理；Set只收集引用，不拥有提取状态。",
+        "D": "IO快照与两纯函数例目的不同；不共用可变全局，不为一个spy建额外宿主。",
+        "E": "缺生成物同一反证旧13passed却stderr警告，新12绿/1指定AssertionError；最终13绿/0stderr。3身份仅一标题改名；其它断言保留，warn由局部contain加强为精确参数/一次。",
+        "F": "输入集合/引用/缺产物列表直观，先断言依赖可用再读文件；不把return伪装skip。",
+        "G": "移除早退与误导注释，空组输入由4B全零改成1WORD帧数0；没有为覆盖率增加弱例/退役。",
+        "H": "纯入口直接执行；生成物已固定可用，缺失会失败而非动态跳过。未认证实际CLI获取次数或像素生成。"
+      }
+    }
+  ],
+  "priorEvidence": "../README.md;read-boundaries.json;before/after-proof.json at frozen original versions",
+  "nativeEvidenceOwner": "../../3b/closeout/evidence.json",
+  "runs": ["png-before", "png-missing-before", "png-missing-final", "png-final"],
+  "fixtureSource": {
+    "path": "reference/sdlpal/palcommon.c",
+    "sha256": "919f428112e70c11b8db208e9bba486c8ab056aa4a893a8d4d6bae9b21b9aae6",
+    "ranges": [[776, 850]],
+    "claim": "GetNumFrames returns first WORD minus1;GetFrame uses header count as its hacked upper bound. Hand-checked vectors only;no new SDL execution/format change."
+  },
+  "missingCounter": {
+    "before": {
+      "passed": 13,
+      "failed": 0,
+      "stderr": "one explicit warn then return,not clean-pass credit"
+    },
+    "after": {
+      "passed": 12,
+      "failed": 1,
+      "identity": "M3.5 T5 character sprite extraction loops scene chain 既有场景 1/14/17 引用的非零 sprite 均有 canonical .rle 产物",
+      "error": "AssertionError: expected false to be true"
+    },
+    "restored": {
+      "passed": 13,
+      "failed": 0,
+      "stderrBytes": 0
+    },
+    "copiesAndScratchRemoved": true
+  },
+  "gates": {
+    "state": "passed",
+    "owner": "3b/closeout/evidence.json",
+    "fullCheck": 20390,
+    "officialRatchet": 19992,
+    "protectedFast": 19992,
+    "diagnostics": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    }
+  },
+  "newClosures": [
+    {
+      "path": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+      "from": "review"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+      "from": "pending-unlisted"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.test.ts",
+      "from": "pending-unlisted"
+    }
+  ],
+  "risks": [
+    "Public unused extractCharacterSprites not deleted;whole sprite.ts remainsreview.",
+    "RLE high-literal/filtered-index truth not newly certified.",
+    "No PNG/product/schema/API/asset output behavior changes.",
+    "Main generated-artifact contract is full-only as before;no new exclusion."
+  ],
+  "identityMapping": {
+    "countBefore": 13,
+    "countAfter": 13,
+    "removedTests": [],
+    "renamed": [
+      {
+        "before": "M3.5 T5 character sprite extraction loops scene chain union scene 1 + 14 + 17 EventObject spriteNum + dedup;每个非 0 sprite 都已 dump",
+        "after": "M3.5 T5 character sprite extraction loops scene chain 既有场景 1/14/17 引用的非零 sprite 均有 canonical .rle 产物"
+      }
+    ],
+    "unchangedOtherNames": 12
+  },
+  "quantitativeTriage": {
+    "member": "additional-complexity.json",
+    "function": "encodeIndexedPng",
+    "score": 11,
+    "threshold": 10,
+    "conclusion": "复杂度11主要来自正数/整数/平面长度的fail-fast guard与一个像素循环；显式检查及对应拒绝轴比通用模式validator更直观，保留，不为分数改接口。",
+    "notAcceptanceMetric": true
+  },
+  "acceptedFiles": [
+    "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+    "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+    "packages/pal-extract/src/resources/sprite.test.ts"
+  ]
+}

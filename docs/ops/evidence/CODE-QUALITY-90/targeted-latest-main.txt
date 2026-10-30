@@ -1,0 +1,30 @@
+
+ RUN  v4.1.7 /Users/zhangxu/illegal/type-pal-quality-3x/packages/game
+
+·························································································stderr | src/core/menu/magic-script.test.ts > runMagicScriptSync - 流程控制 > label 不存在 → 返回 false
+runMagicScriptSync: L_99999 不在全局 labelMap
+
+stderr | src/core/menu/magic-script.test.ts > castOverworldMagic - 双层 script > scriptOnUse 失败 → 不跑 scriptOnSuccess
+runMagicScriptSync: L_99999 不在全局 labelMap
+
+·······························stdout | src/core/event-system.test.ts > EventSystem > 梦境序列:`~` 收尾的 center/bottom 三句遇 0x05/0x8E/end 全程不等键、自动推进(sdlpal nCurrentDialogLine=0)
+event-system: skip raw opcode=0x008e [ 0, 0, 0 ]
+
+stdout | src/core/menu/menu-driver.cov85.test.ts > cov85 存档槽菜单(save-slot) > save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)
+[save] saved to slot 1(times=1)
+
+···································stderr | src/core/event-system.test.ts > goto shared#L_xxx(P2#5 — 单一全局数组,剥前缀经全局 labelMap 解析) > shared# label 全局不存在 → warn + skip(不抛错,不死循环)
+event-system: goto label shared#L_DOES_NOT_EXIST 不在全局 labelMap → 终止脚本
+
+stderr | src/core/event-system.test.ts > 特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c FadeOut/FadeIn/SceneFade/PaletteFade/ColorFade/FadeToRed) > 0x05 redraw 无 needToFadeIn → 解冻 + UTIL_Delay(60ms) 后续跑(不误触发淡入)
+event-system: setObjectPos 无 currentEventObjectId(可能从 runEnterScript 跑),跳过
+
+························································································································································································································································································stdout | src/core/menu/menu-driver.test.ts > M5.6 T9 dispatchSaveSlotMenu > Confirm → close save-slot(pop 一层)
+[save] saved to slot 1(times=1)
+
+·······················································································
+
+ Test Files  9 passed (9)
+      Tests  522 passed (522)
+   Start at  13:22:08
+   Duration  1.63s (transform 2.68s, setup 405ms, import 2.89s, tests 242ms, environment 8.81s)

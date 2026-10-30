@@ -1,0 +1,30 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/shared",
+    "exec",
+    "vitest",
+    "run",
+    "src/pre94-rng-transfer-0.test.ts",
+    "src/pre94-rng-transfer-1.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-rng-transfer-before.json",
+    "--silent=false"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 1,
+  "total": 23,
+  "passed": 19,
+  "failed": [
+    "rngBlitDelta (RLE delta opcodes) delta 累加:第二次 blit 基于已有 surface(不清零)",
+    "rngBlitDelta 终止与混合 连续帧基面保留：同 surface 上两次 delta，第一次写入保持",
+    "decodeRngFrames（合成 sub-MKF 容器链路） 两帧链：每帧基于上一帧 delta，pixels 为拷贝（帧0 不被帧1 写入污染）",
+    "decodeRngFrames（合成 sub-MKF 容器链路） 非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧"
+  ],
+  "rawSha256": "f3c7b983132718a8ac024f0d5302b7ee6d270bb240af100acbb6e114aa9d50c0",
+  "runnerSha256": "04d56241e9d3ed789dac28dee11b7ba089cfbbf22b39dcce646e22305991dc53",
+  "mutation": "op0x02 incorrectly zeroes skipped bytes; actual source never changed"
+}

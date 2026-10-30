@@ -1,18 +1,9 @@
 /**
- * C5 装备 effect 真值层 — sdlpal `global.c:1333-1900+` 1:1 port。
- *
- * 6 个 stat getter:effective = base PlayerRolesRuntime + Σ rgEquipmentEffect[i].
- * sdlpal 真值见 [global.c:1736-1900](../../../reference/sdlpal/global.c#L1736-L1900)。
- *
- * 2 个 mutator:
- *  - updateAllEquipments(gs, items):启动 / 读档时跨 role × 6 part 跑 scriptOnEquip
- *    填 rgEquipmentEffect(sdlpal global.c:1333 真值)
- *  - removeEquipmentEffect(gs, roleId, partIdx):卸下某 role 某 part 装备时清零
- *    对应 rgEquipmentEffect 行(sdlpal global.c:1372 真值)
- *
- * 1 个 sync opcode runner:
- *  - runEquipScriptSync(gs, items, scriptIp, role):同步消费 scriptOnEquip chain,
- *    只处理 0x17/0x18/0x19/0x1A/end/goto,撞到其它 log skip + 继续。
+ * 装备脚本协调层：启动/读档重算与菜单换装共用同步runner。
+ * 数值getter和效果行写入由equipment-state拥有，本模块保留原有转出口；
+ * 全局script catalog提供只读指令，inventory/poison owner负责各自状态变更。
+ * 支持的0x17/0x18/0x19/0x1A/0x2D/0x29及控制流见runner下方说明；
+ * 不推进对白/fade等异步演出，也不宣称整个实现与SDL逐边界等价。
  */
 
 import type { Item } from '@type-pal/shared'
@@ -28,6 +19,7 @@ import {
 import { runPlayerPoisonEntrySync } from './event-system.js'
 import { createInitialEquipmentEffect, type GameState } from './game-state.js'
 import { addItemToInventory, consumeItemFromInventory } from './inventory-state.js'
+import { getItemScriptEntry, setItemScriptEntry } from './object-script-state.js'
 import { addPoisonForPlayer } from './player-poison-state.js'
 import { getGlobalCommands, getGlobalLabelMap } from './script-catalog.js'
 
@@ -47,6 +39,7 @@ export {
 } from './equipment-state.js'
 
 const MAX_PLAYER_ROLES = 6
+
 const SCRIPT_TICK_LIMIT = 256 // 防御 — scriptOnEquip 实测最长 ~5 op
 
 /** SHORT signed 16-bit cast(sdlpal `(SHORT)operand[N]` 真值)。 */
@@ -97,8 +90,7 @@ function setPersistentPlayerStatus(
 /**
  * sdlpal `PAL_RunTriggerScript(scriptOnEquip, role)` 同步消费 scriptOnEquip chain。
  *
- * scriptOnEquip 实测只含 5 opcode(0x17/0x18/0x19/0x1A/0x2D + end + goto),所有
- * 都是同步纯数据写入,不会有 dialog / fade / waiting。我们写 mini sync runner
+ * 此 runner 处理同步装备数据写入,不推进 dialog / fade / waiting。使用独立同步循环,
  * 而非走 tickEventSystem(async)或 runScript(battle ctx)。
  *
  * 支持 opcode(sdlpal script.c case):
@@ -106,41 +98,48 @@ function setPersistentPlayerStatus(
  *  - 0x18 Equip item → 在 update 上下文是 noop swap(item 已装备),只更新 iCurEquipPart + removeEquipmentEffect
  *  - 0x19 increase player attr → PlayerRoles += SHORT(operand[1])
  *  - 0x1A set player stat → PlayerRoles = SHORT(operand[1])
+ *  - 0x2D / 0x29 → 装备授予玩家状态 / 毒状态
  *  - end → return
  *  - goto → 跳到 label
- *  - 其它 → log skip + ip++
+ *  - 其它 raw → skip + ip++；不支持的具名命令则warn后跳过
  *
- * 注:0x2D set player status / 0x29 (待 identify):scriptOnEquip 占 5/2 次,留 follow-up。
+ * 注:0x2D set player status / 0x29 apply poison 已实现(见下方 case:仙女剑等授
+ * DualAttack=32760;寿葫芦 Wear 授 level-99 正面"毒" 563/564)。
  */
-function runEquipScriptSync(gs: GameState, scriptOnEquip: number, roleId: number): void {
-  if (scriptOnEquip === 0) return
+function runEquipScriptSync(gs: GameState, scriptOnEquip: number, roleId: number): number {
+  if (scriptOnEquip === 0) return 0
   // P2#5:装备脚本是全局 entry → 全局数组 + 全局 labelMap(identity)。
   const commands = getGlobalCommands()
   const labelMap = getGlobalLabelMap()
   const startIp = labelMap[`L_${scriptOnEquip}`]
   if (startIp === undefined) {
     console.warn(`runEquipScriptSync: L_${scriptOnEquip} 不在全局 labelMap`)
-    return
+    return scriptOnEquip
   }
 
   let ip = startIp
   let step = 0
   // sdlpal PAL_RunTriggerScript 末尾(script.c:3476)`g_iCurEquipPart = -1` — 0x18 设的 part 不泄漏到
-  // 后续脚本(否则后续无关 0x1A 误写 rgEquipmentEffect 覆盖层)。try/finally 保证各出口都 reset。
+  // 后续脚本(否则后续无关 0x1A 误写 rgEquipmentEffect 覆盖层)。进入循环后的各出口由finally reset。
   try {
     while (step++ < SCRIPT_TICK_LIMIT) {
       if (ip < 0 || ip >= commands.length) {
         console.warn(`runEquipScriptSync: ip ${ip} 越界`)
-        return
+        return scriptOnEquip
       }
       const cmd = commands[ip]!
 
-      if (cmd.op === 'end') return
+      if (cmd.op === 'end') {
+        if (cmd.advance) return ip + 1
+        if (cmd.reset && cmd.resetTo !== undefined)
+          return labelMap[`L_${cmd.resetTo}`] ?? scriptOnEquip
+        return scriptOnEquip
+      }
       if (cmd.op === 'goto') {
         const target = labelMap[cmd.to]
         if (target === undefined) {
           console.warn(`runEquipScriptSync: goto label ${cmd.to} 不在 labelMap`)
-          return
+          return scriptOnEquip
         }
         ip = target
         continue
@@ -152,7 +151,7 @@ function runEquipScriptSync(gs: GameState, scriptOnEquip: number, roleId: number
         continue
       }
 
-      const [a, b, c] = cmd.operands as [number, number, number]
+      const [a, b, c] = cmd.operands
 
       switch (cmd.opcode) {
         case 0x17: {
@@ -225,12 +224,13 @@ function runEquipScriptSync(gs: GameState, scriptOnEquip: number, roleId: number
           break
         }
         default:
-        // scriptOnEquip 实测 opcode 已全覆盖(0x17/0x18/0x19/0x1A/0x2D/0x29);其它意外 op 记日志
+        // 只处理上述同步子集；其它raw沿用静默跳过，不冒充通用脚本解释器。
       }
 
       ip++
     }
     console.warn(`runEquipScriptSync: SCRIPT_TICK_LIMIT ${SCRIPT_TICK_LIMIT} 超出 — 死循环?`)
+    return scriptOnEquip
   } finally {
     gs.iCurEquipPart = -1
   }
@@ -259,9 +259,9 @@ export function updateAllEquipments(gs: GameState, items: Item[]): void {
       if (wItem === 0) continue
       const item = items.find((it) => it.id === wItem)
       if (!item) continue
-      const sid = item.scriptOnEquip ?? 0
+      const sid = getItemScriptEntry(gs, item, 'scriptOnEquip')
       if (sid === 0) continue
-      runEquipScriptSync(gs, sid, role)
+      setItemScriptEntry(gs, item, 'scriptOnEquip', runEquipScriptSync(gs, sid, role))
     }
   }
 }
@@ -275,21 +275,12 @@ export function updateAllEquipments(gs: GameState, items: Item[]): void {
  * 装备脚本 chain 内含 opcode 0x18(swap 装备 + 写 wLastUnequippedItem),所以 dispatcher
  * 直接调此 fn 即等价 sdlpal 整套 swap 流程。
  *
- * 注:**与 updateAllEquipments 区别**:此 fn 跑的是 EquipItemMenu 装备时,opcode 0x18
- * 内 sdlpal 真值 rgwEquipment 还没装 → 会真 swap inventory(`PAL_AddItemToInventory` ±1)+
- * wLastUnequippedItem 写。runEquipScriptSync 当前是 `update 上下文`(假定已装备),swap
- * 路径不真做 — 我们让 EquipItemMenu dispatcher 用 event-system 的 opcode 0x18 真 swap
- * handler(已 port),所以这里独立 path:dispatcher 自己处理 0x18 真 swap,scriptOnEquip
- * 内 0x18 走 runEquipScriptSync 等价 noop。
- *
- * 等价:dispatcher 流程是:
- *   1. 设置 currentEventObjectId = roleId
- *   2. 跑 scriptOnEquip chain → 内含 0x18 真做 swap(走 event-system 现有 handler)+
- *      多个 0x17 写 rgEquipmentEffect。
- *
- * 简单起见,本 fn 用 runEquipScriptSync 同步跑(0x18 当 noop)+ wLastUnequippedItem 由
- * dispatcher 手动管理(读 rgwEquipment 旧值,赋 wLastUnequippedItem)。
+ * 注:**与 updateAllEquipments 区别**:本 fn 服务 EquipItemMenu 单次装备 — scriptOnEquip
+ * 内 0x18 在 runEquipScriptSync 里**真做 swap**(rgwEquipment 写 + inventory ±1 +
+ * wLastUnequippedItem,见 case 0x18 的 cur!==newItem 分支);updateAllEquipments 上下文中
+ * 该槽已装着自己 → cur===newItem → 不 swap,只重算 effect。dispatcher 另按 DM23 在进
+ * pick-role 时写 wLastUnequippedItem 入口值(uigame.c:1820,menu-driver 已做)。
  */
-export function runEquipScript(gs: GameState, scriptOnEquip: number, roleId: number): void {
-  runEquipScriptSync(gs, scriptOnEquip, roleId)
+export function runEquipScript(gs: GameState, scriptOnEquip: number, roleId: number): number {
+  return runEquipScriptSync(gs, scriptOnEquip, roleId)
 }

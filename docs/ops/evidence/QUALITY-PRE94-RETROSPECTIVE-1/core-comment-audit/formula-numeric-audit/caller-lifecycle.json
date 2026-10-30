@@ -1,0 +1,13 @@
+{
+  "command": ["pnpm", "exec", "tsx", "/tmp/type-pal-formula-lifecycle.mts"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T21:43:22.530897+00:00",
+  "completedAt": "2026-10-17T21:43:24.981333+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "caller-lifecycle.raw.gz",
+  "rawBytes": 411,
+  "rawSha256": "7a160bd895fcbdbb48327949ac33da8f454c3a7aaef4bec19ef74b5a7acef74b",
+  "fullUncutMergedStdoutStderr": true
+}

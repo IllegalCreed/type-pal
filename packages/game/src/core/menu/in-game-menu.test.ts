@@ -3,7 +3,7 @@
  * sdlpal uigame.c:944-1048(InGame)/ 516-651(System) 真值。
  */
 
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { setWordTable } from '../word-lookup.js'
 import {
   createInGameMenu,
@@ -16,11 +16,12 @@ import {
   systemMenuUp,
 } from './in-game-menu.js'
 
+beforeEach(() => setWordTable([]))
+afterEach(() => setWordTable([]))
+
 // C1/C2(getWord 重构):菜单项 id 必须是**真 WORD id**(ui.h GAMEMENU/SYSMENU),不是 0-based 下标;
 //   label 由 getWord(id) 取(WORD.DAT 单一文案源),表未载时退回硬编码 fallback(故旧 label 测仍绿)。
 describe('菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat)', () => {
-  afterEach(() => setWordTable([])) // 隔离词表
-
   it('InGameMenu id = GAMEMENU_LABEL 真值 [3,4,5,6](状态/仙术/物品/系统)', () => {
     const s = createInGameMenu()
     expect(s.selection.items.map((it) => it.id)).toEqual([3, 4, 5, 6])
@@ -43,8 +44,12 @@ describe('菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.
   })
 
   it('choice 反查在真 id 下仍正确(id 改值不破坏 choice 映射)', () => {
-    expect(inGameMenuChoice(createInGameMenu(3))).toBe('system') // cursor 3 = 系统
-    expect(systemMenuChoice(createSystemMenu(4))).toBe('quit') // cursor 4 = 结束游戏
+    // 公开 state 防御合同：已有菜单项反序后仍按 WORD id 解释，不依赖 cursor。
+    const s = createInGameMenu()
+    s.selection.items.reverse()
+    expect(inGameMenuChoice(s)).toBe('system')
+    inGameMenuDown(s)
+    expect(inGameMenuChoice(s)).toBe('inventory')
   })
 })
 
