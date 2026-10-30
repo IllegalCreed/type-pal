@@ -1,5 +1,39 @@
 # 批45:reforge script 族 13 文件（零整改批 + 1 登记候选）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「批45:reforge script 族 13 文件（零整改批 + 1 登记候选）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+
+## 范围与证据
+
+原报告含章节[批45:reforge script 族 13 文件（零整改批 + 1 登记候选）、逐件结论（要点）、登记移交（1 项,非本批整改）、验证]、1个链接;固定main源4389B(SHA ace2d4125763)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4389B / SHA-256 ace2d412576331b9f9ce0664595065b838b6c4343b7bb1bddcf1d595b0d782a4；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 批45:reforge script 族 13 文件（零整改批 + 1 登记候选）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 范围：`script-activity-lineage.ts`(94)、`script-continuation.ts`(125)、`runtime-script-compiler.ts`(128)、`script-work-queue.ts`(134)、`script-confirm-modal.ts`(161)、`script-chunk-store.ts`(167)、`script-compiler-core.ts`(285)、`script-host-adapter.ts`(364)、`script-project-core.ts`(608)、`script-runner-core.ts`(671)、`script-world.ts`(838)、`script-runner.ts`(852)、`runtime-script-project.ts`(1000)。全文读毕;`script-wake-gate`/`script-execution-gate`/`script-execution-budget`/`runtime-script-runner` 四小件已在批41。八维审查（A–H）全部通过,零源码改动、零 diff。
@@ -26,3 +60,5 @@
 ## 验证
 - 定向测试:31 个 script 族测试文件 323/323、numFailedTestSuites=0（directed.json）。
 - 零 diff 批:无源码改动,不适用 body-invariance。
+```
+<!-- incremental-original-source:end -->

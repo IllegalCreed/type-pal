@@ -1,5 +1,39 @@
 # 批44:reforge audio 族（1 处代码整改 + 3 文件零整改）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「批44:reforge audio 族（1 处代码整改 + 3 文件零整改）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+
+## 范围与证据
+
+原报告含章节[批44:reforge audio 族（1 处代码整改 + 3 文件零整改）、整改（1 处,G 简单性）、零整改文件结论、sfx.ts（297行,零整改）、sfx-readiness.ts（377行,零整改）、midi-preview.ts（353行,零整改）]、2个链接;固定main源3825B(SHA 121e365f5d51)。当前存活入口:[codex-dead-removals.json](../codex-dead-removals.json)、[codex-stage2-rework.json](../codex-stage2-rework.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3825B / SHA-256 121e365f5d512ed1d72f4a46d51a77c72eda103fccfb26607da911d985f2c205；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 批44:reforge audio 族（1 处代码整改 + 3 文件零整改）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 范围：`packages/reforge/src/audio/` 全部生产文件——`bgm.ts`（297行）、`sfx.ts`（297行）、`sfx-readiness.ts`（377行）、`midi-preview.ts`（353行）；`spessa-browser-runtime.ts`（43行）已在批41覆盖。八维审查（A正确性/B注释/C内聚/D复用/E测试/F可读/G简单/H可测）。
@@ -36,3 +70,5 @@
 ## Codex 2026-10-20 当前有限裁定
 
 BGM只写状态删除成立；本片仅补该源的逐文件依据，不接收其它三源整包八维。发现“无曲零开销”错注：AudioContext仍在构造时创建，现纠正。当前24BGM0stderr，原95只复用native，不补造历史console。 [逐文件依据与原件](../codex-dead-removals.json)。文件保持review，未授整卡/整包accept。
+```
+<!-- incremental-original-source:end -->

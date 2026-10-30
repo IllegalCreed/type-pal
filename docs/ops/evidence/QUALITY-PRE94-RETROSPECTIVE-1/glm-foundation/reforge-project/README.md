@@ -1,5 +1,39 @@
 # 批47:reforge project/IO 族 15 文件（零整改批）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「批47:reforge project/IO 族 15 文件（零整改批）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+
+## 范围与证据
+
+原报告含章节[批47:reforge project/IO 族 15 文件（零整改批）、逐件结论（要点）、登记移交（无新增）、验证]、1个链接;固定main源4113B(SHA b622109093a5)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4113B / SHA-256 b622109093a5e1658af940b99c61ace7309fcf4bfdeebf398df547a341114329；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 批47:reforge project/IO 族 15 文件（零整改批）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 范围：`file-source.ts`(54)、`fsa-source.ts`(66)、`project-image-cache.ts`(65)、`project-save-state.ts`(76)、`startup-entry.ts`(63)、`scene-resources.ts`(72)、`scene-entry-session.ts`(82)、`scene-switch-transaction.ts`(105)、`runtime-input-router.ts`(56)、`scene-preparer.ts`(218)、`runtime-frame-session.ts`(189)、`runtime-project-view.ts`(288)、`project-map.ts`(463)、`project-loader.ts`(532)、`index.ts`(362)。全文读毕。八维审查（A–H）全部通过,零源码改动、零 diff。
@@ -27,3 +61,5 @@
 ## 验证
 - 定向测试:32 个测试文件 243/243、numFailedTestSuites=0（directed.json）。
 - 零 diff 批:无源码改动,不适用 body-invariance。
+```
+<!-- incremental-original-source:end -->
