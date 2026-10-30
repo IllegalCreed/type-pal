@@ -1,5 +1,39 @@
 # pre94 runtime投影与战斗宿主事实注释
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「pre94 runtime投影与战斗宿主事实注释」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a` Branch: `codex/code-quality-3y`)。
+
+## 范围与证据
+
+原报告含章节[pre94 runtime投影与战斗宿主事实注释、证据身份与准入、逐文件发现与修复、Primary、caller与oracle、测试与可执行不变证据、状态、门与限制]、2个链接;固定main源5301B(SHA bafc648e6f37)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[read-boundaries.json](read-boundaries.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5301B / SHA-256 bafc648e6f3718a77225787de7499904f64664688b7ce6840c3ba92049638324；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 runtime投影与战斗宿主事实注释
+
 Status: recorded
 Owner: Codex（单Agent，自身核证，不冒充独立第三方）
 Date: 2026-10-18
@@ -38,3 +72,5 @@ id: QUALITY-PRE94-RETROSPECTIVE-1 / runtime-projection-comments；schemaVersion:
 附件初核另发现两份README快照仅用basename造成覆盖，metadata首次退出1；源SHA/阅读范围不变，现分别命名3s/3v，原错boundary与覆盖附件均保留，见snapshot-collision-repair.json。此为证据producer缺陷，不计业务反控；修后metadata-final复验全部附件。
 
 全仓lint本次5197文件0error/0warning/0info，metadata-final核全部当前边界/原件/TS与JS一致、旧账本fence和catalog字节不变；之后新增回执单独格式/静态核验。完整pnpm check:docs首次125/125工具测试和所有消费者零issue；末尾回执文字新增后只回放consumer，不重跑未变的125测试或覆盖率。
+```
+<!-- incremental-original-source:end -->

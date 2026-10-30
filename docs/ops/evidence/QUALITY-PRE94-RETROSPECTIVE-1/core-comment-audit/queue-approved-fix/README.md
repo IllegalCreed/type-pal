@@ -1,5 +1,39 @@
 # 用户批准：第一阶段同速队列SDLPal对齐
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「用户批准：第一阶段同速队列SDLPal对齐」的治理候选页;证据原件即下方逐字节保全的固定main源(5356B,SHA d19bd462c507)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[GAME-ACTION-QUEUE-TIE-ORDER-1.md](../../../../tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[read-boundaries.json](read-boundaries.json)、[test-title-mapping.json](test-title-mapping.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5356B / SHA-256 d19bd462c507f465558b6255a3abe02fc7f742f7496eab1ac00e9d08f8c38e35；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 用户批准：第一阶段同速队列SDLPal对齐
+
 Status: review
 Owner: Codex（单Agent；作者修复/反控，不冒充第三方验收）
 Date: 2026-10-18
@@ -43,3 +77,5 @@ primary是PAL_BattleStartFrame填充/严格SHORT比较交换和wDexterity==0xfff
 本片完整check:docs的125工具用例及docs/model/testing/phase-lore/content消费者均零issue；全仓lint5151文件为0error/0warning/0info，game typecheck零诊断。最终账本3315 tracked /278 closed /63 review /2974 pending，0新增closed。定向/相邻raw无stderr块、React act/环境或unhandled诊断；完整raw字节与hash配对。统一check/coverage/protected仍未运行，不申报统一门通过。
 
 提交前元数据复核曾因battle-state阅读区间尾945超过实际EOF918而失败（final-inspection.json）；已更正为730–918并保留原read-boundaries-initial.json.gz，源码SHA未变。两个早期临时查询分别因复合receipt没有顶层raw、native行没有rawBytes而退出，未取得任何验证信用；正式检查按实际字段核对，当前结果见final-inspection-current.json。该元数据校准不增加产品/测试信用。
+```
+<!-- incremental-original-source:end -->
