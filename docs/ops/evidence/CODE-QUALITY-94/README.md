@@ -1,5 +1,39 @@
 # CODE-QUALITY-94 evidence — menu integration
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE-QUALITY-94 evidence — menu integration」的治理候选页;证据原件即下方逐字节保全的固定main源(3691B,SHA f8a511eb5385)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原8个链接处置见作者review的linkDisposition。当前存活入口:[README.md](approved-closeout/README.md)、[codex-final-window.md](codex-final-window.md)、[codex-r2-review.md](codex-r2-review.md)、[codex-r3-review.md](codex-r3-review.md)、[codex-review.md](codex-review.md)、[codex-takeover.md](codex-takeover.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3691B / SHA-256 f8a511eb53859c78c33f089defd76ef5945608e6047fe190575572f26187f35d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-94 evidence — menu integration
+
 - [批准后当前模块收尾](approved-closeout/README.md)：两停止线已获准；实际死出口/死参清理、slot统一边界、八维补齐，统一门待集中。
 
 - [2026-10-25检查点b8复审与返工](current-review/README.md)：复用pre94关闭，补19项八维与必要修复；接口裁决及集中门尚未收口。下文为明示日期的历史回执，旧manifest保持冻结，不批量刷新成当前结论。
@@ -26,3 +60,5 @@ CODE95补充counter R4：applyAll物品fixture不可冒称真实单体目标入�
 
 - [Codex R2：94/95及97–102再验收](codex-r2-review.md)：分批counter/局部accept、逐文件读取表、三个真实函数反证及GLM提示词。codex-r2-*为独立原件，未覆盖前轮报告。
 2026-10-15 C5 返工回执：glm-c5-targeted（36files/326tests 零诊断）、glm-c5-check、glm-c5-ratchet、glm-c5-protected（链式，含 act 警告计数与终态）。manifest 布尔已按当前候选重算（booleanRevision）。
+```
+<!-- incremental-original-source:end -->

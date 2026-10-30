@@ -1,5 +1,39 @@
 # CODE-QUALITY-93 evidence — game sell menu state contract
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE-QUALITY-93 evidence — game sell menu state contract」的治理候选页;证据原件即下方逐字节保全的固定main源(3293B,SHA 4b1f5e7eb145)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3293B / SHA-256 4b1f5e7eb14563a5899af5fa0d17fba5d4457d9b06da1e4dbac8426b1c82640c；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-93 evidence — game sell menu state contract
+
 本批完整核验 `sell-menu.ts` 与三份专属测试，生产实现字节未改；仅精简与补强测试合同。阶段为 phase1，无 schema/save、migration、资产、公共接口或产品行为改动。
 
 - `source-callers.txt`：白名单、真实 menu-driver/bootstrap/event-system/inventory/draw-shop caller 与 SDLPal primary source；源锚点另见任务卡。
@@ -18,3 +52,5 @@
 历史 review 检查点：official `VITEST_MAX_WORKERS=1 pnpm coverage:ratchet` → `TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast` 继续串行运行。两 coverage 门还未有 terminal receipt，不计通过；只有完成全部质量门并更新实际退出码后允许归档与关闭四条账本记录。其它 pending/review 保持原状态。
 
 最终联合门均exit0：见CODE96的gate-check/ratchet/protected-fast（每门txt/exit/raw.json），最终file SHA snapshot与final-docs/lint/ledger回执。全量check、两个真正coverage门和静态零诊断通过才收口；仅关闭CODE93四条+CODE96两条，其他review/pending不变。用户指定停止后交GLM，候选CODE94/95全部独立门尚未完成，未合main。可读日志只去行尾/末尾空白，同名raw.json保留逐字输出/SHA。
+```
+<!-- incremental-original-source:end -->

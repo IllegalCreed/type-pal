@@ -1,5 +1,39 @@
 # CODE94–102：菜单与Save有限模块收口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE94–102：菜单与Save有限模块收口」的治理候选页;证据原件即下方逐字节保全的固定main源(7536B,SHA b8f60da1c54f)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原23个链接处置见作者review的linkDisposition。当前存活入口:[primitives.test.ts](../../../../../packages/game/src/core/menu/__tests__/primitives.test.ts)、[item-select.glm-phase1-leaves.test.ts](../../../../../packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts)、[item-select.ts](../../../../../packages/game/src/core/menu/item-select.ts)、[menu-driver.cov85.test.ts](../../../../../packages/game/src/core/menu/menu-driver.cov85.test.ts)、[menu-driver.test.ts](../../../../../packages/game/src/core/menu/menu-driver.test.ts)、[menu-driver.ts](../../../../../packages/game/src/core/menu/menu-driver.ts)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7536B / SHA-256 b8f60da1c54f5278772f20dce1f60402ca521fc26b67bd0336c6d39741d81d5f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE94–102：菜单与Save有限模块收口
+
 ## 证据身份
 
 id：CODE-QUALITY-94/approved-closeout；schemaVersion：1；Owner：Codex，单Agent。
@@ -68,3 +102,5 @@ pnpm exec tsx docs/ops/evidence/CODE-QUALITY-94/approved-closeout/prove.mjs
 两者默认只读：核54主文件/12相邻SHA、全部附件字节、指定红/绿集合、退休身份、官方指标及结构保持；不重跑全仓或coverage，也不机器认证C/D/F/G/H设计结论。任何实现/caller/输入或规则变化只重核受影响claim。未做新的剧情/视觉/真实浏览器IDB验收；JSON格式、DB版本、旧store升级/清档策略未改。schema/机制/生成物与103+范围不外扩。
 
 本地冻结时尚未推送/建PR/合并；后续实际提交、保护CI、合并与main CI以关联Git/PR为准，最终回执另核，不由本页预告。
+````
+<!-- incremental-original-source:end -->
