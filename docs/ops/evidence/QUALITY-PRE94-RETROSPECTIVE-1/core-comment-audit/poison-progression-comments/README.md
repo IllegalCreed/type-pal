@@ -1,5 +1,39 @@
 # pre94毒/升级：源码注释与测试判别力返工
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「pre94毒/升级：源码注释与测试判别力返工」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `27358f9d9e3ab65d777b7864fcc936638ed9373a` Branch: `codex/code-quality-3y`)。
+
+## 范围与证据
+
+原报告含章节[pre94毒/升级：源码注释与测试判别力返工、证据身份与范围、实际读取与primary/caller、测试合法性、oracle与反控、发现、限制与后续、验证与交接]、4个链接;固定main源6222B(SHA d86de9146669)。当前存活入口:[GAME-PLAYER-POISON-SLOT-COMPACTION-1.md](../../../../tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[read-boundaries.json](read-boundaries.json)、[test-title-mapping.json](test-title-mapping.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6222B / SHA-256 d86de914666925777340cfc6b31add22f0f672b0ee29d6545f3a4137102d41c3；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94毒/升级：源码注释与测试判别力返工
+
 Status: recorded
 Owner: Codex（单Agent；作者修复/反控，不冒充第三方）
 Date: 2026-10-18
@@ -41,3 +75,5 @@ H02五例分别核越界等级防御、隐藏无999 cap、Health→Magic两池�
 文档第二次consumer回放docs-current因poison源码注释SHA产生2个配对绑定诊断；只维护phase1-dependency-ownership这一entry和report/evidence的sourceRef/history，保留其它17对象、status/lastVerified/reviewBy、历史candidate/versions/runtimeExecution。generated九视图无diff，原D1 SCC/token/三针/浏览器均未复跑；当前11例仅有限回归。最后docs-final全部text/model/testing/phase-lore/content消费者exit0、0issue，与首次已绿125工具测试组合满足文档门；未把两次exit1改写为0。metadata verifier核原件/源SHA/实际范围、测试集、catalog窄diff与历史ledger字节均一致。
 
 当前全仓lint5178文件为0error/0warning/0info；账本工具实测3315 /275closed /66review /2974pending；metadata核验不把机器PASS当语义验收。完整统一check/ratchet/protected尚未执行，保持review、不合main。
+```
+<!-- incremental-original-source:end -->
