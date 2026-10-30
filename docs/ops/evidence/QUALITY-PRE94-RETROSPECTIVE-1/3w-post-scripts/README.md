@@ -1,6 +1,40 @@
 # CODE3w战后脚本与特殊结局复审
 
 Status: recorded
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3w战后脚本与特殊结局复审」的治理候选页;证据原件即下方逐字节保全的固定main源(9263B,SHA 9dcb3cd3b820)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原23个链接处置见作者review的linkDisposition。当前存活入口:[GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md](../../../tasks/GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[asset-census.json](asset-census.json)、[attempt-limit.json](controls-first-mirror/attempt-limit.json)、[controls.json](controls.json)、[dialog-order-counter.json](dialog-order-counter.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 9263B / SHA-256 9dcb3cd3b820bf97b7098c83cf58c8917c3dc2ec2388ee2ab5c52d4e92abe3f3；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3w战后脚本与特殊结局复审
+
+Status: recorded
 Owner: Codex（单Agent）
 Date: 2026-10-18
 Base: `599d35717d8a5213802f76535eb14ba187f709e5`
@@ -65,3 +99,5 @@ Branch: `codex/code-quality-3y`
 生产执行、UI/公共接口/schema/save/资源/phase2未变。当前叶不需playerRoles/event owner；不据此认证任意新脚本、外部存档、异常副作用。C逐脚本阻塞、TS先入队再显示的中间时序未作等价验收；极端域、视觉与非队员Extra继续待核。
 
 0新增closed；3318 tracked/251 closed/102 review/2965 pending，新helper与既有源/测保持review。83卡55partial/28pending/0accept，仅3w指针更新。全仓check/official coverage/protected依用户要求留大任务收尾；本片不跑全game、原盘runtime、视觉/E2E，不合main。推送后优先处理用户补审三项extract输出守卫/链接入口/错注；然后继续pre94，94–102/editor后置。
+```
+<!-- incremental-original-source:end -->

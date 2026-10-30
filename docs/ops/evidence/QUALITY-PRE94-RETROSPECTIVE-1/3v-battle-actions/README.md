@@ -1,5 +1,39 @@
 # CODE3v battle actions 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3v battle actions 当前复审切片」的治理候选页;证据原件即下方逐字节保全的固定main源(3514B,SHA 24449ee3ce79)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../core-comment-audit/runtime-projection-comments/README.md)、[README.md](../game-actions-mobile/README.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3514B / SHA-256 24449ee3ce79e18f2377fb69365b0ba85678ddd83b8cc42c5040b566e527ee18；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3v battle actions 当前复审切片
+
 > 2026-10-22当前：原四action+两专测八维/结构与测试返工、全门收口，3v原合同已接受；[当前逐文件与完整原件](../game-actions-mobile/README.md)。下方为原只读/注释counter时点，保留其partial与旧门未跑记录，不覆盖当前决定；大actions/host仍未整文件接受。
 
 > 2026-10-18 当前注释counter：本轮全文补审发现attack的投影、状态或生命周期说明与实际caller不符；原整文件关闭信用转review。原有限数值结果不据此否定，也不扩成“全部注释/测试合法/全生命周期等价”。仅事实错注已修、执行代码不变；详见[投影/宿主返工](../core-comment-audit/runtime-projection-comments/README.md)。
@@ -15,3 +49,5 @@ primary source 核对 `reference/sdlpal/fight.c:3618-3854,4110-4172,4591-4654,49
 本片无实现改动、无行为修复、无 schema/save、公共 API、资产管线、生成物或 UI 改动。保留风险：动作主测试整文件、完整 animation/formula 轴、battle-opcodes/magic/item/throw/coop、视觉/E2E 和统一覆盖率门不在本片关闭；未知项继续由各自卡与后续模块批次处理。
 
 验证：定向 6 files / 154 tests passed；本片未改产品实现，因此不重复运行 game typecheck；覆盖率 ratchet、protected fast、全仓 `pnpm check` 和官方 coverage 按用户成本边界未运行。后续文档/lint/ledger 门只验证治理记录完整性，不替代这些高成本门。
+```
+<!-- incremental-original-source:end -->

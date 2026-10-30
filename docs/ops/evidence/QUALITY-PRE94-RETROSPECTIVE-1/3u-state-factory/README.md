@@ -1,5 +1,39 @@
 # CODE3u BattleState工厂专测复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE3u BattleState工厂专测复审」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `9c2c5eabe143bc81ad8df1c9234aa741b130aabc` Branch: `codex/code-quality-3y`)。
+
+## 范围与证据
+
+原报告含章节[CODE3u BattleState工厂专测复审、范围与证据、实际修改、排重和输入、判别力和实际验证、当前结论与后续]、9个链接;固定main源4417B(SHA 405bb1ce86f8)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[README.md](../3u-3w-finalization/README.md)、[assertion-transfers.json](assertion-transfers.json)、[before.json](before.json)、[controls.json](controls.json)、[early-candidate-limit.json](early-candidate-limit.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4417B / SHA-256 405bb1ce86f8bcaee70db563101a901030ee1e9e2d69ef1d0d546d0fe93becb1；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3u BattleState工厂专测复审
+
 Status: recorded
 Owner: Codex（单Agent核读/执行，不冒充第三方）
 Date: 2026-10-18
@@ -33,3 +67,5 @@ Branch: `codex/code-quality-3y`
 两旧关闭专测重开review；实现原review保持，0新增closed。机器以[实际gates](gates.json)为准：3316 tracked /253 closed /98 review /2965 pending；83卡55partial/28pending/0accept不变，仅3u当前证据指针更新，其余82对象/原历史SHA不改。
 
 完整check/official coverage/protected fast按用户要求留大任务收尾；本片不跑全game、原版/浏览器/E2E，不合main。接下来继续3u剩余factory输入/caller与3w settlement，或40/41未核切片，94–102/editor后置。无下一位Agent提示词，Codex单Agent继续。
+```
+<!-- incremental-original-source:end -->
