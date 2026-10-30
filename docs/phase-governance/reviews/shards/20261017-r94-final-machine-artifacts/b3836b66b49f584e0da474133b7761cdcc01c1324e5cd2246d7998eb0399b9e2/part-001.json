@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "2c8aded5b53ed911bf42de43ee805fb3d88955a8870ce4aa81e575cdd71c63fd",
+  "generation": "b3836b66b49f584e0da474133b7761cdcc01c1324e5cd2246d7998eb0399b9e2",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   "entries": [
@@ -2574,7 +2574,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "8e03aaafd39ca071f97142e10ed96170979ebfce8076076bacf872771675b1aa",
+      "afterSha256": "9bb0a63cd09bf2f54fdcd06b11cf25eefd027958c652a8882dc18f6887734b32",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -4073,6 +4073,17 @@
           "revision": "2fd03f6fdd5f39bfc26f23ffd576aba3178fc5b9",
           "beforeSha256": "5624a5bf71f7b0f9222bef29d46aec2cd506226e4c3f97d0b20f0bdcaa988e2b",
           "afterSha256": "8e03aaafd39ca071f97142e10ed96170979ebfce8076076bacf872771675b1aa",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S75/final-results",
+          "revision": "5d774a8939c3411205efcd4f5e8340814894fa7d",
+          "beforeSha256": "8e03aaafd39ca071f97142e10ed96170979ebfce8076076bacf872771675b1aa",
+          "afterSha256": "9bb0a63cd09bf2f54fdcd06b11cf25eefd027958c652a8882dc18f6887734b32",
           "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

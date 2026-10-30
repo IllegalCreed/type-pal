@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "2c8aded5b53ed911bf42de43ee805fb3d88955a8870ce4aa81e575cdd71c63fd",
+  "generation": "b3836b66b49f584e0da474133b7761cdcc01c1324e5cd2246d7998eb0399b9e2",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -42,7 +42,7 @@
         }
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "038903772e223e6a4394de396be33bed80366f85da4191c03bc1f938be95580d",
+      "afterSha256": "0df34fffd7797a587af4e476df018b3d448f7b5f20a59c87e0c50b1f2e7a0ba0",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
@@ -1526,6 +1526,17 @@
           "beforeSha256": "0f3e456201b4d1dfe84ec94a2b45f6bf34e88a09728423d330393e6491827921",
           "afterSha256": "038903772e223e6a4394de396be33bed80366f85da4191c03bc1f938be95580d",
           "scope": "Exact one independently accepted routing-control grant and registry/administrative after closure; no runtime/child credit",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S75/final-results",
+          "revision": "5d774a8939c3411205efcd4f5e8340814894fa7d",
+          "beforeSha256": "038903772e223e6a4394de396be33bed80366f85da4191c03bc1f938be95580d",
+          "afterSha256": "0df34fffd7797a587af4e476df018b3d448f7b5f20a59c87e0c50b1f2e7a0ba0",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false

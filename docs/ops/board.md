@@ -16,7 +16,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 - `status`: current
-- S73的23篇及政策增量已获非作者accept并由S74实际接入。固定1838清单已显式闭合：1835迁移+3批准退役；当前2435候选中2434合规、仅routing控制件的两路由增量待验，1待办／2严格诊断。全部17类模板已覆盖，无integrity问题；不将此记为全量硬门通过。
+- S75已接入最后1项：固定1838清单为1835迁移+3批准退役；另600增量迁移，当前2435候选全部合规，0待办／0严格诊断。17类模板全覆盖、0integrity，文档静态硬门已通过；当前review，等待安全整合main，未标done。
 
 ## 入口与责任
 - canonical 入口：本看板、`docs/ops/tasks/index.md` 和各任务卡。
@@ -31,7 +31,7 @@ Template: governance-index-v1 / 1.0.0
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
 | DOCS-RECORD-INTEGRITY-1 | [R 波记录可信度撤回与补救](tasks/DOCS-RECORD-INTEGRITY-1.md) | rework | Codex / 扩大R23–R36撤信与验收锚点补救，待非作者验收 | 机械保真不授语义信用；原回执保全 |
-| DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex总Owner；S74已授23项，仅两索引路由所致的一个控制增量待验 | 335工具全绿、lint4664零诊断；strict23/46→1/2，1838固定范围已显式闭合；全量硬门未过，不合main/不done |
+| DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | review | Codex总Owner；2435正文/迁移接受与文档硬门已闭合，核安全整合 | 335工具全绿、lint4664零诊断；strict0/0，1835+3/1838与600增量、0待办；main分叉及受保护改动未整合，不推main/不done |
 | DOCS-NATIVE-JSON-1 | [原生JSON历史证据逐篇治理](tasks/DOCS-NATIVE-JSON-1.md) | rework | Codex / S56-S57已接入212，旧执行不重授 | 269与212当前接入按实账保留；本轮不重复计，剩余治理继续rework |
 | DOCS-NATIVE-VITEST-269-1 | [269篇原生Vitest语义接入](tasks/DOCS-NATIVE-VITEST-269-1.md) | review | Codex / 269发布与夹具已独立接受 | 新增269文档迁移，严格实减538项；不授旧执行信用 |
 | DOCS-REGISTRY-SPLIT-1 | [文档 registry 存储拆分](tasks/DOCS-REGISTRY-SPLIT-1.md) | build | registry_storage_author / 隔离实现；root独立验收 | 2.0.2设计非作者限定接受；新增登记缺口显式保留 |
@@ -40,7 +40,7 @@ Template: governance-index-v1 / 1.0.0
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [战斗回合与结算边界测试](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | GLM / 补原始反控与合法输入；Codex复核 | 先前accept撤回；全绿与已合入不等于合同验收 |
 | E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |
 | E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 技术证据已核，等待用户观感验收 |
-| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 技术与用户视觉已接受 | 两路独立技术accept，Game完整78键校验C1关闭；实际起伏/终档/恢复与另存安全性能保留，构建warning和Testing来源门已修。全库文档治理待办仍阻塞，不合main/推送/done，不交GLM做E2E |
+| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 技术与用户视觉已接受，等待代码整合收口 | 两路独立技术accept、C1与起伏counter关闭，另存安全性能接受保留；S75文档strict已归零，main整合仍未闭合，不借文档静态绿重授E2E，不交GLM做E2E |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
 

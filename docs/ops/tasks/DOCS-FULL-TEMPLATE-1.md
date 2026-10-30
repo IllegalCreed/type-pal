@@ -1,7 +1,7 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
-Status: rework
-Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语义及全量硬门未完成）
+Status: review
+Execution: review（当前2435候选已接受，文档迁移/严格门已归零；等待安全整合main，不恢复原R波信用）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
@@ -24,7 +24,7 @@ Template: task-card-v1 / 1.0.0
 - 行为/工程前提：模板迁移只改变文档结构与导航，保留原始语义、机器字段、SHA、状态范围和停止线。
 - 一手证据：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory.json`、`binding-baseline.json`、`protection.json`、最新 registry/routing 与本卡批次回执。
 - 最强替代解释与可证伪观察：若发现源/after SHA 漂移、机器字段改变、历史状态升格或 protected delta 被覆盖，当前迁移结论立即失效并转 rework/blocked。
-- 当前状态：rework；全量完成与独立审查声明已撤回，静态保真仍单列。
+- 当前状态：review；S75现行正文接受与文档硬门已闭合，原R波虚标仍撤回，main整合与整体任务done未宣布。
 
 ## 验收
 - 功能/文档：1838 基线候选逐篇绑定 docType/templateId/templateVersion 并有独立 review record。
@@ -34,8 +34,8 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 - 当前 Owner：Codex。
-- 当前基点：S74已据S73非作者报告实际接入23项；当前2434合规/1待办、严格2诊断。1838固定清单1835迁移+3批准退役、基线未迁0；另599增量迁移，仅routing控制新解释待验。数字按真实门更新，不拿旧章节计数当今天进度。
-- 下一步：仅复核S74实际接入/行政及两索引路由对应的一个控制解释增量，真接受后沿既有公开grant收口该项并重验全量硬门。E2E日期循环规则已按用户新裁决退休，以候选/版本/相关源码比较适用性；不再次续期或借文档收口重跑已接受006。旧撤信不恢复，未满足全部硬门不合main/不推送/不done。
+- 当前基点：S75已依据S74非作者报告，经既有公开grant接入最后1项；当前2435合规/0待办，严格0诊断。1838固定清单1835迁移+3批准退役，基线未迁0；另600增量迁移，17类模板全部覆盖。数字取真实门，不拿旧章节计数当今天进度。
+- 下一步：核对main与文档分支的分叉、原受保护改动及代码治理分支的未提交工作，准备安全整合与组合后的质量验收；本隔离树的静态通过不替代整合验收。E2E日期循环规则已按用户新裁决退休，不重跑已接受006或授新runtime信用。旧撤信不恢复，未完成整合不推main、不标done。
 
 ## 历史实施与交接记录的适用边界
 
@@ -2827,3 +2827,9 @@ GLM对5cea276459404bf1dec59641901b8617d29dd5f1的中央23授信/唯一routing解
 本轮Codex build allowed：隔离codex/docs-s75-final-gates，仅机械替换现有current-native-control-acceptance表中routing一项的报告/hash/候选/任务/日期，保留其余21项、作者/非作者分离与所有guard不动；调用已接受的applyCurrentNativeControlGrant及保护事务，registry同步该一项和必要after/世代闭包。旧2433版本的事件/签名仍完整在历史封套，新2435正文解释、原source、23/111/另21接受与473原生不改；不新增合同、writer、模板、旧测试适配或runtime信用。随后实际运行check:docs、lint、diff与require-complete，只有真实零诊断才记录待办归零；父卡不因此自动合main/推送/done，整合代码治理分支的独立工作树仍须保护。
 
 回执B有一处定位措辞勘误：其中“evidence source钉cd1d”与真实字段不符。cd1d是旧已接受条目的before定位；不可变source仍为8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9，后者由原准入与Git字节provider验证。Owner按实际字段/一手Git校正这句说明，原GLM回执不修改，不改任何pin或借其文字刷新来源；其具体解释hash和其余接受范围不受影响。
+
+实际接入提交1ce18cfbc：现有表仅routing的五个绑定值机械替换，公开applyCurrentNativeControlGrant对精确83d0ab9f解释授信，8物理写/6旧片退、2435after/14source/114逻辑/163物理/49片精确，锁释放、退出完成。其余2434条具体解释不变，原23/111/另21控制接受和473原生保全；旧2433版本的封套和原source保留，新当前出版事件不恢复旧信用，新增1当前文档/迁移信用、child/runtime为0。
+
+首轮335工具333绿2红：current-native-control-publication.test.mjs把22项都固定为S71同一报告，真实routing已经S74换版，旧夹具失效。用户2026-10-30逐处授权该唯一文件的固定来源适配：仅routing行从5cea真Git取源并锁3dd1报告，其余21仍固定c4a/94db，按条目组成隔离夹具，不冒充整份历史快照；原22项正例与篡改/伪造/重复/作者越权反例保留。补丁临时应用结果与实际文件字节相等，2/2定向恢复；5d774a893仅此补丁。原333/2回执不改写，随后该固定候选完整335/335、0fail/0skip；check:docs真实exit0，model2435/0、Testing0、phase/lore184、strict0/0/0；lint4664文件0E/W/I。require-complete已实际exit0：1835+3/1838、600增量、2435当前候选0待办、17/17模板、0integrity。
+
+当前任务转review并同步看板/任务索引，只写真实结果与行政after，不改已接受具体解释或给旧R波恢复信用。文档治理静态硬门在本隔离树已通过，未合main/推送/done；另一个代码治理工作树仍有未提交改动，main与本文档线已分叉，整合须按真实差异和保护清单另核，不能借本次通过覆盖它们。本轮不再拆新的GLM正文/设计包，最后1项已经按其真实非作者接受直接发布。
