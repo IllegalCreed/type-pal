@@ -1,5 +1,39 @@
 # CODE3d：PNG 输入合同与注释复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3d：PNG 输入合同与注释复审」的治理候选页;证据原件即下方逐字节保全的固定main源(4804B,SHA 9404d77d3179)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原11个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-3d-pal-extract-png-inputs.md](../../../archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[README.md](closeout/README.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4804B / SHA-256 9404d77d31799fae1c7e26443f78f9b162425bbc09d2ea884fc2c0169db4d4c6；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3d：PNG 输入合同与注释复审
+
 2026-10-21当前增量见[多卡窗口八维与必要返工](closeout/README.md)；本页保留原切片时点，旧主测未变宣称不覆盖后继整改。
 
 归属[94前全部83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，原[3d历史卡](../../../archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md)保持历史done。当前基点65c375e06、唯一codex/code-quality-3y、main=f98d0ddd8；本轮整卡仅partial，0新增关闭。
@@ -35,3 +69,5 @@ RLE高位literal真值仍归[冻结前提卡](../../../tasks/QUALITY-RLE-COMMAND
 [原始回执](regressions.json)：初次相邻命令两个路径写错，原生JSON实际只有六文件47例，按实际六文件记账，不称八文件。完整包原生72文件432例已包含真正的ball/rgm.glm-runtime-resource.test.ts，两文件存在与执行由核验器确认；命令原件不改写。game实际PNG consumer三文件8例、extract typecheck均通过，无stderr/act/环境诊断。
 
 docs/lint-zero/ledger与diff-check见[gates.md](gates.md)。完整全仓check、official ratchet、protected fast继续等待稳定窗口；editor当前仍有已登记诊断，不合main。机器账本以当前重跑为准；全83卡当前11partial/72pending/0整卡accept，下一片3g CLI IO，94–102/editor原目标与其余卡保持。
+```
+<!-- incremental-original-source:end -->

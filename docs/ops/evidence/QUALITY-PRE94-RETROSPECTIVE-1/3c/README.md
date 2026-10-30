@@ -1,5 +1,39 @@
 # CODE3c动画回归与清理合同复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3c动画回归与清理合同复审」的治理候选页;证据原件即下方逐字节保全的固定main源(8326B,SHA 33fb926416bd)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原13个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-3c-editor-coverage-determinism.md](../../../archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[closeout-gates.json](closeout-gates.json)、[closeout-native.json.gz](closeout-native.json.gz)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8326B / SHA-256 33fb926416bdff8ec85d7c1356ba505452d8e92ca334063d02542ae6b97450ad；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3c动画回归与清理合同复审
+
 归[全83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。起点ceda5bb12，main=f98d0ddd8；单Agent、唯一codex/code-quality-3y。原卡done和旧签字按历史保留，本次partial，0新增关闭。
 
 ## 原交付与真值边界
@@ -57,3 +91,5 @@
 原两撤回在89bf84e16合并丢失已补正，再按本轮八维单独接受专测，相对前窗closed净减1。3c按原专属回归合同接受，不授全组件或全runner确定性信用；最终文档静态与集成以父卡和实际refs为准。
 
 本窗最终静态、失败披露和集成进度见[集中回执](closeout-gates.json)。完整check/official fast只按同版原件复用，不因文案/账本整改新采集。快检核证据身份，不替代语义判断。
+```
+<!-- incremental-original-source:end -->

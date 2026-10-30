@@ -1,5 +1,39 @@
 # CODE3b：SSS/M.MSG成果复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE3b：SSS/M.MSG成果复审」的主题按原文时点保留(摘录:2026-10-21后继模块收口见[当前六文件回执](closeout/README.md)；下方均保留各原切片时点，不沿用旧门诊断。 归[全83卡任务](../../../tasks/QUALITY)。
+
+## 范围与证据
+
+原报告含章节[CODE3b：SSS/M.MSG成果复审、原件、caller与逐文件结论、判别力与原始数据、回归与交接]、15个链接;固定main源6703B(SHA cdd6917d4151)。当前存活入口:[CODE-QUALITY-3b-pal-extract-io-boundaries.md](../../../archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[README.md](closeout/README.md)、[counter-probe.py](counter-probe.py)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6703B / SHA-256 cdd6917d4151c805a56b757be3f2c8a82fd1574f3a2e1187ea6e0e82acbf2b6e；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3b：SSS/M.MSG成果复审
+
 2026-10-21后继模块收口见[当前六文件回执](closeout/README.md)；下方均保留各原切片时点，不沿用旧门诊断。
 
 归[全83卡任务](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，原[3b历史卡](../../../archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md)保持历史done/签字，不冒充本轮accept。起点8843d459b；唯一codex/code-quality-3y，main=f98d0ddd8。本片只改两份boundary测试，生产解析器/资源/格式/公共API/规则/基线不动，0新增关闭。
@@ -36,3 +70,5 @@ primary：SDL global.h95–121/239–243定义EO/scene/指令；global.c289–29
 [回归原件](regressions.json)：定向相邻8文件42例（含真实roundtrip）、完整extract72/435、shared16/126、双方typecheck、coverage-tools71通过，0stderr块。完整check、official ratchet、protected fast本片未新跑，editor运行时诊断未清，不合main；[静态门](gates.md)按实际回执记录。
 
 当前机器3289 inventory /206closed /230review /2853pending，0新关闭；全83卡10partial/73pending/0accept。下一有限片先收两份raw测试的弱oracle/排重，再继续3d/3g和其它编号卡；94–102/editor原目标继续。高风险机制/资产算法冻结；无下一位Agent提示词，Codex单Agent继续。
+```
+<!-- incremental-original-source:end -->
