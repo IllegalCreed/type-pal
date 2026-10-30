@@ -1,6 +1,6 @@
 # E2E-006 · 求药与出海
 
-Last reviewed: 2026-10-27
+Last reviewed: 2026-10-30
 Template: test-e2e-stage-v1 / 1.0.0
 
 ```yaml
@@ -10,7 +10,6 @@ phase: [phase1, phase2]
 engines: [game, reforge]
 owner: Codex
 lastVerified: 2026-10-03
-reviewBy: 2026-11-02
 dependsOn: [e2e-005]
 tags: [story, npc, boat, visual, rework]
 canonicalReport: report.md
@@ -24,7 +23,7 @@ canonicalReport: report.md
 
 10-27两端95正文/完整上岛收尾、零finding全比较、正式006终档与新上下文读回均有passed原件；12入口/11状态已真实另存、File/Open重开并逐一播放重置，23处用途label补齐。技术产物与边界见[正式报告](report.md)。
 
-状态仍rework：作者不代签非作者/用户视觉；lastVerified10-03、reviewBy11-02不变，本次不再延期。静态NPC初态不等于玩家/cursor/authority全现场恢复，不扩大连续、后续剧情或coverage信用。
+上述12入口/11状态是冻结525前轮；起伏补修后旧船身auto入口退休，现11入口/10状态，受影响RF复验与独立技术、用户视觉接受见正式报告。状态仍rework是全库文档/集成停止线，不把已闭合的技术与用户接受再写成待定。lastVerified10-03保持历史；活动reviewBy按2026-10-30规则退休，源码/版本变化才触发影响判断。静态NPC初态不等于玩家/cursor/authority全现场恢复，不扩大连续、后续剧情或coverage信用。
 
 ## 证据与状态
 
@@ -34,4 +33,4 @@ canonicalReport: report.md
 
 唯一前驱`e2e-005`；本轮只运行004/005 saves，不认证其余专项或一镜到底001–006连续演示。完整确认1886/1888/1889/1890、剧情结束和控制返回是路线停止线；不进入岛上后续剧情。
 
-[活动006卡](../../../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)负责未闭合义务；[10-11连续卡](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md)的历史done保持自己的冻结候选和日期。10-16文档发布复核及10-23旧截止可在base `14e0336fe045d038a29ab773acaa639696d31ea8`读取，不由本轮追溯改写。本轮候选由Codex作者提交，待非作者据证验收；作者自验不能代签。
+[活动006卡](../../../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)负责当前停止线；[10-11连续卡](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md)的历史done保持自己的冻结候选和日期。旧文档复核和期限可在base `14e0336fe045d038a29ab773acaa639696d31ea8`读取，不追溯改写。技术两路accept与用户2026-10-27“没问题了都”继续有效；本次只审文档的角色、历史和配对，不重跑E2E、不让GLM代签技术验收。

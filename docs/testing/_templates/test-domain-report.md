@@ -62,7 +62,9 @@ Status is the catalog-publication projection for the front-matter id: draft/acti
 - failures / rework / unresolved:
 
 ## Quality gate
-- command / raw diagnostics / evidence / reviewBy:
+- command / raw diagnostics / evidence / recorded revision and applicable source fingerprints:
 
 ````
 <!-- template-source-example:end -->
+
+2026-10-30：活动reviewBy已退休，版本适用性按[测试治理](../governance.md#版本适用性)比较；原日期只保留历史，不自动重跑E2E。

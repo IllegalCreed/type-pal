@@ -107,7 +107,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "ab93577d987e213ba23c6b3082a28c18889229cd1c785d3d8ba32dc4cb5816ac",
+      "afterSha256": "451ebef5f8123d8ddb92a86fdbeb4a0aa030114f1fc4309980e994d790e48532",
       "publicCallers": [
         "scripts/docs/check-testing.mjs",
         "scripts/docs/report-governance-progress.mjs"
@@ -606,6 +606,17 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "ab93577d987e213ba23c6b3082a28c18889229cd1c785d3d8ba32dc4cb5816ac",
+          "afterSha256": "451ebef5f8123d8ddb92a86fdbeb4a0aa030114f1fc4309980e994d790e48532",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",
@@ -669,20 +680,19 @@
     },
     {
       "path": "docs/testing/_templates/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Reuse complete fixed dd377 prior and independently accepted exact e136 maintenance semantics, not a new18-entry product/old-code review. Root reads the current small administrative reception delta; catalog JSON and quality ledger body unchanged. Exact e136: root Codex accepted all six code/test files and actual14 CLI cases; history_cards_a independently accepted canonical native8/governance and four maintenance records. Exact dd377 natural22 import separately accepted by history_cards_c_tail. Current later root administrative/central/matrix bytes require distinct scoped non-author reception.",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Exact e136 navigation maintenance added catalog1.2/default-preservation/unique frozen-capture binding and was independently accepted; dd377 natural import was accepted separately. Current root administrative/central delta alone awaits scoped reception. Seventeen types/machine1.5 unchanged; no new publication/runtime or1838 source reading credit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "模板入口继续以统一registry/冻结设计为格式源；登记稳定ID/Owner/状态/依赖与revision/sourceRefs版本适用性，活动期限退休；本轮是用户政策的小范围同步，不重写原模板骨架或引入新父合同。",
       "truthAnchors": [
-        "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/_templates/README.md",
-        "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
-        "scripts/docs/document-model.mjs",
-        "scripts/docs/frozen-document-source.mjs"
+        "docs/testing/_templates/README.md",
+        "docs/testing/governance.md#版本适用性",
+        "scripts/docs/generate-testing-index.mjs"
       ],
       "primarySource": [
         "ec2a87735435b409ff2c5b5e01bfb681af1e5c35:docs/testing/_templates/README.md",
@@ -690,7 +700,7 @@
         "scripts/docs/document-model.mjs",
         "scripts/docs/frozen-document-source.mjs"
       ],
-      "documentStatus": "Current publication/navigation; exact e136 maintenance independently accepted, later root administrative fields separately pending scoped reception.",
+      "documentStatus": "current",
       "phaseAnchors": ["docs/testing/governance.md", "docs/phase2/READ-FIRST.md", "CLAUDE.md"],
       "dependencies": [
         "docs/phase-governance/templates/registry.json",
@@ -700,18 +710,17 @@
       "applicability": "Only this current template navigation and later root administrative wording, source-specific documentation maintenance. Exact e136 body/metadata acceptance is complete within its recorded scope; new root administrative/central bytes require distinct reception. No product/runtime/default-catalog source promotion or whole-doc acceptance.",
       "publicEntry": "docs/testing/_templates/README.md",
       "counterReworkBlocked": {
-        "F1": "Exact e136 source and final164 root14 independently accepted, C1/C2 closed. This subsequent current-record metadata only separately reviewed; no original pending source acceptance remains.",
-        "priorAcceptance": "Entire immediate prior current record actually retrieved/equal in fixed dd377 Git with unique selector; original ec2 fullprior and dated author pending fields preserved.",
-        "limits": "No fresh18-entry product review, original code/test quality closure or runtime/E2E/visual/coverage credit.",
-        "rootTemporalRepair": "C1/C2 closed exact164 by independent33c628b0 report; full first incorrect current and counter retained by reachable Git, not reclassified as first-pass success."
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
       },
       "unresolved": [
-        "Whole1838/increment/artifact governance remains incomplete; no runtime/E2E/visual/coverage or original-code semantic credit."
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
-      "nextStep": "Continue all baseline/increments/artifacts; P11 requires this exact committed admission and root-sent newbase, other packs remain separately scoped. Exact164 reception accepted; later metadata reviewed separately, no new runtime/old-code/whole-goal credit.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
       "phase": "testing",
       "module": "catalog-and-template-navigation",
-      "owner": "Codex",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "provenance": [
         "full original document read",
         "frozen 1.1.0 design",
@@ -808,30 +817,33 @@
             },
             "completePriorObjectRetrievedAndCompared": true
           }
+        },
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
         }
       ],
       "sourceSha256": "374c1f1ab9743fca2041c91c2741bb36b7bfd42075fd65f1adae2448b2c41f17",
       "reviewedSourceSha256": "e78bd3a0f71df919221e9530150d014e2eb1dce0f5a041f649259afd0ed802fa",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "8487881e5025d151483fafeec373f65a0431a4fb",
-      "afterSha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01",
+      "afterSha256": "0cbfc4660d300d0e6af9429c907ad6f42da03a082f31d14721c47dfb06b4605b",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/generate-testing-index.mjs"
       ],
       "legalInputs": [
-        "Existing schemaVersion2 catalog-publication/default execution and labelled examples retain exact own contracts.",
-        "Nine-key r10 original native contract introduced1.4 remains accepted under parent1.5; no fabricated schema/id/status.",
-        "J three approved fixed33cc native integration payloads15/10/22 keys plus historical governance are individually accepted fixed-source pilots only, not arbitrary same-shaped producers.",
-        "Real stable paths and dated source/version axes; no invented execution input or blanket JSON acceptance.",
-        "Exact independently accepted e136/dd377 template navigation with the later root administrative reception wording. Only this later root administrative/central delta is pending distinct acceptance; fixed source/code/canonical scopes do not sign future bytes."
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "F1-source-specific-maintenance-and-no-new-credit",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "Current navigation preserves17type membership, machine1.5/sixvariants/fivepins and frozen-capture/default separation; e136 source reception is accepted, while only later root administrative/central bytes remain pending. No source1838 semantic or runtime credit.",
-          "Exact e136/DD377 independent reception now recorded; current later root administrative bytes still require separate acceptance, no runtime/E2E/visual/coverage credit."
+          "只能删活动期限/同步实际版本展示；原执行身份、状态、原结论和合法前驱不漂移。"
         ]
       },
       "dedupe": {
@@ -884,37 +896,20 @@
         ]
       },
       "evidence": {
-        "kind": "F1-author-source-preservation-default-contract-and-maintenance-review",
-        "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
-        "sourceSha256": "374c1f1ab9743fca2041c91c2741bb36b7bfd42075fd65f1adae2448b2c41f17",
-        "afterSha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01",
-        "lineCount": 54,
-        "sourceScope": "Reuse independently accepted exact e136 navigation/default/capture-contract maintenance and dd377 natural import. Current root only changes one reception-scope sentence and administrative current-record fields; these later bytes require distinct scoped independent reception. No new18-entry product or source-code audit.",
-        "completePrior": {
-          "kind": "complete-prior-current-in-reachable-fixed-git",
-          "revision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
-          "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
-          "gitObject": "483a6b7162309fb91c8de0a521b8d2b8a2f08405",
-          "fileSha256": "7fed55bcd3d5978f6fec7d5ac8d34ddd51da528134c10ee4f2d0ea09a01e66d0",
-          "selector": {
-            "entries.path": "docs/testing/_templates/README.md",
-            "uniqueMatches": 1
-          },
-          "completePriorObjectRetrievedAndCompared": true
+        "kind": "S73-current-document-candidate",
+        "path": "docs/testing/_templates/README.md",
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/testing/_templates/README.md",
+          "gitObject": "9ccc6474e794d668aa4a7b58cc1d0977a6667be7",
+          "sha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01"
         },
-        "independentReception": "Exact e136 maintenance/source and final164 root14 accepted in recorded independent scopes; current subsequent metadata only separately reviewed.",
-        "immediateCompletePrior": {
-          "kind": "complete-prior-current-in-reachable-fixed-git",
-          "revision": "dd377adb4d579e0b6ab0e4a20fd1147ffe6c382d",
-          "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
-          "gitObject": "5948051e425f75f475cb60b225cc3c5033fd38bf",
-          "fileSha256": "29de8cf710483d84ed85c33f37ad69e8e42c5b99289ef9fa2cb8b9f2ac70ff4a",
-          "completePriorObjectRetrievedAndCompared": true,
-          "selector": {
-            "entries.path": "docs/testing/_templates/README.md",
-            "uniqueMatches": 1
-          }
-        }
+        "currentNativeSha256": "0cbfc4660d300d0e6af9429c907ad6f42da03a082f31d14721c47dfb06b4605b",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -1078,16 +1073,29 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "runtimeExecutionPerformed": false
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+            "index": 1,
+            "sha256": "b72b05f9d4bafd0d2b3d5d27a22e6f2eb76ff1e45b740575bf4befcc1c7b4301"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [],
-      "stopLine": "Neither publication validation, JSON envelope, template example nor historical verified status certifies current runtime/E2E/visual/coverage or full-docs completion.",
-      "userVisibleBeforeAfter": {
-        "before": "Exact ec2 accepted predecessor preserved full in fixedGit prior locator.",
-        "after": "Same substantive e136 template navigation, plus one later root administrative sentence recording real source e136/dd377 reception. The later root delta alone remains pending exact independent review; original author-time pending claims remain complete in fixed Git history.",
-        "semanticChange": "Fixed e136/dd377 acceptances recorded with exact scopes, later root delta separately reviewed; no publication/runtime/old-code/whole-goal acceptance."
-      },
-      "reviewedLines": "1-54",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
       "templateConformity": {
         "result": "template-compliant",
         "version": "1.0.0",
@@ -2929,6 +2937,41 @@
             "uniqueMatches": 1
           },
           "completePriorObjectRetrievedAndCompared": true
+        }
+      ],
+      "readDomain": {
+        "actual": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": ["docs/phase-governance/reviews/20261015-catalog-pilot-batch.json#entries/1"]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01",
+          "afterSha256": "0cbfc4660d300d0e6af9429c907ad6f42da03a082f31d14721c47dfb06b4605b",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

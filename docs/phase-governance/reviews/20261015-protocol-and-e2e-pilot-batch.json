@@ -292,49 +292,57 @@
     },
     {
       "path": "docs/testing/e2e/stages/001-opening/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-e2e-stage.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text-read-plus-semantic-migration",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "001 阶段页补正常标题入口、前驱/同引擎 checkpoint 边界、报告与 document-audit 证据；verified/lastVerified 保留原登记语义，不成为新 NPC/capture/连续链通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "001-opening阶段原id/status/lastVerified/前驱/正文不动，只退休活动reviewBy；旧日历失败和续期段保原历史。新E2E不因时间或HEAD变化触发，原版本/source适用性及原停止点继续独立核验。",
       "truthAnchors": [
-        "docs/testing/catalog.json:1",
-        "docs/testing/e2e/stages/001-opening/report.md:1"
+        "docs/testing/e2e/stages/001-opening/README.md",
+        "docs/testing/governance.md#版本适用性",
+        "scripts/docs/generate-testing-index.mjs"
       ],
-      "unresolved": [],
-      "nextStep": "保留全量 build；本类型真实 pilot 可用于后续同类迁移，其余类型未验证不自动进入批量。",
+      "unresolved": [
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+      ],
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
       "phase": "testing",
       "module": "protocol-and-e2e-pilot",
-      "owner": "Codex",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "provenance": [
         "source-document-full-text",
         "user-approved-agent-first-adoption",
-        "manual-semantic-migration"
+        "manual-semantic-migration",
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
+        }
       ],
       "sourceSha256": "52a26a649b2117126016b71ae956af2314c18c0cf1da456bf09d511ada8a0339",
       "reviewedSourceSha256": "52a26a649b2117126016b71ae956af2314c18c0cf1da456bf09d511ada8a0339",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "present",
-      "afterSha256": "268d4919419c4bc097067fb56e98c6caad2eb92d6c53de5f449bb4fdbd252741",
+      "afterSha256": "53bb008794c6579271d43819c0bdbefb0313883de2fe74bf721043ae02c2ad36",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs"
       ],
       "legalInputs": [
-        "对应当前协作/文档读取流程；不作为产品运行输入",
-        "原 E2E 记录的版本、日期、同引擎 checkpoint 与 paired evidence 合同不变"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "semantic-preservation-and-real-document-consumer",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "001 阶段页补正常标题入口、前驱/同引擎 checkpoint 边界、报告与 document-audit 证据；verified/lastVerified 保留原登记语义，不成为新 NPC/capture/连续链通过。",
-          "必填模板章节有具体语义；原文事实、日期与来源边界可追溯",
-          "不新增 runtime/E2E/visual/coverage 通过结论"
+          "只能删活动期限/同步实际版本展示；原执行身份、状态、原结论和合法前驱不漂移。"
         ]
       },
       "dedupe": {
@@ -363,11 +371,20 @@
         ]
       },
       "evidence": {
-        "kind": "full-text-preservation-and-consumer-review",
+        "kind": "S73-current-document-candidate",
         "path": "docs/testing/e2e/stages/001-opening/README.md",
-        "sourceSha256": "52a26a649b2117126016b71ae956af2314c18c0cf1da456bf09d511ada8a0339",
-        "afterSha256": "c9b4e57dd1ba5243b9865a05bb2000f4afe23e9917a1a331a88b2532ef35e298",
-        "lineCount": 33
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/testing/e2e/stages/001-opening/README.md",
+          "gitObject": "b07ff78daa3e260ea4d84467a9fd66be36b2de65",
+          "sha256": "268d4919419c4bc097067fb56e98c6caad2eb92d6c53de5f449bb4fdbd252741"
+        },
+        "currentNativeSha256": "53bb008794c6579271d43819c0bdbefb0313883de2fe74bf721043ae02c2ad36",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -376,12 +393,29 @@
           "sourceSha256": "52a26a649b2117126016b71ae956af2314c18c0cf1da456bf09d511ada8a0339",
           "afterSha256": "c9b4e57dd1ba5243b9865a05bb2000f4afe23e9917a1a331a88b2532ef35e298",
           "previousAfterSha256": null
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261015-protocol-and-e2e-pilot-batch.json",
+            "index": 3,
+            "sha256": "907950c74f6f32ac2bdf627e5ad84d080f8f3704740d02995d21431ff78992e2"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [],
-      "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
-      "userVisibleBeforeAfter": "16 行阶段 metadata -> 四个必填章节，原 YAML 状态/日期完全保留。",
-      "reviewedLines": "1-33",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
       "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。",
       "maintenanceDeltas": [
         {
@@ -400,8 +434,44 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "268d4919419c4bc097067fb56e98c6caad2eb92d6c53de5f449bb4fdbd252741",
+          "afterSha256": "53bb008794c6579271d43819c0bdbefb0313883de2fe74bf721043ae02c2ad36",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "readDomain": {
+        "actual": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "documentStatus": "current",
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261015-protocol-and-e2e-pilot-batch.json#entries/3"
+        ]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation."
     },
     {
       "path": "docs/testing/e2e/stages/001-opening/report.md",

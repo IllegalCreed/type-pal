@@ -18,7 +18,6 @@
       "evidence": "e2e/evidence/e2e-contract.json",
       "tags": ["e2e", "governance", "capture"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "sourceRefs": [
         {
@@ -77,7 +76,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-04",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "e2e-route",
@@ -95,7 +103,6 @@
       "evidence": "e2e/evidence/e2e-route.json",
       "tags": ["e2e", "route", "checkpoint"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-03",
       "dependsOn": ["e2e-contract"],
       "sourceRefs": [
         {
@@ -137,7 +144,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-03",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "e2e-common-issues",
@@ -155,7 +171,6 @@
       "evidence": "e2e/evidence/e2e-common-issues.json",
       "tags": ["e2e", "audit", "script-governance"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": ["e2e-001", "e2e-002", "e2e-003", "e2e-004", "e2e-005"],
       "sourceRefs": [
         {
@@ -240,7 +255,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-04",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "e2e-001",
@@ -258,7 +282,6 @@
       "evidence": "e2e/evidence/e2e-001.json",
       "tags": ["story", "opening", "dialogue", "checkpoint"],
       "lastVerified": "2026-09-28",
-      "reviewBy": "2026-11-28",
       "dependsOn": [],
       "sourceRefs": [
         {
@@ -361,6 +384,13 @@
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false,
           "scope": "Fresh review of source/caller/oracle and existing historical publication boundary; not a fresh E2E or save/restore result."
+        },
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-28",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
         }
       ]
     },
@@ -380,7 +410,6 @@
       "evidence": "e2e/evidence/e2e-002.json",
       "tags": ["story", "inn", "dialogue", "script-governance", "checkpoint"],
       "lastVerified": "2026-10-02",
-      "reviewBy": "2026-11-02",
       "dependsOn": ["e2e-001"],
       "sourceRefs": [
         {
@@ -458,7 +487,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-02",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "e2e-003",
@@ -476,7 +514,6 @@
       "evidence": "e2e/evidence/e2e-003.json",
       "tags": ["story", "inn", "kitchen", "npc", "checkpoint"],
       "lastVerified": "2026-10-02",
-      "reviewBy": "2026-11-02",
       "dependsOn": ["e2e-002"],
       "sourceRefs": [
         {
@@ -557,7 +594,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-02",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "e2e-004",
@@ -575,7 +621,6 @@
       "evidence": "e2e/evidence/e2e-004.json",
       "tags": ["story", "items", "menu", "save-restore", "checkpoint"],
       "lastVerified": "2026-10-02",
-      "reviewBy": "2026-11-02",
       "dependsOn": ["e2e-003"],
       "sourceRefs": [
         {
@@ -660,7 +705,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-02",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "e2e-005",
@@ -678,7 +732,6 @@
       "evidence": "e2e/evidence/e2e-005.json",
       "tags": ["story", "npc", "guards", "save-restore", "checkpoint"],
       "lastVerified": "2026-10-02",
-      "reviewBy": "2026-11-02",
       "dependsOn": ["e2e-004"],
       "sourceRefs": [
         {
@@ -770,7 +823,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-02",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "e2e-006",
@@ -788,7 +850,6 @@
       "evidence": "e2e/evidence/e2e-006-current.json",
       "tags": ["story", "npc", "boat", "visual", "rework"],
       "lastVerified": "2026-10-03",
-      "reviewBy": "2026-11-02",
       "dependsOn": ["e2e-005"],
       "sourceRefs": [
         {
@@ -906,7 +967,16 @@
           "status": "rework",
           "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81"
         }
-      }
+      },
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-02",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "runtime-active-scene",
@@ -924,7 +994,6 @@
       "evidence": "domains/runtime/scene/active-scene/evidence.json",
       "tags": ["ownership", "scene", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "bootGame → ActiveScene.commit(plan)",
@@ -1017,7 +1086,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-04",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "runtime-battle-host",
@@ -1035,7 +1113,6 @@
       "evidence": "domains/runtime/battle/battle-host/evidence.json",
       "tags": ["ownership", "battle", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "bootGame → BattleHost.start/cancel/active",
@@ -1121,7 +1198,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-04",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "runtime-battle-session-owners",
@@ -1139,7 +1225,6 @@
       "evidence": "domains/runtime/battle/battle-session-owners/evidence.json",
       "tags": ["ownership", "battle", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "BattleSession constructor → readiness/settlement owners",
@@ -1236,7 +1321,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-04",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "runtime-world-owners",
@@ -1254,7 +1348,6 @@
       "evidence": "domains/runtime/world/world-runtime/evidence.json",
       "tags": ["ownership", "world", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "bootGame → WorldMotionRuntime + WorldScenePresentation",
@@ -1348,7 +1441,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-04",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "legacy-flat-audit",
@@ -1366,7 +1468,6 @@
       "evidence": "domains/ops/testing-governance/legacy-flat-audit.json",
       "tags": ["governance", "legacy", "migration", "audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "sourceRefs": [
         {
@@ -1456,7 +1557,16 @@
             "notRun": ["product runtime", "old tests", "coverage"]
           }
         ]
-      }
+      },
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-04",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "editor-command-form-families",
@@ -1474,7 +1584,6 @@
       "evidence": "domains/editor/commands/command-form-families/evidence.json",
       "tags": ["ownership", "commands", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "ScriptEditor → createAuthorCommandFormBridge → CommandForm family dispatch",
@@ -1563,7 +1672,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-04",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "reforge-menu-session",
@@ -1581,7 +1699,6 @@
       "evidence": "domains/runtime/menu/menu-session/evidence.json",
       "tags": ["ownership", "menu", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "main menu input → MenuSession",
@@ -1667,7 +1784,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-04",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "editor-map-workspace-sessions",
@@ -1685,7 +1811,6 @@
       "evidence": "domains/editor/map/map-workspace-sessions/evidence.json",
       "tags": ["ownership", "map", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "MapMode → pointer gesture session",
@@ -1781,7 +1906,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-04",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     },
     {
       "id": "phase1-dependency-ownership",
@@ -1799,7 +1933,6 @@
       "evidence": "domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
       "tags": ["ownership", "dependencies", "document-audit"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-11-04",
       "dependsOn": [],
       "publicCallers": [
         "game event/scene/equipment/battle/menu consumers → single lower owner modules",
@@ -1913,7 +2046,16 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewHistory": [
+        {
+          "date": "2026-10-30",
+          "action": "user-approved-retire-calendar-review",
+          "retiredReviewBy": "2026-11-04",
+          "policy": "docs/testing/governance.md#版本适用性",
+          "runtimeExecutionPerformed": false
+        }
+      ]
     }
   ],
   "_governance": {

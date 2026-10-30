@@ -55,9 +55,12 @@
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json"
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json",
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/e2e/stages/001-opening/report.md",
@@ -119,10 +122,13 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "template-compliant",
+      "templateCompliance": "needs-migration",
       "phase": "testing",
-      "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261015-catalog-pilot-batch.json"
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261015-catalog-pilot-batch.json",
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/domains/editor/commands/command-form-families/report.md",
@@ -424,7 +430,8 @@
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261018-semantic-rework.json",
       "historyOverlay": false,
-      "reviewDepth": "partial-semantic"
+      "reviewDepth": "structured-content",
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
@@ -435,7 +442,9 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261016-historical-execution-pilot.json",
-      "reviewDepth": "partial-semantic"
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
@@ -446,7 +455,9 @@
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261016-historical-execution-pilot.json",
-      "reviewDepth": "partial-semantic"
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/archive/architecture-regression-lab/README.md",
@@ -1260,9 +1271,12 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261016-testing-index-navigation.json"
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261016-testing-index-navigation.json",
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/indexes/by-status.md",
@@ -1270,9 +1284,12 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261016-testing-index-navigation.json"
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261016-testing-index-navigation.json",
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/indexes/by-tag.md",
@@ -1300,9 +1317,12 @@
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261016-e2e-stage-m.json"
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261016-e2e-stage-m.json",
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
@@ -1320,9 +1340,12 @@
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261016-e2e-stage-m.json"
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261016-e2e-stage-m.json",
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/e2e/stages/003-kitchen/report.md",
@@ -1340,9 +1363,12 @@
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261016-e2e-stage-m.json"
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261016-e2e-stage-m.json",
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/e2e/stages/004-meal/report.md",
@@ -1360,9 +1386,12 @@
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261016-e2e-stage-m.json"
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261016-e2e-stage-m.json",
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/e2e/stages/005-shrimp/report.md",
@@ -1692,10 +1721,13 @@
       "phase": "testing",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r62-template-sources.json",
-      "templateVersion": "1.0.0"
+      "templateVersion": "1.0.0",
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/_templates/evidence.json",
@@ -1740,10 +1772,13 @@
       "phase": "testing",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r62-template-sources.json",
-      "templateVersion": "1.0.0"
+      "templateVersion": "1.0.0",
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/_templates/test-contract.md",
@@ -1760,20 +1795,26 @@
       "phase": "testing",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r62-template-sources.json",
-      "templateVersion": "1.0.0"
+      "templateVersion": "1.0.0",
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/_templates/test-e2e-stage.md",
       "phase": "testing",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r62-template-sources.json",
-      "templateVersion": "1.0.0"
+      "templateVersion": "1.0.0",
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/_templates/test-machine-evidence.json",
@@ -9424,7 +9465,9 @@
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261018-semantic-rework.json",
       "historyOverlay": false,
-      "reviewDepth": "partial-semantic"
+      "reviewDepth": "structured-content",
+      "templateVersion": "1.0.0",
+      "artifactOnly": false
     },
     {
       "path": "docs/testing/legacy-flat-classification.json",
@@ -9465,10 +9508,11 @@
       "templateId": "test-machine-evidence-v1",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewDepth": "partial-semantic",
+      "reviewDepth": "structured-content",
       "reviewRecord": "20261018-semantic-rework.json",
       "templateVersion": "1.5.0",
-      "historyOverlay": false
+      "historyOverlay": false,
+      "artifactOnly": false
     }
   ]
 }

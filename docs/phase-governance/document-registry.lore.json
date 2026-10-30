@@ -115,7 +115,8 @@
       "reviewRecord": "20261017-r33-phase2-lore.json",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "reviewDepth": "partial-semantic"
+      "reviewDepth": "structured-content",
+      "artifactOnly": false
     },
     {
       "path": "docs/lore/versions.md",

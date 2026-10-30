@@ -263,32 +263,35 @@
       "templateId": "guide-runbook-v1",
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
-      "reviewDepth": "partial-semantic",
-      "readMethod": "Bounded current body/code/evidence delta plus exact preserved source/history; not a new whole-source deep-read claim.",
-      "coreConclusion": "General paired evidence contract allows immutable historical native publication only with exact whole-file SHA/status/candidate and current backward supersedes. It never exempts malformed/orphan files, changes source pins or treats history as current runtime proof.",
+      "reviewDepth": "structured-content",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "coreConclusion": "唯一测试治理runbook分离catalog发布、执行raw与文档迁移；保留历史/当前回执整件SHA与反向supersedes配对。10-30退休活动reviewBy，lastVerified为历史事实，按版本/相关源码matching、changed、unknown判断适用性；migrateBy迁移期限和source/配对/artifact门不退休。",
       "truthAnchors": [
-        "scripts/docs/check-testing.mjs:193",
-        "scripts/docs/check-testing.mjs:475",
-        "scripts/docs/check-testing.mjs:575",
-        "docs/ops/agent-workflow.md:46",
-        "scripts/docs/generate-testing-index.mjs:76"
+        "docs/testing/governance.md",
+        "scripts/docs/check-testing.mjs",
+        "scripts/docs/testing-revisions.mjs"
       ],
       "unresolved": [
-        "Non-author current candidate acceptance pending",
-        "User boat/rower/landing perception pending, silent actual clips available",
-        "Full docs strict backlog and separately expired e2e-route publication remain unpassed"
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
-      "nextStep": "Independent evidence/central-delta acceptance and user visual decision; no date-only closure or main/push/done.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
       "phase": "testing",
       "module": "testing-governance",
       "capability": "publication-and-evidence-governance",
-      "owner": "Codex root",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "provenance": [
         "actual full original and current body read",
         "actual public validators and producer source scopes",
         "manual semantic runbook rewrite",
         "no execution/business-test recertification",
-        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
+        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending.",
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
+        }
       ],
       "primarySource": [
         {
@@ -360,26 +363,21 @@
         "scripts/docs/relocate.mjs",
         "scripts/docs/finalize-testing-migration.mjs"
       ],
-      "versionScope": {
-        "validity": "current publication/runbook policy",
-        "sourceRevision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
-        "nativeBoundary": "schema2 rules apply to current catalog canonical pairs; approved historical-native variants keep their own fields",
-        "notRun": ["product", "old tests", "coverage", "E2E", "visual"]
-      },
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
         "node scripts/e2e/boat-both.mjs"
       ],
       "legalInputs": [
-        "Fixed prior e5 author/control objects and current body commit f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
-        "Actual independent006 raw and exact static preview projections; historical native bytes unchanged"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "bounded-owner-e2e-publication-no-self-credit",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "General paired evidence contract allows immutable historical native publication only with exact whole-file SHA/status/candidate and current backward supersedes. It never exempts malformed/orphan files, changes source pins or treats history as current runtime proof.",
-          "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
+          "既有历史原件不因新政策刷新，缺记录/已知差异分列。",
+          "源指纹仍保守，合法重构需真实影响/复用证明，HEAD不同不自动重跑。"
         ]
       },
       "dedupe": {
@@ -387,29 +385,11 @@
         "against": ["2026-10-26 partial006 closeout", "historical006 receipt"],
         "notes": "No duplicate current binding or restored old acceptance."
       },
-      "counterReworkBlocked": [
-        {
-          "id": "S02-FRONT-MATTER",
-          "status": "closed-by-non-author-for-fixed-body-only",
-          "statement": "Prior text required testing-meta but omitted current consumer front matter schema/id/evidence.",
-          "closureCommit": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
-          "closureReport": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S02-fe546c7e.json"
-        },
-        {
-          "id": "S02-EXPIRY",
-          "status": "closed-by-non-author-for-fixed-body-only",
-          "statement": "Prior text only named current/verified/rework; consumer expires all except archived/superseded.",
-          "closureCommit": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
-          "closureReport": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S02-fe546c7e.json"
-        },
-        {
-          "id": "S02-PROJECTIONS-CENSUS",
-          "status": "closed-by-non-author-for-fixed-body-only",
-          "statement": "Current producer emits9 views, not just4; frozen legacy identity cannot grow by appending a manifest row.",
-          "closureCommit": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
-          "closureReport": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S02-fe546c7e.json"
-        }
-      ],
+      "counterReworkBlocked": {
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
+      },
       "revision": {
         "currentSha": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
         "history": [
@@ -429,48 +409,20 @@
         ]
       },
       "evidence": {
-        "kind": "actual-per-document-semantic-rework-with-fixed-body-non-author-acceptance",
+        "kind": "S73-current-document-candidate",
         "path": "docs/testing/governance.md",
-        "sourceRevision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
-        "nonAuthorAcceptance": {
-          "reviewerTask": "/root/receipt_integrity_independent",
-          "authorTask": "/root",
-          "nonAuthorReviewer": true,
-          "reviewedCommit": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
-          "bodySha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
-          "report": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S02-fe546c7e.json",
-          "reportSha256": "db1c98bc5bbc3d2b7a52f51ce37e7c732932ba4ea205289a5e64edebf7291381",
-          "intakeMap": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S02-fe546c7e.json",
-          "scope": "fixed testing/governance body and runbook template only; no global/runtime credit"
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/testing/governance.md",
+          "gitObject": "31056caf6346ba4cce180e2880f9ba4845392679",
+          "sha256": "3e35f47d9a0bb497e99b6b9957079bb40033f04ba564c9914cbea3a94b3d7b8e"
         },
-        "historicalSource": {
-          "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
-          "sha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
-          "lines": 73
-        },
-        "publicationIOProbes": [
-          {
-            "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/s02-probes-v1-757d2d6a-135b-4259-b5c2-0d354601a838.receipt.log",
-            "sha256": "b908786f028d00477a18caf2b6d2d3659941c0791f8e764b730fd2ce26f061f3",
-            "exitCode": 1
-          },
-          {
-            "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/s02-probes-v2-983bf4b5-2c96-4dd0-87d1-39d6a6f78f7f.receipt.log",
-            "sha256": "eb532cfbc27e2bf2af1b77503a5135068c54b64943c836ec18b1a0fac68468e1",
-            "exitCode": 0
-          }
-        ],
-        "probeDisclosure": "v1 author harness chose contract/status, producing an extra legitimate dependency rejection and failing the harness; that reproduced failure is retained. v2 expires an already-proposal leaf, then independently probes missing-frontmatter and frozen-census through real validators with exact fixture cleanup. No repository rule or product test changed.",
-        "currentPublicationDelta": {
-          "kind": "author-candidate",
-          "task": "E2E-006-1",
-          "date": "2026-10-27",
-          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
-          "currentRuntimeReceipt": "docs/testing/e2e/evidence/e2e-006-current.json",
-          "scope": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
-          "independentAcceptance": "pending",
-          "runtimeAcceptanceGranted": false
-        }
+        "currentNativeSha256": "3af63b78a66ec7bf0929b05d26a8f4da82b566e9c16adaf0df05cf37c03c0200",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -512,6 +464,23 @@
           "priorIndependentAcceptance": null,
           "newDocumentAcceptanceGranted": false,
           "newRuntimeAcceptanceGranted": false
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+            "index": 1,
+            "sha256": "8fd5c19576c7416b41032b7847b22b08eb5b5de604cef9124f5dcd293611b5ee"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "historicalWithdrawal": {
@@ -526,11 +495,11 @@
           "scope": "this path generic envelope/current credit only; old user rules and withdrawal retained in history"
         }
       ],
-      "stopLine": "No reviewed/template-compliant before non-author acceptance of new bytes; no bulk restoration or product/old-test/coverage edits; global gate failures remain failures.",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
       "sourceSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
-      "afterSha256": "3e35f47d9a0bb497e99b6b9957079bb40033f04ba564c9914cbea3a94b3d7b8e",
+      "afterSha256": "3af63b78a66ec7bf0929b05d26a8f4da82b566e9c16adaf0df05cf37c03c0200",
       "sourceGitRevision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
-      "reviewedLines": "1-83 current;1-108 before;original73; dependency ranges explicit",
+      "reviewedLines": "原85行runbook及新增版本适用性政策全文核读，定向比对实际validator/lineage及代码治理源实现，复用其14工具观察并在本树实跑15。",
       "historyOverlay": false,
       "documentStatus": "current",
       "beforeAfter": {
@@ -538,12 +507,10 @@
         "after": "real six-step runbook tied to validators and9 projections; publication/execution/history separated; frozen legacy identity and explicit retirement"
       },
       "templateConformance": {
-        "purpose": "testing publication and retirement",
-        "preconditions": "authority, templates, legal input and independent roles",
-        "steps": "6 executable stages with real fields/commands",
-        "failureHandling": "specific validator failures, raw preservation and stop conditions",
-        "completion": "consumer zero diagnostics + non-author content review, no runtime inference",
-        "status": "non-author accepted fixedfe546c7e body"
+        "status": "author-candidate-only",
+        "templateId": "guide-runbook-v1",
+        "templateVersion": "1.0.0",
+        "independentAcceptance": false
       },
       "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
       "maintenanceDeltas": [
@@ -557,8 +524,41 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "3e35f47d9a0bb497e99b6b9957079bb40033f04ba564c9914cbea3a94b3d7b8e",
+          "afterSha256": "3af63b78a66ec7bf0929b05d26a8f4da82b566e9c16adaf0df05cf37c03c0200",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "readDomain": {
+        "actual": "原85行runbook及新增版本适用性政策全文核读，定向比对实际validator/lineage及代码治理源实现，复用其14工具观察并在本树实跑15。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": ["docs/phase-governance/reviews/20261018-semantic-rework.json#entries/1"]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain."
     },
     {
       "path": "docs/testing/e2e/README.md",
@@ -5667,34 +5667,34 @@
       "templateVersion": "1.5.0",
       "templateVariant": "historical-execution-publication-v2",
       "templateCompliance": "needs-migration",
-      "reviewDepth": "partial-semantic",
-      "readMethod": "Current E2E006 publication delta and actual bounded evidence review; inherited historical source/quote preserved, not regranted as full source review.",
-      "coreConclusion": "Only mutable governance appends a dated Oct26 publication/current-execution reference; original16native fields and4676B prefix, 33cc source pins and dated currentAudit false stay exact. New reports are real independent95row journeys plus zero-finding offline comparison, not a refresh of original SAVE11 execution or full006 acceptance.",
+      "reviewDepth": "structured-content",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "coreConclusion": "历史混合document-audit保原16业务字段、performed=true、d022候选和22/11；_governance的10-18 currentAudit=false及10-26出版复核只属原时点。原3refs/5artifact缺口不能由新回执补认证；唯一当前执行已由完整SHA/status/candidate反链指向current.json，本文新审不改一字节。",
       "truthAnchors": [
-        "docs/testing/e2e/evidence/e2e-006.json:1",
-        "docs/testing/e2e/evidence/e2e-006.json:121",
-        "scripts/e2e/boat-contract.mjs:203",
-        "scripts/e2e/boat-observations.mjs:1",
-        "scripts/e2e/boat-terminal-contract.mjs:1",
-        "docs/testing/e2e/stages/006-doctor-boat/report.md:1"
+        "docs/testing/e2e/evidence/e2e-006.json",
+        "docs/testing/e2e/evidence/e2e-006-current.json",
+        "docs/testing/catalog.json"
       ],
       "unresolved": [
-        "Exact v6/v7 per-tuple consumers and fixed157 S07 actual pilot accepted separately. This current successor central binding/transport/composition still requires distinct fixed-snapshot acceptance.",
-        "Original data/extracted events1513/1516/1517 absent in isolated checkout; original95text/speakers/operands or game equivalence not established.",
-        "Actual raw/slot/rider resources and full SAVE12 boat chain/fullframes/visual/preview/coverage not executed or accepted.",
-        "Historicalstate3/offset-facing conflicts remain date-bounded unknown; no false choice of one historicalvalue.",
-        "Other withdrawn bindings/fivequarantines/global hardgates remain open."
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
-      "nextStep": "Non-author verify bounded author delta/code/evidence and precise administrative cascade; keep E2E rework until formal006save,naming,editor+visual obligations close.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
       "phase": "testing",
       "module": "e2e006-historical-execution-document-audit",
       "capability": "doctor-island-terminal-and-rider-provenance-boundaries",
-      "owner": "Codex native evidence documentation maintenance",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "provenance": [
         "Body author /root/e2e_entry_semantic_author",
         "Distinct body reviewer /root/receipt_integrity_independent",
         "Root central adoption preserves exact original B output/280manifest/external seal and5finalization artifacts; no root fresh primary-corpus claim.",
-        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator."
+        "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator.",
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
+        }
       ],
       "primarySource": [
         {
@@ -6038,20 +6038,7 @@
         "packages/content/src/character.ts",
         "packages/reforge/src/save/types.ts"
       ],
-      "versionScope": {
-        "candidateCommit": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
-        "nativeHistoricalCandidate": "d02278dc0154dd73b5db24388a35c30bb096cc81",
-        "nativeHistoricalVersions": {
-          "content": 22,
-          "minimumSave": 11
-        },
-        "currentContentMinimumRF": [22, 12, 12],
-        "originalSourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
-        "originalSourceSha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
-        "nativePublicationStatus": "rework",
-        "historicalExecutionPerformedPreserved": true,
-        "currentAuditRuntimeExecutionPerformed": false
-      },
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
       "publicCallers": [
         "docs/testing/catalog.json uniquee2e006 publication record",
         "docs/testing/e2e/stages/006-doctor-boat/report.md existing canonical/testing-meta pair",
@@ -6059,326 +6046,15 @@
         "package boat game/reforge/both actual CLI/source caller boundaries, not invoked"
       ],
       "legalInputs": [
-        "All16 native key/value/array/date order,3refs/5artifactlocators/history and4676B currentprefix unchanged; original prefix plus fixed0a7d0a exactly inverts33cc source.",
-        "Existing historical-execution-publication-v2 accepts native historicaltrue only with currentAuditfalse and exact approved33cc original Buffer/baseline, not ordinary performedfalse audit.",
-        "Current actual006requires genuine sameengine005saves report/traces/savebytes/version/raw/slot evidence; source helper syntheticDTOs do not meet complete lawful gameplay input."
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "S10-historical-native-fields-and-specific-source-limit-oracle",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "95dialogue rows and final4 plus island/control source obligations are stronger than isolated storyEnd helper.",
-          "Relative motion can accept arbitrary constant offset/up but rejects moving middle in stationary segment; drawn-frame projection is not everycommit and not terminal.",
-          "Terminal/rider slot continuation and resource source checks separate; source consumer existence does not authenticate missing original operands/raw.",
-          "005 realbusiness reader/checkpoint validation and boat both report-only dispatch, no launched dualengine/sixcase.",
-          "Originaltrue/currentAuditfalse/version/claim mutations rejected by full migrated/publication consumer; rework/status/dates and source-versus-runtime axes retained."
-        ],
-        "independentFieldFindings": [
-          {
-            "field": "schemaVersion",
-            "pointer": "/schemaVersion",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "Original2 remains native schema. Existing mixed-history variant does not rewrite historical envelope."
-          },
-          {
-            "field": "id",
-            "pointer": "/id",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "Stable e2e-006 identity pairs exact catalog entry, not a new case/run."
-          },
-          {
-            "field": "kind",
-            "pointer": "/kind",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "document-audit retained alongside historical performed=true; historical-execution-publication-v2 fits this input. Borrowing document-audit-v2 fails public consumer."
-          },
-          {
-            "field": "status",
-            "pointer": "/status",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "rework remains. Paired current status, lastVerified10-03 and reviewBy10-23 are not E2E pass or freshness of current execution."
-          },
-          {
-            "field": "candidateSha",
-            "pointer": "/candidateSha",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "d022 stays historical source/publication identity; missing raw revision cannot be inferred from this field."
-          },
-          {
-            "field": "versions",
-            "pointer": "/versions",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "Original22/min11 remains paired. Current22/min12 and RF12 are source declarations on a different axis. Actual mutation to12 is rejected by paired consumer."
-          },
-          {
-            "field": "sourceRefs",
-            "pointer": "/sourceRefs",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "All3 fileSHA/range/anchor checked. RF bridge3 and caller23–40 do not contain all boat business logic; bytes hash42–43 is outside short range. Full source reads supply only their stated scope."
-          },
-          {
-            "field": "publicCallers",
-            "pointer": "/publicCallers",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "Original soleRF caller retained; actual package/source also has Game and both. both reads reports, does not start two engines or sixcases."
-          },
-          {
-            "field": "legalInputs",
-            "pointer": "/legalInputs",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "Current publication requires SAVE12 chain, while caller actually consumes same-engine005 saves through real005 business reader and checkpoint byte checks. It does not independently certify all upstream001–004 or literal SAVE12 chain."
-          },
-          {
-            "field": "businessOracle",
-            "pointer": "/businessOracle",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "Declared95=17+23+40+11+4, ending1886/1888/1889/1890, island/control. Actual helper story-end predicate alone is weaker. Terminal, draw projection and rider consumers are distinct source obligations; missing original data/raw stays blocked."
-          },
-          {
-            "field": "dedupe",
-            "pointer": "/dedupe",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "Original reviewed/against remains historical scope. No full neighboring report/test audit performed, and no current006 missing logs/visual evidence filled by005 or old001–005."
-          },
-          {
-            "field": "claims",
-            "pointer": "/claims",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "Sole source-backed claim retained with three locators. Historical runtime=true does not promote this claim; actual runtime promotion rejected."
-          },
-          {
-            "field": "runtimeExecution",
-            "pointer": "/runtimeExecution",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "Historicaltrue/three paths/original current wording preserved, explicitly dated by governance. Current author auditfalse separate. Missing raw here is not proof that old execution was false."
-          },
-          {
-            "field": "findings",
-            "pointer": "/findings",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "All five original dated strings/order exact. Later10-07/10-06 correction and old10-04 claim remain their own times, not one currently verified execution."
-          },
-          {
-            "field": "artifacts",
-            "pointer": "/artifacts",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "All five original locators/order exact. Native historical state-trace names, later dated directories and current derived filenames are differentiated. No contents/hash authenticity asserted."
-          },
-          {
-            "field": "history",
-            "pointer": "/history",
-            "verdict": "accept-preserved-field-and-limited-explanation",
-            "independentFinding": "Originald022/10-04 source-and-publication-audit/notRun retained. Old governance retained structurally under history; expired/C2/continuous done prose does not renew present completed credit."
-          }
-        ],
-        "independentReadScope": {
-          "bodyGitInputs": "All original96, dc120, before120 and candidate447 lines, all16 original native fields, all new governance and retained governance read. Exact Git bytes and identities reverified in command14.",
-          "freshFullSources": [
-            "scripts/e2e/boat-contract.mjs",
-            "scripts/e2e/boat-reforge.mjs",
-            "scripts/e2e/boat-journey.mjs",
-            "scripts/e2e/boat-game.mjs",
-            "scripts/e2e/boat-both.mjs",
-            "scripts/e2e/boat-motion-evidence.mjs",
-            "scripts/e2e/boat-observations.mjs",
-            "scripts/e2e/boat-recording-contract.mjs",
-            "scripts/e2e/boat-terminal-contract.mjs",
-            "scripts/e2e/boat-rider-pose.mjs",
-            "scripts/e2e/npc-story-scope.mjs",
-            "scripts/e2e/coordinate-evidence.mjs",
-            "scripts/e2e/errand-contract.mjs",
-            "scripts/e2e/evidence-artifact.mjs",
-            "docs/testing/e2e/stages/006-doctor-boat/report.md",
-            "docs/testing/e2e/stages/006-doctor-boat/README.md"
-          ],
-          "freshFullQualification": "Some initial full boat reads occurred in own prior405 checkout before detach; each source SHA matches the fixed b166 Git object and is reverified here. No mutable author-tree body substituted. errand-contract full508 obtained by union1–188,175–350,350–508; not borrowed from author S09 judgment.",
-          "freshSelectedSources": [
-            {
-              "path": "scripts/e2e/recompare-recording.mjs",
-              "lines": "1–116,175–218,249–295; not full313"
-            },
-            {
-              "path": "scripts/e2e/recorded-story-contract.mjs",
-              "lines": "1–26,51–101,147–161; omitted gaps not semantically reviewed"
-            },
-            {
-              "path": "scripts/e2e/errand-observer.mjs",
-              "lines": "578–668 only, DTO/readiness/hook definitions; not full668"
-            },
-            {
-              "path": "projects/pal/content/scenes/s005.json",
-              "scope": "Only e116.trigger.legacy-001.initial.body[4,9,10,11,12]; not full5831-line scene"
-            },
-            {
-              "path": "docs/testing/catalog.json",
-              "scope": "Whole006 and005 objects/navigation; governance006 entry reading and explicit10-16 publication renewal history1977–2000; not allcatalog semantic review"
-            },
-            {
-              "path": "docs/phase-governance/templates/registry.json",
-              "scope": "Machine1.5 base identity/required/history and complete historical-execution-publication-v2 variant; unique006 historical pin. Other templates not semantically re-reviewed"
-            },
-            {
-              "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
-              "lines": "1–95 only"
-            },
-            {
-              "path": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
-              "lines": "1–44,485–527 only; not full archive"
-            },
-            {
-              "path": "docs/testing/e2e/contract.md",
-              "lines": "98–149,239–284 normative boundaries, freshly reread"
-            },
-            {
-              "path": "scripts/docs/document-model.mjs",
-              "lines": "108–155,183–325 only plus actual full public consumer invocation"
-            },
-            {
-              "path": "scripts/docs/frozen-document-source.mjs",
-              "lines": "1–70,181–242 only; immutable branded source/baseline contract"
-            },
-            {
-              "path": "scripts/docs/check-testing.mjs",
-              "lines": "187–337; actual public full catalog/index/pair consumers invoked"
-            },
-            {
-              "path": "packages/content/src/character.ts",
-              "lines": "168–170 freshly reread, file hash identity only elsewhere"
-            },
-            {
-              "path": "packages/reforge/src/save/types.ts",
-              "lines": "1–16 freshly reread, no save-loader internals"
-            },
-            {
-              "path": "package.json",
-              "lines": "35–37 boat public scripts only; no package-wide semantic acceptance"
-            }
-          ],
-          "ownPriorExactShaInheritance": [
-            {
-              "path": "scripts/e2e/meal-contract.mjs",
-              "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad",
-              "scope": "Prior own S08 full1–927; fixed file SHA verified equal. Not called readMealContract and no original dialogue values newly authenticated."
-            },
-            {
-              "path": "scripts/e2e/kitchen-contract.mjs",
-              "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634",
-              "scope": "Prior own S08 lines1–35 readiness; not entire655."
-            }
-          ],
-          "inheritedOwnReport": {
-            "path": "sources/prior-own-S08-report.json",
-            "sha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d"
-          },
-          "authority": "AGENTS, documentation model, agent workflow testing-quality section and testing governance read in this continuing session; exact fixed files captured/reverified. They retain separation of static, documentary, source, execution, original data and user visual acceptance.",
-          "admission": "Only current root S10 section1779–1785 observed/captured; root file is WIP routing/admission evidence, not candidate body or fixed central acceptance. Captured root file SHA below.",
-          "sourceIdentities": "sources/source-identities.json and sources/final-input-audit.json are whole-file identity ledgers; copying/hashing a file does not claim semantic reading of every field or line.",
-          "notReadOrRun": [
-            "Original data/extracted/events/all.json, events1513/1516/1517 and full original95 dialogue/speaker values absent/unread. No main-tree fallback or fabricated source/data.",
-            "No original raw report/trace/motion/state/capture bytes opened. Metadata-only absence at own checkout/time is not global nonexistence or proof historical runtime never happened. Original owner/retention unknown.",
-            "No full actor-recording/resource/motion-slot/restore-input internal contract review; no actual slot/rider/resource/frame/terminal consumer invocation. The terminal/rider modules have missing original-data dependency; read source without importing or replacing data.",
-            "No actual full SAVE12 001–006 chain, Game/RF journey, browser, offline E2E recompare, preview, product tests or coverage execution.",
-            "No all2372/1838 or fullcatalog/continuous archive/centralDAG semantic review; no old test deduplication claim. Author/harvest read scopes are not copied as reviewer accomplishments."
-          ]
-        },
-        "specificChallenges": [
-          {
-            "id": "S10-HISTORICAL-TRUE",
-            "target": "/_governance/fieldReadings/2 and /12; /currentAudit",
-            "alternative": "Replace performed=true with false to fit ordinary audit, or count old true as current execution.",
-            "source": "e2e-006 original Git96; native consumer controls03",
-            "decision": "Rejected both alternatives. Sixteen native fields exact; historical variant and currentAuditfalse separate. Actual nativefalse/currentAudittrue mutations refuse. No execution authenticity grant."
-          },
-          {
-            "id": "S10-NINETY-FIVE-END",
-            "target": "/_governance/sourceContracts/story",
-            "alternative": "Island+ready alone proves95 dialogues and correct current boat route.",
-            "source": "scripts/e2e/boat-contract.mjs:30–172,203–237; boat journeys full; actual helper02",
-            "decision": "Actual minimalGame/RF DTO with no dialogue history passes storyEnd; active dialogue fails. Full caller/recording obligations add95 confirmation/consumption/source text requirements. Body accurately limits helper proof, original text/speakers/raw remain blocked."
-          },
-          {
-            "id": "S10-RELATIVE-MOTION",
-            "target": "/_governance/sourceContracts/motionProjection",
-            "alternative": "Constant relative pose/up-facing passes therefore expected mount offset or canonical rendering is correct.",
-            "source": "boat-observations.mjs full65; boat-contract motion helper; actual helper02",
-            "decision": "Actual [7,8,0] arbitrary offset/up passes. Interior stationary movement drift is rejected, showing ride interval includes stationary middle. Comparison facing mutation produces needs-review, not proof of original pose. No full raw/Game defect inference."
-          },
-          {
-            "id": "S10-DRAW-VS-COMMIT",
-            "target": "/_governance/sourceContracts/motionProjection and offlineBoat",
-            "alternative": "Every actor state commit is a rendered frame, or projected sample is actual terminal.",
-            "source": "boat-motion-evidence.mjs full41; boat-recording167; terminal232; actual helper02",
-            "decision": "Projection selected3 completed draws, intermediate99 pose absent and adjacent duplicate pose deduped; wrongvisit draw rejected. Terminal code additionally requires source/commit or two bound RF slot continuations. Body does not substitute final sample for terminal."
-          },
-          {
-            "id": "S10-BOTH-READER",
-            "target": "/_governance/sourceContracts/both",
-            "alternative": "both CLI starts dual engines/executes six cases and supplies missing evidence.",
-            "source": "boat-both.mjs full38; recompare-recording selected actual dispatch",
-            "decision": "Public CLI consumes game/reforge reports and recompare, unlike005 suite. Not invoked; generic actor/resource internals and actual reports not fully reviewed or replayed."
-          },
-          {
-            "id": "S10-REAL-PREDECESSOR",
-            "target": "/_governance/sourceContracts/callerAndInput",
-            "alternative": "Only label005/pass is checked, or conversely caller certifies every upstream and currentSAVE12.",
-            "source": "boat-game.mjs full447; boat-journey.mjs full364; errand-contract.mjs:175–215 and full508; evidence-artifact.mjs:71–88",
-            "decision": "005 reader genuinely validates report/traces/business/restoration and saved bytes; generic readCheckpointInput004 checks bounded report/checkpoint identity and bytes. Sameengine/saves/passed/hash are required by006 caller. This is narrower than full recursive source provenance or literal currentSAVE12 chain. No call run."
-          },
-          {
-            "id": "S10-DOCTOR-HISTORY",
-            "target": "/_governance/sourceContracts/story and currentAudit/historicalConflict",
-            "alternative": "Rewrite oldstate3 to currentstate2 or currentdown settles originalup/down and offset conflict.",
-            "source": "boat-journey doctor branch; activeE2E006 card1–95; pairedreport119; selecteds005 author body4/9–12",
-            "decision": "Current source explicitly checks e123 legacy-002/state2. Old state3 and RF[0,0]/down versus paired[-2,-4]/up remain dated statements. Source down/author mount offsets cannot authenticate old revision/fix timing without raw."
-          },
-          {
-            "id": "S10-RIDER-ORIGINAL-DATA",
-            "target": "/_governance/sourceContracts/terminalAndRider and /blockedConclusions",
-            "alternative": "Current assertions of1513/1516/1517 or author s005 slice prove original operands, correct rider resource/slot lifecycle or original equivalence.",
-            "source": "boat-terminal-contract.mjs full232; boat-rider-pose.mjs full100; currentselecteds005; metadata03; preservedharvest16stderr",
-            "decision": "Code references original values and explicit RF continuation/rider draw obligations, but absent originaldata prevents validating those values. Actual slot/resource/frame raw not consumed. Body explicitly blocks original equivalence and current演出; no product fix authorized."
-          },
-          {
-            "id": "S10-VERSIONS-PUBLICATION",
-            "target": "/_governance/currentAudit/publication and versions",
-            "alternative": "reviewBy10-23, current constants or historicaldone/C2 means currentE2E verified or newrenewal now.",
-            "source": "catalog006 and governance1977–2000; sourcecharacter168–170; RFsave1–16; originalnativehistory",
-            "decision": "Publication rework/lastVerified10-03 with explicit10-16 renewal remains historical public state. Original22/min11 d022 unchanged; current22/min12/RF12 declarations do not supply complete boat chain. Current audit grants no renewed execution."
-          },
-          {
-            "id": "S10-REFS-RAW-FAILURES",
-            "target": "/_governance/sourceRefReadings and currentAudit/rawAvailability/diagnosticFailure",
-            "alternative": "Three shortrefs cover all consumers, shell0 means original source read succeeded, or absent metadata disproves historicalrun.",
-            "source": "three exact ranges; harvestedcommand16exit0+FileNotFoundError; command09exit2 and disclosedad hocexit2; ownmetadata03",
-            "decision": "Sourcehash identity and declaredrange/anchor checked independently; separate full/selected sources enumerated. Failure scope remains failed, metadata absence limited to own checkout/time with owner unknown. No raw generated/borrowed; no originaldata value certified."
-          }
-        ],
-        "actualPublicConsumers": {
-          "receipt": "raw/03-native-full-consumers.stdout",
-          "baseline": {
-            "fullMigratedDocument": [],
-            "pairedEvidence": [],
-            "catalog": [],
-            "indexes": []
-          },
-          "controls": {
-            "flippedHistoricalTrue": [
-              "machine field mismatch: runtimeExecution.performed",
-              "historical original machine fields changed"
-            ],
-            "currentAuditExecutionTrue": [
-              "machine field mismatch: _governance.currentAudit.runtimeExecutionPerformed"
-            ],
-            "borrowedDocumentAuditVariant": ["machine field mismatch: runtimeExecution.performed"],
-            "wrongTemplateVersion": ["machine template declaration mismatch"],
-            "historicalMin11FilledWith12": ["e2e-006: evidence/catalog version mismatch"],
-            "sourceClaimPromotedToRuntime": [
-              "e2e-006 evidence: runtime claim lacks actual execution/artifacts e2e-006-source-contract"
-            ],
-            "restoredFullModelAndPair": []
-          },
-          "todayUTC": "2026-10-17",
-          "scope": "Real public migrated-document and publication consumers with ownedpair fixture and no repository writes. Rejection controls are publication/template/source-preservation controls, not product runtime tests or originalrun authenticity."
-        }
+          "历史performed true不可翻false以套普通audit；新文档审阅执行false另轴。",
+          "原顶层/治理/来源/首尾字节保持与eeba全等，原历史缺证据不被回填。"
+        ]
       },
       "dedupe": {
         "result": "One existing006 document identity; no runtime/testcase/coverage count or neighboring001–005 renewal.",
@@ -6389,23 +6065,11 @@
           "E2E-CONTINUOUS-001-006"
         ]
       },
-      "counterReworkBlocked": [
-        {
-          "id": "S10-NATIVE-HISTORICAL-TRUE",
-          "status": "fixed-body-independently-accepted",
-          "statement": "Actual 16native/prefix/oldgovernance/sourceinverse preserved; historicaltrue is not current execution."
-        },
-        {
-          "id": "S10-MISSING-ORIGINAL-AND-PRODUCT-RAW",
-          "status": "blocked",
-          "statement": "Original1513/1516/1517 and raw/terminal slot/rider/fullchain/visual missing; no reconstruction or product fix."
-        },
-        {
-          "id": "S10-EXACT-V7-AND-ACTUAL-CENTRAL",
-          "status": "exact-tool-accepted-actual-successor-central-pending",
-          "statement": "Exactv6/v7 actual consumer accepted separately, current real central combination remains pending."
-        }
-      ],
+      "counterReworkBlocked": {
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
+      },
       "revision": {
         "currentSha": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
         "history": [
@@ -6419,67 +6083,20 @@
         ]
       },
       "evidence": {
-        "kind": "actual-per-document-nonauthor-semantic-review-original-raw-reference",
-        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4.gz",
-        "reportSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
-        "storedSha256": "12e550e23c1dd251f1bcbef08885d50ecad81bce3664a3e3c05991f5a10e8082",
-        "rawReportRef": {
-          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4.gz",
-          "encoding": "gzip",
-          "payloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
-          "payloadBytes": 58982,
-          "storedSha256": "12e550e23c1dd251f1bcbef08885d50ecad81bce3664a3e3c05991f5a10e8082",
-          "storedBytes": 14262,
-          "producerTask": "/root/receipt_integrity_independent",
-          "authorTask": "/root/e2e_entry_semantic_author",
-          "reviewerTask": "/root/receipt_integrity_independent",
-          "sourceRevision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
-          "scope": "Only fixedb166 native006 body and1.5/historical-execution-publication-v2 template; original native historical performedtrue retained, currentAuditfalse. No historical authenticity/current E2E/central/global/product credit.",
-          "owner": "Codex documentation governance evidence",
-          "caller": "DOCS-FULL-TEMPLATE-1 exact per-document semantic review entry and private explicit intake",
-          "associatedTask": "DOCS-FULL-TEMPLATE-1",
-          "retentionReason": "Immutable original one-off governance review output, original failure/unknown/missing-source boundaries retained; not an existing canonical document migrated to raw.",
-          "exitCondition": "Retain for audit/replay; no automatic deletion or existing candidate exemption."
+        "kind": "S73-current-document-candidate",
+        "path": "docs/testing/e2e/evidence/e2e-006.json",
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/testing/e2e/evidence/e2e-006.json",
+          "gitObject": "8bbf721895fa6e3e573829822dd449b46e507134",
+          "sha256": "8d119d94b2af6580f2a3b6cb9814dc4a5b02f984a66d54a783ca05eee6db2daf"
         },
-        "sourceRevision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
-        "reviewer": "/root/receipt_integrity_independent",
-        "author": "/root/e2e_entry_semantic_author",
-        "nonAuthorReviewer": true,
-        "acceptance": "Only fixedb166 historical006 substantive body and1.5 historical execution variant. No execution authenticity/currentE2E/central/global/product credit.",
-        "nativePreservation": {
-          "source": {
-            "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
-            "sha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
-            "bytes": 4679
-          },
-          "before": {
-            "sha256": "0df03a5a578eff7a5ee8656961717d8b3a2380b2b5e0cb61220ae552963a574d",
-            "bytes": 6419,
-            "dcEqual": true
-          },
-          "after": {
-            "sha256": "b19bf66515a1ec6be444dad115cdab629bb770ac119d4c8100a142b29d87bd46",
-            "bytes": 26924
-          },
-          "native16SerializedKeysArraysAllEqual": true,
-          "oldGovernanceObjectExactlyRetained": true,
-          "prefix": {
-            "bytes": 4676,
-            "sha256": "75977a7499dbb89168e3f661fe5babb281d92a31551d624b540446de2d1e1e65",
-            "exactBeforeAfter": true,
-            "inverseSuffixHex": "0a7d0a",
-            "exactOriginalInverse": true
-          }
-        },
-        "currentPublicationDelta": {
-          "kind": "author-candidate",
-          "task": "E2E-006-1",
-          "date": "2026-10-26",
-          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
-          "scope": "Bounded current publication and actual execution references; original source/native/runtime identity unchanged.",
-          "independentAcceptance": "pending",
-          "runtimeAcceptanceGranted": false
-        }
+        "currentNativeSha256": "8d119d94b2af6580f2a3b6cb9814dc4a5b02f984a66d54a783ca05eee6db2daf",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": "reused-006-independent-acceptances.json (external packet; durable original archive remains canonical)"
       },
       "history": [
         {
@@ -6537,6 +6154,23 @@
           "priorIndependentAcceptance": null,
           "newDocumentAcceptanceGranted": false,
           "newRuntimeAcceptanceGranted": false
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+            "index": 10,
+            "sha256": "e0395404657617640473518d7665c2467675e5a092116c72e83bcb437724a68e"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [
@@ -6552,50 +6186,22 @@
         "scope": "Original006 already content-reviewed/template-compliant before this enrichment, outside frozen1896 withdrawal set. AdditionalAffectedBodyCredit0; five quarantines unchanged.",
         "additionalAffectedBodyCredit": 0
       },
-      "stopLine": "Do not flip native historicaltrue, certify oldrun/originalgame equivalence from helper/gzip/template, fill missing raw/unknowns, or grant adjacent/bulk/global/main/done.",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
       "sourceSha256": "0df03a5a578eff7a5ee8656961717d8b3a2380b2b5e0cb61220ae552963a574d",
       "afterSha256": "8d119d94b2af6580f2a3b6cb9814dc4a5b02f984a66d54a783ca05eee6db2daf",
       "sourceGitRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
-      "reviewedLines": "B actual full original96/dc120/before120/new447 and16fields plus explicit fresh/shared exact scopes. Root report/admission adoption, not fresh allsource.",
+      "reviewedLines": "全472行JSON机器解析，人工核16业务字段/治理角色、日期、源pin/4676B有条件逆回规则、旧unknown与出版/当前回链；既有S10读域仅引用不冒称本轮重读全部源码。",
       "historyOverlay": false,
-      "documentStatus": "rework",
+      "documentStatus": "historical",
       "beforeAfter": {
         "before": "Original96source plus existing120historical governance already validly accepted at10-16 pilot; this enrichment clarifies field/source/history boundaries without pretending prior withdrawal or adding affected credit.",
         "after": "006原16native/3refs/5artifacts/4676B前缀及原governance保全；33cc96行4679B才是原源，当前dc120行不是。historical performedtrue与当前auditfalse分轴，沿既有1.5 historical-execution-publication-v2，不翻原true适配普通audit。source95=17+23+40+11+4含岛落地收尾；最小island+ready子谓词可过不能证明95正文原意。实际投影只选draw并可丢未绘commit；任意常量相对offset/up可过，不等正确canonical偏移，静止中段漂移反控可拒。terminal/真实slot continuation/rider resource各有独立源码合同；005真实reader与generic checkpoint分层，both只消费报告不启动两轨。当前doctor state2与旧state3、RF[0,0]/down与[-2,-4]/up保分时点未知。缺原1513/1516/1517、真实raw/slot/rider/完整SAVE12船链及视觉继续blocked，未认证历史执行真实性。"
       },
       "templateConformance": {
-        "status": "fixed-body-independent-template-accepted",
+        "status": "author-candidate-only",
         "templateId": "test-machine-evidence-v1",
         "templateVersion": "1.5.0",
-        "variant": "historical-execution-publication-v2",
-        "actualPublicConsumers": {
-          "receipt": "raw/03-native-full-consumers.stdout",
-          "baseline": {
-            "fullMigratedDocument": [],
-            "pairedEvidence": [],
-            "catalog": [],
-            "indexes": []
-          },
-          "controls": {
-            "flippedHistoricalTrue": [
-              "machine field mismatch: runtimeExecution.performed",
-              "historical original machine fields changed"
-            ],
-            "currentAuditExecutionTrue": [
-              "machine field mismatch: _governance.currentAudit.runtimeExecutionPerformed"
-            ],
-            "borrowedDocumentAuditVariant": ["machine field mismatch: runtimeExecution.performed"],
-            "wrongTemplateVersion": ["machine template declaration mismatch"],
-            "historicalMin11FilledWith12": ["e2e-006: evidence/catalog version mismatch"],
-            "sourceClaimPromotedToRuntime": [
-              "e2e-006 evidence: runtime claim lacks actual execution/artifacts e2e-006-source-contract"
-            ],
-            "restoredFullModelAndPair": []
-          },
-          "todayUTC": "2026-10-17",
-          "scope": "Real public migrated-document and publication consumers with ownedpair fixture and no repository writes. Rejection controls are publication/template/source-preservation controls, not product runtime tests or originalrun authenticity."
-        },
-        "scope": "Originaltrue/currentAuditfalse and approved frozen original source Buffer fit existing historical variant. Specific semantic body accepted, not raw execution or futurecentral."
+        "independentAcceptance": false
       },
       "maintenanceDeltas": [
         {
@@ -6609,7 +6215,29 @@
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "readDomain": {
+        "actual": "全472行JSON机器解析，人工核16业务字段/治理角色、日期、源pin/4676B有条件逆回规则、旧unknown与出版/当前回链；既有S10读域仅引用不冒称本轮重读全部源码。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": ["docs/phase-governance/reviews/20261018-semantic-rework.json#entries/10"]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain."
     },
     {
       "path": "docs/testing/e2e/cross-stage/common-issues.md",
@@ -9289,13 +8917,13 @@
       "templateVersion": "1.5.0",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "needs-migration",
-      "reviewDepth": "partial-semantic",
-      "readMethod": "Complete newly authored native receipt plus actual byte-bound runtime/UI evidence; external acceptance pending",
-      "coreConclusion": "New current006 machine execution receipt binds c68 actual producer and017 code/verification axes, two real terminal checkpoints/fresh restores,0-finding whole comparison and12 static preview persisted entries. Whole old receipt remains immutable, rework and all independent/user/global limits explicit.",
+      "reviewDepth": "structured-content",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "coreConclusion": "原schema2 runtime-execution绑定c68 producer/017 verification与22/SAVE12，8个SHA载体、5步骤/5claims和向历史整件回链保持；12/11入口、performanceOptimized=false及pending是该发布轮的原记录，后继起伏/性能与独立/用户接受由正式报告补充，不覆写为新执行。",
       "truthAnchors": [
-        "f1fc131fefac6708ff5c21c47a083c5e8d37e79c:docs/testing/e2e/evidence/e2e-006-current.json",
-        "docs/testing/catalog.json",
-        "docs/testing/e2e/stages/006-doctor-boat/report.md"
+        "docs/testing/e2e/evidence/e2e-006-current.json",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md",
+        "docs/testing/catalog.json"
       ],
       "primarySource": [
         {
@@ -9349,9 +8977,16 @@
       "dependencies": ["e2e-005", "docs/testing/catalog.json"],
       "phase": "testing",
       "module": "doctor-and-boat",
-      "owner": "Codex",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "provenance": [
-        "2026-10-27 Owner-authored current runtime publication; no external acceptance yet"
+        "2026-10-27 Owner-authored current runtime publication; no external acceptance yet",
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
+        }
       ],
       "documentStatus": "rework",
       "publicCallers": [
@@ -9360,18 +8995,14 @@
         "node scripts/e2e/boat-both.mjs --game-report <game006/report.json> --reforge-report <reforge006/report.json>"
       ],
       "legalInputs": [
-        "Actual same-engine001–003 then004/005 saves chain; no injected scene or forged digest",
-        "Current content22, Reforge SAVE12; naming changes labels only",
-        "Normal Game F5/public Reforge dumpSave at completed006; fresh context consumes actual persisted JSON"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "dual006-story-persistence-and-static-preview",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "95 dialogue rows and complete island1886/1888/1889/1890, clear dialogue and return control at Game15/RF s014",
-          "Byte-bound whole story/timing/ride/draw comparison has zero findings",
-          "Formal terminal save and fresh-context restore match the complete persistent state with actual input/ack or restore commit and no arrival replay",
-          "12 saved static NPC entry bindings/11 states survive public Save As/Open and actual Play/Reset",
-          "Silent actual boat clips support separate user visual review; no audio, full runtime preview, continuous or downstream credit"
+          "两JSON按原完整字节保全，所有8artifact真SHA与版本/同引擎前驱保持。",
+          "文档审阅接受可升迁移状态，不等于新授原运行/视觉通过。"
         ]
       },
       "dedupe": {
@@ -9393,12 +9024,20 @@
         ]
       },
       "evidence": {
-        "kind": "owner-authored-current-runtime-publication",
+        "kind": "S73-current-document-candidate",
         "path": "docs/testing/e2e/evidence/e2e-006-current.json",
-        "sha256": "7cee3ea800a1855eac9a0a8d256f3c20625a6ccf42f44f5070f680c60cab82d9",
-        "sourceRevision": "f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/testing/e2e/evidence/e2e-006-current.json",
+          "gitObject": "fa6e094d73df31a9e5abf4ba49ca124a1a6a508a",
+          "sha256": "e1d58f3c6388609baee4998ec1bc4463bc76b0767ef0b9e51f577b815b4f50c8"
+        },
+        "currentNativeSha256": "e1d58f3c6388609baee4998ec1bc4463bc76b0767ef0b9e51f577b815b4f50c8",
+        "author": "Codex",
         "nonAuthorReviewer": false,
-        "acceptance": "pending"
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": "reused-006-independent-acceptances.json (external packet; durable original archive remains canonical)"
       },
       "history": [
         {
@@ -9407,6 +9046,23 @@
           "runtimePerformed": true,
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+            "index": 27,
+            "sha256": "65a6ac5e6061c34714926c6167a58bf4ce45d6477a0cfae81da7846cfe04a988"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [
@@ -9416,29 +9072,26 @@
         }
       ],
       "counterReworkBlocked": {
-        "independent": "pending",
-        "userVisual": "pending",
-        "global": "strict backlog and e2e-route expired, not green"
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
       },
       "unresolved": [
-        "Independent candidate acceptance pending",
-        "User visual decision pending",
-        "No full docs/main completion"
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
-      "nextStep": "Independent scoped review and user visual decision; no main/push/done",
-      "stopLine": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
       "sourceSha256": "7cee3ea800a1855eac9a0a8d256f3c20625a6ccf42f44f5070f680c60cab82d9",
       "reviewedSourceSha256": "7cee3ea800a1855eac9a0a8d256f3c20625a6ccf42f44f5070f680c60cab82d9",
       "sourceGitRevision": "f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
       "sourceGitObject": "1ccbcb397e147e1f84d7c88d34e64a38b564aee7",
       "afterSha256": "e1d58f3c6388609baee4998ec1bc4463bc76b0767ef0b9e51f577b815b4f50c8",
-      "reviewedLines": "Full newly authored native object and all bounded evidence references; no repeated historical full-source semantic claim",
+      "reviewedLines": "原352行JSON全解析与字段逐段核读，8真实ignored载体SHA复用/核验，结合技术原件后继范围；没有跑浏览器或重算全raw业务断言。",
       "historyOverlay": false,
       "templateConformance": {
-        "status": "author-structure-only",
+        "status": "author-candidate-only",
         "templateId": "test-machine-evidence-v1",
         "templateVersion": "1.5.0",
-        "variant": "execution",
         "independentAcceptance": false
       },
       "maintenanceDeltas": [
@@ -9459,7 +9112,30 @@
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "readDomain": {
+        "actual": "原352行JSON全解析与字段逐段核读，8真实ignored载体SHA复用/核验，结合技术原件后继范围；没有跑浏览器或重算全raw业务断言。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": ["docs/phase-governance/reviews/20261018-semantic-rework.json#entries/27"]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain."
     }
   ]
 }

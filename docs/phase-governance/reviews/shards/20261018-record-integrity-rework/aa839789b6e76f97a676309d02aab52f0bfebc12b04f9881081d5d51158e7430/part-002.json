@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
-  "generation": "2a3ed4f517b4024a169a248d3d63549d2e05b086b54bf51dd1242547229c2082",
+  "generation": "aa839789b6e76f97a676309d02aab52f0bfebc12b04f9881081d5d51158e7430",
   "key": "part-002",
   "positions": [
     37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
@@ -160,7 +160,7 @@
       "supersedes": [],
       "stopLine": "角色/结构/来源/唯一归属/保护快照或原始历史冲突立即停对应claim；只刷after不得授信，不恢复旧声明，不授child/runtime。",
       "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
-      "afterSha256": "1692e0e1072b9ab887074436a174031d101e6af5f34b0346fad42d9a61d09fd1",
+      "afterSha256": "81750cceb27eee4707cec839cfc6a36967c623304bd2e110644a3725411296e5",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -408,6 +408,17 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "1692e0e1072b9ab887074436a174031d101e6af5f34b0346fad42d9a61d09fd1",
+          "afterSha256": "81750cceb27eee4707cec839cfc6a36967c623304bd2e110644a3725411296e5",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",

@@ -379,28 +379,20 @@
     {
       "path": "docs/lore/timeline.md",
       "contentReviewStatus": "partial-review-unknown",
-      "coreConclusion": "Bounded current006 timeline ends at s014 after all four island rows/control return and refers sole report for actual formal-save/editor and acceptance axes; source quote, later chapters and cross-work uncertainty unchanged.",
+      "coreConclusion": "滚动计划按001梦醒、002接待、003厨房、004酒菜邀约、005报信、006求药出海分清因果与停止点；006止95正文/1886、1888、1889、1890确认和控制返回。21章/跨作品女娲族旧稿仍是待核历史，不把旧✅或连续卡done升为今日canon。",
       "truthAnchors": [
-        "docs/lore/timeline.md:1",
-        "docs/lore/timeline.md:1 仙剑剧情时间线与流程攻略",
-        "docs/lore/timeline.md:9 使用这份剧情记录",
-        "docs/lore/timeline.md:22 盛渔村开场滚动攻略",
-        "docs/lore/timeline.md:41 001 梦醒与房内密道",
-        "docs/lore/timeline.md:51 002 接待苗人与赏银",
-        "docs/lore/timeline.md:69 003 赶不走的醉道士与厨房交代",
-        "docs/lore/timeline.md:86 004 端菜与桂花酒邀约",
-        "docs/lore/timeline.md:100 005 买虾出门与香兰报信"
+        "docs/lore/timeline.md",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md",
+        "docs/testing/governance.md#版本适用性"
       ],
       "unresolved": [
-        "Non-author current candidate acceptance pending",
-        "User boat/rower/landing perception pending, silent actual clips available",
-        "Full docs strict backlog and separately expired e2e-route publication remain unpassed"
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
-      "nextStep": "Independent evidence/central-delta acceptance and user visual decision; no date-only closure or main/push/done.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
       "phase": "lore",
       "module": "timeline.md",
       "capability": "lore-timeline",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "provenance": [
         "source-document",
         "repository-history",
@@ -410,24 +402,32 @@
           "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42"
         },
         "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator.",
-        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
+        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending.",
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
+        }
       ],
       "sourceSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
-      "afterSha256": "6c33ccfaf40a5d5685a75bf2ea447c97802daa899b767ff71dc4715ec87ead94",
+      "afterSha256": "5e88009cbe609792c5ca944b49dcfc687aca5eb8a74ff68403257e4a497f2286",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
         "node scripts/e2e/boat-both.mjs"
       ],
       "legalInputs": [
-        "Fixed prior e5 author/control objects and current body commit f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
-        "Actual independent006 raw and exact static preview projections; historical native bytes unchanged"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "bounded-owner-e2e-publication-no-self-credit",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "Bounded current006 timeline ends at s014 after all four island rows/control return and refers sole report for actual formal-save/editor and acceptance axes; source quote, later chapters and cross-work uncertainty unchanged.",
-          "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
+          "active表示资料滚动维护，不是完整游戏/系列真值通过。",
+          "旧quote尾部必须逐字节等固定base，state3/新state2及历史偏移冲突不静默归一。",
+          "角色分工：叙事归本页，合法前驱归碎片目录，执行事实归阶段报告。"
         ]
       },
       "dedupe": {
@@ -464,35 +464,20 @@
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r33-phase2-lore-20261017.json",
-        "sourceSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
-        "candidateSha256": "c1f91f188644ab7f63c1e65732aafc48186bedbd9f40fb16ce35487a91e4c1a7",
-        "afterSha256": "c1f91f188644ab7f63c1e65732aafc48186bedbd9f40fb16ce35487a91e4c1a7",
-        "lineCount": 561,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 39087,
-          "sourceLines": 481,
-          "sourceFinalNewline": true,
-          "inverseSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
-          "exactRoundTrip": true,
-          "trailingWhitespaceEncoding": {
-            "space": "␠",
-            "tab": "⇥"
-          }
+        "kind": "S73-current-document-candidate",
+        "path": "docs/lore/timeline.md",
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/lore/timeline.md",
+          "gitObject": "bf60ab3f960beab4944b605cf37faf0b7a08406f",
+          "sha256": "6c33ccfaf40a5d5685a75bf2ea447c97802daa899b767ff71dc4715ec87ead94"
         },
-        "currentPublicationDelta": {
-          "kind": "author-candidate",
-          "task": "E2E-006-1",
-          "date": "2026-10-27",
-          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
-          "currentRuntimeReceipt": "docs/testing/e2e/evidence/e2e-006-current.json",
-          "scope": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
-          "independentAcceptance": "pending",
-          "runtimeAcceptanceGranted": false
-        }
+        "currentNativeSha256": "5e88009cbe609792c5ca944b49dcfc687aca5eb8a74ff68403257e4a497f2286",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -547,18 +532,35 @@
           "priorIndependentAcceptance": null,
           "newDocumentAcceptanceGranted": false,
           "newRuntimeAcceptanceGranted": false
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
+            "index": 2,
+            "sha256": "368b370744a9b37501ff1c50aaee4f61ec805ddf6eb8a24d0cd9c0e249cb893a"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
-      "reviewedLines": "1-561",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "新计划五章及archive五章全文核读；原滚动001–006与人物/版本勘误对照，完整quote机器保全；21章及外链只复用已注明历史范围，未重新查官网或原版运行。",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Bounded current body/code/evidence delta plus exact preserved source/history; not a new whole-source deep-read claim.",
-      "reviewDepth": "partial-semantic",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "reviewDepth": "structured-content",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-11",
@@ -578,7 +580,7 @@
       },
       "templateVersion": "1.0.0",
       "historyOverlay": true,
-      "documentStatus": "historical",
+      "documentStatus": "active",
       "sourceGitRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
       "candidateSha256": "c1f91f188644ab7f63c1e65732aafc48186bedbd9f40fb16ce35487a91e4c1a7",
       "primarySource": [
@@ -595,58 +597,12 @@
         "currentBoundary": "current phase2/lore docs/code/tests own truth"
       },
       "dependencies": "Current phase2/lore canonical docs, code, tests and fresh primary-source review.",
-      "versionScope": {
-        "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
-        "date": "2026-06-25",
-        "validity": "historical"
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "counterReworkBlocked": {
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
       },
-      "counterReworkBlocked": [
-        {
-          "id": "R33-1",
-          "status": "preserved-open-for-product-work",
-          "statement": "正文信号 3:> 仙剑系列历代作品的时间线关系。扩展剧情必须安插在正确的时间点，不与前后作品冲突。"
-        },
-        {
-          "id": "R33-2",
-          "status": "preserved-open-for-product-work",
-          "statement": "正文信号 4:> 可靠性：✅ 官方/多源一致 ＞ \u26a0️ 单源 ＞ ❓ 存疑"
-        },
-        {
-          "id": "R33-3",
-          "status": "preserved-open-for-product-work",
-          "statement": "正文信号 197:> \u26a0️ 仙剑 4 / 6 / 7 的时间线位置作者尚需确认，本库暂不纳入，**待扩展剧情需要时再查**。"
-        },
-        {
-          "id": "R33-4",
-          "status": "preserved-open-for-product-work",
-          "statement": "正文信号 205:| 第一代 | 紫萱 | 林青儿之母 | 仙剑三 | 饱受三生三世之苦，将内丹渡给徐长卿 \u26a0️ |"
-        },
-        {
-          "id": "R33-5",
-          "status": "preserved-open-for-product-work",
-          "statement": "正文信号 216:- **\"一旦繁衍后代便会灵力衰竭而死\"**——母亲生育后必亡。\u26a0️ 网易/粉丝向设定解读"
-        },
-        {
-          "id": "R33-6",
-          "status": "preserved-open-for-product-work",
-          "statement": "正文信号 217:- **死后不入轮回**。\u26a0️ [爱Pia戏](https://aipiaxi.com/article-detail/843599)"
-        },
-        {
-          "id": "R33-7",
-          "status": "preserved-open-for-product-work",
-          "statement": "正文信号 219:> \u26a0️ \"生育即死\"和\"不入轮回\"这两条在粉丝圈广泛流传，但是否为**官方明文设定**需进一步核实（有说法认为是设定解读）。**在扩展剧情里动用这两条前，建议作者先确认官方表述**。"
-        },
-        {
-          "id": "R33-8",
-          "status": "preserved-open-for-product-work",
-          "statement": "正文信号 282:> \u26a0️ 2026-06-25 修正——鬼阴山/鬼阴坛在**白河村之后、扬州之前**，不是扬州之后。石长老在此**第一次**出场。"
-        },
-        {
-          "id": "R33-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No product execution or visual acceptance."
-        }
-      ],
       "correctiveDelta": {
         "date": "2026-10-18",
         "previousAfterSha256": "c1f91f188644ab7f63c1e65732aafc48186bedbd9f40fb16ce35487a91e4c1a7",
@@ -677,9 +633,41 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "6c33ccfaf40a5d5685a75bf2ea447c97802daa899b767ff71dc4715ec87ead94",
+          "afterSha256": "5e88009cbe609792c5ca944b49dcfc687aca5eb8a74ff68403257e4a497f2286",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
-      "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
+      "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
+      "readDomain": {
+        "actual": "新计划五章及archive五章全文核读；原滚动001–006与人物/版本勘误对照，完整quote机器保全；21章及外链只复用已注明历史范围，未重新查官网或原版运行。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": ["docs/phase-governance/reviews/20261017-r33-phase2-lore.json#entries/2"]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
     },
     {
       "path": "docs/phase2/archive/mockups/actor-mode-v1.html",

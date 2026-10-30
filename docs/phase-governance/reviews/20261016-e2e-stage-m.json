@@ -6,18 +6,18 @@
   "entries": [
     {
       "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-e2e-stage.md",
       "historyOverlay": false,
-      "templateCompliance": "template-compliant",
-      "reviewDepth": "deep-semantic",
-      "readMethod": "Historical intake reading at the pre-approval candidate: All16 README and261 report lines actually directly read against fixed5a; reading proof d60200167afb034d32da0de1755e02da4a3f8b5771aa0bf7175b571b0a659560. No fresh claim about the other six MD. All47 README and report live/new layer1-119 directly read. Entire original frozen report layer reuses actual277-line source reading only after complete independent byte inverse and all277 line-map checks. Thus full effective current contents covered without falsely claiming fresh371-line literal printing. All17 top keys and both complete43-field record semantics read using exact24 shared-field equality factoring plus both unique values. Initial common/unique output truncation repaired by printing report identity/source/type/version/core/compliance/blob/primary and all README7 current links separately. Both complete preservation metadata/byte spans/hashes/types and all16 title mappings read;277 individual mapping rows mechanically verified, not claimed manually recited. Root later only four administrative sentence substitutions across the pair, complete original byte inverse and all277 mappings reverified. New root administrative/central/matrix bytes require a separate scoped non-author review; original content accept is exact364 only. Exact dc2 root14 subsequently accepted by scoped non-author8d7b2f4e; this metadata writeback adds no source reading or body changes.",
-      "coreConclusion": "e2e-002稳定入口按四章区分同引擎真实001前驱、出版verified与历史/后继执行、report/evidence责任、003停线；原Owner/date/YAML不改，10-08完整链撤信与10-11新批次分轴。",
-      "documentStatus": "Original verified publication/date unchanged. Fixed364 source/old73 body intake and exact dc2 later current intake independently accepted; no runtime renewal.",
-      "owner": "Codex current document/integration; history_cards_a authored364 migration, Codex root independently accepted fixed source/body/complete record semantics",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "coreConclusion": "002-inn-guests-and-reward阶段原id/status/lastVerified/前驱/正文不动，只退休活动reviewBy；旧日历失败和续期段保原历史。新E2E不因时间或HEAD变化触发，原版本/source适用性及原停止点继续独立核验。",
+      "documentStatus": "current",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "originalIdentity": {
         "title": "# E2E-002 · 客栈住客与赏银",
         "ownerFields": [
@@ -79,6 +79,13 @@
           "rootOwner": "Codex",
           "base": "a366ad1bd27682fd99d5263de4d38449a323287f",
           "scope": "Only four root administrative sentence changes plus complete current records, central/routes and existing paired-test matrix relation; distinct non-author intake required."
+        },
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
         }
       ],
       "primarySource": [
@@ -140,9 +147,9 @@
         }
       ],
       "truthAnchors": [
-        "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md:1 @ 5a125c375baa9dc907ddeb62865058ba8b830957",
-        "docs/phase-governance/reviews/20261016-e2e-stage-m-design.md:1",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json:1"
+        "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
+        "docs/testing/governance.md#版本适用性",
+        "scripts/docs/generate-testing-index.mjs"
       ],
       "phaseAnchors": {
         "sourceSpecific": "phase1 Game and phase2 Reforge independently consume own real001 checkpoints; original first-phase traces are contextual evidence, not absolute new-engine scheduling canon. This task changes docs only; READ-FIRST intent/current-only/no legacy-converter boundary retained.",
@@ -201,22 +208,13 @@
         "human/Agent stage/report navigation (read-only); not new execution authorization"
       ],
       "legalInputs": [
-        "same-engine current 001 end save",
-        "normal movement into s003/e56",
-        "isolated fresh restore context",
-        "No capture/wrong-engine/failed checkpoint, world rewrite, teleport or oldSAVE9/10 upgrade as current predecessor",
-        "Real current source Reforgecontent22/SAVE12/pal and matching001 checkpoint bytes; historical original versions remain dated, no cross-run evidence splice"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "inn-stage-report-governance-and-historical-boundary",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "Four stage / five report substantive chapters encode route and first activation separately;20 exactTextId25..53, dlg54 excluded",
-          "Money exactlyonce0→500 afterdlg50/beforedlg51; trio start/take-pause/release-resume/last pause/roomhide and replacement/control/real worldCanvasrestore not just endpoint",
-          "Preserve original fullsource277 bytes via independent sourceGit plus actual span/prefix+fence inverse;16 original heading IDs and6 oldhref occurrences live (one old fragment explicitly corrected)",
-          "Oldfailed/warnings/version/10648-10655-10658 and57-56-71 counts not added or rebranded;35/35 local result doesnot prove completechain; three001 missinginstruction falsifiers revoke that strongerclaim",
-          "10-02 team-local feedback supersedes old leader-only/unintegrated proposal; later10-11 actualbatch separate, no new user signature or006green",
-          "At authored364 snapshot only: Actual checkMigratedDocument2 plus real paired meta/evidence consumer and Markedfile/fragment graph0issues; sharedmodel215/strict724 doesnot cover these previouslyunregistered2",
-          "No runtime/E2E/visual/coverage/raw/HTTP recertification from static migration"
+          "只能删活动期限/同步实际版本展示；原执行身份、状态、原结论和合法前驱不漂移。"
         ]
       },
       "dedupe": {
@@ -232,24 +230,12 @@
         "notes": "Original repetition by dates/candidates is history, not multiplecurrenttests. SameRFsave/Canvas acrossheld followup doesnot create newrestore evidence; no112counter or otherstageexecution credit."
       },
       "counterReworkBlocked": {
-        "authoredContent": "Exact364 two bodies and complete records independently accepted by root; original pending-at-delivery fields remain immutable in full Git record.",
-        "closedStaticFindings": [
-          "Old bad active fragment corrected to actual revocation heading; original badhref inert and retained.",
-          "Oct1 leader-only feedback source is explicitly superseded by Oct2 team-local technical closure, no new user signature.",
-          "Firstcandidate omitted CHOREO and secondDOOR occurrence: original failure retained, both actual livehref occurrences restored and independently verified."
-        ],
-        "rootIntegration": "Exact73 ten-file root administrative/current-record/central/routes/matrix intake accepted by history_cards_c_tail, no open M002 intake counter. Original historical/runtime limits remain; later root metadata is new bytes.",
-        "historicalCounter": "Missing001 initial57/36/37 falsified former complete-chain/infrastructure claim; retained as revoked historical conclusion. No new runtime closure is asserted; laterOct11 fixed batch separately attributed.",
-        "limits": [
-          "No raw/run/trace/save/screenshot byte availability or retention guarantee newly verified; producer pointers remain historical, storage owner/retention unknown.",
-          "No runtime/E2E/visual/coverage/user-perception acceptance; publication verified and original dates unchanged.",
-          "Six003-005 fixed777 source and exact dc2 root14 intake independently accepted; pairedJSON/001/006 unchanged,006rework not advanced."
-        ]
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
       },
       "unresolved": [
-        "No raw/run/trace/save/screenshot byte availability or retention guarantee newly verified; producer pointers remain historical, storage owner/retention unknown.",
-        "No runtime/E2E/visual/coverage/user-perception acceptance; publication verified and original dates unchanged.",
-        "Six003-005 fixed777 source and exact dc2 root14 intake independently accepted; pairedJSON/001/006 unchanged,006rework not advanced."
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
       "sourceSha256": "b515c490c43eb26defb71d334dc584c420d0ae05aed0da03d054e4e58e1c0604",
       "sourceGitRevision": "5a125c375baa9dc907ddeb62865058ba8b830957",
@@ -257,7 +243,7 @@
       "reviewedSourceSha256": "399fd046a8d2b2d2404f7a7ddcec38cc75d58ee7fdf2fae19ceb1026159d948a",
       "reviewedSourceGitRevision": "364315cefe2b98b58b2a7eab9009b91b610f4a52",
       "rootIntegrationBase": "a366ad1bd27682fd99d5263de4d38449a323287f",
-      "afterSha256": "f6c1413aaf09c3a9e1ee50a5acf72fd297a476e1657776ea8f0f1e60e61d857c",
+      "afterSha256": "a6e8394bfafd3d48e3616089b89fe00acac56c233aefdb5bdff440a720c579f6",
       "revision": {
         "currentSha": "5a125c375baa9dc907ddeb62865058ba8b830957",
         "implementationSha": "f6c1413aaf09c3a9e1ee50a5acf72fd297a476e1657776ea8f0f1e60e61d857c",
@@ -281,215 +267,20 @@
         ]
       },
       "evidence": {
-        "kind": "independent-M002-full-source-current-record-and-historical-boundary-review",
+        "kind": "S73-current-document-candidate",
         "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
-        "sourceSha256": "b515c490c43eb26defb71d334dc584c420d0ae05aed0da03d054e4e58e1c0604",
-        "afterSha256": "f6c1413aaf09c3a9e1ee50a5acf72fd297a476e1657776ea8f0f1e60e61d857c",
-        "lineCount": 47,
-        "originalPreservation": {
-          "quote": false,
-          "completeOriginalIncluded": true,
-          "completeOriginalReadBackSha256": "b515c490c43eb26defb71d334dc584c420d0ae05aed0da03d054e4e58e1c0604",
-          "sourceBlobReadBackExact": true,
-          "method": "exact original H1+blank and exact YAML/nav tail as separate preserved source spans, not fabricated quote inverse",
-          "spans": [
-            {
-              "sourceByteStart": 0,
-              "sourceByteEnd": 36,
-              "afterByteStart": 0,
-              "afterByteEnd": 36
-            },
-            {
-              "sourceByteStart": 36,
-              "sourceByteEnd": 473,
-              "afterByteStart": 1899,
-              "afterByteEnd": 2336
-            }
-          ],
-          "exactSourceInverse": true,
-          "inverseSha256": "b515c490c43eb26defb71d334dc584c420d0ae05aed0da03d054e4e58e1c0604",
-          "sourceToAfterLineMapping": [
-            {
-              "sourceLine": 1,
-              "afterLine": 1,
-              "sourceLineSha256": "c2ff752d1ac0ee2e1b4e778b728ae2a0114de9d2714dcff20789c72e7e28900a",
-              "afterLineSha256": "c2ff752d1ac0ee2e1b4e778b728ae2a0114de9d2714dcff20789c72e7e28900a",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 2,
-              "afterLine": 2,
-              "sourceLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "afterLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 3,
-              "afterLine": 24,
-              "sourceLineSha256": "8f8e0b1e2de94ab6346f8c33cb1a442a1b6209fe8a34e5a3a38d2b2209a84fc6",
-              "afterLineSha256": "8f8e0b1e2de94ab6346f8c33cb1a442a1b6209fe8a34e5a3a38d2b2209a84fc6",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 4,
-              "afterLine": 25,
-              "sourceLineSha256": "dd91235aab9321365b4df4775d18e1b700a460c85b86b4ac74fc53b58c49a0dc",
-              "afterLineSha256": "dd91235aab9321365b4df4775d18e1b700a460c85b86b4ac74fc53b58c49a0dc",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 5,
-              "afterLine": 26,
-              "sourceLineSha256": "c9284289c590b063d977913710fdf6f94e5ce5ba619abfbe67129c05dd6dc18b",
-              "afterLineSha256": "c9284289c590b063d977913710fdf6f94e5ce5ba619abfbe67129c05dd6dc18b",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 6,
-              "afterLine": 27,
-              "sourceLineSha256": "318e486f9bdeca8768d2450760a4cde03c3e3fbf962a13715801ba9dc01bdda9",
-              "afterLineSha256": "318e486f9bdeca8768d2450760a4cde03c3e3fbf962a13715801ba9dc01bdda9",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 7,
-              "afterLine": 28,
-              "sourceLineSha256": "a3fe3b3036db0a8a8bc67db3fc18791d15eed2fdadc9ad0d04b3b5d473632f26",
-              "afterLineSha256": "a3fe3b3036db0a8a8bc67db3fc18791d15eed2fdadc9ad0d04b3b5d473632f26",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 8,
-              "afterLine": 29,
-              "sourceLineSha256": "f73f40f2cd1974a0e07ffc42d22de5c4386ac2b02831cff7f999f07c414247a1",
-              "afterLineSha256": "f73f40f2cd1974a0e07ffc42d22de5c4386ac2b02831cff7f999f07c414247a1",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 9,
-              "afterLine": 30,
-              "sourceLineSha256": "8fcbf092214e4eab9c84b63d632c5885c125687335ee016283f3cc66c92f466d",
-              "afterLineSha256": "8fcbf092214e4eab9c84b63d632c5885c125687335ee016283f3cc66c92f466d",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 10,
-              "afterLine": 31,
-              "sourceLineSha256": "01e6978e95fb332761d5ccdd5a40badd71946832365a5bdf56bc558ce3fcd776",
-              "afterLineSha256": "01e6978e95fb332761d5ccdd5a40badd71946832365a5bdf56bc558ce3fcd776",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 11,
-              "afterLine": 32,
-              "sourceLineSha256": "522675d00783e2ce5a3c752848a4ef9e1ee0a9b8bc3ee9079c3187db2fcd1487",
-              "afterLineSha256": "522675d00783e2ce5a3c752848a4ef9e1ee0a9b8bc3ee9079c3187db2fcd1487",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 12,
-              "afterLine": 33,
-              "sourceLineSha256": "eb148792d815248936e5528f3561ce07e56fd201b136e54dbcf7624f21e86122",
-              "afterLineSha256": "eb148792d815248936e5528f3561ce07e56fd201b136e54dbcf7624f21e86122",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 13,
-              "afterLine": 34,
-              "sourceLineSha256": "a8aed29ca3fc8b1fcc84f29f751deb31fc6fbeb882b24dc7fe988d27f2049179",
-              "afterLineSha256": "a8aed29ca3fc8b1fcc84f29f751deb31fc6fbeb882b24dc7fe988d27f2049179",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 14,
-              "afterLine": 35,
-              "sourceLineSha256": "f1b901847390b0ed7e374e7c1e464ec17b46a427c487a5ad6cbd2906405083d5",
-              "afterLineSha256": "f1b901847390b0ed7e374e7c1e464ec17b46a427c487a5ad6cbd2906405083d5",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 15,
-              "afterLine": 36,
-              "sourceLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "afterLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            },
-            {
-              "sourceLine": 16,
-              "afterLine": 37,
-              "sourceLineSha256": "f4660b293d6410bcaeb46a626d0b45dc76c55f8f4981a8357aa5cbcaa71131c3",
-              "afterLineSha256": "f4660b293d6410bcaeb46a626d0b45dc76c55f8f4981a8357aa5cbcaa71131c3",
-              "method": "exact original line including blank; no semantic rewrite inside preservation span"
-            }
-          ],
-          "titleMapping": [
-            {
-              "depth": 1,
-              "title": "E2E-002 · 客栈住客与赏银",
-              "id": "e2e-002--客栈住客与赏银",
-              "preserved": true,
-              "sourceLine": 1,
-              "afterHeadingLine": 1
-            }
-          ],
-          "hrefMapping": [
-            {
-              "sourceOccurrence": 1,
-              "originalHref": "report.md",
-              "liveHref": "report.md",
-              "afterOccurrence": 1,
-              "preserved": true,
-              "live": {
-                "href": "report.md",
-                "external": false,
-                "target": "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
-                "fragment": null
-              },
-              "fixReason": "same original target"
-            }
-          ],
-          "tableRows": [],
-          "sourceTableCount": 0,
-          "note": "002pairoriginaltables0; no claim23historicalrows from otherstages were migrated. Fullbytes includingprefix/separators/EOF inverse exact."
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
+          "gitObject": "6aeee789d85052f003bc0f6766ef33f0d834a862",
+          "sha256": "f6c1413aaf09c3a9e1ee50a5acf72fd297a476e1657776ea8f0f1e60e61d857c"
         },
-        "authoredCandidate": {
-          "revision": "364315cefe2b98b58b2a7eab9009b91b610f4a52",
-          "gitObject": "655eca2c510adab7731dc6273248975d5b28a15c",
-          "sha256": "399fd046a8d2b2d2404f7a7ddcec38cc75d58ee7fdf2fae19ceb1026159d948a",
-          "completeRecord": {
-            "kind": "complete-author-pilot-record-in-fixed-reachable-git",
-            "revision": "364315cefe2b98b58b2a7eab9009b91b610f4a52",
-            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json",
-            "gitObject": "7cc0291e69358428a2367d2e946ba78cf3a52487",
-            "fileSha256": "3062158d285fc019ebfd7990a49d71c5231656bd1898de4409c95e05ed651a01",
-            "selector": {
-              "entries.path": "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
-              "uniqueMatches": 1
-            },
-            "scope": "Entire immutable43-field candidate and all original maps, statuses and pending-at-delivery fields; actually retrieved/deepEqual. Author364 is second parent of root a366 and must remain final published ancestry. Receipt body itself still pending increment."
-          }
-        },
-        "independentContentReview": {
-          "path": "/tmp/type-pal-m002-root-content-acceptance-20261016.json",
-          "sha256": "03eadd2a33d8c71fe5a19468457be3381aaf30220b750941e5bcc07755df3a34",
-          "result": "accept exact364 content only"
-        },
-        "actualIndependentChecks": {
-          "path": "/tmp/type-pal-m002-root-independent-check-20261016.json",
-          "sha256": "ee29138bbbdc429dd2f2a3da5ec508618a522dbe5bd00f498dece058aed190c3",
-          "scope": "Actual exact364 body/meta/GFM/native16/source/map checks, not later root bytes."
-        },
-        "rootAdministrativeChanges": [
-          {
-            "before": "候选正文由 history_cards_a 编写，待非作者接收；本轮没有重新执行游戏或更新测试状态。",
-            "after": "正文由 history_cards_a 迁移，固定364315ce候选已获 Codex 非作者内容接收；根接入状态见专属治理记录。本轮没有重新执行游戏或更新测试状态。"
-          },
-          {
-            "before": "下一步是本两篇canonical pilot的独立全文接收；未接收不计迁移，不启动旧runner/原始资源或下一段。",
-            "after": "本两篇canonical pilot的内容接收与后续中央接入分开，范围以[专属治理记录](../../../../phase-governance/reviews/20261016-e2e-stage-m.json)为准；不启动旧runner/原始资源或下一段，余六篇须另获准入。"
-          }
-        ],
-        "rootCurrentConsumer": "At exact73 candidate: actual model217/strict726/testing0, GFM39, source277 inverse/maps and all native/meta/link checks independently passed; docs82/lint4104 zero. These are fixed73 static observations, not a new runtime or preapproval of later metadata."
+        "currentNativeSha256": "a6e8394bfafd3d48e3616089b89fe00acac56c233aefdb5bdff440a720c579f6",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -554,6 +345,23 @@
           },
           "independentAcceptanceSha256": "8d7b2f4e3396fa5591f516f698c8c5ce7133ea4ef4b1c5e329a7a8693d44009c",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261016-e2e-stage-m.json",
+            "index": 0,
+            "sha256": "0a54f35d2acf16a32eb37811eda281081c0a583cb3c4cf0211e0962ded9bab99"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [
@@ -561,14 +369,10 @@
         "oldleader-only/unintegrated description is historically superseded by10-02 feedback card; no new product decision"
       ],
       "supersessionScope": "Thisproseorganization and explicit correction only; not supersession of originalmachine/native/meta/catalog, rawresults, currentproduct or source-versionpolicy",
-      "stopLine": "Stop intake on any source inverse/meta/native/title/href/fact-axis drift or nonzero static diagnostics. Do not run old runner/raw, restore old converters/prompts, imply new runtime/E2E/visual/coverage or change001/006. Six003-005 source reception is fixed777; exact dc2 current intake accepted.",
-      "nextStep": "Continue full1838 plus increments/artifacts and final terminal evidence work; this control/receipt themselves remain pending increments. No new runtime/user/006 or main closure.",
-      "userVisibleBeforeAfter": {
-        "before": "Original16lineH1/YAML/nav → specificfourchapter currententry withoriginalspans exact and factauthority links; no publicationdate/statuschange",
-        "after": "Same substantively governed002 pair, four administrative sentences align with real fixed364 content acceptance, complete original inverse retained; central current record/route separate from runtime truth.",
-        "scope": "Readers can separate historicalrecord/publication/candidate/staticreview/execution and legalpredecessor; no product/UI/runtime/canonbehaviorchange"
-      },
-      "reviewedLines": "1-47",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
       "phase": "testing",
       "module": "e2e-002-stage-and-run-report-document-governance",
       "templateConformity": {
@@ -605,6 +409,41 @@
           },
           "completePriorActuallyRetrievedAndDeepCompared": true,
           "scope": "Full prior object including all nested history. Preserve fixed73 ancestry in final published Git; no lossy summary or newer-byte approval."
+        }
+      ],
+      "readDomain": {
+        "actual": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": ["docs/phase-governance/reviews/20261016-e2e-stage-m.json#entries/0"]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "f6c1413aaf09c3a9e1ee50a5acf72fd297a476e1657776ea8f0f1e60e61d857c",
+          "afterSha256": "a6e8394bfafd3d48e3616089b89fe00acac56c233aefdb5bdff440a720c579f6",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },
@@ -3090,22 +2929,18 @@
     },
     {
       "path": "docs/testing/e2e/stages/003-kitchen/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-e2e-stage.md",
       "historyOverlay": false,
-      "templateCompliance": "template-compliant",
-      "reviewDepth": "deep-semantic",
-      "readMethod": "Historical intake reading at the pre-approval candidate: Non-author tail actually read all six original538/currentlive444 and complete43-field semantic projections at21d; same fixed body bytes reused through777. Exact777 narrow C-M6-1/2 closure separately read and accepted by root; root freshly read all six live layers and only current administrative/located Oct2 attribution substitutions here. Original538 not newly claimed root read. All original inverse/maps mechanically rechecked. New root delta separately pending. Exact dc2 root14 subsequently accepted by scoped non-author8d7b2f4e; this metadata writeback adds no source reading or body changes.",
-      "coreConclusion": "e2e-003稳定四章入口；下楼/道士/厨房按14行、12真实楼梯提交、正式存读和止126/127归原轮；两10月1日SHA不拼both，14:12/14:28不同前驱、46/56针、初始idle缺证及完整链撤信分开。",
-      "documentStatus": {
-        "publication": "verified",
-        "meaning": "original e2e-003 catalog/lastVerified10-02/reviewBy11-02 unchanged",
-        "independentSourceReception": "fixed777 source and exact dc2 root14 intake independently accepted, no runtime renewal"
-      },
-      "owner": "Codex current integration; history_cards_a fixed777 source writer; history_cards_c_tail independent content/repair reviewer",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "coreConclusion": "003-kitchen阶段原id/status/lastVerified/前驱/正文不动，只退休活动reviewBy；旧日历失败和续期段保原历史。新E2E不因时间或HEAD变化触发，原版本/source适用性及原停止点继续独立核验。",
+      "documentStatus": "current",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "originalIdentity": {
         "title": "# E2E-003 · 下楼、道士与厨房",
         "ownerFields": [
@@ -3154,6 +2989,13 @@
           "root": "Codex",
           "base": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
           "scope": "Only documented administrative/Oct2 attribution substitutions and current integration candidate"
+        },
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
         }
       ],
       "primarySource": [
@@ -3207,9 +3049,9 @@
         }
       ],
       "truthAnchors": [
-        "5a125c375baa9dc907ddeb62865058ba8b830957:docs/testing/e2e/stages/003-kitchen/README.md",
-        "docs/phase-governance/reviews/20261016-e2e-stage-m-design.md:1",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json:1"
+        "docs/testing/e2e/stages/003-kitchen/README.md",
+        "docs/testing/governance.md#版本适用性",
+        "scripts/docs/generate-testing-index.mjs"
       ],
       "phaseAnchors": {
         "sourceSpecific": "Own-engine real predecessor for Game/phase1 and Reforge/phase2; original firstphase observation is contextual intent evidence, not absolute newengine scheduling canon. Docs only, READ-FIRST/current-only and no retiredconverter/globalNPCfreeze revival.",
@@ -3263,21 +3105,13 @@
         "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
       ],
       "legalInputs": [
-        "same-engine current 002 report.json",
-        "held normal movement",
-        "no take-dish shortcut",
-        "Matching ownengine passed exact real predecessor bytes/current validformat, not capture/wrongengine/failed/handwrittenworld or oldformat upgrade",
-        "For004 onlysaves produces005 predecessor; for005 only004saves; no evidence splicing acrosscandidates"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "kitchen-document-contract-and-history-boundary",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "Same-engine true002 passed checkpoint and exactbytes/hash/next-stage binding; wrong saved plan cannot become legal by restore equality",
-          "12 actual stair commits plus each intermediate draw and14 texts56/57/58,145/146,148/149/150,152/153,155/156,126/127 and speakers",
-          "End controls returned, money500/inventory unchanged, no207/take-dishes/208; complete persistent world and same-engine freshCanvasrestore",
-          "Current22/12 source versus d02222/11/source audits and original independent0defc136/edca85df/14:12/14:28 batches separate",
-          "This document original source byte inverse and complete original heading/link/table mappings retained; 31 heads/8 href/4 tables/23 pipe lines are six-document batch totals, not per-document counts. Actual table data rows15 for all4 tables.",
-          "Actual checkMigratedDocument, paired metadata/evidence and GFM consumers are static document checks. Source acceptance is fixed777; root current integration is a separate candidate, no runtime/E2E/visual/coverage grant."
+          "只能删活动期限/同步实际版本展示；原执行身份、状态、原结论和合法前驱不漂移。"
         ]
       },
       "dedupe": {
@@ -3291,31 +3125,19 @@
         "notes": "Dated runs/sha/warnings/mutations/package/tool receipts remain distinct; same terminal doesnot prove same middle or newtest acceptance."
       },
       "counterReworkBlocked": {
-        "acceptedSource": "fixed777 content accepted; C-M6-1/2 closed only in final candidate; original21d/c73 failures remain counter history",
-        "sourceSpecific": [
-          "Wrong002 next-stage plan persisted consistently; capture/engine/source/bytes/input semantics remain gates",
-          "Kitchen entrance occupied; restore actor placement initially misclassified as story movement; originalfailed retained",
-          "No independent initial idle for firstscoped call;46/56 local mutations do not prove fullchain after001 initial57/36/37 counter",
-          "004 take-dish/slow-read source only; no003 additional execution or fullNPCfreeze"
-        ],
-        "rootDelta": "accepted exact dc2 via8d7b2f4e; no open current-intake counter in that snapshot",
-        "limits": [
-          "Original source warnings, failed receipts, incomplete initial idle and revoked complete-chain claims remain dated; Oct11 successor is distinct.",
-          "Raw/trace/save/screenshots current byte availability, storage owner and retention were not recertified; no new runtime/E2E/visual/coverage or user signature.",
-          "Only the specified Oct2 continuous-demo user recognition is established; other per-item/capture/fullQ1Q2/publication and006 rework remain separate."
-        ]
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
       },
       "unresolved": [
-        "Original source warnings, failed receipts, incomplete initial idle and revoked complete-chain claims remain dated; Oct11 successor is distinct.",
-        "Raw/trace/save/screenshots current byte availability, storage owner and retention were not recertified; no new runtime/E2E/visual/coverage or user signature.",
-        "Only the specified Oct2 continuous-demo user recognition is established; other per-item/capture/fullQ1Q2/publication and006 rework remain separate."
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
       "sourceSha256": "7f7b1e206b18fc236917721ad234731d9c233fd78e59c2f5ade47276a0f608e9",
       "sourceGitRevision": "5a125c375baa9dc907ddeb62865058ba8b830957",
       "sourceGitObject": "91333dde4342529fa9a8b16bff125e6b782b2530",
       "reviewedSourceSha256": "1eb58e53c767537a306242f219d25a82af9a9ce213804ca0348422682842fc13",
       "reviewedSourceGitRevision": "777016c7910109a6fbb1b9a85f9dc9828945a3f8",
-      "afterSha256": "c47d4ba780d6b93527279898bde01a3df9b245c1fe38919bef39de7138486306",
+      "afterSha256": "141ace91806bffebc6dfa6ce2c62b3a25f79dbbc90e48f381d5bcc555200dc43",
       "revision": {
         "currentSha": "5a125c375baa9dc907ddeb62865058ba8b830957",
         "implementationSha": "c47d4ba780d6b93527279898bde01a3df9b245c1fe38919bef39de7138486306",
@@ -3331,200 +3153,20 @@
         ]
       },
       "evidence": {
-        "kind": "independently-read-source-current-record-and-historical-boundary",
+        "kind": "S73-current-document-candidate",
         "path": "docs/testing/e2e/stages/003-kitchen/README.md",
-        "sourceSha256": "7f7b1e206b18fc236917721ad234731d9c233fd78e59c2f5ade47276a0f608e9",
-        "afterSha256": "c47d4ba780d6b93527279898bde01a3df9b245c1fe38919bef39de7138486306",
-        "lineCount": 45,
-        "originalPreservation": {
-          "quote": false,
-          "completeOriginalIncluded": true,
-          "completeOriginalReadBackSha256": "7f7b1e206b18fc236917721ad234731d9c233fd78e59c2f5ade47276a0f608e9",
-          "sourceBlobReadBackExact": true,
-          "method": "exact original H1/blank and exact original YAML/report-nav tail in two separate source spans",
-          "spans": [
-            {
-              "sourceByteStart": 0,
-              "sourceByteEnd": 39,
-              "afterByteStart": 0,
-              "afterByteEnd": 39
-            },
-            {
-              "sourceByteStart": 39,
-              "sourceByteEnd": 378,
-              "afterByteStart": 1380,
-              "afterByteEnd": 1719
-            }
-          ],
-          "exactSourceInverse": true,
-          "inverseSha256": "7f7b1e206b18fc236917721ad234731d9c233fd78e59c2f5ade47276a0f608e9",
-          "sourceToAfterLineMapping": [
-            {
-              "sourceLine": 1,
-              "afterLine": 1,
-              "sourceLineSha256": "8007a4fed5098825eed48059b48bbcd6c2db9fd763a1bd629f5580680187455e",
-              "afterLineSha256": "8007a4fed5098825eed48059b48bbcd6c2db9fd763a1bd629f5580680187455e",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 2,
-              "afterLine": 2,
-              "sourceLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "afterLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 3,
-              "afterLine": 22,
-              "sourceLineSha256": "8f8e0b1e2de94ab6346f8c33cb1a442a1b6209fe8a34e5a3a38d2b2209a84fc6",
-              "afterLineSha256": "8f8e0b1e2de94ab6346f8c33cb1a442a1b6209fe8a34e5a3a38d2b2209a84fc6",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 4,
-              "afterLine": 23,
-              "sourceLineSha256": "e7381fa0e4653be2064126d6f054beb8865529a356381e25030e52c41411dc6e",
-              "afterLineSha256": "e7381fa0e4653be2064126d6f054beb8865529a356381e25030e52c41411dc6e",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 5,
-              "afterLine": 24,
-              "sourceLineSha256": "c9284289c590b063d977913710fdf6f94e5ce5ba619abfbe67129c05dd6dc18b",
-              "afterLineSha256": "c9284289c590b063d977913710fdf6f94e5ce5ba619abfbe67129c05dd6dc18b",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 6,
-              "afterLine": 25,
-              "sourceLineSha256": "318e486f9bdeca8768d2450760a4cde03c3e3fbf962a13715801ba9dc01bdda9",
-              "afterLineSha256": "318e486f9bdeca8768d2450760a4cde03c3e3fbf962a13715801ba9dc01bdda9",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 7,
-              "afterLine": 26,
-              "sourceLineSha256": "a3fe3b3036db0a8a8bc67db3fc18791d15eed2fdadc9ad0d04b3b5d473632f26",
-              "afterLineSha256": "a3fe3b3036db0a8a8bc67db3fc18791d15eed2fdadc9ad0d04b3b5d473632f26",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 8,
-              "afterLine": 27,
-              "sourceLineSha256": "f73f40f2cd1974a0e07ffc42d22de5c4386ac2b02831cff7f999f07c414247a1",
-              "afterLineSha256": "f73f40f2cd1974a0e07ffc42d22de5c4386ac2b02831cff7f999f07c414247a1",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 9,
-              "afterLine": 28,
-              "sourceLineSha256": "8fcbf092214e4eab9c84b63d632c5885c125687335ee016283f3cc66c92f466d",
-              "afterLineSha256": "8fcbf092214e4eab9c84b63d632c5885c125687335ee016283f3cc66c92f466d",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 10,
-              "afterLine": 29,
-              "sourceLineSha256": "01e6978e95fb332761d5ccdd5a40badd71946832365a5bdf56bc558ce3fcd776",
-              "afterLineSha256": "01e6978e95fb332761d5ccdd5a40badd71946832365a5bdf56bc558ce3fcd776",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 11,
-              "afterLine": 30,
-              "sourceLineSha256": "576b8870d06ad2766e0fa23caee66974d7db8405a1ea77978a4173a48acfa51b",
-              "afterLineSha256": "576b8870d06ad2766e0fa23caee66974d7db8405a1ea77978a4173a48acfa51b",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 12,
-              "afterLine": 31,
-              "sourceLineSha256": "049d4e6ded6894a680692381c1819580afe0b72d5a2380a64884baa493919967",
-              "afterLineSha256": "049d4e6ded6894a680692381c1819580afe0b72d5a2380a64884baa493919967",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 13,
-              "afterLine": 32,
-              "sourceLineSha256": "a8aed29ca3fc8b1fcc84f29f751deb31fc6fbeb882b24dc7fe988d27f2049179",
-              "afterLineSha256": "a8aed29ca3fc8b1fcc84f29f751deb31fc6fbeb882b24dc7fe988d27f2049179",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 14,
-              "afterLine": 33,
-              "sourceLineSha256": "f1b901847390b0ed7e374e7c1e464ec17b46a427c487a5ad6cbd2906405083d5",
-              "afterLineSha256": "f1b901847390b0ed7e374e7c1e464ec17b46a427c487a5ad6cbd2906405083d5",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 15,
-              "afterLine": 34,
-              "sourceLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "afterLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 16,
-              "afterLine": 35,
-              "sourceLineSha256": "9af79697de09417fce9126c7c94ac34be5a80ed940d353945b54cc1b716f0085",
-              "afterLineSha256": "9af79697de09417fce9126c7c94ac34be5a80ed940d353945b54cc1b716f0085",
-              "method": "exact original line in source spans"
-            }
-          ],
-          "titleMapping": [
-            {
-              "depth": 1,
-              "title": "E2E-003 · 下楼、道士与厨房",
-              "id": "e2e-003--下楼道士与厨房",
-              "preserved": true,
-              "sourceLine": 1,
-              "afterHeadingLine": 1
-            }
-          ],
-          "hrefMapping": [
-            {
-              "sourceOccurrence": 1,
-              "originalHref": "report.md",
-              "liveHref": "report.md",
-              "afterOccurrence": 1,
-              "preserved": true,
-              "fixReason": "Same original target",
-              "live": {
-                "href": "report.md",
-                "external": false,
-                "target": "docs/testing/e2e/stages/003-kitchen/report.md",
-                "fragment": null
-              }
-            }
-          ],
-          "tableRows": [],
-          "sourceTableCount": 0,
-          "note": "Report inverse uses unique original liveprefix plus full inertbody, not fake completequotedmetadata; README exact2spans. Old002 current offsets correspond readonly73; alloriginal row/table bytes retained."
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/testing/e2e/stages/003-kitchen/README.md",
+          "gitObject": "ae754373fc78e11441c69b72519a7d329b58f572",
+          "sha256": "c47d4ba780d6b93527279898bde01a3df9b245c1fe38919bef39de7138486306"
         },
-        "completeAuthoredRecord": {
-          "kind": "complete-accepted-author-record-in-reachable-fixed-git",
-          "revision": "777016c7910109a6fbb1b9a85f9dc9828945a3f8",
-          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json",
-          "gitObject": "dfd68f2b674258fb2d190ef87f414389e4e07380",
-          "fileSha256": "ec40db5e5e5a1347e32468111455ac1b098800f14151e7a50e9646e055b4d7d6",
-          "selector": {
-            "entries.path": "docs/testing/e2e/stages/003-kitchen/README.md",
-            "uniqueMatches": 1
-          },
-          "completePriorObjectRetrievedAndCompared": true
-        },
-        "independentContentAcceptanceSha256": "b7155dbef6f216b429ce37b0bc5a0f921ea9ee1a561e16d659fc783eddc96dbb",
-        "rootAdministrativeSubstitutions": [
-          {
-            "before": "下一步非作者全文接收本六篇和完整回执，根另接中央，不自计迁移。",
-            "after": "固定777正文及完整回执语义已获非作者接收；后续根行政与中央接入范围见[专属治理记录](../../../../phase-governance/reviews/20261016-e2e-stage-m.json)，不自授新的运行信用。"
-          },
-          {
-            "before": "六篇候选由 history_cards_a 编写，尚待非作者接收。",
-            "after": "六篇正文由 history_cards_a 迁移，固定777候选已获 history_cards_c_tail 非作者内容接收；根接入另验。"
-          }
-        ]
+        "currentNativeSha256": "141ace91806bffebc6dfa6ce2c62b3a25f79dbbc90e48f381d5bcc555200dc43",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -3585,6 +3227,23 @@
           },
           "independentAcceptanceSha256": "8d7b2f4e3396fa5591f516f698c8c5ce7133ea4ef4b1c5e329a7a8693d44009c",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261016-e2e-stage-m.json",
+            "index": 2,
+            "sha256": "10a83d67c891c49285846dcf55f1ca52f012bfc3485c5b22d6ec7e56e8192b6a"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [
@@ -3592,13 +3251,10 @@
         "One obsoletecontinuous closure activefragment replaced with actualrevocation; erroneousbytes remain inert"
       ],
       "supersessionScope": "Docsstructure/explicit historicalauthority/linkrouting only; no product/canon/oldruntime/raw/source-version policy superseded",
-      "stopLine": "Exact777 six-source/full-record acceptance completed by non-author tail; exact dc2 root administrative/current intake accepted; anyinverse/meta/native/hash/heading/row/href/statusscope drift or staticdiagnostic blocksintake. Stop126/127/control before takingfood;004 admission separate; no current product/E2E/capture/idle predecessor claim; no sharedsource/JSON/001/006/product/oldtests/coverage edits. Any later source/current change requires its own scoped checking; author self-check alone never grants acceptance.",
-      "nextStep": "Continue full1838 plus increments/artifacts and final terminal evidence work; this control/receipt themselves remain pending increments. No new runtime/user/006 or main closure.",
-      "userVisibleBeforeAfter": {
-        "before": "Original16line H1/YAML/navigation to substantive fourchapter stable stage; originalsource spans exact; 下楼/道士/厨房按14行、12真实楼梯提交、正式存读和止126/127归原轮；两10月1日SHA不拼both，14:12/14:28不同前驱、46/56针、初始idle缺证及完整链撤信分开。",
-        "after": "Accepted fixed777 content plus precisely documented reception/Oct2 attribution; original source/native fields/dated conclusions intact."
-      },
-      "reviewedLines": "1-45",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
       "phase": "testing",
       "module": "003-kitchen",
       "templateConformity": {
@@ -3609,7 +3265,42 @@
         "requiredSections": ["入口与前置", "当前结论", "证据与状态", "依赖与历史"],
         "method": "Respective fixed source/body acceptances retained plus exact dc2 root14 acceptance8d7b2f4e, actual227body/733strict and zero static gates. This metadata writeback changes no body/template/source/map/after and is not another document migration."
       },
-      "toolAssociations": []
+      "toolAssociations": [],
+      "readDomain": {
+        "actual": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": ["docs/phase-governance/reviews/20261016-e2e-stage-m.json#entries/2"]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "c47d4ba780d6b93527279898bde01a3df9b245c1fe38919bef39de7138486306",
+          "afterSha256": "141ace91806bffebc6dfa6ce2c62b3a25f79dbbc90e48f381d5bcc555200dc43",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/testing/e2e/stages/003-kitchen/report.md",
@@ -4992,22 +4683,18 @@
     },
     {
       "path": "docs/testing/e2e/stages/004-meal/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-e2e-stage.md",
       "historyOverlay": false,
-      "templateCompliance": "template-compliant",
-      "reviewDepth": "deep-semantic",
-      "readMethod": "Historical intake reading at the pre-approval candidate: Non-author tail actually read all six original538/currentlive444 and complete43-field semantic projections at21d; same fixed body bytes reused through777. Exact777 narrow C-M6-1/2 closure separately read and accepted by root; root freshly read all six live layers and only current administrative/located Oct2 attribution substitutions here. Original538 not newly claimed root read. All original inverse/maps mechanically rechecked. New root delta separately pending. Exact dc2 root14 subsequently accepted by scoped non-author8d7b2f4e; this metadata writeback adds no source reading or body changes.",
-      "coreConclusion": "e2e-004稳定四章入口；唯一NPC赠酒正文与story/items/saves六case分责；唯saves给005，40行、取消0dispatch/错误use1且不耗酒、208/fresh恢复及原时钟/警告/receipt-only边界具体化；旧fail/版本/质量数与用户/capture保留。",
-      "documentStatus": {
-        "publication": "verified",
-        "meaning": "original e2e-004 catalog/lastVerified10-02/reviewBy11-02 unchanged",
-        "independentSourceReception": "fixed777 source and exact dc2 root14 intake independently accepted, no runtime renewal"
-      },
-      "owner": "Codex current integration; history_cards_a fixed777 source writer; history_cards_c_tail independent content/repair reviewer",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "coreConclusion": "004-meal阶段原id/status/lastVerified/前驱/正文不动，只退休活动reviewBy；旧日历失败和续期段保原历史。新E2E不因时间或HEAD变化触发，原版本/source适用性及原停止点继续独立核验。",
+      "documentStatus": "current",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "originalIdentity": {
         "title": "# E2E-004 · 端菜与赠酒",
         "ownerFields": [
@@ -5056,6 +4743,13 @@
           "root": "Codex",
           "base": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
           "scope": "Only documented administrative/Oct2 attribution substitutions and current integration candidate"
+        },
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
         }
       ],
       "primarySource": [
@@ -5109,9 +4803,9 @@
         }
       ],
       "truthAnchors": [
-        "5a125c375baa9dc907ddeb62865058ba8b830957:docs/testing/e2e/stages/004-meal/README.md",
-        "docs/phase-governance/reviews/20261016-e2e-stage-m-design.md:1",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json:1"
+        "docs/testing/e2e/stages/004-meal/README.md",
+        "docs/testing/governance.md#版本适用性",
+        "scripts/docs/generate-testing-index.mjs"
       ],
       "phaseAnchors": {
         "sourceSpecific": "Own-engine real predecessor for Game/phase1 and Reforge/phase2; original firstphase observation is contextual intent evidence, not absolute newengine scheduling canon. Docs only, READ-FIRST/current-only and no retiredconverter/globalNPCfreeze revival.",
@@ -5165,21 +4859,13 @@
         "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
       ],
       "legalInputs": [
-        "same-engine current 003 kitchen save",
-        "normal menu use",
-        "isolated save/restore case",
-        "Matching ownengine passed exact real predecessor bytes/current validformat, not capture/wrongengine/failed/handwrittenworld or oldformat upgrade",
-        "For004 onlysaves produces005 predecessor; for005 only004saves; no evidence splicing acrosscandidates"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "meal-document-contract-and-history-boundary",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "True same-engine003 kitchen checkpoint, source/current valid format, originalbytes/hash, no foodalreadycarried or winealreadyowned",
-          "story40texts/control/liveonly;items15pretexts/cancel0dispatch/wronguse1dispatch/inventory and binding unchanged;saves slowpose208middle/end fullWorldCanvasfreshrestore",
-          "Both requires six samecandidate/source cases and matching ownengine003 bytes; onlysaves produces004.end.save.json",
-          "NPCowns uniquegift; no privatepayload fallback; nominal720ms/72steps and actual733.8ms remain distinct; no poststorycontrol-move revival",
-          "This document original source byte inverse and complete original heading/link/table mappings retained; 31 heads/8 href/4 tables/23 pipe lines are six-document batch totals, not per-document counts. Actual table data rows15 for all4 tables.",
-          "Actual checkMigratedDocument, paired metadata/evidence and GFM consumers are static document checks. Source acceptance is fixed777; root current integration is a separate candidate, no runtime/E2E/visual/coverage grant."
+          "只能删活动期限/同步实际版本展示；原执行身份、状态、原结论和合法前驱不漂移。"
         ]
       },
       "dedupe": {
@@ -5193,31 +4879,19 @@
         "notes": "Dated runs/sha/warnings/mutations/package/tool receipts remain distinct; same terminal doesnot prove same middle or newtest acceptance."
       },
       "counterReworkBlocked": {
-        "acceptedSource": "fixed777 content accepted; C-M6-1/2 closed only in final candidate; original21d/c73 failures remain counter history",
-        "sourceSpecific": [
-          "Original9a488c02 comparisonfailed from wrong warnings-empty toolmodel; receipt-model-only aggregate not newexecution",
-          "Stationaryuse selectedbutnotinvoked counter1cf2e7f07; toolmissingstep/materialization separate; twoexplicitcallend-boundary counters retain datedfixes",
-          "SAVE persistentundefined oracle/auto-turn sampling/touch footprint/wholetraceRPC/golden source count failures remain inoriginal",
-          "Originalwarnings Game0/0/1 RF2/1/2;10957/10971package and126/136tools not new tests. Oct2 E2E-004-2 records user“非常好” confirming the continuous demonstration (9a488c02 sixcase;7a01ba090 receipt-only), closing only that specific scope. Other per-item experience signatures are not inferred; original-voice capture remains separately assigned to E2E-CAPTURE-1, and fullQ1/Q2/post-naming/publication-material closure is not granted. This Oct16 document governance adds no user signature or runtime execution."
-        ],
-        "rootDelta": "accepted exact dc2 via8d7b2f4e; no open current-intake counter in that snapshot",
-        "limits": [
-          "Original source warnings, failed receipts, incomplete initial idle and revoked complete-chain claims remain dated; Oct11 successor is distinct.",
-          "Raw/trace/save/screenshots current byte availability, storage owner and retention were not recertified; no new runtime/E2E/visual/coverage or user signature.",
-          "Only the specified Oct2 continuous-demo user recognition is established; other per-item/capture/fullQ1Q2/publication and006 rework remain separate."
-        ]
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
       },
       "unresolved": [
-        "Original source warnings, failed receipts, incomplete initial idle and revoked complete-chain claims remain dated; Oct11 successor is distinct.",
-        "Raw/trace/save/screenshots current byte availability, storage owner and retention were not recertified; no new runtime/E2E/visual/coverage or user signature.",
-        "Only the specified Oct2 continuous-demo user recognition is established; other per-item/capture/fullQ1Q2/publication and006 rework remain separate."
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
       "sourceSha256": "3d8d630f391337fc62ca12148ab23dbab5ddfe33c614b879c815e0dd9027aeef",
       "sourceGitRevision": "5a125c375baa9dc907ddeb62865058ba8b830957",
       "sourceGitObject": "1aa856c555d05edc14a318d4e7133f02ea111e77",
       "reviewedSourceSha256": "dd14e4c1b0521557018b73e1ee51de93ec5eba62d5c2231205d7e2e25f2ebd03",
       "reviewedSourceGitRevision": "777016c7910109a6fbb1b9a85f9dc9828945a3f8",
-      "afterSha256": "09607575f5b6011878676bfdabc8308d85c1f8e806c57bad9fa487bccec2183c",
+      "afterSha256": "7ad2ccb1e513ad6b45b12aa98bd85668bd10a2c84a1f0383e413ea36d937aba2",
       "revision": {
         "currentSha": "5a125c375baa9dc907ddeb62865058ba8b830957",
         "implementationSha": "09607575f5b6011878676bfdabc8308d85c1f8e806c57bad9fa487bccec2183c",
@@ -5233,200 +4907,20 @@
         ]
       },
       "evidence": {
-        "kind": "independently-read-source-current-record-and-historical-boundary",
+        "kind": "S73-current-document-candidate",
         "path": "docs/testing/e2e/stages/004-meal/README.md",
-        "sourceSha256": "3d8d630f391337fc62ca12148ab23dbab5ddfe33c614b879c815e0dd9027aeef",
-        "afterSha256": "09607575f5b6011878676bfdabc8308d85c1f8e806c57bad9fa487bccec2183c",
-        "lineCount": 45,
-        "originalPreservation": {
-          "quote": false,
-          "completeOriginalIncluded": true,
-          "completeOriginalReadBackSha256": "3d8d630f391337fc62ca12148ab23dbab5ddfe33c614b879c815e0dd9027aeef",
-          "sourceBlobReadBackExact": true,
-          "method": "exact original H1/blank and exact original YAML/report-nav tail in two separate source spans",
-          "spans": [
-            {
-              "sourceByteStart": 0,
-              "sourceByteEnd": 30,
-              "afterByteStart": 0,
-              "afterByteEnd": 30
-            },
-            {
-              "sourceByteStart": 30,
-              "sourceByteEnd": 400,
-              "afterByteStart": 1208,
-              "afterByteEnd": 1578
-            }
-          ],
-          "exactSourceInverse": true,
-          "inverseSha256": "3d8d630f391337fc62ca12148ab23dbab5ddfe33c614b879c815e0dd9027aeef",
-          "sourceToAfterLineMapping": [
-            {
-              "sourceLine": 1,
-              "afterLine": 1,
-              "sourceLineSha256": "9f7b6458555698e6600a6d04ca360542fe20ecc2ee786b472d2e9377f4b8fc71",
-              "afterLineSha256": "9f7b6458555698e6600a6d04ca360542fe20ecc2ee786b472d2e9377f4b8fc71",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 2,
-              "afterLine": 2,
-              "sourceLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "afterLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 3,
-              "afterLine": 22,
-              "sourceLineSha256": "8f8e0b1e2de94ab6346f8c33cb1a442a1b6209fe8a34e5a3a38d2b2209a84fc6",
-              "afterLineSha256": "8f8e0b1e2de94ab6346f8c33cb1a442a1b6209fe8a34e5a3a38d2b2209a84fc6",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 4,
-              "afterLine": 23,
-              "sourceLineSha256": "108711805b2ecd5f9bb26bd0f1f260519dbcc7f3221a63ed4f90cceae00be7f7",
-              "afterLineSha256": "108711805b2ecd5f9bb26bd0f1f260519dbcc7f3221a63ed4f90cceae00be7f7",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 5,
-              "afterLine": 24,
-              "sourceLineSha256": "c9284289c590b063d977913710fdf6f94e5ce5ba619abfbe67129c05dd6dc18b",
-              "afterLineSha256": "c9284289c590b063d977913710fdf6f94e5ce5ba619abfbe67129c05dd6dc18b",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 6,
-              "afterLine": 25,
-              "sourceLineSha256": "318e486f9bdeca8768d2450760a4cde03c3e3fbf962a13715801ba9dc01bdda9",
-              "afterLineSha256": "318e486f9bdeca8768d2450760a4cde03c3e3fbf962a13715801ba9dc01bdda9",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 7,
-              "afterLine": 26,
-              "sourceLineSha256": "a3fe3b3036db0a8a8bc67db3fc18791d15eed2fdadc9ad0d04b3b5d473632f26",
-              "afterLineSha256": "a3fe3b3036db0a8a8bc67db3fc18791d15eed2fdadc9ad0d04b3b5d473632f26",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 8,
-              "afterLine": 27,
-              "sourceLineSha256": "f73f40f2cd1974a0e07ffc42d22de5c4386ac2b02831cff7f999f07c414247a1",
-              "afterLineSha256": "f73f40f2cd1974a0e07ffc42d22de5c4386ac2b02831cff7f999f07c414247a1",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 9,
-              "afterLine": 28,
-              "sourceLineSha256": "8fcbf092214e4eab9c84b63d632c5885c125687335ee016283f3cc66c92f466d",
-              "afterLineSha256": "8fcbf092214e4eab9c84b63d632c5885c125687335ee016283f3cc66c92f466d",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 10,
-              "afterLine": 29,
-              "sourceLineSha256": "01e6978e95fb332761d5ccdd5a40badd71946832365a5bdf56bc558ce3fcd776",
-              "afterLineSha256": "01e6978e95fb332761d5ccdd5a40badd71946832365a5bdf56bc558ce3fcd776",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 11,
-              "afterLine": 30,
-              "sourceLineSha256": "f5983f9774bf8756bc89399b9917e5fa2617b9cdf5c8ac29e7c378a5a2480ae3",
-              "afterLineSha256": "f5983f9774bf8756bc89399b9917e5fa2617b9cdf5c8ac29e7c378a5a2480ae3",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 12,
-              "afterLine": 31,
-              "sourceLineSha256": "07476ffe094c6ec2dee3e74d7b1d8d4300d4280b40cb1f9171d4b4d13e130f9b",
-              "afterLineSha256": "07476ffe094c6ec2dee3e74d7b1d8d4300d4280b40cb1f9171d4b4d13e130f9b",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 13,
-              "afterLine": 32,
-              "sourceLineSha256": "a8aed29ca3fc8b1fcc84f29f751deb31fc6fbeb882b24dc7fe988d27f2049179",
-              "afterLineSha256": "a8aed29ca3fc8b1fcc84f29f751deb31fc6fbeb882b24dc7fe988d27f2049179",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 14,
-              "afterLine": 33,
-              "sourceLineSha256": "f1b901847390b0ed7e374e7c1e464ec17b46a427c487a5ad6cbd2906405083d5",
-              "afterLineSha256": "f1b901847390b0ed7e374e7c1e464ec17b46a427c487a5ad6cbd2906405083d5",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 15,
-              "afterLine": 34,
-              "sourceLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "afterLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 16,
-              "afterLine": 35,
-              "sourceLineSha256": "cd764d31b6f9b33c20df780b045443da79b461b6144436a39c894f790c504110",
-              "afterLineSha256": "cd764d31b6f9b33c20df780b045443da79b461b6144436a39c894f790c504110",
-              "method": "exact original line in source spans"
-            }
-          ],
-          "titleMapping": [
-            {
-              "depth": 1,
-              "title": "E2E-004 · 端菜与赠酒",
-              "id": "e2e-004--端菜与赠酒",
-              "preserved": true,
-              "sourceLine": 1,
-              "afterHeadingLine": 1
-            }
-          ],
-          "hrefMapping": [
-            {
-              "sourceOccurrence": 1,
-              "originalHref": "report.md",
-              "liveHref": "report.md",
-              "afterOccurrence": 1,
-              "preserved": true,
-              "fixReason": "Same original target",
-              "live": {
-                "href": "report.md",
-                "external": false,
-                "target": "docs/testing/e2e/stages/004-meal/report.md",
-                "fragment": null
-              }
-            }
-          ],
-          "tableRows": [],
-          "sourceTableCount": 0,
-          "note": "Report inverse uses unique original liveprefix plus full inertbody, not fake completequotedmetadata; README exact2spans. Old002 current offsets correspond readonly73; alloriginal row/table bytes retained."
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/testing/e2e/stages/004-meal/README.md",
+          "gitObject": "3eca509696c31cfb3f85d8add8ff2d4195bd439d",
+          "sha256": "09607575f5b6011878676bfdabc8308d85c1f8e806c57bad9fa487bccec2183c"
         },
-        "completeAuthoredRecord": {
-          "kind": "complete-accepted-author-record-in-reachable-fixed-git",
-          "revision": "777016c7910109a6fbb1b9a85f9dc9828945a3f8",
-          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json",
-          "gitObject": "dfd68f2b674258fb2d190ef87f414389e4e07380",
-          "fileSha256": "ec40db5e5e5a1347e32468111455ac1b098800f14151e7a50e9646e055b4d7d6",
-          "selector": {
-            "entries.path": "docs/testing/e2e/stages/004-meal/README.md",
-            "uniqueMatches": 1
-          },
-          "completePriorObjectRetrievedAndCompared": true
-        },
-        "independentContentAcceptanceSha256": "b7155dbef6f216b429ce37b0bc5a0f921ea9ee1a561e16d659fc783eddc96dbb",
-        "rootAdministrativeSubstitutions": [
-          {
-            "before": "下一步非作者全文接收本六篇和完整回执，根另接中央，不自计迁移。",
-            "after": "固定777正文及完整回执语义已获非作者接收；后续根行政与中央接入范围见[专属治理记录](../../../../phase-governance/reviews/20261016-e2e-stage-m.json)，不自授新的运行信用。"
-          },
-          {
-            "before": "本轮没有新演出、像素或用户签字。",
-            "after": "原10月2日E2E-004-2明确记录用户“非常好”认可该连续演示，范围限该项；本轮没有新演出、像素或用户签字。"
-          }
-        ]
+        "currentNativeSha256": "7ad2ccb1e513ad6b45b12aa98bd85668bd10a2c84a1f0383e413ea36d937aba2",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -5487,6 +4981,23 @@
           },
           "independentAcceptanceSha256": "8d7b2f4e3396fa5591f516f698c8c5ce7133ea4ef4b1c5e329a7a8693d44009c",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261016-e2e-stage-m.json",
+            "index": 4,
+            "sha256": "90da54ebbd2cc2fc770b4cf8c8b4f0c761bac793798331627d003e8e1a14b1b8"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [
@@ -5494,13 +5005,10 @@
         "Add stablelive history alias for existing native dedupe; JSON/meta unchanged"
       ],
       "supersessionScope": "Docsstructure/explicit historicalauthority/linkrouting only; no product/canon/oldruntime/raw/source-version policy superseded",
-      "stopLine": "Exact777 six-source/full-record acceptance completed by non-author tail; exact dc2 root administrative/current intake accepted; anyinverse/meta/native/hash/heading/row/href/statusscope drift or staticdiagnostic blocksintake. Onlysame-engine004saves mayfeed005; no story/items/capture predecessor, privatebodyfallback or deletedtailwalk; no sharedsource/JSON/001/006/product/oldtests/coverage edits. Any later source/current change requires its own scoped checking; author self-check alone never grants acceptance.",
-      "nextStep": "Continue full1838 plus increments/artifacts and final terminal evidence work; this control/receipt themselves remain pending increments. No new runtime/user/006 or main closure.",
-      "userVisibleBeforeAfter": {
-        "before": "Original16line H1/YAML/navigation to substantive fourchapter stable stage; originalsource spans exact; 唯一NPC赠酒正文与story/items/saves六case分责；唯saves给005，40行、取消0dispatch/错误use1且不耗酒、208/fresh恢复及原时钟/警告/receipt-only边界具体化；旧fail/版本/质量数与用户/capture保留。",
-        "after": "Accepted fixed777 content plus precisely documented reception/Oct2 attribution; original source/native fields/dated conclusions intact."
-      },
-      "reviewedLines": "1-45",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
       "phase": "testing",
       "module": "004-meal",
       "templateConformity": {
@@ -5511,7 +5019,42 @@
         "requiredSections": ["入口与前置", "当前结论", "证据与状态", "依赖与历史"],
         "method": "Respective fixed source/body acceptances retained plus exact dc2 root14 acceptance8d7b2f4e, actual227body/733strict and zero static gates. This metadata writeback changes no body/template/source/map/after and is not another document migration."
       },
-      "toolAssociations": []
+      "toolAssociations": [],
+      "readDomain": {
+        "actual": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": ["docs/phase-governance/reviews/20261016-e2e-stage-m.json#entries/4"]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "09607575f5b6011878676bfdabc8308d85c1f8e806c57bad9fa487bccec2183c",
+          "afterSha256": "7ad2ccb1e513ad6b45b12aa98bd85668bd10a2c84a1f0383e413ea36d937aba2",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/testing/e2e/stages/004-meal/report.md",
@@ -7617,22 +7160,18 @@
     },
     {
       "path": "docs/testing/e2e/stages/005-shrimp/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-e2e-stage",
       "templateId": "test-e2e-stage-v1",
       "templateVersion": "1.0.0",
       "template": "docs/testing/_templates/test-e2e-stage.md",
       "historyOverlay": false,
-      "templateCompliance": "template-compliant",
-      "reviewDepth": "deep-semantic",
-      "readMethod": "Historical intake reading at the pre-approval candidate: Non-author tail actually read all six original538/currentlive444 and complete43-field semantic projections at21d; same fixed body bytes reused through777. Exact777 narrow C-M6-1/2 closure separately read and accepted by root; root freshly read all six live layers and only current administrative/located Oct2 attribution substitutions here. Original538 not newly claimed root read. All original inverse/maps mechanically rechecked. New root delta separately pending. Exact dc2 root14 subsequently accepted by scoped non-author8d7b2f4e; this metadata writeback adds no source reading or body changes.",
-      "coreConclusion": "e2e-005稳定四章入口；真实004saves到买虾/唯一50文/香兰报信与后台返程；story/guards/saves40/49/40分开，布防522后282前及真实走近/恢复后台并前台可控；wrapperfail/后补/原warning/未触发replan/归档unknown完整保留。",
-      "documentStatus": {
-        "publication": "verified",
-        "meaning": "original e2e-005 catalog/lastVerified10-02/reviewBy11-02 unchanged",
-        "independentSourceReception": "fixed777 source and exact dc2 root14 intake independently accepted, no runtime renewal"
-      },
-      "owner": "Codex current integration; history_cards_a fixed777 source writer; history_cards_c_tail independent content/repair reviewer",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "coreConclusion": "005-shrimp阶段原id/status/lastVerified/前驱/正文不动，只退休活动reviewBy；旧日历失败和续期段保原历史。新E2E不因时间或HEAD变化触发，原版本/source适用性及原停止点继续独立核验。",
+      "documentStatus": "current",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "originalIdentity": {
         "title": "# E2E-005 · 买虾与报信",
         "ownerFields": [
@@ -7681,6 +7220,13 @@
           "root": "Codex",
           "base": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
           "scope": "Only documented administrative/Oct2 attribution substitutions and current integration candidate"
+        },
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
         }
       ],
       "primarySource": [
@@ -7742,9 +7288,9 @@
         }
       ],
       "truthAnchors": [
-        "5a125c375baa9dc907ddeb62865058ba8b830957:docs/testing/e2e/stages/005-shrimp/README.md",
-        "docs/phase-governance/reviews/20261016-e2e-stage-m-design.md:1",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json:1"
+        "docs/testing/e2e/stages/005-shrimp/README.md",
+        "docs/testing/governance.md#版本适用性",
+        "scripts/docs/generate-testing-index.mjs"
       ],
       "phaseAnchors": {
         "sourceSpecific": "Own-engine real predecessor for Game/phase1 and Reforge/phase2; original firstphase observation is contextual intent evidence, not absolute newengine scheduling canon. Docs only, READ-FIRST/current-only and no retiredconverter/globalNPCfreeze revival.",
@@ -7798,21 +7344,13 @@
         "scripts/docs/check-document-model.mjs; scripts/docs/report-governance-progress.mjs (static consumers)"
       ],
       "legalInputs": [
-        "same-engine current 004 saves report",
-        "normal route and dialogue",
-        "fresh browser restore context",
-        "Matching ownengine passed exact real predecessor bytes/current validformat, not capture/wrongengine/failed/handwrittenworld or oldformat upgrade",
-        "For004 onlysaves produces005 predecessor; for005 only004saves; no evidence splicing acrosscandidates"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "errand-document-contract-and-history-boundary",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "Onlysame-engine004saves passed report and exactbytes, rejects story/items/capture/wrongengine/failed/mutatedinput",
-          "Exactlyonce500to550; arm afterdlg522 beforedlg282; actual Xianglan movement afterarm before firstnewspage, not earlierpatrol/placement",
-          "story40/guards49/saves40; original arrival game1688,1388 vs RF139.5,34,0 facingup; full persistent successfulsave/restore before automaticresume",
-          "Actualbackgroundwalk afterrestore and foregroundcontroltrue; moving backgroundCanvas not forced equal across time; onlysaves nextcheckpoint",
-          "This document original source byte inverse and complete original heading/link/table mappings retained; 31 heads/8 href/4 tables/23 pipe lines are six-document batch totals, not per-document counts. Actual table data rows15 for all4 tables.",
-          "Actual checkMigratedDocument, paired metadata/evidence and GFM consumers are static document checks. Source acceptance is fixed777; root current integration is a separate candidate, no runtime/E2E/visual/coverage grant."
+          "只能删活动期限/同步实际版本展示；原执行身份、状态、原结论和合法前驱不漂移。"
         ]
       },
       "dedupe": {
@@ -7826,31 +7364,19 @@
         "notes": "Dated runs/sha/warnings/mutations/package/tool receipts remain distinct; same terminal doesnot prove same middle or newtest acceptance."
       },
       "counterReworkBlocked": {
-        "acceptedSource": "fixed777 content accepted; C-M6-1/2 closed only in final candidate; original21d/c73 failures remain counter history",
-        "sourceSpecific": [
-          "Wrapper gameguards rendererexit beforestoryinput; onlyguards andtwosaves rerun, not one fullwrapperpass",
-          "Heatpathallentities/wrongroom/statictrigger/oldpatrol-as-arrival tooloracles corrected historically, not allscriptdefect",
-          "Half-gridNPC path occupancy failure and production/simulation calibration separate; final naturalcase nevertriggeredreplan",
-          "Gamewarnings0/0/1 RF1/1/2;11002+198 andlater211 receipts separate; original377files177904834 archive/currentraw notrecertified; R4supervision remains"
-        ],
-        "rootDelta": "accepted exact dc2 via8d7b2f4e; no open current-intake counter in that snapshot",
-        "limits": [
-          "Original source warnings, failed receipts, incomplete initial idle and revoked complete-chain claims remain dated; Oct11 successor is distinct.",
-          "Raw/trace/save/screenshots current byte availability, storage owner and retention were not recertified; no new runtime/E2E/visual/coverage or user signature.",
-          "Only the specified Oct2 continuous-demo user recognition is established; other per-item/capture/fullQ1Q2/publication and006 rework remain separate."
-        ]
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
       },
       "unresolved": [
-        "Original source warnings, failed receipts, incomplete initial idle and revoked complete-chain claims remain dated; Oct11 successor is distinct.",
-        "Raw/trace/save/screenshots current byte availability, storage owner and retention were not recertified; no new runtime/E2E/visual/coverage or user signature.",
-        "Only the specified Oct2 continuous-demo user recognition is established; other per-item/capture/fullQ1Q2/publication and006 rework remain separate."
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
       "sourceSha256": "6c5831bd5f97f284b16980cfde2e6bba31da84f60d7a37106aac32978afeabe1",
       "sourceGitRevision": "5a125c375baa9dc907ddeb62865058ba8b830957",
       "sourceGitObject": "96f4f6404fedfbc712f8b18fa36331b47ca76a89",
       "reviewedSourceSha256": "fb79957731c7b31a459e1403355f5896674728ce2ba595d39a32f122e388d2a1",
       "reviewedSourceGitRevision": "777016c7910109a6fbb1b9a85f9dc9828945a3f8",
-      "afterSha256": "acdcc08a51c837b0eb7d4eca5b0eb16b9465653ac868cf24e02f69f711ac125a",
+      "afterSha256": "e298eb17cc420c80d7009fe0a97aa0a29d83bb181889ea3bb944e040378f933d",
       "revision": {
         "currentSha": "5a125c375baa9dc907ddeb62865058ba8b830957",
         "implementationSha": "acdcc08a51c837b0eb7d4eca5b0eb16b9465653ac868cf24e02f69f711ac125a",
@@ -7866,196 +7392,20 @@
         ]
       },
       "evidence": {
-        "kind": "independently-read-source-current-record-and-historical-boundary",
+        "kind": "S73-current-document-candidate",
         "path": "docs/testing/e2e/stages/005-shrimp/README.md",
-        "sourceSha256": "6c5831bd5f97f284b16980cfde2e6bba31da84f60d7a37106aac32978afeabe1",
-        "afterSha256": "acdcc08a51c837b0eb7d4eca5b0eb16b9465653ac868cf24e02f69f711ac125a",
-        "lineCount": 45,
-        "originalPreservation": {
-          "quote": false,
-          "completeOriginalIncluded": true,
-          "completeOriginalReadBackSha256": "6c5831bd5f97f284b16980cfde2e6bba31da84f60d7a37106aac32978afeabe1",
-          "sourceBlobReadBackExact": true,
-          "method": "exact original H1/blank and exact original YAML/report-nav tail in two separate source spans",
-          "spans": [
-            {
-              "sourceByteStart": 0,
-              "sourceByteEnd": 30,
-              "afterByteStart": 0,
-              "afterByteEnd": 30
-            },
-            {
-              "sourceByteStart": 30,
-              "sourceByteEnd": 382,
-              "afterByteStart": 1145,
-              "afterByteEnd": 1497
-            }
-          ],
-          "exactSourceInverse": true,
-          "inverseSha256": "6c5831bd5f97f284b16980cfde2e6bba31da84f60d7a37106aac32978afeabe1",
-          "sourceToAfterLineMapping": [
-            {
-              "sourceLine": 1,
-              "afterLine": 1,
-              "sourceLineSha256": "e3dea85dd72274c23d2dc453f732295fdb9141bf60479781446c436e42630936",
-              "afterLineSha256": "e3dea85dd72274c23d2dc453f732295fdb9141bf60479781446c436e42630936",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 2,
-              "afterLine": 2,
-              "sourceLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "afterLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 3,
-              "afterLine": 22,
-              "sourceLineSha256": "8f8e0b1e2de94ab6346f8c33cb1a442a1b6209fe8a34e5a3a38d2b2209a84fc6",
-              "afterLineSha256": "8f8e0b1e2de94ab6346f8c33cb1a442a1b6209fe8a34e5a3a38d2b2209a84fc6",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 4,
-              "afterLine": 23,
-              "sourceLineSha256": "acd7867bfd0843fc821e2cf9f938ab261c6d1c3cd73e2c16d65b0225046fc226",
-              "afterLineSha256": "acd7867bfd0843fc821e2cf9f938ab261c6d1c3cd73e2c16d65b0225046fc226",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 5,
-              "afterLine": 24,
-              "sourceLineSha256": "c9284289c590b063d977913710fdf6f94e5ce5ba619abfbe67129c05dd6dc18b",
-              "afterLineSha256": "c9284289c590b063d977913710fdf6f94e5ce5ba619abfbe67129c05dd6dc18b",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 6,
-              "afterLine": 25,
-              "sourceLineSha256": "318e486f9bdeca8768d2450760a4cde03c3e3fbf962a13715801ba9dc01bdda9",
-              "afterLineSha256": "318e486f9bdeca8768d2450760a4cde03c3e3fbf962a13715801ba9dc01bdda9",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 7,
-              "afterLine": 26,
-              "sourceLineSha256": "a3fe3b3036db0a8a8bc67db3fc18791d15eed2fdadc9ad0d04b3b5d473632f26",
-              "afterLineSha256": "a3fe3b3036db0a8a8bc67db3fc18791d15eed2fdadc9ad0d04b3b5d473632f26",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 8,
-              "afterLine": 27,
-              "sourceLineSha256": "f73f40f2cd1974a0e07ffc42d22de5c4386ac2b02831cff7f999f07c414247a1",
-              "afterLineSha256": "f73f40f2cd1974a0e07ffc42d22de5c4386ac2b02831cff7f999f07c414247a1",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 9,
-              "afterLine": 28,
-              "sourceLineSha256": "8fcbf092214e4eab9c84b63d632c5885c125687335ee016283f3cc66c92f466d",
-              "afterLineSha256": "8fcbf092214e4eab9c84b63d632c5885c125687335ee016283f3cc66c92f466d",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 10,
-              "afterLine": 29,
-              "sourceLineSha256": "01e6978e95fb332761d5ccdd5a40badd71946832365a5bdf56bc558ce3fcd776",
-              "afterLineSha256": "01e6978e95fb332761d5ccdd5a40badd71946832365a5bdf56bc558ce3fcd776",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 11,
-              "afterLine": 30,
-              "sourceLineSha256": "ac2a9c6ba3e8fc9b876c4daa738fd23cf4a1169c0e554f0ccf96e075ac8cbef3",
-              "afterLineSha256": "ac2a9c6ba3e8fc9b876c4daa738fd23cf4a1169c0e554f0ccf96e075ac8cbef3",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 12,
-              "afterLine": 31,
-              "sourceLineSha256": "4c3d387e5e70a7c95bf45fd07ca58cd30f56b50df3aaca11499b36b1bc38d94a",
-              "afterLineSha256": "4c3d387e5e70a7c95bf45fd07ca58cd30f56b50df3aaca11499b36b1bc38d94a",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 13,
-              "afterLine": 32,
-              "sourceLineSha256": "a8aed29ca3fc8b1fcc84f29f751deb31fc6fbeb882b24dc7fe988d27f2049179",
-              "afterLineSha256": "a8aed29ca3fc8b1fcc84f29f751deb31fc6fbeb882b24dc7fe988d27f2049179",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 14,
-              "afterLine": 33,
-              "sourceLineSha256": "f1b901847390b0ed7e374e7c1e464ec17b46a427c487a5ad6cbd2906405083d5",
-              "afterLineSha256": "f1b901847390b0ed7e374e7c1e464ec17b46a427c487a5ad6cbd2906405083d5",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 15,
-              "afterLine": 34,
-              "sourceLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "afterLineSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-              "method": "exact original line in source spans"
-            },
-            {
-              "sourceLine": 16,
-              "afterLine": 35,
-              "sourceLineSha256": "487a249c4cd693125d4a9c2b480956be78ce5034da4744f9987540b0db52517d",
-              "afterLineSha256": "487a249c4cd693125d4a9c2b480956be78ce5034da4744f9987540b0db52517d",
-              "method": "exact original line in source spans"
-            }
-          ],
-          "titleMapping": [
-            {
-              "depth": 1,
-              "title": "E2E-005 · 买虾与报信",
-              "id": "e2e-005--买虾与报信",
-              "preserved": true,
-              "sourceLine": 1,
-              "afterHeadingLine": 1
-            }
-          ],
-          "hrefMapping": [
-            {
-              "sourceOccurrence": 1,
-              "originalHref": "report.md",
-              "liveHref": "report.md",
-              "afterOccurrence": 1,
-              "preserved": true,
-              "fixReason": "Same original target",
-              "live": {
-                "href": "report.md",
-                "external": false,
-                "target": "docs/testing/e2e/stages/005-shrimp/report.md",
-                "fragment": null
-              }
-            }
-          ],
-          "tableRows": [],
-          "sourceTableCount": 0,
-          "note": "Report inverse uses unique original liveprefix plus full inertbody, not fake completequotedmetadata; README exact2spans. Old002 current offsets correspond readonly73; alloriginal row/table bytes retained."
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/testing/e2e/stages/005-shrimp/README.md",
+          "gitObject": "ee16099720e39236f6a921c4ae992ba5be67af64",
+          "sha256": "acdcc08a51c837b0eb7d4eca5b0eb16b9465653ac868cf24e02f69f711ac125a"
         },
-        "completeAuthoredRecord": {
-          "kind": "complete-accepted-author-record-in-reachable-fixed-git",
-          "revision": "777016c7910109a6fbb1b9a85f9dc9828945a3f8",
-          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-e2e-stage-m-20261016.json",
-          "gitObject": "dfd68f2b674258fb2d190ef87f414389e4e07380",
-          "fileSha256": "ec40db5e5e5a1347e32468111455ac1b098800f14151e7a50e9646e055b4d7d6",
-          "selector": {
-            "entries.path": "docs/testing/e2e/stages/005-shrimp/README.md",
-            "uniqueMatches": 1
-          },
-          "completePriorObjectRetrievedAndCompared": true
-        },
-        "independentContentAcceptanceSha256": "b7155dbef6f216b429ce37b0bc5a0f921ea9ee1a561e16d659fc783eddc96dbb",
-        "rootAdministrativeSubstitutions": [
-          {
-            "before": "下一步非作者全文接收本六篇和完整回执，根另接中央，不自计迁移。",
-            "after": "固定777正文及完整回执语义已获非作者接收；后续根行政与中央接入范围见[专属治理记录](../../../../phase-governance/reviews/20261016-e2e-stage-m.json)，不自授新的运行信用。"
-          }
-        ]
+        "currentNativeSha256": "e298eb17cc420c80d7009fe0a97aa0a29d83bb181889ea3bb944e040378f933d",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -8116,6 +7466,23 @@
           },
           "independentAcceptanceSha256": "8d7b2f4e3396fa5591f516f698c8c5ce7133ea4ef4b1c5e329a7a8693d44009c",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261016-e2e-stage-m.json",
+            "index": 6,
+            "sha256": "24fcc64a1c1ddd290e19d784e86a86c99beccaa47a11847f44f2a10c1a694a39"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [
@@ -8123,13 +7490,10 @@
         "Add stablelive history alias for existing native dedupe; JSON/meta unchanged"
       ],
       "supersessionScope": "Docsstructure/explicit historicalauthority/linkrouting only; no product/canon/oldruntime/raw/source-version policy superseded",
-      "stopLine": "Exact777 six-source/full-record acceptance completed by non-author tail; exact dc2 root administrative/current intake accepted; anyinverse/meta/native/hash/heading/row/href/statusscope drift or staticdiagnostic blocksintake. Stopnews/control/backgroundreturn; do notseekmedicine/boat/006, requireseparate raw/R4/userreview; no claimed replan phase coverage; no sharedsource/JSON/001/006/product/oldtests/coverage edits. Any later source/current change requires its own scoped checking; author self-check alone never grants acceptance.",
-      "nextStep": "Continue full1838 plus increments/artifacts and final terminal evidence work; this control/receipt themselves remain pending increments. No new runtime/user/006 or main closure.",
-      "userVisibleBeforeAfter": {
-        "before": "Original16line H1/YAML/navigation to substantive fourchapter stable stage; originalsource spans exact; 真实004saves到买虾/唯一50文/香兰报信与后台返程；story/guards/saves40/49/40分开，布防522后282前及真实走近/恢复后台并前台可控；wrapperfail/后补/原warning/未触发replan/归档unknown完整保留。",
-        "after": "Accepted fixed777 content plus precisely documented reception/Oct2 attribution; original source/native fields/dated conclusions intact."
-      },
-      "reviewedLines": "1-45",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
       "phase": "testing",
       "module": "005-shrimp",
       "templateConformity": {
@@ -8140,7 +7504,42 @@
         "requiredSections": ["入口与前置", "当前结论", "证据与状态", "依赖与历史"],
         "method": "Respective fixed source/body acceptances retained plus exact dc2 root14 acceptance8d7b2f4e, actual227body/733strict and zero static gates. This metadata writeback changes no body/template/source/map/after and is not another document migration."
       },
-      "toolAssociations": []
+      "toolAssociations": [],
+      "readDomain": {
+        "actual": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": ["docs/phase-governance/reviews/20261016-e2e-stage-m.json#entries/6"]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "acdcc08a51c837b0eb7d4eca5b0eb16b9465653ac868cf24e02f69f711ac125a",
+          "afterSha256": "e298eb17cc420c80d7009fe0a97aa0a29d83bb181889ea3bb944e040378f933d",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
+      ]
     },
     {
       "path": "docs/testing/e2e/stages/005-shrimp/report.md",

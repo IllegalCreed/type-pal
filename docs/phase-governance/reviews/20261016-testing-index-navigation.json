@@ -4257,18 +4257,18 @@
     },
     {
       "path": "docs/testing/indexes/by-stage.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
       "template": "docs/phase-governance/templates/governance-index.md",
       "historyOverlay": false,
-      "templateCompliance": "template-compliant",
-      "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
-      "coreConclusion": "快速选择001–006的阶段报告，不声称是全catalog的顺序runner。 严格只含6个e2e-stage；跨阶段合同/路线建议/通病审计不混入阶段表。 投影current；001–005原verified、006原rework原值保留，导航current不把006转绿。",
-      "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
-      "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "coreConclusion": "阶段视图追加catalog实际候选SHA/content/minimumSave/sourceRefs数量/lastVerified版本表；六阶段成员与原状态不变，HEAD不同不自动失效。真实producer生成而非手改派生行。",
+      "documentStatus": "current",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "originalIdentity": {
         "ownerFields": [],
         "absentFields": ["Owner", "Coding Owner", "Author", "Status", "Last reviewed"],
@@ -4333,6 +4333,13 @@
             "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
           },
           "bodyChanged": false
+        },
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
         }
       ],
       "primarySource": [
@@ -4378,9 +4385,9 @@
         }
       ],
       "truthAnchors": [
-        "docs/testing/indexes/by-stage.md:1 @ 9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "docs/phase-governance/templates/registry.json:1",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-index-l-20261016.json:1"
+        "docs/testing/indexes/by-stage.md",
+        "docs/testing/governance.md#版本适用性",
+        "scripts/docs/generate-testing-index.mjs"
       ],
       "phaseAnchors": {
         "sourceSpecific": "快速选择001–006的阶段报告，不声称是全catalog的顺序runner。 Navigation only; phase1/phase2 caller/canon/execution boundaries remain with target reports.",
@@ -4426,18 +4433,13 @@
         "scripts/docs/check-testing.mjs:validateIndexes/auditTestingDocs; package check:testing-docs/check:docs"
       ],
       "legalInputs": [
-        "Existing stable canonical target paths and original registered navigation row fields; read-only navigation, not invocation of linked tools",
-        "Both required JSON SSOT parsed before writer output; missing or malformed source is an IO-boundary rejection, never a current empty-ledger fallback",
-        "Future legitimate catalog dimensions update only projections/derived scope and keep reviewDate fixed; changed body still requires real review"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "independent-source-records-and-live-navigation",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "恰好六行，006仍rework；把route proposal纳入stage是反例，真实kind过滤必须挡住。",
-          "保留原H1和六行id/title/canonical/status/owner，阶段报告承担输入、checkpoint及录像证据。",
-          "来源为kind过滤和catalog；006重跑/accept需要独立实际任务，不因重生索引恢复旧运行指令。",
-          "Actual source→after full nonblank-line mapping, 6 original link occurrences and 1 original rendered heading IDs preserved",
-          "At fixed authored738d candidate (not current root counts): Actual checkMigratedDocument used this candidate text/real registry, separate from shared202 routes; no runtime/E2E/visual/coverage inheritance"
+          "只能删活动期限/同步实际版本展示；原执行身份、状态、原结论和合法前驱不漂移。"
         ]
       },
       "dedupe": {
@@ -4450,18 +4452,12 @@
         "notes": "严格只含6个e2e-stage；跨阶段合同/路线建议/通病审计不混入阶段表。 Repeated dimensional membership is one document, not multiple executions."
       },
       "counterReworkBlocked": {
-        "authoredContent": "Exact738d implementation/body/complete original-record semantics independently accepted; original pending-at-delivery counters preserved in full author Git record.",
-        "currentIntegration": "Exact afb149b9 normalized records/central/routes/existing-matrix delta independently accepted by receipt_review; no open L intake counter. Later root writeback has distinct bytes; original downstream/history limits remain.",
-        "historicalLimits": [
-          "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
-          "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
-          "Publication current/proposal/rework/verified and old classification reviewed keep their original source axes; no dates, version constants or retention renewed."
-        ]
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
       },
       "unresolved": [
-        "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
-        "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
-        "Publication current/proposal/rework/verified and old classification reviewed keep their original source axes; no dates, version constants or retention renewed."
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
       "sourceSha256": "93ddee5ce07bd190d124bf96895c42844936a0ee429a41cc5c7ce73d9b38cddd",
       "sourceGitRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
@@ -4469,7 +4465,7 @@
       "reviewedSourceSha256": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
+      "afterSha256": "8a433868fafb182eb0b680e0aedc3d0d9d3752882947ea77b3137997e97d3795",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
         "implementationSha": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
@@ -4493,155 +4489,20 @@
         ]
       },
       "evidence": {
-        "kind": "independent-index-source-producer-and-navigation-content-review",
+        "kind": "S73-current-document-candidate",
         "path": "docs/testing/indexes/by-stage.md",
-        "sourceSha256": "93ddee5ce07bd190d124bf96895c42844936a0ee429a41cc5c7ce73d9b38cddd",
-        "afterSha256": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
-        "lineCount": 41,
-        "originalPreservation": {
-          "quote": false,
-          "completeOriginalIncluded": false,
-          "method": "fixed Git revision/blob and SHA + exact member/line/heading/link mapping; blank formatting normalized, one legacy column label clarified, original producer caveat rewritten into concrete sections",
-          "completeOriginalReadBackSha256": "93ddee5ce07bd190d124bf96895c42844936a0ee429a41cc5c7ce73d9b38cddd",
-          "sourceBlobReadBackExact": true,
-          "sourceToAfterLineMapping": [
-            {
-              "sourceLine": 1,
-              "afterLine": 1,
-              "method": "exact original line",
-              "sourceLineSha256": "ab5f83e8b0eb9f4693dbc8bfab56f4dcc84503b526faa4578e7c51b2ca0e0a6c",
-              "afterLineSha256": "ab5f83e8b0eb9f4693dbc8bfab56f4dcc84503b526faa4578e7c51b2ca0e0a6c"
-            },
-            {
-              "sourceLine": 3,
-              "afterSections": ["目的", "当前状态", "入口与责任", "证据与下一步"],
-              "method": "Original producer/source/acceptance caveat rewritten into concrete governance sections; complete original in pinned Git blob",
-              "sourceText": "本页由 `scripts/docs/generate-testing-index.mjs` 生成；状态来自 `catalog.json`。",
-              "sourceLineSha256": "05d7f106ee7c10a3b553b9f07eaf57c0570423a87b7b219781d621ab464edf02"
-            },
-            {
-              "sourceLine": 5,
-              "afterLine": 28,
-              "method": "exact original line",
-              "sourceLineSha256": "8771e2fee88671e2305d1d6e4228ed0b453a7f41227a61a72391954a02973afd",
-              "afterLineSha256": "8771e2fee88671e2305d1d6e4228ed0b453a7f41227a61a72391954a02973afd"
-            },
-            {
-              "sourceLine": 6,
-              "afterLine": 29,
-              "method": "exact original line",
-              "sourceLineSha256": "4da1ec6f47782090102dc16bda978efb5655fbf2ddce0f84ecf1faf79a930f2d",
-              "afterLineSha256": "4da1ec6f47782090102dc16bda978efb5655fbf2ddce0f84ecf1faf79a930f2d"
-            },
-            {
-              "sourceLine": 7,
-              "afterLine": 30,
-              "method": "exact original line",
-              "sourceLineSha256": "131f3c3af0cad18faabe87d325c6375642ee8d3e19bf34adf9b877f71b73957d",
-              "afterLineSha256": "131f3c3af0cad18faabe87d325c6375642ee8d3e19bf34adf9b877f71b73957d"
-            },
-            {
-              "sourceLine": 8,
-              "afterLine": 31,
-              "method": "exact original line",
-              "sourceLineSha256": "e2f83d272c43c0622542382580cbd9c0002689c8a3cb8edf50165daff4af814d",
-              "afterLineSha256": "e2f83d272c43c0622542382580cbd9c0002689c8a3cb8edf50165daff4af814d"
-            },
-            {
-              "sourceLine": 9,
-              "afterLine": 32,
-              "method": "exact original line",
-              "sourceLineSha256": "37835109c765820a912f5afdecdd1388fe7d845562150efad4d99bb17b48137d",
-              "afterLineSha256": "37835109c765820a912f5afdecdd1388fe7d845562150efad4d99bb17b48137d"
-            },
-            {
-              "sourceLine": 10,
-              "afterLine": 33,
-              "method": "exact original line",
-              "sourceLineSha256": "356363efbdbd7d3b2e491b3ccd647da662565eee782afa6ed20d241977af8e25",
-              "afterLineSha256": "356363efbdbd7d3b2e491b3ccd647da662565eee782afa6ed20d241977af8e25"
-            },
-            {
-              "sourceLine": 11,
-              "afterLine": 34,
-              "method": "exact original line",
-              "sourceLineSha256": "a7a1b2301c4692eda71ca744a23584409f415394c51afbda37554ed5fdf970cc",
-              "afterLineSha256": "a7a1b2301c4692eda71ca744a23584409f415394c51afbda37554ed5fdf970cc"
-            },
-            {
-              "sourceLine": 12,
-              "afterLine": 35,
-              "method": "exact original line",
-              "sourceLineSha256": "cccdac65df9f483ff6173f28f343b3c005e792ebe1fc6d735a890cfd924a2a82",
-              "afterLineSha256": "cccdac65df9f483ff6173f28f343b3c005e792ebe1fc6d735a890cfd924a2a82"
-            }
-          ],
-          "originalHeadingIDs": [
-            {
-              "plain": "E2E / 测试文档多维索引：按阶段",
-              "id": "e2e--测试文档多维索引按阶段",
-              "depth": 1
-            }
-          ],
-          "originalHeadingIDsLive": true,
-          "allOriginalLinkOccurrencesPreserved": true,
-          "note": "No quote/unquote inverse exists or is claimed; original bytes can be read with git show sourceRevision:path"
-        },
-        "authoredCandidate": {
-          "revision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
-          "gitObject": "b8a01aa037a7c1ca48ac52558e497b78aaa6b295",
-          "sha256": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
-          "completeRecord": {
-            "kind": "complete-author-candidate-record-in-fixed-reachable-git",
-            "revision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
-            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-index-l-20261016.json",
-            "gitObject": "3c9ca8d09643afd3b6c3f5f602b50956fc52abd7",
-            "fileSha256": "92281fa917d091223723cd7b4e33e28cb30709eb4fa388e45860617f7f48bc65",
-            "selector": {
-              "entries.path": "docs/testing/indexes/by-stage.md",
-              "uniqueMatches": 1
-            },
-            "scope": "Entire original43-field author candidate, all mapping objects and pending-at-delivery fields. Actually retrieved and deep-compared; author is an ancestor of root9318 merge, retained in final published history. Not a summary or new acceptance of this receipt as a governed body."
-          }
-        },
-        "independentContentReview": {
-          "reviewer": "history_cards_c_tail",
-          "proofSha256": "b6f8719cfeaf7ef35f8bd1f5559128b1bab030a108c7fb5a6025ff756475e831",
-          "result": "accept exact738d content only",
-          "modelIssues": []
-        },
-        "sourceSpecificGFM": {
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
           "path": "docs/testing/indexes/by-stage.md",
-          "sourceSha256": "93ddee5ce07bd190d124bf96895c42844936a0ee429a41cc5c7ce73d9b38cddd",
-          "afterSha256": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
-          "sourceLines": 12,
-          "currentLines": 41,
-          "sourceHeadings": 1,
-          "sourceLinks": 6,
-          "currentLinks": 10,
-          "sourceMapCount": 10,
-          "originalHeadingIds": ["e2e--测试文档多维索引按阶段"],
-          "captureSameAsApprovedSource": true,
-          "actualModelIssues": [],
-          "issues": []
+          "gitObject": "b8a01aa037a7c1ca48ac52558e497b78aaa6b295",
+          "sha256": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae"
         },
-        "rootCurrentConsumer": {
-          "modelBodies": 215,
-          "modelIssues": 0,
-          "strictRecords": 724,
-          "strictIssues": 0,
-          "proofSha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
-          "bodyAfterSha256Unchanged": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
-          "scope": "Actual source/structure/projection on independently accepted fixed afb149b9 snapshot; unchanged body/source/after. Later root metadata separately checked; no fresh downstream/report/product audit."
-        },
-        "independentRootIntake": {
-          "reviewer": "receipt_review",
-          "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
-          "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
-          "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
-          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
-          "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
-        }
+        "currentNativeSha256": "8a433868fafb182eb0b680e0aedc3d0d9d3752882947ea77b3137997e97d3795",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -4691,18 +4552,31 @@
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "bodyAfterSha256Unchanged": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "index": 6,
+            "sha256": "9dec504a04641cf8f82b8328d1294dc535f26d5cfe6ac8f949aac3463e3c81b9"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
-      "stopLine": "Missing/changed source truth, unmapped original rows/headings/links, broken producer/template/consumer or nonzero static diagnostics block acceptance. No source current/verified/reviewed or this author self-check grants runtime, coverage or all-docs completion.",
-      "nextStep": "Continue M stage and all remaining baseline/increment documents; linked report/tool/raw or product truth requires its own actual source review, no navigation-derived execution credit.",
-      "userVisibleBeforeAfter": {
-        "before": "Original 12 lines -> 41 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3",
-        "after": "Same accepted source-specific five-section index, now explicitly registered with its unique complete current record/route. Author body/code/SSOT and all original rows/links remain unchanged.",
-        "scope": "Human/Agent navigation states source ownership, historical limits and next steps; no product/UI/test/canon behavior change"
-      },
-      "reviewedLines": "1-41",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
       "phase": "testing",
       "module": "testing-index-navigation-and-single-source-projection",
       "templateConformity": {
@@ -4739,22 +4613,59 @@
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
         }
+      ],
+      "readDomain": {
+        "actual": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261016-testing-index-navigation.json#entries/6"
+        ]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
+          "afterSha256": "8a433868fafb182eb0b680e0aedc3d0d9d3752882947ea77b3137997e97d3795",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        }
       ]
     },
     {
       "path": "docs/testing/indexes/by-status.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
       "template": "docs/phase-governance/templates/governance-index.md",
       "historyOverlay": false,
-      "templateCompliance": "template-compliant",
-      "reviewDepth": "deep-semantic",
-      "readMethod": "Author and non-author actually cover all10 original921/current1241 lines, complete43-field candidate records and758 line mappings under exact source/blob equality; non-author complete semantic values use exact common-field reuse as stated in fixed proof. Root read full1006-line peer report (423-650 repaired after initial output truncation), writer222/newtest285 and3bodies173, plus all10 unique core/phase/oracle/caller fields and every new normalized literal. Other approved author values copied exactly with full43-field Git locator, not falsely claimed as fresh root8167-line reading. Exact afb149b9 root current-record/central/route/matrix independently accepted by receipt_review; this later root-owned administrative signoff records that decision without changing body/source/after.",
-      "coreConclusion": "按已登记原status找文档，明确这是行状态轴，与本页导航有效性和本轮深审进度分开。 4组/18ID：current11、proposal1、rework1、verified5。 页级current不统一改行状态；source publication current不认证runtime执行，历史verified不续期到今天。",
-      "documentStatus": "current navigation projection only; exact738d content and exactafb149b9 central/current-record intake independently accepted, downstream publication/execution unchanged",
-      "owner": "Codex (current navigation and root integration; history_cards_a authored implementation, history_cards_c_tail independently accepted exact738d)",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "coreConclusion": "状态视图仍按catalog生命周期分组，只将期限事实权替换为版本适用性；current不覆盖原verified/rework，旧执行和proposal不获新信用。真实producer生成而非手改派生行。",
+      "documentStatus": "current",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "originalIdentity": {
         "ownerFields": [],
         "absentFields": ["Owner", "Coding Owner", "Author", "Status", "Last reviewed"],
@@ -4819,6 +4730,13 @@
             "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
           },
           "bodyChanged": false
+        },
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
         }
       ],
       "primarySource": [
@@ -4864,9 +4782,9 @@
         }
       ],
       "truthAnchors": [
-        "docs/testing/indexes/by-status.md:1 @ 9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
-        "docs/phase-governance/templates/registry.json:1",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-index-l-20261016.json:1"
+        "docs/testing/indexes/by-status.md",
+        "docs/testing/governance.md#版本适用性",
+        "scripts/docs/generate-testing-index.mjs"
       ],
       "phaseAnchors": {
         "sourceSpecific": "按已登记原status找文档，明确这是行状态轴，与本页导航有效性和本轮深审进度分开。 Navigation only; phase1/phase2 caller/canon/execution boundaries remain with target reports.",
@@ -4912,18 +4830,13 @@
         "scripts/docs/check-testing.mjs:validateIndexes/auditTestingDocs; package check:testing-docs/check:docs"
       ],
       "legalInputs": [
-        "Existing stable canonical target paths and original registered navigation row fields; read-only navigation, not invocation of linked tools",
-        "Both required JSON SSOT parsed before writer output; missing or malformed source is an IO-boundary rejection, never a current empty-ledger fallback",
-        "Future legitimate catalog dimensions update only projections/derived scope and keep reviewDate fixed; changed body still requires real review"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "independent-source-records-and-live-navigation",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "006仍rework、route仍proposal；任何“统一current/verified”的输出篡改都必须被精确生成比对拒绝。",
-          "保留四原状态标题与18原链接；同一ID恰好落一原status组，未知状态由catalog合同拒绝。",
-          "来源为status字段；状态语义/审核期限由governance与canonical/evidence合同管，本索引不设第二状态账。",
-          "Actual source→after full nonblank-line mapping, 18 original link occurrences and 5 original rendered heading IDs preserved",
-          "At fixed authored738d candidate (not current root counts): Actual checkMigratedDocument used this candidate text/real registry, separate from shared202 routes; no runtime/E2E/visual/coverage inheritance"
+          "只能删活动期限/同步实际版本展示；原执行身份、状态、原结论和合法前驱不漂移。"
         ]
       },
       "dedupe": {
@@ -4936,18 +4849,12 @@
         "notes": "4组/18ID：current11、proposal1、rework1、verified5。 Repeated dimensional membership is one document, not multiple executions."
       },
       "counterReworkBlocked": {
-        "authoredContent": "Exact738d implementation/body/complete original-record semantics independently accepted; original pending-at-delivery counters preserved in full author Git record.",
-        "currentIntegration": "Exact afb149b9 normalized records/central/routes/existing-matrix delta independently accepted by receipt_review; no open L intake counter. Later root writeback has distinct bytes; original downstream/history limits remain.",
-        "historicalLimits": [
-          "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
-          "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
-          "Publication current/proposal/rework/verified and old classification reviewed keep their original source axes; no dates, version constants or retention renewed."
-        ]
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
       },
       "unresolved": [
-        "Navigation-only acceptance does not reread or certify all18 report/evidence bodies or359 legacy source documents.",
-        "Original raw/screenshot availability,112 business tool semantics and runtime/E2E/visual/coverage are not reverified by this index migration.",
-        "Publication current/proposal/rework/verified and old classification reviewed keep their original source axes; no dates, version constants or retention renewed."
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
       "sourceSha256": "0db02acf1366a466045f97f72567354af5ffed019ef89b04b74a2474c0512241",
       "sourceGitRevision": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
@@ -4955,7 +4862,7 @@
       "reviewedSourceSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
       "reviewedSourceGitRevision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
       "rootIntegrationBase": "9318cead1100c01031f1c917c88c1119962076af",
-      "afterSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
+      "afterSha256": "6bc8ea55c5ccdd6652173dfc18a79787ef82bfbdc38a8f14f483c2cc434ab577",
       "revision": {
         "currentSha": "9e3fb825426960c8b7d1914a52625a9bdc17b9a3",
         "implementationSha": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
@@ -4979,329 +4886,20 @@
         ]
       },
       "evidence": {
-        "kind": "independent-index-source-producer-and-navigation-content-review",
+        "kind": "S73-current-document-candidate",
         "path": "docs/testing/indexes/by-status.md",
-        "sourceSha256": "0db02acf1366a466045f97f72567354af5ffed019ef89b04b74a2474c0512241",
-        "afterSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
-        "lineCount": 73,
-        "originalPreservation": {
-          "quote": false,
-          "completeOriginalIncluded": false,
-          "method": "fixed Git revision/blob and SHA + exact member/line/heading/link mapping; blank formatting normalized, one legacy column label clarified, original producer caveat rewritten into concrete sections",
-          "completeOriginalReadBackSha256": "0db02acf1366a466045f97f72567354af5ffed019ef89b04b74a2474c0512241",
-          "sourceBlobReadBackExact": true,
-          "sourceToAfterLineMapping": [
-            {
-              "sourceLine": 1,
-              "afterLine": 1,
-              "method": "exact original line",
-              "sourceLineSha256": "a45dd142d6589dd79bc0a7937f6367cc10be3821e79a6dfa2bb581d377879ba6",
-              "afterLineSha256": "a45dd142d6589dd79bc0a7937f6367cc10be3821e79a6dfa2bb581d377879ba6"
-            },
-            {
-              "sourceLine": 3,
-              "afterSections": ["目的", "当前状态", "入口与责任", "证据与下一步"],
-              "method": "Original producer/source/acceptance caveat rewritten into concrete governance sections; complete original in pinned Git blob",
-              "sourceText": "本页由 `scripts/docs/generate-testing-index.mjs` 生成。",
-              "sourceLineSha256": "391712359b1fc0c7572e53eb3c33e24d3313cd0e655c60e0586e13cb7c8ee62a"
-            },
-            {
-              "sourceLine": 5,
-              "afterLine": 28,
-              "method": "ATX H2 to H3; original text and rendered ID preserved",
-              "sourceLineSha256": "02e5f27791e1c92f47bb730768a4affb231b52eb850fa2b74f47abe53869f3b6",
-              "afterLineSha256": "41c7f7b156a96c3b543c6233ea5e7c1a9afcf96ec0a97e305ef71eedcaa71c4c"
-            },
-            {
-              "sourceLine": 7,
-              "afterLine": 30,
-              "method": "exact original line",
-              "sourceLineSha256": "8771e2fee88671e2305d1d6e4228ed0b453a7f41227a61a72391954a02973afd",
-              "afterLineSha256": "8771e2fee88671e2305d1d6e4228ed0b453a7f41227a61a72391954a02973afd"
-            },
-            {
-              "sourceLine": 8,
-              "afterLine": 31,
-              "method": "exact original line",
-              "sourceLineSha256": "4da1ec6f47782090102dc16bda978efb5655fbf2ddce0f84ecf1faf79a930f2d",
-              "afterLineSha256": "4da1ec6f47782090102dc16bda978efb5655fbf2ddce0f84ecf1faf79a930f2d"
-            },
-            {
-              "sourceLine": 9,
-              "afterLine": 32,
-              "method": "exact original line",
-              "sourceLineSha256": "7578f5aafc5e4d08e578d27be0b4f5a08803423804b3fafaacf81c5230fd39aa",
-              "afterLineSha256": "7578f5aafc5e4d08e578d27be0b4f5a08803423804b3fafaacf81c5230fd39aa"
-            },
-            {
-              "sourceLine": 10,
-              "afterLine": 33,
-              "method": "exact original line",
-              "sourceLineSha256": "830e3a282d8ba0aeb17b3a66719d66ecd4e020bda357709705feaaf29a732ace",
-              "afterLineSha256": "830e3a282d8ba0aeb17b3a66719d66ecd4e020bda357709705feaaf29a732ace"
-            },
-            {
-              "sourceLine": 11,
-              "afterLine": 34,
-              "method": "exact original line",
-              "sourceLineSha256": "1b3ef6087917937b9544f833cedf51635c66222c873c29aaa94810ce4a1171c3",
-              "afterLineSha256": "1b3ef6087917937b9544f833cedf51635c66222c873c29aaa94810ce4a1171c3"
-            },
-            {
-              "sourceLine": 12,
-              "afterLine": 35,
-              "method": "exact original line",
-              "sourceLineSha256": "e9dbd9e449d73cb4ec5f0929c81d9a4ab1e4468de11d3d6a3aff2ef76e71afd7",
-              "afterLineSha256": "e9dbd9e449d73cb4ec5f0929c81d9a4ab1e4468de11d3d6a3aff2ef76e71afd7"
-            },
-            {
-              "sourceLine": 13,
-              "afterLine": 36,
-              "method": "exact original line",
-              "sourceLineSha256": "3b1d659bdfb9105e55bb265eb71a8dcb94ea37a520c19d5cf0cd5ae333919e0e",
-              "afterLineSha256": "3b1d659bdfb9105e55bb265eb71a8dcb94ea37a520c19d5cf0cd5ae333919e0e"
-            },
-            {
-              "sourceLine": 14,
-              "afterLine": 37,
-              "method": "exact original line",
-              "sourceLineSha256": "2883c22c86ac4277ca61da57f44257a2beda330922eb6b08fbde59c499fa4c8b",
-              "afterLineSha256": "2883c22c86ac4277ca61da57f44257a2beda330922eb6b08fbde59c499fa4c8b"
-            },
-            {
-              "sourceLine": 15,
-              "afterLine": 38,
-              "method": "exact original line",
-              "sourceLineSha256": "1d3e8464aa4ccca411e0527c86e662b2f04aeb9312b85ae67882c449a33b6351",
-              "afterLineSha256": "1d3e8464aa4ccca411e0527c86e662b2f04aeb9312b85ae67882c449a33b6351"
-            },
-            {
-              "sourceLine": 16,
-              "afterLine": 39,
-              "method": "exact original line",
-              "sourceLineSha256": "05dc2532accb42f98c05239181921952b63c2ec07a0544013f5c5074c9213ed8",
-              "afterLineSha256": "05dc2532accb42f98c05239181921952b63c2ec07a0544013f5c5074c9213ed8"
-            },
-            {
-              "sourceLine": 17,
-              "afterLine": 40,
-              "method": "exact original line",
-              "sourceLineSha256": "8db898b98d52ad15671be26b7577df9f5c2abf71535450eae152ff79a3336ec3",
-              "afterLineSha256": "8db898b98d52ad15671be26b7577df9f5c2abf71535450eae152ff79a3336ec3"
-            },
-            {
-              "sourceLine": 18,
-              "afterLine": 41,
-              "method": "exact original line",
-              "sourceLineSha256": "c74084fd18012d318d21bf3647d5081bf92b1e2080f796de984e18a543fa3c53",
-              "afterLineSha256": "c74084fd18012d318d21bf3647d5081bf92b1e2080f796de984e18a543fa3c53"
-            },
-            {
-              "sourceLine": 19,
-              "afterLine": 42,
-              "method": "exact original line",
-              "sourceLineSha256": "956ef36bfdc986def23bdbf347b000836e2e1c4bb4b8d0618a83632a41f17ade",
-              "afterLineSha256": "956ef36bfdc986def23bdbf347b000836e2e1c4bb4b8d0618a83632a41f17ade"
-            },
-            {
-              "sourceLine": 21,
-              "afterLine": 45,
-              "method": "ATX H2 to H3; original text and rendered ID preserved",
-              "sourceLineSha256": "e0e2462ff95d7b282e03eb5be8a11fd9784f7cf881b65f92765b3705c7984954",
-              "afterLineSha256": "d05538a6afd74464fd87186db4dd1b2ee505b5f4a7fbe3eaa9c4058700639822"
-            },
-            {
-              "sourceLine": 23,
-              "afterLine": 47,
-              "method": "exact original line",
-              "sourceLineSha256": "8771e2fee88671e2305d1d6e4228ed0b453a7f41227a61a72391954a02973afd",
-              "afterLineSha256": "8771e2fee88671e2305d1d6e4228ed0b453a7f41227a61a72391954a02973afd"
-            },
-            {
-              "sourceLine": 24,
-              "afterLine": 48,
-              "method": "exact original line",
-              "sourceLineSha256": "4da1ec6f47782090102dc16bda978efb5655fbf2ddce0f84ecf1faf79a930f2d",
-              "afterLineSha256": "4da1ec6f47782090102dc16bda978efb5655fbf2ddce0f84ecf1faf79a930f2d"
-            },
-            {
-              "sourceLine": 25,
-              "afterLine": 49,
-              "method": "exact original line",
-              "sourceLineSha256": "92f498de908aac907019236e5c8500694edc222311acce1cedab373d53c142ab",
-              "afterLineSha256": "92f498de908aac907019236e5c8500694edc222311acce1cedab373d53c142ab"
-            },
-            {
-              "sourceLine": 27,
-              "afterLine": 52,
-              "method": "ATX H2 to H3; original text and rendered ID preserved",
-              "sourceLineSha256": "82e4096329424db62e3447600693640d2cb62b7e851e01db254d8e91ef29b542",
-              "afterLineSha256": "e7ca7ec9bc1c98e71112a980660447121a5ceff21e0f499f27430cf654557cd1"
-            },
-            {
-              "sourceLine": 29,
-              "afterLine": 54,
-              "method": "exact original line",
-              "sourceLineSha256": "8771e2fee88671e2305d1d6e4228ed0b453a7f41227a61a72391954a02973afd",
-              "afterLineSha256": "8771e2fee88671e2305d1d6e4228ed0b453a7f41227a61a72391954a02973afd"
-            },
-            {
-              "sourceLine": 30,
-              "afterLine": 55,
-              "method": "exact original line",
-              "sourceLineSha256": "4da1ec6f47782090102dc16bda978efb5655fbf2ddce0f84ecf1faf79a930f2d",
-              "afterLineSha256": "4da1ec6f47782090102dc16bda978efb5655fbf2ddce0f84ecf1faf79a930f2d"
-            },
-            {
-              "sourceLine": 31,
-              "afterLine": 56,
-              "method": "exact original line",
-              "sourceLineSha256": "cccdac65df9f483ff6173f28f343b3c005e792ebe1fc6d735a890cfd924a2a82",
-              "afterLineSha256": "cccdac65df9f483ff6173f28f343b3c005e792ebe1fc6d735a890cfd924a2a82"
-            },
-            {
-              "sourceLine": 33,
-              "afterLine": 59,
-              "method": "ATX H2 to H3; original text and rendered ID preserved",
-              "sourceLineSha256": "98371f504a739bcf973bf2146a6fdb074d2c31040f476f0e68b5ea4fc1d1e75a",
-              "afterLineSha256": "8a22f5099d0334846d890d56a5aeefb6e39802a995f8c5d54bc58c43c51ac98d"
-            },
-            {
-              "sourceLine": 35,
-              "afterLine": 61,
-              "method": "exact original line",
-              "sourceLineSha256": "8771e2fee88671e2305d1d6e4228ed0b453a7f41227a61a72391954a02973afd",
-              "afterLineSha256": "8771e2fee88671e2305d1d6e4228ed0b453a7f41227a61a72391954a02973afd"
-            },
-            {
-              "sourceLine": 36,
-              "afterLine": 62,
-              "method": "exact original line",
-              "sourceLineSha256": "4da1ec6f47782090102dc16bda978efb5655fbf2ddce0f84ecf1faf79a930f2d",
-              "afterLineSha256": "4da1ec6f47782090102dc16bda978efb5655fbf2ddce0f84ecf1faf79a930f2d"
-            },
-            {
-              "sourceLine": 37,
-              "afterLine": 63,
-              "method": "exact original line",
-              "sourceLineSha256": "131f3c3af0cad18faabe87d325c6375642ee8d3e19bf34adf9b877f71b73957d",
-              "afterLineSha256": "131f3c3af0cad18faabe87d325c6375642ee8d3e19bf34adf9b877f71b73957d"
-            },
-            {
-              "sourceLine": 38,
-              "afterLine": 64,
-              "method": "exact original line",
-              "sourceLineSha256": "e2f83d272c43c0622542382580cbd9c0002689c8a3cb8edf50165daff4af814d",
-              "afterLineSha256": "e2f83d272c43c0622542382580cbd9c0002689c8a3cb8edf50165daff4af814d"
-            },
-            {
-              "sourceLine": 39,
-              "afterLine": 65,
-              "method": "exact original line",
-              "sourceLineSha256": "37835109c765820a912f5afdecdd1388fe7d845562150efad4d99bb17b48137d",
-              "afterLineSha256": "37835109c765820a912f5afdecdd1388fe7d845562150efad4d99bb17b48137d"
-            },
-            {
-              "sourceLine": 40,
-              "afterLine": 66,
-              "method": "exact original line",
-              "sourceLineSha256": "356363efbdbd7d3b2e491b3ccd647da662565eee782afa6ed20d241977af8e25",
-              "afterLineSha256": "356363efbdbd7d3b2e491b3ccd647da662565eee782afa6ed20d241977af8e25"
-            },
-            {
-              "sourceLine": 41,
-              "afterLine": 67,
-              "method": "exact original line",
-              "sourceLineSha256": "a7a1b2301c4692eda71ca744a23584409f415394c51afbda37554ed5fdf970cc",
-              "afterLineSha256": "a7a1b2301c4692eda71ca744a23584409f415394c51afbda37554ed5fdf970cc"
-            }
-          ],
-          "originalHeadingIDs": [
-            {
-              "plain": "测试文档索引：按状态",
-              "id": "测试文档索引按状态",
-              "depth": 1
-            },
-            {
-              "plain": "current",
-              "id": "current",
-              "depth": 2
-            },
-            {
-              "plain": "proposal",
-              "id": "proposal",
-              "depth": 2
-            },
-            {
-              "plain": "rework",
-              "id": "rework",
-              "depth": 2
-            },
-            {
-              "plain": "verified",
-              "id": "verified",
-              "depth": 2
-            }
-          ],
-          "originalHeadingIDsLive": true,
-          "allOriginalLinkOccurrencesPreserved": true,
-          "note": "No quote/unquote inverse exists or is claimed; original bytes can be read with git show sourceRevision:path"
-        },
-        "authoredCandidate": {
-          "revision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
-          "gitObject": "4a0a6fe65023ef4eb85f392a278bfe5e08bacd4c",
-          "sha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
-          "completeRecord": {
-            "kind": "complete-author-candidate-record-in-fixed-reachable-git",
-            "revision": "738d44fe48c4db6ad8fcde95ac4acfc62d2fcf8c",
-            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-testing-index-l-20261016.json",
-            "gitObject": "3c9ca8d09643afd3b6c3f5f602b50956fc52abd7",
-            "fileSha256": "92281fa917d091223723cd7b4e33e28cb30709eb4fa388e45860617f7f48bc65",
-            "selector": {
-              "entries.path": "docs/testing/indexes/by-status.md",
-              "uniqueMatches": 1
-            },
-            "scope": "Entire original43-field author candidate, all mapping objects and pending-at-delivery fields. Actually retrieved and deep-compared; author is an ancestor of root9318 merge, retained in final published history. Not a summary or new acceptance of this receipt as a governed body."
-          }
-        },
-        "independentContentReview": {
-          "reviewer": "history_cards_c_tail",
-          "proofSha256": "b6f8719cfeaf7ef35f8bd1f5559128b1bab030a108c7fb5a6025ff756475e831",
-          "result": "accept exact738d content only",
-          "modelIssues": []
-        },
-        "sourceSpecificGFM": {
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
           "path": "docs/testing/indexes/by-status.md",
-          "sourceSha256": "0db02acf1366a466045f97f72567354af5ffed019ef89b04b74a2474c0512241",
-          "afterSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
-          "sourceLines": 41,
-          "currentLines": 73,
-          "sourceHeadings": 5,
-          "sourceLinks": 18,
-          "currentLinks": 22,
-          "sourceMapCount": 32,
-          "originalHeadingIds": ["测试文档索引按状态", "current", "proposal", "rework", "verified"],
-          "captureSameAsApprovedSource": true,
-          "actualModelIssues": [],
-          "issues": []
+          "gitObject": "4a0a6fe65023ef4eb85f392a278bfe5e08bacd4c",
+          "sha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0"
         },
-        "rootCurrentConsumer": {
-          "modelBodies": 215,
-          "modelIssues": 0,
-          "strictRecords": 724,
-          "strictIssues": 0,
-          "proofSha256": "d28bd1324b635f939033086eaf6f5fa9f65503f8c2bc9c37de3c7bd3907c892b",
-          "bodyAfterSha256Unchanged": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
-          "scope": "Actual source/structure/projection on independently accepted fixed afb149b9 snapshot; unchanged body/source/after. Later root metadata separately checked; no fresh downstream/report/product audit."
-        },
-        "independentRootIntake": {
-          "reviewer": "receipt_review",
-          "result": "accept exact8 root central candidate;10/10 normalized current records and existinglegacy matrix/route/registry intake",
-          "reviewedCandidateGitRevision": "afb149b9a0bf891084af4902645da9f5469c9d8b",
-          "proof": "/tmp/type-pal-l-central-independent-review-20261016.json",
-          "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
-          "scope": "Actual185 independent checks and source-scoped current-record semantics; old714/205 and other38matrix retained. Earlier738d body/code/author semantics separately accepted. Later root administrative signoff/M design new bytes require their own scoped validation; no runtime/full-goal acceptance."
-        }
+        "currentNativeSha256": "6bc8ea55c5ccdd6652173dfc18a79787ef82bfbdc38a8f14f483c2cc434ab577",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -5351,18 +4949,31 @@
           "proofSha256": "0709bf9b86ea8c36d36682d3da836065b4a5dc83b1b52b30c98ff0ca9e2defd4",
           "bodyAfterSha256Unchanged": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
           "runtimeExecutionPerformed": false
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+            "index": 7,
+            "sha256": "6c23a3ea5010334da9bf56a2ce8620c7e6840b6bdc9f73aab3f7efe028c7fd71"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [],
       "supersessionScope": "Only same-path index presentation/authority explanation; no supersession of catalog row state, canonical report, old evidence or product policy",
-      "stopLine": "Missing/changed source truth, unmapped original rows/headings/links, broken producer/template/consumer or nonzero static diagnostics block acceptance. No source current/verified/reviewed or this author self-check grants runtime, coverage or all-docs completion.",
-      "nextStep": "Continue M stage and all remaining baseline/increment documents; linked report/tool/raw or product truth requires its own actual source review, no navigation-derived execution credit.",
-      "userVisibleBeforeAfter": {
-        "before": "Original 41 lines -> 73 lines with concrete purpose/scope/state/authority/evidence chapters; original H1, grouping labels and row/link values preserved; H2 groups becomeH3",
-        "after": "Same accepted source-specific five-section index, now explicitly registered with its unique complete current record/route. Author body/code/SSOT and all original rows/links remain unchanged.",
-        "scope": "Human/Agent navigation states source ownership, historical limits and next steps; no product/UI/test/canon behavior change"
-      },
-      "reviewedLines": "1-73",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
       "phase": "testing",
       "module": "testing-index-navigation-and-single-source-projection",
       "templateConformity": {
@@ -5398,6 +5009,43 @@
             "uniqueMatches": 1
           },
           "scope": "Entire previous current object, all fields/history/preservation maps, actually retrieved from fixed reachable Git and compared equal; no summary or tmp-only preservation."
+        }
+      ],
+      "readDomain": {
+        "actual": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261016-testing-index-navigation.json#entries/7"
+        ]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
+          "afterSha256": "6bc8ea55c5ccdd6652173dfc18a79787ef82bfbdc38a8f14f483c2cc434ab577",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ]
     },

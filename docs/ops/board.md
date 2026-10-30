@@ -2,7 +2,9 @@
 
 当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。
 
-Last reviewed: 2026-10-24
+Status: current
+Owner: Codex（活动导航维护，不代各卡签署接受）
+Last reviewed: 2026-10-30
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -14,7 +16,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 - `status`: current
-- `lastReviewed`: 2026-10-24
+- 当前治理基点S72：2424合规、11待办；本轮最终11篇作者改动尚待非作者接收，未提前扣减。
 
 ## 入口与责任
 - canonical 入口：本看板、`docs/ops/tasks/index.md` 和各任务卡。
@@ -44,10 +46,14 @@ Template: governance-index-v1 / 1.0.0
 
 ## 看板规则
 
-- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。
+- 只把当前未终态任务放在这里；rework是未终态，保留活动入口。done/cancelled按已批准的原位关闭或归档规则退出活动表，历史回执不能重新授权。
 - 任务顶部 Status、任务索引和此表必须一致。
 - 证据只放 evidence/<task-id>/；审计正文与探针脚本分离。
 - 历史报告保留原结论，不因归档升级为当前通过。
+
+## 历史推进记录
+
+以下S43–S61的数字、日期红与当时准入只对应原轮次；当前数量取上表和父卡顶部，日历复审已按2026-10-30用户裁决退休，旧失败仍保留历史。
 
 S43 文档接入：S40–S41 22篇非作者accept接收，Owner接20路由并显式处置旧artifactOnly；S42 683包机械成果保留、语义返工（579仅SHA oracle、37残句、28MD需真实正文判定）。七重复清册仅批准合并设计不删除，139按原生/系统/MD分族准入；212及runtime信用0，E2E006日期红不续。父子卡rework，不合main、不推送、不done。
 

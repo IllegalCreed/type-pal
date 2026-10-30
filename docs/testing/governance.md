@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（测试文档合同维护；测试作者与审查者分别署名）
-Last reviewed: 2026-10-27
+Last reviewed: 2026-10-30
 Template: guide-runbook-v1 / 1.0.0
 
 ## 目的
@@ -11,7 +11,7 @@ Template: guide-runbook-v1 / 1.0.0
 
 ## 前置条件
 
-- 读[AGENTS操作路由](../../AGENTS.md#操作与必读)、当前任务卡、[文档模型](../ops/guides/documentation-model.md)及对应domain/report/contract/evidence。核真实caller、合法输入、business oracle、排重、source revision、content/save版本、状态与reviewBy；未知明确写缺失，不补造SHA或实跑。
+- 读[AGENTS操作路由](../../AGENTS.md#操作与必读)、当前任务卡、[文档模型](../ops/guides/documentation-model.md)及对应domain/report/contract/evidence。核真实caller、合法输入、business oracle、排重、source revision、content/save版本及适用性；未知明确写缺失，不补造SHA或实跑。
 - [catalog.json](catalog.json)是测试索引与发布状态事实源；目录名、作者名和标题不推断状态。任务状态归任务卡；某次执行的exit、失败、skip、诊断和raw归原回执；全docs迁移覆盖归document-registry，三者不互相代授信用。
 - 先从[统一模板注册表](../phase-governance/templates/README.md)和[测试模板](./_templates/README.md)按实际内容选类型。导航用governance-index，catalog用JSON合同，runbook不是E2E报告；历史原生JSON按已批准变体核真实consumer，不能强套schema2或把业务对象搬进payload。
 - 同一文件只有一位Coding Owner；作者自验和非作者验收分别记录。旧accept、旧counter和历史三签不自动构成今天准入。当前全量纠错与重审未结束，本文不宣称全testing已通过。
@@ -36,7 +36,7 @@ Template: guide-runbook-v1 / 1.0.0
 
 ### 2. 配对catalog、正文与机器证据
 
-每项catalog记录保留`id/kind/title/status/phase/engines/owner/provenance/domain/module/canonical/index/evidence/tags/lastVerified/reviewBy/dependsOn`以及`sourceRefs/publicCallers/legalInputs/businessOracle/dedupe/revision`。报告中的checkpoint、候选SHA及原始运行结果由配对报告/evidence持有，catalog不复制一整份运行日志。
+每项catalog记录保留`id/kind/title/status/phase/engines/owner/provenance/domain/module/canonical/index/evidence/tags/lastVerified/dependsOn`以及`sourceRefs/publicCallers/legalInputs/businessOracle/dedupe/revision`。活动`reviewBy`依2026-10-30用户裁决退休，原值进入各条reviewHistory；报告中的checkpoint、候选SHA及原始运行结果由配对报告/evidence持有，catalog不复制一整份运行日志。
 
 当前catalog的schema2 canonical contract/report须同时有顶部front matter的`testingSchema: 2`、同一`id`与`evidence`路径，以及`<!-- testing-meta ... -->` JSON的`schemaVersion: 2`。metadata的来源、caller、输入、oracle、排重和revision必须与catalog相等；revision提供完整Git SHA（或合同允许的明确缺失声明）、content/save版本及历史。不能只有一个形状正确的注释而漏front matter。
 
@@ -48,9 +48,21 @@ Template: guide-runbook-v1 / 1.0.0
 
 常见发布推进为`draft → active → verified | rework → superseded → archived`；当前consumer还接受`proposal`与`current`。依赖只可指向同catalog的`current`/`verified`，不得有未知ID或环。`current`/`verified`表示发布状态，不能让一次未跑命令变成成功。
 
-每条catalog记录都保留合法`lastVerified`和`reviewBy`；当前checker会拒绝**所有未archived/superseded记录**的过期reviewBy，不能只为current/verified/rework三种状态查日期。脚本默认以UTC当日判过期。真正读完适用内容与配对证据后才决定续期；只改日期或排版不构成复核，Last verified不冒充新执行日期。
+每条catalog记录保留合法`lastVerified`作为当时核验日期，不能据它推断当前适用或新执行。活动catalog与阶段README禁止`reviewBy`；历史到期、续期和拒绝原件不改写。只有相关边界发生变化才分析影响，不因日历或普通HEAD变化循环复核。
 
-变更状态时同提交更新catalog与其发布投影（E2E阶段README的status/lastVerified/reviewBy），同步配对evidence的发布status与必要metadata；历史报告保留当时结论，追加勘误、revision和supersedes，不倒改旧stdout/hash。immutable执行原件不能承载可变发布字段时，按已批准合同用sidecar分离，先验证consumer，不能为了状态一致覆写原始执行。
+变更状态时同提交更新catalog与其发布投影（E2E阶段README的status/lastVerified），同步配对evidence的发布status与必要metadata；历史报告保留当时结论，追加勘误、revision和supersedes，不倒改旧stdout/hash。immutable执行原件不能承载可变发布字段时，按已批准合同分代配对，先验证consumer，不能为了状态一致覆写原始执行。
+
+### 版本适用性
+
+用户2026-10-30取消日期驱动的循环复核与E2E重跑。复用`revision.currentSha/currentShas`、`contentVersion`、`minimumSaveVersion`和`sourceRefs.sha256`记录证据边界，运行`node scripts/docs/testing-revisions.mjs`查看六阶段，或附稳定ID只查该条。命令只读，不更新状态或源码hash。
+
+- `matching`：已声明的版本与源码指纹匹配；不代表完整依赖闭包、浏览器E2E或视觉通过。
+- `changed`：有已知版本或相关源码差异；先核真实影响与已有复用证明，只补验受影响合同，不自动重跑全路线。
+- `unknown`：记录或当前文件缺失，不能声称完整适用。若同时存在已知差异，输出changed并保留missing清单，缺口没有被消除。
+
+HEAD不同只作候选对照，旧执行日期不是有效期。完整文件SHA仍是默认保守边界；合法重构须核实际差异和相关caller后追加复用证明，不得只刷新hash洗白。合法同引擎checkpoint、实际执行、业务停止线、sourceRef、配对和artifact真实性门保留。schema迁移的`migrateBy`另属真实迁移期限，本裁决不退休它。
+
+catalog原`_governance`中的到期/续期解释以及原回执日期是既有审阅时点记录；本节明确替代其日历规则，不覆盖冻结的历史字节或来源pin。各条reviewHistory保存本次退役与旧值，当前消费者以本节及实际版本比较为准。
 
 ### 4. 核业务质量后决定保留或精简
 
@@ -73,13 +85,13 @@ Template: guide-runbook-v1 / 1.0.0
 
 ## 失败处理
 
-- 缺canonical/index/evidence、metadata或配对值不等、sourceRef越界/anchor/SHA错、孤儿阶段/受管domain、依赖不合格、过期、Agent名污染发布路径或冻结legacy身份变化：保留失败输出，定位唯一源并修正；不追加ignore、降规则或假状态。
+- 缺canonical/index/evidence、metadata或配对值不等、sourceRef越界/anchor/SHA错、孤儿阶段/受管domain、依赖不合格、版本适用性未明、Agent名污染发布路径或冻结legacy身份变化：保留失败输出，定位唯一源并修正；不追加ignore、降规则或假状态。
 - 模板/原生格式/consumer不适配：记录具体counter，保持draft/rework/blocked；先冻结变体设计再pilot，不能自行放宽artifactOnly完成条件。
 - 证据冲突或原raw缺失：区分缺证和已证错误，保留最强替代解释；撤回相应信用，另存当前勘误，不补造历史执行。旧回执、quote和counter保持可回读。
 - 移动或删除有未解释引用、维护权或语义冲突：停止该项，保留原件和源SHA，由Owner补映射/一手证据；新产品取舍才交用户，不逐批重复请示既有授权。
 
 ## 完成定义
 
-本项的唯一身份、真实内容、合法输入与oracle、配对evidence、当前状态/日期/依赖、原始历史和迁移映射一致；实际consumer及必要静态门零诊断，并有明确的非作者结论。全量治理还需固定1838 cohort与增量逐篇闭合，单篇或schema通过不能代替。
+本项的唯一身份、真实内容、合法输入与oracle、配对evidence、当前状态/记录版本/依赖、原始历史和迁移映射一致；实际consumer及必要静态门零诊断，并有明确的非作者结论。全量治理还需固定1838 cohort与增量逐篇闭合，单篇或schema通过不能代替。
 
 本页重审记录与实际来源范围见[S02逐篇记录](../phase-governance/reviews/20261018-semantic-rework.json)。原73行规范及R83机械封套由固定Git/SHA保留；本次重组进真实runbook步骤，未修改测试catalog状态、历史JSON、产品、旧测试或coverage，也不宣布runtime/E2E/视觉通过。

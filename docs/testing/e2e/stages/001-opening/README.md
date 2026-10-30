@@ -10,7 +10,6 @@ phase: [phase1, phase2]
 engines: [game, reforge]
 owner: Codex
 lastVerified: 2026-09-28
-reviewBy: 2026-11-28
 dependsOn: []
 tags: [story, opening, dialogue, checkpoint]
 canonicalReport: report.md

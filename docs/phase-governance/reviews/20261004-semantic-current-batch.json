@@ -407,47 +407,52 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Bounded006 technical acceptance and quality repair: independent fixed candidates, full-state raw reconsumption, source-slice audit and actual production preview; retained historical quote, no whole-document migration credit.",
-      "reviewDepth": "partial-semantic",
-      "coreConclusion": "Only006 board row records accepted user visuals and two independent technical acceptances; C1 full GameState proof closed; chunk/testing/source gates repaired, global1346 governance diagnostics keep rework/main stop.",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "活动表只路由未终态任务；rework继续活动，done/cancelled按原位关闭或归档约定退出。S72的2424/11和22严格项是最后接受基点，006技术与用户接受不替全库治理或合main授信；S43–S61转为明示历史段。",
       "truthAnchors": [
         "docs/ops/board.md",
-        "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
-        "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+        "docs/ops/tasks/index.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
       ],
       "unresolved": [
-        "Non-author current candidate acceptance pending",
-        "User boat/rower/landing perception pending, silent actual clips available",
-        "Full docs strict backlog and separately expired e2e-route publication remain unpassed"
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
-      "nextStep": "Independent evidence/central-delta acceptance and user visual decision; no date-only closure or main/push/done.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
-      "owner": "Codex",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "provenance": [
         "source-document",
         "full-text-structured-review",
         "repository-history",
         "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator.",
-        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
+        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending.",
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
+        }
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "23a6576fdafc7189dfe910d7a6c13c74243cc16181f4d9ceeb89e6e3340efdbd",
+      "afterSha256": "ac223bf4553b87f3ef86c30db5007f52a2a1832bb2d9085f910e2ebb4b05d0a9",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
         "node scripts/e2e/boat-both.mjs"
       ],
       "legalInputs": [
-        "Fixed prior e5 author/control objects and current body commit f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
-        "Actual independent006 raw and exact static preview projections; historical native bytes unchanged"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "bounded-owner-e2e-publication-no-self-credit",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "Only E2E006 board row points to current Oct27 actual story/comparison/formal-save/static-preview results and pending independent/user-visual decisions; other tasks unchanged.",
-          "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
+          "表状态取卡顶部，不通过目录/旧完成语句授权。",
+          "不把rework误作必须从活动表归档的终态。"
         ]
       },
       "dedupe": {
@@ -692,229 +697,20 @@
         ]
       },
       "evidence": {
-        "kind": "content-reading",
+        "kind": "S73-current-document-candidate",
         "path": "docs/ops/board.md",
-        "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-        "lineCount": 44,
-        "headings": [
-          {
-            "line": 1,
-            "text": "多 Agent 任务看板"
-          },
-          {
-            "line": 17,
-            "text": "看板规则"
-          }
-        ],
-        "unresolvedSignals": [
-          "3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
-          "7:| OPS-CONTENT-DOC-REVIEW-1 | [Lore / 三阶段 / Ops 内容深审](tasks/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md) | build | Codex / 逐篇阅读与跨阶段真值矩阵 | 机器 inventory 不等于 review；未读项不得标 reviewed |",
-          "8:| E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |",
-          "9:| E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 技术证据已核，等待用户观感验收 |",
-          "10:| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |",
-          "11:| REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |",
-          "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
-          "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
-        ],
-        "afterSha256": "31529d3bc3d4dc0d2fe67d9c85b5def3a73b14718efce118cb25916da201b5c6",
-        "currentReading": {
-          "date": "2026-10-17",
-          "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-          "scope": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行",
-          "method": "full-text-read-plus-current-delta"
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/ops/board.md",
+          "gitObject": "f4c6ad185e2dfdd7394a72345b9c45040fe7115c",
+          "sha256": "23a6576fdafc7189dfe910d7a6c13c74243cc16181f4d9ceeb89e6e3340efdbd"
         },
-        "readingHistory": [
-          {
-            "date": "2026-10-08",
-            "sha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
-            "lineCount": 22,
-            "headings": [
-              {
-                "line": 1,
-                "text": "多 Agent 任务看板"
-              },
-              {
-                "line": 17,
-                "text": "看板规则"
-              }
-            ],
-            "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
-          },
-          {
-            "date": "2026-10-11",
-            "sha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
-            "lineCount": 19,
-            "headings": [
-              {
-                "line": 1,
-                "text": "多 Agent 任务看板"
-              },
-              {
-                "line": 14,
-                "text": "看板规则"
-              }
-            ],
-            "scope": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
-            "date": "2026-10-11",
-            "sha256": "e0a7d72b9145fd4dd5fa36b85c0cfa0e4f557a4a644caf0b2dc0485c9291cd64",
-            "lineCount": 20,
-            "headings": [
-              {
-                "line": 1,
-                "text": "多 Agent 任务看板"
-              },
-              {
-                "line": 15,
-                "text": "看板规则"
-              }
-            ],
-            "scope": "2026-10-11 新增 ED-ENTITY-STATE-PLAN-1 draft 任务入口；需求已追溯至 E2E 原始讨论，完整设计待用户审阅。仅新增该行，其它活动卡与历史验收状态不变；没有产品 build 或新 E2E 通过声明。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation",
-            "coreConclusion": "2026-10-11 新增 ED-ENTITY-STATE-PLAN-1 draft 任务入口；需求已追溯至 E2E 原始讨论，完整设计待用户审阅。仅新增该行，其它活动卡与历史验收状态不变；没有产品 build 或新 E2E 通过声明。",
-            "unresolved": [
-              "正文信号 3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
-              "正文信号 7:| OPS-CONTENT-DOC-REVIEW-1 | [Lore / 三阶段 / Ops 内容深审](tasks/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md) | build | Codex / 逐篇阅读与跨阶段真值矩阵 | 机器 inventory 不等于 review；未读项不得标 reviewed |",
-              "正文信号 8:| E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |",
-              "正文信号 9:| E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 技术证据已核，等待用户观感验收 |",
-              "正文信号 10:| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |",
-              "正文信号 11:| REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |",
-              "正文信号 12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
-              "正文信号 19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
-            ]
-          },
-          {
-            "date": "2026-10-12",
-            "sha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
-            "lineCount": 20,
-            "headings": [
-              {
-                "line": 1,
-                "text": "多 Agent 任务看板"
-              },
-              {
-                "line": 15,
-                "text": "看板规则"
-              }
-            ],
-            "scope": "2026-10-12：ED-ENTITY-STATE-PLAN-1 静态首批经用户验收、维持review，完整现场/E2E采集待续；TEST-GLM-GAME-TURN-BOUNDARIES-1 的先前accept经原件复核撤回，重新登记rework。其余活动任务保留原状态，不借文档一致性检查升级产品、剧情或CI结论。",
-            "method": "current-full-text-and-primary-evidence-read-20261012",
-            "coreConclusion": "2026-10-12：ED-ENTITY-STATE-PLAN-1 静态首批经用户验收、维持review，完整现场/E2E采集待续；TEST-GLM-GAME-TURN-BOUNDARIES-1 的先前accept经原件复核撤回，重新登记rework。其余活动任务保留原状态，不借文档一致性检查升级产品、剧情或CI结论。",
-            "truthAnchors": [
-              "docs/ops/board.md:7",
-              "docs/ops/board.md:8",
-              "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md:11",
-              "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:11"
-            ]
-          },
-          {
-            "date": "2026-10-14",
-            "sha256": "bad86c72864758cdeb0e9d0f015048f4fbb9a2620be26ef7ee98970630ed7da9",
-            "lineCount": 21,
-            "reviewedRanges": ["7-7"],
-            "scope": "新增 GAME-RNG-SCENE-RESTORE-1 review：本地复现、窄修、四合同及反控已核，用户授权合并发布，当前尚未部署；其它任务状态不变。",
-            "method": "prior-content-review-plus-current-delta-and-primary-evidence",
-            "coreConclusion": "2026-10-14：新增 GAME-RNG-SCENE-RESTORE-1 review：本地复现、窄修、四合同及反控已核，用户授权合并发布，当前尚未部署；其它任务状态不变。",
-            "truthAnchors": [
-              "docs/ops/board.md:7",
-              "docs/ops/tasks/GAME-RNG-SCENE-RESTORE-1.md",
-              "docs/ops/evidence/game-rng-scene-restore-1/README.md"
-            ]
-          }
-        ],
-        "currentPublicationDelta": {
-          "kind": "author-candidate",
-          "task": "E2E-006-1",
-          "date": "2026-10-27",
-          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
-          "currentRuntimeReceipt": "docs/testing/e2e/evidence/e2e-006-current.json",
-          "scope": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
-          "independentAcceptance": "pending",
-          "runtimeAcceptanceGranted": false
-        },
-        "currentSavePerformanceCandidate": {
-          "task": "E2E-006-1",
-          "sourceRevision": "bc8bd7231924f3f22507ae21b0d7eee943965d2c",
-          "author": "Codex",
-          "nonAuthorReviewer": false,
-          "independentAcceptance": "pending",
-          "runtimeScope": "Editor native SaveAs/Open only, not game E2E/visual/coverage",
-          "nativePublicFiles": 2474,
-          "nativePublicBytes": 145309841,
-          "finalSeconds": 58.7279,
-          "publicBytesEqualToSerialBaseline": true,
-          "actualPageReloadAtWritePercent": 2,
-          "foreignCounterPhysicalFilesUnchanged": 2599,
-          "originalPlanRecovered": true,
-          "newSemanticCredit": 0,
-          "newTemplateMigrationCredit": 0,
-          "archive": "build/evidence-archive/editor-save-performance-20261027/editor-save-performance.tar.gz"
-        },
-        "currentBoatBobCandidate": {
-          "task": "E2E-006-1",
-          "sourceRevision": "ed9fa09e8f21d8cfc2afd348835cdc7f0b4c240d",
-          "runtimeRevision": "0847b1a6e43fbd3cd189e9f3201ceb53e527d1bb",
-          "author": "Codex",
-          "nonAuthorReviewer": false,
-          "independentAcceptance": "accepted",
-          "userVisualAcceptance": "accepted",
-          "boatDrawRecords": 71,
-          "bobFrameChanges": 6,
-          "renderedFrames": [0, 1],
-          "dialogueRows": 95,
-          "newSemanticCredit": 0,
-          "newTemplateMigrationCredit": 0,
-          "newGameRuntimeCredit": 0,
-          "archive": "build/evidence-archive/e2e006-boat-bob-20261027/boat-bob.tar.gz",
-          "userVisualDecision": {
-            "reviewer": "user",
-            "date": "2026-10-27",
-            "statement": "没问题了都",
-            "candidate": "c32eccdb544b5f01424e30725db7373e283b9343",
-            "clipSha256": "5230f4d6522a266b4d928894f5b0904e06c5465a270ca17ed532a7ca435cfa63",
-            "scope": "Displayed006 repaired boat/rowing/arrival visuals only; no technical or global waiver"
-          },
-          "technicalAcceptanceReference": "current006TechnicalAcceptance"
-        },
-        "current006TechnicalAcceptance": {
-          "date": "2026-10-27",
-          "task": "E2E-006-1/technical-closeout",
-          "codeCandidate": "68adf14a07bfac9f7871ffadb8848ff2e0aa66a9",
-          "nonAuthorReviewer": true,
-          "scope": "Fixed006 technical/preview/boat scope and editor SaveAs progress/performance/recovery; initialC1 closed by narrow acceptance, unrelated accepted scope retained.",
-          "verdict": "accept",
-          "countersOpen": 0,
-          "references": [
-            {
-              "id": "save",
-              "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-save-safety-independent-rik1vh41/verdict.json",
-              "sha256": "40bc36578cec46368b4af36a5500edb1f76b1a13559f04ed65e4b11c1e31649d",
-              "candidate": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
-              "nonAuthorReviewer": true
-            },
-            {
-              "id": "006-initial",
-              "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-e2e006-independent-technical-5x3ikzus/verdict.json",
-              "sha256": "ea57fcabe9731183b6cc654ad3d01f7d160fa787cb893c09d52376f19c7c2400",
-              "candidate": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
-              "nonAuthorReviewer": true
-            },
-            {
-              "id": "006-C1",
-              "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-e2e006-C1-independent-p_l38q0h/verdict.json",
-              "sha256": "af6358da320d74273c94bf4180901d3b21b0567dc9850c56a246c4e259f21140",
-              "candidate": "68adf14a07bfac9f7871ffadb8848ff2e0aa66a9",
-              "nonAuthorReviewer": true
-            }
-          ],
-          "userVisual": "accepted at fixedc32eccdb candidate, not repeated",
-          "unifiedGate": "blocked by1346 unrelated document-governance diagnostics; no waiver",
-          "newSemanticCredit": 0,
-          "newTemplateMigrationCredit": 0,
-          "newStoryExecutionCredit": 0
-        }
+        "currentNativeSha256": "ac223bf4553b87f3ef86c30db5007f52a2a1832bb2d9085f910e2ebb4b05d0a9",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -1066,12 +862,29 @@
           "priorIndependentAcceptance": null,
           "newDocumentAcceptanceGranted": false,
           "newRuntimeAcceptanceGranted": false
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+            "index": 1,
+            "sha256": "f38c3d3b75ad7dccacd42016f574b277b2bc3a062dae5b3f9b19d91a0350cc9b"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [],
-      "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
-      "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-44",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "全部74行原表和当前差异核读，核任务卡顶栏/生成索引与历史段职责；不重审所有任务的产品结论。",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
       "integrationReview": {
         "reviewer": "Codex",
@@ -1985,9 +1798,44 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "23a6576fdafc7189dfe910d7a6c13c74243cc16181f4d9ceeb89e6e3340efdbd",
+          "afterSha256": "ac223bf4553b87f3ef86c30db5007f52a2a1832bb2d9085f910e2ebb4b05d0a9",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
-      "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
+      "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
+      "readDomain": {
+        "actual": "全部74行原表和当前差异核读，核任务卡顶栏/生成索引与历史段职责；不重审所有任务的产品结论。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261004-semantic-current-batch.json#entries/1"
+        ]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit.",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation."
     },
     {
       "path": "docs/ops/README.md",

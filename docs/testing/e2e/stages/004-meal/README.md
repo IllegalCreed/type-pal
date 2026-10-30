@@ -26,7 +26,6 @@ phase: [phase1, phase2]
 engines: [game, reforge]
 owner: Codex
 lastVerified: 2026-10-02
-reviewBy: 2026-11-02
 dependsOn: [e2e-003]
 tags: [story, items, menu, save-restore, checkpoint]
 canonicalReport: report.md

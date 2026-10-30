@@ -6,8 +6,18 @@
   "policy": "Every lore/phase1/phase2/phase3 Markdown document has one audited owner, phase/module/capability, status, source/after SHA, evidence and stopline.",
   "summary": {
     "total": 184,
-    "byPhase": { "lore": 14, "phase1": 60, "phase2": 105, "phase3": 5 },
-    "byStatus": { "archived": 28, "current": 49, "draft": 11, "historical": 96 }
+    "byPhase": {
+      "lore": 14,
+      "phase1": 60,
+      "phase2": 105,
+      "phase3": 5
+    },
+    "byStatus": {
+      "archived": 28,
+      "current": 49,
+      "draft": 11,
+      "historical": 96
+    }
   },
   "maintenancePolicy": "Legacy structural entries retain their historical status; only explicit per-document review deltas with matching SHA grant new semantic credit. Index generation is read-only over this catalog and cannot classify or mark documents reviewed.",
   "loader": {
@@ -18,7 +28,7 @@
     {
       "phase": "lore",
       "path": "catalog.lore.json",
-      "sha256": "97b3bf1101ac2fa5ef1713b66cc2a46ab28e035e55cc6e14cfb68dc35ced60ee",
+      "sha256": "e5c792bc8490d358a67c5ae4915a020353d4dbe6c8c27023ce63f7f33d898a74",
       "total": 14
     },
     {

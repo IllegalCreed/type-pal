@@ -1116,7 +1116,10 @@
         "reason": "User/other-task uncommitted edits were explicitly protected; integration must preserve current main content and re-run review after reconciliation.",
         "recordedIn": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
       },
-      "reviewDepth": "partial-semantic"
+      "reviewDepth": "structured-content",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
@@ -1209,7 +1212,9 @@
       "reviewStatus": "partial-review-unknown",
       "reviewRecord": "20261017-r57-current-task-cards.json",
       "templateVersion": "1.0.0",
-      "reviewDepth": "partial-semantic"
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
@@ -16229,7 +16234,11 @@
       "templateId": "task-card-v1",
       "templateCompliance": "needs-migration",
       "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r94-final-machine-artifacts.json"
+      "reviewRecord": "20261017-r94-final-machine-artifacts.json",
+      "templateVersion": "1.0.0",
+      "reviewDepth": "structured-content",
+      "historyOverlay": false,
+      "artifactOnly": false
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",

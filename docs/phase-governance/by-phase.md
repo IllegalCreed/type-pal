@@ -1,6 +1,30 @@
 # Lore / 三阶段文档索引
 
+Status: current
+Owner: Codex（catalog维护）；本页由生成器投影
+Last reviewed: 2026-10-30
+Template: governance-index-v1 / 1.0.0
+
+## 目的
+
+按阶段查找真实文档身份、模块、成熟度和责任人，避免把跨阶段知识混为同一实现方针。
+
+## 范围
+
+覆盖catalog登记的184份lore/phase1/phase2/phase3 Markdown；不含ops/testing、物理review分片或全1838冻结cohort。以下四组各列一个阶段，组内按path稳定排序。
+
+## 当前状态
+
+本页current仅指导航有效。成员的draft/current/historical/archived标签取catalog原值，不能用目录名或本页状态覆盖成员状态；生成和模板通过不授语义/runtime信用。
+
+## 入口与责任
+
+权威入口是[catalog manifest](catalog.json)及其四个phase分片；另一视图为[相位索引](by-phase.md)和[状态索引](by-status.md)。成员正文与review保留各自来源、Owner及接受边界，存储descriptor由loader核对。
+
+## 证据与下一步
+
 由 `scripts/docs/build-phase-lore-governance.mjs` 从现有 catalog 生成；只投影已登记字段，不判定内容真值或授予 reviewed。
+修改成员登记须先核正文与来源，再运行生成器；check-phase-lore-governance同时核完整目录集合、after SHA、两视图逐字节和本五章合同。未解释冲突停止对应成员，不从生成结果自动授信。
 
 ## lore
 

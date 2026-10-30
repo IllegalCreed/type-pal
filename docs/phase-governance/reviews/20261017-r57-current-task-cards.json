@@ -357,48 +357,54 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "Bounded006 technical acceptance and quality repair: independent fixed candidates, full-state raw reconsumption, source-slice audit and actual production preview; retained historical quote, no whole-document migration credit.",
-      "reviewDepth": "partial-semantic",
-      "coreConclusion": "006 gameplay, terminal save/reopen, static preview and boat bob technical acceptance plus SaveAs safety/performance independently accepted. C1 repaired with full78field comparison and five raw-derived legal negatives; 500k build guard retained; no main/done/full-governance credit.",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "006当前目标以真实caller的state2及完整岛口四句/控制返回为准；旧state3在quote保留。525的双轨/12入口11状态与起伏修复RF的11入口10状态分轮，C1完整78键校验与另存安全已被两路非作者接受、用户视觉已确认；剩余停止线是全库治理/集成，不重开技术。",
       "truthAnchors": [
-        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:1",
-        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:23",
-        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:77"
+        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md",
+        "scripts/e2e/boat-contract.mjs"
       ],
       "unresolved": [
-        "Non-author current candidate acceptance pending",
-        "User boat/rower/landing perception pending, silent actual clips available",
-        "Full docs strict backlog and separately expired e2e-route publication remain unpassed"
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
-      "nextStep": "Independent evidence/central-delta acceptance and user visual decision; no date-only closure or main/push/done.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
       "phase": "ops",
       "module": "tasks",
       "capability": "e2e-006-1",
-      "owner": "Codex（文档治理；原任务 Owner/贡献者保留于原文）",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "provenance": [
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
         "semantic-and-non-author-credit-withdrawn-20261018",
         "2026-10-26 Codex author delta; non-author acceptance pending; previous complete record recoverable at fixed base locator.",
-        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending."
+        "2026-10-27 Codex current author delta; whole prior record preserved at fixed Git locator; non-author pending.",
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
+        }
       ],
       "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
-      "afterSha256": "ae924043a865499ccae3d2a378837cd396fa5f129128cc4cfa06b0dbfd3f7941",
+      "afterSha256": "c057d5e3161533bc3f61d59b63495163a8fb315da1f925c2bc2c5cb3d091ba3f",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
         "node scripts/e2e/boat-both.mjs"
       ],
       "legalInputs": [
-        "Fixed prior e5 author/control objects and current body commit f1fc131fefac6708ff5c21c47a083c5e8d37e79c",
-        "Actual independent006 raw and exact static preview projections; historical native bytes unchanged"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "bounded-owner-e2e-publication-no-self-credit",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "User-authorized complete006 card separates real technical deliverables, precise evidence-consumer fixes, static NPC preview and save-progress counter from pending independent/user/global acceptance. Original task quote unchanged; no main/push/done.",
-          "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
+          "旧quote保全，当前目标不得继续拿state3当新caller事实。",
+          "58.728秒仅原机测量，128件/16MiB上限不削弱来源/读回/恢复。",
+          "用户视觉接受只覆盖原clip，非音频/连续/全现场预览。"
         ]
       },
       "dedupe": {
@@ -426,106 +432,20 @@
         ]
       },
       "evidence": {
-        "kind": "independently-accepted-document-version",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
-        "member": "S45/GLM-S44-owner-delta-review.md",
-        "reportSha256": "c784859ca1559b2fbefbf1f4026b779be423e209775202b5f7ed510042e31c0e",
-        "candidate": "c6518d9d7b8e51ebb82c48e471e1b43f1523b0d6",
-        "afterSha256": "77de2d02eafdc14789414785bd23db3e30907c23e3e9bac2de963d9d418c6408",
-        "scope": "Specific current document body and contract; not original execution credit",
+        "kind": "S73-current-document-candidate",
+        "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+          "gitObject": "fc888c0ad91370c8b4c5fc2c65a92ffd83cc51cc",
+          "sha256": "ae924043a865499ccae3d2a378837cd396fa5f129128cc4cfa06b0dbfd3f7941"
+        },
+        "currentNativeSha256": "c057d5e3161533bc3f61d59b63495163a8fb315da1f925c2bc2c5cb3d091ba3f",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
         "runtimeExecutionPerformed": false,
         "historicClaimsReexecuted": false,
-        "currentPublicationDelta": {
-          "kind": "author-candidate",
-          "task": "E2E-006-1",
-          "date": "2026-10-27",
-          "canonicalReport": "docs/testing/e2e/stages/006-doctor-boat/report.md",
-          "currentRuntimeReceipt": "docs/testing/e2e/evidence/e2e-006-current.json",
-          "scope": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
-          "independentAcceptance": "pending",
-          "runtimeAcceptanceGranted": false
-        },
-        "currentSavePerformanceCandidate": {
-          "task": "E2E-006-1",
-          "sourceRevision": "bc8bd7231924f3f22507ae21b0d7eee943965d2c",
-          "author": "Codex",
-          "nonAuthorReviewer": false,
-          "independentAcceptance": "pending",
-          "runtimeScope": "Editor native SaveAs/Open only, not game E2E/visual/coverage",
-          "nativePublicFiles": 2474,
-          "nativePublicBytes": 145309841,
-          "finalSeconds": 58.7279,
-          "publicBytesEqualToSerialBaseline": true,
-          "actualPageReloadAtWritePercent": 2,
-          "foreignCounterPhysicalFilesUnchanged": 2599,
-          "originalPlanRecovered": true,
-          "newSemanticCredit": 0,
-          "newTemplateMigrationCredit": 0,
-          "archive": "build/evidence-archive/editor-save-performance-20261027/editor-save-performance.tar.gz"
-        },
-        "currentBoatBobCandidate": {
-          "task": "E2E-006-1",
-          "sourceRevision": "ed9fa09e8f21d8cfc2afd348835cdc7f0b4c240d",
-          "runtimeRevision": "0847b1a6e43fbd3cd189e9f3201ceb53e527d1bb",
-          "author": "Codex",
-          "nonAuthorReviewer": false,
-          "independentAcceptance": "accepted",
-          "userVisualAcceptance": "accepted",
-          "boatDrawRecords": 71,
-          "bobFrameChanges": 6,
-          "renderedFrames": [0, 1],
-          "dialogueRows": 95,
-          "newSemanticCredit": 0,
-          "newTemplateMigrationCredit": 0,
-          "newGameRuntimeCredit": 0,
-          "archive": "build/evidence-archive/e2e006-boat-bob-20261027/boat-bob.tar.gz",
-          "userVisualDecision": {
-            "reviewer": "user",
-            "date": "2026-10-27",
-            "statement": "没问题了都",
-            "candidate": "c32eccdb544b5f01424e30725db7373e283b9343",
-            "clipSha256": "5230f4d6522a266b4d928894f5b0904e06c5465a270ca17ed532a7ca435cfa63",
-            "scope": "Displayed006 repaired boat/rowing/arrival visuals only; no technical or global waiver"
-          },
-          "technicalAcceptanceReference": "current006TechnicalAcceptance"
-        },
-        "current006TechnicalAcceptance": {
-          "date": "2026-10-27",
-          "task": "E2E-006-1/technical-closeout",
-          "codeCandidate": "68adf14a07bfac9f7871ffadb8848ff2e0aa66a9",
-          "nonAuthorReviewer": true,
-          "scope": "Fixed006 technical/preview/boat scope and editor SaveAs progress/performance/recovery; initialC1 closed by narrow acceptance, unrelated accepted scope retained.",
-          "verdict": "accept",
-          "countersOpen": 0,
-          "references": [
-            {
-              "id": "save",
-              "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-save-safety-independent-rik1vh41/verdict.json",
-              "sha256": "40bc36578cec46368b4af36a5500edb1f76b1a13559f04ed65e4b11c1e31649d",
-              "candidate": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
-              "nonAuthorReviewer": true
-            },
-            {
-              "id": "006-initial",
-              "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-e2e006-independent-technical-5x3ikzus/verdict.json",
-              "sha256": "ea57fcabe9731183b6cc654ad3d01f7d160fa787cb893c09d52376f19c7c2400",
-              "candidate": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
-              "nonAuthorReviewer": true
-            },
-            {
-              "id": "006-C1",
-              "path": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-e2e006-C1-independent-p_l38q0h/verdict.json",
-              "sha256": "af6358da320d74273c94bf4180901d3b21b0567dc9850c56a246c4e259f21140",
-              "candidate": "68adf14a07bfac9f7871ffadb8848ff2e0aa66a9",
-              "nonAuthorReviewer": true
-            }
-          ],
-          "userVisual": "accepted at fixedc32eccdb candidate, not repeated",
-          "unifiedGate": "blocked by1346 unrelated document-governance diagnostics; no waiver",
-          "newSemanticCredit": 0,
-          "newTemplateMigrationCredit": 0,
-          "newStoryExecutionCredit": 0
-        }
+        "reusedTechnicalProofs": "reused-006-independent-acceptances.json (external packet; durable original archive remains canonical)"
       },
       "history": [
         {
@@ -729,14 +649,31 @@
           "priorIndependentAcceptance": null,
           "newDocumentAcceptanceGranted": false,
           "newRuntimeAcceptanceGranted": false
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+            "index": 1,
+            "sha256": "ec513e57d75261ca0d6902112edd98d03754874969446cd9dbd230292f1e47f6"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy presentation; current task status and original source retained"
       ],
-      "stopLine": "Document semantics/template only; not task done, product implementation passed, historical R-wave trust restoration, native212 migration, runtime/E2E/visual/coverage.",
-      "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "原238行卡及本轮当前段全文核读；固定151成员technical归档中三份真实独立verdict逐SHA核，复用正确接受范围，不重新跑E2E。",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "rework",
@@ -756,31 +693,17 @@
         "currentBoundary": "current task card and board/consumer own truth"
       },
       "dependencies": "projects/pal/content/scenes/s002.json; projects/pal/content/scenes/s005.json; scripts/e2e/boat-contract.mjs; docs/testing/e2e/stages/006-doctor-boat/report.md",
-      "versionScope": {
-        "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f",
-        "date": "2026-10-17",
-        "validity": "rework"
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "counterReworkBlocked": {
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
       },
-      "counterReworkBlocked": [
-        {
-          "id": "R57-NO-STATUS-ADVANCE",
-          "status": "closed-for-migration-open-for-task",
-          "statement": "Migration does not advance task status or execution credit."
-        },
-        {
-          "id": "R57-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        },
-        {
-          "id": "S44-OWNER-DELTA-PENDING",
-          "status": "resolved-for-current-document-version",
-          "statement": "GLM independently accepted Codex-specific delta; original GLM facts accepted separately by Codex. Historical product/trust counters remain."
-        }
-      ],
       "templateConformance": {
-        "status": "needs-migration",
-        "scope": "Bounded technical/user acceptance only; global governance and original document migration status remain; exact prior record in maintenanceDeltas."
+        "status": "author-candidate-only",
+        "templateId": "task-card-v1",
+        "templateVersion": "1.0.0",
+        "independentAcceptance": false
       },
       "currentAuthoredReview": {
         "protocol": "document-delivery-acceptance/1.0.0",
@@ -903,9 +826,43 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "ae924043a865499ccae3d2a378837cd396fa5f129128cc4cfa06b0dbfd3f7941",
+          "afterSha256": "c057d5e3161533bc3f61d59b63495163a8fb315da1f925c2bc2c5cb3d091ba3f",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
-      "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit."
+      "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
+      "readDomain": {
+        "actual": "原238行卡及本轮当前段全文核读；固定151成员technical归档中三份真实独立verdict逐SHA核，复用正确接受范围，不重新跑E2E。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r57-current-task-cards.json#entries/1"
+        ]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
     },
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",

@@ -47,7 +47,6 @@ phase: [phase1, phase2]
 engines: [game, reforge]
 owner: <owner>
 lastVerified: YYYY-MM-DD
-reviewBy: YYYY-MM-DD
 dependsOn: []
 tags: [story]
 canonicalReport: report.md
@@ -72,3 +71,5 @@ canonicalReport: report.md
 
 ````
 <!-- template-source-example:end -->
+
+2026-10-30：活动reviewBy已退休，版本适用性按[测试治理](../governance.md#版本适用性)比较；原日期只保留历史，不自动重跑E2E。

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "b91807cf8aec03a7173c293a144537154a1ecd0e711d970695d3c7f75b7d78a2",
+  "generation": "f63fa8830d69e035d1b1f7590a13a4e839eed15c1d2b80e88b820fdf8534d5df",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -12,35 +12,48 @@
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
       "templateCompliance": "needs-migration",
-      "readMethod": "corrective-state-delta-only; no independent semantic acceptance",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
       "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18：任务改回rework，原完成和独立接受声明撤回；实现/保真与结构检查范围保留，后续重审和非作者复核待补。",
-      "truthAnchors": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:1"],
-      "unresolved": [
-        "Full governance remains open until protected structural exceptions are resolved or explicitly retained.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      "coreConclusion": "父卡保持rework：R23起撤信和过早done继续有效，S72真实22接入后剩9MD+006两JSON，不从旧R波或各S批完成数宣称全量。当前授权、实际进度/证据和大段历史分层；版本适用性新政策替代旧日历轮询，不恢复旧声明或运行信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
+        "docs/testing/governance.md#版本适用性"
       ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+      "unresolved": [
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
+      ],
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
       "phase": "ops",
       "module": "task-governance",
       "capability": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
-      "owner": "Codex",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "provenance": [
         "source-document",
         "repository-history",
         "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
+        "semantic-and-non-author-credit-withdrawn-20261018",
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
+        }
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "10908b123dba95be40e6412e84656678d3f02eaab05407dd408b7aba9ed7aef5",
+      "afterSha256": "5e87d87d693277d86b9b9331473ca31855fdbf37e20779ce8687e8573483517b",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
-      "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
+      "legalInputs": [
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
+      ],
       "businessOracle": {
-        "type": "task-card",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "native/current fields remain traceable",
-          "status boundary remains explicit",
-          "no runtime/E2E/visual/coverage credit"
+          "原source/历史大段不因当前摘要变更而恢复旧信用。",
+          "全量停止线保持：所有必要门与非作者接受未满足不能done/main。",
+          "现行数字来自S72真实progress，原各轮原计数不倒改。"
         ]
       },
       "dedupe": {
@@ -134,22 +147,20 @@
         ]
       },
       "evidence": {
-        "kind": "task-card-review",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
-        "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-        "candidateSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-        "afterSha256": "7319533d7aa0fc88fd54665179c77c66c039cd56201e3ac827095a5b4118040d",
-        "lineCount": 1530,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "full task card source",
-          "sourceBytes": 268269,
-          "sourceLines": 1530,
-          "sourceFinalNewline": true,
-          "inverseSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-          "exactRoundTrip": false
+        "kind": "S73-current-document-candidate",
+        "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "gitObject": "c74ac28c753bf978556ec60e9026c46dabee263c",
+          "sha256": "10908b123dba95be40e6412e84656678d3f02eaab05407dd408b7aba9ed7aef5"
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "currentNativeSha256": "5e87d87d693277d86b9b9331473ca31855fdbf37e20779ce8687e8573483517b",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -165,16 +176,33 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+            "index": 33,
+            "sha256": "3eac3b4f27a5b5156049ef16547cfeb1e6d0d41eb3c24807ae52da80ef4e5b6c"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "priorIndependentAcceptance": null,
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": ["unregistered structural presentation; native facts remain date-scoped"],
-      "stopLine": "do not promote task card or machine evidence to runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原文/机器字段保持 → 增加最终 structural review record、SHA 和停止线。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "当前顶栏/目标/范围/验收/状态与S69–S73现行链定向实读；历史R/S链沿已接受报告/原source与完整Git字节保全复用。未逐项重新深审565KB历史声明、旧执行raw或2435子正文。",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": false,
-      "documentStatus": "current",
+      "documentStatus": "rework",
       "sourceGitRevision": "current-working-tree-after-r95-structural-refresh",
       "candidateSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
       "primarySource": [
@@ -191,18 +219,12 @@
         "currentBoundary": "task card, registry, routing and fresh review own truth"
       },
       "dependencies": "Current task card, registry, routing and fresh review.",
-      "versionScope": {
-        "sourceRevision": "current-working-tree-after-r95-structural-refresh",
-        "date": "2026-10-17",
-        "validity": "current active/build"
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "counterReworkBlocked": {
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
       },
-      "counterReworkBlocked": [
-        {
-          "id": "R95-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
       "claimCorrection": {
         "date": "2026-10-18",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
@@ -1427,8 +1449,41 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "10908b123dba95be40e6412e84656678d3f02eaab05407dd408b7aba9ed7aef5",
+          "afterSha256": "5e87d87d693277d86b9b9331473ca31855fdbf37e20779ce8687e8573483517b",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
-      ]
+      ],
+      "readDomain": {
+        "actual": "当前顶栏/目标/范围/验收/状态与S69–S73现行链定向实读；历史R/S链沿已接受报告/原source与完整Git字节保全复用。未逐项重新深审565KB历史声明、旧执行raw或2435子正文。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json#entries/33"
+        ]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
     },
     {
       "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
@@ -1717,7 +1772,7 @@
         }
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "eb10af8123c46a03f3e9b1c301bb4fc83ad9d9d5bd5eec4aaba8bb74d9e461f1",
+      "afterSha256": "91a6cea22f1d8fae3d755946d3550693b19241a3a163bfee09cca8c7fc6b1ed6",
       "publicCallers": [
         "scripts/docs/document-registry.mjs",
         "scripts/docs/report-governance-progress.mjs"
@@ -2326,6 +2381,17 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "eb10af8123c46a03f3e9b1c301bb4fc83ad9d9d5bd5eec4aaba8bb74d9e461f1",
+          "afterSha256": "91a6cea22f1d8fae3d755946d3550693b19241a3a163bfee09cca8c7fc6b1ed6",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",

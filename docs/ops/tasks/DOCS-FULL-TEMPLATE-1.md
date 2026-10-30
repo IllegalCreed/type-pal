@@ -5,9 +5,9 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: GLM（S71公共合同/22篇/存储pilot/001续审/封存非作者accept）；Codex（S72受控授信Owner）；全量硬门未完成
-Branch: codex/docs-s72-control-publication
-Last reviewed: 2026-10-29
+Reviewer: GLM（S72接入增量非作者accept）；Codex（S73最终正文作者/Owner）；S73独立接受与全量硬门未完成
+Branch: codex/docs-s73-final11
+Last reviewed: 2026-10-30
 Template: task-card-v1 / 1.0.0
 
 > 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
@@ -34,8 +34,12 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 - 当前 Owner：Codex。
-- 阻塞/决策：受影响绑定逐篇语义重审待完成；58e899bf纠错包已获非作者限定接收，五个receipt执行/byte metadata scope隔离；R94结构根仅索引，不授完成。
-- 下一步与交接提示词：S70已正式接入111现行账本，剩余24JSON/9MD及e2e-001日期门由Owner推进；旧撤信不恢复，全量硬门未过，不合main/不推送/不done。
+- 当前基点：S72已接入22项，2424合规/11待办、严格22诊断；1838固定清单1826迁移+3退役+9未迁，598增量。数字按当轮真实门更新，不拿旧章节计数当今天进度。
+- 下一步：S73完成剩余9MD与006两JSON的具体解释、历史保全和非作者接受。E2E日期循环规则已按用户新裁决退休，以候选/版本/相关源码比较适用性；不再次续期或借文档收口重跑已接受006。旧撤信不恢复，未满足全部硬门不合main/不推送/不done。
+
+## 历史实施与交接记录的适用边界
+
+以下原始清点、R波声明及S批次各按原日期保存。R23起撤信、同主体独立虚标及执行锚错误按返工卡与后继裁定处理，任何旧done不恢复；本次只复用已接受范围和核当前授权/状态/来源链，不重做旧2435成员语义或历史raw。旧分母/日期红与各轮数字不是本次统计。
 
 ## 前提真值门
 ### 一句话行为 / 工程前提
@@ -2785,3 +2789,13 @@ S72实际发布：在51f16ad77843a268eb3d7af6b00658e6f1f7fcb9干净候选上，�
 发布后实测strict33文档/66诊断→11文档/22诊断，实减44；完整329工具/0fail/0skip、model2433/0、Testing0、phase/lore184、lint4661文件0E/W/I。progress1826/1838迁移+3退役+9基线未迁、598增量迁移，当前2424合规/11待办、integrity零。check:docs真实exit1仅严格门22条，001日期未再刷新、006不重跑，不能宣布全量通过。剩余恰board、父卡、006任务卡、lore timeline、两phase投影、Testing治理、006 README/report和两006原生JSON。
 
 本轮只改接受表、新增两个真实发布资格/反例测试，以及用户已明确授权的current-native-control.test.mjs单处夹具适配（原空表正例保留；编译接受后必须拒旧catalog角色，其余断言不动，import按既有Biome排序）。首9绿1红、仓外准备脚本失败、旧行政适配器三输入不匹配、plan漏creditGranted均在落盘前拒绝，原件保留；未降guard。新重复路径反例保持长度22，只破坏唯一性，避免被数组上界提前拦截；后续按终态重跑门。本轮生产writer/guard/合同/source准入逻辑零改动。S72后续复核仅看这三代码差异/实际发布/行政封存，不重审S71已接受22正文；9MD+2JSON继续Owner隔离推进，不合main、不推送、不done。
+
+## S73 S72接收、版本适用性对齐与最终11正文（2026-10-30）
+
+S72候选eeba525e4fd0a997a47418b672ceca4b1326a87c已获GLM非作者accept、零counter；HANDBACK49abfb74a73e7a24894f54345b3e5d05131982c29fe257fb413ea64c75b5e327、verdict50f918f2003ec9fdb2d3097fcda9991d4165c6492be0a4f5c1d3c63482c6bbd4。仅接收表/获准测试适配/实际发布/行政封存，不重复授22信用。
+
+Codex build allowed在隔离codex/docs-s73-final11完成余9MD+006两JSON的文档治理；两JSON原生字节不动，复用现有execution/historical-execution-publication-v2合同与真实技术/用户接受，仅现有review补当前历史/范围解释。任务与报告修正已被后继关闭的pending说明，state2/state3、525的12/11入口与起伏修复11/10分轴；历史quote/测试metadata与原数据保持。两phase视图走现有generator五章合同及共享model校验，不另造一份路由状态。
+
+用户要求先看代码治理E2E新规则：源工作树quality-94-102在e94098f94上的未提交政策已只读核验，14测试全过。按其已批准政策，活动reviewBy从18当前catalog条目与六阶段入口退休，逐条旧值进入reviewHistory；保留lastVerified/revision/原JSON、source hash与分代配对。testing-revisions只读命令复用原实现；HEAD不同不单独判过时，相关content/save/源码变化先归因再局部复验，缺失不宣称适用。当前较新治理正文与lineage consumer保留，不整文件覆盖代码分支旧版本，不整包导入其20条catalog。旧日历失败/续期原件仍保留，不追溯为从未失败。
+
+用户已明确授权check-testing.test.mjs该一处政策适配：合法无期限正例、期限拒绝反例、移除旧日期/参数；原配对/source漂移/runtime反例保留，其它旧测试不改。其余新回归只核实际索引producer与其共享合同。文档作者自验不代签非作者接受；新正文保持partial/needs、原claimCorrection/历史/来源不删，全量门和11状态只在真实接受后扣减，不合main/推送/done。

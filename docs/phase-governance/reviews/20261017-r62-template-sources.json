@@ -5094,27 +5094,27 @@
     },
     {
       "path": "docs/testing/_templates/e2e-stage-README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Author full document/source review in S41; GLM non-author evidence acceptance with scoped source checks; S43 Owner applies only this accepted current SHA, no runtime/historical reexecution",
-      "reviewDepth": "partial-semantic",
-      "coreConclusion": "E2E阶段入口starter源：YAML示例列稳定阶段id、引擎、Owner、验证/到期时间、依赖和canonicalReport；正文说明入口旁路、当前结论与报告/机器证据。这是旧starter，正式采用需满足统一E2E stage合同；不能重复计为新类型，不生成复制的新报告或借scene/entity编号命名公开阶段。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "E2E入口示例保id/status/phase/engine/owner/lastVerified/dependsOn与canonicalReport；只移除活动reviewBy并说明版本比较，不当实际执行；本轮是用户政策的小范围同步，不重写原模板骨架或引入新父合同。",
       "truthAnchors": [
-        "docs/testing/_templates/e2e-stage-README.md#适用范围",
-        "docs/testing/_templates/e2e-stage-README.md#当前真值",
-        "docs/testing/_templates/e2e-stage-README.md#使用边界"
+        "docs/testing/_templates/e2e-stage-README.md",
+        "docs/testing/governance.md#版本适用性",
+        "scripts/docs/generate-testing-index.mjs"
       ],
       "unresolved": [
-        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
-      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
       "phase": "testing",
       "module": "_templates",
       "capability": "e2e-stage-README.md",
-      "owner": "Codex",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "provenance": [
         "source-document",
         "repository-history",
@@ -5127,25 +5127,29 @@
           "nonAuthorReviewer": false,
           "creditGranted": 0,
           "revision": "3ed87f734df357799c4d9a44205781d3deba5c14"
+        },
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
         }
       ],
       "sourceSha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
-      "afterSha256": "965219aa56e1a54f2a7b6fa4d5883733b0b4a6877a842c6a6be768c32194f62d",
+      "afterSha256": "7a66bdd739e6da43738885aa61375fd7c0035a203487e8767d0969711c82b9ff",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/testing/_templates/README.md"
       ],
       "legalInputs": [
-        "current fixed template source 3ed87f734df357799c4d9a44205781d3deba5c14:docs/testing/_templates/e2e-stage-README.md",
-        "registered test-e2e-stage-v1 usage contract; fields must be supplied by actual task/evidence, not placeholder output"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "template-source-reference",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "YAML示例列稳定阶段id、引擎、Owner、验证/到期时间、依赖和canonicalReport；正文说明入口旁路、当前结论与报告/机器证据。",
-          "这是旧starter，正式采用需满足统一E2E stage合同；不能重复计为新类型，不生成复制的新报告或借scene/entity编号命名公开阶段。",
-          "outer reference-canon explanation is separate from produced document type",
-          "preserved example exact bytes and source pin do not grant reviewed/compliant/runtime credit"
+          "只能删活动期限/同步实际版本展示；原执行身份、状态、原结论和合法前驱不漂移。"
         ]
       },
       "dedupe": {
@@ -5182,15 +5186,20 @@
         ]
       },
       "evidence": {
-        "kind": "independently-accepted-document-version",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
-        "member": "S43/GLM-body-verdict.json",
-        "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
-        "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
-        "afterSha256": "965219aa56e1a54f2a7b6fa4d5883733b0b4a6877a842c6a6be768c32194f62d",
-        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "kind": "S73-current-document-candidate",
+        "path": "docs/testing/_templates/e2e-stage-README.md",
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/testing/_templates/e2e-stage-README.md",
+          "gitObject": "87804a1ee0b59f582875c102f649f0f5f3b7948a",
+          "sha256": "965219aa56e1a54f2a7b6fa4d5883733b0b4a6877a842c6a6be768c32194f62d"
+        },
+        "currentNativeSha256": "7a66bdd739e6da43738885aa61375fd7c0035a203487e8767d0969711c82b9ff",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
         "runtimeExecutionPerformed": false,
-        "historicClaimsReexecuted": false
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -5333,14 +5342,53 @@
             "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
             "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
           }
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+            "index": 13,
+            "sha256": "a50ecc5f6601263aa57eaf868b5afb4599b5b39374279252afdb441892aa1082"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": {
+            "protocol": "document-delivery-acceptance/1.0.0",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "verdict": "accept",
+            "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+            "afterSha256": "965219aa56e1a54f2a7b6fa4d5883733b0b4a6877a842c6a6be768c32194f62d",
+            "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+            "readDomain": {
+              "authorRecordField": "currentAuthoredReview.readDomain",
+              "nonAuthorVerdictPointer": "/verdicts/13",
+              "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+            },
+            "ownerDecision": {
+              "actor": "Codex",
+              "task": "DOCS-FULL-TEMPLATE-1/S43",
+              "date": "2026-10-24",
+              "currentBodyReview": true,
+              "currentTemplateMigration": true,
+              "oldClaimRestored": false,
+              "runtimeCredit": false
+            }
+          },
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy template-source presentation; canonical source retained byte-stably"
       ],
-      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
-      "userVisibleBeforeAfter": "原有源骨架/说明→具体填写指南+完全保全的原源块；模板合同、示例字段与产品行为不改。",
-      "reviewedLines": "1-74",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "current",
@@ -5364,30 +5412,17 @@
         "docs/ops/document-quality.md",
         "AGENTS.md"
       ],
-      "versionScope": {
-        "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "counterReworkBlocked": {
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
+      },
+      "templateConformance": {
+        "status": "author-candidate-only",
         "templateId": "reference-canon-v1",
         "templateVersion": "1.0.0",
-        "producedDocumentType": "test-e2e-stage-v1",
-        "registryVersionUnchanged": true
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R62-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        },
-        {
-          "id": "S41-NONAUTHOR-PENDING",
-          "status": "resolved",
-          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
-          "acceptedCandidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
-          "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd"
-        }
-      ],
-      "templateConformance": {
-        "status": "template-compliant",
-        "scope": "Existing reference-canon-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
+        "independentAcceptance": false
       },
       "currentAuthoredReview": {
         "task": "DOCS-FULL-TEMPLATE-1/S41",
@@ -5437,31 +5472,42 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "965219aa56e1a54f2a7b6fa4d5883733b0b4a6877a842c6a6be768c32194f62d",
+          "afterSha256": "7a66bdd739e6da43738885aa61375fd7c0035a203487e8767d0969711c82b9ff",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
-      "currentIndependentAcceptance": {
-        "protocol": "document-delivery-acceptance/1.0.0",
-        "reviewer": "GLM",
-        "nonAuthorReviewer": true,
-        "verdict": "accept",
-        "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
-        "afterSha256": "965219aa56e1a54f2a7b6fa4d5883733b0b4a6877a842c6a6be768c32194f62d",
-        "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
-        "readDomain": {
-          "authorRecordField": "currentAuthoredReview.readDomain",
-          "nonAuthorVerdictPointer": "/verdicts/13",
-          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
-        },
-        "ownerDecision": {
-          "actor": "Codex",
-          "task": "DOCS-FULL-TEMPLATE-1/S43",
-          "date": "2026-10-24",
-          "currentBodyReview": true,
-          "currentTemplateMigration": true,
-          "oldClaimRestored": false,
-          "runtimeCredit": false
-        }
-      }
+      "readDomain": {
+        "actual": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/13"
+        ]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
     },
     {
       "path": "docs/testing/_templates/evidence.json",
@@ -6350,27 +6396,27 @@
     },
     {
       "path": "docs/testing/_templates/test-catalog.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Author full document/source review in S41; GLM non-author evidence acceptance with scoped source checks; S43 Owner applies only this accepted current SHA, no runtime/historical reexecution",
-      "reviewDepth": "partial-semantic",
-      "coreConclusion": "测试catalog原生合同说明源：解释JSON publication catalog的schemaVersion2/generatedBy/entries、逐id reading与原生治理；另分固定1838八键binding capture变体。本文件是Markdown说明而非可发布catalog；JSON权威模板和registry不改。原始15类summary/unread与本次阅读分轴，冻结索引最多增量1不给1838源文授信。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "catalog模板保发布依赖、旧候选/版本/执行范围，活动reviewBy退休而旧期限留历史，结构检查不能替内容或运行；本轮是用户政策的小范围同步，不重写原模板骨架或引入新父合同。",
       "truthAnchors": [
-        "docs/testing/_templates/test-catalog.md#适用范围",
-        "docs/testing/_templates/test-catalog.md#当前真值",
-        "docs/testing/_templates/test-catalog.md#使用边界"
+        "docs/testing/_templates/test-catalog.md",
+        "docs/testing/governance.md#版本适用性",
+        "scripts/docs/generate-testing-index.mjs"
       ],
       "unresolved": [
-        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
-      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
       "phase": "testing",
       "module": "_templates",
       "capability": "test-catalog.md",
-      "owner": "Codex",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "provenance": [
         "source-document",
         "repository-history",
@@ -6383,25 +6429,29 @@
           "nonAuthorReviewer": false,
           "creditGranted": 0,
           "revision": "3ed87f734df357799c4d9a44205781d3deba5c14"
+        },
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
         }
       ],
       "sourceSha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
-      "afterSha256": "5545da0b39f90930864d7d285f78d4c0b2540a68a5f97cc95db0718e84ff6ea8",
+      "afterSha256": "1b429ccf7490ffea1f937ced6510545b9db4a6063dc8431169633104bce2cfbc",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/testing/_templates/README.md"
       ],
       "legalInputs": [
-        "current fixed template source 3ed87f734df357799c4d9a44205781d3deba5c14:docs/testing/_templates/test-catalog.md",
-        "registered test-catalog-v1 usage contract; fields must be supplied by actual task/evidence, not placeholder output"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "template-source-reference",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "解释JSON publication catalog的schemaVersion2/generatedBy/entries、逐id reading与原生治理；另分固定1838八键binding capture变体。",
-          "本文件是Markdown说明而非可发布catalog；JSON权威模板和registry不改。原始15类summary/unread与本次阅读分轴，冻结索引最多增量1不给1838源文授信。",
-          "outer reference-canon explanation is separate from produced document type",
-          "preserved example exact bytes and source pin do not grant reviewed/compliant/runtime credit"
+          "只能删活动期限/同步实际版本展示；原执行身份、状态、原结论和合法前驱不漂移。"
         ]
       },
       "dedupe": {
@@ -6438,15 +6488,20 @@
         ]
       },
       "evidence": {
-        "kind": "independently-accepted-document-version",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
-        "member": "S43/GLM-body-verdict.json",
-        "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
-        "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
-        "afterSha256": "5545da0b39f90930864d7d285f78d4c0b2540a68a5f97cc95db0718e84ff6ea8",
-        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "kind": "S73-current-document-candidate",
+        "path": "docs/testing/_templates/test-catalog.md",
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/testing/_templates/test-catalog.md",
+          "gitObject": "10dd21e08f86a7161a785a514b596c607d62a9ee",
+          "sha256": "5545da0b39f90930864d7d285f78d4c0b2540a68a5f97cc95db0718e84ff6ea8"
+        },
+        "currentNativeSha256": "1b429ccf7490ffea1f937ced6510545b9db4a6063dc8431169633104bce2cfbc",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
         "runtimeExecutionPerformed": false,
-        "historicClaimsReexecuted": false
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -6586,14 +6641,53 @@
             "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
             "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
           }
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+            "index": 17,
+            "sha256": "a471cc33dab146cfbc75c375e50d8b54cb826d7399d39c59f4325b53ea8a9634"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": {
+            "protocol": "document-delivery-acceptance/1.0.0",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "verdict": "accept",
+            "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+            "afterSha256": "5545da0b39f90930864d7d285f78d4c0b2540a68a5f97cc95db0718e84ff6ea8",
+            "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+            "readDomain": {
+              "authorRecordField": "currentAuthoredReview.readDomain",
+              "nonAuthorVerdictPointer": "/verdicts/15",
+              "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+            },
+            "ownerDecision": {
+              "actor": "Codex",
+              "task": "DOCS-FULL-TEMPLATE-1/S43",
+              "date": "2026-10-24",
+              "currentBodyReview": true,
+              "currentTemplateMigration": true,
+              "oldClaimRestored": false,
+              "runtimeCredit": false
+            }
+          },
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy template-source presentation; canonical source retained byte-stably"
       ],
-      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
-      "userVisibleBeforeAfter": "原有源骨架/说明→具体填写指南+完全保全的原源块；模板合同、示例字段与产品行为不改。",
-      "reviewedLines": "1-81",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "current",
@@ -6617,30 +6711,17 @@
         "docs/ops/document-quality.md",
         "AGENTS.md"
       ],
-      "versionScope": {
-        "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "counterReworkBlocked": {
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
+      },
+      "templateConformance": {
+        "status": "author-candidate-only",
         "templateId": "reference-canon-v1",
         "templateVersion": "1.0.0",
-        "producedDocumentType": "test-catalog-v1",
-        "registryVersionUnchanged": true
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R62-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        },
-        {
-          "id": "S41-NONAUTHOR-PENDING",
-          "status": "resolved",
-          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
-          "acceptedCandidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
-          "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd"
-        }
-      ],
-      "templateConformance": {
-        "status": "template-compliant",
-        "scope": "Existing reference-canon-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
+        "independentAcceptance": false
       },
       "currentAuthoredReview": {
         "task": "DOCS-FULL-TEMPLATE-1/S41",
@@ -6690,31 +6771,42 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "5545da0b39f90930864d7d285f78d4c0b2540a68a5f97cc95db0718e84ff6ea8",
+          "afterSha256": "1b429ccf7490ffea1f937ced6510545b9db4a6063dc8431169633104bce2cfbc",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
-      "currentIndependentAcceptance": {
-        "protocol": "document-delivery-acceptance/1.0.0",
-        "reviewer": "GLM",
-        "nonAuthorReviewer": true,
-        "verdict": "accept",
-        "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
-        "afterSha256": "5545da0b39f90930864d7d285f78d4c0b2540a68a5f97cc95db0718e84ff6ea8",
-        "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
-        "readDomain": {
-          "authorRecordField": "currentAuthoredReview.readDomain",
-          "nonAuthorVerdictPointer": "/verdicts/15",
-          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
-        },
-        "ownerDecision": {
-          "actor": "Codex",
-          "task": "DOCS-FULL-TEMPLATE-1/S43",
-          "date": "2026-10-24",
-          "currentBodyReview": true,
-          "currentTemplateMigration": true,
-          "oldClaimRestored": false,
-          "runtimeCredit": false
-        }
-      }
+      "readDomain": {
+        "actual": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/17"
+        ]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
     },
     {
       "path": "docs/testing/_templates/test-contract.md",
@@ -7089,27 +7181,27 @@
     },
     {
       "path": "docs/testing/_templates/test-domain-report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Author full document/source review in S41; GLM non-author evidence acceptance with scoped source checks; S43 Owner applies only this accepted current SHA, no runtime/historical reexecution",
-      "reviewDepth": "partial-semantic",
-      "coreConclusion": "测试域报告模板源：Domain scope界定域/引擎/revision，Claim matrix连接证据/状态/限制，输入fixture、结果缺口与质量门分别记账。源中的1.1.0与catalog-publication词表属于骨架提示，正式采用查registry；publication状态投影不等于执行通过，不能凭此为历史文档伪造新catalog身份。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "域报告质量门字段改指记录revision和适用source指纹，不再用reviewBy；其它Scope/输入/结果/证据职责不改；本轮是用户政策的小范围同步，不重写原模板骨架或引入新父合同。",
       "truthAnchors": [
-        "docs/testing/_templates/test-domain-report.md#适用范围",
-        "docs/testing/_templates/test-domain-report.md#当前真值",
-        "docs/testing/_templates/test-domain-report.md#使用边界"
+        "docs/testing/_templates/test-domain-report.md",
+        "docs/testing/governance.md#版本适用性",
+        "scripts/docs/generate-testing-index.mjs"
       ],
       "unresolved": [
-        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
-      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
       "phase": "testing",
       "module": "_templates",
       "capability": "test-domain-report.md",
-      "owner": "Codex",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "provenance": [
         "source-document",
         "repository-history",
@@ -7122,25 +7214,29 @@
           "nonAuthorReviewer": false,
           "creditGranted": 0,
           "revision": "3ed87f734df357799c4d9a44205781d3deba5c14"
+        },
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
         }
       ],
       "sourceSha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
-      "afterSha256": "97b1ecead47b628d4a364cf0346fa669ae1e6a0e2f4c23e19bb83a398ec18564",
+      "afterSha256": "50f6372b149389ac8a3eda93241dc94ca5eead2691203d5490f14b7ccf0b9d1c",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/testing/_templates/README.md"
       ],
       "legalInputs": [
-        "current fixed template source 3ed87f734df357799c4d9a44205781d3deba5c14:docs/testing/_templates/test-domain-report.md",
-        "registered test-domain-report-v1 usage contract; fields must be supplied by actual task/evidence, not placeholder output"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "template-source-reference",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "Domain scope界定域/引擎/revision，Claim matrix连接证据/状态/限制，输入fixture、结果缺口与质量门分别记账。",
-          "源中的1.1.0与catalog-publication词表属于骨架提示，正式采用查registry；publication状态投影不等于执行通过，不能凭此为历史文档伪造新catalog身份。",
-          "outer reference-canon explanation is separate from produced document type",
-          "preserved example exact bytes and source pin do not grant reviewed/compliant/runtime credit"
+          "只能删活动期限/同步实际版本展示；原执行身份、状态、原结论和合法前驱不漂移。"
         ]
       },
       "dedupe": {
@@ -7177,15 +7273,20 @@
         ]
       },
       "evidence": {
-        "kind": "independently-accepted-document-version",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
-        "member": "S43/GLM-body-verdict.json",
-        "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
-        "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
-        "afterSha256": "97b1ecead47b628d4a364cf0346fa669ae1e6a0e2f4c23e19bb83a398ec18564",
-        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "kind": "S73-current-document-candidate",
+        "path": "docs/testing/_templates/test-domain-report.md",
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/testing/_templates/test-domain-report.md",
+          "gitObject": "049c03bfbf9bd2fd3edc5c8df2ed17701007d277",
+          "sha256": "97b1ecead47b628d4a364cf0346fa669ae1e6a0e2f4c23e19bb83a398ec18564"
+        },
+        "currentNativeSha256": "50f6372b149389ac8a3eda93241dc94ca5eead2691203d5490f14b7ccf0b9d1c",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
         "runtimeExecutionPerformed": false,
-        "historicClaimsReexecuted": false
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -7328,14 +7429,53 @@
             "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
             "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
           }
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+            "index": 19,
+            "sha256": "ff4e4374fab61610301c50861e039c4bc272485ed14fce54d5430f9e215977d5"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": {
+            "protocol": "document-delivery-acceptance/1.0.0",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "verdict": "accept",
+            "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+            "afterSha256": "97b1ecead47b628d4a364cf0346fa669ae1e6a0e2f4c23e19bb83a398ec18564",
+            "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+            "readDomain": {
+              "authorRecordField": "currentAuthoredReview.readDomain",
+              "nonAuthorVerdictPointer": "/verdicts/17",
+              "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+            },
+            "ownerDecision": {
+              "actor": "Codex",
+              "task": "DOCS-FULL-TEMPLATE-1/S43",
+              "date": "2026-10-24",
+              "currentBodyReview": true,
+              "currentTemplateMigration": true,
+              "oldClaimRestored": false,
+              "runtimeCredit": false
+            }
+          },
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy template-source presentation; canonical source retained byte-stably"
       ],
-      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
-      "userVisibleBeforeAfter": "原有源骨架/说明→具体填写指南+完全保全的原源块；模板合同、示例字段与产品行为不改。",
-      "reviewedLines": "1-68",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "current",
@@ -7359,30 +7499,17 @@
         "docs/ops/document-quality.md",
         "AGENTS.md"
       ],
-      "versionScope": {
-        "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "counterReworkBlocked": {
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
+      },
+      "templateConformance": {
+        "status": "author-candidate-only",
         "templateId": "reference-canon-v1",
         "templateVersion": "1.0.0",
-        "producedDocumentType": "test-domain-report-v1",
-        "registryVersionUnchanged": true
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R62-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        },
-        {
-          "id": "S41-NONAUTHOR-PENDING",
-          "status": "resolved",
-          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
-          "acceptedCandidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
-          "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd"
-        }
-      ],
-      "templateConformance": {
-        "status": "template-compliant",
-        "scope": "Existing reference-canon-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
+        "independentAcceptance": false
       },
       "currentAuthoredReview": {
         "task": "DOCS-FULL-TEMPLATE-1/S41",
@@ -7432,55 +7559,66 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "97b1ecead47b628d4a364cf0346fa669ae1e6a0e2f4c23e19bb83a398ec18564",
+          "afterSha256": "50f6372b149389ac8a3eda93241dc94ca5eead2691203d5490f14b7ccf0b9d1c",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
-      "currentIndependentAcceptance": {
-        "protocol": "document-delivery-acceptance/1.0.0",
-        "reviewer": "GLM",
-        "nonAuthorReviewer": true,
-        "verdict": "accept",
-        "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
-        "afterSha256": "97b1ecead47b628d4a364cf0346fa669ae1e6a0e2f4c23e19bb83a398ec18564",
-        "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
-        "readDomain": {
-          "authorRecordField": "currentAuthoredReview.readDomain",
-          "nonAuthorVerdictPointer": "/verdicts/17",
-          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
-        },
-        "ownerDecision": {
-          "actor": "Codex",
-          "task": "DOCS-FULL-TEMPLATE-1/S43",
-          "date": "2026-10-24",
-          "currentBodyReview": true,
-          "currentTemplateMigration": true,
-          "oldClaimRestored": false,
-          "runtimeCredit": false
-        }
-      }
+      "readDomain": {
+        "actual": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/19"
+        ]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
     },
     {
       "path": "docs/testing/_templates/test-e2e-stage.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Author full document/source review in S41; GLM non-author evidence acceptance with scoped source checks; S43 Owner applies only this accepted current SHA, no runtime/historical reexecution",
-      "reviewDepth": "partial-semantic",
-      "coreConclusion": "统一E2E阶段模板源：YAML示例把稳定id、phase、引擎、Owner、lastVerified/reviewBy、dependsOn和report/evidence分开；四节记录前置、当期结论、证据与依赖历史。phase1|phase2和日期均待填，阶段页不是一次执行报告；过期日期不能手改续期、历史结论留report history，不复制一套canonical。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "Current documentary semantic/role review plus bounded source/consumer proofs and explicit reuse of frozen historical scopes; no new E2E execution",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "专用阶段五章模板保入口/结论/证据/历史职责及非执行占位，旧reviewBy不再生成新截止；本轮是用户政策的小范围同步，不重写原模板骨架或引入新父合同。",
       "truthAnchors": [
-        "docs/testing/_templates/test-e2e-stage.md#适用范围",
-        "docs/testing/_templates/test-e2e-stage.md#当前真值",
-        "docs/testing/_templates/test-e2e-stage.md#使用边界"
+        "docs/testing/_templates/test-e2e-stage.md",
+        "docs/testing/governance.md#版本适用性",
+        "scripts/docs/generate-testing-index.mjs"
       ],
       "unresolved": [
-        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
+        "S73 documentary candidate awaits true non-author acceptance; no global/main/done permission."
       ],
-      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
+      "nextStep": "Only exact content acceptance and Owner decision may promote documentary status. Recheck relevant actual changes; preserve unrelated accepted scopes.",
       "phase": "testing",
       "module": "_templates",
       "capability": "test-e2e-stage.md",
-      "owner": "Codex",
+      "owner": "Codex (S73 current documentary role; original provenance retained)",
       "provenance": [
         "source-document",
         "repository-history",
@@ -7493,25 +7631,29 @@
           "nonAuthorReviewer": false,
           "creditGranted": 0,
           "revision": "3ed87f734df357799c4d9a44205781d3deba5c14"
+        },
+        {
+          "date": "2026-10-30",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "sourceRevision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "action": "current documentary candidate; no status/runtime grant"
         }
       ],
       "sourceSha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
-      "afterSha256": "efdddd80a029639103e6a0942058a19d1d8e81cc0c7e40bd4a3439897df7d431",
+      "afterSha256": "557495a7056def3a52d7b45908feff6326b2e7a64bab17cccd4d9e93c9255dc1",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/testing/_templates/README.md"
       ],
       "legalInputs": [
-        "current fixed template source 3ed87f734df357799c4d9a44205781d3deba5c14:docs/testing/_templates/test-e2e-stage.md",
-        "registered test-e2e-stage-v1 usage contract; fields must be supplied by actual task/evidence, not placeholder output"
+        "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
+        "catalog原身份、版本/sourceRefs与实际consumer；没有用日期或HEAD差异自动判运行失效。"
       ],
       "businessOracle": {
-        "type": "template-source-reference",
+        "type": "current-document-role-and-history-boundary",
         "assertions": [
-          "YAML示例把稳定id、phase、引擎、Owner、lastVerified/reviewBy、dependsOn和report/evidence分开；四节记录前置、当期结论、证据与依赖历史。",
-          "phase1|phase2和日期均待填，阶段页不是一次执行报告；过期日期不能手改续期、历史结论留report history，不复制一套canonical。",
-          "outer reference-canon explanation is separate from produced document type",
-          "preserved example exact bytes and source pin do not grant reviewed/compliant/runtime credit"
+          "只能删活动期限/同步实际版本展示；原执行身份、状态、原结论和合法前驱不漂移。"
         ]
       },
       "dedupe": {
@@ -7548,15 +7690,20 @@
         ]
       },
       "evidence": {
-        "kind": "independently-accepted-document-version",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
-        "member": "S43/GLM-body-verdict.json",
-        "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
-        "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
-        "afterSha256": "efdddd80a029639103e6a0942058a19d1d8e81cc0c7e40bd4a3439897df7d431",
-        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "kind": "S73-current-document-candidate",
+        "path": "docs/testing/_templates/test-e2e-stage.md",
+        "source": {
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "path": "docs/testing/_templates/test-e2e-stage.md",
+          "gitObject": "c91375a1d7d2680161fbb98ba821d8e8505cdfd7",
+          "sha256": "efdddd80a029639103e6a0942058a19d1d8e81cc0c7e40bd4a3439897df7d431"
+        },
+        "currentNativeSha256": "557495a7056def3a52d7b45908feff6326b2e7a64bab17cccd4d9e93c9255dc1",
+        "author": "Codex",
+        "nonAuthorReviewer": false,
         "runtimeExecutionPerformed": false,
-        "historicClaimsReexecuted": false
+        "historicClaimsReexecuted": false,
+        "reusedTechnicalProofs": null
       },
       "history": [
         {
@@ -7699,14 +7846,53 @@
             "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
             "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
           }
+        },
+        {
+          "kind": "S73-final-document-candidate",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "author": "Codex",
+          "priorRecord": {
+            "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+            "path": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+            "index": 20,
+            "sha256": "f4781d6bf5502a30c812d1d7c50885cbe5198e3dbce073723671b81c4436e78e"
+          },
+          "priorReviewStatus": "content-reviewed",
+          "priorTemplateCompliance": "template-compliant",
+          "priorIndependentAcceptance": {
+            "protocol": "document-delivery-acceptance/1.0.0",
+            "reviewer": "GLM",
+            "nonAuthorReviewer": true,
+            "verdict": "accept",
+            "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+            "afterSha256": "efdddd80a029639103e6a0942058a19d1d8e81cc0c7e40bd4a3439897df7d431",
+            "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+            "readDomain": {
+              "authorRecordField": "currentAuthoredReview.readDomain",
+              "nonAuthorVerdictPointer": "/verdicts/18",
+              "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+            },
+            "ownerDecision": {
+              "actor": "Codex",
+              "task": "DOCS-FULL-TEMPLATE-1/S43",
+              "date": "2026-10-24",
+              "currentBodyReview": true,
+              "currentTemplateMigration": true,
+              "oldClaimRestored": false,
+              "runtimeCredit": false
+            }
+          },
+          "newCredit": 0,
+          "runtimeCredit": 0
         }
       ],
       "supersedes": [
         "governed-legacy template-source presentation; canonical source retained byte-stably"
       ],
-      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
-      "userVisibleBeforeAfter": "原有源骨架/说明→具体填写指南+完全保全的原源块；模板合同、示例字段与产品行为不改。",
-      "reviewedLines": "1-69",
+      "stopLine": "Actual source/quote/IO mismatch or contradictory role blocks the affected claim. No fake reviewed state, old execution refresh or automatic E2E rerun.",
+      "userVisibleBeforeAfter": "Specific current role/history/applicability replaces stale pending/generalized text; execution and prior source remain.",
+      "reviewedLines": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "current",
@@ -7730,30 +7916,17 @@
         "docs/ops/document-quality.md",
         "AGENTS.md"
       ],
-      "versionScope": {
-        "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+      "versionScope": "Document role and declared source/version applicability at S73; HEAD/date alone not E2E invalidation.",
+      "counterReworkBlocked": {
+        "documentary": "S73 non-author acceptance pending",
+        "technical": "Reuse only explicitly accepted frozen006 verdicts; no new runtime",
+        "global": "11 original pending plus bounded policy amendments await this candidate acceptance"
+      },
+      "templateConformance": {
+        "status": "author-candidate-only",
         "templateId": "reference-canon-v1",
         "templateVersion": "1.0.0",
-        "producedDocumentType": "test-e2e-stage-v1",
-        "registryVersionUnchanged": true
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R62-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        },
-        {
-          "id": "S41-NONAUTHOR-PENDING",
-          "status": "resolved",
-          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
-          "acceptedCandidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
-          "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd"
-        }
-      ],
-      "templateConformance": {
-        "status": "template-compliant",
-        "scope": "Existing reference-canon-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
+        "independentAcceptance": false
       },
       "currentAuthoredReview": {
         "task": "DOCS-FULL-TEMPLATE-1/S41",
@@ -7803,31 +7976,42 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
+          "beforeSha256": "efdddd80a029639103e6a0942058a19d1d8e81cc0c7e40bd4a3439897df7d431",
+          "afterSha256": "557495a7056def3a52d7b45908feff6326b2e7a64bab17cccd4d9e93c9255dc1",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
         }
       ],
-      "currentIndependentAcceptance": {
-        "protocol": "document-delivery-acceptance/1.0.0",
-        "reviewer": "GLM",
-        "nonAuthorReviewer": true,
-        "verdict": "accept",
-        "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
-        "afterSha256": "efdddd80a029639103e6a0942058a19d1d8e81cc0c7e40bd4a3439897df7d431",
-        "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
-        "readDomain": {
-          "authorRecordField": "currentAuthoredReview.readDomain",
-          "nonAuthorVerdictPointer": "/verdicts/18",
-          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
-        },
-        "ownerDecision": {
-          "actor": "Codex",
-          "task": "DOCS-FULL-TEMPLATE-1/S43",
-          "date": "2026-10-24",
-          "currentBodyReview": true,
-          "currentTemplateMigration": true,
-          "oldClaimRestored": false,
-          "runtimeCredit": false
-        }
-      }
+      "readDomain": {
+        "actual": "完整本路径实际policy差异与保全段核读；依据代码治理作者原政策/真实测试与本树版本比较，未重授阶段运行或原模板全部历史语义。",
+        "currentReader": "Codex",
+        "date": "2026-10-30",
+        "notRead": [
+          "未重新认证历史剧情运行、原版等价、旧采集raw和全部成员正文；使用各自已接受范围及固定原件。",
+          "本次没有浏览器/新E2E/视觉/coverage，不从模板或日期授执行信用。"
+        ]
+      },
+      "artifactOnly": false,
+      "artifactEnvelope": false,
+      "fieldRoles": {
+        "body": [
+          "Current role and original dated claims remain separate; JSON execution carriers and historical quote bytes retained."
+        ],
+        "source": [
+          "Original sourceSha256/revision unchanged; current documentary basis is a distinct real Git blob."
+        ],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r62-template-sources.json#entries/20"
+        ]
+      },
+      "historyBoundary": "Original revision/source/claimCorrection/quotes and their dated limitations remain. Current documentary acceptance does not restore old execution or child semantic credit."
     },
     {
       "path": "docs/testing/_templates/test-machine-evidence.json",
