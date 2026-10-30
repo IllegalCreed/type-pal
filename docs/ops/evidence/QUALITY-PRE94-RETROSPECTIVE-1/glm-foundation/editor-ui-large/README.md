@@ -1,5 +1,39 @@
 # 批56:editor ui 大件 56 文件（零整改批）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「批56:editor ui 大件 56 文件（零整改批）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+
+## 范围与证据
+
+原报告含章节[批56:editor ui 大件 56 文件（零整改批）、结论(要点)、登记移交（无新增）、验证、Codex当前勘误与接管（2026-10-19）、原生附件无损迁移（Codex，2026-10-19）]、2个链接;固定main源7604B(SHA eadf8bd64bbb)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)、[directed.json.gz](directed.json.gz)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7604B / SHA-256 eadf8bd64bbbf16f369ce51f4aad6796dc979f06b8276f7488e804f4ab8271d2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 批56:editor ui 大件 56 文件（零整改批）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 范围:`packages/editor/src/ui/` 401 行以上生产文件 56 件（按行数升序分两段:28 件 15555 行 + 28 件 43327 行,合计 58882 行）。全文读毕。八维审查（A–H）全部通过,零源码改动、零 diff。至此 `src/ui` 全部非测试生产文件（微/小 58 + 中 48 + 大 56 = 162 件）审查收口。
@@ -30,3 +64,5 @@
 ## 原生附件无损迁移（Codex，2026-10-19）
 
 原directed.json超过现行1MiB检查边界；现以[原始JSON的无损gzip](directed.json.gz)保留，解压字节/SHA与冻结5af1b6372一致。 未放宽files.maxSize或新增ignore；迁移与失败/恢复身份见[当前回执](../codex-stage2-rework.json)。
+```
+<!-- incremental-original-source:end -->

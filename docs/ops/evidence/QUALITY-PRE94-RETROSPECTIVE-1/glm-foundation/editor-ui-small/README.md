@@ -1,5 +1,39 @@
 # 批54:editor ui 微/小件 58 文件（零整改批,ui 包开工）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「批54:editor ui 微/小件 58 文件（零整改批,ui 包开工）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+
+## 范围与证据
+
+原报告含章节[批54:editor ui 微/小件 58 文件（零整改批,ui 包开工）、结论(要点)、测试备注（1 项并行假失败,非本批回归）、验证、Codex当前勘误与接管（2026-10-19）、原生附件无损迁移（Codex，2026-10-19）]、2个链接;固定main源3525B(SHA 2be3e4662ba2)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)、[directed.json.gz](directed.json.gz)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3525B / SHA-256 2be3e4662ba20aee63f4e626acf7901077bbe3acbeb2474979780446545dc898；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 批54:editor ui 微/小件 58 文件（零整改批,ui 包开工）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 范围:`packages/editor/src/ui/` 全部 ≤150 行生产文件 58 件(design-system 控件族 + 页面小组件 + 纯工具 hook/overlay,不含 __tests__ 辅助)。全文读毕 4433 行。八维审查（A–H）全部通过,零源码改动、零 diff。
@@ -27,3 +61,5 @@
 ## 原生附件无损迁移（Codex，2026-10-19）
 
 原directed.json超过现行1MiB检查边界；现以[原始JSON的无损gzip](directed.json.gz)保留，解压字节/SHA与冻结5af1b6372一致。 未放宽files.maxSize或新增ignore；迁移与失败/恢复身份见[当前回执](../codex-stage2-rework.json)。
+```
+<!-- incremental-original-source:end -->

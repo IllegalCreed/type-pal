@@ -1,5 +1,39 @@
 # 批53:editor core 大件 13 文件（零整改批,core 包收口）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「批53:editor core 大件 13 文件（零整改批,core 包收口）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+
+## 范围与证据
+
+原报告含章节[批53:editor core 大件 13 文件（零整改批,core 包收口）、结论(要点)、登记移交（无新增）、验证、原生附件无损迁移（Codex，2026-10-19）]、2个链接;固定main源4698B(SHA a5aa1053d783)。当前存活入口:[codex-stage2-rework.json](../codex-stage2-rework.json)、[directed.json.gz](directed.json.gz)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4698B / SHA-256 a5aa1053d78368bdd877e25512a370d42cc9440112427e5f012692ebeaa5cfd7；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 批53:editor core 大件 13 文件（零整改批,core 包收口）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 范围:`packages/editor/src/core/` 600+ 行生产文件 13 件(item-references 690/project-io 774/map-selection 778/author-save-journal 871/edit-session 876/project-diagnostics 921/playback 972/workspace-persistence 999/command-catalog 1009/project-reference 1341/world-sprite-behavior 1581/project-reference-adapters 1886/script-editor 2153,共 14.85k 行)。全文读毕。八维审查（A–H）全部通过,零源码改动、零 diff。至此 editor core 包 125 文件全量收口(批51-53)。
@@ -28,3 +62,5 @@
 ## 原生附件无损迁移（Codex，2026-10-19）
 
 原directed.json超过现行1MiB检查边界；现以[原始JSON的无损gzip](directed.json.gz)保留，解压字节/SHA与冻结5af1b6372一致。 未放宽files.maxSize或新增ignore；迁移与失败/恢复身份见[当前回执](../codex-stage2-rework.json)。
+```
+<!-- incremental-original-source:end -->
