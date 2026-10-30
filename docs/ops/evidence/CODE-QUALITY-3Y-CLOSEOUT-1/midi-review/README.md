@@ -1,5 +1,39 @@
 # Y01：CODE75 MIDI旧测试复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「Y01：CODE75 MIDI旧测试复审」的主题按原文时点保留(摘录:2026-10-16，唯一治理分支`codex/code-quality-3y`，候选995cd8aee，main=f98d0ddd8。父分支保全与删除证明见[统一治理线](../README.md))。
+
+## 范围与证据
+
+原报告含章节[Y01：CODE75 MIDI旧测试复审、实际读取与合同、验证与反控、当前结论与待续]、5个链接;固定main源4232B(SHA 35e0397c76fa)。当前存活入口:[README.md](../README.md)、[rereview-progress.json](../rereview-progress.json)、[counter-run.py](counter-run.py)、[counter-split-verification.json](counter-split-verification.json)、[read-and-retirement.json](read-and-retirement.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4232B / SHA-256 35e0397c76fa90d08bbf73df68faa270e5b8a2efdbd1f502efe616a708fd0b66；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# Y01：CODE75 MIDI旧测试复审
+
 2026-10-16，唯一治理分支`codex/code-quality-3y`，候选995cd8aee，main=f98d0ddd8。父分支保全与删除证明见[统一治理线](../README.md)。本片仅处理旧测试重复与过期协议；没有修改MIDI产品、音色、资源管线、公共接口或规则，0新增关闭。
 
 ## 实际读取与合同
@@ -25,3 +59,5 @@ ledger实测3287 inventory /223 closed /198 review /2866 pending。原旧test的
 文档门通过：1333 Markdown /7067链接，phase184、content570。lint首次发现本片docs.json证据文件的格式错误1项，lint-first原始失败回执保留；格式修正后完整lint通过4340文件、0 error/0 warning/0 info，ledger通过。没有静音或降低规则。最终新增回执的格式再按原规则核对。
 
 全仓check、official ratchet、两父protected fast留到稳定模块窗口集中运行；本片不是完整质量门通过或合main许可。下一片可从同一3y分支复核fetch-retry相邻测试与历史CODE71，不再建治理分支。
+```
+<!-- incremental-original-source:end -->
