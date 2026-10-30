@@ -1,5 +1,39 @@
 # C02 导入与历史回流证据
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「C02 导入与历史回流证据」的治理候选页;证据原件即下方逐字节保全的固定main源(2438B,SHA 77172c968b6a)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-DIAGNOSTICS-3.md](../../tasks/QUALITY-EDITOR-DIAGNOSTICS-3.md)、[window-review.md](window-review.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2438B / SHA-256 77172c968b6a8e03254b27bebd772543d11272ee5c0a48565d7e41fedb4c1eb2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C02 导入与历史回流证据
+
 任务：[QUALITY-EDITOR-DIAGNOSTICS-3](../../tasks/QUALITY-EDITOR-DIAGNOSTICS-3.md)。
 当前build，仅四份测试源码。基线与分步定向保存完整raw.gz/runner JSON/命令和诊断数；未知边界不作关闭。
 
@@ -15,3 +49,5 @@
 第一次相邻命令误写两个过滤名，实际上7文件69例（precision-adjacent）；不计为完整相邻。纠正后9文件77例通过且0skip/0诊断（precision-adjacent-corrected）。coverage-tools65/65，editor typecheck通过。判据与拒绝用例未动；只有G01精确10→9支持行。完整check/ratchet/protected将在此稳定模块统一运行，不能据局部结果合main。
 
 稳定模块全门已完成：[完整报告](window-review.md)。数值check/ratchet/protected均exit0，统一零诊断门仍失败；本片0关闭、四文件review、未合main。官方基线只由ratchet更新，覆盖分子/分母和生产范围全同，仅已证G01退役一例。下一只读范围见next-read-boundaries.json。
+```
+<!-- incremental-original-source:end -->

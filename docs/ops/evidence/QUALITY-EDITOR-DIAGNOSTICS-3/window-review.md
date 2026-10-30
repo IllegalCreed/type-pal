@@ -1,5 +1,39 @@
 # C02 导入与历史回流：稳定模块窗口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「C02 导入与历史回流：稳定模块窗口」的主题按原文时点保留(摘录:源码候选 `addf1dca1400cf864535ce4b67257ab0adcdcb5e`；protected main `f98d0ddd89ebdee7b04502ee35de26ee82c6)。
+
+## 范围与证据
+
+原报告含章节[C02 导入与历史回流：稳定模块窗口、逐文件结论]、0个链接;固定main源3481B(SHA f4179939b1dd)。当前存活入口:无当前仓库内存活链接。
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3481B / SHA-256 f4179939b1ddee4930bb79de67b3dd9e03945bfa0745c1f15512c59136303700；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C02 导入与历史回流：稳定模块窗口
+
 源码候选 `addf1dca1400cf864535ce4b67257ab0adcdcb5e`；protected main `f98d0ddd89ebdee7b04502ee35de26ee82c6d246`。
 
 本片四文件仍review、0关闭。生产/公共API/schema/save/资产管线与生成物未改。
@@ -31,3 +65,5 @@ ratchet使用既有仅确认范围精简参数，确认这一条已证oracle转�
 机器3284 inventory /229 closed /54 review /3001 pending，0新关闭。统一零诊断门不通过，未合main；CODE94/95/97–102仍按各卡rework/review。
 下一可直接继续：BattleSpriteLibrary.kimi-workflows，先新开有限白名单、复用C02真实宿主并核六例oracle，未知重复不删。其它导航/World候选只是已读线索，不是已验证根因。
 无下一位Agent提示词，Codex继续用户目标。
+```
+<!-- incremental-original-source:end -->

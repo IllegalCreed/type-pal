@@ -1,5 +1,39 @@
 # C02 删除生命周期：完整窗口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「C02 删除生命周期：完整窗口」的主题按原文时点保留(摘录:源码候选 `7433f71f555e457dd06f56122fa7273033f9bb4e`；protected main `f98d0ddd89ebdee7b04502ee35de26ee82c6)。
+
+## 范围与证据
+
+原报告含章节[C02 删除生命周期：完整窗口、逐文件结论与界限]、0个链接;固定main源2753B(SHA 7d712ce8dc48)。当前存活入口:无当前仓库内存活链接。
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2753B / SHA-256 7d712ce8dc4895a69116c145f228d75ab9b8081783af941a3eb4e21c6ac3199f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C02 删除生命周期：完整窗口
+
 源码候选 `7433f71f555e457dd06f56122fa7273033f9bb4e`；protected main `f98d0ddd89ebdee7b04502ee35de26ee82c6d246`。
 
 本片三文件保持review，0关闭。只改测试及必要精确退役数据，未改产品/公共API/schema/save/资产管线。
@@ -29,3 +63,5 @@ Primary为React官方act，阶段纪律为phase2 READ-FIRST；没有一阶段机
 统一零诊断门仍不通过，不合main、不宣布94–102或全仓治理完成。机器3284/229closed/51review/3004pending。
 下一可直接继续范围：C02共用驱动与G01/G02/G05，先按新白名单建卡；只读准备与未证线索见next-read-boundaries.json。
 无下一位Agent提示词，当前由Codex持续推进goal。
+```
+<!-- incremental-original-source:end -->
