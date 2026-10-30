@@ -1,5 +1,39 @@
 # 大世界精灵真实宿主与资源见证
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「大世界精灵真实宿主与资源见证」的治理候选页;证据原件即下方逐字节保全的固定main源(3949B,SHA 3e55f9b302bf)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原1个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md](../../tasks/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3949B / SHA-256 3e55f9b302bf34b7b9531319dfc2ef73443b0f85397ba534086b0635262e7123；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 大世界精灵真实宿主与资源见证
+
 任务：[QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1](../../tasks/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md)。本片四文件（两个测试、共享宿主与fixture首段注释），0关闭。全部读取范围、SHA、caller与未审项见read-boundaries.json。
 
 C04/C05/C06八源完整窗口冻结期间，先在四个本地包的独立临时副本准备；窗口候选cae26b1c7完全未变。窗口记录84d5dd31已推送后，接收前三文件前逐一核原始SHA、两产品源SHA，副本精确前缀/parent守卫清理，见promotion-proof.json。随后第四文件仅更新“只被两个测试导入”的过期注释，注释外代码字节完全未变。没有并行Agent/其它树写入。
@@ -17,3 +51,5 @@ C04/C05/C06八源完整窗口冻结期间，先在四个本地包的独立临时
 本片只登记review：3284inventory/229closed/65review/2990pending。共享宿主原review继续；两测试与fixture由pending移review，0关闭。第三caller SpriteResourceViewer Kimi、全域排重及其它来源诊断仍待核，不以9/121全绿关闭。下一片可核SpriteResourceViewer Kimi与相邻资产工作流，优先真实异步完成/byte oracle。主线只读、不合main、不改schema/save/API/资源管线/生成物/产品行为。无下一位Agent提示词，Codex继续。
 
 检查点静态门：docs 0 issues，lint 4250文件0 error/0 warning/0 info，ledger通过。原件见static-preflight.json；下一稳定全仓窗口仍待执行，不以本片定向零诊断替代统一收口。
+```
+<!-- incremental-original-source:end -->
