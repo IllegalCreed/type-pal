@@ -137,7 +137,12 @@ test('nine governed views preserve independent catalog and legacy row oracles', 
       [],
       name,
     )
-    assert.match(text, /^Last reviewed: 2026-10-16$/m)
+    assert.match(
+      text,
+      name === 'by-stage.md' || name === 'by-status.md'
+        ? /^Last reviewed: 2026-10-30$/m
+        : /^Last reviewed: 2026-10-16$/m,
+    )
     assert.match(text, /不会续期日期/)
   }
 })
@@ -280,6 +285,12 @@ test('legal dimension changes update membership and derived scope without changi
     if (['tag', 'engine', 'phase'].includes(dimension))
       assert.ok(scope.includes(`${members.length} 个成员关系`), dimension)
   }
-  for (const text of Object.values(views)) assert.match(text, /^Last reviewed: 2026-10-16$/m)
+  for (const [name, text] of Object.entries(views))
+    assert.match(
+      text,
+      name === 'by-stage.md' || name === 'by-status.md'
+        ? /^Last reviewed: 2026-10-30$/m
+        : /^Last reviewed: 2026-10-16$/m,
+    )
   assert.equal(entry.status, catalog.entries.find((item) => item.id === entry.id).status)
 })
