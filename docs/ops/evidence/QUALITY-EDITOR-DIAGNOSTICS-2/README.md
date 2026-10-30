@@ -1,5 +1,39 @@
 # C02 宿主与删除生命周期证据
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「C02 宿主与删除生命周期证据」的治理候选页;证据原件即下方逐字节保全的固定main源(3469B,SHA 4515b8259811)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-EDITOR-DIAGNOSTICS-2.md](../../tasks/QUALITY-EDITOR-DIAGNOSTICS-2.md)、[window-review.md](window-review.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3469B / SHA-256 4515b8259811c8709f368bb1ff0b1dafaa889eabf4fc9a0a29cd53ddb4178dc4；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C02 宿主与删除生命周期证据
+
 任务见[QUALITY-EDITOR-DIAGNOSTICS-2](../../tasks/QUALITY-EDITOR-DIAGNOSTICS-2.md)。
 当前build；G04原始执行与JSON保存在baseline.raw.gz、baseline-tests.json.gz，元数据baseline.json。
 后续逐文件结论、消融、oracle与统一门在本目录更新；不提前声明accept或关闭文件。
@@ -35,3 +69,5 @@ G04原十例完整保留：baseline404、仅宿主340、宿主+驱动234、再�
 全仓仍2049/2076/2081条未包act、577/584/584环境、各2导航，严格零诊断门未通过，未合main。
 源码五项冻结，所有raw.gz字节与SHA核实；正式baseline736/19861且所有覆盖计数与其它包记录完全不变。
 三文件仍review，0关闭，3284/229closed/51review/3004pending。完整实际原件见window-proof.json与scope-proof.json。
+```
+<!-- incremental-original-source:end -->

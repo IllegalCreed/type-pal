@@ -1,5 +1,39 @@
 # Editor 三文件首片：完整窗口回执
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「Editor 三文件首片：完整窗口回执」的治理候选页;证据原件即下方逐字节保全的固定main源(6144B,SHA cff5c29e6727)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原1个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6144B / SHA-256 cff5c29e67270a6ec1c010881225e40c4547118678166af0cdb65337700362ef；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# Editor 三文件首片：完整窗口回执
+
 稳定源码候选 `c8ad9416fc46b7aef3e89b4a106673fbcb9d34b3`；主线保护基点
 `f98d0ddd89ebdee7b04502ee35de26ee82c6d246`。单一Coding Owner=Codex，作者自验，未冒称独立accept。
 本片只修改三个测试文件及必要的精确退役数据/固定计数oracle，不改产品、资产、schema、公共运行时接口或规则。
@@ -70,3 +104,5 @@ check:docs通过：48工具测试、570严格content-review、184阶段文档均
 最终lint4142files、0errors/0warnings/0infos；ledger3284/229closed/48review/3007pending通过。
 postflight.json保留完整命令/exit、原始gzip/SHA/字节数，JSON再经Biome检查。
 这些静态通过不消除上表执行诊断，当前仍不合main。
+```
+<!-- incremental-original-source:end -->
