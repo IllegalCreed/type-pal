@@ -1,12 +1,12 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
-Status: review
-Execution: review（当前2435候选已接受，文档迁移/严格门已归零；等待安全整合main，不恢复原R波信用）
+Status: build
+Execution: build（S76隔离整合main及新增候选分类；源S75已验收成果保留，组合硬门未验）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S74中央接入与唯一路由控制增量非作者accept）；Codex（S75受控接入与最终硬门Owner）
-Branch: codex/docs-s75-final-gates
+Branch: codex/docs-s76-main-integration
 Last reviewed: 2026-10-30
 Template: task-card-v1 / 1.0.0
 
@@ -2833,3 +2833,13 @@ GLM对5cea276459404bf1dec59641901b8617d29dd5f1的中央23授信/唯一routing解
 首轮335工具333绿2红：current-native-control-publication.test.mjs把22项都固定为S71同一报告，真实routing已经S74换版，旧夹具失效。用户2026-10-30逐处授权该唯一文件的固定来源适配：仅routing行从5cea真Git取源并锁3dd1报告，其余21仍固定c4a/94db，按条目组成隔离夹具，不冒充整份历史快照；原22项正例与篡改/伪造/重复/作者越权反例保留。补丁临时应用结果与实际文件字节相等，2/2定向恢复；5d774a893仅此补丁。原333/2回执不改写，随后该固定候选完整335/335、0fail/0skip；check:docs真实exit0，model2435/0、Testing0、phase/lore184、strict0/0/0；lint4664文件0E/W/I。require-complete已实际exit0：1835+3/1838、600增量、2435当前候选0待办、17/17模板、0integrity。
 
 当前任务转review并同步看板/任务索引，只写真实结果与行政after，不改已接受具体解释或给旧R波恢复信用。文档治理静态硬门在本隔离树已通过，未合main/推送/done；另一个代码治理工作树仍有未提交改动，main与本文档线已分叉，整合须按真实差异和保护清单另核，不能借本次通过覆盖它们。本轮不再拆新的GLM正文/设计包，最后1项已经按其真实非作者接受直接发布。
+
+## S76 main安全整合、34冲突与新增1916候选准入（2026-10-30）
+
+用户明确继续授权：先处理34处冲突与1916候选内容分类，复用已接受成果；公共合同/工具准备好后再一次整包交GLM，不逐批确认，硬门未过不合main、不done。Codex为唯一整合Owner，build allowed在codex/docs-s76-main-integration隔离树；源S75为bd77f62da023f5e500d8b4db01863784fcc83e3d，main固定72db417255d8ca4227522420e9185ef468462aa7，共同源28fd9013e09e8792decbff2fa117aae14c36b196。不得修改源S75、primary main的14未跟踪资产或代码治理树379未提交改动。
+
+范围：三向核34冲突（32文档、文档工具check.mjs、Reforge构建配置），保留主线真实新增与S75来源/保全/接受分域；1916候选为456MD+1460JSON，无新HTML，逐文件读字节并按真实结构、内容与consumer分类，机械分类不授语义/迁移信用。旧3份已批准空账本退役映射仍有效，不复活它们；原1838分母不改。以实际合并后的不同字节和事实变化定位受影响claim，不重新治理未变的2435篇。
+
+可修改：冲突文件、必要索引/引用/现行规范、治理工具/合同及单一现有账本的增量结构；Vite配置只合并已批准模块切分与主线单worker验证安排，静态目录/原另存保存恢复行为不变，按实际版本类型/构建/必要烟测验。产品逻辑、旧测试、coverage不得顺手改；旧测试仍逐处另授，若发现新产品/schema/save取舍停止该项并给证据。公共增量合同与pilot由Owner完成并冻结，不发只读/设计半成品包给GLM；GLM最终白名单不得包含共享中央或产品源码。
+
+本轮隔离树允许出现显式未接入/draft状态，旧main机械SHA或历史独立字段不能覆盖S75当前信用；真正变化的正文须记录新差异，不只刷hash。合并到本候选不等于合main，原源/after/历史/机器字段及当前消费者分别核验。最终组合后的check:docs、lint、diff与完成性必须真实零诊断，未过保持build/rework，不声明全量通过。
