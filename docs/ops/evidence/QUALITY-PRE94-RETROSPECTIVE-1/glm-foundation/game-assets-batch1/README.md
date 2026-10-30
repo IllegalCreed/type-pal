@@ -1,5 +1,39 @@
 # game assets 三文件复审（glm-foundation 模块 4 批 1）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「game assets 三文件复审（glm-foundation 模块 4 批 1）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+
+## 范围与证据
+
+原报告含章节[game assets 三文件复审（glm-foundation 模块 4 批 1）、短回执、八维结论、登记（不动）、复验入口（只读）、Codex 剩余29文件返工（2026-10-20）]、2个链接;固定main源3811B(SHA 35317777abd3)。当前存活入口:[codex-final29.json](../codex-final29.json)、[codex-stage2-rework.json](../codex-stage2-rework.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3811B / SHA-256 35317777abd36d10512fff4a320084f8aac03c78d4e95e3ebb068eccf26c2bc9；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# game assets 三文件复审（glm-foundation 模块 4 批 1）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 Status: review（候选待 Codex 据证验收）
@@ -44,3 +78,5 @@ node "$WT/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/prove-b
 原生 directed.json 实为38passed+6pending；此前0failed不等于零skip。新增文案只描述loadAll当前warn+skip，不再称既定可玩策略。缺blob输入的6项不取得对拍信用。
 
 逐文件八维、原件与限制见[本轮回执](../codex-final29.json)。本节不接收原文整包/模块收口宣称。
+````
+<!-- incremental-original-source:end -->

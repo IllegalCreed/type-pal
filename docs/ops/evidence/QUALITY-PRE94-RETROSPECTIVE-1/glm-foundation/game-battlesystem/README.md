@@ -1,5 +1,39 @@
 # game core battle-system.ts 大文件轮终章（glm-foundation 模块 5 批 8）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「game core battle-system.ts 大文件轮终章（glm-foundation 模块 5 批 8）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+
+## 范围与证据
+
+原报告含章节[game core battle-system.ts 大文件轮终章（glm-foundation 模块 5 批 8）、短回执、八维结论（B–G 补维重点）、复验入口（只读）、Codex 剩余29文件返工（2026-10-20）]、2个链接;固定main源3964B(SHA f98d91f75db7)。当前存活入口:[codex-final29.json](../codex-final29.json)、[codex-stage2-rework.json](../codex-stage2-rework.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3964B / SHA-256 f98d91f75db72a1e94969f837e5287cfc1d03eee003fc7ba6d456c3c63bdd3be；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# game core battle-system.ts 大文件轮终章（glm-foundation 模块 5 批 8）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 Status: review（候选待 Codex 据证验收）
@@ -39,3 +73,5 @@ grep -n 'scriptOnReady 在 performAction 期' "$WT/packages/game/src/core/battle
 本目录可核附件只有39passed/3files，不能支撑正文68例；多出的29例没有对应原件，撤回该数字的本片信用，保留原README与原件。此前3s与后续复活各有独立有限证据，不合计冒称新跑全包。
 
 逐文件八维、原件与限制见[本轮回执](../codex-final29.json)。本节不接收原文整包/模块收口宣称。
+````
+<!-- incremental-original-source:end -->

@@ -1,5 +1,39 @@
 # extract parsers 小件四文件复审（glm-foundation 模块 3 批 4）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「extract parsers 小件四文件复审（glm-foundation 模块 3 批 4）」的主题按原文时点保留(摘录:> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json))。
+
+## 范围与证据
+
+原报告含章节[extract parsers 小件四文件复审（glm-foundation 模块 3 批 4）、短回执、八维结论、复验入口（只读）、真盘用例需 data/raw/{DATA,RGM,BALL,FIRE,RNG}.MKF 软链、勘误（2026-10-18 晚补）]、2个链接;固定main源4627B(SHA 326b77499d1d)。当前存活入口:[codex-final29.json](../codex-final29.json)、[codex-stage2-rework.json](../codex-stage2-rework.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4627B / SHA-256 326b77499d1d3f40cdd5d81ab12357d9bad47f6a3f9c892d7004611fa5f9457a；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# extract parsers 小件四文件复审（glm-foundation 模块 3 批 4）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 Status: review（候选待 Codex 据证验收）
@@ -52,3 +86,5 @@ cd "$WT/packages/pal-extract" && ../../node_modules/.bin/vitest run src/resource
 本片34例原件并未运行rix/sounds直接测试，不能给两文件直接测试信用；Codex现补两文件4+1=5例，0stderr。旧tables加载失败保持，不改写历史。
 
 逐文件八维、原件与限制见[本轮回执](../codex-final29.json)。本节不接收原文整包/模块收口宣称。
+````
+<!-- incremental-original-source:end -->
