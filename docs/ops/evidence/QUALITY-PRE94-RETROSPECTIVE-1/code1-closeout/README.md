@@ -1,5 +1,39 @@
 # CODE1 工程／Q1b质量收口与格式边界补证
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE1 工程／Q1b质量收口与格式边界补证」的治理候选页;证据原件即下方逐字节保全的固定main源(7017B,SHA 26fcd38d886f)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原10个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)、[fixture-inputs.json](fixture-inputs.json)、[README.md](pal-source-fix/README.md)、[prove-rle-comments.cjs](prove-rle-comments.cjs)、[prove-split.cjs](prove-split.cjs)、[receipts.json.gz](receipts.json.gz)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7017B / SHA-256 26fcd38d886f09cbe0e80eab815e7c38835a8b8a6b0ca0b86d9feb08b5c73212；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE1 工程／Q1b质量收口与格式边界补证
+
 > 当前代码结论与来源修复见[PAL来源修复](pal-source-fix/README.md)。下方Q1b/格式停线记录保留原时点；原生与工程证据按新版本桥复用，统一门尚未完成。
 
 Status: current scoped receipt
@@ -59,3 +93,5 @@ node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/verify.mjs
 默认快检只对这两份已证明的注释delta采用新SHA，且必须先匹配原验收SHA并执行完整AST等价证明；其它旧context继续逐字节校验。原raw不改、不盲刷旧source hash，不继承格式正确或整文件新接受信用。rle.ts仍review，encoder历史代码接受只刷新本注释增量，0新关闭。
 
 2026-10-25当前：用户原盘读取裁决已收到，[PAL来源修复与CODE1代码收口](pal-source-fix/README.md)取代本页旧format停止线；原工程／Q1b及539fixture证据有效复用，旧原件不重写。整批统一门另记。
+````
+<!-- incremental-original-source:end -->

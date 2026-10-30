@@ -1,6 +1,40 @@
 # pre94 CLI编排与事件测试窗口
 
 Status: recorded
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「pre94 CLI编排与事件测试窗口」的治理候选页;证据原件即下方逐字节保全的固定main源(3813B,SHA ef5537f89535)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../ci-progress-20261022/README.md)、[native.json.gz](native.json.gz)、[review.json](review.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3813B / SHA-256 ef5537f895352972d1d4fc7a05c878daf5ae4d3700d8b08f08cf8d730c2df307；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 CLI编排与事件测试窗口
+
+Status: recorded
 Owner: Codex
 
 ## 证据身份
@@ -32,3 +66,5 @@ CLI大IO/降级、模块头旧all.json措辞、slice两语义、主测/Kimi剩�
 运行`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/verify.mjs`，默认只读、无网络/测试/coverage/写回。核当前源和上下文、完整原件、旧身份、指定单红/恢复、三项零诊断门与live账本；MATCH不代替语义审查，STALE退出2要求定向重核，FAIL退出1禁止沿用。
 
 下一窗口先同分支fetch核main/Owner，再落实已批准slice两缺陷及其有效测试；CLI IO余项仍partial，94–102不扩展。最终推送/远端CI/主线同步事实以Git与本窗最后交接记录为准，不预写成功。
+```
+<!-- incremental-original-source:end -->

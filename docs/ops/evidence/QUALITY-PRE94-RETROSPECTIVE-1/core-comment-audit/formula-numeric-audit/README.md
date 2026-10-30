@@ -1,6 +1,40 @@
 # pre94 公式数值、事实注释与既有测试判别力返工
 
 Status: recorded
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「pre94 公式数值、事实注释与既有测试判别力返工」的治理候选页;证据原件即下方逐字节保全的固定main源(4776B,SHA 17939d86e604)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原10个链接处置见作者review的linkDisposition。当前存活入口:[GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md](../../../../tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[controls.json](controls.json)、[emit-identity.json](emit-identity.json)、[gates.json](gates.json)、[mapping-oracle.json](mapping-oracle.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4776B / SHA-256 17939d86e604087ae18f2ff2341562e5b4cc201d387fb894648e56f90bc08906；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 公式数值、事实注释与既有测试判别力返工
+
+Status: recorded
 Owner: Codex（单Agent，自身源码核证，不冒充第三方）
 Date: 2026-10-18
 Base: `8dabfd49976f818364d451635f155af08a41b9a9`
@@ -33,3 +67,5 @@ id: QUALITY-PRE94-RETROSPECTIVE-1 / formula-numeric-audit；schemaVersion:1；st
 ## 交接与下一步
 
 同一3y分支有限提交推送，fetch确认0behind后保留待审；未合main。数值裁决未到时继续尺寸/快捷键/ColorFade的独立核验；获准后另卡先红后修、行为另提交。初次本地编辑脚本因零抗性注释命中两处而中止，测试文件尚未写入；随后仅执行测试段并完成本回执验证，不当作产品失败或反控证据。
+```
+<!-- incremental-original-source:end -->

@@ -1,5 +1,39 @@
 # CODE3g CLI 总装质量收口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3g CLI 总装质量收口」的治理候选页;证据原件即下方逐字节保全的固定main源(3052B,SHA 7f78e758a5fc)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[receipts.json.gz](receipts.json.gz)、[review.json](review.json)、[static.json](static.json)、[verify.mjs](verify.mjs)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3052B / SHA-256 7f78e758a5fc1cb0d48832bc45357f84f5f473f56e90c8c3c77e97e463806da4；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3g CLI 总装质量收口
+
 Status: code accepted; final unified pre94 gates deferred
 Owner: Codex（单Agent，自审身份明确）
 
@@ -16,3 +50,5 @@ Owner: Codex（单Agent，自审身份明确）
 当前只读快检也核活动83卡派生汇总一致；实现／caller／依赖／测试／合同变化会使相应pin过期，需要定向复核。全仓check、official coverage／protected和单PR仍等全部pre94代码与证据冻结，不宣称本批已通过这些门。
 
 [静态门完整双流与CI/清理原件](static.json)：六文档consumer、ledger/diff和lint-zero通过，lint6026文件0error／0warning／0info；progress为0完整性问题，不代表文档全量接受。最新main b3d的Documentation与Coverage服务端均success，该绿不授当前治理候选。两个自有精灵输出树与33cliHost child临时树均已清理。
+```
+<!-- incremental-original-source:end -->

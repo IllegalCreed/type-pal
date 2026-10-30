@@ -1,5 +1,39 @@
 # CODE1：PAL来源读取修复与代码范围收口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE1：PAL来源读取修复与代码范围收口」的治理候选页;证据原件即下方逐字节保全的固定main源(4026B,SHA 2a6859142740)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[ending-fixed.png](ending-fixed.png)、[receipts.json.gz](receipts.json.gz)、[review.json](review.json)、[verify.mjs](verify.mjs)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4026B / SHA-256 2a685914274087e9c3bc4436aa7c39efd2b4956a3e7a814b69ca58add3d2f261；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE1：PAL来源读取修复与代码范围收口
+
 Status: finite CODE1 code scope accepted; unified pre94 gates deferred
 Owner: Codex（单Agent，自审身份明确）
 
@@ -22,3 +56,5 @@ CODE1原卡有限范围代码接受，pre94固定83卡原范围83代码accept；
 量化初筛用已安装TypeScript AST自有分支估计（非标准测评门）：decodeRleFrame17、strict-frame15、strict-container12、indexed26，均标记>10；对应实际流推进、有限边界/失败与历史坏尾验证。此轮只抽取确有两个消费者的来源判定，不为降数字合并不同失败合同或新增碎片策略；完整口径和结果在原件complexity.json。
 
 复验器另行核过：只读Git/文件/原件，版本不符STALE、输入缺失UNAVAILABLE(3)、断言失败非0；不修改候选/联网/重跑测试。核原件字段与精确失败身份，不信作者passed字段；539输入和实际caller一起绑定，无自嵌JSON哈希/忽略。MATCH只支持所列可执行证据，八维语义仍依已记录人工审查，统一门不由本脚本认证。
+```
+<!-- incremental-original-source:end -->

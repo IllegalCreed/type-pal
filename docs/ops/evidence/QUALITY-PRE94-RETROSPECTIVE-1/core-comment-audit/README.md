@@ -1,5 +1,39 @@
 # 搜索注释与测试边界；队列/毒列表原C反证
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「搜索注释与测试边界；队列/毒列表原C反证」的治理候选页;证据原件即下方逐字节保全的固定main源(6892B,SHA a880ca0ec432)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原14个链接处置见作者review的linkDisposition。当前存活入口:[GAME-ACTION-QUEUE-TIE-ORDER-1.md](../../../tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md)、[GAME-PLAYER-POISON-SLOT-COMPACTION-1.md](../../../tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md)、[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[README.md](formula-numeric-audit/README.md)、[README.md](initial-compile/README.md)、[README.md](minimap-classification-view/README.md)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6892B / SHA-256 a880ca0ec432fd7a2193450c54a560c092341370c947af689270802a4ed37b59；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 搜索注释与测试边界；队列/毒列表原C反证
+
 Status: review
 Owner: Codex（单Agent；自身核证/修复，不冒充第三方）
 Date: 2026-10-18
@@ -54,3 +88,5 @@ Search的primary是play.c PAL_GetSearchTriggerRange/PAL_Search，真实caller为
 本片收尾发现L18的具体X320/原点精度谓词不能仅按主题判重复；已在同模块主测精确迁移，并一并修主测核心夹具，14例保持、第四枚旧14绿新13绿1指定红。最终20直接/36相邻与typecheck零诊断，早期只读待修声明为中间时点；当前两个minimap测仍review，分类/全域继续。
 
 2026-10-18：[minimap分类/缩放续核](minimap-classification-view/README.md)只修两注释、补独立视野/优先级与两真实widget键盘合同；22直接/36相邻、五旧绿新单红，三文件仍review。真实SSS425/401统计不外推地图宝箱；未知输入/生命周期与CODE57保持，0新增closed，83卡51/32/0accept。
+```
+<!-- incremental-original-source:end -->
