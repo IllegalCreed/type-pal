@@ -1,5 +1,39 @@
 # pre-94 战斗三机制 counter 返工
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「pre-94 战斗三机制 counter 返工」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c` Branch: `codex/code-quality-3y`)。
+
+## 范围与证据
+
+原报告含章节[pre-94 战斗三机制 counter 返工、实际读取与边界、一手真值、caller、oracle、先红后绿与精确反控、逐文件结果与未修项、下一批]、7个链接;固定main源6506B(SHA f556dbcd9724)。当前存活入口:[QUALITY-BATTLE-MAGIC-PARITY-1.md](../../tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md)、[adjacent-legal.json](adjacent-legal.json)、[controls.json](controls.json)、[gates.json](gates.json)、[h01-control.json](h01-control.json)、[read-boundaries.json](read-boundaries.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6506B / SHA-256 f556dbcd97245815a77f47dde6419e9b412854d9634c87aadfaaef8767d11ee7；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre-94 战斗三机制 counter 返工
+
 Status: review
 Owner: Codex（单 Agent；作者自测与源码复核，不冒充第三方独立签收）
 Date: 2026-10-18
@@ -47,3 +81,5 @@ Branch: `codex/code-quality-3y`
 同一H01的终态反控原先把敌B入口指向ip2=end，漏break仍能绿；改指ip3=对话，不增用例。[h01-control.json](h01-control.json)保留同一漏break变异下旧绿1/new红1、零runtime error及生产恢复SHA；当前3例恢复绿、无stderr见`h01-final.json`。前述37/935零诊断回执对应修终止符候选，新增这条oracle后只重跑受影响3例，未重复其它932例。
 
 最终静态回执：[gates.json](gates.json)。首条完整check:docs的125工具测试通过，随后机制catalog SHA失败；补行级catalog与分片manifest绑定后五个实际consumer均0 issue。初次失败与修后原件都保留，未重复125工具测试。lint实跑5086文件、error/warning/info全0；ledger/diff通过，五旧closed转review，未新增关闭文件。新回执JSON写入后的格式另作定向检查。
+```
+<!-- incremental-original-source:end -->
