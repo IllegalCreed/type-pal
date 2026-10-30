@@ -1,5 +1,39 @@
 # game-dev(state-dump + dev-panel)八维复审批 —— game 包收口批
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「game-dev(state-dump + dev-panel)八维复审批 —— game 包收口批」的治理候选页;证据原件即下方逐字节保全的固定main源(3088B,SHA 9b480a8a9c0d)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[codex-final29.json](../codex-final29.json)、[codex-stage2-rework.json](../codex-stage2-rework.json)、[body-invariance.json](body-invariance.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3088B / SHA-256 9b480a8a9c0d0278b931ec837c797a43d2d2c3660115bb3bdb0c5494580e7790；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# game-dev(state-dump + dev-panel)八维复审批 —— game 包收口批
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 - 批次:pre-94 foundation 模块 11 批 29(game 包终批)
@@ -35,3 +69,5 @@
 逐文件八维、原件与限制见[本轮回执](../codex-final29.json)。本节不接收原文整包/模块收口宣称。
 
 补核pure.test旧574行后发现大量any/双强转夹具与私有stash访问，现以现成typed Enemy/Role工厂、完整Magic/Item、真cache及公开getBattleResources替换；物品样本改用合法61/62并同步等价库存oracle。29身份/断言合同保留，4UI+29pure重跑0stderr、三包typecheck0。1配置自检只给fixture输入信用，不单独计玩法验收。此前两次全仓覆盖率门均在这份夹具修复前执行且失败；未拿旧19,979绿数认证新夹具，未再跑昂贵门。
+```
+<!-- incremental-original-source:end -->

@@ -1,5 +1,39 @@
 # game-present-core(present.ts + present-battle.ts)八维复审批
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「game-present-core(present.ts + present-battle.ts)八维复审批」的治理候选页;证据原件即下方逐字节保全的固定main源(4897B,SHA bc00240271bb)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[codex-final29.json](../codex-final29.json)、[codex-stage2-rework.json](../codex-stage2-rework.json)、[body-invariance.json](body-invariance.json)、[directed.json](directed.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4897B / SHA-256 bc00240271bb3a8c8a4f435bbe55b38f9e2af0e957165dec98e8908a5dd4c1ac；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# game-present-core(present.ts + present-battle.ts)八维复审批
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 - 批次:pre-94 foundation 模块 8 批 15(present 模块批 1)
@@ -50,3 +84,5 @@ A:presentFrame 七短路序(suspendRaf→paletteFade→deathHold→gameOver→bl
 presentFrame会推进palette/wave等渲染态，不能沿用“只读gs，只有一处例外”的无界表述；BattlePresent.clearFloatingNums只清弹幕/消息条。逐文件C/H与时钟候选已登记。
 
 逐文件八维、原件与限制见[本轮回执](../codex-final29.json)。本节不接收原文整包/模块收口宣称。
+```
+<!-- incremental-original-source:end -->
