@@ -1,5 +1,39 @@
 # CODE-QUALITY-101 — Codex 当前逐文件复核（2026-10-17）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE-QUALITY-101 — Codex 当前逐文件复核（2026-10-17）」的主题按原文时点保留(摘录:2026-10-18 当前勘误：2daed1bb7的“完全重复/等价迁移”判断不成立；Save域旧roundtrip缺五类字段，读侧克隆也不能由存侧替代。现已在api.test补回六字段及独立读侧克隆)。
+
+## 范围与证据
+
+原报告含章节[CODE-QUALITY-101 — Codex 当前逐文件复核（2026-10-17）、逐文件结论、`api.ts` — review，公共输入域未裁决、`indexed-db.ts` — review，事务风险分离，连接生命周期仍未知、`api.test.ts` — review，内存 oracle 有效但缺双路径输入合同、验证与门状态]、3个链接;固定main源4824B(SHA 5a4ef56618e2)。当前存活入口:[GAME-SAVE-IDB-COMMIT-1.md](../../tasks/GAME-SAVE-IDB-COMMIT-1.md)、[GAME-SAVE-INPUT-DOMAIN-1.md](../../tasks/GAME-SAVE-INPUT-DOMAIN-1.md)、[README.md](../QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4824B / SHA-256 5a4ef56618e2c1c7f0d79bd985ff19644c32995e6199486f59007ab5cec80a64；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-101 — Codex 当前逐文件复核（2026-10-17）
+
 2026-10-18 当前勘误：2daed1bb7的“完全重复/等价迁移”判断不成立；Save域旧roundtrip缺五类字段，读侧克隆也不能由存侧替代。现已在api.test补回六字段及独立读侧克隆，明确内存环境/清理；生产实现未变，文件保持review。原候选结果按历史保留；[当前补审原件与反控](../QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)才是本次范围，不以旧PASS描述声称当前全仓零诊断。
 
 本批是 review-only 的 Save 域复核，不修改生产代码、存档格式、DB_VERSION、迁移或公共接口。完整读取了以下实现与测试，并读取真实 caller、公共出口、相邻类型和生命周期：
@@ -48,3 +82,5 @@ API 在浏览器中委派 `IndexedDbSave`，无 IndexedDB 时使用内存 Map；
 1. 等待用户裁决公开 Save 槽位是否统一要求有限整数 1..5；建议拒绝 `NaN`、无穷和小数。
 2. 裁决后先写失败反例，再在两条真实路径实施最窄输入守卫和相邻回归；不得改存档格式或事务策略。
 3. 在此之前继续不重叠的逐文件治理；CODE-QUALITY-101、GAME-SAVE-IDB-COMMIT-1 和本卡均保持 review/draft，不合并为 done。
+```
+<!-- incremental-original-source:end -->

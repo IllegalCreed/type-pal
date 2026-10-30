@@ -1,6 +1,60 @@
 # CODE-QUALITY-92 — protected fast 命令误标纠正
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-92 — protected fast 命令误标纠正」的任务归属与历史边界。原目标见原文(摘录:纠正 CODE83–89、CODE91 将 `pnpm check:fast` 误标 protected fast 的门禁结论。范围限本卡、账本、导航、审查增量及 evidence/CODE-QUALITY-92；不改30条关联文件、测试断);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-92 — protected fast 命令误标纠正、目标与范围、前提与上下文锚点、准入与验收、交接日志、下一位 Agent 提示词],共1个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源6953B(SHA 4896334335a6);原卡前提按原时点保留。当前存活入口:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-92 — protected fast 命令误标纠正的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文1个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6953B / SHA-256 4896334335a6187df758fd55456e959e4775ac30d6848fa43dd4e0e73cf54f1d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-92 — protected fast 命令误标纠正
+
+Status: done
 Phase: engineering
 Capability: 全仓代码治理质量门
 Coding Owner: Codex
@@ -69,3 +123,5 @@ Branch: codex/code-quality-3y
 ## 2026-10-16 当前候选复审（历史done保留）
 
 本轮完整读取工程门与原件，核两份rawCombinedOutput SHA/exit以及同一收口commit中的full check真实原件；历史执行有直接支持，不能因“待补写”文案认定未跑。30源码当前20字节相同/10变化，旧30/30不能沿用；全部仍review，本轮不恢复关闭。成功输出未记录结构化环境，后续真实门须保存环境/refs/SHA，不能追补伪造旧捕获。详见[当前92复审](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md)。本轮partial，非当前统一门或整卡accept。
+```
+<!-- incremental-original-source:end -->

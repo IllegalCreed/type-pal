@@ -1,6 +1,60 @@
 # CODE-QUALITY-86 — game equip menu state / role swap contract
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-86 — game equip menu state / role swap contract」的任务归属与历史边界。原目标见原文(摘录:Capability: equipment menu item selection, role selection and swap lifecycle Visual Verification Tim);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-86 — game equip menu state / role swap contract、范围与前提、逐文件核验记录、`equip-menu.ts`、三份测试、生产 caller / primary source 核验],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源6883B(SHA 3c5caf1b71af);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-86 — game equip menu state / role swap contract的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文0个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6883B / SHA-256 3c5caf1b71af29e279a162eabbbad770e9d7c41921dbed6aa057a3313c87d162；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-86 — game equip menu state / role swap contract
+
+Status: done
 Owner: Codex
 Phase: phase1 game core/menu
 Capability: equipment menu item selection, role selection and swap lifecycle
@@ -82,3 +136,5 @@ Codex：premise verified / build allowed。当前只清理测试输入质量，�
 
 - CODE-QUALITY-53/57/79/80/81 与其余 Q3 core/present/shell/analytics/tools 文件保持原状态；当前账本应为 3270 files：closed 356、review 9、pending 2905。
 - 无下一位 Agent 提示词；从最新 ledger 选择下一组不重叠的 2–4 个 pending 文件继续。
+```
+<!-- incremental-original-source:end -->

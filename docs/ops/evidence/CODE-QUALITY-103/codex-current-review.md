@@ -1,5 +1,39 @@
 # CODE-QUALITY-103 — Codex 当前逐文件复核（2026-10-17）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE-QUALITY-103 — Codex 当前逐文件复核（2026-10-17）」的主题按原文时点保留(摘录:- `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` - `packages/editor/src/ui/Item)。
+
+## 范围与证据
+
+原报告含章节[CODE-QUALITY-103 — Codex 当前逐文件复核（2026-10-17）、实际读取清单、逐文件结论、`command-form-control.residual.glm.test.tsx` — review、`ItemUseEffectEditor.residual.glm.test.tsx` — review、质量结果]、0个链接;固定main源4058B(SHA 98dedc0406cd)。当前存活入口:无当前仓库内存活链接。
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4058B / SHA-256 98dedc0406cd51a9dc94874d589402a7fed00db51072f012f35d17efc5b3be89；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-103 — Codex 当前逐文件复核（2026-10-17）
+
 ## 实际读取清单
 
 - `packages/editor/src/ui/command-form-control.residual.glm.test.tsx`
@@ -62,3 +96,5 @@ R1 断言无效实体保留与 sceneIndex 名称、保存门失败，改选 `e2`
 两个文件已完整读取并有直接 caller/oracle 证据，状态从 `待核` 提升到 `review`；
 不关闭文件，不声称全门通过。下一批应处理相邻 act 生命周期诊断，并在清零后
 重新验收本批。
+```
+<!-- incremental-original-source:end -->

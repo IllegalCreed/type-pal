@@ -1,5 +1,39 @@
 # 3y统一治理线与复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「3y统一治理线与复审」的治理候选页;证据原件即下方逐字节保全的固定main源(2688B,SHA 6c0dd199b54f)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[CODE-QUALITY-3Y-CLOSEOUT-1.md](../../tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md)、[README.md](midi-review/README.md)、[rereview-progress.json](rereview-progress.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2688B / SHA-256 6c0dd199b54fb002ca9b1b5498e734453a9575ba12e923a87f3947d1bb43c25f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 3y统一治理线与复审
+
 任务：[CODE-QUALITY-3Y-CLOSEOUT-1](../../tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md)。用户要求优先收尾3y并消除治理分支分叉；当前只做隔离同步/保全，尚未合main。65差异文件、58卡复审矩阵待补。
 
 五个冲突原件与两父SHA见merge-resolution.json：MIDI保留当前main完整实现，不把旧generation实现覆盖回去；baseline精确取main原件为比较输入，同时保存3y历史基线，最终只由官方ratchet生成。两个父分支的证据/发布入口/任务导航均保留。新增历史关闭声称转review，主线旧closed不因导入自动提高。所有质量门尚未运行于本新候选，禁止宣称通过或合main。
@@ -13,3 +47,5 @@
 首个复审观察：CODE75旧两例实际重跑1通过/1失败（0skip），当前main版MIDI入口已有parser事件/生命周期协议，旧FakeSequencer不提供eventHandler，不能据此回退main产品。已全文读当前MIDI实现、旧测试、main新12例与CODE75卡，现main的新“stop后响应”和“新曲优先”两例更强，排重/合法IO/隔离与精确退役下一片继续核；当前未删除、未改源码。baseline原件/JSON/SHA保留，不能因单branch已统一宣称复审通过。
 
 2026-10-16后续[Y01复审](midi-review/README.md)：旧两例已证合同重复且库协议过期，删除该测试文件，main产品/12例原字节均保留。定向12、相邻44、game typecheck及隔离stop反控12绿→11绿1指定业务红→恢复12绿均通过；0新增关闭。机器3287/223closed/198review/2866pending。58卡当前逐项进度独立写入[rereview-progress.json](rereview-progress.json)，不改合并时历史矩阵；完整门尚未运行本片，未合main。
+```
+<!-- incremental-original-source:end -->

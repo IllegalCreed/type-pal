@@ -1,5 +1,39 @@
 # CODE-QUALITY-104 — Codex 当前验收（2026-10-17）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE-QUALITY-104 — Codex 当前验收（2026-10-17）」的主题按原文时点保留(摘录:范围仅为两个测试文件： - `packages/editor/src/ui/ItemTab.glm-m.test.tsx` - `packages/editor/src/ui/ItemUseEffec)。
+
+## 范围与证据
+
+原报告含章节[CODE-QUALITY-104 — Codex 当前验收（2026-10-17）、修改与原因、验证结果、结论]、0个链接;固定main源2051B(SHA c74c686857b1)。当前存活入口:无当前仓库内存活链接。
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2051B / SHA-256 c74c686857b1ab691a6c29fb66df1c99b69ad6ea6473e00214a476aa318977b9；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-104 — Codex 当前验收（2026-10-17）
+
 范围仅为两个测试文件：
 
 - `packages/editor/src/ui/ItemTab.glm-m.test.tsx`
@@ -37,3 +71,5 @@ fixture、输入、业务断言、undo/redo 顺序或生产组件。
 两个测试文件的 act 诊断根因已修复并完成相邻/全仓静态门；由于统一 coverage
 门仍受既有 baseline 回退阻塞，本批登记为 `review`，不写成 `已验证` 或 `done`。
 后续应先处理 shared/pal-extract baseline 证据与剩余全仓诊断，再复验本批。
+```
+<!-- incremental-original-source:end -->

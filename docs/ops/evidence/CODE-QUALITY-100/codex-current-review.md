@@ -1,5 +1,39 @@
 # CODE-QUALITY-100 Codex 当前独立复核（2026-10-17）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE-QUALITY-100 Codex 当前独立复核（2026-10-17）」的主题按原文时点保留(摘录:2026-10-18 当前勘误：2daed1bb7的“完全重复/等价迁移”判断不成立；Save域旧roundtrip缺五类字段，读侧克隆也不能由存侧替代。现已在api.test补回六字段及独立读侧克隆)。
+
+## 范围与证据
+
+原报告含章节[CODE-QUALITY-100 Codex 当前独立复核（2026-10-17）、范围与实际读取、结论、验证]、1个链接;固定main源4889B(SHA f08b186e0d6f)。当前存活入口:[README.md](../QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4889B / SHA-256 f08b186e0d6f51da29160acea0929ada6dab6d1aa82257ad65ff24f8ab2f24dd；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-100 Codex 当前独立复核（2026-10-17）
+
 2026-10-18 当前勘误：2daed1bb7的“完全重复/等价迁移”判断不成立；Save域旧roundtrip缺五类字段，读侧克隆也不能由存侧替代。现已在api.test补回六字段及独立读侧克隆，明确内存环境/清理；生产实现未变，文件保持review。原候选结果按历史保留；[当前补审原件与反控](../QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)才是本次范围，不以旧PASS描述声称当前全仓零诊断。
 
 ## 范围与实际读取
@@ -67,3 +101,5 @@ save-slot Confirm/Cancel 分支；`draw-menu.ts` 每帧从同一 `slotMetas` Map
   全局治理卡中；因此任务卡保持 `review`，不把整卡标成 `done`。
 - 本批不触碰 schema/save 格式、公共接口、产品 UI 形态或生成物。
 
+```
+<!-- incremental-original-source:end -->

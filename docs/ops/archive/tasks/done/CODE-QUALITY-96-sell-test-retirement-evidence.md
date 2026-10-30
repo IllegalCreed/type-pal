@@ -1,6 +1,60 @@
 # CODE-QUALITY-96 — sell 测试精确退役保护账
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-96 — sell 测试精确退役保护账」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: coverage precise test retirement metadata Visual Verification Timi);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-96 — sell 测试精确退役保护账、目标与白名单、前提与直接证据、准入与边界、验证、当前检查点],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源7290B(SHA 932165ccc8e0);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-96 — sell 测试精确退役保护账的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文0个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7290B / SHA-256 932165ccc8e011dd5506de99204cd91896da947c8b0522ec2eff2fb2f19c418b；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-96 — sell 测试精确退役保护账
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: ops
@@ -69,3 +123,5 @@ Codex review accept：完整读取与直接caller/primary/oracle成立，定向�
 CODE93/96已经在源分支收口，按六文件白名单及相关卡/证据接收时须同时核精确退役metadata，不复制源分支整份coverage baseline，不整条合含CODE53/90的治理分支。再次核origin/main并同步至0behind，先commit/push候选，再进入阶段集成窗口；主工作树与活跃GLM/ED任务禁止覆盖。下一批仍按2–4文件或独立模块逐文件收证，未知review/pending不强关。保留原用户阶段裁决（见源CODE95提示词），输出全部真实门/账本/未修风险供独立验收。Codex当前工作到此停止，全仓goal未完成；后续heartbeat不能覆盖用户停止要求。
 
 最终收口静态回执：docs1280 Markdown/6792links/417tasks、content-review570、quality工具37/37、lint4056/0errors/0warnings/0infos、ledger3271/373/15/2883均exit0。CODEx仅本六文件accept，未合main，后续GLM按上述提示词接手。
+```
+<!-- incremental-original-source:end -->
