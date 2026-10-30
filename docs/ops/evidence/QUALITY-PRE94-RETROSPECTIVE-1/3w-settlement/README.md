@@ -1,5 +1,39 @@
 # CODE3w结算复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE3w结算复审」的主题按原文时点保留(摘录:Date: 2026-10-18 Base: `9bc478671044f2dff222581b6326884694e5b9e2` Branch: `codex/code-quality-3y`)。
+
+## 范围与证据
+
+原报告含章节[CODE3w结算复审、范围与实际证据、修改与测试质量、实测与反控、当前结论与继续范围]、9个链接;固定main源4126B(SHA a77273716dca)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[README.md](../3u-3w-finalization/README.md)、[assertion-transfers.json](assertion-transfers.json)、[before-sources.json](before-sources.json)、[control-sources.json](control-sources.json)、[controls.json](controls.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4126B / SHA-256 a77273716dca72aeeaa98cd3f1c6ca34cee075545c4a2adce163dfaeb4ffb724；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3w结算复审
+
 Status: recorded
 Owner: Codex（单Agent核读与执行，不冒充第三方）
 Date: 2026-10-18
@@ -29,3 +63,5 @@ Branch: `codex/code-quality-3y`
 两旧关闭撤回review，0新增closed；3317 tracked/251 closed/101 review/2965 pending。83卡仍55partial/28pending/0accept，仅3w证据指针变化。脚本副作用/异常、特殊脚本胜利的完整生产影响域、极端数值/资源容量和结算视觉未全验；非队员Extra归原draft，不拿手搭状态冒充剧情缺陷。
 
 完整check/official coverage/protected按用户要求留大任务收尾，本片不跑全game/原盘/E2E/浏览器，不合main。下一批可直接核3w战后脚本真实影响域或pre94 40/41；94–102/editor继续后置。无下一位Agent提示词，Codex单Agent继续。
+```
+<!-- incremental-original-source:end -->
