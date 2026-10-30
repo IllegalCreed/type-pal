@@ -105,7 +105,7 @@ export function nativeArtifactReviewIssues(row, binding, native) {
     issues.push('native artifact concrete content/read domain/history/oracle incomplete')
   const pin = {
     path: binding.path,
-    revision: nativeArtifactCarrierRevision,
+    revision: binding.carrierRevision ?? nativeArtifactCarrierRevision,
     gitObject: binding.carrierGitObject,
     sha256: binding.carrierSha256,
   }

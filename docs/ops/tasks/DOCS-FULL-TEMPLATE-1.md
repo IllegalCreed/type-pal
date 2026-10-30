@@ -2843,3 +2843,19 @@ GLM对5cea276459404bf1dec59641901b8617d29dd5f1的中央23授信/唯一routing解
 可修改：冲突文件、必要索引/引用/现行规范、治理工具/合同及单一现有账本的增量结构；Vite配置只合并已批准模块切分与主线单worker验证安排，静态目录/原另存保存恢复行为不变，按实际版本类型/构建/必要烟测验。产品逻辑、旧测试、coverage不得顺手改；旧测试仍逐处另授，若发现新产品/schema/save取舍停止该项并给证据。公共增量合同与pilot由Owner完成并冻结，不发只读/设计半成品包给GLM；GLM最终白名单不得包含共享中央或产品源码。
 
 本轮隔离树允许出现显式未接入/draft状态，旧main机械SHA或历史独立字段不能覆盖S75当前信用；真正变化的正文须记录新差异，不只刷hash。合并到本候选不等于合main，原源/after/历史/机器字段及当前消费者分别核验。最终组合后的check:docs、lint、diff与完成性必须真实零诊断，未过保持build/rework，不声明全量通过。
+
+### S76 冲突实况与整包执行合同（2026-10-30）
+
+隔离合并提交9780a02734b898f977cfadfee41476d7071a140d已解除34/34 Git冲突；不是合main。main源72db与S75源bd77均保持原分支与字节，primary main仍0 tracked改动/14未跟踪资产；代码治理树有并行工作，观察到394 tracked/66未跟踪，未触碰。代码与文档规范分域并存、main PR-only规则保留；Vite合并原分块与main单worker，Reforge typecheck和实际Vite8.0.14生产构建均通过，最大JS268.05kB、无告警，不授新006或另存运行信用。
+
+三个模板的历史源块与game-mechanics引文已恢复S75固定字节；main新增质量提示/日期化机制勘误放在原块外。17个冲突review/control保留当前已接受的分片、归属、撤信及接受；main52项并行声明留真实Git blob定位，另4个自动合并review owner也恢复已接受身份，不能以旧main机械SHA覆盖当前信用。现行正文差异另审，不用恢复源块删除main已批准取舍。旧3份空账本退役不复活，1838固定分母不变。
+
+新增1916全部源字节结构读取：456MD+1460JSON，共25,280,749B，0解析失败/0文件达1MiB。全量初分类后另按真实task consumer核131任务卡、testing catalog核6配对材料；模板初提案为task-card131、guide-runbook3、evidence-receipt1573、audit-report111、test-machine-evidence88、governance-index8、test-domain-report2。它们是排期/准入建议，必须由贡献者逐篇语义核实，不能把程序分类称为全文深审。原main另5324附件按固定Git保留：txt560/gz4484/py51/mjs91/exit62/png50/mts4/raw7/ts4/patch3/cjs8；归属回对应卡/README/回执的实际引用，未知caller显式待核，不另造每附件散文。
+
+公开合同document-incremental-candidates/1.0.0已接入长期document-quality规范，不新增模板类型或改原父版本。原生候选复用既有三类artifact-native合同，通用纯校验只增加显式carrierRevision输入，旧473绑定/原源默认保持。新构建器核固定main新增全集、真实Git OID/SHA/长度、范围、模板、任务状态、机器值见证、唯一候选位置与精确保全；仅写白名单MD及仓外交付，不写JSON载体、中央routing/registry/review/matrix或接受表。live front matter/testing-meta由原源程序保留在保全块外，不把必要元数据只藏在引文中。
+
+Owner已做5真实pilot候选：取消毒键卡、coverage:ratchet退出0回执、M05一文件两断言重试、docs退出1数组和空console数组。保留M05初红根因未知、suite计数不等于文件数、exit0或空日志不等于零诊断/产品通过。pilot只作格式与具体语义示范，未写生产正文，待GLM非作者核公共增量后在同一委托继续整包实做；不再等用户转发第二个设计/只读任务。新8项反例/正例定向通过，旧测试零修改。
+
+初检nav1759MD/13962链接/497任务0issue、Testing0issue、phase/lore184通过，lint6403文件0E/W/I。首次整套工具341/342，唯一失败是旧CLI反例先被当前脏树守卫拒，未触达其预期flag错误；不改断言，提交干净后复验。该长轮期间增量模块继续细化，包裹输入变化已如实留红，不当终态绿。候选model最初11issue及after/pin缺口未被豁免；相对main的diff检查零，相对S75引入main原raw的空格/EOF诊断保留，不trim证据过门。
+
+事故：一次仓外分类器未处理空Status导致IndexError，已保留原脚本后修复；一次pilot构造把context锚误别名进nativePointers被公开guard拒，已分开字段并重验；一次源观察脚本UTF8输入失败，后续独立命令才成功，未把失败输出冒充成功。原件不手改。整包由GLM做真实正文与原生语义最终候选、Codex做中央扩容/pin和接收；所有作者稿partial/needs、credit0，硬门未过不合main、不推送、不done。

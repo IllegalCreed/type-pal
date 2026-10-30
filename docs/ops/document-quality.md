@@ -58,6 +58,14 @@ base与候选头、原源revision和after blob分别记录；未提交树如实�
 
 ## 失败处理
 
+### 新增候选的整包执行
+
+`document-incremental-candidates/1.0.0`用于固定Git来源的新候选，不修改既有模板类型/版本或原接受表。先核完整新增集合、原源blob/SHA、实际内容分类与已接受集合的差异，再以现有模板进行真实正文治理；结构解析只作排期，不证明逐篇语义审阅。对应公开工具是[增量候选构建器](../../scripts/docs/build-incremental-document-candidates.mjs)。
+
+贡献者一次接收完整白名单，可在同一隔离分支内部续办。Markdown由贡献者写完整模板正文，构建器只附精确保全的固定Git原文；任务终态不能因治理改变。原生JSON保留原字节，逐篇说明和原生值见证写入同一候选review交付，复用既有json-native合同；不向每个载体添加sidecar，不把空数组、exit0、历史success或文件SHA当成新的运行通过。历史载体治理状态与原生publication/execution状态分别说明，活动消费者不因固定载体的历史来源而被归档。
+
+作者输出固定为partial-review-unknown/needs-migration、nonAuthorReviewer=false、credit0。工具只核字节/模板/指针与范围，不认证作者确实阅读或结论语义。完整交付须涵盖整包的完成及具体blocked集合、逐篇真实读域/结论/来源/消费者/输入/oracle/排重/历史边界、原始命令回执与统一快检。候选格式预检不等于生产路由已准入；中央registry/routing/review归属、非作者接受和授信继续由Owner独立执行。公共增量工具的新实现可与整包合并委托验收，但贡献者不得自签自己的正文。
+
 证据缺失、来源或版本冲突时，仅停受影响claim并给解除条件；系统性失真才扩大相关复核。旧失败、原件和历史结论不改写，共享工作树不覆盖或擅自reset/stash。需要新的产品取舍或不可逆操作时交用户裁决。
 
 ## 完成定义
