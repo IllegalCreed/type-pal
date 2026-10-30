@@ -1,5 +1,39 @@
 # 测试宿主原生导航证据
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: governance-index-v1 / 1.0.0
+
+## 目的
+
+承载原导航文档「测试宿主原生导航证据」的治理候选;导航职责按原文时点保留。
+
+## 范围
+
+原文含章节[测试宿主原生导航证据]、2个链接;不借导航页授信或重开任务。
+
+## 当前状态
+
+historical(治理候选);原时点状态与日期在保全块。
+
+## 入口与责任
+
+当前存活入口:[QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md](../../tasks/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md)、[window-review.md](../QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md) 其余原链接仅在保全块保留,理由见linkDisposition。
+
+## 证据与下一步
+
+固定main源SHA d8210b613a7c;下一步=Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 1787B / SHA-256 d8210b613a7c2c0fe437848d9b32d74e5e8e3606f2ac6218ae8ece889c8a5117；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 测试宿主原生导航证据
+
 任务：[QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1](../../tasks/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md)。
 仅两份测试源码；先独立基线，再按真实caller/端口修正。当前build，0关闭。
 
@@ -12,3 +46,5 @@
 不宣称全部console清零：host-current仍8条AudioContext不可用；相邻host含19条同类及各1条script/save故障日志，原件完整保留，见checkpoint-proof.json。它们须另核端口与故障oracle，不能以“已有告警”豁免。全仓其它act/环境仍待续，统一门未过，不合main。完整门与Kimi检查点在下一稳定诊断窗口集中运行。
 
 稳定窗口已实测，严格统一诊断门仍未通过；见[联合原始计数与边界](../QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。本片留review，0关闭、不合main。
+```
+<!-- incremental-original-source:end -->

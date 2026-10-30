@@ -1,5 +1,39 @@
 # C2 装备脚本负输入诊断回执
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「C2 装备脚本负输入诊断回执」的治理候选页;证据原件即下方逐字节保全的固定main源(2188B,SHA a1da34918dc9)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2188B / SHA-256 a1da34918dc976d75ed1426d1e3d8ad6b669df36f37b31d023f9c86c01854bda；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C2 装备脚本负输入诊断回执
+
 本切片只处理 game 初始 17 块 stderr 中两个同域测试：
 
 - `packages/game/src/core/__tests__/stats/e2-equipment-effects.test.ts`
@@ -18,3 +52,5 @@ Codex 完整读取两测试、`packages/game/src/core/equip-effect.ts`、`packag
 ## 本批质量边界
 
 本批未关闭生产文件；只把两测试留在当前诊断切片，剩余 15 块 stderr 与 editor 运行时诊断仍待逐文件核验。相邻装备测试和 game typecheck 必须通过后才可记录本批收口；全仓 `pnpm check`、official ratchet、protected fast 在稳定窗口集中执行，coverage baseline 不修改。发现第一阶段机制、公共接口、schema/save、资源或用户可见行为风险时立即停线另卡。
+```
+<!-- incremental-original-source:end -->

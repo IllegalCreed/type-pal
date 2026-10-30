@@ -1,5 +1,39 @@
 # fetch-retry 取消生命周期 C1 证据
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「fetch-retry 取消生命周期 C1 证据」的主题按原文时点保留(摘录:旧基点为治理分支 `8f5a9af5d314`；同步后的复跑基点为合并提交 `89bf84e16`，相对 `origin/main=36caec0251b48f94fa5b9d5c4c78657103)。
+
+## 范围与证据
+
+原报告含章节[fetch-retry 取消生命周期 C1 证据、反控、逐文件结论、尚未证明]、0个链接;固定main源2517B(SHA d3a1b83ce61e)。当前存活入口:无当前仓库内存活链接。
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2517B / SHA-256 d3a1b83ce61e4b43d768970797b236206ddd9c89d47d11ae3639cd648a91783a；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# fetch-retry 取消生命周期 C1 证据
+
 旧基点为治理分支 `8f5a9af5d314`；同步后的复跑基点为合并提交 `89bf84e16`，相对 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869` 为0 behind。范围是 `packages/game/src/shell/fetch-retry.ts`、三份既有测试和新增 `fetch-retry.cancellation.test.ts`。生产 caller 是 `packages/game/src/main.ts` 的全局安装，真实 signal caller 是 `packages/game/src/shell/audio-midi.ts` 的曲目/音色加载与 stop/dispose；WHATWG Fetch 的 Request 构造先于取消判断，`init.signal` 显式覆盖 Request.signal，`null` 表示不绑定。
 
 ## 反控
@@ -17,3 +51,5 @@
 ## 尚未证明
 
 全仓 `pnpm check` 已通过，但官方 coverage ratchet 与 `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast` 都因 shared/pal-extract 相对 baseline 回退失败；完整 game 曾有17块 stderr，editor仍有运行时诊断。此证据不关闭任何 ledger 文件，不代表可合 main。
+```
+<!-- incremental-original-source:end -->
