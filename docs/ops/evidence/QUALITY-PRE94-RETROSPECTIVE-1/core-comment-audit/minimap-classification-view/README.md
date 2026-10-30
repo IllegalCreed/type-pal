@@ -1,6 +1,40 @@
 # pre94 minimap 分类与缩放 oracle 返工
 
 Status: recorded
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「pre94 minimap 分类与缩放 oracle 返工」的治理候选页;证据原件即下方逐字节保全的固定main源(4979B,SHA 12db758df754)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原7个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[controls.json](controls.json)、[emit-identity.json](emit-identity.json)、[gates.json](gates.json)、[raw-quantity-audit.json](raw-quantity-audit.json)、[read-boundaries.json](read-boundaries.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4979B / SHA-256 12db758df754d892209e2d2271e77180657a8d483f6ff627279222c624736970；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 minimap 分类与缩放 oracle 返工
+
+Status: recorded
 Owner: Codex（单Agent；自身源码复核，不冒充第三方）
 Date: 2026-10-18
 Base: `987bdddac38ea3e95d84a3b82dcdeb1ba314556c`
@@ -33,3 +67,5 @@ leaves原6例保持，加两项真实公开widget合同：实际keydown→setZoo
 ## 交接与下一步
 
 同3y提交推送，fresh fetch且0behind后继续；全仓存量运行时诊断未清，不合main。接下来回到pre94尚pending的最小不重叠模块；minimap剩余输入/生命周期保留review，遇真实产品差异先专卡，不在这里顺手改。94–102/editor仍后置。无下一位Agent提示词，Codex单Agent继续完整83卡。
+```
+<!-- incremental-original-source:end -->

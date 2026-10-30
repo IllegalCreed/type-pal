@@ -1,6 +1,40 @@
 # pre94 ColorFade输入域与既有测试判别力返工
 
 Status: recorded
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「pre94 ColorFade输入域与既有测试判别力返工」的治理候选页;证据原件即下方逐字节保全的固定main源(4450B,SHA f919c74b1a4f)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原7个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[controls.json](controls.json)、[emit-identity.json](emit-identity.json)、[gates.json](gates.json)、[native-oracle.json](native-oracle.json)、[read-boundaries.json](read-boundaries.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4450B / SHA-256 f919c74b1a4f31f1748c0314f96bc9823ff2724a42c1af33ffb24aaad58f472e；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 ColorFade输入域与既有测试判别力返工
+
+Status: recorded
 Owner: Codex（单Agent，自身源码核证，不冒充第三方）
 Date: 2026-10-18
 Base: `9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2`
@@ -35,3 +69,5 @@ id: QUALITY-PRE94-RETROSPECTIVE-1 / palette-approach-tests；schemaVersion:1；s
 ## 交接与下一步
 
 同一3y治理分支提交推送，fetch确认0behind；未合main。下一有限范围核minimap/tools-panel/bootstrap尺寸与真实speedrun hotkey。无下一位Agent提示词，Codex单Agent继续94前全部复审。
+```
+<!-- incremental-original-source:end -->
