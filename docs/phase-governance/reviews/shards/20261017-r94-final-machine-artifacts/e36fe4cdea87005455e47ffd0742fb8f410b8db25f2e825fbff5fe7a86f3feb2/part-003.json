@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "f63fa8830d69e035d1b1f7590a13a4e839eed15c1d2b80e88b820fdf8534d5df",
+  "generation": "e36fe4cdea87005455e47ffd0742fb8f410b8db25f2e825fbff5fe7a86f3feb2",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -42,7 +42,7 @@
         }
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "5e87d87d693277d86b9b9331473ca31855fdbf37e20779ce8687e8573483517b",
+      "afterSha256": "1e2205b0ec95419aa99784d9e3ce36ba4f61fe941733213c848452789378bc33",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
@@ -155,7 +155,7 @@
           "gitObject": "c74ac28c753bf978556ec60e9026c46dabee263c",
           "sha256": "10908b123dba95be40e6412e84656678d3f02eaab05407dd408b7aba9ed7aef5"
         },
-        "currentNativeSha256": "5e87d87d693277d86b9b9331473ca31855fdbf37e20779ce8687e8573483517b",
+        "currentNativeSha256": "1e2205b0ec95419aa99784d9e3ce36ba4f61fe941733213c848452789378bc33",
         "author": "Codex",
         "nonAuthorReviewer": false,
         "runtimeExecutionPerformed": false,
@@ -193,6 +193,14 @@
           "priorIndependentAcceptance": null,
           "newCredit": 0,
           "runtimeCredit": 0
+        },
+        {
+          "kind": "S73-final-results-clarification",
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "83dc14427081c0295f6f29e1ca3e0d202bbc7c6d",
+          "priorEntrySha256": "424052574599b664f26eb835c957f55b6ba97317d5c5fe887270bed604034924",
+          "scope": "Actual stable gates, authorized fixture outcome and same-package twelve policy amendments; no acceptance or runtime grant"
         }
       ],
       "supersedes": ["unregistered structural presentation; native facts remain date-scoped"],
@@ -1456,6 +1464,17 @@
           "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
           "beforeSha256": "10908b123dba95be40e6412e84656678d3f02eaab05407dd408b7aba9ed7aef5",
           "afterSha256": "5e87d87d693277d86b9b9331473ca31855fdbf37e20779ce8687e8573483517b",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "83dc14427081c0295f6f29e1ca3e0d202bbc7c6d",
+          "beforeSha256": "5e87d87d693277d86b9b9331473ca31855fdbf37e20779ce8687e8573483517b",
+          "afterSha256": "1e2205b0ec95419aa99784d9e3ce36ba4f61fe941733213c848452789378bc33",
           "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

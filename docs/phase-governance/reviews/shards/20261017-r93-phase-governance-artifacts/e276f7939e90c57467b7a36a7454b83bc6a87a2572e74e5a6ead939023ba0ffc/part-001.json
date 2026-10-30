@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-  "generation": "12fcf98fea08907891cce89d31fc51b6520fb89d61dbb825a5ea0fd6410e54c1",
+  "generation": "e276f7939e90c57467b7a36a7454b83bc6a87a2572e74e5a6ead939023ba0ffc",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
   "entries": [
@@ -1685,7 +1685,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "bb78b0f47d848b92d539a98d8332ad81aae6b9f593c33e041d1bca2e83672ee3",
+      "afterSha256": "69bd29223672602749aae5e40373387e170f5e1cb662db127343e89e19dc81fa",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -2829,6 +2829,17 @@
           "revision": "eeba525e4fd0a997a47418b672ceca4b1326a87c",
           "beforeSha256": "b2603a4261470938963a22402a7c9a013d4d3b1966b4e90726fbe89be70a3e35",
           "afterSha256": "bb78b0f47d848b92d539a98d8332ad81aae6b9f593c33e041d1bca2e83672ee3",
+          "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeAcceptanceGranted": false
+        },
+        {
+          "date": "2026-10-30",
+          "task": "DOCS-FULL-TEMPLATE-1/S73",
+          "revision": "83dc14427081c0295f6f29e1ca3e0d202bbc7c6d",
+          "beforeSha256": "bb78b0f47d848b92d539a98d8332ad81aae6b9f593c33e041d1bca2e83672ee3",
+          "afterSha256": "69bd29223672602749aae5e40373387e170f5e1cb662db127343e89e19dc81fa",
           "scope": "Exact owned documentary/native-policy projection or dependency after maintenance; no acceptance/runtime grant",
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,

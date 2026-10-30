@@ -2799,3 +2799,11 @@ Codex build allowed在隔离codex/docs-s73-final11完成余9MD+006两JSON的文�
 用户要求先看代码治理E2E新规则：源工作树quality-94-102在e94098f94上的未提交政策已只读核验，14测试全过。按其已批准政策，活动reviewBy从18当前catalog条目与六阶段入口退休，逐条旧值进入reviewHistory；保留lastVerified/revision/原JSON、source hash与分代配对。testing-revisions只读命令复用原实现；HEAD不同不单独判过时，相关content/save/源码变化先归因再局部复验，缺失不宣称适用。当前较新治理正文与lineage consumer保留，不整文件覆盖代码分支旧版本，不整包导入其20条catalog。旧日历失败/续期原件仍保留，不追溯为从未失败。
 
 用户已明确授权check-testing.test.mjs该一处政策适配：合法无期限正例、期限拒绝反例、移除旧日期/参数；原配对/source漂移/runtime反例保留，其它旧测试不改。其余新回归只核实际索引producer与其共享合同。文档作者自验不代签非作者接受；新正文保持partial/needs、原claimCorrection/历史/来源不删，全量门和11状态只在真实接受后扣减，不合main/推送/done。
+
+S73作者候选已在3ebe78bb70bcd6b6614fba46fd82f7ce99ae7f3e交齐原11篇及12份有实际政策变化的文档，后者原有当前接受暂撤至partial/needs，不借旧签名认证新规则。旧独立接受/原状态进入既有history，原claimCorrection与来源不删；2412其余语义保全，2435 after精确、114逻辑/163 review物理/49片/14原source不变，23写/10旧片退，0新增审阅/迁移/runtime信用。两006 JSON、473旧原生、原1838清单、routing与模板JSON合同逐字节保全；当前新解释不恢复旧执行或未核canon。
+
+固定83dc14427081c0295f6f29e1ca3e0d202bbc7c6d真实运行：335文档工具/0fail/0skip；docs链接与任务状态0、model2433/0、Testing0、phase/lore184通过；lint4664文件0error/0warning/0info。check:docs真实exit1仅strict23文档/46诊断（23审阅、23迁移、交集23），progress1817迁移+3退役+18未迁/1838、595增量迁移，当前2412合规/23待办、integrity零。旧11→暂23是同批12份政策修订待重新接受，不是新增未读范围；接受后按真实投影扣减，不能预报全门通过。
+
+testing-index-governance.test.mjs首验4绿2红仅两页审阅日期夹具不符，用户另行明确授权两处断言适配：按视图名锁by-stage/by-status为2026-10-30，其余七页仍2026-10-16，全部成员/状态/来源/幂等/反控不动，83dc提交仅此补丁。首次仓外准备因不同模块实例的受保护快照被拒绝，registry已作有界候选投影而review组未发布；统一为本树同一模块后重跑成功，失败原件保留。一个model回执命令本身通过但包裹输入因同时提交测试发生变化，不作终态依据；上述稳定整仓回执替代，不手改旧回执。
+
+本轮统一交GLM非作者验23篇文档角色/历史/规则与公共工具增量；不请其重做006技术或用户视觉验收，不重审2435下游正文。旧日期红/续期记录保持历史，适用性只读比较不产生新运行信用；真实source/配对/内容save边界仍严格。原作者证据及S72两份独立报告各封存一次于既有gzip，不新增平行账本；硬验收与Owner授信未闭合前仍rework、不合main、不推送、不done。
