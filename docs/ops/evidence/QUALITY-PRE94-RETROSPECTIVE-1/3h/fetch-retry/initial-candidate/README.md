@@ -1,7 +1,43 @@
 # fetch测试初始候选原件
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「fetch测试初始候选原件」的治理候选页;证据原件即下方逐字节保全的固定main源(1071B,SHA bdd8c7b9bfc8)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../README.md)、[initial-candidate-manifest.json](../initial-candidate-manifest.json)
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 1071B / SHA-256 bdd8c7b9bfc8f105160f733b4dc801a569941a716658f8948d0bdee6ffc2a1a6；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# fetch测试初始候选原件
+
 这是未提交/未验收的初始19例候选。原三业务缺口的新红与scope核验之前，已运行完整game：320文件/3605例通过、0失败/跳过，但17块stderr，不能声称质量门通过。诊断14文件均与dfd03a811同SHA，仍须逐文件归因。
 
 初始新增的pre-aborted init测试要求一次底层调用，过度约束合法取消预检；scope-reference仅增加预检就会使其一红。最终改成请求已经开始后在真实AbortController上取消，仍精确一次底层调用、不弱化为“至多一次”。本目录保留初始after、list/V8与完整包raw/JSON；当前最终候选以[父报告](../README.md)及父目录after/scope回执为准。
 
 [文件SHA清单](../initial-candidate-manifest.json)记录归档候选当前的确切字节（JSON元数据仅统一格式；原生raw/JSON的gzip原件保持）；对应before业务基线仍在父目录，未重跑/改写。目录中的passing、反控或包回执不作为当前整文件accept，不覆盖最终源SHA和范围修正。
+```
+<!-- incremental-original-source:end -->

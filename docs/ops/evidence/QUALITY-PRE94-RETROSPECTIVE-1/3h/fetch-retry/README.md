@@ -1,5 +1,39 @@
 # CODE3h/CODE71 fetch-retry 成果复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE3h/CODE71 fetch-retry 成果复审」的主题按原文时点保留(摘录:基点dfd03a811，main=f98d0ddd8，唯一codex/code-quality-3y。三测试有限补证，生产源/接口/规则/baseline/精确退役表未改；0新增关闭。[CODE71原)。
+
+## 范围与证据
+
+原报告含章节[CODE3h/CODE71 fetch-retry 成果复审、逐文件、真实caller与停止线、反控：三个新缺口，三个原oracle保留/转移、测试域修正与初始候选、身份、排重与局部覆盖、真实取消风险与完整game门]、16个链接;固定main源8092B(SHA 9295ea028a5e)。当前存活入口:[CODE-QUALITY-71-game-fetch-retry-abort-boundary.md](../../../../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md)、[QUALITY-FETCH-ABORT-LIFECYCLE-1.md](../../../../tasks/QUALITY-FETCH-ABORT-LIFECYCLE-1.md)、[QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md](../../../../tasks/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md)、[after-proof.json](after-proof.json)、[before-proof.json](before-proof.json)、[collection.json](collection.json)
+
+## 发现
+
+原文发现/计数/日期按原时点保留在保全块;本页不重算审计结论。
+
+## 结论
+
+原结论保持原时点;治理不改写审计判定,不撤销旧撤信,不恢复旧完成声明。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准;候选待Owner接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8092B / SHA-256 9295ea028a5e95d400965c8ff2a81e4b4e2f2682974e88e1b2908706cd9c2621；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3h/CODE71 fetch-retry 成果复审
+
 基点dfd03a811，main=f98d0ddd8，唯一codex/code-quality-3y。三测试有限补证，生产源/接口/规则/baseline/精确退役表未改；0新增关闭。[CODE71原卡](../../../../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md)全文核清后当前partial，旧done不等于本轮accept。全83卡当前14partial/69pending/0整卡accept，94–102/editor继续。
 
 ## 逐文件、真实caller与停止线
@@ -60,3 +94,5 @@
 本片0新增关闭。source旧关闭撤回rework、boundary旧关闭撤回review，其它两测试仍review；全83卡14partial/69pending/0整卡accept。统一check/official ratchet/protected未新跑，game诊断与editor最近全包诊断均未清，不合main。
 
 下一有限片先以取消生命周期卡核失败反例与实现准入，恢复既有71合同；随后按2–4文件核game17块与editor余诊断，稳定窗口集中统一门和阶段集成。全部83卡及94–102/editor仍在范围内。无下一位Agent提示词，Codex单Agent继续。
+```
+<!-- incremental-original-source:end -->
