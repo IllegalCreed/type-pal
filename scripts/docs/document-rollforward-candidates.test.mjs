@@ -110,6 +110,10 @@ test('current policy must remain visible; retaining it only in a source fence do
   assert.doesNotThrow(() => assertVisiblePolicy(path, `${live}\n\nNew scoped note\n`, source))
   assert.throws(() => assertVisiblePolicy(path, '# Metadata only\n', source), /visible prose/)
   assert.throws(
+    () => assertVisiblePolicy(path, `\`\`\`markdown\n${live}\n\`\`\`\n`, source),
+    /visible prose/,
+  )
+  assert.throws(
     () => assertVisiblePolicy(path, live.replace('判等', 'something else'), source),
     /visible prose/,
   )

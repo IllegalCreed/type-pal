@@ -144,7 +144,10 @@ export function assertRollforwardManifest(manifest, scope, rows) {
 export function assertVisiblePolicy(path, prefix, source) {
   if (path !== 'docs/ops/code-quality.md') return
   const live = source.toString('utf8').split('\n## 原文保全\n')[0].trimEnd()
-  assert(prefix.includes(live), 'current code-quality policy must remain verbatim in visible prose')
+  assert(
+    prefix.startsWith(live),
+    'current code-quality policy must remain verbatim in visible prose',
+  )
 }
 
 export function prepareRollforwardCandidate({ draft, admission, source, registry, read }) {
