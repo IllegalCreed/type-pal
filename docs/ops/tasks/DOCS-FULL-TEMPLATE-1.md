@@ -2929,3 +2929,31 @@ Codex据证接收GLM对冻结候选21e989cfa49a70b6c65fea057b600f1582b99b24的�
 本次收口在codex/docs-s79-s78-acceptance隔离树进行，S78的21e树保持冻结。父卡仍build，未标done。最新main前置读取发现远端已为e94098f949452bc3bf8d028f21bdc0a4e400ea22，非S78冻结的72db41725：15个后续提交涉及122个docs路径，63新增候选（30MD/33JSON）、21既有候选变化、38新增附件。只做固定Git字节/JSON形状清点，不授内容审阅信用；63不是1916返工，也不改变固定1838分母或复用4351的已接受范围。git merge-tree预演实有11冲突，未合工作树；代码治理PR34仍独立open、4dc35e33源未混入。
 
 下一步Owner处理最新main的11冲突、63新增及21变化，仅复核实际增量；原已接受正文直接复用，代码/产品真源按各已合并提交来源保留，不擅自改产品、旧测试或coverage。main分支保护要求最新基点上的PR documentation/fast-coverage两项CI，不能用S78本地绿冒充远端或绕过保护。当前接收不授权直接推main，不推送、不done；原主树14个用户未跟踪资源与延期分支保留。暂无下一位Agent提示词：本次是Owner接收/安全集成前置，贡献者后续整包须等真实基点与工具准入准备好。
+
+
+### S82 六份重复原生载体实际退役
+
+Status: build / rework（2026-11-01；Owner Codex；用户已明确授权实际退役，不是继续提案）。单一写入分支 `codex/docs-s82-duplicate-retirement`，固定源 `c72c498f014fe1bcdfdee986c9ec0336f8807bd9`。GLM 的 S81 候选与 S78–S80 已验收内容冻结，不在本分支改写。
+
+冻结合同 `duplicate-native-artifact-retirement/1.0.0`：仅下列六个逐字节相同载体；机器字段、原审阅结论/签名和历史路径身份保留。注册表的一份 `nativeArtifactRetirements` 明示旧路径→活动后继、固定源 revision/blob/SHA/字节。注册身份总数仍为 4351，其中活动 4345、已退役历史身份 6，不能把历史身份计为当前正文或新增迁移信用；原 1838 分母与原三份空账本退役不变。
+
+| 退役载体 | 保留的唯一活动载体 | 字节 |
+|---|---|---:|
+| `docs/ops/evidence/CODE-QUALITY-88/mutation-raw/mutation-results.json` | `docs/ops/evidence/CODE-QUALITY-88/mutation-results.json` | 3115 |
+| `docs/ops/evidence/CODE-QUALITY-89/mutation-raw/mutation-results.json` | `docs/ops/evidence/CODE-QUALITY-89/mutation-results.json` | 3162 |
+| `docs/ops/evidence/CODE-QUALITY-90/mutation-raw-legal-script-id/mutation-results.json` | `docs/ops/evidence/CODE-QUALITY-90/mutation-legal-script-id-result.json` | 39518 |
+| `docs/ops/evidence/CODE-QUALITY-90/mutation-raw/mutation-results.json` | `docs/ops/evidence/CODE-QUALITY-90/mutation-results.json` | 36366 |
+| `docs/ops/evidence/CODE-QUALITY-91/mutation-raw/mutation-results.json` | `docs/ops/evidence/CODE-QUALITY-91/mutation-results.json` | 31140 |
+| `docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/initial-real-abort-proof.json` | `docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/real-abort-proof.json` | 1131 |
+
+准入与步骤：先真实 Git 双轴/字节比较及引用清点，冻结六项范围 SHA `43174d1e3bd12f175dd5c56b3ada67b10a521a466f6041138ac68c0b469a7279`；临时树 pilot 与正反例通过后，删除六个副本，撤掉六条活动 routing，引入验证后的生命周期映射并同步控制 after pin 的行政级联。只改 docs 工具、这六个正文删除、现有 registry/routing/review 分片行政字段及本节；不复制原 JSON、新建逐篇 sidecar 或第二份治理账本。
+
+活动引用必须落到后继；历史 review 的 path/primarySource/evidence 继续陈述原时点，并由本映射解析去向，不能批量改写成它当年读取了后继。当前 README 已指向同目录聚合结果或 real-abort-proof；raw 日志、独立执行回执、历史 runner 均保留。旧 runner 属历史复现入口，不构成本次运行授权；若再次生成旧文件，公开退役校验必须报错，不能静默排除。
+
+必验：六个固定源与后继实际 blob/OID/SHA/字节一致、后继当前字节不变；旧路径物理不存在且不再活动路由；原审阅 pin 唯一保留；现行链接无悬空；控制投影仅新生命周期行政事件，不改旧接受签名。拒绝范围扩大、假来源、后继缺失/篡改、重复路由、符号链接和退役副本重新出现。注册表物理分片与原 1916 语义 root 不重排、不重授信。格式化先于取 hash，review DAG 按依赖顺序重建；不得顺手刷新 S80 已有的 30 个漂移。
+
+验收与停止线：本轮作者 Codex，自验不是非作者接收；准备后与后续整包集中复核，避免用户逐批转话。已验收成果直接复用；静态检查按受影响范围运行，最终必要门仍须零 error/warning/info。S80 的 5 个 model 冲突、30 个已知 after 漂移和 209 份待办不因此清零，S81 另包处理；本轮无产品、旧测试或 coverage 改动，无 runtime/E2E 信用。不合 main、不推送、不标父卡或本段 done。
+
+S82 实施记录：六个副本已物理删除，六条旧 migrated route 已撤下，注册表单一映射指向原字节不变的六个活动后继。删除 payload 合计 114,432B；R94 仅两条控制 after pin 行政变化，旧三片退出、新三片按公开 loader 读回，114 个逻辑 owner 与旧 1916 语义 root 保全。全 tracked docs Markdown 的 16,423 个链接扫描未发现指向六旧路径的活动或历史链接（1771 篇 docs Markdown），无需制造正文改写；旧机器审阅身份由映射解释，不改写其历史 primarySource。
+
+作者自验已完成临时树正例与拒绝性反例。事故如实保留：一次旧 generation 目录重复 rmdir，在全部计划写/删后报 ENOENT，锁与失败原件保留；逐项核对实际字节与公开临时树读回后只释放本次锁，未覆盖原失败回执。另以真实红反例发现行政事件 contract 字段误写 true，改为冻结合同标识并只重打包该 R94 行政世代。最初全量 369 项为 368 绿/1 红（真实 CLI 因未提交工作树先拒绝），不改旧测试；初 lint 的新测试 import 排序已修。正式结果以干净候选的后续原件为准，旧红不抹除。进度投影初轮为主动终止的未完成执行，不计通过。现阶段仍 build/rework，不自签非作者验收。

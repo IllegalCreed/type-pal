@@ -14,7 +14,10 @@ const { registry } = loadDocumentRegistry({ manifestPath: registryPath })
 const templates = JSON.parse(readFileSync(templateRegistryPath, 'utf8'))
 const templateMap = new Map(templates.types.map((entry) => [entry.docType, entry]))
 const digest = (path) => createHash('sha256').update(readFileSync(path)).digest('hex')
-const issues = readDocumentRetirements(repoRoot, registry).issues
+const retirements = readDocumentRetirements(repoRoot, registry)
+const issues = retirements.issues
+const retiredNative = new Set(retirements.nativeEntries.map((entry) => entry.path))
+const activeEntries = registry.entries.filter((entry) => !retiredNative.has(entry.path))
 const add = (message) => issues.push(message)
 
 for (const root of registry.structuralRoots ?? []) {
@@ -44,7 +47,7 @@ for (const template of templates.types)
   if (!existsSync(resolve(repoRoot, 'docs/phase-governance/templates', template.template)))
     add(`template missing: ${template.template}`)
 
-for (const entry of registry.entries ?? []) {
+for (const entry of activeEntries) {
   const template = templateMap.get(entry.docType)
   if (!template) add(`${entry.path}: unknown docType ${entry.docType}`)
   else if (entry.templateId !== template.templateId) add(`${entry.path}: templateId mismatch`)
@@ -94,7 +97,7 @@ const required = [
   'reviewedLines',
 ]
 const allowedStatuses = new Set(['content-reviewed', 'partial-review-unknown', 'unread', 'blocked'])
-for (const item of registry.entries ?? []) {
+for (const item of activeEntries) {
   const entry = reviewEntries.get(item.path)
   if (!entry) {
     add(`${item.path}: missing content review record`)
@@ -158,14 +161,14 @@ for (const path of reviewEntries.keys())
 
 assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
 const counts = {}
-for (const entry of registry.entries ?? []) {
+for (const entry of activeEntries) {
   const status = reviewEntries.get(entry.path)?.contentReviewStatus ?? 'missing'
   counts[status] = (counts[status] ?? 0) + 1
 }
 if (strict) {
   const reviewPending = new Set()
   const migrationPending = new Set()
-  for (const item of registry.entries ?? []) {
+  for (const item of activeEntries) {
     const entry = reviewEntries.get(item.path)
     if (entry?.contentReviewStatus !== 'content-reviewed') reviewPending.add(item.path)
     if (entry?.templateCompliance === 'needs-migration') migrationPending.add(item.path)
@@ -177,9 +180,9 @@ if (strict) {
   )
 }
 console.log(
-  `content review: ${issues.length ? 'FAIL' : 'PASS'} (${registry.summary.total} documents; ${JSON.stringify(counts)})`,
+  `content review: ${issues.length ? 'FAIL' : 'PASS'} (${activeEntries.length} active documents; ${retiredNative.size} retired native identities; ${registry.summary.total} registered identities; ${JSON.stringify(counts)})`,
 )
 for (const issue of issues) console.error(`- ${issue}`)
-if (strict && (issues.length || counts['content-reviewed'] !== registry.summary.total))
+if (strict && (issues.length || counts['content-reviewed'] !== activeEntries.length))
   process.exitCode = 1
 else if (!strict && issues.length) process.exitCode = 1

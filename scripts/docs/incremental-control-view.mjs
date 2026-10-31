@@ -5,6 +5,10 @@ import { summarizeDocumentRegistry } from './document-registry.mjs'
 import { inspectIncrementalCohort } from './incremental-review.mjs'
 import { incrementalReviewAdmission as admission } from './incremental-review-admission.mjs'
 import { incrementalContentHash, incrementalReviewPath } from './incremental-review-content.mjs'
+import {
+  inspectNativeArtifactRetirements,
+  nativeRetirementContract,
+} from './native-artifact-retirements.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
 const base = 'docs/phase-governance/'
@@ -142,7 +146,31 @@ function expectedBuffers(options, cohort) {
   routing.migratedDocuments.push(...cohort.rows.map(incrementalRoute))
   buffers.set(`${base}routing.json`, bytes(routing))
   buffers.set('docs/testing/catalog.json', get('docs/testing/catalog.json'))
-  return buffers
+  return { buffers, registry }
+}
+
+function retiredControlBuffers(original, options, group) {
+  const path = `${base}document-registry.json`
+  const declaration = parseTerminalJson(options.readBuffer(path)).nativeArtifactRetirements
+  if (declaration === undefined) return { buffers: original.buffers }
+  const buffers = new Map(original.buffers)
+  const registry = { ...original.registry, nativeArtifactRetirements: declaration }
+  const retired = new Set(declaration.entries?.map((entry) => entry.path))
+  const routingPath = `${base}routing.json`
+  const routing = parseTerminalJson(buffers.get(routingPath))
+  routing.migratedDocuments = routing.migratedDocuments.filter((row) => !retired.has(row.path))
+  buffers.set(routingPath, bytes(routing))
+  const { entries: _entries, ...root } = registry
+  buffers.set(path, bytes(root))
+  const readBuffer = (p) => buffers.get(p) ?? options.readBuffer(p)
+  const result = inspectNativeArtifactRetirements(registry, {
+    readBuffer,
+    present: (p) => options.readBuffer(p) !== undefined,
+    readSourceBuffer: options.readSourceBuffer,
+    reviewReader: (p) => group.records.get(p),
+  })
+  demand(result.issues.length === 0, result.issues.join('; '))
+  return { buffers, retirement: nativeRetirementContract.id }
 }
 
 /** Checks the new projection, not whether an old report reviewed this new membership. */
@@ -150,15 +178,23 @@ export function incrementalControlProjection(path, options, inspect) {
   const group = options.reviewGroupReader()
   const cohort = inspectIncrementalCohort(group.records)
   if (!cohort) return undefined
-  let buffers = cache.get(cohort.record)
-  if (!buffers) {
-    buffers = expectedBuffers(options, cohort)
-    cache.set(cohort.record, buffers)
+  let original = cache.get(cohort.record)
+  if (!original) {
+    original = expectedBuffers(options, cohort)
+    cache.set(cohort.record, original)
   }
+  // Cache the immutable accepted base only. Revalidate the actual lifecycle on every read.
+  const result = retiredControlBuffers(original, options, group)
+  const { buffers } = result
+  const retirement =
+    result.retirement && [`${base}document-registry.json`, `${base}routing.json`].includes(path)
   if (!buffers.has(path)) return undefined
   const view = inspect(path, (p) => buffers.get(p) ?? options.readBuffer(p))
   return {
-    kind: 'accepted-incremental-control-projection/1.0.0',
+    kind: retirement
+      ? 'accepted-native-retirement-control-projection/1.0.0'
+      : 'accepted-incremental-control-projection/1.0.0',
+    ...(retirement ? { retirementContract: result.retirement } : {}),
     cohortContentSha256: admission.acceptedContentSha256,
     sourceRevision: admission.integrationSourceRevision,
     structureSha256: view.structureSha256,

@@ -66,6 +66,7 @@ const { registry } = loadDocumentRegistry({
 })
 const retirements = readDocumentRetirements(root, registry)
 const retired = new Set(retirements.entries.map((entry) => entry.path))
+const retiredNative = new Set(retirements.nativeEntries.map((entry) => entry.path))
 const structuralRoots = new Set(
   (registry.structuralRoots ?? []).map((entry) => entry.path).filter(Boolean),
 )
@@ -106,6 +107,7 @@ if (
 )
   issues.push('history overlay contract missing')
 for (const entry of registry.entries) {
+  if (retiredNative.has(entry.path)) continue
   if (entry.templateCompliance !== 'template-compliant') continue
   // Storage flags are not approved native-format/semantic completion contracts.
   if (entry.artifactOnly) continue
@@ -171,7 +173,11 @@ for (const path of artifactPaths)
     issues.push(`${path}: storage artifact conflicts with a governed document identity`)
 const allCandidates = [...new Set(candidates)]
 const governedCandidates = allCandidates.filter(
-  (path) => !structuralRoots.has(path) && !retired.has(path) && !artifactPaths.has(path),
+  (path) =>
+    !structuralRoots.has(path) &&
+    !retired.has(path) &&
+    !retiredNative.has(path) &&
+    !artifactPaths.has(path),
 )
 const pending = governedCandidates.filter((path) => !done.has(path))
 const templateIds = [...templates.keys()]
@@ -189,6 +195,7 @@ const report = {
   currentPending: pending.length,
   reviewStorageArtifacts,
   incrementalMigrated: completed.length - cohortDone,
+  incrementalRetired: retirements.nativeEntries,
   exercisedTemplates: [...exercised].sort(),
   pendingTemplates: templateIds.filter((id) => !exercised.has(id)),
   completed,
@@ -204,7 +211,7 @@ if (reviewGroup) assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
 if (args.includes('--json')) console.log(JSON.stringify(report, null, 2))
 else
   console.log(
-    `migration progress: ${cohortDone}/${frozenDocumentBaseline.denominator} baseline migrated, ${retired.size} explicitly retired + ${completed.length - cohortDone} incremental; ${pending.length} current candidates pending; ${exercised.size}/${templateIds.length} templates exercised; ${issues.length} integrity issues; not full acceptance`,
+    `migration progress: ${cohortDone}/${frozenDocumentBaseline.denominator} baseline migrated, ${retired.size} baseline retired + ${completed.length - cohortDone} incremental migrated + ${retiredNative.size} incremental retired; ${pending.length} current candidates pending; ${exercised.size}/${templateIds.length} templates exercised; ${issues.length} integrity issues; not full acceptance`,
   )
 if (issues.length) process.exitCode = 1
 if (

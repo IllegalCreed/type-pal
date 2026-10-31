@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "350bd4fc759ad7202120ef57fd289e0762e0e7e0fc69af9f5964b1b64fc0c3b8",
+  "generation": "1f5bc6b243fd8caa45a18e3e2fe2a36cdee3f93be08438d94c1e5cf351fe7718",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -1898,7 +1898,7 @@
         }
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "0af1f2e362f2eb26303a38a7cf5f630f06d5729b02c115b501e15ec54b0e7dec",
+      "afterSha256": "2aeaf2c1defe96e88e0b57a5182fa89c05cd31263ae819e5c308f41cfbd25433",
       "publicCallers": [
         "scripts/docs/document-registry.mjs",
         "scripts/docs/report-governance-progress.mjs"
@@ -2566,6 +2566,33 @@
           "afterSha256": "0af1f2e362f2eb26303a38a7cf5f630f06d5729b02c115b501e15ec54b0e7dec",
           "runtimeCredit": false,
           "newSemanticCredit": 0
+        },
+        {
+          "kind": "accepted-native-retirement-control-projection/1.0.0",
+          "retirementContract": "duplicate-native-artifact-retirement/1.0.0",
+          "cohortContentSha256": "4fa147c3b9ab4bbc320123ec9bcb7af52dd11ad7dabb696afb4ceb8a41ae53b5",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "structureSha256": "a721a8213a73bd34ac76d4ff0abcd1cdc2a913e81eb8794be11fb0c95e4be726",
+          "membershipSha256": "1c4fbd5b8f7094cd9908f0f8889309adbd01be1d4cd24a9ae4f220916ddb755d",
+          "observed": {
+            "entries": 4351,
+            "collectionEntries": 4351,
+            "reviewStatuses": {
+              "content-reviewed": 4351
+            }
+          },
+          "actor": "Codex",
+          "newIndependentSemanticAcceptanceClaimed": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        },
+        {
+          "kind": "native-artifact-retirement-after-pin",
+          "date": "2026-11-01",
+          "beforeSha256": "0af1f2e362f2eb26303a38a7cf5f630f06d5729b02c115b501e15ec54b0e7dec",
+          "afterSha256": "2aeaf2c1defe96e88e0b57a5182fa89c05cd31263ae819e5c308f41cfbd25433",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateVariant": "current-governance-control-native-v1",
@@ -2670,7 +2697,7 @@
         }
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "28b5262b57d1dd5796bb6a2695e6c351d2aef2ee1d4e2b7c8e988d6575cce97d",
+      "afterSha256": "2189a6f9243ce64d2038ef305115ed7a929cfbf6ffbda5145e45a01cd8af1ba2",
       "publicCallers": [
         "scripts/docs/check-document-model.mjs",
         "scripts/docs/report-governance-progress.mjs"
@@ -3198,6 +3225,30 @@
           "afterSha256": "28b5262b57d1dd5796bb6a2695e6c351d2aef2ee1d4e2b7c8e988d6575cce97d",
           "runtimeCredit": false,
           "newSemanticCredit": 0
+        },
+        {
+          "kind": "accepted-native-retirement-control-projection/1.0.0",
+          "retirementContract": "duplicate-native-artifact-retirement/1.0.0",
+          "cohortContentSha256": "4fa147c3b9ab4bbc320123ec9bcb7af52dd11ad7dabb696afb4ceb8a41ae53b5",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "structureSha256": "2e1a9fab919604b37a7dcbc06965adafbcecf6ddccfe713ec86752fb39e80b91",
+          "membershipSha256": "003046528ac4fdffd5f4d7c1e99143a6813267efd929f3be5d589a6f44a619c0",
+          "observed": {
+            "routes": 8,
+            "migratedDocuments": 4345
+          },
+          "actor": "Codex",
+          "newIndependentSemanticAcceptanceClaimed": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        },
+        {
+          "kind": "native-artifact-retirement-after-pin",
+          "date": "2026-11-01",
+          "beforeSha256": "28b5262b57d1dd5796bb6a2695e6c351d2aef2ee1d4e2b7c8e988d6575cce97d",
+          "afterSha256": "2189a6f9243ce64d2038ef305115ed7a929cfbf6ffbda5145e45a01cd8af1ba2",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "applicability": "Current routing authority and two accepted phase-index additions only; no E2E006, execution, child or global completion credit. Seven operation routes and original2433 declarations remain exact; renewed control awaits non-author acceptance.",

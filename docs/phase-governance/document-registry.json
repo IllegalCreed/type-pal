@@ -286,5 +286,66 @@
         "sha256": "1c3c3959c07b5c25b9e0d6ee95914669ceebb6c634205c126bfbc4e725a3d35a"
       }
     ]
+  },
+  "nativeArtifactRetirements": {
+    "schemaVersion": 1,
+    "contract": "duplicate-native-artifact-retirement/1.0.0",
+    "sourceRevision": "c72c498f014fe1bcdfdee986c9ec0336f8807bd9",
+    "authorization": {
+      "task": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+      "section": "S82 六份重复原生载体实际退役"
+    },
+    "retiredOn": "2026-11-01",
+    "entries": [
+      {
+        "path": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/mutation-results.json",
+        "replacement": "docs/ops/evidence/CODE-QUALITY-88/mutation-results.json",
+        "sha256": "10b4c69ca6b04fd4d477e7942696e1fda97b5aab7a16bb3ac75ce05464044ba8",
+        "bytes": 3115,
+        "sourceGitObject": "974cd550f363e6607a889fcd81cf35a9ba874c3f",
+        "replacementGitObject": "974cd550f363e6607a889fcd81cf35a9ba874c3f"
+      },
+      {
+        "path": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/mutation-results.json",
+        "replacement": "docs/ops/evidence/CODE-QUALITY-89/mutation-results.json",
+        "sha256": "ccbc909eb5bd3a438879840d27da5b359ac23eb07e19d35fb4012cc8f8d5ffe8",
+        "bytes": 3162,
+        "sourceGitObject": "06e6d31608e69f2b1b1a4947e4b0c06346200035",
+        "replacementGitObject": "06e6d31608e69f2b1b1a4947e4b0c06346200035"
+      },
+      {
+        "path": "docs/ops/evidence/CODE-QUALITY-90/mutation-raw-legal-script-id/mutation-results.json",
+        "replacement": "docs/ops/evidence/CODE-QUALITY-90/mutation-legal-script-id-result.json",
+        "sha256": "c57eb79c05d06af59f4634e80370e554d9a407295b88f14dbffa6715ef781ccd",
+        "bytes": 39518,
+        "sourceGitObject": "549839b9a8e9644bd5aa2dcd224659c05ea4c147",
+        "replacementGitObject": "549839b9a8e9644bd5aa2dcd224659c05ea4c147"
+      },
+      {
+        "path": "docs/ops/evidence/CODE-QUALITY-90/mutation-raw/mutation-results.json",
+        "replacement": "docs/ops/evidence/CODE-QUALITY-90/mutation-results.json",
+        "sha256": "0385e6188dfb3f06f3560e138fdd2bda36315fdbd35f2d37d002d0d45ad83094",
+        "bytes": 36366,
+        "sourceGitObject": "159508f8d4e941582a7757ae4fde9c88a3c1adb0",
+        "replacementGitObject": "159508f8d4e941582a7757ae4fde9c88a3c1adb0"
+      },
+      {
+        "path": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/mutation-results.json",
+        "replacement": "docs/ops/evidence/CODE-QUALITY-91/mutation-results.json",
+        "sha256": "053be850277324cebc9b08c5b41af8ea8b835b5e3e039afc477f900703c90fdd",
+        "bytes": 31140,
+        "sourceGitObject": "488eb0f7ac9f8026f17052363d6918f8ed10858d",
+        "replacementGitObject": "488eb0f7ac9f8026f17052363d6918f8ed10858d"
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/initial-real-abort-proof.json",
+        "replacement": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/real-abort-proof.json",
+        "sha256": "fa8bcd7b175007a05e4a361de22b6ef5b1e507e0ceeb2de6e80fb3e6b0ab84f2",
+        "bytes": 1131,
+        "sourceGitObject": "0af16b1154f59e5fbc0ddb9522b20fc192d7ef23",
+        "replacementGitObject": "0af16b1154f59e5fbc0ddb9522b20fc192d7ef23"
+      }
+    ],
+    "semantics": "Registered identities and original review claims remain historical provenance; only the replacement is an active carrier. Retirement grants no semantic, migration or runtime credit."
   }
 }

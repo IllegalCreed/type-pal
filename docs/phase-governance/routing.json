@@ -13868,12 +13868,6 @@
       "historyOverlay": false
     },
     {
-      "path": "docs/ops/evidence/CODE-QUALITY-88/mutation-raw/mutation-results.json",
-      "templateId": "evidence-receipt-v1",
-      "variant": "historical-evidence-receipt-artifact-native-v1",
-      "historyOverlay": false
-    },
-    {
       "path": "docs/ops/evidence/CODE-QUALITY-88/mutation-results.json",
       "templateId": "evidence-receipt-v1",
       "variant": "historical-evidence-receipt-artifact-native-v1",
@@ -13882,12 +13876,6 @@
     {
       "path": "docs/ops/evidence/CODE-QUALITY-89/README.md",
       "templateId": "evidence-receipt-v1",
-      "historyOverlay": false
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-89/mutation-raw/mutation-results.json",
-      "templateId": "evidence-receipt-v1",
-      "variant": "historical-evidence-receipt-artifact-native-v1",
       "historyOverlay": false
     },
     {
@@ -13974,18 +13962,6 @@
       "historyOverlay": false
     },
     {
-      "path": "docs/ops/evidence/CODE-QUALITY-90/mutation-raw-legal-script-id/mutation-results.json",
-      "templateId": "evidence-receipt-v1",
-      "variant": "historical-evidence-receipt-artifact-native-v1",
-      "historyOverlay": false
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-90/mutation-raw/mutation-results.json",
-      "templateId": "evidence-receipt-v1",
-      "variant": "historical-evidence-receipt-artifact-native-v1",
-      "historyOverlay": false
-    },
-    {
       "path": "docs/ops/evidence/CODE-QUALITY-90/mutation-results.json",
       "templateId": "evidence-receipt-v1",
       "variant": "historical-evidence-receipt-artifact-native-v1",
@@ -14006,12 +13982,6 @@
     {
       "path": "docs/ops/evidence/CODE-QUALITY-91/README.md",
       "templateId": "evidence-receipt-v1",
-      "historyOverlay": false
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-91/mutation-raw/mutation-results.json",
-      "templateId": "evidence-receipt-v1",
-      "variant": "historical-evidence-receipt-artifact-native-v1",
       "historyOverlay": false
     },
     {
@@ -18034,12 +18004,6 @@
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/initial-candidate/test-gates.json",
-      "templateId": "evidence-receipt-v1",
-      "variant": "historical-evidence-receipt-artifact-native-v1",
-      "historyOverlay": false
-    },
-    {
-      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/initial-real-abort-proof.json",
       "templateId": "evidence-receipt-v1",
       "variant": "historical-evidence-receipt-artifact-native-v1",
       "historyOverlay": false

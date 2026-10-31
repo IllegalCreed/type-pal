@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 import { inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { markdownLinks } from './markdown.mjs'
+import { readNativeArtifactRetirements } from './native-artifact-retirements.mjs'
 import {
   assertReviewRecordSourceUnchanged,
   loadReviewRecord,
@@ -277,7 +278,7 @@ export function inspectDocumentRetirements(
   }
 }
 
-export function readDocumentRetirements(root, registry) {
+function readEmptyReviewRetirements(root, registry) {
   if (registry.documentRetirements === undefined)
     return { entries: [], issues: [], historicalTarget: () => false }
   const readBuffer = (path) => {
@@ -320,4 +321,14 @@ export function readDocumentRetirements(root, registry) {
   })
   for (const source of reviewReads) assertReviewRecordSourceUnchanged(source)
   return result
+}
+
+export function readDocumentRetirements(root, registry) {
+  const emptyLedgers = readEmptyReviewRetirements(root, registry)
+  const native = readNativeArtifactRetirements(root, registry)
+  return {
+    ...emptyLedgers,
+    nativeEntries: native.entries,
+    issues: [...emptyLedgers.issues, ...native.issues],
+  }
 }
