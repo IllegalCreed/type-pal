@@ -67,7 +67,7 @@ export function nativeArtifactWitnessMatches(native, witness) {
 }
 
 /** Checks a historical explanation. It deliberately does not certify human reading or old execution. */
-export function nativeArtifactReviewIssues(row, binding, native) {
+export function nativeArtifactContentIssues(row, binding, native) {
   const issues = []
   if (
     row.path !== binding.path ||
@@ -85,7 +85,6 @@ export function nativeArtifactReviewIssues(row, binding, native) {
     (row.sourceGitRevision ?? null) !== binding.historicalSource.sourceGitRevision
   )
     issues.push('native artifact identity/type/source axes mismatch')
-  issues.push(...nativeArtifactQualificationIssues(row, binding))
   if (
     !text(row.coreConclusion) ||
     /^(Status|Owner|Template)\b/u.test(row.coreConclusion) ||
@@ -158,6 +157,13 @@ export function nativeArtifactReviewIssues(row, binding, native) {
   } catch (error) {
     issues.push(error.message)
   }
+  return issues
+}
+
+export function nativeArtifactReviewIssues(row, binding, native) {
+  const issues = nativeArtifactContentIssues(row, binding, native)
+  const position = issues[0] === 'native artifact identity/type/source axes mismatch' ? 1 : 0
+  issues.splice(position, 0, ...nativeArtifactQualificationIssues(row, binding))
   return issues
 }
 

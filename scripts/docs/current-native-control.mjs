@@ -6,6 +6,11 @@ import { currentNativeControlAcceptance } from './current-native-control-accepta
 import { currentNativeControlAdmissions } from './current-native-control-admission.mjs'
 import { currentNativeControlQualificationIssues } from './current-native-control-qualification.mjs'
 import { frozenRegistrySource, summarizeDocumentRegistry } from './document-registry.mjs'
+import {
+  incrementalControlMaintenanceMatches,
+  incrementalControlProjection,
+  isIncrementalRegistryLayout,
+} from './incremental-control-view.mjs'
 import { assertReviewRecordSourceUnchanged } from './review-record-storage.mjs'
 import { fileState } from './review-record-storage-io.mjs'
 import { canonicalTerminalJson, parseTerminalJson } from './terminal-json.mjs'
@@ -164,10 +169,11 @@ export function inspectCurrentNativeControl(path, readBuffer) {
       positions = []
     demand(
       root.schemaVersion === 2 &&
-        same(
+        (same(
           root.shards?.map((d) => d.phase),
           registryPhases,
-        ),
+        ) ||
+          isIncrementalRegistryLayout(root.shards)),
       'registry exact partition order',
     )
     for (const k of ['revision', 'path', 'sha256', 'total'])
@@ -176,7 +182,12 @@ export function inspectCurrentNativeControl(path, readBuffer) {
         'registry frozen original source changed',
       )
     for (const d of root.shards) {
-      demand(d.path === `document-registry.${d.phase}.json`, 'unsafe/foreign registry shard')
+      demand(
+        d.path === `document-registry.${d.phase}.json` ||
+          (isIncrementalRegistryLayout(root.shards) &&
+            root.shards.slice(7).some((part) => part === d)),
+        'unsafe/foreign registry shard',
+      )
       const p = base + d.path,
         s = json(p)
       demand(hash(bytes(p)) === d.sha256, `registry descriptor mismatch: ${p}`)
@@ -522,14 +533,24 @@ export function currentNativeControlIssues(doc, template, contract, read, option
       'concrete role/input/oracle/read-domain/history sections incomplete',
     )
     const e = row.evidence
+    const unchangedProjection =
+      e?.structureSha256 === view.structureSha256 && e?.membershipSha256 === view.membershipSha256
+    const requiresIncremental =
+      b.role.startsWith('registry-') &&
+      parseTerminalJson(nativeRead(`${base}document-registry.json`)).shards.length !== 7
+    const administrative =
+      (!unchangedProjection || requiresIncremental) &&
+      incrementalControlProjection(doc.path, options, inspectCurrentNativeControl)
+    const projectionMatches =
+      (unchangedProjection && !requiresIncremental) ||
+      incrementalControlMaintenanceMatches(row, view, administrative)
     demand(
       e?.kind === 'current-native-control-candidate' &&
         e.path === b.path &&
         e.role === b.role &&
         ['Codex', 'GLM'].includes(e.author) &&
         same(e.source, b.source) &&
-        e.structureSha256 === view.structureSha256 &&
-        e.membershipSha256 === view.membershipSha256 &&
+        projectionMatches &&
         e.runtimeExecutionPerformed === false &&
         e.historicClaimsReexecuted === false &&
         e.childSemanticAcceptanceGranted === false,

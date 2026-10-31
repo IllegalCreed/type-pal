@@ -142,6 +142,31 @@ function validateLogical(registry) {
     'summary mismatch',
   )
 }
+function validateRanges(descriptors, total) {
+  const ranges = []
+  for (const descriptor of descriptors) {
+    const range = descriptor.positionRange
+    if (range === undefined) continue
+    demand(
+      Array.isArray(range) &&
+        range.length === 2 &&
+        range.every(Number.isSafeInteger) &&
+        range[0] >= 0 &&
+        range[0] < range[1] &&
+        range[1] <= total,
+      'invalid explicit registry position range',
+    )
+    demand(
+      !ranges.some(
+        (prior) =>
+          prior.phase === descriptor.phase &&
+          Math.max(prior.range[0], range[0]) < Math.min(prior.range[1], range[1]),
+      ),
+      'overlapping explicit registry position ranges',
+    )
+    ranges.push({ phase: descriptor.phase, range })
+  }
+}
 function readPackage(manifestPath, read = ordinaryBytes) {
   const files = new Map()
   const take = (path) => {
@@ -156,6 +181,7 @@ function readPackage(manifestPath, read = ordinaryBytes) {
   demand(object(manifest.summary) && Number.isSafeInteger(manifest.summary.total), 'total invalid')
   demand(manifest.summary.total >= 0, 'total must be nonnegative')
   demand(Array.isArray(manifest.shards) && manifest.shards.length > 0, 'shards missing')
+  validateRanges(manifest.shards, manifest.summary.total)
   const keys = new Set()
   const paths = new Set()
   const positions = new Map()
@@ -186,6 +212,11 @@ function readPackage(manifestPath, read = ordinaryBytes) {
         `${name}: position out of range`,
       )
       demand(!positions.has(position), `${name}: duplicate position ${position}`)
+      if (descriptor.positionRange)
+        demand(
+          position >= descriptor.positionRange[0] && position < descriptor.positionRange[1],
+          `${name}: position outside explicit range`,
+        )
       demand(object(entry) && entry.phase === descriptor.phase, `${name}: entry phase mismatch`)
       positions.set(position, entry)
     }
@@ -263,6 +294,7 @@ function prepare(registry, source, formatDirectory) {
   validateLogical(registry)
   const descriptors = registry.shards
   demand(Array.isArray(descriptors) && descriptors.length > 0, 'writer requires explicit shards')
+  validateRanges(descriptors, registry.entries.length)
   const byPath = new Map()
   for (const descriptor of source.registry.shards ?? []) {
     const raw = source.files.get(join(dirname(source.manifestPath), descriptor.path))
@@ -278,7 +310,15 @@ function prepare(registry, source, formatDirectory) {
       shards.find(
         ({ descriptor }) =>
           descriptor.key === byPath.get(entry.path) && descriptor.phase === entry.phase,
-      ) ?? shards.find(({ descriptor }) => descriptor.phase === entry.phase)
+      ) ??
+      shards.find(
+        ({ descriptor }) =>
+          descriptor.phase === entry.phase &&
+          descriptor.positionRange &&
+          position >= descriptor.positionRange[0] &&
+          position < descriptor.positionRange[1],
+      ) ??
+      shards.find(({ descriptor }) => descriptor.phase === entry.phase && !descriptor.positionRange)
     demand(target, `${entry.path}: no explicit shard for phase ${entry.phase}`)
     target.value.positions.push(position)
     target.value.entries.push(entry)

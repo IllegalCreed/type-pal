@@ -20,6 +20,7 @@ import { historicalHtmlIssues } from './historical-html-native.mjs'
 import { historicalNativeArtifactIssues } from './historical-native-artifact.mjs'
 import { historicalNativeFamilyIssues } from './historical-native-family.mjs'
 import { historicalVitestNativeIssues } from './historical-vitest-native.mjs'
+import { incrementalDocumentIssues } from './incremental-review.mjs'
 import { markdownLinks, withoutFences } from './markdown.mjs'
 import { testingEvidenceLineageIssues } from './testing-evidence-lineage.mjs'
 
@@ -323,6 +324,9 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
   const template = registry.types.find((type) => type.templateId === doc.templateId)
   if (text === undefined) return ['migrated document missing']
   const contract = doc.variant ? template?.variants?.[doc.variant] : template
+  const incrementalIssues = incrementalDocumentIssues(doc, template, contract, read, options)
+  if (incrementalIssues !== undefined && (incrementalIssues.length || doc.path.endsWith('.json')))
+    return incrementalIssues
   const nativeControlIssues = currentNativeControlIssues(doc, template, contract, read, options)
   if (nativeControlIssues !== undefined) return nativeControlIssues
   const controlIssues = currentReviewLedgerIssues(doc, template, contract, read, options)

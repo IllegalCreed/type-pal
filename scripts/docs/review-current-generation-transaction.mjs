@@ -11,13 +11,19 @@ import {
 } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { isDeepStrictEqual } from 'node:util'
+import { currentNativeControlAdmissions } from './current-native-control-admission.mjs'
 import {
   currentLedgerStorageUpgrade,
   currentReviewStorageUpgrades,
   currentStructuralReviewStorageUpgrade,
 } from './current-review-ledger-storage-admission.mjs'
+import { checkMigratedDocument } from './document-model.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
+import { nativeArtifactBindings } from './historical-native-artifact-bindings.mjs'
 import { historicalVitestCohort } from './historical-vitest-cohort.mjs'
+import { assertIncrementalOwnerSet, inspectIncrementalCohort } from './incremental-review.mjs'
+import { incrementalReviewAdmission } from './incremental-review-admission.mjs'
+import { incrementalReviewPath } from './incremental-review-content.mjs'
 import {
   assertReviewRecordSourceUnchanged,
   loadReviewRecords,
@@ -44,7 +50,12 @@ function assertStates(root, states, parents) {
     equal({ dev: stat.dev, ino: stat.ino, mode: stat.mode }, expected, `parent changed: ${path}`)
   }
   for (const [path, expected] of states) {
-    const actual = fileState(root, path, undefined, 'docs/')
+    const actual = fileState(
+      root,
+      path,
+      undefined,
+      ['AGENTS.md', 'CLAUDE.md'].includes(path) ? '' : 'docs/',
+    )
     demand(
       isDeepStrictEqual(actual.identity, expected.identity) &&
         (expected.buffer ? actual.buffer?.equals(expected.buffer) : !actual.buffer),
@@ -62,13 +73,22 @@ function assertRecordSet(actual, expected, label) {
   for (const [path, record] of expected) equal(actual.get(path), record, `${label}: ${path}`)
 }
 
-function assertAllPins(records, readBuffer, expectedPins = 2434) {
+function assertAllPins(records, readBuffer, expectedPins = 2434, repairs = []) {
   let count = 0
   for (const [owner, record] of records)
-    for (const row of record.entries) {
+    for (const [index, row] of record.entries.entries()) {
       const bytes = readBuffer(row.path)
+      const actual = Buffer.isBuffer(bytes) && sha(bytes)
+      const repair = repairs.find(
+        (entry) =>
+          entry.owner === owner &&
+          entry.index === index &&
+          entry.path === row.path &&
+          entry.beforeSha256 === row.afterSha256 &&
+          entry.afterSha256 === actual,
+      )
       demand(
-        Buffer.isBuffer(bytes) && row.afterSha256 === sha(bytes),
+        Buffer.isBuffer(bytes) && (row.afterSha256 === actual || repair),
         `after pin mismatch: ${owner} -> ${row.path}`,
       )
       count++
@@ -98,13 +118,27 @@ function assertTopLevelOwners(root, expected) {
   }
 }
 
-function assertProtectedNative(readBuffer) {
+function assertProtectedNative(readBuffer, incrementalRecords) {
   demand(
     historicalVitestCohort.protectedNative.length === 302,
     'exact302 protected native inputs required',
   )
   for (const entry of historicalVitestCohort.protectedNative)
     demand(sha(readBuffer(entry.path)) === entry.sha256, `protected native changed: ${entry.path}`)
+  if (incrementalRecords) {
+    const cohort = inspectIncrementalCohort(incrementalRecords)
+    demand(
+      cohort && nativeArtifactBindings.length === 473,
+      'exact old473 plus new1460 native inputs required',
+    )
+    for (const entry of nativeArtifactBindings)
+      demand(
+        sha(readBuffer(entry.path)) === entry.carrierSha256,
+        `old473 native changed: ${entry.path}`,
+      )
+    for (const row of cohort.rows.filter((entry) => entry.path.endsWith('.json')))
+      demand(sha(readBuffer(row.path)) === row.sourceSha256, `new native changed: ${row.path}`)
+  }
 }
 
 function publicReadback(root, plan) {
@@ -120,11 +154,53 @@ function publicReadback(root, plan) {
   )
   for (const [path, pin] of plan.sourcePins)
     equal(group.storages.get(path)?.source, pin, `original source pin: ${path}`)
-  const readBuffer = (path) => fileState(root, path, undefined, 'docs/').buffer
+  const readBuffer = (path) =>
+    fileState(
+      root,
+      path,
+      undefined,
+      plan.incremental && ['AGENTS.md', 'CLAUDE.md'].includes(path) ? '' : 'docs/',
+    ).buffer
   for (const [path, output] of plan.expected)
     demand(readBuffer(path)?.equals(output.bytes), `staged physical bytes differ: ${path}`)
   assertAllPins(group.records, readBuffer, plan.expectedPins)
-  assertProtectedNative(readBuffer)
+  assertProtectedNative(readBuffer, plan.incremental ? group.records : undefined)
+  if (plan.incremental) {
+    const templates = JSON.parse(readBuffer('docs/phase-governance/templates/registry.json'))
+    const cohort = inspectIncrementalCohort(group.records)
+    const targets = [
+      ...cohort.rows,
+      ...currentNativeControlAdmissions
+        .filter((entry) => plan.changedControlPaths.has(entry.path))
+        .map((entry) => group.records.get(entry.reviewRecord).entries[entry.index]),
+    ]
+    const sourceCache = new Map()
+    const readSourceBuffer = (pin) => {
+      const key = `${pin.revision}:${pin.path}`
+      if (!sourceCache.has(key)) sourceCache.set(key, readGitDocumentSnapshot(plan.root, pin))
+      return sourceCache.get(key)
+    }
+    for (const row of targets) {
+      const issues = checkMigratedDocument(
+        {
+          path: row.path,
+          templateId: row.templateId,
+          variant: row.templateVariant,
+          historyOverlay: row.historyOverlay,
+        },
+        templates,
+        (path) => readBuffer(path)?.toString('utf8'),
+        {
+          root,
+          readBuffer,
+          readSourceBuffer,
+          reviewGroupReader: () => group,
+          reviewReader: (path) => group.records.get(path),
+        },
+      )
+      demand(issues.length === 0, `staged contract: ${row.path}: ${issues.join('; ')}`)
+    }
+  }
   inspectShardInventory(root, plan.expected)
   assertReviewRecordSourceUnchanged(group.loadedSource)
 }
@@ -139,7 +215,7 @@ function pureReadback(root, plan, inventory) {
     demand(readBuffer(path)?.equals(output.bytes), `live physical bytes differ: ${path}`)
   assertAllPins(records, readBuffer, plan.expectedPins)
   assertTopLevelOwners(root, plan.expected)
-  assertProtectedNative(readBuffer)
+  assertProtectedNative(readBuffer, plan.incremental ? records : undefined)
   inspectShardInventory(root, inventory)
 }
 
@@ -156,17 +232,39 @@ export function prepareCurrentReviewTransaction({
   const base = resolve(root)
   demand(/^[a-f\d]{40}$/.test(baseRevision ?? ''), 'full base commit required')
   demand(!process.env.BIOME_BINARY, 'custom formatter not admitted')
-  demand(['legacy-current', 'native-artifact-v1'].includes(sourceProfile), 'unknown source profile')
-  const nativeProfile = sourceProfile === 'native-artifact-v1'
-  const expectedPins = nativeProfile ? 2435 : 2434
+  demand(
+    ['legacy-current', 'native-artifact-v1', 'main-incremental-v1'].includes(sourceProfile),
+    'unknown source profile',
+  )
+  const incremental = sourceProfile === 'main-incremental-v1'
+  const nativeProfile = sourceProfile !== 'legacy-current'
+  const expectedPins = incremental
+    ? incrementalReviewAdmission.afterPins
+    : nativeProfile
+      ? 2435
+      : 2434
+  const upgrades = incremental
+    ? [...currentReviewStorageUpgrades, incrementalReviewAdmission.sourcePin]
+    : currentReviewStorageUpgrades
+  if (incremental) {
+    assertIncrementalOwnerSet(group.records)
+    const cohort = inspectIncrementalCohort(records)
+    demand(
+      cohort?.rows.every(
+        (row) =>
+          row.contentReviewStatus === 'content-reviewed' &&
+          row.templateCompliance === 'template-compliant',
+      ),
+      'exact qualified1916 publication required',
+    )
+  }
   demand(
     group.records.size === 114 &&
       records.size === 114 &&
       (nativeProfile
         ? [...group.storages.values()].filter(Boolean).length ===
-            12 +
-              currentReviewStorageUpgrades.filter((pin) => group.storages.get(pin.path)).length &&
-          currentReviewStorageUpgrades.every(
+            12 + upgrades.filter((pin) => group.storages.get(pin.path)).length &&
+          upgrades.every(
             (pin) =>
               !group.storages.get(pin.path) ||
               isDeepStrictEqual(group.storages.get(pin.path).source, pin),
@@ -183,7 +281,16 @@ export function prepareCurrentReviewTransaction({
     expected = new Map(),
     referenced = new Set()
   const readBuffer = (path) => {
-    if (!states.has(path)) states.set(path, fileState(base, path, parents, 'docs/'))
+    if (!states.has(path))
+      states.set(
+        path,
+        fileState(
+          base,
+          path,
+          parents,
+          incremental && ['AGENTS.md', 'CLAUDE.md'].includes(path) ? '' : 'docs/',
+        ),
+      )
     const bytes = states.get(path).buffer
     demand(Buffer.isBuffer(bytes), `ordinary input missing: ${path}`)
     return bytes
@@ -203,7 +310,9 @@ export function prepareCurrentReviewTransaction({
   }
   inspectShardInventory(base, expected)
   assertTopLevelOwners(base, expected)
-  for (const record of group.records.values())
+  for (const record of incremental
+    ? [...group.records.values(), ...records.values()]
+    : group.records.values())
     for (const row of record.entries) {
       referenced.add(row.path)
       readBuffer(row.path)
@@ -212,8 +321,22 @@ export function prepareCurrentReviewTransaction({
     referenced.add(entry.path)
     readBuffer(entry.path)
   }
-  assertAllPins(group.records, readBuffer, expectedPins)
-  assertProtectedNative(readBuffer)
+  if (incremental)
+    for (const path of ['AGENTS.md', 'CLAUDE.md']) {
+      referenced.add(path)
+      readBuffer(path)
+    }
+  const inputPins =
+    incremental && group.records.get(incrementalReviewPath).entries.length === 28
+      ? 2435
+      : expectedPins
+  assertAllPins(
+    group.records,
+    readBuffer,
+    inputPins,
+    incremental && inputPins === 2435 ? incrementalReviewAdmission.inputPinRepairs : [],
+  )
+  assertProtectedNative(readBuffer, incremental ? records : undefined)
   const seen = new Set()
   demand(
     Array.isArray(outputs) &&
@@ -225,8 +348,28 @@ export function prepareCurrentReviewTransaction({
   for (const output of outputs) {
     demand(!seen.has(output.path) && Buffer.isBuffer(output.bytes), 'duplicate/bad output')
     seen.add(output.path)
+    const newRegistryPart =
+      incremental &&
+      incrementalReviewAdmission.registryPartitions.some(
+        (part) => output.path === `docs/phase-governance/${part.path}`,
+      )
+    if (newRegistryPart)
+      demand(
+        output.kind === 'control' && output.bytes.length < 524288,
+        `new registry part must be an exact bounded control artifact: ${output.path} (${output.bytes.length})`,
+      )
+    const administrativeDocument =
+      incremental &&
+      output.kind === 'administrative' &&
+      [
+        'docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md',
+        'docs/ops/board.md',
+        'docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz',
+      ].includes(output.path)
     demand(
       (output.path.startsWith(`${reviewDirRelative}/`) && output.path.endsWith('.json')) ||
+        newRegistryPart ||
+        administrativeDocument ||
         (nativeProfile &&
           output.kind === 'control' &&
           /^docs\/phase-governance\/(routing|document-registry(?:\.(?:ops|lore|phase1|phase2|phase3|testing|phase-governance))?)\.json$/u.test(
@@ -234,7 +377,7 @@ export function prepareCurrentReviewTransaction({
           )),
       'review or exact native-candidate control output required',
     )
-    if (output.kind === 'control') {
+    if ((output.kind === 'control' && !newRegistryPart) || administrativeDocument) {
       const before = readBuffer(output.path)
       const fixed = readGitDocumentSnapshot(base, { revision: baseRevision, path: output.path })
       demand(
@@ -242,9 +385,9 @@ export function prepareCurrentReviewTransaction({
         'control input differs from base',
       )
     }
-    const old = states.get(output.path) ?? fileState(base, output.path, parents)
+    const old = states.get(output.path) ?? fileState(base, output.path, parents, 'docs/')
     demand(
-      output.kind === 'shard' ? !old.buffer : old.buffer,
+      output.kind === 'shard' || newRegistryPart ? !old.buffer : old.buffer,
       `output generation collision or missing owner: ${output.path}`,
     )
     states.set(output.path, old)
@@ -260,7 +403,7 @@ export function prepareCurrentReviewTransaction({
   const sourcePins = new Map(
     [...group.storages].filter(([, v]) => v).map(([p, v]) => [p, structuredClone(v.source)]),
   )
-  for (const pin of currentReviewStorageUpgrades) {
+  for (const pin of upgrades) {
     const upgradeOutput = outputs.find((o) => o.path === pin.path && o.kind === 'manifest')
     if (group.storages.get(pin.path) || !upgradeOutput) continue
     equal(
@@ -281,7 +424,7 @@ export function prepareCurrentReviewTransaction({
   const outputsCopy = outputs.map((o) => ({ ...o, bytes: Buffer.from(o.bytes) }))
   const afterReader = (path) => expected.get(path)?.bytes ?? readBuffer(path)
   assertAllPins(recordsCopy, afterReader, expectedPins)
-  assertProtectedNative(afterReader)
+  assertProtectedNative(afterReader, incremental ? recordsCopy : undefined)
   assertReviewRecordSourceUnchanged(group.loadedSource)
   assertStates(base, states, parents)
   const handle = {
@@ -299,6 +442,7 @@ export function prepareCurrentReviewTransaction({
   }
   capabilities.set(handle, {
     root: base,
+    incremental,
     expectedPins,
     states,
     parents,
@@ -308,6 +452,16 @@ export function prepareCurrentReviewTransaction({
     records: recordsCopy,
     referenced,
     sourcePins,
+    changedControlPaths: new Set(
+      currentNativeControlAdmissions
+        .filter(
+          (entry) =>
+            outputsCopy.some((output) => output.path === entry.path) ||
+            recordsCopy.get(entry.reviewRecord).entries[entry.index].afterSha256 !==
+              group.records.get(entry.reviewRecord).entries[entry.index].afterSha256,
+        )
+        .map((entry) => entry.path),
+    ),
     public: structuredClone(handle),
   })
   return handle
@@ -456,7 +610,7 @@ export function publishCurrentReviewTransaction(handle, { allowWrite = false } =
     finalManifests: plan.sourcePins.size,
     finalShards: [...expected.values()].filter((o) => o.kind === 'shard').length,
     allAfterPinsExact: plan.expectedPins,
-    protectedNative: 302,
+    protectedNative: plan.incremental ? 1933 : 302,
     creditGranted: 0,
     lockReleased: true,
     sourcePinsPreserved: true,
