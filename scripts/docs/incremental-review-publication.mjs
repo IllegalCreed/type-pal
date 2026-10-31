@@ -175,7 +175,6 @@ export function prepareIncrementalPublication({ root, baseRevision, rows }) {
       newSemanticCredit: 0,
       runtimeCredit: false,
     })
-    dirty.add(repair.owner)
   }
   return finalizeIncrementalPlan({
     root,
