@@ -11,7 +11,7 @@ Template: guide-runbook-v1 / 1.0.0
 
 ## 前置条件
 
-前置条件与适用版本见保全块原文;本页不改变其约束效力边界。
+前置条件与适用版本见保全块原文;本页不改变其约束效力边界。当前存活入口:[GAME-BATTLE-PRESENT-LIFECYCLE-1.md](../../../tasks/GAME-BATTLE-PRESENT-LIFECYCLE-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [gates-1.json.gz](gates-1.json.gz) [prove-rules.mjs](prove-rules.mjs) [receipts-1.json.gz](receipts-1.json.gz) [receipts-2.json.gz](receipts-2.json.gz) [receipts-3.json.gz](receipts-3.json.gz) [receipts-4.json.gz](receipts-4.json.gz) [receipts-5.json.gz](receipts-5.json.gz) [review.json](review.json) [verify.mjs](verify.mjs)。
 
 ## 步骤
 

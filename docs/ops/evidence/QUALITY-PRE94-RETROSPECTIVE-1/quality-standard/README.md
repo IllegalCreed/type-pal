@@ -11,7 +11,7 @@ Template: guide-runbook-v1 / 1.0.0
 
 ## 前置条件
 
-前置条件与适用版本见保全块原文;本页不改变其约束效力边界。
+前置条件与适用版本见保全块原文;本页不改变其约束效力边界。当前存活入口:[code-quality.md](../../../code-quality.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [gates.json](gates.json) [manifest.json](manifest.json) [review-bindings.json](review-bindings.json)。
 
 ## 步骤
 

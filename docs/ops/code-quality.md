@@ -11,7 +11,7 @@ Template: guide-runbook-v1 / 1.0.0
 
 ## 前置条件
 
-前置条件与适用版本见保全块原文;本页不改变其约束效力边界。
+前置条件与适用版本见保全块原文;本页不改变其约束效力边界。当前存活入口:[AGENTS.md#操作与必读](../../AGENTS.md#操作与必读) [game-mechanics.md](../phase1/game-mechanics.md) [READ-FIRST.md](../phase2/READ-FIRST.md) [governance.md](../testing/governance.md) [agent-workflow.md](agent-workflow.md) [agent-workflow.md#测试质量验收用户-2026-10-03-固化](agent-workflow.md#测试质量验收用户-2026-10-03-固化) [documentation-model.md](guides/documentation-model.md) [README.md](templates/README.md)。
 
 ## 步骤
 

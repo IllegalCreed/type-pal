@@ -26,7 +26,7 @@ Template: test-domain-report-v1 / 1.1.0
 
 ## Inputs and fixtures
 
-固定main源14440B(SHA 68b77a45cb21);输入为固定载体非重跑。
+固定main源14440B(SHA 68b77a45cb21);输入为固定载体非重跑。当前存活入口:[review.json](../../../../ops/evidence/GAME-INPUT-ROTATION-1/review.json) [release.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [GAME-INPUT-ROTATION-1.md](../../../../ops/tasks/GAME-INPUT-ROTATION-1.md) [catalog.json](../../../catalog.json) [evidence.json](evidence.json)。
 
 ## Results and gaps
 

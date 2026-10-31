@@ -26,7 +26,7 @@ Template: test-domain-report-v1 / 1.1.0
 
 ## Inputs and fixtures
 
-固定main源21378B(SHA 9e9a67218b76);输入为固定载体非重跑。
+固定main源21378B(SHA 9e9a67218b76);输入为固定载体非重跑。当前存活入口:[docs-maintenance.json](../../../../ops/evidence/GAME-ENGLISH-1/docs-maintenance.json) [release-preparation.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [review.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json) [integration-receipt.json](../../../../ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json) [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md) [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md) [GAME-SCRIPT-CORRECTIONS-1.md](../../../../ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md) [evidence.json](evidence.json)。
 
 ## Results and gaps
 
