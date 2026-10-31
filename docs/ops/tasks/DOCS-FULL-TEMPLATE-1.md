@@ -1,16 +1,28 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
 Status: build
-Execution: build（S76隔离整合main及新增候选分类；源S75已验收成果保留，组合硬门未验）
+Execution: build/rework（S80固定最新main整合；4351项验收复用，增量与组合硬门未验）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S74中央接入与唯一路由控制增量非作者accept）；Codex（S75受控接入与最终硬门Owner）
-Branch: codex/docs-s76-main-integration
+Branch: codex/docs-s80-main-rollforward
 Last reviewed: 2026-10-30
 Template: task-card-v1 / 1.0.0
 
 > 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
+
+## S80 最新 main 滚动整合与整包准入（2026-10-31，build allowed）
+
+- 单一写入Owner为Codex，隔离分支见顶部；S78/S79树和原包冻结。4351项按各自原候选复用，不重授；父卡保持build/rework，硬门未过不合main、不推送、不done。
+- 固定已接受S79 `511c59b13fec67839b9f6fb7dcfd109d42a747dd`、旧main `72db417255d8ca4227522420e9185ef468462aa7`、新main `5e66fa6b6291f94330fb5d7fc9828062e0eb8a51`（含PR #34）。S79的另分支延期只指当时，不沿用到本轮。
+- 实际179新增（41MD/138JSON）、50变更、67 artifact；实际32个冲突路径（先前预检人工计33，更正为32）。50中17中央review控制及5个Owner投影/发布控制归Codex；207作者目标=179新增+28变更（65MD/142JSON），一次整包交GLM。
+- 保留114逻辑owner/不可变片及4351原记录；不以main旧flat覆盖，不恢复撤信。规范接入最新语义组织/判等反控要求；catalog保留001两次有范围出版复核和006实测边界，活动reviewBy仍退休；索引由公开producer重建。产品和旧测试只承接已获批上游合并，无本轮附加修改。
+- 冻结`document-rollforward-candidates/1.0.0`为作者候选合同，不新增模板或生产授信表。Git身份、精确余集与白名单由工具实取；变更篇同时钉定旧接受与上游来源；原生JSON字节不写，MD保全集成后的固定源全文，代码质量当前条款在可见正文逐字保留。旧4351绑定、签名、1933 native根不放宽；受影响新内容待独立接受。
+- 五pilot为新任务卡、证据导航、原生CI回执、更新的现行规范、变更配对机器证据。公开CLI真实写入、只读幂等及越界/伪造/尾字段反控后才冻结GLM准入。GLM先独立验收公共增量和五pilot，再同一委托完成其余202篇；207篇逐篇语义核对，读域与复用如实，不以抽样代替。
+- 上1916中的11合并提案尚未删除。6字节相同项核引用/pin/替代字段后由Owner受控退役；5不同执行身份保留独立性并说明理由。提案、治理接入、实际删除分记；固定1838分母不改，不加重复正文或账本代替处置。
+- 作者只写白名单MD与仓外证据，不改中央registry/routing/review/catalog/规则，不自授信用；中央扩容、控制pin级联和退休由Owner在交付接受后按实执行。现有公共模板可复用；确有新格式只停受影响项，不将整包退回设计小包。
+- 完整check:docs、lint和三口径diff-check须零error/warning/info。新增/变更未接入前如实保留红与待办，不改旧签名或刷新hash洗白；静态结果不授产品/runtime/E2E/视觉/coverage信用。受保护main集成另据真实最新CI。
 
 ## 目标
 在不覆盖共享工作树改动、不把静态治理冒充运行时验收的前提下，核定 docs 全树的文件归属，冻结可审查的统一模板注册表，再按批次把正文迁移为模板合规并为每篇保留可追溯 review record。

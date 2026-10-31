@@ -56,7 +56,7 @@ historical。覆盖率与测试计数为 2026-09-29 时点。
 
 ## 2026-10-31 历史链接去向
 
-K04 原文件已按职责拆分；本页 quote 仍是原字节，不能改链后冒称直接逆回。历史代码可从[原候选冻结文件](https://github.com/IllegalCreed/type-pal/blob/1f26d421ab81090c83b704968973e369473d563a/packages/game/src/core/event-system.glm-event-k04.test.ts)核读，当前去向见[事件转换重组记录](../../../../../ops/evidence/QUALITY-PENDING-100-3/organization-event-transitions.json)。旧 quote 的原路径由本条明确解释；后续模板迁移须以固定 Git 原文围栏保全，不偷偷替换链接。
+K04 原文件已按职责拆分；本轮只把 quote 内唯一 K04 链接改为固定 Git 地址，其他原字节不改；直接逆回已不相等，不能沿用旧无条件保全声明。历史代码可从[原候选冻结文件](https://github.com/IllegalCreed/type-pal/blob/1f26d421ab81090c83b704968973e369473d563a/packages/game/src/core/event-system.glm-event-k04.test.ts)核读，当前去向见[事件转换重组记录](../../../../../ops/evidence/QUALITY-PENDING-100-3/organization-event-transitions.json)。精确逆回须先将上面 Git 地址替换为 `../../../../../../packages/game/src/core/event-system.glm-event-k04.test.ts`（恰一次）再剥 quote；不 trim、不换行归一化。原接受版本仍可从固定 S79 Git blob 回读；本次变更待独立验收。后续模板迁移以固定 Git 原文围栏保全。
 
 
 ## 原文保全
@@ -73,7 +73,7 @@ K04 原文件已按职责拆分；本页 quote 仍是原字节，不能改链后
 >
 > | 返工项 | Codex 独立核验 |
 > |---|---|
-> | K04 无 handler | [K04 测试](../../../../../../packages/game/src/core/event-system.glm-event-k04.test.ts)在第二次执行前 `setMapReloader(null)`，并断言回调记录仍仅 `[99]`；`finally` 清理保留。 |
+> | K04 无 handler | [K04 测试](https://github.com/IllegalCreed/type-pal/blob/1f26d421ab81090c83b704968973e369473d563a/packages/game/src/core/event-system.glm-event-k04.test.ts)在第二次执行前 `setMapReloader(null)`，并断言回调记录仍仅 `[99]`；`finally` 清理保留。 |
 > | 三枚反控/判据 | `--self-test` **8/8**；实际复跑 **3/3 valid**，分别变异合法 idleFrames、fade speed、sell/buy opcode，原断言不动；每针正控 exit0，反控指定绝对文件/fullName 一个 `AssertionError`、exit1、非零执行、无 skip/timeout/收集错，注入副本已删。K05 首先失败的是 `speed=1` 断言，非回执 r1 所写的 totalMs；本次已纠正文案。 |
 > | K03 卖出参数 | [K03 测试](../../../../../../packages/game/src/core/event-system.glm-event-k03.test.ts)撤掉 sell 的 `storeNum` 语义断言，以两个合法 operand 对照 `mode='sell'`、waiting/ip；符合 `reference/sdlpal/script.c:1168-1173` 的 `PAL_SellMenu()` 不读 operand。 |
 > | K06 合法战斗 ctx | [K06 测试](../../../../../../packages/game/src/core/event-system.glm-event-k06.test.ts)改用现行 `createBattleState`，玩家 0 真实存在且 caster 指向它；三态返回、giveItem 与物品入口断言保留。 |
