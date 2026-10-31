@@ -229,6 +229,29 @@ test('an existing current template can be reused without adding another copy of 
   assert(result.body.equals(source))
   assert.equal(result.row.evidence.kind, 'incremental-existing-template-amendment')
   assert.equal(result.row.evidence.fullSourcePreservedIn, 'pinned-git-blob')
+  for (const key of [
+    'productionAdmission',
+    'semanticAcceptanceGranted',
+    'historicClaimsReexecuted',
+    'nonAuthorReviewer',
+    'creditGranted',
+  ]) {
+    const forged = structuredClone(draft)
+    forged.review[key] = true
+    assert.throws(
+      () =>
+        prepareRollforwardCandidate({
+          draft: forged,
+          admission: value.rows.find((r) => r.path === path),
+          source,
+          registry: JSON.parse(
+            readFileSync(`${root}/docs/phase-governance/templates/registry.json`),
+          ),
+          read: (p) => readFileSync(`${root}/${p}`, 'utf8'),
+        }),
+      /cannot declare/,
+    )
+  }
 })
 
 test('amendment preservation rejects historical tail mutation or another nested source span', () => {

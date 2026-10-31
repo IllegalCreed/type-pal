@@ -163,6 +163,15 @@ export function prepareRollforwardCandidate({ draft, admission, source, registry
     !Object.hasOwn(draft.review ?? {}, 'currentIndependentAcceptance'),
     'author cannot supply acceptance',
   )
+  for (const [key, value] of [
+    ['productionAdmission', false],
+    ['semanticAcceptanceGranted', false],
+    ['historicClaimsReexecuted', false],
+    ['nonAuthorReviewer', false],
+    ['creditGranted', 0],
+  ])
+    if (Object.hasOwn(draft.review ?? {}, key))
+      assert.equal(draft.review[key], value, `author cannot declare ${key}`)
   assert.equal(
     draft.review?.semanticAssessment?.perFileChecked,
     true,
