@@ -4,6 +4,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { isDeepStrictEqual as same } from 'node:util'
+import { gunzipSync } from 'node:zlib'
 import { inspectCurrentNativeControl } from './current-native-control.mjs'
 import { currentNativeControlAdmissions } from './current-native-control-admission.mjs'
 import { loadDocumentRegistry, writeDocumentRegistry } from './document-registry.mjs'
@@ -154,7 +155,6 @@ export function prepareIncrementalPublication({ root, baseRevision, rows }) {
     row.maintenanceDeltas ??= []
     row.maintenanceDeltas.push(expected)
   }
-  const dirty = new Set([incrementalReviewPath])
   for (const repair of admission.inputPinRepairs) {
     const row = records.get(repair.owner).entries[repair.index]
     demand(
@@ -177,6 +177,61 @@ export function prepareIncrementalPublication({ root, baseRevision, rows }) {
     })
     dirty.add(repair.owner)
   }
+  return finalizeIncrementalPlan({
+    root,
+    baseRevision,
+    group,
+    records,
+    outputs,
+    acceptedRows: granted.length,
+  })
+}
+
+/** Append only the existing task/board/evidence stream; never re-grant or rewrite accepted content. */
+export function prepareIncrementalMaintenance({ root, baseRevision, updates }) {
+  root = resolve(root)
+  demand(
+    Array.isArray(updates) && updates.length > 0 && updates.length <= 3,
+    'bounded administrative updates required',
+  )
+  const allowed = new Set([
+    'docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md',
+    'docs/ops/board.md',
+    'docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz',
+  ])
+  const seen = new Set(),
+    outputs = []
+  for (const update of updates) {
+    demand(
+      allowed.has(update.path) && !seen.has(update.path) && Buffer.isBuffer(update.bytes),
+      'unknown, duplicate or non-byte administrative update',
+    )
+    seen.add(update.path)
+    const before = readFileSync(join(root, update.path))
+    const source = update.path.endsWith('.gz') ? gunzipSync(before) : before
+    const after = update.path.endsWith('.gz') ? gunzipSync(update.bytes) : update.bytes
+    demand(
+      after.length > source.length &&
+        after.length - source.length <= 16 * 1024 * 1024 &&
+        after.subarray(0, source.length).equals(source),
+      'administrative update must preserve the complete original prefix',
+    )
+    outputs.push({ path: update.path, kind: 'administrative', bytes: Buffer.from(update.bytes) })
+  }
+  const group = loadReviewRecords({ root })
+  demand(
+    inspectIncrementalCohort(group.records),
+    'already accepted cohort required for maintenance',
+  )
+  const records = new Map(
+    [...group.records].map(([path, record]) => [path, structuredClone(record)]),
+  )
+  return finalizeIncrementalPlan({ root, baseRevision, group, records, outputs, acceptedRows: 0 })
+}
+
+function finalizeIncrementalPlan({ root, baseRevision, group, records, outputs, acceptedRows }) {
+  const dirty = new Set()
+  const byPath = new Map(outputs.map((output) => [output.path, output]))
   for (const [owner, record] of records)
     if (!same(record, group.records.get(owner))) dirty.add(owner)
   let previous = -1
@@ -256,7 +311,7 @@ export function prepareIncrementalPublication({ root, baseRevision, rows }) {
   const handle = {
     kind: 'incremental-document-publication/1.0.0',
     baseRevision,
-    acceptedRows: granted.length,
+    acceptedRows,
     logicalOwners: records.size,
     totalAfterPins: 4351,
     outputFiles: transaction.outputs,
@@ -287,5 +342,5 @@ export function publishIncrementalPublication(handle, { allowWrite = false } = {
   demand(allowWrite === true, 'explicit Owner publish mode required')
   const result = publishCurrentReviewTransaction(plan.transaction, { allowWrite: true })
   plans.delete(handle)
-  return { ...result, semanticGrants: 1916, runtimeCredit: 0 }
+  return { ...result, semanticGrants: plan.snapshot.acceptedRows, runtimeCredit: 0 }
 }

@@ -1,4 +1,5 @@
 // Shared physical transaction only. Semantic callers must validate their own closed admission.
+import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import {
   lstatSync,
@@ -43,6 +44,34 @@ const equal = (a, b, label) =>
     `value/key order mismatch: ${label}`,
   )
 const capabilities = new WeakMap()
+const administrativePaths = new Set([
+  'docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md',
+  'docs/ops/board.md',
+  'docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz',
+])
+function readAdministrativeSource(root, revision, path) {
+  demand(
+    administrativePaths.has(path) && /^[a-f\d]{40}$/u.test(revision),
+    'bounded administrative Git source required',
+  )
+  const run = (args, encoding) =>
+    execFileSync('git', args, {
+      cwd: root,
+      encoding,
+      maxBuffer: 128 * 1024 * 1024,
+      stdio: ['ignore', 'pipe', 'pipe'],
+    })
+  demand(
+    run(['cat-file', '-t', revision], 'utf8').trim() === 'commit',
+    'real administrative commit required',
+  )
+  const rows = run(['ls-tree', '-z', '--full-tree', revision, '--', path], 'utf8')
+    .split('\0')
+    .filter(Boolean)
+  const row = rows.length === 1 && /^100644 blob ([a-f\d]{40})\t(.+)$/u.exec(rows[0])
+  demand(row && row[2] === path, 'regular administrative Git blob required')
+  return { mode: '100644', buffer: run(['cat-file', 'blob', row[1]]) }
+}
 const canonical = (value) => JSON.stringify(value)
 function assertStates(root, states, parents) {
   for (const [path, expected] of parents) {
@@ -367,13 +396,7 @@ export function prepareCurrentReviewTransaction({
         `new registry part must be an exact bounded control artifact: ${output.path} (${output.bytes.length})`,
       )
     const administrativeDocument =
-      incremental &&
-      output.kind === 'administrative' &&
-      [
-        'docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md',
-        'docs/ops/board.md',
-        'docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz',
-      ].includes(output.path)
+      incremental && output.kind === 'administrative' && administrativePaths.has(output.path)
     demand(
       (output.path.startsWith(`${reviewDirRelative}/`) && output.path.endsWith('.json')) ||
         newRegistryPart ||
@@ -387,7 +410,9 @@ export function prepareCurrentReviewTransaction({
     )
     if ((output.kind === 'control' && !newRegistryPart) || administrativeDocument) {
       const before = readBuffer(output.path)
-      const fixed = readGitDocumentSnapshot(base, { revision: baseRevision, path: output.path })
+      const fixed = administrativeDocument
+        ? readAdministrativeSource(base, baseRevision, output.path)
+        : readGitDocumentSnapshot(base, { revision: baseRevision, path: output.path })
       demand(
         fixed?.mode === '100644' && before.equals(fixed.buffer),
         'control input differs from base',

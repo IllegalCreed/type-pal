@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { test } from 'node:test'
@@ -20,7 +20,10 @@ import {
   incrementalQualificationIssues,
   normalizeIncrementalReview,
 } from './incremental-review-content.mjs'
-import { publishIncrementalPublication } from './incremental-review-publication.mjs'
+import {
+  prepareIncrementalMaintenance,
+  publishIncrementalPublication,
+} from './incremental-review-publication.mjs'
 import { runIncrementalPublication } from './publish-incremental-documents.mjs'
 
 const original = () => ({
@@ -164,6 +167,30 @@ test('serialized or fabricated publication handles cannot acquire write authorit
       ),
     /in-process publication capability/,
   )
+})
+
+test('administrative maintenance rejects unknown paths, rewritten prefixes and duplicate updates before acquiring write authority', () => {
+  const root = mkdtempSync(join(tmpdir(), 'incremental-maintenance-'))
+  const path = 'docs/ops/board.md'
+  mkdirSync(join(root, 'docs/ops'), { recursive: true })
+  writeFileSync(join(root, path), 'original board\n')
+  try {
+    for (const updates of [
+      [{ path: 'docs/ops/code-quality.md', bytes: Buffer.from('arbitrary policy') }],
+      [{ path, bytes: Buffer.from('rewritten board\n') }],
+      [
+        { path, bytes: Buffer.from('original board\nappend\n') },
+        { path, bytes: Buffer.from('original board\nappend\n') },
+      ],
+    ])
+      assert.throws(
+        () => prepareIncrementalMaintenance({ root, baseRevision: 'a'.repeat(40), updates }),
+        /unknown, duplicate|preserve the complete original prefix/,
+      )
+    assert.equal(readFileSync(join(root, path), 'utf8'), 'original board\n')
+  } finally {
+    rmSync(root, { recursive: true })
+  }
 })
 
 test('publication rejects an in-repository or already occupied receipt before touching state', () => {
