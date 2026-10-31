@@ -1,5 +1,59 @@
 # CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界
 
+Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界」的任务归属与历史边界。原目标见原文(摘录:> 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见[pre94收口裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/complet);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界、2026-10-20 当前验收、目标与停止线、前提真值门、范围与验收、交接],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源6917B(SHA 2818199851b9);原卡前提按原时点保留。当前存活入口:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文2个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6917B / SHA-256 2818199851b92f59224800954fea55dcdd4d66d9f126ed52f32d0062d02ee284；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界
+
 > 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见[pre94收口裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)。当前done只覆盖下述原卡范围，不把共享大文件或其它卡自动关闭；旧pending/review/失败按历史时点保留。
 
 Status: done
@@ -62,3 +116,5 @@ Owner Codex。用户本轮“处理五卡必要返工”与工程既有保真修
 保留范围：整份战斗opcode dispatcher及广域旧测试仍归CODE3t文件复审；它们不属于本卡这一窄缺陷的未满足验收条件。
 
 Owner/Reviewer Codex。本轮核对原卡验收条件、有效八维记录与实际原件，复用仍匹配的审查和测试；当前产品及测试源码相对ea9c3cc02没有变化。文档/索引/账本门本次另实跑，见completion.json.checks。无下一位Agent提示词，Codex继续剩余pre94。
+```
+<!-- incremental-original-source:end -->

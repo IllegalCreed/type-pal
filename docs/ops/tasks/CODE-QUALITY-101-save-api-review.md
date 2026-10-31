@@ -1,6 +1,60 @@
 # CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）」的任务归属与历史边界。原目标见原文(摘录:存档域本体切片（2 生产 + 1 专属测试 + 2 相邻），不碰 CODE94/95 白名单与 97-100 批文件：);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）、2026-10-25 本地统一门收口（当前）、批准后收尾窗口（2026-10-25，接续b8）、2026-10-25 连接所有权返工准入（当前）、2026-10-17 Codex 当前逐文件复核、2026-10-15 最终模块窗口（当前）],共8个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源16516B(SHA 97bb20c352d7);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)、[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md)、[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)、[codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md)、[codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文8个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)、[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md)、[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)、[codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md)、[codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 16516B / SHA-256 97bb20c352d7dbe2b342ee9b083cb56ec118438f536e62bf2ebb01c21b369f5c；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）
+
+Status: done
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -163,3 +217,5 @@ Codex 独立验收；E-10/E-12 并入 E-批；U-1（记录级版本）由既有�
 api.test原8例中roundtrip补回六类字段，新增1条读侧克隆：修改load结果的现金、嵌套HP和库存数量，第二次读取仍为原值；原存侧克隆另留，不混称同向。明确stub indexedDB为undefined，每例前后清内存Map并恢复全局；fixture当前HP150/MaxHP200、库存正数，未伪造IDB主路径。当前9例；真实IDB事务三例仍由原独立文件承担。生产api/indexed-db、schema/DB_VERSION、异常输入合同、迁移均未修改。
 
 [完整补审证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)记录旧弱spec与新spec的同一精确变异对照、所有失败与当前原件、caller/read边界；初次typecheck指出测试数组下标未收窄，改用正常遍历，未加强转/ignore。输入域裁决与IDB连接生命周期仍pending，CODE100/101及api.test均保持review，不以局部绿恢复整文件闭合。
+```
+<!-- incremental-original-source:end -->

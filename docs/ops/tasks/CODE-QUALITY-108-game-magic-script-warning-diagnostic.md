@@ -1,6 +1,40 @@
 # CODE-QUALITY-108 — game magic-script warning ownership
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-108 — game magic-script warning ownership」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: game / menu / diagnostic ownership Visual Verification Timing: N/A);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-108 — game magic-script warning ownership、目标与白名单、准入与事实、实施、当前验证、收口要求与未决项],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源3040B(SHA d8d67c83e52c);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3040B / SHA-256 d8d67c83e52ceefc09433921c075e4b7f550c27fd483021cc7a4073c026a85d6；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-108 — game magic-script warning ownership
+
+Status: review
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -58,3 +92,5 @@ fail-closed 诊断和业务反例：
   461/593 branches、111/140 functions、943/1367 lines，以及总量回退；本批未调 baseline。
 - 生产 `magic-script.ts` 未修改；schema/save、公共接口、第一阶段行为和生成物均未触碰。
   `magic-script.ts` 与 `magic-script.test.ts` 保持 `review`，整卡不标 `done`。
+```
+<!-- incremental-original-source:end -->

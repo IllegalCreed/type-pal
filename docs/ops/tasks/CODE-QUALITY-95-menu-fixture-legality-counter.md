@@ -1,6 +1,60 @@
 # CODE-QUALITY-95 — menu 测试夹具合法性 counter
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-95 — menu 测试夹具合法性 counter」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: menu test legal typed input and isolation Visual Verification Timi);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-95 — menu 测试夹具合法性 counter、2026-10-25 本地统一门收口（当前）、批准后收尾窗口（2026-10-25，接续b8）、2026-10-25 当前复审增量、2026-10-15 最终模块窗口（当前）、Codex R3 当前验收与接手（2026-10-15）],共5个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源13125B(SHA cf02e0e17fe1);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)、[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md)、[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)、[codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md)、[README.md](../evidence/CODE-QUALITY-94/current-review/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-95 — menu 测试夹具合法性 counter的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文5个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)、[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md)、[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)、[codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md)、[README.md](../evidence/CODE-QUALITY-94/current-review/README.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 13125B / SHA-256 cf02e0e17fe1e05e6ee2609fd26af08db57731c29f75b1537eb4db0237b28ca4；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-95 — menu 测试夹具合法性 counter
+
+Status: done
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -123,3 +177,5 @@ Codex独立24files/241tests及game typecheck通过；CODE95完整字段/数组�
 ### Codex caller 复核补充：CODE95同样counter
 
 库存测试的200物品applyToAll=true，死人目标/取消却直接进选人；生产menu-driver:711-717和SDLPal play.c:268-323会跳过picker。因此“typed修正局部通过”初判须收紧：字段/数组修正成立，真实单体caller前提仍需R4修正，CODE95转rework。见codex-review.md的R4；只修合法测试输入，不改变产品行为。30文件保持review，未有accept、未合main。
+```
+<!-- incremental-original-source:end -->

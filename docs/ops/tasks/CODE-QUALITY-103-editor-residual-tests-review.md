@@ -1,6 +1,40 @@
 # CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: editor / test-contract-precision Visual Verification Timing: N/A（本);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）、2026-10-17 Codex 当前复核、ControlCommandForm 残余合同、ItemUseEffectEditor 残余合同、验证与未闭合项、下一步],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源3646B(SHA f1fde0819ea9);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3646B / SHA-256 f1fde0819ea966595cd425ac854cab8eedf0be23094369decbce9ca8bffb47e8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）
+
+Status: review
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -60,3 +94,5 @@ bridge 的实际分流排除；测试没有重复不可达分支，也没有 moc
 清理后重新跑这两个残余测试的定向/相邻回归。P1 `puppet`/`battleOnly`
 若需产品行为改变，另开高风险卡并请求用户裁决。本卡不改产品、schema、旧测试
 或覆盖率规则。
+```
+<!-- incremental-original-source:end -->

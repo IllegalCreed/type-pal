@@ -1,6 +1,40 @@
 # CODE-QUALITY-106 — Reforge reward-gain 测试 Promise 诊断
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-106 — Reforge reward-gain 测试 Promise 诊断」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: reforge / menu / test-host diagnostics Visual Verification Timing:);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-106 — Reforge reward-gain 测试 Promise 诊断、目标与白名单、逐文件与生产链读取、根因与修改、验证与未闭合项、下一步],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源3147B(SHA 7e9a711700a4);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3147B / SHA-256 7e9a711700a4d0cce6b1a2217c4fb9f20d889182dbdcff07aeabb905f8fc2599；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-106 — Reforge reward-gain 测试 Promise 诊断
+
+Status: review
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -58,3 +92,5 @@ expect(...).resolves... was not awaited” 诊断。修复后测试声明为 asy
 
 coverage 与全仓统一门收口后复验本卡；若其它相邻测试仍有诊断，另开最小白名单卡，
 不把当前零诊断外推为整个 Reforge 或全仓 runtime 完成。
+```
+<!-- incremental-original-source:end -->

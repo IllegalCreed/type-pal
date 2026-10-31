@@ -1,5 +1,39 @@
 # CODE-QUALITY-53 — game player status runtime-zero ownership conflict
 
+Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-53 — game player status runtime-zero ownership conflict」的任务归属与历史边界。原目标见原文(摘录:核定状态页 `runtimeOrBase` 在运行时值为 0 时的 ownership，再决定是否修复 `drawPlayerStatus` 及其测试。SDLPal 直接显示 runtime `rgwHP/rgwMP/rgwLevel`，0);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-53 — game player status runtime-zero ownership conflict、2026-10-25 事件专测代码接受、2026-10-24 历史增量：旧停止线与中文功能画面、2026-10-20 当前复审、目标、范围],共7个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源32175B(SHA 83abdc7f23f3);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 32175B / SHA-256 83abdc7f23f3ba4daacac7487727c7e9fbed72c9506d0f5d2463bc631ca56caf；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-53 — game player status runtime-zero ownership conflict
+
 > 2026-10-20当前：本卡五卡复审/必要返工已完成源码与证据审查，统一门结果以五卡唯一回执为准；以本页当前节和[五卡回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)为准。旧时点的build/停止线/门失败保留，不作今天的阻塞或通过声明。
 
 Status: review
@@ -215,3 +249,5 @@ GS模型与纯战斗投影职责分离、四文件八维和正式codec字段迁�
 ## 2026-10-25 当前代码接受（统一集成另核）
 
 2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 [逐文件八维/原件/只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。前节的撤回/用户待答是修前时点；本节以正式反例、批准和当前候选恢复event-system及3r/53代码信用，并接收57原三个范围文件及两个独立叶。历史原件、其它合同和集成待门不改写为通过。
+```
+<!-- incremental-original-source:end -->

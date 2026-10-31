@@ -1,6 +1,40 @@
 # CODE-QUALITY-57 — game bootstrap thumbnail seam boundary
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-57 — game bootstrap thumbnail seam boundary」的任务归属与历史边界。原目标见原文(摘录:逐文件核验 bootstrap 启动编排、相关测试与地图缩略图路径，确认资源加载、场景切换、thumbnail caller、framebuffer ownership 与 SDLPal scene 真值一致；明确 `renderMapTh);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-57 — game bootstrap thumbnail seam boundary、当前代码验收、目标、范围、前提真值门、上下文锚点与风险],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源7907B(SHA 58c3cae3814a);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)、[GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7907B / SHA-256 58c3cae3814a64b8fc313a046ee88748de450a318a9b05d3f4830fff5b19eed5；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-57 — game bootstrap thumbnail seam boundary
+
+Status: review
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -76,3 +110,5 @@ Visual Verification Timing: functional-ui（缩略图/小地图功能性画面�
 ## 2026-10-25 当前代码接受（统一集成另核）
 
 2026-10-25 CODE57代码接受：纯重构、获批小地图补缝、下载失败保留及换图编号/重访修复分提交。七文件新关闭、event-system/identity两旧关闭刷新；3450tracked／498closed／72review／2880pending，固定80accept／3partial／0pending。57相邻、391地图相邻、最后3helper与TC0；真实7路径及有效反控成立。全仓/coverage/protected/一个PR仍等剩余1／3m／42，不扩94–102。 [逐文件八维/原件/只读复验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。前节的撤回/用户待答是修前时点；本节以正式反例、批准和当前候选恢复event-system及3r/53代码信用，并接收57原三个范围文件及两个独立叶。历史原件、其它合同和集成待门不改写为通过。
+````
+<!-- incremental-original-source:end -->

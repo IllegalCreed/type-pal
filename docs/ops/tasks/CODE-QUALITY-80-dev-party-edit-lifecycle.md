@@ -1,5 +1,59 @@
 # CODE-QUALITY-80 — game Dev Panel 换队生命周期
 
+Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-80 — game Dev Panel 换队生命周期」的任务归属与历史边界。原目标见原文(摘录:> 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见[pre94收口裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/complet);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-80 — game Dev Panel 换队生命周期、2026-10-20 当前验收、范围与停止线、前提真值门、实际复现与候选取舍、验收设计与剩余风险],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源9626B(SHA 91c85730e8d5);原卡前提按原时点保留。当前存活入口:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-80 — game Dev Panel 换队生命周期的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文2个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 9626B / SHA-256 91c85730e8d58adbf64f5ca38e99ef84b31a4889a48138945697e62fc7a53ac4；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-80 — game Dev Panel 换队生命周期
+
 > 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见[pre94收口裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)。当前done只覆盖下述原卡范围，不把共享大文件或其它卡自动关闭；旧pending/review/失败按历史时点保留。
 
 Status: done
@@ -77,3 +131,5 @@ B调试面板的战斗换队禁用与探索换队装备重建。用户已经裁�
 保留范围：picker生命周期由CODE81收口；Dev大文件的整体组织仍归CODE58及通用逐文件复审。当前没有宿主卸载caller，因此不强造新的公共disposer。现有功能DOM证据符合本卡验收范围，不声称完成额外美术或剧情视觉验收。
 
 Owner/Reviewer Codex。本轮核对原卡验收条件、有效八维记录与实际原件，复用仍匹配的审查和测试；当前产品及测试源码相对ea9c3cc02没有变化。文档/索引/账本门本次另实跑，见completion.json.checks。无下一位Agent提示词，Codex继续剩余pre94。
+```
+<!-- incremental-original-source:end -->

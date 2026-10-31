@@ -1,6 +1,60 @@
 # CODE-QUALITY-100 — 存档槽菜单审核（save-slot-menu 切片）
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-100 — 存档槽菜单审核（save-slot-menu 切片）」的任务归属与历史边界。原目标见原文(摘录:menu 域收完后换域第一批：存档槽菜单切片（1 生产 + 2 专属测试 + 2 相邻），不碰 CODE94/95 白名单与 97/98/99 批文件：);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-100 — 存档槽菜单审核（save-slot-menu 切片）、2026-10-25 本地统一门收口（当前）、批准后收尾窗口（2026-10-25，接续b8）、2026-10-25 当前复审增量、Codex 当前复核与测试收紧（2026-10-17）、2026-10-15 最终模块窗口（当前）],共7个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源12738B(SHA ca98631c79cf);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)、[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md)、[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)、[codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md)、[codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md)、[README.md](../evidence/CODE-QUALITY-94/current-review/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:done),治理不改写。
+
+## 状态与交接
+
+done保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+## 历史范围
+
+原卡属固定main时点;CODE-QUALITY-100 — 存档槽菜单审核（save-slot-menu 切片）的原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按其Status(done)原样;治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+原文7个链接与当时回执属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+接替/关联入口见原文链接;当前任务导航以看板为准。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)、[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md)、[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)、[codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md)、[codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md)、[README.md](../evidence/CODE-QUALITY-94/current-review/README.md)
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 12738B / SHA-256 ca98631c79cf41c9e3449754e937dcd535bdf91d83c692d1afb01096c13abab2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-100 — 存档槽菜单审核（save-slot-menu 切片）
+
+Status: done
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -153,3 +207,5 @@ Codex 独立验收；E-1..E-9 仍等 94/95 验收。后续候选：Save API 存�
 ## 2026-10-18 排重勘误与交接
 
 2daed1bb7删除的三个Save API用例不能统称为“已有等价覆盖”：缺槽null确已覆盖，但六类字段往返只剩cash，且存侧克隆不等价于读侧克隆。Codex撤回该完全重复判断，菜单层保持不回填IO用例，在Save域补齐roundtrip的cash/scene/savedTimes/HP/Level/inventory及独立读侧深克隆。旧save-slot-menu.test已验证记录转review，0新增closed；不是发现菜单生产实现缺陷。精确反控、当前测试及限制见[补审返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)；原58例和旧门结论仅各自历史候选，本卡继续review。
+```
+<!-- incremental-original-source:end -->

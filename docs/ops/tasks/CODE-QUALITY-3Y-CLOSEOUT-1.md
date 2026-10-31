@@ -1,5 +1,39 @@
 # CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成
 
+Status: build
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成」的任务归属与历史边界。原目标见原文(摘录:> 2026-10-25发布：固定pre94原83范围代码accept；同一3y／PR22未合并。a76881ec的Docs完整日志0诊断，Coverage20180例及protected通过，但实际);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成、用户指令与安全边界、范围、前提与准入、质量与交接、统一分支检查点（未验收）、最新实际分支状态],共2个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源8245B(SHA 7f94bdba59b3);原卡前提按原时点保留。当前存活入口:[README.md](../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md)、[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:build),治理不改写。
+
+## 状态与交接
+
+build保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8245B / SHA-256 7f94bdba59b3ace9d1a95b418e6fe421f27fb690415843466bede465136aa02d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成
+
 > 2026-10-25发布：固定pre94原83范围代码accept；同一3y／PR22未合并。a76881ec的Docs完整日志0诊断，Coverage20180例及protected通过，但实际4条act告警导致集成拒绝。只修CutsceneTab专测等待边界，2文件9例／editorTC0、断言与生产不变；完整原件和当前差异见[最终回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)。不重跑本地全仓coverage，新远端CI零诊断后合并。
 
 Status: build
@@ -61,3 +95,5 @@ coverage runner实际合同：run.mjs:429-433只拦仍存在文件中的test-fil
 2026-10-16：已删除旧测试文件，原件无损gzip与两条file×fullName转移关系留证；main产品/12例测试均原字节。定向12、相邻6文件44、game typecheck通过且无运行时诊断。临时副本stop代际反控12绿→11绿1指定AssertionError→恢复12绿，清理后另进程重建recipe、SHA与实际runner身份核对通过；首次准备缺shared/node_modules未跑测试，失败记录保留。详见[本片证据](../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md)。
 
 机器3287/223closed/198review/2866pending，0新关闭；CODE75只收本片排重，不恢复历史产品closed，余57卡未复审。完整check/official ratchet/两父protected fast仍待稳定模块窗口集中，不合main。继续只用codex/code-quality-3y；fetch核main未前进，0behind，分支整合所有旧tip可达。
+```
+<!-- incremental-original-source:end -->

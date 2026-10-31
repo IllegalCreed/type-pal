@@ -1,6 +1,40 @@
 # CODE-QUALITY-105 — Reforge MenuBox 残余测试逐文件复核
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-105 — Reforge MenuBox 残余测试逐文件复核」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: reforge / menu / test-contract-precision Visual Verification Timin);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-105 — Reforge MenuBox 残余测试逐文件复核、目标与白名单、逐文件读取与事实边界、合同与测试判别力、验证结果与未闭合项、结论与下一步],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源4414B(SHA af5018f1b8bf);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4414B / SHA-256 af5018f1b8bf89482eadbbc30b01adae7d2aa9cc752dfad6f1aeb77f6bf950f8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-105 — Reforge MenuBox 残余测试逐文件复核
+
+Status: review
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -68,3 +102,5 @@ typed `MenuAssets`、`CharacterInstance`、`WorldState`、`ItemDataMap`，只将
 五个合同和五针反控均有当前源代码证据，未发现需要修复的产品或测试缺陷；但相邻包已有未
 await 诊断且统一 coverage 门仍失败，不能关闭本文件。下一步先处理相邻 Vitest 诊断的
 独立最小批次，再复验本卡；任何发现公共 UI、资产或第一阶段机制变化时立即停线另开高风险卡。
+```
+<!-- incremental-original-source:end -->

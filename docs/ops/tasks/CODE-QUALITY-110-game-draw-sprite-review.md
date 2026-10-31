@@ -1,6 +1,40 @@
 # CODE-QUALITY-110 — game present draw-sprite 逐文件复核
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留原卡「CODE-QUALITY-110 — game present draw-sprite 逐文件复核」的任务归属与历史边界。原目标见原文(摘录:Reviewer: Codex（独立验收） Capability: present / sprite blit and frame anchor Visual Verification Timing:);本页治理不重开已终态任务。
+
+## 范围
+
+原卡含章节[CODE-QUALITY-110 — game present draw-sprite 逐文件复核、目标与白名单、完整读取与 caller/oracle、逐文件结论、当前验证与收口要求、2026-10-17 批次收口回执],共0个原文链接。治理范围仅限文档角色、保全与链接处置,不改产品/测试/coverage。
+
+## 前提与证据
+
+固定main源2525B(SHA 5d272f5868f2);原卡前提按原时点保留。当前存活入口:无当前仓库内存活链接。
+
+## 验收
+
+本页治理验收=模板符合+原文逐字节保全+链接处置如实;原卡验收结论保持原时点(原Status:review),治理不改写。
+
+## 状态与交接
+
+review保持原语义;本治理候选为作者稿(partial/needs),交Owner非作者接收;无新执行授权。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2525B / SHA-256 5d272f5868f22a6bdeb86dd541ca4e7271e76e5be24c1f539c125930c1e45b8b；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-110 — game present draw-sprite 逐文件复核
+
+Status: review
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -47,3 +81,5 @@ primary 为 SDLPal `palcommon.c:36-130`、`scene.c:210-316`、`fight.c` 的 RLE 
 - official `pnpm coverage:ratchet` 与 protected fast 仍因既有 shared/pal-extract/total
   baseline 回退失败；本批无源码修复，不调整 baseline。
 - 三个文件保持 `review`；没有 schema/save、公共接口、生成物或用户可见行为修改。
+```
+<!-- incremental-original-source:end -->
